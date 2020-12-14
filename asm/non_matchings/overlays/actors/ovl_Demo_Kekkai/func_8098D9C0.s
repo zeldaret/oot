@@ -42,8 +42,8 @@ glabel func_8098D9C0
 /* 00A44 8098DA14 152CFFF8 */  bne     $t1, $t4, .L8098D9F8       
 /* 00A48 8098DA18 AF2BFFFC */  sw      $t3, -0x0004($t9)          ## FFFFFF98
 /* 00A4C 8098DA1C 8D2B0000 */  lw      $t3, 0x0000($t1)           ## 8098E174
-/* 00A50 8098DA20 3C020600 */  lui     $v0, 0x0600                ## $v0 = 06000000
-/* 00A54 8098DA24 24424FD0 */  addiu   $v0, $v0, 0x4FD0           ## $v0 = 06004FD0
+/* 00A50 8098DA20 3C020600 */  lui     $v0, %hi(D_06004FD0)                ## $v0 = 06000000
+/* 00A54 8098DA24 24424FD0 */  addiu   $v0, $v0, %lo(D_06004FD0)           ## $v0 = 06004FD0
 /* 00A58 8098DA28 AF2B0000 */  sw      $t3, 0x0000($t9)           ## FFFFFF9C
 /* 00A5C 8098DA2C 952B0004 */  lhu     $t3, 0x0004($t1)           ## 8098E178
 /* 00A60 8098DA30 00026900 */  sll     $t5, $v0,  4               
@@ -199,8 +199,8 @@ glabel func_8098D9C0
 /* 00CB4 8098DC84 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00CB8 8098DC88 AFA20080 */  sw      $v0, 0x0080($sp)           
 /* 00CBC 8098DC8C 8FA30080 */  lw      $v1, 0x0080($sp)           
-/* 00CC0 8098DC90 3C0C0600 */  lui     $t4, 0x0600                ## $t4 = 06000000
-/* 00CC4 8098DC94 258C5CB0 */  addiu   $t4, $t4, 0x5CB0           ## $t4 = 06005CB0
+/* 00CC0 8098DC90 3C0C0600 */  lui     $t4, %hi(D_06005CB0)                ## $t4 = 06000000
+/* 00CC4 8098DC94 258C5CB0 */  addiu   $t4, $t4, %lo(D_06005CB0)           ## $t4 = 06005CB0
 /* 00CC8 8098DC98 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00CCC 8098DC9C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002C6
 /* 00CD0 8098DCA0 3C18DE00 */  lui     $t8, 0xDE00                ## $t8 = DE000000
@@ -266,8 +266,8 @@ glabel func_8098D9C0
 /* 00DC0 8098DD90 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00DC4 8098DD94 AFAE001C */  sw      $t6, 0x001C($sp)           
 /* 00DC8 8098DD98 8FA3006C */  lw      $v1, 0x006C($sp)           
-/* 00DCC 8098DD9C 3C0A0600 */  lui     $t2, 0x0600                ## $t2 = 06000000
-/* 00DD0 8098DDA0 254A4F00 */  addiu   $t2, $t2, 0x4F00           ## $t2 = 06004F00
+/* 00DCC 8098DD9C 3C0A0600 */  lui     $t2, %hi(D_06004F00)                ## $t2 = 06000000
+/* 00DD0 8098DDA0 254A4F00 */  addiu   $t2, $t2, %lo(D_06004F00)           ## $t2 = 06004F00
 /* 00DD4 8098DDA4 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00DD8 8098DDA8 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002C6
 /* 00DDC 8098DDAC 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000
@@ -342,8 +342,8 @@ glabel func_8098D9C0
 /* 00EF0 8098DEC0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00EF4 8098DEC4 AFA6001C */  sw      $a2, 0x001C($sp)           
 /* 00EF8 8098DEC8 8FA30058 */  lw      $v1, 0x0058($sp)           
-/* 00EFC 8098DECC 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
-/* 00F00 8098DED0 27185A30 */  addiu   $t8, $t8, 0x5A30           ## $t8 = 06005A30
+/* 00EFC 8098DECC 3C180600 */  lui     $t8, %hi(D_06005A30)                ## $t8 = 06000000
+/* 00F00 8098DED0 27185A30 */  addiu   $t8, $t8, %lo(D_06005A30)           ## $t8 = 06005A30
 /* 00F04 8098DED4 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00F08 8098DED8 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002C6
 /* 00F0C 8098DEDC 3C0CDE00 */  lui     $t4, 0xDE00                ## $t4 = DE000000

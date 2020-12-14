@@ -46,7 +46,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         interfaceCtx->unk_140[i + 16] = 0;
     }
 
-    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
         interfaceCtx->unk_140[30] = 0;
         interfaceCtx->unk_140[31] = 1;
     }
@@ -380,10 +380,10 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_ICE_DOUKUTO:
                 if (!R_MINIMAP_TOGGLED) {
                     func_80094520(globalCtx->state.gfxCtx);
-                    gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0,
-                                      PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
+                                      TEXEL0, 0, PRIMITIVE, 0);
 
-                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
                         gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
@@ -395,7 +395,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             0, 0, 1024, 1024);
                     }
 
-                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
                         MapMark_DrawConditionally(globalCtx);
@@ -438,8 +438,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     func_80094520(globalCtx->state.gfxCtx);
 
                     gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1),
-                                    R_MINIMAP_COLOR(2), interfaceCtx->minimapAlpha);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1), R_MINIMAP_COLOR(2),
+                                    interfaceCtx->minimapAlpha);
 
                     gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_IA,
                                            gMapData->owMinimapWidth[mapIndex], gMapData->owMinimapHeight[mapIndex], 0,
@@ -476,8 +476,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(OVERLAY_DISP++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024,
-                                            1024);
+                        gSPTextureRectangle(OVERLAY_DISP++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024, 1024);
                     }
 
                     Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
@@ -525,7 +524,7 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
                 interfaceCtx->unk_140[30] = 0;
-                if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                     interfaceCtx->unk_140[31] = 1;
                 } else {
                     interfaceCtx->unk_140[31] = 0;

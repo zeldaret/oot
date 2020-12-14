@@ -13,8 +13,8 @@ glabel BgIceObjects_Init
 /* 00028 8088F838 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 0002C 8088F83C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00030 8088F840 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00034 8088F844 248403F0 */  addiu   $a0, $a0, 0x03F0           ## $a0 = 060003F0
+/* 00030 8088F840 3C040600 */  lui     $a0, %hi(D_060003F0)                ## $a0 = 06000000
+/* 00034 8088F844 248403F0 */  addiu   $a0, $a0, %lo(D_060003F0)           ## $a0 = 060003F0
 /* 00038 8088F848 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 0003C 8088F84C 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4

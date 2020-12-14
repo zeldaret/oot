@@ -166,7 +166,7 @@ void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A53278;
@@ -264,7 +264,7 @@ void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -301,7 +301,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_2F2[0] = 200;
@@ -316,7 +316,7 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 1145.0f;
     this->unk_28C.z = 3014.0f;
 
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53850;
 }
 
@@ -324,7 +324,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
@@ -337,7 +337,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A5399C;
@@ -430,7 +430,7 @@ void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -468,7 +468,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_2F2[0] = 200;
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 417.0f;
     this->unk_298.z = -1079.0f;
     this->unk_28C.z = -1079.0f;
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,7 +495,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
@@ -593,7 +593,7 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -745,7 +745,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A549E8;
@@ -801,7 +801,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnHeishi2* this = THIS;
 
     switch (this->initParams) {
@@ -822,7 +822,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHeishi2* this = THIS;
     if (limbIndex == 16) {
         Matrix_Get(&this->mtxf_330);
@@ -848,8 +848,8 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
-                   EnHeishi2_PostLimbDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
+                      EnHeishi2_PostLimbDraw, this);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {

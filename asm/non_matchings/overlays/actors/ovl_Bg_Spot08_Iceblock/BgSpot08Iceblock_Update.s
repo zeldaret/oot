@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_808B18AC
+    .float 0.05
+
+.text
 glabel BgSpot08Iceblock_Update
 /* 00C34 808B1594 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00C38 808B1598 AFBF001C */  sw      $ra, 0x001C($sp)           

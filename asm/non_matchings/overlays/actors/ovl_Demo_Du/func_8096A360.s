@@ -5,13 +5,13 @@ glabel func_8096A360
 /* 0089C 8096A36C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 008A0 8096A370 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 008A4 8096A374 AFBF0024 */  sw      $ra, 0x0024($sp)
-/* 008A8 8096A378 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 008AC 8096A37C 24C61CA8 */  addiu   $a2, $a2, 0x1CA8           ## $a2 = 06011CA8
+/* 008A8 8096A378 3C060601 */  lui     $a2, %hi(D_06011CA8)                ## $a2 = 06010000
+/* 008AC 8096A37C 24C61CA8 */  addiu   $a2, $a2, %lo(D_06011CA8)           ## $a2 = 06011CA8
 /* 008B0 8096A380 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 008B4 8096A384 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 008B8 8096A388 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 008BC 8096A38C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 008C0 8096A390 0C0291BE */  jal     SkelAnime_InitSV
+/* 008C0 8096A390 0C0291BE */  jal     SkelAnime_InitFlex
 /* 008C4 8096A394 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 008C8 8096A398 8FAF0028 */  lw      $t7, 0x0028($sp)
 /* 008CC 8096A39C 240E0007 */  addiu   $t6, $zero, 0x0007         ## $t6 = 00000007

@@ -26,10 +26,10 @@ glabel func_808C2ECC
 /* 01D84 808C2F14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
 /* 01D88 808C2F18 AFA40030 */  sw      $a0, 0x0030($sp)
-/* 01D8C 808C2F1C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 01D8C 808C2F1C 3C040600 */  lui     $a0, %hi(D_06004E0C)                ## $a0 = 06000000
 /* 01D90 808C2F20 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 01D94 808C2F24 24844E0C */  addiu   $a0, $a0, 0x4E0C           ## $a0 = 06004E0C
+/* 01D94 808C2F24 24844E0C */  addiu   $a0, $a0, %lo(D_06004E0C)           ## $a0 = 06004E0C
 /* 01D98 808C2F28 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
 /* 01D9C 808C2F2C 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 01DA0 808C2F30 468031A0 */  cvt.s.w $f6, $f6
@@ -37,16 +37,16 @@ glabel func_808C2ECC
 /* 01DA8 808C2F38 0C0295B2 */  jal     func_800A56C8
 /* 01DAC 808C2F3C 00000000 */  nop
 /* 01DB0 808C2F40 10400015 */  beq     $v0, $zero, .L808C2F98
-/* 01DB4 808C2F44 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 01DB4 808C2F44 3C040600 */  lui     $a0, %hi(D_060042A8)                ## $a0 = 06000000
 /* 01DB8 808C2F48 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 01DBC 808C2F4C 248442A8 */  addiu   $a0, $a0, 0x42A8           ## $a0 = 060042A8
+/* 01DBC 808C2F4C 248442A8 */  addiu   $a0, $a0, %lo(D_060042A8)           ## $a0 = 060042A8
 /* 01DC0 808C2F50 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
 /* 01DC4 808C2F54 3C01C0A0 */  lui     $at, 0xC0A0                ## $at = C0A00000
 /* 01DC8 808C2F58 44818000 */  mtc1    $at, $f16                  ## $f16 = -5.00
 /* 01DCC 808C2F5C 468042A0 */  cvt.s.w $f10, $f8
-/* 01DD0 808C2F60 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 01DD4 808C2F64 24A542A8 */  addiu   $a1, $a1, 0x42A8           ## $a1 = 060042A8
+/* 01DD0 808C2F60 3C050600 */  lui     $a1, %hi(D_060042A8)                ## $a1 = 06000000
+/* 01DD4 808C2F64 24A542A8 */  addiu   $a1, $a1, %lo(D_060042A8)           ## $a1 = 060042A8
 /* 01DD8 808C2F68 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 01DDC 808C2F6C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01DE0 808C2F70 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000

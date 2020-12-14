@@ -39,7 +39,7 @@ const ActorInit En_Tubo_Trap_InitVars = {
     (ActorFunc)EnTuboTrap_Draw,
 };
 
-extern UNK_TYPE D_05017A60;
+extern Gfx D_05017A60[];
 extern Gfx D_05017870[];
 
 void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -65,7 +65,7 @@ void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {
     s16 param3FF = (params >> 6) & 0x3FF;
 
     if (param3FF >= 0 && param3FF < 0x1A) {
-        Item_DropCollectible(globalCtx, &this->actor.posRot, param3FF | ((params & 0x3F) << 8));
+        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, param3FF | ((params & 0x3F) << 8));
     }
 }
 
@@ -106,7 +106,7 @@ void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -240, arg5, 10, 10, 0,
                              (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05017A60);
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05017A60);
     }
 
     func_80033480(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
@@ -152,7 +152,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) 
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -180, arg5, 30, 30, 0,
                              (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05017A60);
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05017A60);
     }
 }
 
@@ -224,7 +224,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.xzDistFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this, ACTORTYPE_ENEMY);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
 
@@ -234,7 +234,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
         }
 
         this->originPos = this->actor.posRot.pos;
-        Audio_PlayActorSound2(this, NA_SE_EV_POT_MOVE_START);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_POT_MOVE_START);
         this->actionFunc = EnTuboTrap_Levitate;
     }
 }
@@ -274,8 +274,8 @@ void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
     Actor_SetHeight(&this->actor, 0.0f);
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void EnTuboTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -213,11 +213,11 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[0]->setting;
             Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            func_8005A77C(globalCtx->cameraPtrs[0], 0x27);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_MORI1);
         }
     } else if (sCamSetting != 0) {
         osSyncPrintf("camera changed (previous) ... \n");
-        func_8005A77C(globalCtx->cameraPtrs[0], 4);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
         sCamSetting = 0;
     }
 }
