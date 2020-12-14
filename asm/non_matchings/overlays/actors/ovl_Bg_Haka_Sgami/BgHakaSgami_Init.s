@@ -62,44 +62,44 @@ glabel BgHakaSgami_Init
 /* 000E0 8087E5C0 A61801A4 */  sh      $t8, 0x01A4($s0)           ## 000001A4
 /* 000E4 8087E5C4 0C0187B5 */  jal     func_80061ED4              
 /* 000E8 8087E5C8 A60801A6 */  sh      $t0, 0x01A6($s0)           ## 000001A6
-/* 000EC 8087E5CC 3C0D8088 */  lui     $t5, %hi(D_8087EFA1)       ## $t5 = 80880000
-/* 000F0 8087E5D0 3C0E8088 */  lui     $t6, %hi(D_8087EFA5)       ## $t6 = 80880000
-/* 000F4 8087E5D4 3C098088 */  lui     $t1, %hi(D_8087EFA0)       ## $t1 = 80880000
-/* 000F8 8087E5D8 3C0A8088 */  lui     $t2, %hi(D_8087EFA4)       ## $t2 = 80880000
-/* 000FC 8087E5DC 3C0B8088 */  lui     $t3, %hi(D_8087EFA8)       ## $t3 = 80880000
-/* 00100 8087E5E0 3C0C8088 */  lui     $t4, %hi(D_8087EFAC)       ## $t4 = 80880000
-/* 00104 8087E5E4 91CEEFA5 */  lbu     $t6, %lo(D_8087EFA5)($t6)  
-/* 00108 8087E5E8 91ADEFA1 */  lbu     $t5, %lo(D_8087EFA1)($t5)  
-/* 0010C 8087E5EC 9129EFA0 */  lbu     $t1, %lo(D_8087EFA0)($t1)  
-/* 00110 8087E5F0 914AEFA4 */  lbu     $t2, %lo(D_8087EFA4)($t2)  
-/* 00114 8087E5F4 916BEFA8 */  lbu     $t3, %lo(D_8087EFA8)($t3)  
-/* 00118 8087E5F8 918CEFAC */  lbu     $t4, %lo(D_8087EFAC)($t4)  
-/* 0011C 8087E5FC 3C0F8088 */  lui     $t7, %hi(D_8087EFA9)       ## $t7 = 80880000
-/* 00120 8087E600 3C188088 */  lui     $t8, %hi(D_8087EFAD)       ## $t8 = 80880000
-/* 00124 8087E604 3C198088 */  lui     $t9, %hi(D_8087EFA2)       ## $t9 = 80880000
-/* 00128 8087E608 9339EFA2 */  lbu     $t9, %lo(D_8087EFA2)($t9)  
-/* 0012C 8087E60C 9318EFAD */  lbu     $t8, %lo(D_8087EFAD)($t8)  
-/* 00130 8087E610 91EFEFA9 */  lbu     $t7, %lo(D_8087EFA9)($t7)  
+/* 000EC 8087E5CC 3C0D8088 */  lui     $t5, %hi(sBlureP1StartColor + 1)       ## $t5 = 80880000
+/* 000F0 8087E5D0 3C0E8088 */  lui     $t6, %hi(sBlureP1StartColor + 5)       ## $t6 = 80880000
+/* 000F4 8087E5D4 3C098088 */  lui     $t1, %hi(sBlureP1StartColor)       ## $t1 = 80880000
+/* 000F8 8087E5D8 3C0A8088 */  lui     $t2, %hi(sBlureP1StartColor + 4)       ## $t2 = 80880000
+/* 000FC 8087E5DC 3C0B8088 */  lui     $t3, %hi(sBlureP1StartColor + 8)       ## $t3 = 80880000
+/* 00100 8087E5E0 3C0C8088 */  lui     $t4, %hi(sBlureP1StartColor + 0xC)       ## $t4 = 80880000
+/* 00104 8087E5E4 91CEEFA5 */  lbu     $t6, %lo(sBlureP1StartColor + 5)($t6)  
+/* 00108 8087E5E8 91ADEFA1 */  lbu     $t5, %lo(sBlureP1StartColor + 1)($t5)  
+/* 0010C 8087E5EC 9129EFA0 */  lbu     $t1, %lo(sBlureP1StartColor)($t1)  
+/* 00110 8087E5F0 914AEFA4 */  lbu     $t2, %lo(sBlureP1StartColor + 4)($t2)  
+/* 00114 8087E5F4 916BEFA8 */  lbu     $t3, %lo(sBlureP1StartColor + 8)($t3)  
+/* 00118 8087E5F8 918CEFAC */  lbu     $t4, %lo(sBlureP1StartColor + 0xC)($t4)  
+/* 0011C 8087E5FC 3C0F8088 */  lui     $t7, %hi(sBlureP1StartColor + 9)       ## $t7 = 80880000
+/* 00120 8087E600 3C188088 */  lui     $t8, %hi(sBlureP1StartColor + 0xD)       ## $t8 = 80880000
+/* 00124 8087E604 3C198088 */  lui     $t9, %hi(sBlureP1StartColor + 2)       ## $t9 = 80880000
+/* 00128 8087E608 9339EFA2 */  lbu     $t9, %lo(sBlureP1StartColor + 2)($t9)  
+/* 0012C 8087E60C 9318EFAD */  lbu     $t8, %lo(sBlureP1StartColor + 0xD)($t8)  
+/* 00130 8087E610 91EFEFA9 */  lbu     $t7, %lo(sBlureP1StartColor + 9)($t7)  
 /* 00134 8087E614 A3AE01BD */  sb      $t6, 0x01BD($sp)           
 /* 00138 8087E618 A3AD01B9 */  sb      $t5, 0x01B9($sp)           
 /* 0013C 8087E61C A3A901B8 */  sb      $t1, 0x01B8($sp)           
 /* 00140 8087E620 A3AA01BC */  sb      $t2, 0x01BC($sp)           
 /* 00144 8087E624 A3AB01C0 */  sb      $t3, 0x01C0($sp)           
 /* 00148 8087E628 A3AC01C4 */  sb      $t4, 0x01C4($sp)           
-/* 0014C 8087E62C 3C0C8088 */  lui     $t4, %hi(D_8087EFA7)       ## $t4 = 80880000
-/* 00150 8087E630 3C0B8088 */  lui     $t3, %hi(D_8087EFA3)       ## $t3 = 80880000
-/* 00154 8087E634 3C0A8088 */  lui     $t2, %hi(D_8087EFAE)       ## $t2 = 80880000
-/* 00158 8087E638 3C098088 */  lui     $t1, %hi(D_8087EFAA)       ## $t1 = 80880000
-/* 0015C 8087E63C 3C0D8088 */  lui     $t5, %hi(D_8087EFAB)       ## $t5 = 80880000
-/* 00160 8087E640 3C0E8088 */  lui     $t6, %hi(D_8087EFAF)       ## $t6 = 80880000
-/* 00164 8087E644 3C088088 */  lui     $t0, %hi(D_8087EFA6)       ## $t0 = 80880000
-/* 00168 8087E648 9108EFA6 */  lbu     $t0, %lo(D_8087EFA6)($t0)  
-/* 0016C 8087E64C 91CEEFAF */  lbu     $t6, %lo(D_8087EFAF)($t6)  
-/* 00170 8087E650 91ADEFAB */  lbu     $t5, %lo(D_8087EFAB)($t5)  
-/* 00174 8087E654 9129EFAA */  lbu     $t1, %lo(D_8087EFAA)($t1)  
-/* 00178 8087E658 914AEFAE */  lbu     $t2, %lo(D_8087EFAE)($t2)  
-/* 0017C 8087E65C 916BEFA3 */  lbu     $t3, %lo(D_8087EFA3)($t3)  
-/* 00180 8087E660 918CEFA7 */  lbu     $t4, %lo(D_8087EFA7)($t4)  
+/* 0014C 8087E62C 3C0C8088 */  lui     $t4, %hi(sBlureP1StartColor + 7)       ## $t4 = 80880000
+/* 00150 8087E630 3C0B8088 */  lui     $t3, %hi(sBlureP1StartColor + 3)       ## $t3 = 80880000
+/* 00154 8087E634 3C0A8088 */  lui     $t2, %hi(sBlureP1StartColor + 0xE)       ## $t2 = 80880000
+/* 00158 8087E638 3C098088 */  lui     $t1, %hi(sBlureP1StartColor + 0xA)       ## $t1 = 80880000
+/* 0015C 8087E63C 3C0D8088 */  lui     $t5, %hi(sBlureP1StartColor + 0xB)       ## $t5 = 80880000
+/* 00160 8087E640 3C0E8088 */  lui     $t6, %hi(sBlureP1StartColor + 0xF)       ## $t6 = 80880000
+/* 00164 8087E644 3C088088 */  lui     $t0, %hi(sBlureP1StartColor + 6)       ## $t0 = 80880000
+/* 00168 8087E648 9108EFA6 */  lbu     $t0, %lo(sBlureP1StartColor + 6)($t0)  
+/* 0016C 8087E64C 91CEEFAF */  lbu     $t6, %lo(sBlureP1StartColor + 0xF)($t6)  
+/* 00170 8087E650 91ADEFAB */  lbu     $t5, %lo(sBlureP1StartColor + 0xB)($t5)  
+/* 00174 8087E654 9129EFAA */  lbu     $t1, %lo(sBlureP1StartColor + 0xA)($t1)  
+/* 00178 8087E658 914AEFAE */  lbu     $t2, %lo(sBlureP1StartColor + 0xE)($t2)  
+/* 0017C 8087E65C 916BEFA3 */  lbu     $t3, %lo(sBlureP1StartColor + 3)($t3)  
+/* 00180 8087E660 918CEFA7 */  lbu     $t4, %lo(sBlureP1StartColor + 7)($t4)  
 /* 00184 8087E664 A3B901BA */  sb      $t9, 0x01BA($sp)           
 /* 00188 8087E668 A3B801C5 */  sb      $t8, 0x01C5($sp)           
 /* 0018C 8087E66C A3AF01C1 */  sb      $t7, 0x01C1($sp)           

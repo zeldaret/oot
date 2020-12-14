@@ -86,8 +86,8 @@ glabel func_8087E858
 /* 00498 8087E978 27B7008C */  addiu   $s7, $sp, 0x008C           ## $s7 = FFFFFFD4
 /* 0049C 8087E97C 27B500A4 */  addiu   $s5, $sp, 0x00A4           ## $s5 = FFFFFFEC
 .L8087E980:
-/* 004A0 8087E980 3C0F8088 */  lui     $t7, %hi(D_8087EF5C)       ## $t7 = 80880000
-/* 004A4 8087E984 8DEFEF5C */  lw      $t7, %lo(D_8087EF5C)($t7)  
+/* 004A0 8087E980 3C0F8088 */  lui     $t7, %hi(D_8087EF50 + 0xC)       ## $t7 = 80880000
+/* 004A4 8087E984 8DEFEF5C */  lw      $t7, %lo(D_8087EF50 + 0xC)($t7)  
 /* 004A8 8087E988 27A2008C */  addiu   $v0, $sp, 0x008C           ## $v0 = FFFFFFD4
 /* 004AC 8087E98C 028F1821 */  addu    $v1, $s4, $t7              
 /* 004B0 8087E990 C46A0020 */  lwc1    $f10, 0x0020($v1)          ## 00000020
