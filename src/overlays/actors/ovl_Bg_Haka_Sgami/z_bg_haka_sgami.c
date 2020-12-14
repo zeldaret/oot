@@ -78,33 +78,64 @@ InitChainEntry D_8087EF94[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-u8 sBlureP1StartColor[] = {
-    250,
-    250,
-    250,
-    200,
-};
+#ifdef NON_MATCHING
+// Minor stack diff, should be an easy fix
+void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaSgami* this = THIS;
+    static u8 sBlureP1StartColor[] = { 250, 250, 250, 200 };
+    static u8 sBlureP2StartColor[] = { 200, 200, 200, 130 };
+    static u8 sBlureP1EndColor[] = { 200, 200, 200, 60 };
+    static u8 sBlureP2EndColor[] = { 150, 150, 150, 20 };
+    EffectBlureInit1 blureInit;
+    s32 i;
 
-u8 sBlureP2StartColor[] = {
-    200,
-    200,
-    200,
-    130,
-};
-
-u8 sBlureP1EndColor[] = {
-    200,
-    200,
-    200,
-    60,
-};
-
-u8 sBlureP2EndColor[] = {
-    150,
-    150,
-    150,
-    20,
-};
+    Actor_ProcessInitChain(thisx, D_8087EF94);
+    this->unk_151 = thisx->params & 0xFF;
+    thisx->params = (thisx->params >> 8) & 0xFF;
+    if (this->unk_151 != 0) {
+        thisx->flags |= 0x80;
+    }
+    Collider_InitTris(globalCtx, &this->colliderScythe);
+    Collider_SetTris(globalCtx, &this->colliderScythe, thisx, &D_8087EF50, this->colliderScytheItems);
+    Collider_InitCylinder(globalCtx, &this->colliderScytheCenter);
+    Collider_SetCylinder(globalCtx, &this->colliderScytheCenter, thisx, &D_8087EF60);
+    this->colliderScytheCenter.dim.pos.x = thisx->posRot.pos.x;
+    this->colliderScytheCenter.dim.pos.y = thisx->posRot.pos.y;
+    this->colliderScytheCenter.dim.pos.z = thisx->posRot.pos.z;
+    func_80061ED4(&thisx->colChkInfo, NULL, &D_8087EF8C);
+    for (i = 0; i < 4; i++) {
+        blureInit.p1StartColor[i] = sBlureP1StartColor[i];
+        blureInit.p2StartColor[i] = sBlureP2StartColor[i];
+        blureInit.p1EndColor[i] = sBlureP1EndColor[i];
+        blureInit.p2EndColor[i] = sBlureP2EndColor[i];
+    }
+    blureInit.elemDuration = 10;
+    blureInit.unkFlag = false;
+    blureInit.calcMode = 2;
+    Effect_Add(globalCtx, &this->blureEffectIndex[0], EFFECT_BLURE1, 0, 0, &blureInit);
+    Effect_Add(globalCtx, &this->blureEffectIndex[1], EFFECT_BLURE1, 0, 0, &blureInit);
+    if (thisx->params == SCYTHE_TRAP_SHADOW_TEMPLE) {
+        this->requiredObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
+        thisx->flags &= ~1;
+    } else {
+        this->requiredObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ICE_OBJECTS);
+        this->colliderScytheCenter.dim.radius = 30;
+        this->colliderScytheCenter.dim.height = 70;
+        Actor_SetHeight(thisx, 40.0f);
+    }
+    if (this->requiredObjBankIndex < 0) {
+        Actor_Kill(thisx);
+        return;
+    }
+    this->actionFunc = func_8087E7E4;
+}
+#else
+u8 sBlureP1StartColor[] = { 250, 250, 250, 200 };
+u8 sBlureP2StartColor[] = { 200, 200, 200, 130 };
+u8 sBlureP1EndColor[] = { 200, 200, 200, 60 };
+u8 sBlureP2EndColor[] = { 150, 150, 150, 20 };
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Sgami/BgHakaSgami_Init.s")
+#endif
 
 Vec3f D_8087EFB0[] = {
     { -20.0f, 50.0f, 130.0f },
@@ -116,82 +147,6 @@ Vec3f D_8087EFC8[] = {
     { 310.0f, 33.0f, 0.0f },
 };
 
-#ifdef NON_MATCHING
-// Probably functionally equivalent but tons of issues with assignment ordering
-void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaSgami* this = THIS;
-    s32 pad;
-
-    EffectBlureInit1 blureInit;
-
-    Actor_ProcessInitChain(thisx, D_8087EF94);
-
-    this->isInvisible = thisx->params;
-    thisx->params = (thisx->params >> 8) & 0xFF;
-
-    if (this->isInvisible != 0) {
-        thisx->flags |= 0x80;
-    }
-
-    Collider_InitTris(globalCtx, &this->colliderScythe);
-    Collider_SetTris(globalCtx, &this->colliderScythe, thisx, &D_8087EF50, this->colliderScytheItems);
-    Collider_InitCylinder(globalCtx, &this->colliderScytheCenter);
-    Collider_SetCylinder(globalCtx, &this->colliderScytheCenter, thisx, &D_8087EF60);
-
-    this->colliderScytheCenter.dim.pos.x = thisx->posRot.pos.x;
-    this->colliderScytheCenter.dim.pos.y = thisx->posRot.pos.y;
-    this->colliderScytheCenter.dim.pos.z = thisx->posRot.pos.z;
-
-    func_80061ED4(&thisx->colChkInfo, NULL, &D_8087EF8C);
-
-    blureInit.p1StartColor[0] = sBlureP1StartColor[0];
-    blureInit.p1StartColor[1] = sBlureP1StartColor[1];
-    blureInit.p1StartColor[2] = sBlureP1StartColor[2];
-    blureInit.p1StartColor[3] = sBlureP1StartColor[3];
-
-    blureInit.p1EndColor[0] = sBlureP1EndColor[0];
-    blureInit.p1EndColor[1] = sBlureP1EndColor[1];
-    blureInit.p1EndColor[2] = sBlureP1EndColor[2];
-    blureInit.p1EndColor[3] = sBlureP1EndColor[3];
-
-    blureInit.p2StartColor[0] = sBlureP2StartColor[0];
-    blureInit.p2StartColor[1] = sBlureP2StartColor[1];
-    blureInit.p2StartColor[2] = sBlureP2StartColor[2];
-    blureInit.p2StartColor[3] = sBlureP2StartColor[3];
-
-    blureInit.p2EndColor[0] = sBlureP2EndColor[0];
-    blureInit.p2EndColor[1] = sBlureP2EndColor[1];
-    blureInit.p2EndColor[2] = sBlureP2EndColor[2];
-    blureInit.p2EndColor[3] = sBlureP2EndColor[3];
-
-    blureInit.elemDuration = 10;
-    blureInit.unkFlag = false;
-    blureInit.calcMode = 2;
-
-    Effect_Add(globalCtx, this->blureEffectIndex[0], EFFECT_BLURE1, 0, 0, &blureInit);
-    Effect_Add(globalCtx, this->blureEffectIndex[1], EFFECT_BLURE1, 0, 0, &blureInit);
-
-    if (thisx->params == SCYTHE_TRAP_SHADOW_TEMPLE) {
-        this->objectBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
-        thisx->flags &= ~1;
-    } else {
-        this->objectBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ICE_OBJECTS);
-        this->colliderScytheCenter.dim.radius = 30;
-        this->colliderScytheCenter.dim.height = 70;
-        Actor_SetHeight(thisx, 40.0f);
-    }
-
-    if (this->objectBankIndex < 0) {
-        Actor_Kill(thisx);
-        return;
-    }
-
-    this->actionFunc = func_8087E7E4;
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Sgami/BgHakaSgami_Init.s")
-#endif
-
 void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = THIS;
 
@@ -202,8 +157,8 @@ void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIndex)) {
-        this->actor.objBankIndex = this->objectBankIndex;
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
+        this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actor.draw = BgHakaSgami_Draw;
         this->timer = 32;
         this->actor.flags &= ~0x10;
@@ -223,7 +178,7 @@ void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaSgami_Draw(BgHakaSgami* this, GlobalContext* globalCtx) {
-    if (this->isInvisible) {
+    if (this->unk_151 != 0) {
         Gfx_DrawDListXlu(globalCtx, &D_0600BF20);
     } else if (this->actor.params == SCYTHE_TRAP_SHADOW_TEMPLE) {
         Gfx_DrawDListOpa(globalCtx, &D_0600BF20);
