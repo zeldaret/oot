@@ -523,7 +523,15 @@ void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFC84.s")
+void func_808FFC84(BossGanon2* this) {
+    if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x2800) {
+        this->unk_313 = 1;
+        this->actor.posRot2.pos = this->unk_1B8;
+    } else {
+        this->unk_313 = 0;
+        this->actor.posRot2.pos = this->unk_1C4;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFCFC.s")
 

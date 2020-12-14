@@ -18,7 +18,9 @@ typedef struct BossGanon2 {
     /* 0x01A2 */ s16 unk_1A2[5];
     /* 0x01AC */ char unk_1AC[0x4];
     /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ char unk_1B4[0x1C];
+    /* 0x01B4 */ char unk_1B4[0x4];
+    /* 0x01B8 */ Vec3f unk_1B8;
+    /* 0x01C4 */ Vec3f unk_1C4;
     /* 0x01D0 */ Vec3f unk_1D0;
     /* 0x01D0 */ Vec3f unk_1DC;
     /* 0x01E8 */ char unk_1E8[0x30];
