@@ -533,7 +533,18 @@ void func_808FFC84(BossGanon2* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFCFC.s")
+void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
+    if (this->actor.xzDistFromLink < 150.0f &&
+        ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x2800) {
+        this->unk_311 = false;
+        func_80900580(this, globalCtx);
+        func_800F8D04(NA_SE_EN_MGANON_UNARI);
+    } else if ((this->actor.bgCheckFlags & 8) && func_808FFA24(this, globalCtx)) {
+        this->unk_311 = false;
+        func_80900580(this, globalCtx);
+        func_800F8D04(NA_SE_EN_MGANON_UNARI);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFDB0.s")
 
