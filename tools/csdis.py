@@ -2,8 +2,7 @@
 
 from overlayhelpers import filemap
 
-import argparse
-import struct
+import argparse, os, struct
 
 """
 Enumerations
@@ -472,8 +471,9 @@ def main():
     print(file_result)
     print()
 
+    script_dir = os.path.dirname(os.path.realpath(__file__))
     cs_data = None
-    with open("baserom/" + file_result.name, "rb") as ovl_file:
+    with open(script_dir + "/../baserom/" + file_result.name, "rb") as ovl_file:
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:
