@@ -21,8 +21,8 @@ glabel EnSa_Update
               
 /* 016C4 80AF6C24 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 016C8 80AF6C28 8E0E0154 */  lw      $t6, 0x0154($s0)           ## 00000154
-/* 016CC 80AF6C2C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 016D0 80AF6C30 24841D50 */  addiu   $a0, $a0, 0x1D50           ## $a0 = 06001D50
+/* 016CC 80AF6C2C 3C040600 */  lui     $a0, %hi(D_06001D50)                ## $a0 = 06000000
+/* 016D0 80AF6C30 24841D50 */  addiu   $a0, $a0, %lo(D_06001D50)           ## $a0 = 06001D50
 /* 016D4 80AF6C34 548E000E */  bnel    $a0, $t6, .L80AF6C70       
 /* 016D8 80AF6C38 8E0F0190 */  lw      $t7, 0x0190($s0)           ## 00000190
 /* 016DC 80AF6C3C 0C028800 */  jal     SkelAnime_GetFrameCount

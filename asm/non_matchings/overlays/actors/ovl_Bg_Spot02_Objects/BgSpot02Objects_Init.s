@@ -47,7 +47,7 @@ glabel L808AC6BC
               
 /* 00084 808AC6E4 9205016B */  lbu     $a1, 0x016B($s0)           ## 0000016B
 /* 00088 808AC6E8 1040000A */  beq     $v0, $zero, .L808AC714     
-/* 0008C 808AC6EC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
+/* 0008C 808AC6EC 3C040601 */  lui     $a0, %hi(D_06012BA4)                ## $a0 = 06010000
 /* 00090 808AC6F0 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000
 /* 00094 808AC6F4 44813000 */  mtc1    $at, $f6                   ## $f6 = 255.00
 /* 00098 808AC6F8 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028
@@ -62,7 +62,7 @@ glabel L808AC6BC
 /* 000B8 808AC718 256BCAFC */  addiu   $t3, $t3, %lo(func_808ACAFC) ## $t3 = 808ACAFC
 /* 000BC 808AC71C AE0B0164 */  sw      $t3, 0x0164($s0)           ## 00000164
 .L808AC720:
-/* 000C0 808AC720 24842BA4 */  addiu   $a0, $a0, 0x2BA4           ## $a0 = 06012BA4
+/* 000C0 808AC720 24842BA4 */  addiu   $a0, $a0, %lo(D_06012BA4)           ## $a0 = 06012BA4
 /* 000C4 808AC724 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 000C8 808AC728 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
@@ -73,9 +73,9 @@ glabel L808AC6BC
 /* 000D8 808AC738 8FAF0034 */  lw      $t7, 0x0034($sp)           
 /* 000DC 808AC73C 3C0C808B */  lui     $t4, %hi(func_808AC8FC)    ## $t4 = 808B0000
 /* 000E0 808AC740 258CC8FC */  addiu   $t4, $t4, %lo(func_808AC8FC) ## $t4 = 808AC8FC
-/* 000E4 808AC744 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
+/* 000E4 808AC744 3C040601 */  lui     $a0, %hi(D_060128D8)                ## $a0 = 06010000
 /* 000E8 808AC748 AE0C0164 */  sw      $t4, 0x0164($s0)           ## 00000164
-/* 000EC 808AC74C 248428D8 */  addiu   $a0, $a0, 0x28D8           ## $a0 = 060128D8
+/* 000EC 808AC74C 248428D8 */  addiu   $a0, $a0, %lo(D_060128D8)           ## $a0 = 060128D8
 /* 000F0 808AC750 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 000F4 808AC754 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
@@ -87,9 +87,9 @@ glabel L808AC6BC
 .L808AC76C:
 /* 0010C 808AC76C 85F800A4 */  lh      $t8, 0x00A4($t7)           ## 000000A4
 /* 00110 808AC770 24010053 */  addiu   $at, $zero, 0x0053         ## $at = 00000053
-/* 00114 808AC774 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
+/* 00114 808AC774 3C040601 */  lui     $a0, %hi(D_060133EC)                ## $a0 = 06010000
 /* 00118 808AC778 17010005 */  bne     $t8, $at, .L808AC790       
-/* 0011C 808AC77C 248433EC */  addiu   $a0, $a0, 0x33EC           ## $a0 = 060133EC
+/* 0011C 808AC77C 248433EC */  addiu   $a0, $a0, %lo(D_060133EC)           ## $a0 = 060133EC
 /* 00120 808AC780 3C19808B */  lui     $t9, %hi(func_808AC908)    ## $t9 = 808B0000
 /* 00124 808AC784 2739C908 */  addiu   $t9, $t9, %lo(func_808AC908) ## $t9 = 808AC908
 /* 00128 808AC788 10000004 */  beq     $zero, $zero, .L808AC79C   
