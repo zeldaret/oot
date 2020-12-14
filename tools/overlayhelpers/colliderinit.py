@@ -223,7 +223,7 @@ else:
     print("ItemInit type must specify number of elements")
     exit()
 
-ovlFile = open("../../baserom/" + fileResult.name, "rb")
+ovlFile = open("baserom/" + fileResult.name, "rb")
 ovlData = bytearray(ovlFile.read())
 ovlFile.close()
 
