@@ -1558,7 +1558,6 @@ endseg
 beginseg
     name "ovl_Demo_Kankyo"
     include "build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o"
-    include "build/data/overlays/actors/z_demo_kankyo.data.o"
     include "build/data/overlays/actors/z_demo_kankyo.bss.o"
     include "build/data/overlays/actors/z_demo_kankyo.reloc.o"
 endseg

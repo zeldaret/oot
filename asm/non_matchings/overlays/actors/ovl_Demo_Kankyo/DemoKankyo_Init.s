@@ -13,24 +13,32 @@ glabel D_8098C884
 
 .late_rodata
 glabel jtbl_8098CA50
-.word L80988F2C
-.word L80988F2C
-.word L80988FCC
-.word L80988FCC
-.word L80988FCC
-.word L80988FCC
-.word L80988FCC
-.word L8098906C
-.word L80989244
-.word L80989244
-.word L80989244
-.word L80989244
-.word L80989244
-.word L809890DC
-.word L8098916C
-.word L80989190
-.word L80989190
-.word L8098921C
+.word L80988F2C # case 0
+.word L80988F2C # case 1
+
+.word L80988FCC # case 2
+.word L80988FCC # case 3
+.word L80988FCC # case 4
+.word L80988FCC # case 5
+.word L80988FCC # case 6
+
+.word L8098906C # case 7
+
+.word L80989244 # case 8
+.word L80989244 # case 9
+.word L80989244 # case 10
+.word L80989244 # case 11
+.word L80989244 # case 12
+
+.word L809890DC # case 13
+
+.word L8098916C # case 14
+
+.word L80989190 # case 15
+.word L80989190 # case 16
+
+.word L8098921C # case 17
+
 glabel D_8098CA98
  .word 0x477FFF00
 

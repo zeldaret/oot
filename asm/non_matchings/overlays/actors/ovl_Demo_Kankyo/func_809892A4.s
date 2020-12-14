@@ -1,23 +1,23 @@
 .late_rodata
 glabel jtbl_8098CA9C
-.word L809896CC
-.word L809896CC
-.word L809892E8
-.word L809892E8
-.word L809892E8
-.word L809892E8
-.word L809892E8
-.word L80989300
-.word L809896CC
-.word L809896CC
-.word L809896CC
-.word L809896CC
-.word L809896CC
-.word L80989318
-.word L809896CC
-.word L80989348
-.word L8098964C
-.word L809896CC
+.word L809896CC # case 0
+.word L809896CC # case 1
+.word L809892E8 # case 2
+.word L809892E8 # case 3
+.word L809892E8 # case 4
+.word L809892E8 # case 5
+.word L809892E8 # case 6
+.word L80989300 # case 7
+.word L809896CC # case 8
+.word L809896CC # case 9
+.word L809896CC # case 10
+.word L809896CC # case 11
+.word L809896CC # case 12
+.word L80989318 # case 13
+.word L809896CC # case 14
+.word L80989348 # case 15
+.word L8098964C # case 16
+.word L809896CC # case 17
 
 .text
 glabel func_809892A4
