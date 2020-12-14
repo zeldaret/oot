@@ -22,8 +22,10 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx);
+void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
 
+extern AnimationHeader D_0600FFE4;
 extern SkeletonHeader D_060114E8;
 
 const ActorInit Boss_Ganon2_InitVars = {
@@ -546,9 +548,30 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFDB0.s")
+void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 sp28;
+    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON2);
 
-void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
+    if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
+        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600FFE4, -10.0f);
+        this->actionFunc = func_808FFEBC;
+
+        if (this->unk_334 != 0) {
+            this->unk_1A2[0] = Math_Rand_ZeroFloat(30.0f);
+        } else {
+            this->unk_1A2[0] = 40;
+        }
+
+        this->unk_336 = 1;
+        this->actor.flags |= 1;
+        this->unk_228 = 1.0f;
+        this->unk_224 = 1.0f;
+    } else {
+        this->actionFunc = func_808FFDB0;
+    }
+}
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFEBC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFF90.s")
