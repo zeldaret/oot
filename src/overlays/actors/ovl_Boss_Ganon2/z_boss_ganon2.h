@@ -34,13 +34,15 @@ typedef struct BossGanon2 {
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
-    /* 0x031E */ char unk_31E[0xA];
+    /* 0x031E */ char unk_31E[0x2];
+    /* 0x0320 */ f32 unk_320;
+    /* 0x0324 */ char unk_324[0x4];
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ char unk_32A[0x2];
     /* 0x032C */ f32 unk_32C;
     /* 0x0330 */ s16 unk_330;
     /* 0x0332 */ s16 unk_332;
-    /* 0x0334 */ char unk_334[0x1];
+    /* 0x0334 */ u8 unk_334;
     /* 0x0335 */ u8 unk_335;
     /* 0x0336 */ u8 unk_336;
     /* 0x0337 */ u8 unk_337;

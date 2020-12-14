@@ -502,7 +502,26 @@ void func_808FFAC8(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
     Math_SmoothScaleMaxS(&this->unk_31C, temp_v1, 5, 0x7D0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFBBC.s")
+void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
+    if (arg2 != 0 || this->unk_313 != 0) {
+        f32 phi_f0;
+        f32 phi_f2;
+
+        Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, this->unk_320);
+
+        if (this->unk_334 != 0) {
+            phi_f0 = 5000.0f;
+            phi_f2 = 200.0f;
+        } else {
+            phi_f0 = 3000.0f;
+            phi_f2 = 30.0f;
+        }
+
+        Math_SmoothScaleMaxF(&this->unk_320, phi_f0, 1.0f, phi_f2);
+    } else {
+        this->unk_320 = 0.0f;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFC84.s")
 
