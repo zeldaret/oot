@@ -13,7 +13,7 @@
 typedef enum {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
     /* 1 */ SCYTHE_TRAP_SHADOW_TEMPLE_INVISIBLE,
-    /* 2 */ ICE_CAVERN_SHADOW_TEMPLE_INVISIBLE
+    /* 2 */ SCYTHE_TRAP_ICE_CAVERN
 } SpinningScytheTrapMode;
 
 void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx);
