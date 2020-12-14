@@ -39,7 +39,8 @@ typedef struct EnGo2 {
     /* 0x0213 */ u8 unk_213;
     /* 0x0214 */ char unk_214[0x2];
     /* 0x0216 */ u8 unk_216;
-    /* 0x0218 */ char unk_218[0x9];
+    /* 0x0218 */ f32 unk_218;
+    /* 0x0218 */ char unk_21C[0x4];
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ char unk_224[0x2];
     /* 0x0226 */ s16 unk_226[18];

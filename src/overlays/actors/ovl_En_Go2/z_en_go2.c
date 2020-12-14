@@ -36,14 +36,27 @@ u16 func_80A43C40(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43C9C(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A44010(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A44224(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A44258(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A442F0(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A4433C(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A44398(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A443A8(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A443E0(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A4444C(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A444A8(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A444FC(GlobalContext* globalCtx, EnGo2* this);
 
+u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this);
 
+s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx);
+void func_80A4488C(EnGo2* this);
+void func_80A448C4(EnGo2* this);
 
-
-
-
-
-
+// s32 func_80A44940(EnGo2* this, GlobalContext* globalCtx);
+void func_80A44A9C(EnGo2* this);
 
 s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx);
 s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx);
@@ -394,7 +407,7 @@ void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43468.s")
-s32 func_80A43468(EnGo2 *this, GlobalContext *globalCtx) {
+s32 func_80A43468(EnGo2* this, GlobalContext* globalCtx) {
     s16 temp_v0;
 
     temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
@@ -409,11 +422,10 @@ s32 func_80A43468(EnGo2 *this, GlobalContext *globalCtx) {
     return temp_v0;
 }
 
-
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A434E8.s")
-u16 func_80A434E8(EnGo2 *this) {
+u16 func_80A434E8(EnGo2* this) {
 
-    switch((this->actor.params & 0xFC00) >> 0xA) {
+    switch ((this->actor.params & 0xFC00) >> 0xA) {
         case 3:
             return 0x3069;
         case 5:
@@ -626,7 +638,7 @@ u16 func_80A43A2C(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43A88.s")
-u16 func_80A43A88(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43A88(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi_v1;
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
@@ -637,29 +649,26 @@ u16 func_80A43A88(GlobalContext *globalCtx, EnGo2 *this) {
     }
     if (gSaveContext.infTable[15] & 0x10) {
         phi_v1 = 0x3017;
-    }
-    else {
+    } else {
         phi_v1 = 0x3016;
     }
     return phi_v1;
 }
 
-
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43B08.s")
-u16 func_80A43B08(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43B08(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3016) {
             gSaveContext.infTable[15] |= 0x10;
         }
         return 0;
-    }
-    else {
+    } else {
         return 1;
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43B64.s")
-u16 func_80A43B64(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43B64(GlobalContext* globalCtx, EnGo2* this) {
     u32 temp_v0;
     s32 phi_v1;
     s32 phi_v0;
@@ -674,16 +683,13 @@ u16 func_80A43B64(GlobalContext *globalCtx, EnGo2 *this) {
     }
     if (CUR_UPG_VALUE(UPG_STRENGTH)) {
         phi_v1 = 0x302C;
-    } 
-    else {
+    } else {
         if (Flags_GetSwitch(globalCtx, 0x1B) == 0) {
             phi_v0 = 0x3017;
-        } 
-        else {
+        } else {
             if (gSaveContext.infTable[15] & 0x100) {
                 phi_v1_2 = 0x3019;
-            }
-            else {
+            } else {
                 phi_v1_2 = 0x3018;
             }
             phi_v0 = phi_v1_2;
@@ -694,36 +700,33 @@ u16 func_80A43B64(GlobalContext *globalCtx, EnGo2 *this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43C40.s")
-u16 func_80A43C40(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43C40(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3018) {
             gSaveContext.infTable[15] |= 0x100;
         }
         return 0;
-    }
-    else {
+    } else {
         return 1;
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43C9C.s")
-u16 func_80A43C9C(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43C9C(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi;
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         if (gSaveContext.infTable[16] & 0x8000) {
             phi = 0x3042;
-        }
-        else {
+        } else {
             phi = 0x3041;
         }
         return phi;
     }
-    if (CHECK_OWNED_EQUIP(EQUIP_TUNIC,1)) {
+    if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
         if (gSaveContext.infTable[16] & 0x4000) {
             phi = 0x3038;
-        }
-        else {
+        } else {
             phi = 0x3037;
         }
         return phi;
@@ -733,15 +736,13 @@ u16 func_80A43C9C(GlobalContext *globalCtx, EnGo2 *this) {
         this->unk_20D = 0;
         if (gSaveContext.infTable[16] & 0x400) {
             phi = 0x3033;
-        }
-        else {
+        } else {
             phi = 0x3032;
         }
         return phi;
     }
     return 0x3030;
 }
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43D78.s")
 // u16 func_80A43D78(GlobalContext *globalCtx, EnGo2 *this) {
@@ -753,7 +754,6 @@ u16 func_80A43C9C(GlobalContext *globalCtx, EnGo2 *this) {
 //     u16 temp_v0_3;
 //     u16 phi_a1;
 
-    
 //     temp_v0 = func_80A43468(this, globalCtx);
 //     if (temp_v0 == 2) {
 //         temp_v0_3 = this->actor.textId;
@@ -821,9 +821,8 @@ u16 func_80A43C9C(GlobalContext *globalCtx, EnGo2 *this) {
 //     return 1;
 // }
 
-
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43F90.s")
-u16 func_80A43F90(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this) {
     Player* player;
 
     player = PLAYER;
@@ -832,7 +831,7 @@ u16 func_80A43F90(GlobalContext *globalCtx, EnGo2 *this) {
         return 0x305E;
     }
 
-    if (INV_CONTENT(ITEM_POCKET_EGG)>= ITEM_CLAIM_CHECK) {
+    if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_CLAIM_CHECK) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
     }
@@ -844,42 +843,342 @@ u16 func_80A43F90(GlobalContext *globalCtx, EnGo2 *this) {
     return 0x3053;
 }
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44010.s")
+// u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
+//     s32 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44224.s")
+//     temp_v0 = func_80A43468(this, globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44258.s")
+//     if (temp_v0 != 3) {
+//         if (temp_v0 != 4) {
+//             if (temp_v0 != 5) {
+//                 if (temp_v0 == 6) {
+//                     if (this->actor.textId != 0x305E) {
+//                         return 0;
+//                     }
+//                     if (gSaveContext.bgsFlag) {
+//                         return 0;
+//                     }
+//                     func_80A43424(this, globalCtx, 0x57);
+//                     this->actionFunc = func_80A470E8;
+//                     return 2;
+//                 }
+//             } else {
+//                 if (func_80106BC8(globalCtx) != 0) {
+//                     if (this->actor.textId == 0x3059) {
+//                         globalCtx->msgCtx.msgMode = 0x37;
+//                         this->actionFunc = func_80A4725C;
+//                     }
+//                     return 2;
+//                 }
+//             }
+//         } else {
+//             if (func_80106BC8(globalCtx)) {
+//                 if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
+//                     if (globalCtx->msgCtx.choiceIndex == 0) {
+//                         func_80A43424(this, globalCtx, 0x23);
+//                         this->actionFunc = func_80A470E8;
+//                         return 2;
+//                     }
+//                     this->actor.textId = 0x3056;
+//                     func_8010B720(globalCtx, 0x3056); // & 0xFFFF
+//                 }
+//             }
+//         }
+//     }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A442F0.s")
+//     else {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4433C.s")
+//         if (this->actor.textId; != 0x3054) {
+//             if (this->actor.textId; != 0x3059) {
+//                 if ((this->actor.textId; == 0x305E) && (func_8002F368(globalCtx) == 0xF)) {
+//                     block_13:
+//                     if (this->unk_20D == 0) {
+//                         func_800F4524(&D_801333D4, 0x38FC, 0x3C);
+//                     }
+//                     block_15:
+//                     if (this->unk_20D == 0) {
+//                         Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+//                     }
+//                 }
+//             } else {
+//                 goto block_13;
+//             }
+//         } else {
+//             goto block_15;
+//         }
+//     }
+//     return 1;
+// }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44398.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44224.s")
+u16 func_80A44224(GlobalContext* globalCtx, EnGo2* this) {
+    if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
+        return 0x3071;
+    } else {
+        return 0x3051;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443A8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44258.s")
+u16 func_80A44258(GlobalContext* globalCtx, EnGo2* this) {
+    u8 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443E0.s")
+    temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4444C.s")
+    if (temp_v0 != 2) {
+        if (temp_v0 != 5) {
+            return 1;
+        }
+    } else {
+        return 0;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444A8.s")
+    if (func_80106BC8(globalCtx)) {
+        if (this->actor.textId == 0x3071) {
+            this->actor.textId = func_80A434E8(this);
+            func_8010B720(globalCtx, this->actor.textId);
+        }
+        return 1;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444FC.s")
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44534.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A442F0.s")
+u16 func_80A442F0(GlobalContext* globalCtx, EnGo2* this) {
+    s32 phi;
+    s32 phi2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44678.s")
+    if (LINK_IS_CHILD) {
+        if (gSaveContext.infTable[14] & 8) {
+            phi = 0x3022;
+        } else {
+            phi = 0x300E;
+        }
+        phi2 = phi;
+    } else {
+        phi2 = 0x3043;
+    }
+    return phi2;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4433C.s")
+u16 func_80A4433C(GlobalContext* globalCtx, EnGo2* this) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        if (this->actor.textId == 0x300E) {
+            gSaveContext.infTable[14] |= 0x8;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44398.s")
+u16 func_80A44398(GlobalContext* globalCtx, EnGo2* this) {
+    return 0x7122;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443A8.s")
+u16 func_80A443A8(GlobalContext* globalCtx, EnGo2* this) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        return 0;
+    }
+    return 1;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443E0.s")
+u16 func_80A443E0(GlobalContext* globalCtx, EnGo2* this) {
+    s32 phi;
+    if (LINK_IS_CHILD) {
+        if (Flags_GetSwitch(globalCtx, 0x1C)) {
+            return 0x302F;
+        } else {
+            if (gSaveContext.infTable[14] & 0x40) {
+                phi = 0x3025;
+            } else {
+                phi = 0x3024;
+            }
+            return phi;
+        }
+    }
+
+    return 0x3043;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4444C.s")
+u16 func_80A4444C(GlobalContext* globalCtx, EnGo2* this) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        if (this->actor.textId == 0x3024) {
+            gSaveContext.infTable[14] |= 0x40;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444A8.s")
+u16 func_80A444A8(GlobalContext* globalCtx, EnGo2* this) {
+    s32 phi;
+    if (LINK_IS_CHILD) {
+        if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
+            phi = 0x3065;
+        } else {
+            phi = 0x3064;
+        }
+        return phi;
+    }
+    return 0x3043;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444FC.s")
+u16 func_80A444FC(GlobalContext* globalCtx, EnGo2* this) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+        return 0;
+    }
+    return 1;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44534.s")
+u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this) {
+    u16 temp_ret;
+
+    temp_ret = Text_GetFaceReaction(globalCtx, 0x20);
+
+    if (temp_ret) {
+        return temp_ret;
+    } else {
+        switch (this->actor.params & 0x1F) {
+            case 0:
+                return func_80A43564(globalCtx, this);
+            case 1:
+                return func_80A43C9C(globalCtx, this);
+            case 2:
+                return func_80A43F90(globalCtx, this);
+            case 3:
+                return func_80A44224(globalCtx, this);
+            case 4:
+                return func_80A436DC(globalCtx, this);
+            case 5:
+                return func_80A43824(globalCtx, this);
+            case 6:
+                return func_80A438B4(globalCtx, this);
+            case 7:
+                return func_80A439AC(globalCtx, this);
+            case 8:
+                return func_80A43A88(globalCtx, this);
+            case 9:
+                return func_80A43B64(globalCtx, this);
+            case 10:
+                return func_80A442F0(globalCtx, this);
+            case 11:
+                return func_80A443E0(globalCtx, this);
+            case 12:
+                return func_80A444A8(globalCtx, this);
+            case 13:
+                return func_80A44398(globalCtx, this);
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44678.s")
+u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
+
+    switch (this->actor.params & 0x1F) {
+        case 0:
+            return func_80A435E8(globalCtx, this);
+        case 1:
+            return func_80A43D78(globalCtx, this);
+        case 2:
+            return func_80A44010(globalCtx, this);
+        case 3:
+            return func_80A44258(globalCtx, this);
+        case 4:
+            return func_80A43714(globalCtx, this);
+        case 5:
+            return func_80A4387C(globalCtx, this);
+        case 6:
+            return func_80A43950(globalCtx, this);
+        case 7:
+            return func_80A43A2C(globalCtx, this);
+        case 8:
+            return func_80A43B08(globalCtx, this);
+        case 9:
+            return func_80A43C40(globalCtx, this);
+        case 10:
+            return func_80A4433C(globalCtx, this);
+        case 11:
+            return func_80A4444C(globalCtx, this);
+        case 12:
+            return func_80A444FC(globalCtx, this);
+        case 13:
+            return func_80A443A8(globalCtx, this);
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
+s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
+
+    if (((this->actor.params & 0x1F) != 2) && (this->actor.params & 0x1F)) {
+        return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, func_80A44534,
+                             func_80A44678);
+    }
+    if (((this->actor.params & 0x1F) == 2) && ((this->collider.base.maskB & 1) == 0)) {
+        return 0;
+    } else {
+        if (func_8002F194(&this->actor, globalCtx)) {
+            this->unk_194.unk_00 = 1;
+            return 1;
+        }
+        if (this->unk_194.unk_00) {
+            this->unk_194.unk_00 = func_80A44678(globalCtx, this);
+            return 0;
+        } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
+            this->actor.textId = func_80A44534(globalCtx, this);
+        }
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4488C.s")
+// void func_80A4488C(EnGo2 *this) {
+//     s32 temp_v0;
+//     void *temp_v1;
+
+//     temp_v0 = this->actor.params & 0x1F & 0xFF;
+//     temp_v1 = (temp_v0 * 0xA) + D_80A4816C;
+//     this->collider.dim.radius = temp_v1->unk6;
+//     this->collider.dim.height = temp_v1->unk8;
+//     return temp_v0;
+// }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A448C4.s")
+// void func_80A448C4(EnGo2 *this) {
+//     void *sp18;
+//     void *temp_v0;
+
+//     temp_v0 = ((this->actor.params & 0x1F & 0xFF) * 0x10) + D_80A481F8;
+//     this->actor.shape.unk_10 = temp_v0->unk0;
+//     sp18 = temp_v0;
+//     Actor_SetScale((Actor *) this, (bitwise f32) temp_v0->unk4);
+//     this->actor.unk_1F = temp_v0->unk8;
+//     this->unk218 = (f32) temp_v0->unkC;
+//     this->unk218 = (f32) (this->unk218 + (f32) this->collider.dim.radius);
+//     return (s32) temp_v0;
+// }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44940.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44A9C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44A9C.s")
+void func_80A44A9C(EnGo2 *this) {
+    f32 temp_f0;
+
+    temp_f0 = this->skelAnime.initialFrame;
+    this->skelAnime.initialFrame = this->skelAnime.animFrameCount;
+    this->skelAnime.animFrameCount = temp_f0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44AB0.s")
 // s32 func_80A44AB0(EnGo2 *this, GlobalContext *globalCtx) {
