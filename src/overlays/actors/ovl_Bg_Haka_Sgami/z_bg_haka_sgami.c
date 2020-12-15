@@ -16,13 +16,15 @@ typedef enum {
     /* 2 */ SCYTHE_TRAP_ICE_CAVERN
 } SpinningScytheTrapMode;
 
+#define SCYTHE_SPIN_TIME 0x20
+
 void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx);
-void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx);
-void BgHakaSgami_Draw(BgHakaSgami* this, GlobalContext* globalCtx);
+void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx);
+void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600BF20;
 extern Gfx D_060021F0;
@@ -58,8 +60,7 @@ static ColliderTrisItemInit sTriItemsInit[] = {
     },
 };
 
-// sTrisInit
-ColliderTrisInit D_8087EF50 = {
+static ColliderTrisInit sTrisInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x20, COLSHAPE_TRIS },
     4,
     sTriItemsInit,
@@ -99,7 +100,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_InitTris(globalCtx, colliderScythe);
-    Collider_SetTris(globalCtx, colliderScythe, thisx, &D_8087EF50, this->colliderScytheItems);
+    Collider_SetTris(globalCtx, colliderScythe, thisx, &sTrisInit, this->colliderScytheItems);
     Collider_InitCylinder(globalCtx, &this->colliderScytheCenter);
     Collider_SetCylinder(globalCtx, &this->colliderScytheCenter, thisx, &sCylinderInit);
 
@@ -136,7 +137,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->actionFunc = func_8087E7E4;
+    this->actionFunc = BgHakaSgami_SetupSpin;
 }
 
 void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -148,225 +149,107 @@ void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderScytheCenter);
 }
 
-void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx) {
+void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actor.draw = BgHakaSgami_Draw;
-        this->timer = 32;
+        this->timer = SCYTHE_SPIN_TIME;
         this->actor.flags &= ~0x10;
-        this->actionFunc = func_8087E858;
+        this->actionFunc = BgHakaSgami_Spin;
     }
 }
 
-Vec3f D_8087EFB0[] = {
-    { -20.0f, 50.0f, 130.0f },
-    { -50.0f, 33.0f, 20.0f },
-};
-
-Vec3f D_8087EFC8[] = {
-    { 380.0f, 50.0f, 50.0f },
-    { 310.0f, 33.0f, 0.0f },
-};
-
-#ifdef NON_EQUIVALENT
-void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
-    ? spB0;            // Seems to be the end of the vec array?
-    Vec3f vec_sp8C[3]; // REAL!!!!!!!!!!
-    s32 sp80;          // SEEMS REAL!!!!!!
-    ColliderTris* temp_s6;
-    f32 temp_f14;
-    f32 temp_f14_2;
-    f32 temp_f16;
-    f32 temp_f16_2;
-    f32 temp_f16_3;
-    f32 temp_f16_4;
-    f32 temp_f18;
-    f32 temp_f18_2;
-    f32 actorRotYSin; // REAL!!!!!!!
-    f32 actorRotYCos; // REAL!!!!!!!
-    s16 temp_v0;
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_s3;
-    s32 temp_v0_2;
-    u32 temp_v0_4;
-    void* temp_v0_3;
-    void* temp_v0_5;
-    void* temp_v0_6;
-    void* temp_v1;
-    void* temp_v1_2;
-    void* temp_v1_3;
-    f32 phi_f14;
-    f32 phi_f16;
-    u32 phi_v0;
-    void* phi_v1;
-    f32 phi_f14_2;
-    f32 phi_f16_2;
-    void* phi_v0_2;
-    void* phi_v1_2;
-    s32 phi_s3;
-    f32 phi_f18;
-    f32 phi_f16_3;
-    void* phi_v0_3;
-    f32 phi_f18_2;
-    f32 phi_f16_4;
-    void* phi_v0_4;
-    s32 phi_a1;
-    f32 phi_f24;
-    f32 phi_f22;
-    s32 phi_s4;
+void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
+    static Vec3f blureVertices2[] = {
+        { -20.0f, 50.0f, 130.0f },
+        { -50.0f, 33.0f, 20.0f },
+    };
+    static Vec3f blureVertices1[] = {
+        { 380.0f, 50.0f, 50.0f },
+        { 310.0f, 33.0f, 0.0f },
+    };
     s32 i;
+    s32 j;
+    Vec3f scytheVertices[3];
+    f32 actorRotYSin;
+    f32 actorRotYCos;
+    s32 iterateCount;
+    ColliderTrisItemInit* colliderList;
 
     if (this->timer != 0) {
         this->timer--;
     }
-    this->actor.shape.rot.y += (s16)(((512.0f * sinf(this->timer * (M_PI / 16.0f))) + 0x400) / 2);
+
+    this->actor.shape.rot.y += ((s16)(512.0f * sinf(this->timer * (M_PI / 16.0f))) + 0x400) >> 1;
+
     if (this->timer == 0) {
-        this->timer = 32;
-    }
-    actorRotYSin = Math_Sins(this->actor.shape.rot.y);
-    actorRotYCos = Math_Coss(this->actor.shape.rot.y);
-    if (this->actor.params != 0) {
-        sp80 = 4;
-    } else {
-        sp80 = 2;
+        this->timer = SCYTHE_SPIN_TIME;
     }
 
-    /* NEEDS WORK START */
-    // temp_s6 = &this->colliderScythe;
-    temp_v0_2 = sp80 - 2;
-    if (temp_v0_2 < sp80) {
-        phi_s3 = temp_v0_2;
-        phi_s4 = temp_v0_2 * 0x3C;
-    loop_9:
-        temp_v1 = phi_s4 + D_8087EF50.list;
-        // temp_v0_3 = &vec_sp8C[1];
-        temp_f16 = temp_v1->unk20 * actorRotYSin;
-        temp_f14 = temp_v1->unk18;
-        phi_f14 = temp_f14;
-        phi_f16 = temp_f16;
-        // phi_v0 = temp_v0_3;
-        phi_v1 = temp_v1;
-        phi_f14_2 = temp_f14;
-        phi_f16_2 = temp_f16;
-        // phi_v0_2 = temp_v0_3;
-        phi_v1_2 = temp_v1;
-        if (&vec_sp8C[1] < &spB0) {
-        loop_10:
-            temp_v0_4 = &vec_sp8C[2];
-            temp_v1_2 = phi_v1 + 0xC;
-            temp_v0_4->unk - 18 = (phi_f14 * actorRotYCos) + (this->actor.posRot.pos.x + phi_f16);
-            temp_v0_4->unk - 14 = temp_v1_2->unk10 + this->actor.posRot.pos.y;
-            temp_v0_4->unk - 10 =
-                (this->actor.posRot.pos.z + (temp_v1_2->unk14 * actorRotYCos)) - (temp_v1_2->unkC * actorRotYSin);
-            temp_f14_2 = temp_v1_2->unk18;
-            temp_f16_2 = temp_v1_2->unk20 * actorRotYSin;
-            phi_f14 = temp_f14_2;
-            phi_f16 = temp_f16_2;
-            &vec_sp8C[1] = temp_v0_4;
-            phi_v1 = temp_v1_2;
-            phi_f14_2 = temp_f14_2;
-            phi_f16_2 = temp_f16_2;
-            &vec_sp8C[1] = temp_v0_4;
-            phi_v1_2 = temp_v1_2;
-            if (temp_v0_4 < &spB0) {
-                goto loop_10;
-            }
+    actorRotYSin = Math_Sins(this->actor.shape.rot.y);
+    actorRotYCos = Math_Coss(this->actor.shape.rot.y);
+
+    iterateCount = (this->actor.params != 0) ? 4 : 2;
+
+    for (i = iterateCount - 2; i < iterateCount; i++) {
+        colliderList = &sTrisInit.list[i];
+
+        for (j = 0; j < 3; j++) {
+            scytheVertices[j].x = this->actor.posRot.pos.x + colliderList->dim.vtx[j].z * actorRotYSin +
+                                  colliderList->dim.vtx[j].x * actorRotYCos;
+            scytheVertices[j].y = this->actor.posRot.pos.y + colliderList->dim.vtx[j].y;
+            scytheVertices[j].z = this->actor.posRot.pos.z + colliderList->dim.vtx[j].z * actorRotYCos -
+                                  colliderList->dim.vtx[j].x * actorRotYSin;
         }
-        temp_v1_3 = phi_v1_2 + 0xC;
-        &vec_sp8C[1]->unk - C = (phi_f14_2 * actorRotYCos) + (this->actor.posRot.pos.x + phi_f16_2);
-        &vec_sp8C[1]->unk - 8 = temp_v1_3->unk10 + this->actor.posRot.pos.y;
-        &vec_sp8C[1]->unk - 4 =
-            (this->actor.posRot.pos.z + (temp_v1_3->unk14 * actorRotYCos)) - (temp_v1_3->unkC * actorRotYSin);
-        func_800627A0(&this->colliderScythe, phi_s3, &vec_sp8C[0], &vec_sp8C[1], &vec_sp8C[2]);
-        temp_v0_5 = &vec_sp8C[1];
-        temp_f16_3 = temp_v0_5->unk - C;
-        temp_f18 = 2.0f * this->actor.posRot.pos.x;
-        phi_f18 = temp_f18;
-        phi_f16_3 = temp_f16_3;
-        phi_v0_3 = temp_v0_5;
-        phi_f18_2 = temp_f18;
-        phi_f16_4 = temp_f16_3;
-        phi_v0_4 = temp_v0_5;
-        if (temp_v0_5 != &spB0) {
-        loop_12:
-            temp_f16_4 = phi_v0_3->unk0;
-            temp_v0_6 = phi_v0_3 + 0xC;
-            temp_v0_6->unk - 18 = phi_f18 - phi_f16_3;
-            temp_v0_6->unk - 10 = (2.0f * this->actor.posRot.pos.z) - phi_v0_3->unk - 4;
-            temp_f18_2 = 2.0f * this->actor.posRot.pos.x;
-            phi_f18 = temp_f18_2;
-            phi_f16_3 = temp_f16_4;
-            phi_v0_3 = temp_v0_6;
-            phi_f18_2 = temp_f18_2;
-            phi_f16_4 = temp_f16_4;
-            phi_v0_4 = temp_v0_6;
-            if (temp_v0_6 != &spB0) {
-                goto loop_12;
-            }
+
+        func_800627A0(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
+
+        for (j = 0; j < 3; j++) {
+            scytheVertices[j].x = (2 * this->actor.posRot.pos.x) - scytheVertices[j].x;
+            scytheVertices[j].z = (2 * this->actor.posRot.pos.z) - scytheVertices[j].z;
         }
-        phi_v0_4->unk - C = phi_f18_2 - phi_f16_4;
-        phi_v0_4->unk - 4 = (2.0f * this->actor.posRot.pos.z) - phi_v0_4->unk - 4;
-        temp_a1 = phi_s3 + 2;
-        temp_a1_2 = temp_a1 & 3;
-        phi_a1 = temp_a1_2;
-        if (temp_a1 < 0) {
-            phi_a1 = temp_a1_2;
-            if (temp_a1_2 != 0) {
-                phi_a1 = temp_a1_2 - 4;
-            }
-        }
-        func_800627A0(&this->colliderScythe, phi_a1, &vec_sp8C[0], &vec_sp8C[1], &vec_sp8C[2]);
-        temp_s3 = phi_s3 + 1;
-        phi_s3 = temp_s3;
-        phi_s4 = phi_s4 + 0x3C;
-        if (temp_s3 != sp80) {
-            goto loop_9;
-        }
+
+        func_800627A0(&this->colliderScythe, (i + 2) % 4, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
     }
 
     if ((this->unk_151 == 0) || (globalCtx->actorCtx.unk_03 != 0)) {
-        vec_sp8C[0].x = (D_8087EFC8[this->actor.params].x * actorRotYCos) +
-                        (this->actor.posRot.pos.x + (D_8087EFC8[this->actor.params].z * actorRotYSin));
-        vec_sp8C[0].y = D_8087EFC8[this->actor.params].y + this->actor.posRot.pos.y;
-        vec_sp8C[0].z = (this->actor.posRot.pos.z + (D_8087EFC8[this->actor.params].z * actorRotYCos)) -
-                        (D_8087EFC8[this->actor.params].x * actorRotYSin);
-        vec_sp8C[1].x = (D_8087EFB0[this->actor.params].x * actorRotYCos) +
-                        (this->actor.posRot.pos.x + (D_8087EFB0[this->actor.params].z * actorRotYSin));
-        vec_sp8C[1].y = D_8087EFB0[this->actor.params].y + this->actor.posRot.pos.y;
-        vec_sp8C[1].z = (this->actor.posRot.pos.z + (D_8087EFB0[this->actor.params].z * actorRotYCos)) -
-                        (D_8087EFB0[this->actor.params].x * actorRotYSin);
-        EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[0]), &vec_sp8C[0].x, &vec_sp8C[1].x);
+        scytheVertices[0].x = this->actor.posRot.pos.x + blureVertices1[this->actor.params].z * actorRotYSin +
+                              blureVertices1[this->actor.params].x * actorRotYCos;
+        scytheVertices[0].y = this->actor.posRot.pos.y + blureVertices1[this->actor.params].y;
+        scytheVertices[0].z = this->actor.posRot.pos.z + blureVertices1[this->actor.params].z * actorRotYCos -
+                              blureVertices1[this->actor.params].x * actorRotYSin;
+        scytheVertices[1].x = this->actor.posRot.pos.x + blureVertices2[this->actor.params].z * actorRotYSin +
+                              blureVertices2[this->actor.params].x * actorRotYCos;
+        scytheVertices[1].y = this->actor.posRot.pos.y + blureVertices2[this->actor.params].y;
+        scytheVertices[1].z = this->actor.posRot.pos.z + blureVertices2[this->actor.params].z * actorRotYCos -
+                              blureVertices2[this->actor.params].x * actorRotYSin;
+        EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[0]), &scytheVertices[0], &scytheVertices[1]);
 
-        for (i = 0; i != 2; i++) {
-            vec_sp8C[i].x = (2.0f * this->actor.posRot.pos.x) - vec_sp8C[0].x;
-            vec_sp8C[i].z = (2.0f * this->actor.posRot.pos.z) - vec_sp8C[0].z;
+        for (j = 0; j < 2; j++) {
+            scytheVertices[j].x = (2 * this->actor.posRot.pos.x) - scytheVertices[j].x;
+            scytheVertices[j].z = (2 * this->actor.posRot.pos.z) - scytheVertices[j].z;
         }
 
-        vec_sp8C[1].x = (2.0f * this->actor.posRot.pos.x) - vec_sp8C[1].x;
-        vec_sp8C[1].z = (2.0f * this->actor.posRot.pos.z) - vec_sp8C[1].z;
-
-        EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[1]), &vec_sp8C[0], &vec_sp8C[1]);
+        EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[1]), &scytheVertices[0], &scytheVertices[1]);
     }
 
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderScythe.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderScytheCenter.base);
     func_8002F974(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Sgami/func_8087E858.s")
-#endif
 
 void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = THIS;
     Player* player = PLAYER;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_8087E7E4)) {
+    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, globalCtx);
     }
 }
 
-void BgHakaSgami_Draw(BgHakaSgami* this, GlobalContext* globalCtx) {
+void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaSgami* this = THIS;
+
     if (this->unk_151 != 0) {
         Gfx_DrawDListXlu(globalCtx, &D_0600BF20);
     } else if (this->actor.params == SCYTHE_TRAP_SHADOW_TEMPLE) {
