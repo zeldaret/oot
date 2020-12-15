@@ -620,13 +620,10 @@ void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
-    f32 frames;
-
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06026510, -2.0f);
-    frames = SkelAnime_GetFrameCount(&D_06026510);
+    this->unk_194 = SkelAnime_GetFrameCount(&D_06026510);
     this->unk_1AC = 0;
     this->actionFunc = func_80900104;
-    this->unk_194 = frames;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900104.s")
