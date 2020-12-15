@@ -44,19 +44,19 @@ glabel EnTr_Init
 /* 00080 80B22D70 10000031 */  beq     $zero, $zero, .L80B22E38
 /* 00084 80B22D74 3C0480B2 */  lui     $a0, %hi(D_80B24400)       ## $a0 = 80B20000
 .L80B22D78:
-/* 00088 80B22D78 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 0008C 80B22D7C 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00088 80B22D78 3C060601 */  lui     $a2, %hi(D_06011688)                ## $a2 = 06010000
+/* 0008C 80B22D7C 3C070600 */  lui     $a3, %hi(D_06003FC8)                ## $a3 = 06000000
 /* 00090 80B22D80 260E0190 */  addiu   $t6, $s0, 0x0190           ## $t6 = 00000190
 /* 00094 80B22D84 260F0232 */  addiu   $t7, $s0, 0x0232           ## $t7 = 00000232
 /* 00098 80B22D88 2418001B */  addiu   $t8, $zero, 0x001B         ## $t8 = 0000001B
 /* 0009C 80B22D8C AFB80018 */  sw      $t8, 0x0018($sp)
 /* 000A0 80B22D90 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 000A4 80B22D94 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 000A8 80B22D98 24E73FC8 */  addiu   $a3, $a3, 0x3FC8           ## $a3 = 06003FC8
+/* 000A8 80B22D98 24E73FC8 */  addiu   $a3, $a3, %lo(D_06003FC8)           ## $a3 = 06003FC8
 /* 000AC 80B22D9C 0C0291BE */  jal     SkelAnime_InitFlex
-/* 000B0 80B22DA0 24C61688 */  addiu   $a2, $a2, 0x1688           ## $a2 = 06011688
-/* 000B4 80B22DA4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 000B8 80B22DA8 24A53FC8 */  addiu   $a1, $a1, 0x3FC8           ## $a1 = 06003FC8
+/* 000B0 80B22DA0 24C61688 */  addiu   $a2, $a2, %lo(D_06011688)           ## $a2 = 06011688
+/* 000B4 80B22DA4 3C050600 */  lui     $a1, %hi(D_06003FC8)                ## $a1 = 06000000
+/* 000B8 80B22DA8 24A53FC8 */  addiu   $a1, $a1, %lo(D_06003FC8)           ## $a1 = 06003FC8
 /* 000BC 80B22DAC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 000C0 80B22DB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
 /* 000C4 80B22DB4 3C0580B2 */  lui     $a1, %hi(func_80B23A88)    ## $a1 = 80B20000
@@ -69,20 +69,20 @@ glabel EnTr_Init
 /* 000E0 80B22DD0 A61902D8 */  sh      $t9, 0x02D8($s0)           ## 000002D8
 .L80B22DD4:
 /* 000E4 80B22DD4 2611014C */  addiu   $s1, $s0, 0x014C           ## $s1 = 0000014C
-/* 000E8 80B22DD8 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 000EC 80B22DDC 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 000E8 80B22DD8 3C060601 */  lui     $a2, %hi(D_0600C530)                ## $a2 = 06010000
+/* 000EC 80B22DDC 3C070600 */  lui     $a3, %hi(D_06001CDC)                ## $a3 = 06000000
 /* 000F0 80B22DE0 26080190 */  addiu   $t0, $s0, 0x0190           ## $t0 = 00000190
 /* 000F4 80B22DE4 26090232 */  addiu   $t1, $s0, 0x0232           ## $t1 = 00000232
 /* 000F8 80B22DE8 240A001B */  addiu   $t2, $zero, 0x001B         ## $t2 = 0000001B
 /* 000FC 80B22DEC AFAA0018 */  sw      $t2, 0x0018($sp)
 /* 00100 80B22DF0 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 00104 80B22DF4 AFA80010 */  sw      $t0, 0x0010($sp)
-/* 00108 80B22DF8 24E71CDC */  addiu   $a3, $a3, 0x1CDC           ## $a3 = 06001CDC
-/* 0010C 80B22DFC 24C6C530 */  addiu   $a2, $a2, 0xC530           ## $a2 = 0600C530
+/* 00108 80B22DF8 24E71CDC */  addiu   $a3, $a3, %lo(D_06001CDC)           ## $a3 = 06001CDC
+/* 0010C 80B22DFC 24C6C530 */  addiu   $a2, $a2, %lo(D_0600C530)           ## $a2 = 0600C530
 /* 00110 80B22E00 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00114 80B22E04 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0000014C
-/* 00118 80B22E08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 0011C 80B22E0C 24A51CDC */  addiu   $a1, $a1, 0x1CDC           ## $a1 = 06001CDC
+/* 00118 80B22E08 3C050600 */  lui     $a1, %hi(D_06001CDC)                ## $a1 = 06000000
+/* 0011C 80B22E0C 24A51CDC */  addiu   $a1, $a1, %lo(D_06001CDC)           ## $a1 = 06001CDC
 /* 00120 80B22E10 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00124 80B22E14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
 /* 00128 80B22E18 3C0580B2 */  lui     $a1, %hi(func_80B23A88)    ## $a1 = 80B20000
