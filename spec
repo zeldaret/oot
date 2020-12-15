@@ -717,8 +717,6 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.bss.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.reloc.o"
 endseg
 
