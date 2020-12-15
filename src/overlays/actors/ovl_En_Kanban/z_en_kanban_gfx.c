@@ -73,10 +73,10 @@ static u16 sShadowTexFlags[] = {
 };
 
 static f32 sCutAngles[] = {
-    0.5f * M_PI, 0.0f, 0.5f * M_PI, 0.66f * M_PI, 0.34f * M_PI, 0.0f
+    0.5f * M_PI, 0.0f, 0.5f * M_PI, 0.66f * M_PI, 0.34f * M_PI, 0.0f,
 };
 
-static s32 sUnused[] = {0, 0, 0}; // Unused zero vector?
+static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
 static Vtx sShadowVertices[] = {
     VTX(-2000, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),

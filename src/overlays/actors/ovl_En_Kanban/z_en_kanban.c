@@ -4,32 +4,23 @@
 
 #define THIS ((EnKanban*)thisx)
 
-#define PIECE_TOP_LEFT (1 << 0) 
-#define PIECE_LEFT_TOP (1 << 1) 
-#define PIECE_LEFT_BOTTOM (1 << 2) 
-#define PIECE_RIGHT_TOP (1 << 3) 
-#define PIECE_RIGHT_BOTTOM (1 << 4) 
-#define PIECE_BOTTOM_LEFT (1 << 5)
-#define PIECE_TOP_RIGHT (1 << 6) 
-#define PIECE_BOTTOM_RIGHT (1 << 7) 
-#define PIECE_POST_TOP (1 << 8) 
-#define PIECE_POST_BOTTOM (1 << 9) 
-#define PIECE_POST_STAND (1 << 10)
-#define PIECE_LEFT (PIECE_TOP_LEFT | PIECE_LEFT_TOP | PIECE_LEFT_BOTTOM | PIECE_BOTTOM_LEFT)
-#define PIECE_RIGHT (PIECE_TOP_RIGHT | PIECE_RIGHT_TOP | PIECE_RIGHT_BOTTOM | PIECE_BOTTOM_RIGHT)
-#define PIECE_TOP (PIECE_POST_TOP | PIECE_TOP_RIGHT | PIECE_RIGHT_TOP | PIECE_TOP_LEFT | PIECE_LEFT_TOP)
-#define PIECE_UPPER_LEFT (PIECE_POST_TOP | PIECE_TOP_RIGHT | PIECE_LEFT_BOTTOM | PIECE_TOP_LEFT | PIECE_LEFT_TOP)
-#define PIECE_UPPER_RIGHT (PIECE_POST_TOP | PIECE_TOP_RIGHT | PIECE_RIGHT_TOP | PIECE_TOP_LEFT | PIECE_RIGHT_BOTTOM)
-#define PIECE_ALL (PIECE_LEFT | PIECE_RIGHT | PIECE_POST_TOP | PIECE_POST_BOTTOM)
-
-typedef enum {
-    CUT_POST,
-    CUT_LEFT,
-    CUT_FLAT,
-    CUT_UP,
-    CUT_DOWN,
-    CUT_RIGHT
-} EnKanbanCutType;
+#define PART_UPPER_LEFT (1 << 0)
+#define PART_LEFT_UPPER (1 << 1)
+#define PART_LEFT_LOWER (1 << 2)
+#define PART_RIGHT_UPPER (1 << 3)
+#define PART_RIGHT_LOWER (1 << 4)
+#define PART_LOWER_LEFT (1 << 5)
+#define PART_UPPER_RIGHT (1 << 6)
+#define PART_LOWER_RIGHT (1 << 7)
+#define PART_POST_UPPER (1 << 8)
+#define PART_POST_LOWER (1 << 9)
+#define PART_POST_STAND (1 << 10)
+#define LEFT_HALF (PART_UPPER_LEFT | PART_LEFT_UPPER | PART_LEFT_LOWER | PART_LOWER_LEFT)
+#define RIGHT_HALF (PART_UPPER_RIGHT | PART_RIGHT_UPPER | PART_RIGHT_LOWER | PART_LOWER_RIGHT)
+#define UPPER_HALF (PART_POST_UPPER | PART_UPPER_RIGHT | PART_RIGHT_UPPER | PART_UPPER_LEFT | PART_LEFT_UPPER)
+#define UPPERLEFT_HALF (PART_POST_UPPER | PART_UPPER_RIGHT | PART_LEFT_LOWER | PART_UPPER_LEFT | PART_LEFT_UPPER)
+#define UPPERRIGHT_HALF (PART_POST_UPPER | PART_UPPER_RIGHT | PART_RIGHT_UPPER | PART_UPPER_LEFT | PART_RIGHT_LOWER)
+#define ALL_PARTS (LEFT_HALF | RIGHT_HALF | PART_POST_UPPER | PART_POST_LOWER)
 
 typedef enum {
     ENKANBAN_SIGN,
@@ -39,6 +30,38 @@ typedef enum {
     ENKANBAN_WATER,
     ENKANBAN_REPAIR
 } EnKanbanActionState;
+
+typedef enum {
+    PIECE_WHOLE,
+    PIECE_UPPER_HALF,
+    PIECE_LOWER_HALF,
+    PIECE_RIGHT_HALF,
+    PIECE_LEFT_HALF,
+    PIECE_2ND_QUAD,
+    PIECE_1ST_QUAD,
+    PIECE_3RD_QUAD,
+    PIECE_4TH_QUAD,
+    PIECE_UPPER_LEFT,
+    PIECE_LEFT_UPPER,
+    PIECE_LEFT_LOWER,
+    PIECE_LOWER_LEFT,
+    PIECE_UPPER_RIGHT,
+    PIECE_RIGHT_UPPER,
+    PIECE_RIGHT_LOWER,
+    PIECE_LOWER_RIGHT,
+    PIECE_POST_UPPER,
+    PIECE_POST_LOWER,
+    PIECE_OTHER = 100
+} EnKanbanPiece;
+
+typedef enum {
+    CUT_POST,
+    CUT_LEFT,
+    CUT_FLAT,
+    CUT_DIAG_REVERSE, // lower left to upper right
+    CUT_DIAG,         // upper left to lower right
+    CUT_RIGHT
+} EnKanbanCutType;
 
 void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +90,10 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 50, 5, { 0, 0, 0 } },
 };
 
-static u16 sPartFlags[] = { PIECE_TOP_LEFT, PIECE_LEFT_TOP, PIECE_LEFT_BOTTOM, PIECE_RIGHT_TOP, PIECE_RIGHT_BOTTOM, PIECE_BOTTOM_LEFT, PIECE_TOP_RIGHT, PIECE_BOTTOM_RIGHT, PIECE_POST_TOP, PIECE_POST_BOTTOM, PIECE_POST_STAND, };
+static u16 sPartFlags[] = {
+    PART_UPPER_LEFT,  PART_LEFT_UPPER,  PART_LEFT_LOWER, PART_RIGHT_UPPER, PART_RIGHT_LOWER, PART_LOWER_LEFT,
+    PART_UPPER_RIGHT, PART_LOWER_RIGHT, PART_POST_UPPER, PART_POST_LOWER,  PART_POST_STAND,
+};
 
 void EnKanban_SetFloorRot(EnKanban* this) {
     if (this->actor.floorPoly != NULL) {
@@ -84,13 +110,13 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKanban* this = THIS;
 
     Actor_SetScale(&this->actor, 0.01f);
-    if (this->actor.params != -0x23) {
+    if (this->actor.params != ENKANBAN_PIECE) {
         this->actor.unk_1F = 0;
         this->actor.flags |= 1;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
-        if (this->actor.params == 0x300) {
+        if (this->actor.params == ENKANBAN_FISHING) {
             if (gSaveContext.linkAge == 1) {
                 this->actor.textId = 0x409D;
             } else {
@@ -99,7 +125,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actor.textId = this->actor.params | 0x300;
         }
-        this->unk_176 = 1;
+        this->bounceX = 1;
         this->partFlags = 0xFFFF;
         func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
         EnKanban_SetFloorRot(this);
@@ -139,38 +165,80 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
     }
 }
 
-static Vec3f D_80A944D4[] = {
-    { 0.0f, 44.0f, 0.0f },   { 0.0f, 50.0f, 0.0f },   { 0.0f, 38.0f, 0.0f },   { 10.0f, 44.0f, 0.0f },
-    { -10.0f, 44.0f, 0.0f }, { -10.0f, 50.0f, 0.0f }, { 10.0f, 50.0f, 0.0f },  { -10.0f, 38.0f, 0.0f },
-    { 10.0f, 38.0f, 0.0f },  { -7.5f, 51.0f, 0.0f },  { -12.5f, 48.0f, 0.0f }, { -12.5f, 40.0f, 0.0f },
-    { -7.5f, 37.0f, 0.0f },  { 7.5f, 51.0f, 0.0f },   { 12.5f, 48.0f, 0.0f },  { 12.5f, 40.0f, 0.0f },
-    { 7.5f, 37.0f, 0.0f },   { 0.0f, 50.0f, 0.0f },   { 0.0f, 38.0f, 0.0f },
+static Vec3f sPieceOffsets[] = {
+    /* WHOLE        */ { 0.0f, 44.0f, 0.0f },
+    /* UPPER_HALF   */ { 0.0f, 50.0f, 0.0f },
+    /* LOWER_HALF   */ { 0.0f, 38.0f, 0.0f },
+    /* RIGHT_HALF  */ { 10.0f, 44.0f, 0.0f },
+    /* LEFT_HALF  */ { -10.0f, 44.0f, 0.0f },
+    /* 2ND_QUAD   */ { -10.0f, 50.0f, 0.0f },
+    /* 1ST_QUAD    */ { 10.0f, 50.0f, 0.0f },
+    /* 3RD_QUAD   */ { -10.0f, 38.0f, 0.0f },
+    /* 4TH_QUAD    */ { 10.0f, 38.0f, 0.0f },
+    /* UPPER_LEFT  */ { -7.5f, 51.0f, 0.0f },
+    /* LEFT_UPPER */ { -12.5f, 48.0f, 0.0f },
+    /* LEFT_LOWER */ { -12.5f, 40.0f, 0.0f },
+    /* LOWER_LEFT  */ { -7.5f, 37.0f, 0.0f },
+    /* UPPER_RIGHT  */ { 7.5f, 51.0f, 0.0f },
+    /* RIGHT_UPPER */ { 12.5f, 48.0f, 0.0f },
+    /* RIGHT_LOWER */ { 12.5f, 40.0f, 0.0f },
+    /* LOWER_RIGHT  */ { 7.5f, 37.0f, 0.0f },
+    /* POST_UPPER   */ { 0.0f, 50.0f, 0.0f },
+    /* POST_LOWER   */ { 0.0f, 38.0f, 0.0f },
 };
 
-static Vec3f D_80A945B8[] = {
-    { 1500.0f, 1000.0f, 0.0f }, { 1500.0f, 500.0f, 0.0f }, { 1500.0f, 500.0f, 0.0f }, { 700.0f, 1000.0f, 0.0f },
-    { 700.0f, 1000.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },
-    { 700.0f, 500.0f, 0.0f },   { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },
-    { 700.0f, 500.0f, 0.0f },   { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },  { 700.0f, 500.0f, 0.0f },
-    { 700.0f, 500.0f, 0.0f },   { 200.0f, 500.0f, 0.0f },  { 200.0f, 500.0f, 0.0f },
+static Vec3f sPieceSizes[] = {
+    /* WHOLE      */ { 1500.0f, 1000.0f, 0.0f },
+    /* UPPER_HALF */ { 1500.0f, 500.0f, 0.0f },
+    /* LOWER_HALF */ { 1500.0f, 500.0f, 0.0f },
+    /* RIGHT_HALF  */ { 700.0f, 1000.0f, 0.0f },
+    /* LEFT_HALF   */ { 700.0f, 1000.0f, 0.0f },
+    /* 2ND_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 1ST_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 3RD_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 4TH_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* UPPER_LEFT  */ { 700.0f, 500.0f, 0.0f },
+    /* LEFT_UPPER  */ { 700.0f, 500.0f, 0.0f },
+    /* LEFT_LOWER  */ { 700.0f, 500.0f, 0.0f },
+    /* LOWER_LEFT  */ { 700.0f, 500.0f, 0.0f },
+    /* UPPER_RIGHT */ { 700.0f, 500.0f, 0.0f },
+    /* RIGHT_UPPER */ { 700.0f, 500.0f, 0.0f },
+    /* RIGHT_LOWER */ { 700.0f, 500.0f, 0.0f },
+    /* LOWER_RIGHT */ { 700.0f, 500.0f, 0.0f },
+    /* POST_UPPER  */ { 200.0f, 500.0f, 0.0f },
+    /* POST_LOWER  */ { 200.0f, 500.0f, 0.0f },
 };
 
 static u8 sCutTypes[] = {
-    CUT_LEFT, CUT_LEFT, CUT_DOWN, CUT_DOWN, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_FLAT, CUT_POST, CUT_POST,
-    CUT_POST, CUT_POST, CUT_LEFT, CUT_LEFT, CUT_LEFT, CUT_LEFT, CUT_FLAT, CUT_FLAT, CUT_POST, CUT_POST, CUT_POST, CUT_POST, CUT_POST, CUT_POST,
+    /* 1H_OVER */ CUT_LEFT,     /* 2H_OVER */ CUT_LEFT,
+    /* 1H_COMBO */ CUT_DIAG,    /* 2H_COMBO */ CUT_DIAG,
+    /* 1H_LEFT */ CUT_FLAT,     /* 2H_LEFT */ CUT_FLAT,
+    /* 1H_COMBO */ CUT_FLAT,    /* 2H_COMBO */ CUT_FLAT,
+    /* 1H_RIGHT */ CUT_FLAT,    /* 2H_RIGHT */ CUT_FLAT,
+    /* 1H_COMBO */ CUT_FLAT,    /* 2H_COMBO */ CUT_FLAT,
+    /* 1H_STAB */ CUT_POST,     /* 2H_STAB */ CUT_POST,
+    /* 1H_COMBO */ CUT_POST,    /* 2H_COMBO */ CUT_POST,
+    /* FLIP_START */ CUT_LEFT,  /* JUMP_START */ CUT_LEFT,
+    /* FLIP_END */ CUT_LEFT,    /* JUMP_END */ CUT_LEFT,
+    /* BACK_LEFT */ CUT_FLAT,   /* BACK_RIGHT */ CUT_FLAT,
+    /* OVER_HAMMER */ CUT_POST, /* SIDE_HAMMER */ CUT_POST,
+    /* 1H_SPIN_ATK */ CUT_POST, /* 2H_SPIN_ATK */ CUT_POST,
+    /* 1H_BIG_SPIN */ CUT_POST, /* 2H_BIG_SPIN */ CUT_POST,
 };
 
 static u16 sCutFlags[] = {
-    PIECE_ALL, PIECE_LEFT, PIECE_TOP, PIECE_UPPER_LEFT, PIECE_UPPER_RIGHT, PIECE_RIGHT,
+    /* CUT_POST */ ALL_PARTS,       /* CUT_LEFT */ LEFT_HALF,
+    /* CUT_FLAT */ UPPER_HALF,      /* CUT_DIAG_REVERSE */ UPPERLEFT_HALF,
+    /* CUT_DIAG */ UPPERRIGHT_HALF, /* CUT_RIGHT */ RIGHT_HALF,
 };
 
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    u8 spFF = false;
+    u8 bounced = false;
     GlobalContext* globalCtx = globalCtx2;
     EnKanban* this = THIS;
     EnKanban* signpost;
     EnKanban* piece;
-    Player* spE8 = PLAYER;
+    Player* player = PLAYER;
     Vec3f offset;
 
     this->frameCount++;
@@ -191,23 +259,23 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if ((this->invincibilityTimer == 0) && (this->collider.base.acFlags & 2)) {
                 this->collider.base.acFlags &= ~2;
                 this->invincibilityTimer = 6;
-                piece = (EnKanban*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN,
-                                                      this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                                      this->actor.posRot.pos.z, this->actor.shape.rot.x,
-                                                      this->actor.shape.rot.y, this->actor.shape.rot.z, -0x23);
+                piece = (EnKanban*)Actor_SpawnAsChild(
+                    &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN, this->actor.posRot.pos.x,
+                    this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x,
+                    this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
                     ColliderBody* hitItem = this->collider.body.acHitItem;
                     s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     u8 i;
 
                     if (hitItem->toucher.flags & 0x700) {
-                        this->cutType = sCutTypes[spE8->swordAnimation];
+                        this->cutType = sCutTypes[player->swordAnimation];
                     } else {
                         this->cutType = CUT_POST;
                     }
                     if (ABS(yawDiff) > 0x4000) {
-                        if (this->cutType == CUT_DOWN) {
-                            this->cutType = CUT_UP;
+                        if (this->cutType == CUT_DIAG) {
+                            this->cutType = CUT_DIAG_REVERSE;
                         } else if (this->cutType == CUT_LEFT) {
                             this->cutType = CUT_RIGHT;
                         }
@@ -224,84 +292,82 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         }
                     }
                     this->partFlags &= ~sCutFlags[this->cutType];
-                    if (!(this->partFlags & PIECE_ALL)) {
+                    if (!(this->partFlags & ALL_PARTS)) {
                         this->zTargetTimer = 10;
                     }
-                    
-
-                    if ((piece->partFlags & PIECE_TOP_LEFT) && (piece->partFlags & PIECE_BOTTOM_RIGHT)) {
-                        piece->pieceType = 0;
-                    } else if ((piece->partFlags & PIECE_LEFT_TOP) && (piece->partFlags & PIECE_RIGHT_TOP)) {
-                        piece->pieceType = 1;
-                    } else if ((piece->partFlags & PIECE_LEFT_BOTTOM) && (piece->partFlags & PIECE_RIGHT_BOTTOM)) {
-                        piece->pieceType = 2;
-                    } else if ((piece->partFlags & PIECE_TOP_RIGHT) && (piece->partFlags & PIECE_BOTTOM_RIGHT)) {
-                        piece->pieceType = 3;
-                    } else if ((piece->partFlags & PIECE_TOP_LEFT) && (piece->partFlags & PIECE_BOTTOM_LEFT)) {
-                        piece->pieceType = 4;
-                    } else if ((piece->partFlags & PIECE_TOP_LEFT) && (piece->partFlags & PIECE_LEFT_TOP)) {
-                        piece->pieceType = 5;
-                    } else if ((piece->partFlags & PIECE_TOP_RIGHT) && (piece->partFlags & PIECE_RIGHT_TOP)) {
-                        piece->pieceType = 6;
-                    } else if ((piece->partFlags & PIECE_LEFT_BOTTOM) && (piece->partFlags & PIECE_BOTTOM_LEFT)) {
-                        piece->pieceType = 7;
-                    } else if ((piece->partFlags & PIECE_RIGHT_BOTTOM) && (piece->partFlags & PIECE_BOTTOM_RIGHT)) {
-                        piece->pieceType = 8;
-                    } else if (piece->partFlags & PIECE_TOP_LEFT) {
-                        piece->pieceType = 9;
-                    } else if (piece->partFlags & PIECE_LEFT_TOP) {
-                        piece->pieceType = 10;
-                    } else if (piece->partFlags & PIECE_LEFT_BOTTOM) {
-                        piece->pieceType = 11;
-                    } else if (piece->partFlags & PIECE_BOTTOM_LEFT) {
-                        piece->pieceType = 12;
-                    } else if (piece->partFlags & PIECE_TOP_RIGHT) {
-                        piece->pieceType = 13;
-                    } else if (piece->partFlags & PIECE_RIGHT_TOP) {
-                        piece->pieceType = 14;
-                    } else if (piece->partFlags & PIECE_RIGHT_BOTTOM) {
-                        piece->pieceType = 15;
-                    } else if (piece->partFlags & PIECE_BOTTOM_RIGHT) {
-                        piece->pieceType = 16;
-                    } else if (piece->partFlags & PIECE_POST_TOP) {
-                        piece->pieceType = 17;
-                    } else if (piece->partFlags & PIECE_POST_BOTTOM) {
-                        piece->pieceType = 18;
+                    if ((piece->partFlags & PART_UPPER_LEFT) && (piece->partFlags & PART_LOWER_RIGHT)) {
+                        piece->pieceType = PIECE_WHOLE;
+                    } else if ((piece->partFlags & PART_LEFT_UPPER) && (piece->partFlags & PART_RIGHT_UPPER)) {
+                        piece->pieceType = PIECE_UPPER_HALF;
+                    } else if ((piece->partFlags & PART_LEFT_LOWER) && (piece->partFlags & PART_RIGHT_LOWER)) {
+                        piece->pieceType = PIECE_LOWER_HALF;
+                    } else if ((piece->partFlags & PART_UPPER_RIGHT) && (piece->partFlags & PART_LOWER_RIGHT)) {
+                        piece->pieceType = PIECE_RIGHT_HALF;
+                    } else if ((piece->partFlags & PART_UPPER_LEFT) && (piece->partFlags & PART_LOWER_LEFT)) {
+                        piece->pieceType = PIECE_LEFT_HALF;
+                    } else if ((piece->partFlags & PART_UPPER_LEFT) && (piece->partFlags & PART_LEFT_UPPER)) {
+                        piece->pieceType = PIECE_2ND_QUAD;
+                    } else if ((piece->partFlags & PART_UPPER_RIGHT) && (piece->partFlags & PART_RIGHT_UPPER)) {
+                        piece->pieceType = PIECE_1ST_QUAD;
+                    } else if ((piece->partFlags & PART_LEFT_LOWER) && (piece->partFlags & PART_LOWER_LEFT)) {
+                        piece->pieceType = PIECE_3RD_QUAD;
+                    } else if ((piece->partFlags & PART_RIGHT_LOWER) && (piece->partFlags & PART_LOWER_RIGHT)) {
+                        piece->pieceType = PIECE_4TH_QUAD;
+                    } else if (piece->partFlags & PART_UPPER_LEFT) {
+                        piece->pieceType = PIECE_UPPER_LEFT;
+                    } else if (piece->partFlags & PART_LEFT_UPPER) {
+                        piece->pieceType = PIECE_LEFT_UPPER;
+                    } else if (piece->partFlags & PART_LEFT_LOWER) {
+                        piece->pieceType = PIECE_LEFT_LOWER;
+                    } else if (piece->partFlags & PART_LOWER_LEFT) {
+                        piece->pieceType = PIECE_LOWER_LEFT;
+                    } else if (piece->partFlags & PART_UPPER_RIGHT) {
+                        piece->pieceType = PIECE_UPPER_RIGHT;
+                    } else if (piece->partFlags & PART_RIGHT_UPPER) {
+                        piece->pieceType = PIECE_RIGHT_UPPER;
+                    } else if (piece->partFlags & PART_RIGHT_LOWER) {
+                        piece->pieceType = PIECE_RIGHT_LOWER;
+                    } else if (piece->partFlags & PART_LOWER_RIGHT) {
+                        piece->pieceType = PIECE_LOWER_RIGHT;
+                    } else if (piece->partFlags & PART_POST_UPPER) {
+                        piece->pieceType = PIECE_POST_UPPER;
+                    } else if (piece->partFlags & PART_POST_LOWER) {
+                        piece->pieceType = PIECE_POST_LOWER;
                     } else {
-                        piece->pieceType = 100;
+                        piece->pieceType = PIECE_OTHER;
                     }
                     if (piece->pieceType == 100) {
-                        piece->pieceType = 0;
+                        piece->pieceType = PIECE_WHOLE;
                     }
 
-                    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * 3.1415927f, 0);
-                    Matrix_MultVec3f(&D_80A944D4[piece->pieceType], &offset);
+                    Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                    Matrix_MultVec3f(&sPieceOffsets[piece->pieceType], &offset);
                     piece->actor.posRot.pos.x += offset.x;
                     piece->actor.posRot.pos.y += offset.y;
                     piece->actor.posRot.pos.z += offset.z;
-                    piece->offset.x = -D_80A944D4[piece->pieceType].x / this->actor.scale.x;
-                    piece->offset.y = -D_80A944D4[piece->pieceType].y / this->actor.scale.x;
-                    piece->offset.z = -D_80A944D4[piece->pieceType].z / this->actor.scale.x;
-                    piece->unk_17C = D_80A945B8[piece->pieceType].x;
-                    piece->unk_180 = D_80A945B8[piece->pieceType].y;
+                    piece->offset.x = -sPieceOffsets[piece->pieceType].x / this->actor.scale.x;
+                    piece->offset.y = -sPieceOffsets[piece->pieceType].y / this->actor.scale.x;
+                    piece->offset.z = -sPieceOffsets[piece->pieceType].z / this->actor.scale.x;
+                    piece->pieceWidth = sPieceSizes[piece->pieceType].x;
+                    piece->pieceHeight = sPieceSizes[piece->pieceType].y;
                     piece->actor.gravity = -1.0f;
                     piece->actionState = ENKANBAN_AIR;
                     piece->actor.posRot.rot.y =
-                        (s16)Math_Rand_CenteredFloat(12288.0f) + this->actor.yawTowardsLink + 0x8000;
+                        (s16)Math_Rand_CenteredFloat(0x3000) + this->actor.yawTowardsLink + 0x8000;
                     piece->actor.velocity.y = Math_Rand_ZeroFloat(2.0f) + 3.0f;
                     piece->actor.speedXZ = Math_Rand_ZeroFloat(2.0f) + 3.0f;
                     if (piece->partCount >= 4) {
-                        piece->unk_176 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                        piece->unk_178 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                        piece->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                        piece->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
                     } else {
-                        piece->unk_176 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                        piece->unk_178 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                        piece->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                        piece->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
                     }
-                    piece->spinVel.y = Math_Rand_CenteredFloat(6144.0f);
+                    piece->spinVel.y = Math_Rand_CenteredFloat(0x1800);
                     if (Math_Rand_ZeroOne() < 0.5f) {
-                        piece->unk_184 = 1;
+                        piece->direction = 1;
                     } else {
-                        piece->unk_184 = -1;
+                        piece->direction = -1;
                     }
                     piece->airTimer = 100;
                     piece->actor.flags &= ~1;
@@ -341,7 +407,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             f32 tempY;
             f32 tempZ;
             f32 tempWaterY;
-            u8 cond;
+            u8 onGround;
 
             Actor_MoveForward(&this->actor);
             func_8002E4B4(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
@@ -363,18 +429,18 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.waterY = tempWaterY;
 
             osSyncPrintf("\x1b[m");
-            cond = (this->actor.bgCheckFlags & 1);
+            onGround = (this->actor.bgCheckFlags & 1);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
                 this->spinVel.x -= 0x800;
-                if ((this->spinRot.x <= 0) && cond) {
+                if ((this->spinRot.x <= 0) && onGround) {
                     this->spinRot.x = 0;
                     this->spinVel.x = 0;
                 }
             } else {
                 this->spinRot.x -= this->spinVel.x;
                 this->spinVel.x -= 0x800;
-                if ((this->spinRot.x >= 0) && cond) {
+                if ((this->spinRot.x >= 0) && onGround) {
                     this->spinRot.x = 0;
                     this->spinVel.x = 0;
                 }
@@ -385,14 +451,14 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->spinZFlag) {
                 this->spinRot.z += this->spinVel.z;
                 this->spinVel.z -= 0x800;
-                if ((this->spinRot.z <= 0) && cond) {
+                if ((this->spinRot.z <= 0) && onGround) {
                     this->spinRot.z = 0;
                     this->spinVel.z = 0;
                 }
             } else {
                 this->spinRot.z -= this->spinVel.z;
                 this->spinVel.z -= 0x800;
-                if ((this->spinRot.z >= 0) && cond) {
+                if ((this->spinRot.z >= 0) && onGround) {
                     this->spinRot.z = 0;
                     this->spinVel.z = 0;
                 }
@@ -407,12 +473,11 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->actor.bgCheckFlags & 0x40) {
                 this->actionState = ENKANBAN_WATER;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
-                this->unk_176 = this->unk_178 = 0;
+                this->bounceX = this->bounceZ = 0;
                 this->actor.posRot.pos.y += this->actor.waterY;
-                EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, NULL, NULL, 0,
-                                      (this->partCount * 20) + 300);
-                EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 0x96, 0x28A, 0);
-                EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 0x12C, 0x320, 5);
+                EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, NULL, NULL, 0, (this->partCount * 20) + 300);
+                EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 150, 650, 0);
+                EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 300, 800, 5);
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
                 osSyncPrintf(" WAT  Y  = %f\n", this->actor.waterY);
@@ -421,7 +486,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 break;
             }
 
-            if (cond) {
+            if (onGround) {
                 if (this->bounceCount <= 0) {
                     this->bounceCount++;
                     this->actor.velocity.y *= -0.3f;
@@ -430,12 +495,12 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     this->actor.velocity.y = 0.0f;
                 }
                 this->actor.speedXZ *= 0.7f;
-                if ((this->spinRot.x == 0) && (this->unk_176 != 0)) {
-                    this->spinVel.x = this->unk_176 * 0x200;
-                    if (this->unk_176 != 0) {
-                        this->unk_176 -= 5;
-                        if (this->unk_176 <= 0) {
-                            this->unk_176 = 0;
+                if ((this->spinRot.x == 0) && (this->bounceX != 0)) {
+                    this->spinVel.x = this->bounceX * 0x200;
+                    if (this->bounceX != 0) {
+                        this->bounceX -= 5;
+                        if (this->bounceX <= 0) {
+                            this->bounceX = 0;
                         }
                     }
                     if (Math_Rand_ZeroOne() < 0.5f) {
@@ -443,14 +508,14 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     } else {
                         this->spinXFlag = false;
                     }
-                    spFF = true;
+                    bounced = true;
                 }
-                if ((this->spinRot.z == 0) && (this->unk_178 != 0)) {
-                    this->spinVel.z = this->unk_178 * 0x200;
-                    if (this->unk_178 != 0) {
-                        this->unk_178 -= 5;
-                        if (this->unk_178 <= 0) {
-                            this->unk_178 = 0;
+                if ((this->spinRot.z == 0) && (this->bounceZ != 0)) {
+                    this->spinVel.z = this->bounceZ * 0x200;
+                    if (this->bounceZ != 0) {
+                        this->bounceZ -= 5;
+                        if (this->bounceZ <= 0) {
+                            this->bounceZ = 0;
                         }
                     }
                     if (Math_Rand_ZeroOne() < 0.5f) {
@@ -458,15 +523,15 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     } else {
                         this->spinZFlag = false;
                     }
-                    spFF = true;
+                    bounced = true;
                 }
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->unk_184 << 0xE, 1, 0x2000);
+                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->direction * 0x4000, 1, 0x2000);
             } else {
                 this->actor.shape.rot.y += this->spinVel.y;
-                this->actor.shape.rot.x += this->unk_184 * 0x7D0;
+                this->actor.shape.rot.x += this->direction * 0x7D0;
             }
-            if (spFF) {
-                s16 sp54;
+            if (bounced) {
+                s16 dustCount;
                 s16 j;
                 Vec3f velocity = { 0.0f, 0.0f, 0.0f };
                 Vec3f accel;
@@ -477,10 +542,10 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 accel.y = 0.1f;
                 accel.z = 0.0f;
                 pos.y = this->actor.groundY + 3.0f;
-                sp54 = this->partCount * 0.5f;
-                for (j = 0; j < sp54 + 3; j++) {
-                    pos.x = Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f) + this->actor.posRot.pos.x;
-                    pos.z = Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f) + this->actor.posRot.pos.z;
+                dustCount = this->partCount * 0.5f;
+                for (j = 0; j < dustCount + 3; j++) {
+                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
+                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
                     func_800286CC(globalCtx, &pos, &velocity, &accel, 100, 5);
                 }
             }
@@ -497,12 +562,12 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
             Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 100.0f, 1.0f, 5.0f);
             if (this->actionState == ENKANBAN_WATER) {
-                s32 phi_v0;
+                s32 rippleDelay;
                 s32 rippleScale;
 
-                if ((spE8->actor.speedXZ > 0.0f) && (spE8->actor.posRot.pos.y < this->actor.posRot.pos.y) &&
+                if ((player->actor.speedXZ > 0.0f) && (player->actor.posRot.pos.y < this->actor.posRot.pos.y) &&
                     (this->actor.xyzDistFromLinkSq < 2500.0f)) {
-                    Math_SmoothScaleMaxF(&this->actor.speedXZ, spE8->actor.speedXZ, 1.0f, 0.2f);
+                    Math_SmoothScaleMaxF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;
                     }
@@ -531,19 +596,19 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
                 this->actor.shape.rot.y += this->spinVel.y;
                 Math_SmoothScaleMaxS(&this->spinVel.y, 0, 1, 0x3A);
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->unk_184 << 0xE, 2, 0x1000);
+                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->direction * 0x4000, 2, 0x1000);
                 Math_SmoothScaleMaxS(&this->spinRot.x, Math_Sins(2500 * this->frameCount) * 500.0f, 2, 0x1000);
                 Math_SmoothScaleMaxS(&this->spinRot.z, Math_Coss(3000 * this->frameCount) * 500.0f, 2, 0x1000);
                 Math_SmoothDownscaleMaxF(&this->floorRot.x, 0.5f, 0.2f);
                 Math_SmoothDownscaleMaxF(&this->floorRot.z, 0.5f, 0.2f);
                 if (fabsf(this->actor.speedXZ) > 1.0f) {
-                    phi_v0 = 0;
+                    rippleDelay = 0;
                 } else if (fabsf(this->actor.speedXZ) > 0.5f) {
-                    phi_v0 = 3;
+                    rippleDelay = 3;
                 } else {
-                    phi_v0 = 7;
+                    rippleDelay = 7;
                 }
-                if (!(this->frameCount & phi_v0)) {
+                if (!(this->frameCount & rippleDelay)) {
                     if (this->partCount < 3) {
                         rippleScale = 0;
                     } else if (this->partCount < 6) {
@@ -554,36 +619,36 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, rippleScale, rippleScale + 500, 0);
                 }
             } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->actor.xyzDistFromLinkSq < SQ(100.0f))) {
-                f32 sp88 = (100.0f - sqrtf(this->actor.xyzDistFromLinkSq)) * 0.05f;
+                f32 hammerStrength = (100.0f - sqrtf(this->actor.xyzDistFromLinkSq)) * 0.05f;
 
                 this->actionState = ENKANBAN_AIR;
                 this->actor.gravity = -1.0f;
-                this->actor.posRot.rot.y = Math_Rand_CenteredFloat(65536.0f);
+                this->actor.posRot.rot.y = Math_Rand_CenteredFloat(0x10000);
                 if (this->partCount >= 4) {
-                    this->unk_176 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                    this->unk_178 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                    this->actor.velocity.y = 2.0f + sp88;
+                    this->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                    this->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                    this->actor.velocity.y = 2.0f + hammerStrength;
                     this->actor.speedXZ = Math_Rand_ZeroFloat(1.0f);
                 } else {
-                    this->unk_176 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                    this->unk_178 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                    this->actor.velocity.y = 3.0f + sp88;
+                    this->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                    this->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                    this->actor.velocity.y = 3.0f + hammerStrength;
                     this->actor.speedXZ = Math_Rand_ZeroFloat(1.5f);
                 }
-                this->spinVel.y = Math_Rand_CenteredFloat(6144.0f);
+                this->spinVel.y = Math_Rand_CenteredFloat(0x1800);
                 if (Math_Rand_ZeroOne() < 0.5f) {
-                    this->unk_184 = 1;
+                    this->direction = 1;
                 } else {
-                    this->unk_184 = -1;
+                    this->direction = -1;
                 }
                 this->airTimer = 70;
             }
-            if (this->unk_176 == 0) {
+            if (this->bounceX == 0) {
                 Actor* bomb = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
                 f32 dx;
                 f32 dy;
                 f32 dz;
-                
+
                 while (bomb != NULL) {
                     if (bomb->params != 1) {
                         bomb = bomb->next;
@@ -593,27 +658,27 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     dy = this->actor.posRot.pos.y - bomb->posRot.pos.y;
                     dz = this->actor.posRot.pos.z - bomb->posRot.pos.z;
                     if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f) {
-                        f32 sp74 = (100.0f - sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) * 0.05f;
+                        f32 bombStrength = (100.0f - sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) * 0.05f;
 
                         this->actionState = ENKANBAN_AIR;
                         this->actor.gravity = -1.0f;
-                        this->actor.posRot.rot.y = Math_atan2f(dx, dz) * 10430.378f;
+                        this->actor.posRot.rot.y = Math_atan2f(dx, dz) * (0x8000 / M_PI);
                         if (this->partCount >= 4) {
-                            this->unk_176 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                            this->unk_178 = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                            this->actor.velocity.y = 2.5f + sp74;
-                            this->actor.speedXZ = 3.0f + sp74;
+                            this->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                            this->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                            this->actor.velocity.y = 2.5f + bombStrength;
+                            this->actor.speedXZ = 3.0f + bombStrength;
                         } else {
-                            this->unk_176 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                            this->unk_178 = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                            this->actor.velocity.y = 5.0f + sp74;
-                            this->actor.speedXZ = 4.0f + sp74;
+                            this->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                            this->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                            this->actor.velocity.y = 5.0f + bombStrength;
+                            this->actor.speedXZ = 4.0f + bombStrength;
                         }
-                        this->spinVel.y = Math_Rand_CenteredFloat(6144.0f);
+                        this->spinVel.y = Math_Rand_CenteredFloat(0x1800);
                         if (Math_Rand_ZeroOne() < 0.5f) {
-                            this->unk_184 = 1;
+                            this->direction = 1;
                         } else {
-                            this->unk_184 = -1;
+                            this->direction = -1;
                         }
                         this->airTimer = 70;
                     }
@@ -632,8 +697,9 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 case 1:
                     if ((globalCtx->msgCtx.unk_E3EE == 4) && (globalCtx->msgCtx.unk_E3F2 == 8)) {
                         this->actionState = ENKANBAN_REPAIR;
-                        this->unk_176 = 1;
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        this->bounceX = 1;
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
                     }
                     break;
             }
@@ -651,8 +717,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             }
 
-            Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, 0);
-            Matrix_MultVec3f(&D_80A944D4[this->pieceType], &offset);
+            Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, MTXMODE_NEW);
+            Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
             distX = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, signpost->actor.posRot.pos.x + offset.x, 1.0f,
                                             3.0f, 0.0f);
             distY = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, signpost->actor.posRot.pos.y + offset.y, 1.0f,
@@ -667,8 +733,9 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Math_SmoothDownscaleMaxF(&this->floorRot.x, 1.0f, 0.05f);
             Math_SmoothDownscaleMaxF(&this->floorRot.z, 1.0f, 0.05f);
             Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, 2.0f);
-            if (((distX + distY + distZ) == 0.0f) && ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) &&
-                (this->floorRot.x == 0.0f) && (this->floorRot.z == 0.0f)) {
+            if (((distX + distY + distZ) == 0.0f) &&
+                ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
+                (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
                 signpost->actor.flags |= 1;
                 Actor_Kill(&this->actor);
@@ -681,34 +748,32 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKanban* this = THIS;
-    f32 sp98;
-    f32 temp_f0;
+    f32 zShift;
+    f32 zShift2;
     s16 i;
     u8* shadowTex = Graph_Alloc(globalCtx->state.gfxCtx, 0x400);
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x67B);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1659);
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, D_06000C30);
     if (this->actionState != ENKANBAN_SIGN) {
-        Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
-        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
-        Matrix_RotateX(this->floorRot.x, 1);
-        Matrix_RotateZ(this->floorRot.z, 1);
-        Matrix_Translate(0.0f, this->actor.shape.unk_08, 0.0f, 1);
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, 1);
-        Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, 1);
-        sp98 = fabsf(Math_Sins(this->spinRot.x) * this->unk_180);
-        temp_f0 = fabsf(Math_Sins(this->spinRot.z) * this->unk_17C);
-        if (sp98 < temp_f0) {
-            sp98 = temp_f0;
-        }
-        sp98 *= -(f32)this->unk_184;
-        Matrix_Translate(0.0f, 0.0f, sp98, 1);
-        Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, 1);
-        Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, 1);
-        Matrix_Translate(this->offset.x, this->offset.y, this->offset.z - 100.0f, 1);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x6B3),
+        Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
+        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+        Matrix_RotateX(this->floorRot.x, MTXMODE_APPLY);
+        Matrix_RotateZ(this->floorRot.z, MTXMODE_APPLY);
+        Matrix_Translate(0.0f, this->actor.shape.unk_08, 0.0f, MTXMODE_APPLY);
+        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        zShift = fabsf(Math_Sins(this->spinRot.x) * this->pieceHeight);
+        zShift2 = fabsf(Math_Sins(this->spinRot.z) * this->pieceWidth);
+        zShift = MAX(zShift2, zShift);
+        zShift *= -(f32)this->direction;
+        Matrix_Translate(0.0f, 0.0f, zShift, MTXMODE_APPLY);
+        Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_Translate(this->offset.x, this->offset.y, this->offset.z - 100.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1715),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         for (i = 0; i < ARRAY_COUNT(sPartFlags); i++) {
             if (sPartFlags[i] & this->partFlags) {
@@ -716,8 +781,8 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     } else {
-        Matrix_Translate(0.0f, 0.0f, -100.0f, 1);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x6BD),
+        Matrix_Translate(0.0f, 0.0f, -100.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1725),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->partFlags == 0xFFFF) {
             gSPDisplayList(POLY_OPA_DISP++, D_0403C050);
@@ -731,20 +796,20 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->cutMarkAlpha != 0) {
             f32 cutOffset = (this->cutType == CUT_POST) ? -1200.0f : 0.0f;
 
-            Matrix_Translate(0.0f, 4400.0f + cutOffset, 200.0f, 1);
-            Matrix_RotateZ(sCutAngles[this->cutType], 1);
-            Matrix_Scale(0.0f, 10.0f, 2.0f, 1);
+            Matrix_Translate(0.0f, 4400.0f + cutOffset, 200.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(sCutAngles[this->cutType], MTXMODE_APPLY);
+            Matrix_Scale(0.0f, 10.0f, 2.0f, MTXMODE_APPLY);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 255, 255, 255, this->cutMarkAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 150, 0);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x6ED),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1773),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06001630);
         }
     }
     if ((this->actor.projectedPos.z <= 400.0f) && (this->actor.projectedPos.z > 0.0f) &&
         (this->actor.groundY > -3000.0f)) {
-        if ((this->unk_176 != 0) || (this->unk_178 != 0)) {
+        if ((this->bounceX != 0) || (this->bounceZ != 0)) {
             u16 dayTime = gSaveContext.dayTime;
             f32 shadowAlpha;
 
@@ -758,24 +823,25 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (s8)shadowAlpha);
 
             if ((this->actionState == ENKANBAN_SIGN) && (gSaveContext.linkAge == 1)) {
-                sp98 = 0.0f;
+                zShift = 0.0f;
             } else {
-                sp98 = ((this->actor.posRot.pos.y - this->actor.groundY) * -50.0f) / 100.0f;
+                zShift = ((this->actor.posRot.pos.y - this->actor.groundY) * -50.0f) / 100.0f;
             }
 
-            Matrix_Translate(this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z + sp98, 0);
-            Matrix_RotateX(this->floorRot.x, 1);
-            Matrix_RotateZ(this->floorRot.z, 1);
-            Matrix_Scale(this->actor.scale.x, 0.0f, this->actor.scale.z, 1);
+            Matrix_Translate(this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z + zShift,
+                             MTXMODE_NEW);
+            Matrix_RotateX(this->floorRot.x, MTXMODE_APPLY);
+            Matrix_RotateZ(this->floorRot.z, MTXMODE_APPLY);
+            Matrix_Scale(this->actor.scale.x, 0.0f, this->actor.scale.z, MTXMODE_APPLY);
             if (this->actionState == ENKANBAN_SIGN) {
-                Matrix_RotateX(-M_PI / 5, 1);
+                Matrix_RotateX(-M_PI / 5, MTXMODE_APPLY);
             }
-            Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, 1);
-            Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, 1);
-            Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, 1);
-            Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, 1);
-            Matrix_Translate(this->offset.x, this->offset.y, this->offset.z, 1);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x729),
+            Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_Translate(this->offset.x, this->offset.y, this->offset.z, MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1833),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             for (i = 0; i < 0x400; i++) {
@@ -789,5 +855,5 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 0x741);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1857);
 }

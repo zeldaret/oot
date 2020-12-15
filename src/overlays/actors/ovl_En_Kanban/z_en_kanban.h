@@ -20,12 +20,12 @@ typedef struct EnKanban {
     /* 0x016E */ Vec3s spinVel;
     /* 0x0174 */ s8 spinXFlag;
     /* 0x0175 */ s8 spinZFlag;
-    /* 0x0176 */ s16 unk_176;
-    /* 0x0178 */ s16 unk_178;
+    /* 0x0176 */ s16 bounceX;
+    /* 0x0178 */ s16 bounceZ;
     /* 0x017A */ u8 bounceCount;
-    /* 0x017C */ f32 unk_17C;
-    /* 0x0180 */ f32 unk_180;
-    /* 0x0184 */ s16 unk_184;
+    /* 0x017C */ f32 pieceWidth;
+    /* 0x0180 */ f32 pieceHeight;
+    /* 0x0184 */ s16 direction;
     /* 0x0188 */ Vec3f floorRot;
     /* 0x0194 */ u8 cutType;
     /* 0x0195 */ u8 pieceType;
@@ -37,6 +37,9 @@ typedef struct EnKanban {
     /* 0x019E */ u8 ocarinaFlag;
     /* 0x01A0 */ ColliderCylinder collider;
 } EnKanban; // size = 0x01EC
+
+#define ENKANBAN_PIECE ((s16)0xFFDD)
+#define ENKANBAN_FISHING 0x300
 
 extern const ActorInit En_Kanban_InitVars;
 
