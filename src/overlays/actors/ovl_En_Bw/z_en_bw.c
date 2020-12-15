@@ -80,7 +80,8 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.012999999f);
     this->actor.naviEnemyId = 0x23;
     this->actor.gravity = -2.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTbl, this->morphTbl, 12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->limbDrawTbl, this->transitionDrawTbl,
+                   12);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
