@@ -500,16 +500,10 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
 // void func_80A3EDE0(EnGo *this, s32 unk_val) {
 //     EnGoSkelAnime *temp_v1;
 //     f32 phi_f0;
-//     f32 float1;
 
-//     if ((this->actor.params & 0xF0) == 0x90) {
-//         phi_f0 = 0.5f;
-//     } else {
-//         phi_f0 = 1.0f;
-//     }
-//     // float1 = phi_f0;
+//     phi_f0 = ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f);
 //     temp_v1 = &D_80A41B38[unk_val];
-//     SkelAnime_ChangeAnim(&this->skelanime, temp_v1->animationseg, phi_f0 * temp_v1->playbackSpeed, 0.0f,
+//     SkelAnime_ChangeAnim(&this->skelanime, temp_v1->animationseg, temp_v1->playbackSpeed * phi_f0, 0.0f,
 //                           SkelAnime_GetFrameCount(temp_v1->animationseg), temp_v1->mode, temp_v1->transitionRate);
 // }
 
@@ -642,12 +636,13 @@ void func_80A3F260(EnGo* this) {
 // void func_80A3F274(EnGo *this) {
 //     s16 unk_14;
 //     s16 phi_a1;
-//     f32 float1;
-//     void* temp_ptr;
+//     // f32 float1;
+//     // void* temp_ptr;
 
-//     temp_ptr = this->skelanime.animation;
-//     float1 = this->skelanime.animCurrentFrame;
-//     if ((temp_ptr == &D_06004930) || (this->skelanime.animCurrentFrame > 32.0f)) {
+//     // temp_ptr = this->skelanime.animation;
+//     // float1 = this->skelanime.animCurrentFrame;
+    
+//     if ((this->skelanime.animation == &D_06004930) || (this->skelanime.animCurrentFrame > 32.0f)) {
 //         phi_a1 = 0;
 //     }
 //     else {

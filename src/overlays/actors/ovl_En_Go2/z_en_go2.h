@@ -37,7 +37,8 @@ typedef struct EnGo2 {
     /* 0x0270 */ EnGoUnkStruct unk_270[10];
     /* 0x04A0 */ Vec3f eye;
     /* 0x04AC */ Vec3f at;
-    /* 0x04B8 */ char unk_4B8[0xD8];
+    /* 0x04B8 */ Vec3s limbDrawTable[18];
+    /* 0x0524 */ Vec3s transitionDrawTable[18];
     /* 0x0590 */ s16 unk_590;
     /* 0x0592 */ s16 unk_592;
     /* 0x0594 */ s32 getItemID;
