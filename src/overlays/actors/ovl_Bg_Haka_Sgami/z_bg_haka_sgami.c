@@ -160,11 +160,11 @@ void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
-    static Vec3f blureVertices2[] = {
+    static Vec3f blureEffectVertices2[] = {
         { -20.0f, 50.0f, 130.0f },
         { -50.0f, 33.0f, 20.0f },
     };
-    static Vec3f blureVertices1[] = {
+    static Vec3f blureEffectVertices1[] = {
         { 380.0f, 50.0f, 50.0f },
         { 310.0f, 33.0f, 0.0f },
     };
@@ -213,16 +213,16 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_151 == 0) || (globalCtx->actorCtx.unk_03 != 0)) {
-        scytheVertices[0].x = this->actor.posRot.pos.x + blureVertices1[this->actor.params].z * actorRotYSin +
-                              blureVertices1[this->actor.params].x * actorRotYCos;
-        scytheVertices[0].y = this->actor.posRot.pos.y + blureVertices1[this->actor.params].y;
-        scytheVertices[0].z = this->actor.posRot.pos.z + blureVertices1[this->actor.params].z * actorRotYCos -
-                              blureVertices1[this->actor.params].x * actorRotYSin;
-        scytheVertices[1].x = this->actor.posRot.pos.x + blureVertices2[this->actor.params].z * actorRotYSin +
-                              blureVertices2[this->actor.params].x * actorRotYCos;
-        scytheVertices[1].y = this->actor.posRot.pos.y + blureVertices2[this->actor.params].y;
-        scytheVertices[1].z = this->actor.posRot.pos.z + blureVertices2[this->actor.params].z * actorRotYCos -
-                              blureVertices2[this->actor.params].x * actorRotYSin;
+        scytheVertices[0].x = this->actor.posRot.pos.x + blureEffectVertices1[this->actor.params].z * actorRotYSin +
+                              blureEffectVertices1[this->actor.params].x * actorRotYCos;
+        scytheVertices[0].y = this->actor.posRot.pos.y + blureEffectVertices1[this->actor.params].y;
+        scytheVertices[0].z = this->actor.posRot.pos.z + blureEffectVertices1[this->actor.params].z * actorRotYCos -
+                              blureEffectVertices1[this->actor.params].x * actorRotYSin;
+        scytheVertices[1].x = this->actor.posRot.pos.x + blureEffectVertices2[this->actor.params].z * actorRotYSin +
+                              blureEffectVertices2[this->actor.params].x * actorRotYCos;
+        scytheVertices[1].y = this->actor.posRot.pos.y + blureEffectVertices2[this->actor.params].y;
+        scytheVertices[1].z = this->actor.posRot.pos.z + blureEffectVertices2[this->actor.params].z * actorRotYCos -
+                              blureEffectVertices2[this->actor.params].x * actorRotYSin;
         EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[0]), &scytheVertices[0], &scytheVertices[1]);
 
         for (j = 0; j < 2; j++) {
