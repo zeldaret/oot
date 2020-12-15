@@ -125,12 +125,12 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
 
         // Fade up
         Math_ApproxS(&this->lightPointRad, temp_DataEntry->lgtPtMaxRad, 6);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, temp_DataEntry->r,
-                                  temp_DataEntry->g, temp_DataEntry->b, this->lightPointRad);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, temp_DataEntry->color.r,
+                                  temp_DataEntry->color.g, temp_DataEntry->color.b, this->lightPointRad);
     } else {
         // Fade down
         Math_ApproxS(&this->lightPointRad, 0, 6);
-        Lights_PointSetColorAndRadius(&this->lightInfo, temp_DataEntry->r, temp_DataEntry->g, temp_DataEntry->b,
+        Lights_PointSetColorAndRadius(&this->lightInfo, temp_DataEntry->color.r, temp_DataEntry->color.g, temp_DataEntry->color.b,
                                       this->lightPointRad);
     }
 }
@@ -144,13 +144,11 @@ void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     // Generation of reflectable light!
     osSyncPrintf("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-    LogUtils_LogThreadId("../z_mir_ray.c", 0x206);
-    osSyncPrintf("this->actor.arg_data = %d\n", this->actor.params);
+    LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
 
     if (this->actor.params >= 0xA) {
-        LogUtils_LogThreadId("../z_mir_ray.c", 0x209);
         // Reflected light generation failure
-        osSyncPrintf("\"反射光 発生失敗\" = %s\n", "反射光 発生失敗");
+        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
 
@@ -222,19 +220,19 @@ void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     D_80B8E670 = 0;
 
-    if (!(this->unLit)) {
+    if (!this->unLit) {
         if (sMirRayData[this->actor.params].params & 2) {
             if (sMirRayData[this->actor.params].params & 4) { // Beams from mirrors
                 MirRay_SetupCollider(this);
             }
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
         }
-        if (0.0f < this->reflectIntensity) {
+        if (this->reflectIntensity > 0.0f) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->shieldRay.base);
         }
         MirRay_MakeShieldLight(this, globalCtx);
 
-        if (0.0f < this->reflectIntensity) {
+        if (this->reflectIntensity > 0.0f) {
             func_8002F8F0(&player->actor, NA_SE_IT_SHIELD_BEAM - SFX_FLAG);
         }
     }
@@ -469,14 +467,14 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 temp;
 
     this->reflectIntensity = 0.0f;
-    if ((D_80B8E670 == 0) && !(this->unLit) && Player_HasMirrorShieldSetToDraw(globalCtx)) {
-        Matrix_Mult(&player->shieldMf, 0);
+    if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(globalCtx)) {
+        Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
         MirRay_SetIntensity(this, globalCtx);
         if (!(this->reflectIntensity <= 0.0f)) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_mir_ray.c", 966);
 
             func_80093D84(globalCtx->state.gfxCtx);
-            Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, 1);
+            Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
@@ -497,9 +495,9 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
             for (i = 0; i < 6; i++) {
                 if (reflection[i].reflectionPoly != NULL) {
-                    Matrix_Translate(reflection[i].pos.x, reflection[i].pos.y, reflection[i].pos.z, 0);
-                    Matrix_Scale(0.01f, 0.01f, 0.01f, 1);
-                    Matrix_Mult(&reflection[i].mtx, 1);
+                    Matrix_Translate(reflection[i].pos.x, reflection[i].pos.y, reflection[i].pos.z, MTXMODE_NEW);
+                    Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
+                    Matrix_Mult(&reflection[i].mtx, MTXMODE_APPLY);
                     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 1006),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
@@ -508,7 +506,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            D_80B8E670 = (u8)1U;
+            D_80B8E670 = 1;
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_mir_ray.c", 1027);
         }
@@ -551,7 +549,7 @@ s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 
 
     // If the Point is within the bounding double cone, check if it is in the frustum by checking whether it is between
     // the bounding planes
-    if (((SQ(closestPtx - pointx) + SQ(closestPty - pointy)) + SQ(closestPtz - pointz)) <= SQ(coneRadius)) {
+    if ((SQ(closestPtx - pointx) + SQ(closestPty - pointy) + SQ(closestPtz - pointz)) <= SQ(coneRadius)) {
         if (1) {}
 
         // Stores the vector difference again

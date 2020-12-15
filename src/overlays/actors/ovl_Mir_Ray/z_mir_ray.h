@@ -15,9 +15,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14; // collider radius before scaled
     /* 0x16 */ s16 lgtPtMaxRad; // light point max radius
     /* 0x18 */ f32 unk_18; // placement of light point between source and reflection point (pool point for windows, player for mirrors)
-    /* 0x1C */ u8 r;
-    /* 0x1C */ u8 g;
-    /* 0x1C */ u8 b;
+    /* 0x1C */ Color_RGB8 color;
     /* 0x1F */ u8 params;
 } MirRayDataEntry; // size = 0x20
 
