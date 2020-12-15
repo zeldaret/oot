@@ -27,8 +27,8 @@ glabel func_80B2B9A4
 /* 017E0 80B2B9E0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 017E4 80B2B9E4 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 017E8 80B2B9E8 8FA80030 */  lw      $t0, 0x0030($sp)           
-/* 017EC 80B2B9EC 3C090601 */  lui     $t1, 0x0601                ## $t1 = 06010000
-/* 017F0 80B2B9F0 2529DE08 */  addiu   $t1, $t1, 0xDE08           ## $t1 = 0600DE08
+/* 017EC 80B2B9EC 3C090601 */  lui     $t1, %hi(D_0600DE08)                ## $t1 = 06010000
+/* 017F0 80B2B9F0 2529DE08 */  addiu   $t1, $t1, %lo(D_0600DE08)           ## $t1 = 0600DE08
 /* 017F4 80B2B9F4 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
 /* 017F8 80B2B9F8 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
 /* 017FC 80B2B9FC 3C0680B3 */  lui     $a2, %hi(D_80B2D0BC)       ## $a2 = 80B30000
