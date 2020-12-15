@@ -35,7 +35,7 @@ void func_80A3F260(EnGo* this);
 void func_80A3F274(EnGo* this);
 
 s32 func_80A3F4BC(EnGo* this, GlobalContext* globalCtx);
-void func_80A3F594(EnGo* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
+s32 func_80A3F594(EnGo* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
 s32 func_80A3F7C0(EnGo* this, s16 unk_arg1, f32 unk_arg2);
 
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx);
@@ -128,7 +128,7 @@ Vec3f D_80A41BB4 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A41BC0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
-s32 D_80A41BD8[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0,
+Gfx* D_80A41BD8[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0,
                      0x040525B0, 0x040521B0, 0x04051DB0, 0x00000000, 0x00000000 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3E570.s")
@@ -762,35 +762,24 @@ s32 func_80A3F300(EnGo* this, GlobalContext* globalCtx) {
 
 // }
 
-// close
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F594.s")
-// void func_80A3F594(EnGo *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
-//     Vec3f pos; // 94, 98, 9C
-//     Vec3f velocity; // 88, 8C, 90
-//     Vec3f accel; // 7C, 80, 84
-//     s32 i;
-//     s16 angle;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F594.s")
+s32 func_80A3F594(EnGo *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+    Vec3f pos; 
+    Vec3f velocity; 
+    Vec3f accel;
+    s32 i;
+    s16 angle;
 
-//     if(1) {}
-//     pos = D_80A41B78;
-//     velocity = D_80A41B84;
-//     accel = D_80A41B90;
-//     pos = this->actor.posRot.pos;
-//     pos.y  = this->actor.groundY;
+    pos = D_80A41B78; velocity = D_80A41B84; accel = D_80A41B90;
+    pos = this->actor.posRot.pos;
+    pos.y  = this->actor.groundY;
+    angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
 
-//     if ((u32) unk_arg4 >= 0) {
-//         angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
-//         for(i=unk_arg4;i>=0;i--){
-//             accel.x = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6;
-//             accel.z = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6;
-//             pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x;
-//             pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z;
-//             func_80A41604(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3);
-//             angle = (s16) (angle + (s16) (0x10000 / unk_arg4));
-//         }
+    for(i=unk_arg4;i>=0;i--){ accel.x = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; accel.z = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; func_80A41604(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16) (0x10000 / unk_arg4); 
+    }
 
-//     }
-// }
+    return 0;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F7C0.s")
 s32 func_80A3F7C0(EnGo *this, s16 unk_arg1, f32 unk_arg2) {

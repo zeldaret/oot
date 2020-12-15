@@ -13,7 +13,7 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A42D30(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3);
 void func_80A42DD4(EnGo2* this);
 void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx);
-void func_80A4320C(EnGo2* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
+s32 func_80A4320C(EnGo2* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
 void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID);
 s32 func_80A43468(EnGo2* this, GlobalContext* globalCtx);
 
@@ -124,19 +124,22 @@ void func_80A47E34(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 extern AnimationHeader D_06000750;
 extern AnimationHeader D_06000D5C;
-extern UNK_TYPE D_06004930;
+extern AnimationHeader D_06004930;
 extern Gfx* D_0600BD80;
 extern Gfx* D_0600C140;
 extern Gfx* D_0600FD40;
 extern Gfx* D_0600FD50;
 extern FlexSkeletonHeader D_0600FEF0;
 
-s32 D_80A480D0[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0 };
-s32 D_80A480F0[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_80A480FC[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_80A48108[] = { 0x00000000, 0x3E99999A, 0x00000000 };
+Gfx* D_80A480D0[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0 };
+
+Vec3f D_80A480F0 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80A480FC = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80A48108 = { 0.0f, 0.3f, 0.0f };
+
 s32 D_80A48114[] = { 0x0A000939, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
                      0x00000000, 0x00000100, 0x00280041, 0x00000000, 0x00000000 };
+
 s32 D_80A48140[] = { 0x00000000, 0x00000000, 0xFF000000 };
 
 const ActorInit En_Go2_InitVars = {
@@ -193,31 +196,6 @@ EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 0x06, 60.0f }, { 24.0f, 0.0
                                     { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f },
                                     { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f } };
 
-// s32 D_80A481F8[14][4] = {
-//     { 0x41F00000, 0x3CD4FDF4, 0x06000000, 0x42700000} ,
-//     { 0x41C00000, 0x3C03126F, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3E23D70A, 0x05000000, 0x43BE0000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x07000000, 0x42200000} ,
-//     { 0x41F00000, 0x3C75C28F, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} ,
-//     { 0x41E00000, 0x3C23D70A, 0x06000000, 0x41F00000} };
-
-// s32 D_80A482D8[] = { 0x42A00000, 0x42A00000, 0xC1200000, 0xC1200000, 0x44480000, 0x44480000, 0x00000000,
-//                      0x00000000, 0x41A00000, 0x42200000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000,
-//                      0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000,
-//                      0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000, 0x41A00000 };
-
-// f32 D_80A482D8[] = { 80.0f, 80.0f, -10.0f, -10.0f, 800.0f, 800.0f, 0.0f,  0.0f,  20.0f, 40.0f,
-//                      20.0f, 20.0f, 20.0f,  20.0f,  20.0f,  20.0f,  20.0f, 20.0f, 20.0f, 20.0f,
-//                      20.0f, 20.0f, 20.0f,  20.0f,  20.0f,  20.0f,  20.0f, 20.0f };
-
 f32 D_80A482D8[14][2] = { { 80.0f, 80.0f }, { -10.0f, -10.0f }, { 800.0f, 800.0f }, { 0.0f, 0.0f },   { 20.0f, 40.0f },
                           { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f }, { 20.0f, 20.0f },
                           { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f } };
@@ -233,25 +211,22 @@ struct_80034EC0_Entry D_80A48348[] = {
     { 0x06000D5C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }
 };
 
-s32 D_80A48480[] = { 
-    0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000, 
-    0x0C000000, 0x3DCCCCCD, 0x3E4CCCCD, 0x0000000C, 0x41D00000, 0x00000000, 
-    0x0C000000, 0x3DCCCCCD, 0x3E99999A, 0x00000004, 0x41200000, 0x00000000, 
-    0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000,
-    0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 
-    0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 
-    0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 
-    0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000 }; // padding
+s32 D_80A48480[] = { 0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000, 0x0C000000, 0x3DCCCCCD,
+                     0x3E4CCCCD, 0x0000000C, 0x41D00000, 0x00000000, 0x0C000000, 0x3DCCCCCD, 0x3E99999A, 0x00000004,
+                     0x41200000, 0x00000000, 0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000,
+                     0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 0x0C000000, 0x3F000000,
+                     0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003,
+                     0x42280000, 0x00000000, 0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000,
+                     0x00000000, 0x00000000, 0x00000000 }; // padding
 
-// EnGo2DataStruct3 D_80A48480[] = { 
-//     { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f }, 
-//     { 0x0C, 0.1f, 0.2f, 0x0000000C, 26.0f, 0.0f }, 
-//     { 0x0C, 0.1f, 0.3f, 0x00000004, 10.0f, 0.0f }, 
+// EnGo2DataStruct3 D_80A48480[] = {
 //     { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f },
-//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f }, 
-//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f }, 
-//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f }, 
+//     { 0x0C, 0.1f, 0.2f, 0x0000000C, 26.0f, 0.0f },
+//     { 0x0C, 0.1f, 0.3f, 0x00000004, 10.0f, 0.0f },
+//     { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f },
+//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
+//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
+//     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
 //     { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f } };
 //     // 0x00000000, 0x00000000, 0x00000000 }; // padding
 
@@ -259,6 +234,8 @@ s32 D_80A4854C[] = { 0x00000000, 0x00000000 };
 Vec3f D_80A48554 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A48560 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
+
+// eyeTextures Pointers
 s32 D_80A48578[] = { 0x0600DA80, 0x0600CE80, 0x0600D280, 0x0600D680 };
 s32 D_80A48588[] = { 0x0600DE80, 0x0600E680 };
 
@@ -321,8 +298,8 @@ void func_80A42DD4(EnGo2* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42EE0.s")
-void func_80A42EE0(EnGo2 *this, GlobalContext *globalCtx) {
-    EnGoUnkStruct *UnkStruct;
+void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx) {
+    EnGoUnkStruct* UnkStruct;
     s16 alpha;
     s16 phi_s7;
     s16 alphaIndex;
@@ -335,8 +312,8 @@ void func_80A42EE0(EnGo2 *this, GlobalContext *globalCtx) {
     phi_s7 = 0;
     func_80093D84(globalCtx->state.gfxCtx);
 
-    if(1) {}
-    for(i=0;i<10;i++) {
+    if (1) {}
+    for (i = 0; i < 10; i++) {
         if (UnkStruct->unk_0) {
             if (phi_s7 == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
@@ -345,28 +322,27 @@ void func_80A42EE0(EnGo2 *this, GlobalContext *globalCtx) {
                 phi_s7 = 1;
             }
 
-            alpha = (s16) (UnkStruct->unk_1 * (255.0f / UnkStruct->unk_2));
+            alpha = (s16)(UnkStruct->unk_1 * (255.0f / UnkStruct->unk_2));
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xAA, 0x82, 0x5A, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(UnkStruct->pos.x, UnkStruct->pos.y, UnkStruct->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(UnkStruct->unk_4, UnkStruct->unk_4, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x89), G_MTX_NOPUSH |
-            G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x89),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            alphaIndex = (s16) (UnkStruct->unk_1 * (8.0f / UnkStruct->unk_2));
+            alphaIndex = (s16)(UnkStruct->unk_1 * (8.0f / UnkStruct->unk_2));
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A480D0[alphaIndex]));
             gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
-
         }
         UnkStruct++;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x97);
 }
 
-
 // Just copy ovl_En_Go/func_80A3F594.s when matching
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4320C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4320C.s")
+
 // void func_80A4320C(EnGo2 *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
 //     f32 sp9C;
 //     f32 sp98;
@@ -407,6 +383,54 @@ void func_80A42EE0(EnGo2 *this, GlobalContext *globalCtx) {
 //         }
 //     }
 // }
+
+s32 func_80A4320C(EnGo2 *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+    Vec3f pos; 
+    Vec3f velocity; 
+    Vec3f accel;
+    s32 i;
+    s16 angle;
+
+    pos = D_80A480F0;
+    velocity = D_80A480FC;
+    accel = D_80A48108;
+    pos = this->actor.posRot.pos;
+    pos.y  = this->actor.groundY;
+    angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+
+    for(i=unk_arg4;i>=0;i--){ accel.y += (Math_Rand_ZeroOne()) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; func_80A42D30(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16) (0x10000 / unk_arg4); 
+    }
+
+    return 0;
+}
+
+// s32 func_80A3F594(EnGo *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+//     Vec3f pos; 
+//     Vec3f velocity; 
+//     Vec3f accel;
+//     s32 i;
+//     s16 angle;
+
+//     pos = D_80A41B78;
+//     velocity = D_80A41B84;
+//     accel = D_80A41B90;
+//     pos = this->actor.posRot.pos;
+//     pos.y  = this->actor.groundY;
+//     angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+
+//     for(i=unk_arg4;i>=0;i--){ 
+//     accel.x = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; 
+//     accel.z = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; 
+//     pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; 
+//     pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; 
+//     func_80A41604(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); 
+//     angle = (s16) (angle + (s16) (0x10000 / unk_arg4)); 
+//     }
+
+//     return 0;
+// }
+
+
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43424.s")
 void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID) {
@@ -1285,7 +1309,6 @@ s32 func_80A44D84(EnGo2* this) {
     return 1;
 }
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44DC0.s")
 // s32 func_80A44DC0(EnGo2 *this) {
 //     f32 temp_f0;
@@ -1720,34 +1743,29 @@ void func_80A457F8(EnGo2* this) {
 
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45A00.s")
-// void func_80A45A00(EnGo2 *this) {
-//     f32 temp_f0;
-//     // f32 phi_f0;
-//     // f32 phi_f2;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45A00.s")
+void func_80A45A00(EnGo2 *this) {
 
-//     temp_f0 = this->skelAnime.animPlaybackSpeed;
-//     if ((temp_f0 != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
-//         if (temp_f0 > 0.0f) {
-//             if (this->skelAnime.animCurrentFrame == 14.0f) {
-//                 if ((this->actor.params & 0x1F) != 2) {
-//                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
-//                 } else {
-//                     func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 0x3C);
-//                 }
-//             }
-//         }
-//         temp_f0 = this->skelAnime.animPlaybackSpeed;
-//         if (temp_f0 < 0.0f) {
-//             if (this->skelAnime.animCurrentFrame == 1.0f) {
-//                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-//             }
-//             if (this->skelAnime.animCurrentFrame == 40.0f) {
-//                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
-//             }
-//         }
-//     }
-// }
+    if ((this->skelAnime.animPlaybackSpeed != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
+        if (this->skelAnime.animPlaybackSpeed > 0.0f) {
+            if (this->skelAnime.animCurrentFrame == 14.0f) {
+                if ((this->actor.params & 0x1F) != 2) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+                } else {
+                    func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 0x3C);
+                }
+            }
+        }
+        if (this->skelAnime.animPlaybackSpeed < 0.0f) {
+            if (this->skelAnime.animCurrentFrame == 1.0f) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            }
+            if (this->skelAnime.animCurrentFrame == 40.0f) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45B14.s")
 // void func_80A45B14(EnGo2* this, s32 unk_arg) {
@@ -1765,7 +1783,7 @@ void func_80A457F8(EnGo2* this) {
 // }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45B9C.s")
-void func_80A45B9C(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == 2) {
         this->actor.flags &= ~1;
         func_80034EC0(&this->skelAnime, D_80A48348, 0xA);
@@ -1780,7 +1798,6 @@ void func_80A45B9C(EnGo2 *this, GlobalContext *globalCtx) {
     this->unk_20F = 0;
     this->actionFunc = func_80A4696C;
 }
-
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45C50.s")
 void func_80A45C50(EnGo2* this, GlobalContext* globalCtx) {
@@ -2510,7 +2527,6 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //     sp2C.unk0 = (s32) D_80A4854C->unk0;
 //     sp2C.unk4 = (u16) D_80A4854C->unk4;
 
-
 //     switch(this->unk_212) {
 //         case 0:
 //             if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
@@ -2535,9 +2551,9 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //                 this->unk_194.unk_0E.z = (s16) sp2C.unk4;
 //                 player->actor.posRot.rot.y = this->actor.posRot.rot.y;
 //                 player->actor.shape.rot.y  = this->actor.posRot.rot.y;
-//                 player->actor.posRot.pos.x = (f32) ((Math_Sins(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.x);
-//                 player->actor.posRot.pos.z = (f32) ((Math_Coss(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.z);
-//                 func_8002DF54(globalCtx, &this->actor, (u8)8U);
+//                 player->actor.posRot.pos.x = (f32) ((Math_Sins(this->actor.posRot.rot.y) * -30.0f) +
+//                 this->actor.posRot.pos.x); player->actor.posRot.pos.z = (f32) ((Math_Coss(this->actor.posRot.rot.y) *
+//                 -30.0f) + this->actor.posRot.pos.z); func_8002DF54(globalCtx, &this->actor, (u8)8U);
 //                 func_800F5C64((u16)0x51U);
 //             }
 //             break;
@@ -2554,7 +2570,8 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //                 this->unk_592 = 0;
 //                 temp_v0_2 = (s32) (this->actor.params & 0xFC00) >> 0xA;
 //                 this->actor.speedXZ = 0.0f;
-//                 if ((temp_v0_2 != 1) && (temp_v0_2 != 2) && (temp_v0_2 != 4) && (temp_v0_2 != 5) && (temp_v0_2 != 9) && (temp_v0_2 != 0xB)) {
+//                 if ((temp_v0_2 != 1) && (temp_v0_2 != 2) && (temp_v0_2 != 4) && (temp_v0_2 != 5) && (temp_v0_2 != 9)
+//                 && (temp_v0_2 != 0xB)) {
 //                     this->unk_212 = this->unk_212 + 1;
 //                 }
 //                 this->unk_212 = this->unk_212 + 1;
@@ -2573,7 +2590,7 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //             }
 //             Actor_MoveForward(&this->actor);
 //             break;
-            
+
 //         case 3:
 //             this->unk_592 = this->unk_592 + 1;
 //             temp_v0_3 = this->unk_592;
@@ -2607,8 +2624,6 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 
 //     }
 // }
-
-
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Update.s")
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
