@@ -23,6 +23,7 @@ void func_808C3094(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C29B0(BossDodongo* this);
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C54C0(BossDodongo* this);
+void func_808C2BC8(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C5354(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C524C(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C51F4(BossDodongo* this, GlobalContext* globalCtx);
@@ -609,6 +610,7 @@ extern AnimationHeader D_06009D10;
 extern AnimationHeader D_0601D934;
 extern AnimationHeader D_06002D0C;
 extern AnimationHeader D_060042A8;
+extern AnimationHeader D_06001074;
 extern s16 D_06015890[];
 extern s16 D_06017210[];
 extern s16 D_06015D90[];
@@ -621,6 +623,7 @@ extern s16 D_06016990[];
 extern s16 D_06016E10[];
 extern Gfx* D_06009D50[];
 extern Gfx* D_06009DD0[];
+
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
     if (arg2[arg1] != 0) {
         arg0[arg2 / 2] = 0;
@@ -698,8 +701,23 @@ void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s32 arg2, f32 arg3) {
     }
 }
 
-void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C17C8.s")
+void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5) {
+    s16 i;
+    BossDodongoEffect* currentEffect = (BossDodongoEffect*)globalCtx->unk_11E10;
+
+    for (i = 0; i < arg5; i++, currentEffect++) {
+        if (currentEffect->unk_24 == 0) {
+            currentEffect->unk_24 = 1;
+            currentEffect->unk_0 = *arg1;
+            currentEffect->unk_C = *arg2;
+            currentEffect->unk_18 = *arg3;
+            currentEffect->unk_2C = arg4 / 1000.0f;
+            currentEffect->unk_2A = 255;
+            currentEffect->unk_25 = (s16)Math_Rand_ZeroFloat(10.0f);
+            break;
+        }
+    }
+}
 
 s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) { // Eat Explosive
     f32 dx;
@@ -714,9 +732,9 @@ s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) { // Eat Explosiv
             currentExplosive = currentExplosive->next;
             continue;
         }
-        dx = currentExplosive->posRot.pos.x - this->unk_41C.x;
-        dy = currentExplosive->posRot.pos.y - this->unk_41C.y;
-        dz = currentExplosive->posRot.pos.z - this->unk_41C.z;
+        dx = currentExplosive->posRot.pos.x - this->mouthPos.x;
+        dy = currentExplosive->posRot.pos.y - this->mouthPos.y;
+        dz = currentExplosive->posRot.pos.z - this->mouthPos.z;
         if ((fabsf(dx) < 40.0f) && (fabsf(dy) < 40.0f) && (fabsf(dz) < 40.0f)) {
             Actor_Kill(currentExplosive);
             return 1;
@@ -767,7 +785,12 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags &= -2;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Destroy.s")
+void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BossDodongo* this = THIS;
+
+    SkelAnime_Free(&this->skelAnime, globalCtx);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
+}
 
 void func_808C1C80(BossDodongo* this, GlobalContext* globalCtx) {
     s16 frames = SkelAnime_GetFrameCount(&D_0600F0D8);
@@ -967,7 +990,13 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C287C.s")
+void func_808C287C(BossDodongo* this) {
+    if (this->actionFunc != func_808C2BC8) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001074, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001074), 2, -5.0f);
+        this->actionFunc = func_808C2BC8;
+    }
+    this->unk_1DA = 100;
+}
 
 void func_808C290C(BossDodongo* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E848, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600E848), 2, -5.0f);
@@ -1013,7 +1042,14 @@ void func_808C2B38(BossDodongo* this) {
     this->unk_1E2 = 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2BC8.s")
+void func_808C2BC8(BossDodongo* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxMinF(&this->unk_1F8, 1.0f, 0.5f, 0.02f, 0.001f);
+    Math_SmoothScaleMaxMinF(&this->unk_208, 0.05f, 1.0f, 0.005f, 0.0f);
+    if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06001074))) {
+        func_808C2A40(this);
+    }
+}
 
 void func_808C2C78(BossDodongo* this,
                    GlobalContext* globalCtx) { // Spawn bomb explode effect //Also take bomb damage
@@ -1575,7 +1611,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         Matrix_MultVec3f(&D_808CA45C, &this->unk_3EC);
         Matrix_MultVec3f(&D_808CA450, &this->actor.posRot2.pos);
         Matrix_MultVec3f(&D_808CA468, &this->unk_3F8);
-        Matrix_MultVec3f(&D_808CA474, &this->unk_41C);
+        Matrix_MultVec3f(&D_808CA474, &this->mouthPos);
     } else if (limbIndex == 39) {
         Matrix_MultVec3f(&D_808CA480, &this->unk_410);
     } else if (limbIndex == 46) {

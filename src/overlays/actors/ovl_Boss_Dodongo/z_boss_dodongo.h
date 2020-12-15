@@ -93,7 +93,7 @@ typedef struct BossDodongo {
     /* 0x03F8 */ Vec3f unk_3F8;
     /* 0x0404 */ Vec3f unk_404;
     /* 0x0410 */ Vec3f unk_410;
-    /* 0x041C */ Vec3f unk_41C;
+    /* 0x041C */ Vec3f mouthPos;
     /* 0x0428 */ Vec3f cameraEye;
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
