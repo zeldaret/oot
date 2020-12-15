@@ -32,7 +32,7 @@ typedef enum {
 } EnKanbanActionState;
 
 typedef enum {
-    PIECE_WHOLE,
+    PIECE_WHOLE_SIGN,
     PIECE_UPPER_HALF,
     PIECE_LOWER_HALF,
     PIECE_RIGHT_HALF,
@@ -56,11 +56,11 @@ typedef enum {
 
 typedef enum {
     CUT_POST,
-    CUT_LEFT,
-    CUT_FLAT,
-    CUT_DIAG_REVERSE, // lower left to upper right
-    CUT_DIAG,         // upper left to lower right
-    CUT_RIGHT
+    CUT_VERT_L,
+    CUT_HORIZ,
+    CUT_DIAG_L, // lower left to upper right
+    CUT_DIAG_R, // upper left to lower right
+    CUT_VERT_R
 } EnKanbanCutType;
 
 void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -93,6 +93,73 @@ static ColliderCylinderInit sCylinderInit = {
 static u16 sPartFlags[] = {
     PART_UPPER_LEFT,  PART_LEFT_UPPER,  PART_LEFT_LOWER, PART_RIGHT_UPPER, PART_RIGHT_LOWER, PART_LOWER_LEFT,
     PART_UPPER_RIGHT, PART_LOWER_RIGHT, PART_POST_UPPER, PART_POST_LOWER,  PART_POST_STAND,
+};
+
+static Vec3f sPieceOffsets[] = {
+    /* WHOLE_SIGN   */ { 0.0f, 44.0f, 0.0f },
+    /* UPPER_HALF   */ { 0.0f, 50.0f, 0.0f },
+    /* LOWER_HALF   */ { 0.0f, 38.0f, 0.0f },
+    /* RIGHT_HALF  */ { 10.0f, 44.0f, 0.0f },
+    /* LEFT_HALF  */ { -10.0f, 44.0f, 0.0f },
+    /* 2ND_QUAD   */ { -10.0f, 50.0f, 0.0f },
+    /* 1ST_QUAD    */ { 10.0f, 50.0f, 0.0f },
+    /* 3RD_QUAD   */ { -10.0f, 38.0f, 0.0f },
+    /* 4TH_QUAD    */ { 10.0f, 38.0f, 0.0f },
+    /* UPPER_LEFT  */ { -7.5f, 51.0f, 0.0f },
+    /* LEFT_UPPER */ { -12.5f, 48.0f, 0.0f },
+    /* LEFT_LOWER */ { -12.5f, 40.0f, 0.0f },
+    /* LOWER_LEFT  */ { -7.5f, 37.0f, 0.0f },
+    /* UPPER_RIGHT  */ { 7.5f, 51.0f, 0.0f },
+    /* RIGHT_UPPER */ { 12.5f, 48.0f, 0.0f },
+    /* RIGHT_LOWER */ { 12.5f, 40.0f, 0.0f },
+    /* LOWER_RIGHT  */ { 7.5f, 37.0f, 0.0f },
+    /* POST_UPPER   */ { 0.0f, 50.0f, 0.0f },
+    /* POST_LOWER   */ { 0.0f, 38.0f, 0.0f },
+};
+
+static Vec3f sPieceSizes[] = {
+    /* WHOLE_SIGN */ { 1500.0f, 1000.0f, 0.0f },
+    /* UPPER_HALF */ { 1500.0f, 500.0f, 0.0f },
+    /* LOWER_HALF */ { 1500.0f, 500.0f, 0.0f },
+    /* RIGHT_HALF  */ { 700.0f, 1000.0f, 0.0f },
+    /* LEFT_HALF   */ { 700.0f, 1000.0f, 0.0f },
+    /* 2ND_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 1ST_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 3RD_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* 4TH_QUAD    */ { 700.0f, 500.0f, 0.0f },
+    /* UPPER_LEFT  */ { 700.0f, 500.0f, 0.0f },
+    /* LEFT_UPPER  */ { 700.0f, 500.0f, 0.0f },
+    /* LEFT_LOWER  */ { 700.0f, 500.0f, 0.0f },
+    /* LOWER_LEFT  */ { 700.0f, 500.0f, 0.0f },
+    /* UPPER_RIGHT */ { 700.0f, 500.0f, 0.0f },
+    /* RIGHT_UPPER */ { 700.0f, 500.0f, 0.0f },
+    /* RIGHT_LOWER */ { 700.0f, 500.0f, 0.0f },
+    /* LOWER_RIGHT */ { 700.0f, 500.0f, 0.0f },
+    /* POST_UPPER  */ { 200.0f, 500.0f, 0.0f },
+    /* POST_LOWER  */ { 200.0f, 500.0f, 0.0f },
+};
+
+static u8 sCutTypes[] = {
+    /* 1H_OVER     */ CUT_VERT_L, /* 2H_OVER     */ CUT_VERT_L,
+    /* 1H_COMBO    */ CUT_DIAG_R, /* 2H_COMBO    */ CUT_DIAG_R,
+    /* 1H_LEFT     */ CUT_HORIZ,  /* 2H_LEFT     */ CUT_HORIZ,
+    /* 1H_COMBO    */ CUT_HORIZ,  /* 2H_COMBO    */ CUT_HORIZ,
+    /* 1H_RIGHT    */ CUT_HORIZ,  /* 2H_RIGHT    */ CUT_HORIZ,
+    /* 1H_COMBO    */ CUT_HORIZ,  /* 2H_COMBO    */ CUT_HORIZ,
+    /* 1H_STAB     */ CUT_POST,   /* 2H_STAB     */ CUT_POST,
+    /* 1H_COMBO    */ CUT_POST,   /* 2H_COMBO    */ CUT_POST,
+    /* FLIP_START  */ CUT_VERT_L, /* JUMP_START  */ CUT_VERT_L,
+    /* FLIP_END    */ CUT_VERT_L, /* JUMP_END    */ CUT_VERT_L,
+    /* BACK_LEFT   */ CUT_HORIZ,  /* BACK_RIGHT  */ CUT_HORIZ,
+    /* OVER_HAMMER */ CUT_POST,   /* SIDE_HAMMER */ CUT_POST,
+    /* 1H_SPIN_ATK */ CUT_POST,   /* 2H_SPIN_ATK */ CUT_POST,
+    /* 1H_BIG_SPIN */ CUT_POST,   /* 2H_BIG_SPIN */ CUT_POST,
+};
+
+static u16 sCutFlags[] = {
+    /* CUT_POST   */ ALL_PARTS,       /* CUT_VERT_L */ LEFT_HALF,
+    /* CUT_HORIZ  */ UPPER_HALF,      /* CUT_DIAG_L */ UPPERLEFT_HALF,
+    /* CUT_DIAG_R */ UPPERRIGHT_HALF, /* CUT_VERT_R */ RIGHT_HALF,
 };
 
 void EnKanban_SetFloorRot(EnKanban* this) {
@@ -165,73 +232,6 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
     }
 }
 
-static Vec3f sPieceOffsets[] = {
-    /* WHOLE        */ { 0.0f, 44.0f, 0.0f },
-    /* UPPER_HALF   */ { 0.0f, 50.0f, 0.0f },
-    /* LOWER_HALF   */ { 0.0f, 38.0f, 0.0f },
-    /* RIGHT_HALF  */ { 10.0f, 44.0f, 0.0f },
-    /* LEFT_HALF  */ { -10.0f, 44.0f, 0.0f },
-    /* 2ND_QUAD   */ { -10.0f, 50.0f, 0.0f },
-    /* 1ST_QUAD    */ { 10.0f, 50.0f, 0.0f },
-    /* 3RD_QUAD   */ { -10.0f, 38.0f, 0.0f },
-    /* 4TH_QUAD    */ { 10.0f, 38.0f, 0.0f },
-    /* UPPER_LEFT  */ { -7.5f, 51.0f, 0.0f },
-    /* LEFT_UPPER */ { -12.5f, 48.0f, 0.0f },
-    /* LEFT_LOWER */ { -12.5f, 40.0f, 0.0f },
-    /* LOWER_LEFT  */ { -7.5f, 37.0f, 0.0f },
-    /* UPPER_RIGHT  */ { 7.5f, 51.0f, 0.0f },
-    /* RIGHT_UPPER */ { 12.5f, 48.0f, 0.0f },
-    /* RIGHT_LOWER */ { 12.5f, 40.0f, 0.0f },
-    /* LOWER_RIGHT  */ { 7.5f, 37.0f, 0.0f },
-    /* POST_UPPER   */ { 0.0f, 50.0f, 0.0f },
-    /* POST_LOWER   */ { 0.0f, 38.0f, 0.0f },
-};
-
-static Vec3f sPieceSizes[] = {
-    /* WHOLE      */ { 1500.0f, 1000.0f, 0.0f },
-    /* UPPER_HALF */ { 1500.0f, 500.0f, 0.0f },
-    /* LOWER_HALF */ { 1500.0f, 500.0f, 0.0f },
-    /* RIGHT_HALF  */ { 700.0f, 1000.0f, 0.0f },
-    /* LEFT_HALF   */ { 700.0f, 1000.0f, 0.0f },
-    /* 2ND_QUAD    */ { 700.0f, 500.0f, 0.0f },
-    /* 1ST_QUAD    */ { 700.0f, 500.0f, 0.0f },
-    /* 3RD_QUAD    */ { 700.0f, 500.0f, 0.0f },
-    /* 4TH_QUAD    */ { 700.0f, 500.0f, 0.0f },
-    /* UPPER_LEFT  */ { 700.0f, 500.0f, 0.0f },
-    /* LEFT_UPPER  */ { 700.0f, 500.0f, 0.0f },
-    /* LEFT_LOWER  */ { 700.0f, 500.0f, 0.0f },
-    /* LOWER_LEFT  */ { 700.0f, 500.0f, 0.0f },
-    /* UPPER_RIGHT */ { 700.0f, 500.0f, 0.0f },
-    /* RIGHT_UPPER */ { 700.0f, 500.0f, 0.0f },
-    /* RIGHT_LOWER */ { 700.0f, 500.0f, 0.0f },
-    /* LOWER_RIGHT */ { 700.0f, 500.0f, 0.0f },
-    /* POST_UPPER  */ { 200.0f, 500.0f, 0.0f },
-    /* POST_LOWER  */ { 200.0f, 500.0f, 0.0f },
-};
-
-static u8 sCutTypes[] = {
-    /* 1H_OVER */ CUT_LEFT,     /* 2H_OVER */ CUT_LEFT,
-    /* 1H_COMBO */ CUT_DIAG,    /* 2H_COMBO */ CUT_DIAG,
-    /* 1H_LEFT */ CUT_FLAT,     /* 2H_LEFT */ CUT_FLAT,
-    /* 1H_COMBO */ CUT_FLAT,    /* 2H_COMBO */ CUT_FLAT,
-    /* 1H_RIGHT */ CUT_FLAT,    /* 2H_RIGHT */ CUT_FLAT,
-    /* 1H_COMBO */ CUT_FLAT,    /* 2H_COMBO */ CUT_FLAT,
-    /* 1H_STAB */ CUT_POST,     /* 2H_STAB */ CUT_POST,
-    /* 1H_COMBO */ CUT_POST,    /* 2H_COMBO */ CUT_POST,
-    /* FLIP_START */ CUT_LEFT,  /* JUMP_START */ CUT_LEFT,
-    /* FLIP_END */ CUT_LEFT,    /* JUMP_END */ CUT_LEFT,
-    /* BACK_LEFT */ CUT_FLAT,   /* BACK_RIGHT */ CUT_FLAT,
-    /* OVER_HAMMER */ CUT_POST, /* SIDE_HAMMER */ CUT_POST,
-    /* 1H_SPIN_ATK */ CUT_POST, /* 2H_SPIN_ATK */ CUT_POST,
-    /* 1H_BIG_SPIN */ CUT_POST, /* 2H_BIG_SPIN */ CUT_POST,
-};
-
-static u16 sCutFlags[] = {
-    /* CUT_POST */ ALL_PARTS,       /* CUT_LEFT */ LEFT_HALF,
-    /* CUT_FLAT */ UPPER_HALF,      /* CUT_DIAG_REVERSE */ UPPERLEFT_HALF,
-    /* CUT_DIAG */ UPPERRIGHT_HALF, /* CUT_RIGHT */ RIGHT_HALF,
-};
-
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
     u8 bounced = false;
     GlobalContext* globalCtx = globalCtx2;
@@ -259,10 +259,10 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if ((this->invincibilityTimer == 0) && (this->collider.base.acFlags & 2)) {
                 this->collider.base.acFlags &= ~2;
                 this->invincibilityTimer = 6;
-                piece = (EnKanban*)Actor_SpawnAsChild(
-                    &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x,
-                    this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
+                piece = (EnKanban*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN,
+                                                      this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                                                      this->actor.posRot.pos.z, this->actor.shape.rot.x,
+                                                      this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
                     ColliderBody* hitItem = this->collider.body.acHitItem;
                     s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
@@ -274,10 +274,10 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         this->cutType = CUT_POST;
                     }
                     if (ABS(yawDiff) > 0x4000) {
-                        if (this->cutType == CUT_DIAG) {
-                            this->cutType = CUT_DIAG_REVERSE;
-                        } else if (this->cutType == CUT_LEFT) {
-                            this->cutType = CUT_RIGHT;
+                        if (this->cutType == CUT_DIAG_R) {
+                            this->cutType = CUT_DIAG_L;
+                        } else if (this->cutType == CUT_VERT_L) {
+                            this->cutType = CUT_VERT_R;
                         }
                     }
                     piece->partFlags = sCutFlags[this->cutType] & this->partFlags;
@@ -296,7 +296,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         this->zTargetTimer = 10;
                     }
                     if ((piece->partFlags & PART_UPPER_LEFT) && (piece->partFlags & PART_LOWER_RIGHT)) {
-                        piece->pieceType = PIECE_WHOLE;
+                        piece->pieceType = PIECE_WHOLE_SIGN;
                     } else if ((piece->partFlags & PART_LEFT_UPPER) && (piece->partFlags & PART_RIGHT_UPPER)) {
                         piece->pieceType = PIECE_UPPER_HALF;
                     } else if ((piece->partFlags & PART_LEFT_LOWER) && (piece->partFlags & PART_RIGHT_LOWER)) {
@@ -337,7 +337,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         piece->pieceType = PIECE_OTHER;
                     }
                     if (piece->pieceType == 100) {
-                        piece->pieceType = PIECE_WHOLE;
+                        piece->pieceType = PIECE_WHOLE_SIGN;
                     }
 
                     Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);

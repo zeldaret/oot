@@ -73,7 +73,12 @@ static u16 sShadowTexFlags[] = {
 };
 
 static f32 sCutAngles[] = {
-    0.5f * M_PI, 0.0f, 0.5f * M_PI, 0.66f * M_PI, 0.34f * M_PI, 0.0f,
+    /* CUT_POST   */ 0.50f * M_PI,
+    /* CUT_VERT_L */ 0.00f * M_PI,
+    /* CUT_HORIZ  */ 0.50f * M_PI,
+    /* CUT_DIAG_L */ 0.66f * M_PI,
+    /* CUT_DIAG_R */ 0.34f * M_PI,
+    /* CUT_VERT_R */ 0.00f * M_PI,
 };
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
