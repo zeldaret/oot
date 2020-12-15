@@ -582,7 +582,7 @@ void func_809D0268(EnBw* this, GlobalContext* globalCtx) {
 void func_809D03CC(EnBw* this) {
     this->actor.speedXZ = 0.0f;
     if (this->damageEffect == 0xE) {
-        this->iceTimer = 0x20;
+        this->iceTimer = 32;
     }
     this->unk_23C = this->actor.dmgEffectTimer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -751,8 +751,8 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
     thisx->posRot2.pos.y += 5.0f;
 }
 
-s32 func_809D0D18(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 EnBw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                          Gfx** gfx) {
     EnBw* this = THIS;
 
     if (limbIndex == 1) {
@@ -760,15 +760,15 @@ s32 func_809D0D18(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, this->unk_23A, 0x20, 0x20));
         if ((this->unk_220 == 1) || (this->unk_220 == 5)) {
             Matrix_Push();
-            Matrix_Scale(1.0f, 1.0f, 1.0f, 1);
-            Matrix_RotateX(this->unk_258 * 0.115f, 1);
-            Matrix_RotateY(this->unk_258 * 0.13f, 1);
-            Matrix_RotateZ(this->unk_258 * 0.1f, 1);
-            Matrix_Scale(1.0f - this->unk_260, 1.0f + this->unk_260, 1.0f - this->unk_260, 1);
-            Matrix_RotateZ(-(this->unk_258 * 0.1f), 1);
-            Matrix_RotateY(-(this->unk_258 * 0.13f), 1);
-            Matrix_RotateX(-(this->unk_258 * 0.115f), 1);
-            gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 0x56C),
+            Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateX(this->unk_258 * 0.115f, MTXMODE_APPLY);
+            Matrix_RotateY(this->unk_258 * 0.13f, MTXMODE_APPLY);
+            Matrix_RotateZ(this->unk_258 * 0.1f, MTXMODE_APPLY);
+            Matrix_Scale(1.0f - this->unk_260, 1.0f + this->unk_260, 1.0f - this->unk_260, MTXMODE_APPLY);
+            Matrix_RotateZ(-(this->unk_258 * 0.1f), MTXMODE_APPLY);
+            Matrix_RotateY(-(this->unk_258 * 0.13f), MTXMODE_APPLY);
+            Matrix_RotateX(-(this->unk_258 * 0.115f), MTXMODE_APPLY);
+            gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1388),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfx)++, *dList);
             Matrix_Pull();
@@ -790,22 +790,22 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f icePos;
     s32 iceIndex;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bw.c", 0x58F);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bw.c", 1423);
 
     if (this->color1.a == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
-        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_809D0D18,
-                                       NULL, this, POLY_OPA_DISP);
+        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                       EnBw_OverrideLimbDraw, NULL, this, POLY_OPA_DISP);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->color1.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
-        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_809D0D18,
-                                       NULL, this, POLY_XLU_DISP);
+        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                       EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     }
 
     if (((globalCtx->gameplayFrames + 1) % 4) == thisx->params) {
@@ -820,7 +820,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     Matrix_Translate(thisx->posRot.pos.x, thisx->posRot.pos.y + ((thisx->scale.y - 0.013f) * 1000.0f),
-                     thisx->posRot.pos.z, 0);
+                     thisx->posRot.pos.z, MTXMODE_NEW);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
@@ -828,9 +828,9 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                 (globalCtx->gameplayFrames * -20) % 0x200, 0x20, 0x80));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
-    Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, 1);
+    Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
     func_800D1FD4(&globalCtx->mf_11DA0);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 0x5DC),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
 
@@ -846,5 +846,5 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.3f);
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bw.c", 0x5F1);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bw.c", 1521);
 }
