@@ -1,7 +1,7 @@
 /*
  * File: z_bg_gnd_iceblock.c
  * Overlay: ovl_Bg_Gnd_Iceblock
- * Description: Pushable large square ice block (Inside Ganon's Castle)
+ * Description: Pushable ice block (Inside Ganon's Castle)
  */
 
 #include "z_bg_gnd_iceblock.h"
@@ -10,23 +10,18 @@
 
 #define THIS ((BgGndIceblock*)thisx)
 
+typedef enum { GNDICE_IDLE, GNDICE_FALL, GNDICE_HOLE } BgGndIceblockAction;
+
 void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Destroy(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Update(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Draw(BgGndIceblock* this, GlobalContext* globalCtx);
 
-s32 func_80879D4C(BgGndIceblock* this);
-void func_80879D98(void);
-
-void func_8087A0C8(BgGndIceblock* this, GlobalContext* globalCtx);
-void func_8087A184(BgGndIceblock* this, GlobalContext* globalCtx);
-void func_8087A248(BgGndIceblock* this, GlobalContext* globalCtx);
-void func_8087A300(BgGndIceblock* this, GlobalContext* globalCtx);
-void func_8087A39C(BgGndIceblock* this, GlobalContext* globalCtx);
+void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
+void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004420[];
 extern ColHeader D_06004618;
-
 
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
@@ -40,34 +35,33 @@ const ActorInit Bg_Gnd_Iceblock_InitVars = {
     (ActorFunc)BgGndIceblock_Draw,
 };
 
-Color_RGBA8 D_8087A740 = {0xFA, 0xFA, 0xFA, 0xFF};
-Color_RGBA8 D_8087A744 =  {0xB4, 0xB4, 0xB4, 0xFF};
-Vec3f D_8087A748 = {0.0f, 0.0f, 0.0f};
-InitChainEntry D_8087A754[] = {0x48500064};
-s32 D_8087A758[] =  { 0x00000000, 0x00000202, 0x02020303, 0x03040404, 0x06060606, 0x06060000};
-s32 D_8087A770[] =  {0x05040302, 0x01000504, 0x02010601, 0x00050302, 0x05040302, 0x01000000, 0x00000000, 0x00000000};
+static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
+static Color_RGBA8 sGray = { 180, 180, 180, 255 };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
-u8 D_8087AC40;
-u8 D_8087AC41;
-u8 D_8087AC42;
+static u8 sBlockPositions[2];
 
-void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext *globalCtx) {
+void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
-    ColHeader* sp24 = NULL;
+    ColHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_8087A754);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06004618, &sp24);
-    this->unk_168 = this->dyna.actor.initPosRot.pos;
-    this->actionFunc = func_8087A0C8;
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    DynaPolyInfo_Alloc(&D_06004618, &colHeader);
+    this->targetPos = this->dyna.actor.initPosRot.pos;
+    this->actionFunc = BgGndIceblock_Idle;
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.actor.posRot.pos.x == 2792.0f) {
         this->dyna.actor.params = 0;
-        D_8087AC40 = 7;
+        sBlockPositions[0] = 7;
     } else if (this->dyna.actor.posRot.pos.x == 3032.0f) {
         this->dyna.actor.params = 1;
-        D_8087AC41 = 0xE;
+        sBlockPositions[1] = 14;
     } else {
         LogUtils_LogThreadId("../z_bg_gnd_iceblock.c", 138);
         osSyncPrintf("thisx->world.position.x = %f\n", this->dyna.actor.posRot.pos.x);
@@ -75,53 +69,294 @@ void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext *globalCtx) {
     }
 }
 
-void BgGndIceblock_Destroy(BgGndIceblock* thisx, GlobalContext *globalCtx) {
+void BgGndIceblock_Destroy(BgGndIceblock* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_80879C04.s")
+/*
+ * Diagram of positions in the room:
+ *            __
+ *  _________|10|_________
+ * |*0*     6   *13****16*|
+ * |*1*     7          17 |
+ * | 2           14    18 |
+ * | 3     h8    15    19 |
+ * | 4      9 11 XX   *20*|
+ * |*5*    XX 12      *21*|
+ *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+ * XX are rocks
+ * ** are pits
+ * h is the hole.
+ * Block 0 starts at 7 and block 1 starts at 14
+ */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_80879D10.s")
+void BgGndIceblock_SetPosition(BgGndIceblock* this, s32 blockPosition) {
+    s32 pad;
+    u8 xPosIdx[22] = {
+        0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6, 6, 6, 6,
+    };
+    u8 zPosIdx[22] = {
+        5, 4, 3, 2, 1, 0, 5, 4, 2, 1, 6, 1, 0, 5, 3, 2, 5, 4, 3, 2, 1, 0,
+    };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_80879D4C.s")
+    sBlockPositions[this->dyna.actor.params] = blockPosition;
+    this->targetPos.x = 2552.0f + (xPosIdx[blockPosition] * 120.0f);
+    this->targetPos.z = -540.0f - (zPosIdx[blockPosition] * 120.0f);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_80879D98.s")
+s32 BgGndIceblock_CheckForBlock(s32 blockPosition) {
+    s32 i;
 
-void func_8087A0C8(BgGndIceblock *this, GlobalContext *globalCtx) {
+    for (i = 0; i < 2; i++) {
+        if (blockPosition == sBlockPositions[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+s32 BgGndIceblock_NextAction(BgGndIceblock* this) {
+    switch (sBlockPositions[this->dyna.actor.params]) {
+        case 0:
+        case 1:
+        case 5:
+        case 13:
+        case 16:
+        case 20:
+        case 21:
+            return GNDICE_FALL;
+        case 8:
+            return GNDICE_HOLE;
+        default:
+            return GNDICE_IDLE;
+    }
+}
+
+void BgGndIceblock_SetNextPosition(BgGndIceblock* this) {
+    if (this->dyna.unk_158 == 0) {
+        switch (sBlockPositions[this->dyna.actor.params]) {
+            case 3:
+            case 4:
+                BgGndIceblock_SetPosition(this, 5);
+                break;
+            case 7:
+                if (BgGndIceblock_CheckForBlock(8)) {
+                    BgGndIceblock_SetPosition(this, 9);
+                } else {
+                    BgGndIceblock_SetPosition(this, 8);
+                }
+                break;
+            case 11:
+                BgGndIceblock_SetPosition(this, 12);
+                break;
+            case 14:
+                BgGndIceblock_SetPosition(this, 15);
+                break;
+            case 18:
+            case 19:
+                BgGndIceblock_SetPosition(this, 20);
+                break;
+        }
+    } else if (this->dyna.unk_158 == -0x8000) {
+        switch (sBlockPositions[this->dyna.actor.params]) {
+            case 2:
+            case 3:
+                BgGndIceblock_SetPosition(this, 1);
+                break;
+            case 7:
+            case 9:
+                BgGndIceblock_SetPosition(this, 6);
+                break;
+            case 11:
+                BgGndIceblock_SetPosition(this, 10);
+                break;
+            case 14:
+            case 15:
+                BgGndIceblock_SetPosition(this, 13);
+                break;
+            case 17:
+                BgGndIceblock_SetPosition(this, 16);
+                break;
+            case 18:
+                if (!BgGndIceblock_CheckForBlock(17)) {
+                    BgGndIceblock_SetPosition(this, 16);
+                }
+                break;
+        }
+    } else if (this->dyna.unk_158 == 0x4000) {
+        switch (sBlockPositions[this->dyna.actor.params]) {
+            case 6:
+                BgGndIceblock_SetPosition(this, 13);
+                break;
+            case 7:
+                BgGndIceblock_SetPosition(this, 17);
+                break;
+            case 9:
+                BgGndIceblock_SetPosition(this, 11);
+                break;
+            case 12:
+                BgGndIceblock_SetPosition(this, 21);
+                break;
+            case 14:
+                BgGndIceblock_SetPosition(this, 18);
+                break;
+            case 15:
+                BgGndIceblock_SetPosition(this, 19);
+                break;
+        }
+    } else if (this->dyna.unk_158 == -0x4000) {
+        switch (sBlockPositions[this->dyna.actor.params]) {
+            case 6:
+                BgGndIceblock_SetPosition(this, 0);
+                break;
+            case 7:
+                BgGndIceblock_SetPosition(this, 1);
+                break;
+            case 9:
+            case 11:
+                BgGndIceblock_SetPosition(this, 4);
+                break;
+            case 14:
+                BgGndIceblock_SetPosition(this, 2);
+                break;
+            case 15:
+                if (BgGndIceblock_CheckForBlock(8)) {
+                    BgGndIceblock_SetPosition(this, 3);
+                } else {
+                    BgGndIceblock_SetPosition(this, 8);
+                }
+                break;
+        }
+    }
+}
+
+void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.unk_150 > 0.0f) {
-            func_80879D98();
-            if (func_8002DBB0(&this->dyna.actor, &this->unk_168) > 1.0f) {
+            BgGndIceblock_SetNextPosition(this);
+            if (func_8002DBB0(&this->dyna.actor, &this->targetPos) > 1.0f) {
                 func_8002DF54(globalCtx, &this->dyna.actor, 8);
-                this->actionFunc = func_8087A39C;
+                this->actionFunc = BgGndIceblock_Slide;
             }
         }
         this->dyna.unk_150 = 0.0f;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_8087A184.s")
+void BgGndIceblock_Reset(BgGndIceblock* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Actor* thisx = &this->dyna.actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_8087A248.s")
+    if (this->dyna.unk_150 != 0.0f) {
+        player->stateFlags2 &= ~0x10;
+        this->dyna.unk_150 = 0.0f;
+    }
+    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 1.0f)) {
+        this->targetPos = thisx->initPosRot.pos;
+        thisx->speedXZ = 0.0f;
+        this->actionFunc = BgGndIceblock_Idle;
+        switch (thisx->params) {
+            case 0:
+                sBlockPositions[0] = 7;
+                break;
+            case 1:
+                sBlockPositions[1] = 14;
+                break;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_8087A300.s")
+void BgGndIceblock_Fall(BgGndIceblock* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/func_8087A39C.s")
+    thisx->velocity.y += 1.0f;
+    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 300.0f, thisx->velocity.y)) {
+        thisx->velocity.y = 0.0f;
+        thisx->posRot.pos.x = thisx->initPosRot.pos.x;
+        thisx->posRot.pos.y = thisx->initPosRot.pos.y - 100.0f;
+        thisx->posRot.pos.z = thisx->initPosRot.pos.z;
+        if (Player_InCsMode(globalCtx)) {
+            func_8002DF54(globalCtx, thisx, 7);
+        }
+        this->actionFunc = BgGndIceblock_Reset;
+    }
+}
 
-void BgGndIceblock_Update(BgGndIceblock* thisx, GlobalContext *globalCtx) {
+void BgGndIceblock_Hole(BgGndIceblock* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
+
+    thisx->velocity.y += 1.0f;
+    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 100.0f, thisx->velocity.y)) {
+        thisx->velocity.y = 0.0f;
+        if (Player_InCsMode(globalCtx)) {
+            func_8002DF54(globalCtx, thisx, 7);
+        }
+        this->actionFunc = BgGndIceblock_Idle;
+    }
+}
+
+void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx) {
+    s32 atTarget;
+    Vec3f pos;
+    Vec3f velocity;
+    f32 spread;
+    Actor* thisx = &this->dyna.actor;
+
+    Math_ApproxF(&thisx->speedXZ, 10.0f, 0.5f);
+    atTarget = Math_ApproxF(&thisx->posRot.pos.x, this->targetPos.x, thisx->speedXZ);
+    atTarget &= Math_ApproxF(&thisx->posRot.pos.z, this->targetPos.z, thisx->speedXZ);
+    if (atTarget) {
+        thisx->speedXZ = 0.0f;
+        this->targetPos.x = thisx->posRot.pos.x;
+        this->targetPos.z = thisx->posRot.pos.z;
+        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        switch (BgGndIceblock_NextAction(this)) {
+            case GNDICE_IDLE:
+                this->actionFunc = BgGndIceblock_Idle;
+                func_8002DF54(globalCtx, thisx, 7);
+                break;
+            case GNDICE_FALL:
+                this->actionFunc = BgGndIceblock_Fall;
+                break;
+            case GNDICE_HOLE:
+                this->actionFunc = BgGndIceblock_Hole;
+                break;
+        }
+    } else if (thisx->speedXZ > 6.0f) {
+        spread = Math_Rand_CenteredFloat(120.0f);
+        velocity.x = -(1.5f + Math_Rand_ZeroOne()) * Math_Sins(this->dyna.unk_158);
+        velocity.y = Math_Rand_ZeroOne() + 1.0f;
+        velocity.z = -(1.5f + Math_Rand_ZeroOne()) * Math_Coss(this->dyna.unk_158);
+        pos.x =
+            thisx->posRot.pos.x - (60.0f * Math_Sins(this->dyna.unk_158)) - (Math_Coss(this->dyna.unk_158) * spread);
+        pos.z =
+            thisx->posRot.pos.z - (60.0f * Math_Coss(this->dyna.unk_158)) + (Math_Sins(this->dyna.unk_158) * spread);
+        pos.y = thisx->posRot.pos.y;
+        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Math_Rand_S16Offset(40, 15));
+        spread = Math_Rand_CenteredFloat(120.0f);
+        pos.x =
+            thisx->posRot.pos.x - (60.0f * Math_Sins(this->dyna.unk_158)) + (Math_Coss(this->dyna.unk_158) * spread);
+        pos.z =
+            thisx->posRot.pos.z - (60.0f * Math_Coss(this->dyna.unk_158)) - (Math_Sins(this->dyna.unk_158) * spread);
+        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Math_Rand_S16Offset(40, 15));
+        func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
+    }
+}
+
+void BgGndIceblock_Update(BgGndIceblock* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void BgGndIceblock_Draw(BgGndIceblock* thisx, GlobalContext *globalCtx) {
+void BgGndIceblock_Draw(BgGndIceblock* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 

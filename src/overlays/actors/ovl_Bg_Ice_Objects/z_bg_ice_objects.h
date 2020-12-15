@@ -11,7 +11,7 @@ typedef void (*BgIceObjectsActionFunc) (struct BgIceObjects*, GlobalContext*);
 typedef struct BgIceObjects {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgIceObjectsActionFunc actionFunc;
-    /* 0x0168 */ Vec3f unk_168;
+    /* 0x0168 */ Vec3f targetPos;
 } BgIceObjects; // size = 0x0174
 
 extern const ActorInit Bg_Ice_Objects_InitVars;
