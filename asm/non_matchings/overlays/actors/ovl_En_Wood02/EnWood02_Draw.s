@@ -97,12 +97,12 @@ glabel EnWood02_Draw
 /* 00DC0 80B3BD30 01AFC025 */  or      $t8, $t5, $t7              ## $t8 = 00000000
 /* 00DC4 80B3BD34 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
 /* 00DC8 80B3BD38 3719007F */  ori     $t9, $t8, 0x007F           ## $t9 = 0000007F
-/* 00DCC 80B3BD3C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 00DCC 80B3BD3C 3C050600 */  lui     $a1, %hi(D_06000700)                ## $a1 = 06000000
 /* 00DD0 80B3BD40 AC790004 */  sw      $t9, 0x0004($v1)           ## 00000004
 /* 00DD4 80B3BD44 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00DD8 80B3BD48 0C00D498 */  jal     Gfx_DrawDListOpa
               
-/* 00DDC 80B3BD4C 24A50700 */  addiu   $a1, $a1, 0x0700           ## $a1 = 06000700
+/* 00DDC 80B3BD4C 24A50700 */  addiu   $a1, $a1, %lo(D_06000700)           ## $a1 = 06000700
 /* 00DE0 80B3BD50 10000058 */  beq     $zero, $zero, .L80B3BEB4   
 /* 00DE4 80B3BD54 00000000 */  nop
 /* 00DE8 80B3BD58 90620154 */  lbu     $v0, 0x0154($v1)           ## 00000154
