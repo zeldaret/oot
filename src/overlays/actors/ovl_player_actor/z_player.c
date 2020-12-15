@@ -2029,8 +2029,8 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.type == ACTORTYPE_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
-        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) && (globalCtx->sceneLoadFlag != 0x14) &&
-        (gSaveContext.timer1State != 10)) {
+        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) &&
+        (globalCtx->sceneLoadFlag != 0x14) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
 
