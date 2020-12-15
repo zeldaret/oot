@@ -63,8 +63,7 @@ void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.params = 1;
         sBlockPositions[1] = 14;
     } else {
-        LogUtils_LogThreadId("../z_bg_gnd_iceblock.c", 138);
-        osSyncPrintf("thisx->world.position.x = %f\n", this->dyna.actor.posRot.pos.x);
+        LOG_FLOAT("thisx->world.position.x", this->dyna.actor.posRot.pos.x, "../z_bg_gnd_iceblock.c", 138);
         __assert("0", "../z_bg_gnd_iceblock.c", 139);
     }
 }
@@ -94,7 +93,7 @@ void BgGndIceblock_Destroy(BgGndIceblock* thisx, GlobalContext* globalCtx) {
  */
 
 void BgGndIceblock_SetPosition(BgGndIceblock* this, s32 blockPosition) {
-    s32 pad;
+    Actor* thisx = &this->dyna.actor;
     u8 xPosIdx[22] = {
         0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6, 6, 6, 6,
     };
@@ -102,7 +101,7 @@ void BgGndIceblock_SetPosition(BgGndIceblock* this, s32 blockPosition) {
         5, 4, 3, 2, 1, 0, 5, 4, 2, 1, 6, 1, 0, 5, 3, 2, 5, 4, 3, 2, 1, 0,
     };
 
-    sBlockPositions[this->dyna.actor.params] = blockPosition;
+    sBlockPositions[thisx->params] = blockPosition;
     this->targetPos.x = 2552.0f + (xPosIdx[blockPosition] * 120.0f);
     this->targetPos.z = -540.0f - (zPosIdx[blockPosition] * 120.0f);
 }
