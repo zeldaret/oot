@@ -39,7 +39,7 @@ const ActorInit Bg_Haka_Sgami_InitVars = {
     NULL,
 };
 
-ColliderTrisItemInit sTriItemsInit[] = {
+static ColliderTrisItemInit sTriItemsInit[] = {
     {
         { 0x02, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
         { { { 365.0f, 45.0f, 27.0f }, { 130.0f, 45.0f, 150.0f }, { 290.0f, 45.0f, 145.0f } } },
@@ -58,22 +58,22 @@ ColliderTrisItemInit sTriItemsInit[] = {
     },
 };
 
+// sTrisInit
 ColliderTrisInit D_8087EF50 = {
-    // sTrisInit
     { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x20, COLSHAPE_TRIS },
     4,
     sTriItemsInit,
 };
 
-ColliderCylinderInit sCylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 80, 130, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0082, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0082, 0xFF };
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_U8(unk_1F, 4, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -172,18 +172,8 @@ Vec3f D_8087EFC8[] = {
 void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
     ? spB0;            // Seems to be the end of the vec array?
     Vec3f vec_sp8C[3]; // REAL!!!!!!!!!!
-
-    s32 sp80; // SEEMS REAL!!!!!!
+    s32 sp80;          // SEEMS REAL!!!!!!
     ColliderTris* temp_s6;
-    CollisionCheckContext* temp_s1;
-    Vec3f* temp_v0_7;
-    Vec3f* temp_v0_8;
-    Vec3f* temp_v1_4;
-    Vec3f* temp_v1_5;
-    f32* temp_fp;
-    f32* temp_s7;
-    f32* temp_v0_10;
-    f32* temp_v0_9;
     f32 temp_f14;
     f32 temp_f14_2;
     f32 temp_f16;
@@ -193,11 +183,7 @@ void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
     f32 temp_f18;
     f32 temp_f18_2;
     f32 actorRotYSin; // REAL!!!!!!!
-    f32 temp_f22_2;
-    f32 temp_f22_3;
     f32 actorRotYCos; // REAL!!!!!!!
-    f32 temp_f24_2;
-    f32 temp_f24_3;
     s16 temp_v0;
     s32 temp_a1;
     s32 temp_a1_2;
@@ -228,11 +214,8 @@ void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
     s32 phi_a1;
     f32 phi_f24;
     f32 phi_f22;
-    f32* phi_v0_5;
-    f32 phi_f24_2;
-    f32 phi_f22_2;
-    f32* phi_v0_6;
     s32 phi_s4;
+    s32 i;
 
     if (this->timer != 0) {
         this->timer--;
@@ -248,13 +231,6 @@ void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
     } else {
         sp80 = 2;
     }
-
-
-
-
-
-
-
 
     /* NEEDS WORK START */
     // temp_s6 = &this->colliderScythe;
@@ -348,9 +324,6 @@ void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
             goto loop_9;
         }
     }
-    /* NEEDS WORK END */
-
-
 
     if ((this->unk_151 == 0) || (globalCtx->actorCtx.unk_03 != 0)) {
         vec_sp8C[0].x = (D_8087EFC8[this->actor.params].x * actorRotYCos) +
@@ -365,48 +338,19 @@ void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx) {
                         (D_8087EFB0[this->actor.params].x * actorRotYSin);
         EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[0]), &vec_sp8C[0].x, &vec_sp8C[1].x);
 
-
-
-
-        /* NEEDS WORK START */
-        temp_v0_9 = &vec_sp8C[1].x;
-        temp_f22_2 = temp_v0_9[-3];
-        temp_f24_2 = 2.0f * this->actor.posRot.pos.x;
-        phi_f24 = temp_f24_2;
-        phi_f22 = temp_f22_2;
-        phi_v0_5 = temp_v0_9;
-        phi_f24_2 = temp_f24_2;
-        phi_f22_2 = temp_f22_2;
-        phi_v0_6 = temp_v0_9;
-        if (temp_v0_9 != &vec_sp8C[2]) {
-        loop_20:
-            temp_f22_3 = phi_v0_5->unk0;
-            temp_v0_10 = phi_v0_5 + 0xC;
-            temp_v0_10->unk - 18 = phi_f24 - phi_f22;
-            temp_v0_10->unk - 10 = (2.0f * this->actor.posRot.pos.z) - phi_v0_5->unk - 4;
-            temp_f24_3 = 2.0f * this->actor.posRot.pos.x;
-            phi_f24 = temp_f24_3;
-            phi_f22 = temp_f22_3;
-            phi_v0_5 = temp_v0_10;
-            phi_f24_2 = temp_f24_3;
-            phi_f22_2 = temp_f22_3;
-            phi_v0_6 = temp_v0_10;
-            if (temp_v0_10 != &vec_sp8C[2]) {
-                goto loop_20;
-            }
+        for (i = 0; i != 2; i++) {
+            vec_sp8C[i].x = (2.0f * this->actor.posRot.pos.x) - vec_sp8C[0].x;
+            vec_sp8C[i].z = (2.0f * this->actor.posRot.pos.z) - vec_sp8C[0].z;
         }
-        phi_v0_6->unk - C = phi_f24_2 - phi_f22_2;
-        phi_v0_6->unk - 4 = (2.0f * this->actor.posRot.pos.z) - phi_v0_6->unk - 4;
-        /* NEEDS WORK END */
 
-
-
+        vec_sp8C[1].x = (2.0f * this->actor.posRot.pos.x) - vec_sp8C[1].x;
+        vec_sp8C[1].z = (2.0f * this->actor.posRot.pos.z) - vec_sp8C[1].z;
 
         EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[1]), &vec_sp8C[0], &vec_sp8C[1]);
     }
 
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderScythe);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderScytheCenter);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderScythe.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderScytheCenter.base);
     func_8002F974(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
 }
 #else
