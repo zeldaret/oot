@@ -185,7 +185,7 @@ void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
-    if (Flags_GetEnv(globalCtx, 5) != 0) {
+    if (Flags_GetEnv(globalCtx, 5)) {
         gSaveContext.eventChkInf[6] = gSaveContext.eventChkInf[6] | 0x20;
     }
     if ((gSaveContext.eventChkInf[6] & 0x20) != 0) {
