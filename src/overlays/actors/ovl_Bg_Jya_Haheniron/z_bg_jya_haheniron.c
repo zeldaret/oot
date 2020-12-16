@@ -45,7 +45,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit D_80898764 = {
     { COLTYPE_UNK10, 0x11, 0x01, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
-    &sJntSphItemsInit,
+    sJntSphItemsInit,
 };
 
 static s16 kakeraScale[] = { 5, 8, 11, 14, 17 };
@@ -62,7 +62,7 @@ Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
 
 Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
 
-extern Gfx* D_06000880;
+extern Gfx D_06000880;
 
 void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -108,13 +108,13 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (thisx->params == 0) {
-        BgJyaHaheniron_ColliderInit(thisx, globalCtx);
+        BgJyaHaheniron_ColliderInit(this, globalCtx);
         thisx->shape.rot.z = (Math_Rand_ZeroOne() * 65535.0f);
-        func_8089843C(thisx);
+        func_8089843C(this);
     } else if (thisx->params == 1) {
-        func_80898588(thisx);
+        func_80898588(this);
     } else if (thisx->params == 2) {
-        func_8089861C(thisx);
+        func_8089861C(this);
     }
 }
 
