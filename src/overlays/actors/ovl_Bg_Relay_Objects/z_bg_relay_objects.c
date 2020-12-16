@@ -50,10 +50,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static u32 D_808A9508 = 0;
     BgRelayObjects* this = THIS;
     s32 pad;
     s32 sp24 = 0;
-    static u32 D_808A9508 = 0;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = thisx->params & 0x3F;
