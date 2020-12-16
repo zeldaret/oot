@@ -60,7 +60,7 @@ typedef struct BossDodongo {
     /* 0x01DC */ s16 unk_1DC;
     /* 0x01DE */ s16 unk_1DE;
     /* 0x01E0 */ s16 unk_1E0;
-    /* 0x01E2 */ s8 unk_1E2;
+    /* 0x01E2 */ u8 unk_1E2;
     /* 0x01E3 */ s8 unk_1E3;
     /* 0x01E4 */ f32 unk_1E4;
     /* 0x01E8 */ f32 unk_1E8; // Vec3f?

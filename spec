@@ -1936,7 +1936,7 @@ endseg
 beginseg
     name "ovl_En_Bdfire"
     include "build/src/overlays/actors/ovl_En_Bdfire/z_en_bdfire.o"
-    include "build/data/overlays/actors/z_en_bdfire.data.o"
+    //include "build/data/overlays/actors/z_en_bdfire.data.o"
     include "build/data/overlays/actors/z_en_bdfire.reloc.o"
 endseg
 
