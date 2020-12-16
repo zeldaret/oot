@@ -1,6 +1,6 @@
 #include "z_boss_ganon2.h"
-#include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 #include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
+#include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 
 #define FLAGS 0x00000035
 
