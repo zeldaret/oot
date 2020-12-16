@@ -188,7 +188,7 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 5)) {
         gSaveContext.eventChkInf[6] |= 0x20;
     }
-    if ((gSaveContext.eventChkInf[6] & 0x20) != 0) {
+    if (gSaveContext.eventChkInf[6] & 0x20) {
         Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.y, 0x400, 8);
     } else {
         Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.y, 0x80, 8);
