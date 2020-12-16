@@ -160,7 +160,7 @@ void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
             return;
         }
         Flags_UnsetSwitch(globalCtx, this->switchFlag);
-        this->dyna.actor.flags = this->dyna.actor.flags & ~0x10;
+        this->dyna.actor.flags &= ~0x10;
         if (globalCtx->roomCtx.curRoom.num == 4) {
             gSaveContext.timer1State = 0xF;
         }
