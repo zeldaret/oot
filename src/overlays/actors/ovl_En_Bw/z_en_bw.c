@@ -175,7 +175,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-            sp62 = Math_atan2f(sp74->norm.x, sp74->norm.z) * 10430.378f;
+            sp62 = Math_atan2f(sp74->norm.x, sp74->norm.z) * ((f32)0x8000 / M_PI);
         } else {
             sp62 = this->actor.posRot.rot.y + 0x8000;
         }
@@ -253,7 +253,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                                  1, 0, 0, 1);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-                sp60 = Math_atan2f(sp74->norm.x, sp74->norm.z) * 10430.378f;
+                sp60 = Math_atan2f(sp74->norm.x, sp74->norm.z) * ((f32)0x8000 / M_PI);
                 if (this->unk_236 != sp60) {
                     if ((s16)(this->actor.yawTowardsLink - sp60) >= 0) {
                         this->unk_238 = 0x4000;
