@@ -12,7 +12,7 @@ typedef void (*EnGo2ActionFunc)(struct EnGo2*, GlobalContext*);
 typedef enum {
     /* 0x00 */ GORON_CITY_ROLLING_BIG,
     /* 0X01 */ GORON_CITY_LINK,
-    /* 0X02 */ GORON_CITY_BIGGORON,
+    /* 0X02 */ GORON_DMT_BIGGORON,
     /* 0X03 */ GORON_FIRE_GENERIC,
     /* 0X04 */ GORON_DMT_BOMB_FLOWER,
     /* 0X05 */ GORON_DMT_ROLLING_SMALL,
