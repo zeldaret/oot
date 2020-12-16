@@ -10,14 +10,14 @@ typedef struct {
     /* 0x00 */ u8    type;
     /* 0x04 */ f32   scale;
     /* 0x08 */ f32   targetScale;
-    Color_RGBA8 color;
+    /* 0x0C */ Color_RGBA8 color;
     /* 0x10 */ u32   pad;
     /* 0x14 */ Vec3f pos;
     /* 0x20 */ Vec3f vel;
     /* 0x2C */ Vec3f vec; // Usage specific
 } EnZoEffect; // size = 0x38
 
-typedef void (*EnZoActionFunc)(struct EnZo *this, GlobalContext *globalCtx);
+typedef void (*EnZoActionFunc)(struct EnZo*, GlobalContext*);
 
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;
@@ -28,7 +28,7 @@ typedef struct EnZo {
     /* 0x0208 */ u8 canSpeak;
     /* 0x020A */ Vec3s limbDrawTbl[20];
     /* 0x0282 */ Vec3s transitionDrawTbl[20];
-    /* 0x02FC */ EnZoEffect effects[0xf];
+    /* 0x02FC */ EnZoEffect effects[15];
     /* 0x0644 */ f32 dialogRadius;
     /* 0x0648 */ f32 alpha;
     /* 0x064C */ s16 unk_64C;
@@ -38,7 +38,6 @@ typedef struct EnZo {
     /* 0x0654 */ s16 eyeTexture;
     /* 0x0656 */ s16 unk_656[20];
     /* 0x067E */ s16 unk_67E[20];
-    /* 0x06A6 */ s16 unk_6A6;
 } EnZo; // size = 0x06A8
 
 extern const ActorInit En_Zo_InitVars;

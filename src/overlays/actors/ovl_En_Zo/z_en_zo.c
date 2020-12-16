@@ -39,7 +39,7 @@ extern AnimationHeader D_06000D48;
 // Surface Ripples
 void EnZo_Ripple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alpha) {
     EnZoEffect* effect;
-    Vec3f vec = { 0 };
+    Vec3f vec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
     effect = this->effects;
@@ -50,7 +50,7 @@ void EnZo_Ripple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alpha) {
             effect->scale = scale;
             effect->targetScale = targetScale;
             effect->color.a = alpha;
-            return;
+            break;
         }
         effect++;
     }
@@ -87,6 +87,7 @@ void EnZo_Splash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
     EnZoEffect* effect;
     Vec3f accel = { 0, -1, 0 };
     s16 i;
+
     effect = this->effects;
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type != 2) {
@@ -367,7 +368,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             return 0x4021;
 
         case 0:
-            if (gBitFlags[20] & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402D;
             }
             if (gSaveContext.eventChkInf[3] & 1) {
@@ -502,7 +503,7 @@ void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
     } else {
         this->unk_194.unk_18.y = this->actor.posRot.pos.y;
     }
-    func_80034A14((Actor*)this, &this->unk_194, 11, this->unk_64C);
+    func_80034A14(&this->actor, &this->unk_194, 11, this->unk_64C);
     if (this->canSpeak == 1) {
         func_800343CC(globalCtx, (Actor*)this, &this->unk_194.unk_00, this->dialogRadius, func_80B61024, func_80B61298);
     }
@@ -627,7 +628,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2((Actor*)this, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         func_80034EC0(&this->skelAnime, sAnimations, 3);
-        this->actor.flags = this->actor.flags | 1;
+        this->actor.flags |= 1;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
@@ -758,6 +759,7 @@ s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZo* this = THIS;
     Vec3f vec = { 0, 600.0f, 0 };
+
     if (limbIndex == 0xF) {
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
