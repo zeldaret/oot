@@ -26,6 +26,9 @@ void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
 void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
+void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
+void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
+void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_0600FFE4;
 extern SkeletonHeader D_060114E8;
@@ -621,7 +624,7 @@ void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06026510, -2.0f);
-    this->unk_194 = SkelAnime_GetFrameCount(&D_06026510);
+    this->unk_194 = SkelAnime_GetFrameCount(&D_06026510.genericHeader);
     this->unk_1AC = 0;
     this->actionFunc = func_80900104;
 }
@@ -651,8 +654,10 @@ void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
 
+void func_80902348(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902348.s")
 
+void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902524.s")
 
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
