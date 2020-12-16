@@ -27,8 +27,8 @@ glabel EnGb_Init
 /* 0007C 80A2F1FC 0C010D20 */  jal     DynaPolyInfo_SetActorMove
 
 /* 00080 80A2F200 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00084 80A2F204 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 00088 80A2F208 2484C2D0 */  addiu   $a0, $a0, 0xC2D0           ## $a0 = 0600C2D0
+/* 00084 80A2F204 3C040601 */  lui     $a0, %hi(D_0600C2D0)                ## $a0 = 06010000
+/* 00088 80A2F208 2484C2D0 */  addiu   $a0, $a0, %lo(D_0600C2D0)           ## $a0 = 0600C2D0
 /* 0008C 80A2F20C 0C010620 */  jal     DynaPolyInfo_Alloc
 
 /* 00090 80A2F210 27A50084 */  addiu   $a1, $sp, 0x0084           ## $a1 = FFFFFFF4
@@ -39,16 +39,16 @@ glabel EnGb_Init
               ## DynaPolyInfo_setActor
 /* 000A4 80A2F224 8FA70084 */  lw      $a3, 0x0084($sp)
 /* 000A8 80A2F228 AE42014C */  sw      $v0, 0x014C($s2)           ## 0000014C
-/* 000AC 80A2F22C 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 000B0 80A2F230 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 000AC 80A2F22C 3C060601 */  lui     $a2, %hi(D_0600C220)                ## $a2 = 06010000
+/* 000B0 80A2F230 3C070600 */  lui     $a3, %hi(D_0600049C)                ## $a3 = 06000000
 /* 000B4 80A2F234 264E01A8 */  addiu   $t6, $s2, 0x01A8           ## $t6 = 000001A8
 /* 000B8 80A2F238 264F01F0 */  addiu   $t7, $s2, 0x01F0           ## $t7 = 000001F0
 /* 000BC 80A2F23C 2418000C */  addiu   $t8, $zero, 0x000C         ## $t8 = 0000000C
 /* 000C0 80A2F240 AFB80018 */  sw      $t8, 0x0018($sp)
 /* 000C4 80A2F244 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 000C8 80A2F248 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 000CC 80A2F24C 24E7049C */  addiu   $a3, $a3, 0x049C           ## $a3 = 0600049C
-/* 000D0 80A2F250 24C6C220 */  addiu   $a2, $a2, 0xC220           ## $a2 = 0600C220
+/* 000CC 80A2F24C 24E7049C */  addiu   $a3, $a3, %lo(D_0600049C)           ## $a3 = 0600049C
+/* 000D0 80A2F250 24C6C220 */  addiu   $a2, $a2, %lo(D_0600C220)           ## $a2 = 0600C220
 /* 000D4 80A2F254 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000D8 80A2F258 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000DC 80A2F25C 26450164 */  addiu   $a1, $s2, 0x0164           ## $a1 = 00000164
