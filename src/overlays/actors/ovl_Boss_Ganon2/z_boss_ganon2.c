@@ -655,7 +655,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902524.s")
 
-#ifdef NON_MATCHING
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
     s32 pad;
@@ -763,7 +762,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_808FF898(this, globalCtx);
     func_80902348(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_424.base);
-    if (this->actionFunc == func_8090120C) {
+    if (this->actionFunc != func_8090120C) {
         func_80902524(this, globalCtx);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
@@ -890,9 +889,6 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_388 += 0.15f;
     func_80905DA8(this, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/BossGanon2_Update.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809034E4.s")
 
