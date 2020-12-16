@@ -94,7 +94,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         } else if (this->unk_169 != 5) {
             Flags_UnsetSwitch(globalCtx, this->switchFlag);
-            if (((1 << this->unk_169) & D_808A9508)) {
+            if (D_808A9508 & (1 << this->unk_169)) {
                 Actor_Kill(thisx);
             } else {
                 D_808A9508 |= (1 << this->unk_169);
