@@ -17,10 +17,12 @@ typedef struct {
     /* 0x2C */ Vec3f vec; // Usage specific
 } EnZoEffect; // size = 0x38
 
+typedef void (*EnZoActionFunc)(struct EnZo *this, GlobalContext *globalCtx);
+
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ void (*actionFunc)(struct EnZo *this, GlobalContext *globalCtx);
+    /* 0x0190 */ EnZoActionFunc actionFunc;
     /* 0x0194 */ struct_80034A14_arg1 unk_194;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ u8 canSpeak;
