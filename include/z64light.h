@@ -32,7 +32,7 @@ typedef struct {
     /* 0x2 */ LightParams params;
 } LightInfo; // size = 0xE
 
-typedef struct Lights{
+typedef struct Lights {
     /* 0x00 */ u8 numLights;
     /* 0x08 */ Lightsn l;
 } Lights; // size = 0x80

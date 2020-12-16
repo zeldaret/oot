@@ -9,6 +9,10 @@ void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600A548;
+extern UNK_TYPE D_0600A668;
+extern UNK_TYPE D_0600DE44;
+
 /*
 const ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,

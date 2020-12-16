@@ -7,6 +7,13 @@
 #define ENV_ROM_FILES(name) \
     { ENV_ROM_FILE(name), ENV_ROM_FILE(name##_pal) }
 
+typedef struct {
+    u16 minTime;
+    u16 maxTime;
+    u8 unk_04;
+    u8 unk_05;
+} struct_8011FB48;
+
 // data
 s32 D_8011FAF0[][2] = {
     { 0x00000006, 0x00000000 }, { 0x00000005, 0x00020000 }, { 0x00000004, 0x00030000 }, { 0x00000003, 0x00038000 },
@@ -233,9 +240,9 @@ void func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYP
     envCtx->unk_8C[2][2] =
     envCtx->unk_9E =
     envCtx->unk_A0 = 0;
-    envCtx->unk_04.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->unk_04.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->unk_04.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     envCtx->unk_A8.x = 80;
     envCtx->unk_A8.y = 80;
     envCtx->unk_A8.z = 80;
@@ -596,7 +603,7 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
 #endif
 
-void func_80070600(GlobalContext* globalCtx, u32 arg1) {
+void func_80070600(GlobalContext* globalCtx, s32 arg1) {
     if (arg1 == 0x1F) {
         arg1 = 0;
         // Underwater color is not set in the water poly data
@@ -635,7 +642,7 @@ void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
 
     GfxPrint_SetPos(&printer, 22, 7);
     GfxPrint_SetColor(&printer, 155, 155, 255, 64);
-    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.unk_14));
+    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.numDays));
     GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.unk_18));
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
@@ -776,25 +783,25 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
 
     if (globalCtx->csCtx.state != 0) {
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.x, -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.x, -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
                                 0.8f, 0.8f);
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
                                 0.8f, 0.8f);
         //! @bug This should be z.
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
                                 0.8f);
     } else {
-        globalCtx->envCtx.unk_04.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.unk_04.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.unk_04.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
     if (gSaveContext.entranceIndex != 0xCD || gSaveContext.sceneSetupIndex != 5) {
-        Matrix_Translate(globalCtx->view.eye.x + globalCtx->envCtx.unk_04.x,
-                         globalCtx->view.eye.y + globalCtx->envCtx.unk_04.y,
-                         globalCtx->view.eye.z + globalCtx->envCtx.unk_04.z, MTXMODE_NEW);
+        Matrix_Translate(globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x,
+                         globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y,
+                         globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
 
-        y = globalCtx->envCtx.unk_04.y / 25.0f;
+        y = globalCtx->envCtx.sunPos.y / 25.0f;
 
         alpha = y / 80.0f;
         alpha *= 255.0f;
@@ -818,18 +825,18 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
             color = 1.0f;
         }
 
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, color * 255.0f, color * 255.0f, alpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, color * 255.0f, color * 255.0f, alpha);
 
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2364), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2364), G_MTX_LOAD);
         func_80093AD0(globalCtx->state.gfxCtx);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0404D1C0);
+        gSPDisplayList(POLY_OPA_DISP++, &D_0404D1C0);
 
-        Matrix_Translate(globalCtx->view.eye.x - globalCtx->envCtx.unk_04.x,
-                         globalCtx->view.eye.y - globalCtx->envCtx.unk_04.y,
-                         globalCtx->view.eye.z - globalCtx->envCtx.unk_04.z, MTXMODE_NEW);
+        Matrix_Translate(globalCtx->view.eye.x - globalCtx->envCtx.sunPos.x,
+                         globalCtx->view.eye.y - globalCtx->envCtx.sunPos.y,
+                         globalCtx->view.eye.z - globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
 
         scale = -y / 120.0f;
 
@@ -847,12 +854,12 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
         }
 
         if ((alpha * 255.0f) > 0.0f) {
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2406), G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2406), G_MTX_LOAD);
             func_8009398C(globalCtx->state.gfxCtx);
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 240, 255, 180, alpha * 255.0f);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, 80, 70, 20, alpha * 255.0f);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, &D_04038F00);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha * 255.0f);
+            gDPSetEnvColor(POLY_OPA_DISP++, 80, 70, 20, alpha * 255.0f);
+            gSPDisplayList(POLY_OPA_DISP++, &D_04038F00);
         }
     }
 
@@ -864,7 +871,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
 // lens flare
 void func_80073988(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx, Vec3f pos,
-                   UNK_TYPE unused) {
+                   s32 unused) {
     if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.gloomySky == 0)) {
         func_80073A5C(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
                       Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
@@ -1479,7 +1486,7 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
         case 6:
             if (gSaveContext.dayTime < 0xCAAC && gSaveContext.dayTime > 0x4555) {
-                gSaveContext.unk_14++;
+                gSaveContext.numDays++;
                 gSaveContext.unk_18++;
                 gSaveContext.dogIsLost = true;
                 func_80078884(0x2813);
@@ -1819,7 +1826,7 @@ void func_800775D8() {
 }
 
 s32 func_800775E4() {
-    return gSaveContext.unk_14;
+    return gSaveContext.numDays;
 }
 
 void func_800775F0(u16 arg0) {

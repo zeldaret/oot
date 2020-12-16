@@ -29,7 +29,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_060065B0;
+extern FlexSkeletonHeader D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi_InitVars = {
@@ -60,7 +60,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
 
     this->rot = this->actor.posRot.rot;
     this->actor.flags |= 0x400;
@@ -161,7 +161,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 }
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
 
     SkelAnime_ChangeAnim(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
 
@@ -169,13 +169,13 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     this->unk_196 = 6;
     if (LINK_IS_CHILD) {
         this->unk_194 = false;
-        if (gSaveContext.unk_F3C[4] != 0) {
+        if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x407A;
             this->unk_196 = 5;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.unk_F3C[4] != 0) {
+        if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x4079;
             this->unk_196 = 5;
         }
@@ -335,9 +335,9 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, NULL,
-                     NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          NULL, NULL, this);
 }

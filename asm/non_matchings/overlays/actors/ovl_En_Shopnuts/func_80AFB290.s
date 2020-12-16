@@ -129,8 +129,8 @@ glabel func_80AFB290
 /* 00CEC 80AFB40C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00CF0 80AFB410 AFA20024 */  sw      $v0, 0x0024($sp)           
 /* 00CF4 80AFB414 8FA30024 */  lw      $v1, 0x0024($sp)           
-/* 00CF8 80AFB418 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
-/* 00CFC 80AFB41C 25CE3B68 */  addiu   $t6, $t6, 0x3B68           ## $t6 = 06003B68
+/* 00CF8 80AFB418 3C0E0600 */  lui     $t6, %hi(D_06003B68)                ## $t6 = 06000000
+/* 00CFC 80AFB41C 25CE3B68 */  addiu   $t6, $t6, %lo(D_06003B68)           ## $t6 = 06003B68
 /* 00D00 80AFB420 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00D04 80AFB424 8FAC0038 */  lw      $t4, 0x0038($sp)           
 /* 00D08 80AFB428 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000

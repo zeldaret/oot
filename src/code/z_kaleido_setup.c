@@ -44,8 +44,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 
     if (pauseCtx->state == 0 && pauseCtx->flag == 0 && globalCtx->unk_10A20 == 0 && globalCtx->sceneLoadFlag == 0 &&
         globalCtx->transitionMode == 0 && gSaveContext.cutsceneIndex < 0xFFF0 &&
-        gSaveContext.nextCutsceneIndex < 0xFFF0 && !Gameplay_InCsMode(globalCtx) && globalCtx->unk_11E5C < 2 &&
-        gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
+        gSaveContext.nextCutsceneIndex < 0xFFF0 && !Gameplay_InCsMode(globalCtx) &&
+        globalCtx->shootingGalleryStatus <= 1 && gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
         (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
@@ -70,8 +70,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 
             pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1; // cast required
             pauseCtx->state = 1;
-            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, (f64)pauseCtx->eye.x,
-                         (f64)pauseCtx->eye.z, pauseCtx->kscpPos);
+            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
+                         pauseCtx->eye.z, pauseCtx->kscpPos);
         }
 
         if (pauseCtx->state == 1) {
@@ -140,7 +140,4 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
 #endif
 
 void KaleidoSetup_Destroy(GlobalContext* globalCtx) {
-}
-
-void func_8006EE50(UNK_PTR arg0, s16 arg1, s16 arg2) {
 }

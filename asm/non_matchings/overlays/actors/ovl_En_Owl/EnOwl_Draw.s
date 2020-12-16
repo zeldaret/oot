@@ -60,7 +60,7 @@ glabel EnOwl_Draw
 /* 03158 80ACD078 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 0315C 80ACD07C AFA90010 */  sw      $t1, 0x0010($sp)
 /* 03160 80ACD080 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 03164 80ACD084 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 03164 80ACD084 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03168 80ACD088 AFA80018 */  sw      $t0, 0x0018($sp)
 /* 0316C 80ACD08C 8FAC0054 */  lw      $t4, 0x0054($sp)
 /* 03170 80ACD090 3C0680AD */  lui     $a2, %hi(D_80ACD7EC)       ## $a2 = 80AD0000

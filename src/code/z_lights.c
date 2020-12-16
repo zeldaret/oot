@@ -60,24 +60,24 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(oGfxCtx->polyOpa.p++, lights->numLights);
-    gSPNumLights(oGfxCtx->polyXlu.p++, lights->numLights);
+    gSPNumLights(POLY_OPA_DISP++, lights->numLights);
+    gSPNumLights(POLY_XLU_DISP++, lights->numLights);
 
     i = 0;
     light = &lights->l.l[0];
 
     while (i < lights->numLights) {
         i++;
-        gSPLight(oGfxCtx->polyOpa.p++, light, i);
-        gSPLight(oGfxCtx->polyXlu.p++, light, i);
+        gSPLight(POLY_OPA_DISP++, light, i);
+        gSPLight(POLY_XLU_DISP++, light, i);
         light++;
     }
 
     if (0) {}
 
     i++; // abmient light is total number of lights + 1
-    gSPLight(oGfxCtx->polyOpa.p++, &lights->l.a, i);
-    gSPLight(oGfxCtx->polyXlu.p++, &lights->l.a, i);
+    gSPLight(POLY_OPA_DISP++, &lights->l.a, i);
+    gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 
     CLOSE_DISPS(gfxCtx, "../z_lights.c", 352);
 }
@@ -363,10 +363,10 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_lights.c", 887);
 
-    oGfxCtx->polyXlu.p = func_800947AC(oGfxCtx->polyXlu.p++);
-    gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_MAGICSQ);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04015720);
+    POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
+    gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+    gDPSetColorDither(POLY_XLU_DISP++, G_CD_MAGICSQ);
+    gSPDisplayList(POLY_XLU_DISP++, D_04015720);
 
     while (node != NULL) {
         LightInfo* info;
@@ -380,12 +380,12 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
         if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
             scale = SQ(params->radius) * 0.0000026f;
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
             Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04015760);
+            gSPDisplayList(POLY_XLU_DISP++, D_04015760);
         }
 
         node = node->next;

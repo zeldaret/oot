@@ -57,8 +57,8 @@ glabel BgSpot06Objects_Init
 /* 00088 808AE808 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 0008C 808AE80C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00090 808AE810 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00094 808AE814 24840EE8 */  addiu   $a0, $a0, 0x0EE8           ## $a0 = 06000EE8
+/* 00090 808AE810 3C040600 */  lui     $a0, %hi(D_06000EE8)                ## $a0 = 06000000
+/* 00094 808AE814 24840EE8 */  addiu   $a0, $a0, %lo(D_06000EE8)           ## $a0 = 06000EE8
 /* 00098 808AE818 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 0009C 808AE81C 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4
@@ -262,8 +262,8 @@ glabel BgSpot06Objects_Init
 /* 00370 808AEAF0 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 00374 808AEAF4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00378 808AEAF8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0037C 808AEAFC 24841238 */  addiu   $a0, $a0, 0x1238           ## $a0 = 06001238
+/* 00378 808AEAF8 3C040600 */  lui     $a0, %hi(D_06001238)                ## $a0 = 06000000
+/* 0037C 808AEAFC 24841238 */  addiu   $a0, $a0, %lo(D_06001238)           ## $a0 = 06001238
 /* 00380 808AEB00 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 00384 808AEB04 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4

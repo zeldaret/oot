@@ -30,7 +30,7 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
 extern Gfx D_06002428[];
-extern SkeletonHeader D_06002530;
+extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
@@ -62,8 +62,8 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+                       this->transitionDrawTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -200,8 +200,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8.genericHeader),
-                         0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
@@ -340,8 +339,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8.genericHeader),
-                         0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
     this->unk_2B0.z = 6000.0f;
@@ -459,7 +457,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             if (this->unk_25E == 1) {
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
-                globalCtx->unk_11E5C = 0;
+                globalCtx->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
                 this->unk_25E = 0x14;
                 this->actionFunc = func_80B128D8;
@@ -645,7 +643,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     i = 0;
     switch (this->unk_29E) {
         case 0:
-            if (globalCtx->unk_11E5C != 0) {
+            if (globalCtx->shootingGalleryStatus != 0) {
                 i = 1;
             }
             break;
@@ -663,7 +661,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     EnSyatekiNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
@@ -696,8 +694,8 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         SyatekiNiw_OverrideLimbDraw, NULL, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                              this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);
     }
@@ -765,7 +763,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 == 1) {
             if (flag == 0) {
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
+                gSPDisplayList(POLY_XLU_DISP++, D_060023B0);
                 flag++;
             }
 
@@ -775,9 +773,9 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002428);
+            gSPDisplayList(POLY_XLU_DISP++, D_06002428);
         }
     }
 

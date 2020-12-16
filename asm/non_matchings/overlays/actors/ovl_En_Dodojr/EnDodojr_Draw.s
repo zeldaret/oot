@@ -22,7 +22,7 @@ glabel EnDodojr_Draw
 /* 01AA0 809F7E60 24E77D50 */  addiu   $a3, $a3, %lo(func_809F7D50) ## $a3 = 809F7D50
 /* 01AA4 809F7E64 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 01AA8 809F7E68 AFB90010 */  sw      $t9, 0x0010($sp)           
-/* 01AAC 809F7E6C 0C028572 */  jal     SkelAnime_Draw
+/* 01AAC 809F7E6C 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 01AB0 809F7E70 8FA4002C */  lw      $a0, 0x002C($sp)           
 .L809F7E74:

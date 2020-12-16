@@ -86,8 +86,8 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == 0x24) {
         EnFhgFire_SetupAction(this, func_80A0FD8C);
         this->unk_160 = 255.0f;
-        this->unk_150.x = 0x20;
-        this->unk_150.y = 0x32;
+        this->timer = 0x20;
+        this->effectsTimer = 0x32;
         this->unk_1FE = 0x0A;
 
         tempf2 = thisx->posRot.rot.x;
@@ -105,7 +105,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("yari hikari ct 1\n");
         EnFhgFire_SetupAction(this, func_80A10008);
         osSyncPrintf("yari hikari ct 2\n");
-        this->unk_150.x = thisx->posRot.rot.x;
+        this->timer = thisx->posRot.rot.x;
         this->fireMode = thisx->posRot.rot.y;
         return;
     }
@@ -117,10 +117,10 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(thisx, 7.0f);
             EnFhgFire_SetupAction(this, func_80A10F18);
             if (thisx->params == 0x29) {
-                this->unk_150.x = 0x01B8;
+                this->timer = 0x01B8;
                 thisx->scale.z = 1.0f;
             } else {
-                this->unk_150.x = 0x4C;
+                this->timer = 0x4C;
                 Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S);
                 Audio_PlayActorSound2(thisx, NA_SE_EV_FANTOM_WARP_S2);
             }
@@ -131,8 +131,8 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->speedXZ = (thisx->posRot.rot.x == 0) ? 8.0f : 3.0f;
         EnFhgFire_SetupAction(this, func_80A10220);
 
-        this->unk_150.x = 0x46;
-        this->unk_150.y = 0x02;
+        this->timer = 0x46;
+        this->effectsTimer = 0x02;
 
         tempf1 = player->actor.posRot.pos.x - thisx->posRot.pos.x;
         tempf2 = player->actor.posRot.pos.y + 30.0f - thisx->posRot.pos.y;
@@ -176,17 +176,17 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
     switch (this->fireMode) {
         case 0x00:
             this->fireMode = 0x0A;
-            this->unk_150.x = 0x07;
+            this->timer = 0x07;
             break;
 
         case 0x0A:
-            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
             Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
-            if (this->unk_150.x == 0) {
+            if (this->timer == 0) {
                 this->fireMode = 0x0B;
                 this->actor.shape.rot.z += 0x8000;
-                this->unk_150.x = 0x25;
+                this->timer = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
@@ -211,10 +211,10 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
 
         case 0x0B:
-            this->actor.shape.rot.y = func_8005A948(camera) + ((*tmp & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
 
             Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
-            if (this->unk_150.x == 0x1E) {
+            if (this->timer == 0x1E) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
@@ -230,7 +230,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 }
             }
 
-            if (this->unk_150.x == 0) {
+            if (this->timer == 0) {
                 Actor_Kill(&this->actor);
             }
     }
@@ -245,13 +245,13 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     switch (this->fireMode) {
         case 0:
             this->fireMode = 1;
-            this->unk_150.x = (s16)(Math_Rand_ZeroOne() * 7.0f) + 0x07;
+            this->timer = (s16)(Math_Rand_ZeroOne() * 7.0f) + 0x07;
         case 1:
             Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
 
-            if (this->unk_150.x == 0) {
+            if (this->timer == 0) {
                 this->fireMode = 0x02;
-                this->unk_150.x = 0x0A;
+                this->timer = 0x0A;
                 this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
                 this->actor.posRot.pos.x += Math_Coss(this->actor.shape.rot.y) * 200.0f * this->scale;
                 this->actor.shape.rot.y += 0x8000;
@@ -259,7 +259,7 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
         case 2:
             Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.34f);
-            if (this->unk_150.x == 0) {
+            if (this->timer == 0) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -302,25 +302,22 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 temp = 255;
 
     globalCtx->envCtx.unk_E1 = 0x01;
     this->actor.shape.rot.y += 0x1000;
 
-    if (this->unk_150.y == 0x31) {
+    if (this->effectsTimer == 0x31) {
         globalCtx->envCtx.unk_BF = 1;
         globalCtx->envCtx.unk_D6 = 0xFF;
     }
-    if (this->unk_150.y == 0x1F) {
+    if (this->effectsTimer == 0x1F) {
         globalCtx->envCtx.unk_BF = 0;
         globalCtx->envCtx.unk_D6 = 0x14;
     }
-    if (this->unk_150.y >= 0x30) {
-        globalCtx->envCtx.unk_E2[2] = temp;
-        globalCtx->envCtx.unk_E2[1] = temp;
-        globalCtx->envCtx.unk_E2[0] = temp;
+    if (this->effectsTimer >= 0x30) {
+        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
 
-        if (((this->unk_150.x & 0xFF) % 2) != 0) {
+        if ((this->timer % 2) != 0) {
             globalCtx->envCtx.unk_E2[3] = 70;
         } else {
             globalCtx->envCtx.unk_E2[3] = 0;
@@ -329,7 +326,7 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E2[3] = 0;
     }
 
-    if (this->unk_150.x < 0x15) {
+    if (this->timer < 0x15) {
         Math_SmoothDownscaleMaxF(&this->unk_160, 1.0f, 45.0f);
         Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.5f);
     } else {
@@ -344,7 +341,7 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_150.x == 0) {
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
         globalCtx->envCtx.unk_E1 = 0;
     }
@@ -402,7 +399,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_150.x == 0) {
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -420,18 +417,18 @@ void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
     this->unk_180 = (this->unk_180 - (30.0f * this->unk_184));
 
     if (this->actor.params == 0x29) {
-        if (this->unk_150.x >= 0x47) {
+        if (this->timer >= 0x47) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_L - SFX_FLAG);
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_L2 - SFX_FLAG);
         }
 
-        if (this->unk_150.x == 0x46) {
+        if (this->timer == 0x46) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_S);
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FANTOM_WARP_S2);
         }
     }
 
-    if (this->unk_150.x >= 0x33) {
+    if (this->timer >= 0x33) {
         phi_f0 = 1.0f;
         if (this->actor.params >= 0x28) {
             phi_f0 = -1.0f;
@@ -440,14 +437,14 @@ void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->unk_184, phi_f0, 1.0f, 0.04f);
         Math_SmoothScaleMaxF(&this->unk_188, 255.0f, 1.0f, 10.2f);
     } else {
-        if (this->unk_150.x < 0x1A) {
+        if (this->timer < 0x1A) {
             Math_SmoothDownscaleMaxF(&this->unk_184, 1.0f, 0.04f);
             Math_SmoothDownscaleMaxF(&this->unk_188, 1.0f, 10.2f);
         }
     }
 
     osSyncPrintf("EFC 1\n");
-    if ((this->unk_150.x == 0) || ((this->actor.params == 0x27) && (horse->unk_14F != 0))) {
+    if ((this->timer == 0) || ((this->actor.params == 0x27) && (horse->unk_14F != 0))) {
         Actor_Kill(&this->actor);
     }
     osSyncPrintf("EFC 2\n");
@@ -458,8 +455,8 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_156++;
 
-    DECR(this->unk_150.x);
-    DECR(this->unk_150.y);
+    DECR(this->timer);
+    DECR(this->effectsTimer);
 
     this->actionFunc(this, globalCtx);
 }
@@ -472,49 +469,49 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
     } else if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
 
         if (this->fireMode > 0) {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
         } else {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
         }
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPPipeSync(POLY_XLU_DISP++);
         Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1416f, 1);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06012160);
+        gSPDisplayList(POLY_XLU_DISP++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (u8)this->unk_188);
+        gDPSetEnvColor(POLY_XLU_DISP++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
                                     (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600FAA0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0600FAA0);
     } else {
         osSyncPrintf("FF DRAW 1\n");
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 30, 0);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 30, 0);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060105E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_060105E0);
         osSyncPrintf("FF DRAW 2\n");
     }
 

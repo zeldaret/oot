@@ -72,9 +72,9 @@ void func_80B17FC4(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists1[thisx->params]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
@@ -85,10 +85,10 @@ void func_80B1809C(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sUnkSegments[thisx->params]));
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists1[thisx->params]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists1[thisx->params]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
 }

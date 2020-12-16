@@ -1,7 +1,7 @@
 glabel func_800B8F58
 /* B300F8 800B8F58 27BDFFD0 */  addiu $sp, $sp, -0x30
-/* B300FC 800B8F5C 3C0E8016 */  lui   $t6, %hi(D_80161150) # $t6, 0x8016
-/* B30100 800B8F60 91CE1150 */  lbu   $t6, %lo(D_80161150)($t6)
+/* B300FC 800B8F5C 3C0E8016 */  lui   $t6, %hi(sDbgEditorSlots) # $t6, 0x8016
+/* B30100 800B8F60 91CE1150 */  lbu   $t6, %lo(sDbgEditorSlots)($t6)
 /* B30104 800B8F64 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B30108 800B8F68 AFB00018 */  sw    $s0, 0x18($sp)
 /* B3010C 800B8F6C AFA50034 */  sw    $a1, 0x34($sp)

@@ -64,8 +64,8 @@ glabel ObjWarp2block_Init
 /* 00624 80BA2414 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 00628 80BA2418 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0062C 80BA241C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00630 80BA2420 24840B30 */  addiu   $a0, $a0, 0x0B30           ## $a0 = 06000B30
+/* 0062C 80BA241C 3C040600 */  lui     $a0, %hi(D_06000B30)                ## $a0 = 06000000
+/* 00630 80BA2420 24840B30 */  addiu   $a0, $a0, %lo(D_06000B30)           ## $a0 = 06000B30
 /* 00634 80BA2424 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 00638 80BA2428 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4

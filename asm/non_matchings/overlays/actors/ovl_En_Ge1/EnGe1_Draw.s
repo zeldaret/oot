@@ -59,7 +59,7 @@ glabel EnGe1_Draw
 /* 01D94 80A32704 AFA80014 */  sw      $t0, 0x0014($sp)
 /* 01D98 80A32708 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 01D9C 80A3270C AFB00018 */  sw      $s0, 0x0018($sp)
-/* 01DA0 80A32710 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01DA0 80A32710 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01DA4 80A32714 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 01DA8 80A32718 8FA9005C */  lw      $t1, 0x005C($sp)
 /* 01DAC 80A3271C 3C0680A3 */  lui     $a2, %hi(D_80A328B8)       ## $a2 = 80A30000

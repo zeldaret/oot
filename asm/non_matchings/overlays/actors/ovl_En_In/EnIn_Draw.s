@@ -53,12 +53,12 @@ glabel EnIn_Draw
 /* 027A8 80A7B758 00D8C821 */  addu    $t9, $a2, $t8
 /* 027AC 80A7B75C 8F290000 */  lw      $t1, 0x0000($t9)           ## 00000000
 /* 027B0 80A7B760 00856824 */  and     $t5, $a0, $a1
-/* 027B4 80A7B764 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 027B4 80A7B764 3C040600 */  lui     $a0, %hi(D_060034D0)                ## $a0 = 06000000
 /* 027B8 80A7B768 01A95021 */  addu    $t2, $t5, $t1
 /* 027BC 80A7B76C 01475821 */  addu    $t3, $t2, $a3
 /* 027C0 80A7B770 AC6B0004 */  sw      $t3, 0x0004($v1)           ## 00000004
 /* 027C4 80A7B774 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
-/* 027C8 80A7B778 248434D0 */  addiu   $a0, $a0, 0x34D0           ## $a0 = 060034D0
+/* 027C8 80A7B778 248434D0 */  addiu   $a0, $a0, %lo(D_060034D0)           ## $a0 = 060034D0
 /* 027CC 80A7B77C 00047900 */  sll     $t7, $a0,  4
 /* 027D0 80A7B780 000FC702 */  srl     $t8, $t7, 28
 /* 027D4 80A7B784 3C0EDB06 */  lui     $t6, 0xDB06                ## $t6 = DB060000
@@ -83,7 +83,7 @@ glabel EnIn_Draw
 /* 02820 80A7B7D0 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 02824 80A7B7D4 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 02828 80A7B7D8 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0282C 80A7B7DC 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0282C 80A7B7DC 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 02830 80A7B7E0 8FA4005C */  lw      $a0, 0x005C($sp)
 .L80A7B7E4:
 /* 02834 80A7B7E4 8FB8005C */  lw      $t8, 0x005C($sp)

@@ -9,6 +9,11 @@ void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600ABC8;
+extern UNK_TYPE D_0600B0F8;
+extern UNK_TYPE D_0600CC90;
+extern UNK_TYPE D_0600DC30;
+
 /*
 const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,

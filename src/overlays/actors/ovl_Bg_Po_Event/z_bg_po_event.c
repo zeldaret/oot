@@ -506,9 +506,9 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
     DECR(this->timer);
 
     if (((this->timer == 0) || ((thisx->xzDistFromLink < 150.0f) && (thisx->yDistFromLink < 50.0f)) ||
-         (func_8002DD78(player) && (thisx->xzDistFromLink < 320.0f) &&
-          ((this->index != 2) ? (thisx->yDistFromLink < 100.0f) : (thisx->yDistFromLink < 0.0f)) &&
-          func_8002DFC8(thisx, 0x2000, globalCtx))) &&
+            (func_8002DD78(player) && (thisx->xzDistFromLink < 320.0f) &&
+            ((this->index != 2) ? (thisx->yDistFromLink < 100.0f) : (thisx->yDistFromLink < 0.0f)) &&
+            func_8002DFC8(thisx, 0x2000, globalCtx))) &&
         ((thisx->parent != NULL) || (thisx->child != NULL))) {
         /*The third condition in the || is checking if
             1) Link is holding a ranged weapon
@@ -598,11 +598,11 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             alpha = this->timer;
         }
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, alpha);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, alpha);
     }
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1501),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[this->type]);
+    gSPDisplayList(POLY_OPA_DISP++, displayLists[this->type]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1508);
 
     if ((this->type == 0) || (this->type == 1)) {

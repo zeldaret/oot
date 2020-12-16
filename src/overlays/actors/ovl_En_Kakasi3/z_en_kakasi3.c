@@ -33,7 +33,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_060065B0;
+extern FlexSkeletonHeader D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi3_InitVars = {
@@ -65,7 +65,7 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
     this->actor.flags |= 0x400;
     this->rot = this->actor.posRot.rot;
     this->actor.colChkInfo.mass = 0xFF;
@@ -164,7 +164,7 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
 }
 
 void func_80A911F0(EnKakasi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A91284;
@@ -179,14 +179,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (LINK_IS_CHILD) {
         this->unk_194 = false;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
             this->dialogState = 5;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.scarecrowSpawnSongSet) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -238,7 +238,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
-            } else if (gSaveContext.unk_12C5 != 0 && !this->unk_195) {
+            } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
@@ -341,7 +341,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         globalCtx->msgCtx.msgMode == 0) {
-            
+
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
         func_800803F0(globalCtx, this->camId);
@@ -405,7 +405,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_12C5);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;
@@ -428,6 +428,6 @@ void EnKakasi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi3* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
-                     NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, NULL, this);
 }
