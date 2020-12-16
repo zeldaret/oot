@@ -26,8 +26,8 @@ void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx);
 void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx);
 
-extern Gfx D_0600BF20;
-extern Gfx D_060021F0;
+extern Gfx D_0600BF20[];
+extern Gfx D_060021F0[];
 
 const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
