@@ -16,7 +16,7 @@ typedef enum {
     /* 2 */ SCYTHE_TRAP_ICE_CAVERN
 } SpinningScytheTrapMode;
 
-#define SCYTHE_SPIN_TIME 0x20
+#define SCYTHE_SPIN_TIME 32
 
 void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx);
