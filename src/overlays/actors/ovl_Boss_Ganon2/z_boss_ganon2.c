@@ -808,20 +808,20 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_DC = 2;
 
     switch (this->unk_339) {
-        case -1:
+        case 0:
             Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
             break;
-        case 2:
+        case 3:
             globalCtx->envCtx.unk_BE = 3;
             globalCtx->envCtx.unk_BD = 4;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
-        case 3:
+        case 4:
             globalCtx->envCtx.unk_BE = 5;
             globalCtx->envCtx.unk_BD = 6;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
-        case 4:
+        case 5:
             globalCtx->envCtx.unk_BE = 6;
             globalCtx->envCtx.unk_BD = 7;
             Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
@@ -864,6 +864,8 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         case 24:
             globalCtx->envCtx.unk_BE = 0;
             globalCtx->envCtx.unk_BD = 0xC;
+            break;
+        case -1:
             break;
     }
 
