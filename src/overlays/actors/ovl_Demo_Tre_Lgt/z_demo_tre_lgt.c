@@ -9,16 +9,24 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx);
-s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx);
 
-void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx);
 void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx);
 void func_80993754(DemoTreLgt* this);
 void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx);
 void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame);
-void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame);
 
 extern SkelCurveLimbList D_06005EB8;
+
+typedef struct {
+    /* 0x00 */ f32 startFrame;
+    /* 0x04 */ f32 endFrame;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ f32 unk_0C;
+} FrameInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ FrameInfo frameInfo[2];
+} DemoTreLgtInfo; // size = 0x20
 
 static DemoTreLgtInfo sDemoTreLgtInfo = {
     1.0f, 136.0f, 190.0f, 40.0f, 1.0f, 136.0f, 220.0f, 50.0f,
@@ -50,9 +58,10 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 
-    // defined in .rodata but not used
-    "1";
-    "../z_demo_tre_lgt.c";
+    // This assert is optimized out but it exists due to its presence in rodata
+    if (0) {
+        __assert("1", "../z_demo_tre_lgt.c", UNK_LINE);
+    }
 
     this->unk_170 = 255;
     this->unk_174 = 255;
@@ -80,11 +89,9 @@ void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx) {
 
 void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame) {
     SkelAnimeCurve* skelCurve = &this->skelCurve;
-    s32 pad;
+    s32 pad[2];
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
-
-    { s32 pad; }
 
     SkelCurve_SetAnim(skelCurve, sTransformUpdIdx[gSaveContext.linkAge], 1.0f,
                       sDemoTreLgtInfo.frameInfo[gSaveContext.linkAge].endFrame +
