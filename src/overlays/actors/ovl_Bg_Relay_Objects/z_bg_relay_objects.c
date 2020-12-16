@@ -123,7 +123,7 @@ void func_808A90F4(BgRelayObjects* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (this->timer != 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
-            if (gSaveContext.inventory.items[gItemSlots[10]] != 0xFF) {
+            if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
                 this->timer = 120;
             } else {
                 this->timer = 160;
