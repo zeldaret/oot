@@ -1,4 +1,5 @@
 #include "z_boss_ganon2.h"
+#include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 #include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
 
 #define FLAGS 0x00000035
@@ -280,7 +281,7 @@ static ColliderJntSphInit D_80907014 = {
 
 /* static */ Vec3f D_8090EB20;
 
-/* static */ UNK_TYPE D_8090EB2C;
+/* static */ EnZl3* D_8090EB2C;
 
 /* static */ UNK_TYPE D_8090EB30[2];
 
