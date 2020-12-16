@@ -9,6 +9,23 @@ struct EnGo2;
 
 typedef void (*EnGo2ActionFunc)(struct EnGo2*, GlobalContext*);
 
+typedef enum {
+    /* 0x00 */ GORON_CITY_ROLLING_BIG,
+    /* 0X01 */ GORON_CITY_LINK,
+    /* 0X02 */ GORON_CITY_BIGGORON,
+    /* 0X03 */ GORON_FIRE_GENERIC,
+    /* 0X04 */ GORON_DMT_BOMB_FLOWER,
+    /* 0X05 */ GORON_DMT_ROLLING_SMALL,
+    /* 0X06 */ GORON_DMT_DC_ENTRANCE,
+    /* 0x07 */ GORON_CITY_ENTRANCE,
+    /* 0X08 */ GORON_CITY_ISLAND,
+    /* 0X09 */ GORON_CITY_LOWEST_FLOOR,
+    /* 0X0A */ GORON_CITY_STAIRWELL,
+    /* 0X0B */ GORON_CITY_LOST_WOODS,
+    /* 0X0C */ GORON_DMT_FAIRY_SUMMIT,
+    /* 0X0D */ GORON_MARKET_BAZAAR,
+} GoronType;
+
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;

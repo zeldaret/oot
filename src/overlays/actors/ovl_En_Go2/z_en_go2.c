@@ -20,6 +20,62 @@
 // gSaveContext.infTable[15] & 1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 // gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
 
+// EnGo
+// this->actor.params & 0xF
+//      - Only checks in func_80A3F300 if (this->actor.params & 0xF == 0xF), if so immediately ends and returns 0 (start of the func)
+// this->actor.params & 0xF0
+
+// EnGo2
+// (this->actor.params & 0x3E0) >> 5
+// (this->actor.params & 0xFC00) >> 0xA
+// (s16) this->actor.params & 0x1F 
+//
+//
+//
+// this->actor.params & 0x1F
+//
+//
+//      case 0: rolling goron
+//      case 1: link the goron
+//      case 2: biggoron
+//      case 3: fire temple goron
+//      case 4: DMT Goron by bomb flower
+//      case 5: DMT Goron that is rolling
+//      case 6: DMT Goron at DC entrance
+//      case 7: Goron City Goron at entrance
+//      case 8: Goron city Goron at centre island
+//      case 9: Goron city Goron outside Darunia's door
+//      case 10: Goron City Goron in stairwell
+//      case 11: Goron City Goron outside Lost Woods
+//      case 12: DMT Goron at base of Summit
+//      case 13: Market Goron in bazaar
+//
+//      Medigoron?  
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -210,13 +266,20 @@ typedef struct {
 } EnGo2DataStruct4;
 
 EnGo2DataStruct1 D_80A4816C[14] = {
-    { 0x0000, 0x0000, 0x0000, 0x0044, 0x0094 }, { 0x0000, 0x0000, 0x0000, 0x0018, 0x0034 },
-    { 0x0000, 0x0140, 0x017C, 0x0190, 0x0078 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x002E, 0x005A }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }
+    { 0x0000, 0x0000, 0x0000, 0x0044, 0x0094 }, 
+    { 0x0000, 0x0000, 0x0000, 0x0018, 0x0034 },
+    { 0x0000, 0x0140, 0x017C, 0x0190, 0x0078 }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x002E, 0x005A }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }
 };
 
 EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 0x06, 60.0f }, { 24.0f, 0.008f, 0x06, 30.0f },
@@ -1001,7 +1064,7 @@ u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this) {
 //                         block_13:
 //                         if (this->unk_20D == 0) {
 //                             // ((!A && !B && C && D) || B) && E 
-//                             func_800F4524(&D_801333D4, 0x38FC, 0x3C);
+//                             func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
 //                         }
 //                         block_15:
 //                         if (this->unk_20D == 0) {
@@ -1210,47 +1273,33 @@ u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this) {
         return temp_ret;
     } else {
         switch (this->actor.params & 0x1F) {
-            case 0:
-                // rolling goron
+            case GORON_CITY_ROLLING_BIG:
                 return func_80A43564(globalCtx, this);
-            case 1:
-                // link the goron
+            case GORON_CITY_LINK:
                 return func_80A43C9C(globalCtx, this);
-            case 2:
-                // biggoron
+            case GORON_CITY_BIGGORON:
                 return func_80A43F90(globalCtx, this);
-            case 3:
-                // fire temple goron
+            case GORON_FIRE_GENERIC:
                 return func_80A44224(globalCtx, this);
-            case 4:
-                // DMT Goron by bomb flower
+            case GORON_DMT_BOMB_FLOWER:
                 return func_80A436DC(globalCtx, this);
-            case 5:
-                // DMT Goron that is rolling
+            case GORON_DMT_ROLLING_SMALL:
                 return func_80A43824(globalCtx, this);
-            case 6:
-                // DMT Goron at DC entrance
+            case GORON_DMT_DC_ENTRANCE:
                 return func_80A438B4(globalCtx, this);
-            case 7:
-                // Goron City Goron at entrance
+            case GORON_CITY_ENTRANCE:
                 return func_80A439AC(globalCtx, this);
-            case 8:
-                // Goron city Goron at centre island
+            case GORON_CITY_ISLAND:
                 return func_80A43A88(globalCtx, this);
-            case 9:
-                // Goron city Goron outside Darunia's door
+            case GORON_CITY_LOWEST_FLOOR:
                 return func_80A43B64(globalCtx, this);
-            case 10:
-                // Goron City Goron in stairwell
+            case GORON_CITY_STAIRWELL:
                 return func_80A442F0(globalCtx, this);
-            case 11:
-                // Goron City Goron outside Lost Woods
+            case GORON_CITY_LOST_WOODS:
                 return func_80A443E0(globalCtx, this);
-            case 12:
-                // DMT Goron at base of Summit
+            case GORON_DMT_FAIRY_SUMMIT:
                 return func_80A444A8(globalCtx, this);
-            case 13:
-                // Market Goron in bazaar
+            case GORON_MARKET_BAZAAR:
                 return func_80A44398(globalCtx, this);
         }
     }
@@ -1260,33 +1309,33 @@ u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this) {
 u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
 
     switch (this->actor.params & 0x1F) {
-        case 0:
+        case GORON_CITY_ROLLING_BIG:
             return func_80A435E8(globalCtx, this);
-        case 1:
+        case GORON_CITY_LINK:
             return func_80A43D78(globalCtx, this);
-        case 2:
+        case GORON_CITY_BIGGORON:
             return func_80A44010(globalCtx, this);
-        case 3:
+        case GORON_FIRE_GENERIC:
             return func_80A44258(globalCtx, this);
-        case 4:
+        case GORON_DMT_BOMB_FLOWER:
             return func_80A43714(globalCtx, this);
-        case 5:
+        case GORON_DMT_ROLLING_SMALL:
             return func_80A4387C(globalCtx, this);
-        case 6:
+        case GORON_DMT_DC_ENTRANCE:
             return func_80A43950(globalCtx, this);
-        case 7:
+        case GORON_CITY_ENTRANCE:
             return func_80A43A2C(globalCtx, this);
-        case 8:
+        case GORON_CITY_ISLAND:
             return func_80A43B08(globalCtx, this);
-        case 9:
+        case GORON_CITY_LOWEST_FLOOR:
             return func_80A43C40(globalCtx, this);
-        case 10:
+        case GORON_CITY_STAIRWELL:
             return func_80A4433C(globalCtx, this);
-        case 11:
+        case GORON_CITY_LOST_WOODS:
             return func_80A4444C(globalCtx, this);
-        case 12:
+        case GORON_DMT_FAIRY_SUMMIT:
             return func_80A444FC(globalCtx, this);
-        case 13:
+        case GORON_MARKET_BAZAAR:
             return func_80A443A8(globalCtx, this);
     }
 }
@@ -1294,10 +1343,10 @@ u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
 
-    if (((this->actor.params & 0x1F) != 2) && (this->actor.params & 0x1F)) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, func_80A44534, func_80A44678);
     }
-    if (((this->actor.params & 0x1F) == 2) && ((this->collider.base.maskB & 1) == 0)) {
+    if (((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) && ((this->collider.base.maskB & 1) == 0)) {
         return 0;
     } else {
         if (func_8002F194(&this->actor, globalCtx)) {
@@ -1374,7 +1423,7 @@ s32 func_80A44AB0(EnGo2 *this, GlobalContext *globalCtx) {
     f32 phi_f0;
 
     player = PLAYER;
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         return 0;
     } else {
         if ((this->actionFunc != func_80A46E54) && (this->actionFunc != func_80A47024) && (this->actionFunc !=
@@ -1466,17 +1515,17 @@ s32 func_80A44DC0(EnGo2 *this) {
     f32 phi_f2;
     s16 phi_v1;
 
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         phi_f0 = 800.0f;
     } else {
         phi_f0 = 200.0f;
     }
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         phi_f2 = 400.0f;
     } else {
         phi_f2 = 60.0f;
     }
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         if ((this->collider.base.maskB & 1) == 0) {
             this->actor.flags &= ~1;
             return 0;
@@ -1542,7 +1591,7 @@ s32 func_80A44EF0(EnGo2 *this, s16 arg1, f32 arg2, s16 arg3) {
 
 
     if (this->unk_59C >= 2) {        
-        if ((this->actor.params & 0x1F) == 0) {
+        if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) {
             sound = NA_SE_EN_GOLON_LAND_BIG;
         } else {
             sound = NA_SE_EN_DODO_M_GND;
@@ -1573,7 +1622,7 @@ void func_80A45088(EnGo2* this, GlobalContext* globalCtx, Actor* arg2) {
     u16 phi_v0;
     u16 phi_v0_2;
 
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         if (gSaveContext.bgsFlag) {
             if (func_8002F368(globalCtx) == 0xF) {
                 // "I giiiive thissss to yoooou forrr a souvenirrrrr."
@@ -1717,14 +1766,14 @@ void func_80A4546C(EnGo2* this) {
 void func_80A454CC(EnGo2* this) {
 
     switch (this->actor.params & 0x1F) {
-        case 0:
-        case 6:
-        case 7:
-        case 10:
-        case 12:
+        case GORON_CITY_ROLLING_BIG:
+        case GORON_DMT_DC_ENTRANCE:
+        case GORON_CITY_ENTRANCE:
+        case GORON_CITY_STAIRWELL:
+        case GORON_DMT_FAIRY_SUMMIT:
             func_80034EC0(&this->skelAnime, D_80A48348, 9);
             break;
-        case 2:
+        case GORON_CITY_BIGGORON:
             if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK) {
                 func_80034EC0(&this->skelAnime, D_80A48348, 4);
                 break;
@@ -1739,7 +1788,7 @@ f32 func_80A45578(EnGo2 *this) {
     f32 phi_f2;
     s32 index;
 
-    phi_f2 = (this->actor.params & 0x1F) == 2 ? 400.0f : 60.0f;
+    phi_f2 = (this->actor.params & 0x1F) == GORON_CITY_BIGGORON ? 400.0f : 60.0f;
 
     index = this->actor.params & 0x1F;
 
@@ -1756,7 +1805,7 @@ s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
     Camera* camera;
 
     camera = globalCtx->cameraPtrs[0];
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         if (func_80A44DC0(this)) {
             Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
             func_8005AD1C(camera, 4);
@@ -1767,8 +1816,9 @@ s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.params & 0x1F) == 3 || (this->actor.params & 0x1F) == 0 || (this->actor.params & 0x1F) == 0xA ||
-        (this->actor.params & 0x1F) == 2 || (this->actor.params & 0x1F) == 0xD) {
+    if ((this->actor.params & 0x1F) == GORON_FIRE_GENERIC || (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG ||
+        (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_CITY_BIGGORON ||
+        (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return 1;
     }
 
@@ -1798,7 +1848,7 @@ void func_80A4578C(EnGo2* this) {
     f32 phi_f0;
     s32 temp;
 
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         phi_f0 = 800.0f;
     } else {
         phi_f0 = 200.0f;
@@ -1832,20 +1882,20 @@ void func_80A457F8(EnGo2* this) {
 void func_80A45848(EnGo2* this) {
 
     switch(this->actor.params & 0x1F) {
-        case 4:
+        case GORON_DMT_BOMB_FLOWER:
             this->unk_20F = 1;
             this->unk_26E = func_80A44DC0(this) ? 2 : 1;
             break;
 
-        case 3:
+        case GORON_FIRE_GENERIC:
             func_80A4578C(this);
             break;
 
-        case 2:
+        case GORON_CITY_BIGGORON:
             func_80A457F8(this);
             break;
 
-        case 1:
+        case GORON_CITY_LINK:
             if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                 func_80A4578C(this);
                 break;
@@ -1908,10 +1958,10 @@ void func_80A45A00(EnGo2 *this) {
     if ((this->skelAnime.animPlaybackSpeed != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
         if (this->skelAnime.animPlaybackSpeed > 0.0f) {
             if (this->skelAnime.animCurrentFrame == 14.0f) {
-                if ((this->actor.params & 0x1F) != 2) {
+                if ((this->actor.params & 0x1F) != GORON_CITY_BIGGORON) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
                 } else {
-                    func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 0x3C);
+                    func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 60);
                 }
             }
         }
@@ -1931,7 +1981,7 @@ void func_80A45B14(EnGo2* this, s32 unk_arg) {
     EnGo2DataStruct3* temp_v0;
     s32 phi_v1;
 
-    if ((this->actor.params & 0x1F) == 0) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) {
         phi_v1 = 1;
     } else {
         phi_v1 = 0;
@@ -1946,7 +1996,7 @@ void func_80A45B14(EnGo2* this, s32 unk_arg) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45B9C.s")
 void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         this->actor.flags &= ~1;
         func_80034EC0(&this->skelAnime, D_80A48348, 0xA);
         this->skelAnime.animPlaybackSpeed = -0.5f;
@@ -1964,13 +2014,13 @@ void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45C50.s")
 void func_80A45C50(EnGo2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animPlaybackSpeed == 0.0f) {
-        if ((this->actor.params & 0x1F) != 2) {
+        if ((this->actor.params & 0x1F) != GORON_CITY_BIGGORON) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
-            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 0x3C);
+            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
         }
     }
-    if ((this->actor.params & 0x1F) == 2) {
+    if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
         func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
         func_80034EC0(&this->skelAnime, D_80A48348, 0xA);
         this->skelAnime.animPlaybackSpeed = 0.5f;
@@ -1994,7 +2044,7 @@ void func_80A45D40(EnGo2* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45DA4.s")
 void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx) {
 
-    if (((this->actor.params & 0x1F) == 0) || ((this->actor.params & 0x1F) == 1)) {
+    if (((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) || ((this->actor.params & 0x1F) == GORON_CITY_LINK)) {
         this->collider.body.bumperFlags = 1;
         if (gSaveContext.infTable[17] & 0x4000) {
             this->actor.speedXZ = 6.0f;
@@ -2015,8 +2065,8 @@ void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx) {
 void func_80A45E48(EnGo2* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
-    if (((this->actor.params & 0x1F) != 0) && ((this->actor.params & 0x1F) != 1)) {
-        if ((this->actor.params & 0x1F) == 5) {
+    if (((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) && ((this->actor.params & 0x1F) != GORON_CITY_LINK)) {
+        if ((this->actor.params & 0x1F) == GORON_DMT_ROLLING_SMALL) {
             bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
                                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
             if (bomb != NULL) {
@@ -2039,7 +2089,7 @@ void func_80A45E48(EnGo2* this, GlobalContext* globalCtx) {
 s32 func_80A45F08(EnGo2* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
-    if ((this->actor.params & 0x1F) != 3) {
+    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) {
         return 0;
     } else {
         if (globalCtx->state.frames & 1) {
@@ -2058,7 +2108,7 @@ s32 func_80A45F08(EnGo2* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45F9C.s")
 s32 func_80A45F9C(EnGo2* this) {
 
-    if ((this->actor.params & 0x1F) != 4 || this->unk_194.unk_00 != 2) {
+    if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.unk_00 != 2) {
         return 0;
     } else {
         func_80034EC0(&this->skelAnime, D_80A48348, 3);
@@ -2072,7 +2122,7 @@ s32 func_80A45F9C(EnGo2* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4601C.s")
 s32 func_80A4601C(EnGo2* this, GlobalContext* globalCtx) {
-    if ((this->actor.params & 0x1F) || (this->unk_194.unk_00 != 2)) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.unk_00 != 2)) {
         return 0;
     } else {
         this->unk_194.unk_00 = 0;
@@ -2084,7 +2134,7 @@ s32 func_80A4601C(EnGo2* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4607C.s")
 s32 func_80A4607C(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != 3 || this->unk_194.unk_00 == 0) {
+    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.unk_00 == 0) {
         return 0;
     } else {
         this->actionFunc = func_80A47578;
@@ -2094,7 +2144,7 @@ s32 func_80A4607C(EnGo2* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A460B8.s")
 s32 func_80A460B8(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != 1 || (this->waypoint >= this->unk_216) || func_80A44DC0(this) == 0) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) || func_80A44DC0(this) == 0) {
         return 0;
     } else {
         return 1;
@@ -2121,7 +2171,7 @@ s32 func_80A46114(EnGo2* this) {
 // void func_80A461A8(EnGo2 *this, GlobalContext *globalCtx) {
 //     s32 animation;
 
-//     if ((this->actor.params & 0x1F) != 1 || (((this->actor.textId != 0x3035) || (this->unk_20C != 0)) &&
+//     if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (((this->actor.textId != 0x3035) || (this->unk_20C != 0)) &&
 //     (this->actor.textId == 0x3036) && (this->unk_20C == 0))) {
 //         if ((this->actor.textId != 0x3035) || (this->unk_20C != 0)) {
 //             animation = 0xD;
@@ -2159,28 +2209,24 @@ s32 func_80A46114(EnGo2* this) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A462D8.s")
-// void func_80A462D8(EnGo2 *this, GlobalContext *globalCtx) {
-//     f32 temp_f12;
-//     f32 temp_f18;
-//     f32 temp_f2;
-//     s16 temp_v1;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A462D8.s")
+void func_80A462D8(EnGo2 *this, GlobalContext *globalCtx) {
+    s16 temp_v1;
 
-//     this->camID = Gameplay_CreateSubCamera(globalCtx);
-//     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
-//     Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
-//     Path_CopyLastPoint(this->path, &this->at);
-//     temp_v1 = Math_Vec3f_Yaw(&this->actor.posRot, &this->at) + 0xE38;
-//     this->eye.x = Math_Sins((s16)(temp_v1 * 100.0f)) + this->actor.posRot.pos.x;
-//     temp_f18 = Math_Coss(temp_v1) * 100.0f;
-//     temp_f12 = this->actor.posRot.pos.y;
-//     this->at.z = this->actor.posRot.pos.z;
-//     this->eye.y = temp_f12 + 20.0f;
-//     this->at.x = this->actor.posRot.pos.x;
-//     this->eye.z = temp_f18 + this->actor.posRot.pos.z;
-//     this->at.y = temp_f12 + 40.0f;
-//     Gameplay_CameraSetAtEye(globalCtx, this->camID, &this->at, &this->eye);
-// }
+    this->camID = Gameplay_CreateSubCamera(globalCtx);
+    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
+    Path_CopyLastPoint(this->path, &this->at);
+    temp_v1 = Math_Vec3f_Yaw(&this->actor.posRot, &this->at) + 0xE38;
+    this->eye.x = Math_Sins(temp_v1) * 100.0f + this->actor.posRot.pos.x;
+    this->eye.z = Math_Coss(temp_v1) * 100.0f + this->actor.posRot.pos.z;
+    // temp_f12 = this->actor.posRot.pos.y;
+    this->eye.y = this->actor.posRot.pos.y + 20.0f;
+    this->at.x = this->actor.posRot.pos.x;
+    this->at.y = this->actor.posRot.pos.y + 40.0f;
+    this->at.z = this->actor.posRot.pos.z;
+    Gameplay_CameraSetAtEye(globalCtx, this->camID, &this->at, &this->eye);
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A463D8.s")
 void func_80A463D8(EnGo2* this, GlobalContext* globalCtx) {
@@ -2193,7 +2239,7 @@ void func_80A46418(EnGo2* this) {
     s16 phi_v1;
 
     if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK &&
-        (this->actor.params & 0x1F) == 2 && this->unk_194.unk_00 == 0) {
+        (this->actor.params & 0x1F) == GORON_CITY_BIGGORON && this->unk_194.unk_00 == 0) {
         if (this->unk_592 == 0) {
             phi_v1 = 0;
         } else {
@@ -2202,129 +2248,140 @@ void func_80A46418(EnGo2* this) {
         }
         if (phi_v1 == 0) {
             this->unk_592 = Math_Rand_S16Offset(30, 30);
-            func_800F4524(&D_801333D4, 0x391C, 60);
+            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Init.s")
-// void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Init.s")
+void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
 
-//     EnGo2* this = THIS;
+    EnGo2* this = THIS;
+    s32 pad;
 
-//     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 28.0f);
-//     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->limbDrawTable, &this->transitionDrawTable, 18);
-//     Collider_InitCylinder(globalCtx, &this->collider);
-//     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A48114);
-//     func_80061EFC(&this->actor.colChkInfo, NULL, &D_80A48140);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 28.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->limbDrawTable, &this->transitionDrawTable, 18);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A48114);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &D_80A48140);
+
+    // Not GORON_CITY_ROLLING_BIG, GORON_CITY_LINK, GORON_CITY_BIGGORON
+    switch(this->actor.params & 0x1F) {
+        case GORON_FIRE_GENERIC:
+        case GORON_DMT_BOMB_FLOWER:
+        case GORON_DMT_ROLLING_SMALL:
+        case GORON_DMT_DC_ENTRANCE:
+        case GORON_CITY_ENTRANCE:
+        case GORON_CITY_ISLAND:
+        case GORON_CITY_LOWEST_FLOOR:
+        case GORON_CITY_STAIRWELL:
+        case GORON_CITY_LOST_WOODS:
+        case GORON_DMT_FAIRY_SUMMIT:
+        case GORON_MARKET_BAZAAR:
+            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~0x20;
+    }
+
+    func_80A4488C(this);
+    func_80A448C4(this);
+    func_80034EC0(&this->skelAnime, D_80A48348, 0);
+    this->actor.gravity = -1.0f;
+    this->unk_220 = this->actor.shape.unk_14 = 0;
+    this->reverse = 0;
+    this->unk_20F = 0;
+    this->unk_211 = 0;
+    this->unk_212 = 0;
+    this->waypoint = 0;
+    this->unk_216 = this->actor.shape.rot.z; // (u8 cast)
+    this->unk_26E = 1;
+    this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x3E0) >> 5, 0x1F);
+
+    switch(this->actor.params & 0x1F) {
+
+        case GORON_CITY_ENTRANCE:
+        case GORON_CITY_ISLAND:
+        case GORON_CITY_LOWEST_FLOOR:
+        case GORON_CITY_STAIRWELL:
+        case GORON_CITY_LOST_WOODS:
+            if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && LINK_IS_ADULT) {
+                Actor_Kill(&this->actor);
+            }
+            this->actionFunc = func_80A4696C;
+            break;
+
+        case GORON_MARKET_BAZAAR:
+            if ((LINK_IS_ADULT) || (CHECK_QUEST_ITEM(QUEST_GORON_RUBY) == 0)) {
+                Actor_Kill(&this->actor);
+            }
+            func_80A45D40(this, globalCtx);
+            break;
 
 
-//     switch(this->actor.params & 0x1F) {
-
-//         case 0xF:
-//             this->actor.flags &= ~0x10;
-//             this->actor.flags &= ~0x20;
-
-//         case 0xE:
-//             func_80A4488C(this);
-//             func_80A448C4(this);
-//             func_80034EC0(&this->skelAnime, D_80A48348, 0);
-//             this->actor.shape.unk_14 = 0;
-//             this->actor.gravity = -1.0f;
-//             this->unk_220 = 0.0f; 
-//             this->reverse = 0;
-//             this->unk_20F = 0;
-//             this->unk_211 = 0;
-//             this->unk_212 = 0;
-//             this->waypoint = 0;
-//             this->unk_26E = 1;
-//             this->unk_216 = this->actor.shape.rot.z; // (u8 cast)
-//             this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x3E0) >> 5, 0x1F);
-//             break;
-
-//         default:
-//             if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && LINK_IS_ADULT) {
-//                 Actor_Kill(&this->actor);
-//             }
-//             break;
-
-
-//         case 0xD:
-//             if ((LINK_IS_ADULT) || (CHECK_QUEST_ITEM(QUEST_GORON_RUBY) == 0)) {
-//                 Actor_Kill(&this->actor);
-//             }
-//             func_80A45D40(this, globalCtx);
-//             break;
-
-
-//         case 0x1:
-//             if ((gSaveContext.infTable[16] & 0x200)) {
-//                 Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
-//                 this->actor.initPosRot.pos = this->actor.posRot.pos;
-//                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) || (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1) == 0)) {
-//                     this->actionFunc = func_80A4696C;
-//                 }
-//                 else {
-//                     func_80A45D40(this, globalCtx);
-//                 }
-//             }
-//             else {
-//                 gSaveContext.infTable[16] &= ~0x1000;
-//                 this->collider.dim.height = (s16) ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
-//                 func_80A45DA4(this, globalCtx);
-//                 this->unk_20F = 1;
-//             }
-//             break;
+        case GORON_CITY_LINK:
+            if ((gSaveContext.infTable[16] & 0x200)) {
+                Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
+                this->actor.initPosRot.pos = this->actor.posRot.pos;
+                if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0 && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+                    func_80A45D40(this, globalCtx);
+                }
+                else {
+                    this->actionFunc = func_80A4696C;
+                }
+            }
+            else {
+                gSaveContext.infTable[16] &= ~0x1000;
+                this->collider.dim.height =  ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+                func_80A45DA4(this, globalCtx);
+                this->unk_20F = 1;
+            }
+            break;
 
 
             
-//         case 0x0:
-//         case 0x5:
+        case GORON_CITY_ROLLING_BIG:
+        case GORON_DMT_ROLLING_SMALL:
    
-//             this->collider.dim.height = (s16) ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
-//             func_80A45DA4(this, globalCtx);
-//             break;
+            this->collider.dim.height =  ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+            func_80A45DA4(this, globalCtx);
+            break;
 
 
-//         case 0x3:
-//             if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
-//                 Actor_Kill(&this->actor);
-//             } else {
-//                 this->unk_20F = 1;
-//                 this->actionFunc = func_80A4696C;
-//             }
-//             break;
+        case GORON_FIRE_GENERIC:
+            if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
+                Actor_Kill(&this->actor);
+            } else {
+                this->unk_20F = 1;
+                this->actionFunc = func_80A4696C;    
+            }
+            break;
     
 
-//         case 0x2:
-//             this->actor.shape.shadowDrawFunc = NULL;
-//             this->actor.flags &= ~1;
-//             if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) && (INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK)) {
-//                 this->unk_213 = 1;
-//             }
-//             this->collider.base.acFlags = 0;
-//             this->collider.base.maskA = 0xD;
-//             this->actionFunc = func_80A4696C;
-//             break;
+        case GORON_CITY_BIGGORON:
+            this->actor.shape.shadowDrawFunc = NULL;
+            this->actor.flags &= ~1;
+            if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) && (INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK)) {
+                this->unk_213 = 1;
+            }
+            this->collider.base.acFlags = 0;
+            this->collider.base.maskA = 0xD;
+            this->actionFunc = func_80A4696C;
+            break;
 
 
-//         case 0x4:
-//             // dest1 = this->actor.posRot;
-//             if (gSaveContext.infTable[14] & 0x800) {
-//                 Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
-//                 this->actor.initPosRot.pos = this->actor.posRot.pos;
-//             }
-//             break;
+        case GORON_DMT_BOMB_FLOWER:
+            // dest1 = this->actor.posRot;
+            if (gSaveContext.infTable[14] & 0x800) {
+                Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
+                this->actor.initPosRot.pos = this->actor.posRot.pos;
+            }
+        
+        case GORON_DMT_DC_ENTRANCE:
+        case GORON_DMT_FAIRY_SUMMIT:
+        default:
+            this->actionFunc = func_80A4696C;
             
-
-//         // case 0x6:
-//         // case 0xC:
-//         //     break;
-
-//     }
-//     this->actionFunc = func_80A4696C;
-
-// }
+    }
+}
 
 
 
@@ -2333,40 +2390,40 @@ void EnGo2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 
-// nextfunc
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4696C.s")
-// void func_80A4696C(EnGo2 *this, GlobalContext *globalCtx) {
-//     u8 index;
-//     s32 quake;
-//     f32 temp_f0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4696C.s")
+void func_80A4696C(EnGo2 *this, GlobalContext *globalCtx) {
+    u8 index;
+    s16 height;
+    s32 quake;
 
-//     index = this->actor.params & 0x1F;
+    index = this->actor.params & 0x1F;
 
-//     if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-//         if ((this->actor.params & 0x1F) == 2) {
-//             quake = Quake_Add(ACTIVE_CAM, 3);
-//             Quake_SetSpeed(quake, -0x3CB0);
-//             Quake_SetQuakeValues(quake, 8, 0, 0, 0);
-//             Quake_SetCountdown(quake, 16);
-//         } else {
-//             func_80A45B14(this, 1);
-//         }
-//         this->skelAnime.animPlaybackSpeed = 0.0f;
-//     }
-//     if (this->skelAnime.animCurrentFrame == 0) {
-//         this->collider.dim.height = (s16) ((&D_80A4816C[index])->height * 0.6f);
-//     } else {
-//         temp_f0 = (&D_80A4816C[index])->height;
-//         this->collider.dim.height = (s16) ((temp_f0 * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.initialFrame)) + (temp_f0 * 0.6f));
-//     }
-//     if (func_80A45F08(this, globalCtx)) {
-//         this->unk_20F = 0;
-//         func_80A45C50(this, globalCtx);
-//     }
-//     if (((this->actor.params & 0x1F) != 3) && func_80A44DC0(this)) {
-//         func_80A45C50(this, globalCtx);
-//     }
-// }
+    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+        if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
+            quake = Quake_Add(ACTIVE_CAM, 3);
+            Quake_SetSpeed(quake, -0x3CB0);
+            Quake_SetQuakeValues(quake, 8, 0, 0, 0);
+            Quake_SetCountdown(quake, 16);
+        } else {
+            func_80A45B14(this, 1);
+        }
+        this->skelAnime.animPlaybackSpeed = 0.0f;
+    }
+    // temp = (&D_80A4816C[index]);
+    if ((s32) this->skelAnime.animCurrentFrame == 0) {
+        this->collider.dim.height = ((&D_80A4816C[index])->height * 0.6f);
+    } else {
+        height = (&D_80A4816C[index])->height;
+        this->collider.dim.height = (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.initialFrame)) + (height * 0.6f));
+    }
+    if (func_80A45F08(this, globalCtx)) {
+        this->unk_20F = 0;
+        func_80A45C50(this, globalCtx);
+    }
+    if (((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) && func_80A44DC0(this)) {
+        func_80A45C50(this, globalCtx);
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46B40.s")
 void func_80A46B40(EnGo2 *this, GlobalContext *globalCtx) {
@@ -2392,7 +2449,7 @@ void func_80A46B40(EnGo2 *this, GlobalContext *globalCtx) {
 
     else {
         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-            if ((this->actor.params & 0x1F) == 2) {
+            if ((this->actor.params & 0x1F) == GORON_CITY_BIGGORON) {
                 this->actor.flags |= 1;
             }
 
@@ -2441,7 +2498,7 @@ void func_80A46DBC(EnGo2 *this, GlobalContext *globalCtx) {
     f32 float1;
 
     float1 = 1000.0f;
-    if (((this->actor.params & 0x1F) != 5) || !(this->actor.xyzDistFromLinkSq > SQ(float1))) {
+    if (((this->actor.params & 0x1F) != GORON_DMT_ROLLING_SMALL) || !(this->actor.xyzDistFromLinkSq > SQ(float1))) {
         if (this->unk_592 == 0) {
             phi_v1 = 0;
         } else {
@@ -2491,11 +2548,11 @@ void func_80A46F88(EnGo2 *this, GlobalContext *globalCtx) {
         func_80A45B14(this, 0);
         if (this->unk_59C == 0) {
             switch (this->actor.params & 0x1F) {
-                case 1:
+                case GORON_CITY_LINK:
                     this->unk_212 = 0;
                     this->actionFunc = func_80A47490;
                     break;
-                case 0:
+                case GORON_CITY_ROLLING_BIG:
                     func_80A45C50(this, globalCtx);
                     break;
                 default:
@@ -2562,9 +2619,8 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4725C.s")
-// void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {
-//     // SkelAnime *sp28;
-//     // SkelAnime *temp_a0;
+// close
+// void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {  
 //     s32 phi_v0;
 
 //     switch(this->unk_212) {
@@ -2573,31 +2629,37 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //             this->actor.flags &= ~1;
 //             this->actor.shape.rot.y += 0x5B0;
 //             this->unk_26E = 1;
+//             this->unk_592 = this->skelAnime.animFrameCount + 60.0f + 60.0f;
 //             this->unk_213 = 2;
 //             this->unk_20C = 0;
 //             this->unk_212++;
-//             this->unk_592 = this->skelAnime.animFrameCount + 60.0f + 60.0f;
 //             func_800F483C(0x28, 5);
 //             func_800800F8(globalCtx, 0x105E, -0x63, &this->actor, 0);
 //             break;
 
 //         case 1:
-//             if (this->unk_592) {
+//             phi_v0 = this->unk_592;
+//             if (phi_v0 == 0) {
 //                 phi_v0 = 0;
-//             } else {
+//             }
+//             else {
 //                 this->unk_592--;
 //                 phi_v0 = this->unk_592;
 //             }
-
-//             if (this->unk_592) {
-//                 if (phi_v0 == 0x3C || phi_v0 == 0x78) {
-//                     func_8005B1A4(ACTIVE_CAM, 0x391D);
-//                     func_800F4524(&D_801333D4, 0x28B5, 0x3C);
+//             // this->unk_592 = this->unk_592 == 0 ? 0 : this->unk_592-1;
+//             // this->unk_592 = this->unk_592 == 0 ? 0 : this->unk_592-1;
+//             if (phi_v0) {
+//                 if (this->unk_592 == 0x3C || this->unk_592 == 0x78) {
+//                     func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+//                     func_800F4524(&D_801333D4, 0x28B5, 60);
 //                 }
 //             }
 //             else {
-//                 func_800F4524(&D_801333D4, 0x391D, 0x3C);
+//                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
 //                 func_80034EC0(&this->skelAnime, D_80A48348, 6);
+//                 // "Wowwwwwwwwwwwwww!!  This is stimulating! It's worrrrrking grrrrreat! 
+//                 // Now I can get back to my blade business! My worrrrrk is not  verrrry consistent, 
+//                 // so I'll give this  to you so you won't forrrrrget.[goto 305C]"
 //                 func_8010B720(globalCtx, 0x305A);
 //                 this->unk_213 = 3;
 //                 this->unk_212++;
@@ -2625,70 +2687,47 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47490.s")
-// void func_80A47490(EnGo2 *this, GlobalContext *globalCtx) {
-//     Player* player = PLAYER;
-
-//     if (this->unk_212 != 0) {
-//         if (this->unk_212 != 1) {
-//             return;
-//         } 
-//         if (func_8010BDBC(&globalCtx->msgCtx)) {
-//             return;
-//         }
-//         else {
-//             func_8010B680(globalCtx, 0x3031, NULL);
-//             player->actor.freezeTimer = 0xA;
-//             this->unk_212++;
-//         }
-//     }
-
-//     // one or zero
-//     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
-//         player->actor.freezeTimer = 0xA;
-//     }
-//     else {
-//         gSaveContext.infTable[16] |= 0x1000;
-//         this->unk_26E = 1;
-//         this->unk_211 = 0;
-//         this->unk_20F = 0;
-//         this->actionFunc = func_80A4696C;
-//     }
-
-// }
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47490.s")
+void func_80A47490(EnGo2 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
 
 
+    switch (this->unk_212) {
+        case 0:
+            if (func_8010BDBC(&globalCtx->msgCtx)) {
+                return;
+            }
+            else {
+                func_8010B680(globalCtx, 0x3031, NULL);
+                player->actor.freezeTimer = 0xA;
+                this->unk_212++;
+            }
+        case 1:
+            break;
 
+        default:
+            return;
+    }
 
-        // if (this->unk_212 == 0 || this->unk_212 == 1) {
-    //     if (this->unk_212 == 0) {
-    //         if (func_8010BDBC(&globalCtx->msgCtx)) {
-    //             return;
-    //         }
-    //         else {
-    //             func_8010B680(globalCtx, 0x3031, NULL);
-    //             player->actor.freezeTimer = 0xA;
-    //             this->unk_212++;
-    //         }
-    //     }
+    if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
+        player->actor.freezeTimer = 0xA;
+    }
+    else {
+        gSaveContext.infTable[16] |= 0x1000;
+        this->unk_26E = 1;
+        this->unk_211 = 0;
+        this->unk_20F = 0;
+        this->actionFunc = func_80A4696C;
+    }
 
-    //     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
-    //         player->actor.freezeTimer = 0xA;
-    //     }
-    //     else {
-    //         gSaveContext.infTable[16] |= 0x1000;
-    //         this->unk_26E = 1;
-    //         this->unk_211 = 0;
-    //         this->unk_20F = 0;
-    //         this->actionFunc = func_80A4696C;
-    //     }
+}
 
-    // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47578.s")
 // void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
 //     Player* player;
-//     ? sp2C;
+//     s16 tempx;
+//     s16 tempz;
 //     s16 temp_v0;
 //     s16 temp_v0_3;
 //     s32 temp_t2_2;
@@ -2702,8 +2741,8 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //     s32 phi_v0;
 
 //     player = PLAYER;
-//     sp2C.unk0 = (s32) D_80A4854C->unk0;
-//     sp2C.unk4 = (u16) D_80A4854C->unk4;
+//     tempx =  D_80A4854C[0];
+//     tempz =  D_80A4854C[1];
 
 //     switch(this->unk_212) {
 //         case 0:
@@ -2716,17 +2755,15 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //                 func_80A44D84(this);
 //                 this->actor.shape.rot.x = this->actor.posRot.rot.x;
 //                 this->unk_592 = 0x3C;
-//                 this->actor.shape.rot.z = (s16) (u16) this->actor.posRot.rot.z;
+//                 this->actor.shape.rot.z = this->actor.posRot.rot.z;
 //                 this->actor.gravity = 0.0f;
 //                 this->actor.speedXZ = 2.0f;
-//                 this->unk_194.unk_08.x = (unaligned s32) sp2C.unk0;
-//                 temp_t5 = this->unk_212 + 1;
-//                 temp_t6 = temp_t5 + 1;
-//                 this->unk_194.unk_08.z = (s16) sp2C.unk4;
-//                 this->unk_194.unk_0E.x = (unaligned s32) sp2C.unk0;
-//                 this->unk_212 = temp_t5;
-//                 this->unk_212 = temp_t6;
-//                 this->unk_194.unk_0E.z = (s16) sp2C.unk4;
+//                 this->unk_194.unk_08.x = tempx;
+//                 this->unk_194.unk_08.z = tempz;
+//                 this->unk_194.unk_0E.x = tempx;
+//                 this->unk_194.unk_0E.z = tempz;
+//                 this->unk_212++;
+//                 this->unk_212++;
 //                 player->actor.posRot.rot.y = this->actor.posRot.rot.y;
 //                 player->actor.shape.rot.y  = this->actor.posRot.rot.y;
 //                 player->actor.posRot.pos.x = (f32) ((Math_Sins(this->actor.posRot.rot.y) * -30.0f) +
@@ -2737,32 +2774,35 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //             break;
 
 //         case 2:
-//             temp_v0 = this->unk_592;
-//             if (temp_v0 == 0) {
-//                 phi_v1 = (u16)0;
+//             if (this->unk_592 == 0) {
+//                 phi_v1 = 0;
 //             } else {
-//                 this->unk_592 = temp_v0 - 1;
+//                 this->unk_592--;
 //                 phi_v1 = this->unk_592;
 //             }
+
 //             if (phi_v1 == 0) {
 //                 this->unk_592 = 0;
 //                 temp_v0_2 = (s32) (this->actor.params & 0xFC00) >> 0xA;
 //                 this->actor.speedXZ = 0.0f;
 //                 if ((temp_v0_2 != 1) && (temp_v0_2 != 2) && (temp_v0_2 != 4) && (temp_v0_2 != 5) && (temp_v0_2 != 9)
 //                 && (temp_v0_2 != 0xB)) {
-//                     this->unk_212 = this->unk_212 + 1;
+//                     this->unk_212++;
 //                 }
-//                 this->unk_212 = this->unk_212 + 1;
+//                 this->unk_212++;
 //                 return;
 //             }
-//             temp_t2_2 = (s32) this->unk_592 & 7;
+            
+//             temp_t2_2 = (this->unk_592 & 7);
 //             phi_t2 = temp_t2_2;
-//             if ((s32) this->unk_592 < 0) {
+//             if (this->unk_592 < 0) {
 //                 phi_t2 = temp_t2_2;
-//                 if (temp_t2_2 != 0) {
+//                 if (temp_t2_2) {
 //                     phi_t2 = temp_t2_2 - 8;
 //                 }
 //             }
+
+
 //             if (phi_t2 == 0) {
 //                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
 //             }
@@ -2770,7 +2810,7 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 //             break;
 
 //         case 3:
-//             this->unk_592 = this->unk_592 + 1;
+//             this->unk_592++;
 //             temp_v0_3 = this->unk_592;
 //             temp_t9 = temp_v0_3 & 7;
 //             phi_t9 = temp_t9;
