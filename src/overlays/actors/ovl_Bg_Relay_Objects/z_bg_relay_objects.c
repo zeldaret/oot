@@ -103,7 +103,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Flags_SetSwitch(globalCtx, this->switchFlag);
             this->actionFunc = func_808A91AC;
-            thisx->posRot.pos.y = thisx->posRot.pos.y + 120.0f;
+            thisx->posRot.pos.y += 120.0f;
             D_808A9508 |= 1;
         }
     }
