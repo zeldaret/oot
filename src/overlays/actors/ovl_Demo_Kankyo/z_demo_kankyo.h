@@ -8,6 +8,27 @@ struct DemoKankyo;
 
 typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, GlobalContext*);
 
+typedef enum {
+    /* 0x00 */ DEMOKANKYO_BLUE_RAIN,
+    /* 0x01 */ DEMOKANKYO_BLUE_RAIN_2,
+    /* 0x02 */ DEMOKANKYO_ROCK_1,
+    /* 0x03 */ DEMOKANKYO_ROCK_2,
+    /* 0x04 */ DEMOKANKYO_ROCK_3,
+    /* 0x05 */ DEMOKANKYO_ROCK_4,
+    /* 0x06 */ DEMOKANKYO_ROCK_5,
+    /* 0x07 */ DEMOKANKYO_CLOUDS,
+    /* 0x08 */ DEMOKANKYO_8,
+    /* 0x09 */ DEMOKANKYO_9,
+    /* 0x0A */ DEMOKANKYO_A,
+    /* 0x0B */ DEMOKANKYO_B,
+    /* 0x0C */ DEMOKANKYO_C,
+    /* 0x0D */ DEMOKANKYO_DOOR_OF_TIME,
+    /* 0x0E */ DEMOKANKYO_LIGHT_PLANE,
+    /* 0x0F */ DEMOKANKYO_WARP_IN,
+    /* 0x10 */ DEMOKANKYO_WARP_OUT,
+    /* 0x11 */ DEMOKANKYO_SPARKLES
+} DemoKankyo_Type;
+
 typedef struct {
     f32 unk_0;
     f32 unk_4;
@@ -16,14 +37,14 @@ typedef struct {
     f32 unk_18;
     f32 unk_1C;
     s16 unk_20;
-    u8 unk_22;
+    u8 unk_22;      // mode ?
     u8 unk_23;
     s16 unk_24;
 } Struct_Unk_150; // 0x28
 
 typedef struct DemoKankyo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 unk_14C;
+    /* 0x014C */ u8 requiredObject;
     /* 0x014D */ u8 unk_14D;
     /* 0x014E */ u8 unk_14E;
     /* 0x014F */ char unk_14F[0x1];
