@@ -3282,7 +3282,7 @@ endseg
 beginseg
     name "ovl_En_Zo"
     include "build/src/overlays/actors/ovl_En_Zo/z_en_zo.o"
-    include "build/data/overlays/actors/z_en_zo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zo/ovl_En_Zo_reloc.o"
 endseg
 
 beginseg
