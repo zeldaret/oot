@@ -176,7 +176,7 @@ void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (Player_InCsMode(globalCtx) == 0) {
+        if (!Player_InCsMode(globalCtx)) {
             func_80078884(NA_SE_OC_ABYSS);
             Gameplay_TriggerRespawn(globalCtx);
             this->actionFunc = BgRelayObjects_Noop;
