@@ -69,7 +69,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_800F5718();
         thisx->room = -1;
         thisx->flags |= 0x20;
-        if ((D_808A9508 & 2) != 0) {
+        if (D_808A9508 & 2) {
             thisx->params = 0xFF;
             Actor_Kill(thisx);
         } else {
