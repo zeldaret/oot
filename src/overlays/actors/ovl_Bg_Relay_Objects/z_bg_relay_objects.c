@@ -27,9 +27,9 @@ void BgRelayObjects_Noop(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_060001A0;
+extern Gfx D_060001A0[];
 extern UNK_TYPE D_060003C4;
-extern UNK_TYPE D_06001AB0;
+extern Gfx D_06001AB0[];
 extern UNK_TYPE D_060025FC;
 
 const ActorInit Bg_Relay_Objects_InitVars = {
