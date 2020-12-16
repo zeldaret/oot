@@ -81,11 +81,11 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaSgami* this = THIS;
     static u8 sP1StartColor[] = { 250, 250, 250, 200 };
     static u8 sP2StartColor[] = { 200, 200, 200, 130 };
     static u8 sP1EndColor[] = { 200, 200, 200, 60 };
     static u8 sP2EndColor[] = { 150, 150, 150, 20 };
+    BgHakaSgami* this = THIS;
     EffectBlureInit1 blureInit;
     s32 i;
     ColliderTris* colliderScythe = &this->colliderScythe;
