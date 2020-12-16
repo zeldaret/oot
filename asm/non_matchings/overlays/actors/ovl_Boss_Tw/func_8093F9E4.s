@@ -62,8 +62,8 @@ glabel func_8093F9E4
 /* 06DBC 8093FA8C 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 06DC0 8093FA90 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000568
 /* 06DC4 8093FA94 14410005 */  bne     $v0, $at, .L8093FAAC
-/* 06DC8 8093FA98 3C050602 */  lui     $a1, 0x0602                ## $a1 = 06020000
-/* 06DCC 8093FA9C 24A516DC */  addiu   $a1, $a1, 0x16DC           ## $a1 = 060216DC
+/* 06DC8 8093FA98 3C050602 */  lui     $a1, %hi(D_060216DC)                ## $a1 = 06020000
+/* 06DCC 8093FA9C 24A516DC */  addiu   $a1, $a1, %lo(D_060216DC)           ## $a1 = 060216DC
 /* 06DD0 8093FAA0 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 06DD4 8093FAA4 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 06DD8 8093FAA8 86420150 */  lh      $v0, 0x0150($s2)           ## 00000150
@@ -904,7 +904,7 @@ glabel L80940690
 /* 079D0 809406A0 2646060C */  addiu   $a2, $s2, 0x060C           ## $a2 = 0000060C
 /* 079D4 809406A4 50A00004 */  beql    $a1, $zero, .L809406B8
 /* 079D8 809406A8 8FBF004C */  lw      $ra, 0x004C($sp)
-/* 079DC 809406AC 0C030136 */  jal     func_800C04D8
+/* 079DC 809406AC 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 079E0 809406B0 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 079E4 809406B4 8FBF004C */  lw      $ra, 0x004C($sp)
 .L809406B8:

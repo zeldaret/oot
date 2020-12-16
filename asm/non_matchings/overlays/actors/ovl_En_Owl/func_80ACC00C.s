@@ -99,8 +99,8 @@ glabel func_80ACC00C
 /* 021CC 80ACC0EC 0C00084C */  jal     osSyncPrintf
               
 /* 021D0 80ACC0F0 2484D794 */  addiu   $a0, $a0, %lo(D_80ACD794)  ## $a0 = 80ACD794
-/* 021D4 80ACC0F4 3C020202 */  lui     $v0, 0x0202                ## $v0 = 02020000
-/* 021D8 80ACC0F8 2442B0C0 */  addiu   $v0, $v0, 0xB0C0           ## $v0 = 0201B0C0
+/* 021D4 80ACC0F4 3C020202 */  lui     $v0, %hi(D_0201B0C0)                ## $v0 = 02020000
+/* 021D8 80ACC0F8 2442B0C0 */  addiu   $v0, $v0, %lo(D_0201B0C0)           ## $v0 = 0201B0C0
 /* 021DC 80ACC0FC 00024900 */  sll     $t1, $v0,  4               
 /* 021E0 80ACC100 00095702 */  srl     $t2, $t1, 28               
 /* 021E4 80ACC104 000A5880 */  sll     $t3, $t2,  2               
@@ -118,8 +118,8 @@ glabel func_80ACC00C
 /* 02214 80ACC134 10000016 */  beq     $zero, $zero, .L80ACC190   
 /* 02218 80ACC138 AE000134 */  sw      $zero, 0x0134($s0)         ## 00000134
 .L80ACC13C:
-/* 0221C 80ACC13C 3C020202 */  lui     $v0, 0x0202                ## $v0 = 02020000
-/* 02220 80ACC140 2442E6A0 */  addiu   $v0, $v0, 0xE6A0           ## $v0 = 0201E6A0
+/* 0221C 80ACC13C 3C020202 */  lui     $v0, %hi(D_0201E6A0)                ## $v0 = 02020000
+/* 02220 80ACC140 2442E6A0 */  addiu   $v0, $v0, %lo(D_0201E6A0)           ## $v0 = 0201E6A0
 /* 02224 80ACC144 0002C900 */  sll     $t9, $v0,  4               
 /* 02228 80ACC148 00194702 */  srl     $t0, $t9, 28               
 /* 0222C 80ACC14C 00084880 */  sll     $t1, $t0,  2               

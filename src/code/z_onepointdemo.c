@@ -1,36 +1,30 @@
 #include "global.h"
 
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32 unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
-} struct_8007C820;
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_onepointdemo/func_8007C680.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_onepointdemo/func_8007C704.s")
 
-void func_8007C76C(f32* pfParm1, s16* puParm2) {
-    puParm2[0] = pfParm1[0];
-    puParm2[1] = pfParm1[1];
-    puParm2[2] = pfParm1[2];
+void func_8007C76C(Vec3f* src, Vec3s* dst) {
+    dst->x = src->x;
+    dst->y = src->y;
+    dst->z = src->z;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_onepointdemo/func_8007C7A8.s")
 
-void func_8007C7F8(u32 uParm1, u32 uParm2) {
-    u8 auStack4[4];
-    u8 auStack8[4];
+void func_8007C7F8(CollisionContext* colCtx, Vec3f* arg1) {
+    CollisionPoly* poly;
+    s32 bgId;
 
-    func_8003C940(uParm1, auStack4, auStack8, uParm2);
+    func_8003C940(colCtx, &poly, &bgId, arg1);
 }
 
-void func_8007C820(struct_8007C820* puParm1, s16 uParm2, s16 uParm3, u32 uParm4, u32 param_5) {
-    puParm1->unk_00 = uParm4;
-    puParm1->unk_04 = param_5;
-    puParm1->unk_08 = uParm2;
-    puParm1->unk_0A = uParm3;
+void func_8007C820(OnePointDemoCamera* onePointCamera, s16 actionParameters, s16 initTimer,
+                   CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints) {
+    onePointCamera->atPoints = atPoints;
+    onePointCamera->eyePoints = eyePoints;
+    onePointCamera->actionParameters = actionParameters;
+    onePointCamera->initTimer = initTimer;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_onepointdemo/func_8007C850.s")

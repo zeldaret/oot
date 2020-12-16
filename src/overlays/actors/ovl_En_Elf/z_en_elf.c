@@ -1462,8 +1462,8 @@ void EnElf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                           struct Actor* thisx, Gfx** gfx) {
+s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                           Gfx** gfx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 pad;
     f32 scale;
@@ -1529,8 +1529,8 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                            EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                           EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

@@ -31,9 +31,35 @@ void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000BFC;
+extern UNK_TYPE D_06000EA0;
+extern UNK_TYPE D_06002168;
+extern UNK_TYPE D_060028A8;
+extern UNK_TYPE D_06002E6C;
+extern UNK_TYPE D_06003754;
+extern UNK_TYPE D_06003B1C;
+extern UNK_TYPE D_06003F38;
+extern UNK_TYPE D_06007288;
+extern UNK_TYPE D_06008EB8;
+extern UNK_TYPE D_0600A8E0;
+extern UNK_TYPE D_0600ADD0;
+extern UNK_TYPE D_0600BE90;
+extern UNK_TYPE D_0600CAF8;
+extern UNK_TYPE D_0600DFF0;
+extern UNK_TYPE D_0600E8EC;
 extern AnimationHeader D_0600FFE4;
+extern UNK_TYPE D_06010380;
 extern SkeletonHeader D_060114E8;
+extern UNK_TYPE D_060147E0;
+extern UNK_TYPE D_06021A90;
+extern UNK_TYPE D_06025970;
 extern AnimationHeader D_06026510;
+extern UNK_TYPE D_06026AF4;
+extern UNK_TYPE D_06027824;
+extern UNK_TYPE D_0602A848;
+extern UNK_TYPE D_060334F8;
+extern UNK_TYPE D_06034278;
+extern UNK_TYPE D_060353C0;
 
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
@@ -386,7 +412,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->unk_444);
     Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &D_80907014, this->unk_864);
     func_808FD108(this, globalCtx, OBJECT_GANON, 0);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060114E8, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060114E8, NULL, 0, 0, 0);
     func_808FD5C4(this, globalCtx);
     this->actor.naviEnemyId = 0x3E;
     this->actor.gravity = 0.0f;

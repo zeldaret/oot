@@ -42,7 +42,7 @@ const ActorInit Bg_Ice_Turara_InitVars = {
     (ActorFunc)BgIceTurara_Draw,
 };
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -30, ICHAIN_CONTINUE),

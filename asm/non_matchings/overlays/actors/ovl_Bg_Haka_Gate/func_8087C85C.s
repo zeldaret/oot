@@ -98,7 +98,7 @@ glabel func_8087C85C
 /* 00B98 8087C988 862D07A0 */  lh      $t5, 0x07A0($s1)           ## 000007A0
 /* 00B9C 8087C98C 000D7080 */  sll     $t6, $t5,  2               
 /* 00BA0 8087C990 022E7821 */  addu    $t7, $s1, $t6              
-/* 00BA4 8087C994 0C016A7D */  jal     func_8005A9F4              
+/* 00BA4 8087C994 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00BA8 8087C998 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 00BAC 8087C99C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
 /* 00BB0 8087C9A0 3C018088 */  lui     $at, %hi(D_8087CDA4)       ## $at = 80880000
@@ -133,8 +133,8 @@ glabel func_8087C85C
 /* 00C24 8087CA14 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00C28 8087CA18 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 00C2C 8087CA1C 8FA3004C */  lw      $v1, 0x004C($sp)           
-/* 00C30 8087CA20 3C0C0405 */  lui     $t4, 0x0405                ## $t4 = 04050000
-/* 00C34 8087CA24 258CD4E0 */  addiu   $t4, $t4, 0xD4E0           ## $t4 = 0404D4E0
+/* 00C30 8087CA20 3C0C0405 */  lui     $t4, %hi(D_0404D4E0)                ## $t4 = 04050000
+/* 00C34 8087CA24 258CD4E0 */  addiu   $t4, $t4, %lo(D_0404D4E0)           ## $t4 = 0404D4E0
 /* 00C38 8087CA28 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00C3C 8087CA2C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00C40 8087CA30 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000

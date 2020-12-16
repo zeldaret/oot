@@ -95,8 +95,8 @@ glabel BgHidanHamstep_Init
 .L808882E4:
 /* 002A4 808882E4 14400007 */  bne     $v0, $zero, .L80888304     
 /* 002A8 808882E8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 002AC 808882EC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 002B0 808882F0 2484DE44 */  addiu   $a0, $a0, 0xDE44           ## $a0 = 0600DE44
+/* 002AC 808882EC 3C040601 */  lui     $a0, %hi(D_0600DE44)                ## $a0 = 06010000
+/* 002B0 808882F0 2484DE44 */  addiu   $a0, $a0, %lo(D_0600DE44)           ## $a0 = 0600DE44
 /* 002B4 808882F4 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 002B8 808882F8 27A5006C */  addiu   $a1, $sp, 0x006C           ## $a1 = FFFFFFF4

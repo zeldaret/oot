@@ -105,8 +105,8 @@ glabel func_808C2C78
 /* 01C58 808C2DE8 2A01001E */  slti    $at, $s0, 0x001E
 /* 01C5C 808C2DEC 1420FFD0 */  bne     $at, $zero, .L808C2D30
 /* 01C60 808C2DF0 00000000 */  nop
-/* 01C64 808C2DF4 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
-/* 01C68 808C2DF8 26104E0C */  addiu   $s0, $s0, 0x4E0C           ## $s0 = 06004E0C
+/* 01C64 808C2DF4 3C100600 */  lui     $s0, %hi(D_06004E0C)                ## $s0 = 06000000
+/* 01C68 808C2DF8 26104E0C */  addiu   $s0, $s0, %lo(D_06004E0C)           ## $s0 = 06004E0C
 /* 01C6C 808C2DFC 0C028800 */  jal     SkelAnime_GetFrameCount
 
 /* 01C70 808C2E00 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06004E0C
