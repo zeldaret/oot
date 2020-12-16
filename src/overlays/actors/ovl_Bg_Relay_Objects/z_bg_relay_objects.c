@@ -194,7 +194,7 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
         Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.y, 0x80, 8);
     }
     this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->dyna.actor.posRot.rot.y;
-    func_800F436C(&this->dyna.actor.projectedPos, 0x2076,
+    func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WOOD_GEAR - SFX_FLAG,
                   ((this->dyna.actor.posRot.rot.y - 0x80) * (1.0f / 0x380)) + 1.0f);
 }
 
