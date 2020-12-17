@@ -13,10 +13,8 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this);
 s16 func_80A3E908(GlobalContext* globalCtx, EnGo* this);
 
-s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
-                  callback1_80A3ED24 GetTextID, callback2_80A3ED24 unkFunc2);
-
-// phi_v0 = func_80A3ED24(globalCtx, this, (void *) &this->unk_1E0, phi_f0, &EnGo_GetTextID, &func_80A3E908);
+s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, u16 (*GetTextID)(GlobalContext*, Actor*),
+                  s16 (*unkFunc2)(GlobalContext*, Actor*));
 
 void func_80A3E570(EnGo* this, void* actionFunc);
 void func_80A3EDE0(EnGo* this, s32 unk_val);
@@ -304,208 +302,213 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3E908.s")
-// s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
-//     f32 sp28;
-//     f32 sp24;
-//     s16 phi_a3;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3E908.s")
+s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
+    s16 phi_a3;
+    f32 sp28;
+    f32 sp24;
 
-//     sp24 = fabsf(this->actor.yDistFromLink) + 1.0f;
-//     sp28 = this->actor.xzDistFromLink + 1.0f;
+    sp24 = fabsf(this->actor.yDistFromLink) + 1.0f;
+    sp28 = this->actor.xzDistFromLink + 1.0f;
+    phi_a3 = 1;
 
-//     phi_a3 = 1;
 
-//     switch(func_8010BDBC(&globalCtx->msgCtx)) { // switch 1
+    switch(func_8010BDBC(&globalCtx->msgCtx)) { 
+        if(globalCtx) {}
+        case 2:
 
-//         case 2: // switch 1
+            switch(this->actor.textId) {
 
-//             switch(this->actor.textId ) { // switch 2
+                case 0x3008: 
+                    gSaveContext.infTable[14] |= 1;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3008: // switch 2
-//                     gSaveContext.infTable[14] |= 1;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x300B: 
+                    gSaveContext.infTable[14] |= 0x800;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x300B: // switch 2
-//                     gSaveContext.infTable[14] |= 0x800;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3014: 
+                    gSaveContext.infTable[15] |= 1;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3014: // switch 2
-//                     gSaveContext.infTable[15] |= 1;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3016: 
+                    gSaveContext.infTable[15] |= 0x10;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3016: // switch 2
-//                     gSaveContext.infTable[15] |= 0x10;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3018: 
+                    gSaveContext.infTable[15] |= 0x100;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3018: // switch 2
-//                     gSaveContext.infTable[15] |= 0x100;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3036: 
+                    func_8002F434(&this->actor, globalCtx, 0x2C, sp28, sp24);
+                    gSaveContext.infTable[16] |= 0x2000;
+                    phi_a3 = 2;
+                    break;
 
-//                 case 0x3036: // switch 2
-//                     func_8002F434(&this->actor, globalCtx, 0x2C, sp28, sp24);
-//                     gSaveContext.infTable[16] |= 0x2000;
-//                     phi_a3 = 2;
-//                     break;
+                case 0x3037: 
+                    gSaveContext.infTable[16] |= 0x4000;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3037: // switch 2
-//                     gSaveContext.infTable[16] |= 0x4000;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3041: 
+                    gSaveContext.infTable[16] |= 0x8000;
+                    phi_a3 = 0;
+                    break;
 
-//                 case 0x3041: // switch 2
-//                     gSaveContext.infTable[16] |= 0x8000;
-//                     phi_a3 = 0;
-//                     break;
+                case 0x3059: 
+                    phi_a3 = 2;
+                    break;
 
-//                 case 0x3059: // switch 2
-//                     phi_a3 = 2;
-//                     break;
+                case 0x3052: 
+                case 0x3054: 
+                case 0x3055: 
+                case 0x305A: 
+                    phi_a3 = 2;
+                    break;
 
-//                 case 0x3052: // switch 2
-//                 case 0x3054: // switch 2
-//                 case 0x3055: // switch 2
-//                 case 0x305A: // switch 2
-//                     phi_a3 = 2;
-//                     break;
+                case 0x305E: 
+                    phi_a3 = 2;
+                    break;
 
-//                 case 0x305E: // switch 2
-//                     phi_a3 = 2;
+                default: 
+                    phi_a3 = 0;
+                    break;
+            }
+            break;
 
-//                 default: // switch 2
-//                     phi_a3 = 0;
-//                     break;
-//             }
-//             break;
+        case 4:
+            
 
-//         case 4: // switch 1
-//             phi_a3 = 1;
+            if (func_80106BC8(globalCtx)) {
 
-//             if (func_80106BC8(globalCtx)) {
-//                 if (this->actor.textId == 0x300A) {
+                switch(this->actor.textId) {
+                    case 0x300A:
+                        if (globalCtx->msgCtx.choiceIndex == 0) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
+                                this->actor.textId = 0x300B;
+                            } else {
+                                this->actor.textId = 0x300C;
+                            }
+                        }
 
-//                     if (globalCtx->msgCtx.choiceIndex) {
-//                         this->actor.textId = 0x300D;
-//                     }
+                        else {
+                            this->actor.textId = 0x300D;
+                        }
 
-//                     else {
-//                         if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
-//                             this->actor.textId = 0x300B;
-//                         } else {
-//                             this->actor.textId = 0x300C;
-//                         }
-//                     }
+                        func_8010B720(globalCtx, this->actor.textId);
+                        phi_a3 = 1;
+                        break;
 
-//                     func_8010B720(globalCtx, this->actor.textId);
-//                     phi_a3 = 1;
+                    case 0x3034:
+                        if (globalCtx->msgCtx.choiceIndex == 0) {
 
-//                 }
+                            if (gSaveContext.infTable[16] & 0x800) {
+                                this->actor.textId = 0x3033;
+                            } else {
+                                this->actor.textId = 0x3035;
+                            }
+                        } else if (gSaveContext.infTable[16] & 0x800) {
+                            this->actor.textId = 0x3036;
+                        } else {
+                            this->actor.textId = 0x3033;
+                        }
+                        func_8010B720(globalCtx, this->actor.textId);
+                        phi_a3 = 1;
+                        break;
 
-//                 else {
-//                     if (this->actor.textId == 0x3034) {
+                    case 0x3054:
+                    case 0x3055:
+                        if (globalCtx->msgCtx.choiceIndex == 0) {
+                            phi_a3 = 2;
+                        } else {
+                            this->actor.textId = 0x3056;
+                            func_8010B720(globalCtx, this->actor.textId);
+                            phi_a3 = 1;
+                        }
+                        gSaveContext.infTable[11] |= 0x10;
+                        break;
 
-//                         if (globalCtx->msgCtx.choiceIndex) {
+                    // default:
+                }               
+            }
+            break;
 
-//                             if (gSaveContext.infTable[16] & 0x800) {
-//                                 this->actor.textId = 0x3033;
-//                             } else {
-//                                 this->actor.textId = 0x3035;
-//                             }
-//                         } else if (gSaveContext.infTable[16] & 0x800) {
-//                             this->actor.textId = 0x3036;
-//                         } else {
-//                             this->actor.textId = 0x3033;
-//                         }
-//                         func_8010B720(globalCtx, this->actor.textId);
-//                         phi_a3 = 1;
+        case 5:
+            
+            if (func_80106BC8(globalCtx)) {
 
-//                     } else {
-//                         if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
-//                             if (globalCtx->msgCtx.choiceIndex) {
-//                                 this->actor.textId = 0x3056;
+                switch(this->actor.textId) {
 
-//                                 func_8010B720(globalCtx, 0x3056U & 0xFFFF);
-//                                 phi_a3 = 1;
-//                             } else {
-//                                 phi_a3 = 2;
-//                             }
-//                         } else {
-//                             phi_a3 = 1;
-//                             gSaveContext.infTable[11] |= 0x10;
-//                         }
-//                     }
 
-//                 }
-//             }
-//             break;
+                    case 0x3035:
+                        gSaveContext.infTable[16] |= 0x800;
 
-//         case 5: // switch 1
-//             phi_a3 = 1;
-//             if (func_80106BC8(globalCtx)) {
-//                 if ((this->actor.textId != 0x3032) && (this->actor.textId != 0x3033)) {
-//                     if (this->actor.textId == 0x3035) {
-//                         gSaveContext.infTable[16] |= 0x800;
-//                         this->actor.textId = 0x3034;
+                    case 0x3032:
+                    case 0x3033:
+                        this->actor.textId = 0x3034;
+                        func_8010B720(globalCtx, this->actor.textId);
+                        phi_a3 = 1;
+                        break;
+                        
+                    default:
+                        phi_a3 = 2;
+                        break;
+                    
+                }
+            }
+            break;
 
-//                         func_8010B720(globalCtx, 0x3034 & 0xFFFF);
-//                         phi_a3 = 1;
-//                     } else {
-//                         phi_a3 = 2;
-//                     }
-//                 }
-//             }
-//             break;
+        case 6:
+            if (func_80106BC8(globalCtx)) {
+                phi_a3 = 3;
+            }
+            break;
 
-//         case 6: // switch 1
-//             phi_a3 = 1;
-//             if (func_80106BC8(globalCtx)) {
-//                 phi_a3 = 3;
-//             }
-//             break;
-//     }
-//     return phi_a3;
-// }
+        case 0:
+        case 1:
+        case 3:
+        case 7:
+        case 9:
+            break;
 
-// close
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3ED24.s")
-// s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
-//                   callback1_80A3ED24 GetTextID, callback2_80A3ED24 unkFunc2) {
+    }
+    return phi_a3;
+}
 
-//     if (arg2->unk_00) {
-//         arg2->unk_00 = GetTextID(globalCtx, this); 
-//         return 0; 
-//     }
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3ED24.s")
+s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, u16 (*GetTextID)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) { 
 
-//     else if (func_8002F194(&this->actor, globalCtx)) {
-//         arg2->unk_00 = 1;
-//         return 1;
-//     }
+    if (arg2->unk_00) {
+        arg2->unk_00 = unkFunc2(globalCtx, &this->actor); 
+        return 0; 
+    }
 
-//     else if (func_8002F2CC(&this->actor, globalCtx, arg3) == 0) {
-//         return 0;
-//     }
+    else if (func_8002F194(&this->actor, globalCtx)) {
+        arg2->unk_00 = 1;
+        return 1;
+    }
 
-//     else {
-//             this->actor.textId = unkFunc2(globalCtx, this);
-//             return 0;
-//         }
-// }
+    else if (func_8002F2CC(&this->actor, globalCtx, arg3) == 0) {
+        return 0;
+    }
 
-// close
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EDE0.s")
-// void func_80A3EDE0(EnGo *this, s32 unk_val) {
-//     EnGoSkelAnime *temp_v1;
-//     f32 phi_f0;
+    else {
+            this->actor.textId = GetTextID(globalCtx, &this->actor);
+            return 0;
+        }
+}
 
-//     phi_f0 = ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f);
-//     temp_v1 = &D_80A41B38[unk_val];
-//     SkelAnime_ChangeAnim(&this->skelanime, temp_v1->animationseg, temp_v1->playbackSpeed * phi_f0, 0.0f,
-//                           SkelAnime_GetFrameCount(temp_v1->animationseg), temp_v1->mode, temp_v1->transitionRate);
-// }
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EDE0.s")
+void func_80A3EDE0(EnGo *this, s32 unk_val) {
+
+    SkelAnime_ChangeAnim(&this->skelanime, (&D_80A41B38[unk_val])->animationseg, (&D_80A41B38[unk_val])->playbackSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                          SkelAnime_GetFrameCount((&D_80A41B38[unk_val])->animationseg), (&D_80A41B38[unk_val])->mode, (&D_80A41B38[unk_val])->transitionRate);
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EE8C.s")
 s32 func_80A3EE8C(EnGo* this, GlobalContext* globalCtx) {
@@ -632,65 +635,26 @@ void func_80A3F260(EnGo* this) {
     this->skelanime.animFrameCount = initialFrame;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F274.s")
-// void func_80A3F274(EnGo *this) {
-//     s16 unk_14;
-//     s16 phi_a1;
-//     // f32 float1;
-//     // void* temp_ptr;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F274.s")
+void func_80A3F274(EnGo *this) {
+    s16 unk_14;
+    s16 phi_a1;
+    f32 float1;
 
-//     // temp_ptr = this->skelanime.animation;
-//     // float1 = this->skelanime.animCurrentFrame;
-    
-//     if ((this->skelanime.animation == &D_06004930) || (this->skelanime.animCurrentFrame > 32.0f)) {
-//         phi_a1 = 0;
-//     }
-//     else {
-//         phi_a1 = 0xFF;
-//     }
+    float1 = this->skelanime.animCurrentFrame;
 
-//     unk_14 = (s16) this->actor.shape.unk_14;
-//     Math_SmoothScaleMaxMinS(&this->actor.shape.unk_14, phi_a1, 10, 60, 1);
-//     this->actor.shape.unk_14 = (u8) unk_14;
-// }
+    if ((this->skelanime.animation == &D_06004930 && float1 > 32.0f) || this->skelanime.animation != &D_06004930) {
+        phi_a1 = 0xFF;
+    }
+    else {
+        phi_a1 = 0;
+    }
 
 
-
-
-
-// void func_80A3F274(EnGo *this) {
-//     s16 sp2E;
-//     s16 *temp_a0;
-//     void *temp_v0;
-//     s16 phi_a1;
-
-//     temp_v0 = this->skelanime.animation;
-//     if (temp_v0 != 0x6004930) {
-//         goto block_2;
-//     }
-//     if (this->skelanime.animCurrentFrame > 32.0f) {
-//         goto block_3;
-//     }
-// block_2:
-//     phi_a1 = (u16)0;
-//     if (temp_v0 == 0x6004930) {
-//         goto block_4;
-//     }
-// block_3:
-//     phi_a1 = (u16)0xFF;
-// block_4:
-//     temp_a0 = &sp2E;
-//     sp2E = (s16) this->actor.shape.unk_14;
-//     Math_SmoothScaleMaxMinS((s16 *) temp_a0, phi_a1, (u16)0xA, (u16)0x3C, 1);
-//     this->actor.shape.unk_14 = (u8) sp2E;
-// }
-
-
-
-
-
-
-
+    unk_14 = this->actor.shape.unk_14;
+    Math_SmoothScaleMaxMinS(&unk_14, phi_a1, 10, 60, 1);
+    this->actor.shape.unk_14 = unk_14;
+}
 
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F300.s")
@@ -733,29 +697,27 @@ s32 func_80A3F300(EnGo* this, GlobalContext* globalCtx) {
     return phi_return;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F4BC.s")
-// s32 func_80A3F4BC(EnGo *this, GlobalContext *globalCtx) {
-//     Path *path;
-//     Vec3s* pointPos;
-//     Vec3s* temp;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F4BC.s")
+s32 func_80A3F4BC(EnGo *this, GlobalContext *globalCtx) {
+    Path *path;
+    Vec3s* pointPos;
 
-//     if ((this->actor.params & 0xF) == 0xF) {
-//         return 0;
-//     }
-//     else {
-//         path = &globalCtx->setupPathList[this->actor.params & 0xF];
-//         temp = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points);
-//         pointPos = &(temp)[path->count];
+    if ((this->actor.params & 0xF) == 0xF) {
+        return 0;
+    }
+    else {
+        path = &globalCtx->setupPathList[(this->actor.params & 0xF)];
+        pointPos = SEGMENTED_TO_VIRTUAL(path->points);
+        pointPos += (path->count - 1);
 
-//         this->actor.posRot.pos.x = pointPos->x;
-//         this->actor.posRot.pos.y = pointPos->y;
-//         this->actor.posRot.pos.z = pointPos->z;
+        this->actor.posRot.pos.x = pointPos->x;
+        this->actor.posRot.pos.y = pointPos->y;
+        this->actor.posRot.pos.z = pointPos->z;
 
-//         this->actor.initPosRot.pos = this->actor.posRot.pos;
-//         return 1;
-//     }
-
-// }
+        this->actor.initPosRot.pos = this->actor.posRot.pos;
+        return 1;
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F594.s")
 s32 func_80A3F594(EnGo *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
@@ -848,10 +810,10 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
 
         if ((this->actor.params & 0xF0) == 0x90) {
-            phi_v0 = func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, &EnGo_GetTextID, &func_80A3E908);
+            phi_v0 = func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, func_80A3E908);
         } 
         else {
-            phi_v0 = func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, &EnGo_GetTextID, &func_80A3E908);
+            phi_v0 = func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, func_80A3E908);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (phi_v0 == 1)) {

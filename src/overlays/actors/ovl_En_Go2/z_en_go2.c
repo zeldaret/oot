@@ -1319,28 +1319,28 @@ u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
-s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
+// s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
 
-    if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, func_80A44534, func_80A44678);
-    }
-    if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.maskB & 1) == 0)) {
-        return 0;
-    } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
-            this->unk_194.unk_00 = 1;
-            return 1;
-        }
-        if (this->unk_194.unk_00) {
-            this->unk_194.unk_00 = func_80A44678(globalCtx, this);
-            return 0;
-        } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
-            this->actor.textId = func_80A44534(globalCtx, this);
-        }
-    }
-    return 0;
-}
+//     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
+//         return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, func_80A44534, func_80A44678);
+//     }
+//     if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.maskB & 1) == 0)) {
+//         return 0;
+//     } else {
+//         if (func_8002F194(&this->actor, globalCtx)) {
+//             this->unk_194.unk_00 = 1;
+//             return 1;
+//         }
+//         if (this->unk_194.unk_00) {
+//             this->unk_194.unk_00 = func_80A44678(globalCtx, this);
+//             return 0;
+//         } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
+//             this->actor.textId = func_80A44534(globalCtx, this);
+//         }
+//     }
+//     return 0;
+// }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4488C.s")
 void func_80A4488C(EnGo2* this) {

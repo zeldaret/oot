@@ -7,8 +7,21 @@
 struct EnGo;
 
 typedef void (*EnGoActionFunc)(struct EnGo*, struct GlobalContext*);
-typedef u16 (*callback1_80A3ED24)(struct GlobalContext*, struct Actor*);
-typedef s16 (*callback2_80A3ED24)(struct GlobalContext*, struct Actor*);
+typedef u16 (*callback1_80A3ED24)(struct GlobalContext*, struct EnGo*);
+typedef s16 (*callback2_80A3ED24)(struct GlobalContext*, struct EnGo*);
+
+// typedef enum {
+//     /* 0x00 */ GORON1_CITY_LINK,
+//     /* 0x10 */ GORON1_FIRE_GENERIC,
+//     /* 0x20 */ GORON1_DMT_DC_ENTRANCE,
+//     /* 0x30 */ GORON1_DMT_ROLLING_SMALL,
+//     /* 0x40 */ GORON1_DMT_BOMB_FLOWER,
+//     /* 0x50 */ GORON1_CITY_ENTRANCE, 
+//     /* 0x60 */ GORON1_CITY_ISLAND,
+//     /* 0x70 */ GORON1_CITY_LOST_WOODS, 
+//     /* 0x80 */ // Not Used
+//     /* 0x90 */ GORON1_DMT_BIGGORON, // Biggoron
+// } GoronSize;
 
 
 typedef struct {
