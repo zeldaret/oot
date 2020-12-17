@@ -35,8 +35,8 @@ glabel func_808DC14C
 /* 05940 808DC1B0 10400007 */  beq     $v0, $zero, .L808DC1D0
 /* 05944 808DC1B4 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
 /* 05948 808DC1B8 A60F01C2 */  sh      $t7, 0x01C2($s0)           ## 000001C2
-/* 0594C 808DC1BC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 05950 808DC1C0 24A59A14 */  addiu   $a1, $a1, 0x9A14           ## $a1 = 06009A14
+/* 0594C 808DC1BC 3C050601 */  lui     $a1, %hi(D_06009A14)                ## $a1 = 06010000
+/* 05950 808DC1C0 24A59A14 */  addiu   $a1, $a1, %lo(D_06009A14)           ## $a1 = 06009A14
 /* 05954 808DC1C4 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 05958 808DC1C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0595C 808DC1CC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000

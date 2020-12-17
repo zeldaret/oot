@@ -6,10 +6,10 @@ glabel func_8087EDC0
 /* 008F0 8087EDD0 51C00008 */  beql    $t6, $zero, .L8087EDF4     
 /* 008F4 8087EDD4 848F001C */  lh      $t7, 0x001C($a0)           ## 0000001C
 /* 008F8 8087EDD8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 008FC 8087EDDC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 008FC 8087EDDC 3C050601 */  lui     $a1, %hi(D_0600BF20)                ## $a1 = 06010000
 /* 00900 8087EDE0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
-/* 00904 8087EDE4 24A5BF20 */  addiu   $a1, $a1, 0xBF20           ## $a1 = 0600BF20
+/* 00904 8087EDE4 24A5BF20 */  addiu   $a1, $a1, %lo(D_0600BF20)           ## $a1 = 0600BF20
 /* 00908 8087EDE8 1000000F */  beq     $zero, $zero, .L8087EE28   
 /* 0090C 8087EDEC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00910 8087EDF0 848F001C */  lh      $t7, 0x001C($a0)           ## 0000001C
@@ -18,8 +18,8 @@ glabel func_8087EDC0
 /* 00918 8087EDF8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0091C 8087EDFC 15E00007 */  bne     $t7, $zero, .L8087EE1C     
 /* 00920 8087EE00 00000000 */  nop
-/* 00924 8087EE04 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00928 8087EE08 24A5BF20 */  addiu   $a1, $a1, 0xBF20           ## $a1 = 0600BF20
+/* 00924 8087EE04 3C050601 */  lui     $a1, %hi(D_0600BF20)                ## $a1 = 06010000
+/* 00928 8087EE08 24A5BF20 */  addiu   $a1, $a1, %lo(D_0600BF20)           ## $a1 = 0600BF20
 /* 0092C 8087EE0C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00930 8087EE10 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000

@@ -1256,7 +1256,7 @@ void func_800F29FC(void) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2A04.s")
 
 #ifdef NON_MATCHING
-void func_800F2D6C(s8 *arg0, u16 arg1) {
+void func_800F2D6C(u8 *arg0, u16 arg1) {
     u8 i;
 
     D_8016B7E8[D_80131ED4].unk_06 = arg1;
