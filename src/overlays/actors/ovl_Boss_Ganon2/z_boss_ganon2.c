@@ -8,6 +8,7 @@
 
 typedef struct {
     /* 0x00 */ u8 type;
+    /* 0x01 */ u8 unk_01;
     /* 0x04 */ Vec3f position;
     /* 0x10 */ Vec3f velocity;
     /* 0x1C */ Vec3f accel;
@@ -376,8 +377,20 @@ void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 
     }
 }
 
-void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD210.s")
+void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
+    BossGanon2Effect* effect = globalCtx->unk_11E10;
+
+    effect->type = 1;
+    effect->position = *arg1;
+    effect->unk_2E = 0;
+    effect->unk_01 = 0;
+    effect->velocity.x = 25.0f;
+    effect->velocity.y = 15.0f;
+    effect->velocity.z = 0.0f;
+    effect->accel.x = 0.0f;
+    effect->accel.y = -1.0f;
+    effect->accel.z = 0.0f;
+}
 
 void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 arg3) {
     BossGanon2Effect* effect = (BossGanon2Effect*)globalCtx->unk_11E10;
