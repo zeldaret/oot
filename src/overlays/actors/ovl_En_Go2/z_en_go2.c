@@ -1014,99 +1014,78 @@ u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this) {
     return 0x3053;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44010.s")
-
-// u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44010.s")
+u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
     
+    s32 pad;
+    u8 temp;
+    temp = this->unk_20D;
 
+    switch(func_80A43468(this, globalCtx)) {
 
-//     switch(func_80A43468(this, globalCtx)) {
+        case 6:
+            if (this->actor.textId == 0x305E) {
+                if (gSaveContext.bgsFlag == 0) {
+                    func_80A43424(this, globalCtx, 0x57);
+                    this->actionFunc = func_80A470E8;
+                    return 2;
+                }
+                else {
+                    return 0;
+                }
+            }
+            else {
+                return 0;
+            }
 
-//         case 6:
-//             if (this->actor.textId != 0x305E) {
-//                 return 0;
-//             }
-//             if (gSaveContext.bgsFlag) {
-//                 return 0;
-//             }
-//             func_80A43424(this, globalCtx, 0x57);
-//             this->actionFunc = func_80A470E8;
-//             return 2;
+        case 3:
+            switch(this->actor.textId) {
 
-//         case 3:
-//             // if ((this->actor.textId == 0x305E) && (func_8002F368(globalCtx) == 0xF)) {
-//             //     switch(this->actor.textId) {
-//             //         case 0x3059:
+                case 0x305E:
+                    if (func_8002F368(globalCtx) != 0xF) {
+                        break;
+                    }
 
-//             //         case 0x3054:
-//             //     }
-//             // }
-//             // break;
+                case 0x3059:
+                    if (temp == 0) {
+                        func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
+                    }
 
+                case 0x3054:
+                    if (temp == 0) {
+                        Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    }
+            }
+            return 1;
 
-//             // switch(this->actor.textId) {
-//             //     case 0x3059: // B
-//             //         
+        case 4:
+            if (func_80106BC8(globalCtx)) {
+                if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
+                    if (globalCtx->msgCtx.choiceIndex == 0) {
+                        func_80A43424(this, globalCtx, 0x23);
+                        this->actionFunc = func_80A470E8;
+                        return 2;
+                    }
+                    this->actor.textId = 0x3056;
+                    func_8010B720(globalCtx, this->actor.textId); // & 0xFFFF
+                }
+                return 1;
+            }
 
-//             //     case 0x3054: // A
+            break;
 
+        case 5:
+            if (func_80106BC8(globalCtx) != 0) {
+                if (this->actor.textId == 0x3059) {
+                    globalCtx->msgCtx.msgMode = 0x37;
+                    this->actionFunc = func_80A4725C;
+                }
+                return 2;
+            }
 
-//             //     case 0x305E: // C
-
-//             //     // func_8002F368(globalCtx) == 0xF // D
-//             //     // this->unk_20D == 0 // E
-//             // }
-
-
-//             if (this->actor.textId != 0x3054) { 
-//                 if (this->actor.textId != 0x3059) {
-//                     if ((this->actor.textId == 0x305E) && (func_8002F368(globalCtx) == 0xF)) {
-//                         block_13:
-//                         if (this->unk_20D == 0) {
-//                             // ((!A && !B && C && D) || B) && E 
-//                             func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
-//                         }
-//                         block_15:
-//                         if (this->unk_20D == 0) {
-//                             // (!A && !B && C & D) || A || B) && E
-//                             Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-//                         }
-//                         // break;
-//                     }
-//                     break;
-//                 } else {
-//                     goto block_13;
-//                 }
-//             } else {
-//                 goto block_15;
-//             }
-
-//         case 4:
-//             if (func_80106BC8(globalCtx)) {
-//                 if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
-//                     if (globalCtx->msgCtx.choiceIndex == 0) {
-//                         func_80A43424(this, globalCtx, 0x23);
-//                         this->actionFunc = func_80A470E8;
-//                         return 2;
-//                     }
-//                     this->actor.textId = 0x3056;
-//                     func_8010B720(globalCtx, 0x3056); // & 0xFFFF
-//                 }
-//             }
-//             break;
-
-//         case 5:
-//             if (func_80106BC8(globalCtx) != 0) {
-//                 if (this->actor.textId == 0x3059) {
-//                     globalCtx->msgCtx.msgMode = 0x37;
-//                     this->actionFunc = func_80A4725C;
-//                 }
-//                 return 2;
-//             }
-
-//     }
-//     return 1;
-// }
+    }
+    return 1;
+}
 
 
 
@@ -2171,31 +2150,67 @@ s32 func_80A46114(EnGo2* this) {
 // void func_80A461A8(EnGo2 *this, GlobalContext *globalCtx) {
 //     s32 animation;
 
-//     if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (((this->actor.textId != 0x3035) || (this->unk_20C != 0)) &&
-//     (this->actor.textId == 0x3036) && (this->unk_20C == 0))) {
-//         if ((this->actor.textId != 0x3035) || (this->unk_20C != 0)) {
-//             animation = 0xD;
-//             if (this->skelAnime.animation != &D_06000D5C) {
-//                 this->unk_213 = 0;
-//                 animation = 0xC;
+//     animation = 0xD;
+//     if ((this->actor.params & 0x1F) == GORON_CITY_LINK) {
+
+//         if (!((this->actor.textId != 0x3035) && (this->actor.textId != 0x3036))) {
+//             if (this->unk_20C == 0) {
+//                 if (this->skelAnime.animation != &D_06000D5C) {
+//                     animation = 0xC;
+//                     this->unk_213 = 0;
+//                 }
+//             }
+//             else {
+//                 animation = 0xD;
 //             }
 //         }
 
-//         if ((this->actor.textId != 0x3032) || (this->unk_20C != 0xC)) {
-//             if (this->actor.textId != 0x3033) {
-//                 if ((this->actor.textId == 0x3035) && (this->unk_20C == 6)) {
-//                     block_12:
-//                     if (this->skelAnime.animation != &D_06000750) {
+//         // switch(this->actor.textId) {
+//         //     case 0x3035:
+//         //     case 0x3036:
+//         //         if (this->unk_20C == 0) {
+//         //             if ((this->skelAnime.animation != &D_06000D5C)) {
+//         //                 animation = 0xC;
+//         //                 this->unk_213 = 0;
+//         //                 break;
+//         //             }
+//         //         }
+//         // }
+        
+//         switch(this->actor.textId) {
+//             case 0x3032:
+//                 if (this->unk_20C == 0xC) {
+//                     break;
+//                 }
+
+//             case 0x3035:
+//                 if (this->unk_20C != 6) {
+//                     break;
+//                 }
+
+//             default:
+//                 if (this->skelAnime.animation != &D_06000750) {
 //                         this->unk_213 = 1;
 //                         animation = 0xB;
 //                     }
-//                 }
-//             } else {
-//                 goto block_12;
-//             }
-//         } else {
-//             goto block_12;
+            
 //         }
+
+//         // if ((this->actor.textId != 0x3032) || (this->unk_20C != 0xC)) {
+//         //     if (this->actor.textId != 0x3033) {
+//         //         if ((this->actor.textId == 0x3035) && (this->unk_20C == 6)) {
+//         //             block_12:
+//         //             if (this->skelAnime.animation != &D_06000750) {
+//         //                 this->unk_213 = 1;
+//         //                 animation = 0xB;
+//         //             }
+//         //         }
+//         //     } else {
+//         //         goto block_12;
+//         //     }
+//         // } else {
+//         //     goto block_12;
+//         // }
 
 //         if (this->skelAnime.animation == &D_06000750) {
 //             if (this->skelAnime.animCurrentFrame == 20.0f) {

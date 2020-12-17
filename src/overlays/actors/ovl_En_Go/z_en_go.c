@@ -826,68 +826,60 @@ s32 func_80A3F7C0(EnGo *this, s16 unk_arg1, f32 unk_arg2) {
 
  }
 
-// almost close
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F908.s")
-// void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
-//     Player* player;
-//     // s32 temp_v0_2;
-//     f32 float4;
-//     f32 float1;
-//     f32 float2;
-//     f32 float3;
-//     f32 float5;
-//     s32 phi_v0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F908.s")
+void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
+    Player* player;
+    f32 float1;
+    s32 phi_v0;
 
-//     player = PLAYER;
+    player = PLAYER;
 
-//     if (this->actionFunc == func_80A406E0 || this->actionFunc == func_80A4011C || this->actionFunc == func_80A4020C ||
-//         this->actionFunc == func_80A40D5C || this->actionFunc == func_80A40DCC || this->actionFunc == func_80A40B74 ||
-//         this->actionFunc == func_80A40C78 || this->actionFunc == func_80A40B1C) {
-
-//         float4 = this->actor.scale.x;
-//         float1 = float4 / 0.01f;
-//         float2 = (this->collider.dim.radius + 30.0f);
-//         float2 *= float1;
-        
-//         if ((this->actor.params & 0xF0) == 0x90) {
-//             float2 *= 4.8f;
-//         }
+    if (this->actionFunc == func_80A406E0 || this->actionFunc == func_80A4011C || this->actionFunc == func_80A4020C ||
+        this->actionFunc == func_80A40D5C || this->actionFunc == func_80A40DCC || this->actionFunc == func_80A40B74 ||
+        this->actionFunc == func_80A40C78 || this->actionFunc == func_80A40B1C) {
 
 
+        float1 = (this->collider.dim.radius + 30.0f);
+        float1 *= (this->actor.scale.x / 0.01f);
 
-//         if ((this->actor.params & 0xF0) == 0x90) {
-//             phi_v0 = func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float2, &EnGo_GetTextID, &func_80A3E908);
-//         } 
-//         else {
-//             phi_v0 = func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float2, &EnGo_GetTextID, &func_80A3E908);
-//         }
+        if ((this->actor.params & 0xF0) == 0x90) {
+            float1 *= 4.8f;
+        }
 
-//         if (((this->actor.params & 0xF0) == 0x90) && (phi_v0 == 1)) {
 
-//             if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_SWORD_BROKEN) {
-//                 if (func_8002F368(globalCtx) == 0xB) {
-//                     if (gSaveContext.infTable[11] & 0x10) {
-//                         this->actor.textId = 0x3055;
-//                     } else {
-//                         this->actor.textId = 0x3054;
-//                     }
-//                 } else {
-//                     this->actor.textId = 0x3053;
-//                 }
-//                 player->actor.textId = this->actor.textId;
-//             }
+        if ((this->actor.params & 0xF0) == 0x90) {
+            phi_v0 = func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, &EnGo_GetTextID, &func_80A3E908);
+        } 
+        else {
+            phi_v0 = func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, &EnGo_GetTextID, &func_80A3E908);
+        }
 
-//             if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
-//                 if (func_8002F368(globalCtx) == 0xE) {
-//                     this->actor.textId = 0x3059;
-//                 } else {
-//                     this->actor.textId = 0x3058;
-//                 }
-//                 player->actor.textId = this->actor.textId;
-//             }
-//         }
-//     }
-// }
+        if (((this->actor.params & 0xF0) == 0x90) && (phi_v0 == 1)) {
+
+            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_SWORD_BROKEN) {
+                if (func_8002F368(globalCtx) == 0xB) {
+                    if (gSaveContext.infTable[11] & 0x10) {
+                        this->actor.textId = 0x3055;
+                    } else {
+                        this->actor.textId = 0x3054;
+                    }
+                } else {
+                    this->actor.textId = 0x3053;
+                }
+                player->actor.textId = this->actor.textId;
+            }
+
+            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
+                if (func_8002F368(globalCtx) == 0xE) {
+                    this->actor.textId = 0x3059;
+                } else {
+                    this->actor.textId = 0x3058;
+                }
+                player->actor.textId = this->actor.textId;
+            }
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/EnGo_Init.s")
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
