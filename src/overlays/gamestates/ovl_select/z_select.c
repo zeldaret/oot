@@ -38,7 +38,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
     gSaveContext.showTitleCard = true;
-    D_8011FB30 = 0;
+    gWeatherMode = 0;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }

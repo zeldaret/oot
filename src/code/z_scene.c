@@ -406,10 +406,11 @@ void func_80099090(GlobalContext* globalCtx, SceneCmd* cmd) {
     s8 y = cmd->windSettings.y;
     s8 z = cmd->windSettings.z;
 
-    globalCtx->envCtx.unk_A8.x = x;
-    globalCtx->envCtx.unk_A8.y = y;
-    globalCtx->envCtx.unk_A8.z = z;
-    globalCtx->envCtx.unk_B0 = cmd->windSettings.unk_07;
+    globalCtx->envCtx.windDirection.x = x;
+    globalCtx->envCtx.windDirection.y = y;
+    globalCtx->envCtx.windDirection.z = z;
+
+    globalCtx->envCtx.windSpeed = cmd->windSettings.unk_07;
 }
 
 // Scene Command 0x13: Exit List

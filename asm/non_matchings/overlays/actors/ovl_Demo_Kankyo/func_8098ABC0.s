@@ -247,7 +247,7 @@ glabel func_8098ABC0
 /* 02070 8098AEF0 00000000 */  nop
 /* 02074 8098AEF4 16800010 */  bne     $s4, $zero, .L8098AF38     
 /* 02078 8098AEF8 00000000 */  nop
-/* 0207C 8098AEFC 0C01DDB9 */  jal     func_800776E4              
+/* 0207C 8098AEFC 0C01DDB9 */  jal     Kankyo_WarpSongLeave              
 /* 02080 8098AF00 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 02084 8098AF04 920C0172 */  lbu     $t4, 0x0172($s0)           ## 00000172
 /* 02088 8098AF08 258D0001 */  addiu   $t5, $t4, 0x0001           ## $t5 = 00000001

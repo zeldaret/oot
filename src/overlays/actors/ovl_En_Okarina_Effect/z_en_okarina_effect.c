@@ -38,7 +38,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnOkarinaEffect* this = THIS;
 
     globalCtx->envCtx.unk_F2[0] = 0;
-    if ((D_8011FB30 != 4) && (D_8011FB30 != 5) && (globalCtx->envCtx.gloomySkyEvent == 1)) {
+    if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyEvent == 1)) {
         globalCtx->envCtx.gloomySkyEvent = 2; // end gloomy sky
         func_80077684(globalCtx);
     }
@@ -62,7 +62,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
     this->timer = 400;                    // 20 seconds
     globalCtx->envCtx.unk_F2[0] = 20;     // rain intensity target
     globalCtx->envCtx.gloomySkyEvent = 1; // start gloomy sky
-    if ((D_8011FB30 != 0) || globalCtx->envCtx.gloomySky != 0) {
+    if ((gWeatherMode != 0) || globalCtx->envCtx.gloomySky != 0) {
         globalCtx->envCtx.unk_DE = 1;
     }
     globalCtx->envCtx.lightning = 1; // start lightning
@@ -98,9 +98,9 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
             func_800F6D58(0xF, 1, 0);
             func_800F6D58(0xE, 1, 0);
         }
-        osSyncPrintf("\n\n\nE_wether_flg=[%d]", D_8011FB30);
+        osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
         osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyEvent);
-        if (D_8011FB30 == 0 && (globalCtx->envCtx.gloomySkyEvent == 1)) {
+        if (gWeatherMode == 0 && (globalCtx->envCtx.gloomySkyEvent == 1)) {
             globalCtx->envCtx.gloomySkyEvent = 2; // end gloomy sky
         } else {
             globalCtx->envCtx.gloomySkyEvent = 0;

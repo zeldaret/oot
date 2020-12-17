@@ -122,16 +122,16 @@ typedef struct GraphicsContext {
     /* 0x01C4 */ char unk_01C4[0xC0];
     /* 0x0284 */ OSViMode* viMode;
     /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena    overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena    polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena    polyXlu; // "Zelda 1"
+    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
+    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
+    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
     /* 0x02DC */ u16* curFrameBuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
-    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
+    /* 0x02F0 */ void* callbackParam;
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
     /* 0x02FC */ char unk_2FC[0x04];
@@ -556,8 +556,8 @@ typedef struct {
     /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ Vec3s    unk_A8;
-    /* 0xB0 */ f32      unk_B0;
+    /* 0xA8 */ Vec3s    windDirection;
+    /* 0xB0 */ f32      windSpeed;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ u8       unk_BC;
@@ -1805,15 +1805,5 @@ typedef struct {
     u8 unk_05;
     u8 unk_06;
 } struct_8011FC1C;
-
-typedef struct {
-    u8 unk_00;
-    Vec3f unk_04;
-    Vec3f unk_10;
-    s8 unk_1C;
-    s8 unk_1D;
-    u8 unk_1E;
-    u8 unk_1F;
-} struct_8015FD10;
 
 #endif

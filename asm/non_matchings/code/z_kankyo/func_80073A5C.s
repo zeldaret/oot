@@ -35,7 +35,7 @@ glabel D_8013C7D8
     .float 0.1
 
 .text
-glabel func_80073A5C
+glabel Kankyo_DrawLensFlare
 /* AEABFC 80073A5C 27BDFE50 */  addiu $sp, $sp, -0x1b0
 /* AEAC00 80073A60 3C0B8012 */  lui   $t3, %hi(D_8011FE00) # $t3, 0x8012
 /* AEAC04 80073A64 AFBF004C */  sw    $ra, 0x4c($sp)

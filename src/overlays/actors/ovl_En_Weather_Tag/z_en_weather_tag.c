@@ -142,8 +142,8 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                 ((globalCtx->envCtx.unk_1E != 0) ||
                  (!(globalCtx->envCtx.unk_1F == 1 || globalCtx->envCtx.unk_21 != 0)))) {
                 D_8011FB38 = 0;
-                if (D_8011FB30 != arg7) {
-                    D_8011FB30 = arg7;
+                if (gWeatherMode != arg7) {
+                    gWeatherMode = arg7;
                     if (globalCtx->envCtx.gloomySkyEvent == 0) {
                         globalCtx->envCtx.unk_19 = 1;
                         globalCtx->envCtx.gloomySky = arg2;
@@ -183,7 +183,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                 ((globalCtx->envCtx.unk_1E != 0) ||
                  (!(globalCtx->envCtx.unk_1F == 1 || globalCtx->envCtx.unk_21 != 0)))) {
                 D_8011FB38 = 0;
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 globalCtx->envCtx.unk_19 = 1;
                 globalCtx->envCtx.gloomySky = arg2;
                 globalCtx->envCtx.unk_18 = arg3;

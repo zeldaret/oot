@@ -2183,7 +2183,7 @@ glabel L800BE148
 /* B35EB8 800BED18 8E180000 */  lw    $t8, ($s0)
 /* B35EBC 800BED1C 02002025 */  move  $a0, $s0
 /* B35EC0 800BED20 260607A8 */  addiu $a2, $s0, 0x7a8
-/* B35EC4 800BED24 0C01C309 */  jal   func_80070C24
+/* B35EC4 800BED24 0C01C309 */  jal   Kankyo_Update
 /* B35EC8 800BED28 AFB80018 */   sw    $t8, 0x18($sp)
 /* B35ECC 800BED2C 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B35ED0 800BED30 8FB00024 */  lw    $s0, 0x24($sp)

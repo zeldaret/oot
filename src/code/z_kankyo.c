@@ -14,12 +14,22 @@ typedef struct {
     u8 unk_05;
 } struct_8011FB48;
 
+typedef struct {
+    u8 unk_00;
+    Vec3f unk_04;
+    Vec3f unk_10;
+    s8 unk_1C;
+    s8 unk_1D;
+    u8 textureIndex;
+    u8 unk_1F;
+} struct_8015FD10; // lightning related
+
 // data
 s32 D_8011FAF0[][2] = {
     { 0x00000006, 0x00000000 }, { 0x00000005, 0x00020000 }, { 0x00000004, 0x00030000 }, { 0x00000003, 0x00038000 },
     { 0x00000002, 0x0003c000 }, { 0x00000001, 0x0003e000 }, { 0x00000000, 0x0003f000 }, { 0x00000000, 0x0003f800 },
 };
-u8 D_8011FB30 = 0;
+u8 gWeatherMode = 0; // "E_wether_flg"
 u8 D_8011FB34 = 0;
 u8 D_8011FB38 = 0;
 u8 D_8011FB3C = 0;
@@ -150,23 +160,25 @@ void func_800766C4(GlobalContext* globalCtx);
 
 s32 func_8006F0A0(s32 a0) {
     s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7][0]) + D_8011FAF0[a0 >> 15 & 7][1];
-    return ret;
-}
-
-u16 Kankyo_GetZBufferPixel(s32 x, s32 y) {
-    u32 ret = gZBuffer[y][x];
 
     return ret;
 }
 
-void Kankyo_GraphCallback(GraphicsContext* gfxCtx, GlobalContext* globalCtx) {
-    D_8011FB44 = Kankyo_GetZBufferPixel(D_8015FD7E, D_8015FD80);
+u16 Kankyo_GetPixelDepth(s32 x, s32 y) {
+    s32 pixelDepth = gZBuffer[y][x];
+
+    return pixelDepth;
+}
+
+void Kankyo_GraphCallback(GraphicsContext* gfxCtx, void* param) {
+    GlobalContext* globalCtx = (GlobalContext*)param;
+
+    D_8011FB44 = Kankyo_GetPixelDepth(D_8015FD7E, D_8015FD80);
     Lights_GlowCheck(globalCtx);
 }
 
 #ifdef NON_MATCHING
-// // minor ordering, regalloc, implicit stack slots
-// // jacob had this return a byte?
+// minor ordering, regalloc, implicit stack slots
 void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE unused) {
     GlobalContext* globalCtx = globalCtx2;
     u8 i;
@@ -174,10 +186,10 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE
 
     gSaveContext.unk_1422 = 0;
 
-    if ((0, gSaveContext.dayTime) > 0xC000 || (0, gSaveContext.dayTime) < 0x4555) {
-        (0, gSaveContext.nightFlag = true);
+    if (((void)0, gSaveContext.dayTime) > 0xC000 || ((void)0, gSaveContext.dayTime) < 0x4555) {
+        ((void)0, gSaveContext.nightFlag = true);
     } else {
-        (0, gSaveContext.nightFlag = false);
+        ((void)0, gSaveContext.nightFlag = false);
     }
 
     globalCtx->state.gfxCtx->callback = Kankyo_GraphCallback;
@@ -227,19 +239,19 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE
     D_8015FD70.green = 0;
     D_8015FD70.blue = 0;
     D_8015FD7C = 0;
-    (0, gSaveContext.unk_1410 = 0);
+    ((void)0, gSaveContext.unk_1410 = 0);
 
     envCtx->unk_8C[0][0] = envCtx->unk_8C[0][1] = envCtx->unk_8C[0][2] = envCtx->unk_8C[1][0] = envCtx->unk_8C[1][1] =
         envCtx->unk_8C[1][2] = envCtx->unk_8C[2][0] = envCtx->unk_8C[2][1] = envCtx->unk_8C[2][2] = envCtx->unk_9E =
             envCtx->unk_A0 = 0;
 
-    envCtx->sunPos.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
 
-    envCtx->unk_A8.x = 80;
-    envCtx->unk_A8.y = 80;
-    envCtx->unk_A8.z = 80;
+    envCtx->windDirection.x = 80;
+    envCtx->windDirection.y = 80;
+    envCtx->windDirection.z = 80;
 
     envCtx->unk_BC = 0;
     envCtx->unk_BF = 0xFF;
@@ -261,7 +273,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE
 
     if (gSaveContext.unk_13C3 != 0) {
         if (gSaveContext.sceneSetupIndex < 4) {
-            switch (D_8011FB30) {
+            switch (gWeatherMode) {
                 case 1:
                     envCtx->gloomySky = 1;
                     envCtx->unk_18 = 1;
@@ -293,19 +305,19 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE
             }
 
             if (globalCtx->skyboxId == 1) {
-                if (D_8011FB30 == 3) {
+                if (gWeatherMode == 3) {
                     globalCtx->envCtx.unk_EE[2] = globalCtx->envCtx.unk_EE[3] = 0x40;
-                } else if (D_8011FB30 == 4) {
+                } else if (gWeatherMode == 4) {
                     globalCtx->envCtx.unk_EE[0] = 0x14;
                     globalCtx->envCtx.unk_EE[1] = 0x14;
-                } else if (D_8011FB30 == 5) {
+                } else if (gWeatherMode == 5) {
                     globalCtx->envCtx.unk_EE[0] = 0x1E;
                     globalCtx->envCtx.unk_EE[1] = 0x1E;
                 }
             }
         }
     } else {
-        D_8011FB30 = 0;
+        gWeatherMode = 0;
     }
 
     D_8011FB38 = 0;
@@ -343,7 +355,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
-    gCustomLensFlareOn = 0;
+    gCustomLensFlareOn = false;
     func_800AA15C();
 }
 #else
@@ -447,7 +459,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
             break;
         case 1:
             if (D_8011FB3C == 0 && envCtx->gloomySkyEvent == 2) {
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 envCtx->unk_19 = 1;
                 envCtx->gloomySky = 1;
                 envCtx->unk_18 = 0;
@@ -465,6 +477,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
     }
 }
 
+// skybox related
 #ifdef NON_EQUIVALENT
 // major instruction/register/stack differences
 void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
@@ -600,6 +613,7 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
 #endif
 
+// runs when camera is entering water
 void func_80070600(GlobalContext* globalCtx, s32 arg1) {
     if (arg1 == 0x1F) {
         arg1 = 0;
@@ -618,6 +632,7 @@ void func_80070600(GlobalContext* globalCtx, s32 arg1) {
     }
 }
 
+// runs when camera is leaving water
 void func_800706A0(GlobalContext* globalCtx) {
     if (globalCtx->envCtx.unk_1E == 0) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
@@ -629,7 +644,7 @@ void func_800706A0(GlobalContext* globalCtx) {
     }
 }
 
-void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
+void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint printer;
     u32 time;
     s32 pad;
@@ -680,9 +695,9 @@ void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (gSaveContext.nightFlag) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // night
+        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // day
+        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
     }
 
     *gfx = GfxPrint_Close(&printer);
@@ -691,7 +706,7 @@ void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
 
 #ifdef NON_EQUIVALENT
 // incomplete
-void func_80070C24(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
+void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                    MessageContext* msgCtx, u16* unk_10A20, GraphicsContext* gfxCtx_) {
     if (gSaveContext.gameMode != 0 && gSaveContext.gameMode != 3) {
         func_800AA16C(globalCtx);
@@ -747,7 +762,7 @@ void func_80070C24(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             polyOpa = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
             overlay = gfxCtx->overlay.p++;
             gSPDisplayList(polyOpa, overlay);
-            func_80070718(globalCtx, &overlay);
+            Kankyo_PrintDebugInfo(globalCtx, &overlay);
             gSPEndDisplayList(overlay++);
             Graph_BranchDlist(polyOpa, overlay);
             Graph_CloseDisps(dispRefs, gfxCtx, "../z_kankyo.c", 1690);
@@ -767,8 +782,7 @@ void func_80070C24(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80070C24.s")
 #endif
 
-// draw sun and moon
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // float regalloc
 void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     f32 alpha;
@@ -781,16 +795,19 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.x,
-                                -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f, 0.8f);
+                                -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
+                                0.8f);
         Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y,
-                                (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f, 0.8f);
+                                (Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
+                                0.8f);
         //! @bug This should be z.
         Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y,
-                                (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f, 0.8f);
+                                (Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
+                                0.8f);
     } else {
-        globalCtx->envCtx.sunPos.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.sunPos.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.sunPos.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.x = -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.y = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.z = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
     if (gSaveContext.entranceIndex != 0xCD || gSaveContext.sceneSetupIndex != 5) {
@@ -844,7 +861,8 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
         scale = -15.0f * scale + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-        alpha = -y / 80.0f;
+        y = -y; // improves alot but also breaks some stuff, might be fake. doing the same above is way worse
+        alpha = y / 80.0f;
 
         if (alpha > 1.0f) {
             alpha = 1.0f;
@@ -862,29 +880,39 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawSunAndMoon.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawSunAndMoon.s")
+#endif
 
-// lens flare
-void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx, Vec3f pos,
-                   s32 unused) {
+void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+                             Vec3f pos, s32 unused) {
     if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.gloomySky == 0)) {
-        func_80073A5C(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
-                      Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
+        Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
+                             Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
 }
 
-#ifdef NON_EQUIVALENT
-// not ready
-void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx_,
-                   Vec3f pos, UNK_TYPE arg5, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
-    static f32 D_8011FDD8[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
+typedef enum {
+    /* 0 */ LENS_FLARE_CIRCLE0,
+    /* 1 */ LENS_FLARE_CIRCLE1,
+    /* 2 */ LENS_FLARE_RING
+} LensFlareType;
 
-    s32 pad[7];
-    f32 lookDirX, lookDirY, lookDirZ;
-    f32 posDirX, posDirY, posDirZ;
-    f32 halfPosX, halfPosY, halfPosZ;
+#define NUM_LENS_FLARES 10
+
+#ifdef NON_MATCHING
+void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+                          Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
+    static f32 lensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
+    f32 lookDirX;
+    f32 lookDirY;
+    f32 lookDirZ;
+    f32 posDirX;
+    f32 posDirY;
+    f32 posDirZ;
+    f32 halfPosX;
+    f32 halfPosY;
+    f32 halfPosZ;
     f32 cosAngle;
     f32 unk88Target;
     u32 isOffScreen = false;
@@ -895,21 +923,27 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
     f32 dist;
     f32 scale;
     f32 alpha;
-    f32 fogAlpha;
+    f32 fogInfluence;
     f32 alphaScale;
-    Color_RGB8 unk_8011FE00[] = {
-        { 155, 205, 255 }, { 255, 255, 205 }, { 255, 255, 205 }, { 255, 255, 205 }, { 155, 255, 205 },
-        { 205, 255, 255 }, { 155, 155, 255 }, { 205, 175, 255 }, { 175, 255, 205 }, { 255, 155, 235 },
+    Color_RGB8 lensFlareColors[] = {
+        { 155, 205, 255 }, // blue
+        { 255, 255, 205 }, // yellow
+        { 255, 255, 205 }, // yellow
+        { 255, 255, 205 }, // yellow
+        { 155, 255, 205 }, // green
+        { 205, 255, 255 }, // light blue
+        { 155, 155, 255 }, // dark blue
+        { 205, 175, 255 }, // purple
+        { 175, 255, 205 }, // light green
+        { 255, 155, 235 }, // pink
     };
-    u32 unk_8011FE20[] = { 0x32, 0xA, 0x19, 0x28, 0x46, 0x1E, 0x32, 0x46, 0x32, 0x28 };
-    u32 unk_8011FE48[] = { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    u32 lensFlareAlphas[] = { 50, 10, 25, 40, 70, 30, 50, 70, 50, 40 };
+    u32 lensFlareTypes[] = {
+        LENS_FLARE_RING,    LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
+        LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
+    };
 
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    s32 pad2[2];
-
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_kankyo.c", 2516);
+    OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2516);
 
     dist = Math3D_Vec3f_DistXYZ(&pos, &view->eye) / 12.0f;
 
@@ -917,7 +951,9 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
     lookDirX = view->lookAt.x - view->eye.x;
     lookDirY = view->lookAt.y - view->eye.y;
     lookDirZ = view->lookAt.z - view->eye.z;
+
     length = sqrtf(SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ));
+
     lookDirX /= length;
     lookDirY /= length;
     lookDirZ /= length;
@@ -931,7 +967,9 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
     posDirX = pos.x - halfPosX;
     posDirY = pos.y - halfPosY;
     posDirZ = pos.z - halfPosZ;
+
     length = sqrtf(SQ(posDirX) + SQ(posDirY) + SQ(posDirZ));
+
     posDirX /= length;
     posDirY /= length;
     posDirZ /= length;
@@ -939,10 +977,13 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
     // compute the cosine of the angle between lookDir and posDir
     cosAngle = (lookDirX * posDirX + lookDirY * posDirY + lookDirZ * posDirZ) /
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
+
     unk88Target = cosAngle * 14.0f;
+
     if (unk88Target > 1.0f) {
         unk88Target = 1.0f;
     }
+
     if (!arg9) {
         unk88Target = cosAngle;
     }
@@ -958,7 +999,7 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
             }
         }
 
-        for (i = 0; i < ARRAY_COUNT(D_8011FDD8); i++) {
+        for (i = 0; i < NUM_LENS_FLARES; i++) {
             Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
 
             if (arg9) {
@@ -966,80 +1007,91 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
+            scale = lensFlareScales[i] * cosAngle;
 
-            scale = D_8011FDD8[i] * cosAngle;
             if (arg9) {
                 scale *= (arg6 + temp * 630.0f) * 0.001;
             } else {
                 scale *= arg6 * 0.0001f * (dist + dist);
             }
-            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             alpha = arg7 / 10.0f;
+
             if (alpha > 1.0f) {
                 alpha = 1.0f;
             }
-            alpha *= unk_8011FE20[i];
+
+            alpha *= lensFlareAlphas[i];
+
             if (alpha < 0.0f) {
                 alpha = 0.0f;
             }
 
-            fogAlpha = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
-            if (fogAlpha > 1.0f) {
-                fogAlpha = 1.0f;
-            }
-            alpha *= 1.0f - fogAlpha;
+            fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
 
-            if (!isOffScreen) {
+            if (fogInfluence > 1.0f) {
+                fogInfluence = 1.0f;
+            }
+
+            alpha *= 1.0f - fogInfluence;
+
+            if (!isOffScreen) { // 5088
                 Math_SmoothScaleMaxMinF(&envCtx->unk_88, unk88Target, 1.0f, 0.05f, 0.001f);
             } else {
-                Math_SmoothScaleMaxMinF(&envCtx->unk_88, unk88Target, 1.0f, 0.05f, 0.001f);
+                Math_SmoothScaleMaxMinF(&envCtx->unk_88, 0.0f, 1.0f, 0.05f, 0.001f);
             }
 
-            gfxCtx->polyXlu.p = func_800947AC(gfxCtx->polyXlu.p++);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, unk_8011FE00[i].r, unk_8011FE00[i].g, unk_8011FE00[i].b,
+            POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, lensFlareColors[i].r, lensFlareColors[i].g, lensFlareColors[i].b,
                             alpha * envCtx->unk_88);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2662),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2662),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetCombineLERP(gfxCtx->polyXlu.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
-                              TEXEL0, 0, PRIMITIVE, 0);
-            gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
-            gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
-            gSPMatrix(gfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
+                              0, PRIMITIVE, 0);
+            gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
+            gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
+            gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
 
-            switch (unk_8011FE48[i]) {
-                case 0:
-                case 1:
-                    gSPDisplayList(gfxCtx->polyXlu.p++, D_04037730);
+            switch (lensFlareTypes[i]) {
+                case LENS_FLARE_CIRCLE0:
+                case LENS_FLARE_CIRCLE1:
+                    gSPDisplayList(POLY_XLU_DISP++, D_04037730);
                     break;
-                case 2:
-                    gSPDisplayList(gfxCtx->polyXlu.p++, D_04037798);
+                case LENS_FLARE_RING:
+                    gSPDisplayList(POLY_XLU_DISP++, D_04037798);
                     break;
             }
         }
 
         alphaScale = cosAngle - (1.5f - cosAngle);
+
         if (arg8 != 0) {
             if (alphaScale > 0.0f) {
-                gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
+                POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
 
                 alpha = arg7 / 10.0f;
+
                 if (alpha > 1.0f) {
                     alpha = 1.0f;
                 }
+
                 alpha *= arg8;
+
                 if (alpha < 0.0f) {
                     alpha = 0.0f;
                 }
 
-                fogAlpha = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
-                if (fogAlpha > 1.0f) {
-                    fogAlpha = 1.0f;
-                }
-                alpha *= 1.0f - fogAlpha;
+                fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
 
-                gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
-                gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
+                if (fogInfluence > 1.0f) {
+                    fogInfluence = 1.0f;
+                }
+
+                alpha *= 1.0f - fogInfluence;
+
+                gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
+                gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
 
                 if (!isOffScreen) {
                     Math_SmoothScaleMaxMinF(&envCtx->unk_84, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
@@ -1048,19 +1100,21 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
                 }
 
                 temp = arg7 / 120.0f;
+
                 if (temp < 0.0f) {
                     temp = 0.0f;
                 }
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
+
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
                                 envCtx->unk_84);
-                gDPFillRectangle(gfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+                gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             } else {
                 envCtx->unk_84 = 0.0f;
             }
         }
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_kankyo.c", 2750);
+    CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 2750);
 }
 #else
 f32 D_8011FDD8[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
@@ -1078,10 +1132,10 @@ f32 func_800746DC() {
 }
 
 #ifdef NON_EQUIVALENT
-// minor instruction/register/stack differences
-void func_80074704(GlobalContext* globalCtx, View* view, GraphicsContext* _gfxCtx) {
+// minor instruction / register / stack differences
+void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx) {
+    u8 firstIterDone;
     s16 i;
-    u8 j;
     Vec3f vec;
     f32 length;
     Vec3f norm;
@@ -1093,83 +1147,91 @@ void func_80074704(GlobalContext* globalCtx, View* view, GraphicsContext* _gfxCt
     f32 z50;
     f32 x280;
     f32 z280;
-    Vec3f unk_8011FE70 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unk_8011FE7C = { 0.0f, 0.0f, 0.0f };
-    Actor* actor = globalCtx->actorCtx.actorList[2].first;
-    GraphicsContext* gfxCtx = _gfxCtx;
-    Gfx* dispRefs[4];
-    (void)unk_8011FE70;
-    (void)unk_8011FE7C;
+    Vec3f unused = { 0.0f, 0.0f, 0.0f };
+    Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
+    Player* player = PLAYER;
 
-    if (globalCtx->cameraPtrs[0]->unk_14C & 0x100 || globalCtx->envCtx.unk_EE[2] != 0) {
-        return;
-    }
+    if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100) && (globalCtx->envCtx.unk_EE[2] == 0)) {
+        OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_kankyo.c", 2799);
+        vec.x = view->lookAt.x - view->eye.x;
+        vec.y = view->lookAt.y - view->eye.y;
+        vec.z = view->lookAt.z - view->eye.z;
 
-    vec.x = view->lookAt.x - view->eye.x;
-    vec.y = view->lookAt.y - view->eye.y;
-    vec.z = view->lookAt.z - view->eye.z;
-    length = sqrtf(SQ(vec.x) + SQ(vec.y) + SQ(vec.z));
-    norm.x = vec.x / length;
-    norm.y = vec.y / length;
-    norm.z = vec.z / length;
-    x50 = view->eye.x + norm.x * 50.0f;
-    y50 = view->eye.y + norm.y * 50.0f;
-    z50 = view->eye.z + norm.z * 50.0f;
-    x280 = view->eye.x + norm.x * 280.0f;
-    z280 = view->eye.z + norm.z * 280.0f;
+        length = sqrtf(SQ(vec.x) + SQ(vec.y) + SQ(vec.z));
 
-    if (globalCtx->envCtx.unk_EE[1] != 0) {
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 150, 255, 255, 30);
-        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
-    }
+        norm.x = vec.x / length;
+        norm.y = vec.y / length;
+        norm.z = vec.z / length;
 
-    for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-        vec.x = Math_Rand_ZeroOne();
-        vec.y = Math_Rand_ZeroOne();
-        vec.z = Math_Rand_ZeroOne();
-        Matrix_Translate((vec.x - 0.7f) * 100.0f + x50, (vec.y - 0.7f) * 100.0f + y50, (vec.z - 0.7f) * 100.0f + z50,
-                         MTXMODE_NEW);
-        vec.x = globalCtx->envCtx.unk_A8.x;
-        vec.y = globalCtx->envCtx.unk_A8.y;
-        vec.z = globalCtx->envCtx.unk_A8.z;
-        tempY = 500.0f + Math_Rand_ZeroOne() * 200.0f + vec.y;
-        gSPMatrix(gfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        rotX = atan2f(sqrtf(SQ(vec.x) + SQ(vec.z)), -tempY);
-        rotY = atan2f(vec.z, vec.x);
-        Matrix_RotateY(-rotY, MTXMODE_APPLY);
-        Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
-        Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2887),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, &D_04048160);
-    }
+        x50 = view->eye.x + norm.x * 50.0f;
+        y50 = view->eye.y + norm.y * 50.0f;
+        z50 = view->eye.z + norm.z * 50.0f;
 
-    if (actor->posRot.pos.y < view->eye.y) {
-        for (i = 0, j = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-            if (j == 0) {
-                func_80093D84(gfxCtx);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 155, 155, 155, 0);
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 120);
-                j++;
-            }
-            Matrix_Translate(func_800746DC() * 280.0f + x280, actor->posRot.pos.y + 2.0f,
-                             func_800746DC() * 280.0f + z280, MTXMODE_NEW);
-            if ((gSaveContext.linkAge == 0 && actor->posRot.pos.y + 2.0f - view->eye.y > -48.0f) ||
-                (gSaveContext.linkAge != 0 && actor->posRot.pos.y + 2.0f - view->eye.y > -30.0f)) {
-                Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
-            } else {
-                Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-            }
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2940),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyXlu.p++, &D_0401A0B0);
+        x280 = view->eye.x + norm.x * 280.0f;
+        z280 = view->eye.z + norm.z * 280.0f;
+
+        if (globalCtx->envCtx.unk_EE[1] != 0) {
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
         }
-    }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_kankyo.c", 2946);
+        // draw rain drops
+        for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
+            vec.x = Math_Rand_ZeroOne();
+            vec.y = Math_Rand_ZeroOne();
+            vec.z = Math_Rand_ZeroOne();
+
+            Matrix_Translate((vec.x - 0.7f) * 100.0f + x50, (vec.y - 0.7f) * 100.0f + y50,
+                             (vec.z - 0.7f) * 100.0f + z50, MTXMODE_NEW);
+
+            windDirection.x = globalCtx->envCtx.windDirection.x;
+            windDirection.y = globalCtx->envCtx.windDirection.y;
+            windDirection.z = globalCtx->envCtx.windDirection.z;
+
+            tempY = 500.0f + Math_Rand_ZeroOne() * 200.0f + windDirection.y;
+            gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            rotX = atan2f(sqrtf(SQ(windDirection.x) + SQ(windDirection.z)), -tempY);
+            rotY = atan2f(windDirection.z, windDirection.x);
+            Matrix_RotateY(-rotY, MTXMODE_APPLY);
+            Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
+            Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2887),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, D_04048160);
+        }
+
+        // draw droplet rings on the ground
+        if (player->actor.posRot.pos.y < view->eye.y) {
+            firstIterDone = false;
+
+            for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
+                if (!firstIterDone) {
+                    func_80093D84(gfxCtx);
+                    gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
+                    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 120);
+                    firstIterDone++;
+                }
+
+                Matrix_Translate(func_800746DC() * 280.0f + x280, player->actor.posRot.pos.y + 2.0f,
+                                 func_800746DC() * 280.0f + z280, MTXMODE_NEW);
+
+                if ((LINK_IS_ADULT && ((player->actor.posRot.pos.y + 2.0f - view->eye.y) > -48.0f)) ||
+                    (LINK_IS_CHILD && ((player->actor.posRot.pos.y + 2.0f - view->eye.y) > -30.0f))) {
+                    Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
+                } else {
+                    Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
+                }
+
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2940),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_XLU_DISP++, D_0401A0B0);
+            }
+        }
+
+        CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 2946);
+    }
 }
 #else
 Vec3f D_8011FE70 = { 0.0f, 0.0f, 0.0f };
@@ -1188,57 +1250,56 @@ void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
     }
 }
 
+// draws a filter over the screen in the color of the env fog
+// not sure what the second color filter is for yet
 void func_80074D6C(GlobalContext* globalCtx) {
-    if ((globalCtx->skyboxId != 0 && globalCtx->lightCtx.fogNear < 980) || globalCtx->skyboxId == 29) {
+    if (((globalCtx->skyboxId != 0) && (globalCtx->lightCtx.fogNear < 980)) || (globalCtx->skyboxId == 29)) {
         f32 alpha;
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3032);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3032);
 
         func_800938B4(globalCtx->state.gfxCtx);
+
         alpha = (1000 - globalCtx->lightCtx.fogNear) * 0.02f;
+
         if (globalCtx->skyboxId == 29) {
             alpha = 1.0f;
         }
+
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
-                        globalCtx->lightCtx.fogColor[2], 255.0f * alpha);
-        gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3043);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
+                        globalCtx->lightCtx.fogColor[2], 255.0f * alpha);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3043);
     }
 
     if (globalCtx->envCtx.unk_E9 != 0) {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3048);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3048);
 
         func_800938B4(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->envCtx.unk_EA[0], globalCtx->envCtx.unk_EA[1],
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, globalCtx->envCtx.unk_EA[0], globalCtx->envCtx.unk_EA[1],
                         globalCtx->envCtx.unk_EA[2], globalCtx->envCtx.unk_EA[3]);
-        gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3056);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3056);
     }
 }
 
-void func_80074FF4(GlobalContext* globalCtx, u8 r, u8 g, u8 b, u8 a) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3069);
+void Kankyo_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, u8 blue, u8 alpha) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3069);
 
     func_800938B4(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, r, g, b, a);
-    gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, red, green, blue, alpha);
+    gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3079);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3079);
 }
 
+// update lightning
 void func_800750C0(GlobalContext* globalCtx) {
     if (globalCtx->envCtx.lightning != 0) {
         switch (D_8015FD70.unk_00) {
@@ -1295,10 +1356,11 @@ void func_800750C0(GlobalContext* globalCtx) {
     }
 
     if (D_8015FD70.unk_00 != 0) {
-        func_80074FF4(globalCtx, D_8015FD70.red, D_8015FD70.green, D_8015FD70.blue, D_8015FD7C);
+        Kankyo_DrawLightningFlash(globalCtx, D_8015FD70.red, D_8015FD70.green, D_8015FD70.blue, D_8015FD7C);
     }
 }
 
+// add lightning
 void func_800753C4(GlobalContext* globalCtx, u8 max) {
     s16 count = 0;
     s16 i;
@@ -1306,59 +1368,69 @@ void func_800753C4(GlobalContext* globalCtx, u8 max) {
     for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
         if (D_8015FD10[i].unk_00 == 0xFF) {
             D_8015FD10[i].unk_00 = 0;
-            if (++count >= max) {
+            count++;
+
+            if (count >= max) {
                 break;
             }
         }
     }
 }
 
-// draw lightning
-void func_8007542C(GlobalContext* globalCtx, UNK_TYPE unused) {
-    static void* D_8011FEA0[] = { &D_04029F30, &D_0402A530, &D_0402AB30, &D_0402B130, &D_0402B730,
-                                  &D_0402BD30, &D_0402C330, &D_0402C930, NULL };
+void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
+    static void* lightningTextures[] = {
+        &D_04029F30, &D_0402A530, &D_0402AB30, &D_0402B130, &D_0402B730, &D_0402BD30, &D_0402C330, &D_0402C930, NULL,
+    };
     s16 i;
-    f32 dx, dz, x, z;
+    f32 dx;
+    f32 dz;
+    f32 x;
+    f32 z;
     s32 pad[2];
     Vec3f unused_8011FE88 = { 0.0f, 0.0f, 0.0f };
     Vec3f unused_8011FE94 = { 0.0f, 0.0f, 0.0f };
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3253);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3253);
 
     for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
         switch (D_8015FD10[i].unk_00) {
             case 0:
                 dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
                 dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+
                 x = dx / sqrtf(SQ(dx) + SQ(dz));
                 z = dz / sqrtf(SQ(dx) + SQ(dz));
+
                 D_8015FD10[i].unk_10.x = globalCtx->view.eye.x + x * 9500.0f;
                 D_8015FD10[i].unk_10.y = Math_Rand_ZeroOne() * 1000.0f + 4000.0f;
                 D_8015FD10[i].unk_10.z = globalCtx->view.eye.z + z * 9500.0f;
+
                 D_8015FD10[i].unk_04.x = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
                 D_8015FD10[i].unk_04.y = 0.0f;
                 D_8015FD10[i].unk_04.z = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
-                D_8015FD10[i].unk_1E = 0;
+
+                D_8015FD10[i].textureIndex = 0;
                 D_8015FD10[i].unk_1C = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
                 D_8015FD10[i].unk_1D = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
                 D_8015FD10[i].unk_1F = 3 * (i + 1);
                 D_8015FD10[i].unk_00++;
                 break;
             case 1:
-                if (--D_8015FD10[i].unk_1F <= 0) {
+                D_8015FD10[i].unk_1F--;
+
+                if (D_8015FD10[i].unk_1F <= 0) {
                     D_8015FD10[i].unk_00++;
                 }
                 break;
             case 2:
-                if (D_8015FD10[i].unk_1E < 7) {
-                    D_8015FD10[i].unk_1E++;
+                if (D_8015FD10[i].textureIndex < 7) {
+                    D_8015FD10[i].textureIndex++;
                 } else {
                     D_8015FD10[i].unk_00 = 0xFF;
                 }
                 break;
         }
+
         if (D_8015FD10[i].unk_00 == 2) {
             Matrix_Translate(D_8015FD10[i].unk_10.x + D_8015FD10[i].unk_04.x,
                              D_8015FD10[i].unk_10.y + D_8015FD10[i].unk_04.y,
@@ -1366,33 +1438,34 @@ void func_8007542C(GlobalContext* globalCtx, UNK_TYPE unused) {
             Matrix_RotateX(D_8015FD10[i].unk_1C * (M_PI / 180.0f), MTXMODE_APPLY);
             Matrix_RotateZ(D_8015FD10[i].unk_1D * (M_PI / 180.0f), MTXMODE_APPLY);
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 128);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 255, 128);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 3333),
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 3333),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8011FEA0[D_8015FD10[i].unk_1E]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[D_8015FD10[i].textureIndex]));
             func_80094C50(globalCtx->state.gfxCtx);
-            gSPMatrix(gfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            gSPDisplayList(gfxCtx->polyXlu.p++, &D_0402CF30);
+            gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, &D_0402CF30);
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3353);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3353);
 }
 
+
 #ifdef NON_MATCHING
-// trivial register differences
+// sets bgm
+// register differences
 // using a temp for seq index fixes things mostly but it looks fake
 void func_800758AC(GlobalContext* globalCtx) {
-
     globalCtx->envCtx.unk_E0 = 0xFF;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if ((0, gSaveContext.entranceIndex) == 0x4DE || (0, gSaveContext.entranceIndex) == 0x5E0) {
+    if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
         func_800F6FB4(4);
-    } else if ((0, gSaveContext.unk_140E) != 0) {
+    } else if (((void)0, gSaveContext.unk_140E) != 0) {
         if (!func_80077600()) {
-            Audio_SetBGM((0, gSaveContext.unk_140E));
+            Audio_SetBGM(((void)0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = 0;
     } else {
@@ -1400,38 +1473,39 @@ void func_800758AC(GlobalContext* globalCtx) {
             if (globalCtx->soundCtx.nightSeqIndex == 19u) {
                 return;
             }
-            if ((0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
+            if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
                 func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
             }
         } else if (globalCtx->soundCtx.nightSeqIndex == 19u) {
+            // "BGM Configuration"
             osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex,
-                         (0, gSaveContext.seqIndex)); // BGM Configuration
+                         ((void)0, gSaveContext.seqIndex));
 
-            if ((0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
+            if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
                 func_800F5550(globalCtx->soundCtx.seqIndex);
             }
-        } else if ((0, gSaveContext.dayTime) > 0x4AAA && (0, gSaveContext.dayTime) < 0xB71D) {
-            if ((0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
+        } else if (((void)0, gSaveContext.dayTime) > 0x4AAA && ((void)0, gSaveContext.dayTime) < 0xB71D) {
+            if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
                 func_800F5550(globalCtx->soundCtx.seqIndex);
             }
             globalCtx->envCtx.unk_E0 = 1;
         } else {
-            if ((0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
+            if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
                 func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
             }
-            if ((0, gSaveContext.dayTime) > 0xB71C && (0, gSaveContext.dayTime) < 0xCAAC) {
+            if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
                 globalCtx->envCtx.unk_E0 = 3;
-            } else if ((0, gSaveContext.dayTime) > 0xCAAC || (0, gSaveContext.dayTime) < 0x4555) {
+            } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < 0x4555) {
                 globalCtx->envCtx.unk_E0 = 5;
             } else {
                 globalCtx->envCtx.unk_E0 = 7;
             }
         }
     }
-    osSyncPrintf("\n-----------------\n", (0, gSaveContext.unk_140E));
-    osSyncPrintf("\n 強制ＢＧＭ=[%d]", (0, gSaveContext.unk_140E)); // Forced BGM
+    osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.unk_140E));
+    osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.unk_140E)); // "Forced BGM"
     osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->soundCtx.seqIndex);
-    osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.nightSeqIndex); // Emblem?
+    osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.nightSeqIndex);
     osSyncPrintf("\n     status=[%d]", globalCtx->envCtx.unk_E0);
     func_800F66C0(globalCtx->roomCtx.curRoom.echo);
 }
@@ -1439,6 +1513,7 @@ void func_800758AC(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800758AC.s")
 #endif
 
+// updates bgm/sfx and other things as the day progresses
 void func_80075B44(GlobalContext* globalCtx) {
     switch (globalCtx->envCtx.unk_E0) {
         case 0:
@@ -1459,7 +1534,7 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
         case 2:
             if (gSaveContext.dayTime > 0xC000) {
-                func_800788CC(0x28AE);
+                func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
                 globalCtx->envCtx.unk_E0++;
             }
             break;
@@ -1483,11 +1558,11 @@ void func_80075B44(GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_E0++;
             break;
         case 6:
-            if (gSaveContext.dayTime < 0xCAAC && gSaveContext.dayTime > 0x4555) {
+            if ((gSaveContext.dayTime < 0xCAAC) && (gSaveContext.dayTime > 0x4555)) {
                 gSaveContext.numDays++;
                 gSaveContext.unk_18++;
                 gSaveContext.dogIsLost = true;
-                func_80078884(0x2813);
+                func_80078884(NA_SE_EV_CHICKEN_CRY_M);
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
                     globalCtx->csCtx.state == 0 && !Player_InCsMode(globalCtx)) {
@@ -1519,11 +1594,12 @@ void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        func_80073A5C(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, D_8015FD04,
-                      D_8015FD06, D_8015FD08, D_8015FD0C, 0);
+        Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, D_8015FD04,
+                             D_8015FD06, D_8015FD08, D_8015FD0C, 0);
     }
 }
 
+// init game over lights?
 void func_80075F14(GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
@@ -1541,6 +1617,7 @@ void func_80075F14(GlobalContext* globalCtx) {
     D_8015FD98 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015FDA0);
 }
 
+// update game over lights?
 void func_800760F4(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 i;
@@ -1581,8 +1658,9 @@ void func_800760F4(GlobalContext* globalCtx) {
     }
 }
 
+// fade out game over lights?
 void func_800763A8(GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorList[2].first;
+    Player* player = PLAYER;
     s16 i;
 
     if (D_8015FDAE >= 3) {
@@ -1595,10 +1673,12 @@ void func_800763A8(GlobalContext* globalCtx) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015FD84);
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015FD98);
     } else if (D_8015FDAE >= 2) {
-        Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)actor->posRot.pos.x - 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                                  (s16)actor->posRot.pos.z - 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
-        Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)actor->posRot.pos.x + 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                                  (s16)actor->posRot.pos.z + 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
+        Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f,
+                                  (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
+                                  D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
+        Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f,
+                                  (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
+                                  D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
     }
 
     if (func_800C0CB8(globalCtx)) {
@@ -1635,7 +1715,6 @@ void func_800766C4(GlobalContext* globalCtx) {
 
 void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags) {
     if (alpha != 0) {
-
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 3835);
 
         if (drawFlags & 1) {
@@ -1653,7 +1732,7 @@ void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 al
             if ((u32)alpha == 255) {
                 gDPSetRenderMode(POLY_XLU_DISP++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
             }
-            
+
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
             gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
@@ -1865,11 +1944,16 @@ void func_80077684(GlobalContext* globalCtx) {
     }
 }
 
-void func_800776E4(GlobalContext* globalCtx) {
-    D_8011FB30 = 0;
+/**
+ * After a warp song has been played, set the next entrance accordingly and begin the fade out.
+ * Additionally, set the flag for having watched the intro cutscene for the destination area.
+ * This makes it so the cutscene will be skipped if you have already been to the area via warp song.
+ */
+void Kankyo_WarpSongLeave(GlobalContext* globalCtx) {
+    gWeatherMode = 0;
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
-    globalCtx->nextEntranceIndex = gSaveContext.respawn[1].entranceIndex;
+    globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     globalCtx->sceneLoadFlag = 0x14;
     globalCtx->fadeTransition = 3;
     gSaveContext.nextTransition = 3;

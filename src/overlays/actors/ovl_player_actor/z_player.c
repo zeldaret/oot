@@ -11942,7 +11942,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 |= 0x8000000;
 
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, 0xF) == NULL) {
-            func_800776E4(globalCtx);
+            Kankyo_WarpSongLeave(globalCtx);
         }
 
         gSaveContext.seqIndex = 0xFF;

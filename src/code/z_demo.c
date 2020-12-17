@@ -282,7 +282,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
-                D_8011FB30 = 0;
+                gWeatherMode = 0;
                 func_800F6D58(14, 1, 0);
             }
             break;

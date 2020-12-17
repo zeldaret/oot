@@ -205,7 +205,7 @@ glabel Kankyo_Init
 /* AE65C4 8006F424 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0
 /* AE65C8 8006F428 85E2085A */  lh    $v0, 0x85a($t7)
 /* AE65CC 8006F42C 02213021 */  addu  $a2, $s1, $at
-/* AE65D0 8006F430 3C048012 */  lui   $a0, %hi(D_8011FB30) # $a0, 0x8012
+/* AE65D0 8006F430 3C048012 */  lui   $a0, %hi(gWeatherMode) # $a0, 0x8012
 /* AE65D4 8006F434 10400002 */  beqz  $v0, .L8006F440
 /* AE65D8 8006F438 2458FFFF */   addiu $t8, $v0, -1
 /* AE65DC 8006F43C A1181415 */  sb    $t8, 0x1415($t0)
@@ -216,13 +216,13 @@ glabel Kankyo_Init
 /* AE65EC 8006F44C A0C00B15 */  sb    $zero, 0xb15($a2)
 /* AE65F0 8006F450 A0C00B16 */  sb    $zero, 0xb16($a2)
 /* AE65F4 8006F454 911913C3 */  lbu   $t9, 0x13c3($t0)
-/* AE65F8 8006F458 2484FB30 */  addiu $a0, %lo(D_8011FB30) # addiu $a0, $a0, -0x4d0
+/* AE65F8 8006F458 2484FB30 */  addiu $a0, %lo(gWeatherMode) # addiu $a0, $a0, -0x4d0
 /* AE65FC 8006F45C 24090001 */  li    $t1, 1
 /* AE6600 8006F460 53200046 */  beql  $t9, $zero, .L8006F57C
 /* AE6604 8006F464 A0800000 */   sb    $zero, ($a0)
 /* AE6608 8006F468 8D0B1360 */  lw    $t3, 0x1360($t0)
-/* AE660C 8006F46C 3C048012 */  lui   $a0, %hi(D_8011FB30) # $a0, 0x8012
-/* AE6610 8006F470 2484FB30 */  addiu $a0, %lo(D_8011FB30) # addiu $a0, $a0, -0x4d0
+/* AE660C 8006F46C 3C048012 */  lui   $a0, %hi(gWeatherMode) # $a0, 0x8012
+/* AE6610 8006F470 2484FB30 */  addiu $a0, %lo(gWeatherMode) # addiu $a0, $a0, -0x4d0
 /* AE6614 8006F474 29610004 */  slti  $at, $t3, 4
 /* AE6618 8006F478 1020003D */  beqz  $at, .L8006F570
 /* AE661C 8006F47C 00000000 */   nop   

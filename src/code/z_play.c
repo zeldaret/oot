@@ -1044,7 +1044,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         LOG_NUM("1", 1, "../z_play.c", 3816);
     }
 
-    func_80070C24(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
+    Kankyo_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
                   &globalCtx->unk_10A20, globalCtx->state.gfxCtx);
 }
 #else
@@ -1205,7 +1205,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {
                     func_800750C0(globalCtx);
-                    func_8007542C(globalCtx, 0);
+                    Kankyo_DrawLightning(globalCtx, 0);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
@@ -1240,7 +1240,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if (globalCtx->envCtx.unk_EE[1] != 0) {
-                    func_80074704(globalCtx, &globalCtx->view, gfxCtx);
+                    Kankyo_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {

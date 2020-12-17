@@ -516,7 +516,7 @@ glabel Gameplay_Draw
 /* B366F4 800BF554 0C01D430 */  jal   func_800750C0
 /* B366F8 800BF558 02002025 */   move  $a0, $s0
 /* B366FC 800BF55C 02002025 */  move  $a0, $s0
-/* B36700 800BF560 0C01D50B */  jal   func_8007542C
+/* B36700 800BF560 0C01D50B */  jal   Kankyo_DrawLightning
 /* B36704 800BF564 00002825 */   move  $a1, $zero
 /* B36708 800BF568 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B3670C 800BF56C 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -629,7 +629,7 @@ glabel Gameplay_Draw
 /* B36898 800BF6F8 91AE0B13 */  lbu   $t6, 0xb13($t5)
 /* B3689C 800BF6FC 11C00003 */  beqz  $t6, .L800BF70C
 /* B368A0 800BF700 00000000 */   nop
-/* B368A4 800BF704 0C01D1C1 */  jal   func_80074704
+/* B368A4 800BF704 0C01D1C1 */  jal   Kankyo_DrawRain
 /* B368A8 800BF708 02203025 */   move  $a2, $s1
 .L800BF70C:
 /* B368AC 800BF70C 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016

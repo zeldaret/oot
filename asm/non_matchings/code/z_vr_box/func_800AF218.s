@@ -987,11 +987,11 @@ glabel L800AF25C
 /* B26410 800AF270 11E0000C */  beqz  $t7, .L800AF2A4
 /* B26414 800AF274 2529FC1C */   addiu $t1, %lo(D_8011FC1C) # addiu $t1, $t1, -0x3e4
 /* B26418 800AF278 8D181360 */  lw    $t8, 0x1360($t0)
-/* B2641C 800AF27C 3C028012 */  lui   $v0, %hi(D_8011FB30) # $v0, 0x8012
+/* B2641C 800AF27C 3C028012 */  lui   $v0, %hi(gWeatherMode) # $v0, 0x8012
 /* B26420 800AF280 2B010004 */  slti  $at, $t8, 4
 /* B26424 800AF284 50200008 */  beql  $at, $zero, .L800AF2A8
 /* B26428 800AF288 0003C8C0 */   sll   $t9, $v1, 3
-/* B2642C 800AF28C 9042FB30 */  lbu   $v0, %lo(D_8011FB30)($v0)
+/* B2642C 800AF28C 9042FB30 */  lbu   $v0, %lo(gWeatherMode)($v0)
 /* B26430 800AF290 18400004 */  blez  $v0, .L800AF2A4
 /* B26434 800AF294 28410006 */   slti  $at, $v0, 6
 /* B26438 800AF298 50200003 */  beql  $at, $zero, .L800AF2A8
