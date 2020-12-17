@@ -524,8 +524,6 @@ void func_80ADA2BC(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80ADBF58;
 }
 
-#ifdef NON_MATCHING
-// Single register swap
 void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     f32 targetY;
     Player* player = PLAYER;
@@ -538,11 +536,11 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
         targetY = 832.0f;
     }
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, targetY, 0.5f, 3.0f);
-    if (this->unk_196 == 0) {
+    if (!this->unk_196) {
         this->unk_196 = 32;
     }
-    if (this->unk_196 != 0U) { // U improves codegen from missing move + regalloc to just regalloc
-        this->unk_196 -= 1U;
+    if (this->unk_196 != 0) {
+        this->unk_196--;
     }
     this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_Sins(this->unk_196 * 0x800);
     if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
@@ -553,9 +551,6 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/func_80ADA35C.s")
-#endif
 
 void func_80ADA4A8(EnPoSisters* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);

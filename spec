@@ -2855,11 +2855,7 @@ endseg
 beginseg
     name "ovl_En_Po_Sisters"
     include "build/src/overlays/actors/ovl_En_Po_Sisters/z_en_po_sisters.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Po_Sisters/ovl_En_Po_Sisters_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_po_sisters.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3007,11 +3003,7 @@ endseg
 beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Stream/ovl_En_Stream_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_stream.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3123,11 +3115,7 @@ endseg
 beginseg
     name "ovl_En_Tubo_Trap"
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/ovl_En_Tubo_Trap_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tubo_trap.reloc.o"
-#endif
 endseg
 
 beginseg
