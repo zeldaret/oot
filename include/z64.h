@@ -571,7 +571,10 @@ typedef struct {
     /* 0xDF */ u8       lightning;
     /* 0xE0 */ u8       unk_E0;
     /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ u8       unk_E2[4];
+    /* 0xE2 */ u8       unk_E2;
+    /* 0xE3 */ u8       unk_E3;
+    /* 0xE4 */ u8       unk_E4;
+    /* 0xE5 */ u8       unk_E5;
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;

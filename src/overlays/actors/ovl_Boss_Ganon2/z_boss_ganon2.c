@@ -11,7 +11,9 @@ typedef struct {
     /* 0x04 */ Vec3f position;
     /* 0x10 */ Vec3f velocity;
     /* 0x1C */ Vec3f accel;
-    /* 0x28 */ Vec3f unk_28;
+    /* 0x28 */ char unk_28[0x6];
+    /* 0x2E */ s16 unk_2E;
+    /* 0x30 */ char unk_30[0x4];
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ Vec3f unk_38;
 } BossGanon2Effect; // size = 0x44
@@ -23,6 +25,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx);
+void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
@@ -51,7 +54,7 @@ extern AnimationHeader D_0600FFE4;
 extern UNK_TYPE D_06010380;
 extern SkeletonHeader D_060114E8;
 extern UNK_TYPE D_060147E0;
-extern UNK_TYPE D_06021A90;
+extern UNK_TYPE D_06021A90[];
 extern UNK_TYPE D_06025970;
 extern AnimationHeader D_06026510;
 extern UNK_TYPE D_06026AF4;
@@ -309,7 +312,9 @@ static ColliderJntSphInit D_80907014 = {
 
 /* static */ EnZl3* D_8090EB2C;
 
-/* static */ UNK_TYPE D_8090EB30[2];
+/* static */ Actor* D_8090EB30;
+
+/* static */ UNK_TYPE D_8090EB34;
 
 /* static */ BossGanon2Effect D_8090EB38[100];
 
@@ -447,7 +452,7 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player;
     u8 sp8D;
     f32 sp6C;
     Vec3f sp68;
@@ -487,8 +492,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     s32 temp_v0_6;
     s32 temp_v1;
     s32 temp_v1_2;
-    void* temp_v0_3;
-    void* temp_v0_4;
+    BossGanon2Effect* temp_v0_3;
+    BossGanon2Effect* temp_v0_4;
     s32 phi_v1;
     u32 phi_v1_2;
     s32 phi_v1_3;
@@ -505,9 +510,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     s32 phi_v1_14;
     s32 phi_v1_15;
     u32 phi_v1_16;
-    void* phi_v0;
+    Actor* phi_v0;
 
     sp8D = 0;
+    player = PLAYER;
     this->unk_398++;
 
     switch (this->unk_39C) {
@@ -560,50 +566,50 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                     this->unk_398 = 0;
                     this->unk_410.x = 0.0f;
                     globalCtx->envCtx.unk_D8 = 1.0f;
-                    case 2:
-                        this->unk_339 = 4;
-                        player->actor.posRot.pos.x = 970.0f;
-                        player->actor.posRot.pos.y = 1086.0f;
-                        player->actor.posRot.pos.z = -166.0f;
-                        D_8090EB2C->actor.posRot.pos.x = 974.0f;
-                        D_8090EB2C->actor.posRot.pos.y = 1086.0f;
-                        D_8090EB2C->actor.posRot.pos.z = -186.0f;
-                        player->actor.shape.rot.y = -0x5000;
-                        D_8090EB2C->actor.shape.rot.y = -0x5000;
-                        if (this->unk_398 == 0x3C) {
-                            func_8010B680(globalCtx, 0x70D4, NULL);
-                        }
-                        phi_v1 = this->unk_398;
-                        if (this->unk_398 == 0x28) {
-                            D_8090EB2C->unk_3C8 = 1;
-                            func_8002DF54(globalCtx, this, 0x4E);
-                            phi_v1 = this->unk_398;
-                        }
-                        phi_v1_2 = phi_v1;
-                        if (phi_v1 == 0x55) {
-                            D_8090EB2C->unk_3C8 = 2;
-                            func_8002DF54(globalCtx, this, 0x4F);
-                            phi_v1_2 = this->unk_398;
-                        }
-                        this->unk_3A4.x = 930.0f;
-                        this->unk_3A4.y = 1129.0f;
-                        this->unk_3A4.z = -181.0f;
-                        this->unk_3B0.x = player->actor.posRot.pos.x;
-                        this->unk_3B0.z = (player->actor.posRot.pos.z - 15.0f) + 5.0f;
-                        if (phi_v1_2 >= 0x69) {
-                            sp50 = &this->unk_410;
-                            Math_SmoothScaleMaxF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f + 15.0f,
-                                                 0.1f, this->unk_410.x);
-                            Math_SmoothScaleMaxF(sp50, 2.0f, 1.0f, 0.1f);
-                        } else {
-                            this->unk_3B0.y = player->actor.posRot.pos.y + 47.0f + 7.0f;
-                        }
-                        if ((this->unk_398 >= 0xAB) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                            this->unk_39C = 3;
-                            this->unk_398 = 0;
-                            this->unk_410.x = 0.0f;
-                        }
                 }
+            }
+        case 2:
+            this->unk_339 = 4;
+            player->actor.posRot.pos.x = 970.0f;
+            player->actor.posRot.pos.y = 1086.0f;
+            player->actor.posRot.pos.z = -166.0f;
+            D_8090EB2C->actor.posRot.pos.x = 974.0f;
+            D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+            D_8090EB2C->actor.posRot.pos.z = -186.0f;
+            player->actor.shape.rot.y = -0x5000;
+            D_8090EB2C->actor.shape.rot.y = -0x5000;
+            if (this->unk_398 == 0x3C) {
+                func_8010B680(globalCtx, 0x70D4, NULL);
+            }
+            phi_v1 = this->unk_398;
+            if (this->unk_398 == 0x28) {
+                D_8090EB2C->unk_3C8 = 1;
+                func_8002DF54(globalCtx, this, 0x4E);
+                phi_v1 = this->unk_398;
+            }
+            phi_v1_2 = phi_v1;
+            if (phi_v1 == 0x55) {
+                D_8090EB2C->unk_3C8 = 2;
+                func_8002DF54(globalCtx, this, 0x4F);
+                phi_v1_2 = this->unk_398;
+            }
+            this->unk_3A4.x = 930.0f;
+            this->unk_3A4.y = 1129.0f;
+            this->unk_3A4.z = -181.0f;
+            this->unk_3B0.x = player->actor.posRot.pos.x;
+            this->unk_3B0.z = (player->actor.posRot.pos.z - 15.0f) + 5.0f;
+            if (phi_v1_2 >= 0x69) {
+                sp50 = &this->unk_410;
+                Math_SmoothScaleMaxF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f + 15.0f, 0.1f,
+                                     this->unk_410.x);
+                Math_SmoothScaleMaxF(sp50, 2.0f, 1.0f, 0.1f);
+            } else {
+                this->unk_3B0.y = player->actor.posRot.pos.y + 47.0f + 7.0f;
+            }
+            if ((this->unk_398 >= 0xAB) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                this->unk_39C = 3;
+                this->unk_398 = 0;
+                this->unk_410.x = 0.0f;
             }
             break;
         case 3:
@@ -812,7 +818,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3B0.z = temp_f2 + 5.0f;
                 this->unk_3B0.x = temp_f0;
             }
-            if (((globalCtx + 0x10000)->unk1DE4 & 0x1F) == 0) {
+            if ((globalCtx->gameplayFrames & 0x1F) == 0) {
                 Audio_PlayActorSound2(this, 0x39D1);
             }
             break;
@@ -1014,9 +1020,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             phi_v1_10 = phi_v1_9;
             if (phi_v1_9 == 0x50) {
                 func_808FD108(this, globalCtx, 0x153, 0);
-                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                       gSegments[(&D_06021A90 * 0x10) >> 0x1C] + (&D_06021A90 & 0xFFFFFF) + 0x80000000,
-                                       0xA0, 0xB4, 0x80, 0x28);
+                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06021A90), 0xA0,
+                                       0xB4, 0x80, 0x28);
                 phi_v1_10 = this->unk_398;
             }
             temp_f0_5 = this->actor.posRot.pos.x;
@@ -1089,10 +1094,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (phi_v1_16 >= 0xE5) {
                 globalCtx->envCtx.unk_E1 = 1;
-                globalCtx->unk10B08 = 0xFF;
-                globalCtx->unk10B07 = 0xFF;
+                globalCtx->envCtx.unk_E4 = 0xFF;
+                globalCtx->envCtx.unk_E3 = 0xFF;
                 globalCtx->envCtx.unk_E2 = 0xFF;
-                globalCtx->unk10B09 = 0x64;
+                globalCtx->envCtx.unk_E5 = 0x64;
                 if (this->unk_398 == 0xEA) {
                     globalCtx->envCtx.unk_E1 = 0;
                     this->unk_39C = 0x18;
@@ -1111,12 +1116,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 24:
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
             temp_v0_3 = globalCtx->unk_11E10;
-            this->unk_3B0.x = (bitwise f32)temp_v0_3->unk4;
-            this->unk_3B0.y = (bitwise f32)temp_v0_3->unk8;
-            this->unk_3B0.z = (bitwise f32)temp_v0_3->unkC;
-            this->unk_3A4.x = (bitwise f32)temp_v0_3->unk4 + 70.0f;
-            this->unk_3A4.y = (bitwise f32)temp_v0_3->unk8 - 30.0f;
-            this->unk_3A4.z = (bitwise f32)temp_v0_3->unkC + 70.0f;
+            this->unk_3B0 = temp_v0_3->position;
+            this->unk_3A4.x = temp_v0_3->position.x + 70.0f;
+            this->unk_3A4.y = temp_v0_3->position.y - 30.0f;
+            this->unk_3A4.z = temp_v0_3->position.z + 70.0f;
             if ((this->unk_398 & 3) == 0) {
                 func_80078884(0x1801);
             }
@@ -1136,13 +1139,13 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.z = (player->actor.posRot.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 0xA) {
                 temp_v0_4 = globalCtx->unk_11E10;
-                temp_v0_4->unk2E = 1;
-                temp_v0_4->unk4 = D_8090EB2C->actor.posRot.pos.x + 50.0f + 10.0f;
-                temp_v0_4->unk8 = D_8090EB2C->actor.posRot.pos.y + 350.0f;
-                temp_v0_4->unk10 = 0.0f;
-                temp_v0_4->unk18 = 0.0f;
-                temp_v0_4->unk14 = -30.0f;
-                temp_v0_4->unkC = D_8090EB2C->actor.posRot.pos.z - 25.0f;
+                temp_v0_4->unk_2E = 1;
+                temp_v0_4->position.x = D_8090EB2C->actor.posRot.pos.x + 50.0f + 10.0f;
+                temp_v0_4->position.y = D_8090EB2C->actor.posRot.pos.y + 350.0f;
+                temp_v0_4->position.z = D_8090EB2C->actor.posRot.pos.z - 25.0f;
+                temp_v0_4->velocity.x = 0.0f;
+                temp_v0_4->velocity.z = 0.0f;
+                temp_v0_4->velocity.y = -30.0f;
                 this->unk_39C = 0x1A;
                 this->unk_398 = 0;
             }
@@ -1174,21 +1177,21 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = player->actor.posRot.pos.y + 50.0f;
             this->unk_3B0.z = player->actor.posRot.pos.z;
             if (this->unk_398 == 0x1A) {
-                temp_v0_5 = globalCtx->unk1C6C;
-                *D_8090EB30 = temp_v0_5;
+                temp_v0_5 = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
+                D_8090EB30 = temp_v0_5;
                 if (temp_v0_5 != 0) {
                     phi_v0 = temp_v0_5;
                 loop_149:
-                    if (phi_v0->unk0 == 0x18) {
-                        this->unk_3A4.x = phi_v0->unk24 - 30.0f;
-                        this->unk_3A4.y = (*D_8090EB30)->unk28;
-                        this->unk_3A4.z = (*D_8090EB30)->unk2C;
-                        this->unk_3B0.x = (*D_8090EB30)->unk24;
-                        this->unk_3B0.y = (*D_8090EB30)->unk28;
-                        this->unk_3B0.z = (*D_8090EB30)->unk2C;
+                    if (phi_v0->id == 0x18) {
+                        this->unk_3A4.x = phi_v0->posRot.pos.x - 30.0f;
+                        this->unk_3A4.y = D_8090EB30->posRot.pos.y;
+                        this->unk_3A4.z = D_8090EB30->posRot.pos.z;
+                        this->unk_3B0.x = D_8090EB30->posRot.pos.x;
+                        this->unk_3B0.y = D_8090EB30->posRot.pos.y;
+                        this->unk_3B0.z = D_8090EB30->posRot.pos.z;
                     } else {
-                        temp_t8_2 = phi_v0->unk124;
-                        *D_8090EB30 = temp_t8_2;
+                        temp_t8_2 = phi_v0->next;
+                        D_8090EB30 = temp_t8_2;
                         phi_v0 = temp_t8_2;
                         if (temp_t8_2 != 0) {
                             goto loop_149;
@@ -1203,14 +1206,13 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 5) {
                 func_8010B680(globalCtx, 0x70D6, NULL);
             }
-            temp_v0_6 = *D_8090EB30;
-            if (temp_v0_6 != 0) {
-                this->unk_3A4.x = temp_v0_6->unk24 - 20.0f;
-                this->unk_3A4.y = (*D_8090EB30)->unk28;
-                this->unk_3A4.z = (*D_8090EB30)->unk2C;
-                Math_SmoothScaleMaxF(&this->unk_3B0, (bitwise f32)(*D_8090EB30)->unk24, 0.2f, 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_3B0.y, (bitwise f32)(*D_8090EB30)->unk28, 0.2f, 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_3B0.z, (bitwise f32)(*D_8090EB30)->unk2C, 0.2f, 50.0f);
+            if (D_8090EB30 != NULL) {
+                this->unk_3A4.x = D_8090EB30->posRot.pos.x - 20.0f;
+                this->unk_3A4.y = D_8090EB30->posRot.pos.y;
+                this->unk_3A4.z = D_8090EB30->posRot.pos.z;
+                Math_SmoothScaleMaxF(&this->unk_3B0, D_8090EB30->posRot.pos.x, 0.2f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_3B0.y, D_8090EB30->posRot.pos.y, 0.2f, 50.0f);
+                Math_SmoothScaleMaxF(&this->unk_3B0.z, D_8090EB30->posRot.pos.z, 0.2f, 50.0f);
                 if ((this->unk_398 >= 0x29) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                     this->unk_39C = 0x1D;
                     this->unk_398 = 0;
@@ -1256,8 +1258,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_39C = 0;
                 this->unk_337 = 1;
                 func_808FFDB0(this, globalCtx);
-                this->unk_1A2[1] = 0x32;
-                this->actor.flags = this->actor.flags | 1;
+                this->unk_1A2[1] = 50;
+                this->actor.flags |= 1;
                 D_8090EB2C->unk_3C8 = 7;
             }
     }
