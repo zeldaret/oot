@@ -20,7 +20,7 @@ typedef struct BossGanon2 {
     /* 0x01AC */ s16 unk_1AC;
     /* 0x01AE */ char unk_1AE[0x2];
     /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ char unk_1B4[0x4];
+    /* 0x01B4 */ f32 unk_1B4;
     /* 0x01B8 */ Vec3f unk_1B8;
     /* 0x01C4 */ Vec3f unk_1C4;
     /* 0x01D0 */ Vec3f unk_1D0;
@@ -35,7 +35,8 @@ typedef struct BossGanon2 {
     /* 0x0311 */ u8 unk_311;
     /* 0x0312 */ u8 unk_312;
     /* 0x0313 */ u8 unk_313;
-    /* 0x0314 */ char unk_314[0x2];
+    /* 0x0314 */ u8 unk_314;
+    /* 0x0315 */ char unk_315[0x1];
     /* 0x0316 */ s16 unk_316;
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 unk_31A;
@@ -71,7 +72,7 @@ typedef struct BossGanon2 {
     /* 0x038C */ char unk_38C[0x4];
     /* 0x0390 */ s16 unk_390;
     /* 0x0392 */ s16 unk_392;
-    /* 0x0394 */ char unk_394[0x4];
+    /* 0x0394 */ f32 unk_394;
     /* 0x0398 */ s32 unk_398;
     /* 0x039C */ s16 unk_39C;
     /* 0x039E */ s16 unk_39E;
@@ -81,7 +82,7 @@ typedef struct BossGanon2 {
     /* 0x03BC */ Vec3f unk_3BC;
     /* 0x03C8 */ char unk_3C8[0x48];
     /* 0x0410 */ Vec3f unk_410;
-    /* 0x041C */ char unk_41C[0x4];
+    /* 0x041C */ f32 unk_41C;
     /* 0x0420 */ f32 unk_420;
     /* 0x0424 */ ColliderJntSph unk_424;
     /* 0x0444 */ ColliderJntSph unk_444;
