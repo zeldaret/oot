@@ -31,10 +31,6 @@ typedef struct {
 } RideActor; // size = unk
 
 typedef struct {
-    s16 arr[3];
-} Struct_80A7B988; // size = 0x8
-
-typedef struct {
     /* 0x000 */ AnimationHeader* unk_0;
     /* 0x004 */ f32 unk_4;
     /* 0x008 */ u8 unk_8;
@@ -196,70 +192,66 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
     return temp_var;
 }
 
-#ifdef NON_MATCHING
-// Reorderings in the final case
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
     EnIn* this = THIS;
     s32 sp18 = 1;
 
     switch (this->actor.textId) {
-    case 0x2030:
-    case 0x2031:
-        if (globalCtx->msgCtx.choiceIndex == 1) {
-            this->actor.textId = 0x2032;
-        } else if (gSaveContext.rupees < 10) {
-            this->actor.textId = 0x2033;
-        } else {
-            this->actor.textId = 0x2034;
-        }
-        func_8010B720(globalCtx, this->actor.textId);
-        gSaveContext.infTable[9] |= 0x400;
-        break;
-    case 0x2034:
-        if (globalCtx->msgCtx.choiceIndex == 1) {
-            Rupees_ChangeBy(-10);
-            this->actor.textId = 0x205C;
-        } else {
-            this->actor.textId = 0x2035;
-        }
-        func_8010B720(globalCtx, this->actor.textId);
-        break;
-    case 0x2036:
-    case 0x2037:
-        if (globalCtx->msgCtx.choiceIndex == 1) {
-            sp18 = 2;
-        } else {
-            this->actor.textId = 0x201F;
+        case 0x2030:
+        case 0x2031:
+            if (globalCtx->msgCtx.choiceIndex == 1) {
+                this->actor.textId = 0x2032;
+            } else if (gSaveContext.rupees < 10) {
+                this->actor.textId = 0x2033;
+            } else {
+                this->actor.textId = 0x2034;
+            }
             func_8010B720(globalCtx, this->actor.textId);
-        }
-        break;
-    case 0x2038:
-        if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-            sp18 = 2;
-        } else {
-            this->actor.textId = 0x2039;
+            gSaveContext.infTable[9] |= 0x400;
+            break;
+        case 0x2034:
+            if (globalCtx->msgCtx.choiceIndex == 1) {
+                Rupees_ChangeBy(-10);
+                this->actor.textId = 0x205C;
+            } else {
+                this->actor.textId = 0x2035;
+            }
             func_8010B720(globalCtx, this->actor.textId);
-            gSaveContext.infTable[10] |= 4;
-        }
-        break;
-    case 0x205B:
-        if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-            sp18 = 2;
-        } else {
-            this->actor.textId = 0x2039;
-            func_8010B720(globalCtx, this->actor.textId);
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 0;
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x20) | 0;
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x40) | 0;
-            this->actionFunc = func_80A7A4C8;
-        }
-        break;
+            break;
+        case 0x2036:
+        case 0x2037:
+            if (globalCtx->msgCtx.choiceIndex == 1) {
+                sp18 = 2;
+            } else {
+                this->actor.textId = 0x201F;
+                func_8010B720(globalCtx, this->actor.textId);
+            }
+            break;
+        case 0x2038:
+            if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+                sp18 = 2;
+            } else {
+                this->actor.textId = 0x2039;
+                func_8010B720(globalCtx, this->actor.textId);
+                gSaveContext.infTable[10] |= 4;
+            }
+            break;
+        case 0x205B:
+            if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+                sp18 = 2;
+            } else {
+                func_8010B720(globalCtx, this->actor.textId = 0x2039);
+                gSaveContext.eventInf[0] &= ~0xF;
+                gSaveContext.eventInf[0] &= ~0x20;
+                gSaveContext.eventInf[0] &= ~0x40;
+                this->actionFunc = func_80A7A4C8;
+            }
+            break;
     }
+    if (!gSaveContext.rupees) {}
+
     return sp18;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_In/func_80A7924C.s")
-#endif
 
 s16 func_80A7949C(GlobalContext* globalCtx, Actor* thisx) {
     s32 phi_v1 = 1;
@@ -955,8 +947,8 @@ s32 func_80A7B320(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 9) {
         sp2C = this->unk_308.unk_0E;
-        Matrix_RotateX((sp2C.x / 32768.0f) * 3.1415927f, 1);
-        Matrix_RotateY((sp2C.y / 32768.0f) * 3.1415927f, 1);
+        Matrix_RotateX((sp2C.x / 32768.0f) * M_PI, 1);
+        Matrix_RotateY((sp2C.y / 32768.0f) * M_PI, 1);
     }
     if (limbIndex == 9 || limbIndex == 10 || limbIndex == 13) {
         rot->y += Math_Sins(this->unk_330[limbIndex].y) * 200.0f;
