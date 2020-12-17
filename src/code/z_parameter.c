@@ -3045,8 +3045,8 @@ u16 D_80125B54 = 0xC220;       // unused
 u16 D_80125B58 = 0xC20C;       // unused
 s16 D_80125B5C[] = { 91, 91 }; // unused
 
-// Due to an unknown reason, bss ordering changed within the 5 static variables in the function below.
-// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
+// Due to an unknown reason, bss ordering changes within the 5 static variables in the function below.
+// In order to restore the correct order, we need a specific number of bss variables in the file before that point.
 // For this, we introduce 3 dummy variables which end up in padding at the end of the file's bss, so they don't actually take space.
 s8 sBssDummy1;
 s8 sBssDummy2;
