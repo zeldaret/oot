@@ -445,7 +445,859 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = -3000.0f;
 }
 
+#ifdef NON_MATCHING
+void func_808FD5F4(BossGanon2 *this, GlobalContext *globalCtx) {
+    u8 sp8D;
+    f32 sp6C;
+    Vec3f sp68;
+    ObjectContext *sp54;
+    SkelAnime *sp50;
+    Vec3f *sp4C;
+    f32 *sp48;
+    Camera *temp_v0;
+    Camera *temp_v0_2;
+    Camera *temp_v0_7;
+    ObjectContext *temp_a0;
+    SkelAnime *temp_a0_3;
+    SkelAnime *temp_a0_4;
+    SkelAnime *temp_a0_6;
+    SkelAnime *temp_a0_7;
+    SkelAnime *temp_a0_8;
+    SkelAnime *temp_t0;
+    Vec3f *temp_a0_2;
+    Vec3f *temp_a0_5;
+    Vec3f *temp_v1_3;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 temp_f0_4;
+    f32 temp_f0_5;
+    f32 temp_f0_6;
+    f32 temp_f10;
+    f32 temp_f10_3;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    f32 temp_f2_3;
+    f32 temp_f2_4;
+    f32 temp_f4;
+    s16 temp_a1;
+    s16 temp_f10_2;
+    s32 temp_t8_2;
+    s32 temp_v0_5;
+    s32 temp_v0_6;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    u16 temp_t8;
+    void *temp_v0_3;
+    void *temp_v0_4;
+    s32 phi_v1;
+    u32 phi_v1_2;
+    s32 phi_v1_3;
+    s32 phi_v1_4;
+    s32 phi_v1_5;
+    s32 phi_v1_6;
+    s32 phi_v1_7;
+    u32 phi_v1_8;
+    s32 phi_v1_9;
+    u32 phi_v1_10;
+    u32 phi_v1_11;
+    u32 phi_v1_12;
+    s32 phi_v1_13;
+    s32 phi_v1_14;
+    s32 phi_v1_15;
+    u32 phi_v1_16;
+    void *phi_v0;
+
+    sp8D = 0;
+    temp_t8 = this->unk_39C;
+    this->unk_398 = this->unk_398 + 1;
+    if (temp_t8 < 0x1E) {
+        goto **(&jtbl_8090DAB4 + (temp_t8 * 4));
+    case 0:
+        temp_a0 = &globalCtx->objectCtx;
+        sp54 = temp_a0;
+        if (Object_IsLoaded(temp_a0, Object_GetIndex(temp_a0, 0x17E)) != 0) {
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            func_8002DF54(globalCtx, this, 8);
+            this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+            this->unk_39C = 1;
+            D_8090EB2C = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, 0x179, 970.0f, 1086.0f, -200.0f, 0, 0, 0, 1);
+            D_8090EB2C->unk_3C8 = 0;
+            D_8090EB2C->actor.posRot.pos.x = 970.0f;
+            D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+            D_8090EB2C->actor.posRot.pos.z = -214.0f;
+            D_8090EB2C->actor.shape.rot.y = -0x7000;
+            this->unk_3BC.x = 0.0f;
+            this->unk_3BC.y = 1.0f;
+            this->unk_398 = 0;
+            this->unk_3A4.y = 1400.0f;
+            this->unk_3BC.z = 0.0f;
+            this->unk_3A4.x = 0.0f;
+            this->unk_3A4.z = 1600.0f;
+            player->unk24 = 970.0f;
+            player->unkB6 = -0x5000;
+            player->unk28 = 1086.0f;
+            player->unk2C = -186.0f;
+            SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06002168, 0.0f);
+            globalCtx->envCtx.unk_D8 = 0.0f;
+        case 1:
+            if (this->unk_398 < 0x46) {
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
+            this->unk_339 = 3;
+            Math_SmoothScaleMaxF(&this->unk_3A4, 1500.0f, 0.1f, this->unk_410.x * 1500.0f);
+            Math_SmoothScaleMaxF(&this->unk_3A4.z, -160.0f, 0.1f, this->unk_410.x * 1760.0f);
+            Math_SmoothScaleMaxF(&this->unk_410, 0.0075f, 1.0f, 0.0001f);
+            this->unk_3B0.x = -200.0f;
+            this->unk_3B0.y = 1086.0f;
+            this->unk_3B0.z = -200.0f;
+            if (this->unk_398 == 0x96) {
+                func_8010B680(globalCtx, 0x70D3, NULL);
+            }
+            if (this->unk_398 >= 0xFB) {
+                if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+                    this->unk_39C = 2;
+                    this->unk_398 = 0;
+                    this->unk_410.x = 0.0f;
+                    globalCtx->envCtx.unk_D8 = 1.0f;
+                case 2:
+                    this->unk_339 = 4;
+                    player->unk24 = 970.0f;
+                    player->unk28 = 1086.0f;
+                    player->unk2C = -166.0f;
+                    D_8090EB2C->actor.posRot.pos.x = 974.0f;
+                    D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+                    D_8090EB2C->actor.posRot.pos.z = -186.0f;
+                    player->unkB6 = -0x5000;
+                    D_8090EB2C->actor.shape.rot.y = -0x5000;
+                    if (this->unk_398 == 0x3C) {
+                        func_8010B680(globalCtx, 0x70D4, NULL);
+                    }
+                    phi_v1 = this->unk_398;
+                    if (this->unk_398 == 0x28) {
+                        D_8090EB2C->unk_3C8 = 1;
+                        func_8002DF54(globalCtx, this, 0x4E);
+                        phi_v1 = this->unk_398;
+                    }
+                    phi_v1_2 = phi_v1;
+                    if (phi_v1 == 0x55) {
+                        D_8090EB2C->unk_3C8 = 2;
+                        func_8002DF54(globalCtx, this, 0x4F);
+                        phi_v1_2 = this->unk_398;
+                    }
+                    this->unk_3A4.x = 930.0f;
+                    this->unk_3A4.y = 1129.0f;
+                    this->unk_3A4.z = -181.0f;
+                    this->unk_3B0.x = player->unk24;
+                    this->unk_3B0.z = (player->unk2C - 15.0f) + 5.0f;
+                    if (phi_v1_2 >= 0x69) {
+                        sp54 = &this->unk_410;
+                        Math_SmoothScaleMaxF(&this->unk_3B0.y, player->unk28 + 47.0f + 7.0f + 15.0f, 0.1f, (bitwise f32) (bitwise s32) this->unk_410.x);
+                        Math_SmoothScaleMaxF(sp54, 2.0f, 1.0f, 0.1f);
+                    } else {
+                        this->unk_3B0.y = player->unk28 + 47.0f + 7.0f;
+                    }
+                    if ((this->unk_398 >= 0xAB) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                        this->unk_39C = 3;
+                        this->unk_398 = 0;
+                        this->unk_410.x = 0.0f;
+                        goto block_163;
+                    case 3:
+                        Math_SmoothScaleMaxF(&this->unk_3B0.y, player->unk28 + 47.0f + 7.0f, 0.1f, 2.0f);
+                        this->unk_339 = 4;
+                        if (this->unk_398 == 0xA) {
+                            func_80078914(&D_80906D6C, 0x281D);
+                            Audio_SetBGM(0x100000FF);
+                        }
+                        phi_v1_3 = this->unk_398;
+                        if (this->unk_398 == 0x14) {
+                            D_8090EB2C->unk_3C8 = 3;
+                            func_8002DF54(globalCtx, this, 0x50);
+                            phi_v1_3 = this->unk_398;
+                        }
+                        if (phi_v1_3 == 0x37) {
+                            this->unk_39C = 4;
+                            this->unk_398 = 0;
+                            this->unk_410.x = 0.0f;
+                            D_8090EB2C->unk_3C8 = 4;
+                            func_8002DF54(globalCtx, this, 0x50);
+                            goto block_163;
+                        case 4:
+                            this->unk_339 = 4;
+                            temp_a0_2 = &this->unk_3A4;
+                            sp4C = temp_a0_2;
+                            Math_SmoothScaleMaxF(temp_a0_2, -360.0f, 0.1f, this->unk_410.x * 1290.0f);
+                            Math_SmoothScaleMaxF(&this->unk_3A4.z, -20.0f, 0.1f, this->unk_410.x * 170.0f);
+                            Math_SmoothScaleMaxF(&this->unk_410, 0.04f, 1.0f, 0.0005f);
+                            if (this->unk_398 == 0x64) {
+                                temp_v0 = Gameplay_GetCamera(globalCtx, 0);
+                                temp_v0->eye.x = (bitwise s32) sp4C->x;
+                                temp_v0->eye.y = (bitwise f32) (bitwise s32) sp4C->y;
+                                temp_v0->eye.z = (bitwise f32) (bitwise s32) sp4C->z;
+                                temp_v0->eyeNext.x = (bitwise f32) (bitwise s32) sp4C->x;
+                                temp_v0->eyeNext.y = (bitwise f32) (bitwise s32) sp4C->y;
+                                temp_v0->eyeNext.z = (bitwise f32) (bitwise s32) sp4C->z;
+                                temp_v0->at.x = (bitwise f32) (bitwise s32) this->unk_3B0.x;
+                                temp_v0->at.y = (bitwise f32) (bitwise s32) this->unk_3B0.y;
+                                temp_v0->at.z = (bitwise f32) (bitwise s32) this->unk_3B0.z;
+                                func_800C08AC(globalCtx, this->unk_39E, 0);
+                                this->unk_39E = 0;
+                                func_80064534(globalCtx, &globalCtx->csCtx);
+                                func_8002DF54(globalCtx, this, 7);
+                                this->unk_39C = 5;
+                                this->unk_398 = 0;
+                                goto block_163;
+                            case 5:
+                                this->unk_339 = 4;
+                                if (this->actor.xzDistFromLink < 500.0f) {
+                                    func_80106CCC(globalCtx);
+                                    this->unk_39C = 0xA;
+                                    this->unk_398 = 0;
+                                    func_80064520(globalCtx, &globalCtx->csCtx);
+                                    this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+                                    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                                    Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+                                case 10:
+                                    player->unk24 = 490.0f;
+                                    player->unk28 = 1086.0f;
+                                    player->unk2C = -166.0f;
+                                    D_8090EB2C->actor.posRot.pos.x = 724.0f;
+                                    D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+                                    D_8090EB2C->actor.posRot.pos.z = -186.0f;
+                                    player->unkB6 = -0x4000;
+                                    D_8090EB2C->actor.shape.rot.y = -0x5000;
+                                    this->unk_3A4.x = 410.0f;
+                                    this->unk_3A4.y = 1096.0f;
+                                    this->unk_3A4.z = -110.0f;
+                                    this->unk_3B0.x = player->unk24 + 10.0f;
+                                    this->unk_3B0.y = (player->unk28 + 200.0f) - 160.0f;
+                                    this->unk_3B0.z = player->unk2C;
+                                    if (this->unk_398 >= 0x14) {
+                                        func_80078884(0x301C);
+                                        Math_SmoothScaleMaxF(&this->unk_324, 255.0f, 1.0f, 10.0f);
+                                        this->unk_339 = 5;
+                                        if (this->unk_398 == 0x14) {
+                                            this->unk_33C = 0.0f;
+                                            globalCtx->envCtx.unk_D8 = 0.0f;
+                                        }
+                                    } else {
+                                        this->unk_339 = 4;
+                                        phi_v1_4 = this->unk_398;
+                                    }
+                                    phi_v1_5 = phi_v1_4;
+                                    if (phi_v1_4 == 0x1E) {
+                                        D_8090EB2C->unk_3C8 = 5;
+                                        func_8002DF54(globalCtx, this, 0x51);
+                                        phi_v1_5 = this->unk_398;
+                                    }
+                                    if (phi_v1_5 == 0x32) {
+                                        this->unk_398 = 0;
+                                        this->unk_39C = 0xB;
+                                        goto block_163;
+                                    case 11:
+                                        this->unk_339 = 5;
+                                        func_80078884(0x301C);
+                                        player->unk24 = 490.0f;
+                                        player->unk28 = 1086.0f;
+                                        player->unk2C = -166.0f;
+                                        D_8090EB2C->actor.posRot.pos.x = 724.0f;
+                                        D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+                                        D_8090EB2C->actor.posRot.pos.z = -186.0f;
+                                        player->unkB6 = -0x4000;
+                                        D_8090EB2C->actor.shape.rot.y = -0x5000;
+                                        this->unk_3A4.x = 450.0f;
+                                        this->unk_3A4.y = 1121.0f;
+                                        this->unk_3A4.z = -158.0f;
+                                        this->unk_3B0.x = (player->unk24 - 20.0f) + 2.0f;
+                                        this->unk_3B0.y = ((player->unk28 + 200.0f) - 151.0f) - 2.0f;
+                                        this->unk_3B0.z = player->unk2C + 2.0f;
+                                        if (this->unk_398 == 0xA) {
+                                            func_80078914(&D_80906D6C, 0x281D);
+                                        }
+                                        phi_v1_6 = this->unk_398;
+                                        if (this->unk_398 == 0x14) {
+                                            func_80078884(0x281D);
+                                            phi_v1_6 = this->unk_398;
+                                        }
+                                        phi_v1_7 = phi_v1_6;
+                                        if (phi_v1_6 == 0x1E) {
+                                            func_8002DF54(globalCtx, this, 0x52);
+                                            phi_v1_7 = this->unk_398;
+                                        }
+                                        if (phi_v1_7 == 0x32) {
+                                            this->unk_398 = 0;
+                                            this->unk_39C = 0xC;
+                                            SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002168, 0.0f);
+                                            temp_f10 = SkelAnime_GetFrameCount(&D_06002168);
+                                            this->actor.posRot.pos.y = 1009.0f;
+                                            this->unk_194 = temp_f10;
+                                            this->actor.posRot.pos.x = -200.0f;
+                                            this->actor.posRot.pos.z = -200.0f;
+                                            this->actor.posRot.rot.y = 0x5000;
+                                            this->actor.shape.unk_08 = 7000.0f;
+                                            this->unk_3A4.x = -60.0f;
+                                            this->unk_3A4.z = -200.0f;
+                                            this->unk_3B0.x = -200.0f;
+                                            this->unk_3B0.y = 1009.0f + 70.0f;
+                                            this->unk_3B0.z = -200.0f;
+                                            this->unk_3A4.y = 1106.0f;
+                                            globalCtx->envCtx.unk_D8 = 0.0f;
+                                            globalCtx->envCtx.unk_BD = 0;
+                                            globalCtx->envCtx.unk_BE = globalCtx->envCtx.unk_BD;
+                                            this->unk_339 = 0;
+                                        case 12:
+                                        case 13:
+                                            temp_a0_3 = &this->skelAnime;
+                                            sp50 = temp_a0_3;
+                                            SkelAnime_FrameUpdateMatrix(temp_a0_3);
+                                            if (this->unk_398 == 0x1E) {
+                                                D_80906D78 = 1;
+                                                this->unk_314 = 1;
+                                                func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                                            }
+                                            phi_v1_8 = this->unk_398;
+                                            if (this->unk_398 == 0x1E) {
+                                                func_80078884(0x28C2);
+                                                phi_v1_8 = this->unk_398;
+                                            }
+                                            if (phi_v1_8 >= 0x1E) {
+                                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 1289.0f, 0.1f, 10.0f);
+                                                this->unk_3B0.y = this->actor.posRot.pos.y + 70.0f;
+                                            }
+                                            if (func_800A56C8(sp50, (bitwise f32) (bitwise s32) this->unk_194) != 0) {
+                                                SkelAnime_ChangeAnimTransitionRepeat(sp50, &D_06002E6C, 0.0f);
+                                                this->unk_39C = 0xE;
+                                                this->unk_398 = 0;
+                                                this->actor.posRot.pos.x = -200.0f;
+                                                this->actor.posRot.pos.y = this->actor.posRot.pos.y - 30.0f;
+                                                this->actor.posRot.pos.z = -200.0f;
+                                                Audio_SetBGM(0x23);
+                                            case 14:
+                                                temp_t0 = globalCtx + 0x10000;
+                                                sp54 = &this->actor.posRot.pos.y;
+                                                sp50 = temp_t0;
+                                                SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                Math_SmoothScaleMaxF(sp54, 1289.0f, 0.05f, 1.0f);
+                                                player->unk28 = 1086.0f;
+                                                player->unkB6 = -0x4000;
+                                                player->unk24 = 250.0f;
+                                                player->unk2C = -266.0f;
+                                                D_8090EB2C->actor.posRot.pos.x = 724.0f;
+                                                D_8090EB2C->actor.posRot.pos.y = 1086.0f;
+                                                D_8090EB2C->actor.posRot.pos.z = -186.0f;
+                                                this->unk_3A4.x = this->actor.posRot.pos.x + -10.0f;
+                                                this->unk_3A4.y = this->actor.posRot.pos.y + 80.0f;
+                                                this->unk_3A4.z = this->actor.posRot.pos.z + 50.0f;
+                                                this->unk_3B0.x = player->unk24;
+                                                this->unk_3B0.y = player->unk28;
+                                                this->unk_3B0.z = player->unk2C - 200.0f;
+                                                if (this->unk_398 == 0x14) {
+                                                    sp50 = temp_t0;
+                                                    func_8002DF54(globalCtx, this, 0x1E);
+                                                }
+                                                if (this->unk_398 == 0x3C) {
+                                                    temp_f0 = this->actor.posRot.pos.x;
+                                                    temp_f12 = this->actor.posRot.pos.y;
+                                                    temp_f2 = this->actor.posRot.pos.z;
+                                                    this->unk_3A4.x = (temp_f0 + 200.0f) - 154.0f;
+                                                    this->unk_3A4.y = temp_f12 + 60.0f;
+                                                    this->unk_3A4.z = temp_f2 - 15.0f;
+                                                    this->unk_39C = 0xF;
+                                                    this->unk_398 = 0;
+                                                    this->unk_3B0.y = temp_f12 + 77.0f + 100.0f;
+                                                    this->unk_314 = 2;
+                                                    this->unk_3B0.z = temp_f2 + 5.0f;
+                                                    this->unk_3B0.x = temp_f0;
+                                                }
+                                                if (((globalCtx + 0x10000)->unk1DE4 & 0x1F) == 0) {
+                                                    Audio_PlayActorSound2(this, 0x39D1);
+                                                    goto block_163;
+                                                case 15:
+                                                    if (((globalCtx->gameplayFrames & 0x1F) == 0) && (this->unk_398 < 0x64)) {
+                                                        Audio_PlayActorSound2(this, 0x39D1);
+                                                    }
+                                                    temp_a0_4 = &this->skelAnime;
+                                                    sp50 = temp_a0_4;
+                                                    SkelAnime_FrameUpdateMatrix(temp_a0_4);
+                                                    Math_SmoothScaleMaxF(&this->unk_3B0.y, this->actor.posRot.pos.y + 77.0f, 0.05f, 5.0f);
+                                                    temp_v1 = this->unk_398;
+                                                    if (temp_v1 >= 0x32) {
+                                                        if (temp_v1 == 0x32) {
+                                                            SkelAnime_ChangeAnimTransitionStop(sp50, &D_06000BFC, 0.0f);
+                                                            temp_f10_2 = SkelAnime_GetFrameCount(&D_06000BFC);
+                                                            this->unk_314 = 3;
+                                                            this->unk_194 = temp_f10_2;
+                                                        }
+                                                        if (func_800A56C8(sp50, (bitwise f32) (bitwise s32) this->unk_194) != 0) {
+                                                            SkelAnime_ChangeAnimTransitionRepeat(sp50, &D_06003F38, 0.0f);
+                                                            this->unk_194 = 1000.0f;
+                                                        }
+                                                    }
+                                                    if (this->unk_398 >= 0x47) {
+                                                        Math_SmoothScaleMaxF(this->unk_1B4, 255.0f, 1.0f, 10.0f);
+                                                    }
+                                                    if (this->unk_398 == 0x8C) {
+                                                        this->unk_39C = 0x10;
+                                                        this->unk_398 = 0;
+                                                        SkelAnime_ChangeAnimTransitionStop(sp50, &D_06003754, 0.0f);
+                                                        temp_f10_3 = SkelAnime_GetFrameCount(&D_06003754);
+                                                        this->unk_339 = 0x37;
+                                                        this->unk_194 = temp_f10_3;
+                                                        globalCtx->envCtx.unk_D8 = 1.0f;
+                                                        Audio_PlayActorSound2(this, 0x39D3);
+                                                    case 16:
+                                                        sp48 = &this->unk_3B0.y;
+                                                        sp50 = &this->skelAnime;
+                                                        if (this->unk_398 < 0x19) {
+                                                            this->unk_339 = 0x37;
+                                                        } else {
+                                                            this->unk_339 = 6;
+                                                            if (this->unk_194 > 100.0f) {
+                                                                Math_SmoothScaleMaxF(&this->unk_30C, 15.0f, 1.0f, 2.0f);
+                                                            } else {
+                                                                Math_SmoothScaleMaxF(&this->unk_30C, 7.0f, 1.0f, 0.2f);
+                                                            }
+                                                        }
+                                                        this->unk_1B4 = 0.0f;
+                                                        SkelAnime_FrameUpdateMatrix(sp50);
+                                                        if (func_800A56C8(sp50, (bitwise f32) (bitwise s32) this->unk_194) != 0) {
+                                                            SkelAnime_ChangeAnimTransitionStop(sp50, &D_060028A8, 0.0f);
+                                                            this->unk_194 = 1000.0f;
+                                                        }
+                                                        temp_a0_5 = &this->unk_3A4;
+                                                        sp4C = temp_a0_5;
+                                                        Math_SmoothScaleMaxF(temp_a0_5, (this->actor.posRot.pos.x + 200.0f) - 90.0f, 0.1f, 6.3999996f);
+                                                        Math_SmoothScaleMaxF(&this->unk_3A4.y, ((this->actor.posRot.pos.y + 60.0f) - 60.0f) - 70.0f, 0.1f, 13.0f);
+                                                        Math_SmoothScaleMaxF(sp48, this->actor.posRot.pos.y + 40.0f, 0.1f, 3.6999998f);
+                                                        if (this->unk_398 == 0x1E) {
+                                                            Audio_PlayActorSound2(this, 0x39D4);
+                                                            Audio_PlayActorSound2(this, 0x396D);
+                                                        }
+                                                        if (this->unk_398 < 0x33) {
+                                                            sp8D = 1;
+                                                        }
+                                                        if (this->unk_398 >= 0x3C) {
+                                                            temp_v0_2 = Gameplay_GetCamera(globalCtx, 0);
+                                                            temp_v0_2->eye.x = (bitwise s32) sp4C->x;
+                                                            temp_v0_2->eye.y = (bitwise f32) (bitwise s32) sp4C->y;
+                                                            temp_v0_2->eye.z = (bitwise f32) (bitwise s32) sp4C->z;
+                                                            temp_v0_2->eyeNext.x = (bitwise f32) (bitwise s32) sp4C->x;
+                                                            temp_v0_2->eyeNext.y = (bitwise f32) (bitwise s32) sp4C->y;
+                                                            temp_v0_2->eyeNext.z = (bitwise f32) (bitwise s32) sp4C->z;
+                                                            temp_v0_2->at.x = (bitwise f32) (bitwise s32) this->unk_3B0.x;
+                                                            temp_v0_2->at.y = (bitwise f32) (bitwise s32) this->unk_3B0.y;
+                                                            temp_v0_2->at.z = (bitwise f32) (bitwise s32) this->unk_3B0.z;
+                                                            this->unk_39C = 0x11;
+                                                            this->unk_398 = 0;
+                                                            this->unk_337 = 2;
+                                                            func_808FD108(this, globalCtx, 0x153, 0);
+                                                            SkelAnime_Free(sp50, globalCtx);
+                                                            SkelAnime_InitFlex(globalCtx, sp50, &D_06025970, NULL, 0, 0, 0);
+                                                            func_808FD108(this, globalCtx, 0x17E, 0);
+                                                            func_8002DF54(globalCtx, this, 0x54);
+                                                            this->unk_314 = 3;
+                                                            goto block_163;
+                                                        case 17:
+                                                            this->unk_339 = 6;
+                                                            temp_a0_6 = &this->skelAnime;
+                                                            sp50 = temp_a0_6;
+                                                            SkelAnime_FrameUpdateMatrix(temp_a0_6);
+                                                            this->unk_3A4.x = player->unk24 - 40.0f;
+                                                            this->unk_3A4.y = player->unk28 + 40.0f;
+                                                            this->unk_3A4.z = player->unk2C + 20.0f;
+                                                            this->unk_3B0.x = player->unk24;
+                                                            this->unk_3B0.y = (player->unk28 + 10.0f + 60.0f) - 30.0f;
+                                                            this->unk_3B0.z = player->unk2C;
+                                                            if (this->unk_398 == 0x19) {
+                                                                this->unk_39C = 0x12;
+                                                                this->unk_398 = 0;
+                                                                SkelAnime_ChangeAnimTransitionStop(sp50, &D_06010380, 0.0f);
+                                                                temp_f0_2 = this->actor.posRot.pos.x;
+                                                                this->skelAnime.animPlaybackSpeed = 0.0f;
+                                                                temp_f12_2 = this->actor.posRot.pos.y;
+                                                                temp_f2_2 = this->actor.posRot.pos.z;
+                                                                this->unk_3B0.x = temp_f0_2 + 50.0f;
+                                                                this->actor.posRot.rot.y = 0x4000;
+                                                                this->unk_3A4.x = ((temp_f0_2 + 500.0f) - 350.0f) - 50.0f;
+                                                                this->unk_3A4.y = temp_f12_2;
+                                                                this->unk_3A4.z = temp_f2_2;
+                                                                this->unk_3B0.y = temp_f12_2 + 60.0f;
+                                                                this->unk_3B0.z = temp_f2_2;
+                                                                goto block_163;
+                                                            case 18:
+                                                                this->unk_339 = 6;
+                                                                if (this->unk_398 == 0x1E) {
+                                                                    Audio_SetBGM(0x65);
+                                                                }
+                                                                Math_SmoothScaleMaxF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
+                                                                Math_SmoothScaleMaxF(&this->unk_3A4, (this->actor.posRot.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
+                                                                Math_SmoothScaleMaxF(&this->unk_3B0, (bitwise f32) (bitwise s32) this->actor.posRot.pos.x, 0.1f, 1.0f);
+                                                                Math_SmoothScaleMaxF(&this->unk_228, 1.0f, 0.1f, 0.02f);
+                                                                if (this->unk_398 == 0x41) {
+                                                                    this->unk_39C = 0x13;
+                                                                    this->unk_398 = 0;
+                                                                    goto block_163;
+                                                                case 19:
+                                                                    temp_f0_3 = this->actor.velocity.y;
+                                                                    this->unk_394 = (bitwise f32) this->unk_394 + 0.5f;
+                                                                    this->unk_339 = 6;
+                                                                    this->actor.posRot.pos.y = this->actor.posRot.pos.y + temp_f0_3;
+                                                                    this->actor.velocity.y = temp_f0_3 - 1.0f;
+                                                                    if (this->unk_398 == 0xA) {
+                                                                        this->unk_39C = 0x14;
+                                                                        this->unk_398 = 0;
+                                                                        this->actor.posRot.pos.x = this->actor.posRot.pos.x + 250.0f;
+                                                                        this->unk_394 = 0.0f;
+                                                                        this->actor.posRot.pos.y = 1886.0f;
+                                                                        func_8002DF54(globalCtx, this, 0x53);
+                                                                        this->unk_30C = 5.0f;
+                                                                        this->unk_228 = 1.0f;
+                                                                        goto block_163;
+                                                                    case 20:
+                                                                        this->unk_339 = 6;
+                                                                        temp_a0_7 = &this->skelAnime;
+                                                                        sp50 = temp_a0_7;
+                                                                        SkelAnime_FrameUpdateMatrix(temp_a0_7);
+                                                                        temp_f0_4 = this->actor.velocity.y;
+                                                                        this->actor.posRot.pos.y = this->actor.posRot.pos.y + temp_f0_4;
+                                                                        this->actor.velocity.y = temp_f0_4 - 1.0f;
+                                                                        player->unk24 = 250.0f;
+                                                                        player->unk28 = 1086.0f;
+                                                                        player->unkB6 = -0x4000;
+                                                                        player->unk2C = -266.0f;
+                                                                        this->unk_3A4.x = (250.0f - 40.0f) - 200.0f;
+                                                                        this->unk_3A4.y = (player->unk28 + 40.0f) - 30.0f;
+                                                                        this->unk_3A4.z = (player->unk2C - 20.0f) + 100.0f;
+                                                                        this->unk_3B0.x = player->unk24;
+                                                                        this->unk_3B0.y = ((player->unk28 + 10.0f + 60.0f) - 20.0f) + 30.0f;
+                                                                        this->unk_3B0.z = player->unk2C;
+                                                                        this->unk_3BC.x = 0.8f;
+                                                                        if (this->actor.posRot.pos.y <= 1099.0f) {
+                                                                            this->actor.posRot.pos.y = 1099.0f;
+                                                                            this->unk_39C = 0x15;
+                                                                            this->unk_398 = 0;
+                                                                            this->unk_420 = 10.0f;
+                                                                            this->actor.velocity.y = 0.0f;
+                                                                            SkelAnime_ChangeAnimTransitionStop(sp50, &D_06010380, 0.0f);
+                                                                            func_808FD4D4(this, globalCtx, 0, 3);
+                                                                            func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
+                                                                            goto block_163;
+                                                                        case 21:
+                                                                            this->unk_339 = 6;
+                                                                            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                                            this->unk_41C = Math_Coss(globalCtx->gameplayFrames << 0xF) * this->unk_420;
+                                                                            Math_SmoothDownscaleMaxF(&this->unk_420, 1.0f, 0.75f);
+                                                                            if (this->unk_398 == 0x1E) {
+                                                                                this->unk_39C = 0x16;
+                                                                                this->unk_30C = 10.0f;
+                                                                            case 22:
+                                                                                if (this->unk_398 < 0x3C) {
+                                                                                    this->unk_339 = 7;
+                                                                                }
+                                                                                this->unk_3BC.x = 0.0f;
+                                                                                this->actor.posRot.pos.y = 1099.0f;
+                                                                                SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                                                Math_SmoothDownscaleMaxF(&this->unk_30C, 1.0f, 0.1f);
+                                                                                if (this->unk_398 >= 0x33) {
+                                                                                    Math_SmoothScaleMaxF(&this->unk_224, 1.0f, 1.0f, 0.025f);
+                                                                                }
+                                                                                phi_v1_9 = this->unk_398;
+                                                                                if (this->unk_398 == 0x3C) {
+                                                                                    this->unk_336 = 2;
+                                                                                    phi_v1_9 = this->unk_398;
+                                                                                }
+                                                                                phi_v1_10 = phi_v1_9;
+                                                                                if (phi_v1_9 == 0x50) {
+                                                                                    func_808FD108(this, globalCtx, 0x153, 0);
+                                                                                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, gSegments[(&D_06021A90 * 0x10) >> 0x1C] + (&D_06021A90 & 0xFFFFFF) + 0x80000000, 0xA0, 0xB4, 0x80, 0x28);
+                                                                                    phi_v1_10 = this->unk_398;
+                                                                                }
+                                                                                temp_f0_5 = this->actor.posRot.pos.x;
+                                                                                temp_f2_3 = this->actor.posRot.pos.z;
+                                                                                this->unk_3B0.x = temp_f0_5;
+                                                                                this->unk_3A4.y = this->actor.posRot.pos.y;
+                                                                                this->unk_3A4.x = ((temp_f0_5 + 500.0f) - 350.0f) + 100.0f;
+                                                                                this->unk_3A4.z = temp_f2_3;
+                                                                                this->unk_3B0.z = temp_f2_3;
+                                                                                this->unk_3B0.y = (this->unk_1B8.y + 60.0f) - 40.0f;
+                                                                                phi_v1_11 = phi_v1_10;
+                                                                                if (phi_v1_10 >= 0xA7) {
+                                                                                    phi_v1_11 = phi_v1_10;
+                                                                                    if (phi_v1_10 < 0xAD) {
+                                                                                        this->unk_312 = 2;
+                                                                                        phi_v1_11 = this->unk_398;
+                                                                                    }
+                                                                                }
+                                                                                phi_v1_12 = phi_v1_11;
+                                                                                if (phi_v1_11 >= 0xBB) {
+                                                                                    phi_v1_12 = phi_v1_11;
+                                                                                    if (phi_v1_11 < 0xC4) {
+                                                                                        this->unk_312 = 1;
+                                                                                        phi_v1_12 = this->unk_398;
+                                                                                    }
+                                                                                }
+                                                                                phi_v1_13 = phi_v1_12;
+                                                                                if (phi_v1_12 >= 0xCB) {
+                                                                                    phi_v1_13 = phi_v1_12;
+                                                                                    if (phi_v1_12 < 0xD2) {
+                                                                                        this->unk_312 = 2;
+                                                                                        phi_v1_13 = this->unk_398;
+                                                                                    }
+                                                                                }
+                                                                                if ((phi_v1_13 == 0xA6) || (phi_v1_13 == 0xB9) || (phi_v1_14 = phi_v1_13, (phi_v1_13 == 0xC8))) {
+                                                                                    func_80078884(0x3997);
+                                                                                    func_80078884(0x398F);
+                                                                                    phi_v1_14 = this->unk_398;
+                                                                                }
+                                                                                if (phi_v1_14 == 0xD7) {
+                                                                                    this->unk_39C = 0x17;
+                                                                                    this->unk_224 = 0.0f;
+                                                                                    func_8002DF54(globalCtx, this, 0x55);
+                                                                                    goto block_163;
+                                                                                case 23:
+                                                                                    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                                                    temp_v1_2 = this->unk_398;
+                                                                                    if ((temp_v1_2 >= 0xDF) && (temp_v1_2 < 0xE8)) {
+                                                                                        this->unk_312 = 2;
+                                                                                    }
+                                                                                    phi_v1_15 = this->unk_398;
+                                                                                    if (this->unk_398 == 0xDE) {
+                                                                                        func_80078884(0x3997);
+                                                                                        func_80078884(0x398F);
+                                                                                        phi_v1_15 = this->unk_398;
+                                                                                    }
+                                                                                    this->unk_3A4.x = (player->unk24 - 40.0f) + 6.0f;
+                                                                                    this->unk_3A4.y = player->unk28 + 40.0f;
+                                                                                    this->unk_3A4.z = (player->unk2C + 20.0f) - 7.0f;
+                                                                                    this->unk_3B0.x = player->unk24;
+                                                                                    this->unk_3B0.y = ((player->unk28 + 10.0f + 60.0f) - 20.0f) - 2.0f;
+                                                                                    this->unk_3B0.z = player->unk2C;
+                                                                                    phi_v1_16 = phi_v1_15;
+                                                                                    if (phi_v1_15 == 0xE4) {
+                                                                                        func_80078884(0x1808);
+                                                                                        func_8002DF54(globalCtx, this, 0x56);
+                                                                                        func_800A9F6C(0.0f, 0xFF, 0xA, 0x32);
+                                                                                        phi_v1_16 = this->unk_398;
+                                                                                    }
+                                                                                    if (phi_v1_16 >= 0xE5) {
+                                                                                        globalCtx->envCtx.unk_E1 = 1;
+                                                                                        globalCtx->unk10B08 = 0xFF;
+                                                                                        globalCtx->unk10B07 = 0xFF;
+                                                                                        globalCtx->envCtx.unk_E2 = 0xFF;
+                                                                                        globalCtx->unk10B09 = 0x64;
+                                                                                        if (this->unk_398 == 0xEA) {
+                                                                                            globalCtx->envCtx.unk_E1 = 0;
+                                                                                            this->unk_39C = 0x18;
+                                                                                            this->unk_398 = 0;
+                                                                                            sp68.unk0 = player->unk24;
+                                                                                            sp68.unk4 = player->unk28;
+                                                                                            sp68.unk8 = player->unk2C;
+                                                                                            sp6C = sp6C + 60.0f;
+                                                                                            func_808FD210(globalCtx, &sp68, 0x18);
+                                                                                            globalCtx->envCtx.unk_D8 = 0.0f;
+                                                                                            globalCtx->envCtx.unk_BE = 0;
+                                                                                            this->unk_339 = 0;
+                                                                                            goto block_163;
+                                                                                        case 24:
+                                                                                            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                                                            temp_v0_3 = globalCtx->unk_11E10;
+                                                                                            this->unk_3B0.x = (bitwise f32) temp_v0_3->unk4;
+                                                                                            this->unk_3B0.y = (bitwise f32) temp_v0_3->unk8;
+                                                                                            this->unk_3B0.z = (bitwise f32) temp_v0_3->unkC;
+                                                                                            this->unk_3A4.x = (bitwise f32) temp_v0_3->unk4 + 70.0f;
+                                                                                            this->unk_3A4.y = (bitwise f32) temp_v0_3->unk8 - 30.0f;
+                                                                                            this->unk_3A4.z = (bitwise f32) temp_v0_3->unkC + 70.0f;
+                                                                                            if ((this->unk_398 & 3) == 0) {
+                                                                                                func_80078884(0x1801);
+                                                                                            }
+                                                                                            if (this->unk_398 == 0x19) {
+                                                                                                func_8002DF54(globalCtx, this, 0x57);
+                                                                                                this->unk_39C = 0x19;
+                                                                                                this->unk_398 = 0;
+                                                                                                goto block_163;
+                                                                                            case 25:
+                                                                                                SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+                                                                                                this->unk_3A4.x = (player->unk24 - 40.0f) + 80.0f;
+                                                                                                this->unk_3A4.y = player->unk28 + 40.0f + 10.0f;
+                                                                                                this->unk_3A4.z = player->unk2C + 20.0f + 10.0f;
+                                                                                                this->unk_3B0.x = player->unk24 - 20.0f;
+                                                                                                this->unk_3B0.y = ((player->unk28 + 10.0f + 60.0f) - 20.0f) - 3.0f;
+                                                                                                this->unk_3B0.z = (player->unk2C - 40.0f) - 10.0f;
+                                                                                                if (this->unk_398 == 0xA) {
+                                                                                                    temp_v0_4 = globalCtx->unk_11E10;
+                                                                                                    temp_v0_4->unk2E = 1;
+                                                                                                    temp_v0_4->unk4 = D_8090EB2C->actor.posRot.pos.x + 50.0f + 10.0f;
+                                                                                                    temp_v0_4->unk8 = D_8090EB2C->actor.posRot.pos.y + 350.0f;
+                                                                                                    temp_v0_4->unk10 = 0.0f;
+                                                                                                    temp_v0_4->unk18 = 0.0f;
+                                                                                                    temp_v0_4->unk14 = -30.0f;
+                                                                                                    temp_v0_4->unkC = D_8090EB2C->actor.posRot.pos.z - 25.0f;
+                                                                                                    this->unk_39C = 0x1A;
+                                                                                                    this->unk_398 = 0;
+                                                                                                case 26:
+                                                                                                    this->unk_3A4.x = D_8090EB2C->actor.posRot.pos.x + 100.0f + 30.0f;
+                                                                                                    this->unk_3A4.y = D_8090EB2C->actor.posRot.pos.y + 10.0f;
+                                                                                                    this->unk_3A4.z = D_8090EB2C->actor.posRot.pos.z + 5.0f;
+                                                                                                    this->unk_3B0.x = D_8090EB2C->actor.posRot.pos.x;
+                                                                                                    this->unk_3B0.y = D_8090EB2C->actor.posRot.pos.y + 30.0f;
+                                                                                                    this->unk_3BC.z = -0.5f;
+                                                                                                    this->unk_3B0.z = D_8090EB2C->actor.posRot.pos.z - 20.0f;
+                                                                                                    if (this->unk_398 == 0xD) {
+                                                                                                        D_8090EB2C->unk_3C8 = 6;
+                                                                                                    }
+                                                                                                    if (this->unk_398 == 0x32) {
+                                                                                                        this->unk_39C = 0x1B;
+                                                                                                        this->unk_398 = 0;
+                                                                                                        goto block_163;
+                                                                                                    case 27:
+                                                                                                        this->unk_3BC.z = 0.0f;
+                                                                                                        if (this->unk_398 == 4) {
+                                                                                                            func_8002DF54(globalCtx, this, 0x58);
+                                                                                                        }
+                                                                                                        this->unk_3A4.x = player->unk24 - 20.0f;
+                                                                                                        this->unk_3A4.y = player->unk28 + 50.0f;
+                                                                                                        this->unk_3A4.z = player->unk2C;
+                                                                                                        this->unk_3B0.x = player->unk24;
+                                                                                                        this->unk_3B0.y = player->unk28 + 50.0f;
+                                                                                                        this->unk_3B0.z = player->unk2C;
+                                                                                                        if (this->unk_398 == 0x1A) {
+                                                                                                            temp_v0_5 = globalCtx->unk1C6C;
+                                                                                                            *D_8090EB30 = temp_v0_5;
+                                                                                                            if (temp_v0_5 != 0) {
+                                                                                                                phi_v0 = temp_v0_5;
+loop_149:
+                                                                                                                if (phi_v0->unk0 == 0x18) {
+                                                                                                                    this->unk_3A4.x = phi_v0->unk24 - 30.0f;
+                                                                                                                    this->unk_3A4.y = (*D_8090EB30)->unk28;
+                                                                                                                    this->unk_3A4.z = (*D_8090EB30)->unk2C;
+                                                                                                                    this->unk_3B0.x = (*D_8090EB30)->unk24;
+                                                                                                                    this->unk_3B0.y = (*D_8090EB30)->unk28;
+                                                                                                                    this->unk_3B0.z = (*D_8090EB30)->unk2C;
+                                                                                                                } else {
+                                                                                                                    temp_t8_2 = phi_v0->unk124;
+                                                                                                                    *D_8090EB30 = temp_t8_2;
+                                                                                                                    phi_v0 = temp_t8_2;
+                                                                                                                    if (temp_t8_2 != 0) {
+                                                                                                                        goto loop_149;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                            this->unk_39C = 0x1C;
+                                                                                                            this->unk_398 = 0;
+                                                                                                            goto block_163;
+                                                                                                        case 28:
+                                                                                                            if (this->unk_398 == 5) {
+                                                                                                                func_8010B680(globalCtx, 0x70D6, NULL);
+                                                                                                            }
+                                                                                                            temp_v0_6 = *D_8090EB30;
+                                                                                                            if (temp_v0_6 != 0) {
+                                                                                                                this->unk_3A4.x = temp_v0_6->unk24 - 20.0f;
+                                                                                                                this->unk_3A4.y = (*D_8090EB30)->unk28;
+                                                                                                                this->unk_3A4.z = (*D_8090EB30)->unk2C;
+                                                                                                                Math_SmoothScaleMaxF(&this->unk_3B0, (bitwise f32) (*D_8090EB30)->unk24, 0.2f, 50.0f);
+                                                                                                                Math_SmoothScaleMaxF(&this->unk_3B0.y, (bitwise f32) (*D_8090EB30)->unk28, 0.2f, 50.0f);
+                                                                                                                Math_SmoothScaleMaxF(&this->unk_3B0.z, (bitwise f32) (*D_8090EB30)->unk2C, 0.2f, 50.0f);
+                                                                                                                if ((this->unk_398 >= 0x29) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                                                                                                                    this->unk_39C = 0x1D;
+                                                                                                                    this->unk_398 = 0;
+                                                                                                                    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060147E0, 0.0f);
+                                                                                                                    temp_f4 = SkelAnime_GetFrameCount(&D_060147E0);
+                                                                                                                    this->actor.shape.unk_08 = 0.0f;
+                                                                                                                    this->unk_194 = temp_f4;
+                                                                                                                    this->unk_335 = 1;
+                                                                                                                    this->actor.posRot.pos.y = 1086.0f;
+                                                                                                                    this->actor.gravity = -1.0f;
+                                                                                                                    this->unk_224 = 1.0f;
+                                                                                                                    goto block_163;
+                                                                                                                case 29:
+                                                                                                                    temp_a0_8 = &this->skelAnime;
+                                                                                                                    sp50 = temp_a0_8;
+                                                                                                                    SkelAnime_FrameUpdateMatrix(temp_a0_8);
+                                                                                                                    temp_f0_6 = this->actor.posRot.pos.x;
+                                                                                                                    temp_f2_4 = this->actor.posRot.pos.z;
+                                                                                                                    this->unk_3B0.x = temp_f0_6;
+                                                                                                                    this->unk_3B0.z = temp_f2_4;
+                                                                                                                    this->unk_3A4.y = this->actor.posRot.pos.y;
+                                                                                                                    this->unk_3A4.z = temp_f2_4 + 10.0f;
+                                                                                                                    this->unk_3A4.x = (((temp_f0_6 + 500.0f) - 350.0f) + 100.0f) - 60.0f;
+                                                                                                                    this->unk_3B0.y = (this->unk_1B8.y + 60.0f) - 40.0f;
+                                                                                                                    player->unkB6 = -0x4000;
+                                                                                                                    player->unk24 = 140.0f;
+                                                                                                                    player->unk2C = -196.0f;
+                                                                                                                    if (this->unk_398 == 0x32) {
+                                                                                                                        Audio_PlayActorSound2(this, 0x398F);
+                                                                                                                    }
+                                                                                                                    if (func_800A56C8(sp50, (bitwise f32) (bitwise s32) this->unk_194) != 0) {
+                                                                                                                        temp_v0_7 = Gameplay_GetCamera(globalCtx, 0);
+                                                                                                                        temp_v1_3 = &this->unk_3A4;
+                                                                                                                        temp_v0_7->eye.x = (bitwise s32) temp_v1_3->x;
+                                                                                                                        temp_v0_7->eye.y = (bitwise f32) (bitwise s32) temp_v1_3->y;
+                                                                                                                        temp_v0_7->eye.z = (bitwise f32) (bitwise s32) temp_v1_3->z;
+                                                                                                                        temp_v0_7->eyeNext.x = (bitwise f32) (bitwise s32) temp_v1_3->x;
+                                                                                                                        temp_v0_7->eyeNext.y = (bitwise f32) (bitwise s32) temp_v1_3->y;
+                                                                                                                        temp_v0_7->eyeNext.z = (bitwise f32) (bitwise s32) temp_v1_3->z;
+                                                                                                                        temp_v0_7->at.x = (bitwise f32) (bitwise s32) this->unk_3B0.x;
+                                                                                                                        temp_v0_7->at.y = (bitwise f32) (bitwise s32) this->unk_3B0.y;
+                                                                                                                        temp_v0_7->at.z = (bitwise f32) (bitwise s32) this->unk_3B0.z;
+                                                                                                                        func_800C08AC(globalCtx, this->unk_39E, 0);
+                                                                                                                        this->unk_39E = 0;
+                                                                                                                        func_80064534(globalCtx, &globalCtx->csCtx);
+                                                                                                                        func_8002DF54(globalCtx, this, 7);
+                                                                                                                        this->unk_39C = 0;
+                                                                                                                        this->unk_337 = 1;
+                                                                                                                        func_808FFDB0(this, globalCtx);
+                                                                                                                        this->unk1A4 = 0x32;
+                                                                                                                        this->actor.flags = this->actor.flags | 1;
+                                                                                                                        D_8090EB2C->unk_3C8 = 7;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+default:
+block_163:
+    if ((this->unk_30C > 4.0f) && (sp8D == 0)) {
+        Audio_PlayActorSound2(this, 0x3163);
+    }
+    temp_a1 = this->unk_39E;
+    if (temp_a1 != 0) {
+        sp4C = &this->unk_3A4;
+        sp50 = &this->unk_3B0;
+        this->unk_3B0.y = this->unk_3B0.y + (bitwise f32) this->unk_41C;
+        Gameplay_CameraSetAtEyeUp(globalCtx, temp_a1, sp50, sp4C, &this->unk_3BC);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
+#endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
