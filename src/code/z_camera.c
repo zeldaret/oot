@@ -7041,7 +7041,7 @@ void Camera_PrintSettings(Camera* camera) {
         func_8006376C(3, 0x19, 5, "F:");
         func_8006376C(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
-        
+
         phi_a1 = 0;
         if (camera->camDataIdx < 0) {
             sp50[phi_a1++] = '-';
