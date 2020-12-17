@@ -278,7 +278,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     Color_RGBA8 sp40 = D_80AE4924;
     Color_RGBA8 sp3C = D_80AE4928;
     Player* player = PLAYER;
-    Player* player2;
+    s32 pad;
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
