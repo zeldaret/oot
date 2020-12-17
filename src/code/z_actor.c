@@ -1602,7 +1602,7 @@ void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
+s32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
     if (actor->child != NULL) {
         return true;
     } else {
@@ -1622,7 +1622,7 @@ u32 func_8002F63C(GlobalContext* globalCtx, Actor* horse, s32 arg2) {
     return 0;
 }
 
-u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
+s32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
     if (actor->child == NULL) {
         return true;
     } else {
