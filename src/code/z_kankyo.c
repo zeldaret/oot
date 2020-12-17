@@ -1452,11 +1452,8 @@ void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3353);
 }
 
-
 #ifdef NON_MATCHING
-// sets bgm
-// register differences
-// using a temp for seq index fixes things mostly but it looks fake
+// func_800F5550 is using the wrong temp reg for globalCtx->soundCtx.seqIndex in the last else
 void func_800758AC(GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_E0 = 0xFF;
 
@@ -1467,41 +1464,44 @@ void func_800758AC(GlobalContext* globalCtx) {
         if (!func_80077600()) {
             Audio_SetBGM(((void)0, gSaveContext.unk_140E));
         }
-        gSaveContext.unk_140E = 0;
-    } else {
-        if (globalCtx->soundCtx.seqIndex == 0x7F) {
-            if (globalCtx->soundCtx.nightSeqIndex == 19u) {
-                return;
-            }
-            if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-                func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
-            }
-        } else if (globalCtx->soundCtx.nightSeqIndex == 19u) {
-            // "BGM Configuration"
-            osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex,
-                         ((void)0, gSaveContext.seqIndex));
 
-            if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
-                func_800F5550(globalCtx->soundCtx.seqIndex);
-            }
-        } else if (((void)0, gSaveContext.dayTime) > 0x4AAA && ((void)0, gSaveContext.dayTime) < 0xB71D) {
-            if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
-                func_800F5550(globalCtx->soundCtx.seqIndex);
-            }
-            globalCtx->envCtx.unk_E0 = 1;
+        gSaveContext.unk_140E = 0;
+    } else if (globalCtx->soundCtx.seqIndex == 0x7F) {
+        if (globalCtx->soundCtx.nightSeqIndex == 19u) {
+            return;
+        }
+
+        if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
+            func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
+        }
+    } else if (globalCtx->soundCtx.nightSeqIndex == 19u) {
+        // "BGM Configuration"
+        osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex,
+                     ((void)0, gSaveContext.seqIndex));
+
+        if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
+            func_800F5550(globalCtx->soundCtx.seqIndex);
+        }
+    } else if (((void)0, gSaveContext.dayTime) > 0x4AAA && ((void)0, gSaveContext.dayTime) < 0xB71D) {
+        if (((void)0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
+            func_800F5550(globalCtx->soundCtx.seqIndex);
+        }
+
+        globalCtx->envCtx.unk_E0 = 1;
+    } else {
+        if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
+            func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
+        }
+        
+        if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
+            globalCtx->envCtx.unk_E0 = 3;
+        } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < 0x4555) {
+            globalCtx->envCtx.unk_E0 = 5;
         } else {
-            if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
-                func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
-            }
-            if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
-                globalCtx->envCtx.unk_E0 = 3;
-            } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < 0x4555) {
-                globalCtx->envCtx.unk_E0 = 5;
-            } else {
-                globalCtx->envCtx.unk_E0 = 7;
-            }
+            globalCtx->envCtx.unk_E0 = 7;
         }
     }
+
     osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.unk_140E));
     osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.unk_140E)); // "Forced BGM"
     osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->soundCtx.seqIndex);
