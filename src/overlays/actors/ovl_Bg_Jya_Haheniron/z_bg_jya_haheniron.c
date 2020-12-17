@@ -48,7 +48,7 @@ static ColliderJntSphInit D_80898764 = {
     sJntSphItemsInit,
 };
 
-static s16 kakeraScale[] = { 5, 8, 11, 14, 17 };
+static s16 sKakeraScales[] = { 5, 8, 11, 14, 17 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
@@ -62,7 +62,7 @@ Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
 
 Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
 
-extern Gfx D_06000880;
+extern Gfx D_06000880[];
 
 void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -78,7 +78,7 @@ void BgJyaHaheniron_Break(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
     s32 i;
     f32 rand1;
 
-    for (angle = 0, i = 0; i < ARRAY_COUNT(kakeraScale); i++) {
+    for (angle = 0, i = 0; i < ARRAY_COUNT(sKakeraScales); i++) {
         rand1 = Math_Rand_ZeroOne() * 10.0f;
         vel.x = (Math_Sins(angle) * rand1) + vec2->x;
         vel.y = (Math_Rand_ZeroOne() * 10.0f) + vec2->y;
@@ -93,7 +93,7 @@ void BgJyaHaheniron_Break(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
             arg5 = 32;
         }
 
-        EffectSsKakera_Spawn(globalCtx, vec1, &vel, vec1, -350, arg5, 40, 4, 0, kakeraScale[i], 0, 20, 40,
+        EffectSsKakera_Spawn(globalCtx, vec1, &vel, vec1, -350, arg5, 40, 4, 0, sKakeraScales[i], 0, 20, 40,
                              KAKERA_COLOR_NONE, OBJECT_JYA_IRON, &D_06000880);
         angle += 0x3333;
     }
