@@ -568,7 +568,7 @@ typedef struct {
     /* 0xC9 */ u8       unk_C9[3][3];
     /* 0xD2 */ s16      unk_D2;
     /* 0xD4 */ s16      unk_D4;
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -1681,7 +1681,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 unk_00;
-    /* 0x01 */ Color_RGB8 unk_01;
+    /* 0x01 */ u8 red;
+    /* 0x02 */ u8 green;
+    /* 0x03 */ u8 blue;
     /* 0x04 */ u8 unk_04;
     /* 0x08 */ f32 unk_08;
 } struct_8015FD70;

@@ -13,7 +13,7 @@ glabel jtbl_8013C790
     .word L8006F4F0
 
 .text
-glabel func_8006F140
+glabel Kankyo_Init
 /* AE62E0 8006F140 3C088016 */  lui   $t0, %hi(gSaveContext) # $t0, 0x8016
 /* AE62E4 8006F144 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0
 /* AE62E8 8006F148 9502000C */  lhu   $v0, 0xc($t0)
@@ -38,8 +38,8 @@ glabel func_8006F140
 /* AE632C 8006F18C AD000010 */  sw    $zero, 0x10($t0)
 .L8006F190:
 /* AE6330 8006F190 8E380000 */  lw    $t8, ($s1)
-/* AE6334 8006F194 3C0F8007 */  lui   $t7, %hi(func_8006F0FC)
-/* AE6338 8006F198 25EFF0FC */  addiu $t7, %lo(func_8006F0FC) # addiu $t7, $t7, -0xf04
+/* AE6334 8006F194 3C0F8007 */  lui   $t7, %hi(Kankyo_GraphCallback)
+/* AE6338 8006F198 25EFF0FC */  addiu $t7, %lo(Kankyo_GraphCallback) # addiu $t7, $t7, -0xf04
 /* AE633C 8006F19C AF0F02EC */  sw    $t7, 0x2ec($t8)
 /* AE6340 8006F1A0 8E390000 */  lw    $t9, ($s1)
 /* AE6344 8006F1A4 26040028 */  addiu $a0, $s0, 0x28
@@ -372,9 +372,9 @@ glabel L8006F4F0
 /* AE6834 8006F694 0C00084C */  jal   osSyncPrintf
 /* AE6838 8006F698 2484C240 */   addiu $a0, %lo(D_8013C240) # addiu $a0, $a0, -0x3dc0
 .L8006F69C:
-/* AE683C 8006F69C 3C018016 */  lui   $at, %hi(D_8015FCF0) # $at, 0x8016
+/* AE683C 8006F69C 3C018016 */  lui   $at, %hi(gCustomLensFlareOn) # $at, 0x8016
 /* AE6840 8006F6A0 0C02A857 */  jal   func_800AA15C
-/* AE6844 8006F6A4 A020FCF0 */   sb    $zero, %lo(D_8015FCF0)($at)
+/* AE6844 8006F6A4 A020FCF0 */   sb    $zero, %lo(gCustomLensFlareOn)($at)
 /* AE6848 8006F6A8 8FBF002C */  lw    $ra, 0x2c($sp)
 /* AE684C 8006F6AC 8FB00024 */  lw    $s0, 0x24($sp)
 /* AE6850 8006F6B0 8FB10028 */  lw    $s1, 0x28($sp)

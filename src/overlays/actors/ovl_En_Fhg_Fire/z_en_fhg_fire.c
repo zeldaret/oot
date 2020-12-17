@@ -358,8 +358,8 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
 
     // Related to scene draw config 30, only used in BossGanon_Update and
     // loaded in z_kankyo
-    D_8015FCF0 = this->unk_1FC;
-    D_8015FCF8 = this->actor.posRot.pos;
+    gCustomLensFlareOn = this->unk_1FC;
+    gCustomLensFlarePos = this->actor.posRot.pos;
     D_8015FD06 = this->unk_200;
     D_8015FD08 = 10.0f;
     D_8015FD0C = 0;

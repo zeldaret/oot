@@ -1256,9 +1256,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x;
                         sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y;
                         sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z;
-                        func_80073988(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
+                        Kankyo_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
                     }
-                    func_80075E68(globalCtx);
+                    Kankyo_DrawCustomLensFlare(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
@@ -1455,9 +1455,9 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     return allocp;
 }
 
-void Gameplay_InitSkybox(GlobalContext* globalCtx, s16 skyboxId) {
+void Gameplay_InitEnvironment(GlobalContext* globalCtx, s16 skyboxId) {
     func_800B0E50(globalCtx, &globalCtx->skyboxCtx, skyboxId);
-    func_8006F140(globalCtx, &globalCtx->envCtx, 0);
+    Kankyo_Init(globalCtx, &globalCtx->envCtx, 0);
 }
 
 void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
@@ -1476,7 +1476,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;
     Scene_ExecuteCommands(globalCtx, globalCtx->sceneSegment);
-    Gameplay_InitSkybox(globalCtx, globalCtx->skyboxId);
+    Gameplay_InitEnvironment(globalCtx, globalCtx->skyboxId);
 }
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {

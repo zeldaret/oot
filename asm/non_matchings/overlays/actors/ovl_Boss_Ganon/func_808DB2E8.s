@@ -305,10 +305,10 @@ glabel L808DB498
 /* 04E78 808DB6E8 8E2B0278 */  lw      $t3, 0x0278($s1)           ## 00000278
 /* 04E7C 808DB6EC 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 04E80 808DB6F0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002
-/* 04E84 808DB6F4 3C098016 */  lui     $t1, %hi(D_8015FCF8)
+/* 04E84 808DB6F4 3C098016 */  lui     $t1, %hi(gCustomLensFlarePos)
 /* 04E88 808DB6F8 A639066E */  sh      $t9, 0x066E($s1)           ## 0000066E
 /* 04E8C 808DB6FC A228066C */  sb      $t0, 0x066C($s1)           ## 0000066C
-/* 04E90 808DB700 2529FCF8 */  addiu   $t1, %lo(D_8015FCF8)
+/* 04E90 808DB700 2529FCF8 */  addiu   $t1, %lo(gCustomLensFlarePos)
 /* 04E94 808DB704 AD2B0000 */  sw      $t3, 0x0000($t1)           ## 8015FCF8
 /* 04E98 808DB708 8E2A027C */  lw      $t2, 0x027C($s1)           ## 0000027C
 /* 04E9C 808DB70C AD2A0004 */  sw      $t2, 0x0004($t1)           ## 8015FCFC

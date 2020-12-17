@@ -2029,8 +2029,8 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.type == ACTORTYPE_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
-        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) && (globalCtx->sceneLoadFlag != 0x14) &&
-        (gSaveContext.timer1State != 10)) {
+        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) &&
+        (globalCtx->sceneLoadFlag != 0x14) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
 
@@ -3966,7 +3966,20 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
 }
 
 s16 D_808544F8[] = {
-    0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
+    0x045B, // DMT from Magic Fairy Fountain
+    0x0482, // DMC from Double Defense Fairy Fountain
+    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
+    0x044B, // Kakariko from Potion Shop
+    0x02A2, // Market (child day) from Potion Shop
+    0x0201, // Kakariko from Bazaar
+    0x03B8, // Market (child day) from Bazaar
+    0x04EE, // Kakariko from House of Skulltulas
+    0x03C0, // Back Alley (day) from Bombchu Shop
+    0x0463, // Kakariko from Shooting Gallery
+    0x01CD, // Market (child day) from Shooting Gallery
+    0x0394, // Zoras Fountain from Farores Wind Fairy Fountain
+    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
+    0x057C, // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
 u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };

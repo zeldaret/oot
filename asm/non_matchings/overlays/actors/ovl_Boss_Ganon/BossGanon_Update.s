@@ -1204,18 +1204,18 @@ glabel L808DE3B0
 /* 07D14 808DE584 92AE066C */  lbu     $t6, 0x066C($s5)           ## 0000066C
 .L808DE588:
 /* 07D18 808DE588 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
-/* 07D1C 808DE58C 3C018016 */  lui     $at, %hi(D_8015FCF0)
+/* 07D1C 808DE58C 3C018016 */  lui     $at, %hi(gCustomLensFlareOn)
 /* 07D20 808DE590 11C0001C */  beq     $t6, $zero, .L808DE604     
 /* 07D24 808DE594 00000000 */  nop
-/* 07D28 808DE598 3C018016 */  lui     $at, %hi(D_8015FCF0)
-/* 07D2C 808DE59C A02FFCF0 */  sb      $t7, %lo(D_8015FCF0)($at)
+/* 07D28 808DE598 3C018016 */  lui     $at, %hi(gCustomLensFlareOn)
+/* 07D2C 808DE59C A02FFCF0 */  sb      $t7, %lo(gCustomLensFlareOn)($at)
 /* 07D30 808DE5A0 92B8066C */  lbu     $t8, 0x066C($s5)           ## 0000066C
 /* 07D34 808DE5A4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 07D38 808DE5A8 5701000A */  bnel    $t8, $at, .L808DE5D4       
 /* 07D3C 808DE5AC C6A60670 */  lwc1    $f6, 0x0670($s5)           ## 00000670
 /* 07D40 808DE5B0 8EA90024 */  lw      $t1, 0x0024($s5)           ## 00000024
-/* 07D44 808DE5B4 3C198016 */  lui     $t9, %hi(D_8015FCF8)
-/* 07D48 808DE5B8 2739FCF8 */  addiu   $t9, %lo(D_8015FCF8)
+/* 07D44 808DE5B4 3C198016 */  lui     $t9, %hi(gCustomLensFlarePos)
+/* 07D48 808DE5B8 2739FCF8 */  addiu   $t9, %lo(gCustomLensFlarePos)
 /* 07D4C 808DE5BC AF290000 */  sw      $t1, 0x0000($t9)           ## 8015FCF8
 /* 07D50 808DE5C0 8EA80028 */  lw      $t0, 0x0028($s5)           ## 00000028
 /* 07D54 808DE5C4 AF280004 */  sw      $t0, 0x0004($t9)           ## 8015FCFC
@@ -1236,7 +1236,7 @@ glabel L808DE3B0
 /* 07D8C 808DE5FC 10000002 */  beq     $zero, $zero, .L808DE608   
 /* 07D90 808DE600 A420FD0C */  sh      $zero, %lo(D_8015FD0C)($at)
 .L808DE604:
-/* 07D94 808DE604 A020FCF0 */  sb      $zero, %lo(D_8015FCF0)($at)
+/* 07D94 808DE604 A020FCF0 */  sb      $zero, %lo(gCustomLensFlareOn)($at)
 .L808DE608:
 /* 07D98 808DE608 92A20274 */  lbu     $v0, 0x0274($s5)           ## 00000274
 /* 07D9C 808DE60C 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

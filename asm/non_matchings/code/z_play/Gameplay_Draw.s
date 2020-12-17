@@ -703,10 +703,10 @@ glabel Gameplay_Draw
 /* B369A8 800BF808 AFAF0014 */  sw    $t7, 0x14($sp)
 /* B369AC 800BF80C 8DD80008 */  lw    $t8, 8($t6)
 /* B369B0 800BF810 AFA0001C */  sw    $zero, 0x1c($sp)
-/* B369B4 800BF814 0C01CE62 */  jal   func_80073988
+/* B369B4 800BF814 0C01CE62 */  jal   Kankyo_DrawSunLensFlare
 /* B369B8 800BF818 AFB80018 */   sw    $t8, 0x18($sp)
 .L800BF81C:
-/* B369BC 800BF81C 0C01D79A */  jal   func_80075E68
+/* B369BC 800BF81C 0C01D79A */  jal   Kankyo_DrawCustomLensFlare
 /* B369C0 800BF820 02002025 */   move  $a0, $s0
 /* B369C4 800BF824 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B369C8 800BF828 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
