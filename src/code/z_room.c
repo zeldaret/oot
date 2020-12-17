@@ -12,7 +12,8 @@ Gfx D_801270B0[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    // gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    {0, 0},
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
@@ -86,8 +87,8 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
-    struct_80095D04* spB4;
-    struct_80095D04* spB0;
+    struct_80095D04* spB4 = NULL;
+    struct_80095D04* spB0 = NULL;
     struct_80095D04* phi_v0;
     struct_80095D04* phi_a0;
     struct_80095D04* spA4;
@@ -100,12 +101,9 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonDlist2* sp78;
     f32 temp_f0;
     f32 temp_f2;
-
-    spB0 = NULL;
-    spB4 = NULL;
+    s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 287);
-
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -120,13 +118,14 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    spA4 = &spB8[0];
-    polygonDlist = SEGMENTED_TO_VIRTUAL(room->mesh->polygon2.start);
+    
     polygon2 = &room->mesh->polygon2;
+    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
+    spA4 = spB8;
+    
     if (polygon2->num > SHAPE_SORT_MAX) {
         __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     }
-
     sp78 = polygonDlist;
     for (sp9C = 0; sp9C < polygon2->num; sp9C++) {
         sp90.x = polygonDlist->pos.x;
@@ -140,11 +139,10 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
                 phi_v0 = spB4;
-                if (spB4 == 0) {
+                if (spB4 == NULL) {
                     spB0 = spA4;
                     spB4 = spA4;
-                    spA4->unk_0C = NULL;
-                    spA4->unk_08 = NULL;
+                    spA4->unk_08 = spA4->unk_0C = NULL;
                 } else {
                     do {
                         if (spA4->unk_04 < phi_v0->unk_04) {
@@ -170,25 +168,21 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                         spA4->unk_0C = (void*)phi_v0;
                     }
                 }
-                spA4 = spA4++;
+                spA4++;
             }
         }
         polygonDlist++;
     }
-
+    
     iREG(87) = polygon2->num;
 
-    sp9C = 1;
-    while (spB4 != NULL) {
+    for(sp9C = 1; spB4 != NULL; spB4 = spB4->unk_0C, sp9C++) {
         phi_s0 = spB4->unk_00;
         if (iREG(86) != 0) {
-            phi_v1 = 0;
-            while (phi_v1 < polygon2->num) {
-                if (phi_s0 == sp78) {
+            for(phi_v1 = 0; phi_v1 < polygon2->num; phi_v1++, sp78++) {
+                if(phi_s0 == sp78) {
                     break;
                 }
-                phi_v1++;
-                sp78++;
             }
 
             if (((iREG(86) == 1) && (iREG(89) > sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
@@ -209,9 +203,6 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                 gSPDisplayList(POLY_XLU_DISP++, phi_s0->xlu);
             }
         }
-
-        spB4 = spB4->unk_0C;
-        sp9C++;
     }
 
     iREG(88) = sp9C - 1;
@@ -256,12 +247,13 @@ s32 func_80096238(void* data) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// regalloc near the end
+extern int TEXEL0;
+
 void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY) {
     Gfx* displayListHead;
     uObjBg* bg;
+    s32 temp;
 
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
@@ -295,20 +287,16 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
+        
     } else {
         bg->s.frameW = width * 4;
         bg->s.frameH = height * 4;
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++,
-                        mode0 | 0xCF0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
-                        G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
-                            GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
-                            GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
-        // do {Gfx* _g = displayListHead++;_g->words.w1 = 0xFFFCFC7E;_g->words.w0 = 0xFCFFFFFF;}while(0);
+        if(1){}
+        gDPSetOtherMode(displayListHead++, mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE, G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL | GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
         gDPSetCombineLERP(displayListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
-        // do {Gfx* _g = displayListHead++;_g->words.w1 = 0xC;_g->words.w0=0xB << 24;}while(0);
         gSPObjRenderMode(displayListHead++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);
         gSPBgRect1Cyc(displayListHead++, bg);
     }
@@ -316,11 +304,6 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     gDPPipeSync(displayListHead++);
     *displayList = displayListHead;
 }
-#else
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
-                   u16 tlutCount, f32 frameX, f32 frameY);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_8009638C.s")
-#endif
 
 // Room Draw Polygon Type 1 - Single Format
 void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
@@ -503,6 +486,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     RomFile* roomList = globalCtx->roomList;
     u32 roomSize;
     s32 i;
+    
 
     for (i = 0; i < globalCtx->nbRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
@@ -513,7 +497,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     }
 
     if (globalCtx->nbTransitionActors != 0) {
-        s32 j = 0;
+        s32 j;
         RomFile* roomList = globalCtx->roomList;
         TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
 
@@ -547,13 +531,15 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     osSyncPrintf(VT_RST);
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
-
-    if (gSaveContext.respawnFlag > 0) {
-        nextRoomNum = gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex;
-    } else {
-        nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
-    }
-
+    // i = gSaveContext.respawnFlag;
+    // nextRoomNum = 
+    // if (i - 1 >= 0) {
+    //     nextRoomNum = 
+    // } else {
+    //     nextRoomNum = 
+    // }
+    // if(1){}
+    nextRoomNum = (gSaveContext.respawnFlag - 1 >= 0) ? gSaveContext.respawn[(0, gSaveContext.respawnFlag) - 1].roomIndex : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     func_8009728C(globalCtx, roomCtx, nextRoomNum);
 
     return maxRoomSize;
