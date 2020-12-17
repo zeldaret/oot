@@ -608,7 +608,7 @@ void func_80083108(GlobalContext* globalCtx) {
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.unk_13E7 = 0;
 
-        if ((player->stateFlags1 & 0x00800000) || (globalCtx->unk_11E5C >= 2) ||
+        if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
             ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.unk_13E7 = 1;
@@ -629,7 +629,7 @@ void func_80083108(GlobalContext* globalCtx) {
                         Interface_LoadItemIcon1(globalCtx, 0);
                     } else {
                         gSaveContext.equips.buttonItems[0] = ITEM_BOW;
-                        if (globalCtx->unk_11E5C >= 2) {
+                        if (globalCtx->shootingGalleryStatus > 1) {
                             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                                 gSaveContext.equips.buttonItems[0] = ITEM_SLINGSHOT;
                             }
@@ -653,7 +653,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(1);
                 } else if (gSaveContext.minigameState == 1) {
                     Interface_ChangeAlpha(8);
-                } else if (globalCtx->unk_11E5C >= 2) {
+                } else if (globalCtx->shootingGalleryStatus > 1) {
                     Interface_ChangeAlpha(8);
                 } else if ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
                     Interface_ChangeAlpha(8);
@@ -2867,10 +2867,10 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
 
         if ((button == 0) && (gSaveContext.minigameState == 1)) {
             ammo = globalCtx->interfaceCtx.hbaAmmo;
-        } else if ((button == 0) && (globalCtx->unk_11E5C >= 2)) {
-            ammo = globalCtx->unk_11E5C - 1;
+        } else if ((button == 0) && (globalCtx->shootingGalleryStatus > 1)) {
+            ammo = globalCtx->shootingGalleryStatus - 1;
         } else if ((button == 0) && (globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
-            ammo = globalCtx->bombchuBowlingAmmo;
+            ammo = globalCtx->bombchuBowlingStatus;
             if (ammo < 0) {
                 ammo = 0;
             }
@@ -3208,7 +3208,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 Interface_DrawItemIconTexture(globalCtx, (void*)(u32)interfaceCtx->icon_itemSegment, 0);
 
-                if ((player->stateFlags1 & 0x00800000) || (globalCtx->unk_11E5C >= 2) ||
+                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
@@ -3495,7 +3495,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (globalCtx->unk_10A20 == 0) &&
             (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
-            (globalCtx->unk_11E5C < 2) &&
+            (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             sp274 = 0;
             switch (gSaveContext.timer1State) {

@@ -36,7 +36,7 @@ glabel func_80B23D74
 /* 0110C 80B23DFC 844B07A0 */  lh      $t3, 0x07A0($v0)           ## 000007A0
 /* 01110 80B23E00 000B6080 */  sll     $t4, $t3,  2               
 /* 01114 80B23E04 004C6821 */  addu    $t5, $v0, $t4              
-/* 01118 80B23E08 0C016A7D */  jal     func_8005A9F4              
+/* 01118 80B23E08 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 0111C 80B23E0C 8DA40790 */  lw      $a0, 0x0790($t5)           ## 00000790
 /* 01120 80B23E10 00022400 */  sll     $a0, $v0, 16               
 /* 01124 80B23E14 0C01DE1C */  jal     Math_Sins
@@ -52,7 +52,7 @@ glabel func_80B23D74
 /* 01148 80B23E38 844E07A0 */  lh      $t6, 0x07A0($v0)           ## 000007A0
 /* 0114C 80B23E3C 000E7880 */  sll     $t7, $t6,  2               
 /* 01150 80B23E40 004FC021 */  addu    $t8, $v0, $t7              
-/* 01154 80B23E44 0C016A7D */  jal     func_8005A9F4              
+/* 01154 80B23E44 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 01158 80B23E48 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 0115C 80B23E4C 00022400 */  sll     $a0, $v0, 16               
 /* 01160 80B23E50 0C01DE0D */  jal     Math_Coss

@@ -2,8 +2,8 @@ glabel func_80AFA880
 /* 00160 80AFA880 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00164 80AFA884 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00168 80AFA888 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 0016C 80AFA88C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00170 80AFA890 24A5139C */  addiu   $a1, $a1, 0x139C           ## $a1 = 0600139C
+/* 0016C 80AFA88C 3C050600 */  lui     $a1, %hi(D_0600139C)                ## $a1 = 06000000
+/* 00170 80AFA890 24A5139C */  addiu   $a1, $a1, %lo(D_0600139C)           ## $a1 = 0600139C
 /* 00174 80AFA894 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 00178 80AFA898 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0017C 80AFA89C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop

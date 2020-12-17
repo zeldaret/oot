@@ -110,7 +110,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = Math_Sins(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    func_8005A970(&camDir, ACTIVE_CAM);
+    Camera_GetCamDir(&camDir, ACTIVE_CAM);
     Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -163,8 +163,11 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
 }
 
-void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnButte* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void func_809CD56C(EnButte* this) {
