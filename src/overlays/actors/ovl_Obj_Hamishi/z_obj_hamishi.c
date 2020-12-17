@@ -145,7 +145,7 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHamishi_InitCollision(&this->actor, globalCtx);
     func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0) {
+    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         Actor_Kill(&this->actor);
         return;
     }
