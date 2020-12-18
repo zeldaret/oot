@@ -40,7 +40,7 @@ void func_80B1985C(Actor* thisx);
 void func_80B19524(Actor* thisx);
 void func_80B18C5C(Actor* thisx);
 // EffectSsGRipple_Spawn
-// void func_80029444(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
+// void EffectSsGRipple_Spawn(GlobalContext *globalCtxt, Vec3f *vec, s32 arg2, s32 arg3, s32 arg4);
 
 extern SkeletonHeader D_06003A20;
 extern AnimationHeader D_060012E4;
@@ -141,12 +141,12 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->parent != NULL) {
         spawner = (EnEncount1*)thisx->parent;
-        if (spawner->numCurrentlySpawned > 0) {
-            spawner->numCurrentlySpawned--;
+        if (spawner->curNumSpawn > 0) {
+            spawner->curNumSpawn--;
         }
         osSyncPrintf("\n\n");
         // "Number of simultaneous occourances"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->numCurrentlySpawned);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->curNumSpawn);
         osSyncPrintf("\n\n");
     }
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -244,7 +244,7 @@ void func_80B18E7C(EnTite* this, GlobalContext* globalCtx) {
                                 this->unk2E0++;
                                 this->actor.velocity.y *= 0.75f;
                                 sp50 = this->unk2E0;
-                                func_80029444(globalCtx, &sp44, 0, 0x1F4, 0);
+                                EffectSsGRipple_Spawn(globalCtx, &sp44, 0, 0x1F4, 0);
                             } else {
                                 this->actor.velocity.y = 0.0f;
                                 this->actor.speedXZ = 0.0f;
@@ -470,7 +470,7 @@ void func_80B19918(EnTite* this, GlobalContext* globalCtx) {
                 sp3C.y += this->actor.waterY;
                 this->actor.gravity = 0.0f;
                 this->actor.velocity.y *= 0.75f;
-                func_80029444(globalCtx, &sp3C, 0, 0x1F4, 0);
+                EffectSsGRipple_Spawn(globalCtx, &sp3C, 0, 0x1F4, 0);
                 return;
             }
             Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
@@ -817,28 +817,28 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
                 (this->footPosBackRight.y <= waterSurfaceY)) {
                 this->footPosBackRight.y = waterSurfaceY;
                 // spawn water ripples
-                func_80029444(globalCtx, &this->footPosBackRight, 0, 0xDC, 0);
+                EffectSsGRipple_Spawn(globalCtx, &this->footPosBackRight, 0, 0xDC, 0);
             }
             if (((((globalCtx->gameplayFrames + 2) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
                 (func_80042244(globalCtx, &globalCtx->colCtx, this->footPosBackLeft.x, this->footPosBackLeft.z,
                                &waterSurfaceY, &waterBox)) &&
                 (this->footPosBackLeft.y <= waterSurfaceY)) {
                 this->footPosBackLeft.y = waterSurfaceY;
-                func_80029444(globalCtx, &this->footPosBackLeft, 0, 0xDC, 0);
+                EffectSsGRipple_Spawn(globalCtx, &this->footPosBackLeft, 0, 0xDC, 0);
             }
             if (((((globalCtx->gameplayFrames + 4) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
                 (func_80042244(globalCtx, &globalCtx->colCtx, this->footPosFrontLeft.x, this->footPosFrontLeft.z,
                                &waterSurfaceY, &waterBox)) &&
                 (this->footPosFrontLeft.y <= waterSurfaceY)) {
                 this->footPosFrontLeft.y = waterSurfaceY;
-                func_80029444(globalCtx, &this->footPosFrontLeft, 0, 0xDC, 0);
+                EffectSsGRipple_Spawn(globalCtx, &this->footPosFrontLeft, 0, 0xDC, 0);
             }
             if (((((globalCtx->gameplayFrames + 1) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
                 (func_80042244(globalCtx, &globalCtx->colCtx, this->footPosFrontRight.x, this->footPosFrontRight.z,
                                &waterSurfaceY, &waterBox)) &&
                 (this->footPosFrontRight.y <= waterSurfaceY)) {
                 this->footPosFrontRight.y = waterSurfaceY;
-                func_80029444(globalCtx, &this->footPosFrontRight, 0, 0xDC, 0);
+                EffectSsGRipple_Spawn(globalCtx, &this->footPosFrontRight, 0, 0xDC, 0);
             }
             thisx->floorPoly = floorPoly;
         }
@@ -864,10 +864,9 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// postLimbDraw?
-void func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Actor* thisx, s32* arg5, s16 arg6) {
+void func_80B1B178(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnTite* this = THIS;
-    switch (arg1) {
+    switch (limbIndex) {
         case 8:
             Matrix_MultVec3f(&D_80B1B64C, &this->footPosBackRight);
             break;
@@ -881,45 +880,37 @@ void func_80B1B178(GlobalContext* globalCtx, s32 arg1, Gfx** dList, s32 arg3, Ac
             Matrix_MultVec3f(&D_80B1B64C, &this->footPosFrontLeft);
             break;
     }
-    func_80032F54(&this->unk2C4, arg1, 0, 0x18, 0x18, dList, -1);
+    func_80032F54(&this->unk2C4, limbIndex, 0, 0x18, 0x18, dList, -1);
 }
 
-#ifdef NON_MATCHING
-// mostly regalloc
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnTite* this = THIS;
-    u8 new_var;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 0x6A8);
     func_80093D18(globalCtx->state.gfxCtx);
     func_800628A4(0, &this->collider);
     if (IS_BLUE) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001300));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001700));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06001900));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001300));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001700));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06001900));
     } else {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001B00));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001F00));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06002100));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06001B00));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001F00));
+        gSPSegment(__gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06002100));
     }
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, (PostLimbDraw)func_80B1B178,
-                   thisx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, func_80B1B178, thisx);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 0x6C7);
-    new_var = this->unk2E3;
-    if (new_var != 0) {
-        s32 decr;
+    
+    if (this->unk2E3 != 0) {
         thisx->dmgEffectTimer++;
-        decr = --this->unk2E3;
-        if ((decr & 3) == 0) {
+        this->unk2E3--;
+        if ((this->unk2E3 & 3) == 0) {
             Vec3f sp4C;
-            sp4C.x = D_80B1B658[(decr >> 2)].x + thisx->posRot.pos.x;
-            sp4C.y = D_80B1B658[(decr >> 2)].y + thisx->posRot.pos.y;
-            sp4C.z = D_80B1B658[(decr >> 2)].z + thisx->posRot.pos.z;
-            // EffectSsEnIce Spawn Function
-            func_8002A140(globalCtx, &this->actor, &sp4C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.0f);
+            s32 temp = this->unk2E3 >> 2;
+            sp4C.x = thisx->posRot.pos.x + D_80B1B658[temp].x;
+            sp4C.y = thisx->posRot.pos.y + D_80B1B658[temp].y;
+            sp4C.z = thisx->posRot.pos.z + D_80B1B658[temp].z;
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp4C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, 1.0f);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/EnTite_Draw.s")
-#endif
