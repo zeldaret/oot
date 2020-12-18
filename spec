@@ -2665,7 +2665,7 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-    include "build/data/overlays/actors/z_en_m_thunder.data.o"
+    //include "build/data/overlays/actors/z_en_m_thunder.data.o"
     include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
 endseg
 
