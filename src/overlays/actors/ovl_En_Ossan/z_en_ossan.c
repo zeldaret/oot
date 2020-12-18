@@ -1146,51 +1146,9 @@ s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
+// draw cursor
 void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, f32 arg4, u8 arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7528.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC77CC.s")
-
-void func_80AC79C8(EnOssan* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC79C8.s")
-
-void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
-    EnOssan* this = THIS;
-    s32 pad;
-
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4320);
-
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          func_80AC74F4, NULL, this);
-    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
-    func_80AC79C8(globalCtx, this);
-
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4340);
-}
-
-s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnOssan* this = THIS;
-    s32 pad;
-
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4354);
-
-    if (limbIndex == 15) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objectIndex2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex2].segment);
-        *dList = D_06002820;
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AC8EAC[this->unk_1F2]));
-    }
-
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4374);
-
-    return 0;
-}
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC801C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC8048.s")
 // void func_80AC7528(GlobalContext *globalCtx, EnOssan *this, f32 arg2, f32 arg3, f32 arg4, u8 arg5) {
 //     GraphicsContext *sp5C;
 //     Gfx *sp4C;
@@ -1263,6 +1221,50 @@ s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 //     }
 //     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
 // }
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC77CC.s")
+
+void func_80AC79C8(EnOssan* this, GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC79C8.s")
+
+void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
+    EnOssan* this = THIS;
+    s32 pad;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4320);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          func_80AC74F4, NULL, this);
+    func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
+    func_80AC79C8(globalCtx, this);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4340);
+}
+
+s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnOssan* this = THIS;
+    s32 pad;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4354);
+
+    if (limbIndex == 15) {
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objectIndex2].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex2].segment);
+        *dList = D_06002820;
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AC8EAC[this->unk_1F2]));
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4374);
+
+    return 0;
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC801C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC8048.s")
+
 
 
 void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
