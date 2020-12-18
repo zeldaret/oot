@@ -67,7 +67,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-f32 sEffectPositions[][2] = {
+static f32 sEffectPositions[][2] = {
     { -100.0f, 40.0f },  { 100.0f, 40.0f }, { -100.0f, 0.0f },   { 100.0f, 0.0f },
     { -100.0f, -40.0f }, { 100.0f, 40.0f }, { -100.0f, -80.0f }, { -50.0f, -80.0f },
     { 0.0f, -80.0f },    { 50.0f, -80.0f }, { 100.0f, -80.0f },
@@ -78,8 +78,8 @@ void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 actionState) {
     this->actionFunc = sActionFuncs[actionState];
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_8088805C.s")
-s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx); /*{
+#ifdef NON_MATCHING
+s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx) {
     Vec3f pos;
     BgHidanHamstep* fireTempleStep;
     f32 factor;
@@ -109,8 +109,10 @@ s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx); /*{
     }
     return 1;
 }
-*/
-
+#else
+s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_8088805C.s")
+#endif
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
@@ -170,7 +172,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (func_8088805C(this, globalCtx) == 0) {
             fireTempleStep = this;
 
-            // Translation: [Hammer Step] I can't spawn a step!
+            // Translation: [Hammer Step] I can't create a step!
             osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
             osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
@@ -192,8 +194,8 @@ void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx) {
-    Vec3f pos = actor->dyna.actor.posRot.pos;
+void func_808884C8(BgHidanHamstep* fireTempleStep, GlobalContext* globalCtx) {
+    Vec3f pos = fireTempleStep->dyna.actor.posRot.pos;
     s32 i;
     f32 sin;
     f32 cos;
@@ -202,14 +204,16 @@ void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx) {
 
     func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 0);
 
-    sin = Math_Sins(actor->dyna.actor.shape.rot.y + 0x8000);
-    cos = Math_Coss(actor->dyna.actor.shape.rot.y + 0x8000);
+    sin = Math_Sins(fireTempleStep->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_Coss(fireTempleStep->dyna.actor.shape.rot.y + 0x8000);
 
-    pos.y = actor->dyna.actor.posRot.pos.y;
+    pos.y = fireTempleStep->dyna.actor.posRot.pos.y;
 
     for (i = 0; i < ARRAY_COUNT(sEffectPositions); i++) {
-        pos.x = (sEffectPositions[i][1] * sin) + (sEffectPositions[i][0] * cos) + actor->dyna.actor.posRot.pos.x;
-        pos.z = ((sEffectPositions[i][1] * cos) - (sEffectPositions[i][0] * sin)) + actor->dyna.actor.posRot.pos.z;
+        pos.x =
+            (sEffectPositions[i][1] * sin) + (sEffectPositions[i][0] * cos) + fireTempleStep->dyna.actor.posRot.pos.x;
+        pos.z =
+            ((sEffectPositions[i][1] * cos) - (sEffectPositions[i][0] * sin)) + fireTempleStep->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &pos, 0.0f, 0, 150, 150, 0);
     }
 }
@@ -281,6 +285,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
     Actor_MoveForward(&this->dyna.actor);
+
     if (((this->dyna.actor.posRot.pos.y - this->dyna.actor.initPosRot.pos.y) <
          (-20.0f - this->dyna.actor.minVelocityY)) &&
         (this->dyna.actor.velocity.y <= 0.0f)) {
@@ -391,9 +396,9 @@ void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, &D_0600A668);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600A668);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, &D_0600A548);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600A548);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_hamstep.c", 796);
