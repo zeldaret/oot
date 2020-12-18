@@ -119,7 +119,71 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/func_809BC598.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/func_809BC598.s")
+void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
+    f32 temp_f0;
+    Player* player;
+    s16 phi_v1;
+    s16 phi_v1_2;
+    s16 i;
+
+    player = PLAYER;
+    this->unk_158 = ((BossDodongo*)this->actor.parent)->unk_1A2;
+    phi_v1_2 = (u16)0;
+    if (this->actor.params == 0) {
+        Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    }
+    Math_SmoothScaleMaxMinF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
+    Actor_SetScale(&this->actor, this->actor.scale.x);
+    if (this->actor.posRot.pos.x < -1390.0f) {
+        if (this->actor.velocity.x < -10.0f) {
+            this->actor.posRot.pos.x = -1390.0f;
+            phi_v1_2 = (u16)1;
+        }
+    }
+    if ((this->actor.posRot.pos.x > -390.0f) && (this->actor.velocity.x > 10.0f)) {
+        this->actor.posRot.pos.x = -390.0f;
+        phi_v1_2 = (u16)1;
+    }
+    if ((this->actor.posRot.pos.z > -2804.0f) && (this->actor.velocity.z > 10.0f)) {
+        this->actor.posRot.pos.z = -2804.0f;
+        phi_v1_2 = (u16)1;
+    }
+    if ((this->actor.posRot.pos.z < -3804.0f) && (this->actor.velocity.z < -10.0f)) {
+        this->actor.posRot.pos.z = -3804.0f;
+        phi_v1_2 = (u16)1;
+    }
+    if (phi_v1_2 != 0) {
+        if ((s16)this->unk_158 == 0) {
+            this->actor.posRot.rot.y = this->actor.posRot.rot.y + 0x4000;
+        } else {
+            this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0x4000;
+        }
+    }
+    if (this->unk_154 == 0) {
+        this->unk_154 = (u16)0;
+    } else {
+        this->unk_154 = this->unk_154 - 1;
+    }
+    if (this->unk_154 == 0) {
+        Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f);
+        if (this->unk_18C < 10.0f) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    } else if (player->isBurning == false) {
+        temp_f0 = (this->actor.scale.x * 130.0f) / 4.2000003f;
+        if (this->actor.xyzDistFromLinkSq < SQ(temp_f0)) {
+            for (i = 0; i < 18; i++) {
+                player->flameTimers[i] = Math_Rand_S16Offset(0, 200);
+            }
+            player->isBurning = true;
+            func_8002F6D4(globalCtx, &this->actor, 20.0f, this->actor.posRot.rot.y, 0.0f, 8);
+            osSyncPrintf("POWER\n");
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/EnBdfire_Update.s")
 

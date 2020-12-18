@@ -14,7 +14,8 @@ typedef struct EnBdfire {
     /* 0x0150 */ EnBdfireActionFunc actionFunc;
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ s16 unk_156;
-    /* 0x0158 */ char unk_158[0x30];
+    /* 0x0158 */ s16 unk_158;
+    /* 0x015A */ char unk_15A[0x2E];
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ f32 unk_190;
