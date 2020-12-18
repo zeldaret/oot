@@ -182,7 +182,7 @@ glabel func_809B9B64
 /* 01AFC 809B9DDC 00000000 */  nop
 /* 01B00 809B9DE0 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
 .L809B9DE4:
-/* 01B04 809B9DE4 0C0329C8 */  jal     func_800CA720              
+/* 01B04 809B9DE4 0C0329C8 */  jal     Math_Sinf              
 /* 01B08 809B9DE8 C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 01B0C 809B9DEC 3C01809C */  lui     $at, %hi(D_809BBCA0)       ## $at = 809C0000
 /* 01B10 809B9DF0 C430BCA0 */  lwc1    $f16, %lo(D_809BBCA0)($at) 

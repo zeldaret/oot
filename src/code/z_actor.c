@@ -3153,8 +3153,8 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     accel.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {
-        pos.x = (func_800CA720(var) * arg3) + arg2->x;
-        pos.z = (func_800CA774(var) * arg3) + arg2->z;
+        pos.x = (Math_Sinf(var) * arg3) + arg2->x;
+        pos.z = (Math_Cosf(var) * arg3) + arg2->z;
         accel.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
         accel.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
 

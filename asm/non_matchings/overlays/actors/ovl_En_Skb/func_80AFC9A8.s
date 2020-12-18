@@ -41,7 +41,7 @@ glabel func_80AFC9A8
 /* 00080 80AFCA20 46083302 */  mul.s   $f12, $f6, $f8             
 /* 00084 80AFCA24 E7AC0040 */  swc1    $f12, 0x0040($sp)          
 /* 00088 80AFCA28 C58A0080 */  lwc1    $f10, 0x0080($t4)          ## 00000080
-/* 0008C 80AFCA2C 0C0329C8 */  jal     func_800CA720              
+/* 0008C 80AFCA2C 0C0329C8 */  jal     Math_Sinf              
 /* 00090 80AFCA30 E7AA0060 */  swc1    $f10, 0x0060($sp)          
 /* 00094 80AFCA34 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 00098 80AFCA38 44818000 */  mtc1    $at, $f16                  ## $f16 = 15.00
@@ -50,7 +50,7 @@ glabel func_80AFC9A8
 /* 000A4 80AFCA44 46100482 */  mul.s   $f18, $f0, $f16            
 /* 000A8 80AFCA48 C5A40000 */  lwc1    $f4, 0x0000($t5)           ## 00000000
 /* 000AC 80AFCA4C 46049180 */  add.s   $f6, $f18, $f4             
-/* 000B0 80AFCA50 0C0329DD */  jal     func_800CA774              
+/* 000B0 80AFCA50 0C0329DD */  jal     Math_Cosf              
 /* 000B4 80AFCA54 E7A6005C */  swc1    $f6, 0x005C($sp)           
 /* 000B8 80AFCA58 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 000BC 80AFCA5C 44814000 */  mtc1    $at, $f8                   ## $f8 = 15.00

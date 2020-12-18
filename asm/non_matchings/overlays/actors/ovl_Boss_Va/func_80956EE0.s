@@ -151,7 +151,7 @@ glabel func_80956EE0
 /* 07E2C 809570EC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 07E30 809570F0 E7AA0010 */  swc1    $f10, 0x0010($sp)          
-/* 07E34 809570F4 0C0329C8 */  jal     func_800CA720              
+/* 07E34 809570F4 0C0329C8 */  jal     Math_Sinf              
 /* 07E38 809570F8 C60C01A4 */  lwc1    $f12, 0x01A4($s0)          ## 000001A4
 /* 07E3C 809570FC 46000480 */  add.s   $f18, $f0, $f0             
 /* 07E40 80957100 C6100028 */  lwc1    $f16, 0x0028($s0)          ## 00000028

@@ -637,7 +637,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, GlobalContext* globalCtx) {
     s32 b = 1; // These indices are needed to match.
     s32 c = 2; // Might be a way to quickly test vertex arrangements
     s32 d = 3;
-    f32 xMod = func_800CA720((this->skelAnime.animCurrentFrame - 28.0f) * 0.08f) * 5500.0f;
+    f32 xMod = Math_Sinf((this->skelAnime.animCurrentFrame - 28.0f) * 0.08f) * 5500.0f;
 
     sp7C.x -= xMod;
     sp94.x -= xMod;

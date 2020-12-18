@@ -30,7 +30,7 @@ glabel func_80AD0FC8
 /* 01B70 80AD1010 460A0401 */  sub.s   $f16, $f0, $f10            
 /* 01B74 80AD1014 E4900028 */  swc1    $f16, 0x0028($a0)          ## 00000028
 .L80AD1018:
-/* 01B78 80AD1018 0C0329DD */  jal     func_800CA774              
+/* 01B78 80AD1018 0C0329DD */  jal     Math_Cosf              
 /* 01B7C 80AD101C C60C02E0 */  lwc1    $f12, 0x02E0($s0)          ## 000002E0
 /* 01B80 80AD1020 3C0180AD */  lui     $at, %hi(D_80AD2938)       ## $at = 80AD0000
 /* 01B84 80AD1024 C4262938 */  lwc1    $f6, %lo(D_80AD2938)($at)  
@@ -38,7 +38,7 @@ glabel func_80AD0FC8
 /* 01B8C 80AD102C C60C02E0 */  lwc1    $f12, 0x02E0($s0)          ## 000002E0
 /* 01B90 80AD1030 46060102 */  mul.s   $f4, $f0, $f6              
 /* 01B94 80AD1034 46049200 */  add.s   $f8, $f18, $f4             
-/* 01B98 80AD1038 0C0329DD */  jal     func_800CA774              
+/* 01B98 80AD1038 0C0329DD */  jal     Math_Cosf              
 /* 01B9C 80AD103C E6080028 */  swc1    $f8, 0x0028($s0)           ## 00000028
 /* 01BA0 80AD1040 3C0180AD */  lui     $at, %hi(D_80AD293C)       ## $at = 80AD0000
 /* 01BA4 80AD1044 C42A293C */  lwc1    $f10, %lo(D_80AD293C)($at) 
