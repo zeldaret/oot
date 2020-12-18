@@ -45,7 +45,7 @@ extern UNK_TYPE D_06003B1C;
 extern UNK_TYPE D_06003F38;
 extern UNK_TYPE D_06007288;
 extern UNK_TYPE D_06008EB8;
-extern UNK_TYPE D_0600A8E0;
+extern Gfx D_0600A8E0[];
 extern UNK_TYPE D_0600ADD0;
 extern UNK_TYPE D_0600BE90;
 extern UNK_TYPE D_0600CAF8;
@@ -55,6 +55,9 @@ extern AnimationHeader D_0600FFE4;
 extern UNK_TYPE D_06010380;
 extern SkeletonHeader D_060114E8;
 extern UNK_TYPE D_060147E0;
+extern UNK_TYPE D_0601E188[];
+extern UNK_TYPE D_0601E988[];
+extern UNK_TYPE D_0601EA08[];
 extern UNK_TYPE D_06021A90[];
 extern UNK_TYPE D_06025970;
 extern AnimationHeader D_06026510;
@@ -257,23 +260,15 @@ static ColliderJntSphInit D_80907014 = {
     0xFF, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00,
 };
 
-/* static */ UNK_TYPE D_80907164[] = {
-    0x44480000,
-    0x43D20000,
-    0x42C80000,
+/* static */ Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
+
+/* static */ UNK_PTR D_80907170[] = {
+    D_0601E188,
+    D_0601E988,
+    D_0601EA08,
 };
 
-/* static */ UNK_TYPE D_80907170[] = {
-    0x0601E188,
-    0x0601E988,
-    0x0601EA08,
-};
-
-/* static */ UNK_TYPE D_8090717C[] = {
-    0x00000000,
-    0xC4FA0000,
-    0x00000000,
-};
+/* static */ Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
 
 /* static */ UNK_TYPE D_80907188[] = {
     0x00010002,
@@ -327,7 +322,9 @@ static ColliderJntSphInit D_80907014 = {
 
 /* static */ UNK_TYPE D_809105DC;
 
-/* static */ Vec3f D_809105D8[8];
+/* static */ Vec3f D_809105D8[4];
+
+/* static */ Vec3f D_80910608[4];
 
 /* static */ s8 D_80910638;
 
@@ -1633,6 +1630,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809034E4.s")
 
+void func_80903F38(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80903F38.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904108.s")
@@ -1641,8 +1639,12 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090464C.s")
 
+// OverrideLimbDraw
+s32 func_80904818(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904818.s")
 
+// PostLimbDraw
+void func_809049A0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809049A0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904D88.s")
@@ -1651,11 +1653,87 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090523C.s")
 
+// PostLimbDraw
+void func_80905508(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905508.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905674.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/BossGanon2_Draw.s")
+void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 64 * sizeof(Mtx));
+    BossGanon2* this = THIS;
+    s16 i;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5840);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    switch (this->unk_337) {
+        case 0:
+            func_808FD108(this, globalCtx, OBJECT_GANON, 1);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
+            gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
+            SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                  this->skelAnime.dListCount, NULL, func_80905508, this);
+            break;
+        case 1:
+        case 2:
+            func_808FD108(this, globalCtx, OBJECT_GANON2, 1);
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80907170[this->unk_310]));
+            func_808FD080(0, &this->unk_444, &D_8090717C);
+            func_808FD080(1, &this->unk_444, &D_8090717C);
+            this->unk_218 = D_8090717C;
+            if (this->unk_342 & 1) {
+                POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 0xFF, 0, 0, 0xFF, 0x384, 0x44B);
+            }
+            Matrix_Translate(0.0f, -4000.0f, 4000.0f, MTXMODE_APPLY);
+            Matrix_RotateX(this->unk_394, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 4000.0f, -4000.0f, MTXMODE_APPLY);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5910),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                  this->skelAnime.dListCount, func_80904818, func_809049A0, this);
+            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+            func_809069F8(mtx, this, globalCtx);
+            func_80906AB0(mtx, this, globalCtx);
+            break;
+    }
+
+    func_808FD108(this, globalCtx, OBJECT_GANON2, 1);
+    func_80904340(this, globalCtx);
+    func_80904108(this, globalCtx);
+    func_80904D88(this, globalCtx);
+    func_8090464C(this, globalCtx);
+    func_80905674(this, globalCtx);
+    func_80904FC8(this, globalCtx);
+    func_8090523C(this, globalCtx);
+
+    if ((this->unk_312 != 0) || (D_80907080 != 0)) {
+        func_80903F38(this, globalCtx);
+        if (this->unk_312 == 0) {
+            s32 pad;
+
+            D_80907080 -= 40;
+            if (D_80907080 <= 0) {
+                D_80907080 = 0;
+            }
+        }
+
+        D_80910638++;
+    } else {
+        for (i = 0; i < 3; i++) {
+            D_809105D8[i] = this->unk_200;
+            D_80910608[i] = this->unk_20C;
+        }
+
+        D_80910638 = 0;
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5983);
+
+    func_809060E8(globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905DA8.s")
 
