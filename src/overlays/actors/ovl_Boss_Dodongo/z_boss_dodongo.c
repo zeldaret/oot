@@ -337,9 +337,9 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x100100FF);
             }
             if (this->unk_196 == 0) {
-                Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->unk_3EC.x + 30.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-                Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->unk_3EC.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
-                Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->unk_3EC.z + 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->vec.x + 30.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->vec.z + 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
                 Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
             } else {
                 this->cameraAt.x = player->actor.posRot.pos.x;
@@ -370,10 +370,10 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
         case 3:
             func_808C32F4(this, globalCtx);
             Math_SmoothScaleMaxMinF(&this->unk_20C, sinf(this->unk_19E * 0.05f) * 0.1f, 1.0f, 0.01f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->unk_3EC.x + 90.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->unk_3EC.y + 50.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->unk_3EC.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraAt.y, this->unk_3EC.y - 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->vec.x + 90.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->vec.y + 50.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraAt.y, this->vec.y - 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
             if (fabsf(player->actor.posRot.pos.x - this->actor.posRot.pos.x) < 200.0f) {
                 this->unk_19C = 4;
@@ -397,9 +397,9 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
                                     0.0f);
             Math_SmoothScaleMaxMinF(&this->cameraEye.z, player->actor.posRot.pos.z - 60.0f, 0.2f, this->unk_204 * 20.0f,
                                     0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraAt.x, this->unk_3EC.x, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraAt.y, this->unk_3EC.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->cameraAt.z, this->unk_3EC.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraAt.x, this->vec.x, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraAt.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->cameraAt.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
             if (this->unk_196 == 0) {
                 SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1069,9 +1069,9 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     BossDodongo* this = THIS;
 
     if (limbIndex == 6) {
-        Matrix_MultVec3f(&D_808CA45C, &this->unk_3EC);
+        Matrix_MultVec3f(&D_808CA45C, &this->vec);
         Matrix_MultVec3f(&D_808CA450, &this->actor.posRot2.pos);
-        Matrix_MultVec3f(&D_808CA468, &this->unk_3F8);
+        Matrix_MultVec3f(&D_808CA468, &this->firePos);
         Matrix_MultVec3f(&D_808CA474, &this->mouthPos);
     } else if (limbIndex == 39) {
         Matrix_MultVec3f(&D_808CA480, &this->unk_410);
@@ -1173,8 +1173,8 @@ void func_808C524C(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void func_808C52E0(BossDodongo* this, GlobalContext* globalCtx, s16 arg2) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->unk_3EC.x,
-                       this->unk_3EC.y - 20.0f, this->unk_3EC.z, 0, this->actor.shape.rot.y, 0, arg2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->vec.x,
+                       this->vec.y - 20.0f, this->vec.z, 0, this->actor.shape.rot.y, 0, arg2);
 }
 
 void func_808C5354(BossDodongo* this, GlobalContext* globalCtx) { // Damage Check

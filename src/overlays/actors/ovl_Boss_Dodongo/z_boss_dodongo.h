@@ -89,8 +89,8 @@ typedef struct BossDodongo {
     /* 0x0248 */ char unk_248[0x14];
     /* 0x025C */ f32 unk_25C[50];
     /* 0x0324 */ f32 unk_324[50];
-    /* 0x03EC */ Vec3f unk_3EC;
-    /* 0x03F8 */ Vec3f unk_3F8;
+    /* 0x03EC */ Vec3f vec;
+    /* 0x03F8 */ Vec3f firePos;
     /* 0x0404 */ Vec3f unk_404;
     /* 0x0410 */ Vec3f unk_410;
     /* 0x041C */ Vec3f mouthPos;

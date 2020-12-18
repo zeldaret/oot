@@ -1,7 +1,7 @@
 /*
  * File: z_en_bdfire.c
  * Overlay: ovl_En_Bdfire
- * Description: King Dodongo's Fire
+ * Description: King Dodongo's Fire Breath
  */
 
 #include "z_en_bdfire.h"
@@ -15,7 +15,7 @@ void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809BC8C8(EnBdfire* this, GlobalContext* globalCtx);
+void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx);
 
@@ -33,32 +33,30 @@ const ActorInit En_Bdfire_InitVars = {
     (ActorFunc)EnBdfire_Draw,
 };
 
-Gfx* D_809BCB10[] = { 0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0, 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0 };
-
-void func_809BC030(EnBdfire* this, EnBdfireActionFunc actionFunc) {
-    this->actionFunc2 = actionFunc;
+void EnBdfire_SetupAction(EnBdfire* this, EnBdfireActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
-void func_809BC038(EnBdfire* this, EnBdfireActionFunc actionFunc) { // Set Draw func?
-    this->actionFunc = actionFunc;
+void EnbdFire_SetupDraw(EnBdfire* this, EnBdfireDrawFunc drawFunc) {
+    this->drawFunc = drawFunc;
 }
 
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBdfire* this = THIS;
     s32 pad;
 
-    Actor_SetScale(this, 0.6f);
-    func_809BC038(this, func_809BC8C8);
+    Actor_SetScale(&this->actor, 0.6f);
+    EnbdFire_SetupDraw(this, EnBdfire_DrawFire);
     if (this->actor.params < 0) {
-        func_809BC030(this, func_809BC2A4);
+        EnBdfire_SetupAction(this, func_809BC2A4);
         this->actor.scale.x = 2.8f;
         this->unk_154 = 90;
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                   this->actor.posRot.pos.z, 255, 255, 255, 300);
-        this->lightInfo2 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
         return;
     }
-    func_809BC030(this, func_809BC598);
+    EnBdfire_SetupAction(this, func_809BC598);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
     this->actor.speedXZ = 30.0f;
     this->unk_154 = (25 - (s32)(this->actor.params * 0.8f));
@@ -77,9 +75,14 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_156 = (Math_Rand_ZeroOne() * 8.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/EnBdfire_Destroy.s")
+void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnBdfire* this = THIS;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/func_809BC2A4.s")
+    if (this->actor.params < 0) {
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    }
+}
+
 void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
     BossDodongo* kingDodongo;
     s32 temp;
@@ -95,7 +98,7 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        if (this->unk_154 < 0x46) {
+        if (this->unk_154 < 70) {
             Math_SmoothScaleMaxMinF(&this->unk_18C, 128.0f, 0.1f, 1.5f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->unk_190, 255.0f, 1.0f, 3.8249998f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->unk_194, 100.0f, 1.0f, 1.5f, 0.0f);
@@ -115,21 +118,23 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
             }
         }
         Actor_SetScale(&this->actor, this->actor.scale.x);
-        Lights_PointSetColorAndRadius(&this->lightInfoNoGlow, this->unk_190, this->unk_194, 0, 0x12C);
+        Lights_PointSetColorAndRadius(&this->lightInfoNoGlow, this->unk_190, this->unk_194, 0, 300);
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/func_809BC598.s")
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-    Player* player;
-    s16 phi_v1;
     s16 phi_v1_2;
+    Player* player;
+    f32 distToBurn;
+    BossDodongo* bossDodongo;
     s16 i;
-
+    s16 phi_v1;
+    s32 temp;
     player = PLAYER;
-    this->unk_158 = ((BossDodongo*)this->actor.parent)->unk_1A2;
-    phi_v1_2 = (u16)0;
+
+    bossDodongo = ((BossDodongo*)this->actor.parent);
+    this->unk_158 = bossDodongo->unk_1A2;
+    phi_v1_2 = 0;
     if (this->actor.params == 0) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -139,42 +144,43 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     if (this->actor.posRot.pos.x < -1390.0f) {
         if (this->actor.velocity.x < -10.0f) {
             this->actor.posRot.pos.x = -1390.0f;
-            phi_v1_2 = (u16)1;
+            phi_v1_2 = 1;
         }
     }
     if ((this->actor.posRot.pos.x > -390.0f) && (this->actor.velocity.x > 10.0f)) {
         this->actor.posRot.pos.x = -390.0f;
-        phi_v1_2 = (u16)1;
+        phi_v1_2 = 1;
     }
     if ((this->actor.posRot.pos.z > -2804.0f) && (this->actor.velocity.z > 10.0f)) {
         this->actor.posRot.pos.z = -2804.0f;
-        phi_v1_2 = (u16)1;
+        phi_v1_2 = 1;
     }
     if ((this->actor.posRot.pos.z < -3804.0f) && (this->actor.velocity.z < -10.0f)) {
         this->actor.posRot.pos.z = -3804.0f;
-        phi_v1_2 = (u16)1;
+        phi_v1_2 = 1;
     }
     if (phi_v1_2 != 0) {
-        if ((s16)this->unk_158 == 0) {
-            this->actor.posRot.rot.y = this->actor.posRot.rot.y + 0x4000;
+        if (this->unk_158 == 0) {
+            this->actor.posRot.rot.y += 0x4000;
         } else {
-            this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0x4000;
+            this->actor.posRot.rot.y -= 0x4000;
         }
     }
     if (this->unk_154 == 0) {
-        this->unk_154 = (u16)0;
+        temp = 0;
     } else {
-        this->unk_154 = this->unk_154 - 1;
+        this->unk_154--;
+        temp = this->unk_154;
     }
-    if (this->unk_154 == 0) {
+    if (temp == 0) {
         Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f);
         if (this->unk_18C < 10.0f) {
             Actor_Kill(&this->actor);
             return;
         }
-    } else if (player->isBurning == false) {
-        temp_f0 = (this->actor.scale.x * 130.0f) / 4.2000003f;
-        if (this->actor.xyzDistFromLinkSq < SQ(temp_f0)) {
+    } else if (!player->isBurning) {
+        distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
+        if (this->actor.xyzDistFromLinkSq < SQ(distToBurn)) {
             for (i = 0; i < 18; i++) {
                 player->flameTimers[i] = Math_Rand_S16Offset(0, 200);
             }
@@ -185,9 +191,17 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/EnBdfire_Update.s")
+void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnBdfire* this = THIS;
 
-void func_809BC8C8(EnBdfire* this, GlobalContext* globalCtx) {
+    this->unk_156++;
+    this->actionFunc(this, globalCtx);
+    Actor_MoveForward(&this->actor);
+}
+
+void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
+    static Gfx* D_809BCB10[] = { 0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0,
+                                 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0 };
     s16 temp;
     s32 pad;
 
@@ -202,13 +216,17 @@ void func_809BC8C8(EnBdfire* this, GlobalContext* globalCtx) {
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 100, (s8)this->unk_18C);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0xC8, 0x00, 0x00, 0x00);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809BCB10[temp]));
+    gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 0);
+    gSPSegment(POLY_XLU_DISP++, 0, SEGMENTED_TO_VIRTUAL(D_809BCB10[temp]));
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 0x287),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_0601D950);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 0x28B);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 651);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bdfire/EnBdfire_Draw.s")
+void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBdfire* this = THIS;
+
+    this->drawFunc(this, globalCtx);
+}
