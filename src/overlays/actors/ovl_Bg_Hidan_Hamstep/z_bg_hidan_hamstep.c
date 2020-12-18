@@ -78,41 +78,37 @@ void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 actionState) {
     this->actionFunc = sActionFuncs[actionState];
 }
 
-#ifdef NON_MATCHING
-s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx) {
+s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx) {
+    BgHidanHamstep* step = this;
+    s32 i;
     Vec3f pos;
-    BgHidanHamstep* fireTempleStep;
-    f32 factor;
     f32 sin;
     f32 cos;
-    s32 i;
-    BgHidanHamstep* parent;
+    s16 params;
+    GlobalContext* globalCtx2 = globalCtx;
 
+    pos = pos; // Required to match
     pos.y = this->dyna.actor.initPosRot.pos.y - 100.0f;
     sin = Math_Sins(this->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_Coss(this->dyna.actor.shape.rot.y + 0x8000);
 
     for (i = 0; i < 5; i++) {
-        parent = this;
-        factor = (i * 160.0f) + 60.0f;
-        pos.x = (factor * sin) + this->dyna.actor.initPosRot.pos.x;
-        cos = Math_Coss(this->dyna.actor.shape.rot.y + 0x8000);
-        pos.z = (factor * cos) + this->dyna.actor.initPosRot.pos.z;
+        pos.x = (((i * 160.0f) + 60.0f) * sin) + this->dyna.actor.initPosRot.pos.x;
+        pos.z = (((i * 160.0f) + 60.0f) * cos) + this->dyna.actor.initPosRot.pos.z;
 
-        fireTempleStep =
-            Actor_SpawnAsChild(&globalCtx->actorCtx, parent, globalCtx, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
-                               this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y,
-                               this->dyna.actor.posRot.rot.z, (i + 1) & 0xFF | (this->dyna.actor.params & 0xFF00));
-        if (fireTempleStep == NULL) {
+        params = ((i + 1) & 0xFF);
+        params |= (this->dyna.actor.params & 0xFF00);
+
+        step = (BgHidanHamstep*)Actor_SpawnAsChild(
+            &globalCtx2->actorCtx, step, globalCtx2, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
+            this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z, params);
+
+        if (step == NULL) {
             return 0;
         }
-        parent = fireTempleStep;
     }
     return 1;
 }
-#else
-s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_8088805C.s")
-#endif
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
@@ -121,7 +117,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp48[3];
     s32 i;
     s32 i2;
-    BgHidanHamstep* fireTempleStep;
+    BgHidanHamstep* step;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
@@ -146,7 +142,8 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
         DynaPolyInfo_Alloc(&D_0600DD1C, &colHeader);
     }
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         if ((this->dyna.actor.params & 0xFF) == 0) {
@@ -169,16 +166,16 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params & 0xFF) == 0) {
         // Translation: Fire Temple Object [Hammer Step] appears
         osSyncPrintf("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
-        if (func_8088805C(this, globalCtx) == 0) {
-            fireTempleStep = this;
+        if (BgHidanHamstep_SpawnChildren(this, globalCtx) == 0) {
+            step = this;
 
             // Translation: [Hammer Step] I can't create a step!
             osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
             osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
-            while (fireTempleStep != NULL) {
-                Actor_Kill(&fireTempleStep->dyna.actor);
-                fireTempleStep = fireTempleStep->dyna.actor.child;
+            while (step != NULL) {
+                Actor_Kill(&step->dyna.actor);
+                step = step->dyna.actor.child;
             }
         }
     }
@@ -194,8 +191,8 @@ void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808884C8(BgHidanHamstep* fireTempleStep, GlobalContext* globalCtx) {
-    Vec3f pos = fireTempleStep->dyna.actor.posRot.pos;
+void func_808884C8(BgHidanHamstep* step, GlobalContext* globalCtx) {
+    Vec3f pos = step->dyna.actor.posRot.pos;
     s32 i;
     f32 sin;
     f32 cos;
@@ -204,16 +201,14 @@ void func_808884C8(BgHidanHamstep* fireTempleStep, GlobalContext* globalCtx) {
 
     func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 0);
 
-    sin = Math_Sins(fireTempleStep->dyna.actor.shape.rot.y + 0x8000);
-    cos = Math_Coss(fireTempleStep->dyna.actor.shape.rot.y + 0x8000);
+    sin = Math_Sins(step->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_Coss(step->dyna.actor.shape.rot.y + 0x8000);
 
-    pos.y = fireTempleStep->dyna.actor.posRot.pos.y;
+    pos.y = step->dyna.actor.posRot.pos.y;
 
     for (i = 0; i < ARRAY_COUNT(sEffectPositions); i++) {
-        pos.x =
-            (sEffectPositions[i][1] * sin) + (sEffectPositions[i][0] * cos) + fireTempleStep->dyna.actor.posRot.pos.x;
-        pos.z =
-            ((sEffectPositions[i][1] * cos) - (sEffectPositions[i][0] * sin)) + fireTempleStep->dyna.actor.posRot.pos.z;
+        pos.x = (sEffectPositions[i][1] * sin) + (sEffectPositions[i][0] * cos) + step->dyna.actor.posRot.pos.x;
+        pos.z = ((sEffectPositions[i][1] * cos) - (sEffectPositions[i][0] * sin)) + step->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &pos, 0.0f, 0, 150, 150, 0);
     }
 }
