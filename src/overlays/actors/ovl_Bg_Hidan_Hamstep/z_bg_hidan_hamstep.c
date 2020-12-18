@@ -15,8 +15,8 @@ void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888C38(BgHidanHamstep* this, GlobalContext* globalCtx);
 s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx);
-void func_80888734(Actor* thisx);
-void func_80888694(Actor* thisx, Actor* parent);
+void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent);
+void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_0600A548;
 extern UNK_TYPE D_0600A668;
@@ -64,14 +64,10 @@ u32 D_80888E40[] = {
     0x48500064,
 };
 
-u32 D_80888E44[] = {
-    0xC2C80000, 0x42200000, 0x42C80000, 0x42200000, 0xC2C80000, 0x00000000, 0x42C80000, 0x00000000,
-    0xC2C80000, 0xC2200000, 0x42C80000, 0x42200000, 0xC2C80000, 0xC2A00000, 0xC2480000, 0xC2A00000,
-    0x00000000, 0xC2A00000, 0x42480000, 0xC2A00000, 0x42C80000, 0xC2A00000,
-};
-
-u32 D_80888E9C[] = {
-    0x00000000,
+Vec2f D_80888E44[] = {
+    { -100.0f, 40.0f },  { 100.0f, 40.0f }, { -100.0f, 0.0f },   { 100.0f, 0.0f },
+    { -100.0f, -40.0f }, { 100.0f, 40.0f }, { -100.0f, -80.0f }, { -50.0f, -80.0f },
+    { 0.0f, -80.0f },    { 50.0f, -80.0f }, { 100.0f, -80.0f },
 };
 
 void func_80888040(BgHidanHamstep* this, s32 actionState) {
@@ -84,11 +80,11 @@ void func_80888040(BgHidanHamstep* this, s32 actionState) {
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
     s32 pad;
-    s32 sp6C = 0;
+    s32 pos = 0;
     Vec3f sp48[3];
     s32 i;
     s32 i2;
-    Actor* fireTempleStep;
+    BgHidanHamstep* fireTempleStep;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Actor_ProcessInitChain(&this->dyna.actor, &D_80888E40);
@@ -108,12 +104,12 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        DynaPolyInfo_Alloc(&D_0600DE44, &sp6C);
+        DynaPolyInfo_Alloc(&D_0600DE44, &pos);
     } else {
-        DynaPolyInfo_Alloc(&D_0600DD1C, &sp6C);
+        DynaPolyInfo_Alloc(&D_0600DD1C, &pos);
     }
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp6C);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, pos);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         if ((this->dyna.actor.params & 0xFF) == 0) {
@@ -137,15 +133,15 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Translation: Fire Temple Object [Hammer Step] appears
         osSyncPrintf("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
         if (func_8088805C(this, globalCtx) == 0) {
-            fireTempleStep = &this->dyna.actor;
+            fireTempleStep = this;
 
             // Translation: [Hammer Step] I can't spawn a step!
             osSyncPrintf("【ハンマーステップ】 足場産れない！！\n");
             osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
             while (fireTempleStep != NULL) {
-                Actor_Kill(fireTempleStep);
-                fireTempleStep = fireTempleStep->child;
+                Actor_Kill(&fireTempleStep->dyna.actor);
+                fireTempleStep = fireTempleStep->dyna.actor.child;
             }
         }
     }
@@ -161,9 +157,38 @@ void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_808884C8.s")
+void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx) {
+    Vec3f pos = actor->dyna.actor.posRot.pos;
+    s32 i;
+    f32 sin;
+    f32 cos;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_80888638.s")
+    pos.y -= 20.0f;
+
+    func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 0);
+
+    sin = Math_Sins(actor->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_Coss(actor->dyna.actor.shape.rot.y + 0x8000);
+
+    pos.y = actor->dyna.actor.posRot.pos.y;
+
+    for (i = 0; i < ARRAY_COUNT(D_80888E44); i++) {
+        pos.x = (D_80888E44[i].y * sin) + (D_80888E44[i].x * cos) + actor->dyna.actor.posRot.pos.x;
+        pos.z = ((D_80888E44[i].y * cos) - (D_80888E44[i].x * sin)) + actor->dyna.actor.posRot.pos.z;
+        func_80033480(globalCtx, &pos, 0.0f, 0, 150, 150, 0);
+    }
+}
+
+void func_80888638(BgHidanHamstep* this, GlobalContext* globalCtx) {
+    BgHidanHamstep* child = this->dyna.actor.child;
+
+    while (child != NULL) {
+        if ((child->dyna.actor.params & 0xFF) != 0) {
+            func_808884C8(child, globalCtx);
+        }
+        child = child->dyna.actor.child;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_80888694.s")
 
@@ -181,16 +206,19 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
     Actor_MoveForward(&this->dyna.actor);
-    func_80888694(&this->dyna.actor, this->dyna.actor.parent);
+    func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
+
     if (((this->dyna.actor.params & 0xFF) <= 0) || ((this->dyna.actor.params & 0xFF) >= 6)) {
         // Translation: [Hammer Step] arg_data strange (arg_data = %d)
         osSyncPrintf("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
         osSyncPrintf("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
+
     if (((this->dyna.actor.posRot.pos.y - this->dyna.actor.initPosRot.pos.y) <=
          D_80888D70[(this->dyna.actor.params & 0xFF) - 1]) &&
         (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
+
         if (this->unk_244 >= 7) {
             this->dyna.actor.posRot.pos.y =
                 D_80888D70[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
@@ -205,12 +233,15 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetQuakeValues(quakeIndex, 20, 1, 0, 0);
                 Quake_SetCountdown(quakeIndex, 7);
+
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
                 func_800AA000(10000.0f, 255, 20, 150);
-                func_808884C8(&this->dyna.actor, globalCtx);
+                func_808884C8(this, globalCtx);
+
                 if ((this->dyna.actor.params & 0xFF) == 5) {
                     func_80078884(NA_SE_SY_CORRECT_CHIME);
                 }
+
                 osSyncPrintf("B(%d)\n", this->dyna.actor.params);
             }
         }
