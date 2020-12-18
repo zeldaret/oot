@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_hamstep.c
+ * Overlay: ovl_Bg_Hidan_Hamstep
+ * Description: Stone Steps and Platforms (Fire Temple)
+ */
+
 #include "z_bg_hidan_hamstep.h"
 
 #define FLAGS 0x00000000
@@ -13,21 +19,18 @@ void func_808887C4(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx);
-void func_80888C38(BgHidanHamstep* this, GlobalContext* globalCtx);
-s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx);
-void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent);
-void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx);
+void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_0600A548;
 extern UNK_TYPE D_0600A668;
 extern UNK_TYPE D_0600DE44;
 extern UNK_TYPE D_0600DD1C;
 
-f32 D_80888D70[] = {
+static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
 };
 
-static ColliderTrisItemInit sTrisItemsInit[2] = {
+static ColliderTrisItemInit sTrisItemsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { { { -20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, 20.0f } } },
@@ -56,26 +59,58 @@ const ActorInit Bg_Hidan_Hamstep_InitVars = {
     (ActorFunc)BgHidanHamstep_Draw,
 };
 
-u32 D_80888E2C[] = {
-    func_808887C4, func_80888860, func_808889B8, func_80888A58, func_80888C38,
+static BgHidanHamstepActionFunc sActionFuncs[] = {
+    func_808887C4, func_80888860, func_808889B8, func_80888A58, BgHidanHamstep_DoNothing,
 };
 
-u32 D_80888E40[] = {
-    0x48500064,
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-Vec2f D_80888E44[] = {
+f32 sEffectPositions[][2] = {
     { -100.0f, 40.0f },  { 100.0f, 40.0f }, { -100.0f, 0.0f },   { 100.0f, 0.0f },
     { -100.0f, -40.0f }, { 100.0f, 40.0f }, { -100.0f, -80.0f }, { -50.0f, -80.0f },
     { 0.0f, -80.0f },    { 50.0f, -80.0f }, { 100.0f, -80.0f },
 };
 
-void func_80888040(BgHidanHamstep* this, s32 actionState) {
+void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 actionState) {
     this->actionState = actionState;
-    this->actionFunc = D_80888E2C[actionState];
+    this->actionFunc = sActionFuncs[actionState];
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_8088805C.s")
+s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx); /*{
+    Vec3f pos;
+    BgHidanHamstep* fireTempleStep;
+    f32 factor;
+    f32 sin;
+    f32 cos;
+    s32 i;
+    BgHidanHamstep* parent;
+
+    pos.y = this->dyna.actor.initPosRot.pos.y - 100.0f;
+    sin = Math_Sins(this->dyna.actor.shape.rot.y + 0x8000);
+
+    for (i = 0; i < 5; i++) {
+        parent = this;
+        factor = (i * 160.0f) + 60.0f;
+        pos.x = (factor * sin) + this->dyna.actor.initPosRot.pos.x;
+        cos = Math_Coss(this->dyna.actor.shape.rot.y + 0x8000);
+        pos.z = (factor * cos) + this->dyna.actor.initPosRot.pos.z;
+
+        fireTempleStep =
+            Actor_SpawnAsChild(&globalCtx->actorCtx, parent, globalCtx, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
+                               this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y,
+                               this->dyna.actor.posRot.rot.z, (i + 1) & 0xFF | (this->dyna.actor.params & 0xFF00));
+        if (fireTempleStep == NULL) {
+            return 0;
+        }
+        parent = fireTempleStep;
+    }
+    return 1;
+}
+*/
+
 
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
@@ -87,7 +122,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* fireTempleStep;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
-    Actor_ProcessInitChain(&this->dyna.actor, &D_80888E40);
+    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
         Collider_InitTris(globalCtx, &this->collider);
@@ -114,16 +149,16 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         if ((this->dyna.actor.params & 0xFF) == 0) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + (-20.0f);
-            func_80888040(this, 4);
+            BgHidanHamstep_SetupAction(this, 4);
         } else {
             this->dyna.actor.posRot.pos.y =
-                D_80888D70[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
-            func_80888040(this, 4);
+                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
+            BgHidanHamstep_SetupAction(this, 4);
         }
     } else if ((this->dyna.actor.params & 0xFF) == 0) {
-        func_80888040(this, 0);
+        BgHidanHamstep_SetupAction(this, 0);
     } else {
-        func_80888040(this, 2);
+        BgHidanHamstep_SetupAction(this, 2);
     }
 
     this->dyna.actor.gravity = -1.2f;
@@ -172,9 +207,9 @@ void func_808884C8(BgHidanHamstep* actor, GlobalContext* globalCtx) {
 
     pos.y = actor->dyna.actor.posRot.pos.y;
 
-    for (i = 0; i < ARRAY_COUNT(D_80888E44); i++) {
-        pos.x = (D_80888E44[i].y * sin) + (D_80888E44[i].x * cos) + actor->dyna.actor.posRot.pos.x;
-        pos.z = ((D_80888E44[i].y * cos) - (D_80888E44[i].x * sin)) + actor->dyna.actor.posRot.pos.z;
+    for (i = 0; i < ARRAY_COUNT(sEffectPositions); i++) {
+        pos.x = (sEffectPositions[i][1] * sin) + (sEffectPositions[i][0] * cos) + actor->dyna.actor.posRot.pos.x;
+        pos.z = ((sEffectPositions[i][1] * cos) - (sEffectPositions[i][0] * sin)) + actor->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &pos, 0.0f, 0, 150, 150, 0);
     }
 }
@@ -190,15 +225,105 @@ void func_80888638(BgHidanHamstep* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_80888694.s")
+void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent) {
+    BgHidanHamstep* child;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_80888734.s")
+    if ((this->dyna.actor.params & 0xFF) >= 2) {
+        if (parent->dyna.actor.posRot.pos.y < this->dyna.actor.posRot.pos.y) {
+            this->dyna.actor.posRot.pos.y = parent->dyna.actor.posRot.pos.y;
+        } else if ((this->dyna.actor.posRot.pos.y - parent->dyna.actor.posRot.pos.y) < -100.0f) {
+            this->dyna.actor.posRot.pos.y = parent->dyna.actor.posRot.pos.y - 100.0f;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_808887C4.s")
+    child = this->dyna.actor.child;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_80888860.s")
+    while (child != NULL) {
+        if (this->dyna.actor.posRot.pos.y < child->dyna.actor.posRot.pos.y) {
+            child->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y;
+        }
+        child = child->dyna.actor.child;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hamstep/func_808889B8.s")
+void func_80888734(BgHidanHamstep* this) {
+    BgHidanHamstep* parent = this->dyna.actor.parent;
+    f32 factor = SREG(30) * 0.5f;
+
+    if (parent != NULL) {
+        this->dyna.actor.velocity.y = parent->dyna.actor.velocity.y;
+
+        if ((this->dyna.actor.params & 0xFF) == 1) {
+            this->dyna.actor.posRot.pos.y = parent->dyna.actor.posRot.pos.y - 100.0f;
+        } else {
+            this->dyna.actor.posRot.pos.y += (this->dyna.actor.velocity.y * factor);
+        }
+
+        func_80888694(this, parent);
+    }
+}
+
+void func_808887C4(BgHidanHamstep* this, GlobalContext* globalCtx) {
+    if (this->collider.base.acFlags & 2) {
+        func_800800F8(globalCtx, 3310, 100, &this->dyna.actor, 0);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
+        this->collider.base.acFlags = 0;
+        BgHidanHamstep_SetupAction(this, 1);
+        Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF);
+    } else {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    }
+}
+
+void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 pad2;
+    s32 quakeIndex;
+
+    Actor_MoveForward(&this->dyna.actor);
+    if (((this->dyna.actor.posRot.pos.y - this->dyna.actor.initPosRot.pos.y) <
+         (-20.0f - this->dyna.actor.minVelocityY)) &&
+        (this->dyna.actor.velocity.y <= 0.0f)) {
+        this->unk_244++;
+
+        if (this->unk_244 >= 7) {
+            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + -20.0f;
+            BgHidanHamstep_SetupAction(this, 4);
+        } else {
+            this->dyna.actor.velocity.y *= -0.24f;
+
+            if (1) {}
+
+            if (this->unk_244 == 1) {
+                quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+                Quake_SetSpeed(quakeIndex, -15536);
+                Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
+                Quake_SetCountdown(quakeIndex, 20);
+                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+                func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 255, 20, 150);
+                func_80888638(&this->dyna.actor, globalCtx);
+                osSyncPrintf("A(%d)\n", this->dyna.actor.params);
+            }
+        }
+    }
+}
+
+void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx) {
+    s32 pad;
+    BgHidanHamstep* parent = this->dyna.actor.parent;
+
+    func_80888734(this);
+
+    if ((parent->actionState == 4) || ((parent->actionState == 3) && (parent->unk_244 >= 5))) {
+        if ((this->dyna.actor.params & 0xFF) == 1) {
+            this->dyna.actor.posRot.pos.y =
+                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
+            BgHidanHamstep_SetupAction(this, 4);
+        } else {
+            BgHidanHamstep_SetupAction(this, 3);
+        }
+    }
+}
 
 void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -215,14 +340,14 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     }
 
     if (((this->dyna.actor.posRot.pos.y - this->dyna.actor.initPosRot.pos.y) <=
-         D_80888D70[(this->dyna.actor.params & 0xFF) - 1]) &&
+         sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1]) &&
         (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
 
         if (this->unk_244 >= 7) {
             this->dyna.actor.posRot.pos.y =
-                D_80888D70[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
-            func_80888040(this, 3);
+                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
+            BgHidanHamstep_SetupAction(this, 3);
         } else {
             this->dyna.actor.velocity.y *= -0.24f;
 
@@ -248,7 +373,7 @@ void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80888C38(BgHidanHamstep* this, GlobalContext* globalCtx) {
+void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx) {
