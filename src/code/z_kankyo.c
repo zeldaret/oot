@@ -148,11 +148,11 @@ struct_8015FD70 D_8015FD70;
 s16 D_8015FD7C;
 s16 D_8015FD7E;
 s16 D_8015FD80;
-LightNode* D_8015FD84;
-LightInfo D_8015FD88;
-LightNode* D_8015FD98;
-LightInfo D_8015FDA0;
-u8 D_8015FDAE;
+LightNode* sNGameOverLightNode;
+LightInfo sNGameOverLightInfo;
+LightNode* sSGameOverLightNode;
+LightInfo sSGameOverLightInfo;
+u8 sGameOverLightsRGB;
 s32 D_8015FDB0[4];
 
 void func_80075B44(GlobalContext* globalCtx);
@@ -707,7 +707,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 #ifdef NON_EQUIVALENT
 // incomplete
 void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
-                   MessageContext* msgCtx, u16* unk_10A20, GraphicsContext* gfxCtx_) {
+                   MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx_) {
     if (gSaveContext.gameMode != 0 && gSaveContext.gameMode != 3) {
         func_800AA16C(globalCtx);
     }
@@ -732,7 +732,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                 gSaveContext.nextDayTime = 0xFFFF;
             }
         }
-        if (pauseCtx->state == 0 && *unk_10A20 == 0 && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
+        if (pauseCtx->state == 0 && gameOverCtx->state == 0 && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
             gSaveContext.nextDayTime == 3 && envCtx->unk_1A == 0 && func_800C0D28(globalCtx) == 0 &&
             (globalCtx->transitionMode == 0 || gSaveContext.gameMode != 0)) {
             if (gSaveContext.nightFlag == 0 || D_8011FB40 >= 400) {
@@ -1490,7 +1490,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
             func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
         }
-        
+
         if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
             globalCtx->envCtx.unk_E0 = 3;
         } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < 0x4555) {
@@ -1597,38 +1597,36 @@ void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx) {
     }
 }
 
-// init game over lights?
-void func_80075F14(GlobalContext* globalCtx) {
+void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    D_8015FDAE = 0;
+    sGameOverLightsRGB = 0;
 
-    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
                               (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f, 0, 0, 0,
                               255);
-    D_8015FD84 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015FD88);
+    sNGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sNGameOverLightInfo);
 
-    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f,
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
                               (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f, 0, 0, 0,
                               0xFF);
-    D_8015FD98 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015FDA0);
+    sSGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sSGameOverLightInfo);
 }
 
-// update game over lights?
-void func_800760F4(GlobalContext* globalCtx) {
+void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 i;
 
-    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
                               (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
-                              D_8015FDAE, D_8015FDAE, D_8015FDAE, 255);
-    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f,
+                              sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
                               (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
-                              D_8015FDAE, D_8015FDAE, D_8015FDAE, 255);
+                              sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
 
-    if (D_8015FDAE < 254) {
-        D_8015FDAE += 2;
+    if (sGameOverLightsRGB < 254) {
+        sGameOverLightsRGB += 2;
     }
 
     if (func_800C0CB8(globalCtx)) {
@@ -1652,31 +1650,30 @@ void func_800760F4(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E2[0] = 0;
         globalCtx->envCtx.unk_E2[1] = 0;
         globalCtx->envCtx.unk_E2[2] = 0;
-        globalCtx->envCtx.unk_E2[3] = D_8015FDAE;
+        globalCtx->envCtx.unk_E2[3] = sGameOverLightsRGB;
     }
 }
 
-// fade out game over lights?
-void func_800763A8(GlobalContext* globalCtx) {
+void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 i;
 
-    if (D_8015FDAE >= 3) {
-        D_8015FDAE -= 3;
+    if (sGameOverLightsRGB >= 3) {
+        sGameOverLightsRGB -= 3;
     } else {
-        D_8015FDAE = 0;
+        sGameOverLightsRGB = 0;
     }
 
-    if (D_8015FDAE == 1) {
-        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015FD84);
-        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015FD98);
-    } else if (D_8015FDAE >= 2) {
-        Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f,
+    if (sGameOverLightsRGB == 1) {
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, sNGameOverLightNode);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, sSGameOverLightNode);
+    } else if (sGameOverLightsRGB >= 2) {
+        Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
                                   (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
-                                  D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
-        Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f,
+                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 0xFF);
+        Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
                                   (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
-                                  D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
+                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 0xFF);
     }
 
     if (func_800C0CB8(globalCtx)) {
@@ -1692,8 +1689,8 @@ void func_800763A8(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_E2[0] = 0;
         globalCtx->envCtx.unk_E2[1] = 0;
         globalCtx->envCtx.unk_E2[2] = 0;
-        globalCtx->envCtx.unk_E2[3] = D_8015FDAE;
-        if (D_8015FDAE == 0) {
+        globalCtx->envCtx.unk_E2[3] = sGameOverLightsRGB;
+        if (sGameOverLightsRGB == 0) {
             globalCtx->envCtx.unk_E1 = 0;
         }
     }

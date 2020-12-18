@@ -142,7 +142,7 @@ void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
  */
 f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
     f32 interpolated = Kankyo_InvLerp(globalCtx->csCtx.npcActions[csActionId]->endFrame,
-                                     globalCtx->csCtx.npcActions[csActionId]->startFrame, globalCtx->csCtx.frames);
+                                      globalCtx->csCtx.npcActions[csActionId]->startFrame, globalCtx->csCtx.frames);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }

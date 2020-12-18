@@ -122,7 +122,7 @@ glabel Gameplay_Init
 /* B33D44 800BCBA4 02202025 */   move  $a0, $s1
 /* B33D48 800BCBA8 0C0443DA */  jal   func_80110F68
 /* B33D4C 800BCBAC 02202025 */   move  $a0, $s1
-/* B33D50 800BCBB0 0C044114 */  jal   func_80110450
+/* B33D50 800BCBB0 0C044114 */  jal   GameOver_Init
 /* B33D54 800BCBB4 02202025 */   move  $a0, $s1
 /* B33D58 800BCBB8 0C01AE80 */  jal   func_8006BA00
 /* B33D5C 800BCBBC 02202025 */   move  $a0, $s1
