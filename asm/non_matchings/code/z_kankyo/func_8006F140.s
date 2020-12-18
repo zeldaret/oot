@@ -192,8 +192,8 @@ glabel Kankyo_Init
 /* AE6590 8006F3F0 A6000002 */  sh    $zero, 2($s0)
 /* AE6594 8006F3F4 E606000C */  swc1  $f6, 0xc($s0)
 /* AE6598 8006F3F8 8C6D0000 */  lw    $t5, ($v1)
-/* AE659C 8006F3FC 3C048012 */  lui   $a0, %hi(D_8011FB40) # $a0, 0x8012
-/* AE65A0 8006F400 2484FB40 */  addiu $a0, %lo(D_8011FB40) # addiu $a0, $a0, -0x4c0
+/* AE659C 8006F3FC 3C048012 */  lui   $a0, %hi(gTimeIncrement) # $a0, 0x8012
+/* AE65A0 8006F400 2484FB40 */  addiu $a0, %lo(gTimeIncrement) # addiu $a0, $a0, -0x4c0
 /* AE65A4 8006F404 A4800000 */  sh    $zero, ($a0)
 /* AE65A8 8006F408 A5A00032 */  sh    $zero, 0x32($t5)
 /* AE65AC 8006F40C 8C6E0000 */  lw    $t6, ($v1)

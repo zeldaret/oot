@@ -82,7 +82,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (D_8011FB40 != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
+        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
             if (globalCtx->msgCtx.unk_E3F0 != 0x31 || globalCtx->msgCtx.unk_E3EE != 8) {
                 gSaveContext.unk_1422 = 1;
                 osSyncPrintf(VT_FGCOL(YELLOW));

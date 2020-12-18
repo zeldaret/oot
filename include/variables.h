@@ -231,7 +231,7 @@ extern u8 gWeatherMode;
 extern u8 D_8011FB34;
 extern u8 D_8011FB38;
 extern u8 D_8011FB3C;
-extern u16 D_8011FB40;
+extern u16 gTimeIncrement;
 extern u16 D_8011FB44;
 extern struct_8011FC1C D_8011FC1C[][9];
 extern RomFile D_8011FD3C[][2];

@@ -133,9 +133,9 @@ glabel BgSpot00Hanebasi_Update
 /* 00A0C 808AA18C 2508E660 */  addiu   $t0, %lo(gSaveContext)
 /* 00A10 808AA190 8D041360 */  lw      $a0, 0x1360($t0)           ## 8015F9C0
 /* 00A14 808AA194 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
-/* 00A18 808AA198 3C058012 */  lui     $a1, %hi(D_8011FB40)
+/* 00A18 808AA198 3C058012 */  lui     $a1, %hi(gTimeIncrement)
 /* 00A1C 808AA19C 14C4003F */  bne     $a2, $a0, .L808AA29C       
-/* 00A20 808AA1A0 24A5FB40 */  addiu   $a1, %lo(D_8011FB40)
+/* 00A20 808AA1A0 24A5FB40 */  addiu   $a1, %lo(gTimeIncrement)
 /* 00A24 808AA1A4 94AF0000 */  lhu     $t7, 0x0000($a1)           ## 8011FB40
 /* 00A28 808AA1A8 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
 /* 00A2C 808AA1AC 55E10033 */  bnel    $t7, $at, .L808AA27C       

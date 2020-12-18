@@ -157,8 +157,8 @@ glabel func_80ACC00C
 /* 022A0 80ACC1C0 AE18040C */  sw      $t8, 0x040C($s0)           ## 0000040C
 /* 022A4 80ACC1C4 A200040A */  sb      $zero, 0x040A($s0)         ## 0000040A
 /* 022A8 80ACC1C8 A60803FC */  sh      $t0, 0x03FC($s0)           ## 000003FC
-/* 022AC 80ACC1CC 3C018012 */  lui     $at, %hi(D_8011FB40)
-/* 022B0 80ACC1D0 A420FB40 */  sh      $zero, %lo(D_8011FB40)($at)
+/* 022AC 80ACC1CC 3C018012 */  lui     $at, %hi(gTimeIncrement)
+/* 022B0 80ACC1D0 A420FB40 */  sh      $zero, %lo(gTimeIncrement)($at)
 /* 022B4 80ACC1D4 3C014214 */  lui     $at, 0x4214                ## $at = 42140000
 .L80ACC1D8:
 /* 022B8 80ACC1D8 44815000 */  mtc1    $at, $f10                  ## $f10 = 37.00

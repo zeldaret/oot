@@ -378,7 +378,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     if (gSaveContext.unk_1422 == 0) {
-        D_8011FB40 = globalCtx->envCtx.unk_02;
+        gTimeIncrement = globalCtx->envCtx.unk_02;
     }
 
     globalCtx->envCtx.sunPos.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;

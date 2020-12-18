@@ -161,7 +161,7 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                 ret = 1;
             }
         } else {
-            if (D_8011FB40 != 0) {
+            if (gTimeIncrement != 0) {
                 gSaveContext.dayTime += 0x14;
             }
         }
@@ -198,7 +198,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                 ret = 1;
             }
         } else {
-            if (D_8011FB40 != 0) {
+            if (gTimeIncrement != 0) {
                 gSaveContext.dayTime += 0x14;
             }
         }

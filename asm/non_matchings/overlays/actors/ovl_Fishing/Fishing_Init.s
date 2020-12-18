@@ -170,9 +170,9 @@ glabel Fishing_Init
 /* 00DB8 80B6A758 261030B8 */  addiu   $s0, $s0, %lo(D_80B830B8)  ## $s0 = 80B830B8
 /* 00DBC 80B6A75C 00330821 */  addu    $at, $at, $s3
 /* 00DC0 80B6A760 AC301E10 */  sw      $s0, 0x1E10($at)           ## 00011E10
-/* 00DC4 80B6A764 3C018012 */  lui     $at, %hi(D_8011FB40)
+/* 00DC4 80B6A764 3C018012 */  lui     $at, %hi(gTimeIncrement)
 /* 00DC8 80B6A768 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
-/* 00DCC 80B6A76C A42DFB40 */  sh      $t5, %lo(D_8011FB40)($at)
+/* 00DCC 80B6A76C A42DFB40 */  sh      $t5, %lo(gTimeIncrement)($at)
 /* 00DD0 80B6A770 3C0180B8 */  lui     $at, %hi(D_80B7E0AC)       ## $at = 80B80000
 /* 00DD4 80B6A774 A420E0AC */  sh      $zero, %lo(D_80B7E0AC)($at)
 /* 00DD8 80B6A778 3C0180B8 */  lui     $at, %hi(D_80B7E0A6)       ## $at = 80B80000

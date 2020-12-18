@@ -351,9 +351,9 @@ glabel func_808113A8
 /* 0DBDC 8081191C 3C080001 */  lui     $t0, 0x0001                ## $t0 = 00010000
 /* 0DBE0 80811920 3508C8E8 */  ori     $t0, $t0, 0xC8E8           ## $t0 = 0001C8E8
 /* 0DBE4 80811924 2419000A */  addiu   $t9, $zero, 0x000A         ## $t9 = 0000000A
-/* 0DBE8 80811928 3C018012 */  lui     $at, %hi(D_8011FB40)
+/* 0DBE8 80811928 3C018012 */  lui     $at, %hi(gTimeIncrement)
 /* 0DBEC 8081192C 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0DBF0 80811930 A439FB40 */  sh      $t9, %lo(D_8011FB40)($at)
+/* 0DBF0 80811930 A439FB40 */  sh      $t9, %lo(gTimeIncrement)($at)
 /* 0DBF4 80811934 02081021 */  addu    $v0, $s0, $t0              
 /* 0DBF8 80811938 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 0DBFC 8081193C 24090063 */  addiu   $t1, $zero, 0x0063         ## $t1 = 00000063

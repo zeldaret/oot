@@ -1279,7 +1279,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(88) != 0)) {
                     if (globalCtx->envCtx.unk_E6 != 0) {
-                        func_80076934(globalCtx);
+                        func_80076934(globalCtx, globalCtx->envCtx.unk_E6);
                     }
                 }
 

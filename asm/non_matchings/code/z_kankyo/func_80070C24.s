@@ -200,16 +200,16 @@ glabel Kankyo_Update
 /* AE8014 80070E74 8DAF1360 */   lw    $t7, 0x1360($t5)
 /* AE8018 80070E78 8DB80010 */  lw    $t8, 0x10($t5)
 .L80070E7C:
-/* AE801C 80070E7C 3C038012 */  lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE8020 80070E80 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE801C 80070E7C 3C038012 */  lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE8020 80070E80 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8024 80070E84 13000004 */  beqz  $t8, .L80070E98
 /* AE8028 80070E88 00000000 */   nop   
 /* AE802C 80070E8C 94620000 */  lhu   $v0, ($v1)
 /* AE8030 80070E90 28410190 */  slti  $at, $v0, 0x190
 /* AE8034 80070E94 14200007 */  bnez  $at, .L80070EB4
 .L80070E98:
-/* AE8038 80070E98 3C038012 */   lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE803C 80070E9C 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE8038 80070E98 3C038012 */   lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE803C 80070E9C 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8040 80070EA0 94790000 */  lhu   $t9, ($v1)
 /* AE8044 80070EA4 95AE000C */  lhu   $t6, 0xc($t5)
 /* AE8048 80070EA8 01D97821 */  addu  $t7, $t6, $t9
@@ -223,8 +223,8 @@ glabel Kankyo_Update
 .L80070EC4:
 /* AE8064 80070EC4 8DAF1360 */  lw    $t7, 0x1360($t5)
 .L80070EC8:
-/* AE8068 80070EC8 3C038012 */  lui   $v1, %hi(D_8011FB40) # $v1, 0x8012
-/* AE806C 80070ECC 2463FB40 */  addiu $v1, %lo(D_8011FB40) # addiu $v1, $v1, -0x4c0
+/* AE8068 80070EC8 3C038012 */  lui   $v1, %hi(gTimeIncrement) # $v1, 0x8012
+/* AE806C 80070ECC 2463FB40 */  addiu $v1, %lo(gTimeIncrement) # addiu $v1, $v1, -0x4c0
 /* AE8070 80070ED0 29E10005 */  slti  $at, $t7, 5
 /* AE8074 80070ED4 10200004 */  beqz  $at, .L80070EE8
 /* AE8078 80070ED8 3C0B8016 */   lui   $t3, %hi(gGameInfo) # $t3, 0x8016

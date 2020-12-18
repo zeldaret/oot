@@ -3891,7 +3891,7 @@ s16 sTimerDigits[5];
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
-    static s16 D_80125B64 = 0;
+    static s16 sOldTimeIncrement = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = PLAYER;
@@ -4213,17 +4213,17 @@ void Interface_Update(GlobalContext* globalCtx) {
                 }
 
                 gSaveContext.unk_1422 = 2;
-                D_80125B64 = D_8011FB40;
-                D_8011FB40 = 400;
+                sOldTimeIncrement = gTimeIncrement;
+                gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     gSaveContext.unk_1422 = 0;
-                    D_8011FB40 = D_80125B64;
+                    gTimeIncrement = sOldTimeIncrement;
                     globalCtx->msgCtx.unk_E3EE = 4;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
                 gSaveContext.unk_1422 = 0;
-                D_8011FB40 = D_80125B64;
+                gTimeIncrement = sOldTimeIncrement;
                 globalCtx->msgCtx.unk_E3EE = 4;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
