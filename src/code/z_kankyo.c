@@ -179,7 +179,7 @@ void Kankyo_GraphCallback(GraphicsContext* gfxCtx, void* param) {
 
 #ifdef NON_MATCHING
 // minor ordering, regalloc, implicit stack slots
-void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, UNK_TYPE unused) {
+void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unused) {
     GlobalContext* globalCtx = globalCtx2;
     u8 i;
     u16 uDayTime;
@@ -898,8 +898,6 @@ typedef enum {
     /* 2 */ LENS_FLARE_RING
 } LensFlareType;
 
-#define NUM_LENS_FLARES 10
-
 #ifdef NON_MATCHING
 void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                           Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
@@ -999,7 +997,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
             }
         }
 
-        for (i = 0; i < NUM_LENS_FLARES; i++) {
+        for (i = 0; i < ARRAY_COUNT(lensFlareTypes); i++) {
             Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
 
             if (arg9) {
