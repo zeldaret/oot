@@ -82,8 +82,11 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyCylinder(globalCtx, &THIS->collider);
+void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    ObjBombiwa* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
