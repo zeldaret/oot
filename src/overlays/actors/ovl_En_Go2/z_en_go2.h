@@ -26,6 +26,30 @@ typedef enum {
     /* 0X0D */ GORON_MARKET_BAZAAR
 } GoronType;
 
+typedef struct {
+    s16 unused;
+    s16 yDist;
+    s16 xzDist;
+    s16 radius;
+    s16 height;
+} EnGo2DataStruct1; // size 0xA
+
+typedef struct {
+    f32 shape_unk_10;
+    f32 scale;
+    s8 actor_unk_1F;
+    f32 unk_218;
+} EnGo2DataStruct2; // size 0x10
+
+typedef struct {
+    u8 unk_0;
+    f32 unk_4;
+    f32 unk_8;
+    s32 unk_C;
+    f32 unk_10;
+    f32 unk_14;
+} EnGo2DataStruct3; // size 0x18
+
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;

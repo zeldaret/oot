@@ -23,10 +23,22 @@ typedef s16 (*callback2_80A3ED24)(struct GlobalContext*, struct EnGo*);
 //     /* 0x90 */ GORON1_DMT_BIGGORON, // Biggoron
 // } GoronSize;
 
+// typedef enum {
+//     /* 0x00 */ GORON_FIRE_NEAR_BOSS,
+//     /* 0x10 */ GORON_FIRE_LAVA_ROOM_OPEN,
+//     /* 0x20 */ GORON_FIRE_LAVA_ROOM_BOMB,
+//     /* 0x30 */ GORON_FIRE_MAZE_LOWER,
+//     /* 0x40 */ GORON_FIRE_MAZE_UPPER,
+//     /* 0x50 */ GORON_FIRE_MAZE_SIDE_ROOM, 
+//     /* 0x60 */ GORON_FIRE_MAZE_SHORTCUT,
+//     /* 0x70 */ GORON_FIRE_HIGHEST, 
+//     /* 0x80 */ GORON_FIRE_BOSS_KEY, 
+// } GoronFireTemple;
+
 
 typedef struct {
-    /* 0x0000 */ u8 unk_0;
-    /* 0x0001 */ u8 unk_1;
+    /* 0x0000 */ u8 isActive;
+    /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 unk_2;
     /* 0x0004 */ f32 unk_4;
     /* 0x0008 */ f32 unk_8;
