@@ -253,8 +253,11 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80A9B7EC(this);
 }
 
-void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyCylinder(globalCtx, &THIS->collider);
+void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnKusa* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80A9B7EC(EnKusa* this) {

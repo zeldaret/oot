@@ -21,14 +21,14 @@ glabel BgRelayObjects_Init
               
 /* 00048 808A8E98 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 0004C 808A8E9C 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
-/* 00050 808A8EA0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00050 808A8EA0 3C040600 */  lui     $a0, %hi(D_060003C4)                ## $a0 = 06000000
 /* 00054 808A8EA4 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00058 808A8EA8 15200026 */  bne     $t1, $zero, .L808A8F44     
-/* 0005C 808A8EAC 248403C4 */  addiu   $a0, $a0, 0x03C4           ## $a0 = 060003C4
-/* 00060 808A8EB0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 0005C 808A8EAC 248403C4 */  addiu   $a0, $a0, %lo(D_060003C4)           ## $a0 = 060003C4
+/* 00060 808A8EB0 3C040600 */  lui     $a0, %hi(D_060025FC)                ## $a0 = 06000000
 /* 00064 808A8EB4 0C010620 */  jal     DynaPolyInfo_Alloc
               
-/* 00068 808A8EB8 248425FC */  addiu   $a0, $a0, 0x25FC           ## $a0 = 060025FC
+/* 00068 808A8EB8 248425FC */  addiu   $a0, $a0, %lo(D_060025FC)           ## $a0 = 060025FC
 /* 0006C 808A8EBC 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xee0)
 /* 00070 808A8EC0 954AF540 */  lhu     $t2, %lo(gSaveContext+0xee0)($t2)
 /* 00074 808A8EC4 240C0400 */  addiu   $t4, $zero, 0x0400         ## $t4 = 00000400

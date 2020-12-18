@@ -3,8 +3,8 @@ glabel func_80B1985C
 /* 00DE0 80B19860 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 00DE4 80B19864 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DE8 80B19868 AFBF001C */  sw      $ra, 0x001C($sp)
-/* 00DEC 80B1986C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00DF0 80B19870 24A50C70 */  addiu   $a1, $a1, 0x0C70           ## $a1 = 06000C70
+/* 00DEC 80B1986C 3C050600 */  lui     $a1, %hi(D_06000C70)                ## $a1 = 06000000
+/* 00DF0 80B19870 24A50C70 */  addiu   $a1, $a1, %lo(D_06000C70)           ## $a1 = 06000C70
 /* 00DF4 80B19874 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00DF8 80B19878 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DFC 80B1987C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
