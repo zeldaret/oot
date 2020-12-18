@@ -845,7 +845,6 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Hamstep"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hamstep/z_bg_hidan_hamstep.o"
-    include "build/data/overlays/actors/z_bg_hidan_hamstep.data.o"
     include "build/data/overlays/actors/z_bg_hidan_hamstep.reloc.o"
 endseg
 
