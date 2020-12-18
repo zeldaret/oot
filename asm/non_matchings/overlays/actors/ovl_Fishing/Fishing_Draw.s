@@ -126,7 +126,7 @@ glabel Fishing_Draw
 /* 0C5CC 80B75F6C AFB90010 */  sw      $t9, 0x0010($sp)
 /* 0C5D0 80B75F70 AFA80014 */  sw      $t0, 0x0014($sp)
 /* 0C5D4 80B75F74 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0C5D8 80B75F78 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0C5D8 80B75F78 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0C5DC 80B75F7C 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0C5E0 80B75F80 10000025 */  beq     $zero, $zero, .L80B76018
 /* 0C5E4 80B75F84 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -164,7 +164,7 @@ glabel Fishing_Draw
 /* 0C660 80B76000 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 0C664 80B76004 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 0C668 80B76008 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0C66C 80B7600C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0C66C 80B7600C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0C670 80B76010 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0C674 80B76014 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B76018:

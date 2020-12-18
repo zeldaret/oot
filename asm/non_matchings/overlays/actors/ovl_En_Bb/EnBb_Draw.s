@@ -78,7 +78,7 @@ glabel EnBb_Draw
 /* 0333C 809BB61C AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 03340 809BB620 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 03344 809BB624 8FA400CC */  lw      $a0, 0x00CC($sp)           
-/* 03348 809BB628 0C028572 */  jal     SkelAnime_Draw
+/* 03348 809BB628 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 0334C 809BB62C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 03350 809BB630 860D02A8 */  lh      $t5, 0x02A8($s0)           ## 000002A8
@@ -141,7 +141,7 @@ glabel EnBb_Draw
 /* 03434 809BB714 27A60070 */  addiu   $a2, $sp, 0x0070           ## $a2 = FFFFFFA8
 /* 03438 809BB718 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
 /* 0343C 809BB71C AFAF0014 */  sw      $t7, 0x0014($sp)           
-/* 03440 809BB720 0C00A850 */  jal     func_8002A140              
+/* 03440 809BB720 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 03444 809BB724 E7A60028 */  swc1    $f6, 0x0028($sp)           
 /* 03448 809BB728 1000000B */  beq     $zero, $zero, .L809BB758   
 /* 0344C 809BB72C 3C01C220 */  lui     $at, 0xC220                ## $at = C2200000
@@ -153,7 +153,7 @@ glabel EnBb_Draw
 /* 03460 809BB740 460A4401 */  sub.s   $f16, $f8, $f10            
 /* 03464 809BB744 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 03468 809BB748 AFAE0018 */  sw      $t6, 0x0018($sp)           
-/* 0346C 809BB74C 0C00A935 */  jal     func_8002A4D4              
+/* 0346C 809BB74C 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 03470 809BB750 E7B00074 */  swc1    $f16, 0x0074($sp)          
 .L809BB754:
 /* 03474 809BB754 3C01C220 */  lui     $at, 0xC220                ## $at = C2200000
@@ -256,7 +256,7 @@ glabel EnBb_Draw
 /* 035EC 809BB8CC 845807A0 */  lh      $t8, 0x07A0($v0)           ## 000007A0
 /* 035F0 809BB8D0 00186880 */  sll     $t5, $t8,  2               
 /* 035F4 809BB8D4 004D7821 */  addu    $t7, $v0, $t5              
-/* 035F8 809BB8D8 0C016A7D */  jal     func_8005A9F4              
+/* 035F8 809BB8D8 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 035FC 809BB8DC 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 03600 809BB8E0 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6
 /* 03604 809BB8E4 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
@@ -298,8 +298,8 @@ glabel EnBb_Draw
 /* 03694 809BB974 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 03698 809BB978 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 0369C 809BB97C 8FAE008C */  lw      $t6, 0x008C($sp)           
-/* 036A0 809BB980 3C180405 */  lui     $t8, 0x0405                ## $t8 = 04050000
-/* 036A4 809BB984 2718D4E0 */  addiu   $t8, $t8, 0xD4E0           ## $t8 = 0404D4E0
+/* 036A0 809BB980 3C180405 */  lui     $t8, %hi(D_0404D4E0)                ## $t8 = 04050000
+/* 036A4 809BB984 2718D4E0 */  addiu   $t8, $t8, %lo(D_0404D4E0)           ## $t8 = 0404D4E0
 /* 036A8 809BB988 8DC202D0 */  lw      $v0, 0x02D0($t6)           ## 000002D0
 /* 036AC 809BB98C 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
 /* 036B0 809BB990 244B0008 */  addiu   $t3, $v0, 0x0008           ## $t3 = 00000008

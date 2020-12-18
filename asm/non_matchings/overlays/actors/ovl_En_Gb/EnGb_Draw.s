@@ -69,7 +69,7 @@ glabel EnGb_Draw
 /* 00E10 80A2FF90 00052C03 */  sra     $a1, $a1, 16
 /* 00E14 80A2FF94 00063403 */  sra     $a2, $a2, 16
 /* 00E18 80A2FF98 00073C03 */  sra     $a3, $a3, 16
-/* 00E1C 80A2FF9C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00E1C 80A2FF9C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 00E20 80A2FFA0 AFA9001C */  sw      $t1, 0x001C($sp)
 /* 00E24 80A2FFA4 8E050168 */  lw      $a1, 0x0168($s0)           ## 00000168
@@ -78,7 +78,7 @@ glabel EnGb_Draw
 /* 00E30 80A2FFB0 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 00E34 80A2FFB4 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00E38 80A2FFB8 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00E3C 80A2FFBC 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00E3C 80A2FFBC 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00E40 80A2FFC0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E44 80A2FFC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E48 80A2FFC8 0C28C0D4 */  jal     func_80A30350

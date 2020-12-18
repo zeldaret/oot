@@ -116,7 +116,7 @@ glabel func_809B3FDC
 /* 0083C 809B415C AFA50044 */  sw      $a1, 0x0044($sp)
 /* 00840 809B4160 8FA4009C */  lw      $a0, 0x009C($sp)
 /* 00844 809B4164 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00848 809B4168 0C00A700 */  jal     func_80029C00
+/* 00848 809B4168 0C00A700 */  jal     EffectSsStone1_Spawn
 /* 0084C 809B416C A7A70072 */  sh      $a3, 0x0072($sp)
 /* 00850 809B4170 97A70072 */  lhu     $a3, 0x0072($sp)
 /* 00854 809B4174 8FA4009C */  lw      $a0, 0x009C($sp)
@@ -134,7 +134,7 @@ glabel func_809B3FDC
 /* 00878 809B4198 AFA70044 */  sw      $a3, 0x0044($sp)
 /* 0087C 809B419C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00880 809B41A0 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
-/* 00884 809B41A4 0C00A732 */  jal     func_80029CC8
+/* 00884 809B41A4 0C00A732 */  jal     EffectSsHitMark_SpawnCustomScale
 /* 00888 809B41A8 AFA30050 */  sw      $v1, 0x0050($sp)
 /* 0088C 809B41AC 8FA30050 */  lw      $v1, 0x0050($sp)
 /* 00890 809B41B0 5060004D */  beql    $v1, $zero, .L809B42E8
@@ -226,8 +226,8 @@ glabel func_809B3FDC
 /* 009D4 809B42F4 8E02024C */  lw      $v0, 0x024C($s0)           ## 0000024C
 /* 009D8 809B42F8 0C26CE48 */  jal     func_809B3920
 /* 009DC 809B42FC 24A545E0 */  addiu   $a1, $a1, %lo(func_809B45E0) ## $a1 = 809B45E0
-/* 009E0 809B4300 3C050400 */  lui     $a1, 0x0400                ## $a1 = 04000000
-/* 009E4 809B4304 24A5436C */  addiu   $a1, $a1, 0x436C           ## $a1 = 0400436C
+/* 009E0 809B4300 3C050400 */  lui     $a1, %hi(D_0400436C)                ## $a1 = 04000000
+/* 009E4 809B4304 24A5436C */  addiu   $a1, $a1, %lo(D_0400436C)           ## $a1 = 0400436C
 /* 009E8 809B4308 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 009EC 809B430C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 009F0 809B4310 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C

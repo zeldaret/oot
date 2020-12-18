@@ -98,7 +98,7 @@ glabel func_80967DBC
 /* 01598 80967EE8 00063403 */  sra     $a2, $a2, 16               
 /* 0159C 80967EEC 00052C03 */  sra     $a1, $a1, 16               
 /* 015A0 80967EF0 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
-/* 015A4 80967EF4 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 015A4 80967EF4 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 015A8 80967EF8 AFB8001C */  sw      $t8, 0x001C($sp)           
 .L80967EFC:

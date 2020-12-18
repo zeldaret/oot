@@ -3,14 +3,14 @@ glabel func_80A2FC70
 /* 00AF4 80A2FC74 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 00AF8 80A2FC78 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00AFC 80A2FC7C AFBF002C */  sw      $ra, 0x002C($sp)
-/* 00B00 80A2FC80 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
+/* 00B00 80A2FC80 3C040601 */  lui     $a0, %hi(D_0600C8EC)                ## $a0 = 06010000
 /* 00B04 80A2FC84 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00B08 80A2FC88 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00B0C 80A2FC8C 2484C8EC */  addiu   $a0, $a0, 0xC8EC           ## $a0 = 0600C8EC
+/* 00B0C 80A2FC8C 2484C8EC */  addiu   $a0, $a0, %lo(D_0600C8EC)           ## $a0 = 0600C8EC
 /* 00B10 80A2FC90 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 00B14 80A2FC94 C600017C */  lwc1    $f0, 0x017C($s0)           ## 0000017C
-/* 00B18 80A2FC98 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00B18 80A2FC98 3C040600 */  lui     $a0, %hi(D_0600049C)                ## $a0 = 06000000
 /* 00B1C 80A2FC9C 468021A0 */  cvt.s.w $f6, $f4
 /* 00B20 80A2FCA0 3C014190 */  lui     $at, 0x4190                ## $at = 41900000
 /* 00B24 80A2FCA4 46060032 */  c.eq.s  $f0, $f6
@@ -19,13 +19,13 @@ glabel func_80A2FC70
 /* 00B30 80A2FCB0 44818000 */  mtc1    $at, $f16                  ## $f16 = 18.00
 /* 00B34 80A2FCB4 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00B38 80A2FCB8 2484049C */  addiu   $a0, $a0, 0x049C           ## $a0 = 0600049C
+/* 00B38 80A2FCB8 2484049C */  addiu   $a0, $a0, %lo(D_0600049C)           ## $a0 = 0600049C
 /* 00B3C 80A2FCBC 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
 /* 00B40 80A2FCC0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00B44 80A2FCC4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 00B44 80A2FCC4 3C050600 */  lui     $a1, %hi(D_0600049C)                ## $a1 = 06000000
 /* 00B48 80A2FCC8 468042A0 */  cvt.s.w $f10, $f8
 /* 00B4C 80A2FCCC 44070000 */  mfc1    $a3, $f0
-/* 00B50 80A2FCD0 24A5049C */  addiu   $a1, $a1, 0x049C           ## $a1 = 0600049C
+/* 00B50 80A2FCD0 24A5049C */  addiu   $a1, $a1, %lo(D_0600049C)           ## $a1 = 0600049C
 /* 00B54 80A2FCD4 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 00B58 80A2FCD8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B5C 80A2FCDC AFA00014 */  sw      $zero, 0x0014($sp)

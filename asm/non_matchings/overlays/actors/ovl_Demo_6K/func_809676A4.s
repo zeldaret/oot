@@ -94,7 +94,7 @@ glabel func_809676A4
 /* 00E94 809677E4 02803025 */  or      $a2, $s4, $zero            ## $a2 = 80969358
 /* 00E98 809677E8 02A03825 */  or      $a3, $s5, $zero            ## $a3 = 80969364
 /* 00E9C 809677EC AFB60010 */  sw      $s6, 0x0010($sp)           
-/* 00EA0 809677F0 0C00A33B */  jal     func_80028CEC              
+/* 00EA0 809677F0 0C00A33B */  jal     EffectSsKiraKira_SpawnFocused              
 /* 00EA4 809677F4 AFB70014 */  sw      $s7, 0x0014($sp)           
 /* 00EA8 809677F8 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 00EAC 809677FC 163EFFD4 */  bne     $s1, $s8, .L80967750       

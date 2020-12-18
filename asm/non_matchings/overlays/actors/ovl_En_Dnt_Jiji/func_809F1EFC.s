@@ -3,18 +3,18 @@ glabel func_809F1EFC
 /* 00420 809F1F00 AFB00030 */  sw      $s0, 0x0030($sp)
 /* 00424 809F1F04 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00428 809F1F08 AFBF0034 */  sw      $ra, 0x0034($sp)
-/* 0042C 809F1F0C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 0042C 809F1F0C 3C040600 */  lui     $a0, %hi(D_06000DF8)                ## $a0 = 06000000
 /* 00430 809F1F10 AFA5003C */  sw      $a1, 0x003C($sp)
 /* 00434 809F1F14 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00438 809F1F18 24840DF8 */  addiu   $a0, $a0, 0x0DF8           ## $a0 = 06000DF8
+/* 00438 809F1F18 24840DF8 */  addiu   $a0, $a0, %lo(D_06000DF8)           ## $a0 = 06000DF8
 /* 0043C 809F1F1C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 00440 809F1F20 3C01C120 */  lui     $at, 0xC120                ## $at = C1200000
 /* 00444 809F1F24 44819000 */  mtc1    $at, $f18                  ## $f18 = -10.00
 /* 00448 809F1F28 468021A0 */  cvt.s.w $f6, $f4
-/* 0044C 809F1F2C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 0044C 809F1F2C 3C050600 */  lui     $a1, %hi(D_06000DF8)                ## $a1 = 06000000
 /* 00450 809F1F30 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
-/* 00454 809F1F34 24A50DF8 */  addiu   $a1, $a1, 0x0DF8           ## $a1 = 06000DF8
+/* 00454 809F1F34 24A50DF8 */  addiu   $a1, $a1, %lo(D_06000DF8)           ## $a1 = 06000DF8
 /* 00458 809F1F38 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0045C 809F1F3C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00460 809F1F40 4600320D */  trunc.w.s $f8, $f6
@@ -45,7 +45,7 @@ glabel func_809F1EFC
 /* 004C0 809F1FA0 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 004C4 809F1FA4 3C0640C0 */  lui     $a2, 0x40C0                ## $a2 = 40C00000
 /* 004C8 809F1FA8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 004CC 809F1FAC 0C00A5E9 */  jal     func_800297A4
+/* 004CC 809F1FAC 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst
 /* 004D0 809F1FB0 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 004D4 809F1FB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004D8 809F1FB8 0C00BE0A */  jal     Audio_PlayActorSound2

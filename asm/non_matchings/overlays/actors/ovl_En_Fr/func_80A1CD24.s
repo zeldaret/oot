@@ -75,7 +75,7 @@ glabel func_80A1CD24
 /* 02468 80A1CE08 00052C03 */  sra     $a1, $a1, 16
 /* 0246C 80A1CE0C AFA9001C */  sw      $t1, 0x001C($sp)
 /* 02470 80A1CE10 AFAC0014 */  sw      $t4, 0x0014($sp)
-/* 02474 80A1CE14 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 02474 80A1CE14 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 02478 80A1CE18 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 0247C 80A1CE1C 8FA80058 */  lw      $t0, 0x0058($sp)
@@ -154,7 +154,7 @@ glabel func_80A1CD24
 /* 025A0 80A1CF40 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 025A4 80A1CF44 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 025A8 80A1CF48 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 025AC 80A1CF4C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 025AC 80A1CF4C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 025B0 80A1CF50 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 025B4 80A1CF54 920E03A8 */  lbu     $t6, 0x03A8($s0)           ## 000003A8
 /* 025B8 80A1CF58 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -180,7 +180,7 @@ glabel func_80A1CD24
 /* 02608 80A1CFA8 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 0260C 80A1CFAC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 02610 80A1CFB0 8FA4006C */  lw      $a0, 0x006C($sp)
-/* 02614 80A1CFB4 0C028572 */  jal     SkelAnime_Draw
+/* 02614 80A1CFB4 0C028572 */  jal     SkelAnime_DrawOpa
 
 /* 02618 80A1CFB8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0261C 80A1CFBC 8FAF006C */  lw      $t7, 0x006C($sp)

@@ -21,8 +21,8 @@ glabel func_800E3A44
 /* B5AC30 800E3A90 10000009 */  b     .L800E3AB8
 /* B5AC34 800E3A94 00001025 */   move  $v0, $zero
 .L800E3A98:
-/* B5AC38 800E3A98 3C048017 */  lui   $a0, %hi(D_80170E70) # $a0, 0x8017
-/* B5AC3C 800E3A9C 24840E70 */  addiu $a0, %lo(D_80170E70) # addiu $a0, $a0, 0xe70
+/* B5AC38 800E3A98 3C048017 */  lui   $a0, %hi(gAudioContext+0x1cf0) # $a0, 0x8017
+/* B5AC3C 800E3A9C 24840E70 */  addiu $a0, %lo(gAudioContext+0x1cf0) # addiu $a0, $a0, 0xe70
 /* B5AC40 800E3AA0 00003025 */  move  $a2, $zero
 /* B5AC44 800E3AA4 0C000C18 */  jal   osSendMesg
 /* B5AC48 800E3AA8 AFA5002C */   sw    $a1, 0x2c($sp)

@@ -1,6 +1,6 @@
 glabel func_800E1C18
-/* B58DB8 800E1C18 3C0E8017 */  lui   $t6, %hi(D_801719C0) # $t6, 0x8017
-/* B58DBC 800E1C1C 95CE19C0 */  lhu   $t6, %lo(D_801719C0)($t6)
+/* B58DB8 800E1C18 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x2840) # $t6, 0x8017
+/* B58DBC 800E1C1C 95CE19C0 */  lhu   $t6, %lo(gAudioContext+0x2840)($t6)
 /* B58DC0 800E1C20 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B58DC4 800E1C24 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B58DC8 800E1C28 008E082A */  slt   $at, $a0, $t6

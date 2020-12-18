@@ -90,8 +90,8 @@ glabel func_80ABE040
 /* 01598 80ABE148 0310C023 */  subu    $t8, $t8, $s0              
 /* 0159C 80ABE14C 0018C080 */  sll     $t8, $t8,  2               
 /* 015A0 80ABE150 02981021 */  addu    $v0, $s4, $t8              
-/* 015A4 80ABE154 3C130600 */  lui     $s3, 0x0600                ## $s3 = 06000000
-/* 015A8 80ABE158 26731DD0 */  addiu   $s3, $s3, 0x1DD0           ## $s3 = 06001DD0
+/* 015A4 80ABE154 3C130600 */  lui     $s3, %hi(D_06001DD0)                ## $s3 = 06000000
+/* 015A8 80ABE158 26731DD0 */  addiu   $s3, $s3, %lo(D_06001DD0)           ## $s3 = 06001DD0
 /* 015AC 80ABE15C C44C01F8 */  lwc1    $f12, 0x01F8($v0)          ## 000001F8
 /* 015B0 80ABE160 C44E01FC */  lwc1    $f14, 0x01FC($v0)          ## 000001FC
 /* 015B4 80ABE164 8C460200 */  lw      $a2, 0x0200($v0)           ## 00000200
@@ -186,7 +186,7 @@ glabel func_80ABE040
 /* 01708 80ABE2B8 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
 /* 0170C 80ABE2BC 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFBC
 /* 01710 80ABE2C0 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
-/* 01714 80ABE2C4 0C00A935 */  jal     func_8002A4D4              
+/* 01714 80ABE2C4 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 01718 80ABE2C8 E7B20084 */  swc1    $f18, 0x0084($sp)          
 .L80ABE2CC:
 /* 0171C 80ABE2CC 8FBF0064 */  lw      $ra, 0x0064($sp)           

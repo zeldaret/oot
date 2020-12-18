@@ -4,11 +4,11 @@
  * Description: Hyrulian Guards
  */
 
+#include "vt.h"
 #include "z_en_heishi2.h"
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
-#include <vt.h>
 
 #define FLAGS 0x00000009
 
@@ -166,7 +166,7 @@ void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A53278;
@@ -264,7 +264,7 @@ void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -301,7 +301,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_2F2[0] = 200;
@@ -316,7 +316,7 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 1145.0f;
     this->unk_28C.z = 3014.0f;
 
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53850;
 }
 
@@ -324,7 +324,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
@@ -337,7 +337,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A5399C;
@@ -350,7 +350,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
     var = 0;
     if (gSaveContext.infTable[7] & 0x40) {
         if (!(gSaveContext.infTable[7] & 0x80)) {
-            if (func_8008F080(globalCtx) == 1) {
+            if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
                 } else {
@@ -401,19 +401,19 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_300 = 6;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         exchangeItemId = func_8002F368(globalCtx);
-        if (exchangeItemId == 1) { // exchangeItemId = zelda's letter
+        if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
             this->unk_300 = 5;
             this->actionFunc = func_80A53C0C;
-        } else if (exchangeItemId != 0) {  // exchangeItemId != nothing
+        } else if (exchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, 1);
+            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
 }
@@ -430,7 +430,7 @@ void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -468,7 +468,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_2F2[0] = 200;
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 417.0f;
     this->unk_298.z = -1079.0f;
     this->unk_28C.z = -1079.0f;
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,7 +495,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
@@ -539,7 +539,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
             case 0:
                 this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
                 func_8010B720(globalCtx, this->actor.textId);
-                func_8008F08C(globalCtx);
+                Player_UnsetMask(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -593,7 +593,7 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500);
 
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
@@ -745,7 +745,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A549E8;
@@ -801,7 +801,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnHeishi2* this = THIS;
 
     switch (this->initParams) {
@@ -822,7 +822,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHeishi2* this = THIS;
     if (limbIndex == 16) {
         Matrix_Get(&this->mtxf_330);
@@ -832,9 +832,9 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06002C10);
+    gSPDisplayList(POLY_OPA_DISP++, &D_06002C10);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
@@ -848,8 +848,8 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
-                   EnHeishi2_PostLimbDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
+                      EnHeishi2_PostLimbDraw, this);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
@@ -858,10 +858,10 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, mtx);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0602B060);
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
+            gSPDisplayList(POLY_OPA_DISP++, &D_0602B060);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }
 

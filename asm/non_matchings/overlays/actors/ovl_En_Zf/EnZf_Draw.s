@@ -84,7 +84,7 @@ glabel EnZf_Draw
 /* 05998 80B499E8 3C0780B5 */  lui     $a3, %hi(func_80B495FC)    ## $a3 = 80B50000
 /* 0599C 80B499EC 24E795FC */  addiu   $a3, $a3, %lo(func_80B495FC) ## $a3 = 80B495FC
 /* 059A0 80B499F0 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 059A4 80B499F4 0C0288A2 */  jal     SkelAnime_Draw2
+/* 059A4 80B499F4 0C0288A2 */  jal     SkelAnime_Draw
 /* 059A8 80B499F8 AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 059AC 80B499FC AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 /* 059B0 80B49A00 860F03F6 */  lh      $t7, 0x03F6($s0)           ## 000003F6
@@ -122,7 +122,7 @@ glabel EnZf_Draw
 /* 05A30 80B49A80 24C604FC */  addiu   $a2, $a2, 0x04FC           ## $a2 = 000004FC
 /* 05A34 80B49A84 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 05A38 80B49A88 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 05A3C 80B49A8C 0C00A850 */  jal     func_8002A140
+/* 05A3C 80B49A8C 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 05A40 80B49A90 E7A40028 */  swc1    $f4, 0x0028($sp)
 /* 05A44 80B49A94 10000027 */  beq     $zero, $zero, .L80B49B34
 /* 05A48 80B49A98 8FAA0084 */  lw      $t2, 0x0084($sp)
@@ -161,7 +161,7 @@ glabel EnZf_Draw
 /* 05AC8 80B49B18 3C0780B5 */  lui     $a3, %hi(func_80B495FC)    ## $a3 = 80B50000
 /* 05ACC 80B49B1C 24E795FC */  addiu   $a3, $a3, %lo(func_80B495FC) ## $a3 = 80B495FC
 /* 05AD0 80B49B20 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 05AD4 80B49B24 0C0288A2 */  jal     SkelAnime_Draw2
+/* 05AD4 80B49B24 0C0288A2 */  jal     SkelAnime_Draw
 /* 05AD8 80B49B28 AFB90018 */  sw      $t9, 0x0018($sp)
 /* 05ADC 80B49B2C AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 .L80B49B30:

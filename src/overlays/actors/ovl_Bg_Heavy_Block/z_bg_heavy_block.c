@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_heavy_block.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000000
 
@@ -210,8 +210,8 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
 void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 posZ, f32 velX, f32 velY, f32 velZ,
                             u8 dustParams) {
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
     Vec3f eye;
     Vec3f at;
     s16 sp6E;
@@ -499,7 +499,7 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
 
     if (BgHeavyBlock_LiftedUp == this->actionFunc) {
-        func_800D1694(player->unk_3B0.x, player->unk_3B0.y, player->unk_3B0.z, &thisx->shape.rot);
+        func_800D1694(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z, &thisx->shape.rot);
         Matrix_Translate(-this->unk_164.x, -this->unk_164.y, -this->unk_164.z, MTXMODE_APPLY);
     } else if ((thisx->gravity == 0.0f) && (BgHeavyBlock_Land == this->actionFunc)) {
         func_800D1694(thisx->initPosRot.pos.x, thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, &thisx->shape.rot);
@@ -510,9 +510,9 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_80884ED4, &thisx->initPosRot);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060013C0);
+    gSPDisplayList(POLY_OPA_DISP++, D_060013C0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }

@@ -41,7 +41,7 @@ glabel MirRay_Draw
 /* 010D8 80B8E128 908F02AE */  lbu     $t7, 0x02AE($a0)           ## 000002AE
 /* 010DC 80B8E12C 55E000AD */  bnel    $t7, $zero, .L80B8E3E4     
 /* 010E0 80B8E130 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 010E4 80B8E134 0C023C2B */  jal     func_8008F0AC              
+/* 010E4 80B8E134 0C023C2B */  jal     Player_HasMirrorShieldSetToDraw              
 /* 010E8 80B8E138 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 010EC 80B8E13C 104000A8 */  beq     $v0, $zero, .L80B8E3E0     
 /* 010F0 80B8E140 26040A20 */  addiu   $a0, $s0, 0x0A20           ## $a0 = 00000A20
@@ -96,9 +96,9 @@ glabel MirRay_Draw
 /* 011B4 80B8E204 C630022C */  lwc1    $f16, 0x022C($s1)          ## 0000022C
 /* 011B8 80B8E208 44819000 */  mtc1    $at, $f18                  ## $f18 = 100.00
 /* 011BC 80B8E20C 24019600 */  addiu   $at, $zero, 0x9600         ## $at = FFFF9600
-/* 011C0 80B8E210 3C190600 */  lui     $t9, 0x0600                ## $t9 = 06000000
+/* 011C0 80B8E210 3C190600 */  lui     $t9, %hi(D_06000C50)                ## $t9 = 06000000
 /* 011C4 80B8E214 46128102 */  mul.s   $f4, $f16, $f18            
-/* 011C8 80B8E218 27390C50 */  addiu   $t9, $t9, 0x0C50           ## $t9 = 06000C50
+/* 011C8 80B8E218 27390C50 */  addiu   $t9, $t9, %lo(D_06000C50)           ## $t9 = 06000C50
 /* 011CC 80B8E21C 27B0007C */  addiu   $s0, $sp, 0x007C           ## $s0 = FFFFFDFC
 /* 011D0 80B8E220 3C18DE00 */  lui     $t8, 0xDE00                ## $t8 = DE000000
 /* 011D4 80B8E224 02003025 */  or      $a2, $s0, $zero            ## $a2 = FFFFFDFC
@@ -152,12 +152,12 @@ glabel MirRay_Draw
 /* 01284 80B8E2D4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01288 80B8E2D8 2611000C */  addiu   $s1, $s0, 0x000C           ## $s1 = FFFFFE08
 /* 0128C 80B8E2DC 11600033 */  beq     $t3, $zero, .L80B8E3AC     
-/* 01290 80B8E2E0 3C130600 */  lui     $s3, 0x0600                ## $s3 = 06000000
+/* 01290 80B8E2E0 3C130600 */  lui     $s3, %hi(D_060000B0)                ## $s3 = 06000000
 /* 01294 80B8E2E4 C60C0000 */  lwc1    $f12, 0x0000($s0)          ## FFFFFDFC
 /* 01298 80B8E2E8 C60E0004 */  lwc1    $f14, 0x0004($s0)          ## FFFFFE00
 /* 0129C 80B8E2EC 8E060008 */  lw      $a2, 0x0008($s0)           ## FFFFFE04
 /* 012A0 80B8E2F0 0C034261 */  jal     Matrix_Translate              
-/* 012A4 80B8E2F4 267300B0 */  addiu   $s3, $s3, 0x00B0           ## $s3 = 060000B0
+/* 012A4 80B8E2F4 267300B0 */  addiu   $s3, $s3, %lo(D_060000B0)           ## $s3 = 060000B0
 /* 012A8 80B8E2F8 4406A000 */  mfc1    $a2, $f20                  
 /* 012AC 80B8E2FC 4600A306 */  mov.s   $f12, $f20                 
 /* 012B0 80B8E300 4600A386 */  mov.s   $f14, $f20                 

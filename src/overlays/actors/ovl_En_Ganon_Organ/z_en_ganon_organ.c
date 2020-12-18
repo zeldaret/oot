@@ -100,18 +100,18 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
     if ((thisx->params == 1) && (dorf->organFadeTimer != 0xff)) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
     } else {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
     }
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80A2CCA8);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80A2EAB0);
+    gSPDisplayList(POLY_OPA_DISP++, D_80A2CCA8);
+    gSPDisplayList(POLY_OPA_DISP++, D_80A2EAB0);
     osSyncPrintf("ORGAN DRAW  2\n");
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);

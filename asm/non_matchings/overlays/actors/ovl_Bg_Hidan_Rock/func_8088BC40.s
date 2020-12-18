@@ -75,7 +75,7 @@ glabel func_8088BC40
 /* 00CA4 8088BD24 844C07A0 */  lh      $t4, 0x07A0($v0)           ## 000007A0
 /* 00CA8 8088BD28 000C6880 */  sll     $t5, $t4,  2
 /* 00CAC 8088BD2C 004D7021 */  addu    $t6, $v0, $t5
-/* 00CB0 8088BD30 0C016A7D */  jal     func_8005A9F4
+/* 00CB0 8088BD30 0C016A7D */  jal     Camera_GetCamDirYaw
 /* 00CB4 8088BD34 8DC40790 */  lw      $a0, 0x0790($t6)           ## 00000790
 /* 00CB8 8088BD38 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 00CBC 8088BD3C 00412821 */  addu    $a1, $v0, $at
@@ -139,8 +139,8 @@ glabel func_8088BC40
 /* 00DA4 8088BE24 0C0346A2 */  jal     Matrix_NewMtx
 /* 00DA8 8088BE28 AFA20030 */  sw      $v0, 0x0030($sp)
 /* 00DAC 8088BE2C 8FA30030 */  lw      $v1, 0x0030($sp)
-/* 00DB0 8088BE30 3C0D0601 */  lui     $t5, 0x0601                ## $t5 = 06010000
-/* 00DB4 8088BE34 25ADCA10 */  addiu   $t5, $t5, 0xCA10           ## $t5 = 0600CA10
+/* 00DB0 8088BE30 3C0D0601 */  lui     $t5, %hi(D_0600CA10)                ## $t5 = 06010000
+/* 00DB4 8088BE34 25ADCA10 */  addiu   $t5, $t5, %lo(D_0600CA10)           ## $t5 = 0600CA10
 /* 00DB8 8088BE38 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00DBC 8088BE3C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00DC0 8088BE40 3C0CDE00 */  lui     $t4, 0xDE00                ## $t4 = DE000000

@@ -126,7 +126,7 @@ glabel func_80AFD968
 /* 01184 80AFDB24 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01188 80AFDB28 46048180 */  add.s   $f6, $f16, $f4             
 /* 0118C 80AFDB2C AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 01190 80AFDB30 0C00A935 */  jal     func_8002A4D4              
+/* 01190 80AFDB30 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 01194 80AFDB34 E7A60058 */  swc1    $f6, 0x0058($sp)           
 /* 01198 80AFDB38 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = 00000003
 /* 0119C 80AFDB3C 0603FFDE */  bgezl   $s0, .L80AFDAB8            

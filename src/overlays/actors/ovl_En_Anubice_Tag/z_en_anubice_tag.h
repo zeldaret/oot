@@ -1,8 +1,8 @@
 #ifndef _Z_EN_ANUBICE_TAG_H_
 #define _Z_EN_ANUBICE_TAG_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 #include "overlays/actors/ovl_En_Anubice/z_en_anubice.h"
 
 struct EnAnubiceTag;

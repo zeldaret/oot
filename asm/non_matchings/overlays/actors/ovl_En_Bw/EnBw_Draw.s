@@ -90,7 +90,7 @@ glabel EnBw_Draw
 /* 02944 809D1024 8E2902C0 */  lw      $t1, 0x02C0($s1)           ## 000002C0
 /* 02948 809D1028 24E70D18 */  addiu   $a3, $a3, %lo(func_809D0D18) ## $a3 = 809D0D18
 /* 0294C 809D102C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 02950 809D1030 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02950 809D1030 0C0288A2 */  jal     SkelAnime_Draw
 /* 02954 809D1034 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 02958 809D1038 10000035 */  beq     $zero, $zero, .L809D1110
 /* 0295C 809D103C AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
@@ -144,7 +144,7 @@ glabel EnBw_Draw
 /* 02A18 809D10F8 AFB00014 */  sw      $s0, 0x0014($sp)
 /* 02A1C 809D10FC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 02A20 809D1100 8E3902D0 */  lw      $t9, 0x02D0($s1)           ## 000002D0
-/* 02A24 809D1104 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02A24 809D1104 0C0288A2 */  jal     SkelAnime_Draw
 /* 02A28 809D1108 AFB90018 */  sw      $t9, 0x0018($sp)
 /* 02A2C 809D110C AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 .L809D1110:
@@ -277,8 +277,8 @@ glabel EnBw_Draw
 /* 02C24 809D1304 0C0346A2 */  jal     Matrix_NewMtx
 /* 02C28 809D1308 AFA20058 */  sw      $v0, 0x0058($sp)
 /* 02C2C 809D130C 8FA30058 */  lw      $v1, 0x0058($sp)
-/* 02C30 809D1310 3C090405 */  lui     $t1, 0x0405                ## $t1 = 04050000
-/* 02C34 809D1314 2529D4E0 */  addiu   $t1, $t1, 0xD4E0           ## $t1 = 0404D4E0
+/* 02C30 809D1310 3C090405 */  lui     $t1, %hi(D_0404D4E0)                ## $t1 = 04050000
+/* 02C34 809D1314 2529D4E0 */  addiu   $t1, $t1, %lo(D_0404D4E0)           ## $t1 = 0404D4E0
 /* 02C38 809D1318 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 02C3C 809D131C 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0
 /* 02C40 809D1320 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
@@ -335,7 +335,7 @@ glabel EnBw_Draw
 /* 02D0C 809D13EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02D10 809D13F0 27A60098 */  addiu   $a2, $sp, 0x0098           ## $a2 = FFFFFFE0
 /* 02D14 809D13F4 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 02D18 809D13F8 0C00A850 */  jal     func_8002A140
+/* 02D18 809D13F8 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 02D1C 809D13FC E7AA0028 */  swc1    $f10, 0x0028($sp)
 .L809D1400:
 /* 02D20 809D1400 3C06809D */  lui     $a2, %hi(D_809D1590)       ## $a2 = 809D0000

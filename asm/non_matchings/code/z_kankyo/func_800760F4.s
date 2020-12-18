@@ -52,7 +52,7 @@ glabel func_800760F4
 /* AED35C 800761BC 44079000 */  mfc1  $a3, $f18
 /* AED360 800761C0 00000000 */  nop   
 /* AED364 800761C4 00073C00 */  sll   $a3, $a3, 0x10
-/* AED368 800761C8 0C01E763 */  jal   Lights_InitType0PositionalLight
+/* AED368 800761C8 0C01E763 */  jal   Lights_PointNoGlowSetInfo
 /* AED36C 800761CC 00073C03 */   sra   $a3, $a3, 0x10
 /* AED370 800761D0 8FA30034 */  lw    $v1, 0x34($sp)
 /* AED374 800761D4 3C014120 */  li    $at, 0x41200000 # 0.000000
@@ -102,7 +102,7 @@ glabel func_800760F4
 /* AED424 80076284 44079000 */  mfc1  $a3, $f18
 /* AED428 80076288 00000000 */  nop   
 /* AED42C 8007628C 00073C00 */  sll   $a3, $a3, 0x10
-/* AED430 80076290 0C01E763 */  jal   Lights_InitType0PositionalLight
+/* AED430 80076290 0C01E763 */  jal   Lights_PointNoGlowSetInfo
 /* AED434 80076294 00073C03 */   sra   $a3, $a3, 0x10
 /* AED438 80076298 3C038016 */  lui   $v1, %hi(D_8015FDAE) # $v1, 0x8016
 /* AED43C 8007629C 2463FDAE */  addiu $v1, %lo(D_8015FDAE) # addiu $v1, $v1, -0x252

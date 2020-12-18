@@ -15,11 +15,11 @@ glabel BgSpot00Hanebasi_Init
 /* 0002C 808A97AC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00030 808A97B0 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 00034 808A97B4 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF
-/* 00038 808A97B8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00038 808A97B8 3C040600 */  lui     $a0, %hi(D_06000280)                ## $a0 = 06000000
 /* 0003C 808A97BC 15C10007 */  bne     $t6, $at, .L808A97DC       
-/* 00040 808A97C0 24840280 */  addiu   $a0, $a0, 0x0280           ## $a0 = 06000280
-/* 00044 808A97C4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00048 808A97C8 248405E0 */  addiu   $a0, $a0, 0x05E0           ## $a0 = 060005E0
+/* 00040 808A97C0 24840280 */  addiu   $a0, $a0, %lo(D_06000280)           ## $a0 = 06000280
+/* 00044 808A97C4 3C040600 */  lui     $a0, %hi(D_060005E0)                ## $a0 = 06000000
+/* 00048 808A97C8 248405E0 */  addiu   $a0, $a0, %lo(D_060005E0)           ## $a0 = 060005E0
 /* 0004C 808A97CC 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 00050 808A97D0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFE8
@@ -261,7 +261,7 @@ glabel BgSpot00Hanebasi_Init
 /* 00384 808A9B04 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
 /* 00388 808A9B08 0500001B */  bltz    $t0, .L808A9B78            
 /* 0038C 808A9B0C 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
-/* 00390 808A9B10 0C01E9D9 */  jal     Lights_Insert
+/* 00390 808A9B10 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00394 808A9B14 AFA60048 */  sw      $a2, 0x0048($sp)           
 /* 00398 808A9B18 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
@@ -288,7 +288,7 @@ glabel BgSpot00Hanebasi_Init
 /* 003E4 808A9B64 00052C00 */  sll     $a1, $a1, 16               
 /* 003E8 808A9B68 00052C03 */  sra     $a1, $a1, 16               
 /* 003EC 808A9B6C AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 003F0 808A9B70 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 003F0 808A9B70 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 003F4 808A9B74 AFA0001C */  sw      $zero, 0x001C($sp)         
 .L808A9B78:

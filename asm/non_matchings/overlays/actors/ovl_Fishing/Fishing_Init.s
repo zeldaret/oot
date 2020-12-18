@@ -89,18 +89,18 @@ glabel Fishing_Init
 /* 00C84 80B6A624 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 00C88 80B6A628 A649001C */  sh      $t1, 0x001C($s2)           ## 0000001C
 /* 00C8C 80B6A62C 265001D8 */  addiu   $s0, $s2, 0x01D8           ## $s0 = 000001D8
-/* 00C90 80B6A630 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00C94 80B6A634 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
-/* 00C98 80B6A638 24E7453C */  addiu   $a3, $a3, 0x453C           ## $a3 = 0600453C
-/* 00C9C 80B6A63C 24C685F8 */  addiu   $a2, $a2, 0x85F8           ## $a2 = 060085F8
+/* 00C90 80B6A630 3C060601 */  lui     $a2, %hi(D_060085F8)                ## $a2 = 06010000
+/* 00C94 80B6A634 3C070600 */  lui     $a3, %hi(D_0600453C)                ## $a3 = 06000000
+/* 00C98 80B6A638 24E7453C */  addiu   $a3, $a3, %lo(D_0600453C)           ## $a3 = 0600453C
+/* 00C9C 80B6A63C 24C685F8 */  addiu   $a2, $a2, %lo(D_060085F8)           ## $a2 = 060085F8
 /* 00CA0 80B6A640 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001D8
 /* 00CA4 80B6A644 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00CA8 80B6A648 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00CAC 80B6A64C AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00CB0 80B6A650 0C0291BE */  jal     SkelAnime_InitSV
+/* 00CB0 80B6A650 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00CB4 80B6A654 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00CB8 80B6A658 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, 0x453C           ## $a1 = 0600453C
+/* 00CB8 80B6A658 3C050600 */  lui     $a1, %hi(D_0600453C)                ## $a1 = 06000000
+/* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, %lo(D_0600453C)           ## $a1 = 0600453C
 /* 00CC0 80B6A660 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00CC8 80B6A668 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
@@ -535,21 +535,21 @@ glabel Fishing_Init
 .L80B6AC7C:
 /* 012DC 80B6AC7C 28410073 */  slti    $at, $v0, 0x0073
 /* 012E0 80B6AC80 14200004 */  bne     $at, $zero, .L80B6AC94
-/* 012E4 80B6AC84 3C110600 */  lui     $s1, 0x0600                ## $s1 = 06000000
+/* 012E4 80B6AC84 3C110600 */  lui     $s1, %hi(D_0600007C)                ## $s1 = 06000000
 /* 012E8 80B6AC88 240100C8 */  addiu   $at, $zero, 0x00C8         ## $at = 000000C8
 /* 012EC 80B6AC8C 14410012 */  bne     $v0, $at, .L80B6ACD8
 /* 012F0 80B6AC90 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 .L80B6AC94:
-/* 012F4 80B6AC94 2631007C */  addiu   $s1, $s1, 0x007C           ## $s1 = 0600007C
+/* 012F4 80B6AC94 2631007C */  addiu   $s1, $s1, %lo(D_0600007C)           ## $s1 = 0600007C
 /* 012F8 80B6AC98 265001D8 */  addiu   $s0, $s2, 0x01D8           ## $s0 = 000001D8
-/* 012FC 80B6AC9C 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 01300 80B6ACA0 24C629C0 */  addiu   $a2, $a2, 0x29C0           ## $a2 = 060029C0
+/* 012FC 80B6AC9C 3C060600 */  lui     $a2, %hi(D_060029C0)                ## $a2 = 06000000
+/* 01300 80B6ACA0 24C629C0 */  addiu   $a2, $a2, %lo(D_060029C0)           ## $a2 = 060029C0
 /* 01304 80B6ACA4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001D8
 /* 01308 80B6ACA8 02203825 */  or      $a3, $s1, $zero            ## $a3 = 0600007C
 /* 0130C 80B6ACAC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 01310 80B6ACB0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01314 80B6ACB4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 01318 80B6ACB8 0C0291BE */  jal     SkelAnime_InitSV
+/* 01318 80B6ACB8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0131C 80B6ACBC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01320 80B6ACC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01324 80B6ACC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600007C
@@ -558,16 +558,16 @@ glabel Fishing_Init
 /* 01330 80B6ACD0 10000010 */  beq     $zero, $zero, .L80B6AD14
 /* 01334 80B6ACD4 00000000 */  nop
 .L80B6ACD8:
-/* 01338 80B6ACD8 3C110601 */  lui     $s1, 0x0601                ## $s1 = 06010000
-/* 0133C 80B6ACDC 2631CFE0 */  addiu   $s1, $s1, 0xCFE0           ## $s1 = 0600CFE0
+/* 01338 80B6ACD8 3C110601 */  lui     $s1, %hi(D_0600CFE0)                ## $s1 = 06010000
+/* 0133C 80B6ACDC 2631CFE0 */  addiu   $s1, $s1, %lo(D_0600CFE0)           ## $s1 = 0600CFE0
 /* 01340 80B6ACE0 265001D8 */  addiu   $s0, $s2, 0x01D8           ## $s0 = 000001D8
-/* 01344 80B6ACE4 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 01348 80B6ACE8 24C61058 */  addiu   $a2, $a2, 0x1058           ## $a2 = 06011058
+/* 01344 80B6ACE4 3C060601 */  lui     $a2, %hi(D_06011058)                ## $a2 = 06010000
+/* 01348 80B6ACE8 24C61058 */  addiu   $a2, $a2, %lo(D_06011058)           ## $a2 = 06011058
 /* 0134C 80B6ACEC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001D8
 /* 01350 80B6ACF0 02203825 */  or      $a3, $s1, $zero            ## $a3 = 0600CFE0
 /* 01354 80B6ACF4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01358 80B6ACF8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0135C 80B6ACFC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0135C 80B6ACFC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01360 80B6AD00 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01364 80B6AD04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01368 80B6AD08 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600CFE0
@@ -596,7 +596,7 @@ glabel Fishing_Init
 /* 013B8 80B6AD58 35090009 */  ori     $t1, $t0, 0x0009           ## $t1 = 00000009
 /* 013BC 80B6AD5C AE490004 */  sw      $t1, 0x0004($s2)           ## 00000004
 /* 013C0 80B6AD60 266507A8 */  addiu   $a1, $s3, 0x07A8           ## $a1 = 000007A8
-/* 013C4 80B6AD64 0C01E9D9 */  jal     Lights_Insert
+/* 013C4 80B6AD64 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 013C8 80B6AD68 26460220 */  addiu   $a2, $s2, 0x0220           ## $a2 = 00000220
 /* 013CC 80B6AD6C 1000004A */  beq     $zero, $zero, .L80B6AE98

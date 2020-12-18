@@ -35,7 +35,7 @@ glabel func_809F4EF4
 /* 01CA0 809F4F60 AFB90018 */  sw      $t9, 0x0018($sp)           
 /* 01CA4 809F4F64 AFA8001C */  sw      $t0, 0x001C($sp)           
 /* 01CA8 809F4F68 AFA90020 */  sw      $t1, 0x0020($sp)           
-/* 01CAC 809F4F6C 0C00A5E9 */  jal     func_800297A4              
+/* 01CAC 809F4F6C 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 01CB0 809F4F70 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 01CB4 809F4F74 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01CB8 809F4F78 0C00BE0A */  jal     Audio_PlayActorSound2

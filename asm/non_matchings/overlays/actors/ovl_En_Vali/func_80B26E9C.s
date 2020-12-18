@@ -34,7 +34,7 @@ glabel func_80B26E9C
 .L80B26F1C:
 /* 0086C 80B26F1C 000E7880 */  sll     $t7, $t6,  2               
 /* 00870 80B26F20 024FC021 */  addu    $t8, $s2, $t7              
-/* 00874 80B26F24 0C016A7D */  jal     func_8005A9F4              
+/* 00874 80B26F24 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00878 80B26F28 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 0087C 80B26F2C 00022400 */  sll     $a0, $v0, 16               
 /* 00880 80B26F30 0C01DE0D */  jal     Math_Coss
@@ -44,7 +44,7 @@ glabel func_80B26E9C
 /* 0088C 80B26F3C 46000587 */  neg.s   $f22, $f0                  
 /* 00890 80B26F40 00194080 */  sll     $t0, $t9,  2               
 /* 00894 80B26F44 02484821 */  addu    $t1, $s2, $t0              
-/* 00898 80B26F48 0C016A7D */  jal     func_8005A9F4              
+/* 00898 80B26F48 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 0089C 80B26F4C 8D240790 */  lw      $a0, 0x0790($t1)           ## 00000790
 /* 008A0 80B26F50 00022400 */  sll     $a0, $v0, 16               
 /* 008A4 80B26F54 0C01DE1C */  jal     Math_Sins
@@ -109,7 +109,7 @@ glabel func_80B26E9C
 /* 00978 80B27028 02C03025 */  or      $a2, $s6, $zero            ## $a2 = 80B28950
 /* 0097C 80B2702C 02E03825 */  or      $a3, $s7, $zero            ## $a3 = 80B28954
 /* 00980 80B27030 46128100 */  add.s   $f4, $f16, $f18            
-/* 00984 80B27034 0C00A568 */  jal     func_800295A0              
+/* 00984 80B27034 0C00A568 */  jal     EffectSsLightning_Spawn              
 /* 00988 80B27038 E7A40094 */  swc1    $f4, 0x0094($sp)           
 .L80B2703C:
 /* 0098C 80B2703C 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001

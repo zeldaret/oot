@@ -141,7 +141,7 @@ glabel func_8098D280
 /* 00498 8098D468 AFA9001C */  sw      $t1, 0x001C($sp)           
 /* 0049C 8098D46C 02C03825 */  or      $a3, $s6, $zero            ## $a3 = 8098E128
 /* 004A0 8098D470 AFB70010 */  sw      $s7, 0x0010($sp)           
-/* 004A4 8098D474 0C00A33B */  jal     func_80028CEC              
+/* 004A4 8098D474 0C00A33B */  jal     EffectSsKiraKira_SpawnFocused              
 /* 004A8 8098D478 AFBE0014 */  sw      $s8, 0x0014($sp)           
 /* 004AC 8098D47C 26520001 */  addiu   $s2, $s2, 0x0001           ## $s2 = 00000001
 /* 004B0 8098D480 24010055 */  addiu   $at, $zero, 0x0055         ## $at = 00000055

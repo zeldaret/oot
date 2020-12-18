@@ -4,9 +4,9 @@
  * Description: Bombchu Bowling Alley Walls
  */
 
+#include "vt.h"
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include <vt.h>
 
 #define FLAGS 0x00000010
 
@@ -69,7 +69,7 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
 
     while (it != 0) {
         if (it->id == ACTOR_EN_BOM_BOWL_MAN) {
-            if ((((EnBomBowlMan*)it)->unk_258 != 0) && (fabsf(globalCtx->view.eye.x) > -20.0f) &&
+            if ((((EnBomBowlMan*)it)->minigamePlayStatus != 0) && (fabsf(globalCtx->view.eye.x) > -20.0f) &&
                 (fabsf(globalCtx->view.eye.y) > 110.0f)) {
                 this->unk_168 = 1;
             }

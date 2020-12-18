@@ -72,7 +72,7 @@ glabel EnTite_Update
 /* 02424 80B1AEA4 45020005 */  bc1fl   .L80B1AEBC                 
 /* 02428 80B1AEA8 8FB80030 */  lw      $t8, 0x0030($sp)           
 /* 0242C 80B1AEAC E60A0364 */  swc1    $f10, 0x0364($s0)          ## 00000364
-/* 02430 80B1AEB0 0C00A511 */  jal     func_80029444              
+/* 02430 80B1AEB0 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 02434 80B1AEB4 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B1AEB8:
 /* 02438 80B1AEB8 8FB80030 */  lw      $t8, 0x0030($sp)           
@@ -110,7 +110,7 @@ glabel EnTite_Update
 /* 024B0 80B1AF30 45020005 */  bc1fl   .L80B1AF48                 
 /* 024B4 80B1AF34 8FAD0030 */  lw      $t5, 0x0030($sp)           
 /* 024B8 80B1AF38 E6060370 */  swc1    $f6, 0x0370($s0)           ## 00000370
-/* 024BC 80B1AF3C 0C00A511 */  jal     func_80029444              
+/* 024BC 80B1AF3C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 024C0 80B1AF40 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B1AF44:
 /* 024C4 80B1AF44 8FAD0030 */  lw      $t5, 0x0030($sp)           
@@ -148,7 +148,7 @@ glabel EnTite_Update
 /* 0253C 80B1AFBC 45020005 */  bc1fl   .L80B1AFD4                 
 /* 02540 80B1AFC0 8FA90030 */  lw      $t1, 0x0030($sp)           
 /* 02544 80B1AFC4 E612034C */  swc1    $f18, 0x034C($s0)          ## 0000034C
-/* 02548 80B1AFC8 0C00A511 */  jal     func_80029444              
+/* 02548 80B1AFC8 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 0254C 80B1AFCC AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B1AFD0:
 /* 02550 80B1AFD0 8FA90030 */  lw      $t1, 0x0030($sp)           
@@ -186,7 +186,7 @@ glabel EnTite_Update
 /* 025C8 80B1B048 45020005 */  bc1fl   .L80B1B060                 
 /* 025CC 80B1B04C 8FB9003C */  lw      $t9, 0x003C($sp)           
 /* 025D0 80B1B050 E6100358 */  swc1    $f16, 0x0358($s0)          ## 00000358
-/* 025D4 80B1B054 0C00A511 */  jal     func_80029444              
+/* 025D4 80B1B054 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 025D8 80B1B058 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B1B05C:
 /* 025DC 80B1B05C 8FB9003C */  lw      $t9, 0x003C($sp)           

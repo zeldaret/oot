@@ -53,12 +53,12 @@ glabel func_8006F140
 /* AE6364 8006F1C4 AFAB0010 */  sw    $t3, 0x10($sp)
 /* AE6368 8006F1C8 24050050 */  li    $a1, 80
 /* AE636C 8006F1CC 24060050 */  li    $a2, 80
-/* AE6370 8006F1D0 0C01E79F */  jal   Lights_InitDirectional
+/* AE6370 8006F1D0 0C01E79F */  jal   Lights_DirectionalSetInfo
 /* AE6374 8006F1D4 24070050 */   li    $a3, 80
 /* AE6378 8006F1D8 262507A8 */  addiu $a1, $s1, 0x7a8
 /* AE637C 8006F1DC AFA50034 */  sw    $a1, 0x34($sp)
 /* AE6380 8006F1E0 02202025 */  move  $a0, $s1
-/* AE6384 8006F1E4 0C01E9D9 */  jal   Lights_Insert
+/* AE6384 8006F1E4 0C01E9D9 */  jal   LightContext_InsertLight
 /* AE6388 8006F1E8 8FA60038 */   lw    $a2, 0x38($sp)
 /* AE638C 8006F1EC 26040036 */  addiu $a0, $s0, 0x36
 /* AE6390 8006F1F0 240E0050 */  li    $t6, 80
@@ -70,11 +70,11 @@ glabel func_8006F140
 /* AE63A8 8006F208 AFA40038 */  sw    $a0, 0x38($sp)
 /* AE63AC 8006F20C 24050050 */  li    $a1, 80
 /* AE63B0 8006F210 24060050 */  li    $a2, 80
-/* AE63B4 8006F214 0C01E79F */  jal   Lights_InitDirectional
+/* AE63B4 8006F214 0C01E79F */  jal   Lights_DirectionalSetInfo
 /* AE63B8 8006F218 24070050 */   li    $a3, 80
 /* AE63BC 8006F21C 02202025 */  move  $a0, $s1
 /* AE63C0 8006F220 8FA50034 */  lw    $a1, 0x34($sp)
-/* AE63C4 8006F224 0C01E9D9 */  jal   Lights_Insert
+/* AE63C4 8006F224 0C01E9D9 */  jal   LightContext_InsertLight
 /* AE63C8 8006F228 8FA60038 */   lw    $a2, 0x38($sp)
 /* AE63CC 8006F22C 44800000 */  mtc1  $zero, $f0
 /* AE63D0 8006F230 24030063 */  li    $v1, 99
