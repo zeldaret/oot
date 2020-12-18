@@ -982,10 +982,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (this->unk_398 >= 0xE5) {
                 globalCtx->envCtx.unk_E1 = 1;
-                globalCtx->envCtx.unk_E4 = 0xFF;
-                globalCtx->envCtx.unk_E3 = 0xFF;
-                globalCtx->envCtx.unk_E2 = 0xFF;
-                globalCtx->envCtx.unk_E5 = 0x64;
+                globalCtx->envCtx.unk_E2[2] = 0xFF;
+                globalCtx->envCtx.unk_E2[1] = 0xFF;
+                globalCtx->envCtx.unk_E2[0] = 0xFF;
+                globalCtx->envCtx.unk_E2[3] = 0x64;
                 if (this->unk_398 == 0xEA) {
                     globalCtx->envCtx.unk_E1 = 0;
                     this->unk_39C = 0x18;
