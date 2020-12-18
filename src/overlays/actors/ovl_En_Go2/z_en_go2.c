@@ -15,109 +15,68 @@
 
 // gSaveContext.infTable[14] & 1 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
 // gSaveContext.infTable[14] & 0x40 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
-// gSaveContext.infTable[15] & 0x100 - Talked to GC Goron outside Darunias door (after opening door, before getting goron bracelet)
-// gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
+// gSaveContext.infTable[15] & 0x100 - Talked to GC Goron outside Darunias door (after opening door, before getting
+// goron bracelet) gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
 // gSaveContext.infTable[15] & 1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 // gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
 
 // EnGo
 // this->actor.params & 0xF
-//      - Only checks in func_80A3F300 if (this->actor.params & 0xF == 0xF), if so immediately ends and returns 0 (start of the func)
+//      - Only checks in func_80A3F300 if (this->actor.params & 0xF == 0xF), if so immediately ends and returns 0 (start
+//      of the func)
 // this->actor.params & 0xF0
 
 // EnGo2
 // (this->actor.params & 0x3E0) >> 5
 // (this->actor.params & 0xFC00) >> 0xA
-// (s16) this->actor.params & 0x1F 
+// (s16) this->actor.params & 0x1F
 //
-//
-//
-// this->actor.params & 0x1F
-//
-//
-//      case 0: rolling goron
-//      case 1: link the goron
-//      case 2: biggoron
-//      case 3: fire temple goron
-//      case 4: DMT Goron by bomb flower
-//      case 5: DMT Goron that is rolling
-//      case 6: DMT Goron at DC entrance
-//      case 7: Goron City Goron at entrance
-//      case 8: Goron city Goron at centre island
-//      case 9: Goron city Goron outside Darunia's door
-//      case 10: Goron City Goron in stairwell
-//      case 11: Goron City Goron outside Lost Woods
-//      case 12: DMT Goron at base of Summit
-//      case 13: Market Goron in bazaar
-//
-//      Medigoron?  
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A42D30(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3);
-void func_80A42DD4(EnGo2* this);
-void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx);
+void EnGo2_SetUnkEffect(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3);
+void EnGo2_UpdateUnkEffect(EnGo2* this);
+void EnGo2_DrawUnkEffect(EnGo2* this, GlobalContext* globalCtx);
+
 s32 func_80A4320C(EnGo2* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
 void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID);
 s32 func_80A43468(EnGo2* this, GlobalContext* globalCtx);
 
 u16 func_80A434E8(EnGo2* this);
 
-u16 func_80A43564(GlobalContext* globalCtx, EnGo2* this);
+// Remove
+u16 EnGo2_getTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A435E8(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A436DC(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43714(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A43824(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A4387C(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A438B4(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43950(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A439AC(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43A2C(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A43A88(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43B08(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A43B64(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43C40(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A43C9C(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A44010(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A44224(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A44258(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A442F0(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A4433C(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A44398(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A443A8(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A443E0(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A4444C(GlobalContext* globalCtx, EnGo2* this);
-u16 func_80A444A8(GlobalContext* globalCtx, EnGo2* this);
+u16 EnGo2_getTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A444FC(GlobalContext* globalCtx, EnGo2* this);
+// Unremove
 
 u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this);
 u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this);
@@ -149,7 +108,7 @@ void func_80A45734(EnGo2* this);
 void func_80A4578C(EnGo2* this);
 void func_80A457F8(EnGo2* this);
 void func_80A45848(EnGo2* this);
-void func_80A4592C(EnGo2* this);
+void EnGo2_BlinkMouth(EnGo2* this);
 void func_80A45A00(EnGo2* this);
 void func_80A45B14(EnGo2* this, s32 unk_arg);
 void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx);
@@ -190,8 +149,12 @@ void func_80A47578(EnGo2* this, GlobalContext* globalCtx);
 
 s32 func_80A479B0(EnGo2* this, GlobalContext* globalCtx);
 s32 func_80A47AB0(EnGo2* this, GlobalContext* globalCtx);
-s32 func_80A47C20(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
-void func_80A47E34(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+
+// Remove
+s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+// Unremove
+
 
 extern AnimationHeader D_06000750;
 extern AnimationHeader D_06000D5C;
@@ -209,8 +172,7 @@ Vec3f D_80A480FC = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A48108 = { 0.0f, 0.3f, 0.0f };
 
 // static ColliderCylinderInit sCylinderInit =
-ColliderCylinderInit D_80A48114 = 
-{
+ColliderCylinderInit D_80A48114 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 40, 65, 0, { 0, 0, 0 } },
@@ -220,7 +182,6 @@ ColliderCylinderInit D_80A48114 =
 CollisionCheckInfoInit2 D_80A48140 = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
-
 
 const ActorInit En_Go2_InitVars = {
     ACTOR_EN_GO2,
@@ -235,18 +196,18 @@ const ActorInit En_Go2_InitVars = {
 };
 
 typedef struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
+    s16 unused;
+    s16 yDist;
+    s16 xzDist;
     s16 radius;
     s16 height;
 } EnGo2DataStruct1; // size 0xA
 
 typedef struct {
-    f32 unk_float1;
-    f32 unk_float2;
-    s8 unk_8;
-    f32 unk_float4;
+    f32 shape_unk_10;
+    f32 scale;
+    s8 actor_unk_1F;
+    f32 unk_218;
 } EnGo2DataStruct2; // size 0x10
 
 typedef struct {
@@ -258,28 +219,14 @@ typedef struct {
     f32 unk_14;
 } EnGo2DataStruct3; // size 0x18
 
-typedef struct {
-    EnGo2DataStruct3 unk_0[8];
-    s32 unk_1;
-    s32 unk_2;
-    s32 unk_3;
-} EnGo2DataStruct4;
-
 EnGo2DataStruct1 D_80A4816C[14] = {
-    { 0x0000, 0x0000, 0x0000, 0x0044, 0x0094 }, 
-    { 0x0000, 0x0000, 0x0000, 0x0018, 0x0034 },
-    { 0x0000, 0x0140, 0x017C, 0x0190, 0x0078 }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x002E, 0x005A }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, 
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }
+    { 0x0000, 0x0000, 0x0000, 0x0044, 0x0094 }, { 0x0000, 0x0000, 0x0000, 0x0018, 0x0034 },
+    { 0x0000, 0x0140, 0x017C, 0x0190, 0x0078 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x002E, 0x005A }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
+    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }
 };
 
 EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 0x06, 60.0f }, { 24.0f, 0.008f, 0x06, 30.0f },
@@ -305,103 +252,80 @@ struct_80034EC0_Entry D_80A48348[] = {
     { 0x06000D5C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }
 };
 
-// s32 D_80A48480[] = { 0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000, 0x0C000000, 0x3DCCCCCD,
-//                      0x3E4CCCCD, 0x0000000C, 0x41D00000, 0x00000000, 0x0C000000, 0x3DCCCCCD, 0x3E99999A, 0x00000004,
-//                      0x41200000, 0x00000000, 0x0C000000, 0x3E4CCCCD, 0x3E4CCCCD, 0x00000001, 0x41900000, 0x00000000,
-//                      0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 0x0C000000, 0x3F000000,
-//                      0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000, 0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003,
-//                      0x42280000, 0x00000000, 0x0C000000, 0x3F000000, 0x3ECCCCCD, 0x00000003, 0x42280000, 0x00000000,
-//                      0x00000000, 0x00000000, 0x00000000 }; // padding
+EnGo2DataStruct3 D_80A48480[2][4] = { { { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f },
+                                        { 0x0C, 0.1f, 0.2f, 0x0000000C, 26.0f, 0.0f },
+                                        { 0x0C, 0.1f, 0.3f, 0x00000004, 10.0f, 0.0f },
+                                        { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f } },
+                                      { { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
+                                        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
+                                        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
+                                        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f } } };
 
-EnGo2DataStruct3 D_80A48480[2][4] = {
-    {
-        { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f },
-        { 0x0C, 0.1f, 0.2f, 0x0000000C, 26.0f, 0.0f },
-        { 0x0C, 0.1f, 0.3f, 0x00000004, 10.0f, 0.0f },
-        { 0x0C, 0.2f, 0.2f, 0x00000001, 18.0f, 0.0f }
-    }, {
-        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
-        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
-        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f },
-        { 0x0C, 0.5f, 0.4f, 0x00000003, 42.0f, 0.0f }
-    } };
+s32 D_80A48540[] = { 0x00000000, 0x00000000, 0x00000000 }; // unused padding from D_80A48480
 
-s32 D_80A48540[] = {0x00000000, 0x00000000, 0x00000000 }; // unused padding from D_80A48480
-
-// Vec3s D_80A4854C = { 0x00, 0x00, 0x00 };
-// Vec3f D_80A48554 = { 0.0f, 0.0f, 0.0f };
-// Vec3f D_80A48560 = { 0.0f, 0.0f, 0.0f };
-// Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
-
-
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42D30.s")
-void func_80A42D30(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3) {
-    EnGoUnkStruct* phi_v0;
+void EnGo2_SetUnkEffect(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3) {
+    EnGoEffects* unkEffect;
     s16 i;
     s16 arg1;
 
-    phi_v0 = this->unk_270;
+    unkEffect = this->unk_270;
 
     for (i = 0; i < 10; i++) {
-        if (phi_v0->unk_0 != 1) {
-            phi_v0->unk_4 = unk_arg2;
-            phi_v0->unk_8 = unk_arg3;
+        if (unkEffect->unk_0 != 1) {
+            unkEffect->unk_4 = unk_arg2;
+            unkEffect->unk_8 = unk_arg3;
             if (1) {}
             arg1 = unk_arg1;
-            phi_v0->unk_1 = arg1;
-            phi_v0->unk_0 = 1;
-            phi_v0->unk_2 = unk_arg1;
-            phi_v0->pos = *pos;
-            phi_v0->accel = *accel;
-            phi_v0->velocity = *velocity;
+            unkEffect->unk_1 = arg1;
+            unkEffect->unk_0 = 1;
+            unkEffect->unk_2 = unk_arg1;
+            unkEffect->pos = *pos;
+            unkEffect->accel = *accel;
+            unkEffect->velocity = *velocity;
             return;
         }
-        phi_v0++;
+        unkEffect++;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42DD4.s")
-void func_80A42DD4(EnGo2* this) {
-    EnGoUnkStruct* phi_s0;
+void EnGo2_UpdateUnkEffect(EnGo2* this) {
+    EnGoEffects* unkEffect;
     f32 randomNumber;
-    s16 temp_s1;
     s16 i;
 
-    phi_s0 = this->unk_270;
+    unkEffect = this->unk_270;
 
     for (i = 0; i < 10; i++) {
-        if (phi_s0->unk_0) {
-            phi_s0->unk_1--;
+        if (unkEffect->unk_0) {
+            unkEffect->unk_1--;
 
-            if ((phi_s0->unk_1) == 0) {
-                phi_s0->unk_0 = 0;
+            if ((unkEffect->unk_1) == 0) {
+                unkEffect->unk_0 = 0;
             }
 
-            phi_s0->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            unkEffect->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
             randomNumber = Math_Rand_ZeroOne() * 0.4f;
-            phi_s0->accel.z = randomNumber - 0.2f;
-            phi_s0->pos.x += phi_s0->velocity.x;
-            phi_s0->pos.y += phi_s0->velocity.y;
-            phi_s0->pos.z += phi_s0->velocity.z;
-            phi_s0->velocity.x += phi_s0->accel.x;
-            phi_s0->velocity.y += phi_s0->accel.y;
-            phi_s0->velocity.z += randomNumber - 0.2f;
-            phi_s0->unk_4 += phi_s0->unk_8;
+            unkEffect->accel.z = randomNumber - 0.2f;
+            unkEffect->pos.x += unkEffect->velocity.x;
+            unkEffect->pos.y += unkEffect->velocity.y;
+            unkEffect->pos.z += unkEffect->velocity.z;
+            unkEffect->velocity.x += unkEffect->accel.x;
+            unkEffect->velocity.y += unkEffect->accel.y;
+            unkEffect->velocity.z += randomNumber - 0.2f;
+            unkEffect->unk_4 += unkEffect->unk_8;
         }
-        phi_s0++;
+        unkEffect++;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42EE0.s")
-void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx) {
-    EnGoUnkStruct* UnkStruct;
+void EnGo2_DrawUnkEffect(EnGo2* this, GlobalContext* globalCtx) {
+    EnGoEffects* unkEffect;
     s16 alpha;
     s16 phi_s7;
     s16 alphaIndex;
     s16 i;
 
-    UnkStruct = this->unk_270;
+    unkEffect = this->unk_270;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x6F);
 
@@ -410,7 +334,7 @@ void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx) {
 
     if (1) {}
     for (i = 0; i < 10; i++) {
-        if (UnkStruct->unk_0) {
+        if (unkEffect->unk_0) {
             if (phi_s7 == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, &D_0600FD40);
@@ -418,28 +342,27 @@ void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx) {
                 phi_s7 = 1;
             }
 
-            alpha = (s16)(UnkStruct->unk_1 * (255.0f / UnkStruct->unk_2));
+            alpha = (s16)(unkEffect->unk_1 * (255.0f / unkEffect->unk_2));
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xAA, 0x82, 0x5A, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(UnkStruct->pos.x, UnkStruct->pos.y, UnkStruct->pos.z, MTXMODE_NEW);
+            Matrix_Translate(unkEffect->pos.x, unkEffect->pos.y, unkEffect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(UnkStruct->unk_4, UnkStruct->unk_4, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(unkEffect->unk_4, unkEffect->unk_4, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x89),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            alphaIndex = (s16)(UnkStruct->unk_1 * (8.0f / UnkStruct->unk_2));
+            alphaIndex = (s16)(unkEffect->unk_1 * (8.0f / unkEffect->unk_2));
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A480D0[alphaIndex]));
             gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
         }
-        UnkStruct++;
+        unkEffect++;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 0x97);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4320C.s")
-s32 func_80A4320C(EnGo2 *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
-    Vec3f pos; 
-    Vec3f velocity; 
+s32 func_80A4320C(EnGo2* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+    Vec3f pos;
+    Vec3f velocity;
     Vec3f accel;
     s32 i;
     s16 angle;
@@ -448,81 +371,79 @@ s32 func_80A4320C(EnGo2 *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_
     velocity = D_80A480FC;
     accel = D_80A48108;
     pos = this->actor.posRot.pos;
-    pos.y  = this->actor.groundY;
-    angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+    pos.y = this->actor.groundY;
+    angle = (s16)((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
 
-    for(i=unk_arg4;i>=0;i--){ accel.y += (Math_Rand_ZeroOne()) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; func_80A42D30(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16) (0x10000 / unk_arg4); 
+    // has to be in one line to match???
+    for (i = unk_arg4; i >= 0; i--) {accel.y += (Math_Rand_ZeroOne()) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; EnGo2_SetUnkEffect(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16)(0x10000 / unk_arg4);
     }
 
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43424.s")
 void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID) {
     this->getItemID = getItemID;
     func_8002F434(&this->actor, globalCtx, getItemID, this->actor.xzDistFromLink + 1.0f,
                   fabsf(this->actor.yDistFromLink) + 1.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43468.s")
 s32 func_80A43468(EnGo2* this, GlobalContext* globalCtx) {
-    s16 temp_v0;
+    s16 dialogState;
 
-    temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
+    dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if ((this->unk_20D == 0xA) || (this->unk_20D == 5) || (this->unk_20D == 2) || (this->unk_20D == 1)) {
-        if (temp_v0 != this->unk_20D) {
+    if ((this->dialogState == 0xA) || (this->dialogState == 5) || (this->dialogState == 2) || (this->dialogState == 1)) {
+        if (dialogState != this->dialogState) {
             this->unk_20C++;
         }
     }
 
-    this->unk_20D = temp_v0;
-    return temp_v0;
+    this->dialogState = dialogState;
+    return dialogState;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A434E8.s")
 u16 func_80A434E8(EnGo2* this) {
 
     switch ((this->actor.params & 0xFC00) >> 0xA) {
         case 3:
-            // "I'll tell you a secret for saving me!  
-            // In this temple, there are doors that fall down when you try to  open them. 
-            // When one of these doors starts to fall, move!  
+            // "I'll tell you a secret for saving me!
+            // In this temple, there are doors that fall down when you try to  open them.
+            // When one of these doors starts to fall, move!
             // If you use a sample of the Goron \"special crop,\" you can break it..."
             return 0x3069;
         case 5:
-            // "Let me tell you a secret as a reward for releasing me!  
-            // When you are on fire, you can put it out by swinging your sword, or by rolling forward... 
-            // Did you know that?" 
+            // "Let me tell you a secret as a reward for releasing me!
+            // When you are on fire, you can put it out by swinging your sword, or by rolling forward...
+            // Did you know that?"
             return 0x306A;
         case 4:
-            // "Here's a tip for rescuing me!  
-            // Somewhere in this temple, you're sure to meet up with some creatures that dance as they attack. 
-            // Arrows won't hurt them!  
+            // "Here's a tip for rescuing me!
+            // Somewhere in this temple, you're sure to meet up with some creatures that dance as they attack.
+            // Arrows won't hurt them!
             // Looks like you might need some of the Goron \"special crop!\" That's all I have to tell you!"
             return 0x306B;
         case 2:
-            // "I'll tell you a secret for saving me!  
-            // There are switches in this temple that you have to cut to activate. 
+            // "I'll tell you a secret for saving me!
+            // There are switches in this temple that you have to cut to activate.
             // But, you can also use the Goron \"special crop\" to do the job."
             return 0x306C;
         case 10:
-            // "I'll tell you a secret for saving me!  
+            // "I'll tell you a secret for saving me!
             // If you find a place that you can see on the map, but can't reach, try playing your Ocarina!"
             return 0x306D;
         case 8:
-            // "I'll tell you a secret for saving me!  
-            // In order to get into the room where Darunia went, you have to do something about the pillar stuck in the ceiling.  
-            // Find a path that leads to a room above the ceiling right away!"
+            // "I'll tell you a secret for saving me!
+            // In order to get into the room where Darunia went, you have to do something about the pillar stuck in the
+            // ceiling. Find a path that leads to a room above the ceiling right away!"
             return 0x306E;
         case 11:
-            // "I'll tell you a secret for saving me!  
-            // A door is hidden inside the statue at the entrance to this temple.  
+            // "I'll tell you a secret for saving me!
+            // A door is hidden inside the statue at the entrance to this temple.
             // But, the Goron \"special crop\" won't work on it... Don't you have anything stronger?"
             return 0x306F;
         case 1:
-            // "Here's a secret for saving me!  
-            // A wall that you can destroy with the Goron's \"special crop\" 
+            // "Here's a secret for saving me!
+            // A wall that you can destroy with the Goron's \"special crop\"
             // will sound different than a regular wall if you hit it with your sword."
             return 0x3070;
         default:
@@ -531,8 +452,7 @@ u16 func_80A434E8(EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43564.s")
-u16 func_80A43564(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
 
     if (gSaveContext.infTable[17] & 0x4000) {
         // "Thank you! Let me express my joy with more wild rolling!"
@@ -544,25 +464,24 @@ u16 func_80A43564(GlobalContext* globalCtx, EnGo2* this) {
             return 0x3012;
         }
     }
-    // "Why did you stop me? Don't stop me here!  
-    // You can't stop my wild rolling!  
-    // This wild rolling is the only way to relieve my stress!  
+    // "Why did you stop me? Don't stop me here!
+    // You can't stop my wild rolling!
+    // This wild rolling is the only way to relieve my stress!
     // Now stand in awe of my wild, wild rolling!!"
     return 0x3011;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A435E8.s")
-u16 func_80A435E8(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A435E8(GlobalContext* globalCtx, EnGo2* this) {
 
     s32 bombBagUpgrade;
 
-    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
 
         case 2:
             return 2;
 
         case 5:
-            if(func_80106BC8(globalCtx)) {
+            if (func_80106BC8(globalCtx)) {
                 if (this->actor.textId == 0x3012) {
                     this->actionFunc = func_80A470E8;
                     bombBagUpgrade = CUR_CAPACITY(UPG_BOMB_BAG) == 30 ? GI_BOMB_BAG_40 : GI_BOMB_BAG_30;
@@ -579,33 +498,28 @@ u16 func_80A435E8(GlobalContext *globalCtx, EnGo2 *this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A436DC.s")
 // DMT Goron by bomb flower
-u16 func_80A436DC(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 
     // 0x3027
     // "You are incredible, destroying  the Dodongos! Do you mind if I  call you Big Brother?"
 
     // 0x300A
-    // "I'm standing here to shade the Bomb Flowers from the sun.  
+    // "I'm standing here to shade the Bomb Flowers from the sun.
     // Do you have a question for me?  Ask about Bomb Flowers Ask about Dodongo's Cavern"
 
     return CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ? 0x3027 : 0x300A;
-
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43714.s")
 // DMT Goron by Bomb Flower Choice
-u16 func_80A43714(GlobalContext *globalCtx, EnGo2 *this) {
+u16 func_80A43714(GlobalContext* globalCtx, EnGo2* this) {
 
-    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
             if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
                 gSaveContext.infTable[14] |= 0x800;
                 return 2;
-            }
-            else {
+            } else {
                 return 0;
             }
         case 4:
@@ -614,21 +528,23 @@ u16 func_80A43714(GlobalContext *globalCtx, EnGo2 *this) {
                 if (this->actor.textId == 0x300A) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         // 0x300B
-                        // "Those plants growing over there  are Bomb Flowers. 
-                        // They are \"mining plants\" that grow only on this mountain.  
-                        // The flower's fruit is the raw  material for bombs.  
-                        // But a non-Goron amateur should  never pick the Bomb Flowers'  fruit!  
-                        // They usually grow only in dark  places, so Bomb Flowers that grow in a place like this are extremely rare."
+                        // "Those plants growing over there  are Bomb Flowers.
+                        // They are \"mining plants\" that grow only on this mountain.
+                        // The flower's fruit is the raw  material for bombs.
+                        // But a non-Goron amateur should  never pick the Bomb Flowers'  fruit!
+                        // They usually grow only in dark  places, so Bomb Flowers that grow in a place like this are
+                        // extremely rare."
                         //
                         // 0x300C
-                        // "Those plants growing over there  are Bomb Flowers. 
-                        // They are \"mining plants\" that grow only on this mountain.  
-                        // They usually grow only in dark  places, like caves, so Bomb  Flowers that grow in a place like this are extremely rare.  
-                        // If you have the Goron's Bracelet, even a little kid like you could easily pick it with [A]."
+                        // "Those plants growing over there  are Bomb Flowers.
+                        // They are \"mining plants\" that grow only on this mountain.
+                        // They usually grow only in dark  places, like caves, so Bomb  Flowers that grow in a place
+                        // like this are extremely rare. If you have the Goron's Bracelet, even a little kid like you
+                        // could easily pick it with [A]."
                         this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) ? 0x300B : 0x300C;
                     } else {
-                        // "Did you see the cavern on your  way here? That is the Dodongo's  Cavern.  
-                        // Because the light inside is very  dim, the Bomb Flowers, 
+                        // "Did you see the cavern on your  way here? That is the Dodongo's  Cavern.
+                        // Because the light inside is very  dim, the Bomb Flowers,
                         // a plant  unique to this mountain, grow like crazy in there!" },
                         this->actor.textId = 0x300D;
                     }
@@ -639,31 +555,26 @@ u16 func_80A43714(GlobalContext *globalCtx, EnGo2 *this) {
         default:
             return 1;
     }
-
 }
 
 // DMT Small Rolling Goron
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43824.s")
-u16 func_80A43824(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         // "You are incredible, destroying  the Dodongos! Do you mind if I  call you Big Brother?"
         return 0x3027;
-    }
-    else {
+    } else {
 
         // 0x3026
         // "Oh, I see... We should have thrown the  Bomb from the cliff..."
 
-        // 0x3009 
-        // "I wish I could roll down the  mountain like a rock, with a Bomb Flower and...  BOOOOOOM!  
+        // 0x3009
+        // "I wish I could roll down the  mountain like a rock, with a Bomb Flower and...  BOOOOOOM!
         // If I could do that with a Bomb  Flower, I could become a real man."
         return (gSaveContext.eventChkInf[2] & 8) ? 0x3026 : 0x3009;
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4387C.s")
 u16 func_80A4387C(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
@@ -672,9 +583,8 @@ u16 func_80A4387C(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A438B4.s")
 // Goron in front of DC Entrance
-u16 func_80A438B4(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi_v1;
     s32 phi_v0;
 
@@ -692,68 +602,60 @@ u16 func_80A438B4(GlobalContext* globalCtx, EnGo2* this) {
         phi_v1 = 0x3021;
     } else {
         if (gSaveContext.infTable[14] & 1) {
-            // "If you want to hear more Goron gossip, head up to our city!  
+            // "If you want to hear more Goron gossip, head up to our city!
             // Goron City is just a little way up the trail. It won't take much longer to get there, even on foot."
             phi_v0 = 0x302A;
         } else {
-            // "I am one of the Gorons, the stone-eating people who live on Death Mountain. 
-            // Look at that huge boulder over there!  
-            // It blocks the entrance to the Dodongo's Cavern, which was once a very important place for us Gorons...  
-            // But one day, many Dodongos suddenly appeared inside the  cavern. It became a very  dangerous place!  
+            // "I am one of the Gorons, the stone-eating people who live on Death Mountain.
+            // Look at that huge boulder over there!
+            // It blocks the entrance to the Dodongo's Cavern, which was once a very important place for us Gorons...
+            // But one day, many Dodongos suddenly appeared inside the  cavern. It became a very  dangerous place!
             // On top of that, a Gerudo in black armor used his magic to seal the entrance with that boulder!
             // [goto 302A]
             phi_v0 = 0x3008;
-            // 
+            //
         }
         phi_v1 = phi_v0;
     }
     return phi_v1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43950.s")
 u16 func_80A43950(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3008) {
             gSaveContext.infTable[14] |= 1;
         }
         return 0;
-    }
-
-    else { 
+    } else {
         return 1;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A439AC.s")
 // Goron at GC Entrance
-u16 func_80A439AC(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         // "Thank you, [Link]!!"
         return 0x3043;
-    }
 
-    else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
+    } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         // "You are incredible, destroying  the Dodongos! Do you mind if I  call you Big Brother?"
         return 0x3027;
-    }
 
-    else {
+    } else {
         // 3014
-        // "Oh...I'm so hungry...  Everyone feels faint from hunger because of the food shortage in  this town. 
-        // We are in danger of  extinction!  It's all because we can't enter our quarry, the Dodongo's Cavern.  
-        // We Gorons live on a diet of  rocks...  And the most delicious and  nutritious rocks around are found  in the Dodongo's Cavern! 
-        // But that  seems like ancient history now...  We've become such gourmets that  we can't stand to eat rocks from anywhere else!
-        // [goto 3015]" },
+        // "Oh...I'm so hungry...  Everyone feels faint from hunger because of the food shortage in  this town.
+        // We are in danger of  extinction!  It's all because we can't enter our quarry, the Dodongo's Cavern.
+        // We Gorons live on a diet of  rocks...  And the most delicious and  nutritious rocks around are found  in the
+        // Dodongo's Cavern! But that  seems like ancient history now...  We've become such gourmets that  we can't
+        // stand to eat rocks from anywhere else! [goto 3015]" },
 
         // 3015
         // "Sigh... I want to eat the top sirloin rocks from the Dodongo's  Cavern!"
         return gSaveContext.infTable[15] & 1 ? 0x3015 : 0x3014;
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43A2C.s")
 u16 func_80A43A2C(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3014) {
@@ -765,38 +667,32 @@ u16 func_80A43A2C(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43A88.s")
 // Goron in GC in stranded island
-u16 func_80A43A88(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         // "Thank you, [Link]!!"
         return 0x3043;
-    }
-
-    else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
+    } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         // "Did you get the red stone? Let me get one little lick!  No? Booooo!"
         return 0x3067;
-    }
-
-    else {
+    } else {
         // 0x3016
-        // "Hey!  It's dangerous for a little kid like you to come out here. You might  fall down!  
-        // If I'm not mistaken, you came out here to eat the red stone! Well, too bad! It's not here!  What? That's not why you're here?  
-        // You're looking for a \"Spiritual Stone ? \" You must mean that  delicious-looking red stone that was once displayed here!  
-        // I was so hungry that I thought it would be OK to just give it one tiny little lick...so I snuck out here. But, it was already gone!  
-        // I think Big Brother took it away.  He always says that everyone is after that red stone!
-        // [goto 3017]"
+        // "Hey!  It's dangerous for a little kid like you to come out here. You might  fall down!
+        // If I'm not mistaken, you came out here to eat the red stone! Well, too bad! It's not here!  What? That's not
+        // why you're here? You're looking for a \"Spiritual Stone ? \" You must mean that  delicious-looking red stone
+        // that was once displayed here! I was so hungry that I thought it would be OK to just give it one tiny little
+        // lick...so I snuck out here. But, it was already gone! I think Big Brother took it away.  He always says that
+        // everyone is after that red stone! [goto 3017]"
 
         // 0x3017
-        // "Big Brother has shut himself up in his room saying, \"I will wait in here for the  Royal Family's messenger!\""
-        
+        // "Big Brother has shut himself up in his room saying, \"I will wait in here for the  Royal Family's
+        // messenger!\""
+
         return gSaveContext.infTable[15] & 0x10 ? 0x3017 : 0x3016;
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43B08.s")
 u16 func_80A43B08(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3016) {
@@ -808,9 +704,8 @@ u16 func_80A43B08(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43B64.s")
 // Goron in GC outside Darunia's door
-u16 func_80A43B64(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     u32 temp_v0;
     s32 phi_v1;
     s32 phi_v0;
@@ -830,19 +725,20 @@ u16 func_80A43B64(GlobalContext* globalCtx, EnGo2* this) {
         phi_v1 = 0x302C;
     } else {
         if (Flags_GetSwitch(globalCtx, 0x1B) == 0) {
-            // "Big Brother has shut himself up in his room saying, \"I will wait in here for the  Royal Family's messenger!\""
+            // "Big Brother has shut himself up in his room saying, \"I will wait in here for the  Royal Family's
+            // messenger!\""
             phi_v0 = 0x3017;
         } else {
             if (gSaveContext.infTable[15] & 0x100) {
-                // "I remember Big Brother used to always listen to the music that comes from the forest...  
+                // "I remember Big Brother used to always listen to the music that comes from the forest...
                 // Ah yes, the good old days... That music makes me feel nostalgic, too...
                 // [goto 302C]"
                 phi_v1_2 = 0x3019;
             } else {
-                // "I'm so hungry that I can't think about anything but food!  Ask Big Brother about complicated things.  
-                // If he's in a bad mood, he'll  probably get mad at you...it can be pretty scary. But...  I know his SECRET.  
-                // He may not look like the type, but Big Brother loves to dance! If he gets in a rhythm, he'll surely...
-                // [goto 3019]"
+                // "I'm so hungry that I can't think about anything but food!  Ask Big Brother about complicated things.
+                // If he's in a bad mood, he'll  probably get mad at you...it can be pretty scary. But...  I know his
+                // SECRET. He may not look like the type, but Big Brother loves to dance! If he gets in a rhythm, he'll
+                // surely... [goto 3019]"
                 phi_v1_2 = 0x3018;
             }
             phi_v0 = phi_v1_2;
@@ -852,7 +748,6 @@ u16 func_80A43B64(GlobalContext* globalCtx, EnGo2* this) {
     return phi_v1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43C40.s")
 u16 func_80A43C40(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3018) {
@@ -864,62 +759,63 @@ u16 func_80A43C40(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43C9C.s")
-u16 func_80A43C9C(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         // 0x3041
         // "Brother [Link]! Everybody has come back!  Dad and you destroyed the dragon together, didn't you![goto 3042]"
-        
+
         // 0x3042
         // "When I grow up, I want to be a strong man like you,  [Link]!"
         return gSaveContext.infTable[16] & 0x8000 ? 0x3042 : 0x3041;
-    }
-
-    else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+    } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
         // 0x3037
-        // "Dad told me not to let anybody  follow him to the temple, but...  Only you, [Link], can save everyone!  
-        // I'm sure that the shop owner, who is hiding somewhere right now, will also help you!  
+        // "Dad told me not to let anybody  follow him to the temple, but...  Only you, [Link], can save everyone!
+        // I'm sure that the shop owner, who is hiding somewhere right now, will also help you!
         // Now, I'll tell you about the secret passage to the Fire Temple![goto 3038]"
 
         // 0x3038
         // "Try to move the statue inside Dad's room!"
         return gSaveContext.infTable[16] & 0x4000 ? 0x3038 : 0x3037;
-    }
-
-    else if (gSaveContext.infTable[16] & 0x1000) {
+    } else if (gSaveContext.infTable[16] & 0x1000) {
         this->unk_20C = 0;
-        this->unk_20D = 0;
+        this->dialogState = 0;
         // 0x3032
-        // What?  Your name is also [Link]?  Then you must be the legendary Dodongo Buster and Hero,  [Link]!  
-        // My dad is Darunia... Do you remember him?  Dad named me [Link] after you, because you're so  brave!  It's a cool name! 
-        // I really like it!  [Link], you're a hero to  us Gorons!  I'm so glad to meet you!  Please give me your autograph! 
-        // Sign it: \"To my friend,[Link] of the Gorons\"  Oh...  I guess it's not a good time to ask you for this...
-        // Please help everyone!  My dad, Darunia, went to the Fire Temple. A dragon is inside! 
-        // If we don't hurry up, even my dad will be eaten by the dragon!!
-        // [goto 3033]"
+        // What?  Your name is also [Link]?  Then you must be the legendary Dodongo Buster and Hero,  [Link]!
+        // My dad is Darunia... Do you remember him?  Dad named me [Link] after you, because you're so  brave!  It's a
+        // cool name! I really like it!  [Link], you're a hero to  us Gorons!  I'm so glad to meet you!  Please give me
+        // your autograph! Sign it: \"To my friend,[Link] of the Gorons\"  Oh...  I guess it's not a good time to ask
+        // you for this... Please help everyone!  My dad, Darunia, went to the Fire Temple. A dragon is inside! If we
+        // don't hurry up, even my dad will be eaten by the dragon!! [goto 3033]"
 
         // 0x3033
         // "B-b-b-boooo hooooo!"
         return gSaveContext.infTable[16] & 0x400 ? 0x3033 : 0x3032;
-    }
-
-    else {
+    } else {
         // "I won't let you get me!  You probably work for Ganondorf!"
         return 0x3030;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43D78.s")
 u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this) {
 
     switch (func_80A43468(this, globalCtx)) {
         case 2:
             switch (this->actor.textId) {
+                // 0x3036
+                // "Everybody was taken to the  Fire Temple...  While my dad was out... Ganondorf's followers
+                // came and took them all away! All of them will be eaten by Volvagia!  Dad said that Ganondorf
+                // has revived Volvagia... As a warning to those who might oppose him, Ganondorf is going to
+                // feed them all to Volvagia! Dad went to the Fire Temple all by himself to try to save
+                // everyone... Please help, [Link]! I'll give you this heat-resistant tunic!"
                 case 0x3036:
                     func_80A43424(this, globalCtx, 0x2C);
                     this->actionFunc = func_80A470E8;
                     return 2;
+
+                // "Dad told me not to let anybody  follow him to the temple, but...  Only you, [Link], can save everyone!  
+                // I'm sure that the shop owner, who is hiding somewhere right now, will also help you! 
+                // Now, I'll tell you about the secret passage to the Fire Temple![goto 3038]"
                 case 0x3037:
                     gSaveContext.infTable[16] |= 0x4000;
                 default:
@@ -928,31 +824,33 @@ u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this) {
 
         case 4:
             if (func_80106BC8(globalCtx)) {
+
+                // "You'd better try to calm him down if you can... 
+                // Maybe he will calm down if you  talk to him?  What do you want to ask him?  About the dragon About the Gorons"
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         // 0x3035
-                        // "A long time ago there was an evil dragon named Volvagia living  in this mountain.  
-                        // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons... BOOOM!  
-                        // Destroyed it just like that. This is  a myth from long ago, but it's  true!  
-                        // I know, because my dad is a descendant of the hero!
-                        // [goto 3033]"
+                        // "A long time ago there was an evil dragon named Volvagia living  in this mountain.
+                        // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons...
+                        // BOOOM! Destroyed it just like that. This is  a myth from long ago, but it's  true! I know,
+                        // because my dad is a descendant of the hero! [goto 3033]"
 
                         // 0x3033
-                        // "B-b-b-boooo hooooo!" 
+                        // "B-b-b-boooo hooooo!"
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
                             func_800F8D04(0x39EB);
                         }
                     } else {
                         // 0x3036
-                        // "Everybody was taken to the  Fire Temple...  While my dad was out... Ganondorf's followers came and took them all away!  
-                        // All of them will be eaten by Volvagia!  Dad said that Ganondorf has revived Volvagia...  
-                        // As a warning to those who might oppose him, Ganondorf is going to feed them all to Volvagia!  
-                        // Dad went to the Fire Temple all by himself to try to save  everyone...  
-                        // Please help, [Link]! I'll give you this heat-resistant tunic!"
+                        // "Everybody was taken to the  Fire Temple...  While my dad was out... Ganondorf's followers
+                        // came and took them all away! All of them will be eaten by Volvagia!  Dad said that Ganondorf
+                        // has revived Volvagia... As a warning to those who might oppose him, Ganondorf is going to
+                        // feed them all to Volvagia! Dad went to the Fire Temple all by himself to try to save
+                        // everyone... Please help, [Link]! I'll give you this heat-resistant tunic!"
 
                         // 0x3033
-                        // "B-b-b-boooo hooooo!" 
+                        // "B-b-b-boooo hooooo!"
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
                             func_800F8D04(0x39EB);
@@ -961,8 +859,7 @@ u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this) {
                     func_8010B720(globalCtx, this->actor.textId);
                     this->unk_20C = 0;
                 }
-            }
-            else {
+            } else {
                 break;
             }
             return 1;
@@ -970,10 +867,29 @@ u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this) {
         case 5:
             if (func_80106BC8(globalCtx)) {
                 switch (this->actor.textId) {
+                    // 0x3035
+                    // "A long time ago there was an evil dragon named Volvagia living  in this mountain.  
+                    // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons... BOOOM!  
+                    // Destroyed it just like that. This is  a myth from long ago, but it's  true!  
+                    // I know, because my dad is a descendant of the hero![goto 3033]" },
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
+
+                    // 0x3032
+                    // "What?  Your name is also [Link]?  Then you must be the legendary Dodongo Buster and Hero,  [Link]!  
+                    // My dad is Darunia... Do you remember him?  Dad named me [Link] after you, because you're so  brave!  It's a cool name! 
+                    // I really like it!  [Link], you're a hero to  us Gorons!  I'm so glad to meet you!  Please give me your autograph! 
+                    // Sign it: \"To my friend,[Link] of the Gorons\"  Oh...  I guess it's not a good time to ask you for this... 
+                    // Please help everyone!  My dad, Darunia, went to the Fire Temple. A dragon is inside!  
+                    // If we don't hurry up, even my dad will be eaten by the dragon!![goto 3033]" 
+
+                    // 0x3033
+                    // "B-b-b-boooo hooooo!"
                     case 0x3032:
                     case 0x3033:
+
+                        // "You'd better try to calm him down if you can... 
+                        // Maybe he will calm down if you  talk to him?  What do you want to ask him?  About the dragon About the Gorons"
                         this->actor.textId = 0x3034;
                         func_8010B720(globalCtx, this->actor.textId);
                         return 1;
@@ -985,8 +901,7 @@ u16 func_80A43D78(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43F90.s")
-u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     Player* player;
 
     player = PLAYER;
@@ -1007,50 +922,50 @@ u16 func_80A43F90(GlobalContext* globalCtx, EnGo2* this) {
         return 0x3058;
     }
     player->exchangeItemId = EXCH_ITEM_SWORD_BROKEN;
-    // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...  
-    // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm not lyinnnnng..."
+    // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...
+    // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm not
+    // lyinnnnng..."
     return 0x3053;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44010.s")
-u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
-    
-    s32 pad;
-    u8 temp;
-    temp = this->unk_20D;
+u16 func_80A44010(GlobalContext* globalCtx, EnGo2* this) {
 
-    switch(func_80A43468(this, globalCtx)) {
+    s32 pad;
+    u8 dialogState;
+    dialogState = this->dialogState;
+
+    switch (func_80A43468(this, globalCtx)) {
 
         case 6:
+            // "That sworrrrd is my finest  worrrrk!"
             if (this->actor.textId == 0x305E) {
                 if (gSaveContext.bgsFlag == 0) {
                     func_80A43424(this, globalCtx, 0x57);
                     this->actionFunc = func_80A470E8;
                     return 2;
-                }
-                else {
+                } else {
                     return 0;
                 }
-            }
-            else {
+            } else {
                 return 0;
             }
 
         case 3:
-            switch(this->actor.textId) {
+            switch (this->actor.textId) {
 
+                // "That sworrrrd is my finest  worrrrk!"
                 case 0x305E:
                     if (func_8002F368(globalCtx) != 0xF) {
                         break;
                     }
 
                 case 0x3059:
-                    if (temp == 0) {
+                    if (dialogState == 0) {
                         func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
 
                 case 0x3054:
-                    if (temp == 0) {
+                    if (dialogState == 0) {
                         Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     }
             }
@@ -1065,7 +980,7 @@ u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
                         return 2;
                     }
                     this->actor.textId = 0x3056;
-                    func_8010B720(globalCtx, this->actor.textId); // & 0xFFFF
+                    func_8010B720(globalCtx, this->actor.textId);
                 }
                 return 1;
             }
@@ -1080,15 +995,11 @@ u16 func_80A44010(GlobalContext *globalCtx, EnGo2 *this) {
                 }
                 return 2;
             }
-
     }
     return 1;
 }
 
-
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44224.s")
-u16 func_80A44224(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
         // "Are you releasing me? Am I free to go?"
         return 0x3071;
@@ -1098,10 +1009,9 @@ u16 func_80A44224(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44258.s")
 u16 func_80A44258(GlobalContext* globalCtx, EnGo2* this) {
 
-    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
             return 0;
 
@@ -1118,26 +1028,23 @@ u16 func_80A44258(GlobalContext* globalCtx, EnGo2* this) {
         default:
             return 1;
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A442F0.s")
 // Goron in GC stairwell
-u16 func_80A442F0(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi;
     s32 phi2;
 
     if (LINK_IS_CHILD) {
         if (gSaveContext.infTable[14] & 8) {
-            // "I know a trick to conserve sticks! If you light a stick on fire, it will  burn to ashes. 
+            // "I know a trick to conserve sticks! If you light a stick on fire, it will  burn to ashes.
             // Press [A] to put it away before it completely burns!  By the way, I hid a stick somewhere... Hehehee..."
             phi = 0x3022;
         } else {
-            // "Oh?  We don't get many visitors way up here. Where are you from?  The forest?  
-            // What's a \"forest\"?  Eh?  It's where a lot of \"trees\" and  \"plants\" grow?  Now I'm even more confused!  
-            // Nothing grows around here besides the Bomb Flowers...  We don't have \"seeds\" or \"nuts\" around here either.  
-            // Even Deku Sticks are very scarce around here!
-            // [goto 3022]"
+            // "Oh?  We don't get many visitors way up here. Where are you from?  The forest?
+            // What's a \"forest\"?  Eh?  It's where a lot of \"trees\" and  \"plants\" grow?  Now I'm even more
+            // confused! Nothing grows around here besides the Bomb Flowers...  We don't have \"seeds\" or \"nuts\"
+            // around here either. Even Deku Sticks are very scarce around here! [goto 3022]"
             phi = 0x300E;
         }
         phi2 = phi;
@@ -1148,7 +1055,6 @@ u16 func_80A442F0(GlobalContext* globalCtx, EnGo2* this) {
     return phi2;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4433C.s")
 u16 func_80A4433C(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x300E) {
@@ -1159,14 +1065,12 @@ u16 func_80A4433C(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44398.s")
 // Goron in market after ruby
-u16 func_80A44398(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
     // "I came here to sell bombs... Please buy some!"
     return 0x7122;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443A8.s")
 u16 func_80A443A8(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
@@ -1174,24 +1078,24 @@ u16 func_80A443A8(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A443E0.s")
 // Goron in GC in front of Lost Woods
-u16 func_80A443E0(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi;
     if (LINK_IS_CHILD) {
         if (Flags_GetSwitch(globalCtx, 0x1C)) {
-            // "How was Big Brother? I see...  By the way, do you know the music coming from deep inside of this tunnel? We all like this music!"
+            // "How was Big Brother? I see...  By the way, do you know the music coming from deep inside of this tunnel?
+            // We all like this music!"
             return 0x302F;
         } else {
             if (gSaveContext.infTable[14] & 0x40) {
                 // "I want you to bring fire from Big Brother's room back here."
                 phi = 0x3025;
             } else {
-                // "I'm so hungry that I can't think about anything but food!  \"Spiritual Stone ? \" 
-                // That red stone that was lighting up our city?  Big Brother Darunia took it away. 
-                // Then, he shut himself up in his room and won't come out.  
-                // Since then, it feels like all the lights in the city have gone  out... Everyone seems so... depressed...
-                // [goto 3025]"
+                // "I'm so hungry that I can't think about anything but food!  \"Spiritual Stone ? \"
+                // That red stone that was lighting up our city?  Big Brother Darunia took it away.
+                // Then, he shut himself up in his room and won't come out.
+                // Since then, it feels like all the lights in the city have gone  out... Everyone seems so...
+                // depressed... [goto 3025]"
                 phi = 0x3024;
             }
             return phi;
@@ -1202,7 +1106,6 @@ u16 func_80A443E0(GlobalContext* globalCtx, EnGo2* this) {
     return 0x3043;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4444C.s")
 u16 func_80A4444C(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3024) {
@@ -1213,13 +1116,12 @@ u16 func_80A4444C(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444A8.s")
 // Goron at base of DMT summit to fairy
-u16 func_80A444A8(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_getTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
     s32 phi;
     if (LINK_IS_CHILD) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-            // "They say that a fairy lives on top of Death Mountain.  
+            // "They say that a fairy lives on top of Death Mountain.
             // If you want to make it to the top, you'd better take a big shield with you..."
             phi = 0x3065;
         } else {
@@ -1232,7 +1134,6 @@ u16 func_80A444A8(GlobalContext* globalCtx, EnGo2* this) {
     return 0x3043;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A444FC.s")
 u16 func_80A444FC(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
@@ -1240,7 +1141,6 @@ u16 func_80A444FC(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44534.s")
 u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this) {
     u16 temp_ret;
 
@@ -1251,38 +1151,37 @@ u16 func_80A44534(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         switch (this->actor.params & 0x1F) {
             case GORON_CITY_ROLLING_BIG:
-                return func_80A43564(globalCtx, this);
+                return EnGo2_getTextIdGoronCityRollingBig(globalCtx, this);
             case GORON_CITY_LINK:
-                return func_80A43C9C(globalCtx, this);
+                return EnGo2_getTextIdGoronCityLink(globalCtx, this);
             case GORON_DMT_BIGGORON:
-                return func_80A43F90(globalCtx, this);
+                return EnGo2_getTextIdGoronDmtBiggoron(globalCtx, this);
             case GORON_FIRE_GENERIC:
-                return func_80A44224(globalCtx, this);
+                return EnGo2_getTextIdGoronFireGeneric(globalCtx, this);
             case GORON_DMT_BOMB_FLOWER:
-                return func_80A436DC(globalCtx, this);
+                return EnGo2_getTextIdGoronDmtBombFlower(globalCtx, this);
             case GORON_DMT_ROLLING_SMALL:
-                return func_80A43824(globalCtx, this);
+                return EnGo2_getTextIdGoronDmtRollingSmall(globalCtx, this);
             case GORON_DMT_DC_ENTRANCE:
-                return func_80A438B4(globalCtx, this);
+                return EnGo2_getTextIdGoronDmtDcEntrance(globalCtx, this);
             case GORON_CITY_ENTRANCE:
-                return func_80A439AC(globalCtx, this);
+                return EnGo2_getTextIdGoronCityEntrance(globalCtx, this);
             case GORON_CITY_ISLAND:
-                return func_80A43A88(globalCtx, this);
+                return EnGo2_getTextIdGoronCityIsland(globalCtx, this);
             case GORON_CITY_LOWEST_FLOOR:
-                return func_80A43B64(globalCtx, this);
+                return EnGo2_getTextIdGoronCityLowestFloor(globalCtx, this);
             case GORON_CITY_STAIRWELL:
-                return func_80A442F0(globalCtx, this);
+                return EnGo2_getTextIdGoronCityStairwell(globalCtx, this);
             case GORON_CITY_LOST_WOODS:
-                return func_80A443E0(globalCtx, this);
-            case GORON_DMT_FAIRY_SUMMIT:
-                return func_80A444A8(globalCtx, this);
+                return EnGo2_getTextIdGoronCityLostWoods(globalCtx, this);
+            case GORON_DMT_FAIRY_HINT:
+                return EnGo2_getTextIdGoronDmtFairyHint(globalCtx, this);
             case GORON_MARKET_BAZAAR:
-                return func_80A44398(globalCtx, this);
+                return EnGo2_getTextIdGoronMarketBazaar(globalCtx, this);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44678.s")
 u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
 
     switch (this->actor.params & 0x1F) {
@@ -1310,37 +1209,35 @@ u16 func_80A44678(GlobalContext* globalCtx, EnGo2* this) {
             return func_80A4433C(globalCtx, this);
         case GORON_CITY_LOST_WOODS:
             return func_80A4444C(globalCtx, this);
-        case GORON_DMT_FAIRY_SUMMIT:
+        case GORON_DMT_FAIRY_HINT:
             return func_80A444FC(globalCtx, this);
         case GORON_MARKET_BAZAAR:
             return func_80A443A8(globalCtx, this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44790.s")
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, func_80A44534, func_80A44678);
     }
     if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.maskB & 1) == 0)) {
-        return 0;
+        return false;
     } else {
         if (func_8002F194(&this->actor, globalCtx)) {
             this->unk_194.unk_00 = 1;
-            return 1;
+            return true;
         }
         if (this->unk_194.unk_00) {
             this->unk_194.unk_00 = func_80A44678(globalCtx, this);
-            return 0;
+            return false;
         } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
             this->actor.textId = func_80A44534(globalCtx, this);
         }
     }
-    return 0;
+    return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4488C.s")
 void func_80A4488C(EnGo2* this) {
     u8 index;
 
@@ -1350,34 +1247,32 @@ void func_80A4488C(EnGo2* this) {
     this->collider.dim.height = (&D_80A4816C[index])->height;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A448C4.s")
 void func_80A448C4(EnGo2* this) {
     u8 index;
 
     index = this->actor.params & 0x1F;
-    this->actor.shape.unk_10 = (&D_80A481F8[index])->unk_float1;
-    Actor_SetScale(&this->actor, (&D_80A481F8[index])->unk_float2);
-    this->actor.unk_1F = (&D_80A481F8[index])->unk_8;
-    this->unk_218 = (&D_80A481F8[index])->unk_float4;
-    this->unk_218 = this->unk_218 + this->collider.dim.radius;
+    this->actor.shape.unk_10 = (&D_80A481F8[index])->shape_unk_10;
+    Actor_SetScale(&this->actor, (&D_80A481F8[index])->scale);
+    this->actor.unk_1F = (&D_80A481F8[index])->actor_unk_1F;
+    this->unk_218 = (&D_80A481F8[index])->unk_218;
+    this->unk_218 += this->collider.dim.radius;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44940.s")
-void func_80A44940(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A44940(EnGo2* this, GlobalContext* globalCtx) {
 
-    Vec3s vec1; 
+    Vec3s vec1;
     f32 new_var;
 
     vec1.x = this->actor.posRot.pos.x;
     vec1.y = this->actor.posRot.pos.y;
     vec1.z = this->actor.posRot.pos.z;
 
-    new_var = (&(D_80A4816C)[(this->actor.params & 0x1F)])->unk_4;
+    new_var = (&(D_80A4816C)[(this->actor.params & 0x1F)])->xzDist;
 
-    vec1.x += (s16) (new_var * Math_Sins(this->actor.shape.rot.y));
-    vec1.z += (s16) (new_var * Math_Coss(this->actor.shape.rot.y));
+    vec1.x += (s16)(new_var * Math_Sins(this->actor.shape.rot.y));
+    vec1.z += (s16)(new_var * Math_Coss(this->actor.shape.rot.y));
 
-    vec1.y += (&(D_80A4816C)[this->actor.params & 0x1F])->unk_2;
+    vec1.y += (&(D_80A4816C)[this->actor.params & 0x1F])->yDist;
 
     this->collider.dim.pos = vec1;
 
@@ -1385,26 +1280,24 @@ void func_80A44940(EnGo2 *this, GlobalContext *globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44A9C.s")
 void func_80A44A9C(EnGo2* this) {
-    f32 temp_f0;
+    f32 initialFrame;
 
-    temp_f0 = this->skelAnime.initialFrame;
+    initialFrame = this->skelAnime.initialFrame;
     this->skelAnime.initialFrame = this->skelAnime.animFrameCount;
-    this->skelAnime.animFrameCount = temp_f0;
+    this->skelAnime.animFrameCount = initialFrame;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44AB0.s")
-s32 func_80A44AB0(EnGo2 *this, GlobalContext *globalCtx) {
+s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
     Player* player;
-    f32 phi_f0;
+    f32 arg2;
 
     player = PLAYER;
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         return 0;
     } else {
-        if ((this->actionFunc != func_80A46E54) && (this->actionFunc != func_80A47024) && (this->actionFunc !=
-        func_80A46DBC)) {
+        if ((this->actionFunc != func_80A46E54) && (this->actionFunc != func_80A47024) &&
+            (this->actionFunc != func_80A46DBC)) {
             return 0;
         } else {
             if (this->collider.base.acFlags & 2) {
@@ -1421,14 +1314,11 @@ s32 func_80A44AB0(EnGo2 *this, GlobalContext *globalCtx) {
             }
             if (this->collider.base.maskB & 1) {
                 this->collider.base.maskB &= ~1;
-                if (this->actionFunc == func_80A46DBC) {
-                    phi_f0 = 1.5f;
-                } else {
-                    phi_f0 = this->actor.speedXZ * 1.5f;
-                }
+
+                arg2 = this->actionFunc == func_80A46DBC ? 1.5f : this->actor.speedXZ * 1.5f;
 
                 globalCtx->damagePlayer(globalCtx, -4);
-                func_8002F71C(globalCtx, &this->actor, phi_f0, this->actor.yawTowardsLink, 6.0f);
+                func_8002F71C(globalCtx, &this->actor, arg2, this->actor.yawTowardsLink, 6.0f);
                 Audio_PlayActorSound2(player, NA_SE_PL_BODY_HIT);
                 this->collider.base.maskA &= ~0x8;
             }
@@ -1437,7 +1327,6 @@ s32 func_80A44AB0(EnGo2 *this, GlobalContext *globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44C68.s")
 s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
     s32 change;
 
@@ -1445,7 +1334,7 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    change = (this->path->count - 1) & 0xFF;
+    change = (u8)(this->path->count - 1);
     if (this->reverse) {
         this->waypoint--;
         if (this->waypoint < 0) {
@@ -1461,7 +1350,6 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Orient.s")
 s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     f32 waypointDistSq;
@@ -1476,7 +1364,6 @@ s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44D84.s")
 s32 func_80A44D84(EnGo2* this) {
     s16 targetYaw;
 
@@ -1485,98 +1372,70 @@ s32 func_80A44D84(EnGo2* this) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44DC0.s")
-s32 func_80A44DC0(EnGo2 *this) {
-    s16 temp_v0_2;
-    f32 phi_f0;
-    f32 phi_f2;
-    s16 phi_v1;
+s32 func_80A44DC0(EnGo2* this) {
+    s16 yawDiff;
+    f32 xyzDist;
+    f32 yDist;
+    s16 yawDiffAbs;
 
-    if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        phi_f0 = 800.0f;
-    } else {
-        phi_f0 = 200.0f;
-    }
-    if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        phi_f2 = 400.0f;
-    } else {
-        phi_f2 = 60.0f;
-    }
+    xyzDist = (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ? 800.0f : 200.0f;
+    yDist = (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ? 400.0f : 60.0f;
+
+
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if ((this->collider.base.maskB & 1) == 0) {
             this->actor.flags &= ~1;
             return 0;
         }
-        this->actor.flags |= 1;
-        return 1;
-    }
-
-    phi_f0 *= phi_f0;
-
-    temp_v0_2 = (f32) this->actor.yawTowardsLink - (f32) this->actor.shape.rot.y;
-    
-    if (temp_v0_2 >= 0) {
-        phi_v1 = temp_v0_2;
-    } else {
-        phi_v1 = - temp_v0_2;
-    }
-
-    if (this->actor.xyzDistFromLinkSq <= phi_f0) {
-        // temp_f0 = fabsf(this->actor.yDistFromLink);
-        if (fabsf(this->actor.yDistFromLink) < phi_f2) {
-            if (phi_v1 < 0x2AA8) {
-                return 1;
-            }
+        else {
+            this->actor.flags |= 1;
+            return 1;
         }
     }
-    return 0;
+
+    xyzDist = SQ(xyzDist);
+
+    yawDiff = (f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y;
+    yawDiffAbs = ABS(yawDiff);
+
+    if (this->actor.xyzDistFromLinkSq <= xyzDist && fabsf(this->actor.yDistFromLink) < yDist && yawDiffAbs < 0x2AA8) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A44EF0.s")
 // func_80A3F7C0 EnGo
-s32 func_80A44EF0(EnGo2 *this, s16 arg1, f32 arg2, s16 arg3) {
-    s32 phi_v1;
+s32 func_80A44EF0(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
     s32 sound;
-    // u16 sound2;
 
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return 0;
-    }
-
-    if (this->unk_590 == 0) {
-        phi_v1 = 0;
     } else {
-        this->unk_590--;
-        phi_v1 = this->unk_590;
-    }
-
-    if (phi_v1) {
-        if (!arg3) {
-            return 1;
-        } else {
-            if (this->unk_590 & 1) {
-                this->actor.posRot.pos.y += 1.5f;
+        if (DECR(this->unk_590)) {
+            if (!arg3) {
+                return 1;
             } else {
-                this->actor.posRot.pos.y -= 1.5f;
+                if (this->unk_590 & 1) {
+                    this->actor.posRot.pos.y += 1.5f;
+                } else {
+                    this->actor.posRot.pos.y -= 1.5f;
+                }
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
             }
-            // if(sound) {}
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
-            // return 1;
+            return 1;
         }
-        return 1;
     }
 
-
-    if (this->unk_59C >= 2) {        
+    if (this->unk_59C >= 2) {
         if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) {
             sound = NA_SE_EN_GOLON_LAND_BIG;
         } else {
             sound = NA_SE_EN_DODO_M_GND;
         }
-        if(this->unk_590) {}
+        if (this->unk_590) {}
         Audio_PlayActorSound2(&this->actor, sound);
     }
-
 
     this->unk_59C--;
 
@@ -1590,14 +1449,12 @@ s32 func_80A44EF0(EnGo2 *this, s16 arg1, f32 arg2, s16 arg3) {
         this->unk_59C = arg1;
     }
 
-    this->actor.velocity.y = ((f32) this->unk_59C / (f32) arg1) * arg2;
+    this->actor.velocity.y = ((f32)this->unk_59C / (f32)arg1) * arg2;
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45088.s")
 void func_80A45088(EnGo2* this, GlobalContext* globalCtx, Actor* arg2) {
-    u16 phi_v0;
-    u16 phi_v0_2;
+    u16 textId;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (gSaveContext.bgsFlag) {
@@ -1617,21 +1474,21 @@ void func_80A45088(EnGo2* this, GlobalContext* globalCtx, Actor* arg2) {
             if (func_8002F368(globalCtx) == 0xF) {
                 if (func_800775CC() >= 3) {
                     // "That sworrrrd is my finest  worrrrk!"
-                    phi_v0 = 0x305E;
+                    textId = 0x305E;
                 } else {
                     // "Not yet... Hey you... You arrrre impatient..."
-                    phi_v0 = 0x305D;
+                    textId = 0x305D;
                 }
-                this->actor.textId = phi_v0;
+                this->actor.textId = textId;
             } else {
                 if (func_800775CC() >= 3) {
                     // "I maaaade thissss... Trrrrade for claimmm checkkk..."
-                    phi_v0 = 0x3002;
+                    textId = 0x3002;
                 } else {
                     // "Not yet... Hey you... You arrrre impatient..."
-                    phi_v0 = 0x305D;
+                    textId = 0x305D;
                 }
-                this->actor.textId = phi_v0;
+                this->actor.textId = textId;
             }
 
             arg2->textId = this->actor.textId;
@@ -1640,7 +1497,8 @@ void func_80A45088(EnGo2* this, GlobalContext* globalCtx, Actor* arg2) {
 
         if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_PRESCRIPTION) && (INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_CLAIM_CHECK)) {
             if (func_8002F368(globalCtx) == 0xE) {
-                // "Rrrrreally? You brrrrought the eye drops? I'm so rrrrrelieved! I'm going to use them rrrrrright now!"
+                // "Rrrrreally? You brrrrought the eye drops? I'm so rrrrrelieved! I'm going to use them rrrrrright
+                // now!"
                 this->actor.textId = 0x3059;
             } else {
                 // "I've been waiting forrrrr you, with tearrrrrrs in my eyes... Please say hello to Kinnng Zorrra!"
@@ -1660,34 +1518,33 @@ void func_80A45088(EnGo2* this, GlobalContext* globalCtx, Actor* arg2) {
             if (func_8002F368(globalCtx) == 0xB) {
                 if (gSaveContext.infTable[11] & 0x10) {
                     // "Please go get the eyedrrrrrrops...  Yes No"
-                    phi_v0_2 = 0x3055;
+                    textId = 0x3055;
                 } else {
-                    // "That broken knife is surely my  worrrrrrrrrrk... I really want to repairrrrr it, but...  
-                    // But because of yesterrrrrday's errrrruption, my eyes are  irrrrrrrritated...  
-                    // There are fine eyedrops in Zora's Domain... You will find them if you go to see Kinnnnnng Zorrrrrra...
-                    // [goto 3055]"
-                    phi_v0_2 = 0x3054;
+                    // "That broken knife is surely my  worrrrrrrrrrk... I really want to repairrrrr it, but...
+                    // But because of yesterrrrrday's errrrruption, my eyes are  irrrrrrrritated...
+                    // There are fine eyedrops in Zora's Domain... You will find them if you go to see Kinnnnnng
+                    // Zorrrrrra... [goto 3055]"
+                    textId = 0x3054;
                 }
-                this->actor.textId = phi_v0_2;
+                this->actor.textId = textId;
             } else {
-                // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...  
-                // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm not lyinnnnng..."
+                // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...
+                // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm
+                // not lyinnnnng..."
                 this->actor.textId = 0x3053;
             }
 
             arg2->textId = this->actor.textId;
-        }
-
-        else {
-            // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...  
-            // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm not lyinnnnng..."
+        } else {
+            // "My Brotherrrr... Opened a new storrrre... It's Medigoron's Blade Storrrrrrrre...  Howeverrrrr...
+            // I am betterrrrrr at making bladessssss.  Hylian carpenterrrrrs praise me forrrrrr my skillssssss. I'm not
+            // lyinnnnng..."
             this->actor.textId = 0x3053;
             arg2->textId = this->actor.textId;
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45288.s")
 void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 linkAge;
@@ -1698,17 +1555,14 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
         this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
         func_80034A14(&this->actor, &this->unk_194, 4, this->unk_26E);
     }
-    if ((this->actionFunc != func_80A47158) && (this->unk_20F == 1)) {
-        this = this;
+    if ((this->actionFunc != func_80A47158) && (this->unk_20F == true)) {
         if (func_80A44790(this, globalCtx)) {
             func_80A45088(this, globalCtx, player);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45360.s")
-void func_80A45360(EnGo2* this, f32* arg1) {
-    f32 temp1;
+void func_80A45360(EnGo2* this, f32* arg1) { 
     f32 phi_f0;
 
     if ((this->skelAnime.animation == &D_06004930) && (this->skelAnime.animCurrentFrame <= 32.0f)) {
@@ -1720,7 +1574,6 @@ void func_80A45360(EnGo2* this, f32* arg1) {
     this->actor.shape.unk_14 = (u8)(u32)*arg1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4546C.s")
 void func_80A4546C(EnGo2* this) {
     f32 initSpeedXZ;
 
@@ -1739,7 +1592,6 @@ void func_80A4546C(EnGo2* this) {
     return;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A454CC.s")
 void func_80A454CC(EnGo2* this) {
 
     switch (this->actor.params & 0x1F) {
@@ -1747,7 +1599,7 @@ void func_80A454CC(EnGo2* this) {
         case GORON_DMT_DC_ENTRANCE:
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_STAIRWELL:
-        case GORON_DMT_FAIRY_SUMMIT:
+        case GORON_DMT_FAIRY_HINT:
             func_80034EC0(&this->skelAnime, D_80A48348, 9);
             break;
         case GORON_DMT_BIGGORON:
@@ -1760,8 +1612,7 @@ void func_80A454CC(EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45578.s")
-f32 func_80A45578(EnGo2 *this) {
+f32 func_80A45578(EnGo2* this) {
     f32 phi_f2;
     s32 index;
 
@@ -1770,14 +1621,12 @@ f32 func_80A45578(EnGo2 *this) {
     index = this->actor.params & 0x1F;
 
     if (index == 1 && (fabsf(this->actor.yDistFromLink) < phi_f2) && (this->actor.xzDistFromLink < 400.0f)) {
-            return 9.0f;
+        return 9.0f;
     }
 
     return index == 0 ? 3.6000001f : 6.0f;
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4561C.s")
 s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
     Camera* camera;
 
@@ -1805,7 +1654,6 @@ s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45734.s")
 void func_80A45734(EnGo2* this) {
     if (func_80A44DC0(this)) {
         this->unk_26E = 2;
@@ -1817,13 +1665,12 @@ void func_80A45734(EnGo2* this) {
         this->unk_26E = 4;
     }
 
-    this->unk_20F = 1;
+    this->unk_20F = true;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4578C.s")
 void func_80A4578C(EnGo2* this) {
     f32 phi_f0;
-    s32 temp;
+    s32 isTrue;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         phi_f0 = 800.0f;
@@ -1832,35 +1679,33 @@ void func_80A4578C(EnGo2* this) {
     }
 
     phi_f0 = SQ(phi_f0);
-    temp = 1;
+    isTrue = true;
 
-    this->unk_26E = temp;
+    this->unk_26E = 1;
 
     if ((this->actor.xyzDistFromLinkSq <= phi_f0) || (this->unk_194.unk_00)) {
         this->unk_26E = 4;
     }
 
-    this->unk_20F = temp;
+    this->unk_20F = isTrue;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A457F8.s")
 void func_80A457F8(EnGo2* this) {
     if (func_80A44DC0(this) || this->unk_194.unk_00) {
         this->unk_26E = 2;
-        this->unk_20F = 1;
+        this->unk_20F = true;
         return;
     } else {
         this->unk_26E = 1;
-        this->unk_20F = 0;
+        this->unk_20F = false;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45848.s")
 void func_80A45848(EnGo2* this) {
 
-    switch(this->actor.params & 0x1F) {
+    switch (this->actor.params & 0x1F) {
         case GORON_DMT_BOMB_FLOWER:
-            this->unk_20F = 1;
+            this->unk_20F = true;
             this->unk_26E = func_80A44DC0(this) ? 2 : 1;
             break;
 
@@ -1876,61 +1721,47 @@ void func_80A45848(EnGo2* this) {
             if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                 func_80A4578C(this);
                 break;
-            }
-            else {
+            } else {
                 // Continue
             }
         default:
             func_80A45734(this);
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4592C.s")
-void func_80A4592C(EnGo2 *this) {
-    s16 phi_v0;
+void EnGo2_BlinkMouth(EnGo2* this) {
 
-    phi_v0 = 0;
     switch (this->unk_213) {
         case 1:
-            this->unk_224 = phi_v0;
-            this->unk_214 = 0;
-            this->unk_215 = 0;
+            this->blinkTimer = 0;
+            this->eyeTexIndex = 0;
+            this->mouthTexIndex = 0;
             break;
 
         case 2:
-            this->unk_224 = phi_v0;
-            this->unk_214 = 1;
-            this->unk_215 = 0;
+            this->blinkTimer = 0;
+            this->eyeTexIndex = 1;
+            this->mouthTexIndex = 0;
             break;
 
         case 3:
-            this->unk_224 = phi_v0;
-            this->unk_214 = 0;
-            this->unk_215 = 1;
+            this->blinkTimer = 0;
+            this->eyeTexIndex = 0;
+            this->mouthTexIndex = 1;
             break;
 
         default:
-            // if(!this->unk_213) {}
-            if (this->unk_224 == 0) {
-                phi_v0 = 0;
-            } else {
-                this->unk_224--;
-                phi_v0 = this->unk_224;
-            }
-
-            if (phi_v0 == 0) {
-                this->unk_214++;
-                if (this->unk_214 >= 4) {
-                    this->unk_224 = Math_Rand_S16Offset(30,30);
-                    this->unk_214 = 1;
+            if (DECR(this->blinkTimer) == 0) {
+                this->eyeTexIndex++;
+                if (this->eyeTexIndex >= 4) {
+                    this->blinkTimer = Math_Rand_S16Offset(30, 30);
+                    this->eyeTexIndex = 1;
                 }
             }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45A00.s")
-void func_80A45A00(EnGo2 *this) {
+void func_80A45A00(EnGo2* this) {
 
     if ((this->skelAnime.animPlaybackSpeed != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
         if (this->skelAnime.animPlaybackSpeed > 0.0f) {
@@ -1953,7 +1784,6 @@ void func_80A45A00(EnGo2 *this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45B14.s")
 void func_80A45B14(EnGo2* this, s32 unk_arg) {
     EnGo2DataStruct3* temp_v0;
     s32 phi_v1;
@@ -1964,14 +1794,11 @@ void func_80A45B14(EnGo2* this, s32 unk_arg) {
         phi_v1 = 0;
     }
 
-    // temp_v0 = (((phi_v1 * 4) - phi_v1) << 5) + (unk_arg * 0x18) + D_80A48480;
-    
     temp_v0 = &D_80A48480[phi_v1][unk_arg];
-    func_80A4320C(this, temp_v0->unk_0, temp_v0->unk_4, temp_v0->unk_8, temp_v0->unk_C,
-                  temp_v0->unk_10, temp_v0->unk_14);
+    func_80A4320C(this, temp_v0->unk_0, temp_v0->unk_4, temp_v0->unk_8, temp_v0->unk_C, temp_v0->unk_10,
+                  temp_v0->unk_14);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45B9C.s")
 void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         this->actor.flags &= ~1;
@@ -1983,12 +1810,11 @@ void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
     }
     func_80A44A9C(this);
     this->unk_26E = 1;
-    this->unk_211 = 0;
-    this->unk_20F = 0;
+    this->unk_211 = false;
+    this->unk_20F = false;
     this->actionFunc = func_80A4696C;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45C50.s")
 void func_80A45C50(EnGo2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animPlaybackSpeed == 0.0f) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
@@ -2008,17 +1834,15 @@ void func_80A45C50(EnGo2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A46B40;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45D40.s")
 void func_80A45D40(EnGo2* this, GlobalContext* globalCtx) {
     func_80034EC0(&this->skelAnime, D_80A48348, 1);
-    this->unk_211 = 1;
+    this->unk_211 = true;
     this->actionFunc = func_80A46B40;
     this->skelAnime.animPlaybackSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
     this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45DA4.s")
 void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx) {
 
     if (((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) || ((this->actor.params & 0x1F) == GORON_CITY_LINK)) {
@@ -2038,7 +1862,6 @@ void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A46DBC;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45E48.s")
 void func_80A45E48(EnGo2* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
@@ -2062,7 +1885,6 @@ void func_80A45E48(EnGo2* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45F08.s")
 s32 func_80A45F08(EnGo2* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
@@ -2082,7 +1904,6 @@ s32 func_80A45F08(EnGo2* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A45F9C.s")
 s32 func_80A45F9C(EnGo2* this) {
 
     if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.unk_00 != 2) {
@@ -2090,14 +1911,13 @@ s32 func_80A45F9C(EnGo2* this) {
     } else {
         func_80034EC0(&this->skelAnime, D_80A48348, 3);
         this->unk_194.unk_00 = 0;
-        this->unk_20F = 0;
+        this->unk_20F = false;
         this->unk_26E = 1;
         this->actionFunc = func_80A46CD8;
         return 1;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4601C.s")
 s32 func_80A4601C(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.unk_00 != 2)) {
         return 0;
@@ -2109,7 +1929,6 @@ s32 func_80A4601C(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4607C.s")
 s32 func_80A4607C(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.unk_00 == 0) {
         return 0;
@@ -2119,16 +1938,15 @@ s32 func_80A4607C(EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A460B8.s")
 s32 func_80A460B8(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) || func_80A44DC0(this) == 0) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) ||
+        func_80A44DC0(this) == 0) {
         return 0;
     } else {
         return 1;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46114.s")
 s32 func_80A46114(EnGo2* this) {
 
     if (this->unk_194.unk_00 == 0 || this->actor.speedXZ < 1.0f) {
@@ -2144,21 +1962,44 @@ s32 func_80A46114(EnGo2* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A461A8.s")
-void func_80A461A8(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A461A8(EnGo2* this, GlobalContext* globalCtx) {
     s32 animation;
 
     animation = 0xD;
     if ((this->actor.params & 0x1F) == GORON_CITY_LINK) {
 
-        if ((this->actor.textId == 0x3035 && this->unk_20C == 0) || (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
+        // 0x3035
+        // "A long time ago there was an evil dragon named Volvagia living  in this mountain.  
+        // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons... BOOOM!  
+        // Destroyed it just like that. This is  a myth from long ago, but it's  true!  
+        // I know, because my dad is a descendant of the hero![goto 3033]" },
+
+        // 0x3036
+        // "Everybody was taken to the  Fire Temple...  While my dad was out... 
+        // Ganondorf's followers came and took them all away!  All of them will be eaten by Volvagia!  
+        // Dad said that Ganondorf has revived Volvagia...  As a warning to those who might oppose him, 
+        // Ganondorf is going to feed them all to Volvagia!  Dad went to the Fire Temple all by himself to try to save  everyone...  
+        // Please help, [Link]! I'll give you this heat-resistant tunic!" },
+        if ((this->actor.textId == 0x3035 && this->unk_20C == 0) ||
+            (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
             if (this->skelAnime.animation != &D_06000D5C) {
                 animation = 0xC;
                 this->unk_213 = 0;
             }
         }
 
-        if ((this->actor.textId == 0x3032 && this->unk_20C == 0xC) || (this->actor.textId == 0x3033) || (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
+        // 0x3032
+        // "What?  Your name is also [Link]?  Then you must be the legendary Dodongo Buster and Hero,  [Link]!  
+        // My dad is Darunia... Do you remember him?  Dad named me [Link] after you, because you're so  brave!  It's a cool name! 
+        // I really like it!  [Link], you're a hero to  us Gorons!  I'm so glad to meet you!  Please give me your autograph! 
+        // Sign it: \"To my friend,[Link] of the Gorons\"  Oh...  I guess it's not a good time to ask you for this... 
+        // Please help everyone!  My dad, Darunia, went to the Fire Temple. A dragon is inside!  
+        // If we don't hurry up, even my dad will be eaten by the dragon!![goto 3033]" 
+
+        // 0x3033
+        // "B-b-b-boooo hooooo!"
+        if ((this->actor.textId == 0x3032 && this->unk_20C == 0xC) || (this->actor.textId == 0x3033) ||
+            (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
             if (this->skelAnime.animation != &D_06000750) {
                 animation = 0xB;
                 this->unk_213 = 1;
@@ -2177,17 +2018,16 @@ void func_80A461A8(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A462D8.s")
-void func_80A462D8(EnGo2 *this, GlobalContext *globalCtx) {
-    s16 temp_v1;
+void func_80A462D8(EnGo2* this, GlobalContext* globalCtx) {
+    s16 yaw;
 
     this->camID = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
     Path_CopyLastPoint(this->path, &this->at);
-    temp_v1 = Math_Vec3f_Yaw(&this->actor.posRot, &this->at) + 0xE38;
-    this->eye.x = Math_Sins(temp_v1) * 100.0f + this->actor.posRot.pos.x;
-    this->eye.z = Math_Coss(temp_v1) * 100.0f + this->actor.posRot.pos.z;
+    yaw = Math_Vec3f_Yaw(&this->actor.posRot, &this->at) + 0xE38;
+    this->eye.x = Math_Sins(yaw) * 100.0f + this->actor.posRot.pos.x;
+    this->eye.z = Math_Coss(yaw) * 100.0f + this->actor.posRot.pos.z;
     this->eye.y = this->actor.posRot.pos.y + 20.0f;
     this->at.x = this->actor.posRot.pos.x;
     this->at.y = this->actor.posRot.pos.y + 40.0f;
@@ -2195,45 +2035,36 @@ void func_80A462D8(EnGo2 *this, GlobalContext *globalCtx) {
     Gameplay_CameraSetAtEye(globalCtx, this->camID, &this->at, &this->eye);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A463D8.s")
 void func_80A463D8(EnGo2* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->camID);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46418.s")
 void func_80A46418(EnGo2* this) {
-    s16 phi_v1;
 
     if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK &&
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
-        if (this->unk_592 == 0) {
-            phi_v1 = 0;
-        } else {
-            this->unk_592--;
-            phi_v1 = this->unk_592;
-        }
-        if (phi_v1 == 0) {
+        if (DECR(this->unk_592) == 0) {
             this->unk_592 = Math_Rand_S16Offset(30, 30);
             func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Init.s")
-void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
+void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo2* this = THIS;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 28.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->limbDrawTable, &this->transitionDrawTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+                       18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A48114);
     func_80061EFC(&this->actor.colChkInfo, NULL, &D_80A48140);
 
     // Not GORON_CITY_ROLLING_BIG, GORON_CITY_LINK, GORON_DMT_BIGGORON
-    switch(this->actor.params & 0x1F) {
+    switch (this->actor.params & 0x1F) {
         case GORON_FIRE_GENERIC:
         case GORON_DMT_BOMB_FLOWER:
         case GORON_DMT_ROLLING_SMALL:
@@ -2243,7 +2074,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
         case GORON_CITY_LOWEST_FLOOR:
         case GORON_CITY_STAIRWELL:
         case GORON_CITY_LOST_WOODS:
-        case GORON_DMT_FAIRY_SUMMIT:
+        case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
             this->actor.flags &= ~0x10;
             this->actor.flags &= ~0x20;
@@ -2255,15 +2086,15 @@ void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
     this->actor.gravity = -1.0f;
     this->unk_220 = this->actor.shape.unk_14 = 0;
     this->reverse = 0;
-    this->unk_20F = 0;
-    this->unk_211 = 0;
+    this->unk_20F = false;
+    this->unk_211 = false;
     this->unk_212 = 0;
     this->waypoint = 0;
-    this->unk_216 = this->actor.shape.rot.z; // (u8 cast)
+    this->unk_216 = this->actor.shape.rot.z; 
     this->unk_26E = 1;
     this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x3E0) >> 5, 0x1F);
 
-    switch(this->actor.params & 0x1F) {
+    switch (this->actor.params & 0x1F) {
 
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_ISLAND:
@@ -2283,57 +2114,50 @@ void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
             func_80A45D40(this, globalCtx);
             break;
 
-
         case GORON_CITY_LINK:
             if ((gSaveContext.infTable[16] & 0x200)) {
                 Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
                 this->actor.initPosRot.pos = this->actor.posRot.pos;
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0 && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
                     func_80A45D40(this, globalCtx);
-                }
-                else {
+                } else {
                     this->actionFunc = func_80A4696C;
                 }
-            }
-            else {
+            } else {
                 gSaveContext.infTable[16] &= ~0x1000;
-                this->collider.dim.height =  ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+                this->collider.dim.height = ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
                 func_80A45DA4(this, globalCtx);
-                this->unk_20F = 1;
+                this->unk_20F = true;
             }
             break;
 
-
-            
         case GORON_CITY_ROLLING_BIG:
         case GORON_DMT_ROLLING_SMALL:
-   
-            this->collider.dim.height =  ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+
+            this->collider.dim.height = ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
             func_80A45DA4(this, globalCtx);
             break;
-
 
         case GORON_FIRE_GENERIC:
             if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
                 Actor_Kill(&this->actor);
             } else {
-                this->unk_20F = 1;
-                this->actionFunc = func_80A4696C;    
+                this->unk_20F = true;
+                this->actionFunc = func_80A4696C;
             }
             break;
-    
 
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDrawFunc = NULL;
             this->actor.flags &= ~1;
-            if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) && (INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK)) {
+            if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) &&
+                (INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK)) {
                 this->unk_213 = 1;
             }
             this->collider.base.acFlags = 0;
-            this->collider.base.maskA = 0xD;
+            this->collider.base.maskA = 0xD; // OC_PLAYER | OC_NO_PUSH | OC_ON
             this->actionFunc = func_80A4696C;
             break;
-
 
         case GORON_DMT_BOMB_FLOWER:
             // dest1 = this->actor.posRot;
@@ -2341,24 +2165,18 @@ void EnGo2_Init(Actor* thisx, GlobalContext *globalCtx) {
                 Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
                 this->actor.initPosRot.pos = this->actor.posRot.pos;
             }
-        
+
         case GORON_DMT_DC_ENTRANCE:
-        case GORON_DMT_FAIRY_SUMMIT:
+        case GORON_DMT_FAIRY_HINT:
         default:
             this->actionFunc = func_80A4696C;
-            
     }
 }
 
-
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Destroy.s")
 void EnGo2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4696C.s")
-void func_80A4696C(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A4696C(EnGo2* this, GlobalContext* globalCtx) {
     u8 index;
     s16 height;
     s32 quake;
@@ -2376,15 +2194,17 @@ void func_80A4696C(EnGo2 *this, GlobalContext *globalCtx) {
         }
         this->skelAnime.animPlaybackSpeed = 0.0f;
     }
-    // temp = (&D_80A4816C[index]);
-    if ((s32) this->skelAnime.animCurrentFrame == 0) {
+
+    if ((s32)this->skelAnime.animCurrentFrame == 0) {
         this->collider.dim.height = ((&D_80A4816C[index])->height * 0.6f);
     } else {
         height = (&D_80A4816C[index])->height;
-        this->collider.dim.height = (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.initialFrame)) + (height * 0.6f));
+        this->collider.dim.height =
+            (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.initialFrame)) +
+             (height * 0.6f));
     }
     if (func_80A45F08(this, globalCtx)) {
-        this->unk_20F = 0;
+        this->unk_20F = false;
         func_80A45C50(this, globalCtx);
     }
     if (((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) && func_80A44DC0(this)) {
@@ -2392,13 +2212,12 @@ void func_80A4696C(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46B40.s")
-void func_80A46B40(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
     u8 index;
-    f32 temp_f0;
+    f32 height;
 
     index = (this->actor.params & 0x1F);
-    if (this->unk_211 == 1) {
+    if (this->unk_211 == true) {
         func_80A46418(this);
         func_80A461A8(this, globalCtx);
         func_80A45848(this);
@@ -2407,25 +2226,24 @@ void func_80A46B40(EnGo2 *this, GlobalContext *globalCtx) {
             if (func_80A45F9C(this)) {
                 return;
             }
-        }
-        else {
+        } else {
             return;
         }
 
-    } 
-
-    else {
+    } else {
         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
             if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
                 this->actor.flags |= 1;
             }
 
             func_80A454CC(this);
-            this->unk_211 = 1;
+            this->unk_211 = true;
             this->collider.dim.height = (&D_80A4816C[index])->height;
         } else {
-            temp_f0 = (&D_80A4816C[index])->height;
-            this->collider.dim.height = (s16) ((temp_f0 * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.animFrameCount)) + (temp_f0 * 0.6f));
+            height = (&D_80A4816C[index])->height;
+            this->collider.dim.height =
+                (s16)((height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.animFrameCount)) +
+                      (height * 0.6f));
         }
     }
     if ((func_80A4561C(this, globalCtx) == 0) && (func_80A44DC0(this) == 0)) {
@@ -2433,8 +2251,6 @@ void func_80A46B40(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46CD8.s")
 void func_80A46CD8(EnGo2* this, GlobalContext* globalCtx) {
     f32 float1;
     f32 float2;
@@ -2449,7 +2265,6 @@ void func_80A46CD8(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46D5C.s")
 void func_80A46D5C(EnGo2* this, GlobalContext* globalCtx) {
 
     if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
@@ -2459,20 +2274,11 @@ void func_80A46D5C(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46DBC.s")
-void func_80A46DBC(EnGo2 *this, GlobalContext *globalCtx) {
-    s16 phi_v1;
-    f32 float1;
+void func_80A46DBC(EnGo2* this, GlobalContext* globalCtx) {
+    f32 float1 = 1000.0f;
 
-    float1 = 1000.0f;
     if (((this->actor.params & 0x1F) != GORON_DMT_ROLLING_SMALL) || !(this->actor.xyzDistFromLinkSq > SQ(float1))) {
-        if (this->unk_592 == 0) {
-            phi_v1 = 0;
-        } else {
-            this->unk_592--;
-            phi_v1 = this->unk_592;
-        }
-        if (phi_v1 == 0) {
+        if (DECR(this->unk_592) == 0) {
             this->actionFunc = func_80A46E54;
             this->actor.speedXZ *= 0.5f;
         }
@@ -2480,9 +2286,8 @@ void func_80A46DBC(EnGo2 *this, GlobalContext *globalCtx) {
     func_80A45B14(this, 2);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46E54.s")
-void func_80A46E54(EnGo2 *this, GlobalContext *globalCtx) {
-    s32 temp_v0;
+void func_80A46E54(EnGo2* this, GlobalContext* globalCtx) {
+    s32 orientation;
     s32 index;
 
     if (func_80A46114(this) == 0) {
@@ -2493,14 +2298,14 @@ void func_80A46E54(EnGo2 *this, GlobalContext *globalCtx) {
             }
             func_80A45B14(this, 3);
         }
-        temp_v0 = EnGo2_Orient(this, globalCtx);
+        orientation = EnGo2_Orient(this, globalCtx);
         index = this->actor.params & 0x1F;
         if (index != 1) {
-            if ((index == 5) && (temp_v0 == 1) && (this->waypoint == 0)) {
+            if ((index == 5) && (orientation == 1) && (this->waypoint == 0)) {
                 func_80A45E48(this, globalCtx);
                 return;
             }
-        } else if ((temp_v0 == 2) && (this->waypoint == 1)) {
+        } else if ((orientation == 2) && (this->waypoint == 1)) {
             func_80A45E48(this, globalCtx);
             return;
         }
@@ -2509,8 +2314,7 @@ void func_80A46E54(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46F88.s")
-void func_80A46F88(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A46F88(EnGo2* this, GlobalContext* globalCtx) {
     if (func_80A44EF0(this, 4, 8.0f, 0)) {
         func_80A45B14(this, 0);
         if (this->unk_59C == 0) {
@@ -2529,7 +2333,6 @@ void func_80A46F88(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47024.s")
 void func_80A47024(EnGo2* this, GlobalContext* globalCtx) {
     if (func_80A46114(this) == 0) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0f, 0.6f, 0.8f);
@@ -2547,7 +2350,6 @@ void func_80A47024(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A470E8.s")
 void func_80A470E8(EnGo2* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
@@ -2558,7 +2360,6 @@ void func_80A470E8(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47158.s")
 void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
@@ -2585,10 +2386,9 @@ void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4725C.s")
-void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {  
+void func_80A4725C(EnGo2* this, GlobalContext* globalCtx) {
 
-    switch(this->unk_212) {
+    switch (this->unk_212) {
         case 0:
             func_80034EC0(&this->skelAnime, D_80A48348, 5);
             this->actor.flags &= ~1;
@@ -2604,19 +2404,16 @@ void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {
 
         case 1:
 
-            // this->unk_592 = this->unk_592 == 0 ? 0 : this->unk_592-1;
-
             if (DECR(this->unk_592)) {
                 if (this->unk_592 == 0x3C || this->unk_592 == 0x78) {
                     func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
                     func_800F4524(&D_801333D4, 0x28B5, 60);
                 }
-            }
-            else {
+            } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
                 func_80034EC0(&this->skelAnime, D_80A48348, 6);
-                // "Wowwwwwwwwwwwwww!!  This is stimulating! It's worrrrrking grrrrreat! 
-                // Now I can get back to my blade business! My worrrrrk is not  verrrry consistent, 
+                // "Wowwwwwwwwwwwwww!!  This is stimulating! It's worrrrrking grrrrreat!
+                // Now I can get back to my blade business! My worrrrrk is not  verrrry consistent,
                 // so I'll give this  to you so you won't forrrrrget.[goto 305C]"
                 func_8010B720(globalCtx, 0x305A);
                 this->unk_213 = 3;
@@ -2642,20 +2439,16 @@ void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {
             }
             break;
     }
-
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47490.s")
-void func_80A47490(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A47490(EnGo2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-
 
     switch (this->unk_212) {
         case 0:
             if (func_8010BDBC(&globalCtx->msgCtx)) {
                 return;
-            }
-            else {
+            } else {
                 func_8010B680(globalCtx, 0x3031, NULL);
                 player->actor.freezeTimer = 0xA;
                 this->unk_212++;
@@ -2669,25 +2462,21 @@ void func_80A47490(EnGo2 *this, GlobalContext *globalCtx) {
 
     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
         player->actor.freezeTimer = 0xA;
-    }
-    else {
+    } else {
         gSaveContext.infTable[16] |= 0x1000;
         this->unk_26E = 1;
-        this->unk_211 = 0;
-        this->unk_20F = 0;
+        this->unk_211 = false;
+        this->unk_20F = false;
         this->actionFunc = func_80A4696C;
     }
-
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47578.s")
-void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A47578(EnGo2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Vec3s D_80A4854C = { 0x00, 0x00, 0x00 };
 
-    switch(this->unk_212) {
+    switch (this->unk_212) {
         case 0:
             if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 func_80A462D8(this, globalCtx);
@@ -2696,7 +2485,6 @@ void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
                 this->waypoint = 1;
                 this->skelAnime.animPlaybackSpeed = 2.0f;
                 func_80A44D84(this);
-
 
                 this->actor.shape.rot = this->actor.posRot.rot;
                 this->unk_592 = 0x3C;
@@ -2707,26 +2495,19 @@ void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
                 this->unk_212++;
                 this->unk_212++;
                 player->actor.posRot.rot.y = this->actor.posRot.rot.y;
-                player->actor.shape.rot.y  = this->actor.posRot.rot.y;
-                player->actor.posRot.pos.x = (f32) ((Math_Sins(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.x); 
-                player->actor.posRot.pos.z = (f32) ((Math_Coss(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.z); 
+                player->actor.shape.rot.y = this->actor.posRot.rot.y;
+                player->actor.posRot.pos.x =
+                    (f32)((Math_Sins(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.x);
+                player->actor.posRot.pos.z =
+                    (f32)((Math_Coss(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 func_800F5C64(0x51);
             }
             break;
 
-
-
         case 2:
 
-            // DECR(this->unk_592);
-            // this->unk_592 = this->unk_592 == 0 ? 0 : this->unk_592 - 1;
-
-
             if (DECR(this->unk_592)) {
-
-             
-
                 if (!(this->unk_592 % 8)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
@@ -2736,20 +2517,17 @@ void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
             } else {
                 this->unk_592 = 0;
                 this->actor.speedXZ = 0.0f;
-                if ((((this->actor.params & 0xFC00) >> 0xA) != 1) && (((this->actor.params & 0xFC00) >> 0xA) != 2) && (((this->actor.params & 0xFC00) >> 0xA) != 4) && (((this->actor.params & 0xFC00) >> 0xA) != 5) && (((this->actor.params & 0xFC00) >> 0xA) != 9)
-                && (((this->actor.params & 0xFC00) >> 0xA) != 0xB)) {
+                if ((((this->actor.params & 0xFC00) >> 0xA) != 1) && (((this->actor.params & 0xFC00) >> 0xA) != 2) &&
+                    (((this->actor.params & 0xFC00) >> 0xA) != 4) && (((this->actor.params & 0xFC00) >> 0xA) != 5) &&
+                    (((this->actor.params & 0xFC00) >> 0xA) != 9) && (((this->actor.params & 0xFC00) >> 0xA) != 0xB)) {
                     this->unk_212++;
                 }
                 this->unk_212++;
             }
 
-
-
-            // 
+            //
             return;
             // break;
-
-
 
         case 3:
 
@@ -2759,21 +2537,15 @@ void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
 
-
             if (this->unk_592 == 0xA) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
             }
 
-
             if (this->unk_592 >= 0x2D) {
                 Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 0x14, NA_SE_EV_IRON_DOOR_CLOSE);
-            }
-            else {
+            } else {
                 break;
             }
-
-            
-
 
         case 4:
             func_80106CCC(globalCtx);
@@ -2784,11 +2556,9 @@ void func_80A47578(EnGo2 *this, GlobalContext *globalCtx) {
 
         case 1:
             return;
-
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Update.s")
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo2* this = THIS;
@@ -2803,17 +2573,15 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80A44AB0(this, globalCtx);
     }
     this->actionFunc(this, globalCtx);
-    if (this->unk_211 == 1) {
+    if (this->unk_211 == true) {
         func_80034F54(globalCtx, &this->unk_226, &this->unk_24A, 0x12);
     }
     func_80A45288(this, globalCtx);
-    func_80A4592C(this);
+    EnGo2_BlinkMouth(this);
     func_80A44940(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A479B0.s")
 s32 func_80A479B0(EnGo2* this, GlobalContext* globalCtx) {
-    // Vec3f vec1;
 
     Vec3f D_80A48554 = { 0.0f, 0.0f, 0.0f };
 
@@ -2830,33 +2598,30 @@ s32 func_80A479B0(EnGo2* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47AB0.s")
-s32 func_80A47AB0(EnGo2 *this, GlobalContext *globalCtx) {
+s32 func_80A47AB0(EnGo2* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f D_80A48560 = { 0.0f, 0.0f, 0.0f };
-    f32 phi_f0;
-    // GraphicsContext* pad;
-
+    f32 speedXZ;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xB62);
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->actionFunc == func_80A47024) {
-        phi_f0 = 0.0f;
+        speedXZ = 0.0f;
     } else {
-        phi_f0 = this->actor.speedXZ;
+        speedXZ = this->actor.speedXZ;
     }
 
-    Matrix_RotateRPY((globalCtx->state.frames * ((s16) phi_f0 * 0x578)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xB6E), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW); 
-    gSPDisplayList(POLY_OPA_DISP++, &D_0600C140); 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xB72); Matrix_MultVec3f(&D_80A48560, &this->actor.posRot2);
+    Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 0x578)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xB6E),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, &D_0600C140);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xB72);
+    Matrix_MultVec3f(&D_80A48560, &this->actor.posRot2);
     return 1;
 }
 
-// EnGo2_OverrideLimbDraw
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47C20.s")
-s32 func_80A47C20(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnGo2* this = THIS;
     Vec3s vec1;
     f32 float1;
@@ -2886,12 +2651,9 @@ s32 func_80A47C20(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, V
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47E34.s")
-void func_80A47E34(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 
     EnGo2* this = THIS;
-    // Vec3f vec1;
-
     Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 0x11) {
@@ -2899,31 +2661,25 @@ void func_80A47E34(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Draw.s")
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2* this = THIS;
 
-    // eyeTextures Pointers?
-    u8* D_80A48578[] = { 0x0600DA80, 0x0600CE80, 0x0600D280, 0x0600D680 };
+    u8* sEyeTextures[] = { 0x0600DA80, 0x0600CE80, 0x0600D280, 0x0600D680 };
+    u8* sMouthTextures[] = { 0x0600DE80, 0x0600E680 };
 
-    // mouthTextures Pointers?
-    u8* D_80A48588[] = { 0x0600DE80, 0x0600E680 };
-
-
-    func_80A42DD4(this);
+    EnGo2_UpdateUnkEffect(this);
     Matrix_Push();
-    func_80A42EE0(this, globalCtx);
+    EnGo2_DrawUnkEffect(this, globalCtx);
     Matrix_Pull();
 
     if ((this->actionFunc == func_80A4696C) && (this->skelAnime.animPlaybackSpeed == 0.0f) &&
         (this->skelAnime.animCurrentFrame == 0.0f)) {
-        if(1) {}
+        if (1) {}
         func_80A479B0(this, globalCtx);
         return;
     }
 
-    if (this->actionFunc == func_80A46E54 || this->actionFunc == func_80A47024 || this->actionFunc == func_80A46DBC)
-    {
+    if (this->actionFunc == func_80A46E54 || this->actionFunc == func_80A47024 || this->actionFunc == func_80A46DBC) {
         func_80A47AB0(this, globalCtx);
         return;
     }
@@ -2931,51 +2687,10 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xBF7);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    // reference en_zl1.h
-    // temp_a0 = (sp + ((u8)this->unk_214 * 4))->unk5C;
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A48578[this->unk_214]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
 
-    // temp_a0_2 = (sp + (this->unk215 * 4))->unk54;
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80A48588[this->unk_215]));
-
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-    this->skelAnime.dListCount,
-                          &func_80A47C20, &func_80A47E34, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 0xC09);
 }
-
-
-
-// void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-
-//     EnGo* this = THIS;
-
-//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2479);
-//     func_80A416A8(this);
-//     Matrix_Push();
-//     func_80A417B4(this, globalCtx);
-//     Matrix_Pull();
-
-//     if (this->actionFunc == func_80A40218) {
-//         func_80A40F58(this, globalCtx);
-//         return;
-//     }
-
-//     if (this->actionFunc == func_80A4011C || this->actionFunc == func_80A3FEB4 || this->actionFunc == func_80A3FEF8
-//     ||
-//         this->actionFunc == func_80A3FEB4) {
-//         func_80A41068(this, globalCtx);
-//         return;
-//     }
-
-//     func_800943C8(globalCtx->state.gfxCtx);
-
-//     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600CE80));
-//     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600DE80));
-
-//     SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl,
-//     this->skelanime.dListCount,
-//                           func_80A411C8, func_80A413DC, &this->actor);
-//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2525);
-//     func_80A417B4(this, globalCtx);
-// }

@@ -13,8 +13,8 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this);
 s16 func_80A3E908(GlobalContext* globalCtx, EnGo* this);
 
-s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, u16 (*GetTextID)(GlobalContext*, Actor*),
-                  s16 (*unkFunc2)(GlobalContext*, Actor*));
+s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
+                  u16 (*GetTextID)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*));
 
 void func_80A3E570(EnGo* this, void* actionFunc);
 void func_80A3EDE0(EnGo* this, s32 unk_val);
@@ -127,9 +127,8 @@ Vec3f D_80A41BC0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
 Gfx* D_80A41BD8[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0,
-                     0x040525B0, 0x040521B0, 0x04051DB0, 0x00000000, 0x00000000 };
+                      0x040525B0, 0x040521B0, 0x04051DB0, 0x00000000, 0x00000000 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3E570.s")
 void func_80A3E570(EnGo* this, void* actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -141,11 +140,13 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
 
         case 0x90:
             if (gSaveContext.bgsFlag) {
+                // "That sworrrrd is my finest  worrrrk!"
                 return 0x305E;
             }
 
             else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_CLAIM_CHECK) {
                 if (func_800775CC(globalCtx) >= 3) {
+                    // "That sworrrrd is my finest  worrrrk!"
                     return 0x305E;
                 }
 
@@ -302,8 +303,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3E908.s")
-s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
+s16 func_80A3E908(GlobalContext* globalCtx, EnGo* this) {
     s16 phi_a3;
     f32 sp28;
     f32 sp24;
@@ -312,81 +312,80 @@ s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
     sp28 = this->actor.xzDistFromLink + 1.0f;
     phi_a3 = 1;
 
-
-    switch(func_8010BDBC(&globalCtx->msgCtx)) { 
-        if(globalCtx) {}
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+        if (globalCtx) {}
         case 2:
 
-            switch(this->actor.textId) {
+            switch (this->actor.textId) {
 
-                case 0x3008: 
+                case 0x3008:
                     gSaveContext.infTable[14] |= 1;
                     phi_a3 = 0;
                     break;
 
-                case 0x300B: 
+                case 0x300B:
                     gSaveContext.infTable[14] |= 0x800;
                     phi_a3 = 0;
                     break;
 
-                case 0x3014: 
+                case 0x3014:
                     gSaveContext.infTable[15] |= 1;
                     phi_a3 = 0;
                     break;
 
-                case 0x3016: 
+                case 0x3016:
                     gSaveContext.infTable[15] |= 0x10;
                     phi_a3 = 0;
                     break;
 
-                case 0x3018: 
+                case 0x3018:
                     gSaveContext.infTable[15] |= 0x100;
                     phi_a3 = 0;
                     break;
 
-                case 0x3036: 
+                case 0x3036:
                     func_8002F434(&this->actor, globalCtx, 0x2C, sp28, sp24);
                     gSaveContext.infTable[16] |= 0x2000;
                     phi_a3 = 2;
                     break;
 
-                case 0x3037: 
+                case 0x3037:
                     gSaveContext.infTable[16] |= 0x4000;
                     phi_a3 = 0;
                     break;
 
-                case 0x3041: 
+                case 0x3041:
                     gSaveContext.infTable[16] |= 0x8000;
                     phi_a3 = 0;
                     break;
 
-                case 0x3059: 
+                case 0x3059:
                     phi_a3 = 2;
                     break;
 
-                case 0x3052: 
-                case 0x3054: 
-                case 0x3055: 
-                case 0x305A: 
+                case 0x3052:
+                case 0x3054:
+                case 0x3055:
+                case 0x305A:
                     phi_a3 = 2;
                     break;
 
-                case 0x305E: 
+                // "That sworrrrd is my finest  worrrrk!"
+                case 0x305E:
                     phi_a3 = 2;
                     break;
 
-                default: 
+                default:
                     phi_a3 = 0;
                     break;
             }
             break;
 
         case 4:
-            
 
             if (func_80106BC8(globalCtx)) {
 
-                switch(this->actor.textId) {
+                switch (this->actor.textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
@@ -433,17 +432,16 @@ s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
                         gSaveContext.infTable[11] |= 0x10;
                         break;
 
-                    // default:
-                }               
+                        // default:
+                }
             }
             break;
 
         case 5:
-            
+
             if (func_80106BC8(globalCtx)) {
 
-                switch(this->actor.textId) {
-
+                switch (this->actor.textId) {
 
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
@@ -454,11 +452,10 @@ s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
                         func_8010B720(globalCtx, this->actor.textId);
                         phi_a3 = 1;
                         break;
-                        
+
                     default:
                         phi_a3 = 2;
                         break;
-                    
                 }
             }
             break;
@@ -475,17 +472,16 @@ s16 func_80A3E908(GlobalContext *globalCtx, EnGo *this) {
         case 7:
         case 9:
             break;
-
     }
     return phi_a3;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3ED24.s")
-s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3, u16 (*GetTextID)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) { 
+s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
+                  u16 (*GetTextID)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) {
 
     if (arg2->unk_00) {
-        arg2->unk_00 = unkFunc2(globalCtx, &this->actor); 
-        return 0; 
+        arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
+        return 0;
     }
 
     else if (func_8002F194(&this->actor, globalCtx)) {
@@ -498,19 +494,19 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 
     else {
-            this->actor.textId = GetTextID(globalCtx, &this->actor);
-            return 0;
-        }
+        this->actor.textId = GetTextID(globalCtx, &this->actor);
+        return 0;
+    }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EDE0.s")
-void func_80A3EDE0(EnGo *this, s32 unk_val) {
+void func_80A3EDE0(EnGo* this, s32 unk_val) {
 
-    SkelAnime_ChangeAnim(&this->skelanime, (&D_80A41B38[unk_val])->animationseg, (&D_80A41B38[unk_val])->playbackSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                          SkelAnime_GetFrameCount((&D_80A41B38[unk_val])->animationseg), (&D_80A41B38[unk_val])->mode, (&D_80A41B38[unk_val])->transitionRate);
+    SkelAnime_ChangeAnim(&this->skelanime, (&D_80A41B38[unk_val])->animationseg,
+                         (&D_80A41B38[unk_val])->playbackSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f),
+                         0.0f, SkelAnime_GetFrameCount((&D_80A41B38[unk_val])->animationseg),
+                         (&D_80A41B38[unk_val])->mode, (&D_80A41B38[unk_val])->transitionRate);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EE8C.s")
 s32 func_80A3EE8C(EnGo* this, GlobalContext* globalCtx) {
 
     if (((this->actor.params) & 0xF0) == 0x90) {
@@ -541,7 +537,6 @@ s32 func_80A3EE8C(EnGo* this, GlobalContext* globalCtx) {
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EFE8.s")
 f32 func_80A3EFE8(EnGo* this) {
     switch (this->actor.params & 0xF0) {
         case 0x00:
@@ -559,7 +554,6 @@ f32 func_80A3EFE8(EnGo* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F060.s")
 void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
@@ -574,17 +568,9 @@ void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->unk_1E0, 4, phi_a3);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F0E4.s")
 void func_80A3F0E4(EnGo* this) {
-    s16 phi_v1;
 
-    if (this->unk_214 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_214--;
-        phi_v1 = this->unk_214;
-    }
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_214) == 0) {
         this->unk_216++;
         if (this->unk_216 >= 3) {
             this = this;
@@ -594,12 +580,10 @@ void func_80A3F0E4(EnGo* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F15C.s")
 s32 func_80A3F15C(EnGo* this, GlobalContext* globalCtx) {
     f32 temp_f2;
     s16 temp;
     Camera* camera;
-    s32 phi_return;
 
     camera = globalCtx->cameraPtrs[0];
 
@@ -626,7 +610,6 @@ s32 func_80A3F15C(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F260.s")
 void func_80A3F260(EnGo* this) {
     f32 initialFrame;
 
@@ -635,8 +618,7 @@ void func_80A3F260(EnGo* this) {
     this->skelanime.animFrameCount = initialFrame;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F274.s")
-void func_80A3F274(EnGo *this) {
+void func_80A3F274(EnGo* this) {
     s16 unk_14;
     s16 phi_a1;
     f32 float1;
@@ -645,19 +627,15 @@ void func_80A3F274(EnGo *this) {
 
     if ((this->skelanime.animation == &D_06004930 && float1 > 32.0f) || this->skelanime.animation != &D_06004930) {
         phi_a1 = 0xFF;
-    }
-    else {
+    } else {
         phi_a1 = 0;
     }
-
 
     unk_14 = this->actor.shape.unk_14;
     Math_SmoothScaleMaxMinS(&unk_14, phi_a1, 10, 60, 1);
     this->actor.shape.unk_14 = unk_14;
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F300.s")
 s32 func_80A3F300(EnGo* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pointPos;
@@ -697,15 +675,13 @@ s32 func_80A3F300(EnGo* this, GlobalContext* globalCtx) {
     return phi_return;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F4BC.s")
-s32 func_80A3F4BC(EnGo *this, GlobalContext *globalCtx) {
-    Path *path;
+s32 func_80A3F4BC(EnGo* this, GlobalContext* globalCtx) {
+    Path* path;
     Vec3s* pointPos;
 
     if ((this->actor.params & 0xF) == 0xF) {
         return 0;
-    }
-    else {
+    } else {
         path = &globalCtx->setupPathList[(this->actor.params & 0xF)];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
@@ -719,32 +695,29 @@ s32 func_80A3F4BC(EnGo *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F594.s")
-s32 func_80A3F594(EnGo *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
-    Vec3f pos; 
-    Vec3f velocity; 
+s32 func_80A3F594(EnGo* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+    Vec3f pos;
+    Vec3f velocity;
     Vec3f accel;
     s32 i;
     s16 angle;
 
-    pos = D_80A41B78; velocity = D_80A41B84; accel = D_80A41B90;
+    pos = D_80A41B78;
+    velocity = D_80A41B84;
+    accel = D_80A41B90;
     pos = this->actor.posRot.pos;
-    pos.y  = this->actor.groundY;
-    angle = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+    pos.y = this->actor.groundY;
+    angle = (s16)((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
 
-    for(i=unk_arg4;i>=0;i--){ accel.x = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; accel.z = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; func_80A41604(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16) (0x10000 / unk_arg4); 
+    // has to be in one line to match???
+    for (i = unk_arg4; i >= 0; i--) {accel.x = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; accel.z = (Math_Rand_ZeroOne() - 0.5f) * unk_arg6; pos.x = (Math_Sins(angle) * unk_arg5) + this->actor.posRot.pos.x; pos.z = (Math_Coss(angle) * unk_arg5) + this->actor.posRot.pos.z; func_80A41604(this, &pos, &velocity, &accel, unk_arg1, unk_arg2, unk_arg3); angle += (s16)(0x10000 / unk_arg4);
     }
 
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F7C0.s")
-s32 func_80A3F7C0(EnGo *this, s16 unk_arg1, f32 unk_arg2) {
-    // s16 temp_a1;
-    s32 phi_v1;
+s32 func_80A3F7C0(EnGo* this, s16 unk_arg1, f32 unk_arg2) {
     f32 phi_f8;
-
-    // temp_a1 = unk_arg1;
 
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return 0;
@@ -754,15 +727,7 @@ s32 func_80A3F7C0(EnGo *this, s16 unk_arg1, f32 unk_arg2) {
         return 1;
     }
 
-    if (this->unk_21C == 0) {
-        phi_v1 = 0;
-    }
-    else {
-        this->unk_21C--;
-        phi_v1 = this->unk_21C;
-    }
-
-    if (phi_v1) {
+    if (DECR(this->unk_21C)) {
         if ((this->unk_21C & 1)) {
             this->actor.posRot.pos.y += 1.5f;
         } else {
@@ -781,14 +746,12 @@ s32 func_80A3F7C0(EnGo *this, s16 unk_arg1, f32 unk_arg2) {
             return 1;
         }
         this->unk_21A = unk_arg1;
-    }  
+    }
 
-    this->actor.velocity.y = ((f32) this->unk_21A / (f32) unk_arg1) * unk_arg2;
+    this->actor.velocity.y = ((f32)this->unk_21A / (f32)unk_arg1) * unk_arg2;
     return 1;
+}
 
- }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F908.s")
 void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
     Player* player;
     f32 float1;
@@ -800,7 +763,6 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
         this->actionFunc == func_80A40D5C || this->actionFunc == func_80A40DCC || this->actionFunc == func_80A40B74 ||
         this->actionFunc == func_80A40C78 || this->actionFunc == func_80A40B1C) {
 
-
         float1 = (this->collider.dim.radius + 30.0f);
         float1 *= (this->actor.scale.x / 0.01f);
 
@@ -808,11 +770,9 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
             float1 *= 4.8f;
         }
 
-
         if ((this->actor.params & 0xF0) == 0x90) {
             phi_v0 = func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, func_80A3E908);
-        } 
-        else {
+        } else {
             phi_v0 = func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, func_80A3E908);
         }
 
@@ -843,7 +803,6 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/EnGo_Init.s")
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo* this = THIS;
@@ -929,7 +888,6 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/EnGo_Destroy.s")
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo* this = THIS;
@@ -937,25 +895,16 @@ void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3FEB4.s")
 void func_80A3FEB4(EnGo* this, GlobalContext* globalCtx) {
     if (!(this->actor.xyzDistFromLinkSq > 1440000.0f)) {
         func_80A3E570(this, func_80A3FEF8);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3FEF8.s")
 void func_80A3FEF8(EnGo* this, GlobalContext* globalCtx) {
     EnBom* bomb;
-    s16 phi_v1;
 
-    if (this->unk_20E == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_20E--;
-        phi_v1 = this->unk_20E;
-    }
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_20E) == 0) {
         if (this->collider.base.maskB & 1) {
             this->collider.base.maskB &= ~1;
             globalCtx->damagePlayer(globalCtx, -4);
@@ -980,7 +929,6 @@ void func_80A3FEF8(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A4008C.s")
 void func_80A4008C(EnGo* this, GlobalContext* globalCtx) {
     if (func_80A3F7C0(this, 3, 6.0f)) {
         if (this->unk_21A == 0) {
@@ -992,7 +940,6 @@ void func_80A4008C(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A4011C.s")
 void func_80A4011C(EnGo* this, GlobalContext* globalCtx) {
 
     if ((func_80A3F300(this, globalCtx) == 1) && Flags_GetSwitch(globalCtx, this->actor.params >> 8) &&
@@ -1008,23 +955,13 @@ void func_80A4011C(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A4020C.s")
 void func_80A4020C(EnGo* this, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40218.s")
 void func_80A40218(EnGo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
-    s16 phi_v1;
 
-    if (this->unk_210 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_210--;
-        phi_v1 = this->unk_210;
-    }
-
-    if ((phi_v1 == 0) && func_80A3F15C(this, globalCtx)) {
+    if ((DECR(this->unk_210) == 0) && func_80A3F15C(this, globalCtx)) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         this->skelanime.animPlaybackSpeed = 0.1f;
@@ -1041,10 +978,8 @@ void func_80A40218(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40318.s")
 void func_80A40318(EnGo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
-    s16 phi_v1;
     f32 float1;
 
     if (this->skelanime.animPlaybackSpeed != 0.0f) {
@@ -1071,13 +1006,7 @@ void func_80A40318(EnGo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_212 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_212--;
-        phi_v1 = this->unk_212;
-    }
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_212) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         func_80A3E570(this, &func_80A405CC);
@@ -1091,7 +1020,6 @@ void func_80A40318(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40494.s")
 void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     f32 float1;
@@ -1117,7 +1045,6 @@ void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A405CC.s")
 void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
     f32 temp_f2;
     f32 phi_f0;
@@ -1146,9 +1073,7 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A406E0.s")
-void func_80A406E0(EnGo* this, GlobalContext* globalCtx) { // INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS
-    s16 phi_v1;
+void func_80A406E0(EnGo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
     if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.unk_00 == 2)) {
@@ -1179,14 +1104,8 @@ void func_80A406E0(EnGo* this, GlobalContext* globalCtx) { // INV_CONTENT(ITEM_P
     }
 
     else {
-        if (this->unk_212 == 0) {
-            phi_v1 = 0;
-        } else {
-            this->unk_212--;
-            phi_v1 = this->unk_212;
-        }
 
-        if ((phi_v1 == 0) && (func_80A3F15C(this, globalCtx) == 0)) {
+        if ((DECR(this->unk_212) == 0) && (func_80A3F15C(this, globalCtx) == 0)) {
             func_80A3F260(this);
             this->skelanime.animPlaybackSpeed = -0.1f;
             if ((this->actor.params & 0xF0) == 0x90) {
@@ -1200,10 +1119,8 @@ void func_80A406E0(EnGo* this, GlobalContext* globalCtx) { // INV_CONTENT(ITEM_P
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A408D8.s")
 void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
-    s16 phi_v1;
     f32 float1;
 
     if (this->skelanime.animPlaybackSpeed != 0.0f) {
@@ -1231,14 +1148,7 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_212 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_212--;
-        phi_v1 = this->unk_212;
-    }
-
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_212) == 0) {
         func_80A3E570(this, func_80A40494);
     }
 
@@ -1251,7 +1161,6 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40A54.s")
 void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
     f32 float1;
     f32 float2;
@@ -1268,7 +1177,6 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40B1C.s")
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
         func_80A3EDE0(this, 3);
@@ -1279,7 +1187,6 @@ void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40B74.s")
 void func_80A40B74(EnGo* this, GlobalContext* globalCtx) {
     f32 float1;
     f32 float2;
@@ -1315,7 +1222,6 @@ void func_80A40B74(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40C78.s")
 void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E0.unk_00 == 3) {
@@ -1340,18 +1246,9 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40D5C.s")
 void func_80A40D5C(EnGo* this, GlobalContext* globalCtx) {
-    s16 phi_v1;
 
-    if (this->unk_21E == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_21E--;
-        phi_v1 = this->unk_21E;
-    }
-
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_21E) == 0) {
         // "Wowwwwwwwwwwwwww!!  This is stimulating! It's worrrrrking grrrrreat!
         // Now I can get back to my blade business!
         // My worrrrrk is not  verrrry consistent, so I'll give this to you so you won't forrrrrget."
@@ -1363,7 +1260,6 @@ void func_80A40D5C(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40DCC.s")
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         func_80A3EDE0(this, 1);
@@ -1374,7 +1270,6 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/EnGo_Update.s")
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo* this = THIS;
@@ -1399,7 +1294,6 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A3F060(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A40F58.s")
 void func_80A40F58(EnGo* this, GlobalContext* globalCtx) {
     Vec3f vec1;
 
@@ -1419,7 +1313,6 @@ void func_80A40F58(EnGo* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A41068.s")
 void func_80A41068(EnGo* this, GlobalContext* globalCtx) {
     Vec3f vec1;
 
@@ -1440,7 +1333,6 @@ void func_80A41068(EnGo* this, GlobalContext* globalCtx) {
 }
 
 // EnGo_OverrideLimbDraw
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A411C8.s")
 s32 func_80A411C8(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
 
     EnGo* this = THIS;
@@ -1476,7 +1368,6 @@ s32 func_80A411C8(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, V
 }
 
 // EnNb_PostLimbDraw
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A413DC.s")
 void func_80A413DC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 
     EnGo* this = THIS;
@@ -1489,7 +1380,6 @@ void func_80A413DC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/EnGo_Draw.s")
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo* this = THIS;
@@ -1522,9 +1412,8 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80A417B4(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A41604.s")
 void func_80A41604(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3) {
-    EnGoUnkStruct* phi_v0;
+    EnGoEffects* phi_v0;
     s16 i;
     s16 arg1;
 
@@ -1548,9 +1437,8 @@ void func_80A41604(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A416A8.s")
 void func_80A416A8(EnGo* this) {
-    EnGoUnkStruct* phi_s0;
+    EnGoEffects* phi_s0;
     f32 randomNumber;
     s16 temp_s1;
     s16 i;
@@ -1580,9 +1468,8 @@ void func_80A416A8(EnGo* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A417B4.s")
-void func_80A417B4(EnGo *this, GlobalContext *globalCtx) {
-    EnGoUnkStruct *UnkStruct;
+void func_80A417B4(EnGo* this, GlobalContext* globalCtx) {
+    EnGoEffects* UnkStruct;
     s16 alpha;
     s16 phi_s7;
     s16 alphaIndex;
@@ -1595,8 +1482,8 @@ void func_80A417B4(EnGo *this, GlobalContext *globalCtx) {
     phi_s7 = 0;
     func_80093D84(globalCtx->state.gfxCtx);
 
-    if(1) {}
-    for(i=0;i<20;i++) {
+    if (1) {}
+    for (i = 0; i < 20; i++) {
         if (UnkStruct->unk_0) {
             if (phi_s7 == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
@@ -1605,19 +1492,18 @@ void func_80A417B4(EnGo *this, GlobalContext *globalCtx) {
                 phi_s7 = 1;
             }
 
-            alpha = (s16) (UnkStruct->unk_1 * (255.0f / UnkStruct->unk_2));
+            alpha = (s16)(UnkStruct->unk_1 * (255.0f / UnkStruct->unk_2));
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xAA, 0x82, 0x5A, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(UnkStruct->pos.x, UnkStruct->pos.y, UnkStruct->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(UnkStruct->unk_4, UnkStruct->unk_4, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 0xA68), G_MTX_NOPUSH |
-            G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 0xA68),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            alphaIndex = (s16) (UnkStruct->unk_1 * (8.0f / UnkStruct->unk_2));
+            alphaIndex = (s16)(UnkStruct->unk_1 * (8.0f / UnkStruct->unk_2));
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A41BD8[alphaIndex]));
             gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
-
         }
         UnkStruct++;
     }

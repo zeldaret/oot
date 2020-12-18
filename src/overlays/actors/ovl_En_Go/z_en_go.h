@@ -35,7 +35,7 @@ typedef struct {
     /* 0x0020 */ Vec3f velocity;
     /* 0x002C */ Vec3f accel;
 
-} EnGoUnkStruct; // Size 0x38
+} EnGoEffects; // Size 0x38
 
 typedef struct EnGo {
     /* 0x0000 */ Actor actor;
@@ -56,7 +56,7 @@ typedef struct EnGo {
     /* 0x021E */ s16 unk_21E;
     /* 0x0220 */ s16 unk_220[18];
     /* 0x0244 */ s16 unk_244[18];
-    /* 0x0268 */ EnGoUnkStruct unk_268[20];
+    /* 0x0268 */ EnGoEffects unk_268[20];
 } EnGo; // size = 0x06C8
 
 extern const ActorInit En_Go_InitVars;
