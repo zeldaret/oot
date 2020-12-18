@@ -117,7 +117,7 @@ s32 func_8088805C(BgHidanHamstep* this, GlobalContext* globalCtx);
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
     s32 pad;
-    s32 pos = 0;
+    ColHeader* colHeader = NULL;
     Vec3f sp48[3];
     s32 i;
     s32 i2;
@@ -141,12 +141,12 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        DynaPolyInfo_Alloc(&D_0600DE44, &pos);
+        DynaPolyInfo_Alloc(&D_0600DE44, &colHeader);
     } else {
-        DynaPolyInfo_Alloc(&D_0600DD1C, &pos);
+        DynaPolyInfo_Alloc(&D_0600DD1C, &colHeader);
     }
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, pos);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         if ((this->dyna.actor.params & 0xFF) == 0) {
