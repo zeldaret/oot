@@ -23,14 +23,14 @@ void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600A548[];
 extern Gfx D_0600A668[];
-extern UNK_TYPE D_0600DE44;
-extern UNK_TYPE D_0600DD1C;
+extern ColHeader D_0600DE44;
+extern ColHeader D_0600DD1C;
 
 static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
 };
 
-static ColliderTrisItemInit sTrisItemsInit[] = {
+static ColliderTrisItemInit sTrisItemsInit[2] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { { { -20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, 20.0f } } },
@@ -43,7 +43,7 @@ static ColliderTrisItemInit sTrisItemsInit[] = {
 
 static ColliderTrisInit sTrisInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
-    2,
+    ARRAY_COUNT(sTrisItemsInit),
     sTrisItemsInit,
 };
 
@@ -120,11 +120,11 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* step;
 
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
-    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
         Collider_InitTris(globalCtx, &this->collider);
-        Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, &this->colliderItems);
+        Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
 
         for (i = 0; i < 2; i++) {
             for (i2 = 0; i2 < 3; i2++) {
@@ -391,9 +391,9 @@ void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, &D_0600A668);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600A668);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, &D_0600A548);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600A548);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_hamstep.c", 796);
