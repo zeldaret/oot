@@ -21,8 +21,8 @@ void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx);
 void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0600A548;
-extern UNK_TYPE D_0600A668;
+extern Gfx D_0600A548[];
+extern Gfx D_0600A668[];
 extern UNK_TYPE D_0600DE44;
 extern UNK_TYPE D_0600DD1C;
 
@@ -396,9 +396,9 @@ void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600A668);
+        gSPDisplayList(POLY_OPA_DISP++, &D_0600A668);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600A548);
+        gSPDisplayList(POLY_OPA_DISP++, &D_0600A548);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_hamstep.c", 796);
