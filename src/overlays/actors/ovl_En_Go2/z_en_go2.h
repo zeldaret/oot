@@ -64,7 +64,7 @@ typedef struct EnGo2 {
     /* 0x0210 */ s8 waypoint;
     /* 0x0211 */ u8 unk_211; // Conditional
     /* 0x0212 */ u8 unk_212; // Cycles between 0, 1, 2
-    /* 0x0213 */ u8 unk_213; // 0, 1, 2, 3
+    /* 0x0213 */ u8 eyeMouthTexState; // 0, 1, 2, 3
     /* 0x0214 */ u8 eyeTexIndex; 
     /* 0x0215 */ u8 mouthTexIndex; 
     /* 0x0216 */ u8 unk_216; // Set to z rotation, checked by waypoint

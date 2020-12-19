@@ -103,7 +103,7 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx);
 s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx);
 
 s32 func_80A44D84(EnGo2* this);
-s32 func_80A44DC0(EnGo2* this);
+s32 EnGo2_IsWakingUp(EnGo2* this);
 
 s32 func_80A44EF0(EnGo2* this, s16 arg1, f32 arg2, s16 arg3);
 
@@ -118,11 +118,11 @@ void func_80A45734(EnGo2* this);
 void func_80A4578C(EnGo2* this);
 void func_80A457F8(EnGo2* this);
 void func_80A45848(EnGo2* this);
-void EnGo2_BlinkMouth(EnGo2* this);
+void EnGo2_EyeMouthTexState(EnGo2* this);
 void func_80A45A00(EnGo2* this);
 void func_80A45B14(EnGo2* this, s32 index2);
 void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx);
-void func_80A45C50(EnGo2* this, GlobalContext* globalCtx);
+void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx);
 
 void func_80A45D40(EnGo2* this, GlobalContext* globalCtx);
 void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx);
@@ -389,47 +389,72 @@ s32 func_80A43468(EnGo2* this, GlobalContext* globalCtx) {
 u16 func_80A434E8(EnGo2* this) {
     switch ((this->actor.params & 0xFC00) >> 0xA) {
         case 3:
+            // GORON_FIRE_MAZE_LOWER
             // "I'll tell you a secret for saving me!
             // In this temple, there are doors that fall down when you try to  open them.
             // When one of these doors starts to fall, move!
             // If you use a sample of the Goron \"special crop,\" you can break it..."
             return 0x3069;
+
+
         case 5:
+            // GORON_FIRE_MAZE_SIDE_ROOM
             // "Let me tell you a secret as a reward for releasing me!
             // When you are on fire, you can put it out by swinging your sword, or by rolling forward...
             // Did you know that?"
             return 0x306A;
+
+
         case 4:
+            // GORON_FIRE_MAZE_SHORTCUT
             // "Here's a tip for rescuing me!
             // Somewhere in this temple, you're sure to meet up with some creatures that dance as they attack.
             // Arrows won't hurt them!
             // Looks like you might need some of the Goron \"special crop!\" That's all I have to tell you!"
             return 0x306B;
+
+
         case 2:
+            // GORON_FIRE_LAVA_ROOM_BOMB
             // "I'll tell you a secret for saving me!
             // There are switches in this temple that you have to cut to activate.
             // But, you can also use the Goron \"special crop\" to do the job."
             return 0x306C;
+
+
         case 10:
+            // GORON_FIRE_MAZE_UPPER
             // "I'll tell you a secret for saving me!
             // If you find a place that you can see on the map, but can't reach, try playing your Ocarina!"
             return 0x306D;
+
+
         case 8:
+            // GORON_FIRE_NEAR_BOSS
             // "I'll tell you a secret for saving me!
             // In order to get into the room where Darunia went, you have to do something about the pillar stuck in the
             // ceiling. Find a path that leads to a room above the ceiling right away!"
             return 0x306E;
+
+
         case 11:
+            // GORON_FIRE_HIGHEST
             // "I'll tell you a secret for saving me!
             // A door is hidden inside the statue at the entrance to this temple.
             // But, the Goron \"special crop\" won't work on it... Don't you have anything stronger?"
             return 0x306F;
+
+
         case 1:
+            // GORON_FIRE_LAVA_ROOM_OPEN
             // "Here's a secret for saving me!
             // A wall that you can destroy with the Goron's \"special crop\"
             // will sound different than a regular wall if you hit it with your sword."
             return 0x3070;
+
+
         default:
+            // GORON_FIRE_BOSS_KEY
             // "Oh, I see. Big Brother Darunia asked you to rescue me. I owe you big time!  Please help Big Brother!"
             return 0x3052;
     }
@@ -1149,7 +1174,7 @@ s32 func_80A44D84(EnGo2* this) {
     return 1;
 }
 
-s32 func_80A44DC0(EnGo2* this) {
+s32 EnGo2_IsWakingUp(EnGo2* this) {
     s16 yawDiff;
     f32 xyzDist;
     f32 yDist;
@@ -1162,10 +1187,10 @@ s32 func_80A44DC0(EnGo2* this) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if ((this->collider.base.maskB & 1) == 0) {
             this->actor.flags &= ~1;
-            return 0;
+            return false;
         } else {
             this->actor.flags |= 1;
-            return 1;
+            return true;
         }
     }
 
@@ -1175,9 +1200,9 @@ s32 func_80A44DC0(EnGo2* this) {
     yawDiffAbs = ABS(yawDiff);
 
     if (this->actor.xyzDistFromLinkSq <= xyzDist && fabsf(this->actor.yDistFromLink) < yDist && yawDiffAbs < 0x2AA8) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -1403,10 +1428,10 @@ s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
 
     camera = globalCtx->cameraPtrs[0];
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        if (func_80A44DC0(this)) {
+        if (EnGo2_IsWakingUp(this)) {
             Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
             func_8005AD1C(camera, 4);
-        } else if ((func_80A44DC0(this) == 0) && (camera->setting == CAM_SET_TEPPEN)) {
+        } else if ((EnGo2_IsWakingUp(this) == false) && (camera->setting == CAM_SET_TEPPEN)) {
             Camera_ChangeSetting(camera, CAM_SET_DUNGEON1);
             func_8005ACFC(camera, 4);
         }
@@ -1424,7 +1449,7 @@ s32 func_80A4561C(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A45734(EnGo2* this) {
-    if (func_80A44DC0(this)) {
+    if (EnGo2_IsWakingUp(this)) {
         this->unk_26E = 2;
     } else {
         this->unk_26E = 1;
@@ -1460,7 +1485,7 @@ void func_80A4578C(EnGo2* this) {
 }
 
 void func_80A457F8(EnGo2* this) {
-    if (func_80A44DC0(this) || this->unk_194.unk_00) {
+    if (EnGo2_IsWakingUp(this) || this->unk_194.unk_00) {
         this->unk_26E = 2;
         this->unk_20F = true;
     } else {
@@ -1473,7 +1498,7 @@ void func_80A45848(EnGo2* this) {
     switch (this->actor.params & 0x1F) {
         case GORON_DMT_BOMB_FLOWER:
             this->unk_20F = true;
-            this->unk_26E = func_80A44DC0(this) ? 2 : 1;
+            this->unk_26E = EnGo2_IsWakingUp(this) ? 2 : 1;
             break;
         case GORON_FIRE_GENERIC:
             func_80A4578C(this);
@@ -1491,8 +1516,8 @@ void func_80A45848(EnGo2* this) {
     }
 }
 
-void EnGo2_BlinkMouth(EnGo2* this) {
-    switch (this->unk_213) {
+void EnGo2_EyeMouthTexState(EnGo2* this) {
+    switch (this->eyeMouthTexState) {
         case 1:
             this->blinkTimer = 0;
             this->eyeTexIndex = 0;
@@ -1503,6 +1528,7 @@ void EnGo2_BlinkMouth(EnGo2* this) {
             this->eyeTexIndex = 1;
             this->mouthTexIndex = 0;
             break;
+        // case 3 only when biggoron is given eyedrops. Biggoron smiles. 
         case 3:
             this->blinkTimer = 0;
             this->eyeTexIndex = 0;
@@ -1572,7 +1598,7 @@ void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A4696C;
 }
 
-void func_80A45C50(EnGo2* this, GlobalContext* globalCtx) {
+void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animPlaybackSpeed == 0.0f) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
@@ -1688,7 +1714,7 @@ s32 func_80A4607C(EnGo2* this) {
 
 s32 func_80A460B8(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) ||
-        func_80A44DC0(this) == 0) {
+        EnGo2_IsWakingUp(this) == false) {
         return false;
     } else {
         return true;
@@ -1731,7 +1757,7 @@ void func_80A461A8(EnGo2* this, GlobalContext* globalCtx) {
             (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
             if (this->skelAnime.animation != &D_06000D5C) {
                 animation = 0xC;
-                this->unk_213 = 0;
+                this->eyeMouthTexState = 0;
             }
         }
 
@@ -1749,7 +1775,7 @@ void func_80A461A8(EnGo2* this, GlobalContext* globalCtx) {
             (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
             if (this->skelAnime.animation != &D_06000750) {
                 animation = 0xB;
-                this->unk_213 = 1;
+                this->eyeMouthTexState = 1;
             }
         }
 
@@ -1890,7 +1916,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) &&
                 (INV_CONTENT(ITEM_POCKET_EGG) < ITEM_CLAIM_CHECK)) {
-                this->unk_213 = 1;
+                this->eyeMouthTexState = 1;
             }
             this->collider.base.acFlags = 0;
             this->collider.base.maskA = 0xD; // OC_PLAYER | OC_NO_PUSH | OC_ON
@@ -1941,10 +1967,10 @@ void func_80A4696C(EnGo2* this, GlobalContext* globalCtx) {
     }
     if (func_80A45F08(this, globalCtx)) {
         this->unk_20F = false;
-        func_80A45C50(this, globalCtx);
+        EnGo2_WakeUp(this, globalCtx);
     }
-    if (((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) && func_80A44DC0(this)) {
-        func_80A45C50(this, globalCtx);
+    if (((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) && EnGo2_IsWakingUp(this)) {
+        EnGo2_WakeUp(this, globalCtx);
     }
 }
 
@@ -1981,7 +2007,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
                       (height * 0.6f));
         }
     }
-    if ((func_80A4561C(this, globalCtx) == 0) && (func_80A44DC0(this) == 0)) {
+    if ((func_80A4561C(this, globalCtx) == 0) && (EnGo2_IsWakingUp(this) == false)) {
         func_80A45B9C(this, globalCtx);
     }
 }
@@ -2056,7 +2082,7 @@ void func_80A46F88(EnGo2* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A47490;
                     break;
                 case GORON_CITY_ROLLING_BIG:
-                    func_80A45C50(this, globalCtx);
+                    EnGo2_WakeUp(this, globalCtx);
                     break;
                 default:
                     this->actionFunc = func_80A4696C;
@@ -2124,7 +2150,7 @@ void func_80A4725C(EnGo2* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y += 0x5B0;
             this->unk_26E = 1;
             this->unk_592 = this->skelAnime.animFrameCount + 60.0f + 60.0f;
-            this->unk_213 = 2;
+            this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->unk_212++;
             func_800F483C(0x28, 5);
@@ -2134,7 +2160,7 @@ void func_80A4725C(EnGo2* this, GlobalContext* globalCtx) {
             if (DECR(this->unk_592)) {
                 if (this->unk_592 == 0x3C || this->unk_592 == 0x78) {
                     func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
-                    func_800F4524(&D_801333D4, 0x28B5, 60);
+                    func_800F4524(&D_801333D4, NA_SE_EV_GORON_WATER_DROP, 60);
                 }
             } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
@@ -2143,14 +2169,14 @@ void func_80A4725C(EnGo2* this, GlobalContext* globalCtx) {
                 // Now I can get back to my blade business! My worrrrrk is not  verrrry consistent,
                 // so I'll give this  to you so you won't forrrrrget.[goto 305C]"
                 func_8010B720(globalCtx, 0x305A);
-                this->unk_213 = 3;
+                this->eyeMouthTexState = 3;
                 this->unk_212++;
                 func_800F483C(0x7F, 5);
             }
             break;
         case 2:
             if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-                this->unk_213 = 0;
+                this->eyeMouthTexState = 0;
             }
             if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -2287,7 +2313,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80034F54(globalCtx, &this->unk_226, &this->unk_24A, 0x12);
     }
     func_80A45288(this, globalCtx);
-    EnGo2_BlinkMouth(this);
+    EnGo2_EyeMouthTexState(this);
     func_80A44940(this, globalCtx);
 }
 
