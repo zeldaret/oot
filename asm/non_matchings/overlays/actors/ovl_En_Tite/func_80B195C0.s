@@ -154,7 +154,7 @@ glabel func_80B195C0
 /* 00D50 80B197D0 00000000 */  nop
 /* 00D54 80B197D4 45000005 */  bc1f    .L80B197EC                 
 /* 00D58 80B197D8 00000000 */  nop
-/* 00D5C 80B197DC 0C2C6317 */  jal     func_80B18C5C              
+/* 00D5C 80B197DC 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 00D60 80B197E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00D64 80B197E4 10000019 */  beq     $zero, $zero, .L80B1984C   
 /* 00D68 80B197E8 8FBF001C */  lw      $ra, 0x001C($sp)           

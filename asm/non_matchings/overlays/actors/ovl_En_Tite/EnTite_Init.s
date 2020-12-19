@@ -82,7 +82,7 @@ glabel EnTite_Init
 /* 00138 80B18BB8 A20800AF */  sb      $t0, 0x00AF($s0)           ## 000000AF
 /* 0013C 80B18BBC A20A0117 */  sb      $t2, 0x0117($s0)           ## 00000117
 .L80B18BC0:
-/* 00140 80B18BC0 0C2C6317 */  jal     func_80B18C5C              
+/* 00140 80B18BC0 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 00144 80B18BC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00148 80B18BC8 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 0014C 80B18BCC 8FB00028 */  lw      $s0, 0x0028($sp)           

@@ -1,4 +1,4 @@
-glabel func_80B18CC4
+glabel EnTite_Idle
 /* 00244 80B18CC4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00248 80B18CC8 AFB00028 */  sw      $s0, 0x0028($sp)           
 /* 0024C 80B18CCC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000

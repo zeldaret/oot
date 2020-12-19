@@ -1,4 +1,4 @@
-glabel func_80B1A76C
+glabel EnTite_SetupWaitFlippedOnBack
 /* 01CEC 80B1A76C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01CF0 80B1A770 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 01CF4 80B1A774 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -26,10 +26,10 @@ glabel func_80B1A76C
 /* 01D44 80B1A7C4 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
 /* 01D48 80B1A7C8 44814000 */  mtc1    $at, $f8                   ## $f8 = 50.00
 /* 01D4C 80B1A7CC 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
-/* 01D50 80B1A7D0 3C0580B2 */  lui     $a1, %hi(func_80B1A888)    ## $a1 = 80B20000
+/* 01D50 80B1A7D0 3C0580B2 */  lui     $a1, %hi(EnTite_WaitFlippedOnBack)    ## $a1 = 80B20000
 /* 01D54 80B1A7D4 46080282 */  mul.s   $f10, $f0, $f8
 /* 01D58 80B1A7D8 3C014F00 */  lui     $at, 0x4F00                ## $at = 4F000000
-/* 01D5C 80B1A7DC 24A5A888 */  addiu   $a1, $a1, %lo(func_80B1A888) ## $a1 = 80B1A888
+/* 01D5C 80B1A7DC 24A5A888 */  addiu   $a1, $a1, %lo(EnTite_WaitFlippedOnBack) ## $a1 = 80B1A888
 /* 01D60 80B1A7E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01D64 80B1A7E4 4458F800 */  cfc1    $t8, $31
 /* 01D68 80B1A7E8 44D9F800 */  ctc1    $t9, $31

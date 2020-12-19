@@ -85,7 +85,7 @@ glabel func_80B1ABBC
 /* 02268 80B1ACE8 10000027 */  beq     $zero, $zero, .L80B1AD88   
 /* 0226C 80B1ACEC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B1ACF0:
-/* 02270 80B1ACF0 0C2C6A91 */  jal     func_80B1AA44              
+/* 02270 80B1ACF0 0C2C6A91 */  jal     EnTite_SetupFlipUpright              
 /* 02274 80B1ACF4 00000000 */  nop
 /* 02278 80B1ACF8 10000023 */  beq     $zero, $zero, .L80B1AD88   
 /* 0227C 80B1ACFC 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -111,7 +111,7 @@ glabel func_80B1ABBC
 /* 022C8 80B1AD48 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 022CC 80B1AD4C 55210006 */  bnel    $t1, $at, .L80B1AD68       
 /* 022D0 80B1AD50 908202BC */  lbu     $v0, 0x02BC($a0)           ## 000002BC
-/* 022D4 80B1AD54 0C2C6A91 */  jal     func_80B1AA44              
+/* 022D4 80B1AD54 0C2C6A91 */  jal     EnTite_SetupFlipUpright              
 /* 022D8 80B1AD58 00000000 */  nop
 /* 022DC 80B1AD5C 1000000A */  beq     $zero, $zero, .L80B1AD88   
 /* 022E0 80B1AD60 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -123,7 +123,7 @@ glabel func_80B1ABBC
 /* 022F4 80B1AD74 54200004 */  bnel    $at, $zero, .L80B1AD88     
 /* 022F8 80B1AD78 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B1AD7C:
-/* 022FC 80B1AD7C 0C2C69DB */  jal     func_80B1A76C              
+/* 022FC 80B1AD7C 0C2C69DB */  jal     EnTite_SetupWaitFlippedOnBack              
 /* 02300 80B1AD80 00000000 */  nop
 .L80B1AD84:
 /* 02304 80B1AD84 8FBF001C */  lw      $ra, 0x001C($sp)           

@@ -1,4 +1,4 @@
-glabel func_80B18C5C
+glabel EnTite_SetupIdle
 /* 001DC 80B18C5C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 001E0 80B18C60 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 001E4 80B18C64 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
@@ -17,8 +17,8 @@ glabel func_80B18C5C
 /* 00214 80B18C94 A0EE02BC */  sb      $t6, 0x02BC($a3)           ## 000002BC
 /* 00218 80B18C98 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 0021C 80B18C9C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 00220 80B18CA0 3C0580B2 */  lui     $a1, %hi(func_80B18CC4)    ## $a1 = 80B20000
-/* 00224 80B18CA4 24A58CC4 */  addiu   $a1, $a1, %lo(func_80B18CC4) ## $a1 = 80B18CC4
+/* 00220 80B18CA0 3C0580B2 */  lui     $a1, %hi(EnTite_Idle)    ## $a1 = 80B20000
+/* 00224 80B18CA4 24A58CC4 */  addiu   $a1, $a1, %lo(EnTite_Idle) ## $a1 = 80B18CC4
 /* 00228 80B18CA8 A48202E0 */  sh      $v0, 0x02E0($a0)           ## 000002E0
 /* 0022C 80B18CAC 0C2C62A0 */  jal     func_80B18A80
 /* 00230 80B18CB0 E4840068 */  swc1    $f4, 0x0068($a0)           ## 00000068

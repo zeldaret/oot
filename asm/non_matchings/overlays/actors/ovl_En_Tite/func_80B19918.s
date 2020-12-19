@@ -96,7 +96,7 @@ glabel func_80B19918
 /* 00FF4 80B19A74 10000004 */  beq     $zero, $zero, .L80B19A88   
 /* 00FF8 80B19A78 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
 .L80B19A7C:
-/* 00FFC 80B19A7C 0C2C6317 */  jal     func_80B18C5C              
+/* 00FFC 80B19A7C 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 01000 80B19A80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01004 80B19A84 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
 .L80B19A88:
@@ -217,7 +217,7 @@ glabel func_80B19918
 /* 011A8 80B19C28 00000000 */  nop
 /* 011AC 80B19C2C 45020006 */  bc1fl   .L80B19C48                 
 /* 011B0 80B19C30 3C014334 */  lui     $at, 0x4334                ## $at = 43340000
-/* 011B4 80B19C34 0C2C6317 */  jal     func_80B18C5C              
+/* 011B4 80B19C34 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 011B8 80B19C38 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 011BC 80B19C3C 10000076 */  beq     $zero, $zero, .L80B19E18   
 /* 011C0 80B19C40 8FBF002C */  lw      $ra, 0x002C($sp)           

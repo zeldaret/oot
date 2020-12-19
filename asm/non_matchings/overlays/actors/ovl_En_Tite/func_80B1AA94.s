@@ -1,4 +1,4 @@
-glabel func_80B1AA94
+glabel EnTite_FlipUpright
 /* 02014 80B1AA94 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 02018 80B1AA98 AFB00028 */  sw      $s0, 0x0028($sp)           
 /* 0201C 80B1AA9C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -69,7 +69,7 @@ glabel func_80B1AA94
 /* 02118 80B1AB98 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 0211C 80B1AB9C E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
-/* 02120 80B1ABA0 0C2C6317 */  jal     func_80B18C5C              
+/* 02120 80B1ABA0 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 02124 80B1ABA4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B1ABA8:
 /* 02128 80B1ABA8 8FBF002C */  lw      $ra, 0x002C($sp)           

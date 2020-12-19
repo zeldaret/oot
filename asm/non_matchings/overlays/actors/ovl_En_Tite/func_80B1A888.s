@@ -1,4 +1,4 @@
-glabel func_80B1A888
+glabel EnTite_WaitFlippedOnBack
 /* 01E08 80B1A888 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01E0C 80B1A88C AFB00030 */  sw      $s0, 0x0030($sp)           
 /* 01E10 80B1A890 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -100,7 +100,7 @@ glabel func_80B1A888
 /* 01F68 80B1A9E8 860E02E0 */  lh      $t6, 0x02E0($s0)           ## 000002E0
 /* 01F6C 80B1A9EC 55C00011 */  bnel    $t6, $zero, .L80B1AA34     
 /* 01F70 80B1A9F0 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 01F74 80B1A9F4 0C2C6A91 */  jal     func_80B1AA44              
+/* 01F74 80B1A9F4 0C2C6A91 */  jal     EnTite_SetupFlipUpright              
 /* 01F78 80B1A9F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01F7C 80B1A9FC 1000000D */  beq     $zero, $zero, .L80B1AA34   
 /* 01F80 80B1AA00 8FBF0034 */  lw      $ra, 0x0034($sp)           

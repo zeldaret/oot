@@ -190,7 +190,7 @@ glabel func_80B19E94
 /* 016D0 80B1A150 51E00006 */  beql    $t7, $zero, .L80B1A16C     
 /* 016D4 80B1A154 3C014334 */  lui     $at, 0x4334                ## $at = 43340000
 .L80B1A158:
-/* 016D8 80B1A158 0C2C6317 */  jal     func_80B18C5C              
+/* 016D8 80B1A158 0C2C6317 */  jal     EnTite_SetupIdle              
 /* 016DC 80B1A15C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 016E0 80B1A160 1000001B */  beq     $zero, $zero, .L80B1A1D0   
 /* 016E4 80B1A164 00000000 */  nop
