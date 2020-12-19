@@ -23,7 +23,7 @@ void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808A90F4(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A91AC(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx);
-void BgRelayObjects_Noop(BgRelayObjects* this, GlobalContext* globalCtx);
+void BgRelayObjects_DoNothing(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
 
@@ -90,7 +90,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(thisx);
             } else {
                 D_808A9508 |= 1;
-                this->actionFunc = BgRelayObjects_Noop;
+                this->actionFunc = BgRelayObjects_DoNothing;
             }
         } else if (this->unk_169 != 5) {
             Flags_UnsetSwitch(globalCtx, this->switchFlag);
@@ -164,11 +164,11 @@ void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
         if (globalCtx->roomCtx.curRoom.num == 4) {
             gSaveContext.timer1State = 0xF;
         }
-        this->actionFunc = BgRelayObjects_Noop;
+        this->actionFunc = BgRelayObjects_DoNothing;
     }
 }
 
-void BgRelayObjects_Noop(BgRelayObjects* this, GlobalContext* globalCtx) {
+void BgRelayObjects_DoNothing(BgRelayObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
@@ -179,7 +179,7 @@ void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
         if (!Player_InCsMode(globalCtx)) {
             func_80078884(NA_SE_OC_ABYSS);
             Gameplay_TriggerRespawn(globalCtx);
-            this->actionFunc = BgRelayObjects_Noop;
+            this->actionFunc = BgRelayObjects_DoNothing;
         }
     }
 }
@@ -208,8 +208,8 @@ void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgRelayObjects* this = THIS;
 
     if (this->dyna.actor.params == WINDMILL_ROTATING_GEAR) {
-        Gfx_DrawDListOpa(globalCtx, &D_06001AB0);
+        Gfx_DrawDListOpa(globalCtx, D_06001AB0);
     } else {
-        Gfx_DrawDListOpa(globalCtx, &D_060001A0);
+        Gfx_DrawDListOpa(globalCtx, D_060001A0);
     }
 }
