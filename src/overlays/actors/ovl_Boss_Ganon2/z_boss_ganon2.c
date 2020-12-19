@@ -464,7 +464,6 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = -3000.0f;
 }
 
-#ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     u8 sp8D;
     Player* player;
@@ -505,6 +504,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 player->actor.shape.rot.y = -0x5000;
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06002168, 0.0f);
                 globalCtx->envCtx.unk_D8 = 0.0f;
+            } else {
+                break;
             }
         case 1:
             if (this->unk_398 < 0x46) {
@@ -520,13 +521,13 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x96) {
                 func_8010B680(globalCtx, 0x70D3, NULL);
             }
-            if (this->unk_398 >= 0xFB) {
-                if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
-                    this->unk_39C = 2;
-                    this->unk_398 = 0;
-                    this->unk_410.x = 0.0f;
-                    globalCtx->envCtx.unk_D8 = 1.0f;
-                }
+            if (this->unk_398 >= 0xFB && func_8010BDBC(&globalCtx->msgCtx) == 0) {
+                this->unk_39C = 2;
+                this->unk_398 = 0;
+                this->unk_410.x = 0.0f;
+                globalCtx->envCtx.unk_D8 = 1.0f;
+            } else {
+                break;
             }
         case 2:
             this->unk_339 = 4;
@@ -614,6 +615,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+            } else {
+                break;
             }
         case 10:
             player->actor.posRot.pos.x = 490.0f;
@@ -693,6 +696,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D8 = 0.0f;
                 globalCtx->envCtx.unk_BE = globalCtx->envCtx.unk_BD = 0;
                 this->unk_339 = 0;
+            } else {
+                break;
             }
         case 12:
         case 13:
@@ -717,6 +722,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y = this->actor.posRot.pos.y - 30.0f;
                 this->actor.posRot.pos.z = -200.0f;
                 Audio_SetBGM(0x23);
+            } else {
+                break;
             }
         case 14:
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -780,6 +787,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_339 = 0x37;
                 globalCtx->envCtx.unk_D8 = 1.0f;
                 Audio_PlayActorSound2(&this->actor, 0x39D3);
+            } else {
+                break;
             }
         case 16:
             if (this->unk_398 < 0x19) {
@@ -912,6 +921,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x1E) {
                 this->unk_39C = 0x16;
                 this->unk_30C = 10.0f;
+            } else {
+                break;
             }
         case 22:
             if (this->unk_398 < 0x3C) {
@@ -1037,6 +1048,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 temp_v0_3->velocity.y = -30.0f;
                 this->unk_39C = 0x1A;
                 this->unk_398 = 0;
+            } else {
+                break;
             }
         case 26:
             this->unk_3A4.x = D_8090EB2C->actor.posRot.pos.x + 100.0f + 30.0f;
@@ -1139,6 +1152,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->actor.flags |= 1;
                 D_8090EB2C->unk_3C8 = 7;
             }
+            break;
     }
 
     if ((this->unk_30C > 4.0f) && (sp8D == 0)) {
@@ -1150,9 +1164,6 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
-#endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
