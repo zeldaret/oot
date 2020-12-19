@@ -1711,9 +1711,9 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
 void SysCfb_Init(s32 n64dd);
 u32 SysCfb_GetFbPtr(s32 idx);
 u32 SysCfb_GetFbEnd();
-f32 Math_Factorialf(f32 n);
+f32 Math_FactorialF(f32 n);
 f32 Math_Factorial(s32 n);
-f32 Math_Powf(f32 base, s32 exp);
+f32 Math_PowF(f32 base, s32 exp);
 f32 Math_Sinf(f32 angle);
 f32 Math_Cosf(f32 angle);
 s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,

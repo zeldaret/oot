@@ -9,11 +9,11 @@ void Lib_MemSet(u8* dest, size_t size, u8 val) {
 }
 
 f32 Math_Coss(s16 angle) {
-    return coss(angle) * (1.0f / 32767);
+    return coss(angle) * SHT_MINV;
 }
 
 f32 Math_Sins(s16 angle) {
-    return sins(angle) * (1.0f / 32767);
+    return sins(angle) * SHT_MINV;
 }
 
 s32 Math_ApproxUpdateScaledS(s16* pValue, s16 target, s16 step) {
@@ -95,7 +95,7 @@ s32 func_80077AF8(s16* pValue, s16 target, s16 step) {
 
     *pValue += step;
 
-    if (((*pValue - target) * ((s16)orig - target)) <= 0) {
+    if (((*pValue - target) * (orig - target)) <= 0) {
         *pValue = target;
         return 1;
     }
@@ -112,7 +112,7 @@ s32 func_80077B58(s16* pValue, s16 target, s16 step) {
 
     if (phi_v0 >= 0x8000) {
         step = -step;
-        phi_v0 = 0xFFFF0001 - -phi_v0;
+        phi_v0 = -0xFFFF - -phi_v0;
     } else if (phi_v0 <= -0x8000) {
         phi_v0 += 0xFFFF;
         step = -step;
