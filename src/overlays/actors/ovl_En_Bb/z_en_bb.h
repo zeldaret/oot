@@ -45,7 +45,7 @@ typedef struct EnBb {
     /* 0x02AC */ ColliderJntSph collider;
     /* 0x02CC */ ColliderJntSphItem elements[1];
     /* 0x030C */ struct_80032E24 unk_30C;
-    /* 0x0324 */ struct EnBb* unk_324;
+    /* 0x0324 */ Actor* unk_324;
 } EnBb; // size = 0x0328
 
 extern const ActorInit En_Bb_InitVars;
