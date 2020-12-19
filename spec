@@ -1957,7 +1957,7 @@ endseg
 beginseg
     name "ovl_En_Bird"
     include "build/src/overlays/actors/ovl_En_Bird/z_en_bird.o"
-    include "build/data/overlays/actors/z_en_bird.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bird/ovl_En_Bird_reloc.o"
 endseg
 
 beginseg
