@@ -1278,7 +1278,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot15_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.o"
-    include "build/data/overlays/actors/z_bg_spot15_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/ovl_Bg_Spot15_Saku_reloc.o"
 endseg
 
 beginseg
@@ -1955,7 +1955,7 @@ endseg
 beginseg
     name "ovl_En_Bird"
     include "build/src/overlays/actors/ovl_En_Bird/z_en_bird.o"
-    include "build/data/overlays/actors/z_en_bird.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bird/ovl_En_Bird_reloc.o"
 endseg
 
 beginseg
