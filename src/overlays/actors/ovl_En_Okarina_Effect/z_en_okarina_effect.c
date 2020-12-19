@@ -62,7 +62,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
     this->timer = 400;                    // 20 seconds
     globalCtx->envCtx.unk_F2[0] = 20;     // rain intensity target
     globalCtx->envCtx.gloomySkyEvent = 1; // start gloomy sky
-    if ((gWeatherMode != 0) || globalCtx->envCtx.gloomySky != 0) {
+    if ((gWeatherMode != 0) || globalCtx->envCtx.unk_17 != 0) {
         globalCtx->envCtx.unk_DE = 1;
     }
     globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;

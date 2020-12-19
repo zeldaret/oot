@@ -318,8 +318,8 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.numDays++;
-            gSaveContext.unk_18++;
+            gSaveContext.totalDays++;
+            gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
@@ -1180,12 +1180,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxId != 0) {
                         s32 skyboxId = globalCtx->skyboxId;
-                        if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
+                        if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyboxDisabled) {
                             if ((globalCtx->skyboxId == 1) || (skyboxId == 5)) {
-                                func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
+                                Kankyo_UpdateSkybox(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
                                 SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                                globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                                globalCtx->view.eye.z);
+                                                globalCtx->envCtx.skyboxBlend, globalCtx->view.eye.x,
+                                                globalCtx->view.eye.y, globalCtx->view.eye.z);
                             } else if (globalCtx->skyboxCtx.unk_140 == 0) {
                                 SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
                                                 globalCtx->view.eye.y, globalCtx->view.eye.z);
@@ -1317,7 +1317,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         Camera_Update(&sp50, ACTIVE_CAM);
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
-        if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
+        if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyboxDisabled) {
             SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                     globalCtx->view.eye.z);
         }

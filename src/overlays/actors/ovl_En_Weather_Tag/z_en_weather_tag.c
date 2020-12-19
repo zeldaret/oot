@@ -136,7 +136,7 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
 
     if (func_8002DB8C(&player->actor, &this->actor) < (this->actor.params >> 8) * 100.0f) {
         if ((globalCtx->envCtx.unk_1E != 0) ||
-            (!D_8011FB3C || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
+            (!gSkyboxBlendingEnabled || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
             if (globalCtx->envCtx.gloomySkyEvent == 0 &&
                 ((globalCtx->envCtx.unk_1E != 0) ||
@@ -146,7 +146,7 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                     gWeatherMode = arg7;
                     if (globalCtx->envCtx.gloomySkyEvent == 0) {
                         globalCtx->envCtx.unk_19 = 1;
-                        globalCtx->envCtx.gloomySky = arg2;
+                        globalCtx->envCtx.unk_17 = arg2;
                         globalCtx->envCtx.unk_18 = arg3;
                         globalCtx->envCtx.unk_1A = arg6;
                         globalCtx->envCtx.unk_21 = 1;
@@ -177,7 +177,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
 
     if ((((this->actor.params >> 8) * 100.0f) + 100.0f) < func_8002DB8C(&player->actor, &this->actor)) {
         if ((globalCtx->envCtx.unk_1E != 0) ||
-            (!D_8011FB3C || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
+            (!gSkyboxBlendingEnabled || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
             if ((globalCtx->envCtx.gloomySkyEvent == 0) &&
                 ((globalCtx->envCtx.unk_1E != 0) ||
@@ -185,7 +185,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
                 D_8011FB38 = 0;
                 gWeatherMode = 0;
                 globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.gloomySky = arg2;
+                globalCtx->envCtx.unk_17 = arg2;
                 globalCtx->envCtx.unk_18 = arg3;
                 globalCtx->envCtx.unk_1A = arg6;
                 globalCtx->envCtx.unk_21 = 1;

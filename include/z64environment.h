@@ -17,6 +17,16 @@ typedef enum {
     /* 2 */ LIGHTNING_STRIKE_END // fade out the flash and go back to wait
 } LightningStrikeState;
 
+typedef enum {
+    /*  0 */ SKYBOX_DMA_INACTIVE,
+    /*  1 */ SKYBOX_DMA_BG1_START,
+    /*  2 */ SKYBOX_DMA_BG1_DONE,
+    /*  3 */ SKYBOX_DMA_CLOUDS1_START,
+    /* 11 */ SKYBOX_DMA_BG2_START = 11,
+    /* 12 */ SKYBOX_DMA_BG2_DONE,
+    /* 13 */ SKYBOX_DMA_CLOUDS2_START
+} SkyboxDmaState;
+
 typedef struct {
     /* 0x00 */ u8 state;
     /* 0x01 */ u8 flashRed;
@@ -26,19 +36,30 @@ typedef struct {
     /* 0x08 */ f32 delayTimer;
 } LightningStrike;
 
+// describes what skybox files and blending modes to use depending on time of day
+typedef struct {
+    /* 0x00 */ u16 startTime;
+    /* 0x02 */ u16 endTime;
+    /* 0x04 */ u8 blend; // if true, blent between.. skyboxes? palletes?
+    /* 0x05 */ u8 skybox1Index; // whats the difference between _pal and non _pal files?
+    /* 0x06 */ u8 skybox2Index;
+} struct_8011FC1C; // size = 0x8
+
+// 1.0: 801D8EC4
+// dbg: 80222A44
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
     /* 0x02 */ u16 unk_02;
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
-    /* 0x10 */ u8 unk_10;
-    /* 0x11 */ u8 unk_11;
+    /* 0x10 */ u8 skybox1Index;
+    /* 0x11 */ u8 skybox2Index;
     /* 0x12 */ char unk_12[0x01];
-    /* 0x13 */ u8 unk_13;
+    /* 0x13 */ u8 skyboxBlend;
     /* 0x14 */ char unk_14[0x01];
-    /* 0x15 */ u8 skyDisabled;
+    /* 0x15 */ u8 skyboxDisabled;
     /* 0x16 */ u8 sunMoonDisabled;
-    /* 0x17 */ u8 gloomySky;
-    /* 0x18 */ u8 unk_18;
+    /* 0x17 */ u8 unk_17; // currentWeatherMode for skybox? (prev called gloomySky)
+    /* 0x18 */ u8 unk_18; // nextWeatherMode for skybox?
     /* 0x19 */ u8 unk_19;
     /* 0x1A */ u16 unk_1A;
     /* 0x1C */ char unk_1C[0x02];
@@ -51,7 +72,7 @@ typedef struct {
     /* 0x26 */ char unk_26[0x02];
     /* 0x28 */ LightInfo unk_28;
     /* 0x36 */ LightInfo unk_36;
-    /* 0x44 */ u8 unk_44;
+    /* 0x44 */ s8 skyboxDmaState;
     /* 0x45 */ char unk_45[0x3];
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;

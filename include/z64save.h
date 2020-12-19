@@ -66,8 +66,8 @@ typedef struct {
     /* 0x0008 */ s32 cutsceneIndex;
     /* 0x000C */ u16 dayTime; // "zelda_time"
     /* 0x0010 */ s32 nightFlag;
-    /* 0x0014 */ s32 numDays;
-    /* 0x0018 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
+    /* 0x0014 */ s32 totalDays;
+    /* 0x0018 */ s32 bgsDayCount; // increments with totalDays, can be cleared with `Kankyo_ClearBgsDayCount`
     /* 0x001C */ char newf[6]; // string "ZELDAZ". start of `info` substruct, originally called "information"
     /* 0x0022 */ s16 deaths;
     /* 0x0024 */ char playerName[8];

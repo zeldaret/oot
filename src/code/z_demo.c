@@ -206,7 +206,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 7:
             if (sp3F != 0) {
                 globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.gloomySky = 1;
+                globalCtx->envCtx.unk_17 = 1;
                 globalCtx->envCtx.unk_18 = 0;
                 globalCtx->envCtx.unk_1A = 0x3C;
                 globalCtx->envCtx.unk_21 = 1;

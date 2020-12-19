@@ -52,7 +52,7 @@ glabel func_80A40C78
 /* 027C4 80A40D34 0C042DC8 */  jal     func_8010B720              
 /* 027C8 80A40D38 3185FFFF */  andi    $a1, $t4, 0xFFFF           ## $a1 = 0000305C
 /* 027CC 80A40D3C 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
-/* 027D0 80A40D40 0C01DD76 */  jal     func_800775D8              
+/* 027D0 80A40D40 0C01DD76 */  jal     Kankyo_ClearBgsDayCount              
 /* 027D4 80A40D44 A60D01E0 */  sh      $t5, 0x01E0($s0)           ## 000001E0
 .L80A40D48:
 /* 027D8 80A40D48 8FBF001C */  lw      $ra, 0x001C($sp)           

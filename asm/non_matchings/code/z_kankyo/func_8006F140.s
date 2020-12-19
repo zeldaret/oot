@@ -301,8 +301,8 @@ glabel L8006F4F0
 /* AE6720 8006F580 A020FB38 */  sb    $zero, %lo(D_8011FB38)($at)
 /* AE6724 8006F584 3C018012 */  lui   $at, %hi(D_8011FB34) # $at, 0x8012
 /* AE6728 8006F588 A020FB34 */  sb    $zero, %lo(D_8011FB34)($at)
-/* AE672C 8006F58C 3C018012 */  lui   $at, %hi(D_8011FB3C) # $at, 0x8012
-/* AE6730 8006F590 A020FB3C */  sb    $zero, %lo(D_8011FB3C)($at)
+/* AE672C 8006F58C 3C018012 */  lui   $at, %hi(gSkyboxBlendingEnabled) # $at, 0x8012
+/* AE6730 8006F590 A020FB3C */  sb    $zero, %lo(gSkyboxBlendingEnabled)($at)
 /* AE6734 8006F594 8C790000 */  lw    $t9, ($v1)
 /* AE6738 8006F598 A10013C3 */  sb    $zero, 0x13c3($t0)
 /* AE673C 8006F59C 2404FFB0 */  li    $a0, -80

@@ -434,7 +434,7 @@ glabel Gameplay_Draw
 /* B365CC 800BF42C 3C010001 */   lui   $at, (0x00010A24 >> 16) # lui $at, 1
 /* B365D0 800BF430 34210A24 */  ori   $at, (0x00010A24 & 0xFFFF) # ori $at, $at, 0xa24
 /* B365D4 800BF434 02012821 */  addu  $a1, $s0, $at
-/* B365D8 800BF438 0C01BF22 */  jal   func_8006FC88
+/* B365D8 800BF438 0C01BF22 */  jal   Kankyo_UpdateSkybox
 /* B365DC 800BF43C AFA60048 */   sw    $a2, 0x48($sp)
 /* B365E0 800BF440 8FB9004C */  lw    $t9, 0x4c($sp)
 /* B365E4 800BF444 C60600E0 */  lwc1  $f6, 0xe0($s0)

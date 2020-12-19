@@ -354,13 +354,13 @@ void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x11: Skybox Settings
 void func_80098D1C(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->skyboxId = cmd->skyboxSettings.skyboxId;
-    globalCtx->envCtx.gloomySky = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
+    globalCtx->envCtx.unk_17 = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
     globalCtx->envCtx.unk_1E = cmd->skyboxSettings.unk_06;
 }
 
 // Scene Command 0x12: Skybox Disables
 void func_80098D5C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->envCtx.skyDisabled = cmd->skyboxDisables.unk_04;
+    globalCtx->envCtx.skyboxDisabled = cmd->skyboxDisables.unk_04;
     globalCtx->envCtx.sunMoonDisabled = cmd->skyboxDisables.unk_05;
 }
 

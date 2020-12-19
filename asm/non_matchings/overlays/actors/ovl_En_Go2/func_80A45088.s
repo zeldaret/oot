@@ -44,7 +44,7 @@ glabel func_80A45088
 /* 023F4 80A45124 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 023F8 80A45128 1441000B */  bne     $v0, $at, .L80A45158       
 /* 023FC 80A4512C 8FA70018 */  lw      $a3, 0x0018($sp)           
-/* 02400 80A45130 0C01DD73 */  jal     func_800775CC              
+/* 02400 80A45130 0C01DD73 */  jal     Kankyo_GetBgsDayCount              
 /* 02404 80A45134 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 02408 80A45138 28410003 */  slti    $at, $v0, 0x0003           
 /* 0240C 80A4513C 14200003 */  bne     $at, $zero, .L80A4514C     
@@ -57,7 +57,7 @@ glabel func_80A45088
 /* 02420 80A45150 1000000A */  beq     $zero, $zero, .L80A4517C   
 /* 02424 80A45154 A4E2010E */  sh      $v0, 0x010E($a3)           ## 0000010E
 .L80A45158:
-/* 02428 80A45158 0C01DD73 */  jal     func_800775CC              
+/* 02428 80A45158 0C01DD73 */  jal     Kankyo_GetBgsDayCount              
 /* 0242C 80A4515C AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 02430 80A45160 28410003 */  slti    $at, $v0, 0x0003           
 /* 02434 80A45164 14200003 */  bne     $at, $zero, .L80A45174     

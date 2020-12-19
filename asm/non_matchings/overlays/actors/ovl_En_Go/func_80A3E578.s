@@ -35,7 +35,7 @@ glabel func_80A3E578
 /* 00080 80A3E5F0 28410037 */  slti    $at, $v0, 0x0037           
 /* 00084 80A3E5F4 5420000B */  bnel    $at, $zero, .L80A3E624     
 /* 00088 80A3E5F8 28410036 */  slti    $at, $v0, 0x0036           
-/* 0008C 80A3E5FC 0C01DD73 */  jal     func_800775CC              
+/* 0008C 80A3E5FC 0C01DD73 */  jal     Kankyo_GetBgsDayCount              
 /* 00090 80A3E600 00000000 */  nop
 /* 00094 80A3E604 28410003 */  slti    $at, $v0, 0x0003           
 /* 00098 80A3E608 14200003 */  bne     $at, $zero, .L80A3E618     

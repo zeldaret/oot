@@ -21,8 +21,8 @@ typedef enum {
 } LightningBoltState;
 
 typedef struct {
-    u16 minTime;
-    u16 maxTime;
+    u16 startTime;
+    u16 endTime;
     u8 unk_04;
     u8 unk_05;
 } struct_8011FB48;
@@ -42,12 +42,19 @@ s32 D_8011FAF0[][2] = {
     { 0x00000006, 0x00000000 }, { 0x00000005, 0x00020000 }, { 0x00000004, 0x00030000 }, { 0x00000003, 0x00038000 },
     { 0x00000002, 0x0003c000 }, { 0x00000001, 0x0003e000 }, { 0x00000000, 0x0003f000 }, { 0x00000000, 0x0003f800 },
 };
+
 u8 gWeatherMode = 0; // "E_wether_flg"
+
 u8 D_8011FB34 = 0;
+
 u8 D_8011FB38 = 0;
-u8 D_8011FB3C = 0;
-u16 gTimeIncrement = 0;
+
+u8 gSkyboxBlendingEnabled = false; // D_8011FB3C
+
+u16 gTimeIncrement = 0; // D_8011FB40
+
 u16 D_8011FB44 = 0xFFFC;
+
 struct_8011FB48 D_8011FB48[][7] = {
     {
         { 0x0000, 0x2AAC, 3, 3 },
@@ -95,53 +102,83 @@ struct_8011FB48 D_8011FB48[][7] = {
         { 0xCAAC, 0xFFFF, 23, 23 },
     },
 };
+
+// at a later time, use a macro to automatically use the right index for pal vs ntsc
+typedef enum {
+    /*  0 */ SBI_FINE0,
+    /*  1 */ SBI_FINE0_PAL,
+    /*  2 */ SBI_FINE1,
+    /*  3 */ SBI_FINE1_PAL,
+    /*  4 */ SBI_FINE2,
+    /*  5 */ SBI_FINE2_PAL,
+    /*  6 */ SBI_FINE3,
+    /*  7 */ SBI_FINE3_PAL,
+    /*  8 */ SBI_CLOUD0,
+    /*  9 */ SBI_CLOUD0_PAL,
+    /* 10 */ SBI_CLOUD1,
+    /* 11 */ SBI_CLOUD1_PAL,
+    /* 12 */ SBI_CLOUD2,
+    /* 13 */ SBI_CLOUD2_PAL,
+    /* 14 */ SBI_CLOUD3,
+    /* 15 */ SBI_CLOUD3_PAL,
+    /* 14 */ SBI_HOLY0,
+    /* 15 */ SBI_HOLY0_PAL
+} SkyboxFileIndex;
+
 struct_8011FC1C D_8011FC1C[][9] = {
     {
-        { 0x0000, 0x2AAC, 0, 3, 3 },
-        { 0x2AAC, 0x3556, 1, 3, 0 },
-        { 0x3556, 0x4000, 0, 0, 0 },
-        { 0x4000, 0x5556, 1, 0, 1 },
-        { 0x5556, 0xAAAB, 0, 1, 1 },
-        { 0xAAAB, 0xB556, 1, 1, 2 },
-        { 0xB556, 0xC001, 0, 2, 2 },
-        { 0xC001, 0xCAAC, 1, 2, 3 },
-        { 0xCAAC, 0xFFFF, 0, 3, 3 },
+        { 0x0000, 0x2AAC, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
+        { 0x2AAC, 0x3556, 1, SBI_FINE1_PAL, SBI_FINE0 },
+        { 0x3556, 0x4000, 0, SBI_FINE0, SBI_FINE0 },
+        { 0x4000, 0x5556, 1, SBI_FINE0, SBI_FINE0_PAL },
+        { 0x5556, 0xAAAB, 0, SBI_FINE0_PAL, SBI_FINE0_PAL },
+        { 0xAAAB, 0xB556, 1, SBI_FINE0_PAL, SBI_FINE1 },
+        { 0xB556, 0xC001, 0, SBI_FINE1, SBI_FINE1 },
+        { 0xC001, 0xCAAC, 1, SBI_FINE1, SBI_FINE1_PAL },
+        { 0xCAAC, 0xFFFF, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
     },
     {
-        { 0x0000, 0x2AAC, 0, 7, 7 },
-        { 0x2AAC, 0x3556, 1, 7, 4 },
-        { 0x3556, 0x4000, 0, 4, 4 },
-        { 0x4000, 0x5556, 1, 4, 5 },
-        { 0x5556, 0xAAAB, 0, 5, 5 },
-        { 0xAAAB, 0xB556, 1, 5, 6 },
-        { 0xB556, 0xC001, 0, 6, 6 },
-        { 0xC001, 0xCAAC, 1, 6, 7 },
-        { 0xCAAC, 0xFFFF, 0, 7, 7 },
+        { 0x0000, 0x2AAC, 0, SBI_FINE3_PAL, SBI_FINE3_PAL },
+        { 0x2AAC, 0x3556, 1, SBI_FINE3_PAL, SBI_FINE2 },
+        { 0x3556, 0x4000, 0, SBI_FINE2, SBI_FINE2 },
+        { 0x4000, 0x5556, 1, SBI_FINE2, SBI_FINE2_PAL },
+        { 0x5556, 0xAAAB, 0, SBI_FINE2_PAL, SBI_FINE2_PAL },
+        { 0xAAAB, 0xB556, 1, SBI_FINE2_PAL, SBI_FINE3 },
+        { 0xB556, 0xC001, 0, SBI_FINE3, SBI_FINE3 },
+        { 0xC001, 0xCAAC, 1, SBI_FINE3, SBI_FINE3_PAL },
+        { 0xCAAC, 0xFFFF, 0, SBI_FINE3_PAL, SBI_FINE3_PAL },
     },
     {
-        { 0x0000, 0x1556, 0, 3, 3 },
-        { 0x1556, 0x2AAC, 1, 3, 0 },
-        { 0x2AAC, 0x5556, 0, 0, 0 },
-        { 0x5556, 0x6AAB, 1, 0, 1 },
-        { 0x6AAB, 0x9556, 0, 1, 1 },
-        { 0x9556, 0xAAAB, 1, 1, 2 },
-        { 0xAAAB, 0xD556, 0, 2, 2 },
-        { 0xD556, 0xEAAB, 1, 2, 3 },
-        { 0xEAAB, 0xFFFF, 0, 3, 3 },
+        { 0x0000, 0x1556, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
+        { 0x1556, 0x2AAC, 1, SBI_FINE1_PAL, SBI_FINE0 },
+        { 0x2AAC, 0x5556, 0, SBI_FINE0, SBI_FINE0 },
+        { 0x5556, 0x6AAB, 1, SBI_FINE0, SBI_FINE0_PAL },
+        { 0x6AAB, 0x9556, 0, SBI_FINE0_PAL, SBI_FINE0_PAL },
+        { 0x9556, 0xAAAB, 1, SBI_FINE0_PAL, SBI_FINE1 },
+        { 0xAAAB, 0xD556, 0, SBI_FINE1, SBI_FINE1 },
+        { 0xD556, 0xEAAB, 1, SBI_FINE1, SBI_FINE1_PAL },
+        { 0xEAAB, 0xFFFF, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
     },
     {
-        { 0x0000, 0x3556, 0, 11, 11 },
-        { 0x3556, 0x4000, 1, 11, 8 },
-        { 0x4000, 0x4AAB, 0, 8, 8 },
-        { 0x4AAB, 0x5556, 1, 8, 9 },
-        { 0x5556, 0xAAAB, 0, 9, 9 },
-        { 0xAAAB, 0xB556, 1, 9, 10 },
-        { 0xB556, 0xC001, 0, 10, 10 },
-        { 0xC001, 0xCAAC, 1, 10, 11 },
-        { 0xCAAC, 0xFFFF, 0, 11, 11 },
+        { 0x0000, 0x3556, 0, SBI_CLOUD1_PAL, SBI_CLOUD1_PAL },
+        { 0x3556, 0x4000, 1, SBI_CLOUD1_PAL, SBI_CLOUD0 },
+        { 0x4000, 0x4AAB, 0, SBI_CLOUD0, SBI_CLOUD0 },
+        { 0x4AAB, 0x5556, 1, SBI_CLOUD0, SBI_CLOUD0_PAL },
+        { 0x5556, 0xAAAB, 0, SBI_CLOUD0_PAL, SBI_CLOUD0_PAL },
+        { 0xAAAB, 0xB556, 1, SBI_CLOUD0_PAL, SBI_CLOUD1 },
+        { 0xB556, 0xC001, 0, SBI_CLOUD1, SBI_CLOUD1 },
+        { 0xC001, 0xCAAC, 1, SBI_CLOUD1, SBI_CLOUD1_PAL },
+        { 0xCAAC, 0xFFFF, 0, SBI_CLOUD1_PAL, SBI_CLOUD1_PAL },
     },
 };
-RomFile D_8011FD3C[][2] = {
+
+// this is wrong, seperation is prob on tex vs pallete, not background and clouds
+typedef enum {
+    /* 0 */ SKYBOX_FILE_BG,
+    /* 1 */ SKYBOX_FILE_CLOUDS
+} SkyboxFileType;
+
+RomFile gSkyboxFiles[][2] = {
     ENV_ROM_FILES(fine0),  ENV_ROM_FILES(fine1),  ENV_ROM_FILES(fine2),  ENV_ROM_FILES(fine3), ENV_ROM_FILES(cloud0),
     ENV_ROM_FILES(cloud1), ENV_ROM_FILES(cloud2), ENV_ROM_FILES(cloud3), ENV_ROM_FILES(holy0),
 };
@@ -150,14 +187,14 @@ u8 D_8011FDD0 = 0;
 u8 D_8011FDD4 = 0;
 
 // bss
-u8 gCustomLensFlareOn;
-Vec3f gCustomLensFlarePos;
+u8 gCustomLensFlareOn;     // D_8015FCF0
+Vec3f gCustomLensFlarePos; // D_8015FCF8
 s16 D_8015FD04;
 s16 D_8015FD06;
 f32 D_8015FD08;
 s16 D_8015FD0C;
-LightningBolt sLightningBolts[3];
-LightningStrike gLightningStrike;
+LightningBolt sLightningBolts[3]; // D_8015FD10
+LightningStrike gLightningStrike; // D_8015FD70
 s16 sLightningFlashAlpha;
 s16 D_8015FD7E;
 s16 D_8015FD80;
@@ -177,6 +214,7 @@ s32 func_8006F0A0(s32 a0) {
     return ret;
 }
 
+// func_8006F0D4
 u16 Kankyo_GetPixelDepth(s32 x, s32 y) {
     s32 pixelDepth = gZBuffer[y][x];
 
@@ -214,20 +252,20 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     Lights_DirectionalSetInfo(&envCtx->unk_36, 80, 80, 80, 80, 80, 80);
     LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &envCtx->unk_36);
 
-    envCtx->unk_10 = 99;
-    envCtx->unk_11 = 99;
+    envCtx->skybox1Index = 99;
+    envCtx->skybox2Index = 99;
     envCtx->unk_19 = 0;
     envCtx->unk_1A = 0;
     envCtx->unk_21 = 0;
     envCtx->unk_22 = 0;
-    envCtx->unk_44 = 0;
+    envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->unk_1F = 0;
     envCtx->unk_20 = 0;
     envCtx->unk_BD = 0;
     envCtx->unk_BE = 0;
     envCtx->unk_DC = 0;
     envCtx->gloomySkyEvent = 0;
-    envCtx->unk_DE = false;
+    envCtx->unk_DE = 0;
     envCtx->lightningMode = LIGHTNING_MODE_OFF;
     envCtx->unk_E0 = 0;
     envCtx->unk_E1 = 0;
@@ -288,7 +326,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
         if (gSaveContext.sceneSetupIndex < 4) {
             switch (gWeatherMode) {
                 case 1:
-                    envCtx->gloomySky = 1;
+                    envCtx->unk_17 = 1;
                     envCtx->unk_18 = 1;
                     envCtx->unk_1F = 3;
                     envCtx->unk_20 = 3;
@@ -298,7 +336,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
                 case 2:
                 case 3:
                 case 4:
-                    envCtx->gloomySky = 1;
+                    envCtx->unk_17 = 1;
                     envCtx->unk_18 = 1;
                     envCtx->unk_1F = 2;
                     envCtx->unk_20 = 2;
@@ -306,7 +344,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
                     globalCtx->envCtx.unk_EE[2] = 0;
                     break;
                 case 5:
-                    envCtx->gloomySky = 1;
+                    envCtx->unk_17 = 1;
                     envCtx->unk_18 = 1;
                     envCtx->unk_1F = 4;
                     envCtx->unk_20 = 4;
@@ -335,7 +373,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 
     D_8011FB38 = 0;
     D_8011FB34 = 0;
-    D_8011FB3C = 0;
+    gSkyboxBlendingEnabled = 0;
     gSaveContext.unk_13C3 = 0;
     cREG(3) = 80;
     cREG(4) = 80;
@@ -375,6 +413,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F140.s")
 #endif
 
+// func_8006F93C
 f32 Kankyo_InvLerp(u16 max, u16 min, u16 val) {
     f32 ret = max - min;
 
@@ -454,9 +493,9 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
     if (envCtx->gloomySkyEvent != 0) {
         switch (envCtx->unk_DE) {
             case 0:
-                if (envCtx->gloomySkyEvent == 1 && D_8011FB3C == 0) {
+                if (envCtx->gloomySkyEvent == 1 && gSkyboxBlendingEnabled == 0) {
                     envCtx->unk_19 = 1;
-                    envCtx->gloomySky = 0;
+                    envCtx->unk_17 = 0;
                     envCtx->unk_18 = 1;
                     envCtx->unk_1A = 100;
                     envCtx->unk_21 = 1;
@@ -468,10 +507,10 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
                 }
                 break;
             case 1:
-                if (D_8011FB3C == 0 && envCtx->gloomySkyEvent == 2) {
+                if (gSkyboxBlendingEnabled == 0 && envCtx->gloomySkyEvent == 2) {
                     gWeatherMode = 0;
                     envCtx->unk_19 = 1;
-                    envCtx->gloomySky = 1;
+                    envCtx->unk_17 = 1;
                     envCtx->unk_18 = 0;
                     envCtx->unk_1A = 100;
                     envCtx->unk_21 = 1;
@@ -488,136 +527,149 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
     }
 }
 
-// skybox related
-#ifdef NON_EQUIVALENT
-// major instruction/register/stack differences
-void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
-    u8 sp5A = -1;
-    u8 sp59 = -1;
-    u8 sp58 = 0;
-    u16 temp_t6;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u8 temp_t0_3;
-    f32 phi_f0;
-    s8 phi_v1;
-
+// func_8006FC88 skybox related
+#ifdef NON_MATCHING
+void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
+    u32 size;
     u8 i;
+    u8 newSkybox1Index = 0xFF;
+    u8 newSkybox2Index = 0xFF;
+    u8 skyboxBlend = 0;
     struct_8011FC1C* entry;
-    u8 something;
-    u32 length;
-    RomFile* file;
 
     if (arg0 == 5) {
-        envCtx->gloomySky = 3;
-        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->gloomySky]); i++) {
-            entry = &D_8011FC1C[envCtx->gloomySky][i];
-            if (gSaveContext.skyboxTime >= entry->minTime &&
-                (gSaveContext.skyboxTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
-                if (entry->unk_04 != 0) {
-                    envCtx->unk_13 = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
+        envCtx->unk_17 = 3;
+
+        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
+            entry = &D_8011FC1C[envCtx->unk_17][i];
+            if (((void)0, gSaveContext.skyboxTime) >= entry->startTime &&
+                (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
+                if (entry->blend) {
+                    envCtx->skyboxBlend =
+                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
-                    envCtx->unk_13 = 0;
+                    envCtx->skyboxBlend = 0;
                 }
                 break;
             }
         }
-    } else if (arg0 == 1 && !envCtx->skyDisabled) {
-        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->gloomySky]); i++) {
-            entry = &D_8011FC1C[envCtx->gloomySky][i];
-            if (gSaveContext.skyboxTime >= entry->minTime &&
-                (gSaveContext.skyboxTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
-                D_8011FB3C = entry->unk_04;
-                if (envCtx->gloomySky) {
-                    entry = &D_8011FC1C[envCtx->gloomySky][i];
-                    sp58 = something =
-                        Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
+    } else if (arg0 == 1 && !envCtx->skyboxDisabled) {
+        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
+            entry = &D_8011FC1C[envCtx->unk_17][i];
+
+            if (((void)0, gSaveContext.skyboxTime) >= entry->startTime &&
+                (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
+                gSkyboxBlendingEnabled = entry->blend;
+
+                if (envCtx->unk_17) {
+                    entry = &D_8011FC1C[envCtx->unk_17][i];
+                    skyboxBlend =
+                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
-                    entry = &D_8011FC1C[envCtx->gloomySky][i];
-                    something = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
-                    if (something < 0x80) {
-                        sp58 = 0xFF;
-                    } else {
-                        sp58 = 0;
-                    }
-                    if (envCtx->unk_19 != 0 && envCtx->unk_19 < 3) {
+                    entry = &D_8011FC1C[envCtx->unk_17][i];
+                    skyboxBlend =
+                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+
+                    skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
+
+                    if ((envCtx->unk_19 != 0) && (envCtx->unk_19 < 3)) {
                         envCtx->unk_19++;
                     }
                 }
                 break;
             }
         }
-        func_8006FB94(envCtx, something);
-        if ((s32)envCtx->unk_19 >= 3) {
-            sp5A = D_8011FC1C[envCtx->gloomySky][i].unk_05;
-            sp59 = D_8011FC1C[envCtx->unk_18][i].unk_06;
-            phi_f0 = envCtx->unk_24;
-            sp58 = (phi_f0 - envCtx->unk_1A--) / phi_f0 * 255;
+
+        func_8006FB94(envCtx, skyboxBlend);
+
+        if (envCtx->unk_19 >= 3) {
+            newSkybox1Index = D_8011FC1C[envCtx->unk_17][i].skybox1Index;
+            newSkybox2Index = D_8011FC1C[envCtx->unk_18][i].skybox2Index;
+
+            skyboxBlend = ((f32)envCtx->unk_24 - envCtx->unk_1A--) / (f32)envCtx->unk_24 * 255;
+
             if (envCtx->unk_1A <= 0) {
-                envCtx->unk_19 = 0U;
-                envCtx->gloomySky = envCtx->unk_18;
+                envCtx->unk_19 = 0;
+                envCtx->unk_17 = envCtx->unk_18;
             }
         }
-        if (sp5A == 0xFF) {
+
+        if (newSkybox1Index == 0xFF) {
             // Environment VR data acquisition failed! Report to Sasaki!
             osSyncPrintf(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
-        if (sp5A != envCtx->unk_10 && envCtx->unk_44 == 0) {
-            envCtx->unk_44 = 1;
-            file = &D_8011FD3C[sp5A][0];
-            length = file->vromEnd - file->vromStart;
+
+        if ((newSkybox1Index != envCtx->skybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_BG1_START;
+            size = gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromEnd -
+                   gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromStart;
+
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[0], file->vromStart, length, 0,
-                                &envCtx->loadQueue, 0, "../z_kankyo.c", 0x4F0);
-            envCtx->unk_10 = sp5A;
+            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[0],
+                                gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromStart, size, 0, &envCtx->loadQueue,
+                                NULL, "../z_kankyo.c", 1264);
+            envCtx->skybox1Index = newSkybox1Index;
         }
-        if (sp59 != envCtx->unk_11 && envCtx->unk_44 == 0) {
-            envCtx->unk_44 = 11;
-            file = &D_8011FD3C[sp59][0];
-            length = file->vromEnd - file->vromStart;
+
+        if ((newSkybox2Index != envCtx->skybox2Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_BG2_START;
+            size = gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromEnd -
+                   gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromStart;
+
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[1], file->vromStart, length, 0,
-                                &envCtx->loadQueue, 0, "../z_kankyo.c", 0x501);
-            envCtx->unk_11 = sp59;
+            DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[1],
+                                gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromStart, size, 0, &envCtx->loadQueue,
+                                NULL, "../z_kankyo.c", 1281);
+            envCtx->skybox2Index = newSkybox2Index;
         }
-        if (envCtx->unk_44 == 2) {
-            envCtx->unk_44 = 3;
-            file = &D_8011FD3C[sp5A][1];
-            length = file->vromEnd - file->vromStart;
-            if ((sp5A & 1) != ((s32)(sp5A & 4) >> 2)) {
+
+        if (envCtx->skyboxDmaState == SKYBOX_DMA_BG1_DONE) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS1_START;
+            size = gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromEnd -
+                   gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart;
+
+            if ((newSkybox1Index & 1) != ((s32)(newSkybox1Index & 4) >> 2)) {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2], file->vromStart, length, 0,
-                                    &envCtx->loadQueue, 0, "../z_kankyo.c", 0x51B);
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
+                                    gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
+                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1307);
             } else {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + length, length,
-                                    file->vromStart, 0, &envCtx->loadQueue, 0, "../z_kankyo.c", 0x528);
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size, size,
+                                    gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart, 0, &envCtx->loadQueue,
+                                    NULL, "../z_kankyo.c", 1320);
             }
         }
-        if (envCtx->unk_44 == 12) {
-            envCtx->unk_44 = 13;
-            file = &D_8011FD3C[sp59][1];
-            length = file->vromEnd - file->vromStart;
-            if ((sp59 & 1) != ((s32)(sp59 & 4) >> 2)) {
+
+        if (envCtx->skyboxDmaState == SKYBOX_DMA_BG2_DONE) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS2_START;
+            size = gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromEnd -
+                   gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart;
+
+            if ((newSkybox2Index & 1) != ((s32)(newSkybox2Index & 4) >> 2)) {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2], file->vromStart, length, 0,
-                                    &envCtx->loadQueue, 0, "../z_kankyo.c", 0x53E);
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
+                                    gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
+                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1342);
             } else {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + length, file->vromStart,
-                                    length, 0, &envCtx->loadQueue, 0, "../z_kankyo.c", 0x54B);
+                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size,
+                                    gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
+                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1355);
             }
         }
-        if (envCtx->unk_44 == 1 || envCtx->unk_44 == 11) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, 0) == 0) {
-                envCtx->unk_44++;
+
+        if ((envCtx->skyboxDmaState == SKYBOX_DMA_BG1_START) || (envCtx->skyboxDmaState == SKYBOX_DMA_BG2_START)) {
+            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+                envCtx->skyboxDmaState++;
             }
-        } else if (envCtx->unk_44 >= 2) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, 0) == 0) {
-                envCtx->unk_44 = 0;
+        } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_BG1_DONE) {
+            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+                envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
             }
         }
-        envCtx->unk_13 = sp58;
+
+        envCtx->skyboxBlend = skyboxBlend;
     }
 }
 #else
@@ -665,8 +717,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 
     GfxPrint_SetPos(&printer, 22, 7);
     GfxPrint_SetColor(&printer, 155, 155, 255, 64);
-    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.numDays));
-    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.unk_18));
+    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.totalDays));
+    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.bgsDayCount));
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 8);
@@ -690,16 +742,16 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Printf(&printer, "%s", "VRBOXTIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    time = gSaveContext.skyboxTime;
+    time = ((void)0, gSaveContext.skyboxTime);
     GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
 
-    if ((gSaveContext.skyboxTime & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
+    if ((((void)0, gSaveContext.skyboxTime) & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    time = gSaveContext.skyboxTime;
+    time = ((void)0, gSaveContext.skyboxTime);
     GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
 
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
@@ -924,9 +976,9 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //         }
 
 //         if (((gSaveContext.sceneSetupIndex < 5 && gTimeIncrement == 0) ||
-//              gSaveContext.dayTime <= gSaveContext.skyboxTime) &&
+//              gSaveContext.dayTime <= ((void)0, gSaveContext.skyboxTime)) &&
 //             gSaveContext.dayTime > 0xAAA && gTimeIncrement < 0) {
-//             gSaveContext.skyboxTime = gSaveContext.dayTime;
+//             ((void)0, gSaveContext.skyboxTime) = gSaveContext.dayTime;
 //         }
 
 //         if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime < 0x4555) {
@@ -1536,7 +1588,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
 void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                              Vec3f pos, s32 unused) {
-    if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.gloomySky == 0)) {
+    if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.unk_17 == 0)) {
         Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
                              Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
@@ -2218,8 +2270,8 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
         case 6:
             if ((gSaveContext.dayTime < 0xCAAC) && (gSaveContext.dayTime > 0x4555)) {
-                gSaveContext.numDays++;
-                gSaveContext.unk_18++;
+                gSaveContext.totalDays++;
+                gSaveContext.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
                 func_80078884(NA_SE_EV_CHICKEN_CRY_M);
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -2854,16 +2906,16 @@ void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 a
     }
 }
 
-s32 func_800775CC() {
-    return gSaveContext.unk_18;
+s32 Kankyo_GetBgsDayCount() {
+    return gSaveContext.bgsDayCount;
 }
 
-void func_800775D8() {
-    gSaveContext.unk_18 = 0;
+void Kankyo_ClearBgsDayCount(void) {
+    gSaveContext.bgsDayCount = 0;
 }
 
-s32 func_800775E4() {
-    return gSaveContext.numDays;
+s32 Kankyo_GetTotalDays() {
+    return gSaveContext.totalDays;
 }
 
 void func_800775F0(u16 arg0) {

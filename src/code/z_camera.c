@@ -1777,7 +1777,7 @@ s32 Camera_Normal2(Camera* camera) {
 
     if (camera->status == CAM_STAT_ACTIVE) {
         bgChk.pos = *eyeNext;
-        if ((camera->globalCtx->envCtx.skyDisabled == 0) || norm2->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || norm2->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &bgChk);
             *eye = bgChk.pos;
         } else {
@@ -2109,7 +2109,7 @@ s32 Camera_Parallel1(Camera* camera) {
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
     if (camera->status == CAM_STAT_ACTIVE) {
         sp6C.pos = *eyeNext;
-        if (camera->globalCtx->envCtx.skyDisabled == 0 || para1->interfaceFlags & 0x10) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled || para1->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &sp6C);
             *eye = sp6C.pos;
         } else {
@@ -2901,7 +2901,7 @@ s32 Camera_Battle1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
         spBC.pos = *eyeNext;
         if (camera->status == CAM_STAT_ACTIVE) {
-            if (camera->globalCtx->envCtx.skyDisabled == 0 || batt1->flags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || batt1->flags & 1) {
                 Camera_BGCheckInfo(camera, at, &spBC);
             } else if (batt1->flags & 2) {
                 func_80043F94(camera, at, &spBC);
@@ -3223,7 +3223,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spD8);
         sp8C.pos = *eyeNext;
         if (camera->status == CAM_STAT_ACTIVE) {
-            if ((camera->globalCtx->envCtx.skyDisabled == 0) || keep1->interfaceFlags & 1) {
+            if (!camera->globalCtx->envCtx.skyboxDisabled || keep1->interfaceFlags & 1) {
                 Camera_BGCheckInfo(camera, at, &sp8C);
             } else if (keep1->interfaceFlags & 2) {
                 func_80043F94(camera, at, &sp8C);
@@ -4212,7 +4212,7 @@ s32 Camera_Subj3(Camera* camera) {
         *eye = *eyeNext;
         anim->animTimer--;
 
-        if (camera->globalCtx->envCtx.skyDisabled == 0) {
+        if (!camera->globalCtx->envCtx.skyboxDisabled) {
             Camera_BGCheck(camera, at, eye);
         } else {
             func_80044340(camera, at, eye);

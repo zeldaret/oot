@@ -30,7 +30,7 @@ glabel func_80A47158
 /* 04498 80A471C8 1000001F */  beq     $zero, $zero, .L80A47248   
 /* 0449C 80A471CC AE080190 */  sw      $t0, 0x0190($s0)           ## 00000190
 .L80A471D0:
-/* 044A0 80A471D0 0C01DD76 */  jal     func_800775D8              
+/* 044A0 80A471D0 0C01DD76 */  jal     Kankyo_ClearBgsDayCount              
 /* 044A4 80A471D4 00000000 */  nop
 /* 044A8 80A471D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 044AC 80A471DC 0C291750 */  jal     func_80A45D40              

@@ -1740,12 +1740,4 @@ typedef struct {
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
 
-typedef struct {
-    u16 minTime;
-    u16 maxTime;
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-} struct_8011FC1C;
-
 #endif
