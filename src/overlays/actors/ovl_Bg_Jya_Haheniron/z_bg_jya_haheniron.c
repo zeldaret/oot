@@ -16,12 +16,12 @@ void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8089843C(BgJyaHaheniron* this);
-void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void func_80898588(BgJyaHaheniron* this);
-void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void func_8089861C(BgJyaHaheniron* this);
-void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void BgJyaHaheniron_SetupChairCrumble(BgJyaHaheniron* this);
+void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void BgJyaHaheniron_SetupPillarCrumble(BgJyaHaheniron* this);
+void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx);
+void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this);
+void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
@@ -70,7 +70,7 @@ void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx)
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80898764, this->colliderItems);
 }
 
-void BgJyaHaheniron_Break(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
+void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
     Vec3f vel;
     Vec3f pos;
     s16 arg5;
@@ -110,11 +110,11 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == 0) {
         BgJyaHaheniron_ColliderInit(this, globalCtx);
         thisx->shape.rot.z = (Math_Rand_ZeroOne() * 65535.0f);
-        func_8089843C(this);
+        BgJyaHaheniron_SetupChairCrumble(this);
     } else if (thisx->params == 1) {
-        func_80898588(this);
+        BgJyaHaheniron_SetupPillarCrumble(this);
     } else if (thisx->params == 2) {
-        func_8089861C(this);
+        BgJyaHaheniron_SetupRubbleCollide(this);
     }
 }
 
@@ -124,11 +124,11 @@ void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_8089843C(BgJyaHaheniron* this) {
-    this->actionFunc = func_8089844C;
+void BgJyaHaheniron_SetupChairCrumble(BgJyaHaheniron* this) {
+    this->actionFunc = BgJyaHaheniron_ChairCrumble;
 }
 
-void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     Actor_MoveForward(&this->actor);
@@ -138,9 +138,9 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
         vec.x = -Math_Rand_ZeroOne() * this->actor.velocity.x;
         vec.y = -Math_Rand_ZeroOne() * this->actor.velocity.y;
         vec.z = -Math_Rand_ZeroOne() * this->actor.velocity.z;
-        BgJyaHaheniron_Break(globalCtx, &this->actor.posRot, &vec);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, &vec);
         Actor_Kill(&this->actor);
-    } else if (this->unk_1B0 >= 61) {
+    } else if (this->timer >= 61) {
         Actor_Kill(&this->actor);
     } else {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -149,28 +149,28 @@ void func_8089844C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x += 0xFA0;
 }
 
-void func_80898588(BgJyaHaheniron* this) {
-    this->actionFunc = func_80898598;
+void BgJyaHaheniron_SetupPillarCrumble(BgJyaHaheniron* this) {
+    this->actionFunc = BgJyaHaheniron_PillarCrumble;
 }
 
-void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx) {
-    if (this->unk_1B0 >= 8) {
+void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+    if (this->timer >= 8) {
         Actor_MoveForward(&this->actor);
-    } else if (this->unk_1B0 >= 17) {
-        BgJyaHaheniron_Break(globalCtx, &this->actor.posRot, D_808987A0);
+    } else if (this->timer >= 17) {
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, D_808987A0);
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y += 0x258;
     this->actor.shape.rot.x += 0x3E8;
 }
 
-void func_8089861C(BgJyaHaheniron* this) {
-    this->actionFunc = func_8089862C;
+void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this) {
+    this->actionFunc = BgJyaHaheniron_RubbleCollide;
 }
 
-void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
-    if (this->unk_1B0 >= 17) {
-        BgJyaHaheniron_Break(globalCtx, &this->actor.posRot, D_808987AC);
+void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx) {
+    if (this->timer >= 17) {
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, D_808987AC);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
@@ -178,7 +178,7 @@ void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx) {
 
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaHaheniron* this = THIS;
-    this->unk_1B0++;
+    this->timer++;
     this->actionFunc(this, globalCtx);
 }
 

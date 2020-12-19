@@ -13,7 +13,7 @@ typedef struct BgJyaHaheniron {
     /* 0x014C */ BgJyaHahenironActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
     /* 0x0170 */ ColliderJntSphItem colliderItems[1];
-    /* 0x01B0 */ s16 unk_1B0;
+    /* 0x01B0 */ s16 timer;
 } BgJyaHaheniron; // size = 0x01B4
 
 extern const ActorInit Bg_Jya_Haheniron_InitVars;
