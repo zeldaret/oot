@@ -7,11 +7,11 @@
 struct EnZo;
 
 typedef struct {
-    /* 0x00 */ u8    type;
-    /* 0x04 */ f32   scale;
-    /* 0x08 */ f32   targetScale;
+    /* 0x00 */ u8 type;
+    /* 0x04 */ f32 scale;
+    /* 0x08 */ f32 targetScale;
     /* 0x0C */ Color_RGBA8 color;
-    /* 0x10 */ u32   pad;
+    /* 0x10 */ u32 pad;
     /* 0x14 */ Vec3f pos;
     /* 0x20 */ Vec3f vel;
     /* 0x2C */ Vec3f vec; // Usage specific
