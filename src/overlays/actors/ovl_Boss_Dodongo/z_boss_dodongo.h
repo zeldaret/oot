@@ -14,13 +14,11 @@ typedef struct BossDodongoEffect {
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ u8 unk_24;
     /* 0x25 */ u8 unk_25;
-    /* 0x26 */ u8 unk_26;
-    /* 0x27 */ u8 unk_27;
-    /* 0x28 */ u8 unk_28;
+    /* 0X026 */ Color_RGB8 color;
     /* 0x29 */ char unk_29[0x2A - 0x29];
-    /* 0x2A */ s16 unk_2A;
+    /* 0x2A */ s16 alpha;
     /* 0x2C */ f32 unk_2C;
-} BossDodongoEffect; // Size = 0x00
+} BossDodongoEffect; // Size = 0x30
 
 typedef struct BossDodongo {
     /* 0x0000 */ Actor actor;
@@ -98,7 +96,7 @@ typedef struct BossDodongo {
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
     /* 0x0460 */ ColliderJntSphItem items[19];
-    /* 0x0920 */ BossDodongoEffect unk_920[80];
+    /* 0x0920 */ BossDodongoEffect effects[80];
 } BossDodongo; // size = 0x1820
 
 extern const ActorInit Boss_Dodongo_InitVars;

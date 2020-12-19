@@ -30,9 +30,8 @@ void func_808C51F4(BossDodongo* this, GlobalContext* globalCtx);
 f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx);
 f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx);
 void BossDodongo_DrawEffect(GlobalContext* globalCtx);
-s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx);
-void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
+s32 func_808C4940(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
@@ -151,7 +150,6 @@ void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s32 arg2, f32 arg3) {
             sp54[i + ((temp + i2) & 0x1F)] = temp_s1[i + i2];
         }
     }
-
     for (i = 0; i < 32; i++) {
         temp = sinf(((i + (s16)((arg2 * 80.0f) / 100.0f)) & 0x1F) * (M_PI / 16)) * arg3;
         temp *= 32;
@@ -173,7 +171,7 @@ void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
             currentEffect->unk_C = *arg2;
             currentEffect->unk_18 = *arg3;
             currentEffect->unk_2C = arg4 / 1000.0f;
-            currentEffect->unk_2A = 255;
+            currentEffect->alpha = 255;
             currentEffect->unk_25 = (s16)Math_Rand_ZeroFloat(10.0f);
             break;
         }
@@ -200,7 +198,6 @@ s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) { // Eat Explosiv
             Actor_Kill(currentExplosive);
             return 1;
         }
-
         currentExplosive = currentExplosive->next;
     }
     return 0;
@@ -212,7 +209,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16* temp_s2;
     u32 temp_v0;
 
-    globalCtx->unk_11E10 = &this->unk_920;
+    globalCtx->unk_11E10 = &this->effects;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 9200.0f, ActorShadow_DrawFunc_Circle, 250.0f);
     Actor_SetScale(&this->actor, 0.01f);
@@ -225,7 +222,6 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     this->fogMax = 1000.0f;
     this->unk_224 = 2.0f;
-
     this->unk_228 = 9200.0f;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->items);
@@ -237,7 +233,6 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
                            -3304.0f, 0, 0, 0, 0);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_BREAKWALL, -890.0f, -1523.76f, -3304.0f, 0, 0, 0, 0x6000);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -690.0f, -1523.76f, -3304.0f, 0, 0, 0, 0);
-
         for (temp_v1 = 0; temp_v1 < 2048; temp_v1++) {
             temp_v0 = temp_v1;
             temp_s1_3[temp_v0] = temp_s2[temp_v0];
@@ -272,7 +267,6 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     camera = Gameplay_GetCamera(globalCtx, 0);
-
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
@@ -443,7 +437,6 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
         phi_f0 = sinf((this->unk_1B6 * 3.1415f * 90.0f) / 180.0f);
         sp54.y = (this->unk_1B6 * phi_f0 * 0.7f) + this->cameraAt.y;
         sp54.z = this->cameraAt.z;
-
         sp48.x = this->unk_20C;
         sp48.y = 1.0f;
         sp48.z = this->unk_20C;
@@ -556,7 +549,7 @@ void func_808C2ECC(BossDodongo* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06004E0C)) != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060042A8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042A8), 0, -5.0f);
         this->actionFunc = func_808C2FAC;
-        this->unk_1DA = 0x64;
+        this->unk_1DA = 100;
     }
 }
 
@@ -1019,8 +1012,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
 #endif
 
-s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx) {
+s32 func_808C4940(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     f32 mtxScaleY;
     f32 mtxScaleZ;
     BossDodongo* this = THIS;
@@ -1041,7 +1033,6 @@ block_1:
         Matrix_Push();
         Matrix_Scale(1.0f, mtxScaleY, mtxScaleZ, MTXMODE_APPLY);
         if ((limbIndex != 6) && (limbIndex != 7)) {
-
             Matrix_RotateX(this->unk_25C[limbIndex] * 0.115f, MTXMODE_APPLY);
             Matrix_RotateY(this->unk_25C[limbIndex] * 0.13f, MTXMODE_APPLY);
             Matrix_RotateZ(this->unk_25C[limbIndex] * 0.1f, MTXMODE_APPLY);
@@ -1054,13 +1045,13 @@ block_1:
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pull();
-        { s32 pad; } // Required to match
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3826);
     }
+    { s32 pad; } // Required to match
     return 1;
 }
 
-void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_808CA45C = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_808CA468 = { 11500.0f, -3000.0f, 0.0f };
     static Vec3f D_808CA474 = { 5000.0f, -2000.0f, 0.0f };
@@ -1084,6 +1075,7 @@ void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BossDodongo* this = THIS;
     s32 pad;
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3922);
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -1095,7 +1087,7 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     Matrix_RotateZ(this->unk_23C, 1);
     Matrix_RotateX((this->unk_1C4 / 32768.0f) * 3.14159f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossDodongo_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_808C4940,
                       BossDodongo_PostLimbDraw, this);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
@@ -1173,8 +1165,8 @@ void func_808C524C(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void func_808C52E0(BossDodongo* this, GlobalContext* globalCtx, s16 arg2) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->vec.x,
-                       this->vec.y - 20.0f, this->vec.z, 0, this->actor.shape.rot.y, 0, arg2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->vec.x, this->vec.y - 20.0f,
+                       this->vec.z, 0, this->actor.shape.rot.y, 0, arg2);
 }
 
 void func_808C5354(BossDodongo* this, GlobalContext* globalCtx) { // Damage Check
@@ -1235,7 +1227,7 @@ void func_808C54C0(BossDodongo* this) { // Setup Death?
     Audio_SetBGM(0x100100FF);
 }
 
-//#define NON_EQUIVALENT
+#define NON_EQUIVALENT
 #ifdef NON_EQUIVALENT
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     static Color_RGBA8 magmaPrimColor2[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
@@ -1481,7 +1473,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                         colorIndex = (Math_Rand_ZeroOne() * 1.9f);
                         EffectSsGMagma2_Spawn(globalCtx, &effectPos, &lMagmaPrimColor[colorIndex],
                                               &lMagmaEnvColor[colorIndex], 10 - (colorIndex * 5), colorIndex,
-                                              (Math_Rand_ZeroOne() * 100.0f) + 100);
+                                              (s16)(Math_Rand_ZeroOne() * 100.0f) + 100);
                     }
                 }
             } else {
@@ -1531,20 +1523,29 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     Math_SmoothScaleMaxMinF(&this->cameraEye.z, phi_v0_3->z, 0.1f, this->unk_204 * 20.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
                 } else {
+                    f32 temp;
                     if (this->unk_1A2 == 0) {
                         this->unk_230 += 0.01f;
                     } else {
                         this->unk_230 -= 0.01f;
                     }
                     Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
+                    temp = sinf(this->unk_230);
+                    tempSin = temp * this->unk_22C;
+                    temp = cosf(this->unk_230);
+                    tempCos = temp * this->unk_22C;
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
+                    /*Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
                     tempSin = this->unk_22C * sinf(this->unk_230);
                     tempCos = this->unk_22C * cosf(this->unk_230);
                     tempSin += this->actor.posRot.pos.x;
-                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, tempSin, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
-
                     Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
-                    Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
+                    Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);*/
                 }
             } else {
 
@@ -1620,9 +1621,11 @@ s32 D_808CA58C = 0xFF6400FF;
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
 #endif
 
-void BossDodongo_UpdateEffects(GlobalContext* globalCtx) { 
+void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
     BossDodongoEffect* currentEffect = (BossDodongoEffect*)globalCtx->unk_11E10;
-    Color_RGB8 sp8[] = { { 0xFF, 0x80, 0x00 }, { 0xFF, 0x00, 0x00 }, { 0xFF, 0xFF, 0x00 }, { 0xFF, 0x00, 0x00 } };
+    Color_RGB8 effectColors[] = {
+        { 0xFF, 0x80, 0x00 }, { 0xFF, 0x00, 0x00 }, { 0xFF, 0xFF, 0x00 }, { 0xFF, 0x00, 0x00 }
+    };
     s16 colorIndex;
     s16 i;
 
@@ -1637,12 +1640,12 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
             currentEffect->unk_C.z += currentEffect->unk_18.z;
             if (currentEffect->unk_24 == 1) {
                 colorIndex = currentEffect->unk_25 % 4;
-                currentEffect->unk_26 = sp8[colorIndex].r;
-                currentEffect->unk_27 = sp8[colorIndex].g;
-                currentEffect->unk_28 = sp8[colorIndex].b;
-                currentEffect->unk_2A -= 20;
-                if (currentEffect->unk_2A <= 0) {
-                    currentEffect->unk_2A = 0;
+                currentEffect->color.r = effectColors[colorIndex].r;
+                currentEffect->color.g = effectColors[colorIndex].g;
+                currentEffect->color.b = effectColors[colorIndex].b;
+                currentEffect->alpha -= 20;
+                if (currentEffect->alpha <= 0) {
+                    currentEffect->alpha = 0;
                     currentEffect->unk_24 = 0;
                 }
             }
@@ -1656,7 +1659,7 @@ void BossDodongo_DrawEffect(GlobalContext* globalCtx) {
     u8 phi_s3 = 0;
     BossDodongoEffect* currentEffect;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    
+
     currentEffect = (BossDodongoEffect*)globalCtx->unk_11E10;
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -1668,8 +1671,8 @@ void BossDodongo_DrawEffect(GlobalContext* globalCtx) {
                 gSPDisplayList(POLY_XLU_DISP++, D_06009D50);
                 phi_s3++;
             }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->unk_26, currentEffect->unk_27, currentEffect->unk_28,
-                            currentEffect->unk_2A);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->color.r, currentEffect->color.g,
+                            currentEffect->color.b, currentEffect->alpha);
             Matrix_Translate(currentEffect->unk_0.x, currentEffect->unk_0.y, currentEffect->unk_0.z, MTXMODE_NEW);
             func_800D1FD4(unkMtx);
             Matrix_Scale(currentEffect->unk_2C, currentEffect->unk_2C, 1.0f, MTXMODE_APPLY);

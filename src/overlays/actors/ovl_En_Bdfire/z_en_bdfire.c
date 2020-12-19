@@ -54,25 +54,25 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                   this->actor.posRot.pos.z, 255, 255, 255, 300);
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
-        return;
-    }
-    EnBdfire_SetupAction(this, func_809BC598);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
-    this->actor.speedXZ = 30.0f;
-    this->unk_154 = (25 - (s32)(this->actor.params * 0.8f));
-    if (this->unk_154 < 0) {
-        this->unk_154 = 0;
-    }
-    this->unk_188 = 4.2000003f - (this->actor.params * 0.25f * 0.6f);
+    } else {
+        EnBdfire_SetupAction(this, func_809BC598);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
+        this->actor.speedXZ = 30.0f;
+        this->unk_154 = (25 - (s32)(this->actor.params * 0.8f));
+        if (this->unk_154 < 0) {
+            this->unk_154 = 0;
+        }
+        this->unk_188 = 4.2000003f - (this->actor.params * 0.25f * 0.6f);
 
-    if (this->unk_188 < 0.90000004f) {
-        this->unk_188 = 0.90000004f;
+        if (this->unk_188 < 0.90000004f) {
+            this->unk_188 = 0.90000004f;
+        }
+        this->unk_18C = 255.0f - (this->actor.params * 10.0f);
+        if (this->unk_18C < 20.0f) {
+            this->unk_18C = 20.0f;
+        }
+        this->unk_156 = (Math_Rand_ZeroOne() * 8.0f);
     }
-    this->unk_18C = 255.0f - (this->actor.params * 10.0f);
-    if (this->unk_18C < 20.0f) {
-        this->unk_18C = 20.0f;
-    }
-    this->unk_156 = (Math_Rand_ZeroOne() * 8.0f);
 }
 
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -88,9 +88,9 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
     s32 temp;
 
     kingDodongo = (BossDodongo*)this->actor.parent;
-    this->actor.posRot.pos.x = kingDodongo->unk_3F8.x;
-    this->actor.posRot.pos.y = kingDodongo->unk_3F8.y;
-    this->actor.posRot.pos.z = kingDodongo->unk_3F8.z;
+    this->actor.posRot.pos.x = kingDodongo->firePos.x;
+    this->actor.posRot.pos.y = kingDodongo->firePos.y;
+    this->actor.posRot.pos.z = kingDodongo->firePos.z;
     if (kingDodongo->unk_1E2 == 0) {
         Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 1.0f, 0.6f, 0.0f);
         if (Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 20.0f, 0.0f) == 0.0f) {
@@ -124,14 +124,13 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
 
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     s16 phi_v1_2;
-    Player* player;
+    Player* player = PLAYER;
     f32 distToBurn;
     BossDodongo* bossDodongo;
     s16 i;
     s16 phi_v1;
     s32 temp;
-    player = PLAYER;
-
+    
     bossDodongo = ((BossDodongo*)this->actor.parent);
     this->unk_158 = bossDodongo->unk_1A2;
     phi_v1_2 = 0;
@@ -200,8 +199,9 @@ void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
-    static Gfx* D_809BCB10[] = { 0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0,
-                                 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0 };
+    static Gfx* D_809BCB10[] = {
+        0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0, 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0,
+    };
     s16 temp;
     s32 pad;
 
@@ -213,11 +213,10 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0,
                       ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0,
                       ENVIRONMENT);
-
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 100, (s8)this->unk_18C);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 0);
-    gSPSegment(POLY_XLU_DISP++, 0, SEGMENTED_TO_VIRTUAL(D_809BCB10[temp]));
+    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809BCB10[temp]));
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
