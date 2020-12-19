@@ -1281,6 +1281,7 @@ beginseg
     name "ovl_Bg_Spot15_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.o"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/ovl_Bg_Spot15_Saku_reloc.o"
+endseg
 
 beginseg
     name "ovl_Bg_Spot16_Bombstone"
