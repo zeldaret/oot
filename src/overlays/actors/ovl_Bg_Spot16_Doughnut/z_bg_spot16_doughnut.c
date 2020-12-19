@@ -131,18 +131,18 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->fireFlag & 1) {
         gSPSegment(
-            oGfxCtx->polyXlu.p++, 0x08,
+            POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, this->envColorAlpha);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000660);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->envColorAlpha);
+        gSPDisplayList(POLY_XLU_DISP++, D_06000660);
     } else {
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000FC0);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
+        gSPDisplayList(POLY_XLU_DISP++, D_06000FC0);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 238);
@@ -156,11 +156,11 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->envColorAlpha);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000FC0);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000FC0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 256);
 }

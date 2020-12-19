@@ -35,8 +35,8 @@ glabel func_80B23820
 /* 00BAC 80B2389C 24A53690 */  addiu   $a1, $a1, %lo(func_80B23690) ## $a1 = 80B23690
 /* 00BB0 80B238A0 0C2C8B3C */  jal     func_80B22CF0
 /* 00BB4 80B238A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00BB8 80B238A8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00BBC 80B238AC 24A549C8 */  addiu   $a1, $a1, 0x49C8           ## $a1 = 060049C8
+/* 00BB8 80B238A8 3C050600 */  lui     $a1, %hi(D_060049C8)                ## $a1 = 06000000
+/* 00BBC 80B238AC 24A549C8 */  addiu   $a1, $a1, %lo(D_060049C8)           ## $a1 = 060049C8
 /* 00BC0 80B238B0 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00BC4 80B238B4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00BC8 80B238B8 3C053B44 */  lui     $a1, 0x3B44                ## $a1 = 3B440000

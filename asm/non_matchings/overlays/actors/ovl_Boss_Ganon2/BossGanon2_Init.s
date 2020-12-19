@@ -55,14 +55,14 @@ glabel BossGanon2_Init
 /* 004EC 808FD42C 240600E1 */  addiu   $a2, $zero, 0x00E1         ## $a2 = 000000E1
 /* 004F0 808FD430 0C23F442 */  jal     func_808FD108
 /* 004F4 808FD434 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 004F8 808FD438 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 004FC 808FD43C 24C614E8 */  addiu   $a2, $a2, 0x14E8           ## $a2 = 060114E8
+/* 004F8 808FD438 3C060601 */  lui     $a2, %hi(D_060114E8)                ## $a2 = 06010000
+/* 004FC 808FD43C 24C614E8 */  addiu   $a2, $a2, %lo(D_060114E8)           ## $a2 = 060114E8
 /* 00500 808FD440 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00504 808FD444 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00508 808FD448 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0050C 808FD44C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00510 808FD450 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00514 808FD454 0C0291BE */  jal     SkelAnime_InitSV
+/* 00514 808FD454 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00518 808FD458 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0051C 808FD45C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00520 808FD460 0C23F571 */  jal     func_808FD5C4

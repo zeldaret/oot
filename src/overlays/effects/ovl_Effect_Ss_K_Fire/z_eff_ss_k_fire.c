@@ -55,30 +55,30 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(xzScale, yScale, xzScale, MTXMODE_APPLY);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                 globalCtx->state.frames * this->rScroll, 0x20, 0x80));
 
     if (this->rType >= 100) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, this->rAlpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 10, 0, 0);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, this->rAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 0);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, this->rAlpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, this->rAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
     }
 
     if (1) {}
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
     func_800D1FD4(&globalCtx->mf_11DA0);
 
     if ((index & 1) != 0) {
         Matrix_RotateY(M_PI, MTXMODE_APPLY);
     }
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_k_fire.c", 215),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_k_fire.c", 215),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_k_fire.c", 220);
 }

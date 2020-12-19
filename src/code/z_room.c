@@ -41,27 +41,27 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(globalCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     if (flags & 2) {
         func_8003435C(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     polygon0 = &room->mesh->polygon0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon0->start);
     for (i = 0; i < polygon0->num; i++) {
         if ((flags & 1) && (polygonDlist->opa != NULL)) {
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if ((flags & 2) && (polygonDlist->xlu != NULL)) {
-            gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+            gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
         }
 
         polygonDlist++;
@@ -81,13 +81,13 @@ typedef struct struct_80095D04 {
 
 // Room Draw Polygon Type 2
 #ifdef NON_MATCHING
-// this function still needs some work but it should be functionally equivalent
+// Saved register problems and ordering issues, but definitely equivalent.
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
-    struct_80095D04* spB4;
-    struct_80095D04* spB0;
+    struct_80095D04* spB4 = NULL;
+    struct_80095D04* spB0 = NULL;
     struct_80095D04* phi_v0;
     struct_80095D04* phi_a0;
     struct_80095D04* spA4;
@@ -98,53 +98,48 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     f32 sp80;
     PolygonDlist2* phi_s0;
     PolygonDlist2* sp78;
-    f32 temp_f0;
+    PolygonDlist2* temp;
     f32 temp_f2;
 
-    spB0 = NULL;
-    spB4 = NULL;
-
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 287);
-
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(globalCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
-
+    if (1) {}
+    if (1) {}
     if (flags & 2) {
         func_8003435C(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    spA4 = &spB8[0];
-    polygonDlist = SEGMENTED_TO_VIRTUAL(room->mesh->polygon2.start);
     polygon2 = &room->mesh->polygon2;
+    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
+    spA4 = spB8;
+
     if (polygon2->num > SHAPE_SORT_MAX) {
         __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     }
-
     sp78 = polygonDlist;
-    for (sp9C = 0; sp9C < polygon2->num; sp9C++) {
+
+    for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDlist++) {
         sp90.x = polygonDlist->pos.x;
         sp90.y = polygonDlist->pos.y;
         sp90.z = polygonDlist->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
-        temp_f0 = polygonDlist->unk_06;
-        if (-temp_f0 < sp84.z) {
-            temp_f2 = sp84.z - temp_f0;
+        if (-(f32)polygonDlist->unk_06 < sp84.z) {
+            temp_f2 = sp84.z - polygonDlist->unk_06;
             if (temp_f2 < globalCtx->lightCtx.unk_0C) {
+                phi_v0 = spB4;
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
-                phi_v0 = spB4;
-                if (spB4 == 0) {
-                    spB0 = spA4;
-                    spB4 = spA4;
-                    spA4->unk_0C = NULL;
-                    spA4->unk_08 = NULL;
+                if (phi_v0 == NULL) {
+                    spB4 = spB0 = spA4;
+                    spA4->unk_08 = spA4->unk_0C = NULL;
                 } else {
                     do {
                         if (spA4->unk_04 < phi_v0->unk_04) {
@@ -159,59 +154,65 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                         spB0->unk_0C = spA4;
                         spB0 = spA4;
                     } else {
-                        phi_a0 = phi_v0->unk_08;
-                        spA4->unk_08 = phi_a0;
-                        if (phi_a0 == NULL) {
+                        spA4->unk_08 = phi_v0->unk_08;
+                        if (spA4->unk_08 == NULL) {
                             spB4 = spA4;
                         } else {
-                            phi_a0->unk_0C = spA4;
+                            spA4->unk_08->unk_0C = spA4;
                         }
                         phi_v0->unk_08 = spA4;
-                        spA4->unk_0C = (void*)phi_v0;
+                        spA4->unk_0C = phi_v0;
                     }
                 }
-                spA4 = spA4++;
+                spA4++;
             }
         }
-        polygonDlist++;
     }
 
     iREG(87) = polygon2->num;
 
-    sp9C = 1;
-    while (spB4 != NULL) {
+    for (sp9C = 1; spB4 != NULL; spB4 = spB4->unk_0C, sp9C++) {
+        Gfx* temp2;
+
         phi_s0 = spB4->unk_00;
         if (iREG(86) != 0) {
-            phi_v1 = 0;
-            while (phi_v1 < polygon2->num) {
-                if (phi_s0 == sp78) {
-                    break;
+            temp = sp78;
+            for (phi_v1 = 0; phi_v1 < polygon2->num; phi_v1++, temp++) {
+                if (phi_s0 == temp) {
+                    break; // This loop does nothing?
                 }
-                phi_v1++;
-                sp78++;
             }
 
-            if (((iREG(86) == 1) && (iREG(89) > sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
-                if ((flags & 1) && (phi_s0->opa != NULL)) {
-                    gSPDisplayList(oGfxCtx->polyOpa.p++, phi_s0->opa);
+            if (((iREG(86) == 1) && (iREG(89) >= sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
+                if (flags & 1) {
+                    temp2 = phi_s0->opa;
+                    if (temp2 != NULL) {
+                        gSPDisplayList(POLY_OPA_DISP++, temp2);
+                    }
                 }
 
-                if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                    gSPDisplayList(oGfxCtx->polyXlu.p++, phi_s0->xlu);
+                if (flags & 2) {
+                    temp2 = phi_s0->xlu;
+                    if (temp2 != NULL) {
+                        gSPDisplayList(POLY_XLU_DISP++, temp2);
+                    }
                 }
             }
         } else {
-            if ((flags & 1) && (phi_s0->opa != NULL)) {
-                gSPDisplayList(oGfxCtx->polyOpa.p++, phi_s0->opa);
+            if (flags & 1) {
+                temp2 = phi_s0->opa;
+                if (temp2 != NULL) {
+                    gSPDisplayList(POLY_OPA_DISP++, temp2);
+                }
             }
 
-            if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                gSPDisplayList(oGfxCtx->polyXlu.p++, phi_s0->xlu);
+            if (flags & 2) {
+                temp2 = phi_s0->xlu;
+                if (temp2 != NULL) {
+                    gSPDisplayList(POLY_XLU_DISP++, temp2);
+                }
             }
         }
-
-        spB4 = spB4->unk_0C;
-        sp9C++;
     }
 
     iREG(88) = sp9C - 1;
@@ -256,19 +257,17 @@ s32 func_80096238(void* data) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// pointer arithmetic doesn't quite match
 void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY) {
     Gfx* displayListHead;
     uObjBg* bg;
+    s32 temp;
 
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
-    displayListHead++;
-    gSPBranchList(displayListHead, (u8*)displayListHead + sizeof(uObjBg));
-    bg = (void*)displayListHead;
+    bg = displayListHead + 1;
+    gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
     bg->b.frameX = frameX * 4;
@@ -282,11 +281,10 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
 
+    displayListHead = (void*)(bg + 1);
     if (fmt == G_IM_FMT_CI) {
-        displayListHead = (void*)(bg + 1);
         gDPLoadTLUT(displayListHead++, tlutCount, 256, tlut);
     } else {
-        displayListHead = (void*)(bg + 1);
         gDPPipeSync(displayListHead++);
     }
 
@@ -297,13 +295,17 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
+
     } else {
         bg->s.frameW = width * 4;
         bg->s.frameH = height * 4;
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        if (1) {}
+        gDPSetOtherMode(displayListHead++,
+                        mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
+                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
@@ -315,11 +317,6 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     gDPPipeSync(displayListHead++);
     *displayList = displayListHead;
 }
-#else
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
-                   u16 tlutCount, f32 frameX, f32 frameY);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_8009638C.s")
-#endif
 
 // Room Draw Polygon Type 1 - Single Format
 void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
@@ -343,39 +340,39 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     sp90 = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
 
     if (sp94 || sp98) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (sp94) {
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if (sp98) {
-            // gSPLoadUcodeL(oGfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             {
                 Vec3f sp60;
-                spA8 = oGfxCtx->polyOpa.p;
-                func_8005AFB4(&sp60, camera);
+                spA8 = POLY_OPA_DISP;
+                Camera_GetSkyboxOffset(&sp60, camera);
                 func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
                               polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
                               polygon1->single.mode0, polygon1->single.tlutCount,
                               (sp60.x + sp60.z) * 1.2f + sp60.y * 0.6f, sp60.y * 2.4f + (sp60.x + sp60.z) * 0.3f);
-                oGfxCtx->polyOpa.p = spA8;
+                POLY_OPA_DISP = spA8;
             }
 
-            // gSPLoadUcode(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 
     if (sp90) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 691);
@@ -390,8 +387,9 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     s32 i;
 
     camera = ACTIVE_CAM;
-    camId = camera->unk_148;
-    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)->unk_0E;
+    camId = camera->camDataIdx;
+    // jfifid
+    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)[2].y;
     if (camId2 >= 0) {
         camId = camId2;
     }
@@ -438,38 +436,38 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     sp8C = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
 
     if (sp90 || sp94) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (sp90) {
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if (sp94) {
-            // gSPLoadUcodeL(oGfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             {
                 Vec3f sp5C;
-                spA8 = oGfxCtx->polyOpa.p;
-                func_8005AFB4(&sp5C, camera);
+                spA8 = POLY_OPA_DISP;
+                Camera_GetSkyboxOffset(&sp5C, camera);
                 func_8009638C(&spA8, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
                               bgImage->siz, bgImage->mode0, bgImage->tlutCount,
                               (sp5C.x + sp5C.z) * 1.2f + sp5C.y * 0.6f, sp5C.y * 2.4f + (sp5C.x + sp5C.z) * 0.3f);
-                oGfxCtx->polyOpa.p = spA8;
+                POLY_OPA_DISP = spA8;
             }
 
-            // gSPLoadUcode(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 
     if (sp8C) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 819);
@@ -494,7 +492,7 @@ void func_80096FD4(GlobalContext* globalCtx, Room* room) {
 }
 
 #ifdef NON_MATCHING
-// regalloc differences
+// regalloc differences near the end
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u8 nextRoomNum;
     u32 maxRoomSize = 0;
@@ -511,7 +509,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     }
 
     if (globalCtx->nbTransitionActors != 0) {
-        s32 j = 0;
+        s32 j;
         RomFile* roomList = globalCtx->roomList;
         TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
 
@@ -546,11 +544,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    if (gSaveContext.respawnFlag > 0) {
-        nextRoomNum = gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex;
-    } else {
-        nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
-    }
+    nextRoomNum = (gSaveContext.respawnFlag - 1 >= 0) ? gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex
+                                                      : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     func_8009728C(globalCtx, roomCtx, nextRoomNum);
 
     return maxRoomSize;

@@ -62,7 +62,7 @@ void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, displayListHead);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
 

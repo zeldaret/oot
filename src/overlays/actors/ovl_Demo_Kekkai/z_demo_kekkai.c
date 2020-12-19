@@ -9,6 +9,12 @@ void DemoKekkai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoKekkai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06004930;
+extern UNK_TYPE D_06004F00;
+extern UNK_TYPE D_06004FD0;
+extern UNK_TYPE D_06005A30;
+extern UNK_TYPE D_06005CB0;
+
 /*
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,

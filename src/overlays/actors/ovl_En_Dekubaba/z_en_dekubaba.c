@@ -9,6 +9,14 @@ void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000208;
+extern UNK_TYPE D_060002B8;
+extern UNK_TYPE D_060010F0;
+extern UNK_TYPE D_06001330;
+extern UNK_TYPE D_06001828;
+extern UNK_TYPE D_06002A40;
+extern UNK_TYPE D_06003070;
+
 /*
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,

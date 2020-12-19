@@ -79,10 +79,10 @@ void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
 
     func_80093D18(gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, dlist);
-    gSPPopMatrix(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, dlist);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 188);
 }
@@ -94,7 +94,7 @@ void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
     // Necessary to match
@@ -159,9 +159,9 @@ void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
-        this->actor.posRot.pos.x = demoGt->actor.posRot.pos.x + this->deltaPosX;
-        this->actor.posRot.pos.y = demoGt->actor.posRot.pos.y + this->deltaPosY;
-        this->actor.posRot.pos.z = demoGt->actor.posRot.pos.z + this->deltaPosZ;
+        this->actor.posRot.pos.x = demoGt->dyna.actor.posRot.pos.x + this->deltaPosX;
+        this->actor.posRot.pos.y = demoGt->dyna.actor.posRot.pos.y + this->deltaPosY;
+        this->actor.posRot.pos.z = demoGt->dyna.actor.posRot.pos.z + this->deltaPosZ;
     }
 }
 

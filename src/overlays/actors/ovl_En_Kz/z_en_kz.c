@@ -51,7 +51,7 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-extern SkeletonHeader D_060086D0;
+extern FlexSkeletonHeader D_060086D0;
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
@@ -304,8 +304,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+                       12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -361,7 +361,7 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
@@ -377,7 +377,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         func_80034EC0(&this->skelanime, sAnimations, 1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
@@ -453,22 +453,23 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    s32 limb = limbIndex;
+s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnKz* this = THIS;
 
-    if (limb == 8 || limb == 9 || limb == 10) {
-        rot->y += Math_Sins(THIS->unk_2A6[limb]) * 200.0f;
-        rot->z += Math_Coss(THIS->unk_2BE[limb]) * 200.0f;
+    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
+        rot->y += Math_Sins(this->unk_2A6[limbIndex]) * 200.0f;
+        rot->z += Math_Coss(this->unk_2BE[limbIndex]) * 200.0f;
     }
+    if (limbIndex) {}
     return 0;
 }
 
-void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    s32 limb = limbIndex;
+void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnKz* this = THIS;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
-    if (limb == 11) {
-        Matrix_MultVec3f(&mult, &THIS->actor.posRot2.pos);
+    if (limbIndex == 11) {
+        Matrix_MultVec3f(&mult, &this->actor.posRot2.pos);
     }
 }
 
@@ -482,10 +483,10 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                     EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

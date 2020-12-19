@@ -10,7 +10,7 @@ glabel D_8013CD20
 glabel D_8013CD6C
     .asciz "\x1b[43;30mactor attention demo camera: %d: unkown part of actor %d\n\x1b[m"
     .balign 4
-    
+
 glabel D_8013CDB4
     .asciz "\x1b[36m%06u:\x1b[m actor attention demo camera: request %d "
     .balign 4
@@ -74,7 +74,7 @@ glabel func_80080480
 /* AF7680 800804E0 0C00084C */  jal   osSyncPrintf
 /* AF7684 800804E4 AFA6003C */   sw    $a2, 0x3c($sp)
 /* AF7688 800804E8 8FA4003C */  lw    $a0, 0x3c($sp)
-/* AF768C 800804EC 0C016911 */  jal   func_8005A444
+/* AF768C 800804EC 0C016911 */  jal   Camera_ChangeMode
 /* AF7690 800804F0 00002825 */   move  $a1, $zero
 /* AF7694 800804F4 8FA6003C */  lw    $a2, 0x3c($sp)
 /* AF7698 800804F8 2408FFFF */  li    $t0, -1
@@ -126,7 +126,7 @@ glabel func_80080480
 /* AF7730 80080590 002D0821 */  addu  $at, $at, $t5
 /* AF7734 80080594 8C2DD6D0 */  lw    $t5, %lo(jtbl_8013D6D0)($at)
 /* AF7738 80080598 01A00008 */  jr    $t5
-/* AF773C 8008059C 00000000 */   nop   
+/* AF773C 8008059C 00000000 */   nop
 glabel L800805A0
 /* AF7740 800805A0 1000000F */  b     .L800805E0
 /* AF7744 800805A4 2403001E */   li    $v1, 30
