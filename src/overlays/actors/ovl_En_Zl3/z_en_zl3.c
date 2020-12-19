@@ -234,20 +234,19 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
-#ifdef NON_MATCHING
-void func_80B53980(EnZl3* this, s16 y, s32 idx) {
-    SkelAnime* skelAnime = &this->skelAnime;
+void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
+    EnZl3* this = THIS; // this function might take thisx
     s32 action = this->action;
-    EnZl3* this2 = this;
     s16 y2 = y;
     s32 yTemp;
     f32 animCurrentFrame;
     f32 unk_3DC;
 
     if (this->unk_2FC != 0) {
-        s32 temp25C = this2->unk_25C[idx];
-        s32 temp28C = (s16)(y + this2->unk_28C[idx]);
-        s32 temp2BC = y - this2->unk_2BC[idx];
+        SkelAnime* skelAnime = &this->skelAnime;
+        s32 temp25C = this->unk_25C[idx];
+        s32 temp28C = (s16)(y + this->unk_28C[idx]);
+        s32 temp2BC = y - this->unk_2BC[idx];
 
         if ((s32)fabsf(temp2BC) > 0x8000) {
             if (y2 > 0) {
@@ -274,7 +273,6 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx) {
             temp28C = y;
             temp25C = 0;
         }
-
         if (idx == 0 && action == 3) {
             yTemp = y + -11000;
             if (skelAnime->mode == 2) {
@@ -302,9 +300,6 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx) {
     }
     this->unk_2BC[idx] = y;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
-#endif
 
 void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
     SkelAnime* skelAnime = &this->skelAnime;

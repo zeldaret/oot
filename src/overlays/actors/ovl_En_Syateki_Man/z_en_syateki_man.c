@@ -35,7 +35,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx);
-void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx);
+void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
@@ -313,13 +313,13 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        this->actionFunc = EnSyaketiMan_FinishPrize;
+        this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
         func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 
-void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
+void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion
