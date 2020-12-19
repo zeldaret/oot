@@ -67,39 +67,39 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->flameColor = (THIS->actor.params >> 8) & 0xFF;
-    this->actor.params &= 0x3F;
+    this->flameColor = (thisx->params >> 8) & 0xFF;
+    thisx->params &= 0x3F;
 
-    this->actor.colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = 0xFF;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 65,
-                            this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, (s16)thisx->posRot.pos.y + 65, thisx->posRot.pos.z,
+                            0, 0, 0, 0);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    this->collider.dim.pos.x = this->actor.posRot.pos.x;
-    this->collider.dim.pos.y = this->actor.posRot.pos.y;
-    this->collider.dim.pos.z = this->actor.posRot.pos.z;
+    this->collider.dim.pos.x = thisx->posRot.pos.x;
+    this->collider.dim.pos.y = thisx->posRot.pos.y;
+    this->collider.dim.pos.z = thisx->posRot.pos.z;
 
     if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
         Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_BLUE) &&
-        Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(globalCtx, this->actor.params)) {
+        Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(globalCtx, thisx->params)) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
-                    this->actor.params);
+                    thisx->params);
         globalCtx->envCtx.unk_BF = 0x4;
 
     } else if (!Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y + 52.0f, this->actor.posRot.pos.z, 0, 0, 0,
-                    (this->flameColor << 8) + this->actor.params + 0x1000);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->posRot.pos.x,
+                    thisx->posRot.pos.y + 52.0f, thisx->posRot.pos.z, 0, 0, 0,
+                    (this->flameColor << 8) + thisx->params + 0x1000);
 
-    } else if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
+    } else if (!Flags_GetSwitch(globalCtx, thisx->params)) {
         if (globalCtx->envCtx.unk_BF == 0xFF) {
             globalCtx->envCtx.unk_BF = 4;
         }

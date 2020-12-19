@@ -10,8 +10,8 @@ glabel func_80ACBEA0
 /* 01FA0 80ACBEC0 24A5BD4C */  addiu   $a1, $a1, %lo(func_80ACBD4C) ## $a1 = 80ACBD4C
 /* 01FA4 80ACBEC4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 01FA8 80ACBEC8 A48F03FE */  sh      $t7, 0x03FE($a0)           ## 000003FE
-/* 01FAC 80ACBECC 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
-/* 01FB0 80ACBED0 27181168 */  addiu   $t8, $t8, 0x1168           ## $t8 = 06001168
+/* 01FAC 80ACBECC 3C180600 */  lui     $t8, %hi(D_06001168)                ## $t8 = 06000000
+/* 01FB0 80ACBED0 27181168 */  addiu   $t8, $t8, %lo(D_06001168)           ## $t8 = 06001168
 /* 01FB4 80ACBED4 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 01FB8 80ACBED8 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
 /* 01FBC 80ACBEDC AFB80010 */  sw      $t8, 0x0010($sp)           

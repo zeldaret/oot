@@ -95,7 +95,7 @@ typedef struct {
 /**
  * Trig macros
 */
-#define DEGF_TO_BINANG(degreesf) (s16)(degreesf * 182.04167f + 0.5f)
+#define DEGF_TO_BINANG(degreesf) (s16)(degreesf * 182.04167f + .5f)
 #define RADF_TO_DEGF(radf) (radf * (180.0f / M_PI))
 #define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
 #define BINANG_ROT180(angle) ((s16)(angle - 0x7FFF))
