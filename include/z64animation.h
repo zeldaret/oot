@@ -35,7 +35,7 @@ typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
-    /* 0x08 */ s32 unk_08; // Type of data contained in segment
+    /* 0x08 */ s32 unk_8; // Type of data contained in segment
     /* 0x0C */ UNK_PTR segment; // Segment address of data. Currently unclear what.
 } SkinLimb; // size = 0x10
 
@@ -242,5 +242,53 @@ typedef struct SkelAnime {
     /* 0x38 */ Vec3s prevFramePos;
     /* 0x3E */ Vec3s unk_3E;
 } SkelAnime; // size = 0x44
+
+typedef struct {
+    /* 0x000 */ u16 unk_0;
+    /* 0x002 */ char unk_2[0x4];
+    /* 0x006 */ s8 unk_6;
+    /* 0x007 */ s8 unk_7;
+    /* 0x008 */ s8 unk_8;
+    /* 0x009 */ char unk_9[0x1];
+} Struct_800A57C0; // size = 0xA
+
+typedef struct {
+    /* 0x000 */ u8  unk_0;
+    /* 0x002 */ s16 x;
+    /* 0x004 */ s16 y;
+    /* 0x006 */ s16 z;
+    /* 0x008 */ u8  unk_8;
+} Struct_800A598C_2; // size = 0xA
+
+typedef struct {
+    /* 0x000 */ char unk_0[0x2];
+    /* 0x002 */ u16 unk_2;
+    /* 0x004 */ u32  unk_4;
+    /* 0x008 */ Gfx* unk_8;
+} Struct_800A5E28;
+
+typedef struct {
+    /* 0x000 */ u16 unk_0;
+    /* 0x002 */ u16 unk_2;
+    /* 0x004 */ u16 unk_4;
+    /* 0x008 */ s32 unk_8;
+    /* 0x00C */ s32 unk_C;
+} Struct_800A598C; // size = 0x10
+
+typedef struct {
+    /* 0x000 */ u8 unk_0;
+    /* 0x004 */ Vtx* buf[2];
+} SkinAvb; // size = 0xC
+
+typedef struct {
+    /* 0x000 */ SkeletonHeader* skeletonHeader;
+    /* 0x004 */ MtxF mtx;
+    /* 0x044 */ s32 avbCount;
+    /* 0x048 */ SkinAvb* avbTbl;
+    /* 0x04C */ SkelAnime skelAnime;
+} PSkinAwb; // size = 0x90
+
+typedef void (*SkinCallback)(struct Actor*, struct GlobalContext*, PSkinAwb*);
+typedef s32 (*SkinCallback2)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
 
 #endif
