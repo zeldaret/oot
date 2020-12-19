@@ -72,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 80, 130, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0082, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, 0xFF };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
@@ -251,10 +251,10 @@ void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = THIS;
 
     if (this->unk_151 != 0) {
-        Gfx_DrawDListXlu(globalCtx, &D_0600BF20);
+        Gfx_DrawDListXlu(globalCtx, D_0600BF20);
     } else if (this->actor.params == SCYTHE_TRAP_SHADOW_TEMPLE) {
-        Gfx_DrawDListOpa(globalCtx, &D_0600BF20);
+        Gfx_DrawDListOpa(globalCtx, D_0600BF20);
     } else {
-        Gfx_DrawDListOpa(globalCtx, &D_060021F0);
+        Gfx_DrawDListOpa(globalCtx, D_060021F0);
     }
 }
