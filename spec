@@ -1148,8 +1148,7 @@ endseg
 beginseg
     name "ovl_Bg_Relay_Objects"
     include "build/src/overlays/actors/ovl_Bg_Relay_Objects/z_bg_relay_objects.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.data.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Relay_Objects/ovl_Bg_Relay_Objects_reloc.o"
 endseg
 
 beginseg
