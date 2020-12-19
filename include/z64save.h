@@ -169,7 +169,7 @@ typedef struct {
     /* 0x1416 */ u16 nextDayTime; // "next_zelda_time"
     /* 0x1418 */ u8 fadeDuration;
     /* 0x1419 */ u8 unk_1419; // transition related
-    /* 0x141A */ u16 environmentTime;
+    /* 0x141A */ u16 skyboxTime;
     /* 0x141C */ u8 dogIsLost;
     /* 0x141D */ u8 nextTransition;
     /* 0x141E */ char unk_141E[0x0002];

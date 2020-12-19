@@ -275,7 +275,7 @@ void func_80B319A0(EnWeatherTag* this, GlobalContext* globalCtx) {
 void func_80B31A10(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (func_80B312C8(this, globalCtx, 0, 1, 0, 4, 0x64, 5) != 0) {
         func_80077624(globalCtx);
-        globalCtx->envCtx.lightning = 1;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 0x1E;
         EnWeatherTag_SetupAction(this, func_80B31AA0);
     }
@@ -284,7 +284,7 @@ void func_80B31A10(EnWeatherTag* this, GlobalContext* globalCtx) {
 void func_80B31AA0(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (func_80B3149C(this, globalCtx, 1, 0, 4, 0, 0x64) != 0) {
         func_80077684(globalCtx);
-        globalCtx->envCtx.lightning = 2;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         EnWeatherTag_SetupAction(this, func_80B31A10);
     }
@@ -307,7 +307,7 @@ void func_80B31C20(EnWeatherTag* this, GlobalContext* globalCtx) {
 
     if (func_8002DB8C(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
         func_80077624(globalCtx);
-        globalCtx->envCtx.lightning = 1;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
         globalCtx->envCtx.unk_EE[0] = 0x19;
         EnWeatherTag_SetupAction(this, func_80B31CC0);
     }
@@ -318,7 +318,7 @@ void func_80B31CC0(EnWeatherTag* this, GlobalContext* globalCtx) {
 
     if ((((this->actor.params >> 8) * 100.0f) + 10.0f) < func_8002DB8C(&player->actor, &this->actor)) {
         func_80077684(globalCtx);
-        globalCtx->envCtx.lightning = 2;
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         globalCtx->envCtx.unk_EE[0] = 0;
         globalCtx->envCtx.unk_EE[1] = 0xA;
         EnWeatherTag_SetupAction(this, func_80B31C20);

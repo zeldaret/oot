@@ -513,7 +513,7 @@ glabel Gameplay_Draw
 /* B366EC 800BF54C 5320000A */  beql  $t9, $zero, .L800BF578
 /* B366F0 800BF550 2401000A */   li    $at, 10
 .L800BF554:
-/* B366F4 800BF554 0C01D430 */  jal   func_800750C0
+/* B366F4 800BF554 0C01D430 */  jal   Kankyo_UpdateLightningStrike
 /* B366F8 800BF558 02002025 */   move  $a0, $s0
 /* B366FC 800BF55C 02002025 */  move  $a0, $s0
 /* B36700 800BF560 0C01D50B */  jal   Kankyo_DrawLightning

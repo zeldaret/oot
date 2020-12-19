@@ -185,9 +185,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 2:
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
-                func_800753C4(globalCtx, 3);
+                Kankyo_AddLightningBolts(globalCtx, 3);
                 if (1) {}
-                D_8015FD70.unk_00 = 1;
+                gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
         case 3:
@@ -356,7 +356,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 32:
             if (sp3F != 0) {
-                globalCtx->envCtx.unk_E6 = 1;
+                globalCtx->envCtx.sandstormState = 1;
             }
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
@@ -431,7 +431,7 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
         temp2 = (cmd->minute + 1) / 0.021972656f;
 
         gSaveContext.dayTime = temp1 + temp2;
-        gSaveContext.environmentTime = temp1 + temp2;
+        gSaveContext.skyboxTime = temp1 + temp2;
     }
 }
 
@@ -1173,7 +1173,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 119:
                 gSaveContext.dayTime = 0x8000;
-                gSaveContext.environmentTime = 0x8000;
+                gSaveContext.skyboxTime = 0x8000;
                 globalCtx->nextEntranceIndex = 0x05F0;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 3;

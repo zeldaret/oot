@@ -937,8 +937,8 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
 void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
 void func_80074D6C(GlobalContext* globalCtx);
-void func_800750C0(GlobalContext* globalCtx);
-void func_800753C4(GlobalContext* globalCtx, u8 max);
+void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx);
+void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 max);
 void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused);
 void func_800758AC(GlobalContext* globalCtx);
 void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx);

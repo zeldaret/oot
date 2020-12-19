@@ -7,6 +7,19 @@
 #define ENV_ROM_FILES(name) \
     { ENV_ROM_FILE(name), ENV_ROM_FILE(name##_pal) }
 
+typedef enum {
+    /* 0 */ LENS_FLARE_CIRCLE0,
+    /* 1 */ LENS_FLARE_CIRCLE1,
+    /* 2 */ LENS_FLARE_RING
+} LensFlareType;
+
+typedef enum {
+    /* 0x00 */ LIGHTNING_BOLT_START,
+    /* 0x01 */ LIGHTNING_BOLT_WAIT,
+    /* 0x02 */ LIGHTNING_BOLT_DRAW,
+    /* 0xFF */ LIGHTNING_BOLT_INACTIVE = 0xFF
+} LightningBoltState;
+
 typedef struct {
     u16 minTime;
     u16 maxTime;
@@ -15,14 +28,14 @@ typedef struct {
 } struct_8011FB48;
 
 typedef struct {
-    u8 unk_00;
-    Vec3f unk_04;
-    Vec3f unk_10;
-    s8 unk_1C;
-    s8 unk_1D;
+    u8 state;
+    Vec3f offset;
+    Vec3f pos;
+    s8 pitch;
+    s8 roll;
     u8 textureIndex;
-    u8 unk_1F;
-} struct_8015FD10; // lightning related
+    u8 delayTimer;
+} LightningBolt;
 
 // data
 s32 D_8011FAF0[][2] = {
@@ -143,9 +156,9 @@ s16 D_8015FD04;
 s16 D_8015FD06;
 f32 D_8015FD08;
 s16 D_8015FD0C;
-struct_8015FD10 D_8015FD10[3];
-struct_8015FD70 D_8015FD70;
-s16 D_8015FD7C;
+LightningBolt sLightningBolts[3];
+LightningStrike gLightningStrike;
+s16 sLightningFlashAlpha;
 s16 D_8015FD7E;
 s16 D_8015FD80;
 LightNode* sNGameOverLightNode;
@@ -153,7 +166,7 @@ LightInfo sNGameOverLightInfo;
 LightNode* sSGameOverLightNode;
 LightInfo sSGameOverLightInfo;
 u8 sGameOverLightsRGB;
-s32 D_8015FDB0[4];
+s16 D_8015FDB0;
 
 void func_80075B44(GlobalContext* globalCtx);
 void func_800766C4(GlobalContext* globalCtx);
@@ -215,7 +228,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->unk_DC = 0;
     envCtx->gloomySkyEvent = 0;
     envCtx->unk_DE = false;
-    envCtx->lightning = 0;
+    envCtx->lightningMode = LIGHTNING_MODE_OFF;
     envCtx->unk_E0 = 0;
     envCtx->unk_E1 = 0;
     envCtx->unk_E2[0] = 0;
@@ -227,18 +240,18 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->unk_EA[1] = 0;
     envCtx->unk_EA[2] = 0;
     envCtx->unk_EA[3] = 0;
-    envCtx->unk_E6 = 0;
-    envCtx->unk_E7 = 0;
-    envCtx->unk_E8 = 0;
+    envCtx->sandstormState = 0;
+    envCtx->sandstormPrimA = 0;
+    envCtx->sandstormEnvA = 0;
     envCtx->unk_84 = 0.0f;
     envCtx->unk_88 = 0.0f;
     envCtx->unk_D8 = 1.0f;
 
-    D_8015FD70.unk_00 = 0;
-    D_8015FD70.red = 0;
-    D_8015FD70.green = 0;
-    D_8015FD70.blue = 0;
-    D_8015FD7C = 0;
+    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
+    gLightningStrike.flashRed = 0;
+    gLightningStrike.flashGreen = 0;
+    gLightningStrike.flashBlue = 0;
+    sLightningFlashAlpha = 0;
     ((void)0, gSaveContext.unk_1410 = 0);
 
     envCtx->unk_8C[0][0] = envCtx->unk_8C[0][1] = envCtx->unk_8C[0][2] = envCtx->unk_8C[1][0] = envCtx->unk_8C[1][1] =
@@ -338,8 +351,8 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     cREG(14) = 0;
     D_8015FCC8 = 1;
 
-    for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
-        D_8015FD10[i].unk_00 = 0xFF;
+    for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
+        sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
     }
 
     globalCtx->unk_11D30[0] = 0;
@@ -438,42 +451,40 @@ f32 func_8006F9BC(u16 arg0, u16 arg1, u16 arg2, u16 arg3, u16 arg4) {
 }
 
 void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
-    if (envCtx->gloomySkyEvent == 0) {
-        return;
-    }
-
-    switch (envCtx->unk_DE) {
-        case 0:
-            if (envCtx->gloomySkyEvent == 1 && D_8011FB3C == 0) {
-                envCtx->unk_19 = 1;
-                envCtx->gloomySky = 0;
-                envCtx->unk_18 = 1;
-                envCtx->unk_1A = 100;
-                envCtx->unk_21 = 1;
-                envCtx->unk_1F = 0;
-                envCtx->unk_20 = 2;
-                D_8011FB34 = 2;
-                envCtx->unk_22 = envCtx->unk_24 = 100;
-                envCtx->unk_DE++;
-            }
-            break;
-        case 1:
-            if (D_8011FB3C == 0 && envCtx->gloomySkyEvent == 2) {
-                gWeatherMode = 0;
-                envCtx->unk_19 = 1;
-                envCtx->gloomySky = 1;
-                envCtx->unk_18 = 0;
-                envCtx->unk_1A = 100;
-                envCtx->unk_21 = 1;
-                envCtx->unk_1F = 2;
-                envCtx->unk_20 = 0;
-                D_8011FB34 = 0;
-                envCtx->unk_22 = envCtx->unk_24 = 100;
-                envCtx->unk_EE[0] = 0;
-                envCtx->gloomySkyEvent = 0;
-                envCtx->unk_DE = 0;
-            }
-            break;
+    if (envCtx->gloomySkyEvent != 0) {
+        switch (envCtx->unk_DE) {
+            case 0:
+                if (envCtx->gloomySkyEvent == 1 && D_8011FB3C == 0) {
+                    envCtx->unk_19 = 1;
+                    envCtx->gloomySky = 0;
+                    envCtx->unk_18 = 1;
+                    envCtx->unk_1A = 100;
+                    envCtx->unk_21 = 1;
+                    envCtx->unk_1F = 0;
+                    envCtx->unk_20 = 2;
+                    D_8011FB34 = 2;
+                    envCtx->unk_22 = envCtx->unk_24 = 100;
+                    envCtx->unk_DE++;
+                }
+                break;
+            case 1:
+                if (D_8011FB3C == 0 && envCtx->gloomySkyEvent == 2) {
+                    gWeatherMode = 0;
+                    envCtx->unk_19 = 1;
+                    envCtx->gloomySky = 1;
+                    envCtx->unk_18 = 0;
+                    envCtx->unk_1A = 100;
+                    envCtx->unk_21 = 1;
+                    envCtx->unk_1F = 2;
+                    envCtx->unk_20 = 0;
+                    D_8011FB34 = 0;
+                    envCtx->unk_22 = envCtx->unk_24 = 100;
+                    envCtx->unk_EE[0] = 0;
+                    envCtx->gloomySkyEvent = 0;
+                    envCtx->unk_DE = 0;
+                }
+                break;
+        }
     }
 }
 
@@ -501,10 +512,10 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
         envCtx->gloomySky = 3;
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->gloomySky]); i++) {
             entry = &D_8011FC1C[envCtx->gloomySky][i];
-            if (gSaveContext.environmentTime >= entry->minTime &&
-                (gSaveContext.environmentTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
+            if (gSaveContext.skyboxTime >= entry->minTime &&
+                (gSaveContext.skyboxTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
                 if (entry->unk_04 != 0) {
-                    envCtx->unk_13 = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                    envCtx->unk_13 = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
                 } else {
                     envCtx->unk_13 = 0;
                 }
@@ -514,16 +525,16 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
     } else if (arg0 == 1 && !envCtx->skyDisabled) {
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->gloomySky]); i++) {
             entry = &D_8011FC1C[envCtx->gloomySky][i];
-            if (gSaveContext.environmentTime >= entry->minTime &&
-                (gSaveContext.environmentTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
+            if (gSaveContext.skyboxTime >= entry->minTime &&
+                (gSaveContext.skyboxTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
                 D_8011FB3C = entry->unk_04;
                 if (envCtx->gloomySky) {
                     entry = &D_8011FC1C[envCtx->gloomySky][i];
                     sp58 = something =
-                        Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                        Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
                 } else {
                     entry = &D_8011FC1C[envCtx->gloomySky][i];
-                    something = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                    something = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.skyboxTime) * 255;
                     if (something < 0x80) {
                         sp58 = 0xFF;
                     } else {
@@ -679,16 +690,16 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Printf(&printer, "%s", "VRBOXTIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    time = gSaveContext.environmentTime;
+    time = gSaveContext.skyboxTime;
     GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
 
-    if ((gSaveContext.environmentTime & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
+    if ((gSaveContext.skyboxTime & 0x1F) >= 0x10 || gTimeIncrement >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    time = gSaveContext.environmentTime;
+    time = gSaveContext.skyboxTime;
     GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
 
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
@@ -704,7 +715,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Destroy(&printer);
 }
 
-// void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
+// void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext*
+// pauseCtx,
 //                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
 //     f32 sp8C;
 //     f32 sp88;
@@ -898,7 +910,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                 func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
 //                 gSaveContext.nextDayTime = 0xFFFF;
 //             }
-        
+
 //         }
 
 //         if ((pauseCtx->state == 0) && (gameOverCtx->state == 0) && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
@@ -912,9 +924,9 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //         }
 
 //         if (((gSaveContext.sceneSetupIndex < 5 && gTimeIncrement == 0) ||
-//              gSaveContext.dayTime <= gSaveContext.environmentTime) &&
+//              gSaveContext.dayTime <= gSaveContext.skyboxTime) &&
 //             gSaveContext.dayTime > 0xAAA && gTimeIncrement < 0) {
-//             gSaveContext.environmentTime = gSaveContext.dayTime;
+//             gSaveContext.skyboxTime = gSaveContext.dayTime;
 //         }
 
 //         if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime < 0x4555) {
@@ -922,7 +934,6 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //         } else {
 //             gSaveContext.nightFlag = false;
 //         }
-
 
 //         if (SREG(0) != 0 || CREG(2) != 0) {
 //             Gfx* opaHead;
@@ -950,7 +961,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //         // left off here
 //         if (temp_v1_3 != 0xFE) {
 //             if ((envCtx->unk_1E == 0) && (temp_v1_3 == 0xFF)) {
-//                 temp_t4 = phi_t5_2->environmentTime;
+//                 temp_t4 = phi_t5_2->skyboxTime;
 //                 phi_a0 = 0;
 //             loop_52:
 //                 temp_lo = phi_a0 * 6;
@@ -1045,7 +1056,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                             phi_f18_2 = temp_f18_3 + 4294967296.0f;
 //                         }
 //                         temp_t8_2 = phi_f18_2 +
-//                                     (((temp_t2_3 + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) * temp_f0);
+//                                     (((temp_t2_3 + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) *
+//                                     temp_f0);
 //                         sp50 = temp_t8_2;
 //                         temp_a0_4 = &D_8011FB48[envCtx->unk_20] + temp_lo;
 //                         temp_a2_3 = (temp_t2_3 + (temp_a0_4->unk4 * 0x16) + phi_v0_3)->unk6;
@@ -1055,18 +1067,18 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                             phi_f8 = temp_f8_2 + 4294967296.0f;
 //                         }
 //                         temp_t9_4 =
-//                             phi_f8 + (((temp_t2_3 + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) * temp_f0);
+//                             phi_f8 + (((temp_t2_3 + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) *
+//                             temp_f0);
 //                         sp51 = temp_t9_4;
-//                         temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) * temp_f14_4);
-//                         temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_a1_4 = (temp_t2_3 + (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC;
-//                         temp_f4 = temp_a1_4;
-//                         phi_f4 = temp_f4;
-//                         if (temp_a1_4 < 0) {
+//                         temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) *
+//                         temp_f14_4); temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo; temp_a1_4 = (temp_t2_3 +
+//                         (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC; temp_f4 = temp_a1_4; phi_f4 = temp_f4; if
+//                         (temp_a1_4 < 0) {
 //                             phi_f4 = temp_f4 + 4294967296.0f;
 //                         }
 //                         temp_t8_3 =
-//                             phi_f4 + (((temp_t2_3 + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) * temp_f0);
+//                             phi_f4 + (((temp_t2_3 + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) *
+//                             temp_f0);
 //                         sp50 = temp_t8_3;
 //                         temp_a0_5 = &D_8011FB48[envCtx->unk_20] + temp_lo;
 //                         temp_a2_4 = (temp_t2_3 + (temp_a0_5->unk4 * 0x16) + phi_v0_3)->unkC;
@@ -1077,11 +1089,11 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                         }
 //                         temp_v0_10 = (phi_v0_3 + 1) & 0xFFFF;
 //                         temp_t9_5 = phi_f10_2 +
-//                                     (((temp_t2_3 + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) * temp_f0);
+//                                     (((temp_t2_3 + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) *
+//                                     temp_f0);
 //                         sp51 = temp_t9_5;
-//                         temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) * temp_f14_4);
-//                         phi_v0_3 = temp_v0_10;
-//                         if (temp_v0_10 < 3) {
+//                         temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) *
+//                         temp_f14_4); phi_v0_3 = temp_v0_10; if (temp_v0_10 < 3) {
 //                             goto loop_69;
 //                         }
 //                         phi_v0_4 = 0;
@@ -1094,7 +1106,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                             phi_f18_3 = temp_f18_4 + 4294967296.0f;
 //                         }
 //                         temp_t8_4 = phi_f18_3 +
-//                                     (((temp_t2_3 + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) * temp_f0);
+//                                     (((temp_t2_3 + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) *
+//                                     temp_f0);
 //                         sp50 = temp_t8_4;
 //                         temp_a0_6 = &D_8011FB48[envCtx->unk_20] + temp_lo;
 //                         temp_a2_5 = (temp_t2_3 + (temp_a0_6->unk4 * 0x16) + phi_v0_4)->unkF;
@@ -1104,7 +1117,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                             phi_f8_2 = temp_f8_3 + 4294967296.0f;
 //                         }
 //                         temp_t9_6 = phi_f8_2 +
-//                                     (((temp_t2_3 + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) * temp_f0);
+//                                     (((temp_t2_3 + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) *
+//                                     temp_f0);
 //                         sp51 = temp_t9_6;
 //                         temp_v0_11 = (phi_v0_4 + 1) & 0xFFFF;
 //                         (&envCtx->unk_00[phi_v0_4])[0xCF] =
@@ -1124,11 +1138,10 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                         envCtx->unk_D2 = sp4C + ((sp4E - sp4C) * temp_f14_4);
 //                         temp_v1_10 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
 //                         temp_v0_13 = (temp_t2_3 + (temp_v1_10->unk4 * 0x16))->unk14;
-//                         sp4C = temp_v0_13 + (((temp_t2_3 + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) * temp_f0);
-//                         temp_a0_8 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a1_7 = (temp_t2_3 + (temp_a0_8->unk4 * 0x16))->unk14;
-//                         sp4E = temp_a1_7 + (((temp_t2_3 + (temp_a0_8->unk5 * 0x16))->unk14 - temp_a1_7) * temp_f0);
-//                         envCtx->unk_D4 = sp4C + ((sp4E - sp4C) * temp_f14_4);
+//                         sp4C = temp_v0_13 + (((temp_t2_3 + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) *
+//                         temp_f0); temp_a0_8 = &D_8011FB48[envCtx->unk_20] + temp_lo; temp_a1_7 = (temp_t2_3 +
+//                         (temp_a0_8->unk4 * 0x16))->unk14; sp4E = temp_a1_7 + (((temp_t2_3 + (temp_a0_8->unk5 *
+//                         0x16))->unk14 - temp_a1_7) * temp_f0); envCtx->unk_D4 = sp4C + ((sp4E - sp4C) * temp_f14_4);
 //                         phi_t3 = &gGameInfo;
 //                         if ((&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5 >= envCtx->nbLightSettings) {
 //                             sp34 = temp_lo;
@@ -1155,14 +1168,13 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                 loop_89:
 //                     temp_v0_14 = &envCtx->unk_00[phi_a0_2];
 //                     temp_v0_14[0xC0] = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2);
-//                     temp_v0_14[0xC3] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk3;
-//                     temp_v0_14[0xC6] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk6;
-//                     temp_v0_14[0xC9] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk9;
-//                     temp_v0_14[0xCC] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkC;
-//                     temp_a0_9 = (phi_a0_2 + 1) & 0xFFFF;
-//                     temp_v0_14[0xCF] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkF;
-//                     phi_a0_2 = temp_a0_9;
-//                     if (temp_a0_9 < 3) {
+//                     temp_v0_14[0xC3] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
+//                     phi_a0_2)->unk3; temp_v0_14[0xC6] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD *
+//                     0x16) + phi_a0_2)->unk6; temp_v0_14[0xC9] = (globalCtx->envCtx.lightSettingsList +
+//                     (envCtx->unk_BD * 0x16) + phi_a0_2)->unk9; temp_v0_14[0xCC] =
+//                     (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkC; temp_a0_9 =
+//                     (phi_a0_2 + 1) & 0xFFFF; temp_v0_14[0xCF] = (globalCtx->envCtx.lightSettingsList +
+//                     (envCtx->unk_BD * 0x16) + phi_a0_2)->unkF; phi_a0_2 = temp_a0_9; if (temp_a0_9 < 3) {
 //                         goto loop_89;
 //                     }
 //                     temp_v0_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
@@ -1207,7 +1219,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                          envCtx->unk_D8);
 //                     temp_a1_8 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk3;
 //                     temp_v0_17[0xC3] =
-//                         temp_a1_8 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk3 -
+//                         temp_a1_8 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
+//                         phi_a0_3)->unk3 -
 //                                       temp_a1_8) *
 //                                      envCtx->unk_D8);
 //                     temp_v1_13 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk6;
@@ -1222,7 +1235,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                                   envCtx->unk_D8);
 //                     temp_a1_9 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk9;
 //                     temp_v0_17[0xC9] =
-//                         temp_a1_9 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk9 -
+//                         temp_a1_9 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
+//                         phi_a0_3)->unk9 -
 //                                       temp_a1_9) *
 //                                      envCtx->unk_D8);
 //                     temp_v1_14 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkC;
@@ -1232,7 +1246,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                         phi_f10_3 = temp_f10_3 + 4294967296.0f;
 //                     }
 //                     temp_v0_17[0xCC] =
-//                         phi_f10_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkC -
+//                         phi_f10_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
+//                         phi_a0_3)->unkC -
 //                                       temp_v1_14) *
 //                                      envCtx->unk_D8);
 //                     temp_a1_10 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkF;
@@ -1243,7 +1258,8 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 //                     }
 //                     temp_a0_10 = (phi_a0_3 + 1) & 0xFFFF;
 //                     temp_v0_17[0xCF] =
-//                         phi_f4_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkF -
+//                         phi_f4_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkF
+//                         -
 //                                      temp_a1_10) *
 //                                     envCtx->unk_D8);
 //                     phi_a0_3 = temp_a0_10;
@@ -1526,12 +1542,6 @@ void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCt
     }
 }
 
-typedef enum {
-    /* 0 */ LENS_FLARE_CIRCLE0,
-    /* 1 */ LENS_FLARE_CIRCLE1,
-    /* 2 */ LENS_FLARE_RING
-} LensFlareType;
-
 #ifdef NON_MATCHING
 void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                           Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
@@ -1764,7 +1774,6 @@ f32 func_800746DC() {
 }
 
 #ifdef NON_EQUIVALENT
-// minor instruction / register / stack differences
 void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx) {
     u8 firstIterDone;
     s16 i;
@@ -1931,84 +1940,102 @@ void Kankyo_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, u8 bl
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3079);
 }
 
-// update lightning
-void func_800750C0(GlobalContext* globalCtx) {
-    if (globalCtx->envCtx.lightning != 0) {
-        switch (D_8015FD70.unk_00) {
-            case 0:
+void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
+    if (globalCtx->envCtx.lightningMode != LIGHTNING_MODE_OFF) {
+        switch (gLightningStrike.state) {
+            case LIGHTNING_STRIKE_WAIT:
+                // every frame theres a 10% chance of the timer advancing 50 frames
                 if (Math_Rand_ZeroOne() < 0.1f) {
-                    D_8015FD70.unk_08 += 50.0f;
+                    gLightningStrike.delayTimer += 50.0f;
                 }
-                D_8015FD70.unk_08 += Math_Rand_ZeroOne();
-                if (D_8015FD70.unk_08 > 500.0f) {
-                    D_8015FD70.red = 200;
-                    D_8015FD70.green = 200;
-                    D_8015FD70.blue = 255;
-                    D_8015FD70.unk_04 = 200;
-                    D_8015FD70.unk_08 = 0.0f;
-                    func_800753C4(globalCtx, (u8)(Math_Rand_ZeroOne() * 2.9f) + 1);
-                    D_8015FD7C = 0;
-                    D_8015FD70.unk_00++;
+
+                gLightningStrike.delayTimer += Math_Rand_ZeroOne();
+
+                if (gLightningStrike.delayTimer > 500.0f) {
+                    gLightningStrike.flashRed = 200;
+                    gLightningStrike.flashGreen = 200;
+                    gLightningStrike.flashBlue = 255;
+                    gLightningStrike.flashAlphaTarget = 200;
+
+                    gLightningStrike.delayTimer = 0.0f;
+                    Kankyo_AddLightningBolts(globalCtx, (u8)(Math_Rand_ZeroOne() * 2.9f) + 1);
+                    sLightningFlashAlpha = 0;
+                    gLightningStrike.state++;
                 }
                 break;
-            case 1:
-                D_8015FD70.red = 200;
-                D_8015FD70.green = 200;
-                D_8015FD70.blue = 255;
+            case LIGHTNING_STRIKE_START:
+                gLightningStrike.flashRed = 200;
+                gLightningStrike.flashGreen = 200;
+                gLightningStrike.flashBlue = 255;
+
                 globalCtx->envCtx.unk_8C[0][0] += 80;
                 globalCtx->envCtx.unk_8C[0][1] += 80;
                 globalCtx->envCtx.unk_8C[0][2] += 100;
-                D_8015FD7C += 100;
-                if (D_8015FD7C >= D_8015FD70.unk_04) {
+
+                sLightningFlashAlpha += 100;
+
+                if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
                     func_800F6D58(15, 0, 0);
-                    D_8015FD70.unk_00++;
-                    D_8015FD70.unk_04 = 0;
+                    gLightningStrike.state++;
+                    gLightningStrike.flashAlphaTarget = 0;
                 }
                 break;
-            case 2:
+            case LIGHTNING_STRIKE_END:
                 if (globalCtx->envCtx.unk_8C[0][0] > 0) {
                     globalCtx->envCtx.unk_8C[0][0] -= 10;
                     globalCtx->envCtx.unk_8C[0][1] -= 10;
                 }
+
                 if (globalCtx->envCtx.unk_8C[0][2] > 0) {
                     globalCtx->envCtx.unk_8C[0][2] -= 10;
                 }
-                D_8015FD7C -= 10;
-                if (D_8015FD70.unk_04 >= D_8015FD7C) {
+
+                sLightningFlashAlpha -= 10;
+
+                if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
                     globalCtx->envCtx.unk_8C[0][0] = 0;
                     globalCtx->envCtx.unk_8C[0][1] = 0;
                     globalCtx->envCtx.unk_8C[0][2] = 0;
-                    D_8015FD70.unk_00 = 0;
-                    if (globalCtx->envCtx.lightning == 2) {
-                        globalCtx->envCtx.lightning = 0;
+
+                    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
+
+                    if (globalCtx->envCtx.lightningMode == LIGHTNING_MODE_LAST) {
+                        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_OFF;
                     }
                 }
                 break;
         }
     }
 
-    if (D_8015FD70.unk_00 != 0) {
-        Kankyo_DrawLightningFlash(globalCtx, D_8015FD70.red, D_8015FD70.green, D_8015FD70.blue, D_8015FD7C);
+    if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
+        Kankyo_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
+                                  gLightningStrike.flashBlue, sLightningFlashAlpha);
     }
 }
 
-// add lightning
-void func_800753C4(GlobalContext* globalCtx, u8 max) {
-    s16 count = 0;
+/**
+ * Request the number of lightning strikes specified by `numStrikes`
+ * Note: only 3 lightning strikes can be active at the same time.
+ */
+void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 num) {
+    s16 boltsAdded = 0;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
-        if (D_8015FD10[i].unk_00 == 0xFF) {
-            D_8015FD10[i].unk_00 = 0;
-            count++;
+    for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
+        if (sLightningBolts[i].state == LIGHTNING_BOLT_INACTIVE) {
+            sLightningBolts[i].state = LIGHTNING_BOLT_START;
+            boltsAdded++;
 
-            if (count >= max) {
+            if (boltsAdded >= num) {
                 break;
             }
         }
     }
 }
 
+/**
+ * Draw any active lightning bolt entries contained in `sLightningBolts`
+ */
 void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     static void* lightningTextures[] = {
         &D_04029F30, &D_0402A530, &D_0402AB30, &D_0402B130, &D_0402B730, &D_0402BD30, &D_0402C330, &D_0402C930, NULL,
@@ -2019,62 +2046,62 @@ void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     f32 x;
     f32 z;
     s32 pad[2];
-    Vec3f unused_8011FE88 = { 0.0f, 0.0f, 0.0f };
-    Vec3f unused_8011FE94 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unused1 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unused2 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3253);
 
-    for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
-        switch (D_8015FD10[i].unk_00) {
-            case 0:
+    for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
+        switch (sLightningBolts[i].state) {
+            case LIGHTNING_BOLT_START:
                 dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
                 dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
 
                 x = dx / sqrtf(SQ(dx) + SQ(dz));
                 z = dz / sqrtf(SQ(dx) + SQ(dz));
 
-                D_8015FD10[i].unk_10.x = globalCtx->view.eye.x + x * 9500.0f;
-                D_8015FD10[i].unk_10.y = Math_Rand_ZeroOne() * 1000.0f + 4000.0f;
-                D_8015FD10[i].unk_10.z = globalCtx->view.eye.z + z * 9500.0f;
+                sLightningBolts[i].pos.x = globalCtx->view.eye.x + x * 9500.0f;
+                sLightningBolts[i].pos.y = Math_Rand_ZeroOne() * 1000.0f + 4000.0f;
+                sLightningBolts[i].pos.z = globalCtx->view.eye.z + z * 9500.0f;
 
-                D_8015FD10[i].unk_04.x = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
-                D_8015FD10[i].unk_04.y = 0.0f;
-                D_8015FD10[i].unk_04.z = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
+                sLightningBolts[i].offset.x = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
+                sLightningBolts[i].offset.y = 0.0f;
+                sLightningBolts[i].offset.z = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
 
-                D_8015FD10[i].textureIndex = 0;
-                D_8015FD10[i].unk_1C = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
-                D_8015FD10[i].unk_1D = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
-                D_8015FD10[i].unk_1F = 3 * (i + 1);
-                D_8015FD10[i].unk_00++;
+                sLightningBolts[i].textureIndex = 0;
+                sLightningBolts[i].pitch = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
+                sLightningBolts[i].roll = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
+                sLightningBolts[i].delayTimer = 3 * (i + 1);
+                sLightningBolts[i].state++;
                 break;
-            case 1:
-                D_8015FD10[i].unk_1F--;
+            case LIGHTNING_BOLT_WAIT:
+                sLightningBolts[i].delayTimer--;
 
-                if (D_8015FD10[i].unk_1F <= 0) {
-                    D_8015FD10[i].unk_00++;
+                if (sLightningBolts[i].delayTimer <= 0) {
+                    sLightningBolts[i].state++;
                 }
                 break;
-            case 2:
-                if (D_8015FD10[i].textureIndex < 7) {
-                    D_8015FD10[i].textureIndex++;
+            case LIGHTNING_BOLT_DRAW:
+                if (sLightningBolts[i].textureIndex < 7) {
+                    sLightningBolts[i].textureIndex++;
                 } else {
-                    D_8015FD10[i].unk_00 = 0xFF;
+                    sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
                 }
                 break;
         }
 
-        if (D_8015FD10[i].unk_00 == 2) {
-            Matrix_Translate(D_8015FD10[i].unk_10.x + D_8015FD10[i].unk_04.x,
-                             D_8015FD10[i].unk_10.y + D_8015FD10[i].unk_04.y,
-                             D_8015FD10[i].unk_10.z + D_8015FD10[i].unk_04.z, MTXMODE_NEW);
-            Matrix_RotateX(D_8015FD10[i].unk_1C * (M_PI / 180.0f), MTXMODE_APPLY);
-            Matrix_RotateZ(D_8015FD10[i].unk_1D * (M_PI / 180.0f), MTXMODE_APPLY);
+        if (sLightningBolts[i].state == LIGHTNING_BOLT_DRAW) {
+            Matrix_Translate(sLightningBolts[i].pos.x + sLightningBolts[i].offset.x,
+                             sLightningBolts[i].pos.y + sLightningBolts[i].offset.y,
+                             sLightningBolts[i].pos.z + sLightningBolts[i].offset.z, MTXMODE_NEW);
+            Matrix_RotateX(sLightningBolts[i].pitch * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(sLightningBolts[i].roll * (M_PI / 180.0f), MTXMODE_APPLY);
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 3333),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[D_8015FD10[i].textureIndex]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
             func_80094C50(globalCtx->state.gfxCtx);
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, &D_0402CF30);
@@ -2374,105 +2401,406 @@ void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 al
 #ifdef NON_EQUIVALENT
 // incomplete
 void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
-    static char D_8011FEC4[] = { 0xD2, 0x9C, 0x55, 0xFF, 0xC8, 0x64, 0xE1, 0xA0, 0x32, 0x69, 0x5A, 0x28 };
-    static char D_8011FED0[] = { 0x9B, 0x6A, 0x23, 0xC8, 0x96, 0x32, 0xAA, 0x6E,
-                                 0x00, 0x32, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    s32 primA;
+    s32 envA;
+    u32 frames;
 
-    u8 unk_E7 = globalCtx->envCtx.unk_E7;
-    u8 unk_E8 = globalCtx->envCtx.unk_E8;
-    s32 v1;
-    s32 a1;
-    s32 v0;
-    s32 t0;
-    s32 t1;
-    s32 t2;
-    s32 t3;
-    f32 f14;
+    u8 spA6;
+    u8 spA5;
+    u8 spA4;
+    u8 spA2;
+    u8 spA1;
+    u8 spA0;
+    f32 sp98;
+    u16 sp96;
+    u16 sp94;
+    u16 sp92;
+    GraphicsContext* sp8C;
+    Gfx* sp7C;
+    Gfx* sp68;
+    void* sp58;
+    Gfx* temp_t6_3;
+    Gfx* temp_v0_3;
+    Gfx* temp_v0_4;
+    Gfx* temp_v0_5;
+    Gfx* temp_v0_6;
+    Gfx* temp_v0_7;
+    Gfx* temp_v0_8;
+    Gfx* temp_v0_9;
+    GraphicsContext* temp_a1_3;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f10;
+    f32 temp_f14;
+    f32 temp_f14_2;
+    f32 temp_f18;
+    f32 temp_f18_2;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    f32 temp_f4;
+    f32 temp_f4_2;
+    f32 temp_f4_3;
+    f32 temp_f4_4;
+    f32 temp_f4_5;
+    f32 temp_f6;
+    f32 temp_f8;
+    f32 temp_f8_2;
+    s32 temp_a0;
+    s32 temp_a1;
+    s32 temp_a2_2;
+    s32 temp_a2_3;
+    s32 temp_a3_2;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    s32 temp_v1_3;
+    u8 temp_a2;
+    u8 temp_a3;
+    u8 temp_t0;
+    u8 temp_t1;
+    u8 temp_t2;
+    u8 temp_t3;
+    u8 temp_t4_2;
+    u8 temp_t6;
+    u8 temp_t6_2;
+    u8 temp_t7;
+    u8 temp_t7_2;
+    u8 temp_t7_3;
+    u8 temp_t7_4;
+    u8 temp_t7_5;
+    u8 temp_t8;
+    u8 temp_t8_2;
+    u8 temp_t8_3;
+    u8 temp_t9;
+    void* temp_a0_2;
+    void* temp_a1_2;
+    void* temp_t4;
+    void* temp_v0;
+    void* temp_v0_2;
+    void* temp_v1_4;
+    void* temp_v1_5;
+    s32 phi_v1;
+    s32 primA1;
+    s32 phi_v0;
+    s32 phi_a1;
+    s32 phi_v0_2;
+    u8 primA2;
+    u8 phi_t1;
+    f32 phi_f8;
+    f32 phi_f18;
+    f32 phi_f4;
+    f32 phi_f6;
+    f32 phi_f4_2;
+    f32 phi_f14;
+    u32 phi_t3;
+    u32 phi_t2;
+    u32 phi_t1_2;
+    s32 phi_v1_3;
+    s32 phi_v1_4;
+    f32 phi_f18_2;
+    f32 phi_f4_3;
+    f32 phi_f8_2;
+    f32 phi_f4_4;
+    f32 phi_f10;
+    f32 phi_f4_5;
 
     switch (sandstormState) {
         case 3:
-            if (globalCtx->sceneNum == SCENE_SPOT13 && globalCtx->roomCtx.curRoom.num == 0) {
-                if (unk_E8 > 0x80) {
-                    a1 = 0;
-                    v1 = 0xFF;
+            // if in room 0 of haunted wasteland
+            if ((globalCtx->sceneNum == SCENE_SPOT13) && (globalCtx->roomCtx.curRoom.num == 0)) {
+                if (envA > 128) {
+                    primA = 255;
+                    envA = 0;
                 } else {
-                    a1 = 0;
-                    v1 = unk_E8 >> 1;
+                    primA = envA / 2; // shift?
+                    envA = 0;
                 }
             } else {
-                a1 = 0x80;
-                v1 = globalCtx->state.frames & 0x7F;
-                if (v1 > 0x40) {
-                    v1 = 0x80 - v1;
+                frames = globalCtx->state.frames & 0x7F;
+
+                if (frames > 64) {
+                    frames = 128 - frames;
                 }
-                v1 += 0x49;
+
+                primA = frames + 73;
+                envA = 128;
             }
             break;
         case 1:
-            v1 = 0xFF;
-            if (unk_E7 >= 0xFF) {
-                a1 = 0xFF;
+            if (primA >= 255) {
+                primA = 255;
+                envA = 255;
             } else {
-                a1 = 0x80;
+                primA = 255;
+                envA = 128;
             }
             break;
         case 2:
-            a1 = 0x80;
-            if (unk_E8 > 0x80) {
-                v1 = 0xFF;
+            if (envA >= 0x81) {
+                phi_v1 = 0xFF;
             } else {
-                v1 = globalCtx->state.frames & 0x7F;
-                if (v1 > 0x40) {
-                    v1 = 0x80 - v1;
+                temp_v1_2 = globalCtx->state.frames & 0x7F;
+                phi_v1_3 = temp_v1_2;
+                if (temp_v1_2 >= 0x41) {
+                    phi_v1_3 = 0x80 - temp_v1_2;
                 }
-                v1 += 0x49;
-                if (v1 >= unk_E7 && v1 != 0xFF) {
-                    globalCtx->envCtx.unk_E6 = 3;
+                phi_v1 = phi_v1_3 + 0x49;
+            }
+            primA1 = phi_v1;
+            envA1 = 0x80;
+            if (phi_v1 >= primA) {
+                primA1 = phi_v1;
+                envA1 = 0x80;
+                if (phi_v1 != 0xFF) {
+                    globalCtx->envCtx.sandstormState = 3;
+                    primA1 = phi_v1;
+                    envA1 = 0x80;
                 }
             }
             break;
         case 4:
-            a1 = 0;
-            if (unk_E8 > 0x80) {
-                v1 = 0xFF;
-            } else {
-                v1 = unk_E8 >> 1;
-            }
-            if (unk_E7 == 0) {
-                globalCtx->envCtx.unk_E6 = 0;
-            }
             break;
     }
 
-    if (ABS(unk_E7 - v1) < 9) {
-        t0 = v1;
-    } else if (v1 < unk_E7) {
-        t0 = v1 - 9;
+    ctx10000 = globalCtx + 0x10000;
+    primA = globalCtx->envCtx.sandstormPrimA;
+    envA = globalCtx->envCtx.sandstormEnvA;
+    state = sandstormState & 0xFF;
+
+    if (state != 1) {
+        if (state != 2) {
+            if (state != 3) {
+                if (state != 4) {
+                    primA1 = spB4;
+                    envA1 = spB0;
+                } else {
+                    if (envA >= 0x81) {
+                        primA1 = 0xFF;
+                    } else {
+                        primA1 = envA >> 1;
+                    }
+                    envA1 = 0;
+                    if (primA == 0) {
+                        globalCtx->envCtx.sandstormState = 0;
+                        envA1 = 0;
+                    }
+                }
+                // case 3 (done)
+            } else if ((globalCtx->sceneNum == 0x5E) && (globalCtx->roomCtx.curRoom.num == 0)) {
+                if (envA >= 0x81) {
+                    primA1 = 0xFF;
+                    envA1 = 0;
+                } else {
+                    primA1 = envA >> 1;
+                    envA1 = 0;
+                }
+            } else {
+                temp_v1 = globalCtx->state.frames & 0x7F;
+                phi_v1_4 = temp_v1;
+                if (temp_v1 >= 0x41) {
+                    phi_v1_4 = 0x80 - temp_v1;
+                }
+                primA1 = phi_v1_4 + 0x49;
+                envA1 = 0x80;
+            }
+        } else {
+            if (envA >= 0x81) {
+                phi_v1 = 0xFF;
+            } else {
+                temp_v1_2 = globalCtx->state.frames & 0x7F;
+                phi_v1_3 = temp_v1_2;
+                if (temp_v1_2 >= 0x41) {
+                    phi_v1_3 = 0x80 - temp_v1_2;
+                }
+                phi_v1 = phi_v1_3 + 0x49;
+            }
+            primA1 = phi_v1;
+            envA1 = 0x80;
+            if (phi_v1 >= primA) {
+                primA1 = phi_v1;
+                envA1 = 0x80;
+                if (phi_v1 != 0xFF) {
+                    globalCtx->envCtx.sandstormState = 3;
+                    primA1 = phi_v1;
+                    envA1 = 0x80;
+                }
+            }
+        }
+    } else if (primA >= 0xFF) {
+        primA1 = 0xFF;
+        envA1 = 0xFF;
     } else {
-        t0 = v1 + 9;
+        primA1 = 0xFF;
+        envA1 = 0x80;
     }
 
-    if (ABS(unk_E8 - a1) < 9) {
-        t1 = a1;
-    } else if (a1 < unk_E7) {
-        t1 = a1 - 9;
+    temp_a0 = primA - primA1;
+    if (temp_a0 >= 0) {
+        phi_v0 = temp_a0;
     } else {
-        t1 = a1 + 9;
+        phi_v0 = -temp_a0;
     }
+    if (phi_v0 < 9) {
+        primA2 = primA1;
+    } else if (primA1 < primA) {
+        primA2 = primA - 9;
+    } else {
+        primA2 = primA + 9;
+    }
+    temp_v1_3 = envA - envA1;
+    phi_v0_2 = -temp_v1_3;
+    if (temp_v1_3 >= 0) {
+        phi_v0_2 = temp_v1_3;
+    }
+    if (phi_v0_2 < 9) {
+        envA2 = envA1;
+    } else if (envA1 < envA) {
+        envA2 = envA - 9;
+    } else {
+        envA2 = envA + 9;
+    }
+    globalCtx->envCtx.sandstormPrimA = primA2;
+    globalCtx->envCtx.sandstormEnvA = envA2;
+    temp_f14 = (512.0f - (primA2 + envA2)) * 0.0234375f;
+    phi_f14 = temp_f14;
+    if (temp_f14 > 6.0f) {
+        phi_f14 = 6.0f;
+    }
+    if ((globalCtx->envCtx.unk_1E != 0) || (globalCtx->envCtx.unk_BF != 0xFF)) {
+        sp58 = ctx10000;
+        spA4 = D_8011FEC4[3];
+        spA5 = D_8011FEC4[4];
+        spA6 = D_8011FEC4[5];
+        phi_t3 = D_8011FED0[5];
+        phi_t2 = D_8011FED0[4];
+        envA2_2 = D_8011FED0[3];
+    } else {
+        sp58 = ctx10000;
+        temp_t0 = D_8011FDCC;
+        temp_t4_2 = D_8011FDD0;
+        if (temp_t4_2 == temp_t0) {
+            temp_a2_2 = temp_t0 * 3;
+            temp_v0 = D_8011FEC4 + temp_a2_2;
+            temp_v1_4 = D_8011FED0 + temp_a2_2;
+            spA4 = temp_v0->unk0;
+            spA5 = temp_v0->unk1;
+            spA6 = temp_v0->unk2;
+            phi_t3 = temp_v1_4->unk2;
+            phi_t2 = temp_v1_4->unk1;
+            envA2_2 = temp_v1_4->unk0;
+        } else {
+            temp_a3_2 = temp_t4_2 * 3;
+            temp_a0_2 = D_8011FEC4 + temp_a3_2;
+            temp_t7 = temp_a0_2->unk0;
+            temp_f0 = D_8011FDD4;
+            temp_f8 = temp_t7;
+            temp_a2_3 = temp_t0 * 3;
+            temp_f2 = 1.0f - temp_f0;
+            temp_v0_2 = D_8011FEC4 + temp_a2_3;
+            phi_f8 = temp_f8;
+            if (temp_t7 < 0) {
+                phi_f8 = temp_f8 + 4294967296.0f;
+            }
+            temp_t7_2 = temp_a0_2->unk1;
+            temp_f18 = temp_t7_2;
+            spA4 = (phi_f8 * temp_f0) + (temp_v0_2->unk0 * temp_f2);
+            phi_f18 = temp_f18;
+            if (temp_t7_2 < 0) {
+                phi_f18 = temp_f18 + 4294967296.0f;
+            }
+            temp_t8 = temp_v0_2->unk1;
+            temp_f4 = temp_t8;
+            phi_f4 = temp_f4;
+            if (temp_t8 < 0) {
+                phi_f4 = temp_f4 + 4294967296.0f;
+            }
+            temp_t7_3 = temp_a0_2->unk2;
+            temp_f6 = temp_t7_3;
+            spA5 = (phi_f18 * temp_f0) + (phi_f4 * temp_f2);
+            phi_f6 = temp_f6;
+            if (temp_t7_3 < 0) {
+                phi_f6 = temp_f6 + 4294967296.0f;
+            }
+            temp_t8_2 = temp_v0_2->unk2;
+            temp_f4_2 = temp_t8_2;
+            phi_f4_2 = temp_f4_2;
+            if (temp_t8_2 < 0) {
+                phi_f4_2 = temp_f4_2 + 4294967296.0f;
+            }
+            temp_a1_2 = D_8011FED0 + temp_a3_2;
+            temp_t7_4 = temp_a1_2->unk0;
+            temp_v1_5 = D_8011FED0 + temp_a2_3;
+            temp_f10 = temp_t7_4;
+            spA6 = (phi_f6 * temp_f0) + (phi_f4_2 * temp_f2);
+            phi_f10 = temp_f10;
+            if (temp_t7_4 < 0) {
+                phi_f10 = temp_f10 + 4294967296.0f;
+            }
+            temp_t8_3 = temp_v1_5->unk0;
+            temp_f4_3 = temp_t8_3;
+            phi_f4_5 = temp_f4_3;
+            if (temp_t8_3 < 0) {
+                phi_f4_5 = temp_f4_3 + 4294967296.0f;
+            }
+            temp_t6 = temp_a1_2->unk1;
+            temp_f8_2 = temp_t6;
+            phi_f8_2 = temp_f8_2;
+            if (temp_t6 < 0) {
+                phi_f8_2 = temp_f8_2 + 4294967296.0f;
+            }
+            temp_t7_5 = temp_v1_5->unk1;
+            temp_f4_4 = temp_t7_5;
+            phi_f4_4 = temp_f4_4;
+            if (temp_t7_5 < 0) {
+                phi_f4_4 = temp_f4_4 + 4294967296.0f;
+            }
+            temp_t9 = temp_a1_2->unk2;
+            temp_f18_2 = temp_t9;
+            phi_f18_2 = temp_f18_2;
+            if (temp_t9 < 0) {
+                phi_f18_2 = temp_f18_2 + 4294967296.0f;
+            }
+            temp_t6_2 = temp_v1_5->unk2;
+            temp_f4_5 = temp_t6_2;
+            phi_f4_3 = temp_f4_5;
+            if (temp_t6_2 < 0) {
+                phi_f4_3 = temp_f4_5 + 4294967296.0f;
+            }
+            phi_t3 = ((phi_f18_2 * temp_f0) + (phi_f4_3 * temp_f2)) & 0xFF;
+            phi_t2 = ((phi_f8_2 * temp_f0) + (phi_f4_4 * temp_f2)) & 0xFF;
+            envA2_2 = ((phi_f10 * temp_f0) + (phi_f4_5 * temp_f2)) & 0xFF;
+        }
+    }
+    temp_f0_2 = 6.0f - phi_f14;
+    temp_t1 = (((envA2_2 * phi_f14) + (temp_f0_2 * spA4)) * 0.16666667f) & 0xFF;
+    temp_t2 = (((phi_t2 * phi_f14) + (temp_f0_2 * spA5)) * 0.16666667f) & 0xFF;
+    temp_t3 = (((phi_t3 * phi_f14) + (temp_f0_2 * spA6)) * 0.16666667f) & 0xFF;
+    temp_f2_2 = D_8015FDB0;
+    sp96 = temp_f2_2 * 1.8333334f;
+    sp94 = temp_f2_2 * 1.5f;
+    sp92 = temp_f2_2 * 1.0f;
+    temp_a1_3 = globalCtx->state.gfxCtx;
+    sp98 = phi_f14;
+    spA2 = temp_t3;
+    spA1 = temp_t2;
+    spA0 = temp_t1;
+    sp8C = temp_a1_3;
 
-    globalCtx->envCtx.unk_E7 = t0;
-    globalCtx->envCtx.unk_E8 = t1;
-    f14 = CLAMP_MAX((512.0f - (t0 + t1)) * (3.0f / 128.0f), 6.0f);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 4044);
 
-    if (globalCtx->envCtx.unk_1E != 0 || globalCtx->envCtx.unk_BF != 0xFF) { // 7b00
-        consume(f14);
-    } else if (D_8011FDCC == D_8011FDD0) { // 7b2c
-        consume(f14);
-    } else { // 7b8c
-        consume(f14);
-    } // 7de4
+    POLY_XLU_DISP = func_80093F34(sp8C->polyXlu.p);
+    gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+    gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, spA4, spA5, spA6, globalCtx->envCtx.sandstormPrimA);
+    gDPSetEnvColor(POLY_XLU_DISP++, temp_t1, temp_t2, temp_t3, globalCtx->envCtx.sandstormEnvA);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, sp96 & 0xFFF, 0, 0x200, 0x20, 1, sp94 & 0xFFF,
+                                0xFFF - (sp92 & 0xFFF), 0x100, 0x40));
+    gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
+    gSPDisplayList(POLY_XLU_DISP++, D_0500CA70);
 
-    consume(t1, t2, t3);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 4068);
+
+    D_8015FDB0 += temp_f14_2;
 }
 #else
 char D_8011FEC4[] = { 0xD2, 0x9C, 0x55, 0xFF, 0xC8, 0x64, 0xE1, 0xA0, 0x32, 0x69, 0x5A, 0x28 };

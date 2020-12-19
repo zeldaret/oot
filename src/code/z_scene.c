@@ -367,7 +367,7 @@ void func_80098D5C(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x10: Time Settings
 void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime =
+        gSaveContext.skyboxTime = gSaveContext.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
     }
 
@@ -387,15 +387,15 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {
-        gSaveContext.environmentTime = (0, gSaveContext.dayTime);
-        if ((gSaveContext.environmentTime >= 0x2AAC) && (gSaveContext.environmentTime < 0x4555)) {
-            gSaveContext.environmentTime = 0x3556;
-        } else if ((gSaveContext.environmentTime >= 0x4555) && (gSaveContext.environmentTime < 0x5556)) {
-            gSaveContext.environmentTime = 0x5556;
-        } else if ((gSaveContext.environmentTime >= 0xAAAB) && (gSaveContext.environmentTime < 0xB556)) {
-            gSaveContext.environmentTime = 0xB556;
-        } else if ((gSaveContext.environmentTime >= 0xC001) && (gSaveContext.environmentTime < 0xCAAC)) {
-            gSaveContext.environmentTime = 0xCAAC;
+        gSaveContext.skyboxTime = (0, gSaveContext.dayTime);
+        if ((gSaveContext.skyboxTime >= 0x2AAC) && (gSaveContext.skyboxTime < 0x4555)) {
+            gSaveContext.skyboxTime = 0x3556;
+        } else if ((gSaveContext.skyboxTime >= 0x4555) && (gSaveContext.skyboxTime < 0x5556)) {
+            gSaveContext.skyboxTime = 0x5556;
+        } else if ((gSaveContext.skyboxTime >= 0xAAAB) && (gSaveContext.skyboxTime < 0xB556)) {
+            gSaveContext.skyboxTime = 0xB556;
+        } else if ((gSaveContext.skyboxTime >= 0xC001) && (gSaveContext.skyboxTime < 0xCAAC)) {
+            gSaveContext.skyboxTime = 0xCAAC;
         }
     }
 }

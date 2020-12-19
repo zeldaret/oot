@@ -257,7 +257,7 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != 0xFFFFU) {
         gSaveContext.dayTime = gSaveContext.nextDayTime;
-        gSaveContext.environmentTime = gSaveContext.nextDayTime;
+        gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
     if ((gSaveContext.dayTime >= 0xC001) || (gSaveContext.dayTime < 0x4555)) {
@@ -698,12 +698,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 12:
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E6 = 1;
+                        globalCtx->envCtx.sandstormState = 1;
                         globalCtx->transitionMode = 13;
                     } else {
-                        globalCtx->envCtx.unk_E6 = 2;
-                        globalCtx->envCtx.unk_E7 = 0xFF;
-                        globalCtx->envCtx.unk_E8 = 0xFF;
+                        globalCtx->envCtx.sandstormState = 2;
+                        globalCtx->envCtx.sandstormPrimA = 255;
+                        globalCtx->envCtx.sandstormEnvA = 255;
                         globalCtx->transitionMode = 13;
                     }
                     break;
@@ -712,14 +712,14 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        if (globalCtx->envCtx.unk_E7 < 0x6E) {
+                        if (globalCtx->envCtx.sandstormPrimA < 0x6E) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
                             globalCtx->transitionMode = 0;
                         }
                     } else {
-                        if (globalCtx->envCtx.unk_E8 == 0xFF) {
+                        if (globalCtx->envCtx.sandstormEnvA == 0xFF) {
                             if (0) {} // Improves codegen
                             globalCtx->state.running = 0;
                             SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -732,9 +732,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 14:
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        globalCtx->envCtx.unk_E6 = 4;
-                        globalCtx->envCtx.unk_E7 = 0xFF;
-                        globalCtx->envCtx.unk_E8 = 0xFF;
+                        globalCtx->envCtx.sandstormState = 4;
+                        globalCtx->envCtx.sandstormPrimA = 0xFF;
+                        globalCtx->envCtx.sandstormEnvA = 0xFF;
                         LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471); // "It's here!!!!!!!!!"
                         globalCtx->transitionMode = 15;
                     } else {
@@ -746,7 +746,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
-                        if (globalCtx->envCtx.unk_E7 <= 0) {
+                        if (globalCtx->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
@@ -1205,7 +1205,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {
-                    func_800750C0(globalCtx);
+                    Kankyo_UpdateLightningStrike(globalCtx);
                     Kankyo_DrawLightning(globalCtx, 0);
                 }
 
@@ -1278,8 +1278,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(88) != 0)) {
-                    if (globalCtx->envCtx.unk_E6 != 0) {
-                        Kankyo_DrawSandstorm(globalCtx, globalCtx->envCtx.unk_E6);
+                    if (globalCtx->envCtx.sandstormState != 0) {
+                        Kankyo_DrawSandstorm(globalCtx, globalCtx->envCtx.sandstormState);
                     }
                 }
 

@@ -42,7 +42,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         globalCtx->envCtx.gloomySkyEvent = 2; // end gloomy sky
         func_80077684(globalCtx);
     }
-    globalCtx->envCtx.lightning = 2; // end lightning
+    globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
 }
 
 void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -65,7 +65,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
     if ((gWeatherMode != 0) || globalCtx->envCtx.gloomySky != 0) {
         globalCtx->envCtx.unk_DE = 1;
     }
-    globalCtx->envCtx.lightning = 1; // start lightning
+    globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
     func_80077624(globalCtx);
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_ManageStorm);
 }
@@ -107,7 +107,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
             globalCtx->envCtx.gloomySkyEvent = 0;
             globalCtx->envCtx.unk_DE = 0;
         }
-        globalCtx->envCtx.lightning = 2; // end lightning
+        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
         Actor_Kill(&this->actor);
     }
 }

@@ -499,7 +499,7 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
             break;
     };
 
-    gSaveContext.environmentTime = gSaveContext.dayTime;
+    gSaveContext.skyboxTime = gSaveContext.dayTime;
     GfxPrint_Printf(printer, "Stage:\x8C%s", label);
 }
 

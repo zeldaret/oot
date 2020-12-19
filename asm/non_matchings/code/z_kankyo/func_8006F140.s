@@ -82,7 +82,7 @@ glabel Kankyo_Init
 /* AE63D8 8006F238 44812000 */  mtc1  $at, $f4
 /* AE63DC 8006F23C A2030010 */  sb    $v1, 0x10($s0)
 /* AE63E0 8006F240 A2030011 */  sb    $v1, 0x11($s0)
-/* AE63E4 8006F244 3C038016 */  lui   $v1, %hi(D_8015FD70) # $v1, 0x8016
+/* AE63E4 8006F244 3C038016 */  lui   $v1, %hi(gLightningStrike) # $v1, 0x8016
 /* AE63E8 8006F248 A2000019 */  sb    $zero, 0x19($s0)
 /* AE63EC 8006F24C A600001A */  sh    $zero, 0x1a($s0)
 /* AE63F0 8006F250 A2000021 */  sb    $zero, 0x21($s0)
@@ -97,7 +97,7 @@ glabel Kankyo_Init
 /* AE6414 8006F274 A20000DE */  sb    $zero, 0xde($s0)
 /* AE6418 8006F278 A20000DF */  sb    $zero, 0xdf($s0)
 /* AE641C 8006F27C A20000E0 */  sb    $zero, 0xe0($s0)
-/* AE6420 8006F280 2463FD70 */  addiu $v1, %lo(D_8015FD70) # addiu $v1, $v1, -0x290
+/* AE6420 8006F280 2463FD70 */  addiu $v1, %lo(gLightningStrike) # addiu $v1, $v1, -0x290
 /* AE6424 8006F284 A20000E1 */  sb    $zero, 0xe1($s0)
 /* AE6428 8006F288 A20000E2 */  sb    $zero, 0xe2($s0)
 /* AE642C 8006F28C A20000E3 */  sb    $zero, 0xe3($s0)
@@ -119,9 +119,9 @@ glabel Kankyo_Init
 /* AE646C 8006F2CC A0600001 */  sb    $zero, 1($v1)
 /* AE6470 8006F2D0 A0600002 */  sb    $zero, 2($v1)
 /* AE6474 8006F2D4 A0600003 */  sb    $zero, 3($v1)
-/* AE6478 8006F2D8 3C018016 */  lui   $at, %hi(D_8015FD7C) # $at, 0x8016
+/* AE6478 8006F2D8 3C018016 */  lui   $at, %hi(sLightningFlashAlpha) # $at, 0x8016
 /* AE647C 8006F2DC 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0
-/* AE6480 8006F2E0 A420FD7C */  sh    $zero, %lo(D_8015FD7C)($at)
+/* AE6480 8006F2E0 A420FD7C */  sh    $zero, %lo(sLightningFlashAlpha)($at)
 /* AE6484 8006F2E4 A1001410 */  sb    $zero, 0x1410($t0)
 /* AE6488 8006F2E8 A60000A0 */  sh    $zero, 0xa0($s0)
 /* AE648C 8006F2EC 860200A0 */  lh    $v0, 0xa0($s0)
@@ -331,8 +331,8 @@ glabel L8006F4F0
 /* AE6798 8006F5F8 8C6E0000 */  lw    $t6, ($v1)
 /* AE679C 8006F5FC A5C00B6E */  sh    $zero, 0xb6e($t6)
 /* AE67A0 8006F600 8C6F0000 */  lw    $t7, ($v1)
-/* AE67A4 8006F604 3C038016 */  lui   $v1, %hi(D_8015FD10) # $v1, 0x8016
-/* AE67A8 8006F608 2463FD10 */  addiu $v1, %lo(D_8015FD10) # addiu $v1, $v1, -0x2f0
+/* AE67A4 8006F604 3C038016 */  lui   $v1, %hi(sLightningBolts) # $v1, 0x8016
+/* AE67A8 8006F608 2463FD10 */  addiu $v1, %lo(sLightningBolts) # addiu $v1, $v1, -0x2f0
 /* AE67AC 8006F60C A5E00B70 */  sh    $zero, 0xb70($t7)
 /* AE67B0 8006F610 A029FCC8 */  sb    $t1, %lo(D_8015FCC8)($at)
 .L8006F614:
