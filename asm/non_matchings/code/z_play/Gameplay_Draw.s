@@ -767,7 +767,7 @@ glabel Gameplay_Draw
 /* B36A88 800BF8E8 93250B0A */  lbu   $a1, 0xb0a($t9)
 /* B36A8C 800BF8EC 50A00007 */  beql  $a1, $zero, .L800BF90C
 /* B36A90 800BF8F0 2401000A */   li    $at, 10
-/* B36A94 800BF8F4 0C01DA4D */  jal   func_80076934
+/* B36A94 800BF8F4 0C01DA4D */  jal   Kankyo_DrawSandstorm
 /* B36A98 800BF8F8 02002025 */   move  $a0, $s0
 /* B36A9C 800BF8FC 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B36AA0 800BF900 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

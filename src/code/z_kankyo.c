@@ -2373,7 +2373,7 @@ void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 al
 
 #ifdef NON_EQUIVALENT
 // incomplete
-void func_80076934(GlobalContext* globalCtx, u8 arg1) {
+void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     static char D_8011FEC4[] = { 0xD2, 0x9C, 0x55, 0xFF, 0xC8, 0x64, 0xE1, 0xA0, 0x32, 0x69, 0x5A, 0x28 };
     static char D_8011FED0[] = { 0x9B, 0x6A, 0x23, 0xC8, 0x96, 0x32, 0xAA, 0x6E,
                                  0x00, 0x32, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -2389,7 +2389,7 @@ void func_80076934(GlobalContext* globalCtx, u8 arg1) {
     s32 t3;
     f32 f14;
 
-    switch (arg1) {
+    switch (sandstormState) {
         case 3:
             if (globalCtx->sceneNum == SCENE_SPOT13 && globalCtx->roomCtx.curRoom.num == 0) {
                 if (unk_E8 > 0x80) {

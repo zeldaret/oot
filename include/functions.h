@@ -946,7 +946,7 @@ void Kankyo_InitGameOverLights(GlobalContext* globalCtx);
 void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx);
 void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx);
 void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags);
-void func_80076934(GlobalContext* globalCtx, u8 arg1);
+void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState);
 void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
 s32 func_800775CC();
 void func_800775D8();
