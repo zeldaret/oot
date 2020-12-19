@@ -13,7 +13,7 @@ f32 Math_Factorialf(f32 n) {
     return ret;
 }
 
-f32 Math_Factoriali(s32 n) {
+f32 Math_Factorial(s32 n) {
     f32 ret;
     s32 i;
 
