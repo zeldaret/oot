@@ -399,10 +399,14 @@ typedef struct {
     /* 0x01FC */ s16    unk_1FC;
     /* 0x01FE */ s16    unk_1FE;
     /* 0x0200 */ s16    unk_200;
-    /* 0x0202 */ s16    unk_202[3];
-    /* 0x0208 */ s16    unk_208[3];
-    /* 0x020E */ s16    unk_20E[6];
-    /* 0x021A */ s16    unk_21A[6];
+    /* 0x0202 */ s16    beatingHeartPrim[3];
+    /* 0x0208 */ s16    beatingHeartEnv[3];
+    /* 0x020E */ s16    healthPrimR[2];
+    /* 0x0212 */ s16    healthPrimG[2];
+    /* 0x0216 */ s16    healthPrimB[2];
+    /* 0x021A */ s16    healthEnvR[2];
+    /* 0x021E */ s16    healthEnvG[2];
+    /* 0x0222 */ s16    healthEnvB[2];
     /* 0x0226 */ s16    unk_226;
     /* 0x0228 */ s16    unk_228;
     /* 0x022A */ s16    unk_22A;

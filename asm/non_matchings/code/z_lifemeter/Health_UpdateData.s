@@ -52,28 +52,28 @@ glabel Health_UpdateData
 /* AEFC80 80078AE0 A444021A */  sh    $a0, 0x21a($v0)
 /* AEFC84 80078AE4 A44B021E */  sh    $t3, 0x21e($v0)
 /* AEFC88 80078AE8 A44C0222 */  sh    $t4, 0x222($v0)
-/* AEFC8C 80078AEC 3C0D8012 */  lui   $t5, %hi(D_8011FF10) # $t5, 0x8012
-/* AEFC90 80078AF0 85ADFF10 */  lh    $t5, %lo(D_8011FF10)($t5)
-/* AEFC94 80078AF4 3C0E8012 */  lui   $t6, %hi(D_8011FF10+2) # $t6, 0x8012
-/* AEFC98 80078AF8 3C0F8012 */  lui   $t7, %hi(D_8011FF10+4) # $t7, 0x8012
+/* AEFC8C 80078AEC 3C0D8012 */  lui   $t5, %hi(sHeartPrimColors) # $t5, 0x8012
+/* AEFC90 80078AF0 85ADFF10 */  lh    $t5, %lo(sHeartPrimColors)($t5)
+/* AEFC94 80078AF4 3C0E8012 */  lui   $t6, %hi(sHeartPrimColors+2) # $t6, 0x8012
+/* AEFC98 80078AF8 3C0F8012 */  lui   $t7, %hi(sHeartPrimColors+4) # $t7, 0x8012
 /* AEFC9C 80078AFC A44D0210 */  sh    $t5, 0x210($v0)
-/* AEFCA0 80078B00 85CEFF12 */  lh    $t6, %lo(D_8011FF10+2)($t6)
-/* AEFCA4 80078B04 3C188012 */  lui   $t8, %hi(D_8011FF24) # $t8, 0x8012
-/* AEFCA8 80078B08 3C198012 */  lui   $t9, %hi(D_8011FF24+2) # $t9, 0x8012
+/* AEFCA0 80078B00 85CEFF12 */  lh    $t6, %lo(sHeartPrimColors+2)($t6)
+/* AEFCA4 80078B04 3C188012 */  lui   $t8, %hi(sHeartEnvColors) # $t8, 0x8012
+/* AEFCA8 80078B08 3C198012 */  lui   $t9, %hi(sHeartEnvColors+2) # $t9, 0x8012
 /* AEFCAC 80078B0C A44E0214 */  sh    $t6, 0x214($v0)
-/* AEFCB0 80078B10 85EFFF14 */  lh    $t7, %lo(D_8011FF10+4)($t7)
-/* AEFCB4 80078B14 3C0B8012 */  lui   $t3, %hi(D_8011FF24+4) # $t3, 0x8012
+/* AEFCB0 80078B10 85EFFF14 */  lh    $t7, %lo(sHeartPrimColors+4)($t7)
+/* AEFCB4 80078B14 3C0B8012 */  lui   $t3, %hi(sHeartEnvColors+4) # $t3, 0x8012
 /* AEFCB8 80078B18 3C078012 */  lui   $a3, %hi(D_8011FF38) # $a3, 0x8012
 /* AEFCBC 80078B1C A44F0218 */  sh    $t7, 0x218($v0)
-/* AEFCC0 80078B20 8718FF24 */  lh    $t8, %lo(D_8011FF24)($t8)
+/* AEFCC0 80078B20 8718FF24 */  lh    $t8, %lo(sHeartEnvColors)($t8)
 /* AEFCC4 80078B24 24E7FF38 */  addiu $a3, %lo(D_8011FF38) # addiu $a3, $a3, -0xc8
 /* AEFCC8 80078B28 3C088012 */  lui   $t0, %hi(D_8011FF4C) # $t0, 0x8012
 /* AEFCCC 80078B2C A458021C */  sh    $t8, 0x21c($v0)
-/* AEFCD0 80078B30 8739FF26 */  lh    $t9, %lo(D_8011FF24+2)($t9)
+/* AEFCD0 80078B30 8739FF26 */  lh    $t9, %lo(sHeartEnvColors+2)($t9)
 /* AEFCD4 80078B34 2508FF4C */  addiu $t0, %lo(D_8011FF4C) # addiu $t0, $t0, -0xb4
 /* AEFCD8 80078B38 3C018016 */  lui   $at, %hi(D_8015FDD0+6) # $at, 0x8016
 /* AEFCDC 80078B3C A4590220 */  sh    $t9, 0x220($v0)
-/* AEFCE0 80078B40 856BFF28 */  lh    $t3, %lo(D_8011FF24+4)($t3)
+/* AEFCE0 80078B40 856BFF28 */  lh    $t3, %lo(sHeartEnvColors+4)($t3)
 /* AEFCE4 80078B44 3C098016 */  lui   $t1, %hi(D_8015FDC0) # $t1, 0x8016
 /* AEFCE8 80078B48 2529FDC0 */  addiu $t1, %lo(D_8015FDC0) # addiu $t1, $t1, -0x240
 /* AEFCEC 80078B4C A44B0224 */  sh    $t3, 0x224($v0)
