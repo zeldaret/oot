@@ -490,7 +490,7 @@ s32 EnFr_IsAboveAndWithin30xzDist(Player* player, EnFr* this) {
     zDistFromLink = player->actor.posRot.pos.z - this->actor.posRot.pos.z;
     yDistFromLink = player->actor.posRot.pos.y - this->actor.posRot.pos.y;
 
-    return ((SQ(xDistFromLink) + SQ(zDistFromLink)) <= 900.0f) && (yDistFromLink >= 0.0f);
+    return ((SQ(xDistFromLink) + SQ(zDistFromLink)) <= SQ(30.0f)) && (yDistFromLink >= 0.0f);
 }
 
 void EnFr_DecrementBlinkTimer(EnFr* this) {
