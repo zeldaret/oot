@@ -1307,7 +1307,7 @@ void EnFr_UpdateIdle(EnFr* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     if ((limbIndex == 7) || (limbIndex == 8)) {
         *dList = NULL;
