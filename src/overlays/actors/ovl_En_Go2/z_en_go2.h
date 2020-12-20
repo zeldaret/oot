@@ -26,6 +26,21 @@ typedef enum {
     /* 0X0D */ GORON_MARKET_BAZAAR
 } GoronType;
 
+// typedef enum {
+//     /* 0x00 */ UNUSED
+//     /* 0x01 */ GORON_FIRE_LAVA_ROOM_OPEN
+//     /* 0x02 */ GORON_FIRE_LAVA_ROOM_BOMB
+//     /* 0x03 */ GORON_FIRE_MAZE_LOWER
+//     /* 0x04 */ GORON_FIRE_MAZE_SHORTCUT
+//     /* 0x05 */ GORON_FIRE_MAZE_SIDE_ROOM
+//     /* 0x06 */ GORON_FIRE_BOSS_KEY
+//     /* 0x07 */ GORON_FIRE_BOSS_KEY
+//     /* 0x08 */ GORON_FIRE_NEAR_BOSS
+//     /* 0x09 */ GORON_FIRE_BOSS_KEY
+//     /* 0x0A */ GORON_FIRE_MAZE_UPPER, 
+//     /* 0x0B */ GORON_FIRE_HIGHEST
+// } GoronFireTemple;
+
 typedef struct {
     s16 unused;
     s16 yDist;
@@ -42,13 +57,13 @@ typedef struct {
 } EnGo2DataStruct2; // size 0x10
 
 typedef struct {
-    u8 unk_0;
-    f32 unk_4;
-    f32 unk_8;
-    s32 unk_C;
-    f32 unk_10;
-    f32 unk_14;
-} EnGo2DataStruct3; // size 0x18
+    u8 initialTimer;
+    f32 scale;
+    f32 scaleStep;
+    s32 numDustEffects;
+    f32 radius;
+    f32 yAccel;
+} EnGo2DustEffectData; // size 0x18
 
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
@@ -60,28 +75,31 @@ typedef struct EnGo2 {
     /* 0x020C */ u8 unk_20C; // counter for GORON_CITY_LINK animation
     /* 0x020D */ u8 dialogState;
     /* 0x020E */ u8 reverse;
-    /* 0x020F */ u8 unk_20F; // Conditional
+    /* 0x020F */ u8 isAwake; // Conditional
     /* 0x0210 */ s8 waypoint;
     /* 0x0211 */ u8 unk_211; // Conditional
-    /* 0x0212 */ u8 unk_212; // Cycles between 0, 1, 2
+    // goron link: 0 - rolling, 1 - frozen 
+    // biggoron: 0 - give eyedrops, 1 - applying eyedrops, 2 - getting claimcheck 
+    // generic fire: 0 - 
+    /* 0x0212 */ u8 goronState; 
     /* 0x0213 */ u8 eyeMouthTexState; // 0, 1, 2, 3
     /* 0x0214 */ u8 eyeTexIndex; 
     /* 0x0215 */ u8 mouthTexIndex; 
     /* 0x0216 */ u8 unk_216; // Set to z rotation, checked by waypoint
     /* 0x0218 */ f32 unk_218;
     /* 0x021C */ s32 unusedPad1;
-    /* 0x0220 */ f32 unk_220; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.unk_14 from either 0 or 255.0f
+    /* 0x0220 */ f32 alpha; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.unk_14 from either 0 or 255.0f
     /* 0x0224 */ s16 blinkTimer; 
-    /* 0x0226 */ s16 unk_226[18];
-    /* 0x024A */ s16 unk_24A[18];
-    /* 0x026E */ u16 unk_26E; // = 1, 2, or 4: used in func_80034A14
-    /* 0x0270 */ EnGoEffects unk_270[10];
+    /* 0x0226 */ s16 unk_226[18]; // Remains unknown
+    /* 0x024A */ s16 unk_24A[18]; // Remains unknown
+    /* 0x026E */ u16 unk_26E; // Remains unknown = 1, 2, or 4: used in func_80034A14
+    /* 0x0270 */ EnGoEffect dustEffects[10];
     /* 0x04A0 */ Vec3f eye;
     /* 0x04AC */ Vec3f at;
     /* 0x04B8 */ Vec3s limbDrawTable[18];
     /* 0x0524 */ Vec3s transitionDrawTable[18];
     /* 0x0590 */ s16 unk_590; // timer
-    /* 0x0592 */ s16 unk_592; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
+    /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
     /* 0x0594 */ s32 getItemID;
     /* 0x0598 */ s16 unusedPad2;
     /* 0x059A */ s16 camID;
