@@ -97,8 +97,8 @@ glabel EnCs_Draw
 /* 00E24 809E26D4 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
 /* 00E28 809E26D8 37180034 */  ori     $t8, $t8, 0x0034           ## $t8 = DB060034
 /* 00E2C 809E26DC 2459FE40 */  addiu   $t9, $v0, 0xFE40           ## $t9 = FFFFFE40
-/* 00E30 809E26E0 3C0B0603 */  lui     $t3, 0x0603                ## $t3 = 06030000
-/* 00E34 809E26E4 256BAF70 */  addiu   $t3, $t3, 0xAF70           ## $t3 = 0602AF70
+/* 00E30 809E26E0 3C0B0603 */  lui     $t3, %hi(D_0602AF70)                ## $t3 = 06030000
+/* 00E34 809E26E4 256BAF70 */  addiu   $t3, $t3, %lo(D_0602AF70)           ## $t3 = 0602AF70
 /* 00E38 809E26E8 3C0ADE00 */  lui     $t2, 0xDE00                ## $t2 = DE000000
 /* 00E3C 809E26EC 00004012 */  mflo    $t0
 /* 00E40 809E26F0 02286021 */  addu    $t4, $s1, $t0

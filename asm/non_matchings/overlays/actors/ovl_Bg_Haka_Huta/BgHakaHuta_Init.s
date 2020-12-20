@@ -13,8 +13,8 @@ glabel BgHakaHuta_Init
 /* 00028 8087CFE8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 0002C 8087CFEC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
-/* 00030 8087CFF0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00034 8087CFF4 24840870 */  addiu   $a0, $a0, 0x0870           ## $a0 = 06000870
+/* 00030 8087CFF0 3C040600 */  lui     $a0, %hi(D_06000870)                ## $a0 = 06000000
+/* 00034 8087CFF4 24840870 */  addiu   $a0, $a0, %lo(D_06000870)           ## $a0 = 06000870
 /* 00038 8087CFF8 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 0003C 8087CFFC 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4

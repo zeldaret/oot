@@ -37,16 +37,16 @@ glabel EnDivingGame_Init
 /* 00030 809ED8A0 0C00AC78 */  jal     ActorShape_Init
 
 /* 00034 809ED8A4 E484FFB8 */  swc1    $f4, -0x0048($a0)          ## 0000006C
-/* 00038 809ED8A8 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 0003C 809ED8AC 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00038 809ED8A8 3C060601 */  lui     $a2, %hi(D_0600BFA8)                ## $a2 = 06010000
+/* 0003C 809ED8AC 3C070600 */  lui     $a3, %hi(D_06002FE8)                ## $a3 = 06000000
 /* 00040 809ED8B0 260E0190 */  addiu   $t6, $s0, 0x0190           ## $t6 = 00000190
 /* 00044 809ED8B4 260F0208 */  addiu   $t7, $s0, 0x0208           ## $t7 = 00000208
 /* 00048 809ED8B8 24180014 */  addiu   $t8, $zero, 0x0014         ## $t8 = 00000014
 /* 0004C 809ED8BC AFB80018 */  sw      $t8, 0x0018($sp)
 /* 00050 809ED8C0 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00054 809ED8C4 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 00058 809ED8C8 24E72FE8 */  addiu   $a3, $a3, 0x2FE8           ## $a3 = 06002FE8
-/* 0005C 809ED8CC 24C6BFA8 */  addiu   $a2, $a2, 0xBFA8           ## $a2 = 0600BFA8
+/* 00058 809ED8C8 24E72FE8 */  addiu   $a3, $a3, %lo(D_06002FE8)           ## $a3 = 06002FE8
+/* 0005C 809ED8CC 24C6BFA8 */  addiu   $a2, $a2, %lo(D_0600BFA8)           ## $a2 = 0600BFA8
 /* 00060 809ED8D0 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00064 809ED8D4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00068 809ED8D8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C

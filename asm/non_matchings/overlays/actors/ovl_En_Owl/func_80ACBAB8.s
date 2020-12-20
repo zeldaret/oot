@@ -27,8 +27,8 @@ glabel func_80ACBAB8
 /* 01BD8 80ACBAF8 00000000 */  nop
 glabel L80ACBAFC
 /* 01BDC 80ACBAFC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 01BE0 80ACBB00 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
-/* 01BE4 80ACBB04 271815CC */  addiu   $t8, $t8, 0x15CC           ## $t8 = 060015CC
+/* 01BE0 80ACBB00 3C180600 */  lui     $t8, %hi(D_060015CC)                ## $t8 = 06000000
+/* 01BE4 80ACBB04 271815CC */  addiu   $t8, $t8, %lo(D_060015CC)           ## $t8 = 060015CC
 /* 01BE8 80ACBB08 3C0580AD */  lui     $a1, %hi(func_80ACB904)    ## $a1 = 80AD0000
 /* 01BEC 80ACBB0C 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 01BF0 80ACBB10 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
@@ -45,9 +45,9 @@ glabel L80ACBB38
 /* 01C18 80ACBB38 3C0880AD */  lui     $t0, %hi(EnOwl_Draw)    ## $t0 = 80AD0000
 /* 01C1C 80ACBB3C 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 01C20 80ACBB40 2508CFB8 */  addiu   $t0, $t0, %lo(EnOwl_Draw) ## $t0 = 80ACCFB8
-/* 01C24 80ACBB44 3C090601 */  lui     $t1, 0x0601                ## $t1 = 06010000
+/* 01C24 80ACBB44 3C090601 */  lui     $t1, %hi(D_0600C8A0)                ## $t1 = 06010000
 /* 01C28 80ACBB48 AE080134 */  sw      $t0, 0x0134($s0)           ## 00000134
-/* 01C2C 80ACBB4C 2529C8A0 */  addiu   $t1, $t1, 0xC8A0           ## $t1 = 0600C8A0
+/* 01C2C 80ACBB4C 2529C8A0 */  addiu   $t1, $t1, %lo(D_0600C8A0)           ## $t1 = 0600C8A0
 /* 01C30 80ACBB50 3C0580AD */  lui     $a1, %hi(func_80ACBA24)    ## $a1 = 80AD0000
 /* 01C34 80ACBB54 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 01C38 80ACBB58 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
@@ -64,9 +64,9 @@ glabel L80ACBB80
 /* 01C60 80ACBB80 3C0B80AD */  lui     $t3, %hi(EnOwl_Draw)    ## $t3 = 80AD0000
 /* 01C64 80ACBB84 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 01C68 80ACBB88 256BCFB8 */  addiu   $t3, $t3, %lo(EnOwl_Draw) ## $t3 = 80ACCFB8
-/* 01C6C 80ACBB8C 3C0C0600 */  lui     $t4, 0x0600                ## $t4 = 06000000
+/* 01C6C 80ACBB8C 3C0C0600 */  lui     $t4, %hi(D_060015CC)                ## $t4 = 06000000
 /* 01C70 80ACBB90 AE0B0134 */  sw      $t3, 0x0134($s0)           ## 00000134
-/* 01C74 80ACBB94 258C15CC */  addiu   $t4, $t4, 0x15CC           ## $t4 = 060015CC
+/* 01C74 80ACBB94 258C15CC */  addiu   $t4, $t4, %lo(D_060015CC)           ## $t4 = 060015CC
 /* 01C78 80ACBB98 3C0580AD */  lui     $a1, %hi(func_80ACB994)    ## $a1 = 80AD0000
 /* 01C7C 80ACBB9C 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 01C80 80ACBBA0 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540

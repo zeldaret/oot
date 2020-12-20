@@ -312,8 +312,11 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi_SetupWait(this);
 }
 
-void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyCylinder(globalCtx, &THIS->collider);
+void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnIshi* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnIshi_SetupWait(EnIshi* this) {

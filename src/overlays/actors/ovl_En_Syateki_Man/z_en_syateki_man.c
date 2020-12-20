@@ -35,7 +35,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx);
-void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx);
+void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
@@ -257,7 +257,8 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     this->actor.parent = NULL;
                     if (LINK_IS_CHILD) {
                         if (!(gSaveContext.itemGetInf[0] & 0x2000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(UPG_BULLET_BAG));
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
+                                         CUR_UPG_VALUE(UPG_BULLET_BAG));
                             if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
                                 this->getItemId = GI_BULLET_BAG_40;
                             } else {
@@ -268,7 +269,8 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         if (!(gSaveContext.itemGetInf[0] & 0x4000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(UPG_QUIVER));
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST,
+                                         CUR_UPG_VALUE(UPG_QUIVER));
                             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                                 case 0:
                                     this->getItemId = GI_RUPEE_PURPLE;
@@ -311,13 +313,13 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        this->actionFunc = EnSyaketiMan_FinishPrize;
+        this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
         func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 
-void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
+void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion

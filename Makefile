@@ -11,13 +11,14 @@ ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
+  CPPFLAGS := -DNON_MATCHING
   COMPARE := 0
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CPPFLAGS = -P
+CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
     $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
@@ -128,7 +129,6 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 
 # create build directories
 $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
-
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
