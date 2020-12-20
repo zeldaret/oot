@@ -2527,7 +2527,7 @@ endseg
 beginseg
     name "ovl_En_Ko"
     include "build/src/overlays/actors/ovl_En_Ko/z_en_ko.o"
-    include "build/data/overlays/actors/z_en_ko.data.o"
+    //include "build/data/overlays/actors/z_en_ko.data.o"
     include "build/data/overlays/actors/z_en_ko.reloc.o"
 endseg
 
