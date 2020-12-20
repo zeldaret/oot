@@ -16,21 +16,21 @@ typedef struct EnBb {
     /* 0x0250 */ s32 action;
     /* 0x0254 */ s32 unk_254; //unused
     /* 0x0258 */ EnBbActionFunc actionFunc;
-    /* 0x025C */ s32 actionState;
+    /* 0x025C */ s32 moveMode;
     /* 0x0260 */ s32 timer;
     /* 0x0264 */ s32 unk_264; //unused
-    /* 0x0268 */ s16 unk_268;
-    /* 0x026A */ s16 unk_26A;
-    /* 0x026C */ s16 unk_26C;
-    /* 0x026E */ s16 unk_26E;
-    /* 0x0270 */ s16 unk_270;
-    /* 0x0274 */ f32 unk_274;
-    /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ f32 unk_280;
-    /* 0x027C */ f32 unk_284;
-    /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ f32 unk_28C;
+    /* 0x0268 */ s16 actionState;
+    /* 0x026A */ s16 charge;
+    /* 0x026C */ s16 enBb_26C; // index for flame trail, phase of small hop when blue finds a bomb
+    /* 0x026E */ s16 enBb_26E; // move yaw for blue, flame timer for green, maxAlpha for flame trail
+    /* 0x0270 */ s16 flameScrollMod;
+    /* 0x0274 */ f32 bobPhase;
+    /* 0x0278 */ f32 bobSize;
+    /* 0x027C */ f32 maxSpeed;
+    /* 0x0280 */ f32 flyHeightMod;
+    /* 0x027C */ f32 bobSpeedMod; // y speed for blue, phase speed for green
+    /* 0x0288 */ f32 flameScaleY;
+    /* 0x028C */ f32 flameScaleX;
     /* 0x0290 */ Vec3f waypointPos;
     /* 0x029C */ u8 path;
     /* 0x029D */ u8 waypoint;
@@ -38,12 +38,12 @@ typedef struct EnBb {
     /* 0x029F */ u8 flamePrimAlpha;
     /* 0x02A0 */ Color_RGB8 flameEnvColor;
     /* 0x02A4 */ s32 blureIdx;
-    /* 0x02A8 */ s16 unk_2A8;
+    /* 0x02A8 */ s16 fireIceTimer;
     /* 0x02AA */ u8 dmgEffect;  
     /* 0x02AC */ ColliderJntSph collider;
     /* 0x02CC */ ColliderJntSphItem elements[1];
-    /* 0x030C */ struct_80032E24 unk_30C;
-    /* 0x0324 */ Actor* unk_324;
+    /* 0x030C */ struct_80032E24 enPartInfo;
+    /* 0x0324 */ Actor* targetActor;
 } EnBb; // size = 0x0328
 
 typedef enum {
