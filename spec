@@ -3252,11 +3252,7 @@ endseg
 beginseg
     name "ovl_En_Zl3"
     include "build/src/overlays/actors/ovl_En_Zl3/z_en_zl3.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Zl3/ovl_En_Zl3_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_zl3.reloc.o"
-#endif
 endseg
 
 beginseg
