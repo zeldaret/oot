@@ -7,7 +7,7 @@ glabel func_80A158EC
 /* 00680 80A15900 E4800070 */  swc1    $f0, 0x0070($a0)           ## 00000070
 /* 00684 80A15904 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00688 80A15908 2404000F */  addiu   $a0, $zero, 0x000F         ## $a0 = 0000000F
-/* 0068C 80A1590C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0068C 80A1590C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00690 80A15910 2405002D */  addiu   $a1, $zero, 0x002D         ## $a1 = 0000002D
 /* 00694 80A15914 8FA40018 */  lw      $a0, 0x0018($sp)           

@@ -80,7 +80,7 @@ glabel func_808AEEFC
 /* 00888 808AF008 46128100 */  add.s   $f4, $f16, $f18            
 /* 0088C 808AF00C E7A40070 */  swc1    $f4, 0x0070($sp)           
 .L808AF010:
-/* 00890 808AF010 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00890 808AF010 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00894 808AF014 00000000 */  nop
 /* 00898 808AF018 46180182 */  mul.s   $f6, $f0, $f24             

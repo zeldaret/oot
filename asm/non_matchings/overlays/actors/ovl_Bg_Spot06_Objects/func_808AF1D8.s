@@ -137,14 +137,14 @@ glabel func_808AF1D8
 /* 00C10 808AF390 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00C14 808AF394 44816000 */  mtc1    $at, $f12                  ## $f12 = 1.00
 /* 00C18 808AF398 46061480 */  add.s   $f18, $f2, $f6             
-/* 00C1C 808AF39C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00C1C 808AF39C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00C20 808AF3A0 E6120060 */  swc1    $f18, 0x0060($s0)          ## 00000060
 /* 00C24 808AF3A4 C6080008 */  lwc1    $f8, 0x0008($s0)           ## 00000008
 /* 00C28 808AF3A8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00C2C 808AF3AC 44816000 */  mtc1    $at, $f12                  ## $f12 = 1.00
 /* 00C30 808AF3B0 46080400 */  add.s   $f16, $f0, $f8             
-/* 00C34 808AF3B4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00C34 808AF3B4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00C38 808AF3B8 E6100024 */  swc1    $f16, 0x0024($s0)          ## 00000024
 /* 00C3C 808AF3BC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

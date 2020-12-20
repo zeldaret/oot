@@ -28,7 +28,7 @@ glabel func_808D4C68
 /* 02634 808D4CA4 31090007 */  andi    $t1, $t0, 0x0007           ## $t1 = 00000000
 /* 02638 808D4CA8 5520000C */  bnel    $t1, $zero, .L808D4CDC     
 /* 0263C 808D4CAC 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
-/* 02640 808D4CB0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02640 808D4CB0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02644 808D4CB4 00000000 */  nop
 /* 02648 808D4CB8 3C01808D */  lui     $at, %hi(D_808D64BC)       ## $at = 808D0000

@@ -361,12 +361,12 @@ glabel func_80924D70
 /* 0978C 8092528C 1441000C */  bne     $v0, $at, .L809252C0       
 /* 09790 80925290 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 09794 80925294 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 09798 80925298 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 09798 80925298 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0979C 8092529C 00000000 */  nop
 /* 097A0 809252A0 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 097A4 809252A4 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 097A8 809252A8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 097A8 809252A8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 097AC 809252AC E600000C */  swc1    $f0, 0x000C($s0)           ## 0000000C
 /* 097B0 809252B0 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000

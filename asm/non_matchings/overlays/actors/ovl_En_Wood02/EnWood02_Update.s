@@ -138,7 +138,7 @@ glabel EnWood02_Update
 /* 00980 80B3B8F0 AFAA0044 */  sw      $t2, 0x0044($sp)           
 .L80B3B8F4:
 /* 00984 80B3B8F4 3C0180B4 */  lui     $at, %hi(D_80B3C060)       ## $at = 80B40000
-/* 00988 80B3B8F8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00988 80B3B8F8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0098C 80B3B8FC C42CC060 */  lwc1    $f12, %lo(D_80B3C060)($at) 
 /* 00990 80B3B900 4600018D */  trunc.w.s $f6, $f0                   

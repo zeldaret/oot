@@ -115,7 +115,7 @@ void func_80984BE0(DemoIm* this) {
     s16* unk_25C = &this->unk_25C;
 
     if (DECR(*unk_25E) == 0) {
-        *unk_25E = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_25E = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_25C = *unk_25E;

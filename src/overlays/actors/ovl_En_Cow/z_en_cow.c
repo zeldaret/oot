@@ -123,7 +123,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
                                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
-            this->unk_278 = Math_Rand_ZeroFloat(1000.0f) + 40.0f;
+            this->unk_278 = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;
             this->actor.unk_1F = 6;
             DREG(53) = 0;
@@ -137,7 +137,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_809DFA84;
             func_809DEF94(this);
             this->actor.flags &= ~0x1;
-            this->unk_278 = ((u32)(Math_Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
+            this->unk_278 = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
             break;
     }
     this->actor.colChkInfo.mass = 0xFF;
@@ -158,7 +158,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     if (this->unk_278 > 0) {
         this->unk_278 -= 1;
     } else {
-        this->unk_278 = Math_Rand_ZeroFloat(500.0f) + 40.0f;
+        this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.animCurrentFrame,
                              SkelAnime_GetFrameCount(&D_060001CC), 2, 1.0f);
     }
@@ -274,7 +274,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     if (this->unk_278 > 0) {
         this->unk_278--;
     } else {
-        this->unk_278 = Math_Rand_ZeroFloat(200.0f) + 40.0f;
+        this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.animCurrentFrame,
                              SkelAnime_GetFrameCount(&D_06004348), 2, 1.0f);
     }

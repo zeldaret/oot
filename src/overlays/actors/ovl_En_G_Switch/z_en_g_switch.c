@@ -111,7 +111,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Horseback archery destructible pot
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
-            this->colorIdx = Math_Rand_ZeroFloat(2.99f);
+            this->colorIdx = Rand_ZeroFloat(2.99f);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
             this->actor.scale.x = 0.25f;
@@ -160,9 +160,9 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     s32 i;
 
-    randPos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(40.0f);
-    randPos.y = this->actor.posRot.pos.y + 30.0f + Math_Rand_CenteredFloat(35.0f);
-    randPos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(40.0f);
+    randPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(40.0f);
+    randPos.y = this->actor.posRot.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
+    randPos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(40.0f);
     hitPos.x = this->collider.body.bumper.unk_06.x;
     hitPos.y = this->collider.body.bumper.unk_06.y;
     hitPos.z = this->collider.body.bumper.unk_06.z;
@@ -359,18 +359,18 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
             s32 pad;
 
             pos.x = sn * 8.0f;
-            pos.y = 10.0f + Math_Rand_CenteredFloat(5.0f);
+            pos.y = 10.0f + Rand_CenteredFloat(5.0f);
             pos.z = cs * 8.0f;
 
             vel.x = pos.x / 2.0f;
-            vel.y = 10.0f + Math_Rand_ZeroOne() * 15.0f;
+            vel.y = 10.0f + Rand_ZeroOne() * 15.0f;
             vel.z = pos.z / 2.0f;
 
             pos.x += thisPos->x;
             pos.y += thisPos->y;
             pos.z += thisPos->z;
 
-            rand = Math_Rand_ZeroOne();
+            rand = Rand_ZeroOne();
             if (rand < 0.2f) {
                 phi_s0 = 0x60;
             } else if (rand < 0.6f) {
@@ -379,7 +379,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
                 phi_s0 = 0x20;
             }
 
-            scale = 30.0f + Math_Rand_ZeroOne() * 130.0f;
+            scale = 30.0f + Rand_ZeroOne() * 130.0f;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, D_06001960);
@@ -485,8 +485,8 @@ void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx
             effect->colorIdx = colorIdx;
             effect->timer = 30;
             effect->rot.x = effect->rot.y = effect->rot.z = 0.0f;
-            pitch = Math_Rand_CenteredFloat(1000.0f) - 13000.0f;
-            yaw = Math_Rand_CenteredFloat(65535.0f);
+            pitch = Rand_CenteredFloat(1000.0f) - 13000.0f;
+            yaw = Rand_CenteredFloat(65535.0f);
             Matrix_RotateY(yaw, MTXMODE_NEW);
             Matrix_RotateX(pitch, MTXMODE_APPLY);
             baseVel.x = baseVel.y = 0.0f;
@@ -505,9 +505,9 @@ void EnGSwitch_UpdateEffects(EnGSwitch* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < this->numEffects; i++, effect++) {
         if (effect->flag) {
-            effect->rot.x += Math_Rand_ZeroOne() * 10.0f + 15.0f;
-            effect->rot.y += Math_Rand_ZeroOne() * 10.0f + 15.0f;
-            effect->rot.z += Math_Rand_ZeroOne() * 10.0f + 15.0f;
+            effect->rot.x += Rand_ZeroOne() * 10.0f + 15.0f;
+            effect->rot.y += Rand_ZeroOne() * 10.0f + 15.0f;
+            effect->rot.z += Rand_ZeroOne() * 10.0f + 15.0f;
             temp.x = effect->pos.x + effect->velocity.x;
             temp.y = effect->pos.y + effect->velocity.y;
             temp.z = effect->pos.z + effect->velocity.z;

@@ -52,7 +52,7 @@ glabel func_80A4320C
 /* 005A4 80A432D4 8C8E002C */  lw      $t6, 0x002C($a0)           ## 0000002C
 /* 005A8 80A432D8 AE8E0008 */  sw      $t6, 0x0008($s4)           ## FFFFFFFC
 /* 005AC 80A432DC C4840080 */  lwc1    $f4, 0x0080($a0)           ## 00000080
-/* 005B0 80A432E0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 005B0 80A432E0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 005B4 80A432E4 E7A40098 */  swc1    $f4, 0x0098($sp)           
 /* 005B8 80A432E8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -87,7 +87,7 @@ glabel func_80A4320C
 /* 00628 80A43358 00000000 */  nop
 /* 0062C 80A4335C 0006000D */  break 6
 .L80A43360:
-/* 00630 80A43360 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00630 80A43360 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00634 80A43364 00000000 */  nop
 /* 00638 80A43368 46160182 */  mul.s   $f6, $f0, $f22             

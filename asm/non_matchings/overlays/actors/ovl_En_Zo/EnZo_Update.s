@@ -57,7 +57,7 @@ glabel EnZo_Update
 /* 01C9C 80B61EBC 8E0D0028 */  lw      $t5, 0x0028($s0)           ## 00000028
 /* 01CA0 80B61EC0 AD8D0004 */  sw      $t5, 0x0004($t4)           ## FFFFFFF0
 /* 01CA4 80B61EC4 8E0E002C */  lw      $t6, 0x002C($s0)           ## 0000002C
-/* 01CA8 80B61EC8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01CA8 80B61EC8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01CAC 80B61ECC AD8E0008 */  sw      $t6, 0x0008($t4)           ## FFFFFFF4
 /* 01CB0 80B61ED0 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -71,7 +71,7 @@ glabel EnZo_Update
 /* 01CD0 80B61EF0 46105482 */  mul.s   $f18, $f10, $f16           
 /* 01CD4 80B61EF4 46049180 */  add.s   $f6, $f18, $f4             
 /* 01CD8 80B61EF8 46064280 */  add.s   $f10, $f8, $f6             
-/* 01CDC 80B61EFC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01CDC 80B61EFC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01CE0 80B61F00 E7AA0038 */  swc1    $f10, 0x0038($sp)          
 /* 01CE4 80B61F04 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -82,7 +82,7 @@ glabel EnZo_Update
 /* 01CF8 80B61F18 C7A60034 */  lwc1    $f6, 0x0034($sp)           
 /* 01CFC 80B61F1C 46049202 */  mul.s   $f8, $f18, $f4             
 /* 01D00 80B61F20 46083280 */  add.s   $f10, $f6, $f8             
-/* 01D04 80B61F24 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01D04 80B61F24 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01D08 80B61F28 E7AA0034 */  swc1    $f10, 0x0034($sp)          
 /* 01D0C 80B61F2C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

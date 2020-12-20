@@ -146,7 +146,7 @@ void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
                          this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
-    this->headDirection = Math_Rand_ZeroFloat(1.99f);
+    this->headDirection = Rand_ZeroFloat(1.99f);
     this->actionFunc = EnHeishi1_Walk;
 }
 
@@ -187,7 +187,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
             if ((this->headDirection & 1) != 0) {
                 this->headAngleTarget *= -1;
             }
-            randOffset = Math_Rand_ZeroFloat(30.0f);
+            randOffset = Rand_ZeroFloat(30.0f);
             this->headTimer = sBaseHeadTimers[this->type] + randOffset;
         }
 
@@ -206,7 +206,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
         if ((fabsf(pathDiffX) < 20.0f) && (fabsf(pathDiffZ) < 20.0f)) {
             if (this->waypointTimer == 0) {
                 if (this->type >= 2) {
-                    if ((this->waypoint >= 4) && (Math_Rand_ZeroFloat(1.99f) > 1.0f)) {
+                    if ((this->waypoint >= 4) && (Rand_ZeroFloat(1.99f) > 1.0f)) {
                         if (this->waypoint == 7) {
                             this->waypoint = 0;
                         }
@@ -257,8 +257,8 @@ void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0,
                          this->transitionRate);
     this->headBehaviorDecided = false;
-    this->headDirection = Math_Rand_ZeroFloat(1.99f);
-    rand = Math_Rand_ZeroFloat(50.0f);
+    this->headDirection = Rand_ZeroFloat(1.99f);
+    rand = Rand_ZeroFloat(50.0f);
     this->waitTimer = rand + 50;
     this->actionFunc = EnHeishi1_Wait;
 }
@@ -274,7 +274,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                 this->headDirection++;
                 // if headDirection is odd, face 52 degrees left
                 this->headAngleTarget = (this->headDirection & 1) ? 0x2500 : -0x2500;
-                randOffset = Math_Rand_ZeroFloat(30.0f);
+                randOffset = Rand_ZeroFloat(30.0f);
                 this->headTimer = sBaseHeadTimers[this->type] + randOffset;
                 this->headBehaviorDecided = true;
                 break;

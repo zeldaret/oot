@@ -69,7 +69,7 @@ glabel func_80949734
 /* 10B48 80949818 29C1000A */  slti    $at, $t6, 0x000A           
 /* 10B4C 8094981C 10200026 */  beq     $at, $zero, .L809498B8     
 /* 10B50 80949820 3C018095 */  lui     $at, %hi(D_8094B210)       ## $at = 80950000
-/* 10B54 80949824 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 10B54 80949824 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 10B58 80949828 C42CB210 */  lwc1    $f12, %lo(D_8094B210)($at) 
 /* 10B5C 8094982C 444FF800 */  cfc1    $t7, $31

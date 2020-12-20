@@ -38,7 +38,7 @@ glabel func_80B93164
 .L80B931F4:
 /* 00264 80B931F4 26104E20 */  addiu   $s0, $s0, 0x4E20           ## $s0 = 00005208
 /* 00268 80B931F8 00108400 */  sll     $s0, $s0, 16               
-/* 0026C 80B931FC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0026C 80B931FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00270 80B93200 00108403 */  sra     $s0, $s0, 16               
 /* 00274 80B93204 46180502 */  mul.s   $f20, $f0, $f24            
@@ -49,7 +49,7 @@ glabel func_80B93164
 /* 00284 80B93214 46140102 */  mul.s   $f4, $f0, $f20             
 /* 00288 80B93218 C6460024 */  lwc1    $f6, 0x0024($s2)           ## 00000024
 /* 0028C 80B9321C 46062200 */  add.s   $f8, $f4, $f6              
-/* 00290 80B93220 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00290 80B93220 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00294 80B93224 E7A800BC */  swc1    $f8, 0x00BC($sp)           
 /* 00298 80B93228 461A0282 */  mul.s   $f10, $f0, $f26            
@@ -64,7 +64,7 @@ glabel func_80B93164
 /* 002B8 80B93248 46140182 */  mul.s   $f6, $f0, $f20             
 /* 002BC 80B9324C C648002C */  lwc1    $f8, 0x002C($s2)           ## 0000002C
 /* 002C0 80B93250 46083280 */  add.s   $f10, $f6, $f8             
-/* 002C4 80B93254 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002C4 80B93254 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002C8 80B93258 E7AA00C4 */  swc1    $f10, 0x00C4($sp)          
 /* 002CC 80B9325C 46180402 */  mul.s   $f16, $f0, $f24            
@@ -74,10 +74,10 @@ glabel func_80B93164
               ## sins?
 /* 002DC 80B9326C 461E8500 */  add.s   $f20, $f16, $f30           
 /* 002E0 80B93270 46140482 */  mul.s   $f18, $f0, $f20            
-/* 002E4 80B93274 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002E4 80B93274 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002E8 80B93278 E7B200C8 */  swc1    $f18, 0x00C8($sp)          
-/* 002EC 80B9327C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002EC 80B9327C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002F0 80B93280 46000586 */  mov.s   $f22, $f0                  
 /* 002F4 80B93284 44912000 */  mtc1    $s1, $f4                   ## $f4 = 0.00

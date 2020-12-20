@@ -226,8 +226,8 @@ void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
     } else {
         this->unk_2A8 = 1;
         this->unk_2AC = 0x80;
-        this->unk_2B8 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
-        this->unk_2B0 = Math_Rand_CenteredFloat(32767.0f);
+        this->unk_2B8 = Rand_ZeroFloat(1.0f) + 0.5f;
+        this->unk_2B0 = Rand_CenteredFloat(32767.0f);
         this->func_2C8 = func_80A0214C;
     }
 }
@@ -241,8 +241,8 @@ void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
         } else {
             this->unk_2A8 = 1;
             this->unk_2AC = 0x80;
-            this->unk_2B8 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
-            this->unk_2B0 = Math_Rand_CenteredFloat(32767.0f);
+            this->unk_2B8 = Rand_ZeroFloat(1.0f) + 0.5f;
+            this->unk_2B0 = Rand_CenteredFloat(32767.0f);
             this->func_2C8 = func_80A0214C;
         }
     }
@@ -256,13 +256,13 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
     } else {
         xzDistFromLink = this->actor.xzDistFromLink;
         if (xzDistFromLink < 50.0f) {
-            if (Math_Rand_ZeroOne() < 0.2f) {
+            if (Rand_ZeroOne() < 0.2f) {
                 this->unk_2A8 = 2;
                 this->unk_2AC = 0x400;
                 this->unk_2B8 = 2.0f;
                 this->func_2C8 = func_80A020A4;
                 this->actor.speedXZ = 1.5f;
-                this->unk_2C0 = (s16)Math_Rand_ZeroFloat(8.0f) + 4;
+                this->unk_2C0 = (s16)Rand_ZeroFloat(8.0f) + 4;
             } else {
                 this->unk_2C0 = 10;
             }
@@ -273,23 +273,23 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
 
             xzDistFromLink = ((xzDistFromLink - 50.0f) * 0.95f) + 0.05f;
 
-            if (Math_Rand_ZeroOne() < xzDistFromLink) {
+            if (Rand_ZeroOne() < xzDistFromLink) {
                 this->unk_2A8 = 3;
                 this->unk_2AC = 0x200;
                 this->unk_2B8 = (xzDistFromLink * 2.0f) + 1.0f;
                 this->func_2C8 = func_80A01FE0;
-                this->unk_2C0 = (s16)Math_Rand_ZeroFloat(16.0f) + 0x10;
+                this->unk_2C0 = (s16)Rand_ZeroFloat(16.0f) + 0x10;
             } else {
                 this->unk_2C0 = 10;
             }
         }
     }
 
-    if (Math_Rand_ZeroOne() < 0.1f) {
+    if (Rand_ZeroOne() < 0.1f) {
         this->unk_2A8 = 1;
         this->unk_2AC = 0x80;
-        this->unk_2B8 = Math_Rand_ZeroFloat(0.5f) + 0.5f;
-        this->unk_2B0 = Math_Rand_CenteredFloat(32767.0f);
+        this->unk_2B8 = Rand_ZeroFloat(0.5f) + 0.5f;
+        this->unk_2B0 = Rand_CenteredFloat(32767.0f);
     }
 }
 
@@ -307,9 +307,9 @@ void func_80A0232C(EnElf* this, GlobalContext* globalCtx) {
 f32 EnElf_GetColorValue(s32 colorFlag) {
     switch (colorFlag) {
         case 1:
-            return Math_Rand_ZeroFloat(55.0f) + 200.0f;
+            return Rand_ZeroFloat(55.0f) + 200.0f;
         case 2:
-            return Math_Rand_ZeroFloat(255.0f);
+            return Rand_ZeroFloat(255.0f);
         default:
             return 0.0f;
     }
@@ -383,18 +383,18 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
         case FAIRY_HEAL:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A0329C);
-            this->unk_2B4 = Math_Rand_ZeroFloat(10.0f) + 10.0f;
+            this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
             this->unk_2AA = 0;
-            this->unk_2AE = (s16)(Math_Rand_ZeroFloat(1048.0f)) + 0x200;
+            this->unk_2AE = (s16)(Rand_ZeroFloat(1048.0f)) + 0x200;
             this->unk_28C = thisx->posRot.pos;
-            this->unk_2BC = Math_Rand_CenteredFloat(32767.0f);
+            this->unk_2BC = Rand_CenteredFloat(32767.0f);
             this->func_2C8 = func_80A0214C;
             func_80A0232C(this, globalCtx);
             this->unk_2C0 = 0;
             this->disappearTimer = 240;
             break;
         case FAIRY_KOKIRI:
-            colorConfig = Math_Rand_ZeroFloat(11.99f) + 1.0f;
+            colorConfig = Rand_ZeroFloat(11.99f) + 1.0f;
             EnElf_SetupAction(this, func_80A0353C);
             func_80A01C38(this, 0);
             break;
@@ -608,9 +608,9 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (Math_Rand_ZeroOne() < 0.05f) {
-        this->unk_2B4 = Math_Rand_ZeroFloat(10.0f) + 10.0f;
-        this->unk_2AE = (s16)(Math_Rand_ZeroFloat(1024.0f)) + 0x200;
+    if (Rand_ZeroOne() < 0.05f) {
+        this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
+        this->unk_2AE = (s16)(Rand_ZeroFloat(1024.0f)) + 0x200;
     }
 
     func_80A0232C(this, globalCtx);
@@ -948,7 +948,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if ((this->timer % 32) == 0) {
-                        this->unk_2A0 = Math_Rand_ZeroFloat(7.0f) + 3.0f;
+                        this->unk_2A0 = Rand_ZeroFloat(7.0f) + 3.0f;
                     }
 
                     if (this->fairyFlags & 2) {
@@ -1188,9 +1188,9 @@ void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife)
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
 
-    sparklePos.x = Math_Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.x;
-    sparklePos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    sparklePos.z = Math_Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.z;
+    sparklePos.x = Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.x;
+    sparklePos.y = (Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
+    sparklePos.z = Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.z;
 
     primColor.r = this->innerColor.r;
     primColor.g = this->innerColor.g;

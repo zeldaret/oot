@@ -9,7 +9,7 @@ glabel func_808FFEBC
 /* 02F98 808FFED8 15C0000C */  bne     $t6, $zero, .L808FFF0C     
 /* 02F9C 808FFEDC 00000000 */  nop
 /* 02FA0 808FFEE0 44816000 */  mtc1    $at, $f12                  ## $f12 = 50.00
-/* 02FA4 808FFEE4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02FA4 808FFEE4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02FA8 808FFEE8 00000000 */  nop
 /* 02FAC 808FFEEC 4600010D */  trunc.w.s $f4, $f0                   

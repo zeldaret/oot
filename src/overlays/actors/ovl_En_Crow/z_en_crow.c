@@ -120,7 +120,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.y;
             iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.z;
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
-                                           ((Math_Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
+                                           ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
     } else if (this->actor.colChkInfo.damageEffect == 2) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
@@ -186,7 +186,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     skelanimeUpdated = func_800A56C8(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 3.0f;
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallPolyRot;
@@ -195,12 +195,12 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
-        (Math_Rand_ZeroOne() < 0.1f)) {
+        (Rand_ZeroOne() < 0.1f)) {
         var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
         if (var > 0) {
-            this->aimRotY += 0x1000 + (0x1000 * Math_Rand_ZeroOne());
+            this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
         } else {
-            this->aimRotY -= 0x1000 + (0x1000 * Math_Rand_ZeroOne());
+            this->aimRotY -= 0x1000 + (0x1000 * Rand_ZeroOne());
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
@@ -208,17 +208,17 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->actor.waterY > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
-        this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
+        this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
     } else if (this->actor.posRot.pos.y > (this->actor.initPosRot.pos.y + 50.0f)) {
-        this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
+        this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
     if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
-        (Math_Rand_ZeroOne() < 0.1f)) {
+        (Rand_ZeroOne() < 0.1f)) {
         if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
-            this->aimRotX -= (0x400 * Math_Rand_ZeroOne()) + 0x400;
+            this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;
         } else {
-            this->aimRotX += (0x400 * Math_Rand_ZeroOne()) + 0x400;
+            this->aimRotX += (0x400 * Rand_ZeroOne()) + 0x400;
         }
         this->aimRotX = CLAMP(this->aimRotX, -0x1000, 0x1000);
     }

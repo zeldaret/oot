@@ -52,9 +52,9 @@ extern Gfx D_06001A30[];
 extern Gfx D_060018A0[];
 
 void BgHeavyBlock_SetPieceRandRot(BgHeavyBlock* this, f32 scale) {
-    this->dyna.actor.posRot.rot.x = Math_Rand_CenteredFloat(1024.0f) * scale;
-    this->dyna.actor.posRot.rot.y = Math_Rand_CenteredFloat(1024.0f) * scale;
-    this->dyna.actor.posRot.rot.z = Math_Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.posRot.rot.x = Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.posRot.rot.y = Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.posRot.rot.z = Rand_CenteredFloat(1024.0f) * scale;
 }
 
 void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
@@ -64,10 +64,10 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
 
     this->dyna.actor.gravity = -0.6f;
     this->dyna.actor.minVelocityY = -12.0f;
-    randChoice = Math_Rand_CenteredFloat(12.0f * scale);
+    randChoice = Rand_CenteredFloat(12.0f * scale);
     rand = (randChoice < 0.0f) ? randChoice - 2.0f : randChoice + 2.0f;
-    this->dyna.actor.velocity.y = (Math_Rand_ZeroFloat(8.0f) + 4.0f) * scale;
-    this->dyna.actor.velocity.z = Math_Rand_ZeroFloat(-8.0f * scale);
+    this->dyna.actor.velocity.y = (Rand_ZeroFloat(8.0f) + 4.0f) * scale;
+    this->dyna.actor.velocity.z = Rand_ZeroFloat(-8.0f * scale);
     yawSinCos = Math_CosS(this->dyna.actor.posRot.rot.y);
     this->dyna.actor.velocity.x =
         (Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
@@ -75,7 +75,7 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
     this->dyna.actor.velocity.z =
         (Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
     BgHeavyBlock_SetPieceRandRot(this, scale);
-    Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.2f) + 1.0f);
+    Actor_SetScale(&this->dyna.actor, Rand_CenteredFloat(0.2f) + 1.0f);
 }
 
 void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
@@ -192,9 +192,9 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
         thisx->pos4.y -= this->unk_164.y;
         if (thisx->bgCheckFlags & 1) {
             this->pieceFlags |= PIECE_FLAG_HIT_FLOOR;
-            thisx->velocity.y = Math_Rand_ZeroFloat(4.0f) + 2.0f;
-            thisx->velocity.x = Math_Rand_CenteredFloat(8.0f);
-            thisx->velocity.z = Math_Rand_CenteredFloat(8.0f);
+            thisx->velocity.y = Rand_ZeroFloat(4.0f) + 2.0f;
+            thisx->velocity.x = Rand_CenteredFloat(8.0f);
+            thisx->velocity.z = Rand_CenteredFloat(8.0f);
             BgHeavyBlock_SetPieceRandRot(this, 1.0f);
             Audio_PlayActorSound2(thisx, NA_SE_EV_ROCK_BROKEN);
             func_800AA000(thisx->xzDistFromLink, 0x96, 0xA, 8);
@@ -261,8 +261,8 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 po
             scaleStep = 50;
             break;
         case 2:
-            sp44 = Math_Rand_ZeroFloat(5.0f) + 5.0f;
-            sp6E = Math_Rand_CenteredFloat(65280.0f);
+            sp44 = Rand_ZeroFloat(5.0f) + 5.0f;
+            sp6E = Rand_CenteredFloat(65280.0f);
 
             velocity.x = (Math_SinS(sp6E) * sp44) + velX;
             velocity.y = velY;
@@ -283,7 +283,7 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 po
     }
 
     func_8002843C(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, scale, scaleStep,
-                  (s32)Math_Rand_ZeroFloat(10.0f) + 20);
+                  (s32)Rand_ZeroFloat(10.0f) + 20);
 }
 
 void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
@@ -362,9 +362,9 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer < 40) {
-        xOffset = Math_Rand_CenteredFloat(110.0f);
+        xOffset = Rand_CenteredFloat(110.0f);
         sinYaw = Math_SinS(this->dyna.actor.shape.rot.y);
-        zOffset = Math_Rand_CenteredFloat(110.0f);
+        zOffset = Rand_CenteredFloat(110.0f);
         cosYaw = Math_CosS(this->dyna.actor.shape.rot.y);
 
         BgHeavyBlock_SpawnDust(globalCtx, (sinYaw * -70.0f) + (this->dyna.actor.posRot.pos.x + xOffset),
@@ -465,16 +465,16 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
         this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1678.0f,
-                                       Math_Rand_ZeroFloat(100.0f) + 1286.0f, Math_Rand_CenteredFloat(30.0f) + 552.0f,
+                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1678.0f,
+                                       Rand_ZeroFloat(100.0f) + 1286.0f, Rand_CenteredFloat(30.0f) + 552.0f,
                                        0.0f, 0.0f, 0.0f, 0);
-                BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(30.0f) + 1729.0f,
-                                       Math_Rand_ZeroFloat(80.0f) + 1269.0f, Math_Rand_CenteredFloat(30.0f) + 600.0f,
+                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1729.0f,
+                                       Rand_ZeroFloat(80.0f) + 1269.0f, Rand_CenteredFloat(30.0f) + 600.0f,
                                        0.0f, 0.0f, 0.0f, 0);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
-                BgHeavyBlock_SpawnDust(globalCtx, Math_Rand_CenteredFloat(100.0f) + -735.0f, 29.0f,
-                                       Math_Rand_CenteredFloat(100.0f) + -3418.0f, 0.0f, 0.0f, 0.0f, 3);
+                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(100.0f) + -735.0f, 29.0f,
+                                       Rand_CenteredFloat(100.0f) + -3418.0f, 0.0f, 0.0f, 0.0f, 3);
                 break;
         }
     } else {

@@ -19,14 +19,14 @@ glabel func_80967244
 /* 00918 80967268 C42C95F0 */  lwc1    $f12, %lo(D_809695F0)($at) 
 /* 0091C 8096726C E7A60048 */  swc1    $f6, 0x0048($sp)           
 /* 00920 80967270 C488002C */  lwc1    $f8, 0x002C($a0)           ## 0000002C
-/* 00924 80967274 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00924 80967274 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00928 80967278 E7A8004C */  swc1    $f8, 0x004C($sp)           
 /* 0092C 8096727C 4600028D */  trunc.w.s $f10, $f0                  
 /* 00930 80967280 3C018097 */  lui     $at, %hi(D_809695F4)       ## $at = 80970000
 /* 00934 80967284 C42C95F4 */  lwc1    $f12, %lo(D_809695F4)($at) 
 /* 00938 80967288 440F5000 */  mfc1    $t7, $f10                  
-/* 0093C 8096728C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0093C 8096728C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00940 80967290 A7AF0042 */  sh      $t7, 0x0042($sp)           
 /* 00944 80967294 4600040D */  trunc.w.s $f16, $f0                  

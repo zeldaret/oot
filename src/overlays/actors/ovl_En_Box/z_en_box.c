@@ -137,7 +137,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
                !Flags_GetSwitch(globalCtx2, this->switchFlag)) {
         func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
-        if (Math_Rand_ZeroOne() < 0.5f) {
+        if (Rand_ZeroOne() < 0.5f) {
             this->movementFlags |= ENBOX_MOVE_FALL_ANGLE_SIDE;
         }
         this->unk_1A8 = -12;
@@ -204,8 +204,8 @@ void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    f32 randomRadius = Math_Rand_ZeroOne() * 25.0f;
-    s16 randomAngle = Math_Rand_ZeroOne() * 0x10000;
+    f32 randomRadius = Rand_ZeroOne() * 25.0f;
+    s16 randomAngle = Rand_ZeroOne() * 0x10000;
 
     *pos = this->dyna.actor.posRot.pos;
     pos->x += Math_SinS(randomAngle) * randomRadius;
@@ -496,21 +496,21 @@ void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
 
     this->iceSmokeTimer++;
     func_8002F974(&this->dyna.actor, NA_SE_EN_MIMICK_BREATH - SFX_FLAG);
-    if (Math_Rand_ZeroOne() < 0.3f) {
-        f0 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
+    if (Rand_ZeroOne() < 0.3f) {
+        f0 = 2.0f * Rand_ZeroOne() - 1.0f;
         pos = this->dyna.actor.posRot.pos;
         if (this->type == ENBOX_TYPE_SMALL || this->type == ENBOX_TYPE_6 || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL ||
             this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) {
             pos.x += f0 * 10.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x4000);
             pos.z += f0 * 10.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x4000);
-            f0 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
+            f0 = 2.0f * Rand_ZeroOne() - 1.0f;
             vel.x = f0 * 0.8f * Math_SinS(this->dyna.actor.posRot.rot.y);
             vel.y = 1.8f;
             vel.z = f0 * 0.8f * Math_CosS(this->dyna.actor.posRot.rot.y);
         } else {
             pos.x += f0 * 20.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x4000);
             pos.z += f0 * 20.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x4000);
-            f0 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
+            f0 = 2.0f * Rand_ZeroOne() - 1.0f;
             vel.x = f0 * 1.6f * Math_SinS(this->dyna.actor.posRot.rot.y);
             vel.y = 1.8f;
             vel.z = f0 * 1.6f * Math_CosS(this->dyna.actor.posRot.rot.y);

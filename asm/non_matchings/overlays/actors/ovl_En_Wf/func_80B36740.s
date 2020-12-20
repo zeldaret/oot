@@ -263,7 +263,7 @@ glabel func_80B36740
 /* 02E1C 80B36ACC 8F221C44 */  lw      $v0, 0x1C44($t9)           ## 00001C44
 /* 02E20 80B36AD0 0C2CD157 */  jal     func_80B3455C              
 /* 02E24 80B36AD4 E7AC0044 */  swc1    $f12, 0x0044($sp)          
-/* 02E28 80B36AD8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02E28 80B36AD8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02E2C 80B36ADC 00000000 */  nop
 /* 02E30 80B36AE0 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

@@ -54,12 +54,12 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.gravity = 0.0f;
-    this->unk_298.x = Math_Rand_CenteredFloat(100.0f);
-    this->unk_298.y = Math_Rand_CenteredFloat(10.0f);
-    this->unk_298.z = Math_Rand_CenteredFloat(100.0f);
+    this->unk_298.x = Rand_CenteredFloat(100.0f);
+    this->unk_298.y = Rand_CenteredFloat(10.0f);
+    this->unk_298.z = Rand_CenteredFloat(100.0f);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.flags &= ~1;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y = (Math_Rand_ZeroOne() - 0.5f) * 60000.0f;
+    this->actor.shape.rot.y = this->actor.posRot.rot.y = (Rand_ZeroOne() - 0.5f) * 60000.0f;
     this->actionFunc = func_809B5670;
 }
 
@@ -86,7 +86,7 @@ void func_809B5268(EnAttackNiw* this, GlobalContext* globalCtx, s16 arg2) {
         if ((this->unk_28E & 1) == 0) {
             this->unk_264 = 0.0f;
             if (arg2 == 0) {
-                this->unk_254 = Math_Rand_ZeroFloat(30.0f);
+                this->unk_254 = Rand_ZeroFloat(30.0f);
             }
         }
     }
@@ -266,7 +266,7 @@ void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_25C == 0x32) {
-        this->unk_2D4 = Math_Rand_CenteredFloat(200.0f) + this->actor.yawTowardsLink;
+        this->unk_2D4 = Rand_CenteredFloat(200.0f) + this->actor.yawTowardsLink;
     }
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2D4, 2, this->unk_2DC, 0);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);

@@ -256,7 +256,7 @@ glabel L80950A4C
 /* 017A0 80950A60 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 017A4 80950A64 A2790000 */  sb      $t9, 0x0000($s3)           ## 809668D2
 .L80950A68:
-/* 017A8 80950A68 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 017A8 80950A68 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 017AC 80950A6C 00000000 */  nop
 /* 017B0 80950A70 3C018096 */  lui     $at, %hi(D_8095C688)       ## $at = 80960000
@@ -862,7 +862,7 @@ glabel L809510AC
               
 /* 0208C 8095134C 240700A0 */  addiu   $a3, $zero, 0x00A0         ## $a3 = 000000A0
 .L80951350:
-/* 02090 80951350 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02090 80951350 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02094 80951354 00000000 */  nop
 /* 02098 80951358 3C018096 */  lui     $at, %hi(D_8095C694)       ## $at = 80960000

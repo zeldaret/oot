@@ -356,7 +356,7 @@ glabel L808DB498
 /* 04F28 808DB798 142000CE */  bne     $at, $zero, .L808DBAD4
 /* 04F2C 808DB79C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 04F30 808DB7A0 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 04F34 808DB7A4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04F34 808DB7A4 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 04F38 808DB7A8 E7B60074 */  swc1    $f22, 0x0074($sp)
 /* 04F3C 808DB7AC 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
@@ -379,7 +379,7 @@ glabel L808DB498
 /* 04F80 808DB7F0 00000000 */  nop
 /* 04F84 808DB7F4 3C014780 */  lui     $at, 0x4780                ## $at = 47800000
 /* 04F88 808DB7F8 44816000 */  mtc1    $at, $f12                  ## $f12 = 65536.00
-/* 04F8C 808DB7FC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04F8C 808DB7FC 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 04F90 808DB800 00000000 */  nop
 /* 04F94 808DB804 46000306 */  mov.s   $f12, $f0

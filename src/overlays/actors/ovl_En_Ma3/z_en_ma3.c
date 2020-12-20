@@ -223,7 +223,7 @@ void func_80AA2F80(EnMa3* this) {
     if ((!func_80AA2F28(this)) && (DECR(this->unk_20C) == 0)) {
         this->unk_20E += 1;
         if (this->unk_20E >= 3) {
-            this->unk_20C = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_20C = Rand_S16Offset(0x1E, 0x1E);
             this->unk_20E = 0;
         }
     }

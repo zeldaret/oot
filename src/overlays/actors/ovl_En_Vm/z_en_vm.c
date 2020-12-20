@@ -322,8 +322,8 @@ void EnVm_SetupDie(EnVm* this) {
     this->actor.posRot.pos.y += 5000.0f * this->actor.scale.y;
     this->actor.velocity.y = 8.0f;
     this->actor.gravity = -0.5f;
-    this->actor.speedXZ = Math_Rand_ZeroOne() + 1.0f;
-    this->actor.posRot.rot.y = Math_Rand_CenteredFloat(65535.0f);
+    this->actor.speedXZ = Rand_ZeroOne() + 1.0f;
+    this->actor.posRot.rot.y = Rand_CenteredFloat(65535.0f);
     EnVm_SetupAction(this, EnVm_Die);
 }
 

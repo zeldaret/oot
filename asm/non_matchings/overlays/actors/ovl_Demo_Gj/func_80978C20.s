@@ -53,7 +53,7 @@ glabel func_80978C20
               ## sins?
 /* 0038C 80978CBC 00042403 */  sra     $a0, $a0, 16               
 /* 00390 80978CC0 46160102 */  mul.s   $f4, $f0, $f22             
-/* 00394 80978CC4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00394 80978CC4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00398 80978CC8 E7A400C4 */  swc1    $f4, 0x00C4($sp)           
 /* 0039C 80978CCC 461E0182 */  mul.s   $f6, $f0, $f30             
@@ -72,7 +72,7 @@ glabel func_80978C20
 /* 003CC 80978CFC C6860000 */  lwc1    $f6, 0x0000($s4)           ## 00000000
 /* 003D0 80978D00 4606D202 */  mul.s   $f8, $f26, $f6             
 /* 003D4 80978D04 46082280 */  add.s   $f10, $f4, $f8             
-/* 003D8 80978D08 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003D8 80978D08 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003DC 80978D0C E7AA00B8 */  swc1    $f10, 0x00B8($sp)          
 /* 003E0 80978D10 3C014210 */  lui     $at, 0x4210                ## $at = 42100000
@@ -98,7 +98,7 @@ glabel func_80978C20
 /* 00430 80978D60 E7A400C8 */  swc1    $f4, 0x00C8($sp)           
 /* 00434 80978D64 C6500008 */  lwc1    $f16, 0x0008($s2)          ## 00000008
 /* 00438 80978D68 46104280 */  add.s   $f10, $f8, $f16            
-/* 0043C 80978D6C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0043C 80978D6C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00440 80978D70 E7AA00CC */  swc1    $f10, 0x00CC($sp)          
 /* 00444 80978D74 3C018098 */  lui     $at, %hi(D_8097C1A4)       ## $at = 80980000
@@ -120,10 +120,10 @@ glabel func_80978C20
 /* 00480 80978DB0 10000001 */  beq     $zero, $zero, .L80978DB8   
 /* 00484 80978DB4 24100041 */  addiu   $s0, $zero, 0x0041         ## $s0 = 00000041
 .L80978DB8:
-/* 00488 80978DB8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00488 80978DB8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0048C 80978DBC 00000000 */  nop
-/* 00490 80978DC0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00490 80978DC0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00494 80978DC4 46000506 */  mov.s   $f20, $f0                  
 /* 00498 80978DC8 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

@@ -63,7 +63,7 @@ glabel func_8092DB4C
 /* 0165C 8092DC2C 31CF6080 */  andi    $t7, $t6, 0x6080           ## $t7 = 00000000
 /* 01660 8092DC30 15E00014 */  bne     $t7, $zero, .L8092DC84     
 /* 01664 8092DC34 00000000 */  nop
-/* 01668 8092DC38 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01668 8092DC38 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0166C 8092DC3C 00000000 */  nop
 /* 01670 8092DC40 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

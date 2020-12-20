@@ -478,7 +478,7 @@ glabel func_80954C20
 /* 05FD8 80955298 8D6D0008 */  lw      $t5, 0x0008($t3)           ## FFFFFFDC
 /* 05FDC 8095529C AE0D01E0 */  sw      $t5, 0x01E0($s0)           ## 000001E0
 .L809552A0:
-/* 05FE0 809552A0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 05FE0 809552A0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 05FE4 809552A4 00000000 */  nop
 /* 05FE8 809552A8 3C018096 */  lui     $at, %hi(D_8095C76C)       ## $at = 80960000

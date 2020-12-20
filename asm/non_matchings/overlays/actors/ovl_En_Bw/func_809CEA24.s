@@ -427,7 +427,7 @@ glabel L809CEF9C
 /* 008C8 809CEFA8 00000000 */  nop
 /* 008CC 809CEFAC A6030236 */  sh      $v1, 0x0236($s0)           ## 00000236
 .L809CEFB0:
-/* 008D0 809CEFB0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 008D0 809CEFB0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 008D4 809CEFB4 00000000 */  nop
 /* 008D8 809CEFB8 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -472,7 +472,7 @@ glabel L809CEF9C
 .L809CF050:
 /* 00970 809CF050 960C0088 */  lhu     $t4, 0x0088($s0)           ## 00000088
 /* 00974 809CF054 318BFFF7 */  andi    $t3, $t4, 0xFFF7           ## $t3 = 00000000
-/* 00978 809CF058 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00978 809CF058 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0097C 809CF05C A60B0088 */  sh      $t3, 0x0088($s0)           ## 00000088
 /* 00980 809CF060 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

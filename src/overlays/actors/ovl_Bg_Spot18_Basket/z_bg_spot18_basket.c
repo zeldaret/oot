@@ -78,13 +78,13 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
 
     for (i = 0, count = 2; i != count; i++) {
         if (globalCtx) {}
-        if (!(arg2 < Math_Rand_ZeroOne())) {
+        if (!(arg2 < Rand_ZeroOne())) {
             D_808B85D0 += 0x7530;
 
             sinValue = Math_SinS(D_808B85D0);
             cosValue = Math_CosS(D_808B85D0);
 
-            randomValue = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
+            randomValue = (Rand_ZeroOne() * 35.0f) + 35.0f;
 
             position.x = (randomValue * sinValue) + this->dyna.actor.posRot.pos.x;
             position.y = this->dyna.actor.posRot.pos.y + 10.0f;
@@ -98,8 +98,8 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
             acceleration.y = 0.5f;
             acceleration.z = 0.0f;
 
-            func_800286CC(globalCtx, &position, &velocity, &acceleration, ((Math_Rand_ZeroOne() * 16) + 80),
-                          ((Math_Rand_ZeroOne() * 30) + 80));
+            func_800286CC(globalCtx, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
+                          ((Rand_ZeroOne() * 30) + 80));
         }
     }
 }

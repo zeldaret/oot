@@ -185,7 +185,7 @@ glabel func_80951C04
 .L80951E80:
 /* 02BC0 80951E80 260F0024 */  addiu   $t7, $s0, 0x0024           ## $t7 = 00000024
 .L80951E84:
-/* 02BC4 80951E84 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02BC4 80951E84 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02BC8 80951E88 AFAF0044 */  sw      $t7, 0x0044($sp)           
 /* 02BCC 80951E8C 3C018096 */  lui     $at, %hi(D_8095C6C0)       ## $at = 80960000

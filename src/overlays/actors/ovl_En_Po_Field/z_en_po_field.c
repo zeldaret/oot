@@ -369,7 +369,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
                     }
-                } else if (player->stateFlags1 & 0x800000 || Math_Rand_ZeroOne() < 0.4f) {
+                } else if (player->stateFlags1 & 0x800000 || Rand_ZeroOne() < 0.4f) {
                     this->actor.params = EN_PO_FIELD_BIG;
                     this->spawnFlagIndex = i;
                     spawnDist = 480.0f;
@@ -800,7 +800,7 @@ void func_80AD6330(EnPoField* this) {
             (s16)(this->skelAnime.animCurrentFrame * 16.66f) + 55;
         this->soulColor.a = this->skelAnime.animCurrentFrame * 16.666666f;
     } else {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->soulColor.r = (s16)(rand * 30.0f) + 225;
         this->soulColor.g = (s16)(rand * 100.0f) + 155;
         this->soulColor.b = (s16)(rand * 160.0f) + 95;

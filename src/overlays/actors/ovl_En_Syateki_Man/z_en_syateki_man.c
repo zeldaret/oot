@@ -371,7 +371,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this) {
 
         if (nextEyeState >= 3) {
             this->eyeState = 0;
-            this->blinkTimer = 20 + (s32)(Math_Rand_ZeroOne() * 60.0f);
+            this->blinkTimer = 20 + (s32)(Rand_ZeroOne() * 60.0f);
             this->blinkFunc = EnSyatekiMan_BlinkWait;
         } else {
             this->eyeState = nextEyeState;

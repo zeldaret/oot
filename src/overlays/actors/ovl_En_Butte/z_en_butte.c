@@ -72,7 +72,7 @@ extern SkeletonHeader D_050036F0;
 
 void EnButte_SelectFlightParams(EnButte* this, EnButteFlightParams* flightParams) {
     if (this->flightParamsIdx == 0) {
-        if (Math_Rand_ZeroOne() < 0.6f) {
+        if (Rand_ZeroOne() < 0.6f) {
             this->flightParamsIdx = 1;
         } else {
             this->flightParamsIdx = 2;
@@ -81,7 +81,7 @@ void EnButte_SelectFlightParams(EnButte* this, EnButteFlightParams* flightParams
         this->flightParamsIdx = 0;
     }
 
-    this->timer = Math_Rand_S16Offset(flightParams->minTime, flightParams->maxTime);
+    this->timer = Rand_S16Offset(flightParams->minTime, flightParams->maxTime);
 }
 
 static f32 sTransformationEffectScale = 0.0f;
@@ -152,9 +152,9 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
     this->actor.colChkInfo.mass = 0;
-    this->unk_25C = Math_Rand_ZeroOne() * 0xFFFF;
-    this->unk_25E = Math_Rand_ZeroOne() * 0xFFFF;
-    this->unk_260 = Math_Rand_ZeroOne() * 0xFFFF;
+    this->unk_25C = Rand_ZeroOne() * 0xFFFF;
+    this->unk_25E = Rand_ZeroOne() * 0xFFFF;
+    this->unk_260 = Rand_ZeroOne() * 0xFFFF;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_05002470, 1.0f, 0.0f, 0.0f, 1, 0.0f);
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
@@ -239,7 +239,7 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
             minAnimSpeed = 0.3f;
         }
     } else if (this->unk_257 == 1) {
-        yaw = this->actor.yawTowardsLink + 0x8000 + (s16)((Math_Rand_ZeroOne() - 0.5f) * 0x6000);
+        yaw = this->actor.yawTowardsLink + 0x8000 + (s16)((Rand_ZeroOne() - 0.5f) * 0x6000);
         if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, rotStep) == 0) {
             minAnimSpeed = 0.4f;
         }
@@ -249,7 +249,7 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speedXZ / 2.0f + Math_Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
+    animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.animPlaybackSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -297,7 +297,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         swordTip.y = player->swordInfo[0].tip.y;
         swordTip.z = player->swordInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
-        yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &swordTip) + (s16)(Math_Rand_ZeroOne() * D_809CE410);
+        yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
         if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000) != 0) {
             if (globalCtx->gameplayFrames % 2) {
                 this->actor.posRot.rot.y += (s16)(sinf(this->unk_25C) * 60.0f);
@@ -311,7 +311,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speedXZ / 2.0f + Math_Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
+    animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.animPlaybackSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);

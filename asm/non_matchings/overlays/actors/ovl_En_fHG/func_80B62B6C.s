@@ -189,7 +189,7 @@ glabel L80B62CA4
 .L80B62D38:
 /* 00378 80B62D38 54600407 */  bnel    $v1, $zero, .L80B63D58
 /* 0037C 80B62D3C 860501CC */  lh      $a1, 0x01CC($s0)           ## 000001CC
-/* 00380 80B62D40 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00380 80B62D40 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00384 80B62D44 00000000 */  nop
 /* 00388 80B62D48 3C0180B6 */  lui     $at, %hi(D_80B653E8)       ## $at = 80B60000

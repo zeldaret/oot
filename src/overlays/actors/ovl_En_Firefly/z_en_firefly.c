@@ -115,7 +115,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->onFire) {
         this->actionFunc = EnFirefly_FlyIdle;
-        this->timer = Math_Rand_S16Offset(20, 60);
+        this->timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
         this->auraType = KEESE_AURA_FIRE;
         this->actor.naviEnemyId = 0x11; // Fire Keese
@@ -154,8 +154,8 @@ void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_SetupWait(EnFirefly* this) {
-    this->timer = Math_Rand_S16Offset(70, 100);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
+    this->timer = Rand_S16Offset(70, 100);
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
     this->targetPitch = ((this->maxAltitude < this->actor.posRot.pos.y) ? 0xC00 : -0xC00) + 0x1554;
     this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -187,7 +187,7 @@ void EnFirefly_SetupRebound(EnFirefly* this) {
 }
 
 void EnFirefly_SetupDiveAttack(EnFirefly* this) {
-    this->timer = Math_Rand_S16Offset(70, 100);
+    this->timer = Rand_S16Offset(70, 100);
     this->skelAnime.animPlaybackSpeed = 1.0f;
     this->targetPitch = ((this->actor.yDistFromLink > 0.0f) ? -0xC00 : 0xC00) + 0x1554;
     this->actionFunc = EnFirefly_DiveAttack;
@@ -225,7 +225,7 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
         iceParticlePos.y = (i & 2 ? 7.0f : -7.0f) + this->actor.posRot.pos.y;
         iceParticlePos.z = (i & 4 ? 7.0f : -7.0f) + this->actor.posRot.pos.z;
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
-                                       (Math_Rand_ZeroOne() * 0.15f) + 0.85f);
+                                       (Rand_ZeroOne() * 0.15f) + 0.85f);
     }
 
     this->actionFunc = EnFirefly_FrozenFall;
@@ -326,16 +326,16 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     skelanimeUpdated = func_800A56C8(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     if (this->onFire || (this->actor.params == KEESE_ICE_FLY) ||
         ((EnFirefly_ReturnToPerch(this, globalCtx) == 0) && (EnFirefly_SeekTorch(this, globalCtx) == 0))) {
         if (skelanimeUpdated) {
-            rand = Math_Rand_ZeroOne();
+            rand = Rand_ZeroOne();
             if (rand < 0.5f) {
                 Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
                                          func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
             } else if (rand < 0.8f) {
-                this->actor.shape.rot.y += Math_Rand_CenteredFloat(1536.0f);
+                this->actor.shape.rot.y += Rand_CenteredFloat(1536.0f);
             }
             // Climb if too close to ground
             if (this->actor.posRot.pos.y < (this->actor.groundY + 20.0f)) {
@@ -344,7 +344,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
             } else if (this->maxAltitude < this->actor.posRot.pos.y) {
                 this->targetPitch = 0x2154;
                 // Otherwise ascend or descend at random, biased towards ascending
-            } else if (0.35f < Math_Rand_ZeroOne()) {
+            } else if (0.35f < Rand_ZeroOne()) {
                 this->targetPitch = 0x954;
             } else {
                 this->targetPitch = 0x2154;
@@ -524,7 +524,7 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
         if (func_800A56C8(&this->skelAnime, 6.0f)) {
             this->timer--;
         }
-    } else if (Math_Rand_ZeroOne() < 0.02f) {
+    } else if (Rand_ZeroOne() < 0.02f) {
         this->timer = 1;
     }
 
@@ -705,9 +705,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
-                    effPos.x = (Math_Rand_ZeroOne() * 5.0f) + mtx.wx;
-                    effPos.y = (Math_Rand_ZeroOne() * 5.0f) + mtx.wy;
-                    effPos.z = (Math_Rand_ZeroOne() * 5.0f) + mtx.wz;
+                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.wx;
+                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.wy;
+                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.wz;
                     effScaleStep = -40;
                     effLife = 3;
                 } else {

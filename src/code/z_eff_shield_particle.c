@@ -38,13 +38,13 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
 
         for (elem = &this->elements[0]; elem < &this->elements[this->numElements]; elem++) {
             elem->initialSpeed =
-                (Math_Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
+                (Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
             elem->endX = 0.0f;
             elem->startXChange = 0.0f;
             elem->startX = 0.0f;
             elem->endXChange = elem->initialSpeed;
-            elem->yaw = Math_Rand_ZeroOne() * 65534.0f;
-            elem->pitch = Math_Rand_ZeroOne() * 65534.0f;
+            elem->yaw = Rand_ZeroOne() * 65534.0f;
+            elem->pitch = Rand_ZeroOne() * 65534.0f;
         }
 
         this->lightDecay = initParams->lightDecay;

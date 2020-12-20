@@ -384,11 +384,11 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
             for (i = 0; i < 20; i++) {
-                velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
-                velocity.y = Math_Rand_ZeroOne() * 7.0f;
-                velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
+                velocity.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
+                velocity.y = Rand_ZeroOne() * 7.0f;
+                velocity.z = (Rand_ZeroOne() - 0.5f) * 7.0f;
                 EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor,
-                                                  &envColor, Math_Rand_S16Offset(100, 50), 25, 0);
+                                                  &envColor, Rand_S16Offset(100, 50), 25, 0);
             }
             Actor_Kill(&this->actor);
         }
@@ -412,7 +412,7 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
         pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255,
-                                       (Math_Rand_ZeroOne() * 0.2f) + 1.9f);
+                                       (Rand_ZeroOne() * 0.2f) + 1.9f);
     }
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }

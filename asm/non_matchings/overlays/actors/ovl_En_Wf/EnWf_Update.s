@@ -141,7 +141,7 @@ glabel EnWf_Update
 /* 0372C 80B373DC E60A003C */  swc1    $f10, 0x003C($s0)          ## 0000003C
 /* 03730 80B373E0 14400016 */  bne     $v0, $zero, .L80B3743C     
 /* 03734 80B373E4 AE190040 */  sw      $t9, 0x0040($s0)           ## 00000040
-/* 03738 80B373E8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03738 80B373E8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0373C 80B373EC 00000000 */  nop
 /* 03740 80B373F0 3C0180B3 */  lui     $at, %hi(D_80B37BD0)       ## $at = 80B30000

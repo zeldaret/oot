@@ -801,7 +801,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     EnSsh_UpdateYaw(this, globalCtx);
     if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Math_Rand_S16Offset(60, 60);
+        this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->blinkState = this->blinkTimer;
     if (this->blinkState >= 3) {

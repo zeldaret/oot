@@ -463,9 +463,9 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
         // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement
         if ((fireDecr & 1) == 0) {
             offset = &sFlamePosOffsets[(fireDecr & 3)];
-            flamePos.x = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
-            flamePos.y = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
-            flamePos.z = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
+            flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
+            flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
+            flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
             EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 100, 0, 0, -1);
         }
     }

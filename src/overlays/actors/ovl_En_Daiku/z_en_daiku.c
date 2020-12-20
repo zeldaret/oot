@@ -172,7 +172,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         }
 
-        this->skelAnime.animCurrentFrame = (s32)(Math_Rand_ZeroOne() * this->skelAnime.animFrameCount);
+        this->skelAnime.animCurrentFrame = (s32)(Rand_ZeroOne() * this->skelAnime.animFrameCount);
         this->actionFunc = EnDaiku_TentIdle;
     }
 }

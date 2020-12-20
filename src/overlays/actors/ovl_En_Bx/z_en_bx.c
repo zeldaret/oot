@@ -148,11 +148,11 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Vec3f pos;
                 s16 yaw;
 
-                yaw = (s32)Math_Rand_CenteredFloat(12288.0f);
+                yaw = (s32)Rand_CenteredFloat(12288.0f);
                 yaw = (yaw + (i * 0x4000)) + 0x2000;
-                pos.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
-                pos.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
-                pos.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
+                pos.x = Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
+                pos.y = Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
+                pos.z = Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
                 EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, 230, yaw, 6, 0);
             }
         }

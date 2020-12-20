@@ -27,7 +27,7 @@ glabel func_809F6730
 /* 003D4 809F6794 AD4D0000 */  sw      $t5, 0x0000($t2)           ## FFFFFFE0
 /* 003D8 809F6798 8D6D0008 */  lw      $t5, 0x0008($t3)           ## 809F7F24
 /* 003DC 809F679C AD4C0004 */  sw      $t4, 0x0004($t2)           ## FFFFFFE4
-/* 003E0 809F67A0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003E0 809F67A0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003E4 809F67A4 AD4D0008 */  sw      $t5, 0x0008($t2)           ## FFFFFFE8
 /* 003E8 809F67A8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -42,7 +42,7 @@ glabel func_809F6730
 /* 0040C 809F67CC 00000000 */  nop
 /* 00410 809F67D0 A7AF0032 */  sh      $t7, 0x0032($sp)           
 /* 00414 809F67D4 C7120080 */  lwc1    $f18, 0x0080($t8)          ## 00000080
-/* 00418 809F67D8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00418 809F67D8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0041C 809F67DC E7B20038 */  swc1    $f18, 0x0038($sp)          
 /* 00420 809F67E0 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -51,7 +51,7 @@ glabel func_809F6730
 /* 0042C 809F67EC 44814000 */  mtc1    $at, $f8                   ## $f8 = 2.00
 /* 00430 809F67F0 46040181 */  sub.s   $f6, $f0, $f4              
 /* 00434 809F67F4 46083282 */  mul.s   $f10, $f6, $f8             
-/* 00438 809F67F8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00438 809F67F8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0043C 809F67FC E7AA0040 */  swc1    $f10, 0x0040($sp)          
 /* 00440 809F6800 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

@@ -388,7 +388,7 @@ glabel func_80B48578
 .L80B48AC0:
 /* 04A70 80B48AC0 0C2D14E1 */  jal     func_80B45384              
 /* 04A74 80B48AC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 04A78 80B48AC8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04A78 80B48AC8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04A7C 80B48ACC 00000000 */  nop
 /* 04A80 80B48AD0 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

@@ -184,7 +184,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_284 &= ~0x1;
 
     if (DECR(this->unk_288) == 0) {
-        this->unk_288 = Math_Rand_S16Offset(0x3C, 0x3C);
+        this->unk_288 = Rand_S16Offset(0x3C, 0x3C);
     }
 
     this->unk_286 = this->unk_288;

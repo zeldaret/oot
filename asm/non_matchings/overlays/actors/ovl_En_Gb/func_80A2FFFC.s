@@ -152,7 +152,7 @@ glabel func_80A2FFFC
 /* 01074 80A301F4 E61603AC */  swc1    $f22, 0x03AC($s0)          ## 000003AC
 /* 01078 80A301F8 A2130389 */  sb      $s3, 0x0389($s0)           ## 00000389
 /* 0107C 80A301FC A200038A */  sb      $zero, 0x038A($s0)         ## 0000038A
-/* 01080 80A30200 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01080 80A30200 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01084 80A30204 4600D306 */  mov.s   $f12, $f26                 
 /* 01088 80A30208 4600048D */  trunc.w.s $f18, $f0                  

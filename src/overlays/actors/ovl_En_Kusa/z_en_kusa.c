@@ -125,7 +125,7 @@ void EnKusa_DropCollectible(EnKusa* this, GlobalContext* globalCtx) {
             Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, dropParams << 4);
             break;
         case 1:
-            if (Math_Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ITEM00_SEEDS);
             } else {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ITEM00_HEART);
@@ -143,7 +143,7 @@ void EnKusa_Fall(EnKusa* this) {
 }
 
 void func_80A9B174(Vec3f* vec, f32 arg1) {
-    arg1 += ((Math_Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
+    arg1 += ((Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
     vec->x -= vec->x * arg1;
     vec->y -= vec->y * arg1;
     vec->z -= vec->z * arg1;
@@ -170,11 +170,11 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         pos.y = this->actor.posRot.pos.y + (scale->y * this->actor.scale.y * 20.0f) + 10.0f;
         pos.z = this->actor.posRot.pos.z + (scale->z * this->actor.scale.z * 20.0f);
 
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 8.0f;
+        velocity.y = Rand_ZeroOne() * 10.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 8.0f;
 
-        index = (s32)(Math_Rand_ZeroOne() * 111.1f) & 7;
+        index = (s32)(Rand_ZeroOne() * 111.1f) & 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
@@ -183,11 +183,11 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         pos.y = this->actor.posRot.pos.y + (scale->y * this->actor.scale.y * 40.0f) + 10.0f;
         pos.z = this->actor.posRot.pos.z + (scale->z * this->actor.scale.z * 40.0f);
 
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 6.0f;
+        velocity.y = Rand_ZeroOne() * 10.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 6.0f;
 
-        index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
+        index = (s32)(Rand_ZeroOne() * 111.1f) % 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
@@ -200,7 +200,7 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
     for (i = 0; i < 3; i++) {
         Actor* bug =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0, 1);
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0, 1);
 
         if (bug == NULL) {
             break;
@@ -229,7 +229,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (this->actor.shape.rot.y == 0) {
-        s16 rand = Math_Rand_ZeroFloat(0x10000);
+        s16 rand = Rand_ZeroFloat(0x10000);
 
         this->actor.posRot.rot.y = rand;
         this->actor.initPosRot.rot.y = rand;
@@ -350,7 +350,7 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
 void func_80A9BBB0(EnKusa* this) {
     EnKusa_SetupAction(this, func_80A9BC1C);
     D_80A9C1D0 = -0xBB8;
-    D_80A9C1D8 = ((Math_Rand_ZeroOne() - 0.5f) * 1600.0f);
+    D_80A9C1D8 = ((Rand_ZeroOne() - 0.5f) * 1600.0f);
     D_80A9C1D4 = 0;
     D_80A9C1DC = 0;
 }

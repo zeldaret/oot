@@ -293,7 +293,7 @@ void func_80AA66A0(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA6830(EnMb* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060041A8, -4.0f);
     this->actor.speedXZ = 0.0f;
-    this->unk_32A = Math_Rand_S16Offset(30, 50);
+    this->unk_32A = Rand_S16Offset(30, 50);
     this->unk_320 = 6;
     EnMb_SetupAction(this, func_80AA7134);
 }
@@ -301,7 +301,7 @@ void func_80AA6830(EnMb* this) {
 void func_80AA6898(EnMb* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600EBE4);
     this->actor.speedXZ = 0.0f;
-    this->unk_32A = Math_Rand_S16Offset(30, 50);
+    this->unk_32A = Rand_S16Offset(30, 50);
     this->unk_320 = 6;
     EnMb_SetupAction(this, func_80AA8DD8);
 }
@@ -309,7 +309,7 @@ void func_80AA6898(EnMb* this) {
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060041A8, -4.0f);
     this->actor.speedXZ = 0.0f;
-    this->unk_32A = Math_Rand_S16Offset(40, 80);
+    this->unk_32A = Rand_S16Offset(40, 80);
     this->unk_320 = 6;
     func_80AA6444(this, globalCtx);
     EnMb_SetupAction(this, func_80AA71AC);
@@ -318,7 +318,7 @@ void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA6974(EnMb* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009FC0), 0, -4.0f);
     this->actor.speedXZ = 0.59999996f;
-    this->unk_32A = Math_Rand_S16Offset(50, 70);
+    this->unk_32A = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->unk_320 = 9;
     EnMb_SetupAction(this, func_80AA87D8);
@@ -329,7 +329,7 @@ void func_80AA6A18(EnMb* this) {
 
     frameCount = SkelAnime_GetFrameCount(&D_06009FC0);
     this->actor.speedXZ = 0.59999996f;
-    this->unk_32A = Math_Rand_S16Offset(50, 70);
+    this->unk_32A = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->unk_320 = 9;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, frameCount, 1, -4.0f);
@@ -933,9 +933,9 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
             effZeroVector = D_80AA9D78;
             this->unk_32A--;
             for (effectsPerFrame = 4; effectsPerFrame >= 0; effectsPerFrame--) {
-                effPosition.x = Math_Rand_CenteredFloat(240.0f) + temp.x;
-                effPosition.y = Math_Rand_CenteredFloat(15.0f) + (temp.y + 20.0f);
-                effPosition.z = Math_Rand_CenteredFloat(240.0f) + temp.z;
+                effPosition.x = Rand_CenteredFloat(240.0f) + temp.x;
+                effPosition.y = Rand_CenteredFloat(15.0f) + (temp.y + 20.0f);
+                effPosition.z = Rand_CenteredFloat(240.0f) + temp.z;
                 EffectSsDeadDb_Spawn(globalCtx, &effPosition, &effZeroVector, &effZeroVector, 0xE6, 7, 0xFF, 0xFF, 0xFF,
                                      0xFF, 0, 0xFF, 0, 1, 9, 1);
             }
@@ -999,9 +999,9 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         }
         this->unk_32A--;
         if (this->unk_32A == 0) {
-            if (Math_Rand_ZeroOne() > 0.7f) {
-                this->unk_32A = Math_Rand_S16Offset(50, 70);
-                this->soundTimer = Math_Rand_S16Offset(15, 40);
+            if (Rand_ZeroOne() > 0.7f) {
+                this->unk_32A = Rand_S16Offset(50, 70);
+                this->soundTimer = Rand_S16Offset(15, 40);
             } else {
                 func_80AA6830(this);
             }
@@ -1025,7 +1025,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     f32 playbackSpeedABS;
 
     if (Math_Vec3f_DistXZ(&this->waypointPos, &this->actor.posRot.pos) <= 8.0f ||
-        Math_Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &this->actor.posRot.pos) <= 4.0f) {
+        Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &this->actor.posRot.pos) <= 4.0f) {
         func_80AA68FC(this, globalCtx);
     } else {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
@@ -1052,7 +1052,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     }
     if (this->soundTimer == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
-        this->soundTimer = Math_Rand_S16Offset(30, 70);
+        this->soundTimer = Rand_S16Offset(30, 70);
     }
     currentFrame = this->skelAnime.animCurrentFrame;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1162,9 +1162,9 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
             this->actor.shape.unk_10 = 0.0f;
             this->unk_32A--;
             for (i = 4; i >= 0; i--) {
-                effPos.x = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.x;
-                effPos.y = Math_Rand_CenteredFloat(15.0f) + (this->actor.posRot.pos.y + 20.0f);
-                effPos.z = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.z;
+                effPos.x = Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.x;
+                effPos.y = Rand_CenteredFloat(15.0f) + (this->actor.posRot.pos.y + 20.0f);
+                effPos.z = Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.z;
 
                 EffectSsDeadDb_Spawn(globalCtx, &effPos, &zeroVec, &zeroVec, 0x64, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF,
                                      0, 1, 9, 1);

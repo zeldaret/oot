@@ -1042,7 +1042,7 @@ glabel EnTorch2_Update
 /* 01318 80B1EC98 00000000 */  nop
 /* 0131C 80B1EC9C 45020035 */  bc1fl   .L80B1ED74                 
 /* 01320 80B1ECA0 C6120080 */  lwc1    $f18, 0x0080($s0)          ## 00000080
-/* 01324 80B1ECA4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01324 80B1ECA4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01328 80B1ECA8 00000000 */  nop
 /* 0132C 80B1ECAC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -1050,7 +1050,7 @@ glabel EnTorch2_Update
 /* 01334 80B1ECB4 3C01457A */  lui     $at, 0x457A                ## $at = 457A0000
 /* 01338 80B1ECB8 44816000 */  mtc1    $at, $f12                  ## $f12 = 4000.00
 /* 0133C 80B1ECBC 46120182 */  mul.s   $f6, $f0, $f18             
-/* 01340 80B1ECC0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01340 80B1ECC0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01344 80B1ECC4 E7A60050 */  swc1    $f6, 0x0050($sp)           
 /* 01348 80B1ECC8 4600020D */  trunc.w.s $f8, $f0                   
@@ -1480,7 +1480,7 @@ glabel EnTorch2_Update
 /* 01964 80B1F2E4 4502007B */  bc1fl   .L80B1F4D4                 
 /* 01968 80B1F2E8 8FA30078 */  lw      $v1, 0x0078($sp)           
 /* 0196C 80B1F2EC 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
-/* 01970 80B1F2F0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01970 80B1F2F0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01974 80B1F2F4 00000000 */  nop
 /* 01978 80B1F2F8 444EF800 */  cfc1    $t6, $31
@@ -1526,7 +1526,7 @@ glabel EnTorch2_Update
 /* 01A0C 80B1F38C 304200FF */  andi    $v0, $v0, 0x00FF           ## $v0 = 00000005
 /* 01A10 80B1F390 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 01A14 80B1F394 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
-/* 01A18 80B1F398 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01A18 80B1F398 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01A1C 80B1F39C 00000000 */  nop
 /* 01A20 80B1F3A0 444CF800 */  cfc1    $t4, $31

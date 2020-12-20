@@ -76,7 +76,7 @@ glabel func_809F49A4
 /* 017E8 809F4AA8 14610013 */  bne     $v1, $at, .L809F4AF8       
 /* 017EC 809F4AAC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 017F0 809F4AB0 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 017F4 809F4AB4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 017F4 809F4AB4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 017F8 809F4AB8 00000000 */  nop
 /* 017FC 809F4ABC 4600020D */  trunc.w.s $f8, $f0                   

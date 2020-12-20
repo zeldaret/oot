@@ -605,16 +605,16 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
         accel.z = 0.0f;
 
         if (isSmallSpawner) {
-            velocity.x = Math_Rand_ZeroOne() - 0.5f;
-            velocity.z = Math_Rand_ZeroOne() - 0.5f;
+            velocity.x = Rand_ZeroOne() - 0.5f;
+            velocity.z = Rand_ZeroOne() - 0.5f;
         } else {
-            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
 
-        pos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-        pos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-        pos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+        pos.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
+        pos.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+        pos.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 1000, 16);
     }
@@ -1525,8 +1525,8 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     primColor.a = 0;
 
     for (i = 0; i < spawnerCount; i++) {
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
                                         3000, 16);
@@ -1639,8 +1639,8 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
         pos = this->actor.posRot.pos;
 
         pos.y += 600.0f;
-        pos.x += Math_Rand_CenteredFloat(300.0f);
-        pos.z += 200.0f + Math_Rand_CenteredFloat(300.0f);
+        pos.x += Rand_CenteredFloat(300.0f);
+        pos.z += 200.0f + Rand_CenteredFloat(300.0f);
 
         velocity.z = 0.0f;
         velocity.x = 0.0f;

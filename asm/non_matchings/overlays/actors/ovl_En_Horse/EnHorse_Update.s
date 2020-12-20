@@ -368,7 +368,7 @@ glabel EnHorse_Update
 /* 098E8 80A64BD8 8F2F0008 */  lw      $t7, 0x0008($t9)           ## 00000008
 /* 098EC 80A64BDC 46049180 */  add.s   $f6, $f18, $f4             
 /* 098F0 80A64BE0 AE0F0040 */  sw      $t7, 0x0040($s0)           ## 00000040
-/* 098F4 80A64BE4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 098F4 80A64BE4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 098F8 80A64BE8 E606003C */  swc1    $f6, 0x003C($s0)           ## 0000003C
 /* 098FC 80A64BEC 3C0180A6 */  lui     $at, %hi(D_80A669BC)       ## $at = 80A60000

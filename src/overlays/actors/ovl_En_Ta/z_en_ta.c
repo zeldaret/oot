@@ -772,7 +772,7 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_2CC == 35) {
         for (i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
-            this->unk_2C4[i] = (s32)(Math_Rand_CenteredFloat(6.0f) + 10.0f);
+            this->unk_2C4[i] = (s32)(Rand_CenteredFloat(6.0f) + 10.0f);
 
             if (this->unk_2B8[i] != NULL) {
                 EnNiw* niw = this->unk_2B8[i];
@@ -1081,7 +1081,7 @@ void func_80B16700(EnTa* this) {
                 this->unk_2CE--;
                 temp2B6 = 1;
             } else {
-                temp2B6 = (s32)(Math_Rand_ZeroOne() * 60.0f) + 20;
+                temp2B6 = (s32)(Rand_ZeroOne() * 60.0f) + 20;
             }
             this->unk_2B6 = temp2B6;
             this->unk_2B0 = func_80B166CC;
@@ -1112,7 +1112,7 @@ void func_80B16854(EnTa* this) {
     } else {
         if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, this->unk_2E4);
-            this->unk_2E2 = Math_Rand_ZeroFloat(100.0f) + 100.0f;
+            this->unk_2E2 = Rand_ZeroFloat(100.0f) + 100.0f;
         }
 
         if (this->skelAnime.animCurrentFrame < 96.0f && this->skelAnime.animCurrentFrame >= 53.0f) {

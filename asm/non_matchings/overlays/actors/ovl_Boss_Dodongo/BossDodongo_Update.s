@@ -180,7 +180,7 @@ glabel BossDodongo_Update
 /* 02B34 808C3CC4 15A00011 */  bne     $t5, $zero, .L808C3D0C     
 /* 02B38 808C3CC8 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
 .L808C3CCC:
-/* 02B3C 808C3CCC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02B3C 808C3CCC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02B40 808C3CD0 00000000 */  nop
 /* 02B44 808C3CD4 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
@@ -600,7 +600,7 @@ glabel BossDodongo_Update
 /* 03110 808C42A0 3C01808D */  lui     $at, %hi(D_808CA6EC)       ## $at = 808D0000
 /* 03114 808C42A4 4500000C */  bc1f    .L808C42D8                 
 /* 03118 808C42A8 00000000 */  nop
-/* 0311C 808C42AC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0311C 808C42AC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03120 808C42B0 A7AA0090 */  sh      $t2, 0x0090($sp)           
 /* 03124 808C42B4 3C01808D */  lui     $at, %hi(D_808CA6E8)       ## $at = 808D0000
@@ -622,7 +622,7 @@ glabel BossDodongo_Update
 /* 03160 808C42F0 4502000E */  bc1fl   .L808C432C                 
 /* 03164 808C42F4 A7AE0090 */  sh      $t6, 0x0090($sp)           
 /* 03168 808C42F8 24100007 */  addiu   $s0, $zero, 0x0007         ## $s0 = 00000007
-/* 0316C 808C42FC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0316C 808C42FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03170 808C4300 A7AC0090 */  sh      $t4, 0x0090($sp)           
 /* 03174 808C4304 3C01808D */  lui     $at, %hi(D_808CA6F0)       ## $at = 808D0000
@@ -636,7 +636,7 @@ glabel BossDodongo_Update
 /* 03194 808C4324 00031C03 */  sra     $v1, $v1, 16               
 /* 03198 808C4328 A7AE0090 */  sh      $t6, 0x0090($sp)           
 .L808C432C:
-/* 0319C 808C432C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0319C 808C432C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 031A0 808C4330 A7A3008E */  sh      $v1, 0x008E($sp)           
 /* 031A4 808C4334 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
@@ -660,14 +660,14 @@ glabel BossDodongo_Update
 /* 031E4 808C4374 00D07024 */  and     $t6, $a2, $s0              
 /* 031E8 808C4378 55C00035 */  bnel    $t6, $zero, .L808C4450     
 /* 031EC 808C437C 87AE0090 */  lh      $t6, 0x0090($sp)           
-/* 031F0 808C4380 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 031F0 808C4380 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 031F4 808C4384 A7A3008E */  sh      $v1, 0x008E($sp)           
 /* 031F8 808C4388 3C0143A5 */  lui     $at, 0x43A5                ## $at = 43A50000
 /* 031FC 808C438C 44819000 */  mtc1    $at, $f18                  ## $f18 = 330.00
 /* 03200 808C4390 00000000 */  nop
 /* 03204 808C4394 46120102 */  mul.s   $f4, $f0, $f18             
-/* 03208 808C4398 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03208 808C4398 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0320C 808C439C E7A4007C */  swc1    $f4, 0x007C($sp)           
 /* 03210 808C43A0 3C01808D */  lui     $at, %hi(D_808CA6F4)       ## $at = 808D0000
@@ -736,14 +736,14 @@ glabel BossDodongo_Update
 /* 03300 808C4490 AD8F0000 */  sw      $t7, 0x0000($t4)           ## FFFFFFB0
 /* 03304 808C4494 8DAF0008 */  lw      $t7, 0x0008($t5)           ## 808CA43C
 /* 03308 808C4498 AD8E0004 */  sw      $t6, 0x0004($t4)           ## FFFFFFB4
-/* 0330C 808C449C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0330C 808C449C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03310 808C44A0 AD8F0008 */  sw      $t7, 0x0008($t4)           ## FFFFFFB8
 /* 03314 808C44A4 3C0143A5 */  lui     $at, 0x43A5                ## $at = 43A50000
 /* 03318 808C44A8 44819000 */  mtc1    $at, $f18                  ## $f18 = 330.00
 /* 0331C 808C44AC 00000000 */  nop
 /* 03320 808C44B0 46120102 */  mul.s   $f4, $f0, $f18             
-/* 03324 808C44B4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03324 808C44B4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03328 808C44B8 E7A40050 */  swc1    $f4, 0x0050($sp)           
 /* 0332C 808C44BC 3C01808D */  lui     $at, %hi(D_808CA704)       ## $at = 808D0000
@@ -779,22 +779,22 @@ glabel BossDodongo_Update
 /* 03398 808C4528 C432A714 */  lwc1    $f18, %lo(D_808CA714)($at) 
 /* 0339C 808C452C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 033A0 808C4530 44816000 */  mtc1    $at, $f12                  ## $f12 = 0.50
-/* 033A4 808C4534 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 033A4 808C4534 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 033A8 808C4538 E7B20064 */  swc1    $f18, 0x0064($sp)          
 /* 033AC 808C453C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 033B0 808C4540 44816000 */  mtc1    $at, $f12                  ## $f12 = 0.50
-/* 033B4 808C4544 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 033B4 808C4544 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 033B8 808C4548 E7A00060 */  swc1    $f0, 0x0060($sp)           
-/* 033BC 808C454C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 033BC 808C454C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 033C0 808C4550 E7A00068 */  swc1    $f0, 0x0068($sp)           
 /* 033C4 808C4554 3C0143A5 */  lui     $at, 0x43A5                ## $at = 43A50000
 /* 033C8 808C4558 44812000 */  mtc1    $at, $f4                   ## $f4 = 330.00
 /* 033CC 808C455C 00000000 */  nop
 /* 033D0 808C4560 46040182 */  mul.s   $f6, $f0, $f4              
-/* 033D4 808C4564 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 033D4 808C4564 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 033D8 808C4568 E7A60050 */  swc1    $f6, 0x0050($sp)           
 /* 033DC 808C456C 3C01808D */  lui     $at, %hi(D_808CA718)       ## $at = 808D0000
@@ -822,7 +822,7 @@ glabel BossDodongo_Update
 /* 0342C 808C45BC 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 03430 808C45C0 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
 /* 03434 808C45C4 46105480 */  add.s   $f18, $f10, $f16           
-/* 03438 808C45C8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 03438 808C45C8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0343C 808C45CC E7B2005C */  swc1    $f18, 0x005C($sp)          
 /* 03440 808C45D0 4600010D */  trunc.w.s $f4, $f0                   

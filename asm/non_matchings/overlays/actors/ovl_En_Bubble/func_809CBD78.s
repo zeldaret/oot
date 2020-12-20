@@ -108,23 +108,23 @@ glabel func_809CBD78
 /* 002F0 809CBEF0 27B10078 */  addiu   $s1, $sp, 0x0078           ## $s1 = FFFFFFD8
 /* 002F4 809CBEF4 E7A60080 */  swc1    $f6, 0x0080($sp)           
 .L809CBEF8:
-/* 002F8 809CBEF8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002F8 809CBEF8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002FC 809CBEFC 00000000 */  nop
 /* 00300 809CBF00 46160201 */  sub.s   $f8, $f0, $f22             
 /* 00304 809CBF04 46144282 */  mul.s   $f10, $f8, $f20            
-/* 00308 809CBF08 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00308 809CBF08 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0030C 809CBF0C E7AA0084 */  swc1    $f10, 0x0084($sp)          
 /* 00310 809CBF10 46140402 */  mul.s   $f16, $f0, $f20            
-/* 00314 809CBF14 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00314 809CBF14 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00318 809CBF18 E7B00088 */  swc1    $f16, 0x0088($sp)          
 /* 0031C 809CBF1C 46160481 */  sub.s   $f18, $f0, $f22            
 /* 00320 809CBF20 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
 /* 00324 809CBF24 24050032 */  addiu   $a1, $zero, 0x0032         ## $a1 = 00000032
 /* 00328 809CBF28 46149102 */  mul.s   $f4, $f18, $f20            
-/* 0032C 809CBF2C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0032C 809CBF2C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00330 809CBF30 E7A4008C */  swc1    $f4, 0x008C($sp)           
 /* 00334 809CBF34 24080019 */  addiu   $t0, $zero, 0x0019         ## $t0 = 00000019
@@ -152,7 +152,7 @@ glabel func_809CBD78
 /* 00388 809CBF88 2404005A */  addiu   $a0, $zero, 0x005A         ## $a0 = 0000005A
 /* 0038C 809CBF8C 01215024 */  and     $t2, $t1, $at              
 /* 00390 809CBF90 AECA0004 */  sw      $t2, 0x0004($s6)           ## 00000004
-/* 00394 809CBF94 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00394 809CBF94 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00398 809CBF98 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 .L809CBF9C:

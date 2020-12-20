@@ -3634,7 +3634,7 @@ void func_8083821C(Player* this) {
     s32 i;
 
     // clang-format off
-    for (i = 0; i < 18; i++) { this->flameTimers[i] = Math_Rand_S16Offset(0, 200); }
+    for (i = 0; i < 18; i++) { this->flameTimers[i] = Rand_S16Offset(0, 200); }
     // clang-format on
 
     this->isBurning = true;
@@ -5671,9 +5671,9 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
             if (this->unk_854 > 15.0f) {
                 this->unk_854 = 0.0f;
 
-                ripplePos.x = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
+                ripplePos.x = (Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
                 ripplePos.y = this->actor.posRot.pos.y + this->actor.waterY;
-                ripplePos.z = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
+                ripplePos.z = (Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
                 EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
 
                 if ((this->linearVelocity > 4.0f) && !func_808332B8(this) &&
@@ -5689,7 +5689,7 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
             s32 i;
 
             if ((this->actor.velocity.y > -1.0f) || (this->actor.bgCheckFlags & 1)) {
-                if (Math_Rand_ZeroOne() < 0.2f) {
+                if (Rand_ZeroOne() < 0.2f) {
                     numBubbles = 1;
                 }
             } else {
@@ -6772,7 +6772,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
                     sp38 = 8;
                 }
             } else {
-                sp34 = Math_Rand_ZeroOne() * 5.0f;
+                sp34 = Rand_ZeroOne() * 5.0f;
                 if (sp34 < 4) {
                     if (((sp34 != 0) && (sp34 != 3)) ||
                         ((this->rightHandType == 10) && ((sp34 == 3) || Player_GetSwordHeld(this)))) {
@@ -7407,9 +7407,9 @@ void func_8084251C(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_8084260C(Vec3f* src, Vec3f* dest, f32 arg2, f32 arg3, f32 arg4) {
-    dest->x = (Math_Rand_ZeroOne() * arg3) + src->x;
-    dest->y = (Math_Rand_ZeroOne() * arg4) + (src->y + arg2);
-    dest->z = (Math_Rand_ZeroOne() * arg3) + src->z;
+    dest->x = (Rand_ZeroOne() * arg3) + src->x;
+    dest->y = (Rand_ZeroOne() * arg4) + (src->y + arg2);
+    dest->z = (Rand_ZeroOne() * arg3) + src->z;
 }
 
 Vec3f D_808545B4 = { 0.0f, 0.0f, 0.0f };
@@ -9781,10 +9781,10 @@ void func_80848B44(GlobalContext* globalCtx, Player* this) {
             shockScale = 40;
         }
 
-        randBodyPart = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
-        shockPos.x = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->x) - this->actor.posRot.pos.x;
-        shockPos.y = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->y) - this->actor.posRot.pos.y;
-        shockPos.z = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->z) - this->actor.posRot.pos.z;
+        randBodyPart = this->bodyPartsPos + (s32)Rand_ZeroFloat(17.9f);
+        shockPos.x = (Rand_CenteredFloat(5.0f) + randBodyPart->x) - this->actor.posRot.pos.x;
+        shockPos.y = (Rand_CenteredFloat(5.0f) + randBodyPart->y) - this->actor.posRot.pos.y;
+        shockPos.z = (Rand_CenteredFloat(5.0f) + randBodyPart->z) - this->actor.posRot.pos.z;
 
         EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &shockPos, shockScale, FHGFLASH_SHOCK_PLAYER);
         func_8002F8F0(&this->actor, NA_SE_PL_SPARK - SFX_FLAG);
@@ -11373,7 +11373,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
 
     if ((rideActor->unk_210 != this->unk_850) && ((rideActor->unk_210 >= 2) || (this->unk_850 >= 2))) {
         if ((this->unk_850 = rideActor->unk_210) < 2) {
-            f32 rand = Math_Rand_ZeroOne();
+            f32 rand = Rand_ZeroOne();
             s32 temp = 0;
 
             this->unk_850 = 1;
@@ -12072,7 +12072,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         if (this->unk_850 == 0) {
             if (this->itemActionParam == PLAYER_AP_BOTTLE_POE) {
-                s32 rand = Math_Rand_S16Offset(-1, 3);
+                s32 rand = Rand_S16Offset(-1, 3);
 
                 if (rand == 0) {
                     rand = 3;
@@ -12629,8 +12629,8 @@ void func_8085002C(Player* this) {
 
     sp26 = this->actor.posRot.rot.y - this->actor.shape.rot.y;
 
-    sp28 = this->actor.speedXZ * -200.0f * Math_CosS(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
-    sp2A = this->actor.speedXZ * 100.0f * Math_SinS(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
+    sp28 = this->actor.speedXZ * -200.0f * Math_CosS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f);
+    sp2A = this->actor.speedXZ * 100.0f * Math_SinS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f);
 
     D_80858AC8[3] += sp28 >> 2;
     D_80858AC8[4] += sp2A >> 2;
@@ -13731,9 +13731,9 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     ptr = D_80855210[gSaveContext.linkAge];
 
-    sp34.x = ptr[0].x + Math_Rand_CenteredFloat(ptr[1].x);
-    sp34.y = ptr[0].y + Math_Rand_CenteredFloat(ptr[1].y);
-    sp34.z = ptr[0].z + Math_Rand_CenteredFloat(ptr[1].z);
+    sp34.x = ptr[0].x + Rand_CenteredFloat(ptr[1].x);
+    sp34.y = ptr[0].y + Rand_CenteredFloat(ptr[1].y);
+    sp34.z = ptr[0].z + Rand_CenteredFloat(ptr[1].z);
 
     SkinMatrix_Vec3fMtxFMultXYZ(&this->shieldMf, &sp34, &sparklePos);
 

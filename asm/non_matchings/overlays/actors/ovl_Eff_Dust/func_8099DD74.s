@@ -89,7 +89,7 @@ glabel func_8099DD74
 /* 005D4 8099DEA4 00000000 */  nop
 /* 005D8 8099DEA8 45020031 */  bc1fl   .L8099DF70                 
 /* 005DC 8099DEAC 26B50001 */  addiu   $s5, $s5, 0x0001           ## $s5 = 00000001
-/* 005E0 8099DEB0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 005E0 8099DEB0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 005E4 8099DEB4 4600D306 */  mov.s   $f12, $f26                 
 /* 005E8 8099DEB8 4600048D */  trunc.w.s $f18, $f0                  
@@ -97,7 +97,7 @@ glabel func_8099DD74
 /* 005F0 8099DEC0 44129000 */  mfc1    $s2, $f18                  
 /* 005F4 8099DEC4 00000000 */  nop
 /* 005F8 8099DEC8 00129400 */  sll     $s2, $s2, 16               
-/* 005FC 8099DECC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 005FC 8099DECC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00600 8099DED0 00129403 */  sra     $s2, $s2, 16               
 /* 00604 8099DED4 4600010D */  trunc.w.s $f4, $f0                   

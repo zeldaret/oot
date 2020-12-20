@@ -24,7 +24,7 @@ glabel ObjHamishi_Init
 /* 004D0 80B93460 5700000B */  bnel    $t8, $zero, .L80B93490     
 /* 004D4 80B93464 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004D8 80B93468 44816000 */  mtc1    $at, $f12                  ## $f12 = 65536.00
-/* 004DC 80B9346C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 004DC 80B9346C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 004E0 80B93470 00000000 */  nop
 /* 004E4 80B93474 4600028D */  trunc.w.s $f10, $f0                  

@@ -22,7 +22,7 @@ glabel func_80B613F8
 /* 01220 80B61440 2B210003 */  slti    $at, $t9, 0x0003           
 /* 01224 80B61444 54200007 */  bnel    $at, $zero, .L80B61464     
 /* 01228 80B61448 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0122C 80B6144C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0122C 80B6144C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 01230 80B61450 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 01234 80B61454 8FA60018 */  lw      $a2, 0x0018($sp)           

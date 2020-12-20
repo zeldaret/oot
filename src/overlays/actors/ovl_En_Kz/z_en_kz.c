@@ -165,7 +165,7 @@ void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx += 1;
         if (this->eyeIdx >= 3) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
         }
     }

@@ -72,7 +72,7 @@ void func_809C1CAC(EnBird* this, s16 params) {
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
     AnimationHeader* anim = &D_0600006C;
 
-    this->unk_198 = Math_Rand_S16Offset(5, 0x23);
+    this->unk_198 = Rand_S16Offset(5, 0x23);
     SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
     EnBird_SetupAction(this, func_809C1D60);
 }
@@ -96,7 +96,7 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void func_809C1E00(EnBird* this, s16 params) {
-    this->unk_198 = Math_Rand_S16Offset(0x14, 0x2D);
+    this->unk_198 = Rand_S16Offset(0x14, 0x2D);
     EnBird_SetupAction(this, func_809C1E40);
 }
 

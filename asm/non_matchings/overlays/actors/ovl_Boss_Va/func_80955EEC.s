@@ -265,7 +265,7 @@ glabel func_80955EEC
 /* 06FB8 80956278 8DF80004 */  lw      $t8, 0x0004($t7)           ## FFFFFFE0
 /* 06FBC 8095627C AE1801DC */  sw      $t8, 0x01DC($s0)           ## 000001DC
 /* 06FC0 80956280 8DF90008 */  lw      $t9, 0x0008($t7)           ## FFFFFFE4
-/* 06FC4 80956284 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 06FC4 80956284 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 06FC8 80956288 AE1901E0 */  sw      $t9, 0x01E0($s0)           ## 000001E0
 /* 06FCC 8095628C 3C018096 */  lui     $at, %hi(D_8095C774)       ## $at = 80960000

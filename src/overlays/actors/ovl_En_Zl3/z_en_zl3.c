@@ -135,7 +135,7 @@ void func_80B534CC(EnZl3* this) {
     s16* unk_246 = &this->unk_246;
 
     if (DECR(*unk_246) == 0) {
-        *unk_246 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_246 = Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_244 = *unk_246;
     if (*unk_244 >= 3) {
@@ -155,9 +155,9 @@ void func_80B5357C(EnZl3* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.posRot.pos;
     Vec3f sp20;
 
-    sp20.x = thisPos->x + ((Math_Rand_ZeroOne() - 0.5f) * 10.0f);
+    sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
-    sp20.z = thisPos->z + ((Math_Rand_ZeroOne() - 0.5f) * 10.0f);
+    sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     Item_DropCollectible(globalCtx, &sp20, 3);
 }
 

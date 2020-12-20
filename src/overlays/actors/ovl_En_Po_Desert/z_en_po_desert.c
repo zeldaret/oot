@@ -226,7 +226,7 @@ void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
     if (limbIndex == 7) {
         Matrix_MultVec3f(&baseLightPos, &lightPos);
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
         color.b = (s16)(rand * 160.0f) + 95;

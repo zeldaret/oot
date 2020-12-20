@@ -156,7 +156,7 @@ glabel EnOwl_Update
 .L80ACC884:
 /* 02964 80ACC884 54400006 */  bnel    $v0, $zero, .L80ACC8A0     
 /* 02968 80ACC888 A60303F4 */  sh      $v1, 0x03F4($s0)           ## 000003F4
-/* 0296C 80ACC88C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0296C 80ACC88C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 02970 80ACC890 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 02974 80ACC894 A60203F6 */  sh      $v0, 0x03F6($s0)           ## 000003F6
@@ -258,7 +258,7 @@ glabel EnOwl_Update
 /* 02AC4 80ACC9E4 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
 /* 02AC8 80ACC9E8 312AFFEF */  andi    $t2, $t1, 0xFFEF           ## $t2 = 00000000
 /* 02ACC 80ACC9EC A60A03FC */  sh      $t2, 0x03FC($s0)           ## 000003FC
-/* 02AD0 80ACC9F0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02AD0 80ACC9F0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02AD4 80ACC9F4 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02AD8 80ACC9F8 4600040D */  trunc.w.s $f16, $f0                  
@@ -281,7 +281,7 @@ glabel EnOwl_Update
 /* 02B14 80ACCA34 92030404 */  lbu     $v1, 0x0404($s0)           ## 00000404
 /* 02B18 80ACCA38 54600014 */  bnel    $v1, $zero, .L80ACCA8C     
 /* 02B1C 80ACCA3C 92090405 */  lbu     $t1, 0x0405($s0)           ## 00000405
-/* 02B20 80ACCA40 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02B20 80ACCA40 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02B24 80ACCA44 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02B28 80ACCA48 3C0180AD */  lui     $at, %hi(D_80ACD854)       ## $at = 80AD0000
@@ -338,7 +338,7 @@ glabel EnOwl_Update
 /* 02BE0 80ACCB00 1D80004F */  bgtz    $t4, .L80ACCC40            
 /* 02BE4 80ACCB04 00052C03 */  sra     $a1, $a1, 16               
 /* 02BE8 80ACCB08 44816000 */  mtc1    $at, $f12                  ## $f12 = 15.00
-/* 02BEC 80ACCB0C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02BEC 80ACCB0C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02BF0 80ACCB10 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02BF4 80ACCB14 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -379,7 +379,7 @@ glabel EnOwl_Update
 /* 02C74 80ACCB94 1D40002A */  bgtz    $t2, .L80ACCC40            
 /* 02C78 80ACCB98 00052C03 */  sra     $a1, $a1, 16               
 /* 02C7C 80ACCB9C 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 02C80 80ACCBA0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02C80 80ACCBA0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02C84 80ACCBA4 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02C88 80ACCBA8 4600028D */  trunc.w.s $f10, $f0                  
@@ -411,7 +411,7 @@ glabel EnOwl_Update
 /* 02CE8 80ACCC08 1DE0000D */  bgtz    $t7, .L80ACCC40            
 /* 02CEC 80ACCC0C 00052C03 */  sra     $a1, $a1, 16               
 /* 02CF0 80ACCC10 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 02CF4 80ACCC14 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02CF4 80ACCC14 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02CF8 80ACCC18 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02CFC 80ACCC1C 4600018D */  trunc.w.s $f6, $f0                   
@@ -469,7 +469,7 @@ glabel EnOwl_Update
 /* 02DB4 80ACCCD4 A61803F2 */  sh      $t8, 0x03F2($s0)           ## 000003F2
 /* 02DB8 80ACCCD8 A2190407 */  sb      $t9, 0x0407($s0)           ## 00000407
 /* 02DBC 80ACCCDC 44816000 */  mtc1    $at, $f12                  ## $f12 = 15.00
-/* 02DC0 80ACCCE0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02DC0 80ACCCE0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02DC4 80ACCCE4 A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02DC8 80ACCCE8 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -506,7 +506,7 @@ glabel EnOwl_Update
 /* 02E3C 80ACCD5C A2000407 */  sb      $zero, 0x0407($s0)         ## 00000407
 /* 02E40 80ACCD60 A20F0408 */  sb      $t7, 0x0408($s0)           ## 00000408
 /* 02E44 80ACCD64 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
-/* 02E48 80ACCD68 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02E48 80ACCD68 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02E4C 80ACCD6C A7A50036 */  sh      $a1, 0x0036($sp)           
 /* 02E50 80ACCD70 4600048D */  trunc.w.s $f18, $f0                  

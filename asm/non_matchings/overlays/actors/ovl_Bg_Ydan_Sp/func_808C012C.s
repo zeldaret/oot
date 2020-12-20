@@ -46,7 +46,7 @@ glabel func_808C012C
 /* 00D9C 808C01AC 00007810 */  mfhi    $t7                        
 /* 00DA0 808C01B0 55E0009B */  bnel    $t7, $zero, .L808C0420     
 /* 00DA4 808C01B4 8FBF009C */  lw      $ra, 0x009C($sp)           
-/* 00DA8 808C01B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00DA8 808C01B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00DAC 808C01BC 00000000 */  nop
 /* 00DB0 808C01C0 3C01808C */  lui     $at, %hi(D_808C0A84)       ## $at = 808C0000
@@ -71,7 +71,7 @@ glabel func_808C012C
 .L808C020C:
 /* 00DFC 808C020C 3C014620 */  lui     $at, 0x4620                ## $at = 46200000
 /* 00E00 808C0210 44816000 */  mtc1    $at, $f12                  ## $f12 = 10240.00
-/* 00E04 808C0214 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00E04 808C0214 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00E08 808C0218 00000000 */  nop
 /* 00E0C 808C021C 44935000 */  mtc1    $s3, $f10                  ## $f10 = 0.00

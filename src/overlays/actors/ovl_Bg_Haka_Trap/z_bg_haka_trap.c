@@ -235,13 +235,13 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
     func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
 
     for (i = 0; i < 2; i++) {
-        f32 rand = Math_Rand_ZeroOne();
+        f32 rand = Rand_ZeroOne();
 
         xScale = (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
 
         vector.x = xScale * rand + this->dyna.actor.posRot.pos.x;
-        vector.y = Math_Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
-        vector.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
+        vector.y = Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
+        vector.z = Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
 
         EffectSsDeadDb_Spawn(globalCtx, &vector, &zeroVec, &zeroVec, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
                              false);

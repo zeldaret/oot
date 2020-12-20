@@ -192,7 +192,7 @@ glabel func_809BC598
 .L809BC810:
 /* 007E0 809BC810 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 007E4 809BC814 240500C8 */  addiu   $a1, $zero, 0x00C8         ## $a1 = 000000C8
-/* 007E8 809BC818 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 007E8 809BC818 0C01DF64 */  jal     Rand_S16Offset
               
 /* 007EC 809BC81C A7A3002E */  sh      $v1, 0x002E($sp)           
 /* 007F0 809BC820 87A3002E */  lh      $v1, 0x002E($sp)           

@@ -151,12 +151,12 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 
     pos = this->actor.posRot.pos;
     pos.y = this->actor.groundY + 2.0f;
-    angle = ((Math_Rand_ZeroOne() - 0.5f) * 0x10000);
+    angle = ((Rand_ZeroOne() - 0.5f) * 0x10000);
     i = dustCnt;
     while (i >= 0) {
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
+        accel.x = (Rand_ZeroOne() - 0.5f) * xzAccel;
         accel.y = yAccel;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
+        accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
         EnFw_AddDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
@@ -189,7 +189,7 @@ void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFw_Bounce(EnFw* this, GlobalContext* globalCtx) {
     if (EnFw_DoBounce(this, 3, 8.0f) && this->bounceCnt == 0) {
-        this->returnToParentTimer = Math_Rand_S16Offset(300, 150);
+        this->returnToParentTimer = Rand_S16Offset(300, 150);
         this->actionFunc = EnFw_Run;
     }
 }
@@ -294,7 +294,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             }
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
             this->skelAnime.animPlaybackSpeed = 0.0f;
-            EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
+            EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
             if (this->slideTimer == 0) {
                 this->turnAround = true;
@@ -414,8 +414,8 @@ void EnFw_UpdateDust(EnFw* this) {
             if ((--eff->timer) == 0) {
                 eff->type = 0;
             }
-            eff->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            eff->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
             eff->pos.z += eff->velocity.z;

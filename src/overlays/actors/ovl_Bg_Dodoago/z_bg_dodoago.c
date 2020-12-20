@@ -63,9 +63,9 @@ void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 4; i > 0; i--) {
-        pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
-        pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
-        pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
+        pos.x = Rand_CenteredFloat(20.0f) + vec->x;
+        pos.y = Rand_CenteredFloat(10.0f) + vec->y;
+        pos.z = Rand_CenteredFloat(20.0f) + vec->z;
         EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &velocity, &acceleration, &primColor, &envColor);
     }
 }

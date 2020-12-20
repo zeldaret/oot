@@ -143,7 +143,7 @@ void func_80B4E9B0(EnZl2* this) {
     s16* unk_190 = &this->unk_190;
 
     if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_192 = Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_190 = *unk_192;
     if (*unk_190 >= 3) {

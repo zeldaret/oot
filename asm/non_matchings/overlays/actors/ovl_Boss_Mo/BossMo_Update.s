@@ -442,7 +442,7 @@ glabel BossMo_Update
 /* 07A68 80923568 E7B40088 */  swc1    $f20, 0x0088($sp)          
 /* 07A6C 8092356C E7B4008C */  swc1    $f20, 0x008C($sp)          
 /* 07A70 80923570 E7A40090 */  swc1    $f4, 0x0090($sp)           
-/* 07A74 80923574 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 07A74 80923574 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 07A78 80923578 02619821 */  addu    $s3, $s3, $at              
 /* 07A7C 8092357C 46000306 */  mov.s   $f12, $f0                  
@@ -476,7 +476,7 @@ glabel BossMo_Update
 /* 07AE0 809235E0 024D8021 */  addu    $s0, $s2, $t5              
 /* 07AE4 809235E4 C6120D70 */  lwc1    $f18, 0x0D70($s0)          ## 00000D94
 /* 07AE8 809235E8 46069200 */  add.s   $f8, $f18, $f6             
-/* 07AEC 809235EC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 07AEC 809235EC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 07AF0 809235F0 E7A80070 */  swc1    $f8, 0x0070($sp)           
 /* 07AF4 809235F4 8FAE00BC */  lw      $t6, 0x00BC($sp)           
@@ -496,7 +496,7 @@ glabel BossMo_Update
 /* 07B2C 8092362C E7A60074 */  swc1    $f6, 0x0074($sp)           
 /* 07B30 80923630 C6080D78 */  lwc1    $f8, 0x0D78($s0)           ## 00000D9C
 /* 07B34 80923634 460A4400 */  add.s   $f16, $f8, $f10            
-/* 07B38 80923638 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 07B38 80923638 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 07B3C 8092363C E7B00078 */  swc1    $f16, 0x0078($sp)          
 /* 07B40 80923640 3C018092 */  lui     $at, %hi(D_80926E6C)       ## $at = 80920000

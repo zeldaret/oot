@@ -300,14 +300,14 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 3) {
         for (i = 0; i < 3; i++) {
-            dustVelocity.x = Math_Rand_CenteredFloat(15.0f);
-            dustVelocity.y = Math_Rand_ZeroFloat(-1.0f);
-            dustVelocity.z = Math_Rand_CenteredFloat(15.0f);
+            dustVelocity.x = Rand_CenteredFloat(15.0f);
+            dustVelocity.y = Rand_ZeroFloat(-1.0f);
+            dustVelocity.z = Rand_CenteredFloat(15.0f);
             dustPos.x = this->actor.posRot.pos.x + (dustVelocity.x + dustVelocity.x);
             dustPos.y = this->actor.posRot.pos.y + 7.0f;
             dustPos.z = this->actor.posRot.pos.z + (dustVelocity.z + dustVelocity.z);
             func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
-                          (s16)Math_Rand_ZeroFloat(50.0f) + 200, 40, 15);
+                          (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);

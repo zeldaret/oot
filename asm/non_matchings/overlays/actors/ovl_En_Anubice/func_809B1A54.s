@@ -105,7 +105,7 @@ glabel func_809B1A54
 /* 00A90 809B1BB0 00000000 */  nop
 /* 00A94 809B1BB4 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00A98 809B1BB8 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 00A9C 809B1BBC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00A9C 809B1BBC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00AA0 809B1BC0 00000000 */  nop
 /* 00AA4 809B1BC4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
@@ -117,7 +117,7 @@ glabel func_809B1A54
 /* 00ABC 809B1BDC E7A40050 */  swc1    $f4, 0x0050($sp)           
 /* 00AC0 809B1BE0 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00AC4 809B1BE4 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
-/* 00AC8 809B1BE8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00AC8 809B1BE8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00ACC 809B1BEC 00000000 */  nop
 /* 00AD0 809B1BF0 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
@@ -126,7 +126,7 @@ glabel func_809B1A54
 /* 00ADC 809B1BFC 46004280 */  add.s   $f10, $f8, $f0             
 /* 00AE0 809B1C00 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
 /* 00AE4 809B1C04 460A3400 */  add.s   $f16, $f6, $f10            
-/* 00AE8 809B1C08 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00AE8 809B1C08 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00AEC 809B1C0C E7B00040 */  swc1    $f16, 0x0040($sp)          
 /* 00AF0 809B1C10 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028
@@ -135,7 +135,7 @@ glabel func_809B1A54
 /* 00AFC 809B1C1C 46002200 */  add.s   $f8, $f4, $f0              
 /* 00B00 809B1C20 44816000 */  mtc1    $at, $f12                  ## $f12 = 30.00
 /* 00B04 809B1C24 46089180 */  add.s   $f6, $f18, $f8             
-/* 00B08 809B1C28 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00B08 809B1C28 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00B0C 809B1C2C E7A60044 */  swc1    $f6, 0x0044($sp)           
 /* 00B10 809B1C30 C610002C */  lwc1    $f16, 0x002C($s0)          ## 0000002C

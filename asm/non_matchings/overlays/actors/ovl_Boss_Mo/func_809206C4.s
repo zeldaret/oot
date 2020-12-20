@@ -242,17 +242,17 @@ glabel L80920734
 /* 04E80 80920980 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 .L80920984:
 /* 04E84 80920984 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 04E88 80920988 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 04E88 80920988 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 04E8C 8092098C 00000000 */  nop
 /* 04E90 80920990 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 04E94 80920994 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 04E98 80920998 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 04E98 80920998 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 04E9C 8092099C E7A00054 */  swc1    $f0, 0x0054($sp)           
 /* 04EA0 809209A0 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 04EA4 809209A4 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 04EA8 809209A8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 04EA8 809209A8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 04EAC 809209AC E7A00058 */  swc1    $f0, 0x0058($sp)           
 /* 04EB0 809209B0 8FB9002C */  lw      $t9, 0x002C($sp)           
@@ -279,7 +279,7 @@ glabel L80920734
 /* 04F04 80920A04 46000280 */  add.s   $f10, $f0, $f0             
 /* 04F08 80920A08 E7A8004C */  swc1    $f8, 0x004C($sp)           
 /* 04F0C 80920A0C 460A3400 */  add.s   $f16, $f6, $f10            
-/* 04F10 80920A10 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04F10 80920A10 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 04F14 80920A14 E7B00050 */  swc1    $f16, 0x0050($sp)          
 /* 04F18 80920A18 3C018092 */  lui     $at, %hi(D_80926D80)       ## $at = 80920000

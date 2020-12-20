@@ -62,7 +62,7 @@ glabel func_80B26E9C
 .L80B26F80:
 /* 008D0 80B26F80 15A0002E */  bne     $t5, $zero, .L80B2703C     
 /* 008D4 80B26F84 00119B80 */  sll     $s3, $s1, 14               
-/* 008D8 80B26F88 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 008D8 80B26F88 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 008DC 80B26F8C 4600D306 */  mov.s   $f12, $f26                 
 /* 008E0 80B26F90 4600010D */  trunc.w.s $f4, $f0                   

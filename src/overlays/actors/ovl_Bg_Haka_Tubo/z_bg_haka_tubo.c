@@ -66,7 +66,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
     Collider_InitCylinder(globalCtx, &this->flamesCollider);
     Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &sFlamesColliderInit);
-    this->fireScroll = Math_Rand_ZeroOne() * 15.0f;
+    this->fireScroll = Rand_ZeroOne() * 15.0f;
     sPotsDestroyed = 0;
     this->actionFunc = BgHakaTubo_Idle;
 }
@@ -133,7 +133,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
         spawnPos.y = this->dyna.actor.posRot.pos.y + 200.0f;
         spawnPos.z = this->dyna.actor.posRot.pos.z;
         if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
-            rnd = Math_Rand_ZeroOne();
+            rnd = Rand_ZeroOne();
             sPotsDestroyed++;
             if (sPotsDestroyed == 3) {
                 // All 3 pots destroyed

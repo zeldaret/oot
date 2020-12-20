@@ -120,7 +120,7 @@ void func_80A5046C(EnGuest* this) {
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
-                this->unk_2CA = (s32)Math_Rand_ZeroFloat(60.0f) + 20;
+                this->unk_2CA = (s32)Rand_ZeroFloat(60.0f) + 20;
             } else {
                 this->unk_2CA = 1;
             }

@@ -38,7 +38,7 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->life = 20;
     this->rLifespan = this->life;
     this->actor = initParams->actor;
-    this->rScroll = Math_Rand_ZeroOne() * 20.0f;
+    this->rScroll = Rand_ZeroOne() * 20.0f;
     this->draw = EffectSsEnFire_Draw;
     this->update = EffectSsEnFire_Update;
     this->rUnused = -15;

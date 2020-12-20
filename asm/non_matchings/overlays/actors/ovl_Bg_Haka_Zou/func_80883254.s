@@ -3,7 +3,7 @@ glabel func_80883254
 /* 00C98 80883258 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00C9C 8088325C AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00CA0 80883260 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00CA4 80883264 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00CA4 80883264 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00CA8 80883268 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00CAC 8088326C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

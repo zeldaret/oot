@@ -20,7 +20,7 @@ glabel func_80AFD13C
 /* 007D0 80AFD170 3319000F */  andi    $t9, $t8, 0x000F           ## $t9 = 00000000
 /* 007D4 80AFD174 57200008 */  bnel    $t9, $zero, .L80AFD198     
 /* 007D8 80AFD178 860A008A */  lh      $t2, 0x008A($s0)           ## 0000008A
-/* 007DC 80AFD17C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 007DC 80AFD17C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 007E0 80AFD180 C42CE110 */  lwc1    $f12, %lo(D_80AFE110)($at) 
 /* 007E4 80AFD184 4600010D */  trunc.w.s $f4, $f0                   

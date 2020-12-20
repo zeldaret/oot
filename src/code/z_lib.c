@@ -176,12 +176,12 @@ void func_80077D10(f32* arg0, s16* arg1, Input* input) {
     *arg1 = Math_Atan2S(relY, -relX);
 }
 
-s16 Math_Rand_S16Offset(s16 base, s16 range) {
-    return (s16)(Math_Rand_ZeroOne() * range) + base;
+s16 Rand_S16Offset(s16 base, s16 range) {
+    return (s16)(Rand_ZeroOne() * range) + base;
 }
 
-s16 Math_Rand_S16OffsetStride(s16 base, s16 stride, s16 range) {
-    return (s16)(Math_Rand_ZeroOne() * range) * stride + base;
+s16 Rand_S16OffsetStride(s16 base, s16 stride, s16 range) {
+    return (s16)(Rand_ZeroOne() * range) * stride + base;
 }
 
 void Math_Vec3f_Copy(Vec3f* dest, Vec3f* src) {

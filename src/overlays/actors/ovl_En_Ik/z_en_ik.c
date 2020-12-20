@@ -586,9 +586,9 @@ void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
             this->unk_2F9--;
 
             for (i = 0xC - (this->unk_2F9 >> 1); i >= 0; i--) {
-                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(120.0f);
-                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(120.0f);
-                pos.y = this->actor.posRot.pos.y + 20.0f + Math_Rand_CenteredFloat(50.0f);
+                pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(120.0f);
+                pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(120.0f);
+                pos.y = this->actor.posRot.pos.y + 20.0f + Rand_CenteredFloat(50.0f);
                 EffectSsDeadDb_Spawn(globalCtx, &pos, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
             }
             if (this->unk_2F9 == 0) {
@@ -667,7 +667,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         return;
     }
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
-    if ((this->actor.params == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
+    if ((this->actor.params == 0) && (Rand_ZeroOne() < 0.5f)) {
         if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) > 0x4000) {
             func_80A754A0(this);
         }
@@ -958,7 +958,7 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
             Vec3f effectPos;
 
             Matrix_MultVec3f(&D_80A78514[i], &effectPos);
-            temp_v0 = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
+            temp_v0 = (Rand_ZeroOne() * 20.0f) - 10.0f;
             primColor.r += temp_v0;
             primColor.g += temp_v0;
             primColor.b += temp_v0;
@@ -966,7 +966,7 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
             envColor.g += temp_v0;
             envColor.b += temp_v0;
             func_8002829C(globalCtx, &effectPos, &effectVelocity, &effectAccel, &primColor, &envColor,
-                          (Math_Rand_ZeroOne() * 60.0f) + 300.0f, 0);
+                          (Rand_ZeroOne() * 60.0f) + 300.0f, 0);
         }
 
         this->unk_4D4 = 1;

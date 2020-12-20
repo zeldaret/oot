@@ -121,7 +121,7 @@ void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, GlobalContext* globalCtx
 
 void EnHintnuts_SetupWait(EnHintnuts* this) {
     SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_06002B90, 0.0f);
-    this->animFlagAndTimer = Math_Rand_S16Offset(100, 50);
+    this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     this->actor.posRot.pos = this->actor.initPosRot.pos;
     this->collider.base.acFlags &= ~1;

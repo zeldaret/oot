@@ -57,7 +57,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rEnvColorG = initParams->envColor.g;
         this->rEnvColorB = initParams->envColor.b;
         this->rAlphaMode = 1;
-        this->rPitch = Math_Rand_CenteredFloat(65536.0f);
+        this->rPitch = Rand_CenteredFloat(65536.0f);
     } else if (initParams->type == 1) {
         this->pos = initParams->pos;
         this->vec = initParams->pos;
@@ -145,17 +145,17 @@ void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* t
             this->life++;
         } else if (this->life == 9) {
             this->accel.x =
-                Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+                Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.z =
-                Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+                Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }
     } else {
         if (this->life >= 9) {
-            rand = Math_Rand_CenteredFloat(65535.0f);
-            this->accel.x = Math_SinS(rand) * (Math_Rand_ZeroOne() + 1.0f);
-            this->accel.z = Math_CosS(rand) * (Math_Rand_ZeroOne() + 1.0f);
+            rand = Rand_CenteredFloat(65535.0f);
+            this->accel.x = Math_SinS(rand) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(rand) * (Rand_ZeroOne() + 1.0f);
             this->life = 8;
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;

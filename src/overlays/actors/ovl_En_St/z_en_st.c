@@ -104,11 +104,11 @@ void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     s16 yAngle;
     s32 i;
 
-    yAngle = (Math_Rand_ZeroOne() - 0.5f) * 65536.0f;
+    yAngle = (Rand_ZeroOne() - 0.5f) * 65536.0f;
     dustPos.y = this->actor.groundY;
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
-        dustAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        dustAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.x = (Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.z = (Rand_ZeroOne() - 0.5f) * 4.0f;
         dustPos.x = this->actor.posRot.pos.x + (Math_SinS(yAngle) * 22.0f);
         dustPos.z = this->actor.posRot.pos.z + (Math_CosS(yAngle) * 22.0f);
         func_8002836C(globalCtx, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
@@ -130,9 +130,9 @@ void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f firePos;
 
-    firePos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
-    firePos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.x = this->actor.posRot.pos.x + ((Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Rand_ZeroOne() - 0.5f) * 45.0f);
+    firePos.z = this->actor.posRot.pos.z + ((Rand_ZeroOne() - 0.5f) * 60.0f);
     EffectSsDeadDb_Spawn(globalCtx, &firePos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 }
 

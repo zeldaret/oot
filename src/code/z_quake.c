@@ -65,7 +65,7 @@ s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -86,7 +86,7 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
 
     req->countdown--;
     a = Math_SinS(req->speed * ((req->countdown & 0xF) + 500));
-    Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+    Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
     return 1;
 }
 
@@ -101,8 +101,8 @@ s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne();
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne();
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -110,8 +110,8 @@ s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -151,7 +151,7 @@ QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
     req->camPtrIdx = cam->thisIdx;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
-    req->randIdx = ((s16)(Math_Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
+    req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
     sQuakeRequestCount++;
 
     return req;

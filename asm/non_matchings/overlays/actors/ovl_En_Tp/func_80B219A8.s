@@ -78,7 +78,7 @@ glabel func_80B219A8
 /* 00CCC 80B21AAC 00000000 */  nop
 /* 00CD0 80B21AB0 45000008 */  bc1f    .L80B21AD4                 
 /* 00CD4 80B21AB4 00000000 */  nop
-/* 00CD8 80B21AB8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00CD8 80B21AB8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00CDC 80B21ABC 00000000 */  nop
 /* 00CE0 80B21AC0 3C014080 */  lui     $at, 0x4080                ## $at = 40800000

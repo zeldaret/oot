@@ -182,10 +182,10 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (this->actionTimer == 0 && Math_Rand_ZeroOne() < 0.03f) {
+    if (this->actionTimer == 0 && Rand_ZeroOne() < 0.03f) {
         this->actionTimer = 32;
         if (this->pathIndex < 23) {
-            speed = Math_Rand_ZeroOne() * 3.0f;
+            speed = Rand_ZeroOne() * 3.0f;
             if (speed < 1.0f) {
                 multiplier = 1.0f;
             } else if (speed < 2.0f) {
@@ -368,7 +368,7 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         Vec3f vec;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 885);
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->lightColor.r = (s16)(rand * 30.0f) + 225;
         this->lightColor.g = (s16)(rand * 100.0f) + 155;
         this->lightColor.b = (s16)(rand * 160.0f) + 95;

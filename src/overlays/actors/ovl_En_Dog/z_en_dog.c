@@ -315,7 +315,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         frame = globalCtx->state.frames % 3;
         this->nextBehavior = behaviors[frame];
         // no clue why they're using the behavior id to calculate timer. possibly meant to use the unused array?
-        this->behaviorTimer = Math_Rand_S16Offset(60, behaviors[frame]);
+        this->behaviorTimer = Rand_S16Offset(60, behaviors[frame]);
         this->actionFunc = EnDog_ChooseMovement;
     }
 }
@@ -326,7 +326,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->behaviorTimer) == 0) {
-        this->behaviorTimer = Math_Rand_S16Offset(200, 100);
+        this->behaviorTimer = Rand_S16Offset(200, 100);
         if (globalCtx->state.frames % 2) {
             this->nextBehavior = DOG_WALK;
         } else {

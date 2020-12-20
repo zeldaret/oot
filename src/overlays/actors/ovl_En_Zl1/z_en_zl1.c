@@ -119,7 +119,7 @@ void func_80B4AE18(EnZl1* this) {
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {
-            this->unk_1FC = Math_Rand_S16Offset(0x1E, 0xA);
+            this->unk_1FC = Rand_S16Offset(0x1E, 0xA);
         }
         this->unk_1FE = (this->unk_1FC < 4) ? this->unk_1FC : 0;
 

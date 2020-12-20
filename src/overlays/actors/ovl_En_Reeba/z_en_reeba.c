@@ -192,7 +192,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
                 this->actionfunc = func_80AE538C;
             } else {
                 this->unk_272 = 130;
-                this->actor.speedXZ = Math_Rand_ZeroFloat(4.0f) + 6.0f;
+                this->actor.speedXZ = Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = func_80AE5270;
             }
         }
@@ -249,7 +249,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
             this->unk_270 = 30;
         }
 
-        speed = (this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f);
+        speed = (this->actor.xzDistFromLink - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
         this->actor.speedXZ += speed * 1.8f;
         if (this->actor.speedXZ >= 3.0f) {
             this->actor.speedXZ = 3.0f;
@@ -355,9 +355,9 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
 
         if ((this->unk_27E == 4) || (this->actor.colChkInfo.health != 0)) {
             if (this->unk_27E == 2) {
-                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-                pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+                pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+                pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+                pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
                 scale = 3.0f;
 
                 if (this->isBig) {
@@ -382,9 +382,9 @@ void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
 
     if (this->unk_278 != 0) {
         if ((this->unk_27E == 2) && ((this->unk_278 & 0xF) == 0)) {
-            pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-            pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-            pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+            pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+            pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+            pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
 
             scale = 3.0f;
             if (this->isBig) {
@@ -458,8 +458,8 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 
 void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
     if (this->unk_278 < 37) {
-        this->actor.shape.rot.x = Math_Rand_CenteredFloat(3000.0f);
-        this->actor.shape.rot.z = Math_Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.x = Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.z = Rand_CenteredFloat(3000.0f);
 
         if (this->unk_278 == 0) {
             if (this->isBig) {

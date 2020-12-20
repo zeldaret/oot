@@ -837,9 +837,9 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
             s32 segIndex = 4 - (effectTimer >> 2);
             s32 offIndex = (effectTimer >> 1) & 3;
 
-            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Math_Rand_CenteredFloat(10.0f);
-            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Math_Rand_CenteredFloat(10.0f);
-            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Math_Rand_CenteredFloat(10.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
             if (this->actor.dmgEffectParams & 0x4000) {
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &effectPos, 100, 0, 0, -1);
             } else {

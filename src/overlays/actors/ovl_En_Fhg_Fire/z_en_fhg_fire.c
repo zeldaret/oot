@@ -196,12 +196,12 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 ballAccel = D_80A117BC;
 
                 for (i = 0; i < 35; i++) {
-                    ballVelocity.x = Math_Rand_CenteredFloat(30.f);
-                    ballVelocity.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
-                    ballVelocity.z = Math_Rand_CenteredFloat(30.f);
+                    ballVelocity.x = Rand_CenteredFloat(30.f);
+                    ballVelocity.y = Rand_ZeroFloat(5.0f) + 3.0f;
+                    ballVelocity.z = Rand_CenteredFloat(30.f);
                     ballAccel.y = -0.2f;
                     EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &ballVelocity, &ballAccel,
-                                                    (s16)(Math_Rand_ZeroOne() * 100.0f) + 240,
+                                                    (s16)(Rand_ZeroOne() * 100.0f) + 240,
                                                     FHGFLASH_LIGHTBALL_GREEN);
                 }
 
@@ -215,7 +215,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
             Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->unk_150.x == 0x1E) {
-                randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
+                randY = (Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
@@ -240,12 +240,12 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
     osSyncPrintf("FF MOVE 1\n");
-    this->actor.shape.rot.x += (s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000;
+    this->actor.shape.rot.x += (s16)(Rand_ZeroOne() * 4000.0f) + 0x4000;
 
     switch (this->fireMode) {
         case 0:
             this->fireMode = 1;
-            this->unk_150.x = (s16)(Math_Rand_ZeroOne() * 7.0f) + 0x07;
+            this->unk_150.x = (s16)(Rand_ZeroOne() * 7.0f) + 0x07;
         case 1:
             Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
 
@@ -282,7 +282,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 
-    if (Math_Rand_ZeroOne() < 0.5f) {
+    if (Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
         EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &pos, 200, FHGFLASH_SHOCK_NO_ACTOR);
@@ -381,7 +381,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     this->actor.posRot.pos = horse->unk_200;
-    this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 20000.0f) + 0x4000;
+    this->actor.shape.rot.z += (s16)(Rand_ZeroOne() * 20000.0f) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
     if (this->fireMode == 0) {
@@ -392,13 +392,13 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
         osSyncPrintf("FLASH !!\n");
 
         for (i = 0; i < 2; i++) {
-            ballPos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-            ballPos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-            ballPos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+            ballPos.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+            ballPos.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+            ballPos.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             ballAccel.y = -0.08f;
 
             EffectSsFhgFlash_SpawnLightBall(globalCtx, &ballPos, &ballVelocity, &ballAccel,
-                                            (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
+                                            (s16)(Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
         }
     }
 

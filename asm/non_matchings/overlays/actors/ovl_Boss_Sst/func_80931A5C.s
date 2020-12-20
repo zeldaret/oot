@@ -75,7 +75,7 @@ glabel func_80931A5C
 /* 05584 80931B54 31090080 */  andi    $t1, $t0, 0x0080           ## $t1 = 00000000
 /* 05588 80931B58 11200012 */  beq     $t1, $zero, .L80931BA4     
 /* 0558C 80931B5C 00000000 */  nop
-/* 05590 80931B60 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 05590 80931B60 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 05594 80931B64 00000000 */  nop
 /* 05598 80931B68 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -95,7 +95,7 @@ glabel func_80931A5C
 /* 055CC 80931B9C 10000026 */  beq     $zero, $zero, .L80931C38   
 /* 055D0 80931BA0 920203E4 */  lbu     $v0, 0x03E4($s0)           ## 000003E4
 .L80931BA4:
-/* 055D4 80931BA4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 055D4 80931BA4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 055D8 80931BA8 00000000 */  nop
 /* 055DC 80931BAC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

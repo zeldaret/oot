@@ -46,24 +46,24 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
     f32 sign = 1.0f;
 
     this->action = 1;
-    this->actor.posRot.rot.y = Math_Rand_ZeroOne() * 20000.0f;
+    this->actor.posRot.rot.y = Rand_ZeroOne() * 20000.0f;
 
     switch (this->actor.params) {
         case 0:
             this->actor.velocity.y = 0.0f;
-            this->actor.gravity = -0.3f - Math_Rand_ZeroOne() * 0.5f;
+            this->actor.gravity = -0.3f - Rand_ZeroOne() * 0.5f;
             this->rotZSpeed = 0.3f;
             this->timer = 25;
-            this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->actor.speedXZ = (Rand_ZeroOne() - 0.5f) * 2.0f;
             break;
         case 13:
             this->timer = 400;
         case 12:
-            this->actor.speedXZ = Math_Rand_CenteredFloat(6.0f);
+            this->actor.speedXZ = Rand_CenteredFloat(6.0f);
             this->actor.initPosRot.pos = this->actor.posRot.pos;
             this->timer += 60;
-            this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
-            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
+            this->actor.velocity.y = Rand_ZeroOne() * 5.0f + 4.0f;
+            this->actor.gravity = -0.6f - Rand_ZeroOne() * 0.5f;
             this->rotZSpeed = 0.15f;
             break;
         case 14:
@@ -72,19 +72,19 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
         case 4:
         case 9:
         case 10:
-            this->timer += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
+            this->timer += (s16)(Rand_ZeroOne() * 17.0f) + 5;
         case 2:
-            this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
-            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
+            this->actor.velocity.y = Rand_ZeroOne() * 5.0f + 4.0f;
+            this->actor.gravity = -0.6f - Rand_ZeroOne() * 0.5f;
             this->rotZSpeed = 0.15f;
             break;
         case 11:
             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 0x8001, 0, -1);
         case 3:
-            this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
-            this->timer = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
-            this->actor.velocity.y = Math_Rand_ZeroOne() * 3.0f + 8.0f;
-            this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.3f;
+            this->actor.speedXZ = (Rand_ZeroOne() - 0.5f) * 3.0f;
+            this->timer = (s16)(Rand_ZeroOne() * 17.0f) + 10;
+            this->actor.velocity.y = Rand_ZeroOne() * 3.0f + 8.0f;
+            this->actor.gravity = -0.6f - Rand_ZeroOne() * 0.3f;
             this->rotZSpeed = 0.15f;
             break;
         case 5:
@@ -143,12 +143,12 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                 break;
             case 4:
                 for (i = 7; i >= 0; i--) {
-                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(60.0f);
+                    pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(60.0f);
                     pos.y = this->actor.posRot.pos.y + this->actor.shape.unk_08 * this->actor.scale.y +
-                            Math_Rand_CenteredFloat(50.0f);
-                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(60.0f);
-                    velocity.y = Math_Rand_ZeroOne() + 1.0f;
-                    EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Math_Rand_S16Offset(80, 100),
+                            Rand_CenteredFloat(50.0f);
+                    pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(60.0f);
+                    velocity.y = Rand_ZeroOne() + 1.0f;
+                    EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Rand_S16Offset(80, 100),
                                                        25, 0, true);
                 }
                 break;
@@ -157,9 +157,9 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
             case 7:
             case 8:
                 for (i = 4; i >= 0; i--) {
-                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(25.0f);
-                    pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(40.0f);
-                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(25.0f);
+                    pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(25.0f);
+                    pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(40.0f);
+                    pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(25.0f);
                     EffectSsDeadDb_Spawn(globalCtx, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 0, 0, 255, 1,
                                          9, true);
                 }
@@ -205,9 +205,9 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
         }
 
         func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
-        velocity.x = Math_Rand_CenteredFloat(16.0f);
+        velocity.x = Rand_CenteredFloat(16.0f);
         EffectSsHahen_Spawn(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
-                            (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, NULL);
+                            (s32)((Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
     }
 }

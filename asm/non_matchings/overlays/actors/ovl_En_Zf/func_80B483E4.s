@@ -81,7 +81,7 @@ glabel func_80B483E4
 /* 044B4 80B48504 E6020408 */  swc1    $f2, 0x0408($s0)           ## 00000408
 /* 044B8 80B48508 AE0003E4 */  sw      $zero, 0x03E4($s0)         ## 000003E4
 /* 044BC 80B4850C 256C3FFF */  addiu   $t4, $t3, 0x3FFF           ## $t4 = 00003FFF
-/* 044C0 80B48510 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 044C0 80B48510 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 044C4 80B48514 A60C0032 */  sh      $t4, 0x0032($s0)           ## 00000032
 /* 044C8 80B48518 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

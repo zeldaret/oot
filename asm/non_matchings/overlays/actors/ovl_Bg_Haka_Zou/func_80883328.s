@@ -71,7 +71,7 @@ glabel func_80883328
 /* 00E58 80883418 4600D006 */  mov.s   $f0, $f26                  
 .L8088341C:
 /* 00E5C 8088341C 46004281 */  sub.s   $f10, $f8, $f0             
-/* 00E60 80883420 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00E60 80883420 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00E64 80883424 E7AA0084 */  swc1    $f10, 0x0084($sp)          
 /* 00E68 80883428 46160402 */  mul.s   $f16, $f0, $f22            

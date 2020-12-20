@@ -87,7 +87,7 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
 
     type = this->dyna.actor.params;
     if (type != 0) {
-        type += (s16)Math_Rand_ZeroFloat(2.99f);
+        type += (s16)Rand_ZeroFloat(2.99f);
         this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = sTargetRot[type];
         osSyncPrintf("\n\n");
     }
@@ -150,9 +150,9 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 
     if (wallFallen) {
         for (i = 0; i < 15; i++) {
-            effectPos.x = Math_Rand_CenteredFloat(300.0f) + this->bullseyeCenter.x;
+            effectPos.x = Rand_CenteredFloat(300.0f) + this->bullseyeCenter.x;
             effectPos.y = -100.0f;
-            effectPos.z = Math_Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
+            effectPos.z = Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
             EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);

@@ -27,7 +27,7 @@ glabel func_80919C38
 /* 04274 80919C84 314B000F */  andi    $t3, $t2, 0x000F           ## $t3 = 00000000
 /* 04278 80919C88 5560000C */  bnel    $t3, $zero, .L80919CBC     
 /* 0427C 80919C8C 860D01A4 */  lh      $t5, 0x01A4($s0)           ## 000001A4
-/* 04280 80919C90 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04280 80919C90 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04284 80919C94 00000000 */  nop
 /* 04288 80919C98 3C018092 */  lui     $at, %hi(D_8091B570)       ## $at = 80920000

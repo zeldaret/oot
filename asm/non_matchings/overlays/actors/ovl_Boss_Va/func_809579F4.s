@@ -30,7 +30,7 @@ glabel func_809579F4
 /* 087A0 80957A60 10000067 */  beq     $zero, $zero, .L80957C00   
 /* 087A4 80957A64 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80957A68:
-/* 087A8 80957A68 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 087A8 80957A68 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 087AC 80957A6C 00000000 */  nop
 /* 087B0 80957A70 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

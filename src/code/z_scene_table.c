@@ -1449,11 +1449,11 @@ void func_8009BEEC(GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 127);
     }
 
-    if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
+    if ((globalCtx->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
         var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
+        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 

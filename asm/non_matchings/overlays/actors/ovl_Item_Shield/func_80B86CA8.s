@@ -129,15 +129,15 @@ glabel func_80B86CA8
 /* 0052C 80B86E4C 5420000C */  bnel    $at, $zero, .L80B86E80     
 /* 00530 80B86E50 2652000C */  addiu   $s2, $s2, 0x000C           ## $s2 = 0000000C
 /* 00534 80B86E54 A22B019E */  sb      $t3, 0x019E($s1)           ## 0000019E
-/* 00538 80B86E58 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00538 80B86E58 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0053C 80B86E5C 4600B306 */  mov.s   $f12, $f22                 
 /* 00540 80B86E60 E60001A8 */  swc1    $f0, 0x01A8($s0)           ## 000001A8
-/* 00544 80B86E64 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00544 80B86E64 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00548 80B86E68 4600E306 */  mov.s   $f12, $f28                 
 /* 0054C 80B86E6C E60001AC */  swc1    $f0, 0x01AC($s0)           ## 000001AC
-/* 00550 80B86E70 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00550 80B86E70 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00554 80B86E74 4600B306 */  mov.s   $f12, $f22                 
 /* 00558 80B86E78 E60001B0 */  swc1    $f0, 0x01B0($s0)           ## 000001B0

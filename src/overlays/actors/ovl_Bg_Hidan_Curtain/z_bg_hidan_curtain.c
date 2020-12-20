@@ -102,7 +102,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
         (((this->type == 0) || (this->type == 6)) && Flags_GetClear(globalCtx, this->actor.room))) {
         Actor_Kill(&this->actor);
     }
-    this->texScroll = Math_Rand_ZeroOne() * 15.0f;
+    this->texScroll = Rand_ZeroOne() * 15.0f;
 }
 
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx) {

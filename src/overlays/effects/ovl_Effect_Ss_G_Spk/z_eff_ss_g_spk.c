@@ -110,8 +110,8 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
-    this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
-    this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
+    this->accel.x = (Rand_ZeroOne() - 0.5f) * 3.0f;
+    this->accel.z = (Rand_ZeroOne() - 0.5f) * 3.0f;
 
     if (this->actor != NULL) {
         if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {

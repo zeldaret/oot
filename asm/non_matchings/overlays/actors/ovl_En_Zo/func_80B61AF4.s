@@ -88,7 +88,7 @@ glabel func_80B61AF4
 /* 019E8 80B61C08 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 019EC 80B61C0C 10400005 */  beq     $v0, $zero, .L80B61C24     
 /* 019F0 80B61C10 24040028 */  addiu   $a0, $zero, 0x0028         ## $a0 = 00000028
-/* 019F4 80B61C14 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 019F4 80B61C14 0C01DF64 */  jal     Rand_S16Offset
               
 /* 019F8 80B61C18 24050028 */  addiu   $a1, $zero, 0x0028         ## $a1 = 00000028
 /* 019FC 80B61C1C 1000001C */  beq     $zero, $zero, .L80B61C90   

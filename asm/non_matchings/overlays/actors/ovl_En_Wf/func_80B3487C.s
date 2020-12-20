@@ -122,7 +122,7 @@ glabel func_80B3487C
 /* 00D60 80B34A10 C61001A0 */  lwc1    $f16, 0x01A0($s0)          ## 000001A0
 /* 00D64 80B34A14 8602008A */  lh      $v0, 0x008A($s0)           ## 0000008A
 /* 00D68 80B34A18 A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032
-/* 00D6C 80B34A1C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00D6C 80B34A1C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00D70 80B34A20 A60200B6 */  sh      $v0, 0x00B6($s0)           ## 000000B6
 /* 00D74 80B34A24 3C0180B3 */  lui     $at, %hi(D_80B37B80)       ## $at = 80B30000
@@ -174,7 +174,7 @@ glabel func_80B3487C
 /* 00E14 80B34AC4 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 00E18 80B34AC8 14400012 */  bne     $v0, $zero, .L80B34B14     
 /* 00E1C 80B34ACC 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
-/* 00E20 80B34AD0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00E20 80B34AD0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00E24 80B34AD4 00000000 */  nop
 /* 00E28 80B34AD8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -214,7 +214,7 @@ glabel func_80B3487C
 /* 00EA8 80B34B58 A7A30042 */  sh      $v1, 0x0042($sp)           
 /* 00EAC 80B34B5C 1440001C */  bne     $v0, $zero, .L80B34BD0     
 /* 00EB0 80B34B60 87A30042 */  lh      $v1, 0x0042($sp)           
-/* 00EB4 80B34B64 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00EB4 80B34B64 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00EB8 80B34B68 A7A30042 */  sh      $v1, 0x0042($sp)           
 /* 00EBC 80B34B6C 3C0180B3 */  lui     $at, %hi(D_80B37B84)       ## $at = 80B30000
@@ -251,7 +251,7 @@ glabel func_80B3487C
 /* 00F28 80B34BD8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00F2C 80B34BDC 1040000E */  beq     $v0, $zero, .L80B34C18     
 /* 00F30 80B34BE0 00000000 */  nop
-/* 00F34 80B34BE4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F34 80B34BE4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F38 80B34BE8 00000000 */  nop
 /* 00F3C 80B34BEC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

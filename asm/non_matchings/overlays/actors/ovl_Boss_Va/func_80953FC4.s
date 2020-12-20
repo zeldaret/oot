@@ -64,7 +64,7 @@ glabel func_80953FC4
 /* 04DDC 8095409C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 04DE0 809540A0 E7B00010 */  swc1    $f16, 0x0010($sp)          
-/* 04DE4 809540A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04DE4 809540A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04DE8 809540A8 00000000 */  nop
 /* 04DEC 809540AC 3C018096 */  lui     $at, %hi(D_8095C758)       ## $at = 80960000

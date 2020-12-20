@@ -30,7 +30,7 @@ glabel func_8094A1C0
 /* 1153C 8094A20C 249204B0 */  addiu   $s2, $a0, 0x04B0           ## $s2 = 000004B0
 /* 11540 8094A210 2414000C */  addiu   $s4, $zero, 0x000C         ## $s4 = 0000000C
 .L8094A214:
-/* 11544 8094A214 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 11544 8094A214 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 11548 8094A218 4600C306 */  mov.s   $f12, $f24
 /* 1154C 8094A21C 4600010D */  trunc.w.s $f4, $f0

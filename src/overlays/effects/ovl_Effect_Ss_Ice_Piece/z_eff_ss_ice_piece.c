@@ -38,7 +38,7 @@ u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->rYaw = Math_Atan2S(initParams->velocity.z, initParams->velocity.x);
     this->rPitch = 0;
     this->rRotSpeed =
-        ((fabsf(initParams->velocity.x) + fabsf(initParams->velocity.y)) * 100.0f) * (Math_Rand_ZeroFloat(1.0f) + 0.5f);
+        ((fabsf(initParams->velocity.x) + fabsf(initParams->velocity.y)) * 100.0f) * (Rand_ZeroFloat(1.0f) + 0.5f);
 
     return 1;
 }

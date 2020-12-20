@@ -308,13 +308,13 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* gl
 
     if (index < ARRAY_COUNT(D_808B6074)) {
         do {
-            pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
-            pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
-            pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
+            pos.x = ((Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
+            pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
+            pos.z = ((Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
 
-            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
-            velocity.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
-            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.x = (Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.y = (Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
+            velocity.z = (Rand_ZeroOne() - 0.5f) * 16.0f;
 
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 

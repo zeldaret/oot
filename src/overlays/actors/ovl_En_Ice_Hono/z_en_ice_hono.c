@@ -142,8 +142,8 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 10,
                                   this->actor.posRot.pos.z, 155, 210, 255, 0);
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-        this->unk_154 = Math_Rand_ZeroOne() * (0x1FFFF / 2.0f);
-        this->unk_156 = Math_Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->unk_154 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->unk_156 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
         // Translates to: "(ice flame)"
         osSyncPrintf("(ice 炎)(arg_data 0x%04x)\n", this->actor.params);
     }
@@ -210,7 +210,7 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
         for (i = 0; i < 8; i++) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
+                        ((s32)(Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
@@ -261,7 +261,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
             s32 rot = i * 0x1999;
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
+                        ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
         }
     }
 
@@ -275,11 +275,11 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
     this->timer = 44;
     this->alpha = 255;
     if (this->actor.params == 1) {
-        this->smallFlameTargetYScale = (Math_Rand_ZeroOne() * 0.005f) + 0.004f;
-        this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.6f) + 0.5f;
+        this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.004f;
+        this->actor.speedXZ = (Rand_ZeroOne() * 1.6f) + 0.5f;
     } else {
-        this->smallFlameTargetYScale = (Math_Rand_ZeroOne() * 0.005f) + 0.003f;
-        this->actor.speedXZ = (Math_Rand_ZeroOne() * 2.0f) + 0.5f;
+        this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.003f;
+        this->actor.speedXZ = (Rand_ZeroOne() * 2.0f) + 0.5f;
     }
 }
 
@@ -324,7 +324,7 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_156 += 0x4000;
         sin156 = Math_SinS(this->unk_156);
         sin154 = Math_SinS(this->unk_154);
-        intensity = (Math_Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
+        intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             // Translates to: "impossible value(ratio = %f)"
             osSyncPrintf("ありえない値(ratio = %f)\n", intensity);

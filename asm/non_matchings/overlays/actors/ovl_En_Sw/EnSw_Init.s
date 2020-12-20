@@ -284,7 +284,7 @@ glabel EnSw_Init
 /* 00B4C 80B0C8FC A20F0117 */  sb      $t7, 0x0117($s0)           ## 00000117
 .L80B0C900:
 /* 00B50 80B0C900 2404000F */  addiu   $a0, $zero, 0x000F         ## $a0 = 0000000F
-/* 00B54 80B0C904 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00B54 80B0C904 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00B58 80B0C908 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
 /* 00B5C 80B0C90C A602038E */  sh      $v0, 0x038E($s0)           ## 0000038E

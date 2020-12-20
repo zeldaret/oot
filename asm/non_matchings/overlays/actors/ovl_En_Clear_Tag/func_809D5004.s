@@ -104,7 +104,7 @@ glabel func_809D5004
 /* 01BD0 809D5180 46049182 */  mul.s   $f6, $f18, $f4             
 /* 01BD4 809D5184 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
 /* 01BD8 809D5188 A6090048 */  sh      $t1, 0x0048($s0)           ## 00010048
-/* 01BDC 809D518C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01BDC 809D518C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01BE0 809D5190 E6060014 */  swc1    $f6, 0x0014($s0)           ## 00010014
 /* 01BE4 809D5194 4600020D */  trunc.w.s $f8, $f0                   

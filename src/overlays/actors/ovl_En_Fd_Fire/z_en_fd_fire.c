@@ -93,7 +93,7 @@ void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y = 12.0f;
     this->spawnRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &player->actor.posRot.pos);
     this->scale = 3.0f;
-    this->tile2Y = (s16)Math_Rand_ZeroFloat(5.0f) - 25;
+    this->tile2Y = (s16)Rand_ZeroFloat(5.0f) - 25;
     this->actionFunc = func_80A0E70C;
 }
 

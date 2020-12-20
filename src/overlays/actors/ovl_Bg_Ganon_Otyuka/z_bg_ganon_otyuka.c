@@ -237,11 +237,11 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 velocity.x = velocity.y = velocity.z = 0.0f;
 
                 for (i = 0; i < 30; i++) {
-                    pos.x = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
-                    pos.y = Math_Rand_ZeroFloat(60.0f) + -750.0f;
-                    pos.z = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
+                    pos.x = Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
+                    pos.y = Rand_ZeroFloat(60.0f) + -750.0f;
+                    pos.z = Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
                     func_8002836C(globalCtx, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
-                                  (s16)Math_Rand_ZeroFloat(100.0f) + 250, 5, (s16)Math_Rand_ZeroFloat(5.0f) + 15);
+                                  (s16)Rand_ZeroFloat(100.0f) + 250, 5, (s16)Rand_ZeroFloat(5.0f) + 15);
                 }
 
                 func_80033DB8(globalCtx, 10, 15);

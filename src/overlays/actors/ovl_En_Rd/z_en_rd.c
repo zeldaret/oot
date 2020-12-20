@@ -173,7 +173,7 @@ void func_80AE269C(EnRd* this) {
     }
 
     this->unk_31B = 0;
-    this->unk_30C = (Math_Rand_ZeroOne() * 10.0f) + 5.0f;
+    this->unk_30C = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     EnRd_SetupAction(this, func_80AE2744);
@@ -185,7 +185,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
 
     if ((this->actor.params == 2) && (0.0f == this->skelAnime.animCurrentFrame)) {
-        if (Math_Rand_ZeroOne() >= 0.5f) {
+        if (Rand_ZeroOne() >= 0.5f) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06005D98);
         } else {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060057AC);
@@ -193,7 +193,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
     } else {
         this->unk_30C--;
         if (this->unk_30C == 0) {
-            this->unk_30C = (Math_Rand_ZeroOne() * 10.0f) + 10.0f;
+            this->unk_30C = (Rand_ZeroOne() * 10.0f) + 10.0f;
             this->skelAnime.animCurrentFrame = 0.0f;
         }
     }

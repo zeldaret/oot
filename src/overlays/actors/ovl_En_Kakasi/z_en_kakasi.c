@@ -88,11 +88,11 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     phi_v0 = globalCtx->msgCtx.unk_E410[0];
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
-            this->unk_19C[3] = (s16)Math_Rand_ZeroFloat(10.99f) + 30;
-            this->unk_1A6 = (s16)Math_Rand_ZeroFloat(4.99f);
+            this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;
+            this->unk_1A6 = (s16)Rand_ZeroFloat(4.99f);
         }
 
-        this->unk_19A = (s16)Math_Rand_ZeroFloat(2.99f) + 5;
+        this->unk_19A = (s16)Rand_ZeroFloat(2.99f) + 5;
         phi_v0 = this->unk_1A6;
     }
     switch (phi_v0) {

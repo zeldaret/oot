@@ -121,12 +121,12 @@ glabel func_80995518
 .L809956B8:
 /* 00A68 809956B8 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00A6C 809956BC 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
-/* 00A70 809956C0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00A70 809956C0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00A74 809956C4 E7A40070 */  swc1    $f4, 0x0070($sp)           
 /* 00A78 809956C8 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 00A7C 809956CC 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
-/* 00A80 809956D0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00A80 809956D0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00A84 809956D4 46000586 */  mov.s   $f22, $f0                  
 /* 00A88 809956D8 E7A00074 */  swc1    $f0, 0x0074($sp)           

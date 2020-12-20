@@ -182,7 +182,7 @@ void EnFloormas_SetupBigWalk(EnFloormas* this) {
         this->skelAnime.animPlaybackSpeed = 1.5f;
     }
 
-    this->actionTimer = Math_Rand_S16Offset(2, 4);
+    this->actionTimer = Rand_S16Offset(2, 4);
     this->actionFunc = EnFloormas_BigWalk;
     this->actor.speedXZ = 1.5f;
 }

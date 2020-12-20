@@ -136,16 +136,16 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, GlobalContext* globalCtx) {
     dustPos.y = this->dyna.actor.initPosRot.pos.y;
     if (globalCtx->gameplayFrames & 1) {
         dustPos.x = this->dyna.actor.posRot.pos.x + 65.0f;
-        dustPos.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
         dustPos.x = this->dyna.actor.posRot.pos.x - 65.0f;
-        dustPos.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     } else {
-        dustPos.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
+        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         dustPos.z = this->dyna.actor.posRot.pos.z + 65.0f;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
-        dustPos.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
+        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         dustPos.z = this->dyna.actor.posRot.pos.z - 65.0f;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     }

@@ -302,11 +302,11 @@ glabel func_808D3464
 /* 01238 808D38A8 E7B00090 */  swc1    $f16, 0x0090($sp)          
 /* 0123C 808D38AC E7A40098 */  swc1    $f4, 0x0098($sp)           
 .L808D38B0:
-/* 01240 808D38B0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01240 808D38B0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01244 808D38B4 4600E306 */  mov.s   $f12, $f28                 
 /* 01248 808D38B8 46000506 */  mov.s   $f20, $f0                  
-/* 0124C 808D38BC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0124C 808D38BC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01250 808D38C0 4600E306 */  mov.s   $f12, $f28                 
 /* 01254 808D38C4 46000586 */  mov.s   $f22, $f0                  
@@ -332,7 +332,7 @@ glabel func_808D3464
 /* 012A4 808D3914 E7A60078 */  swc1    $f6, 0x0078($sp)           
 /* 012A8 808D3918 461A4183 */  div.s   $f6, $f8, $f26             
 /* 012AC 808D391C E7A4007C */  swc1    $f4, 0x007C($sp)           
-/* 012B0 808D3920 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 012B0 808D3920 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 012B4 808D3924 E7A60080 */  swc1    $f6, 0x0080($sp)           
 /* 012B8 808D3928 4600040D */  trunc.w.s $f16, $f0                  

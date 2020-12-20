@@ -282,7 +282,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->unk_2AE) == 0) {
-        this->unk_2AE = Math_Rand_S16Offset(60, 60);
+        this->unk_2AE = Rand_S16Offset(60, 60);
     }
     this->unk_2AC = this->unk_2AE;
     if (this->unk_2AC >= 3) {

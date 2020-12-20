@@ -27,7 +27,7 @@ glabel func_809C0174
 .L809C01BC:
 /* 0091C 809C01BC 15E0000C */  bne     $t7, $zero, .L809C01F0     
 /* 00920 809C01C0 00000000 */  nop
-/* 00924 809C01C4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00924 809C01C4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00928 809C01C8 C42C174C */  lwc1    $f12, %lo(D_809C174C)($at) 
 /* 0092C 809C01CC 86180032 */  lh      $t8, 0x0032($s0)           ## 00000032

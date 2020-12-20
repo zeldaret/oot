@@ -205,7 +205,7 @@ void func_80AD9240(EnPoSisters* this, s32 arg1, Vec3f* arg2) {
 
 void func_80AD9368(EnPoSisters* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060014CC, -3.0f);
-    this->unk_19A = Math_Rand_S16Offset(2, 3);
+    this->unk_19A = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADA4A8;
     this->actor.speedXZ = 0.0f;
 }
@@ -214,7 +214,7 @@ void func_80AD93C4(EnPoSisters* this) {
     if (this->actionFunc != func_80ADA6A0) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000D40, -3.0f);
     }
-    this->unk_19A = Math_Rand_S16Offset(0xF, 3);
+    this->unk_19A = Rand_S16Offset(0xF, 3);
     this->unk_199 |= 7;
     this->actionFunc = func_80ADA530;
 }
@@ -542,7 +542,7 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_SinS(this->unk_196 * 0x800);
+    this->actor.posRot.pos.y += (2.0f + 0.5f * Rand_ZeroOne()) * Math_SinS(this->unk_196 * 0x800);
     if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
         if (this->actionFunc == func_80ADAC70) {
             func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
@@ -811,7 +811,7 @@ void func_80ADB338(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_19C = 100;
         }
         if (this->unk_19C == 0) {
-            this->actor.shape.rot.y = (s32)(4.0f * Math_Rand_ZeroOne()) * 0x4000 + this->actor.yawTowardsLink;
+            this->actor.shape.rot.y = (s32)(4.0f * Rand_ZeroOne()) * 0x4000 + this->actor.yawTowardsLink;
             this->actor.posRot.pos.y = player->actor.posRot.pos.y + 5.0f;
             func_80AD98F4(this, globalCtx);
         }
@@ -851,7 +851,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
         this->unk_19A -= 1;
     }
     if (this->unk_19A == 0) {
-        this->actor.posRot.rot.y = this->actor.shape.rot.y += 0x4000 * (s32)(Math_Rand_ZeroOne() * 4.0f);
+        this->actor.posRot.rot.y = this->actor.shape.rot.y += 0x4000 * (s32)(Rand_ZeroOne() * 4.0f);
         if (this->unk_195 == 0) {
             func_800F5ACC(0x38);
         }
@@ -1094,7 +1094,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
             ((EnPoSisters*)this->actor.parent)->unk_19C--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
             func_80AD9C24(this, globalCtx);
-            if (Math_Rand_ZeroOne() < 0.2f) {
+            if (Rand_ZeroOne() < 0.2f) {
                 sp24.x = this->actor.posRot.pos.x;
                 sp24.y = this->actor.posRot.pos.y;
                 sp24.z = this->actor.posRot.pos.z;
@@ -1271,7 +1271,7 @@ void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         }
         if (this->unk_198 > 0) {
             Color_RGBA8* color = &D_80ADD6F0[this->unk_194];
-            f32 temp_f2 = Math_Rand_ZeroOne() * 0.3f + 0.7f;
+            f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
 
             if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 ||
                 this->actionFunc == func_80ADBEE8) {

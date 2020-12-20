@@ -81,8 +81,8 @@ void EnTkEff_Update(EnTk* this) {
             if (eff->timeLeft == 0) {
                 eff->active = 0;
             }
-            eff->accel.x = Math_Rand_ZeroOne() * 0.4f - 0.2f;
-            eff->accel.z = Math_Rand_ZeroOne() * 0.4f - 0.2f;
+            eff->accel.x = Rand_ZeroOne() * 0.4f - 0.2f;
+            eff->accel.z = Rand_ZeroOne() * 0.4f - 0.2f;
             eff->pos.x += eff->speed.x;
             eff->pos.y += eff->speed.y;
             eff->pos.z += eff->speed.z;
@@ -148,7 +148,7 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
     Vec3f speed = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
 
-    accel.y += Math_Rand_ZeroOne() * yAccelMax;
+    accel.y += Rand_ZeroOne() * yAccelMax;
 
     EnTkEff_Create(this, pos, &speed, &accel, duration, size, growth);
 
@@ -172,7 +172,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.0f);
 
-    this->actionCountdown = Math_Rand_S16Offset(60, 60);
+    this->actionCountdown = Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.0f;
 }
 
@@ -181,7 +181,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.0f);
 
-    this->actionCountdown = Math_Rand_S16Offset(240, 240);
+    this->actionCountdown = Rand_S16Offset(240, 240);
 }
 
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
@@ -200,9 +200,9 @@ void EnTk_UpdateEyes(EnTk* this) {
         if (this->eyeTextureIdx > 2) {
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
-                this->blinkCountdown = Math_Rand_S16Offset(30, 30);
+                this->blinkCountdown = Rand_S16Offset(30, 30);
                 this->blinkCycles = 2;
-                if (Math_Rand_ZeroOne() > 0.5f) {
+                if (Rand_ZeroOne() > 0.5f) {
                     this->blinkCycles++;
                 }
             }
@@ -406,7 +406,7 @@ s32 EnTk_ChooseReward(EnTk* this) {
     f32 luck;
     s32 reward;
 
-    luck = Math_Rand_ZeroOne();
+    luck = Rand_ZeroOne();
 
     if (luck < 0.4f) {
         reward = 0;
@@ -474,9 +474,9 @@ void EnTk_DigEff(EnTk* this) {
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
 
     if (this->skelAnim.animCurrentFrame >= 32.0f && this->skelAnim.animCurrentFrame < 40.0f) {
-        pos.x = (Math_Rand_ZeroOne() - 0.5f) * 12.0f + this->v3f_304.x;
-        pos.y = (Math_Rand_ZeroOne() - 0.5f) * 8.0f + this->v3f_304.y;
-        pos.z = (Math_Rand_ZeroOne() - 0.5f) * 12.0f + this->v3f_304.z;
+        pos.x = (Rand_ZeroOne() - 0.5f) * 12.0f + this->v3f_304.x;
+        pos.y = (Rand_ZeroOne() - 0.5f) * 8.0f + this->v3f_304.y;
+        pos.z = (Rand_ZeroOne() - 0.5f) * 12.0f + this->v3f_304.z;
         EnTkEff_CreateDflt(this, &pos, 12, 0.2f, 0.1f, 0.0f);
     }
 }

@@ -55,7 +55,7 @@ glabel func_80BA100C
 /* 0034C 80BA10AC 00042403 */  sra     $a0, $a0, 16               
 /* 00350 80BA10B0 4618A102 */  mul.s   $f4, $f20, $f24            
 /* 00354 80BA10B4 46000586 */  mov.s   $f22, $f0                  
-/* 00358 80BA10B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00358 80BA10B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0035C 80BA10BC E7A400C8 */  swc1    $f4, 0x00C8($sp)           
 /* 00360 80BA10C0 461A0182 */  mul.s   $f6, $f0, $f26             
@@ -66,7 +66,7 @@ glabel func_80BA100C
 /* 00374 80BA10D4 461C3200 */  add.s   $f8, $f6, $f28             
 /* 00378 80BA10D8 E7AA00D0 */  swc1    $f10, 0x00D0($sp)          
 /* 0037C 80BA10DC E7A800CC */  swc1    $f8, 0x00CC($sp)           
-/* 00380 80BA10E0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00380 80BA10E0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00384 80BA10E4 E7B200BC */  swc1    $f18, 0x00BC($sp)          
 /* 00388 80BA10E8 461A0102 */  mul.s   $f4, $f0, $f26             
@@ -80,7 +80,7 @@ glabel func_80BA100C
 /* 003A8 80BA1108 0C01DFA7 */  jal     Math_Vec3f_Sum
               ## Vec3f_Add
 /* 003AC 80BA110C E7A600C0 */  swc1    $f6, 0x00C0($sp)           
-/* 003B0 80BA1110 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003B0 80BA1110 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003B4 80BA1114 00000000 */  nop
 /* 003B8 80BA1118 3C0180BA */  lui     $at, %hi(D_80BA1C5C)       ## $at = 80BA0000
@@ -102,7 +102,7 @@ glabel func_80BA100C
 /* 003F4 80BA1154 10000001 */  beq     $zero, $zero, .L80BA115C   
 /* 003F8 80BA1158 24100040 */  addiu   $s0, $zero, 0x0040         ## $s0 = 00000040
 .L80BA115C:
-/* 003FC 80BA115C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003FC 80BA115C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00400 80BA1160 00000000 */  nop
 /* 00404 80BA1164 3C0142BE */  lui     $at, 0x42BE                ## $at = 42BE0000

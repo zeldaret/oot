@@ -171,7 +171,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((this->jumpTimer == 0) && !func_8010BDBC(&globalCtx->msgCtx)) {
-            this->jumpTimer = Math_Rand_ZeroFloat(100.0f) + 250.0f;
+            this->jumpTimer = Rand_ZeroFloat(100.0f) + 250.0f;
             this->actionFunc = EnNiwGirl_Jump;
         } else {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -191,7 +191,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_272++;
         if (this->unk_272 >= 3) {
             this->unk_272 = 0;
-            this->unk_274 = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+            this->unk_274 = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_280 = 30.0f;

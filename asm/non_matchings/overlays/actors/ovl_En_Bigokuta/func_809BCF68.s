@@ -13,7 +13,7 @@ glabel func_809BCF68
 /* 00334 809BCF94 24050C00 */  addiu   $a1, $zero, 0x0C00         ## $a1 = 00000C00
 /* 00338 809BCF98 24041200 */  addiu   $a0, $zero, 0x1200         ## $a0 = 00001200
 /* 0033C 809BCF9C 24050C00 */  addiu   $a1, $zero, 0x0C00         ## $a1 = 00000C00
-/* 00340 809BCFA0 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00340 809BCFA0 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00344 809BCFA4 AFA30034 */  sw      $v1, 0x0034($sp)           
 /* 00348 809BCFA8 82080194 */  lb      $t0, 0x0194($s0)           ## 00000194
@@ -28,7 +28,7 @@ glabel func_809BCF68
 /* 0036C 809BCFCC 1000000D */  beq     $zero, $zero, .L809BD004   
 /* 00370 809BCFD0 00042403 */  sra     $a0, $a0, 16               
 .L809BCFD4:
-/* 00374 809BCFD4 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00374 809BCFD4 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00378 809BCFD8 AFA30034 */  sw      $v1, 0x0034($sp)           
 /* 0037C 809BCFDC 820B0194 */  lb      $t3, 0x0194($s0)           ## 00000194

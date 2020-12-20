@@ -154,7 +154,7 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = 0;
     this->unk_195 = 32;
-    this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+    this->visibilityTimer = Rand_S16Offset(700, 300);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                             this->actor.initPosRot.pos.z, 255, 255, 255, 0);
@@ -212,14 +212,14 @@ void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80ADE114(EnPoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, this->info->unk_C);
-    this->unk_198 = Math_Rand_S16Offset(2, 3);
+    this->unk_198 = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADEAC4;
     this->actor.speedXZ = 0.0f;
 }
 
 void EnPoh_SetupIdle(EnPoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, this->info->unk_10);
-    this->unk_198 = Math_Rand_S16Offset(15, 3);
+    this->unk_198 = Rand_S16Offset(15, 3);
     this->actionFunc = EnPoh_Idle;
 }
 
@@ -458,7 +458,7 @@ void EnPoh_Idle(EnPoh* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 200.0f && this->unk_198 < 19) {
         func_80ADE1BC(this);
     } else if (this->unk_198 == 0) {
-        if (Math_Rand_ZeroOne() < 0.1f) {
+        if (Rand_ZeroOne() < 0.1f) {
             func_80ADE514(this);
         } else {
             func_80ADE114(this);
@@ -532,7 +532,7 @@ void func_80ADEECC(EnPoh* this, GlobalContext* globalCtx) {
 void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->lightColor.a = 255;
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->actor.flags |= 1;
         EnPoh_SetupIdle(this);
     } else if (this->skelAnime.animCurrentFrame > 10.0f) {
@@ -547,7 +547,7 @@ void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
 void EnPoh_ComposerAppear(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->lightColor.a = 255;
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->actor.flags |= 1;
         EnPoh_SetupIdle(this);
     } else {
@@ -631,7 +631,7 @@ void EnPoh_Disappear(EnPoh* this, GlobalContext* globalCtx) {
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     this->lightColor.a = this->unk_194 * 7.96875f;
     if (this->unk_194 == 0) {
-        this->visibilityTimer = Math_Rand_S16Offset(100, 50);
+        this->visibilityTimer = Rand_S16Offset(100, 50);
         EnPoh_SetupIdle(this);
     }
 }
@@ -642,7 +642,7 @@ void EnPoh_Appear(EnPoh* this, GlobalContext* globalCtx) {
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     this->lightColor.a = this->unk_194 * 7.96875f;
     if (this->unk_194 == 32) {
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->unk_194 = 0;
         EnPoh_SetupIdle(this);
     }
@@ -929,7 +929,7 @@ void func_80AE089C(EnPoh* this) {
         this->envColor.r = this->envColor.g = this->envColor.b = (s16)(this->skelAnime.animCurrentFrame * 16.66f) + 55;
         this->envColor.a = this->skelAnime.animCurrentFrame * 16.666666f;
     } else {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->envColor.r = (s16)(rand * 30.0f) + 225;
         this->envColor.g = (s16)(rand * 100.0f) + 155;
         this->envColor.b = (s16)(rand * 160.0f) + 95;

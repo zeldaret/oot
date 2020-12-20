@@ -28,7 +28,7 @@ glabel BgJyaHaheniron_Init
 /* 002CC 8089838C 00000000 */  nop
 /* 002D0 80898390 0C226030 */  jal     func_808980C0              
 /* 002D4 80898394 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 002D8 80898398 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002D8 80898398 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002DC 8089839C 00000000 */  nop
 /* 002E0 808983A0 3C01808A */  lui     $at, %hi(D_808987D8)       ## $at = 808A0000

@@ -1614,7 +1614,7 @@ s32 Camera_Normal1(Camera* camera) {
 
         // crit wiggle
         if (gSaveContext.health <= 16 && ((camera->globalCtx->state.frames % 256) == 0)) {
-            wiggleAdj = Math_Rand_ZeroOne() * 10000.0f;
+            wiggleAdj = Rand_ZeroOne() * 10000.0f;
             camera->inputDir.y = wiggleAdj + camera->inputDir.y;
         }
     } else {
@@ -5845,8 +5845,8 @@ s32 Camera_Demo5(Camera* camera) {
         // camera is targeting a(the) player actor
         if (eyePlayerGeo.r > 30.0f) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
-            D_8011D6AC[1].atTargetInit.z = Math_Rand_ZeroOne() * 10.0f;
-            D_8011D6AC[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+            D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
+            D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             ONEPOINTDEMO->keyFrames = D_8011D6AC;
             ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != 0) {
@@ -5855,7 +5855,7 @@ s32 Camera_Demo5(Camera* camera) {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
-            D_8011D724[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+            D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
             ONEPOINTDEMO->keyFrames = D_8011D724;
             ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D724);
@@ -5913,7 +5913,7 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D8DC[0].atTargetInit.z = eyeTargetDist * 0.6f;
             D_8011D8DC[0].eyeTargetInit.z = eyeTargetDist + 50.0f;
-            D_8011D8DC[0].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
+            D_8011D8DC[0].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             if (BINANG_SUB(eyePlayerGeo.yaw, playerTargetGeo.yaw) > 0) {
                 D_8011D8DC[0].atTargetInit.x = -D_8011D8DC[0].atTargetInit.x;
                 D_8011D8DC[0].eyeTargetInit.x = -D_8011D8DC[0].eyeTargetInit.x;
@@ -5944,9 +5944,9 @@ s32 Camera_Demo5(Camera* camera) {
 
         D_8011D954[0].atTargetInit.y = D_8011D954[0].eyeTargetInit.y = D_8011D954[1].atTargetInit.y =
             camera->target->shape.rot.y == sp4A ? 180.0f : 0.0f;
-        sp90 = (BINANG_SUB(playerTargetGeo.yaw, sp4A) < 0 ? 20.0f : -20.0f) * Math_Rand_ZeroOne();
+        sp90 = (BINANG_SUB(playerTargetGeo.yaw, sp4A) < 0 ? 20.0f : -20.0f) * Rand_ZeroOne();
         D_8011D954[0].eyeTargetInit.y = D_8011D954->eyeTargetInit.y + sp90;
-        temp_v0 = Math_Rand_ZeroOne() * (sp90 * -0.2f);
+        temp_v0 = Rand_ZeroOne() * (sp90 * -0.2f);
         D_8011D954[1].rollTargetInit = temp_v0;
         D_8011D954[0].rollTargetInit = temp_v0;
         func_8002EEE4(&targetPosRot2, camera->target);
@@ -5971,7 +5971,7 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D9F4[0].atTargetInit.z = playerTargetGeo.r * 0.25f;
         }
         if (playerTargetGeo.r < 400.0f) {
-            D_8011D9F4[0].eyeTargetInit.x = Math_Rand_ZeroOne() * 25.0f;
+            D_8011D9F4[0].eyeTargetInit.x = Rand_ZeroOne() * 25.0f;
         }
         Player_GetHeight(camera->player);
         D_8011D9F4[0].timerInit = camera->timer;
@@ -6432,7 +6432,7 @@ s32 Camera_Special5(Camera* camera) {
             OLib_Vec3fToVecSphGeo(&sp6C, &sp7C.norm);
             spA4 = BINANG_SUB(playerPosRot->rot.y, sp6C.yaw);
             sp74.r = spec5->eyeDist;
-            temp_f0_2 = Math_Rand_ZeroOne();
+            temp_f0_2 = Rand_ZeroOne();
             sp74.yaw =
                 BINANG_ROT180(playerPosRot->rot.y) + (s16)(spA4 < 0 ? -(s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f))
                                                                     : (s16)(0x1553 + (s16)(temp_f0_2 * 2730.0f)));

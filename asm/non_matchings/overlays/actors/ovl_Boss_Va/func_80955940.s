@@ -25,21 +25,21 @@ glabel func_80955940
 /* 066C8 80955988 10200019 */  beq     $at, $zero, .L809559F0     
 /* 066CC 8095598C 3C014680 */  lui     $at, 0x4680                ## $at = 46800000
 /* 066D0 80955990 44816000 */  mtc1    $at, $f12                  ## $f12 = 16384.00
-/* 066D4 80955994 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 066D4 80955994 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 066D8 80955998 00000000 */  nop
 /* 066DC 8095599C 4600018D */  trunc.w.s $f6, $f0                   
 /* 066E0 809559A0 3C014680 */  lui     $at, 0x4680                ## $at = 46800000
 /* 066E4 809559A4 44816000 */  mtc1    $at, $f12                  ## $f12 = 16384.00
 /* 066E8 809559A8 44093000 */  mfc1    $t1, $f6                   
-/* 066EC 809559AC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 066EC 809559AC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 066F0 809559B0 A60901E8 */  sh      $t1, 0x01E8($s0)           ## 000001E8
 /* 066F4 809559B4 4600020D */  trunc.w.s $f8, $f0                   
 /* 066F8 809559B8 3C014680 */  lui     $at, 0x4680                ## $at = 46800000
 /* 066FC 809559BC 44816000 */  mtc1    $at, $f12                  ## $f12 = 16384.00
 /* 06700 809559C0 440B4000 */  mfc1    $t3, $f8                   
-/* 06704 809559C4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06704 809559C4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 06708 809559C8 A60B01EE */  sh      $t3, 0x01EE($s0)           ## 000001EE
 /* 0670C 809559CC 4600028D */  trunc.w.s $f10, $f0                  
@@ -67,7 +67,7 @@ glabel func_80955940
 /* 06754 80955A14 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 06758 80955A18 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 0675C 80955A1C 44816000 */  mtc1    $at, $f12                  ## $f12 = 500.00
-/* 06760 80955A20 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06760 80955A20 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 06764 80955A24 00000000 */  nop
 /* 06768 80955A28 4600048D */  trunc.w.s $f18, $f0                  
@@ -92,7 +92,7 @@ glabel func_80955940
 /* 067AC 80955A6C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 067B0 80955A70 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 067B4 80955A74 44816000 */  mtc1    $at, $f12                  ## $f12 = 500.00
-/* 067B8 80955A78 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 067B8 80955A78 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 067BC 80955A7C 00000000 */  nop
 /* 067C0 80955A80 4600010D */  trunc.w.s $f4, $f0                   
@@ -117,7 +117,7 @@ glabel func_80955940
 /* 06804 80955AC4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 06808 80955AC8 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 0680C 80955ACC 44816000 */  mtc1    $at, $f12                  ## $f12 = 500.00
-/* 06810 80955AD0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06810 80955AD0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 06814 80955AD4 00000000 */  nop
 /* 06818 80955AD8 4600018D */  trunc.w.s $f6, $f0                   
@@ -183,7 +183,7 @@ glabel func_80955940
 /* 068EC 80955BAC 1020001B */  beq     $at, $zero, .L80955C1C     
 /* 068F0 80955BB0 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 068F4 80955BB4 44816000 */  mtc1    $at, $f12                  ## $f12 = 5.00
-/* 068F8 80955BB8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 068F8 80955BB8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 068FC 80955BBC 00000000 */  nop
 /* 06900 80955BC0 4600028D */  trunc.w.s $f10, $f0                  
@@ -212,7 +212,7 @@ glabel func_80955940
 .L80955C1C:
 /* 0695C 80955C1C 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 06960 80955C20 44816000 */  mtc1    $at, $f12                  ## $f12 = 5.00
-/* 06964 80955C24 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06964 80955C24 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 06968 80955C28 00000000 */  nop
 /* 0696C 80955C2C 3C0140E0 */  lui     $at, 0x40E0                ## $at = 40E00000

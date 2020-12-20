@@ -96,7 +96,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_15C = 0.02f;
             break;
         case ITEM00_HEART:
-            this->actor.initPosRot.rot.z = Math_Rand_CenteredFloat(65535.0f);
+            this->actor.initPosRot.rot.z = Rand_CenteredFloat(65535.0f);
             sp34 = 430.0f;
             Actor_SetScale(&this->actor, 0.02f);
             this->unk_15C = 0.02f;
@@ -334,9 +334,9 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->gameplayFrames & 1) {
-        pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(10.0f);
-        pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(10.0f);
-        pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(10.0f);
+        pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(10.0f);
+        pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(10.0f);
+        pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(10.0f);
         EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
@@ -392,9 +392,9 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (!(globalCtx->gameplayFrames & 1)) {
-        pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
+        pos.x = this->actor.posRot.pos.x + (Rand_ZeroOne() - 0.5f) * 10.0f;
+        pos.y = this->actor.posRot.pos.y + (Rand_ZeroOne() - 0.5f) * 10.0f;
+        pos.z = this->actor.posRot.pos.z + (Rand_ZeroOne() - 0.5f) * 10.0f;
         EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
@@ -892,7 +892,7 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
                 spawnedActor->actor.velocity.y = !param4000 ? 8.0f : -2.0f;
                 spawnedActor->actor.speedXZ = 2.0f;
                 spawnedActor->actor.gravity = -0.9f;
-                spawnedActor->actor.posRot.rot.y = Math_Rand_CenteredFloat(65536.0f);
+                spawnedActor->actor.posRot.rot.y = Rand_CenteredFloat(65536.0f);
                 Actor_SetScale(&spawnedActor->actor, 0.0f);
                 EnItem00_SetupAction(spawnedActor, func_8001E304);
                 spawnedActor->unk_15A = 220;
@@ -933,7 +933,7 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
                 spawnedActor->actor.velocity.y = 0.0f;
                 spawnedActor->actor.speedXZ = 0.0f;
                 spawnedActor->actor.gravity = param4000 ? 0.0f : -0.9f;
-                spawnedActor->actor.posRot.rot.y = Math_Rand_CenteredFloat(65536.0f);
+                spawnedActor->actor.posRot.rot.y = Rand_CenteredFloat(65536.0f);
                 spawnedActor->actor.flags |= 0x0010;
             }
         }
@@ -950,7 +950,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     s16 dropTableIndex;
     u8 dropId;
 
-    dropTableIndex = Math_Rand_ZeroOne() * 16.0f;
+    dropTableIndex = Rand_ZeroOne() * 16.0f;
     param8000 = params & 0x8000;
     params = params & 0x7FFF;
 
@@ -1045,7 +1045,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
                         spawnedActor->actor.velocity.y = 8.0f;
                         spawnedActor->actor.speedXZ = 2.0f;
                         spawnedActor->actor.gravity = -0.9f;
-                        spawnedActor->actor.posRot.rot.y = Math_Rand_ZeroOne() * 40000.0f;
+                        spawnedActor->actor.posRot.rot.y = Rand_ZeroOne() * 40000.0f;
                         Actor_SetScale(&spawnedActor->actor, 0.0f);
                         EnItem00_SetupAction(spawnedActor, func_8001E304);
                         spawnedActor->actor.flags |= 0x0010;

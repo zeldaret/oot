@@ -22,7 +22,7 @@ glabel func_80931560
 /* 04FD8 809315A8 8F3978A8 */  lw      $t9, %lo(D_809378A8)($t9)  
 /* 04FDC 809315AC 53200013 */  beql    $t9, $zero, .L809315FC     
 /* 04FE0 809315B0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 04FE4 809315B4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04FE4 809315B4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04FE8 809315B8 00000000 */  nop
 /* 04FEC 809315BC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

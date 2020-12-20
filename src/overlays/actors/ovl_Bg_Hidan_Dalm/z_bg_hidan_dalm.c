@@ -139,9 +139,9 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
     pos.z = this->dyna.actor.posRot.pos.z;
 
     for (i = 0; i < 4; i++) {
-        velocity.x = 5.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.z = 5.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.x = 5.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
         EffectSsKiraKira_SpawnSmallYellow(globalCtx, &pos, &velocity, &accel);
     }
 }

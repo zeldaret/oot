@@ -112,7 +112,7 @@ void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_809EC9C8(EnDha* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060015B0);
     this->unk_1C0 = 0;
-    this->unk_1C8 = ((Math_Rand_ZeroOne() * 10.0f) + 5.0f);
+    this->unk_1C8 = ((Rand_ZeroOne() * 10.0f) + 5.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->actor.initPosRot.rot.z = 1;

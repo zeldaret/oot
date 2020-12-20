@@ -45,7 +45,7 @@ glabel func_808627C4
 .L80862864:
 /* 03214 80862864 860800B6 */  lh      $t0, 0x00B6($s0)           ## 000000B6
 /* 03218 80862868 25093FFF */  addiu   $t1, $t0, 0x3FFF           ## $t1 = 00003FFF
-/* 0321C 8086286C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0321C 8086286C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03220 80862870 A6090032 */  sh      $t1, 0x0032($s0)           ## 00000032
 /* 03224 80862874 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

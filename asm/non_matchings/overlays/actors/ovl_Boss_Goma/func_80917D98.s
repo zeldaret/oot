@@ -178,7 +178,7 @@ glabel func_80917D98
 .L80917F74:
 /* 02564 80917F74 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
 .L80917F78:
-/* 02568 80917F78 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02568 80917F78 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0256C 80917F7C 00000000 */  nop
 /* 02570 80917F80 3C0142AA */  lui     $at, 0x42AA                ## $at = 42AA0000
@@ -204,7 +204,7 @@ glabel func_80917D98
 /* 025C0 80917FD0 45020028 */  bc1fl   .L80918074                 
 /* 025C4 80917FD4 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 025C8 80917FD8 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 025CC 80917FDC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 025CC 80917FDC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 025D0 80917FE0 A7A300B6 */  sh      $v1, 0x00B6($sp)           
 /* 025D4 80917FE4 87A300B6 */  lh      $v1, 0x00B6($sp)           
@@ -216,14 +216,14 @@ glabel func_80917D98
 /* 025EC 80917FFC 024F8021 */  addu    $s0, $s2, $t7              
 /* 025F0 80918000 C61202A8 */  lwc1    $f18, 0x02A8($s0)          ## 000003F4
 /* 025F4 80918004 46009100 */  add.s   $f4, $f18, $f0             
-/* 025F8 80918008 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 025F8 80918008 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 025FC 8091800C E7A40070 */  swc1    $f4, 0x0070($sp)           
 /* 02600 80918010 C60602AC */  lwc1    $f6, 0x02AC($s0)           ## 000003F8
 /* 02604 80918014 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 02608 80918018 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
 /* 0260C 8091801C 46003200 */  add.s   $f8, $f6, $f0              
-/* 02610 80918020 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02610 80918020 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02614 80918024 E7A80074 */  swc1    $f8, 0x0074($sp)           
 /* 02618 80918028 C60A02B0 */  lwc1    $f10, 0x02B0($s0)          ## 000003FC
@@ -253,7 +253,7 @@ glabel func_80917D98
 /* 02674 80918084 00000000 */  nop
 /* 02678 80918088 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
 .L8091808C:
-/* 0267C 8091808C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0267C 8091808C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02680 80918090 00000000 */  nop
 /* 02684 80918094 3C0142AA */  lui     $at, 0x42AA                ## $at = 42AA0000
@@ -279,7 +279,7 @@ glabel func_80917D98
 /* 026D4 809180E4 4502002F */  bc1fl   .L809181A4                 
 /* 026D8 809180E8 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 026DC 809180EC 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 026E0 809180F0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 026E0 809180F0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 026E4 809180F4 A7A300B6 */  sh      $v1, 0x00B6($sp)           
 /* 026E8 809180F8 87A300B6 */  lh      $v1, 0x00B6($sp)           
@@ -291,19 +291,19 @@ glabel func_80917D98
 /* 02700 80918110 02588021 */  addu    $s0, $s2, $t8              
 /* 02704 80918114 C61002A8 */  lwc1    $f16, 0x02A8($s0)          ## 000003F4
 /* 02708 80918118 46008480 */  add.s   $f18, $f16, $f0            
-/* 0270C 8091811C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0270C 8091811C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02710 80918120 E7B20070 */  swc1    $f18, 0x0070($sp)          
 /* 02714 80918124 C60402AC */  lwc1    $f4, 0x02AC($s0)           ## 000003F8
 /* 02718 80918128 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 0271C 8091812C 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
 /* 02720 80918130 46002180 */  add.s   $f6, $f4, $f0              
-/* 02724 80918134 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02724 80918134 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02728 80918138 E7A60074 */  swc1    $f6, 0x0074($sp)           
 /* 0272C 8091813C C60802B0 */  lwc1    $f8, 0x02B0($s0)           ## 000003FC
 /* 02730 80918140 46004280 */  add.s   $f10, $f8, $f0             
-/* 02734 80918144 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02734 80918144 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02738 80918148 E7AA0078 */  swc1    $f10, 0x0078($sp)          
 /* 0273C 8091814C 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -473,7 +473,7 @@ glabel func_80917D98
 /* 0299C 809183AC 31090003 */  andi    $t1, $t0, 0x0003           ## $t1 = 00000000
 /* 029A0 809183B0 1520000B */  bne     $t1, $zero, .L809183E0     
 /* 029A4 809183B4 00000000 */  nop
-/* 029A8 809183B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 029A8 809183B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 029AC 809183BC 00000000 */  nop
 /* 029B0 809183C0 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -781,7 +781,7 @@ glabel func_80917D98
 /* 02E08 80918818 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
 .L8091881C:
 /* 02E0C 8091881C 44816000 */  mtc1    $at, $f12                  ## $f12 = 400.00
-/* 02E10 80918820 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02E10 80918820 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02E14 80918824 00000000 */  nop
 /* 02E18 80918828 3C01C316 */  lui     $at, 0xC316                ## $at = C3160000
@@ -789,7 +789,7 @@ glabel func_80917D98
 /* 02E20 80918830 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
 /* 02E24 80918834 44816000 */  mtc1    $at, $f12                  ## $f12 = 400.00
 /* 02E28 80918838 46040180 */  add.s   $f6, $f0, $f4              
-/* 02E2C 8091883C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02E2C 8091883C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02E30 80918840 E7A6005C */  swc1    $f6, 0x005C($sp)           
 /* 02E34 80918844 3C01C3AF */  lui     $at, 0xC3AF                ## $at = C3AF0000

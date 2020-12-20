@@ -516,7 +516,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->faceState++;
                 if (this->faceState >= 3) {
                     this->faceState = 0;
-                    this->unusedRandomTimer = ((s16)Math_Rand_ZeroFloat(60.0f) + 0x14);
+                    this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);

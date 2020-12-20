@@ -94,7 +94,7 @@ glabel func_808621D4
 /* 02CC8 80862318 10000019 */  beq     $zero, $zero, .L80862380   
 /* 02CCC 8086231C 24090008 */  addiu   $t1, $zero, 0x0008         ## $t1 = 00000008
 .L80862320:
-/* 02CD0 80862320 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02CD0 80862320 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02CD4 80862324 00000000 */  nop
 /* 02CD8 80862328 3C018086 */  lui     $at, %hi(D_808647C4)       ## $at = 80860000

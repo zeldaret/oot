@@ -337,7 +337,7 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_SetupReady(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600B6D4, -4.0f);
     this->actionState = GELDB_READY;
-    this->timer = Math_Rand_ZeroOne() * 10.0f + 5.0f;
+    this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     EnGeldB_SetupAction(this, EnGeldB_Ready);
@@ -376,14 +376,14 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
         } else if (--this->timer == 0) {
             if (func_8002E084(&this->actor, 30 * 0x10000 / 360)) {
                 if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
-                    (Math_Rand_ZeroOne() < 0.3f)) {
-                    if (func_80033AB8(globalCtx, &this->actor) || (Math_Rand_ZeroOne() > 0.5f) ||
+                    (Rand_ZeroOne() < 0.3f)) {
+                    if (func_80033AB8(globalCtx, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleToLink) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
                         EnGeldB_SetupSpinAttack(this);
                     }
-                } else if (Math_Rand_ZeroOne() > 0.3f) {
+                } else if (Rand_ZeroOne() > 0.3f) {
                     EnGeldB_SetupAdvance(this, globalCtx);
                 } else {
                     EnGeldB_SetupCircle(this);
@@ -429,7 +429,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         facingAngletoLink = ABS(facingAngletoLink);
         if ((this->actor.xzDistFromLink < 150.0f) && (player->swordState != 0) && (facingAngletoLink >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            if (Math_Rand_ZeroOne() > 0.7f) {
+            if (Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupCircle(this);
                 return;
             }
@@ -440,16 +440,16 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         prevKeyFrame = (s32)(this->skelAnime.animCurrentFrame - playSpeed);
         playSpeed = ABS(this->skelAnime.animPlaybackSpeed); // yes it does this twice.
         if (!func_8002E084(&this->actor, 0x11C7)) {
-            if (Math_Rand_ZeroOne() > 0.5f) {
+            if (Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
             } else {
                 EnGeldB_SetupReady(this);
             }
         } else if (this->actor.xzDistFromLink < 90.0f) {
             if (!func_80033AB8(globalCtx, &this->actor) &&
-                (Math_Rand_ZeroOne() > 0.03f || (this->actor.xzDistFromLink <= 45.0f && facingAngletoLink < 0x38E0))) {
+                (Rand_ZeroOne() > 0.03f || (this->actor.xzDistFromLink <= 45.0f && facingAngletoLink < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
-            } else if (func_80033AB8(globalCtx, &this->actor) && (Math_Rand_ZeroOne() > 0.5f)) {
+            } else if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
             } else {
                 EnGeldB_SetupCircle(this);
@@ -459,7 +459,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
                 func_8002E084(&this->actor, 0x71C)) {
                 if (func_80033A84(globalCtx, &this->actor)) {
-                    if (Math_Rand_ZeroOne() > 0.5f) {
+                    if (Rand_ZeroOne() > 0.5f) {
                         EnGeldB_SetupRollForward(this);
                     } else {
                         EnGeldB_SetupSpinAttack(this);
@@ -501,12 +501,12 @@ void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         if (!func_8002E084(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
-            this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             if (ABS(facingAngleToLink) < 0x38E0) {
                 this->lookTimer = 20;
             }
         } else if (!func_80033AB8(globalCtx, &this->actor) &&
-                   (Math_Rand_ZeroOne() > 0.5f || (ABS(facingAngleToLink) < 0x3FFC))) {
+                   (Rand_ZeroOne() > 0.5f || (ABS(facingAngleToLink) < 0x3FFC))) {
             EnGeldB_SetupSlash(this);
         } else {
             EnGeldB_SetupAdvance(this, globalCtx);
@@ -542,7 +542,7 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.animPlaybackSpeed = -playSpeed;
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
         if (func_8002E084(&this->actor, 30 * 0x10000 / 360)) {
-            if (Math_Rand_ZeroOne() > 0.8f) {
+            if (Rand_ZeroOne() > 0.8f) {
                 EnGeldB_SetupCircle(this);
             } else {
                 EnGeldB_SetupAdvance(this, globalCtx);
@@ -556,10 +556,10 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupCircle(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A814), 1, 0.0f);
-    this->actor.speedXZ = Math_Rand_CenteredFloat(12.0f);
+    this->actor.speedXZ = Rand_CenteredFloat(12.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
-    this->timer = Math_Rand_ZeroOne() * 30.0f + 30.0f;
+    this->timer = Rand_ZeroOne() * 30.0f + 30.0f;
     this->actionState = GELDB_CIRCLE;
     this->approachRate = 0.0f;
     EnGeldB_SetupAction(this, EnGeldB_Circle);
@@ -645,7 +645,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
             !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 45.0f)) {
             EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
-            if (func_80033AB8(globalCtx, &this->actor) && (Math_Rand_ZeroOne() > 0.5f)) {
+            if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
             } else {
                 EnGeldB_SetupReady(this);
@@ -664,7 +664,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = -10.0f;
     } else if (Math_SinS(sp3E - this->actor.shape.rot.y) < 0.0f) {
         this->actor.speedXZ = 10.0f;
-    } else if (Math_Rand_ZeroOne() > 0.5f) {
+    } else if (Rand_ZeroOne() > 0.5f) {
         this->actor.speedXZ = 10.0f;
     } else {
         this->actor.speedXZ = -10.0f;
@@ -784,16 +784,16 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!func_8002E084(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
-            this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             if (angleToLink > 0x4000) {
                 this->lookTimer = 20;
             }
-        } else if (Math_Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
+        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
             EnGeldB_SetupReady(this);
-            this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
             this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            if (Math_Rand_ZeroOne() > 0.7f) {
+            if (Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupSidestep(this, globalCtx);
             } else if (angleFacingLink <= 0x2710) {
                 if (angleToLink > 0x3E80) {
@@ -858,16 +858,16 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->spinAttackState < 2)) {
         if (!func_8002E084(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
-            this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             this->lookTimer = 46;
         } else if (this->spinAttackState != 0) {
             EnGeldB_SetupRollBack(this);
-        } else if (Math_Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
+        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
             EnGeldB_SetupReady(this);
-            this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
             this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            if (Math_Rand_ZeroOne() > 0.7f) {
+            if (Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupSidestep(this, globalCtx);
             } else {
                 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -903,7 +903,7 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
 void EnGeldB_RollBack(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink < 170.0f) &&
-            (this->actor.xzDistFromLink > 140.0f) && (Math_Rand_ZeroOne() < 0.2f)) {
+            (this->actor.xzDistFromLink > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnGeldB_SetupSpinAttack(this);
         } else if (globalCtx->gameplayFrames & 1) {
             EnGeldB_SetupSidestep(this, globalCtx);
@@ -1035,7 +1035,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
     }
     this->actor.speedXZ = 0.0f;
     this->actionState = GELDB_BLOCK;
-    this->timer = (s32)Math_Rand_CenteredFloat(10.0f) + 10;
+    this->timer = (s32)Rand_CenteredFloat(10.0f) + 10;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06001578, 0.0f, 0.0f, lastFrame, 2, 0.0f);
     EnGeldB_SetupAction(this, EnGeldB_Block);
 }
@@ -1081,7 +1081,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((globalCtx->gameplayFrames & 1)) {
-                if ((this->actor.xzDistFromLink < 100.0f) && (Math_Rand_ZeroOne() > 0.7f)) {
+                if ((this->actor.xzDistFromLink < 100.0f) && (Rand_ZeroOne() > 0.7f)) {
                     EnGeldB_SetupJump(this);
                 } else {
                     EnGeldB_SetupRollBack(this);
@@ -1106,12 +1106,12 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     } else if (Math_SinS(linkAngle - this->actor.shape.rot.y) < 0.0f) {
         this->actor.speedXZ = 6.0f;
     } else {
-        this->actor.speedXZ = Math_Rand_CenteredFloat(12.0f);
+        this->actor.speedXZ = Rand_CenteredFloat(12.0f);
     }
     this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
     this->approachRate = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
-    this->timer = Math_Rand_ZeroOne() * 10.0f + 5.0f;
+    this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
     this->actionState = GELDB_SIDESTEP;
     EnGeldB_SetupAction(this, EnGeldB_Sidestep);
 }
@@ -1189,7 +1189,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
             angleFacingPlayer = ABS(angleFacingPlayer);
             if (angleFacingPlayer >= 0x3A98) {
                 EnGeldB_SetupReady(this);
-                this->timer = (Math_Rand_ZeroOne() * 5.0f) + 1.0f;
+                this->timer = (Rand_ZeroOne() * 5.0f) + 1.0f;
             } else {
                 Player* player2 = PLAYER;
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -1200,7 +1200,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                     EnGeldB_SetupSlash(this);
                 } else if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
                            !(globalCtx->gameplayFrames & 1)) {
-                    if (func_80033AB8(globalCtx, &this->actor) || (Math_Rand_ZeroOne() > 0.5f) ||
+                    if (func_80033AB8(globalCtx, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleFacingPlayer2) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
@@ -1338,7 +1338,7 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
     }
     if (this->blinkState == 0) {
-        if ((Math_Rand_ZeroOne() < 0.1f) && ((globalCtx->gameplayFrames % 4) == 0)) {
+        if ((Rand_ZeroOne() < 0.1f) && ((globalCtx->gameplayFrames % 4) == 0)) {
             this->blinkState++;
         }
     } else {

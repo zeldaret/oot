@@ -127,22 +127,22 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
     f32 spreadAngle;
     f32 scaleMod;
 
-    spreadAngle = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
+    spreadAngle = (Rand_ZeroOne() - 0.5f) * 6.28f;
     pos.y = this->actor.groundY;
     pos.x = (Math_SinF(spreadAngle) * spread) + spawnPos->x;
     pos.z = (Math_CosF(spreadAngle) * spread) + spawnPos->z;
-    accel.x = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
-    accel.z = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
-    vel.y += (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-    scaleMod = (Math_Rand_ZeroOne() * 5.0f) + 12.0f;
+    accel.x = (Rand_ZeroOne() - 0.5f) * accelXZ;
+    accel.z = (Rand_ZeroOne() - 0.5f) * accelXZ;
+    vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
+    scaleMod = (Rand_ZeroOne() * 5.0f) + 12.0f;
     EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, arg4, scaleMod * scale, -1, 10, NULL);
 }
 
 void EnDh_SetupWait(EnDh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06003A8C);
     this->curAction = DH_WAIT;
-    this->actor.posRot.pos.x = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
     this->actor.shape.unk_08 = -15000.0f;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;

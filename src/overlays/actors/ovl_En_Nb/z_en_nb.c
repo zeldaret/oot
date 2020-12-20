@@ -190,7 +190,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     s16* eyeIdx = &this->eyeIdx;
 
     if (DECR(*blinkTimer) == 0) {
-        *blinkTimer = Math_Rand_S16Offset(60, 60);
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
     *eyeIdx = *blinkTimer;

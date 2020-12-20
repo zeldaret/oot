@@ -153,7 +153,7 @@ glabel func_80951844
 /* 02784 80951A44 0C253E19 */  jal     func_8094F864              
 /* 02788 80951A48 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80951A4C:
-/* 0278C 80951A4C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0278C 80951A4C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02790 80951A50 00000000 */  nop
 /* 02794 80951A54 3C018096 */  lui     $at, %hi(D_8095C6BC)       ## $at = 80960000

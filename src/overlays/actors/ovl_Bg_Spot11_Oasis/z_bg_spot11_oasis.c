@@ -135,9 +135,9 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
         gameplayFrames = globalCtx->gameplayFrames;
         if (gameplayFrames & 4) {
             Math_Vec3f_Sum(&this->actor.posRot.pos, &D_808B2E34[this->unk_151], &sp30);
-            EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Math_Rand_ZeroOne() * 0.12f) + 0.02f);
-            if (Math_Rand_ZeroOne() < 0.3f) {
-                this->unk_151 = Math_Rand_ZeroOne() * 4.9f;
+            EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Rand_ZeroOne() * 0.12f) + 0.02f);
+            if (Rand_ZeroOne() < 0.3f) {
+                this->unk_151 = Rand_ZeroOne() * 4.9f;
             }
         }
     } else {

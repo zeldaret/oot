@@ -61,7 +61,7 @@ glabel func_80B212C0
 /* 005A4 80B21384 00000000 */  nop
 /* 005A8 80B21388 45000005 */  bc1f    .L80B213A0                 
 /* 005AC 80B2138C 00000000 */  nop
-/* 005B0 80B21390 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 005B0 80B21390 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 005B4 80B21394 00000000 */  nop
 /* 005B8 80B21398 46000480 */  add.s   $f18, $f0, $f0             

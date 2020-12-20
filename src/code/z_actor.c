@@ -1843,9 +1843,9 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
-            spA4.x = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-            spA4.y = Math_Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-            spA4.z = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+            spA4.x = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
+            spA4.y = Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
+            spA4.z = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
                                             16);
@@ -3011,7 +3011,7 @@ void func_80032C7C(GlobalContext* globalCtx, Actor* actor) {
 
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     if (DECR(arg0[1]) == 0) {
-        arg0[1] = Math_Rand_S16Offset(arg1, arg2);
+        arg0[1] = Rand_S16Offset(arg1, arg2);
     }
 
     if ((arg0[1] - arg3) > 0) {
@@ -3027,11 +3027,11 @@ s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 
 s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     if (DECR(arg0[1]) == 0) {
-        arg0[1] = Math_Rand_S16Offset(arg1, arg2);
+        arg0[1] = Rand_S16Offset(arg1, arg2);
         arg0[0]++;
 
         if ((arg0[0] % 3) == 0) {
-            arg0[0] = (s32)(Math_Rand_ZeroOne() * arg3) * 3;
+            arg0[0] = (s32)(Rand_ZeroOne() * arg3) * 3;
         }
     }
 
@@ -3148,15 +3148,15 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     f32 var;
     s32 i;
 
-    var = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
+    var = (Rand_ZeroOne() - 0.5f) * 6.28f;
     pos.y = actor->groundY;
-    accel.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
+    accel.y += (Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {
         pos.x = (Math_SinF(var) * arg3) + arg2->x;
         pos.z = (Math_CosF(var) * arg3) + arg2->z;
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
+        accel.x = (Rand_ZeroOne() - 0.5f) * arg5;
+        accel.z = (Rand_ZeroOne() - 0.5f) * arg5;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);
@@ -3179,11 +3179,11 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
     s32 i;
 
     for (i = arg3; i >= 0; i--) {
-        pos.x = arg1->x + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
-        pos.y = arg1->y + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
-        pos.z = arg1->z + ((Math_Rand_ZeroOne() - 0.5f) * arg2);
+        pos.x = arg1->x + ((Rand_ZeroOne() - 0.5f) * arg2);
+        pos.y = arg1->y + ((Rand_ZeroOne() - 0.5f) * arg2);
+        pos.z = arg1->z + ((Rand_ZeroOne() - 0.5f) * arg2);
 
-        scale = (s16)((Math_Rand_ZeroOne() * arg4) * 0.2f) + arg4;
+        scale = (s16)((Rand_ZeroOne() * arg4) * 0.2f) + arg4;
         var2 = arg6;
 
         if (var2 != 0) {
@@ -3475,12 +3475,12 @@ void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     func_80033DB8(globalCtx, arg2, arg3);
 }
 
-f32 Math_Rand_ZeroFloat(f32 f) {
-    return Math_Rand_ZeroOne() * f;
+f32 Rand_ZeroFloat(f32 f) {
+    return Rand_ZeroOne() * f;
 }
 
-f32 Math_Rand_CenteredFloat(f32 f) {
-    return (Math_Rand_ZeroOne() - 0.5f) * f;
+f32 Rand_CenteredFloat(f32 f) {
+    return (Rand_ZeroOne() - 0.5f) * f;
 }
 
 typedef struct {
@@ -3734,11 +3734,11 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
     switch (arg1->unk_06) {
         case 0:
         case 2:
-            arg1->unk_04 = Math_Rand_S16Offset(30, 30);
+            arg1->unk_04 = Rand_S16Offset(30, 30);
             arg1->unk_06++;
             return 1;
         case 1:
-            arg1->unk_04 = Math_Rand_S16Offset(10, 10);
+            arg1->unk_04 = Rand_S16Offset(10, 10);
             arg1->unk_06++;
             return 3;
     }

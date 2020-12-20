@@ -105,7 +105,7 @@ glabel func_808DC14C
 .L808DC2B0:
 /* 05A40 808DC2B0 51A0002B */  beql    $t5, $zero, .L808DC360
 /* 05A44 808DC2B4 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
-/* 05A48 808DC2B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 05A48 808DC2B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 05A4C 808DC2BC 00000000 */  nop
 /* 05A50 808DC2C0 3C018090 */  lui     $at, %hi(D_808F8000)       ## $at = 80900000

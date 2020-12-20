@@ -53,7 +53,7 @@ void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec
     static Color_RGBA8 redEnv = { 255, 110, 96, 0 };
 
     func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv,
-                  ((Math_Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
+                  ((Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
 }
 
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
@@ -117,18 +117,18 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
     for (i = 0; i < 12; i++) {
 
         pos.x = Math_SinS(angle) * 46.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) + 2.0f;
         pos.z = Math_CosS(angle) * 46.0f;
 
         velocity.x = (pos.x * 0.1f) + 20.0f;
-        velocity.y = Math_Rand_ZeroOne() * 16.0f;
+        velocity.y = Rand_ZeroOne() * 16.0f;
         velocity.z = pos.z * 0.1f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 96;
@@ -139,7 +139,7 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
-                             (s32)(Math_Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Math_Rand_ZeroOne() * 0.0f) + 30,
+                             (s32)(Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
         angle += 0x1555;
     }
@@ -158,18 +158,18 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
     for (i = 0; i < 8; i++) {
 
         pos.x = Math_SinS(angle) * 30.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) + 2.0f;
         pos.z = Math_CosS(angle) * 30.0f;
 
         velocity.x = 0.0f;
-        velocity.y = Math_Rand_ZeroOne() * -4.0f;
+        velocity.y = Rand_ZeroOne() * -4.0f;
         velocity.z = pos.z * 0.1f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 96;
@@ -180,8 +180,8 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
+                             (s32)(Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x2000;
     }
@@ -200,18 +200,18 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
     for (i = 0; i < 12; i++) {
 
         pos.x = Math_SinS(angle) * 16.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = Math_CosS(angle) * 16.0f;
 
         velocity.x = pos.x * 0.6f;
-        velocity.y = (Math_Rand_ZeroOne() * 36.0f) + 6.0f;
+        velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
         velocity.z = pos.z * 0.6f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 97;
@@ -222,7 +222,7 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -200, phi_s0, 10, 10, 0,
-                             Math_Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Math_Rand_ZeroOne() * 30.0f) + 30,
+                             Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
         angle += 0x1555;
     }
@@ -241,18 +241,18 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
     for (i = 0; i < 1; i++) {
 
         pos.x = Math_SinS(angle) * 46.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) - 28.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) - 28.0f;
         pos.z = Math_CosS(angle) * 46.0f;
 
         velocity.x = Math_SinS(arg2) * 3.0f;
-        velocity.y = (Math_Rand_ZeroOne() * -4.0f) + 10.0f;
+        velocity.y = (Rand_ZeroOne() * -4.0f) + 10.0f;
         velocity.z = Math_CosS(arg2) * 3.0f;
 
         pos.x += arg1->x;
         pos.y += arg1->y;
         pos.z += arg1->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 97;
@@ -263,8 +263,8 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
+                             (s32)(Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x10000;
     }
@@ -294,7 +294,7 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
 
             DemoGt_SpawnDust(globalCtx, &pos, velocity, accel, dustScale, dustScaleStep, life);
 
-            if (Math_Rand_ZeroOne() <= 0.05f) {
+            if (Rand_ZeroOne() <= 0.05f) {
                 func_8097E1D4(globalCtx, &pos, phi_s0);
             }
 

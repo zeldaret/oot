@@ -228,7 +228,7 @@ void func_80AEAE1C(EnRu1* this) {
     s16* unk_25C = &this->unk_25C;
 
     if (DECR(*unk_25E) == 0) {
-        *unk_25E = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_25E = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_25C = *unk_25E;
@@ -1311,7 +1311,7 @@ void func_80AED8DC(EnRu1* this) {
     s32 pad[2];
 
     if (DECR(*unk_2AC) == 0) {
-        *unk_2AC = Math_Rand_S16Offset(0xA, 0x19);
+        *unk_2AC = Rand_S16Offset(0xA, 0x19);
         temp_hi = *unk_2AC % 5;
         if (temp_hi == 0) {
             this->unk_2B0 = 1;
@@ -1676,7 +1676,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
         this->unk_370 += 1.0f;
         if (this->action != 32) {
             if (*unk_370 > 30.0f) {
-                if (Math_Rand_S16Offset(0, 3) == 0) {
+                if (Rand_S16Offset(0, 3) == 0) {
                     frameCount = SkelAnime_GetFrameCount(&D_06004350);
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_06004350, 1.0f, 0, frameCount, 0, -8.0f);
                     func_80AED5DC(this);

@@ -118,10 +118,10 @@ glabel EnBomChu_Update
 /* 00F54 809C6784 25085F48 */  addiu   $t0, $t0, %lo(func_809C5F48) ## $t0 = 809C5F48
 /* 00F58 809C6788 1509007D */  bne     $t0, $t1, .L809C6980       
 /* 00F5C 809C678C 262A07C0 */  addiu   $t2, $s1, 0x07C0           ## $t2 = 000007C0
-/* 00F60 809C6790 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F60 809C6790 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F64 809C6794 AFAA0030 */  sw      $t2, 0x0030($sp)           
-/* 00F68 809C6798 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F68 809C6798 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F6C 809C679C E7A00038 */  swc1    $f0, 0x0038($sp)           
 /* 00F70 809C67A0 3C014400 */  lui     $at, 0x4400                ## $at = 44000000

@@ -92,7 +92,7 @@ glabel func_809B9B64
 /* 019B8 809B9C98 37280001 */  ori     $t0, $t9, 0x0001           ## $t0 = 00000001
 /* 019BC 809B9C9C AE080004 */  sw      $t0, 0x0004($s0)           ## 00000004
 .L809B9CA0:
-/* 019C0 809B9CA0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 019C0 809B9CA0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 019C4 809B9CA4 00000000 */  nop
 /* 019C8 809B9CA8 C6100274 */  lwc1    $f16, 0x0274($s0)          ## 00000274

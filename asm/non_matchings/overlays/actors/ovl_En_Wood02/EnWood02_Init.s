@@ -171,15 +171,15 @@ glabel L80B3B470
 /* 00510 80B3B480 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 00514 80B3B484 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
 /* 00518 80B3B488 A7A8004E */  sh      $t0, 0x004E($sp)           
-/* 0051C 80B3B48C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0051C 80B3B48C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00520 80B3B490 E7A40048 */  swc1    $f4, 0x0048($sp)           
 /* 00524 80B3B494 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 00528 80B3B498 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
-/* 0052C 80B3B49C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0052C 80B3B49C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00530 80B3B4A0 E600005C */  swc1    $f0, 0x005C($s0)           ## 0000005C
-/* 00534 80B3B4A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00534 80B3B4A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00538 80B3B4A8 E6000064 */  swc1    $f0, 0x0064($s0)           ## 00000064
 /* 0053C 80B3B4AC 3C013FA0 */  lui     $at, 0x3FA0                ## $at = 3FA00000
