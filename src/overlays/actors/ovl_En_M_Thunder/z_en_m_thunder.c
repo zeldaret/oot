@@ -36,17 +36,22 @@ u32 D_80AA044C[] = { 0x01000000, 0x00400000, 0x00800000 };
 
 u32 D_80AA0458[] = { 0x08000000, 0x02000000, 0x04000000 };
 
-u16 D_80AA0464[] = { 0x182F, 0x182E, 0x182F, 0x182E };
+u16 D_80AA0464[] = {
+    NA_SE_IT_ROLLING_CUT_LV2,
+    NA_SE_IT_ROLLING_CUT_LV1,
+    NA_SE_IT_ROLLING_CUT_LV2,
+    NA_SE_IT_ROLLING_CUT_LV1,
+};
 
 f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f }; //, 0x00000000
 // glabel D_80AA046C
 //  .word 0x3DCCCCCD, 0x3E19999A, 0x3E4CCCCD, 0x3E800000, 0x3E99999A, 0x3E800000, 0x3E4CCCCD, 0x3E19999A, 0x00000000
 
-extern UNK_TYPE D_04012570;
-extern UNK_TYPE D_04012690;
-extern UNK_TYPE D_04012AF0;
-extern UNK_TYPE D_04012C10;
-extern UNK_TYPE D_04013610;
+extern Gfx D_04012570[];
+extern Gfx D_04012690[];
+extern Gfx D_04012AF0[];
+extern Gfx D_04012C10[];
+extern Gfx D_04013610[];
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9EFE0.s")
 // Setup action
@@ -140,28 +145,28 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if ((player->stateFlags1 & 0x1000) == 0) {
+    if (!(player->stateFlags1 & 0x1000)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void func_800F4254(Vec3f *pos, u8 arg1);
+void func_800F4254(Vec3f* pos, u8 arg1);
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F408.s")
 void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     struct Actor* phi_t0;
-    
+
     phi_t0 = this->actor.child;
     this->unk_1B8 = player->unk_858;
     this->actor.posRot.pos = player->bodyPartsPos[0];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
-    
+
     if (this->unk_1CA == 0) {
-        
+
         if (player->unk_858 >= 0.1f) {
             if ((gSaveContext.unk_13F0) || (((this->actor.params & 0xFF00) >> 8) &&
                                             !(func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 4)))) {
-                
+
                 func_80A9F350(this, globalCtx);
                 func_80A9EFE0(this, func_80A9F350);
                 this->unk_1C8 = 0;
@@ -172,9 +177,9 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
             this->unk_1CA = 1;
         }
     }
-    
+
     if (player->unk_858 >= 0.1f) {
-        func_800AA000(0.0f, (s32)(player->unk_858 * 150.0f) & 0xFF, 2, (s32)(player->unk_858 * 150.0f) & 0xFF );
+        func_800AA000(0.0f, (s32)(player->unk_858 * 150.0f) & 0xFF, 2, (s32)(player->unk_858 * 150.0f) & 0xFF);
     }
 
     if (player->stateFlags2 & 0x20000) {
@@ -197,48 +202,48 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
                 gSaveContext.unk_13F0 = 1;
             }
             if (player->unk_858 < 0.85f) {
-                
+
                 this->collider.body.toucher.flags = D_80AA044C[this->unk_1C7];
                 this->unk_1C6 = 1;
-                this->unk_1C9 = ( (this->unk_1C7 == 1) ? 2 : 4 );
+                this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
             } else {
                 this->collider.body.toucher.flags = D_80AA0458[this->unk_1C7];
                 this->unk_1C6 = 0;
-                this->unk_1C9 = ( (this->unk_1C7 == 1) ? 4 : 8 );
+                this->unk_1C9 = ((this->unk_1C7 == 1) ? 4 : 8);
             }
-            
+
             func_80A9EFE0(this, func_80A9F9B4);
             this->unk_1C4 = 8;
-            Audio_PlaySoundGeneral(D_80AA0464[this->unk_1C6], &player->actor.projectedPos, 4, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(D_80AA0464[this->unk_1C6], &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
             this->unk_1AC = 1.0f;
             return;
         }
     }
-    if ((player->stateFlags1 & 0x1000) == 0) {
+    if (!(player->stateFlags1 & 0x1000)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }
         Actor_Kill(&this->actor);
         return;
     }
-    
+
     if (player->unk_858 > 0.15f) {
         this->unk_1C8 = 0xFF;
-        if (this->actor.child == 0) {
+        if (this->actor.child == NULL) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EFF_DUST, this->actor.posRot.pos.x,
                                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0,
                                this->unk_1C7 + 2);
         }
         this->unk_1BC += ((((player->unk_858 - 0.15f) * 1.5f) - this->unk_1BC) * 0.5f);
-        
+
     } else if (player->unk_858 > .1f) {
         this->unk_1C8 = (s32)((player->unk_858 - .1f) * 255.0f * 20.0f);
         this->unk_1AC = (player->unk_858 - .1f) * 10.0f;
     } else {
         this->unk_1C8 = 0;
     }
-    
+
     if (player->unk_858 > 0.85f) {
         func_800F4254(&player->actor.projectedPos, 2);
     } else if (player->unk_858 > 0.15f) {
@@ -246,7 +251,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     } else if (player->unk_858 > 0.1f) {
         func_800F4254(&player->actor.projectedPos, 0);
     }
-    
+
     if (Gameplay_InCsMode(globalCtx)) {
         Actor_Kill(&this->actor);
     }
@@ -318,4 +323,105 @@ void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
                               (s32)(temp_f0 * 800.0f));
 }
 
+#ifdef NON_EQUIVALENT
+void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnMThunder* this = THIS;
+
+    // GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Player* player = PLAYER;
+
+    f32 phi_f14;
+    s32 phi_t1;
+    u8 frames;
+
+    // if (1) {}
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 844);
+    func_80093D84(globalCtx->state.gfxCtx);
+    Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 853),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    if (((this->unk_1C6 & 0xFF) == 0) || (this->unk_1C6 == 1)) {
+        // temp_f0 = this->unk_1B4;
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((s8)(this->unk_1B4 * 30) & 0xFF), 0, 0x40, 0x20,
+                                    1, 0xFF - ((s8)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
+        ;
+    }
+
+    switch (this->unk_1C6) {
+        case 0:
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255.0f) & 0xFF));
+            gSPDisplayList(POLY_XLU_DISP++, D_04012AF0);
+            gSPDisplayList(POLY_XLU_DISP++, D_04012C10);
+            break;
+        case 1:
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255.0f) & 0xFF));
+            gSPDisplayList(POLY_XLU_DISP++, D_04012570);
+            gSPDisplayList(POLY_XLU_DISP++, D_04012690);
+            break;
+    }
+
+    Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
+
+    switch (this->unk_1C7) {
+
+        case 1:
+            Matrix_Translate(0.0f, 220.0f, 0.0f, MTXMODE_APPLY);
+            Matrix_Scale(-0.7f, -0.6f, -0.4f, MTXMODE_APPLY);
+            Matrix_RotateX(16384.0f, MTXMODE_APPLY);
+            break;
+        case 0:
+            Matrix_Translate(0.0f, 300.0f, -100.0f, MTXMODE_APPLY);
+            Matrix_Scale(-1.2f, -1.0f, -0.7f, MTXMODE_APPLY);
+            Matrix_RotateX(16384.0f, MTXMODE_APPLY);
+            break;
+        case 2:
+            Matrix_Translate(200.0f, 350.0f, 0.0f, MTXMODE_APPLY);
+            Matrix_Scale(-1.8f, -1.4f, -0.7f, MTXMODE_APPLY);
+            Matrix_RotateX(16384.0f, MTXMODE_APPLY);
+            break;
+    }
+
+    if (this->unk_1B8 >= 0.85f) {
+        phi_f14 = (D_80AA046C[(s8)(globalCtx->gameplayFrames & 7)] * 6.0f) + 1.0f;
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, this->unk_1C8);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
+
+        phi_t1 = 0x28;
+    } else {
+        phi_f14 = (D_80AA046C[globalCtx->gameplayFrames & 7] * 2.0f) + 1.0f;
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, this->unk_1C8);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
+
+        phi_t1 = 0x14;
+    }
+    Matrix_Scale(1.0f, phi_f14, phi_f14, MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 960),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    // temp_v0_14 = temp_s0->polyXlu.p;
+    // temp_s0->polyXlu.p = temp_v0_14 + 8;
+    // temp_v0_14->words.w0 = 0xDB060024;
+    // temp_v1_3 = temp_t2->unk1DE4;
+    // temp_v1_3 = globalCtx->gameplayFrames;
+    // sp50 = temp_v0_14;
+    // sp50->words.w1 = Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (temp_v1_3 * 5) & 0xFF, 0U, 0x20, 0x20, 1,
+    // (temp_v1_3 * 0x14) & 0xFF, (temp_v1_3 * temp_t1) & 0xFF, 8, 8);
+    frames = globalCtx->gameplayFrames;
+    gSPSegment(POLY_XLU_DISP++, 0x09,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 5) & 0xFF, (frames * 0) & 0xFF, 0x20, 0x20, 1,
+                                (frames * 0x14) & 0xFF,
+                                (frames * phi_t1) & 0xFF, 8, 8));
+
+    gSPDisplayList(POLY_XLU_DISP++, D_04013610);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 1031);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/EnMThunder_Draw.s")
+#endif
