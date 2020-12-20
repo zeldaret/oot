@@ -200,7 +200,7 @@ glabel EnOwl_Update
 /* 029F8 80ACC918 A20E0405 */  sb      $t6, 0x0405($s0)           ## 00000405
 /* 029FC 80ACC91C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 000000FF
 /* 02A00 80ACC920 00042740 */  sll     $a0, $a0, 29               
-/* 02A04 80ACC924 0C01DE0D */  jal     Math_Coss
+/* 02A04 80ACC924 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02A08 80ACC928 00042403 */  sra     $a0, $a0, 16               
 /* 02A0C 80ACC92C 3C014580 */  lui     $at, 0x4580                ## $at = 45800000
@@ -323,7 +323,7 @@ glabel EnOwl_Update
 /* 02BA8 80ACCAC8 00042300 */  sll     $a0, $a0, 12               
 /* 02BAC 80ACCACC 24844000 */  addiu   $a0, $a0, 0x4000           ## $a0 = 00004000
 /* 02BB0 80ACCAD0 00042400 */  sll     $a0, $a0, 16               
-/* 02BB4 80ACCAD4 0C01DE1C */  jal     Math_Sins
+/* 02BB4 80ACCAD4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02BB8 80ACCAD8 00042403 */  sra     $a0, $a0, 16               
 /* 02BBC 80ACCADC 3C0180AD */  lui     $at, %hi(D_80ACD858)       ## $at = 80AD0000
@@ -364,7 +364,7 @@ glabel EnOwl_Update
 /* 02C3C 80ACCB5C 92040405 */  lbu     $a0, 0x0405($s0)           ## 00000405
 /* 02C40 80ACCB60 00042300 */  sll     $a0, $a0, 12               
 /* 02C44 80ACCB64 00042400 */  sll     $a0, $a0, 16               
-/* 02C48 80ACCB68 0C01DE1C */  jal     Math_Sins
+/* 02C48 80ACCB68 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02C4C 80ACCB6C 00042403 */  sra     $a0, $a0, 16               
 /* 02C50 80ACCB70 3C0180AD */  lui     $at, %hi(D_80ACD85C)       ## $at = 80AD0000
@@ -396,7 +396,7 @@ glabel EnOwl_Update
 .L80ACCBD4:
 /* 02CB4 80ACCBD4 00042340 */  sll     $a0, $a0, 13               
 /* 02CB8 80ACCBD8 00042400 */  sll     $a0, $a0, 16               
-/* 02CBC 80ACCBDC 0C01DE1C */  jal     Math_Sins
+/* 02CBC 80ACCBDC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02CC0 80ACCBE0 00042403 */  sra     $a0, $a0, 16               
 /* 02CC4 80ACCBE4 3C0180AD */  lui     $at, %hi(D_80ACD860)       ## $at = 80AD0000

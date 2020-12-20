@@ -212,8 +212,8 @@ void EnOkuta_SetupFreeze(EnOkuta* this) {
 void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f velocity;
-    f32 sin = Math_Sins(this->actor.shape.rot.y);
-    f32 cos = Math_Coss(this->actor.shape.rot.y);
+    f32 sin = Math_SinS(this->actor.shape.rot.y);
+    f32 cos = Math_CosS(this->actor.shape.rot.y);
 
     pos.x = this->actor.posRot.pos.x + (25.0f * sin);
     pos.y = this->actor.posRot.pos.y - 6.0f;

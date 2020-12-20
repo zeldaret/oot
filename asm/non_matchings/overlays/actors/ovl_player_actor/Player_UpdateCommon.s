@@ -449,7 +449,7 @@ glabel Player_UpdateCommon
 /* 17394 808495A4 258C07F4 */  addiu   $t4, $t4, %lo(func_808507F4) ## $t4 = 808507F4
 /* 17398 808495A8 104C000F */  beq     $v0, $t4, .L808495E8
 /* 1739C 808495AC 00000000 */  nop
-/* 173A0 808495B0 0C01DE1C */  jal     Math_Sins
+/* 173A0 808495B0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 173A4 808495B4 860408B0 */  lh      $a0, 0x08B0($s0)           ## 000008B0
 /* 173A8 808495B8 C60408AC */  lwc1    $f4, 0x08AC($s0)           ## 000008AC
@@ -457,7 +457,7 @@ glabel Player_UpdateCommon
 /* 173B0 808495C0 860408B0 */  lh      $a0, 0x08B0($s0)           ## 000008B0
 /* 173B4 808495C4 46002202 */  mul.s   $f8, $f4, $f0
 /* 173B8 808495C8 46089180 */  add.s   $f6, $f18, $f8
-/* 173BC 808495CC 0C01DE0D */  jal     Math_Coss
+/* 173BC 808495CC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 173C0 808495D0 E606005C */  swc1    $f6, 0x005C($s0)           ## 0000005C
 /* 173C4 808495D4 C61008AC */  lwc1    $f16, 0x08AC($s0)          ## 000008AC

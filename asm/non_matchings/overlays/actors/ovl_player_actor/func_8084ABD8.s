@@ -103,7 +103,7 @@ glabel func_8084ABD8
 /* 18B1C 8084AD2C 000420C0 */  sll     $a0, $a0,  3               
 /* 18B20 8084AD30 00042400 */  sll     $a0, $a0, 16               
 /* 18B24 8084AD34 00042403 */  sra     $a0, $a0, 16               
-/* 18B28 8084AD38 0C01DE0D */  jal     Math_Coss
+/* 18B28 8084AD38 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 18B2C 8084AD3C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 18B30 8084AD40 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -157,7 +157,7 @@ glabel func_8084ABD8
 /* 18BE0 8084ADF0 000420C0 */  sll     $a0, $a0,  3               
 /* 18BE4 8084ADF4 00042400 */  sll     $a0, $a0, 16               
 /* 18BE8 8084ADF8 00042403 */  sra     $a0, $a0, 16               
-/* 18BEC 8084ADFC 0C01DE0D */  jal     Math_Coss
+/* 18BEC 8084ADFC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 18BF0 8084AE00 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 18BF4 8084AE04 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

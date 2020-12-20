@@ -12,11 +12,11 @@ glabel func_80A16898
 /* 01620 80A168A0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01624 80A168A4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01628 80A168A8 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 0162C 80A168AC 0C01DE1C */  jal     Math_Sins
+/* 0162C 80A168AC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01630 80A168B0 8484024C */  lh      $a0, 0x024C($a0)           ## 0000024C
 /* 01634 80A168B4 E7A00024 */  swc1    $f0, 0x0024($sp)           
-/* 01638 80A168B8 0C01DE1C */  jal     Math_Sins
+/* 01638 80A168B8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0163C 80A168BC 8604024E */  lh      $a0, 0x024E($s0)           ## 0000024E
 /* 01640 80A168C0 3C0280A1 */  lui     $v0, %hi(D_80A17014)       ## $v0 = 80A10000

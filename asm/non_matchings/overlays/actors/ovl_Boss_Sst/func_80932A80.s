@@ -10,7 +10,7 @@ glabel func_80932A80
 /* 064CC 80932A9C AFA40020 */  sw      $a0, 0x0020($sp)
 /* 064D0 80932AA0 3C0E8094 */  lui     $t6, %hi(D_80938C90)       ## $t6 = 80940000
 /* 064D4 80932AA4 8DCE8C90 */  lw      $t6, %lo(D_80938C90)($t6)
-/* 064D8 80932AA8 0C01DE0D */  jal     Math_Coss
+/* 064D8 80932AA8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 064DC 80932AAC 85C400B6 */  lh      $a0, 0x00B6($t6)           ## 809400B6
 /* 064E0 80932AB0 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -27,7 +27,7 @@ glabel func_80932A80
 /* 06508 80932AD8 00000000 */  nop
 /* 0650C 80932ADC 3C0F8094 */  lui     $t7, %hi(D_80938C90)       ## $t7 = 80940000
 /* 06510 80932AE0 8DEF8C90 */  lw      $t7, %lo(D_80938C90)($t7)
-/* 06514 80932AE4 0C01DE1C */  jal     Math_Sins
+/* 06514 80932AE4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 06518 80932AE8 85E400B6 */  lh      $a0, 0x00B6($t7)           ## 809400B6
 /* 0651C 80932AEC 3C014348 */  lui     $at, 0x4348                ## $at = 43480000

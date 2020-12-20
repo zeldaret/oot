@@ -4,11 +4,11 @@ glabel func_80A169C8
 /* 01750 80A169D0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01754 80A169D4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01758 80A169D8 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0175C 80A169DC 0C01DE1C */  jal     Math_Sins
+/* 0175C 80A169DC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01760 80A169E0 8484024C */  lh      $a0, 0x024C($a0)           ## 0000024C
 /* 01764 80A169E4 E7A00028 */  swc1    $f0, 0x0028($sp)           
-/* 01768 80A169E8 0C01DE1C */  jal     Math_Sins
+/* 01768 80A169E8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0176C 80A169EC 8604024E */  lh      $a0, 0x024E($s0)           ## 0000024E
 /* 01770 80A169F0 E7A00024 */  swc1    $f0, 0x0024($sp)           

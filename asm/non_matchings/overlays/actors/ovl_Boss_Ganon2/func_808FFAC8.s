@@ -44,7 +44,7 @@ glabel func_808FFAC8
 /* 02C18 808FFB58 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 02C1C 808FFB5C 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
 /* 02C20 808FFB60 44817000 */  mtc1    $at, $f14                  ## $f14 = 150.00
-/* 02C24 808FFB64 0C034199 */  jal     atan2s
+/* 02C24 808FFB64 0C034199 */  jal     Math_Atan2S
               
 /* 02C28 808FFB68 C60C0090 */  lwc1    $f12, 0x0090($s0)          ## 00000090
 /* 02C2C 808FFB6C 2443F448 */  addiu   $v1, $v0, 0xF448           ## $v1 = FFFFF448

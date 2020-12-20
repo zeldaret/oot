@@ -85,8 +85,8 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
         this->dyna.actor.shape.rot.y += 0x180;
-        this->dyna.actor.posRot.pos.x = Math_Sins(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
-        this->dyna.actor.posRot.pos.z = Math_Coss(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
+        this->dyna.actor.posRot.pos.x = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
+        this->dyna.actor.posRot.pos.z = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
     if (this->flamesCollider.base.atFlags & 2) {

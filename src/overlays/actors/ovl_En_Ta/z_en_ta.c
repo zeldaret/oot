@@ -1183,8 +1183,8 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         this->unk_2E0 &= ~0x8;
     } else if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
         s32 limbIdx50 = limbIndex * 50;
-        rot->y += Math_Sins(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
-        rot->z += Math_Coss(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
+        rot->z += Math_CosS(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
     }
 
     return 0;

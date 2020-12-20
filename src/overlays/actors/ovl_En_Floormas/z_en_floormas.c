@@ -327,8 +327,8 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
         xzDelta = -70.0f;
     }
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + yDelta;
-    this->actor.posRot.pos.x = Math_Sins(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = Math_Coss(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = Math_SinS(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = Math_CosS(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.z;
     this->actor.shape.rot.x = -0x4CE0;
     this->actionFunc = EnFloormas_GrabLink;
 }
@@ -510,13 +510,13 @@ void EnFloormas_Turn(EnFloormas* this, GlobalContext* globalCtx) {
     // Needed to match
     if (!this->skelAnime.animCurrentFrame) {}
     if (this->skelAnime.animCurrentFrame >= 7.0f && this->skelAnime.animCurrentFrame < 22.0f) {
-        sp30 = Math_Sins(this->actor.shape.rot.y + 0x4268);
-        sp2C = Math_Coss(this->actor.shape.rot.y + 0x4268);
+        sp30 = Math_SinS(this->actor.shape.rot.y + 0x4268);
+        sp2C = Math_CosS(this->actor.shape.rot.y + 0x4268);
         this->actor.shape.rot.y += this->actionTarget;
         this->actor.posRot.pos.x -=
-            (this->actor.scale.x * 2700.0f) * (Math_Sins(this->actor.shape.rot.y + 0x4268) - sp30);
+            (this->actor.scale.x * 2700.0f) * (Math_SinS(this->actor.shape.rot.y + 0x4268) - sp30);
         this->actor.posRot.pos.z -=
-            (this->actor.scale.x * 2700.0f) * (Math_Coss(this->actor.shape.rot.y + 0x4268) - sp2C);
+            (this->actor.scale.x * 2700.0f) * (Math_CosS(this->actor.shape.rot.y + 0x4268) - sp2C);
     }
 }
 
@@ -540,13 +540,13 @@ void EnFloormas_Slide(EnFloormas* this, GlobalContext* globalCtx) {
     pos.y = this->actor.groundY;
 
     velocity.y = 2.0f;
-    velocity.x = Math_Sins(this->actor.shape.rot.y + 0x6000) * 7.0f;
-    velocity.z = Math_Coss(this->actor.shape.rot.y + 0x6000) * 7.0f;
+    velocity.x = Math_SinS(this->actor.shape.rot.y + 0x6000) * 7.0f;
+    velocity.z = Math_CosS(this->actor.shape.rot.y + 0x6000) * 7.0f;
 
     func_800286CC(globalCtx, &pos, &velocity, &accel, 450, 100);
 
-    velocity.x = Math_Sins(this->actor.shape.rot.y - 0x6000) * 7.0f;
-    velocity.z = Math_Coss(this->actor.shape.rot.y - 0x6000) * 7.0f;
+    velocity.x = Math_SinS(this->actor.shape.rot.y - 0x6000) * 7.0f;
+    velocity.z = Math_CosS(this->actor.shape.rot.y - 0x6000) * 7.0f;
 
     func_800286CC(globalCtx, &pos, &velocity, &accel, 450, 100);
 
@@ -756,8 +756,8 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     }
 
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + yDelta;
-    this->actor.posRot.pos.x = Math_Sins(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = Math_Coss(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = Math_SinS(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = Math_CosS(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.z;
 
     // let go
     if (!(player->stateFlags2 & 0x80) || (player->invincibilityTimer < 0)) {
@@ -978,7 +978,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                 } else {
                     if (this->actor.colChkInfo.damageEffect == 2) {
                         EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos,
-                                              this->actor.scale.x * 4000.f, this->actor.scale.x * 4000.f);
+                                              this->actor.scale.x * 4000.0f, this->actor.scale.x * 4000.0f);
                     }
                     EnFloormas_SetupTakeDamage(this);
                 }

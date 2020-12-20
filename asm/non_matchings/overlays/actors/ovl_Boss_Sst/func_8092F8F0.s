@@ -88,11 +88,11 @@ glabel func_8092F8F0
 /* 03460 8092FA30 0C00C7D4 */  jal     Actor_Spawn
               ## ActorSpawn
 /* 03464 8092FA34 E7B60014 */  swc1    $f22, 0x0014($sp)          
-/* 03468 8092FA38 0C01DE1C */  jal     Math_Sins
+/* 03468 8092FA38 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0346C 8092FA3C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 03470 8092FA40 46000506 */  mov.s   $f20, $f0                  
-/* 03474 8092FA44 0C01DE0D */  jal     Math_Coss
+/* 03474 8092FA44 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03478 8092FA48 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0347C 8092FA4C 3C014348 */  lui     $at, 0x4348                ## $at = 43480000

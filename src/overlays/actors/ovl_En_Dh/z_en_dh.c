@@ -129,8 +129,8 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
 
     spreadAngle = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
     pos.y = this->actor.groundY;
-    pos.x = (Math_Sinf(spreadAngle) * spread) + spawnPos->x;
-    pos.z = (Math_Cosf(spreadAngle) * spread) + spawnPos->z;
+    pos.x = (Math_SinF(spreadAngle) * spread) + spawnPos->x;
+    pos.z = (Math_CosF(spreadAngle) * spread) + spawnPos->z;
     accel.x = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
     accel.z = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
     vel.y += (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
@@ -170,8 +170,8 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
             case 1:
                 this->dirtWavePhase += 0x3A7;
                 Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 5.0f, 0.0f);
-                this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
-                this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+                this->dirtWaveHeight = Math_SinS(this->dirtWavePhase) * 55.0f;
+                this->dirtWaveAlpha = (s16)(Math_SinS(this->dirtWavePhase) * 255.0f);
                 EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
                 if (this->actor.shape.unk_08 == 0.0f) {
                     this->drawDirtWave = false;
@@ -329,8 +329,8 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
         case 1:
             this->dirtWavePhase += 0x47E;
             Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 8.0f, 0.0f);
-            this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
-            this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+            this->dirtWaveHeight = Math_SinS(this->dirtWavePhase) * 55.0f;
+            this->dirtWaveAlpha = (s16)(Math_SinS(this->dirtWavePhase) * 255.0f);
             EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
             this->collider1.dim.radius = this->dirtWaveSpread * 0.6f;
             if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {

@@ -122,8 +122,8 @@ void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalC
 
 void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    f32 s = Math_Sins(this->actor.shape.rot.y);
-    f32 c = Math_Coss(this->actor.shape.rot.y);
+    f32 s = Math_SinS(this->actor.shape.rot.y);
+    f32 c = Math_CosS(this->actor.shape.rot.y);
     f32 x;
     f32 y;
     f32 z;

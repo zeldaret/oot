@@ -29,11 +29,11 @@ glabel func_808AEEFC
 /* 007C8 808AEF48 A498016A */  sh      $t8, 0x016A($a0)           ## 0000016A
 /* 007CC 808AEF4C 37280010 */  ori     $t0, $t9, 0x0010           ## $t0 = 00000010
 /* 007D0 808AEF50 AC880004 */  sw      $t0, 0x0004($a0)           ## 00000004
-/* 007D4 808AEF54 0C01DE1C */  jal     Math_Sins
+/* 007D4 808AEF54 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 007D8 808AEF58 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 007DC 808AEF5C 46000506 */  mov.s   $f20, $f0                  
-/* 007E0 808AEF60 0C01DE0D */  jal     Math_Coss
+/* 007E0 808AEF60 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007E4 808AEF64 86240032 */  lh      $a0, 0x0032($s1)           ## 00000032
 /* 007E8 808AEF68 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

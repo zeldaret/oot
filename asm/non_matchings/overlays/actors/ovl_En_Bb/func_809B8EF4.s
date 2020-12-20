@@ -54,7 +54,7 @@ glabel func_809B8EF4
 /* 00CB0 809B8F90 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
 /* 00CB4 809B8F94 AFA40034 */  sw      $a0, 0x0034($sp)
-/* 00CB8 809B8F98 0C0329DD */  jal     Math_Cosf
+/* 00CB8 809B8F98 0C0329DD */  jal     Math_CosF
 /* 00CBC 809B8F9C C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 00CC0 809B8FA0 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 00CC4 809B8FA4 00000000 */  nop
@@ -81,7 +81,7 @@ glabel func_809B8EF4
 /* 00D0C 809B8FEC 46100482 */  mul.s   $f18, $f0, $f16
 /* 00D10 809B8FF0 E6120284 */  swc1    $f18, 0x0284($s0)          ## 00000284
 .L809B8FF4:
-/* 00D14 809B8FF4 0C0329DD */  jal     Math_Cosf
+/* 00D14 809B8FF4 0C0329DD */  jal     Math_CosF
 /* 00D18 809B8FF8 C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 00D1C 809B8FFC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00D20 809B9000 44811000 */  mtc1    $at, $f2                   ## $f2 = 1.00
@@ -139,7 +139,7 @@ glabel func_809B8EF4
 /* 00DDC 809B90BC 860A026A */  lh      $t2, 0x026A($s0)           ## 0000026A
 /* 00DE0 809B90C0 C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 00DE4 809B90C4 394B0001 */  xori    $t3, $t2, 0x0001           ## $t3 = 00000001
-/* 00DE8 809B90C8 0C0329DD */  jal     Math_Cosf
+/* 00DE8 809B90C8 0C0329DD */  jal     Math_CosF
 /* 00DEC 809B90CC A60B026A */  sh      $t3, 0x026A($s0)           ## 0000026A
 /* 00DF0 809B90D0 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00DF4 809B90D4 44818000 */  mtc1    $at, $f16                  ## $f16 = 10.00
@@ -224,7 +224,7 @@ glabel func_809B8EF4
 /* 00F18 809B91F8 460A2400 */  add.s   $f16, $f4, $f10
 /* 00F1C 809B91FC 4600848D */  trunc.w.s $f18, $f16
 /* 00F20 809B9200 440F9000 */  mfc1    $t7, $f18
-/* 00F24 809B9204 0C0329C8 */  jal     Math_Sinf
+/* 00F24 809B9204 0C0329C8 */  jal     Math_SinF
 /* 00F28 809B9208 AE0F0260 */  sw      $t7, 0x0260($s0)           ## 00000260
 /* 00F2C 809B920C 3C01809C */  lui     $at, %hi(D_809BBC90)       ## $at = 809C0000
 /* 00F30 809B9210 C426BC90 */  lwc1    $f6, %lo(D_809BBC90)($at)
@@ -383,7 +383,7 @@ glabel func_809B8EF4
 .L809B9438:
 /* 01158 809B9438 50800014 */  beql    $a0, $zero, .L809B948C
 /* 0115C 809B943C 8608007E */  lh      $t0, 0x007E($s0)           ## 0000007E
-/* 01160 809B9440 0C01DE0D */  jal     Math_Coss
+/* 01160 809B9440 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01164 809B9444 00000000 */  nop
 /* 01168 809B9448 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

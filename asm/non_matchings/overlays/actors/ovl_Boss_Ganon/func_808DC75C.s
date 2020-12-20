@@ -150,7 +150,7 @@ glabel func_808DC75C
 /* 060F8 808DC968 00812023 */  subu    $a0, $a0, $at
 /* 060FC 808DC96C 00042080 */  sll     $a0, $a0,  2
 /* 06100 808DC970 00042400 */  sll     $a0, $a0, 16
-/* 06104 808DC974 0C01DE1C */  jal     Math_Sins
+/* 06104 808DC974 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 06108 808DC978 00042403 */  sra     $a0, $a0, 16
 /* 0610C 808DC97C 46000080 */  add.s   $f2, $f0, $f0

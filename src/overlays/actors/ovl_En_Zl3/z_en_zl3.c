@@ -1059,8 +1059,8 @@ void func_80B558A8(EnZl3* this) {
     this->unk_32C = thisPos;
     *unk_338 = thisPos;
 
-    unk_338->z += ((-1.6073999404907227f) * Math_Coss(thisRotY)) - (3.1620006561279297f * Math_Sins(thisRotY));
-    unk_338->x += ((-1.6073999404907227f) * Math_Sins(thisRotY)) + (3.1620006561279297f * Math_Coss(thisRotY));
+    unk_338->z += ((-1.6073999404907227f) * Math_CosS(thisRotY)) - (3.1620006561279297f * Math_SinS(thisRotY));
+    unk_338->x += ((-1.6073999404907227f) * Math_SinS(thisRotY)) + (3.1620006561279297f * Math_CosS(thisRotY));
     unk_338->y += -0.01219940185546875f;
 }
 
@@ -1636,7 +1636,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_atan2f(xDiff, zDiff) * 10430.3779296875f);
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(MathF_Atan2(xDiff, zDiff) * 10430.3779296875f);
     }
     return 0;
 }
@@ -1649,7 +1649,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.posRot.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return Math_atan2f(xDiff, zDiff) * (0x8000 / M_PI);
+            return MathF_Atan2(xDiff, zDiff) * (0x8000 / M_PI);
         }
     }
     return 0;
@@ -1763,7 +1763,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - (s16)(Math_atan2f(temp_f12, temp_f13) * 10430.3779296875f));
+    temp_v0 = (s16)(temp_v1 - (s16)(MathF_Atan2(temp_f12, temp_f13) * 10430.3779296875f));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1850,7 +1850,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (Math_atan2f(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
+                (MathF_Atan2(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {
@@ -1949,9 +1949,9 @@ void func_80B57AE0(EnZl3* this, GlobalContext* globalCtx) {
         unk_354->y = temp_v0->y;
         unk_354->z = temp_v0->z;
     } else {
-        unk_354->x = unk_348->x + (Math_Sins(shapeRotY) * 200.0f);
+        unk_354->x = unk_348->x + (Math_SinS(shapeRotY) * 200.0f);
         unk_354->y = unk_348->y;
-        unk_354->z = unk_348->z + (Math_Coss(shapeRotY) * 200.0f);
+        unk_354->z = unk_348->z + (Math_CosS(shapeRotY) * 200.0f);
     }
 
     xDiff = unk_354->x - unk_348->x;
@@ -2002,8 +2002,8 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s16 phi_v1;
 
     unk_3F8->unk_18.y = player->actor.posRot.pos.y;
-    unk_3F8->unk_18.x = (Math_Sins(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.x;
-    unk_3F8->unk_18.z = (Math_Coss(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.z;
+    unk_3F8->unk_18.x = (Math_SinS(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.x;
+    unk_3F8->unk_18.z = (Math_CosS(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.z;
     unk_3F8->unk_14 = kREG(16) - 16.0f;
     func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
 

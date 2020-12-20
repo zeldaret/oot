@@ -139,12 +139,12 @@ glabel func_80898DB4
 /* 006A4 80898F44 1634FFD3 */  bne     $s1, $s4, .L80898E94       
 /* 006A8 80898F48 00000000 */  nop
 /* 006AC 80898F4C 00152400 */  sll     $a0, $s5, 16               
-/* 006B0 80898F50 0C01DE1C */  jal     Math_Sins
+/* 006B0 80898F50 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 006B4 80898F54 00042403 */  sra     $a0, $a0, 16               
 /* 006B8 80898F58 00152400 */  sll     $a0, $s5, 16               
 /* 006BC 80898F5C E7A000BC */  swc1    $f0, 0x00BC($sp)           
-/* 006C0 80898F60 0C01DE0D */  jal     Math_Coss
+/* 006C0 80898F60 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 006C4 80898F64 00042403 */  sra     $a0, $a0, 16               
 /* 006C8 80898F68 3C014220 */  lui     $at, 0x4220                ## $at = 42200000

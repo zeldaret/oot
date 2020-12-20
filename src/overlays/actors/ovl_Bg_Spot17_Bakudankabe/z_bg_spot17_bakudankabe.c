@@ -48,8 +48,8 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
     f32 sinY;
     f32 cosY;
 
-    sinY = Math_Sins(this->dyna.actor.shape.rot.y);
-    cosY = Math_Coss(this->dyna.actor.shape.rot.y);
+    sinY = Math_SinS(this->dyna.actor.shape.rot.y);
+    cosY = Math_CosS(this->dyna.actor.shape.rot.y);
 
     burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;

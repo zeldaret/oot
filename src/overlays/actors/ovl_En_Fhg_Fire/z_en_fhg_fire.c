@@ -137,9 +137,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         tempf1 = player->actor.posRot.pos.x - thisx->posRot.pos.x;
         tempf2 = player->actor.posRot.pos.y + 30.0f - thisx->posRot.pos.y;
         tempf3 = player->actor.posRot.pos.z - thisx->posRot.pos.z;
-        thisx->posRot.rot.y = Math_atan2f(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
+        thisx->posRot.rot.y = MathF_Atan2(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
         tempf0 = sqrtf(SQ(tempf1) + SQ(tempf3));
-        thisx->posRot.rot.x = Math_atan2f(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
+        thisx->posRot.rot.x = MathF_Atan2(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
@@ -252,8 +252,8 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
             if (this->unk_150.x == 0) {
                 this->fireMode = 0x02;
                 this->unk_150.x = 0x0A;
-                this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
-                this->actor.posRot.pos.x += Math_Coss(this->actor.shape.rot.y) * 200.0f * this->scale;
+                this->actor.posRot.pos.z += Math_SinS(this->actor.shape.rot.y) * -200.0f * this->scale;
+                this->actor.posRot.pos.x += Math_CosS(this->actor.shape.rot.y) * 200.0f * this->scale;
                 this->actor.shape.rot.y += 0x8000;
             }
             break;

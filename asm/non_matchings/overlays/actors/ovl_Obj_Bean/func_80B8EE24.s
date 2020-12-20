@@ -30,14 +30,14 @@ glabel func_80B8EE24
 /* 003F4 80B8EE74 00000000 */  nop
 /* 003F8 80B8EE78 A60B01B8 */  sh      $t3, 0x01B8($s0)           ## 000001B8
 .L80B8EE7C:
-/* 003FC 80B8EE7C 0C01DE1C */  jal     Math_Sins
+/* 003FC 80B8EE7C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00400 80B8EE80 860401B6 */  lh      $a0, 0x01B6($s0)           ## 000001B6
 /* 00404 80B8EE84 3C0180B9 */  lui     $at, %hi(D_80B91018)       ## $at = 80B90000
 /* 00408 80B8EE88 C4241018 */  lwc1    $f4, %lo(D_80B91018)($at)  
 /* 0040C 80B8EE8C 860401B8 */  lh      $a0, 0x01B8($s0)           ## 000001B8
 /* 00410 80B8EE90 46040182 */  mul.s   $f6, $f0, $f4              
-/* 00414 80B8EE94 0C01DE1C */  jal     Math_Sins
+/* 00414 80B8EE94 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00418 80B8EE98 E6060054 */  swc1    $f6, 0x0054($s0)           ## 00000054
 /* 0041C 80B8EE9C 3C0180B9 */  lui     $at, %hi(D_80B9101C)       ## $at = 80B90000

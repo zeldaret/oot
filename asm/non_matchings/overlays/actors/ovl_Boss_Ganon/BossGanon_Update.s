@@ -333,14 +333,14 @@ glabel BossGanon_Update
 /* 070EC 808DD95C 86A400B6 */  lh      $a0, 0x00B6($s5)           ## 000000B6
 /* 070F0 808DD960 00042023 */  subu    $a0, $zero, $a0            
 /* 070F4 808DD964 00042400 */  sll     $a0, $a0, 16               
-/* 070F8 808DD968 0C01DE1C */  jal     Math_Sins
+/* 070F8 808DD968 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 070FC 808DD96C 00042403 */  sra     $a0, $a0, 16               
 /* 07100 808DD970 86A400B6 */  lh      $a0, 0x00B6($s5)           ## 000000B6
 /* 07104 808DD974 46000506 */  mov.s   $f20, $f0                  
 /* 07108 808DD978 00042023 */  subu    $a0, $zero, $a0            
 /* 0710C 808DD97C 00042400 */  sll     $a0, $a0, 16               
-/* 07110 808DD980 0C01DE0D */  jal     Math_Coss
+/* 07110 808DD980 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 07114 808DD984 00042403 */  sra     $a0, $a0, 16               
 /* 07118 808DD988 C6A20064 */  lwc1    $f2, 0x0064($s5)           ## 00000064
@@ -369,7 +369,7 @@ glabel BossGanon_Update
 /* 07174 808DD9E4 00812023 */  subu    $a0, $a0, $at              
 /* 07178 808DD9E8 00042080 */  sll     $a0, $a0,  2               
 /* 0717C 808DD9EC 00042400 */  sll     $a0, $a0, 16               
-/* 07180 808DD9F0 0C01DE1C */  jal     Math_Sins
+/* 07180 808DD9F0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 07184 808DD9F4 00042403 */  sra     $a0, $a0, 16               
 /* 07188 808DD9F8 3C01C3FA */  lui     $at, 0xC3FA                ## $at = C3FA0000
@@ -957,7 +957,7 @@ glabel L808DE1EC
 /* 079A8 808DE218 00812023 */  subu    $a0, $a0, $at              
 /* 079AC 808DE21C 000422C0 */  sll     $a0, $a0, 11               
 /* 079B0 808DE220 00042400 */  sll     $a0, $a0, 16               
-/* 079B4 808DE224 0C01DE0D */  jal     Math_Coss
+/* 079B4 808DE224 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 079B8 808DE228 00042403 */  sra     $a0, $a0, 16               
 /* 079BC 808DE22C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

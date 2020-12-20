@@ -86,8 +86,8 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
     s32 phi_t2;
     Actor* newPainting;
 
-    sins = Math_Sins(this->dyna.actor.shape.rot.y);
-    coss = Math_Coss(this->dyna.actor.shape.rot.y);
+    sins = Math_SinS(this->dyna.actor.shape.rot.y);
+    coss = Math_CosS(this->dyna.actor.shape.rot.y);
     if (this->type == 4) {
         sins *= 2.4f;
         scaleY = 1.818f;
@@ -378,8 +378,8 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
     blockStop = Math_ApproxF(&blockPushDist, 20.0f, this->dyna.actor.speedXZ);
     displacement = this->direction * blockPushDist;
-    this->dyna.actor.posRot.pos.x = (Math_Sins(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z = (Math_Coss(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.posRot.pos.x = (Math_SinS(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.x;
+    this->dyna.actor.posRot.pos.z = (Math_CosS(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.z;
     if (blockStop) {
         player->stateFlags2 &= ~0x10;
         if ((this->dyna.unk_150 > 0.0f) && (func_800435D8(globalCtx, &this->dyna, 0x1E, 0x32, -0x14) == 0)) {
@@ -548,7 +548,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
     Vec3f sp54;
 
     this->timer--;
-    sp54.x = (Math_Sins(this->dyna.actor.shape.rot.y) * 5.0f) + this->dyna.actor.posRot.pos.x;
+    sp54.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 5.0f) + this->dyna.actor.posRot.pos.x;
     sp54.y = Math_Rand_CenteredFloat(66.0f) + this->dyna.actor.posRot.pos.y;
     sp54.z = Math_Rand_CenteredFloat(50.0f) + this->dyna.actor.posRot.pos.z;
     if (this->timer >= 0) {

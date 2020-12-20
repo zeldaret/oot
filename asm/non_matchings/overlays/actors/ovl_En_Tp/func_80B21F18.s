@@ -97,12 +97,12 @@ glabel func_80B21F18
 /* 01294 80B22074 2458FFF1 */  addiu   $t8, $v0, 0xFFF1           ## $t8 = FFFFFFF1
 /* 01298 80B22078 A6180160 */  sh      $t8, 0x0160($s0)           ## 00000160
 .L80B2207C:
-/* 0129C 80B2207C 0C01DE0D */  jal     Math_Coss
+/* 0129C 80B2207C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 012A0 80B22080 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 012A4 80B22084 46000400 */  add.s   $f16, $f0, $f0             
 /* 012A8 80B22088 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
-/* 012AC 80B2208C 0C01DE1C */  jal     Math_Sins
+/* 012AC 80B2208C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 012B0 80B22090 E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 /* 012B4 80B22094 C6020028 */  lwc1    $f2, 0x0028($s0)           ## 00000028

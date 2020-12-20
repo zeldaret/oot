@@ -129,7 +129,7 @@ glabel func_809597F4
 /* 0A69C 8095995C 860C002A */  lh      $t4, 0x002A($s0)           ## 8095DF7A
 /* 0A6A0 80959960 01826823 */  subu    $t5, $t4, $v0              
 /* 0A6A4 80959964 A7AD00AA */  sh      $t5, 0x00AA($sp)           
-/* 0A6A8 80959968 0C01DE1C */  jal     Math_Sins
+/* 0A6A8 80959968 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0A6AC 8095996C 86240032 */  lh      $a0, 0x0032($s1)           ## 00000032
 /* 0A6B0 80959970 C6060048 */  lwc1    $f6, 0x0048($s0)           ## 8095DF98
@@ -137,7 +137,7 @@ glabel func_809597F4
 /* 0A6B8 80959978 46003202 */  mul.s   $f8, $f6, $f0              
 /* 0A6BC 8095997C 46082281 */  sub.s   $f10, $f4, $f8             
 /* 0A6C0 80959980 E60A0000 */  swc1    $f10, 0x0000($s0)          ## 8095DF50
-/* 0A6C4 80959984 0C01DE0D */  jal     Math_Coss
+/* 0A6C4 80959984 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0A6C8 80959988 86240032 */  lh      $a0, 0x0032($s1)           ## 00000032
 /* 0A6CC 8095998C C6120048 */  lwc1    $f18, 0x0048($s0)          ## 8095DF98
@@ -148,7 +148,7 @@ glabel func_809597F4
 /* 0A6E0 809599A0 87A400AA */  lh      $a0, 0x00AA($sp)           
 /* 0A6E4 809599A4 00042023 */  subu    $a0, $zero, $a0            
 /* 0A6E8 809599A8 00042400 */  sll     $a0, $a0, 16               
-/* 0A6EC 809599AC 0C01DE0D */  jal     Math_Coss
+/* 0A6EC 809599AC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0A6F0 809599B0 00042403 */  sra     $a0, $a0, 16               
 /* 0A6F4 809599B4 C608004C */  lwc1    $f8, 0x004C($s0)           ## 8095DF9C
@@ -550,7 +550,7 @@ glabel func_809597F4
 /* 0ACA4 80959F64 8E110054 */  lw      $s1, 0x0054($s0)           ## 8095DFA4
 /* 0ACA8 80959F68 25B8157C */  addiu   $t8, $t5, 0x157C           ## $t8 = 0000157C
 /* 0ACAC 80959F6C A618002E */  sh      $t8, 0x002E($s0)           ## 8095DF7E
-/* 0ACB0 80959F70 0C01DE1C */  jal     Math_Sins
+/* 0ACB0 80959F70 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0ACB4 80959F74 8604002E */  lh      $a0, 0x002E($s0)           ## 8095DF7E
 /* 0ACB8 80959F78 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

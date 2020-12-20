@@ -239,8 +239,8 @@ s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
             phi_a2 = 0x4000;
         }
     }
-    cosAngle = Math_Coss(phi_a2);
-    sinAngle = Math_Sins(phi_a2);
+    cosAngle = Math_CosS(phi_a2);
+    sinAngle = Math_SinS(phi_a2);
     cosAngle = ABS(cosAngle);
     sinAngle = ABS(sinAngle);
     xDist = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
@@ -779,11 +779,11 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_Sins(this->actor.shape.rot.y) * 89.0f);
+        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_CosS(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_SinS(this->actor.shape.rot.y) * 89.0f);
         sp4C = 1;
-        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_Sins(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_Coss(this->actor.shape.rot.y) * 89.0f);
+        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_SinS(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_CosS(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -845,11 +845,11 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_Sins(this->actor.shape.rot.y) * 89.0f);
+        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_CosS(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_SinS(this->actor.shape.rot.y) * 89.0f);
         sp54 = 1;
-        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_Sins(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_Coss(this->actor.shape.rot.y) * 89.0f);
+        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_SinS(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_CosS(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -924,8 +924,8 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
     s32 effectsPerFrame;
 
     effPosition = this->actor.posRot.pos;
-    effPosition.x += Math_Sins(this->actor.shape.rot.y) * -70.0f;
-    effPosition.z += Math_Coss(this->actor.shape.rot.y) * -70.0f;
+    effPosition.x += Math_SinS(this->actor.shape.rot.y) * -70.0f;
+    effPosition.z += Math_CosS(this->actor.shape.rot.y) * -70.0f;
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     temp = effPosition;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -1273,8 +1273,8 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetHeight(thisx, thisx->scale.x * 4500.0f);
         Collider_CylinderUpdate(thisx, &this->collider1);
         if (thisx->colChkInfo.health <= 0) {
-            this->collider1.dim.pos.x += (Math_Sins(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
-            this->collider1.dim.pos.z += (Math_Coss(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
+            this->collider1.dim.pos.x += (Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
+            this->collider1.dim.pos.z += (Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         if (this->unk_320 >= 5) {

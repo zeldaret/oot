@@ -269,7 +269,7 @@ glabel EnTrap_Update
 /* 00794 80B24DF4 00000000 */  nop
 /* 00798 80B24DF8 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 0079C 80B24DFC A7AA0092 */  sh      $t2, 0x0092($sp)           
-/* 007A0 80B24E00 0C01DE1C */  jal     Math_Sins
+/* 007A0 80B24E00 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 007A4 80B24E04 AFAF0048 */  sw      $t7, 0x0048($sp)           
 /* 007A8 80B24E08 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
@@ -278,7 +278,7 @@ glabel EnTrap_Update
 /* 007B4 80B24E14 46100482 */  mul.s   $f18, $f0, $f16            
 /* 007B8 80B24E18 46049180 */  add.s   $f6, $f18, $f4             
 /* 007BC 80B24E1C E7A60070 */  swc1    $f6, 0x0070($sp)           
-/* 007C0 80B24E20 0C01DE0D */  jal     Math_Coss
+/* 007C0 80B24E20 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007C4 80B24E24 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 007C8 80B24E28 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
@@ -359,7 +359,7 @@ glabel EnTrap_Update
 /* 008DC 80B24F3C 1180002E */  beq     $t4, $zero, .L80B24FF8     
 /* 008E0 80B24F40 260D0024 */  addiu   $t5, $s0, 0x0024           ## $t5 = 00000024
 /* 008E4 80B24F44 86040152 */  lh      $a0, 0x0152($s0)           ## 00000152
-/* 008E8 80B24F48 0C01DE1C */  jal     Math_Sins
+/* 008E8 80B24F48 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 008EC 80B24F4C AFAD0048 */  sw      $t5, 0x0048($sp)           
 /* 008F0 80B24F50 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -370,7 +370,7 @@ glabel EnTrap_Update
 /* 00904 80B24F64 A6190152 */  sh      $t9, 0x0152($s0)           ## 00000152
 /* 00908 80B24F68 4500000B */  bc1f    .L80B24F98                 
 /* 0090C 80B24F6C 00000000 */  nop
-/* 00910 80B24F70 0C01DE1C */  jal     Math_Sins
+/* 00910 80B24F70 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00914 80B24F74 86040152 */  lh      $a0, 0x0152($s0)           ## 00000152
 /* 00918 80B24F78 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -383,7 +383,7 @@ glabel EnTrap_Update
               
 /* 00934 80B24F94 240528D2 */  addiu   $a1, $zero, 0x28D2         ## $a1 = 000028D2
 .L80B24F98:
-/* 00938 80B24F98 0C01DE1C */  jal     Math_Sins
+/* 00938 80B24F98 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0093C 80B24F9C 86040152 */  lh      $a0, 0x0152($s0)           ## 00000152
 /* 00940 80B24FA0 C60A0154 */  lwc1    $f10, 0x0154($s0)          ## 00000154
@@ -391,7 +391,7 @@ glabel EnTrap_Update
 /* 00948 80B24FA8 86040152 */  lh      $a0, 0x0152($s0)           ## 00000152
 /* 0094C 80B24FAC 460A0402 */  mul.s   $f16, $f0, $f10            
 /* 00950 80B24FB0 46128100 */  add.s   $f4, $f16, $f18            
-/* 00954 80B24FB4 0C01DE0D */  jal     Math_Coss
+/* 00954 80B24FB4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00958 80B24FB8 E6040024 */  swc1    $f4, 0x0024($s0)           ## 00000024
 /* 0095C 80B24FBC C6060154 */  lwc1    $f6, 0x0154($s0)           ## 00000154

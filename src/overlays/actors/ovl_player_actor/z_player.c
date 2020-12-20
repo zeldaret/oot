@@ -2614,8 +2614,8 @@ s32 func_808359FC(Player* this, GlobalContext* globalCtx) {
         func_80833638(this, func_80835B60);
         this->unk_834 = 0;
     } else if (func_800A4530(&this->skelAnime2, 6.0f)) {
-        f32 posX = (Math_Sins(this->actor.shape.rot.y) * 10.0f) + this->actor.posRot.pos.x;
-        f32 posZ = (Math_Coss(this->actor.shape.rot.y) * 10.0f) + this->actor.posRot.pos.z;
+        f32 posX = (Math_SinS(this->actor.shape.rot.y) * 10.0f) + this->actor.posRot.pos.x;
+        f32 posZ = (Math_CosS(this->actor.shape.rot.y) * 10.0f) + this->actor.posRot.pos.z;
         s32 yaw = (this->unk_664 != NULL) ? this->actor.shape.rot.y + 14000 : this->actor.shape.rot.y;
         EnBoom* boomerang =
             (EnBoom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOOM, posX, this->actor.posRot.pos.y + 30.0f,
@@ -3131,7 +3131,7 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
             if (*arg2 < 0.0f) {
                 *arg2 = 0.0f;
             } else {
-                temp_f2 = 1.0f - Math_Coss(*arg2 * 450.0f);
+                temp_f2 = 1.0f - Math_CosS(*arg2 * 450.0f);
                 *arg2 = ((temp_f2 * temp_f2) * 30.0f) + 7.0f;
             }
         } else {
@@ -3139,7 +3139,7 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
         }
 
         if (D_808535D4 != 0.0f) {
-            temp_f0 = Math_Sins(this->unk_898);
+            temp_f0 = Math_SinS(this->unk_898);
             temp_f12 = this->unk_880;
             temp_f14 = CLAMP(temp_f0, 0.0f, 0.6f);
 
@@ -3934,8 +3934,8 @@ void func_80838E70(GlobalContext* globalCtx, Player* this, f32 arg2, s16 arg3) {
     this->unk_84F = 1;
     this->unk_850 = 1;
 
-    this->unk_450.x = (Math_Sins(arg3) * arg2) + this->actor.posRot.pos.x;
-    this->unk_450.z = (Math_Coss(arg3) * arg2) + this->actor.posRot.pos.z;
+    this->unk_450.x = (Math_SinS(arg3) * arg2) + this->actor.posRot.pos.x;
+    this->unk_450.z = (Math_CosS(arg3) * arg2) + this->actor.posRot.pos.z;
 
     func_80832264(globalCtx, this, func_80833338(this));
 }
@@ -4099,8 +4099,8 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u
 }
 
 void func_808395DC(Player* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    f32 cos = Math_Coss(this->actor.shape.rot.y);
-    f32 sin = Math_Sins(this->actor.shape.rot.y);
+    f32 cos = Math_CosS(this->actor.shape.rot.y);
+    f32 sin = Math_SinS(this->actor.shape.rot.y);
 
     arg3->x = arg1->x + ((arg2->x * cos) + (arg2->z * sin));
     arg3->y = arg1->y + arg2->y;
@@ -4168,8 +4168,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             sp7C = this->doorDirection;
-            sp78 = Math_Coss(doorActor->shape.rot.y);
-            sp74 = Math_Sins(doorActor->shape.rot.y);
+            sp78 = Math_CosS(doorActor->shape.rot.y);
+            sp74 = Math_SinS(doorActor->shape.rot.y);
 
             if (this->doorType == 2) {
                 doorShutter = (DoorShutter*)doorActor;
@@ -4391,9 +4391,9 @@ void func_8083A0F4(GlobalContext* globalCtx, Player* this) {
                        (Player_GetStrength() <= PLAYER_STR_NONE)) {
                 func_80835C58(globalCtx, this, func_80846408, 0);
                 this->actor.posRot.pos.x =
-                    (Math_Sins(interactRangeActor->yawTowardsLink) * 20.0f) + interactRangeActor->posRot.pos.x;
+                    (Math_SinS(interactRangeActor->yawTowardsLink) * 20.0f) + interactRangeActor->posRot.pos.x;
                 this->actor.posRot.pos.z =
-                    (Math_Coss(interactRangeActor->yawTowardsLink) * 20.0f) + interactRangeActor->posRot.pos.z;
+                    (Math_CosS(interactRangeActor->yawTowardsLink) * 20.0f) + interactRangeActor->posRot.pos.z;
                 this->currentYaw = this->actor.shape.rot.y = interactRangeActor->yawTowardsLink + 0x8000;
                 anim = &D_04003060;
             } else {
@@ -4492,7 +4492,7 @@ void func_8083A5C4(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, 
 
     this->actor.posRot.pos.x -= (arg3 + 1.0f) * sp24;
     this->actor.posRot.pos.z -= (arg3 + 1.0f) * sp20;
-    this->actor.shape.rot.y = this->currentYaw = atan2s(sp20, sp24);
+    this->actor.shape.rot.y = this->currentYaw = Math_Atan2S(sp20, sp24);
 
     func_80832224(this);
     func_80832CFC(this);
@@ -5744,7 +5744,7 @@ void func_8083DC54(Player* this, GlobalContext* globalCtx) {
         sp46 = 0;
         temp1 = func_8083973C(globalCtx, this, &D_8085456C, &sp34);
         if (temp1 > -32000.0f) {
-            temp2 = atan2s(40.0f, this->actor.posRot.pos.y - temp1);
+            temp2 = Math_Atan2S(40.0f, this->actor.posRot.pos.y - temp1);
             sp46 = CLAMP(temp2, -4000, 4000);
         }
         this->actor.posRot2.rot.y = this->actor.shape.rot.y;
@@ -5809,8 +5809,8 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
     s32 temp;
 
     if ((rideActor != NULL) && CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-        sp38 = Math_Coss(rideActor->actor.shape.rot.y);
-        sp34 = Math_Sins(rideActor->actor.shape.rot.y);
+        sp38 = Math_CosS(rideActor->actor.shape.rot.y);
+        sp34 = Math_SinS(rideActor->actor.shape.rot.y);
 
         func_80836898(globalCtx, this, func_8083A360);
 
@@ -5850,7 +5850,7 @@ void func_8083E298(CollisionPoly* arg0, Vec3f* arg1, s16* arg2) {
     arg1->y = arg0->norm.y * (1.0f / 32767.0f);
     arg1->z = arg0->norm.z * (1.0f / 32767.0f);
 
-    *arg2 = atan2s(arg1->z, arg1->x);
+    *arg2 = Math_Atan2S(arg1->z, arg1->x);
 }
 
 LinkAnimationHeader* D_80854590[] = {
@@ -5869,7 +5869,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2) {
 
     if (!Player_InBlockingCsMode(globalCtx, this) && (func_8084F390 != this->func_674) &&
         (func_80041F7C(&globalCtx->colCtx, arg2, this->actor.floorPolySource) == 1)) {
-        sp4A = atan2s(this->actor.velocity.z, this->actor.velocity.x);
+        sp4A = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
         func_8083E298(arg2, &sp3C, &sp3A);
         temp3 = sp3A - sp4A;
 
@@ -5973,9 +5973,9 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags1 |= 0x20000C00;
                 func_8083AE40(this, giEntry->objectId);
                 this->actor.posRot.pos.x =
-                    chest->dyna.actor.posRot.pos.x - (Math_Sins(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.posRot.pos.x - (Math_SinS(chest->dyna.actor.shape.rot.y) * 29.434299469f);
                 this->actor.posRot.pos.z =
-                    chest->dyna.actor.posRot.pos.z - (Math_Coss(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.posRot.pos.z - (Math_CosS(chest->dyna.actor.shape.rot.y) * 29.434299469f);
                 this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
                 func_80832224(this);
 
@@ -6256,8 +6256,8 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     f32 temp1;
     f32 temp2;
 
-    yawCos = Math_Coss(this->actor.shape.rot.y);
-    yawSin = Math_Sins(this->actor.shape.rot.y);
+    yawCos = Math_CosS(this->actor.shape.rot.y);
+    yawSin = Math_SinS(this->actor.shape.rot.y);
 
     sp6C.x = this->actor.posRot.pos.x + (arg4 * yawSin);
     sp6C.z = this->actor.posRot.pos.z + (arg4 * yawCos);
@@ -6275,12 +6275,12 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
 
         temp1 = wallPoly->norm.x * (1.0f / 32767.0f);
         temp2 = wallPoly->norm.z * (1.0f / 32767.0f);
-        temp = atan2s(-temp2, -temp1);
+        temp = Math_Atan2S(-temp2, -temp1);
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp, 800);
 
         this->currentYaw = this->actor.shape.rot.y;
-        this->actor.posRot.pos.x = sp54.x - (Math_Sins(this->actor.shape.rot.y) * arg2);
-        this->actor.posRot.pos.z = sp54.z - (Math_Coss(this->actor.shape.rot.y) * arg2);
+        this->actor.posRot.pos.x = sp54.x - (Math_SinS(this->actor.shape.rot.y) * arg2);
+        this->actor.posRot.pos.z = sp54.z - (Math_CosS(this->actor.shape.rot.y) * arg2);
 
         return 1;
     }
@@ -6469,7 +6469,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
     u16 sp2C = ABS(sp2E);
 
     if ((func_8002DD78(this) || func_808334B4(this)) && (this->unk_664 == NULL)) {
-        *arg1 *= Math_Sins(sp2C);
+        *arg1 *= Math_SinS(sp2C);
 
         if (*arg1 != 0.0f) {
             *arg2 = (((sp2E >= 0) ? 1 : -1) << 0xE) + this->actor.shape.rot.y;
@@ -6490,7 +6490,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
             func_8083DC54(this, globalCtx);
             if ((*arg1 != 0.0f) && (sp2C < 6000)) {
                 return 1;
-            } else if (*arg1 > Math_Sins((0x4000 - (sp2C >> 1))) * 200.0f) {
+            } else if (*arg1 > Math_SinS((0x4000 - (sp2C >> 1))) * 200.0f) {
                 return -1;
             }
         }
@@ -6502,7 +6502,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
 s32 func_8083FFB8(Player* this, f32* arg1, s16* arg2) {
     s16 temp1 = *arg2 - this->actor.shape.rot.y;
     u16 temp2 = ABS(temp1);
-    f32 temp3 = Math_Coss(temp2);
+    f32 temp3 = Math_CosS(temp2);
 
     *arg1 *= temp3;
 
@@ -7673,10 +7673,10 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
         sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(ACTIVE_CAM);
 
-        sp40 = Math_Coss(sp4E);
-        sp4C = (Math_Sins(sp4E) * sp50) + (sp54 * sp40);
-        sp40 = Math_Coss(sp4E);
-        sp4A = (sp50 * sp40) - (Math_Sins(sp4E) * sp54);
+        sp40 = Math_CosS(sp4E);
+        sp4C = (Math_SinS(sp4E) * sp50) + (sp54 * sp40);
+        sp40 = Math_CosS(sp4E);
+        sp4A = (sp50 * sp40) - (Math_SinS(sp4E) * sp54);
 
         if (sp4C > 3500) {
             sp4C = 3500;
@@ -8582,7 +8582,7 @@ s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2
         f32 sp28 = sqrtf(SQ(selfDistX) + SQ(selfDistZ)) / sp34;
         s32 sp24 = (arg2->endFrame - globalCtx->csCtx.frames) + 1;
 
-        arg4 = atan2s(selfDistX, selfDistZ);
+        arg4 = Math_Atan2S(selfDistX, selfDistZ);
 
         if (arg5 == 1) {
             f32 distX = arg2->endPos.x - arg2->startPos.x;
@@ -8674,8 +8674,8 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
                 sp34 = gSaveContext.entranceSpeed;
 
                 if (D_808535F4 != 0) {
-                    this->unk_450.x = (Math_Sins(D_808535FC) * 400.0f) + this->actor.posRot.pos.x;
-                    this->unk_450.z = (Math_Coss(D_808535FC) * 400.0f) + this->actor.posRot.pos.z;
+                    this->unk_450.x = (Math_SinS(D_808535FC) * 400.0f) + this->actor.posRot.pos.x;
+                    this->unk_450.z = (Math_CosS(D_808535FC) * 400.0f) + this->actor.posRot.pos.z;
                 }
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
@@ -8785,8 +8785,8 @@ void func_80846120(Player* this, GlobalContext* globalCtx) {
     if (func_800A4530(&this->skelAnime, 229.0f)) {
         Actor* heldActor = this->heldActor;
 
-        heldActor->speedXZ = Math_Sins(heldActor->shape.rot.x) * 40.0f;
-        heldActor->velocity.y = Math_Coss(heldActor->shape.rot.x) * 40.0f;
+        heldActor->speedXZ = Math_SinS(heldActor->shape.rot.x) * 40.0f;
+        heldActor->velocity.y = Math_CosS(heldActor->shape.rot.x) * 40.0f;
         heldActor->gravity = -2.0f;
         heldActor->minVelocityY = -30.0f;
         func_808323B4(globalCtx, this);
@@ -9508,7 +9508,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             if (this->actor.wallPoly != spA0) {
                 this->actor.wallPoly = spA0;
                 this->actor.wallPolySource = sp9C;
-                this->actor.wallPolyRot = atan2s(spA0->norm.z, spA0->norm.x);
+                this->actor.wallPolyRot = Math_Atan2S(spA0->norm.z, spA0->norm.x);
             }
         }
 
@@ -9565,7 +9565,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                     D_80854798.y = (sp64 + 5.0f) - this->actor.posRot.pos.y;
 
                     if (func_80839768(globalCtx, this, &D_80854798, &sp78, &sp74, &D_80858AA8) &&
-                        (temp3 = this->actor.wallPolyRot - atan2s(sp78->norm.z, sp78->norm.x), ABS(temp3) < 0x4000) &&
+                        (temp3 = this->actor.wallPolyRot - Math_Atan2S(sp78->norm.z, sp78->norm.x),
+                         ABS(temp3) < 0x4000) &&
                         !func_80041E18(&globalCtx->colCtx, sp78, sp74)) {
                         this->wallHeight = 399.96002f;
                     } else if (func_80041DE4(&globalCtx->colCtx, wallPoly, this->actor.wallPolySource) == 0) {
@@ -9620,16 +9621,16 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             sp54 = 1.0f / (spC0->norm.y * (1.0f / 32767.0f));
             sp50 = spC0->norm.z * (1.0f / 32767.0f);
 
-            sp4C = Math_Sins(this->currentYaw);
-            sp44 = Math_Coss(this->currentYaw);
+            sp4C = Math_SinS(this->currentYaw);
+            sp44 = Math_CosS(this->currentYaw);
 
-            this->unk_898 = atan2s(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
-            this->unk_89A = atan2s(1.0f, (-(sp58 * sp44) - (sp50 * sp4C)) * sp54);
+            this->unk_898 = Math_Atan2S(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
+            this->unk_89A = Math_Atan2S(1.0f, (-(sp58 * sp44) - (sp50 * sp4C)) * sp54);
 
-            sp4C = Math_Sins(this->actor.shape.rot.y);
-            sp44 = Math_Coss(this->actor.shape.rot.y);
+            sp4C = Math_SinS(this->actor.shape.rot.y);
+            sp44 = Math_CosS(this->actor.shape.rot.y);
 
-            D_80853610 = atan2s(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
+            D_80853610 = Math_Atan2S(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
 
             func_8083E318(globalCtx, this, spC0);
         }
@@ -10047,8 +10048,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             if ((this->windSpeed != 0.0f) && !Player_InCsMode(globalCtx) && !(this->stateFlags1 & 0x206000) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
-                this->actor.velocity.x += this->windSpeed * Math_Sins(this->windDirection);
-                this->actor.velocity.z += this->windSpeed * Math_Coss(this->windDirection);
+                this->actor.velocity.x += this->windSpeed * Math_SinS(this->windDirection);
+                this->actor.velocity.z += this->windSpeed * Math_CosS(this->windDirection);
             }
 
             func_8002D7EC(&this->actor);
@@ -10394,7 +10395,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
                 D_8085486C = (-sp5C * 4) + 36;
                 D_8085486C = D_8085486C * D_8085486C;
-                D_8085486C = (s32)((Math_Coss(D_8085486C) * 100.0f) + 100.0f) + 55.0f;
+                D_8085486C = (s32)((Math_CosS(D_8085486C) * 100.0f) + 100.0f) + 55.0f;
                 D_8085486C = D_8085486C * (sp5C * 0.11111111f);
             }
 
@@ -10441,7 +10442,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
             POLY_OPA_DISP =
-                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
+                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_CosS(this->unk_88F * 256) * 2000.0f));
         }
 
         func_8002EBCC(&this->actor, globalCtx, 0);
@@ -10542,13 +10543,13 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
         this->actor.posRot2.rot.y += temp2;
     } else {
         temp1 = (this->stateFlags1 & 0x800000) ? 3500 : 14000;
-        this->actor.posRot2.rot.x += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_y * 200)) * 1500.0f) *
+        this->actor.posRot2.rot.x += (s32)((1.0f - Math_CosS(sControlInput->rel.stick_y * 200)) * 1500.0f) *
                                      ((sControlInput->rel.stick_y >= 0) ? 1 : -1);
         this->actor.posRot2.rot.x = CLAMP(this->actor.posRot2.rot.x, -temp1, temp1);
 
         temp1 = 19114;
         temp2 = this->actor.posRot2.rot.y - this->actor.shape.rot.y;
-        temp2 += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_x * 200)) * -1500.0f) *
+        temp2 += (s32)((1.0f - Math_CosS(sControlInput->rel.stick_x * 200)) * -1500.0f) *
                  ((sControlInput->rel.stick_x >= 0) ? 1 : -1);
         this->actor.posRot2.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }
@@ -12233,8 +12234,8 @@ void func_8084EFC0(Player* this, GlobalContext* globalCtx) {
         BottleDropInfo* dropInfo = &D_80854A28[this->itemActionParam - PLAYER_AP_BOTTLE_FISH];
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, dropInfo->actorId,
-                    (Math_Sins(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.x, this->leftHandPos.y,
-                    (Math_Coss(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.z, 0x4000, this->actor.shape.rot.y,
+                    (Math_SinS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.x, this->leftHandPos.y,
+                    (Math_CosS(this->actor.shape.rot.y) * 5.0f) + this->leftHandPos.z, 0x4000, this->actor.shape.rot.y,
                     0, dropInfo->actorParams);
 
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -12576,8 +12577,8 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
                     angle = temp - 0x4000;
                 }
 
-                this->actor.posRot.pos.x += speed * Math_Sins(angle);
-                this->actor.posRot.pos.z += speed * Math_Coss(angle);
+                this->actor.posRot.pos.x += speed * Math_SinS(angle);
+                this->actor.posRot.pos.z += speed * Math_CosS(angle);
             }
         }
 
@@ -12628,8 +12629,8 @@ void func_8085002C(Player* this) {
 
     sp26 = this->actor.posRot.rot.y - this->actor.shape.rot.y;
 
-    sp28 = this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
-    sp2A = this->actor.speedXZ * 100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
+    sp28 = this->actor.speedXZ * -200.0f * Math_CosS(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
+    sp2A = this->actor.speedXZ * 100.0f * Math_SinS(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
 
     D_80858AC8[3] += sp28 >> 2;
     D_80858AC8[4] += sp2A >> 2;
@@ -12734,7 +12735,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
                 sp2C = this->actor.posRot.pos.y - shockwavePos.y;
 
-                Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, atan2s(45.0f, sp2C), 800);
+                Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
 
                 if ((((this->swordAnimation == 0x16) && func_800A4530(&this->skelAnime, 7.0f)) ||

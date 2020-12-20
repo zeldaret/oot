@@ -1487,7 +1487,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
+        this->jewelCsRotation.x = Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
@@ -2109,8 +2109,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = Math_atan2f(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = Math_atan2f(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = MathF_Atan2(x, z) * (32768.0f / M_PI);
+    this->actor.shape.rot.x = MathF_Atan2(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
 /**

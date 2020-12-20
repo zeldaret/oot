@@ -47,7 +47,7 @@ glabel func_809579F4
 /* 087DC 80957A9C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 087E0 80957AA0 E7B00010 */  swc1    $f16, 0x0010($sp)          
-/* 087E4 80957AA4 0C0329C8 */  jal     Math_Sinf              
+/* 087E4 80957AA4 0C0329C8 */  jal     Math_SinF              
 /* 087E8 80957AA8 C60C01A4 */  lwc1    $f12, 0x01A4($s0)          ## 000001A4
 /* 087EC 80957AAC 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 087F0 80957AB0 44813000 */  mtc1    $at, $f6                   ## $f6 = 3.00

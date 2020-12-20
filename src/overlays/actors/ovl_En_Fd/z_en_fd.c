@@ -296,8 +296,8 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
     Vec3f newPos;
 
     angle = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554); // ~30 degrees
-    newPos.x = (Math_Sins(angle) * radius) + this->actor.initPosRot.pos.x;
-    newPos.z = (Math_Coss(angle) * radius) + this->actor.initPosRot.pos.z;
+    newPos.x = (Math_SinS(angle) * radius) + this->actor.initPosRot.pos.x;
+    newPos.z = (Math_CosS(angle) * radius) + this->actor.initPosRot.pos.z;
     newPos.x -= this->actor.posRot.pos.x;
     newPos.z -= this->actor.posRot.pos.z;
     *dst = newPos;
@@ -417,7 +417,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->spinTimer = Math_Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.posRot.rot.y = MathF_Atan2(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -518,7 +518,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     }
     Math_SmoothScaleMaxMinF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||

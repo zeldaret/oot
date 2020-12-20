@@ -23,11 +23,11 @@ glabel func_8088A3B0
 /* 003D0 8088A3F0 F7B60050 */  sdc1    $f22, 0x0050($sp)          
 /* 003D4 8088A3F4 F7B40048 */  sdc1    $f20, 0x0048($sp)          
 /* 003D8 8088A3F8 AFA500FC */  sw      $a1, 0x00FC($sp)           
-/* 003DC 8088A3FC 0C01DE1C */  jal     Math_Sins
+/* 003DC 8088A3FC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 003E0 8088A400 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
 /* 003E4 8088A404 46000606 */  mov.s   $f24, $f0                  
-/* 003E8 8088A408 0C01DE0D */  jal     Math_Coss
+/* 003E8 8088A408 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003EC 8088A40C 864400B6 */  lh      $a0, 0x00B6($s2)           ## 000000B6
 /* 003F0 8088A410 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

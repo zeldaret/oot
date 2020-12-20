@@ -147,7 +147,7 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 void EnPoRelay_CorrectY(EnPoRelay* this) {
     Math_ApproxF(&this->actor.initPosRot.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f,
                  2.0f);
-    this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 8.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_195 * 0x800) * 8.0f + this->actor.initPosRot.pos.y;
 }
 
 void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
@@ -195,8 +195,8 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             }
             speed = 30.0f * multiplier;
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
-                        Math_Coss(this->unk_19A) * speed + this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                        Math_Sins(this->unk_19A) * speed + this->actor.posRot.pos.z, 0,
+                        Math_CosS(this->unk_19A) * speed + this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                        Math_SinS(this->unk_19A) * speed + this->actor.posRot.pos.z, 0,
                         (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
         }
     }
@@ -289,14 +289,14 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
     this->actionTimer++;
     if (this->actionTimer < 8) {
         if (this->actionTimer < 5) {
-            vec.y = Math_Sins((this->actionTimer * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
-            multiplier = Math_Coss((this->actionTimer * 0x1000) - 0x4000) * 23.0f;
-            vec.x = (Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.x;
-            vec.z = (Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.z;
+            vec.y = Math_SinS((this->actionTimer * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
+            multiplier = Math_CosS((this->actionTimer * 0x1000) - 0x4000) * 23.0f;
+            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.x;
+            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.z;
         } else {
             vec.y = this->actor.posRot.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            vec.x = (Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
-            vec.z = (Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
+            vec.x = (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
+            vec.z = (Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, true);

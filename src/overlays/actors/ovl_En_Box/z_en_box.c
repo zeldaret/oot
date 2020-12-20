@@ -208,12 +208,12 @@ void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* 
     s16 randomAngle = Math_Rand_ZeroOne() * 0x10000;
 
     *pos = this->dyna.actor.posRot.pos;
-    pos->x += Math_Sins(randomAngle) * randomRadius;
-    pos->z += Math_Coss(randomAngle) * randomRadius;
+    pos->x += Math_SinS(randomAngle) * randomRadius;
+    pos->z += Math_CosS(randomAngle) * randomRadius;
 
     velocity->y = 1.0f;
-    velocity->x = Math_Sins(randomAngle);
-    velocity->z = Math_Coss(randomAngle);
+    velocity->x = Math_SinS(randomAngle);
+    velocity->z = Math_CosS(randomAngle);
 
     accel->x = 0.0f;
     accel->y = 0.0f;
@@ -501,19 +501,19 @@ void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
         pos = this->dyna.actor.posRot.pos;
         if (this->type == ENBOX_TYPE_SMALL || this->type == ENBOX_TYPE_6 || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL ||
             this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) {
-            pos.x += f0 * 10.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x4000);
-            pos.z += f0 * 10.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x4000);
+            pos.x += f0 * 10.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x4000);
+            pos.z += f0 * 10.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x4000);
             f0 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
-            vel.x = f0 * 0.8f * Math_Sins(this->dyna.actor.posRot.rot.y);
+            vel.x = f0 * 0.8f * Math_SinS(this->dyna.actor.posRot.rot.y);
             vel.y = 1.8f;
-            vel.z = f0 * 0.8f * Math_Coss(this->dyna.actor.posRot.rot.y);
+            vel.z = f0 * 0.8f * Math_CosS(this->dyna.actor.posRot.rot.y);
         } else {
-            pos.x += f0 * 20.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x4000);
-            pos.z += f0 * 20.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x4000);
+            pos.x += f0 * 20.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x4000);
+            pos.z += f0 * 20.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x4000);
             f0 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
-            vel.x = f0 * 1.6f * Math_Sins(this->dyna.actor.posRot.rot.y);
+            vel.x = f0 * 1.6f * Math_SinS(this->dyna.actor.posRot.rot.y);
             vel.y = 1.8f;
-            vel.z = f0 * 1.6f * Math_Coss(this->dyna.actor.posRot.rot.y);
+            vel.z = f0 * 1.6f * Math_CosS(this->dyna.actor.posRot.rot.y);
         }
         EffectSsIceSmoke_Spawn(globalCtx, &pos, &vel, &accel, 150);
     }

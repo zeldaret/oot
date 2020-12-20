@@ -480,11 +480,11 @@ void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     }
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-            Math_Coss(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
+            Math_CosS(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
     }
     for (i = 1; i < 5; i++) {
-        this->bodySegs[i].rotTarget.x = Math_Coss(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
-        this->bodySegs[i].rotTarget.z = Math_Sins(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.x = Math_CosS(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.z = Math_SinS(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
     }
 }
 
@@ -495,15 +495,15 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
     if (!this->isDead) {
         for (i = 0; i < 5; i++) {
             this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-                Math_Coss(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
+                Math_CosS(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
         }
         phase = this->segMovePhase;
         if (!this->isDead && (this->reachState == 0)) {
             for (i = 1; i < 5; i++) {
                 this->bodySegs[i].rotTarget.x =
-                    Math_Coss(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
+                    Math_CosS(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
                 this->bodySegs[i].rotTarget.z =
-                    Math_Sins(phase + i * (s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
+                    Math_SinS(phase + i * (s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
             }
         }
     }

@@ -415,7 +415,7 @@ void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Math_ApproxF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f);
-    this->actor.posRot.pos.y += 2.5f * Math_Sins(this->unk_195 * 0x800);
+    this->actor.posRot.pos.y += 2.5f * Math_SinS(this->unk_195 * 0x800);
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }
@@ -565,14 +565,14 @@ void func_80ADF15C(EnPoh* this, GlobalContext* globalCtx) {
     this->unk_198++;
     if (this->unk_198 < 8) {
         if (this->unk_198 < 5) {
-            vec.y = Math_Sins((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
-            multiplier = Math_Coss((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
-            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
+            vec.y = Math_SinS((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
+            multiplier = Math_CosS((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
+            vec.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
+            vec.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
         } else {
             vec.y = (this->actor.posRot.pos.y + 40.0f) + (15.0f * (this->unk_198 - 5));
-            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
+            vec.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
+            vec.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, 1);
@@ -652,9 +652,9 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
     f32 multiplier;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    multiplier = Math_Sins(this->unk_195 * 0x800) * 3.0f;
-    this->actor.posRot.pos.x -= multiplier * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += multiplier * Math_Sins(this->actor.shape.rot.y);
+    multiplier = Math_SinS(this->unk_195 * 0x800) * 3.0f;
+    this->actor.posRot.pos.x -= multiplier * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += multiplier * Math_SinS(this->actor.shape.rot.y);
     Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->unk_198 == 0 || this->actor.xzDistFromLink > 250.0f) {
@@ -738,7 +738,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
-    this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }

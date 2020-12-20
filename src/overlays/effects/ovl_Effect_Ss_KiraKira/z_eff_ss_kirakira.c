@@ -149,5 +149,5 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->rScale = this->rEnvColorA * Math_Sins((32768.0f / this->rLifespan) * this->life);
+    this->rScale = this->rEnvColorA * Math_SinS((32768.0f / this->rLifespan) * this->life);
 }

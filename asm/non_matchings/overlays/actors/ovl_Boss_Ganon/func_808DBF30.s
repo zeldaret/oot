@@ -120,7 +120,7 @@ glabel func_808DBF30
 /* 0583C 808DC0AC 00812023 */  subu    $a0, $a0, $at              
 /* 05840 808DC0B0 00042080 */  sll     $a0, $a0,  2               
 /* 05844 808DC0B4 00042400 */  sll     $a0, $a0, 16               
-/* 05848 808DC0B8 0C01DE1C */  jal     Math_Sins
+/* 05848 808DC0B8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0584C 808DC0BC 00042403 */  sra     $a0, $a0, 16               
 /* 05850 808DC0C0 46000080 */  add.s   $f2, $f0, $f0              

@@ -330,7 +330,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
         &this->actor.initPosRot.pos.y,
         ((player->actor.posRot.pos.y > this->actor.groundY) ? player->actor.posRot.pos.y : this->actor.groundY) + 13.0f,
         0.2f, 5.0f);
-    this->actor.posRot.pos.y = Math_Sins(this->unk_194 * 0x800) * 13.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.initPosRot.pos.y;
 }
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
@@ -378,9 +378,9 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                     spawnDist = 300.0f;
                 }
                 this->actor.posRot.pos.x =
-                    Math_Sins(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.x;
+                    Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.x;
                 this->actor.posRot.pos.z =
-                    Math_Coss(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
+                    Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
                 this->actor.posRot.pos.y = player->actor.posRot.pos.y + 1000.0f;
                 this->actor.posRot.pos.y = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp88,
                                                          &this->actor, &this->actor.posRot.pos);
@@ -428,7 +428,7 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (ABS(temp_v1) < 16) {
-        this->actor.posRot.rot.y += 512.0f * fabsf(Math_Sins(this->unk_194 * 0x800));
+        this->actor.posRot.rot.y += 512.0f * fabsf(Math_SinS(this->unk_194 * 0x800));
     }
     Math_SmoothScaleMaxF(&this->scaleModifier, 180.0f, 0.5f, 10.0f);
     Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.2f, 6.0f);
@@ -445,9 +445,9 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
         this->actor.initPosRot.pos.z = player->actor.posRot.pos.z + -100.0f;
     }
     this->actor.posRot.pos.x =
-        this->actor.initPosRot.pos.x - (Math_Sins(this->actor.posRot.rot.y) * this->scaleModifier);
+        this->actor.initPosRot.pos.x - (Math_SinS(this->actor.posRot.rot.y) * this->scaleModifier);
     this->actor.posRot.pos.z =
-        this->actor.initPosRot.pos.z - (Math_Coss(this->actor.posRot.rot.y) * this->scaleModifier);
+        this->actor.initPosRot.pos.z - (Math_CosS(this->actor.posRot.rot.y) * this->scaleModifier);
     if (this->actionTimer == 0) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -473,9 +473,9 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink - phi_t0, 6, 0x400);
     EnPoField_SetFleeSpeed(this, globalCtx);
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x8000;
-    temp_f6 = Math_Sins(this->actionTimer * 0x800) * 3.0f;
-    this->actor.posRot.pos.x -= temp_f6 * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += temp_f6 * Math_Sins(this->actor.shape.rot.y);
+    temp_f6 = Math_SinS(this->actionTimer * 0x800) * 3.0f;
+    this->actor.posRot.pos.x -= temp_f6 * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += temp_f6 * Math_SinS(this->actor.shape.rot.y);
     if (this->actionTimer == 0 || this->actor.xzDistFromLink > 1500.0f) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -507,14 +507,14 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
     this->actionTimer++;
     if (this->actionTimer < 8) {
         if (this->actionTimer < 5) {
-            sp6C.y = Math_Sins(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
-            sp68 = Math_Coss(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
-            sp6C.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.x;
-            sp6C.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.z;
+            sp6C.y = Math_SinS(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
+            sp68 = Math_CosS(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
+            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.x;
+            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.z;
         } else {
             sp6C.y = this->actor.posRot.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            sp6C.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
-            sp6C.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
+            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
+            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, 1);
@@ -625,7 +625,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    this->actor.posRot.pos.y = Math_Sins(this->unk_194 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_194 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
     if (this->unk_194 != 0) {
         this->unk_194 -= 1;
     }
@@ -722,8 +722,8 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
             return;
         }
         if (Math_ApproxF(&this->flameScale, 0.003f, 0.0006f) != 0) {
-            this->flamePosition.x += 2.5f * Math_Sins(this->flameRotation);
-            this->flamePosition.z += 2.5f * Math_Coss(this->flameRotation);
+            this->flamePosition.x += 2.5f * Math_SinS(this->flameRotation);
+            this->flamePosition.z += 2.5f * Math_CosS(this->flameRotation);
         }
         this->flameCollider.dim.pos.x = this->flamePosition.x;
         this->flameCollider.dim.pos.y = this->flamePosition.y;

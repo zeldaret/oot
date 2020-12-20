@@ -162,7 +162,7 @@ glabel func_80911DD8
 /* 019A8 80911FE8 00812023 */  subu    $a0, $a0, $at
 /* 019AC 80911FEC 00042080 */  sll     $a0, $a0,  2
 /* 019B0 80911FF0 00042400 */  sll     $a0, $a0, 16
-/* 019B4 80911FF4 0C01DE1C */  jal     Math_Sins
+/* 019B4 80911FF4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 019B8 80911FF8 00042403 */  sra     $a0, $a0, 16
 /* 019BC 80911FFC 46000400 */  add.s   $f16, $f0, $f0

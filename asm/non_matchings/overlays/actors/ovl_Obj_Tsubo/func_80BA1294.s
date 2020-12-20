@@ -65,12 +65,12 @@ glabel func_80BA1294
 /* 00610 80BA1370 27B500BC */  addiu   $s5, $sp, 0x00BC           ## $s5 = FFFFFFDC
 .L80BA1374:
 /* 00614 80BA1374 00112400 */  sll     $a0, $s1, 16               
-/* 00618 80BA1378 0C01DE1C */  jal     Math_Sins
+/* 00618 80BA1378 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0061C 80BA137C 00042403 */  sra     $a0, $a0, 16               
 /* 00620 80BA1380 00112400 */  sll     $a0, $s1, 16               
 /* 00624 80BA1384 46000506 */  mov.s   $f20, $f0                  
-/* 00628 80BA1388 0C01DE0D */  jal     Math_Coss
+/* 00628 80BA1388 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0062C 80BA138C 00042403 */  sra     $a0, $a0, 16               
 /* 00630 80BA1390 4618A282 */  mul.s   $f10, $f20, $f24           

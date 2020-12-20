@@ -64,13 +64,13 @@ glabel func_809BA628
 
 /* 02400 809BA6E0 8FA4002C */  lw      $a0, 0x002C($sp)
 /* 02404 809BA6E4 A7A20050 */  sh      $v0, 0x0050($sp)
-/* 02408 809BA6E8 0C01DE1C */  jal     Math_Sins
+/* 02408 809BA6E8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0240C 809BA6EC 87A40052 */  lh      $a0, 0x0052($sp)
 /* 02410 809BA6F0 C610027C */  lwc1    $f16, 0x027C($s0)          ## 0000027C
 /* 02414 809BA6F4 87A40052 */  lh      $a0, 0x0052($sp)
 /* 02418 809BA6F8 46100482 */  mul.s   $f18, $f0, $f16
-/* 0241C 809BA6FC 0C01DE0D */  jal     Math_Coss
+/* 0241C 809BA6FC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02420 809BA700 E7B2004C */  swc1    $f18, 0x004C($sp)
 /* 02424 809BA704 C604027C */  lwc1    $f4, 0x027C($s0)           ## 0000027C
@@ -83,13 +83,13 @@ glabel func_809BA628
 /* 02440 809BA720 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
 
 /* 02444 809BA724 E7A60048 */  swc1    $f6, 0x0048($sp)
-/* 02448 809BA728 0C01DE1C */  jal     Math_Sins
+/* 02448 809BA728 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0244C 809BA72C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 02450 809BA730 C7A80048 */  lwc1    $f8, 0x0048($sp)
 /* 02454 809BA734 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 02458 809BA738 46080082 */  mul.s   $f2, $f0, $f8
-/* 0245C 809BA73C 0C01DE0D */  jal     Math_Coss
+/* 0245C 809BA73C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02460 809BA740 E7A20040 */  swc1    $f2, 0x0040($sp)
 /* 02464 809BA744 C7A20040 */  lwc1    $f2, 0x0040($sp)
@@ -191,7 +191,7 @@ glabel func_809BA628
 /* 025C0 809BA8A0 3319FFFD */  andi    $t9, $t8, 0xFFFD           ## $t9 = 00000000
 /* 025C4 809BA8A4 A21902BC */  sb      $t9, 0x02BC($s0)           ## 000002BC
 .L809BA8A8:
-/* 025C8 809BA8A8 0C0329DD */  jal     Math_Cosf
+/* 025C8 809BA8A8 0C0329DD */  jal     Math_CosF
 /* 025CC 809BA8AC C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 025D0 809BA8B0 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 025D4 809BA8B4 00000000 */  nop
@@ -268,7 +268,7 @@ glabel func_809BA628
 /* 026B4 809BA994 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 
 /* 026B8 809BA998 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 026BC 809BA99C 0C0329DD */  jal     Math_Cosf
+/* 026BC 809BA99C 0C0329DD */  jal     Math_CosF
 /* 026C0 809BA9A0 C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 026C4 809BA9A4 3C01809C */  lui     $at, %hi(D_809BBCB8)       ## $at = 809C0000
 /* 026C8 809BA9A8 C432BCB8 */  lwc1    $f18, %lo(D_809BBCB8)($at)

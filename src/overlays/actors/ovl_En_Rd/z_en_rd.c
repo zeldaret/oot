@@ -467,11 +467,11 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
 
             Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x,
-                                    (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
+                                    (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
                                     10.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z,
-                                    (Math_Coss(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
+                                    (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
                                     10.0f, 0.0f);
             Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
 

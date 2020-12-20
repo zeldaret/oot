@@ -2346,11 +2346,11 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, Math_Coss(D_8012A39C) * (0.00009587531f * temp),
-                      Math_Sins(D_8012A39C) * (0.00009587531f * temp), Math_Sins(D_8012A3A0) * (0.00009587531f * temp));
-        func_800AA78C(&globalCtx->view, 1.0f + (Math_Sins(D_8012A3A0) * (0.79999995f * temp)),
-                      1.0f + (Math_Coss(D_8012A3A0) * (0.39999998f * temp)),
-                      1.0f + (Math_Coss(D_8012A39C) * (1 * temp)));
+        func_800AA76C(&globalCtx->view, Math_CosS(D_8012A39C) * (0.00009587531f * temp),
+                      Math_SinS(D_8012A39C) * (0.00009587531f * temp), Math_SinS(D_8012A3A0) * (0.00009587531f * temp));
+        func_800AA78C(&globalCtx->view, 1.0f + (Math_SinS(D_8012A3A0) * (0.79999995f * temp)),
+                      1.0f + (Math_CosS(D_8012A3A0) * (0.39999998f * temp)),
+                      1.0f + (Math_CosS(D_8012A39C) * (1 * temp)));
         func_800AA7AC(&globalCtx->view, 0.95f);
 
         switch (globalCtx->unk_11D30[0]) {

@@ -713,7 +713,7 @@ glabel Fishing_Update
 /* 0811C 80B71ABC C60401BC */  lwc1    $f4, 0x01BC($s0)           ## 000001BC
 /* 08120 80B71AC0 E7AE0130 */  swc1    $f14, 0x0130($sp)
 /* 08124 80B71AC4 460A2301 */  sub.s   $f12, $f4, $f10
-/* 08128 80B71AC8 0C034199 */  jal     atan2s
+/* 08128 80B71AC8 0C034199 */  jal     Math_Atan2S
 
 /* 0812C 80B71ACC E7AC0128 */  swc1    $f12, 0x0128($sp)
 /* 08130 80B71AD0 C7B00130 */  lwc1    $f16, 0x0130($sp)
@@ -724,7 +724,7 @@ glabel Fishing_Update
 /* 08144 80B71AE4 46129182 */  mul.s   $f6, $f18, $f18
 /* 08148 80B71AE8 46064080 */  add.s   $f2, $f8, $f6
 /* 0814C 80B71AEC 46001304 */  sqrt.s  $f12, $f2
-/* 08150 80B71AF0 0C034199 */  jal     atan2s
+/* 08150 80B71AF0 0C034199 */  jal     Math_Atan2S
 
 /* 08154 80B71AF4 E7A2004C */  swc1    $f2, 0x004C($sp)
 /* 08158 80B71AF8 C7AC012C */  lwc1    $f12, 0x012C($sp)
@@ -858,7 +858,7 @@ glabel Fishing_Update
 /* 08338 80B71CD8 00812023 */  subu    $a0, $a0, $at
 /* 0833C 80B71CDC 00042080 */  sll     $a0, $a0,  2
 /* 08340 80B71CE0 00042400 */  sll     $a0, $a0, 16
-/* 08344 80B71CE4 0C01DE1C */  jal     Math_Sins
+/* 08344 80B71CE4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 08348 80B71CE8 00042403 */  sra     $a0, $a0, 16
 /* 0834C 80B71CEC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -876,7 +876,7 @@ glabel Fishing_Update
 /* 0837C 80B71D1C 00812023 */  subu    $a0, $a0, $at
 /* 08380 80B71D20 00042040 */  sll     $a0, $a0,  1
 /* 08384 80B71D24 00042400 */  sll     $a0, $a0, 16
-/* 08388 80B71D28 0C01DE1C */  jal     Math_Sins
+/* 08388 80B71D28 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0838C 80B71D2C 00042403 */  sra     $a0, $a0, 16
 /* 08390 80B71D30 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
@@ -947,7 +947,7 @@ glabel Fishing_Update
 /* 08484 80B71E24 8604015C */  lh      $a0, 0x015C($s0)           ## 0000015C
 /* 08488 80B71E28 000422C0 */  sll     $a0, $a0, 11
 /* 0848C 80B71E2C 00042400 */  sll     $a0, $a0, 16
-/* 08490 80B71E30 0C01DE1C */  jal     Math_Sins
+/* 08490 80B71E30 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 08494 80B71E34 00042403 */  sra     $a0, $a0, 16
 /* 08498 80B71E38 3C0180B8 */  lui     $at, %hi(D_80B7B638)       ## $at = 80B80000
@@ -970,7 +970,7 @@ glabel Fishing_Update
 /* 084D8 80B71E78 00812021 */  addu    $a0, $a0, $at
 /* 084DC 80B71E7C 00042240 */  sll     $a0, $a0,  9
 /* 084E0 80B71E80 00042400 */  sll     $a0, $a0, 16
-/* 084E4 80B71E84 0C01DE1C */  jal     Math_Sins
+/* 084E4 80B71E84 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 084E8 80B71E88 00042403 */  sra     $a0, $a0, 16
 /* 084EC 80B71E8C 3C0180B8 */  lui     $at, %hi(D_80B7B63C)       ## $at = 80B80000
@@ -4624,7 +4624,7 @@ glabel L80B75278
 .L80B7527C:
 /* 0B8DC 80B7527C 00042300 */  sll     $a0, $a0, 12
 /* 0B8E0 80B75280 00042400 */  sll     $a0, $a0, 16
-/* 0B8E4 80B75284 0C01DE1C */  jal     Math_Sins
+/* 0B8E4 80B75284 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0B8E8 80B75288 00042403 */  sra     $a0, $a0, 16
 /* 0B8EC 80B7528C 3C0180B8 */  lui     $at, %hi(D_80B7B724)       ## $at = 80B80000

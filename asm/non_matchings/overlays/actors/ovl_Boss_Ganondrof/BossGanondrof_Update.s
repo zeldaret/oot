@@ -190,14 +190,14 @@ glabel BossGanondrof_Update
 /* 03A7C 809140BC 00042403 */  sra     $a0, $a0, 16               
 /* 03A80 809140C0 AE2D003C */  sw      $t5, 0x003C($s1)           ## 0000003C
 /* 03A84 809140C4 8D8E0008 */  lw      $t6, 0x0008($t4)           ## 00000008
-/* 03A88 809140C8 0C01DE1C */  jal     Math_Sins
+/* 03A88 809140C8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03A8C 809140CC AE2E0040 */  sw      $t6, 0x0040($s1)           ## 00000040
 /* 03A90 809140D0 862400B6 */  lh      $a0, 0x00B6($s1)           ## 000000B6
 /* 03A94 809140D4 E7A00070 */  swc1    $f0, 0x0070($sp)           
 /* 03A98 809140D8 00042023 */  subu    $a0, $zero, $a0            
 /* 03A9C 809140DC 00042400 */  sll     $a0, $a0, 16               
-/* 03AA0 809140E0 0C01DE0D */  jal     Math_Coss
+/* 03AA0 809140E0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03AA4 809140E4 00042403 */  sra     $a0, $a0, 16               
 /* 03AA8 809140E8 C7B00070 */  lwc1    $f16, 0x0070($sp)          
@@ -249,7 +249,7 @@ glabel BossGanondrof_Update
 /* 03B58 80914198 00812023 */  subu    $a0, $a0, $at              
 /* 03B5C 8091419C 00042080 */  sll     $a0, $a0,  2               
 /* 03B60 809141A0 00042400 */  sll     $a0, $a0, 16               
-/* 03B64 809141A4 0C01DE1C */  jal     Math_Sins
+/* 03B64 809141A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03B68 809141A8 00042403 */  sra     $a0, $a0, 16               
 /* 03B6C 809141AC 3C01C3FA */  lui     $at, 0xC3FA                ## $at = C3FA0000

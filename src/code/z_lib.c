@@ -8,11 +8,11 @@ void Lib_MemSet(u8* dest, size_t size, u8 val) {
     // clang-format on
 }
 
-f32 Math_Coss(s16 angle) {
+f32 Math_CosS(s16 angle) {
     return coss(angle) * SHT_MINV;
 }
 
-f32 Math_Sins(s16 angle) {
+f32 Math_SinS(s16 angle) {
     return sins(angle) * SHT_MINV;
 }
 
@@ -173,7 +173,7 @@ void func_80077D10(f32* arg0, s16* arg1, Input* input) {
     *arg0 = sqrtf(SQ(relX) + SQ(relY));
     *arg0 = (60.0f < *arg0) ? 60.0f : *arg0;
 
-    *arg1 = atan2s(relY, -relX);
+    *arg1 = Math_Atan2S(relY, -relX);
 }
 
 s16 Math_Rand_S16Offset(s16 base, s16 range) {
@@ -251,11 +251,11 @@ s16 Math_Vec3f_Yaw(Vec3f* a, Vec3f* b) {
     f32 dx = b->x - a->x;
     f32 dz = b->z - a->z;
 
-    return atan2s(dz, dx);
+    return Math_Atan2S(dz, dx);
 }
 
 s16 Math_Vec3f_Pitch(Vec3f* a, Vec3f* b) {
-    return atan2s(Math_Vec3f_DistXZ(a, b), a->y - b->y);
+    return Math_Atan2S(Math_Vec3f_DistXZ(a, b), a->y - b->y);
 }
 
 void IChain_Apply_u8(u8* ptr, InitChainEntry* ichain);

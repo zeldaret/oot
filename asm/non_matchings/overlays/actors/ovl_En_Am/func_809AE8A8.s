@@ -68,13 +68,13 @@ glabel func_809AE8A8
 /* 00A74 809AE994 46040181 */  sub.s   $f6, $f0, $f4              
 /* 00A78 809AE998 46083282 */  mul.s   $f10, $f6, $f8             
 /* 00A7C 809AE99C E7AA002C */  swc1    $f10, 0x002C($sp)          
-/* 00A80 809AE9A0 0C01DE0D */  jal     Math_Coss
+/* 00A80 809AE9A0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00A84 809AE9A4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00A88 809AE9A8 C7B0002C */  lwc1    $f16, 0x002C($sp)          
 /* 00A8C 809AE9AC 46100482 */  mul.s   $f18, $f0, $f16            
 /* 00A90 809AE9B0 E7B20034 */  swc1    $f18, 0x0034($sp)          
-/* 00A94 809AE9B4 0C01DE1C */  jal     Math_Sins
+/* 00A94 809AE9B4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00A98 809AE9B8 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00A9C 809AE9BC C6040268 */  lwc1    $f4, 0x0268($s0)           ## 00000268

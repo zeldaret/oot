@@ -121,7 +121,7 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
     if (this->speedModifier != 0) {
         this->speedModifier--;
     }
-    this->actor.posRot.pos.y = Math_Sins(this->speedModifier * 0x800) * 13.0f + this->targetY;
+    this->actor.posRot.pos.y = Math_SinS(this->speedModifier * 0x800) * 13.0f + this->targetY;
 }
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
@@ -147,8 +147,8 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     temp_f20 = sinf(this->actionTimer * (M_PI / 20.0f)) * 5.0f;
-    this->actor.posRot.pos.x += temp_f20 * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += temp_f20 * Math_Sins(this->actor.shape.rot.y);
+    this->actor.posRot.pos.x += temp_f20 * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += temp_f20 * Math_SinS(this->actor.shape.rot.y);
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }

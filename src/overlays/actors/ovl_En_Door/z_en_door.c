@@ -117,8 +117,8 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params & 0x40) {
         EnDoor* other;
 
-        xOffset = Math_Coss(this->actor.shape.rot.y) * 30.0f;
-        zOffset = Math_Sins(this->actor.shape.rot.y) * 30.0f;
+        xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
+        zOffset = Math_SinS(this->actor.shape.rot.y) * 30.0f;
         other = (EnDoor*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DOOR,
                                             this->actor.posRot.pos.x + xOffset, this->actor.posRot.pos.y,
                                             this->actor.posRot.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,

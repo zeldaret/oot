@@ -81,9 +81,9 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     if (this->actor.xzDistFromLink < 32.0f) {
-        pos.x = Math_Sins(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
+        pos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y;
-        pos.z = Math_Coss(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
+        pos.z = Math_CosS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
 
         if (EnInsect_XZDistanceSquared(&pos, &this->actor.posRot.pos) <= 400.0f) {
             return 1;
@@ -405,9 +405,9 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->unk_31A > 20 && Math_Rand_ZeroOne() < 0.1f) {
-        velocity.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
-        velocity.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
-        velocity.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
+        velocity.x = Math_SinS(this->actor.shape.rot.y) * -0.6f;
+        velocity.y = Math_SinS(this->actor.shape.rot.x) * 0.6f;
+        velocity.z = Math_CosS(this->actor.shape.rot.y) * -0.6f;
         func_800286CC(globalCtx, &this->actor.posRot.pos, &velocity, &accel, Math_Rand_ZeroOne() * 5.0f + 8.0f,
                       Math_Rand_ZeroOne() * 5.0f + 8.0f);
     }

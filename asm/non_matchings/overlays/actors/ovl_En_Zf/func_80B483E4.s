@@ -46,7 +46,7 @@ glabel func_80B483E4
 /* 0443C 80B4848C 00692023 */  subu    $a0, $v1, $t1
 /* 04440 80B48490 00042400 */  sll     $a0, $a0, 16
 /* 04444 80B48494 00042403 */  sra     $a0, $a0, 16
-/* 04448 80B48498 0C01DE1C */  jal     Math_Sins
+/* 04448 80B48498 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0444C 80B4849C A7A3002E */  sh      $v1, 0x002E($sp)
 /* 04450 80B484A0 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -63,7 +63,7 @@ glabel func_80B483E4
 .L80B484CC:
 /* 0447C 80B484CC 006A2023 */  subu    $a0, $v1, $t2
 /* 04480 80B484D0 00042400 */  sll     $a0, $a0, 16
-/* 04484 80B484D4 0C01DE1C */  jal     Math_Sins
+/* 04484 80B484D4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04488 80B484D8 00042403 */  sra     $a0, $a0, 16
 /* 0448C 80B484DC 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

@@ -68,12 +68,12 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
     rand = (randChoice < 0.0f) ? randChoice - 2.0f : randChoice + 2.0f;
     this->dyna.actor.velocity.y = (Math_Rand_ZeroFloat(8.0f) + 4.0f) * scale;
     this->dyna.actor.velocity.z = Math_Rand_ZeroFloat(-8.0f * scale);
-    yawSinCos = Math_Coss(this->dyna.actor.posRot.rot.y);
+    yawSinCos = Math_CosS(this->dyna.actor.posRot.rot.y);
     this->dyna.actor.velocity.x =
-        (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
-    yawSinCos = Math_Sins(this->dyna.actor.posRot.rot.y);
+        (Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
+    yawSinCos = Math_SinS(this->dyna.actor.posRot.rot.y);
     this->dyna.actor.velocity.z =
-        (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
+        (Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
     BgHeavyBlock_SetPieceRandRot(this, scale);
     Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.2f) + 1.0f);
 }
@@ -264,17 +264,17 @@ void BgHeavyBlock_SpawnDust(GlobalContext* globalCtx, f32 posX, f32 posY, f32 po
             sp44 = Math_Rand_ZeroFloat(5.0f) + 5.0f;
             sp6E = Math_Rand_CenteredFloat(65280.0f);
 
-            velocity.x = (Math_Sins(sp6E) * sp44) + velX;
+            velocity.x = (Math_SinS(sp6E) * sp44) + velX;
             velocity.y = velY;
-            velocity.z = (Math_Coss(sp6E) * sp44) + velZ;
+            velocity.z = (Math_CosS(sp6E) * sp44) + velZ;
             break;
         case 0:
             sp6E = Math_Vec3f_Yaw(&eye, &at);
             sp6C = -Math_Vec3f_Pitch(&eye, &at);
 
-            velocity.x = ((5.0f * Math_Sins(sp6E)) * Math_Coss(sp6C)) + velX;
-            velocity.y = (Math_Sins(sp6C) * 5.0f) + velY;
-            velocity.z = ((5.0f * Math_Coss(sp6E)) * Math_Coss(sp6C)) + velZ;
+            velocity.x = ((5.0f * Math_SinS(sp6E)) * Math_CosS(sp6C)) + velX;
+            velocity.y = (Math_SinS(sp6C) * 5.0f) + velY;
+            velocity.z = ((5.0f * Math_CosS(sp6E)) * Math_CosS(sp6C)) + velZ;
 
             pos.x -= (velocity.x * 20.0f);
             pos.y -= (velocity.y * 20.0f);
@@ -299,10 +299,10 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
     f32 sinYaw;
     f32 cosYaw;
 
-    sinPitch = Math_Sins(this->dyna.actor.posRot.rot.x);
-    cosPitch = Math_Coss(this->dyna.actor.posRot.rot.x);
-    sinYaw = Math_Sins(this->dyna.actor.posRot.rot.y);
-    cosYaw = Math_Coss(this->dyna.actor.posRot.rot.y);
+    sinPitch = Math_SinS(this->dyna.actor.posRot.rot.x);
+    cosPitch = Math_CosS(this->dyna.actor.posRot.rot.x);
+    sinYaw = Math_SinS(this->dyna.actor.posRot.rot.y);
+    cosYaw = Math_CosS(this->dyna.actor.posRot.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(spA4); i++) {
         pos.z = (spA4[i].y * sinPitch) + (spA4[i].z * cosPitch);
@@ -363,9 +363,9 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     if (this->timer < 40) {
         xOffset = Math_Rand_CenteredFloat(110.0f);
-        sinYaw = Math_Sins(this->dyna.actor.shape.rot.y);
+        sinYaw = Math_SinS(this->dyna.actor.shape.rot.y);
         zOffset = Math_Rand_CenteredFloat(110.0f);
-        cosYaw = Math_Coss(this->dyna.actor.shape.rot.y);
+        cosYaw = Math_CosS(this->dyna.actor.shape.rot.y);
 
         BgHeavyBlock_SpawnDust(globalCtx, (sinYaw * -70.0f) + (this->dyna.actor.posRot.pos.x + xOffset),
                                this->dyna.actor.posRot.pos.y + 10.0f,
@@ -447,7 +447,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 this->actionFunc = BgHeavyBlock_Land;
         }
     }
-    this->dyna.actor.shape.rot.x = atan2s(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
+    this->dyna.actor.shape.rot.x = Math_Atan2S(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
 }
 
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, GlobalContext* globalCtx) {

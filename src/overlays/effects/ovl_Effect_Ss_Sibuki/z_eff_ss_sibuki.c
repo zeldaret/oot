@@ -102,8 +102,8 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                 xzVelScale *= -1.0f;
             }
 
-            this->velocity.x = Math_Coss(yaw) * xzVelScale;
-            this->velocity.z = -Math_Sins(yaw) * xzVelScale;
+            this->velocity.x = Math_CosS(yaw) * xzVelScale;
+            this->velocity.z = -Math_SinS(yaw) * xzVelScale;
 
             this->velocity.y = ((700.0f + KREG(21)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(24) + 20.0f));
             this->accel.y = ((-100.0f + KREG(22)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * KREG(25));

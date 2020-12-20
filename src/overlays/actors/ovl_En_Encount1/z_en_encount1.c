@@ -128,9 +128,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                     spawnParams = LEEVER_BIG;
                 }
 
-                spawnPos.x = player->actor.posRot.pos.x + Math_Sins(spawnAngle) * spawnDist;
+                spawnPos.x = player->actor.posRot.pos.x + Math_SinS(spawnAngle) * spawnDist;
                 spawnPos.y = player->actor.groundY + 120.0f;
-                spawnPos.z = player->actor.posRot.pos.z + Math_Coss(spawnAngle) * spawnDist;
+                spawnPos.z = player->actor.posRot.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
@@ -263,10 +263,10 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                     spawnDist = Math_Rand_CenteredFloat(40.0f) + 100.0f;
                 }
                 spawnPos.x =
-                    player->actor.posRot.pos.x + (Math_Sins(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
+                    player->actor.posRot.pos.x + (Math_SinS(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
                 spawnPos.y = player->actor.groundY + 120.0f;
                 spawnPos.z =
-                    player->actor.posRot.pos.z + (Math_Coss(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
+                    player->actor.posRot.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
                     break;

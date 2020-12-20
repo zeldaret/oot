@@ -103,7 +103,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_Coss(this->actor.posRot.rot.x);
+    this->actor.speedXZ *= Math_CosS(this->actor.posRot.rot.x);
     this->actor.velocity.y = 0.0f;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
     scale = this->actor.scale.x * 100.0f;

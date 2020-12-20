@@ -45,12 +45,12 @@ glabel func_80BA100C
 /* 00330 80BA1090 27B700BC */  addiu   $s7, $sp, 0x00BC           ## $s7 = FFFFFFDC
 .L80BA1094:
 /* 00334 80BA1094 00112400 */  sll     $a0, $s1, 16               
-/* 00338 80BA1098 0C01DE1C */  jal     Math_Sins
+/* 00338 80BA1098 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0033C 80BA109C 00042403 */  sra     $a0, $a0, 16               
 /* 00340 80BA10A0 00112400 */  sll     $a0, $s1, 16               
 /* 00344 80BA10A4 46000506 */  mov.s   $f20, $f0                  
-/* 00348 80BA10A8 0C01DE0D */  jal     Math_Coss
+/* 00348 80BA10A8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0034C 80BA10AC 00042403 */  sra     $a0, $a0, 16               
 /* 00350 80BA10B0 4618A102 */  mul.s   $f4, $f20, $f24            

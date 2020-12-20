@@ -396,10 +396,10 @@ void EnSsh_Sway(EnSsh* this) {
             this->swayAngle = 0;
         }
         temp = this->swayTimer * (1.0f / 6);
-        swayAngle = temp * (0x10000 / 360.0f) * Math_Sins(this->swayAngle);
+        swayAngle = temp * (0x10000 / 360.0f) * Math_SinS(this->swayAngle);
         temp = this->actor.posRot.pos.y - this->ceilingPos.y;
-        swayVecBase.x = Math_Sins(swayAngle) * temp;
-        swayVecBase.y = Math_Coss(swayAngle) * temp;
+        swayVecBase.x = Math_SinS(swayAngle) * temp;
+        swayVecBase.y = Math_CosS(swayAngle) * temp;
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);

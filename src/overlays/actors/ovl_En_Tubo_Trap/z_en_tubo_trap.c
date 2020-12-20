@@ -81,8 +81,8 @@ void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
     Vec3f* actorPos = &this->actor.posRot.pos;
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
-        sin = Math_Sins(var);
-        cos = Math_Coss(var);
+        sin = Math_SinS(var);
+        cos = Math_CosS(var);
         pos.x = sin * 8.0f;
         pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cos * 8.0f;
@@ -129,8 +129,8 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) 
     EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
-        sin = Math_Sins(var);
-        cos = Math_Coss(var);
+        sin = Math_SinS(var);
+        cos = Math_CosS(var);
         pos.x = sin * 8.0f;
         pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cos * 8.0f;

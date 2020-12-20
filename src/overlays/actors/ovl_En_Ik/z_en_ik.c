@@ -371,8 +371,8 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame == 15.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
     } else if (this->skelAnime.animCurrentFrame == 21.0f) {
-        sp2C.x = this->actor.posRot.pos.x + Math_Sins(this->actor.shape.rot.y + 0x6A4) * 70.0f;
-        sp2C.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y + 0x6A4) * 70.0f;
+        sp2C.x = this->actor.posRot.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
+        sp2C.z = this->actor.posRot.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.posRot.pos.y;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
@@ -437,7 +437,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
     f32 temp_f0;
 
     this->unk_300 += 0x1C2;
-    temp_f0 = Math_Sins(this->unk_300);
+    temp_f0 = Math_SinS(this->unk_300);
     this->skelAnime.animPlaybackSpeed = ABS(temp_f0);
 
     if (this->skelAnime.animCurrentFrame > 11.0f) {

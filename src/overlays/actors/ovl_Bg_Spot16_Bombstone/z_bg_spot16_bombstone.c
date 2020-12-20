@@ -154,8 +154,8 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     func_808B4C4C(this, globalCtx);
     func_808B4D04(this, globalCtx);
-    this->sinRotation = Math_Sins(this->actor.shape.rot.y);
-    this->cosRotation = Math_Coss(this->actor.shape.rot.y);
+    this->sinRotation = Math_SinS(this->actor.shape.rot.y);
+    this->cosRotation = Math_CosS(this->actor.shape.rot.y);
     this->unk_150 = D_06000C20;
 
     func_808B5934(this);
@@ -181,8 +181,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
     actor->posRot.rot.y = D_808B5DD8[actor->params][5];
 
-    sinValue = Math_Sins(this->actor.posRot.rot.y);
-    cosValue = Math_Coss(this->actor.posRot.rot.y);
+    sinValue = Math_SinS(this->actor.posRot.rot.y);
+    cosValue = Math_CosS(this->actor.posRot.rot.y);
 
     actor->posRot.pos.x = (sinValue * sinCosPosFactor) + actor->initPosRot.pos.x;
     actor->posRot.pos.y = D_808B5DD8[actor->params][6] + actor->initPosRot.pos.y;
@@ -353,7 +353,7 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         adjustedYawDiff = absYawDiff - 0x3FFF;
 
         if (adjustedYawDiff > 0) {
-            sinValue = Math_Sins(adjustedYawDiff) * this->actor.xzDistFromLink;
+            sinValue = Math_SinS(adjustedYawDiff) * this->actor.xzDistFromLink;
 
             if (sinValue >= 0.0f) {
                 player->actor.posRot.pos.x += sinValue * this->sinRotation;

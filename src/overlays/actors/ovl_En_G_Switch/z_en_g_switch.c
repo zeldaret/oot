@@ -244,7 +244,7 @@ void EnGSwitch_SilverRupeeCollected(EnGSwitch* this, GlobalContext* globalCtx) {
     }
     this->actor.posRot.pos = player->actor.posRot.pos;
     this->actor.posRot.pos.y =
-        player->actor.posRot.pos.y + 40.0f + (this->killTimer * 0.3f) * Math_Sins(this->killTimer * 0x3A98);
+        player->actor.posRot.pos.y + 40.0f + (this->killTimer * 0.3f) * Math_SinS(this->killTimer * 0x3A98);
     if (LINK_IS_ADULT) {
         this->actor.posRot.pos.y += 20.0f;
     }
@@ -351,8 +351,8 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
         for (i = 0, angle = 0; i < 30; i++, angle += 0x4E20) {
             Vec3f pos;
             Vec3f vel;
-            f32 sn = Math_Sins(angle);
-            f32 cs = Math_Coss(angle);
+            f32 sn = Math_SinS(angle);
+            f32 cs = Math_CosS(angle);
             f32 rand;
             s32 phi_s0;
             s32 scale;

@@ -161,9 +161,9 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
-        pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
+        pos.x = this->actor.posRot.pos.x + (Math_SinS(angle) * rand);
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
-        pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
+        pos.z = this->actor.posRot.pos.z + (Math_CosS(angle) * rand);
         Math_Vec3f_Copy(&velocity, &thisx->velocity);
         if (thisx->bgCheckFlags & 1) {
             velocity.x *= 0.9f;
@@ -175,9 +175,9 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             velocity.z *= -0.9f;
         }
         rand = Math_Rand_ZeroOne() * 10.0f;
-        velocity.x += rand * Math_Sins(angle);
+        velocity.x += rand * Math_SinS(angle);
         velocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
-        velocity.z += rand * Math_Coss(angle);
+        velocity.z += rand * Math_CosS(angle);
         if (i == 0) {
             phi_v0 = 41;
             phi_v1 = -450;
@@ -379,8 +379,8 @@ void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 void EnIshi_SetupFly(EnIshi* this) {
-    this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
     if ((this->actor.params & 1) == ROCK_SMALL) {
         sRotSpeedX = (Math_Rand_ZeroOne() - 0.5f) * 16000.0f;
         sRotSpeedY = (Math_Rand_ZeroOne() - 0.5f) * 2400.0f;

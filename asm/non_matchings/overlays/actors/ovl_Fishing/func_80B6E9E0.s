@@ -731,7 +731,7 @@ glabel L80B6F0C4
 /* 05880 80B6F220 E7A200D4 */  swc1    $f2, 0x00D4($sp)           
 /* 05884 80B6F224 E7AC00D0 */  swc1    $f12, 0x00D0($sp)          
 /* 05888 80B6F228 E7AE00D8 */  swc1    $f14, 0x00D8($sp)          
-/* 0588C 80B6F22C 0C0341F5 */  jal     atan2f
+/* 0588C 80B6F22C 0C0341F5 */  jal     Math_Atan2F
               
 /* 05890 80B6F230 E6040000 */  swc1    $f4, 0x0000($s0)           ## 80B7E0D8
 /* 05894 80B6F234 3C0180B8 */  lui     $at, %hi(D_80B7B4A8)       ## $at = 80B80000
@@ -1325,7 +1325,7 @@ glabel L80B6FA3C
 /* 0613C 80B6FADC 00812023 */  subu    $a0, $a0, $at              
 /* 06140 80B6FAE0 00042140 */  sll     $a0, $a0,  5               
 /* 06144 80B6FAE4 00042400 */  sll     $a0, $a0, 16               
-/* 06148 80B6FAE8 0C01DE1C */  jal     Math_Sins
+/* 06148 80B6FAE8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0614C 80B6FAEC 00042403 */  sra     $a0, $a0, 16               
 /* 06150 80B6FAF0 3C0180B8 */  lui     $at, %hi(D_80B7E10C)       ## $at = 80B80000
@@ -1523,7 +1523,7 @@ glabel L80B6FA3C
 /* 0641C 80B6FDBC C5C4002C */  lwc1    $f4, 0x002C($t6)           ## 80B8002C
 /* 06420 80B6FDC0 E7B00070 */  swc1    $f16, 0x0070($sp)          
 /* 06424 80B6FDC4 46082301 */  sub.s   $f12, $f4, $f8             
-/* 06428 80B6FDC8 0C0341F5 */  jal     atan2f
+/* 06428 80B6FDC8 0C0341F5 */  jal     Math_Atan2F
               
 /* 0642C 80B6FDCC E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 06430 80B6FDD0 3C0280B8 */  lui     $v0, %hi(D_80B7E140)       ## $v0 = 80B80000

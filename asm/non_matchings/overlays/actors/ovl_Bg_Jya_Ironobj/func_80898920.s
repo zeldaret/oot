@@ -174,12 +174,12 @@ glabel func_80898920
               ## ActorSpawn
 /* 00298 80898B38 E7A40014 */  swc1    $f4, 0x0014($sp)           
 /* 0029C 80898B3C 00162400 */  sll     $a0, $s6, 16               
-/* 002A0 80898B40 0C01DE1C */  jal     Math_Sins
+/* 002A0 80898B40 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 002A4 80898B44 00042403 */  sra     $a0, $a0, 16               
 /* 002A8 80898B48 00162400 */  sll     $a0, $s6, 16               
 /* 002AC 80898B4C E7A000BC */  swc1    $f0, 0x00BC($sp)           
-/* 002B0 80898B50 0C01DE0D */  jal     Math_Coss
+/* 002B0 80898B50 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 002B4 80898B54 00042403 */  sra     $a0, $a0, 16               
 /* 002B8 80898B58 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

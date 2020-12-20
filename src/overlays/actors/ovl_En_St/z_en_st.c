@@ -109,8 +109,8 @@ void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
         dustAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
         dustAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        dustPos.x = this->actor.posRot.pos.x + (Math_Sins(yAngle) * 22.0f);
-        dustPos.z = this->actor.posRot.pos.z + (Math_Coss(yAngle) * 22.0f);
+        dustPos.x = this->actor.posRot.pos.x + (Math_SinS(yAngle) * 22.0f);
+        dustPos.z = this->actor.posRot.pos.z + (Math_CosS(yAngle) * 22.0f);
         func_8002836C(globalCtx, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
     }
 }
@@ -710,7 +710,7 @@ void EnSt_Sway(EnSt* this) {
         }
 
         swayAmt = this->swayTimer * (7.0f / 15.0f);
-        rotAngle = Math_Sins(this->swayAngle) * (swayAmt * (65536.0f / 360.0f));
+        rotAngle = Math_SinS(this->swayAngle) * (swayAmt * (65536.0f / 360.0f));
 
         if (this->absPrevSwayAngle >= ABS(rotAngle) && this->playSwayFlag == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_WAVE);
@@ -722,8 +722,8 @@ void EnSt_Sway(EnSt* this) {
         }
 
         this->absPrevSwayAngle = ABS(rotAngle);
-        amtToTranslate.x = Math_Sins(rotAngle) * -200.0f;
-        amtToTranslate.y = Math_Coss(rotAngle) * -200.0f;
+        amtToTranslate.x = Math_SinS(rotAngle) * -200.0f;
+        amtToTranslate.y = Math_CosS(rotAngle) * -200.0f;
         amtToTranslate.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);

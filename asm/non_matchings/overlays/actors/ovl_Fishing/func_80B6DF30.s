@@ -135,7 +135,7 @@ glabel func_80B6DF30
 /* 04678 80B6E018 00812021 */  addu    $a0, $a0, $at              
 /* 0467C 80B6E01C 00042280 */  sll     $a0, $a0, 10               
 /* 04680 80B6E020 00042400 */  sll     $a0, $a0, 16               
-/* 04684 80B6E024 0C01DE1C */  jal     Math_Sins
+/* 04684 80B6E024 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04688 80B6E028 00042403 */  sra     $a0, $a0, 16               
 /* 0468C 80B6E02C 3C0180B8 */  lui     $at, %hi(D_80B7B444)       ## $at = 80B80000
@@ -364,7 +364,7 @@ glabel func_80B6DF30
 /* 049A4 80B6E344 00812023 */  subu    $a0, $a0, $at              
 /* 049A8 80B6E348 000420C0 */  sll     $a0, $a0,  3               
 /* 049AC 80B6E34C 00042400 */  sll     $a0, $a0, 16               
-/* 049B0 80B6E350 0C01DE1C */  jal     Math_Sins
+/* 049B0 80B6E350 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 049B4 80B6E354 00042403 */  sra     $a0, $a0, 16               
 /* 049B8 80B6E358 3C0180B8 */  lui     $at, %hi(D_80B7B458)       ## $at = 80B80000

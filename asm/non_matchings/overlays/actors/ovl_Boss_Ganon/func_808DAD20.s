@@ -41,7 +41,7 @@ glabel L808DAD6C
 /* 04508 808DAD78 00812021 */  addu    $a0, $a0, $at
 /* 0450C 808DAD7C 00042200 */  sll     $a0, $a0,  8
 /* 04510 808DAD80 00042400 */  sll     $a0, $a0, 16
-/* 04514 808DAD84 0C01DE1C */  jal     Math_Sins
+/* 04514 808DAD84 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04518 808DAD88 00042403 */  sra     $a0, $a0, 16
 /* 0451C 808DAD8C 862401A2 */  lh      $a0, 0x01A2($s1)           ## 000001A2
@@ -52,7 +52,7 @@ glabel L808DAD6C
 /* 04530 808DADA0 00042200 */  sll     $a0, $a0,  8
 /* 04534 808DADA4 00042400 */  sll     $a0, $a0, 16
 /* 04538 808DADA8 46002502 */  mul.s   $f20, $f4, $f0
-/* 0453C 808DADAC 0C01DE0D */  jal     Math_Coss
+/* 0453C 808DADAC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 04540 808DADB0 00042403 */  sra     $a0, $a0, 16
 /* 04544 808DADB4 C62601D0 */  lwc1    $f6, 0x01D0($s1)           ## 000001D0

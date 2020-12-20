@@ -417,12 +417,12 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
         // 0.7071 = cos(pi/4)
-        if ((Math_Coss(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
+        if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
             func_8006DD9C(&this->actor, &PLAYER->actor.posRot.pos, 300);
         }
 
         if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-            if (Math_Coss(yawDiff) < 0.0f) {
+            if (Math_CosS(yawDiff) < 0.0f) {
                 this->animationIdx = 2;
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx],
                                      D_80A6AF64[this->animationIdx], 0.0f,

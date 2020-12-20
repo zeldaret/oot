@@ -351,7 +351,7 @@ glabel BossGanon_Init
 /* 00DE8 808D7658 C468002C */  lwc1    $f8, 0x002C($v1)           ## 00000038
 /* 00DEC 808D765C E7AE005C */  swc1    $f14, 0x005C($sp)
 /* 00DF0 808D7660 460A4301 */  sub.s   $f12, $f8, $f10
-/* 00DF4 808D7664 0C034199 */  jal     atan2s
+/* 00DF4 808D7664 0C034199 */  jal     Math_Atan2S
 
 /* 00DF8 808D7668 E7AC0054 */  swc1    $f12, 0x0054($sp)
 /* 00DFC 808D766C C7A2005C */  lwc1    $f2, 0x005C($sp)
@@ -361,7 +361,7 @@ glabel BossGanon_Init
 /* 00E0C 808D767C C7AE0058 */  lwc1    $f14, 0x0058($sp)
 /* 00E10 808D7680 46108102 */  mul.s   $f4, $f16, $f16
 /* 00E14 808D7684 46049000 */  add.s   $f0, $f18, $f4
-/* 00E18 808D7688 0C034199 */  jal     atan2s
+/* 00E18 808D7688 0C034199 */  jal     Math_Atan2S
 
 /* 00E1C 808D768C 46000304 */  sqrt.s  $f12, $f0
 /* 00E20 808D7690 0C03F66B */  jal     Math_Rand_ZeroOne

@@ -107,8 +107,8 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 
     // increase rotation around circle ~30 degrees.
     angle = Math_Vec3f_Yaw(&this->actor.parent->initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554);
-    posAdj.x = (Math_Sins(angle) * radius) + this->actor.parent->initPosRot.pos.x;
-    posAdj.z = (Math_Coss(angle) * radius) + this->actor.parent->initPosRot.pos.z;
+    posAdj.x = (Math_SinS(angle) * radius) + this->actor.parent->initPosRot.pos.x;
+    posAdj.z = (Math_CosS(angle) * radius) + this->actor.parent->initPosRot.pos.z;
     posAdj.x -= this->actor.posRot.pos.x;
     posAdj.z -= this->actor.posRot.pos.z;
     *dst = posAdj;
@@ -157,8 +157,8 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
         accel.x = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
         accel.y = yAccel;
         accel.z = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
-        pos.x = (Math_Sins(angle) * radius) + this->actor.posRot.pos.x;
-        pos.z = (Math_Coss(angle) * radius) + this->actor.posRot.pos.z;
+        pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
+        pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
         EnFw_AddDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
         angle += (s16)(0x10000 / dustCnt);
         i--;
@@ -275,7 +275,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         } else {
             Vec3f sp48;
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
+            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (MathF_Atan2(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
                                     1);
         }
 

@@ -131,8 +131,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     s16 result;
     s32 resultAbs;
 
-    playerPos.x += Math_Sins(player->actor.shape.rot.y) * -5.0f;
-    playerPos.z += Math_Coss(player->actor.shape.rot.y) * -5.0f;
+    playerPos.x += Math_SinS(player->actor.shape.rot.y) * -5.0f;
+    playerPos.z += Math_CosS(player->actor.shape.rot.y) * -5.0f;
     if (LINK_IS_CHILD) {
         playerPos.y += 38.0f;
     } else {
@@ -152,7 +152,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                 }
             } else {
                 this->unk_1CA += 0x1194;
-                this->unk_1D0.y = Math_Sins(this->unk_1CA) * 1820.0f;
+                this->unk_1D0.y = Math_SinS(this->unk_1CA) * 1820.0f;
                 if (!(player->stateFlags2 & 0x80)) {
                     this->unk_1CC = 0;
                     func_809ECF60(this);

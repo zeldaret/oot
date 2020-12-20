@@ -70,7 +70,7 @@ glabel func_80B219A8
 /* 00CB0 80B21A90 244DFFF1 */  addiu   $t5, $v0, 0xFFF1           ## $t5 = FFFFFFF1
 /* 00CB4 80B21A94 A60D0160 */  sh      $t5, 0x0160($s0)           ## 00000160
 .L80B21A98:
-/* 00CB8 80B21A98 0C0329DD */  jal     Math_Cosf              
+/* 00CB8 80B21A98 0C0329DD */  jal     Math_CosF              
 /* 00CBC 80B21A9C C60C0168 */  lwc1    $f12, 0x0168($s0)          ## 00000168
 /* 00CC0 80B21AA0 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
 /* 00CC4 80B21AA4 00000000 */  nop
@@ -87,7 +87,7 @@ glabel func_80B219A8
 /* 00CEC 80B21ACC 46120102 */  mul.s   $f4, $f0, $f18             
 /* 00CF0 80B21AD0 E6040170 */  swc1    $f4, 0x0170($s0)           ## 00000170
 .L80B21AD4:
-/* 00CF4 80B21AD4 0C0329DD */  jal     Math_Cosf              
+/* 00CF4 80B21AD4 0C0329DD */  jal     Math_CosF              
 /* 00CF8 80B21AD8 C60C0168 */  lwc1    $f12, 0x0168($s0)          ## 00000168
 /* 00CFC 80B21ADC 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
 /* 00D00 80B21AE0 44814000 */  mtc1    $at, $f8                   ## $f8 = 0.25

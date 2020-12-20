@@ -556,7 +556,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300,
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300,
                                 0);
         Math_SmoothScaleMaxF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
@@ -585,7 +585,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-        this->unk_2E4 = Math_atan2f(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
+        this->unk_2E4 = MathF_Atan2(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -818,7 +818,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = Math_atan2f(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
+        this->unk_2E4 = MathF_Atan2(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
                                     this->actor.posRot.pos.z - player->actor.posRot.pos.z) *
                         (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 0);
@@ -1164,7 +1164,7 @@ void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
                     feather->vel.y = -0.5f;
                 }
 
-                feather->unk_30 = Math_Sins(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
+                feather->unk_30 = Math_SinS(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
 
                 if (feather->life < feather->timer) {
                     feather->type = 0;

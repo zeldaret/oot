@@ -96,9 +96,9 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
 
     framesAfterMath = sinf((globalCtx->gameplayFrames & 0xFF) * 0.024543693f) * 165.0f;
     this->dyna.actor.posRot.pos.x =
-        ((Math_Sins(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.x);
+        ((Math_SinS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.x);
     this->dyna.actor.posRot.pos.z =
-        ((Math_Coss(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.z);
+        ((Math_CosS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.z);
     waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[1];
     this->dyna.actor.posRot.pos.y = waterBox->unk_02 + 20.0f;
     if (this->timer != 0) {

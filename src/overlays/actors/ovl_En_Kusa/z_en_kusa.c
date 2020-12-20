@@ -335,8 +335,8 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         func_80A9BBB0(this);
-        this->actor.velocity.x = this->actor.speedXZ * Math_Sins(this->actor.posRot.rot.y);
-        this->actor.velocity.z = this->actor.speedXZ * Math_Coss(this->actor.posRot.rot.y);
+        this->actor.velocity.x = this->actor.speedXZ * Math_SinS(this->actor.posRot.rot.y);
+        this->actor.velocity.z = this->actor.speedXZ * Math_CosS(this->actor.posRot.rot.y);
         this->actor.colChkInfo.mass = 240;
         this->actor.gravity = -0.1f;
         EnKusa_Fall(this);

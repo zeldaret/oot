@@ -23,7 +23,7 @@ glabel func_80B36F40
 /* 032D0 80B36F80 00832021 */  addu    $a0, $a0, $v1              
 /* 032D4 80B36F84 000420C0 */  sll     $a0, $a0,  3               
 /* 032D8 80B36F88 00042400 */  sll     $a0, $a0, 16               
-/* 032DC 80B36F8C 0C01DE1C */  jal     Math_Sins
+/* 032DC 80B36F8C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 032E0 80B36F90 00042403 */  sra     $a0, $a0, 16               
 /* 032E4 80B36F94 3C0180B3 */  lui     $at, %hi(D_80B37BCC)       ## $at = 80B30000

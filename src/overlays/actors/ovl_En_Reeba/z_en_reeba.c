@@ -627,9 +627,9 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0)) {
         Vec3f debugPos;
 
-        debugPos.x = (Math_Sins(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+        debugPos.x = (Math_SinS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
         debugPos.y = this->actor.posRot.pos.y + 20.0f;
-        debugPos.z = (Math_Coss(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+        debugPos.z = (Math_CosS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
         DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.posRot.rot.x, this->actor.posRot.rot.y,
                                this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }

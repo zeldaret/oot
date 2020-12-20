@@ -41,13 +41,13 @@ static InitChainEntry sInitChain[] = {
 void func_80891AC0(BgIceShutter* this) {
     f32 sp24;
 
-    sp24 = Math_Sins(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
+    sp24 = Math_SinS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
     this->dyna.actor.posRot.pos.y =
-        (Math_Coss(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.initPosRot.pos.y;
+        (Math_CosS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.initPosRot.pos.y;
     this->dyna.actor.posRot.pos.x =
-        (Math_Sins(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.x;
+        (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        (Math_Coss(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.z;
+        (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.z;
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -84,12 +84,12 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (sp28 == 2) {
-        temp_f6 = Math_Sins(this->dyna.actor.shape.rot.x) * 50.0f;
+        temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
         this->dyna.actor.posRot2.pos.x =
-            (Math_Sins(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.initPosRot.pos.x;
+            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.initPosRot.pos.x;
         this->dyna.actor.posRot2.pos.y = this->dyna.actor.initPosRot.pos.y;
         this->dyna.actor.posRot2.pos.z =
-            this->dyna.actor.initPosRot.pos.z + (Math_Coss(this->dyna.actor.shape.rot.y) * temp_f6);
+            this->dyna.actor.initPosRot.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
     }

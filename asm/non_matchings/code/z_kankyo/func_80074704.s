@@ -227,11 +227,11 @@ glabel func_80074704
 /* AEBB8C 800749EC AC530004 */  sw    $s3, 4($v0)
 /* AEBB90 800749F0 46008387 */  neg.s $f14, $f16
 /* AEBB94 800749F4 460A3000 */  add.s $f0, $f6, $f10
-/* AEBB98 800749F8 0C0341F5 */  jal   atan2f
+/* AEBB98 800749F8 0C0341F5 */  jal   Math_Atan2F
 /* AEBB9C 800749FC 46000304 */   sqrt.s $f12, $f0
 /* AEBBA0 80074A00 46000606 */  mov.s $f24, $f0
 /* AEBBA4 80074A04 4600B306 */  mov.s $f12, $f22
-/* AEBBA8 80074A08 0C0341F5 */  jal   atan2f
+/* AEBBA8 80074A08 0C0341F5 */  jal   Math_Atan2F
 /* AEBBAC 80074A0C 4600A386 */   mov.s $f14, $f20
 /* AEBBB0 80074A10 46000307 */  neg.s $f12, $f0
 /* AEBBB4 80074A14 0C034348 */  jal   Matrix_RotateY

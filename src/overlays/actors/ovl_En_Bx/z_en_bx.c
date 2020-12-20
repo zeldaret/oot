@@ -192,11 +192,11 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_14E -= 0xBB8;
-    thisx->scale.z = thisx->scale.x = (Math_Coss(this->unk_14E) * 0.0075f) + 0.015f;
+    thisx->scale.z = thisx->scale.x = (Math_CosS(this->unk_14E) * 0.0075f) + 0.015f;
 
     for (i = 3; i >= 0; i--) {
         s16 off = (0x2000 * i);
-        this->unk_184[i].z = this->unk_184[i].x = (Math_Coss(this->unk_14E + off) * 0.0075f) + 0.015f;
+        this->unk_184[i].z = this->unk_184[i].x = (Math_CosS(this->unk_14E + off) * 0.0075f) + 0.015f;
         this->unk_1B4[i].x = thisx->shape.rot.x;
         this->unk_1B4[i].y = thisx->shape.rot.y;
         this->unk_1B4[i].z = thisx->shape.rot.z;

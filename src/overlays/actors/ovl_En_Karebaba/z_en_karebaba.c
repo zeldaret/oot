@@ -276,12 +276,12 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->headCollider.dim.radius = sHeadColliderInit.dim.radius + (value * 2);
     this->actor.shape.rot.x = 0xC000 - (value * 0x100);
     this->actor.shape.rot.y += value * 0x2C0;
-    this->actor.posRot.pos.y = (Math_Sins(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = (Math_SinS(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
 
-    cos60 = Math_Coss(this->actor.shape.rot.x) * 60.0f;
+    cos60 = Math_CosS(this->actor.shape.rot.x) * 60.0f;
 
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
 
     if (this->bodyCollider.base.acFlags & 2) {
         EnKarebaba_SetupDying(this);
@@ -317,9 +317,9 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
         }
     } else if (this->actor.params == 1) {
         Math_Vec3f_Copy(&position, &this->actor.posRot.pos);
-        rotation.z = Math_Sins(this->actor.shape.rot.x) * 20.0f;
-        rotation.x = -20.0f * Math_Coss(this->actor.shape.rot.x) * Math_Sins(this->actor.shape.rot.y);
-        rotation.y = -20.0f * Math_Coss(this->actor.shape.rot.x) * Math_Coss(this->actor.shape.rot.y);
+        rotation.z = Math_SinS(this->actor.shape.rot.x) * 20.0f;
+        rotation.x = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y);
+        rotation.y = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
             func_800286CC(globalCtx, &position, &zeroVec, &zeroVec, 500, 50);

@@ -246,9 +246,9 @@ void EnGoroiwa_SpawnDust(GlobalContext* globalCtx, Vec3f* pos) {
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        randPos.x = pos->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
+        randPos.x = pos->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_SinS(angle));
         randPos.y = pos->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
-        randPos.z = pos->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
+        randPos.z = pos->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_CosS(angle);
         func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100, 80);
         func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80, 80);
     }
@@ -261,9 +261,9 @@ void EnGoroiwa_SpawnWaterEffects(GlobalContext* globalCtx, Vec3f* contactPos) {
 
     for (i = 0; i < 11; i++) {
         angle += 0x1746;
-        splashPos.x = contactPos->x + (Math_Sins(angle) * 55.0f);
+        splashPos.x = contactPos->x + (Math_SinS(angle) * 55.0f);
         splashPos.y = contactPos->y;
-        splashPos.z = contactPos->z + (Math_Coss(angle) * 55.0f);
+        splashPos.z = contactPos->z + (Math_CosS(angle) * 55.0f);
         EffectSsGSplash_Spawn(globalCtx, &splashPos, 0, 0, 0, 350);
     }
 
@@ -474,13 +474,13 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
-        temp_f22 = Math_Sins(angle1);
-        temp_f24 = Math_Coss(angle1);
+        temp_f22 = Math_SinS(angle1);
+        temp_f24 = Math_CosS(angle1);
         angle2 = Math_Rand_ZeroOne() * 0xFFFF;
-        effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
-        temp_f20_2 = Math_Sins(angle2);
+        effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_SinS(angle2);
+        temp_f20_2 = Math_SinS(angle2);
         effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
-        effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
+        effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_SinS(angle2);
         fragmentVelocity.x = effectPos.x * 0.2f;
         fragmentVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
         fragmentVelocity.z = effectPos.z * 0.2f;

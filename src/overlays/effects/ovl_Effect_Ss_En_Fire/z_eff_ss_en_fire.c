@@ -78,7 +78,7 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     camYaw = (Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000);
     Matrix_RotateY(camYaw * 0.0000958738f, MTXMODE_APPLY);
 
-    scale = Math_Sins(this->life * 0x333) * (this->rScale * 0.00005f);
+    scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_en_fire.c", 180),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

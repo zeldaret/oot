@@ -354,8 +354,8 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_168--;
     }
     this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
-    this->unk_16C = Math_Sins(this->dyna.actor.posRot.rot.y);
-    this->unk_170 = Math_Coss(this->dyna.actor.posRot.rot.y);
+    this->unk_16C = Math_SinS(this->dyna.actor.posRot.rot.y);
+    this->unk_170 = Math_CosS(this->dyna.actor.posRot.rot.y);
     this->actionFunc(this, globalCtx);
 }
 

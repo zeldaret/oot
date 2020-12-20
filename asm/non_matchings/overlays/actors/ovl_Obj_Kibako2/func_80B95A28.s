@@ -46,12 +46,12 @@ glabel func_80B95A28
 /* 000D4 80B95AA4 241E0010 */  addiu   $s8, $zero, 0x0010         ## $s8 = 00000010
 .L80B95AA8:
 /* 000D8 80B95AA8 00112400 */  sll     $a0, $s1, 16               
-/* 000DC 80B95AAC 0C01DE1C */  jal     Math_Sins
+/* 000DC 80B95AAC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 000E0 80B95AB0 00042403 */  sra     $a0, $a0, 16               
 /* 000E4 80B95AB4 00112400 */  sll     $a0, $s1, 16               
 /* 000E8 80B95AB8 46000506 */  mov.s   $f20, $f0                  
-/* 000EC 80B95ABC 0C01DE0D */  jal     Math_Coss
+/* 000EC 80B95ABC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 000F0 80B95AC0 00042403 */  sra     $a0, $a0, 16               
 /* 000F4 80B95AC4 0C03F66B */  jal     Math_Rand_ZeroOne

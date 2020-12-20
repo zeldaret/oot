@@ -44,7 +44,7 @@ glabel func_80B86CA8
 /* 003F4 80B86D14 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 003F8 80B86D18 0C00B92D */  jal     func_8002E4B4              
 /* 003FC 80B86D1C E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 00400 80B86D20 0C01DE1C */  jal     Math_Sins
+/* 00400 80B86D20 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00404 80B86D24 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00408 80B86D28 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -53,13 +53,13 @@ glabel func_80B86CA8
 /* 00414 80B86D34 00000000 */  nop
 /* 00418 80B86D38 45000005 */  bc1f    .L80B86D50                 
 /* 0041C 80B86D3C 00000000 */  nop
-/* 00420 80B86D40 0C01DE1C */  jal     Math_Sins
+/* 00420 80B86D40 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00424 80B86D44 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00428 80B86D48 10000004 */  beq     $zero, $zero, .L80B86D5C   
 /* 0042C 80B86D4C 46000086 */  mov.s   $f2, $f0                   
 .L80B86D50:
-/* 00430 80B86D50 0C01DE1C */  jal     Math_Sins
+/* 00430 80B86D50 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00434 80B86D54 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00438 80B86D58 46000087 */  neg.s   $f2, $f0                   

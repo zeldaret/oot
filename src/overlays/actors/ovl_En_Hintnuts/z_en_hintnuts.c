@@ -298,9 +298,9 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         EnHintnuts_SetupStand(this);
     } else if (func_800A56C8(&this->skelAnime, 6.0f) != 0) {
-        nutPos.x = (Math_Sins(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
+        nutPos.x = (Math_SinS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
         nutPos.y = this->actor.posRot.pos.y + 12.0f;
-        nutPos.z = (Math_Coss(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
+        nutPos.z = (Math_CosS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);

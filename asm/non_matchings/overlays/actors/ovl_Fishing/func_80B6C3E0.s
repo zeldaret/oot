@@ -339,7 +339,7 @@ glabel func_80B6C3E0
 /* 02EC8 80B6C868 4600D386 */  mov.s   $f14, $f26                 
 /* 02ECC 80B6C86C 46044501 */  sub.s   $f20, $f8, $f4             
 /* 02ED0 80B6C870 46068601 */  sub.s   $f24, $f16, $f6            
-/* 02ED4 80B6C874 0C0341F5 */  jal     atan2f
+/* 02ED4 80B6C874 0C0341F5 */  jal     Math_Atan2F
               
 /* 02ED8 80B6C878 4600A306 */  mov.s   $f12, $f20                 
 /* 02EDC 80B6C87C 461AD282 */  mul.s   $f10, $f26, $f26           
@@ -347,7 +347,7 @@ glabel func_80B6C3E0
 /* 02EE4 80B6C884 4600C386 */  mov.s   $f14, $f24                 
 /* 02EE8 80B6C888 4614A182 */  mul.s   $f6, $f20, $f20            
 /* 02EEC 80B6C88C 46065000 */  add.s   $f0, $f10, $f6             
-/* 02EF0 80B6C890 0C0341F5 */  jal     atan2f
+/* 02EF0 80B6C890 0C0341F5 */  jal     Math_Atan2F
               
 /* 02EF4 80B6C894 46000304 */  sqrt.s  $f12, $f0                  
 /* 02EF8 80B6C898 8FB90104 */  lw      $t9, 0x0104($sp)           

@@ -198,7 +198,7 @@ glabel func_80B0D590
 /* 01A70 80B0D820 44044000 */  mfc1    $a0, $f8                   
 /* 01A74 80B0D824 00000000 */  nop
 /* 01A78 80B0D828 00042400 */  sll     $a0, $a0, 16               
-/* 01A7C 80B0D82C 0C01DE1C */  jal     Math_Sins
+/* 01A7C 80B0D82C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01A80 80B0D830 00042403 */  sra     $a0, $a0, 16               
 /* 01A84 80B0D834 C60A0420 */  lwc1    $f10, 0x0420($s0)          ## 00000420

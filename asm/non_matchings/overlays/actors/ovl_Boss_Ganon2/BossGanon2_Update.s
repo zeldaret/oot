@@ -230,7 +230,7 @@ glabel BossGanon2_Update
 /* 05B08 80902A48 00810019 */  multu   $a0, $at                   
 /* 05B0C 80902A4C 00002012 */  mflo    $a0                        
 /* 05B10 80902A50 00042400 */  sll     $a0, $a0, 16               
-/* 05B14 80902A54 0C01DE1C */  jal     Math_Sins
+/* 05B14 80902A54 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05B18 80902A58 00042403 */  sra     $a0, $a0, 16               
 /* 05B1C 80902A5C 3C014280 */  lui     $at, 0x4280                ## $at = 42800000
@@ -415,7 +415,7 @@ glabel BossGanon2_Update
 /* 05D8C 80902CCC 00006812 */  mflo    $t5                        
 /* 05D90 80902CD0 030D2021 */  addu    $a0, $t8, $t5              
 /* 05D94 80902CD4 00042400 */  sll     $a0, $a0, 16               
-/* 05D98 80902CD8 0C01DE1C */  jal     Math_Sins
+/* 05D98 80902CD8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05D9C 80902CDC 00042403 */  sra     $a0, $a0, 16               
 /* 05DA0 80902CE0 C7A20068 */  lwc1    $f2, 0x0068($sp)           
@@ -442,7 +442,7 @@ glabel BossGanon2_Update
 /* 05DF4 80902D34 0000C812 */  mflo    $t9                        
 /* 05DF8 80902D38 01992021 */  addu    $a0, $t4, $t9              
 /* 05DFC 80902D3C 00042400 */  sll     $a0, $a0, 16               
-/* 05E00 80902D40 0C01DE1C */  jal     Math_Sins
+/* 05E00 80902D40 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05E04 80902D44 00042403 */  sra     $a0, $a0, 16               
 /* 05E08 80902D48 C7A20068 */  lwc1    $f2, 0x0068($sp)           
@@ -735,7 +735,7 @@ glabel L80903110
 /* 06218 80903158 00812021 */  addu    $a0, $a0, $at              
 /* 0621C 8090315C 00042300 */  sll     $a0, $a0, 12               
 /* 06220 80903160 00042400 */  sll     $a0, $a0, 16               
-/* 06224 80903164 0C01DE1C */  jal     Math_Sins
+/* 06224 80903164 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 06228 80903168 00042403 */  sra     $a0, $a0, 16               
 /* 0622C 8090316C 3C018091 */  lui     $at, %hi(D_8090DCE4)       ## $at = 80910000
@@ -789,7 +789,7 @@ glabel L809031D8
 /* 062DC 8090321C 00812023 */  subu    $a0, $a0, $at              
 /* 062E0 80903220 00042300 */  sll     $a0, $a0, 12               
 /* 062E4 80903224 00042400 */  sll     $a0, $a0, 16               
-/* 062E8 80903228 0C01DE1C */  jal     Math_Sins
+/* 062E8 80903228 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 062EC 8090322C 00042403 */  sra     $a0, $a0, 16               
 /* 062F0 80903230 3C018091 */  lui     $at, %hi(D_8090DCEC)       ## $at = 80910000

@@ -625,7 +625,7 @@ glabel L80B78930
 /* 0EFD0 80B78970 460C6182 */  mul.s   $f6, $f12, $f12            
 /* 0EFD4 80B78974 46064000 */  add.s   $f0, $f8, $f6              
 /* 0EFD8 80B78978 46000004 */  sqrt.s  $f0, $f0                   
-/* 0EFDC 80B7897C 0C0341F5 */  jal     atan2f
+/* 0EFDC 80B7897C 0C0341F5 */  jal     Math_Atan2F
               
 /* 0EFE0 80B78980 E7A000EC */  swc1    $f0, 0x00EC($sp)           
 /* 0EFE4 80B78984 46000306 */  mov.s   $f12, $f0                  
@@ -1218,7 +1218,7 @@ glabel L80B791B0
 /* 0F88C 80B7922C 8F241DE4 */  lw      $a0, 0x1DE4($t9)           ## 00001DE4
 /* 0F890 80B79230 00042300 */  sll     $a0, $a0, 12               
 /* 0F894 80B79234 00042400 */  sll     $a0, $a0, 16               
-/* 0F898 80B79238 0C01DE1C */  jal     Math_Sins
+/* 0F898 80B79238 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0F89C 80B7923C 00042403 */  sra     $a0, $a0, 16               
 /* 0F8A0 80B79240 3C0180B8 */  lui     $at, %hi(D_80B7FEE4)       ## $at = 80B80000

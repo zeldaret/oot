@@ -187,12 +187,12 @@ void func_80028894(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity,
 
     *newPos = *srcPos;
 
-    newPos->x += Math_Sins(randAngle) * rand;
-    newPos->z += Math_Coss(randAngle) * rand;
+    newPos->x += Math_SinS(randAngle) * rand;
+    newPos->z += Math_CosS(randAngle) * rand;
 
     velocity->y = 1.0f;
-    velocity->x = Math_Sins(randAngle);
-    velocity->z = Math_Coss(randAngle);
+    velocity->x = Math_SinS(randAngle);
+    velocity->z = Math_CosS(randAngle);
 
     accel->x = 0.0f;
     accel->y = 0.0f;

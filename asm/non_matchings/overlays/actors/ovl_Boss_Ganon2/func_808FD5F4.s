@@ -1668,7 +1668,7 @@ glabel L808FECE8
 /* 01DC0 808FED00 8C841DE4 */  lw      $a0, 0x1DE4($a0)           ## 00011DE4
 /* 01DC4 808FED04 000423C0 */  sll     $a0, $a0, 15
 /* 01DC8 808FED08 00042400 */  sll     $a0, $a0, 16
-/* 01DCC 808FED0C 0C01DE0D */  jal     Math_Coss
+/* 01DCC 808FED0C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01DD0 808FED10 00042403 */  sra     $a0, $a0, 16
 /* 01DD4 808FED14 C6080420 */  lwc1    $f8, 0x0420($s0)           ## 00000420

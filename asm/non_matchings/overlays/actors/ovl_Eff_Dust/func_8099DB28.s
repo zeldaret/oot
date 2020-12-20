@@ -106,12 +106,12 @@ glabel func_8099DB28
 /* 003C4 8099DC94 44102000 */  mfc1    $s0, $f4                   
 /* 003C8 8099DC98 00000000 */  nop
 /* 003CC 8099DC9C 00108400 */  sll     $s0, $s0, 16               
-/* 003D0 8099DCA0 0C01DE0D */  jal     Math_Coss
+/* 003D0 8099DCA0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003D4 8099DCA4 00108403 */  sra     $s0, $s0, 16               
 /* 003D8 8099DCA8 00102400 */  sll     $a0, $s0, 16               
 /* 003DC 8099DCAC 00042403 */  sra     $a0, $a0, 16               
-/* 003E0 8099DCB0 0C01DE0D */  jal     Math_Coss
+/* 003E0 8099DCB0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003E4 8099DCB4 46000506 */  mov.s   $f20, $f0                  
 /* 003E8 8099DCB8 4614C182 */  mul.s   $f6, $f24, $f20            
@@ -121,18 +121,18 @@ glabel func_8099DB28
 /* 003F8 8099DCC8 46060202 */  mul.s   $f8, $f0, $f6              
 /* 003FC 8099DCCC 0000C812 */  mflo    $t9                        
 /* 00400 8099DCD0 02D98821 */  addu    $s1, $s6, $t9              
-/* 00404 8099DCD4 0C01DE1C */  jal     Math_Sins
+/* 00404 8099DCD4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00408 8099DCD8 E628024C */  swc1    $f8, 0x024C($s1)           ## 0000024C
 /* 0040C 8099DCDC 46180282 */  mul.s   $f10, $f0, $f24            
 /* 00410 8099DCE0 00122400 */  sll     $a0, $s2, 16               
 /* 00414 8099DCE4 00042403 */  sra     $a0, $a0, 16               
-/* 00418 8099DCE8 0C01DE1C */  jal     Math_Sins
+/* 00418 8099DCE8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0041C 8099DCEC E62A0250 */  swc1    $f10, 0x0250($s1)          ## 00000250
 /* 00420 8099DCF0 00102400 */  sll     $a0, $s0, 16               
 /* 00424 8099DCF4 00042403 */  sra     $a0, $a0, 16               
-/* 00428 8099DCF8 0C01DE0D */  jal     Math_Coss
+/* 00428 8099DCF8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0042C 8099DCFC 46000506 */  mov.s   $f20, $f0                  
 /* 00430 8099DD00 4614C402 */  mul.s   $f16, $f24, $f20           

@@ -137,8 +137,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
     f32 randCos;
     f32 randSin;
 
-    randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
-    randSin = Math_Sins(this->actor.shape.rot.y + randAngle);
+    randCos = Math_CosS(this->actor.shape.rot.y + randAngle);
+    randSin = Math_SinS(this->actor.shape.rot.y + randAngle);
     if (this->bombSmokePrimColor.r > 30) {
         this->bombSmokePrimColor.r -= 16;
         this->bombSmokePrimColor.g -= 16;
@@ -163,8 +163,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
     func_8002836C(globalCtx, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 100, 25, 20);
 
     randAngle = Math_Rand_ZeroOne() * 0x2000;
-    randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
-    randSin = Math_Sins(this->actor.shape.rot.y + randAngle);
+    randCos = Math_CosS(this->actor.shape.rot.y + randAngle);
+    randSin = Math_SinS(this->actor.shape.rot.y + randAngle);
     pos.x -= randCos * 6.0f;
     pos.z += randSin * 6.0f;
     velocity.x = -randCos * 3.5f;
@@ -175,8 +175,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
     func_8002836C(globalCtx, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 100, 25, 20);
 
     randAngle = Math_Rand_ZeroOne() * 0x2000;
-    randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
-    randSin = Math_Sins(this->actor.shape.rot.y + randAngle);
+    randCos = Math_CosS(this->actor.shape.rot.y + randAngle);
+    randSin = Math_SinS(this->actor.shape.rot.y + randAngle);
 
     pos.x = this->headPos.x + (randCos * 6.0f);
     pos.z = this->headPos.z - (randSin * 6.0f);
@@ -396,16 +396,16 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
         } else {
             pos = this->headPos;
             func_8002829C(globalCtx, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
-            pos.x -= (Math_Coss(this->actor.shape.rot.y) * 6.0f);
-            pos.z += (Math_Sins(this->actor.shape.rot.y) * 6.0f);
+            pos.x -= (Math_CosS(this->actor.shape.rot.y) * 6.0f);
+            pos.z += (Math_SinS(this->actor.shape.rot.y) * 6.0f);
             func_8002829C(globalCtx, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
-            pos.x = this->headPos.x + (Math_Coss(this->actor.shape.rot.y) * 6.0f);
-            pos.z = this->headPos.z - (Math_Sins(this->actor.shape.rot.y) * 6.0f);
+            pos.x = this->headPos.x + (Math_CosS(this->actor.shape.rot.y) * 6.0f);
+            pos.z = this->headPos.z - (Math_SinS(this->actor.shape.rot.y) * 6.0f);
             func_8002829C(globalCtx, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
         }
     }
-    this->bodyScale.y = this->bodyScale.z = (Math_Sins(this->actor.dmgEffectTimer * 0x1000) * 0.5f) + 1.0f;
-    this->bodyScale.x = Math_Sins(this->actor.dmgEffectTimer * 0x1000) + 1.0f;
+    this->bodyScale.y = this->bodyScale.z = (Math_SinS(this->actor.dmgEffectTimer * 0x1000) * 0.5f) + 1.0f;
+    this->bodyScale.x = Math_SinS(this->actor.dmgEffectTimer * 0x1000) + 1.0f;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->timer == 0) {
@@ -637,7 +637,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, GlobalContext* globalCtx) {
     s32 b = 1; // These indices are needed to match.
     s32 c = 2; // Might be a way to quickly test vertex arrangements
     s32 d = 3;
-    f32 xMod = Math_Sinf((this->skelAnime.animCurrentFrame - 28.0f) * 0.08f) * 5500.0f;
+    f32 xMod = Math_SinF((this->skelAnime.animCurrentFrame - 28.0f) * 0.08f) * 5500.0f;
 
     sp7C.x -= xMod;
     sp94.x -= xMod;
@@ -680,9 +680,9 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderAT.base);
         }
     }
-    this->actor.posRot2.pos.x = this->actor.posRot.pos.x + Math_Sins(this->actor.shape.rot.y) * -30.0f;
+    this->actor.posRot2.pos.x = this->actor.posRot.pos.x + Math_SinS(this->actor.shape.rot.y) * -30.0f;
     this->actor.posRot2.pos.y = this->actor.posRot.pos.y + 20.0f;
-    this->actor.posRot2.pos.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y) * -30.0f;
+    this->actor.posRot2.pos.z = this->actor.posRot.pos.z + Math_CosS(this->actor.shape.rot.y) * -30.0f;
 }
 
 s32 EnDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -825,8 +825,8 @@ void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnDodongo_ShiftVecRadial(s16 yaw, f32 radius, Vec3f* vec) {
-    vec->x += Math_Sins(yaw) * radius;
-    vec->z += Math_Coss(yaw) * radius;
+    vec->x += Math_SinS(yaw) * radius;
+    vec->z += Math_CosS(yaw) * radius;
 }
 
 s32 EnDodongo_AteBomb(EnDodongo* this, GlobalContext* globalCtx) {

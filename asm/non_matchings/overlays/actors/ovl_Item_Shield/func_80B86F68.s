@@ -22,7 +22,7 @@ glabel func_80B86F68
 /* 00684 80B86FA4 C4CC0A48 */  lwc1    $f12, 0x0A48($a2)          ## 00000A48
 /* 00688 80B86FA8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0068C 80B86FAC 46007387 */  neg.s   $f14, $f14                 
-/* 00690 80B86FB0 0C034199 */  jal     atan2s
+/* 00690 80B86FB0 0C034199 */  jal     Math_Atan2S
               
 /* 00694 80B86FB4 46006307 */  neg.s   $f12, $f12                 
 /* 00698 80B86FB8 8FA60020 */  lw      $a2, 0x0020($sp)           
@@ -35,7 +35,7 @@ glabel func_80B86F68
 /* 006B4 80B86FD4 46006307 */  neg.s   $f12, $f12                 
 /* 006B8 80B86FD8 46108482 */  mul.s   $f18, $f16, $f16           
 /* 006BC 80B86FDC 46125000 */  add.s   $f0, $f10, $f18            
-/* 006C0 80B86FE0 0C034199 */  jal     atan2s
+/* 006C0 80B86FE0 0C034199 */  jal     Math_Atan2S
               
 /* 006C4 80B86FE4 46000384 */  sqrt.s  $f14, $f0                  
 /* 006C8 80B86FE8 A60200B4 */  sh      $v0, 0x00B4($s0)           ## 000000B4

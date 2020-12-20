@@ -60,7 +60,7 @@ glabel BgVbSima_Update
 /* 00204 808BDF64 86C40174 */  lh      $a0, 0x0174($s6)           ## 00000174
 /* 00208 808BDF68 000423C0 */  sll     $a0, $a0, 15               
 /* 0020C 808BDF6C 00042400 */  sll     $a0, $a0, 16               
-/* 00210 808BDF70 0C01DE0D */  jal     Math_Coss
+/* 00210 808BDF70 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00214 808BDF74 00042403 */  sra     $a0, $a0, 16               
 /* 00218 808BDF78 86C40174 */  lh      $a0, 0x0174($s6)           ## 00000174
@@ -73,7 +73,7 @@ glabel BgVbSima_Update
 /* 00234 808BDF94 00042300 */  sll     $a0, $a0, 12               
 /* 00238 808BDF98 00042400 */  sll     $a0, $a0, 16               
 /* 0023C 808BDF9C E6CA002C */  swc1    $f10, 0x002C($s6)          ## 0000002C
-/* 00240 808BDFA0 0C01DE1C */  jal     Math_Sins
+/* 00240 808BDFA0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00244 808BDFA4 00042403 */  sra     $a0, $a0, 16               
 /* 00248 808BDFA8 4600040D */  trunc.w.s $f16, $f0                  
@@ -91,7 +91,7 @@ glabel BgVbSima_Update
 /* 00278 808BDFD8 00042403 */  sra     $a0, $a0, 16               
 /* 0027C 808BDFDC 00005012 */  mflo    $t2                        
 /* 00280 808BDFE0 A6CA00B4 */  sh      $t2, 0x00B4($s6)           ## 000000B4
-/* 00284 808BDFE4 0C01DE1C */  jal     Math_Sins
+/* 00284 808BDFE4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00288 808BDFE8 00000000 */  nop
 /* 0028C 808BDFEC 4600048D */  trunc.w.s $f18, $f0                  

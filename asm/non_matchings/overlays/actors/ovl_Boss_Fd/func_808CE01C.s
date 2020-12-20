@@ -75,7 +75,7 @@ glabel func_808CE01C
 /* 032D8 808CE098 00812021 */  addu    $a0, $a0, $at              
 /* 032DC 808CE09C 00042200 */  sll     $a0, $a0,  8               
 /* 032E0 808CE0A0 00042400 */  sll     $a0, $a0, 16               
-/* 032E4 808CE0A4 0C01DE1C */  jal     Math_Sins
+/* 032E4 808CE0A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 032E8 808CE0A8 00042403 */  sra     $a0, $a0, 16               
 /* 032EC 808CE0AC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -142,7 +142,7 @@ glabel func_808CE01C
 /* 033D4 808CE194 00812023 */  subu    $a0, $a0, $at              
 /* 033D8 808CE198 00042240 */  sll     $a0, $a0,  9               
 /* 033DC 808CE19C 00042400 */  sll     $a0, $a0, 16               
-/* 033E0 808CE1A0 0C01DE1C */  jal     Math_Sins
+/* 033E0 808CE1A0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 033E4 808CE1A4 00042403 */  sra     $a0, $a0, 16               
 /* 033E8 808CE1A8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -189,7 +189,7 @@ glabel func_808CE01C
 /* 03484 808CE244 00812023 */  subu    $a0, $a0, $at              
 /* 03488 808CE248 00042280 */  sll     $a0, $a0, 10               
 /* 0348C 808CE24C 00042400 */  sll     $a0, $a0, 16               
-/* 03490 808CE250 0C01DE1C */  jal     Math_Sins
+/* 03490 808CE250 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03494 808CE254 00042403 */  sra     $a0, $a0, 16               
 /* 03498 808CE258 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -717,7 +717,7 @@ glabel func_808CE01C
 /* 03BF8 808CE9B8 86240226 */  lh      $a0, 0x0226($s1)           ## 00000226
 /* 03BFC 808CE9BC 00042340 */  sll     $a0, $a0, 13               
 /* 03C00 808CE9C0 00042400 */  sll     $a0, $a0, 16               
-/* 03C04 808CE9C4 0C01DE1C */  jal     Math_Sins
+/* 03C04 808CE9C4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03C08 808CE9C8 00042403 */  sra     $a0, $a0, 16               
 /* 03C0C 808CE9CC 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
@@ -759,7 +759,7 @@ glabel func_808CE01C
 /* 03C9C 808CEA5C 86240226 */  lh      $a0, 0x0226($s1)           ## 00000226
 /* 03CA0 808CEA60 00042340 */  sll     $a0, $a0, 13               
 /* 03CA4 808CEA64 00042400 */  sll     $a0, $a0, 16               
-/* 03CA8 808CEA68 0C01DE1C */  jal     Math_Sins
+/* 03CA8 808CEA68 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03CAC 808CEA6C 00042403 */  sra     $a0, $a0, 16               
 /* 03CB0 808CEA70 46140282 */  mul.s   $f10, $f0, $f20            

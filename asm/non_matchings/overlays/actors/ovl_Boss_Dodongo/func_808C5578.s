@@ -154,7 +154,7 @@ glabel L808C5670
 /* 044E0 808C5670 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 044E4 808C5674 2484EC78 */  addiu   $a0, $a0, 0xEC78           ## $a0 = FFFFEC78
 /* 044E8 808C5678 00042400 */  sll     $a0, $a0, 16
-/* 044EC 808C567C 0C01DE1C */  jal     Math_Sins
+/* 044EC 808C567C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 044F0 808C5680 00042403 */  sra     $a0, $a0, 16
 /* 044F4 808C5684 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
@@ -164,7 +164,7 @@ glabel L808C5670
 /* 04504 808C5694 2484EC78 */  addiu   $a0, $a0, 0xEC78           ## $a0 = FFFFEC78
 /* 04508 808C5698 00042400 */  sll     $a0, $a0, 16
 /* 0450C 808C569C 00042403 */  sra     $a0, $a0, 16
-/* 04510 808C56A0 0C01DE0D */  jal     Math_Coss
+/* 04510 808C56A0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 04514 808C56A4 E7AC0180 */  swc1    $f12, 0x0180($sp)
 /* 04518 808C56A8 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
@@ -205,14 +205,14 @@ glabel L808C5670
 /* 0459C 808C572C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
 
 /* 045A0 808C5730 E7B20010 */  swc1    $f18, 0x0010($sp)
-/* 045A4 808C5734 0C01DE1C */  jal     Math_Sins
+/* 045A4 808C5734 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 045A8 808C5738 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 045AC 808C573C 3C014366 */  lui     $at, 0x4366                ## $at = 43660000
 /* 045B0 808C5740 44812000 */  mtc1    $at, $f4                   ## $f4 = 230.00
 /* 045B4 808C5744 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 045B8 808C5748 46040302 */  mul.s   $f12, $f0, $f4
-/* 045BC 808C574C 0C01DE0D */  jal     Math_Coss
+/* 045BC 808C574C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 045C0 808C5750 E7AC0180 */  swc1    $f12, 0x0180($sp)
 /* 045C4 808C5754 3C014366 */  lui     $at, 0x4366                ## $at = 43660000
@@ -597,7 +597,7 @@ glabel L808C5A4C
 /* 04B38 808C5CC8 00812021 */  addu    $a0, $a0, $at
 /* 04B3C 808C5CCC 000420C0 */  sll     $a0, $a0,  3
 /* 04B40 808C5CD0 00042400 */  sll     $a0, $a0, 16
-/* 04B44 808C5CD4 0C01DE1C */  jal     Math_Sins
+/* 04B44 808C5CD4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04B48 808C5CD8 00042403 */  sra     $a0, $a0, 16
 /* 04B4C 808C5CDC 3C01C248 */  lui     $at, 0xC248                ## $at = C2480000
@@ -615,7 +615,7 @@ glabel L808C5A4C
 /* 04B7C 808C5D0C 000420C0 */  sll     $a0, $a0,  3
 /* 04B80 808C5D10 00042400 */  sll     $a0, $a0, 16
 /* 04B84 808C5D14 00042403 */  sra     $a0, $a0, 16
-/* 04B88 808C5D18 0C01DE1C */  jal     Math_Sins
+/* 04B88 808C5D18 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04B8C 808C5D1C E608023C */  swc1    $f8, 0x023C($s0)           ## 0000023C
 /* 04B90 808C5D20 C7A20178 */  lwc1    $f2, 0x0178($sp)
@@ -721,7 +721,7 @@ glabel L808C5A4C
 
 /* 04D0C 808C5E9C E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 04D10 808C5EA0 C7AC0180 */  lwc1    $f12, 0x0180($sp)
-/* 04D14 808C5EA4 0C03F494 */  jal     Math_atan2f
+/* 04D14 808C5EA4 0C03F494 */  jal     MathF_Atan2
 /* 04D18 808C5EA8 C7AE017C */  lwc1    $f14, 0x017C($sp)
 /* 04D1C 808C5EAC 3C01808D */  lui     $at, %hi(D_808CA7A8)       ## $at = 808D0000
 /* 04D20 808C5EB0 C426A7A8 */  lwc1    $f6, %lo(D_808CA7A8)($at)
@@ -840,7 +840,7 @@ glabel L808C5FE4
 /* 04EC4 808C6054 460E7182 */  mul.s   $f6, $f14, $f14
 /* 04EC8 808C6058 46062000 */  add.s   $f0, $f4, $f6
 /* 04ECC 808C605C 46000004 */  sqrt.s  $f0, $f0
-/* 04ED0 808C6060 0C03F494 */  jal     Math_atan2f
+/* 04ED0 808C6060 0C03F494 */  jal     MathF_Atan2
 /* 04ED4 808C6064 E600022C */  swc1    $f0, 0x022C($s0)           ## 0000022C
 /* 04ED8 808C6068 2419015E */  addiu   $t9, $zero, 0x015E         ## $t9 = 0000015E
 /* 04EDC 808C606C 24080009 */  addiu   $t0, $zero, 0x0009         ## $t0 = 00000009
@@ -1532,11 +1532,11 @@ glabel L808C5FE4
 /* 0587C 808C6A0C 0C03E803 */  jal     Audio_SetBGM
 
 /* 05880 808C6A10 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
-/* 05884 808C6A14 0C01DE1C */  jal     Math_Sins
+/* 05884 808C6A14 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05888 808C6A18 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0588C 808C6A1C E7A00050 */  swc1    $f0, 0x0050($sp)
-/* 05890 808C6A20 0C01DE0D */  jal     Math_Coss
+/* 05890 808C6A20 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 05894 808C6A24 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 05898 808C6A28 3C01C248 */  lui     $at, 0xC248                ## $at = C2480000

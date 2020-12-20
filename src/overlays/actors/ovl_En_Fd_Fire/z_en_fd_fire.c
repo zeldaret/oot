@@ -107,8 +107,8 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f targetPos = this->actor.parent->posRot.pos;
 
-    targetPos.x += this->spawnRadius * Math_Sins(this->actor.posRot.rot.y);
-    targetPos.z += this->spawnRadius * Math_Coss(this->actor.posRot.rot.y);
+    targetPos.x += this->spawnRadius * Math_SinS(this->actor.posRot.rot.y);
+    targetPos.z += this->spawnRadius * Math_CosS(this->actor.posRot.rot.y);
     EnFdFire_UpdatePos(this, &targetPos);
     if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
@@ -209,8 +209,8 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
     sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - Camera_GetCamDirYaw(ACTIVE_CAM);
-    sp84 = fabsf(Math_Coss(sp8E));
-    sp88 = Math_Sins(sp8E);
+    sp84 = fabsf(Math_CosS(sp8E));
+    sp88 = Math_SinS(sp8E);
     sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
     if (1) {}
     if (1) {}

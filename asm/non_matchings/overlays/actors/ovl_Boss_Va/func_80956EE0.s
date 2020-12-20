@@ -127,7 +127,7 @@ glabel func_80956EE0
               
 /* 07DDC 8095709C A4690032 */  sh      $t1, 0x0032($v1)           ## 00000032
 .L809570A0:
-/* 07DE0 809570A0 0C01DE1C */  jal     Math_Sins
+/* 07DE0 809570A0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 07DE4 809570A4 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 07DE8 809570A8 C60401A0 */  lwc1    $f4, 0x01A0($s0)           ## 000001A0
@@ -135,7 +135,7 @@ glabel func_80956EE0
 /* 07DF0 809570B0 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 07DF4 809570B4 46040202 */  mul.s   $f8, $f0, $f4              
 /* 07DF8 809570B8 460A4400 */  add.s   $f16, $f8, $f10            
-/* 07DFC 809570BC 0C01DE0D */  jal     Math_Coss
+/* 07DFC 809570BC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 07E00 809570C0 E6100024 */  swc1    $f16, 0x0024($s0)          ## 00000024
 /* 07E04 809570C4 C61201A0 */  lwc1    $f18, 0x01A0($s0)          ## 000001A0
@@ -151,7 +151,7 @@ glabel func_80956EE0
 /* 07E2C 809570EC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 07E30 809570F0 E7AA0010 */  swc1    $f10, 0x0010($sp)          
-/* 07E34 809570F4 0C0329C8 */  jal     Math_Sinf              
+/* 07E34 809570F4 0C0329C8 */  jal     Math_SinF              
 /* 07E38 809570F8 C60C01A4 */  lwc1    $f12, 0x01A4($s0)          ## 000001A4
 /* 07E3C 809570FC 46000480 */  add.s   $f18, $f0, $f0             
 /* 07E40 80957100 C6100028 */  lwc1    $f16, 0x0028($s0)          ## 00000028

@@ -70,11 +70,11 @@ glabel func_80A16200
               ## Rand.Next() float
 /* 01058 80A162D8 00000000 */  nop
 /* 0105C 80A162DC E7A00034 */  swc1    $f0, 0x0034($sp)           
-/* 01060 80A162E0 0C01DE1C */  jal     Math_Sins
+/* 01060 80A162E0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01064 80A162E4 8604024E */  lh      $a0, 0x024E($s0)           ## 0000024E
 /* 01068 80A162E8 E7A00038 */  swc1    $f0, 0x0038($sp)           
-/* 0106C 80A162EC 0C01DE1C */  jal     Math_Sins
+/* 0106C 80A162EC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01070 80A162F0 8604024C */  lh      $a0, 0x024C($s0)           ## 0000024C
 /* 01074 80A162F4 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

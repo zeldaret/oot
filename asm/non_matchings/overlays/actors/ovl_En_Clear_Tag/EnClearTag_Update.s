@@ -164,7 +164,7 @@ glabel EnClearTag_Update
 /* 0084C 809D3DFC 27280014 */  addiu   $t0, $t9, 0x0014           ## $t0 = 00000014
 /* 00850 809D3E00 15210028 */  bne     $t1, $at, .L809D3EA4       
 /* 00854 809D3E04 A6280150 */  sh      $t0, 0x0150($s1)           ## 00000150
-/* 00858 809D3E08 0C01DE1C */  jal     Math_Sins
+/* 00858 809D3E08 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0085C 809D3E0C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B7
 /* 00860 809D3E10 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
@@ -172,7 +172,7 @@ glabel EnClearTag_Update
 /* 00868 809D3E18 00000000 */  nop
 /* 0086C 809D3E1C 460A0482 */  mul.s   $f18, $f0, $f10            
 /* 00870 809D3E20 E7B20094 */  swc1    $f18, 0x0094($sp)          
-/* 00874 809D3E24 0C01DE0D */  jal     Math_Coss
+/* 00874 809D3E24 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00878 809D3E28 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B7
 /* 0087C 809D3E2C 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
@@ -350,7 +350,7 @@ glabel EnClearTag_Update
 .L809D409C:
 /* 00AEC 809D409C C7AC00B0 */  lwc1    $f12, 0x00B0($sp)          
 /* 00AF0 809D40A0 E7A2003C */  swc1    $f2, 0x003C($sp)           
-/* 00AF4 809D40A4 0C03F494 */  jal     Math_atan2f              
+/* 00AF4 809D40A4 0C03F494 */  jal     MathF_Atan2              
 /* 00AF8 809D40A8 E7B00038 */  swc1    $f16, 0x0038($sp)          
 /* 00AFC 809D40AC 3C01809E */  lui     $at, %hi(D_809DC0F0)       ## $at = 809E0000
 /* 00B00 809D40B0 C432C0F0 */  lwc1    $f18, %lo(D_809DC0F0)($at) 
@@ -364,7 +364,7 @@ glabel EnClearTag_Update
 /* 00B20 809D40D0 44103000 */  mfc1    $s0, $f6                   
 /* 00B24 809D40D4 00000000 */  nop
 /* 00B28 809D40D8 00108400 */  sll     $s0, $s0, 16               
-/* 00B2C 809D40DC 0C03F494 */  jal     Math_atan2f              
+/* 00B2C 809D40DC 0C03F494 */  jal     MathF_Atan2              
 /* 00B30 809D40E0 00108403 */  sra     $s0, $s0, 16               
 /* 00B34 809D40E4 3C01809E */  lui     $at, %hi(D_809DC0F4)       ## $at = 809E0000
 /* 00B38 809D40E8 C428C0F4 */  lwc1    $f8, %lo(D_809DC0F4)($at)  
@@ -773,7 +773,7 @@ glabel EnClearTag_Update
 /* 010D0 809D4680 00108400 */  sll     $s0, $s0, 16               
 /* 010D4 809D4684 00108403 */  sra     $s0, $s0, 16               
 /* 010D8 809D4688 00102400 */  sll     $a0, $s0, 16               
-/* 010DC 809D468C 0C01DE1C */  jal     Math_Sins
+/* 010DC 809D468C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 010E0 809D4690 00042403 */  sra     $a0, $a0, 16               
 /* 010E4 809D4694 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -781,7 +781,7 @@ glabel EnClearTag_Update
 /* 010EC 809D469C 00102400 */  sll     $a0, $s0, 16               
 /* 010F0 809D46A0 00042403 */  sra     $a0, $a0, 16               
 /* 010F4 809D46A4 46120182 */  mul.s   $f6, $f0, $f18             
-/* 010F8 809D46A8 0C01DE0D */  jal     Math_Coss
+/* 010F8 809D46A8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 010FC 809D46AC E7A6008C */  swc1    $f6, 0x008C($sp)           
 /* 01100 809D46B0 C6280024 */  lwc1    $f8, 0x0024($s1)           ## 00000024

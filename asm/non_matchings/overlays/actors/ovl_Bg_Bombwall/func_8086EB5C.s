@@ -14,11 +14,11 @@ glabel func_8086EB5C
 /* 003BC 8086EB8C F7B60028 */  sdc1    $f22, 0x0028($sp)          
 /* 003C0 8086EB90 F7B40020 */  sdc1    $f20, 0x0020($sp)          
 /* 003C4 8086EB94 00A0A025 */  or      $s4, $a1, $zero            ## $s4 = 00000000
-/* 003C8 8086EB98 0C01DE1C */  jal     Math_Sins
+/* 003C8 8086EB98 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 003CC 8086EB9C 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
 /* 003D0 8086EBA0 46000586 */  mov.s   $f22, $f0                  
-/* 003D4 8086EBA4 0C01DE0D */  jal     Math_Coss
+/* 003D4 8086EBA4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003D8 8086EBA8 864400B6 */  lh      $a0, 0x00B6($s2)           ## 000000B6
 /* 003DC 8086EBAC 3C014370 */  lui     $at, 0x4370                ## $at = 43700000

@@ -500,7 +500,7 @@ void func_80AEB7D0(EnRu1* this) {
 f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {
     s32 csCtxFrames = globalCtx->csCtx.frames;
     if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
-        return (Math_Coss(((csCtxFrames - csCmdNPCAction->startFrame) /
+        return (Math_CosS(((csCtxFrames - csCmdNPCAction->startFrame) /
                            (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
                           32768.0f) *
                 -0.5f) +
@@ -1017,9 +1017,9 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
 
     yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
+    spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsLink)) + pos->z;
     this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
                                        0, yawTowardsLink, 0, 5);
 }
@@ -1045,9 +1045,9 @@ void func_80AECE20(EnRu1* this, GlobalContext* globalCtx) {
     f32 unk_27C = this->unk_27C;
     Vec3f* pos = &thisx->posRot.pos;
 
-    pos->x = (Math_Sins(shapeRotY) * unk_27C) + playerPos->x;
+    pos->x = (Math_SinS(shapeRotY) * unk_27C) + playerPos->x;
     pos->y = playerPos->y;
-    pos->z = (Math_Coss(shapeRotY) * unk_27C) + playerPos->z;
+    pos->z = (Math_CosS(shapeRotY) * unk_27C) + playerPos->z;
 }
 
 void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1057,8 +1057,8 @@ void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
     Vec3f* pos = &thisx->posRot.pos;
     s16 shapeRotY = thisx->shape.rot.y;
 
-    player_unk_450->x = ((kREG(2) + 30.0f) * Math_Sins(shapeRotY)) + pos->x;
-    player_unk_450->z = ((kREG(2) + 30.0f) * Math_Coss(shapeRotY)) + pos->z;
+    player_unk_450->x = ((kREG(2) + 30.0f) * Math_SinS(shapeRotY)) + pos->x;
+    player_unk_450->z = ((kREG(2) + 30.0f) * Math_CosS(shapeRotY)) + pos->z;
 }
 
 s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
@@ -1079,7 +1079,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
         temp2 = this->actor.posRot.pos.z - player->actor.posRot.pos.z;
-        temp_f16 = Math_atan2f(temp1, temp2) * 10430.3779296875f;
+        temp_f16 = MathF_Atan2(temp1, temp2) * 10430.3779296875f;
         if (*shapeRotY != temp_f16) {
             Math_SmoothScaleMaxMinS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.posRot.rot.y = *shapeRotY;
@@ -1491,8 +1491,8 @@ void func_80AEE050(EnRu1* this) {
             if (this->actor.speedXZ <= 0.1f) {
                 this->actor.speedXZ = 0.0f;
             }
-            this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-            this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
             func_8002D7EC(this);
         }
     } else {
@@ -1504,7 +1504,7 @@ void func_80AEE050(EnRu1* this) {
             } else {
                 sp28 = this->unk_358;
                 sp24 = this->unk_354;
-                temp_f10 = Math_Coss(this->unk_35C) * -sp28;
+                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
                 this->actor.posRot.pos.y = temp_f10 + sp24;
                 this->unk_35C += 0x3E8;
                 this->unk_358 *= 0.95f;

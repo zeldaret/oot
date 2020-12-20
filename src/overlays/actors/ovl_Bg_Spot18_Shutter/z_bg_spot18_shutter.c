@@ -67,8 +67,8 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (gSaveContext.infTable[16] & 0x200) {
-            this->dyna.actor.posRot.pos.x += 125.0f * Math_Coss(this->dyna.actor.posRot.rot.y);
-            this->dyna.actor.posRot.pos.z -= 125.0f * Math_Sins(this->dyna.actor.posRot.rot.y);
+            this->dyna.actor.posRot.pos.x += 125.0f * Math_CosS(this->dyna.actor.posRot.rot.y);
+            this->dyna.actor.posRot.pos.z -= 125.0f * Math_SinS(this->dyna.actor.posRot.rot.y);
             this->actionFunc = func_808B95AC;
         } else {
             this->actionFunc = func_808B9618;
@@ -118,8 +118,8 @@ void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    f32 sin = Math_Sins(this->dyna.actor.posRot.rot.y);
-    f32 cos = Math_Coss(this->dyna.actor.posRot.rot.y);
+    f32 sin = Math_SinS(this->dyna.actor.posRot.rot.y);
+    f32 cos = Math_CosS(this->dyna.actor.posRot.rot.y);
     s32 flag =
         Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) &
         1;

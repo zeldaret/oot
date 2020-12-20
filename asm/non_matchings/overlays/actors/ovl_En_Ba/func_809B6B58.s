@@ -267,7 +267,7 @@ glabel func_809B6B58
 /* 00BD8 809B6F28 00810019 */  multu   $a0, $at
 /* 00BDC 809B6F2C 00002012 */  mflo    $a0
 /* 00BE0 809B6F30 00042400 */  sll     $a0, $a0, 16
-/* 00BE4 809B6F34 0C01DE0D */  jal     Math_Coss
+/* 00BE4 809B6F34 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00BE8 809B6F38 00042403 */  sra     $a0, $a0, 16
 /* 00BEC 809B6F3C 02540019 */  multu   $s2, $s4

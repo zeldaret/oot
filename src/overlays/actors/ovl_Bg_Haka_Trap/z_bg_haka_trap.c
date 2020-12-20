@@ -180,8 +180,8 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.posRot.pos);
 
-    sine = Math_Sins(this->dyna.actor.shape.rot.y);
-    cosine = Math_Coss(this->dyna.actor.shape.rot.y);
+    sine = Math_SinS(this->dyna.actor.shape.rot.y);
+    cosine = Math_CosS(this->dyna.actor.shape.rot.y);
     if (this->dyna.actor.params == HAKA_TRAP_GUILLOTINE_SLOW) {
         sp28.x = CLAMP(sp28.x, -50.0f, 50.0f);
         zNonNegative = (sp28.z >= 0.0f) ? 1.0f : -1.0f;

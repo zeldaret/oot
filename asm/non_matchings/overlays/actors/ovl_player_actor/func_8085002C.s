@@ -31,7 +31,7 @@ glabel func_8085002C
 /* 1DE90 808500A0 012A2023 */  subu    $a0, $t1, $t2              
 /* 1DE94 808500A4 00042400 */  sll     $a0, $a0, 16               
 /* 1DE98 808500A8 00042403 */  sra     $a0, $a0, 16               
-/* 1DE9C 808500AC 0C01DE0D */  jal     Math_Coss
+/* 1DE9C 808500AC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 1DEA0 808500B0 A7A40026 */  sh      $a0, 0x0026($sp)           
 /* 1DEA4 808500B4 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
@@ -54,7 +54,7 @@ glabel func_8085002C
 /* 1DEE4 808500F4 46102182 */  mul.s   $f6, $f4, $f16             
 /* 1DEE8 808500F8 4600320D */  trunc.w.s $f8, $f6                   
 /* 1DEEC 808500FC 440E4000 */  mfc1    $t6, $f8                   
-/* 1DEF0 80850100 0C01DE1C */  jal     Math_Sins
+/* 1DEF0 80850100 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 1DEF4 80850104 A7AE0028 */  sh      $t6, 0x0028($sp)           
 /* 1DEF8 80850108 3C014000 */  lui     $at, 0x4000                ## $at = 40000000

@@ -163,9 +163,9 @@ u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
 
     if (this->actor.xzDistFromLink < 60.0f) {
         Vec3f tempPos;
-        tempPos.x = Math_Sins(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.x;
+        tempPos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.x;
         tempPos.y = player->actor.posRot.pos.y;
-        tempPos.z = Math_Coss(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.z;
+        tempPos.z = Math_CosS(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.z;
         if (EnIceHono_SquareDist(&tempPos, &this->actor.posRot.pos) <= SQ(40.0f)) {
             return 1;
         }
@@ -322,8 +322,8 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         this->unk_154 += 0x1111;
         this->unk_156 += 0x4000;
-        sin156 = Math_Sins(this->unk_156);
-        sin154 = Math_Sins(this->unk_154);
+        sin156 = Math_SinS(this->unk_156);
+        sin154 = Math_SinS(this->unk_154);
         intensity = (Math_Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             // Translates to: "impossible value(ratio = %f)"

@@ -291,7 +291,7 @@ glabel EnWood02_Update
 /* 00BA0 80B3BB10 00812023 */  subu    $a0, $a0, $at              
 /* 00BA4 80B3BB14 000420C0 */  sll     $a0, $a0,  3               
 /* 00BA8 80B3BB18 00042400 */  sll     $a0, $a0, 16               
-/* 00BAC 80B3BB1C 0C01DE1C */  jal     Math_Sins
+/* 00BAC 80B3BB1C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00BB0 80B3BB20 00042403 */  sra     $a0, $a0, 16               
 /* 00BB4 80B3BB24 3C014680 */  lui     $at, 0x4680                ## $at = 46800000
@@ -321,7 +321,7 @@ glabel EnWood02_Update
 /* 00C08 80B3BB78 00810019 */  multu   $a0, $at                   
 /* 00C0C 80B3BB7C 00002012 */  mflo    $a0                        
 /* 00C10 80B3BB80 00042400 */  sll     $a0, $a0, 16               
-/* 00C14 80B3BB84 0C01DE1C */  jal     Math_Sins
+/* 00C14 80B3BB84 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00C18 80B3BB88 00042403 */  sra     $a0, $a0, 16               
 /* 00C1C 80B3BB8C 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
@@ -333,7 +333,7 @@ glabel EnWood02_Update
 /* 00C34 80B3BBA4 862E008A */  lh      $t6, 0x008A($s1)           ## 0000008A
 /* 00C38 80B3BBA8 01CF2023 */  subu    $a0, $t6, $t7              
 /* 00C3C 80B3BBAC 00042400 */  sll     $a0, $a0, 16               
-/* 00C40 80B3BBB0 0C01DE0D */  jal     Math_Coss
+/* 00C40 80B3BBB0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00C44 80B3BBB4 00042403 */  sra     $a0, $a0, 16               
 /* 00C48 80B3BBB8 C7B2006C */  lwc1    $f18, 0x006C($sp)          
@@ -345,7 +345,7 @@ glabel EnWood02_Update
 /* 00C60 80B3BBD0 00042403 */  sra     $a0, $a0, 16               
 /* 00C64 80B3BBD4 4600218D */  trunc.w.s $f6, $f4                   
 /* 00C68 80B3BBD8 44193000 */  mfc1    $t9, $f6                   
-/* 00C6C 80B3BBDC 0C01DE1C */  jal     Math_Sins
+/* 00C6C 80B3BBDC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00C70 80B3BBE0 A63900B4 */  sh      $t9, 0x00B4($s1)           ## 000000B4
 /* 00C74 80B3BBE4 C7A8006C */  lwc1    $f8, 0x006C($sp)           

@@ -97,8 +97,8 @@ void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
     s16 startAngle = this->actor.shape.rot.y + this->direction * -0x4000;
 
-    this->actor.posRot.pos.x = (Math_Sins(startAngle) * 885.4f) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(startAngle) * 885.4f) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
 }
 
 void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx) {
@@ -192,8 +192,8 @@ void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
         projPos.x = CLAMP(projPos.x, -500.0f, 500.0f);
     }
 
-    sn = Math_Sins(this->actor.shape.rot.y);
-    cs = Math_Coss(this->actor.shape.rot.y);
+    sn = Math_SinS(this->actor.shape.rot.y);
+    cs = Math_CosS(this->actor.shape.rot.y);
     this->collider.dim.pos.x = this->actor.posRot.pos.x + (projPos.x * cs) + (projPos.z * sn);
     this->collider.dim.pos.z = this->actor.posRot.pos.z - (projPos.x * sn) + (projPos.z * cs);
     this->collider.dim.pos.y = this->actor.posRot.pos.y;

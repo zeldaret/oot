@@ -258,7 +258,7 @@ glabel L80B3B470
 /* 0063C 80B3B5AC 014B6021 */  addu    $t4, $t2, $t3              
 /* 00640 80B3B5B0 01822021 */  addu    $a0, $t4, $v0              
 /* 00644 80B3B5B4 00042400 */  sll     $a0, $a0, 16               
-/* 00648 80B3B5B8 0C01DE0D */  jal     Math_Coss
+/* 00648 80B3B5B8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0064C 80B3B5BC 00042403 */  sra     $a0, $a0, 16               
 /* 00650 80B3B5C0 3C0180B4 */  lui     $at, %hi(D_80B3C1D0)       ## $at = 80B40000
@@ -270,7 +270,7 @@ glabel L80B3B470
 /* 00668 80B3B5D8 01AEC021 */  addu    $t8, $t5, $t6              
 /* 0066C 80B3B5DC 03022021 */  addu    $a0, $t8, $v0              
 /* 00670 80B3B5E0 00042400 */  sll     $a0, $a0, 16               
-/* 00674 80B3B5E4 0C01DE1C */  jal     Math_Sins
+/* 00674 80B3B5E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00678 80B3B5E8 00042403 */  sra     $a0, $a0, 16               
 /* 0067C 80B3B5EC 3C0280B4 */  lui     $v0, %hi(D_80B3C1D4)       ## $v0 = 80B40000

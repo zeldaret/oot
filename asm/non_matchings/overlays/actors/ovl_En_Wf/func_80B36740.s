@@ -129,7 +129,7 @@ glabel func_80B36740
 /* 02C40 80B368F0 00000000 */  nop
 /* 02C44 80B368F4 45030010 */  bc1tl   .L80B36938                 
 /* 02C48 80B368F8 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
-/* 02C4C 80B368FC 0C01DE1C */  jal     Math_Sins
+/* 02C4C 80B368FC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02C50 80B36900 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 02C54 80B36904 C60402EC */  lwc1    $f4, 0x02EC($s0)           ## 000002EC
@@ -137,7 +137,7 @@ glabel func_80B36740
 /* 02C5C 80B3690C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 02C60 80B36910 46040182 */  mul.s   $f6, $f0, $f4              
 /* 02C64 80B36914 46069200 */  add.s   $f8, $f18, $f6             
-/* 02C68 80B36918 0C01DE0D */  jal     Math_Coss
+/* 02C68 80B36918 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02C6C 80B3691C E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 02C70 80B36920 C60202EC */  lwc1    $f2, 0x02EC($s0)           ## 000002EC

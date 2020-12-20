@@ -107,8 +107,8 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
     Vec3f velocity;
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
-        f32 sn = Math_Sins(angle);
-        f32 cs = Math_Coss(angle);
+        f32 sn = Math_SinS(angle);
+        f32 cs = Math_CosS(angle);
         f32 temp_rand;
         s16 phi_s0;
 
@@ -148,8 +148,8 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
-        f32 sn = Math_Sins(angle);
-        f32 cs = Math_Coss(angle);
+        f32 sn = Math_SinS(angle);
+        f32 cs = Math_CosS(angle);
         f32 temp_rand;
         s16 phi_s0;
 
@@ -232,8 +232,8 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako_SetupThrown(ObjKibako* this) {
-    this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.colChkInfo.mass = 240;
     this->actionFunc = ObjKibako_Thrown;
 }

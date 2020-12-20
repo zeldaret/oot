@@ -197,8 +197,8 @@ void func_80AD9240(EnPoSisters* this, s32 arg1, Vec3f* arg2) {
 
     for (i = 0; i < this->unk_198; i++) {
         vec = &this->unk_234[i];
-        vec->x = arg2->x + Math_Sins((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
-        vec->z = arg2->z + Math_Coss((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
+        vec->x = arg2->x + Math_SinS((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
+        vec->z = arg2->z + Math_CosS((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
         vec->y = arg2->y + arg1;
     }
 }
@@ -308,8 +308,8 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
     } else if (this->unk_195 != 0) {
         sp20 = this->actor.parent->xzDistFromLink;
     }
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.z;
 }
 
 void func_80AD98F4(EnPoSisters* this, GlobalContext* globalCtx) {
@@ -542,7 +542,7 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_Sins(this->unk_196 * 0x800);
+    this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_SinS(this->unk_196 * 0x800);
     if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
         if (this->actionFunc == func_80ADAC70) {
             func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
@@ -742,10 +742,10 @@ void func_80ADAFC0(EnPoSisters* this, GlobalContext* globalCtx) {
         this->unk_234[i] = this->unk_234[i - 1];
     }
     this->unk_234[0].x =
-        (Math_Sins((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+        (Math_SinS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.posRot.pos.x;
     this->unk_234[0].z =
-        (Math_Coss((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+        (Math_CosS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.posRot.pos.z;
     if (this->unk_19A < 8) {
         this->unk_234[0].y = this->unk_234[1].y - 9.0f;
@@ -902,7 +902,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
             if (this->unk_195 == 0) {
                 if (ABS((s16)(16 - this->unk_196)) < 14) {
                     this->actor.shape.rot.y +=
-                        (0x580 - (this->unk_19C * 0x180)) * fabsf(Math_Sins(this->unk_196 * 0x800));
+                        (0x580 - (this->unk_19C * 0x180)) * fabsf(Math_SinS(this->unk_196 * 0x800));
                 }
                 if (this->unk_19A >= 284 || this->unk_19A < 31) {
                     this->unk_199 |= 0x40;

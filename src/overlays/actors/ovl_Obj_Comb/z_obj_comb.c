@@ -74,9 +74,9 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         angle += 20000;
         rand1 = Math_Rand_ZeroOne() * 10.0f;
 
-        pos1.x = Math_Sins(angle) * rand1;
+        pos1.x = Math_SinS(angle) * rand1;
         pos1.y = (i - 15) * 0.7f;
-        pos1.z = Math_Coss(angle) * rand1;
+        pos1.z = Math_CosS(angle) * rand1;
 
         Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
 
@@ -188,7 +188,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {

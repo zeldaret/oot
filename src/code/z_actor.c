@@ -28,7 +28,7 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
                               COMBINED);
 
             temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
-            temp2 = 1.0f - (temp1 * (1.f / 350));
+            temp2 = 1.0f - (temp1 * (1.0f / 350));
 
             if (color != NULL) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, color->r, color->g, color->b,
@@ -44,7 +44,7 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
             }
 
-            temp2 = (1.0f - (temp1 * (1.f / 350))) * actor->shape.unk_10;
+            temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.unk_10;
             Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 1588),
@@ -80,7 +80,7 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0,
                     (u32)(((arg3 * 0.00005f) > 1.0f ? 1.0f : (arg3 * 0.00005f)) * arg4) & 0xFF);
 
-    sp58 = Math_atan2f(light->l.dir[0], light->l.dir[2]);
+    sp58 = MathF_Atan2(light->l.dir[0], light->l.dir[2]);
     arg6 *= (4.5f - (light->l.dir[1] * 0.035f));
     arg6 = (arg6 < 1.0f) ? 1.0f : arg6;
     Matrix_Put(arg2);
@@ -853,8 +853,8 @@ void func_8002D7EC(Actor* actor) {
 }
 
 void func_8002D868(Actor* actor) {
-    actor->velocity.x = Math_Sins(actor->posRot.rot.y) * actor->speedXZ;
-    actor->velocity.z = Math_Coss(actor->posRot.rot.y) * actor->speedXZ;
+    actor->velocity.x = Math_SinS(actor->posRot.rot.y) * actor->speedXZ;
+    actor->velocity.z = Math_CosS(actor->posRot.rot.y) * actor->speedXZ;
 
     actor->velocity.y += actor->gravity;
     if (actor->velocity.y < actor->minVelocityY) {
@@ -868,10 +868,10 @@ void Actor_MoveForward(Actor* actor) {
 }
 
 void func_8002D908(Actor* actor) {
-    f32 sp24 = Math_Coss(actor->posRot.rot.x) * actor->speedXZ;
-    actor->velocity.x = Math_Sins(actor->posRot.rot.y) * sp24;
-    actor->velocity.y = Math_Sins(actor->posRot.rot.x) * actor->speedXZ;
-    actor->velocity.z = Math_Coss(actor->posRot.rot.y) * sp24;
+    f32 sp24 = Math_CosS(actor->posRot.rot.x) * actor->speedXZ;
+    actor->velocity.x = Math_SinS(actor->posRot.rot.y) * sp24;
+    actor->velocity.y = Math_SinS(actor->posRot.rot.x) * actor->speedXZ;
+    actor->velocity.z = Math_CosS(actor->posRot.rot.y) * sp24;
 }
 
 void func_8002D97C(Actor* actor) {
@@ -880,8 +880,8 @@ void func_8002D97C(Actor* actor) {
 }
 
 void func_8002D9A4(Actor* actor, f32 arg1) {
-    actor->speedXZ = Math_Coss(actor->posRot.rot.x) * arg1;
-    actor->velocity.y = -Math_Sins(actor->posRot.rot.x) * arg1;
+    actor->speedXZ = Math_CosS(actor->posRot.rot.x) * arg1;
+    actor->velocity.y = -Math_SinS(actor->posRot.rot.x) * arg1;
 }
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
@@ -938,8 +938,8 @@ void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
     f32 deltaX;
     f32 deltaZ;
 
-    cosRot2Y = Math_Coss(actor->shape.rot.y);
-    sinRot2Y = Math_Sins(actor->shape.rot.y);
+    cosRot2Y = Math_CosS(actor->shape.rot.y);
+    sinRot2Y = Math_SinS(actor->shape.rot.y);
     deltaX = arg2->x - actor->posRot.pos.x;
     deltaZ = arg2->z - actor->posRot.pos.z;
 
@@ -1223,7 +1223,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                                             &actor->wallPoly, &sp60, actor, arg2))) {
             sp5C = actor->wallPoly;
             Math_Vec3f_Copy(&actor->posRot.pos, &sp64);
-            actor->wallPolyRot = atan2s(sp5C->norm.z, sp5C->norm.x);
+            actor->wallPolyRot = Math_Atan2S(sp5C->norm.z, sp5C->norm.x);
             actor->bgCheckFlags |= 8;
             actor->wallPolySource = sp60;
         } else {
@@ -3153,8 +3153,8 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     accel.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {
-        pos.x = (Math_Sinf(var) * arg3) + arg2->x;
-        pos.z = (Math_Cosf(var) * arg3) + arg2->z;
+        pos.x = (Math_SinF(var) * arg3) + arg2->x;
+        pos.z = (Math_CosF(var) * arg3) + arg2->z;
         accel.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
         accel.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
 
@@ -3256,9 +3256,9 @@ Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
                 (itemActor->unk_210 == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_Sins(itemActor->actor.posRot.rot.y) * (itemActor->actor.speedXZ * 10.0f);
+                deltaX = Math_SinS(itemActor->actor.posRot.rot.y) * (itemActor->actor.speedXZ * 10.0f);
                 deltaY = itemActor->actor.velocity.y + (itemActor->actor.gravity * 10.0f);
-                deltaZ = Math_Coss(itemActor->actor.posRot.rot.y) * (itemActor->actor.speedXZ * 10.0f);
+                deltaZ = Math_CosS(itemActor->actor.posRot.rot.y) * (itemActor->actor.speedXZ * 10.0f);
 
                 spA8.x = itemActor->actor.posRot.pos.x + deltaX;
                 spA8.y = itemActor->actor.posRot.pos.y + deltaY;
@@ -3366,8 +3366,8 @@ s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
 
     Math_Vec3f_Copy(&sp30, &actor->posRot.pos);
     sp44 = actor->bgCheckFlags;
-    sp40 = Math_Sins(arg3) * arg2;
-    sp3C = Math_Coss(arg3) * arg2;
+    sp40 = Math_SinS(arg3) * arg2;
+    sp3C = Math_CosS(arg3) * arg2;
     actor->posRot.pos.x += sp40;
     actor->posRot.pos.z += sp3C;
     func_8002E4B4(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
@@ -4070,8 +4070,8 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2[1] = atan2s(dz, dx);
-    arg2[0] = atan2s(sqrtf(SQ(dx) + SQ(dz)), dy);
+    arg2[1] = Math_Atan2S(dz, dx);
+    arg2[0] = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
@@ -4117,15 +4117,15 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         sp40 = floorPoly->norm.y * (1.0f / 32767);
         sp3C = floorPoly->norm.z * (1.0f / 32767);
 
-        sp38 = Math_Sins(arg1);
-        sp34 = Math_Coss(arg1);
+        sp38 = Math_SinS(arg1);
+        sp34 = Math_CosS(arg1);
         sp28 = (-(sp44 * sp38) - (sp3C * sp34));
-        arg2->x = -(s16)(Math_atan2f(sp28 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->x = -(s16)(MathF_Atan2(sp28 * sp40, 1.0f) * (32768 / M_PI));
 
-        sp2C = Math_Sins(arg1 - 16375);
-        sp30 = Math_Coss(arg1 - 16375);
+        sp2C = Math_SinS(arg1 - 16375);
+        sp30 = Math_CosS(arg1 - 16375);
         sp24 = (-(sp44 * sp2C) - (sp3C * sp30));
-        arg2->z = -(s16)(Math_atan2f(sp24 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->z = -(s16)(MathF_Atan2(sp24 * sp40, 1.0f) * (32768 / M_PI));
     }
 }
 

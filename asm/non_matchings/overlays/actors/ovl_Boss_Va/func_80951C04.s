@@ -256,7 +256,7 @@ glabel func_80951C04
 .L80951F6C:
 /* 02CAC 80951F6C 25CF0C31 */  addiu   $t7, $t6, 0x0C31           ## $t7 = 00000C31
 /* 02CB0 80951F70 A60F01AC */  sh      $t7, 0x01AC($s0)           ## 000001AC
-/* 02CB4 80951F74 0C01DE0D */  jal     Math_Coss
+/* 02CB4 80951F74 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02CB8 80951F78 860401AC */  lh      $a0, 0x01AC($s0)           ## 000001AC
 /* 02CBC 80951F7C 3C018096 */  lui     $at, %hi(D_8095C6C4)       ## $at = 80960000
@@ -266,7 +266,7 @@ glabel func_80951C04
 /* 02CCC 80951F8C 46040202 */  mul.s   $f8, $f0, $f4              
 /* 02CD0 80951F90 860401AC */  lh      $a0, 0x01AC($s0)           ## 000001AC
 /* 02CD4 80951F94 460A4480 */  add.s   $f18, $f8, $f10            
-/* 02CD8 80951F98 0C01DE1C */  jal     Math_Sins
+/* 02CD8 80951F98 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02CDC 80951F9C E61201A0 */  swc1    $f18, 0x01A0($s0)          ## 000001A0
 /* 02CE0 80951FA0 3C018096 */  lui     $at, %hi(D_8095C6C8)       ## $at = 80960000

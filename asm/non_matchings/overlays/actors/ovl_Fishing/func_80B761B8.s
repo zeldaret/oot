@@ -146,7 +146,7 @@ glabel func_80B761B8
 /* 0CA08 80B763A8 86240032 */  lh      $a0, 0x0032($s1)           ## 80B7FF2A
 /* 0CA0C 80B763AC 00042300 */  sll     $a0, $a0, 12               
 /* 0CA10 80B763B0 00042400 */  sll     $a0, $a0, 16               
-/* 0CA14 80B763B4 0C01DE1C */  jal     Math_Sins
+/* 0CA14 80B763B4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0CA18 80B763B8 00042403 */  sra     $a0, $a0, 16               
 /* 0CA1C 80B763BC 8E6C07C0 */  lw      $t4, 0x07C0($s3)           ## 000007C0

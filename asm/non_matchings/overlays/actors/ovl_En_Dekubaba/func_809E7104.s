@@ -82,7 +82,7 @@ glabel func_809E7104
 /* 01A50 809E7220 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 01A54 809E7224 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 01A58 809E7228 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
-/* 01A5C 809E722C 0C01DE1C */  jal     Math_Sins
+/* 01A5C 809E722C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01A60 809E7230 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 01A64 809E7234 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -91,7 +91,7 @@ glabel func_809E7104
 /* 01A70 809E7240 46100482 */  mul.s   $f18, $f0, $f16
 /* 01A74 809E7244 E7A40040 */  swc1    $f4, 0x0040($sp)
 /* 01A78 809E7248 E7B2003C */  swc1    $f18, 0x003C($sp)
-/* 01A7C 809E724C 0C01DE0D */  jal     Math_Coss
+/* 01A7C 809E724C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01A80 809E7250 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 01A84 809E7254 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

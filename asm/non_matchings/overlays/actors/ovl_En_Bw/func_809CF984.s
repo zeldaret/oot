@@ -48,7 +48,7 @@ glabel func_809CF984
 /* 012F8 809CF9D8 00000000 */  nop
 /* 012FC 809CF9DC 468021A0 */  cvt.s.w $f6, $f4                   
 /* 01300 809CF9E0 46083302 */  mul.s   $f12, $f6, $f8             
-/* 01304 809CF9E4 0C0329C8 */  jal     Math_Sinf              
+/* 01304 809CF9E4 0C0329C8 */  jal     Math_SinF              
 /* 01308 809CF9E8 00000000 */  nop
 /* 0130C 809CF9EC 3C01809D */  lui     $at, %hi(D_809D1640)       ## $at = 809D0000
 /* 01310 809CF9F0 C42A1640 */  lwc1    $f10, %lo(D_809D1640)($at) 
@@ -64,7 +64,7 @@ glabel func_809CF984
 /* 01338 809CFA18 E6040050 */  swc1    $f4, 0x0050($s0)           ## 00000050
 /* 0133C 809CFA1C C4301648 */  lwc1    $f16, %lo(D_809D1648)($at) 
 /* 01340 809CFA20 46104302 */  mul.s   $f12, $f8, $f16            
-/* 01344 809CFA24 0C0329C8 */  jal     Math_Sinf              
+/* 01344 809CFA24 0C0329C8 */  jal     Math_SinF              
 /* 01348 809CFA28 00000000 */  nop
 /* 0134C 809CFA2C 3C01809D */  lui     $at, %hi(D_809D164C)       ## $at = 809D0000
 /* 01350 809CFA30 C42A164C */  lwc1    $f10, %lo(D_809D164C)($at) 
@@ -79,7 +79,7 @@ glabel func_809CF984
 /* 01374 809CFA54 E6060054 */  swc1    $f6, 0x0054($s0)           ## 00000054
 /* 01378 809CFA58 C42A1654 */  lwc1    $f10, %lo(D_809D1654)($at) 
 /* 0137C 809CFA5C 460A8302 */  mul.s   $f12, $f16, $f10           
-/* 01380 809CFA60 0C0329C8 */  jal     Math_Sinf              
+/* 01380 809CFA60 0C0329C8 */  jal     Math_SinF              
 /* 01384 809CFA64 00000000 */  nop
 /* 01388 809CFA68 3C01809D */  lui     $at, %hi(D_809D1658)       ## $at = 809D0000
 /* 0138C 809CFA6C C4321658 */  lwc1    $f18, %lo(D_809D1658)($at) 

@@ -134,8 +134,8 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
         if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
-            this->pos.x += (Math_Sins(this->actor->posRot.rot.y) * this->actor->speedXZ);
-            this->pos.z += (Math_Coss(this->actor->posRot.rot.y) * this->actor->speedXZ);
+            this->pos.x += (Math_SinS(this->actor->posRot.rot.y) * this->actor->speedXZ);
+            this->pos.z += (Math_CosS(this->actor->posRot.rot.y) * this->actor->speedXZ);
         }
     }
 

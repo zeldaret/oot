@@ -301,7 +301,7 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == ITEM00_HEART_PIECE) {
-        this->actor.shape.unk_08 = Math_Sins(this->actor.shape.rot.y) * 150.0f + 850.0f;
+        this->actor.shape.unk_08 = Math_SinS(this->actor.shape.rot.y) * 150.0f + 850.0f;
     }
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
@@ -368,9 +368,9 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
             }
             this->actor.initPosRot.rot.z += (s16)((this->actor.velocity.y + 3.0f) * 1000.0f);
             this->actor.posRot.pos.x +=
-                Math_Coss(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_CosS(this->actor.yawTowardsLink) * (-3.0f * Math_CosS(this->actor.initPosRot.rot.z));
             this->actor.posRot.pos.z +=
-                Math_Sins(this->actor.yawTowardsLink) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+                Math_SinS(this->actor.yawTowardsLink) * (-3.0f * Math_CosS(this->actor.initPosRot.rot.z));
         }
     }
 
@@ -431,7 +431,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = 0;
     }
 
-    this->actor.posRot.pos.y += 40.0f + Math_Sins(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
+    this->actor.posRot.pos.y += 40.0f + Math_SinS(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
 
     if (LINK_IS_ADULT) {
         this->actor.posRot.pos.y += 20.0f;
@@ -506,7 +506,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||
         (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
-        f32 newUnkBC = Math_Coss(this->actor.shape.rot.x) * 37.0f;
+        f32 newUnkBC = Math_CosS(this->actor.shape.rot.x) * 37.0f;
         this->actor.shape.unk_08 = newUnkBC;
         if (newUnkBC >= 0.0f) {
             this->actor.shape.unk_08 = this->actor.shape.unk_08;

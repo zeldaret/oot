@@ -578,12 +578,12 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3A98;
         angleBehindLink = player->actor.shape.rot.y + 0x8000;
-        if (Math_Sins(angleBehindLink - this->actor.shape.rot.y) >= 0.0f) {
+        if (Math_SinS(angleBehindLink - this->actor.shape.rot.y) >= 0.0f) {
             this->actor.speedXZ -= 0.25f;
             if (this->actor.speedXZ < -8.0f) {
                 this->actor.speedXZ = -8.0f;
             }
-        } else if (Math_Sins(angleBehindLink - this->actor.shape.rot.y) < 0.0f) {
+        } else if (Math_SinS(angleBehindLink - this->actor.shape.rot.y) < 0.0f) {
             this->actor.speedXZ += 0.25f;
             if (this->actor.speedXZ > 8.0f) {
                 this->actor.speedXZ = 8.0f;
@@ -619,8 +619,8 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
         }
         if (this->approachRate != 0.0f) {
-            this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->approachRate;
-            this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->approachRate;
+            this->actor.posRot.pos.x += Math_SinS(this->actor.shape.rot.y) * this->approachRate;
+            this->actor.posRot.pos.z += Math_CosS(this->actor.shape.rot.y) * this->approachRate;
         }
         if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
             this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
@@ -641,7 +641,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
-        if ((Math_Coss(angleBehindLink - this->actor.shape.rot.y) < -0.85f) &&
+        if ((Math_CosS(angleBehindLink - this->actor.shape.rot.y) < -0.85f) &&
             !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 45.0f)) {
             EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
@@ -660,9 +660,9 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A814), 1, 0.0f);
     sp3E = player->actor.shape.rot.y;
-    if (Math_Sins(sp3E - this->actor.shape.rot.y) > 0.0f) {
+    if (Math_SinS(sp3E - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -10.0f;
-    } else if (Math_Sins(sp3E - this->actor.shape.rot.y) < 0.0f) {
+    } else if (Math_SinS(sp3E - this->actor.shape.rot.y) < 0.0f) {
         this->actor.speedXZ = 10.0f;
     } else if (Math_Rand_ZeroOne() > 0.5f) {
         this->actor.speedXZ = 10.0f;
@@ -713,8 +713,8 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
     }
     if (this->approachRate != 0.0f) {
-        this->actor.posRot.pos.x += Math_Sins(this->actor.yawTowardsLink) * this->approachRate;
-        this->actor.posRot.pos.z += Math_Coss(this->actor.yawTowardsLink) * this->approachRate;
+        this->actor.posRot.pos.x += Math_SinS(this->actor.yawTowardsLink) * this->approachRate;
+        this->actor.posRot.pos.z += Math_CosS(this->actor.yawTowardsLink) * this->approachRate;
     }
     if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
         this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
@@ -1101,9 +1101,9 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     player = PLAYER;
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     linkAngle = player->actor.shape.rot.y;
-    if (Math_Sins(linkAngle - this->actor.shape.rot.y) > 0.0f) {
+    if (Math_SinS(linkAngle - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -6.0f;
-    } else if (Math_Sins(linkAngle - this->actor.shape.rot.y) < 0.0f) {
+    } else if (Math_SinS(linkAngle - this->actor.shape.rot.y) < 0.0f) {
         this->actor.speedXZ = 6.0f;
     } else {
         this->actor.speedXZ = Math_Rand_CenteredFloat(12.0f);
@@ -1126,9 +1126,9 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xBB8, 1);
     behindLinkAngle = player->actor.shape.rot.y + 0x8000;
-    if (Math_Sins(behindLinkAngle - this->actor.shape.rot.y) > 0.0f) {
+    if (Math_SinS(behindLinkAngle - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ += 0.125f;
-    } else if (Math_Sins(behindLinkAngle - this->actor.shape.rot.y) <= 0.0f) {
+    } else if (Math_SinS(behindLinkAngle - this->actor.shape.rot.y) <= 0.0f) {
         this->actor.speedXZ -= 0.125f;
     }
 
@@ -1167,8 +1167,8 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
     }
     if (this->approachRate != 0.0f) {
-        this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->approachRate;
-        this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->approachRate;
+        this->actor.posRot.pos.x += Math_SinS(this->actor.shape.rot.y) * this->approachRate;
+        this->actor.posRot.pos.z += Math_CosS(this->actor.shape.rot.y) * this->approachRate;
     }
     if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
         this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
@@ -1255,7 +1255,7 @@ void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx) {
 
 void func_80A391D8(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->actionState == GELDB_READY) && (this->lookTimer != 0)) {
-        this->headRot.y = Math_Sins(this->lookTimer * 0x1068) * 8920.0f;
+        this->headRot.y = Math_SinS(this->lookTimer * 0x1068) * 8920.0f;
     } else if (this->actionState != GELDB_STUNNED) {
         if ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK)) {
             Math_SmoothScaleMaxMinS(&this->headRot.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F4,

@@ -147,8 +147,8 @@ void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
 
     if (this->actor.yDistFromLink <= 0.0f && 15.0f < this->actor.xzDistFromLink) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_Sins(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_Coss(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.posRot.pos.x = Math_SinS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
+        player->actor.posRot.pos.z = Math_CosS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
     }
 }
 

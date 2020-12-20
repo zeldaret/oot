@@ -92,8 +92,8 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    sinRotY = Math_Sins(thisx->shape.rot.y);
-    cosRotY = Math_Coss(thisx->shape.rot.y);
+    sinRotY = Math_SinS(thisx->shape.rot.y);
+    cosRotY = Math_CosS(thisx->shape.rot.y);
 
     for (i = 0; i < 3; i++) {
         sp4C[i].x = (items->dim.vtx[i].x * cosRotY) + thisx->posRot.pos.x;
@@ -160,9 +160,9 @@ void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.posRot.pos.x =
-        (Math_Coss(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.x;
+        (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        (Math_Sins(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.z;
+        (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.z;
 
     func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }

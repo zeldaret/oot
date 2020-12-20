@@ -49,7 +49,7 @@ glabel func_80978C20
 /* 00380 80978CB0 27B700B8 */  addiu   $s7, $sp, 0x00B8           ## $s7 = FFFFFFE8
 .L80978CB4:
 /* 00384 80978CB4 00112400 */  sll     $a0, $s1, 16               
-/* 00388 80978CB8 0C01DE1C */  jal     Math_Sins
+/* 00388 80978CB8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0038C 80978CBC 00042403 */  sra     $a0, $a0, 16               
 /* 00390 80978CC0 46160102 */  mul.s   $f4, $f0, $f22             
@@ -62,7 +62,7 @@ glabel func_80978C20
 /* 003A8 80978CD8 00112400 */  sll     $a0, $s1, 16               
 /* 003AC 80978CDC 00042403 */  sra     $a0, $a0, 16               
 /* 003B0 80978CE0 46083280 */  add.s   $f10, $f6, $f8             
-/* 003B4 80978CE4 0C01DE0D */  jal     Math_Coss
+/* 003B4 80978CE4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003B8 80978CE8 E7AA00C8 */  swc1    $f10, 0x00C8($sp)          
 /* 003BC 80978CEC 46160402 */  mul.s   $f16, $f0, $f22            

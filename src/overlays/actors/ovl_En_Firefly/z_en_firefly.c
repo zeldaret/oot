@@ -663,10 +663,10 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     this->actor.posRot2.pos.x =
-        (10.0f * Math_Sins(this->actor.shape.rot.x) * Math_Sins(this->actor.shape.rot.y)) + this->actor.posRot.pos.x;
-    this->actor.posRot2.pos.y = (10.0f * Math_Coss(this->actor.shape.rot.x)) + this->actor.posRot.pos.y;
+        (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y)) + this->actor.posRot.pos.x;
+    this->actor.posRot2.pos.y = (10.0f * Math_CosS(this->actor.shape.rot.x)) + this->actor.posRot.pos.y;
     this->actor.posRot2.pos.z =
-        (10.0f * Math_Sins(this->actor.shape.rot.x) * Math_Coss(this->actor.shape.rot.y)) + this->actor.posRot.pos.z;
+        (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y)) + this->actor.posRot.pos.z;
 }
 
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -712,11 +712,11 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
                     effLife = 3;
                 } else {
                     if (limbIndex == 15) {
-                        effPos.x = (Math_Sins(9100 * this->timer) * this->timer) + this->actor.posRot.pos.x;
-                        effPos.z = (Math_Coss(9100 * this->timer) * this->timer) + this->actor.posRot.pos.z;
+                        effPos.x = (Math_SinS(9100 * this->timer) * this->timer) + this->actor.posRot.pos.x;
+                        effPos.z = (Math_CosS(9100 * this->timer) * this->timer) + this->actor.posRot.pos.z;
                     } else {
-                        effPos.x = this->actor.posRot.pos.x - (Math_Sins(9100 * this->timer) * this->timer);
-                        effPos.z = this->actor.posRot.pos.z - (Math_Coss(9100 * this->timer) * this->timer);
+                        effPos.x = this->actor.posRot.pos.x - (Math_SinS(9100 * this->timer) * this->timer);
+                        effPos.z = this->actor.posRot.pos.z - (Math_CosS(9100 * this->timer) * this->timer);
                     }
 
                     effPos.y = this->actor.posRot.pos.y + ((15 - this->timer) * 1.5f);

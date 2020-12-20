@@ -80,7 +80,7 @@ glabel func_8087A39C
               ## Rand.Next() float
 /* 00A10 8087A4B0 E7A00048 */  swc1    $f0, 0x0048($sp)           
 /* 00A14 8087A4B4 46000506 */  mov.s   $f20, $f0                  
-/* 00A18 8087A4B8 0C01DE1C */  jal     Math_Sins
+/* 00A18 8087A4B8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00A1C 8087A4BC 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00A20 8087A4C0 3C013FC0 */  lui     $at, 0x3FC0                ## $at = 3FC00000
@@ -100,7 +100,7 @@ glabel func_8087A39C
               ## Rand.Next() float
 /* 00A54 8087A4F4 E7B00050 */  swc1    $f16, 0x0050($sp)          
 /* 00A58 8087A4F8 46000506 */  mov.s   $f20, $f0                  
-/* 00A5C 8087A4FC 0C01DE0D */  jal     Math_Coss
+/* 00A5C 8087A4FC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00A60 8087A500 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00A64 8087A504 3C013FC0 */  lui     $at, 0x3FC0                ## $at = 3FC00000
@@ -110,11 +110,11 @@ glabel func_8087A39C
 /* 00A74 8087A514 46002187 */  neg.s   $f6, $f4                   
 /* 00A78 8087A518 46060202 */  mul.s   $f8, $f0, $f6              
 /* 00A7C 8087A51C E7A80054 */  swc1    $f8, 0x0054($sp)           
-/* 00A80 8087A520 0C01DE1C */  jal     Math_Sins
+/* 00A80 8087A520 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00A84 8087A524 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00A88 8087A528 46000506 */  mov.s   $f20, $f0                  
-/* 00A8C 8087A52C 0C01DE0D */  jal     Math_Coss
+/* 00A8C 8087A52C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00A90 8087A530 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00A94 8087A534 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -126,11 +126,11 @@ glabel func_8087A39C
 /* 00AAC 8087A54C 46060202 */  mul.s   $f8, $f0, $f6              
 /* 00AB0 8087A550 46082401 */  sub.s   $f16, $f4, $f8             
 /* 00AB4 8087A554 E7B00058 */  swc1    $f16, 0x0058($sp)          
-/* 00AB8 8087A558 0C01DE0D */  jal     Math_Coss
+/* 00AB8 8087A558 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00ABC 8087A55C 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00AC0 8087A560 46000506 */  mov.s   $f20, $f0                  
-/* 00AC4 8087A564 0C01DE1C */  jal     Math_Sins
+/* 00AC4 8087A564 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00AC8 8087A568 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00ACC 8087A56C 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -169,11 +169,11 @@ glabel func_8087A39C
               
 /* 00B4C 8087A5EC 00000000 */  nop
 /* 00B50 8087A5F0 E7A00048 */  swc1    $f0, 0x0048($sp)           
-/* 00B54 8087A5F4 0C01DE1C */  jal     Math_Sins
+/* 00B54 8087A5F4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00B58 8087A5F8 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00B5C 8087A5FC 46000506 */  mov.s   $f20, $f0                  
-/* 00B60 8087A600 0C01DE0D */  jal     Math_Coss
+/* 00B60 8087A600 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00B64 8087A604 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00B68 8087A608 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -185,11 +185,11 @@ glabel func_8087A39C
 /* 00B80 8087A620 46120282 */  mul.s   $f10, $f0, $f18            
 /* 00B84 8087A624 46045200 */  add.s   $f8, $f10, $f4             
 /* 00B88 8087A628 E7A80058 */  swc1    $f8, 0x0058($sp)           
-/* 00B8C 8087A62C 0C01DE0D */  jal     Math_Coss
+/* 00B8C 8087A62C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00B90 8087A630 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00B94 8087A634 46000506 */  mov.s   $f20, $f0                  
-/* 00B98 8087A638 0C01DE1C */  jal     Math_Sins
+/* 00B98 8087A638 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00B9C 8087A63C 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 00BA0 8087A640 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
