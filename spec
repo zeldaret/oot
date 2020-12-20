@@ -986,8 +986,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Haheniron"
     include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/z_bg_jya_haheniron.o"
-    include "build/data/overlays/actors/z_bg_jya_haheniron.data.o"
-    include "build/data/overlays/actors/z_bg_jya_haheniron.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/ovl_Bg_Jya_Haheniron_reloc.o"
 endseg
 
 beginseg
