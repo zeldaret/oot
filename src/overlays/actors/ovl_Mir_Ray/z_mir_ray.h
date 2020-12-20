@@ -9,7 +9,7 @@ struct MirRay;
 typedef struct {
     /* 0x00 */ Vec3s sourcePoint;
     /* 0x06 */ Vec3s poolPoint; // point at center of light pool on floor for windows and BigMirror, same as source point for Cobra Mirror
-    /* 0x0C */ s16 sourceEndRadius; // Radius beam frustum at the source end
+    /* 0x0C */ s16 sourceEndRadius; // Radius of beam frustum at the source end
     /* 0x0E */ s16 poolEndRadius; // Radius of beam frustum at the pool end
     /* 0x10 */ f32 unk_10; // placement of collider center along beam
     /* 0x14 */ s16 unk_14; // collider radius before scaled
