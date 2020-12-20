@@ -22,14 +22,11 @@ typedef struct {
     /* 0x04 */ f32 endFrame;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
-} FrameInfo; // size = 0x10
+} DemoTreLgtInfo; // size = 0x10
 
-typedef struct {
-    /* 0x00 */ FrameInfo frameInfo[2];
-} DemoTreLgtInfo; // size = 0x20
-
-static DemoTreLgtInfo sDemoTreLgtInfo = {
-    1.0f, 136.0f, 190.0f, 40.0f, 1.0f, 136.0f, 220.0f, 50.0f,
+static DemoTreLgtInfo sDemoTreLgtInfo[] = {
+    { 1.0f, 136.0f, 190.0f, 40.0f },
+    { 1.0f, 136.0f, 220.0f, 50.0f },
 };
 
 const ActorInit Demo_Tre_Lgt_InitVars = {
@@ -94,8 +91,8 @@ void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame)
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
     SkelCurve_SetAnim(skelCurve, sTransformUpdIdx[gSaveContext.linkAge], 1.0f,
-                      sDemoTreLgtInfo.frameInfo[gSaveContext.linkAge].endFrame +
-                          sDemoTreLgtInfo.frameInfo[gSaveContext.linkAge].unk_08,
+                      sDemoTreLgtInfo[gSaveContext.linkAge].endFrame +
+                          sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(globalCtx, skelCurve);
 }
@@ -103,24 +100,24 @@ void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame)
 void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
     f32 currentFrame = this->skelCurve.animCurFrame;
 
-    if (currentFrame < sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].endFrame) {
+    if (currentFrame < sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <= (sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].endFrame +
-                             sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].unk_08)) {
-            this->unk_170 = ((((sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].endFrame - currentFrame) /
-                               sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].unk_08) *
+        if (currentFrame <= (sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame +
+                             sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_08)) {
+            this->unk_170 = ((((sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame - currentFrame) /
+                               sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_08) *
                               255.0f) +
                              255.0f);
         } else {
             this->unk_170 = 0;
         }
     }
-    if (currentFrame < sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].unk_0C) {
+    if (currentFrame < sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C) {
         this->unk_174 = 255;
-    } else if (currentFrame < (sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].unk_0C + 10.0f)) {
+    } else if (currentFrame < (sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C + 10.0f)) {
         this->unk_174 =
-            ((((sDemoTreLgtInfo.frameInfo[(0, gSaveContext.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
+            ((((sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
              255.0f);
     } else {
         this->unk_174 = 0;
