@@ -180,40 +180,40 @@ typedef enum {
 
 SkyboxFile gSkyboxFiles[] = {
     {
-        { (u32)_vr_fine0_staticSegmentRomStart, (u32)_vr_fine0_staticSegmentRomEnd },
-        { (u32)_vr_fine0_pal_staticSegmentRomStart, (u32)_vr_fine0_pal_staticSegmentRomEnd },
+        { _vr_fine0_staticSegmentRomStart, _vr_fine0_staticSegmentRomEnd },
+        { _vr_fine0_pal_staticSegmentRomStart, _vr_fine0_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_fine1_staticSegmentRomStart, (u32)_vr_fine1_staticSegmentRomEnd },
-        { (u32)_vr_fine1_pal_staticSegmentRomStart, (u32)_vr_fine1_pal_staticSegmentRomEnd },
+        { _vr_fine1_staticSegmentRomStart, _vr_fine1_staticSegmentRomEnd },
+        { _vr_fine1_pal_staticSegmentRomStart, _vr_fine1_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_fine2_staticSegmentRomStart, (u32)_vr_fine2_staticSegmentRomEnd },
-        { (u32)_vr_fine2_pal_staticSegmentRomStart, (u32)_vr_fine2_pal_staticSegmentRomEnd },
+        { _vr_fine2_staticSegmentRomStart, _vr_fine2_staticSegmentRomEnd },
+        { _vr_fine2_pal_staticSegmentRomStart, _vr_fine2_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_fine3_staticSegmentRomStart, (u32)_vr_fine3_staticSegmentRomEnd },
-        { (u32)_vr_fine3_pal_staticSegmentRomStart, (u32)_vr_fine3_pal_staticSegmentRomEnd },
+        { _vr_fine3_staticSegmentRomStart, _vr_fine3_staticSegmentRomEnd },
+        { _vr_fine3_pal_staticSegmentRomStart, _vr_fine3_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_cloud0_staticSegmentRomStart, (u32)_vr_cloud0_staticSegmentRomEnd },
-        { (u32)_vr_cloud0_pal_staticSegmentRomStart, (u32)_vr_cloud0_pal_staticSegmentRomEnd },
+        { _vr_cloud0_staticSegmentRomStart, _vr_cloud0_staticSegmentRomEnd },
+        { _vr_cloud0_pal_staticSegmentRomStart, _vr_cloud0_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_cloud1_staticSegmentRomStart, (u32)_vr_cloud1_staticSegmentRomEnd },
-        { (u32)_vr_cloud1_pal_staticSegmentRomStart, (u32)_vr_cloud1_pal_staticSegmentRomEnd },
+        { _vr_cloud1_staticSegmentRomStart, _vr_cloud1_staticSegmentRomEnd },
+        { _vr_cloud1_pal_staticSegmentRomStart, _vr_cloud1_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_cloud2_staticSegmentRomStart, (u32)_vr_cloud2_staticSegmentRomEnd },
-        { (u32)_vr_cloud2_pal_staticSegmentRomStart, (u32)_vr_cloud2_pal_staticSegmentRomEnd },
+        { _vr_cloud2_staticSegmentRomStart, _vr_cloud2_staticSegmentRomEnd },
+        { _vr_cloud2_pal_staticSegmentRomStart, _vr_cloud2_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_cloud3_staticSegmentRomStart, (u32)_vr_cloud3_staticSegmentRomEnd },
-        { (u32)_vr_cloud3_pal_staticSegmentRomStart, (u32)_vr_cloud3_pal_staticSegmentRomEnd },
+        { _vr_cloud3_staticSegmentRomStart, _vr_cloud3_staticSegmentRomEnd },
+        { _vr_cloud3_pal_staticSegmentRomStart, _vr_cloud3_pal_staticSegmentRomEnd },
     },
     {
-        { (u32)_vr_holy0_staticSegmentRomStart, (u32)_vr_holy0_staticSegmentRomEnd },
-        { (u32)_vr_holy0_pal_staticSegmentRomStart, (u32)_vr_holy0_pal_staticSegmentRomEnd },
+        { _vr_holy0_staticSegmentRomStart, _vr_holy0_staticSegmentRomEnd },
+        { _vr_holy0_pal_staticSegmentRomStart, _vr_holy0_pal_staticSegmentRomEnd },
     },
 };
 
@@ -563,7 +563,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
 }
 
 // func_8006FC88 skybox related
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
@@ -703,9 +703,9 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
         envCtx->skyboxBlend = skyboxBlend;
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
+#endif
 
 // runs when camera is entering water
 void func_80070600(GlobalContext* globalCtx, s32 arg1) {
