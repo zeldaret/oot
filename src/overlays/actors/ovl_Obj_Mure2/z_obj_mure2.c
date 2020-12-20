@@ -10,29 +10,25 @@
 
 #define THIS ((ObjMure2*)thisx)
 
-typedef void (*ObjMure2UnkFunc)(Vec3f* vec, ObjMure2* this);
+typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);
 
 typedef struct {
     s16 radius;
     s16 angle;
-} Mure2RadiusAngle;
+} Mure2ScatteredShrubInfo;
 
 void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure2_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B99F40(Vec3f* vec, ObjMure2* this);
-void func_80B9A058(Vec3f* vec, ObjMure2* this);
-void func_80B9A158(Vec3f* vec, ObjMure2* this);
-void func_80B9A638(ObjMure2* this, GlobalContext* globalCtx);
+void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this);
+void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this);
+void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this);
+void ObjMure2_Wait(ObjMure2* this, GlobalContext* globalCtx);
 void func_80B9A668(ObjMure2* this, GlobalContext* globalCtx);
-void func_80B9A2B0(ObjMure2* this, GlobalContext* globalCtx);
-void func_80B9A438(ObjMure2* this, GlobalContext* globalCtx);
 void func_80B9A6F8(ObjMure2* this, GlobalContext* globalCtx);
-void func_80B9A628(ObjMure2* this);
+void ObjMure2_SetupWait(ObjMure2* this);
 void func_80B9A658(ObjMure2* this);
 void func_80B9A6E8(ObjMure2* this);
-void func_80B9A534(ObjMure2* this);
-void func_80B9A260(s16* params, ObjMure2* this);
 
 const ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
@@ -46,128 +42,126 @@ const ActorInit Obj_Mure2_InitVars = {
     NULL,
 };
 
-f32 D_80B9A800[] = {
+static f32 D_80B9A800[] = {
     2560000.0f,
     2560000.0f,
     2560000.0f,
 };
 
-f32 D_80B9A80C[] = {
+static f32 D_80B9A80C[] = {
     2907025.0f,
     2907025.0f,
     2907025.0f,
 };
 
-s16 D_80B9A818[] = {
+/*static*/ s16 sActorSpawnAmounts[] = {
     9,
     12,
     8,
-    0,
 };
 
-s16 D_80B9A820[] = {
+static s16 sActorSpawnIDs[] = {
     ACTOR_EN_KUSA,
     ACTOR_EN_KUSA,
     ACTOR_EN_ISHI,
 };
 
-Mure2RadiusAngle D_80B9A828[] = {
-    { 0x0028, 0x0666 }, { 0x0028, 0x2CCC }, { 0x0028, 0x5999 }, { 0x0028, 0x8666 },
-    { 0x0014, 0xC000 }, { 0x0050, 0x1333 }, { 0x0050, 0x4000 }, { 0x0050, 0x6CCC },
-    { 0x0050, 0x9333 }, { 0x0050, 0xACCC }, { 0x0050, 0xC666 }, { 0x003C, 0xE000 },
+static Mure2ScatteredShrubInfo sScatteredShrubInfo[] = {
+    { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
+    { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
 };
 
-s16 D_80B9A858[] = {
-    0,
+static s16 sActorSpawnParams[] = {
     0,
     0,
     0,
 };
 
-ObjMure2UnkFunc D_80B9A860[] = {
-    func_80B99F40,
-    func_80B9A058,
-    func_80B9A158,
+static ObjMure2SetPosFunc sSetPosFunc[] = {
+    ObjMure2_SetPosShrubCircle,
+    ObjMure2_SetPosShrubScattered,
+    ObjMure2_SetPosRockCircle,
 };
 
-// sInitChain
-u32 D_80B9A86C[] = {
-    0xB0F40064, 0xB0F80834, 0x30FC0064, 0x00000000, 0x00000000,
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 2100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
 };
 
 #ifdef NON_MATCHING
 // Very close to matching, just regalloc and a stack diff
-void func_80B99F40(Vec3f* vec, ObjMure2* this) {
+void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecTemp = vec;
     s32 i;
-    
+
     Math_Vec3f_Copy(vecTemp, &this->actor.posRot.pos);
-    for (i = 1, vecTemp++; i < D_80B9A818[this->actor.params & 3]; vecTemp++, i++) {
+    for (i = 1, vecTemp++; i < sActorSpawnAmounts[this->actor.params & 3]; vecTemp++, i++) {
         Math_Vec3f_Copy(vecTemp, &this->actor.posRot.pos);
         vecTemp->x += (80.0f * Math_Sins((i - 1) * 0x2000));
         vecTemp->z += (80.0f * Math_Coss((i - 1) * 0x2000));
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/func_80B99F40.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
 #endif
 
-void func_80B9A058(Vec3f* vec, ObjMure2* this) {
+void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecTemp;
     s32 i;
-    Vec3f* actorPos = &this->actor.posRot.pos;
-    ObjMure2* this2 = this;
+    Vec3f* actorPos = &this->actor.posRot.pos; // Required to match
+    ObjMure2* this2 = this;                    // Required to match
 
-    for (vecTemp = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecTemp++, i++) {
+    for (vecTemp = vec, i = 0; i < sActorSpawnAmounts[this2->actor.params & 3]; vecTemp++, i++) {
         Math_Vec3f_Copy(vecTemp, actorPos);
         if (1) {}
-        vecTemp->x += (D_80B9A828[i].radius * Math_Coss(D_80B9A828[i].angle));
-        vecTemp->z -= (D_80B9A828[i].radius * Math_Sins(D_80B9A828[i].angle));
+        vecTemp->x += (sScatteredShrubInfo[i].radius * Math_Coss(sScatteredShrubInfo[i].angle));
+        vecTemp->z -= (sScatteredShrubInfo[i].radius * Math_Sins(sScatteredShrubInfo[i].angle));
     }
 }
 
-void func_80B9A158(Vec3f* vec, ObjMure2* this) {
+void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
     s32 i;
     Vec3f* vecTemp = vec;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; vecTemp++, i++) {
+    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; vecTemp++, i++) {
         Math_Vec3f_Copy(vecTemp, &this->actor.posRot.pos);
         vecTemp->x += (80.0f * Math_Sins(i * 0x2000));
         vecTemp->z += (80.0f * Math_Coss(i * 0x2000));
     }
 }
 
-void func_80B9A260(s16* params, ObjMure2* this) {
-    s16 phi_v0 = (this->actor.params >> 8) & 0xF;
+void ObjMure2_SetActorSpawnParams(s16* params, ObjMure2* this) {
+    s16 dropTable = (this->actor.params >> 8) & 0xF;
 
-    if (phi_v0 >= 13) {
-        phi_v0 = 0;
+    if (dropTable >= 13) {
+        dropTable = 0;
     }
-    *params = D_80B9A858[this->actor.params & 3] & 0xF0FF;
-    *params |= (phi_v0 << 8);
+    *params = sActorSpawnParams[this->actor.params & 3] & 0xF0FF;
+    *params |= (dropTable << 8);
 }
 
-void func_80B9A2B0(ObjMure2* this, GlobalContext* globalCtx) {
+void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
     s32 num = this->actor.params & 3;
     s32 i;
-    Vec3f sp70[12];
+    Vec3f spawnPos[12];
     s16 params;
 
-    D_80B9A860[num](&sp70, this);
-    func_80B9A260(&params, this);
+    sSetPosFunc[num](&spawnPos, this);
+    ObjMure2_SetActorSpawnParams(&params, this);
 
-    for (i = 0; i < D_80B9A818[num]; i++) {
-        if (this->unk_150[i] != NULL) {
+    for (i = 0; i < sActorSpawnAmounts[num]; i++) {
+        if (this->actorSpawnPtrList[i] != NULL) {
             // Translation: Warning : I already have a child (%s %d)(arg_data 0x%04x)
             osSyncPrintf("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269,
                          this->actor.params);
         } else {
-            if (((this->unk_180 >> i) & 1) == 0) {
-                this->unk_150[i] =
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, D_80B9A820[num], sp70[i].x, sp70[i].y, sp70[i].z,
-                                this->actor.posRot.rot.x, 0, this->actor.posRot.rot.z, params);
-                if (this->unk_150[i] != NULL) {
-                    this->unk_150[i]->room = this->actor.room;
+            if (((this->currentActorNum >> i) & 1) == 0) {
+                this->actorSpawnPtrList[i] =
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, sActorSpawnIDs[num], spawnPos[i].x, spawnPos[i].y,
+                                spawnPos[i].z, this->actor.posRot.rot.x, 0, this->actor.posRot.rot.z, params);
+                if (this->actorSpawnPtrList[i] != NULL) {
+                    this->actorSpawnPtrList[i]->room = this->actor.room;
                 }
             }
             params = params; // Required to match
@@ -175,21 +169,21 @@ void func_80B9A2B0(ObjMure2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B9A438(ObjMure2* this, GlobalContext* globalCtx) {
+void ObjMure2_CleanupAndDie(ObjMure2* this, GlobalContext* globalCtx) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
-        if (((this->unk_180 >> i) & 1) == 0) {
-            if (this->unk_150[i] != NULL) {
-                if (Actor_HasParent(this->unk_150[i], globalCtx)) {
-                    this->unk_180 |= (1 << i);
+    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; i++) {
+        if (((this->currentActorNum >> i) & 1) == 0) {
+            if (this->actorSpawnPtrList[i] != NULL) {
+                if (Actor_HasParent(this->actorSpawnPtrList[i], globalCtx)) {
+                    this->currentActorNum |= (1 << i);
                 } else {
-                    Actor_Kill(this->unk_150[i]);
+                    Actor_Kill(this->actorSpawnPtrList[i]);
                 }
-                this->unk_150[i] = NULL;
+                this->actorSpawnPtrList[i] = NULL;
             }
         } else {
-            this->unk_150[i] = NULL;
+            this->actorSpawnPtrList[i] = NULL;
         }
     }
 }
@@ -197,10 +191,11 @@ void func_80B9A438(ObjMure2* this, GlobalContext* globalCtx) {
 void func_80B9A534(ObjMure2* this) {
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
-        if (this->unk_150[i] != NULL && (((this->unk_180 >> i) & 1) == 0) && (this->unk_150[i]->update == NULL)) {
-            this->unk_180 |= (1 << i);
-            this->unk_150[i] = NULL;
+    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; i++) {
+        if (this->actorSpawnPtrList[i] != NULL && (((this->currentActorNum >> i) & 1) == 0) &&
+            (this->actorSpawnPtrList[i]->update == NULL)) {
+            this->currentActorNum |= (1 << i);
+            this->actorSpawnPtrList[i] = NULL;
         }
     }
 }
@@ -208,18 +203,18 @@ void func_80B9A534(ObjMure2* this) {
 void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure2* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80B9A86C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (globalCtx->csCtx.state != 0) {
         this->actor.uncullZoneForward += 1200.0f;
     }
-    func_80B9A628(this);
+    ObjMure2_SetupWait(this);
 }
 
-void func_80B9A628(ObjMure2* this) {
-    this->actionFunc = func_80B9A638;
+void ObjMure2_SetupWait(ObjMure2* this) {
+    this->actionFunc = ObjMure2_Wait;
 }
 
-void func_80B9A638(ObjMure2* this, GlobalContext* globalCtx) {
+void ObjMure2_Wait(ObjMure2* this, GlobalContext* globalCtx) {
     func_80B9A658(this);
 }
 
@@ -231,7 +226,7 @@ void func_80B9A668(ObjMure2* this, GlobalContext* globalCtx) {
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) <
         (D_80B9A800[this->actor.params & 3] * this->unk_184)) {
         this->actor.flags |= 0x10;
-        func_80B9A2B0(this, globalCtx);
+        ObjMure2_SpawnActors(this, globalCtx);
         func_80B9A6E8(this);
     }
 }
@@ -245,7 +240,7 @@ void func_80B9A6F8(ObjMure2* this, GlobalContext* globalCtx) {
     if ((D_80B9A80C[this->actor.params & 3] * this->unk_184) <=
         Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)) {
         this->actor.flags &= ~0x10;
-        func_80B9A438(this, globalCtx);
+        ObjMure2_CleanupAndDie(this, globalCtx);
         func_80B9A658(this);
     }
 }
