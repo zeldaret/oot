@@ -1740,4 +1740,9 @@ typedef struct {
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
 
+typedef struct {
+    /* 0x00 */ RomFile file;
+    /* 0x08 */ RomFile pallete;
+} SkyboxFile; // size = 0x10
+
 #endif

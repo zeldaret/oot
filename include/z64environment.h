@@ -5,6 +5,9 @@
 #include "z64light.h"
 #include "z64dma.h"
 
+
+
+
 typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
     /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals

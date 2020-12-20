@@ -127,48 +127,48 @@ typedef enum {
 
 struct_8011FC1C D_8011FC1C[][9] = {
     {
-        { 0x0000, 0x2AAC, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
-        { 0x2AAC, 0x3556, 1, SBI_FINE1_PAL, SBI_FINE0 },
-        { 0x3556, 0x4000, 0, SBI_FINE0, SBI_FINE0 },
-        { 0x4000, 0x5556, 1, SBI_FINE0, SBI_FINE0_PAL },
-        { 0x5556, 0xAAAB, 0, SBI_FINE0_PAL, SBI_FINE0_PAL },
-        { 0xAAAB, 0xB556, 1, SBI_FINE0_PAL, SBI_FINE1 },
-        { 0xB556, 0xC001, 0, SBI_FINE1, SBI_FINE1 },
-        { 0xC001, 0xCAAC, 1, SBI_FINE1, SBI_FINE1_PAL },
-        { 0xCAAC, 0xFFFF, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
+        { 0x0000, 0x2AAC, 0, 3, 3 },
+        { 0x2AAC, 0x3556, 1, 3, 0 },
+        { 0x3556, 0x4000, 0, 0, 0 },
+        { 0x4000, 0x5556, 1, 0, 1 },
+        { 0x5556, 0xAAAB, 0, 1, 1 },
+        { 0xAAAB, 0xB556, 1, 1, 2 },
+        { 0xB556, 0xC001, 0, 2, 2 },
+        { 0xC001, 0xCAAC, 1, 2, 3 },
+        { 0xCAAC, 0xFFFF, 0, 3, 3 },
     },
     {
-        { 0x0000, 0x2AAC, 0, SBI_FINE3_PAL, SBI_FINE3_PAL },
-        { 0x2AAC, 0x3556, 1, SBI_FINE3_PAL, SBI_FINE2 },
-        { 0x3556, 0x4000, 0, SBI_FINE2, SBI_FINE2 },
-        { 0x4000, 0x5556, 1, SBI_FINE2, SBI_FINE2_PAL },
-        { 0x5556, 0xAAAB, 0, SBI_FINE2_PAL, SBI_FINE2_PAL },
-        { 0xAAAB, 0xB556, 1, SBI_FINE2_PAL, SBI_FINE3 },
-        { 0xB556, 0xC001, 0, SBI_FINE3, SBI_FINE3 },
-        { 0xC001, 0xCAAC, 1, SBI_FINE3, SBI_FINE3_PAL },
-        { 0xCAAC, 0xFFFF, 0, SBI_FINE3_PAL, SBI_FINE3_PAL },
+        { 0x0000, 0x2AAC, 0, 7, 7 },
+        { 0x2AAC, 0x3556, 1, 7, 4 },
+        { 0x3556, 0x4000, 0, 4, 4 },
+        { 0x4000, 0x5556, 1, 4, 5 },
+        { 0x5556, 0xAAAB, 0, 5, 5 },
+        { 0xAAAB, 0xB556, 1, 5, 6 },
+        { 0xB556, 0xC001, 0, 6, 6 },
+        { 0xC001, 0xCAAC, 1, 6, 7 },
+        { 0xCAAC, 0xFFFF, 0, 7, 7 },
     },
     {
-        { 0x0000, 0x1556, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
-        { 0x1556, 0x2AAC, 1, SBI_FINE1_PAL, SBI_FINE0 },
-        { 0x2AAC, 0x5556, 0, SBI_FINE0, SBI_FINE0 },
-        { 0x5556, 0x6AAB, 1, SBI_FINE0, SBI_FINE0_PAL },
-        { 0x6AAB, 0x9556, 0, SBI_FINE0_PAL, SBI_FINE0_PAL },
-        { 0x9556, 0xAAAB, 1, SBI_FINE0_PAL, SBI_FINE1 },
-        { 0xAAAB, 0xD556, 0, SBI_FINE1, SBI_FINE1 },
-        { 0xD556, 0xEAAB, 1, SBI_FINE1, SBI_FINE1_PAL },
-        { 0xEAAB, 0xFFFF, 0, SBI_FINE1_PAL, SBI_FINE1_PAL },
+        { 0x0000, 0x1556, 0, 3, 3 },
+        { 0x1556, 0x2AAC, 1, 3, 0 },
+        { 0x2AAC, 0x5556, 0, 0, 0 },
+        { 0x5556, 0x6AAB, 1, 0, 1 },
+        { 0x6AAB, 0x9556, 0, 1, 1 },
+        { 0x9556, 0xAAAB, 1, 1, 2 },
+        { 0xAAAB, 0xD556, 0, 2, 2 },
+        { 0xD556, 0xEAAB, 1, 2, 3 },
+        { 0xEAAB, 0xFFFF, 0, 3, 3 },
     },
     {
-        { 0x0000, 0x3556, 0, SBI_CLOUD1_PAL, SBI_CLOUD1_PAL },
-        { 0x3556, 0x4000, 1, SBI_CLOUD1_PAL, SBI_CLOUD0 },
-        { 0x4000, 0x4AAB, 0, SBI_CLOUD0, SBI_CLOUD0 },
-        { 0x4AAB, 0x5556, 1, SBI_CLOUD0, SBI_CLOUD0_PAL },
-        { 0x5556, 0xAAAB, 0, SBI_CLOUD0_PAL, SBI_CLOUD0_PAL },
-        { 0xAAAB, 0xB556, 1, SBI_CLOUD0_PAL, SBI_CLOUD1 },
-        { 0xB556, 0xC001, 0, SBI_CLOUD1, SBI_CLOUD1 },
-        { 0xC001, 0xCAAC, 1, SBI_CLOUD1, SBI_CLOUD1_PAL },
-        { 0xCAAC, 0xFFFF, 0, SBI_CLOUD1_PAL, SBI_CLOUD1_PAL },
+        { 0x0000, 0x3556, 0, 11, 11 },
+        { 0x3556, 0x4000, 1, 11, 8 },
+        { 0x4000, 0x4AAB, 0, 8, 8 },
+        { 0x4AAB, 0x5556, 1, 8, 9 },
+        { 0x5556, 0xAAAB, 0, 9, 9 },
+        { 0xAAAB, 0xB556, 1, 9, 10 },
+        { 0xB556, 0xC001, 0, 10, 10 },
+        { 0xC001, 0xCAAC, 1, 10, 11 },
+        { 0xCAAC, 0xFFFF, 0, 11, 11 },
     },
 };
 
@@ -178,10 +178,45 @@ typedef enum {
     /* 1 */ SKYBOX_FILE_CLOUDS
 } SkyboxFileType;
 
-RomFile gSkyboxFiles[][2] = {
-    ENV_ROM_FILES(fine0),  ENV_ROM_FILES(fine1),  ENV_ROM_FILES(fine2),  ENV_ROM_FILES(fine3), ENV_ROM_FILES(cloud0),
-    ENV_ROM_FILES(cloud1), ENV_ROM_FILES(cloud2), ENV_ROM_FILES(cloud3), ENV_ROM_FILES(holy0),
+SkyboxFile gSkyboxFiles[] = {
+    {
+        { (u32)_vr_fine0_staticSegmentRomStart, (u32)_vr_fine0_staticSegmentRomEnd },
+        { (u32)_vr_fine0_pal_staticSegmentRomStart, (u32)_vr_fine0_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_fine1_staticSegmentRomStart, (u32)_vr_fine1_staticSegmentRomEnd },
+        { (u32)_vr_fine1_pal_staticSegmentRomStart, (u32)_vr_fine1_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_fine2_staticSegmentRomStart, (u32)_vr_fine2_staticSegmentRomEnd },
+        { (u32)_vr_fine2_pal_staticSegmentRomStart, (u32)_vr_fine2_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_fine3_staticSegmentRomStart, (u32)_vr_fine3_staticSegmentRomEnd },
+        { (u32)_vr_fine3_pal_staticSegmentRomStart, (u32)_vr_fine3_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_cloud0_staticSegmentRomStart, (u32)_vr_cloud0_staticSegmentRomEnd },
+        { (u32)_vr_cloud0_pal_staticSegmentRomStart, (u32)_vr_cloud0_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_cloud1_staticSegmentRomStart, (u32)_vr_cloud1_staticSegmentRomEnd },
+        { (u32)_vr_cloud1_pal_staticSegmentRomStart, (u32)_vr_cloud1_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_cloud2_staticSegmentRomStart, (u32)_vr_cloud2_staticSegmentRomEnd },
+        { (u32)_vr_cloud2_pal_staticSegmentRomStart, (u32)_vr_cloud2_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_cloud3_staticSegmentRomStart, (u32)_vr_cloud3_staticSegmentRomEnd },
+        { (u32)_vr_cloud3_pal_staticSegmentRomStart, (u32)_vr_cloud3_pal_staticSegmentRomEnd },
+    },
+    {
+        { (u32)_vr_holy0_staticSegmentRomStart, (u32)_vr_holy0_staticSegmentRomEnd },
+        { (u32)_vr_holy0_pal_staticSegmentRomStart, (u32)_vr_holy0_pal_staticSegmentRomEnd },
+    },
 };
+
 u8 D_8011FDCC = 0;
 u8 D_8011FDD0 = 0;
 u8 D_8011FDD4 = 0;
@@ -528,7 +563,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
 }
 
 // func_8006FC88 skybox related
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
@@ -601,61 +636,57 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
 
         if ((newSkybox1Index != envCtx->skybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_BG1_START;
-            size = gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromEnd -
-                   gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromStart;
+            size = gSkyboxFiles[newSkybox1Index].file.vromEnd - gSkyboxFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
             DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[0],
-                                gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_BG].vromStart, size, 0, &envCtx->loadQueue,
-                                NULL, "../z_kankyo.c", 1264);
+                                gSkyboxFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
         if ((newSkybox2Index != envCtx->skybox2Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_BG2_START;
-            size = gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromEnd -
-                   gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromStart;
+            size = gSkyboxFiles[newSkybox2Index].file.vromEnd - gSkyboxFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
             DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[1],
-                                gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_BG].vromStart, size, 0, &envCtx->loadQueue,
-                                NULL, "../z_kankyo.c", 1281);
+                                gSkyboxFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
         }
 
         if (envCtx->skyboxDmaState == SKYBOX_DMA_BG1_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS1_START;
-            size = gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromEnd -
-                   gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart;
+            size = gSkyboxFiles[newSkybox1Index].pallete.vromEnd - gSkyboxFiles[newSkybox1Index].pallete.vromStart;
 
             if ((newSkybox1Index & 1) != ((s32)(newSkybox1Index & 4) >> 2)) {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
-                                    gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
-                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1307);
+                                    gSkyboxFiles[newSkybox1Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                    "../z_kankyo.c", 1307);
             } else {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size, size,
-                                    gSkyboxFiles[newSkybox1Index][SKYBOX_FILE_CLOUDS].vromStart, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1320);
+                                    gSkyboxFiles[newSkybox1Index].pallete.vromStart, 0, &envCtx->loadQueue, NULL,
+                                    "../z_kankyo.c", 1320);
             }
         }
 
         if (envCtx->skyboxDmaState == SKYBOX_DMA_BG2_DONE) {
             envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS2_START;
-            size = gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromEnd -
-                   gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart;
+            size = gSkyboxFiles[newSkybox2Index].pallete.vromEnd - gSkyboxFiles[newSkybox2Index].pallete.vromStart;
 
             if ((newSkybox2Index & 1) != ((s32)(newSkybox2Index & 4) >> 2)) {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
-                                    gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
-                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1342);
+                                    gSkyboxFiles[newSkybox2Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                    "../z_kankyo.c", 1342);
             } else {
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size,
-                                    gSkyboxFiles[newSkybox2Index][SKYBOX_FILE_CLOUDS].vromStart, size, 0,
-                                    &envCtx->loadQueue, NULL, "../z_kankyo.c", 1355);
+                                    gSkyboxFiles[newSkybox2Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                    "../z_kankyo.c", 1355);
             }
         }
 
@@ -672,9 +703,9 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
         envCtx->skyboxBlend = skyboxBlend;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
-#endif
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
+// #endif
 
 // runs when camera is entering water
 void func_80070600(GlobalContext* globalCtx, s32 arg1) {

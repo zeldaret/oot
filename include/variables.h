@@ -234,7 +234,7 @@ extern u8 gSkyboxBlendingEnabled;
 extern u16 gTimeIncrement;
 extern u16 D_8011FB44;
 extern struct_8011FC1C D_8011FC1C[][9];
-extern RomFile gSkyboxFiles[][2];
+extern SkyboxFile gSkyboxFiles[];
 extern u8 D_8011FDCC;
 extern u8 D_8011FDD0;
 extern u8 D_8011FDD4;
