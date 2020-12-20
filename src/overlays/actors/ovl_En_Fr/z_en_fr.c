@@ -591,10 +591,7 @@ void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007BC), 2, 0.0f);
 
         this->actionFunc = EnFr_JumpingBackIntoWater;
-    }
-
-    // Jumping up
-    else if (this->isJumpingUp) {
+    } else if (this->isJumpingUp) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007BC), 2, 0.0f);
         this->actionFunc = EnFr_JumpingUp;
     }
