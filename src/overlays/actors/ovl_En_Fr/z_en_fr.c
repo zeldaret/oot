@@ -140,11 +140,11 @@ typedef struct {
 // A pointer to each NPC froc actor instance on the heap
 EnFrPointers sEnFrPointers = {
     0x00,
-    { 0x00000000,  // Frog 0: (Yellow - Middle)
-      0x00000000,  // Frog 1: (Blue - Front Left)
-      0x00000000,  // Frog 2: (Red - Front Right)
-      0x00000000,  // Frog 3: (Purple - Back Left)
-      0x00000000 } // Frog 4: (White - Back Right)
+    { NULL,  // Frog 0: (Yellow - Middle)
+      NULL,  // Frog 1: (Blue - Front Left)
+      NULL,  // Frog 2: (Red - Front Right)
+      NULL,  // Frog 3: (Purple - Back Left)
+      NULL } // Frog 4: (White - Back Right)
 };
 
 // Flags for gSaveContext.eventChkInf[13]
