@@ -234,20 +234,19 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
-#ifdef NON_MATCHING
-void func_80B53980(EnZl3* this, s16 y, s32 idx) {
-    SkelAnime* skelAnime = &this->skelAnime;
+void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
+    EnZl3* this = THIS; // this function might take thisx
     s32 action = this->action;
-    EnZl3* this2 = this;
     s16 y2 = y;
     s32 yTemp;
     f32 animCurrentFrame;
     f32 unk_3DC;
 
     if (this->unk_2FC != 0) {
-        s32 temp25C = this2->unk_25C[idx];
-        s32 temp28C = (s16)(y + this2->unk_28C[idx]);
-        s32 temp2BC = y - this2->unk_2BC[idx];
+        SkelAnime* skelAnime = &this->skelAnime;
+        s32 temp25C = this->unk_25C[idx];
+        s32 temp28C = (s16)(y + this->unk_28C[idx]);
+        s32 temp2BC = y - this->unk_2BC[idx];
 
         if ((s32)fabsf(temp2BC) > 0x8000) {
             if (y2 > 0) {
@@ -274,7 +273,6 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx) {
             temp28C = y;
             temp25C = 0;
         }
-
         if (idx == 0 && action == 3) {
             yTemp = y + -11000;
             if (skelAnime->mode == 2) {
@@ -302,30 +300,22 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx) {
     }
     this->unk_2BC[idx] = y;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
-#endif
 
 // Assorted regalloc issues
 #ifdef NON_MATCHING
-void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
+void func_80B53B64(EnZl3* thisx, s16 z, s32 idx) {
+    EnZl3* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 action = this->action;
     s32 phi_a1;
     s32 idx25C;
     s16 temp_t1;
     s32 temp_a0;
-    s32 temp_a3_2;
-    s32 temp_a3_3;
-    s32 temp_a3_4;
-    s32 temp_a3_5;
-    s32 temp_a3_6;
-    s32 temp_a3_7;
-    s32 temp_a3_8;
+    s32 temp_a3;
     s32 temp_v1_3;
     s32 phi_v1;
     s32 phi_v0;
-    s32 phi_v1_2;
+    s32 test;
 
     if (idx == 2) {
         phi_a1 = 15000;
@@ -351,11 +341,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
     }
 
     if (this->unk_2FC != 0) {
-        temp_t1 = this->unk_25C[idx];
-        temp_a3_3 = this->unk_28C[idx] + z;
+        phi_v0 = temp_t1 = this->unk_25C[idx];
+        temp_a3 = this->unk_28C[idx] + z;
         phi_v1 = z - this->unk_2BC[idx];
-        temp_a0 = (s16)(temp_a3_3);
-        phi_v0 = temp_t1;
+        temp_a0 = (s16)(temp_a3);
 
         if ((s32)fabsf(phi_v1) > 0x8000) {
             if (z > 0) {
@@ -391,9 +380,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
         if (phi_v0 != 0) {
             phi_v0 -= phi_v0 / 10;
         }
+        test = (s16)(temp_a0 - phi_a1);
 
-        if ((s16)(temp_a0 - phi_a1) != 0) {
-            phi_v0 -= (s16)(temp_a0 - phi_a1) / 50;
+        if (test != 0) {
+            phi_v0 -= test / 50;
         }
 
         temp_a0 += phi_v0;
@@ -408,9 +398,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 animCurrentFrame = skelAnime->animCurrentFrame;
 
-                    temp_a3_2 = (s32)(((this->unk_3E0 - animCurrentFrame) / this->unk_3E0) * -2000.0f) + phi_a1;
-                    if (temp_a3_2 >= phi_a1) {
-                        phi_a1 = temp_a3_2;
+                    temp_a3 = (s32)(((this->unk_3E0 - animCurrentFrame) / this->unk_3E0) * -2000.0f) + phi_a1;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -418,9 +408,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 5) {
                 if (skelAnime->mode == 2) {
-                    temp_a3_3 = (s32)((skelAnime->animCurrentFrame / this->unk_3E4) * -2000.0f) + phi_a1;
-                    if (temp_a3_3 >= phi_a1) {
-                        phi_a1 = temp_a3_3;
+                    temp_a3 = (s32)((skelAnime->animCurrentFrame / this->unk_3E4) * -2000.0f) + phi_a1;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -438,15 +428,15 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     f32 unk_3F4 = this->unk_3F4;
 
                     if (skelAnime->animCurrentFrame <= 42.0f) {
-                        phi_v1_2 = phi_a1 - 2000;
+                        temp_a3 = phi_a1 - 2000;
                     } else {
-                        phi_v1_2 =
+                        temp_a3 =
                             (s32)((((skelAnime->animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) +
                             phi_a1;
                     }
 
-                    if (phi_v1_2 >= phi_a1) {
-                        phi_a1 = phi_v1_2;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -461,9 +451,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 22) {
                 if (skelAnime->mode == 2) {
-                    temp_a3_4 = (s32)(((skelAnime->animCurrentFrame / this->unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
-                    if (temp_a3_4 >= phi_a1) {
-                        phi_a1 = temp_a3_4;
+                    temp_a3 = (s32)(((skelAnime->animCurrentFrame / this->unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -478,9 +468,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 23) {
                 if (skelAnime->mode == 2) {
-                    temp_a3_5 = (s32)(((skelAnime->animCurrentFrame / this->unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
-                    if (temp_a3_5 >= phi_a1) {
-                        phi_a1 = temp_a3_5;
+                    temp_a3 = (s32)(((skelAnime->animCurrentFrame / this->unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -495,9 +485,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 24) {
                 if (skelAnime->mode == 2) {
-                    temp_a3_6 = (s32)(((skelAnime->animCurrentFrame / this->unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
-                    if (temp_a3_6 >= phi_a1) {
-                        phi_a1 = temp_a3_6;
+                    temp_a3 = (s32)(((skelAnime->animCurrentFrame / this->unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
+                    if (temp_a3 >= phi_a1) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 < 0) {
                             phi_v0 /= -2;
                         }
@@ -514,9 +504,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
         } else if (idx == 11 || idx == 17) {
             if (action == 4) {
                 if (skelAnime->mode == 2) {
-                    temp_a3_7 = (s32)((skelAnime->animCurrentFrame / this->unk_3E0) * -7000.0f) + phi_a1;
-                    if (phi_a1 >= temp_a3_7) {
-                        phi_a1 = temp_a3_7;
+                    temp_a3 = (s32)((skelAnime->animCurrentFrame / this->unk_3E0) * -7000.0f) + phi_a1;
+                    if (phi_a1 >= temp_a3) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 > 0) {
                             phi_v0 /= -2;
                         }
@@ -533,9 +523,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 animCurrentFrame = skelAnime->animCurrentFrame;
 
-                    temp_a3_8 = (s32)(((this->unk_3E4 - animCurrentFrame) / this->unk_3E4) * -7000.0f) + phi_a1;
-                    if (phi_a1 >= temp_a3_8) {
-                        phi_a1 = temp_a3_8;
+                    temp_a3 = (s32)(((this->unk_3E4 - animCurrentFrame) / this->unk_3E4) * -7000.0f) + phi_a1;
+                    if (phi_a1 >= temp_a3) {
+                        phi_a1 = temp_a3;
                         if (phi_v0 > 0) {
                             phi_v0 /= -2;
                         }

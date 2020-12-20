@@ -770,8 +770,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Sgami"
     include "build/src/overlays/actors/ovl_Bg_Haka_Sgami/z_bg_haka_sgami.o"
-    include "build/data/overlays/actors/z_bg_haka_sgami.data.o"
-    include "build/data/overlays/actors/z_bg_haka_sgami.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Sgami/ovl_Bg_Haka_Sgami_reloc.o"
 endseg
 
 beginseg
@@ -1148,8 +1147,7 @@ endseg
 beginseg
     name "ovl_Bg_Relay_Objects"
     include "build/src/overlays/actors/ovl_Bg_Relay_Objects/z_bg_relay_objects.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.data.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Relay_Objects/ovl_Bg_Relay_Objects_reloc.o"
 endseg
 
 beginseg
@@ -1280,7 +1278,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot15_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.o"
-    include "build/data/overlays/actors/z_bg_spot15_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/ovl_Bg_Spot15_Saku_reloc.o"
 endseg
 
 beginseg
@@ -1956,7 +1954,7 @@ endseg
 beginseg
     name "ovl_En_Bird"
     include "build/src/overlays/actors/ovl_En_Bird/z_en_bird.o"
-    include "build/data/overlays/actors/z_en_bird.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bird/ovl_En_Bird_reloc.o"
 endseg
 
 beginseg
@@ -2854,11 +2852,7 @@ endseg
 beginseg
     name "ovl_En_Po_Sisters"
     include "build/src/overlays/actors/ovl_En_Po_Sisters/z_en_po_sisters.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Po_Sisters/ovl_En_Po_Sisters_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_po_sisters.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3006,11 +3000,7 @@ endseg
 beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Stream/ovl_En_Stream_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_stream.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3122,11 +3112,7 @@ endseg
 beginseg
     name "ovl_En_Tubo_Trap"
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/z_en_tubo_trap.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tubo_Trap/ovl_En_Tubo_Trap_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tubo_trap.reloc.o"
-#endif
 endseg
 
 beginseg
