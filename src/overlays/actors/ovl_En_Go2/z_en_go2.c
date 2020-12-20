@@ -13,59 +13,29 @@
 
 // InfTable
 
-
-// EnGo
-
 // gSaveContext.infTable[11] & 0x10
-
-// gSaveContext.infTable[14] & 0x1 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
-// gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
-
-
-// gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
-// gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening
-
-// gSaveContext.infTable[16] & 0x200 -
-// gSaveContext.infTable[16] & 0x400
-// gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
-
-// gSaveContext.infTable[16] & 0x2000 - EnGo Exclusive
-// gSaveContext.infTable[16] & 0x4000
-// gSaveContext.infTable[16] & 0x8000 - (not on cloud modding)
-
-
-
-
-// EnGo2
-// gSaveContext.infTable[11] & 0x10
-
 // gSaveContext.infTable[14] & 0x1 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
 // gSaveContext.infTable[14] & 0x8 - Talked to GC Goron in bottom level stairwell
 // gSaveContext.infTable[14] & 0x40 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
 // gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
-
 // gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 // gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening
-// door, before getting goron bracelet) 
-
+// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door, before getting goron bracelet) 
 // gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
 // gSaveContext.infTable[16] & 0x400 - (not on cloud modding)
 // gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
 // gSaveContext.infTable[16] & 0x1000 - Stopped Goron Link's Rolling
+// gSaveContext.infTable[16] & 0x2000 - EnGo Exclusive
 // gSaveContext.infTable[16] & 0x4000 - Spoke to Goron Link
 // gSaveContext.infTable[16] & 0x8000 - (not on cloud modding)
 
 // gSaveContext.infTable[17] & 0x4000 - Bomb bag upgrade obtained from rolling Goron
 
-
-
 // EnGo
 // this->actor.params & 0xF
-//      - Only checks in func_80A3F300 if (this->actor.params & 0xF == 0xF), if so immediately ends and returns 0 (start
-//      of the func)
+//      - pathIndex
 // this->actor.params & 0xF0
+//      - Goron
 
 // EnGo2
 // (this->actor.params & 0x3E0) >> 5
@@ -88,10 +58,9 @@ void EnGo2_GetDustData(EnGo2* this, s32 index2);
 void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemID);
 s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx);
 
-// EnGo2_getTextIdGoronFireGeneric
+// EnGo2_getTextIdGoronFireGeneric (too identical)
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this);
 
-// Remove
 u16 EnGo2_getTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this);
@@ -120,7 +89,6 @@ u16 EnGo2_getTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this);
-// Unremove
 
 u16 EnGo2_getTextId(GlobalContext* globalCtx, EnGo2* this);
 u16 EnGo2_getState(GlobalContext* globalCtx, EnGo2* this);
@@ -141,7 +109,6 @@ s32 EnGo2_IsWakingUp(EnGo2* this);
 
 s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3);
 
-// EnGo2_getTextIdGoronDmtBiggoron
 void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* player);
 
 void func_80A45288(EnGo2* this, GlobalContext* globalCtx);
@@ -163,7 +130,6 @@ void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx);
 void EnGo2_BeginRolling(EnGo2* this, GlobalContext* globalCtx);
 void EnGo2_StopRolling(EnGo2* this, GlobalContext* globalCtx);
 
-// 6 below return true/false condition
 s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx);
 s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this);
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, GlobalContext* globalCtx);
@@ -193,11 +159,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx);
 
 s32 EnGo2_DrawCurledUp(EnGo2* this, GlobalContext* globalCtx);
 s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx);
-
-// Remove
 s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-// Unremove
 
 extern AnimationHeader D_06000750;
 extern AnimationHeader D_06000D5C;
@@ -430,66 +393,23 @@ s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
     switch ((this->actor.params & 0xFC00) >> 0xA) {
         case 3:
-            // GORON_FIRE_MAZE_LOWER
-            // "I'll tell you a secret for saving me!
-            // In this temple, there are doors that fall down when you try to  open them.
-            // When one of these doors starts to fall, move!
-            // If you use a sample of the Goron \"special crop,\" you can break it..."
             return 0x3069;
-
         case 5:
-            // GORON_FIRE_MAZE_SIDE_ROOM
-            // "Let me tell you a secret as a reward for releasing me!
-            // When you are on fire, you can put it out by swinging your sword, or by rolling forward...
-            // Did you know that?"
             return 0x306A;
-
         case 4:
-            // GORON_FIRE_MAZE_SHORTCUT
-            // "Here's a tip for rescuing me!
-            // Somewhere in this temple, you're sure to meet up with some creatures that dance as they attack.
-            // Arrows won't hurt them!
-            // Looks like you might need some of the Goron \"special crop!\" That's all I have to tell you!"
             return 0x306B;
-
         case 2:
-            // GORON_FIRE_LAVA_ROOM_BOMB
-            // "I'll tell you a secret for saving me!
-            // There are switches in this temple that you have to cut to activate.
-            // But, you can also use the Goron \"special crop\" to do the job."
             return 0x306C;
-
         case 10:
-            // GORON_FIRE_MAZE_UPPER
-            // "I'll tell you a secret for saving me!
-            // If you find a place that you can see on the map, but can't reach, try playing your Ocarina!"
             return 0x306D;
-
         case 8:
-            // GORON_FIRE_NEAR_BOSS
-            // "I'll tell you a secret for saving me!
-            // In order to get into the room where Darunia went, you have to do something about the pillar stuck in the
-            // ceiling. Find a path that leads to a room above the ceiling right away!"
             return 0x306E;
-
         case 11:
-            // GORON_FIRE_HIGHEST
-            // "I'll tell you a secret for saving me!
-            // A door is hidden inside the statue at the entrance to this temple.
-            // But, the Goron \"special crop\" won't work on it... Don't you have anything stronger?"
             return 0x306F;
-
         case 1:
-            // GORON_FIRE_LAVA_ROOM_OPEN
-            // "Here's a secret for saving me!
-            // A wall that you can destroy with the Goron's \"special crop\"
-            // will sound different than a regular wall if you hit it with your sword."
             return 0x3070;
-
         default:
-            // GORON_FIRE_BOSS_KEY
-            // "Oh, I see. Big Brother Darunia asked you to rescue me. I owe you big time!  Please help Big Brother!"
-            return 0x3052;
+             return 0x3052;
     }
 }
 
@@ -546,25 +466,8 @@ u16 EnGo2_getStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
                 // Ask question to DMT Goron by bomb flower
                 if (this->actor.textId == 0x300A) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
-                        // 0x300B
-                        // "Those plants growing over there  are Bomb Flowers.
-                        // They are \"mining plants\" that grow only on this mountain.
-                        // The flower's fruit is the raw  material for bombs.
-                        // But a non-Goron amateur should  never pick the Bomb Flowers'  fruit!
-                        // They usually grow only in dark  places, so Bomb Flowers that grow in a place like this are
-                        // extremely rare."
-                        //
-                        // 0x300C
-                        // "Those plants growing over there  are Bomb Flowers.
-                        // They are \"mining plants\" that grow only on this mountain.
-                        // They usually grow only in dark  places, like caves, so Bomb  Flowers that grow in a place
-                        // like this are extremely rare. If you have the Goron's Bracelet, even a little kid like you
-                        // could easily pick it with [A]."
                         this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) ? 0x300B : 0x300C;
                     } else {
-                        // "Did you see the cavern on your  way here? That is the Dodongo's  Cavern.
-                        // Because the light inside is very  dim, the Bomb Flowers,
-                        // a plant  unique to this mountain, grow like crazy in there!" },
                         this->actor.textId = 0x300D;
                     }
                     func_8010B720(globalCtx, this->actor.textId);
@@ -578,16 +481,8 @@ u16 EnGo2_getStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 
 u16 EnGo2_getTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-        // "You are incredible, destroying  the Dodongos! Do you mind if I  call you Big Brother?"
         return 0x3027;
     } else {
-
-        // 0x3026
-        // "Oh, I see... We should have thrown the  Bomb from the cliff..."
-
-        // 0x3009
-        // "I wish I could roll down the  mountain like a rock, with a Bomb Flower and...  BOOOOOOM!
-        // If I could do that with a Bomb  Flower, I could become a real man."
         return (gSaveContext.eventChkInf[2] & 0x8) ? 0x3026 : 0x3009;
     }
 }
@@ -705,19 +600,10 @@ u16 EnGo2_getStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, globalCtx)) {
         case 2:
             switch (this->actor.textId) {
-                // 0x3036
-                // "Everybody was taken to the  Fire Temple...  While my dad was out... Ganondorf's followers
-                // came and took them all away! All of them will be eaten by Volvagia!  Dad said that Ganondorf
-                // has revived Volvagia... As a warning to those who might oppose him, Ganondorf is going to
-                // feed them all to Volvagia! Dad went to the Fire Temple all by himself to try to save
-                // everyone... Please help, [Link]! I'll give you this heat-resistant tunic!"
                 case 0x3036:
                     EnGo2_GetItem(this, globalCtx, GI_TUNIC_GORON);
                     this->actionFunc = EnGo2_InitGetItem;
                     return 2;
-                // "Dad told me not to let anybody  follow him to the temple, but...  Only you, [Link], can save
-                // everyone! I'm sure that the shop owner, who is hiding somewhere right now, will also help you! Now,
-                // I'll tell you about the secret passage to the Fire Temple![goto 3038]"
                 case 0x3037:
                     gSaveContext.infTable[16] |= 0x4000;
                 default:
@@ -725,33 +611,13 @@ u16 EnGo2_getStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             }
         case 4:
             if (func_80106BC8(globalCtx)) {
-                // "You'd better try to calm him down if you can...
-                // Maybe he will calm down if you  talk to him?  What do you want to ask him?  About the dragon About
-                // the Gorons"
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
-                        // 0x3035
-                        // "A long time ago there was an evil dragon named Volvagia living  in this mountain.
-                        // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons...
-                        // BOOOM! Destroyed it just like that. This is  a myth from long ago, but it's  true! I know,
-                        // because my dad is a descendant of the hero! [goto 3033]"
-
-                        // 0x3033
-                        // "B-b-b-boooo hooooo!"
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
                             func_800F8D04(0x39EB);
                         }
                     } else {
-                        // 0x3036
-                        // "Everybody was taken to the  Fire Temple...  While my dad was out... Ganondorf's followers
-                        // came and took them all away! All of them will be eaten by Volvagia!  Dad said that Ganondorf
-                        // has revived Volvagia... As a warning to those who might oppose him, Ganondorf is going to
-                        // feed them all to Volvagia! Dad went to the Fire Temple all by himself to try to save
-                        // everyone... Please help, [Link]! I'll give you this heat-resistant tunic!"
-
-                        // 0x3033
-                        // "B-b-b-boooo hooooo!"
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
                             func_800F8D04(0x39EB);
@@ -767,27 +633,10 @@ u16 EnGo2_getStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
         case 5:
             if (func_80106BC8(globalCtx)) {
                 switch (this->actor.textId) {
-                    // 0x3035
-                    // "A long time ago there was an evil dragon named Volvagia living  in this mountain.
-                    // That dragon was very scary! He ate Gorons!  Using a huge hammer, the hero of the Gorons... BOOOM!
-                    // Destroyed it just like that. This is  a myth from long ago, but it's  true!
-                    // I know, because my dad is a descendant of the hero![goto 3033]" },
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
-                    // 0x3032
-                    // "What?  Your name is also [Link]?  Then you must be the legendary Dodongo Buster and Hero,
-                    // [Link]! My dad is Darunia... Do you remember him?  Dad named me [Link] after you, because you're
-                    // so  brave!  It's a cool name! I really like it!  [Link], you're a hero to  us Gorons!  I'm so
-                    // glad to meet you!  Please give me your autograph! Sign it: \"To my friend,[Link] of the Gorons\"
-                    // Oh...  I guess it's not a good time to ask you for this... Please help everyone!  My dad,
-                    // Darunia, went to the Fire Temple. A dragon is inside! If we don't hurry up, even my dad will be
-                    // eaten by the dragon!![goto 3033]" 0x3033 "B-b-b-boooo hooooo!"
                     case 0x3032:
                     case 0x3033:
-
-                        // "You'd better try to calm him down if you can...
-                        // Maybe he will calm down if you  talk to him?  What do you want to ask him?  About the dragon
-                        // About the Gorons"
                         this->actor.textId = 0x3034;
                         func_8010B720(globalCtx, this->actor.textId);
                         return 1;
@@ -823,7 +672,6 @@ u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
 
     switch (EnGo2_GetDialogState(this, globalCtx)) {
         case 6:
-            // "That sworrrrd is my finest  worrrrk!"
             if (this->actor.textId == 0x305E) {
                 if (gSaveContext.bgsFlag == 0) {
                     EnGo2_GetItem(this, globalCtx, GI_SWORD_BGS);
@@ -837,7 +685,6 @@ u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             }
         case 3:
             switch (this->actor.textId) {
-                // "That sworrrrd is my finest  worrrrk!"
                 case 0x305E:
                     if (func_8002F368(globalCtx) != EXCH_ITEM_CLAIM_CHECK) {
                         break;
@@ -881,10 +728,8 @@ u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
 
 u16 EnGo2_getTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
-        // "Are you releasing me? Am I free to go?"
         return 0x3071;
     } else {
-        // "Please...Don't...Eat me... If you eat something like me, you'll get a stomach ache!  You'll be sorry!!"
         return 0x3051;
     }
 }
@@ -895,7 +740,6 @@ u16 EnGo2_getStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
             return 0;
         case 5:
             if (func_80106BC8(globalCtx)) {
-                // // "Are you releasing me? Am I free to go?"
                 if (this->actor.textId == 0x3071) {
                     this->actor.textId = EnGo2_GoronFireGenericGetTextId(this);
                     func_8010B720(globalCtx, this->actor.textId);
@@ -1227,7 +1071,6 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
     }
 }
 
-// EnGo_IsRollingOnGround
 s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
     s32 sound;
 
@@ -1521,7 +1364,7 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
             this->eyeTexIndex = 1;
             this->mouthTexIndex = 0;
             break;
-        // case 3 only when biggoron is given eyedrops. Biggoron smiles.
+        // case 3 only when biggoron is given eyedrops. Biggoron smiles. (only use of second mouth texture)
         case 3:
             this->blinkTimer = 0;
             this->eyeTexIndex = 0;

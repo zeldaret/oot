@@ -42,8 +42,8 @@ void EnGo_StopRolling(EnGo* this, GlobalContext* globalCtx);
 void func_80A4008C(EnGo* this, GlobalContext* globalCtx);
 void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx);
 void EnGo_FireGenericActionFunc(EnGo* this, GlobalContext* globalCtx);
+void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx);
 void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx);
-void EnGo_WakeUpAnimation(EnGo* this, GlobalContext* globalCtx);
 
 void func_80A40494(EnGo* this, GlobalContext* globalCtx);
 void func_80A405CC(EnGo* this, GlobalContext* globalCtx);
@@ -57,10 +57,9 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx);
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx);
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx);
 
-void func_80A40F58(EnGo* this, GlobalContext* globalCtx);
-void func_80A41068(EnGo* this, GlobalContext* globalCtx);
+void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx);
+void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx);
 
-// draw
 s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
@@ -98,24 +97,20 @@ const ActorInit En_Go_InitVars = {
     (ActorFunc)EnGo_Draw,
 };
 
-// static ColliderCylinderInit sCylinderInit
-ColliderCylinderInit D_80A41B00 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-// static CollisionCheckInfoInit2 sColChkInfoInit
-CollisionCheckInfoInit2 D_80A41B2C = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
-EnGoSkelAnime D_80A41B38[4] = { { &D_06004930, 0.0f, 0x01, 0.0f },
-                                { &D_06004930, 0.0f, 0x01, -10.0f },
-                                { &D_060029A8, 1.0f, 0x01, -10.0f },
-                                { &D_06010590, 1.0f, 0x01, -10.0f } };
-
-
+static EnGoSkelAnime D_80A41B38[4] = { { &D_06004930, 0.0f, 0x01, 0.0f },
+                                       { &D_06004930, 0.0f, 0x01, -10.0f },
+                                       { &D_060029A8, 1.0f, 0x01, -10.0f },
+                                       { &D_06010590, 1.0f, 0x01, -10.0f } };
 
 void EnGo_SetupAction(EnGo* this, void* actionFunc) {
     this->actionFunc = actionFunc;
@@ -396,19 +391,19 @@ s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
     // GORON1_DMT_BIGGORON
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    // GORON1_FIRE_GENERIC
+        // GORON1_FIRE_GENERIC
     } else if (globalCtx->sceneNum == SCENE_HIDAN && Flags_GetSwitch(globalCtx, (this->actor.params) >> 8) == 0 &&
                LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x10) {
         return true;
-    // GORON1_CITY_LINK
+        // GORON1_CITY_LINK
     } else if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
-    // GORON1_DMT_DC_ENTRANCE, GORON1_DMT_ROLLING_SMALL, GORON1_DMT_BOMB_FLOWER
+        // GORON1_DMT_DC_ENTRANCE, GORON1_DMT_ROLLING_SMALL, GORON1_DMT_BOMB_FLOWER
     } else if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.linkAge == 1 &&
                ((this->actor.params & 0xF0) == 0x20 || (this->actor.params & 0xF0) == 0x30 ||
                 (this->actor.params & 0xF0) == 0x40)) {
         return true;
-    // GORON1_CITY_ENTRANCE, GORON1_CITY_ISLAND, GORON1_CITY_LOST_WOODS
+        // GORON1_CITY_ENTRANCE, GORON1_CITY_ISLAND, GORON1_CITY_LOST_WOODS
     } else if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1 &&
                ((this->actor.params & 0xF0) == 0x50 || (this->actor.params & 0xF0) == 0x60 ||
                 (this->actor.params & 0xF0) == 0x70)) {
@@ -439,7 +434,8 @@ void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 unkVal;
 
-    if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc && this->actionFunc != func_80A40B1C) {
+    if (this->actionFunc != EnGo_BiggoronActionFunc && this->actionFunc != EnGo_FireGenericActionFunc &&
+        this->actionFunc != func_80A40B1C) {
         unkVal = 1;
     }
 
@@ -632,9 +628,10 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
 
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == EnGo_FireGenericActionFunc ||
-        this->actionFunc == EnGo_Eyedrops || this->actionFunc == func_80A40DCC || this->actionFunc == EnGo_GetItem ||
-        this->actionFunc == func_80A40C78 || this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_GoronLinkRolling ||
+        this->actionFunc == EnGo_FireGenericActionFunc || this->actionFunc == EnGo_Eyedrops ||
+        this->actionFunc == func_80A40DCC || this->actionFunc == EnGo_GetItem || this->actionFunc == func_80A40C78 ||
+        this->actionFunc == func_80A40B1C) {
 
         float1 = (this->collider.dim.radius + 30.0f);
         float1 *= (this->actor.scale.x / 0.01f);
@@ -681,15 +678,15 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
     s32 pad;
-    Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
+    Vec3f D_80A41BD_80A41B9C9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_0600FEF0, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A41B00);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80A41B2C);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
     if (EnGo_IsActorSpawned(this, globalCtx) == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -710,7 +707,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.008f);
             if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                 EnGo_SetMovedPos(this, globalCtx);
-                EnGo_SetupAction(this, EnGo_WakeUp);
+                EnGo_SetupAction(this, EnGo_CurledUp);
             } else {
                 this->actor.shape.unk_08 = 1400.0f;
                 this->actor.speedXZ = 3.0f;
@@ -727,7 +724,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
                 EnGo_SetMovedPos(this, globalCtx);
             }
             Actor_SetScale(&this->actor, 0.015f);
-            EnGo_SetupAction(this, EnGo_WakeUp);
+            EnGo_SetupAction(this, EnGo_CurledUp);
             break;
         case 0x30:
             this->actor.shape.unk_08 = 1400.0f;
@@ -737,14 +734,14 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0x90:
             this->actor.unk_1F = 5;
             Actor_SetScale(&this->actor, 0.16f);
-            EnGo_SetupAction(this, EnGo_WakeUp);
+            EnGo_SetupAction(this, EnGo_CurledUp);
             break;
         case 0x20:
         case 0x50:
         case 0x60:
         case 0x70:
             Actor_SetScale(&this->actor, 0.01f);
-            EnGo_SetupAction(this, EnGo_WakeUp);
+            EnGo_SetupAction(this, EnGo_CurledUp);
             break;
         default:
             Actor_Kill(&this->actor);
@@ -795,7 +792,7 @@ void func_80A4008C(EnGo* this, GlobalContext* globalCtx) {
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         if (this->unk_21A == 0) {
             this->actor.shape.unk_08 = 0.0f;
-            EnGo_SetupAction(this, EnGo_WakeUp);
+            EnGo_SetupAction(this, EnGo_CurledUp);
         } else {
             EnGo_SpawnDust(this, 0xC, 0.16f, 0.1f, 1, 10.0f, 20.0f);
         }
@@ -819,7 +816,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_FireGenericActionFunc(EnGo* this, GlobalContext* globalCtx) {
 }
 
-void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
     if ((DECR(this->unk_210) == 0) && EnGo_IsCameraModified(this, globalCtx)) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -827,14 +824,14 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
         this->skelanime.animPlaybackSpeed = 0.1f;
         this->skelanime.animPlaybackSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
 
-        EnGo_SetupAction(this, EnGo_WakeUpAnimation);
+        EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
             func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
         }
     }
 }
 
-void EnGo_WakeUpAnimation(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
     f32 float1;
 
     if (this->skelanime.animPlaybackSpeed != 0.0f) {
@@ -861,7 +858,6 @@ void EnGo_WakeUpAnimation(EnGo* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         EnGo_SetupAction(this, &func_80A405CC);
-        return;
     } else if (EnGo_IsCameraModified(this, globalCtx) == 0) {
         EnGo_SwapInitialFrameAnimFrameCount(this);
         this->skelanime.animPlaybackSpeed = 0.0f;
@@ -884,7 +880,7 @@ void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
         this->skelanime.animPlaybackSpeed = 0.0f;
         this->skelanime.animCurrentFrame = 0.0f;
         this->unk_210 = Math_Rand_S16Offset(30, 30);
-        EnGo_SetupAction(this, EnGo_WakeUp);
+        EnGo_SetupAction(this, EnGo_CurledUp);
     }
 }
 
@@ -930,9 +926,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_GetItem(this, globalCtx);
             }
         }
-    }
-
-    else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
+    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -1000,7 +994,6 @@ void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
         func_80A3EDE0(this, 3);
         EnGo_SetupAction(this, func_80A40A54);
-        return;
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
     }
@@ -1051,13 +1044,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             this->unk_1E0.unk_00 = 0;
             gSaveContext.bgsFlag = 1;
         } else if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_PRESCRIPTION) {
-            // "I've been waiting forrrrr you, with tearrrrrrs in my eyes... Please say hello to Kinnng Zorrra!"
             this->actor.textId = 0x3058;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
         } else if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_CLAIM_CHECK) {
-            // "Afterrrr a few days... Please returrrrrrn... Wait, just wait patiently..."
-            this->actor.textId = 0x305C; // 0x305C is used in EnGo but not EnGo2
+            this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
             func_800775D8();
@@ -1067,10 +1058,6 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
-        // "Wowwwwwwwwwwwwww!!  This is stimulating! It's worrrrrking grrrrreat!
-        // Now I can get back to my blade business!
-        // My worrrrrk is not  verrrry consistent, so I'll give this to you so you won't forrrrrget."
-        // [goto 305C] "Afterrrr a few days... Please returrrrrrn... Wait, just wait patiently..." }
         this->actor.textId = 0x305A;
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_1E0.unk_00 = 1;
@@ -1097,7 +1084,8 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
-    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc || this->actionFunc == func_80A40B1C) {
+    if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
+        this->actionFunc == func_80A40B1C) {
         func_80034F54(globalCtx, this->unk_220, this->unk_244, 0x12);
     }
     func_80A3F274(this);
@@ -1111,7 +1099,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A3F060(this, globalCtx);
 }
 
-void func_80A40F58(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     Vec3f D_80A41BB4 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2320);
@@ -1128,7 +1116,7 @@ void func_80A40F58(EnGo* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
 
-void func_80A41068(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 
     Vec3f D_80A41BC0 = { 0.0f, 0.0f, 0.0f };
 
@@ -1197,12 +1185,12 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo_DrawDust(this, globalCtx);
     Matrix_Pull();
 
-    if (this->actionFunc == EnGo_WakeUp) {
-        func_80A40F58(this, globalCtx);
+    if (this->actionFunc == EnGo_CurledUp) {
+        EnGo_DrawCurledUp(this, globalCtx);
         return;
     } else if (this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == func_80A3FEB4 ||
                this->actionFunc == EnGo_StopRolling || this->actionFunc == func_80A3FEB4) {
-        func_80A41068(this, globalCtx);
+        EnGo_DrawRolling(this, globalCtx);
         return;
     } else {
         func_800943C8(globalCtx->state.gfxCtx);
