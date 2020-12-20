@@ -505,15 +505,11 @@ void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
 
     if (this->blinkTimer) {
         this->blinkTimer--;
-    }
-
-    else if (this->eyeTexIndex) {
+    } else if (this->eyeTexIndex) {
         this->eyeTexIndex = 0;
         this->blinkTimer = (s16)(Math_Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimer;
-    }
-
-    else {
+    } else {
         this->eyeTexIndex = 1;
         this->blinkTimer = 1;
     }
