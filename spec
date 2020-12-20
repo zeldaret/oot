@@ -3385,8 +3385,7 @@ endseg
 beginseg
     name "ovl_Obj_Hamishi"
     include "build/src/overlays/actors/ovl_Obj_Hamishi/z_obj_hamishi.o"
-    include "build/data/overlays/actors/z_obj_hamishi.data.o"
-    include "build/data/overlays/actors/z_obj_hamishi.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Hamishi/ovl_Obj_Hamishi_reloc.o"
 endseg
 
 beginseg
