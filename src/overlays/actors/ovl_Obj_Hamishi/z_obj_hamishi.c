@@ -128,7 +128,6 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
 
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHamishi* this = THIS;
-    s16 newRotY;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -136,10 +135,8 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
-        newRotY = Math_Rand_ZeroFloat(65536.0f);
-        this->actor.initPosRot.rot.y = newRotY;
-        this->actor.posRot.rot.y = newRotY;
-        this->actor.shape.rot.y = newRotY;
+        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y =
+            Math_Rand_ZeroFloat(65536.0f);
     }
 
     ObjHamishi_InitCollision(&this->actor, globalCtx);
@@ -175,7 +172,7 @@ void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->shakeRotSize = 400.0f;
         } else {
             ObjHamishi_Break(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
             Actor_Kill(&this->actor);
         }
