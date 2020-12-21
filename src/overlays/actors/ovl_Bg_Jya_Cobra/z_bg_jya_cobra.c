@@ -9,6 +9,11 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06010790;
+extern UNK_TYPE D_06010C20;
+extern UNK_TYPE D_0601167C;
+extern UNK_TYPE D_060117D0;
+
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,

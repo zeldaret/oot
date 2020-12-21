@@ -80,7 +80,7 @@ glabel EnJj_Draw
 /* 008FC 80A880FC AFB00018 */  sw      $s0, 0x0018($sp)
 /* 00900 80A88100 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00904 80A88104 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00908 80A88108 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00908 80A88108 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0090C 80A8810C 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 00910 80A88110 8FB9005C */  lw      $t9, 0x005C($sp)
 /* 00914 80A88114 3C0680A9 */  lui     $a2, %hi(D_80A88D20)       ## $a2 = 80A90000

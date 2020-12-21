@@ -7,8 +7,8 @@ glabel func_809CF72C
 /* 0104C 809CF72C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01050 809CF730 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 01054 809CF734 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 01058 809CF738 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 0105C 809CF73C 24A521A0 */  addiu   $a1, $a1, 0x21A0           ## $a1 = 060021A0
+/* 01058 809CF738 3C050600 */  lui     $a1, %hi(D_060021A0)                ## $a1 = 06000000
+/* 0105C 809CF73C 24A521A0 */  addiu   $a1, $a1, %lo(D_060021A0)           ## $a1 = 060021A0
 /* 01060 809CF740 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 01064 809CF744 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01068 809CF748 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop

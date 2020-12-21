@@ -43,8 +43,6 @@ extern const u32* D_801538F4;
 extern const u32* D_801538F8;
 extern const MessageTableEntry* D_801538FC;
 
-extern const u8 D_8015394C[];
-
 extern u16 D_8014B31C;
 extern s16 D_8014B310;
 
@@ -291,6 +289,10 @@ s16 D_801759BE;
 
 extern UNK_TYPE D_02002E40;
 
+extern const u8 D_8015394C[];
+
+#define NON_CONST_ARR(x, type) ((type)(x))
+
 void func_801069B0(void) {
     s16* D_80153958_NonConst;
 
@@ -299,8 +301,8 @@ void func_801069B0(void) {
     VREG(47) = 0xB3;
     VREG(48) = 0xAE;
     VREG(49) = 0xA9;
-    NON_CONST(D_8015394C, u8*)[0] = 0xFF;
-    D_80153958_NonConst = &NON_CONST(D_80153958, s16);
+    NON_CONST_ARR(D_8015394C, u8*)[0] = 0xFF;
+    D_80153958_NonConst = &NON_CONST_ARR(D_80153958, s16*)[0];
     D_80153958_NonConst[8] = 0;
     D_80153958_NonConst[7] = D_80153958_NonConst[8];
     D_80153958_NonConst[6] = D_80153958_NonConst[8];

@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // Draw properties
-Gfx D_809ADC38[] = {
+static Gfx D_809ADC38[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
@@ -57,7 +57,7 @@ static Vtx sCuboidVertices[] = {
 };
 
 // Cuboid polygons
-Gfx D_809ADCF8[] = {
+static Gfx D_809ADCF8[] = {
     gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
     gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),

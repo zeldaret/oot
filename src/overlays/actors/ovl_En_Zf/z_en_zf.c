@@ -15,6 +15,21 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06006690;
+extern UNK_TYPE D_06008138;
+extern UNK_TYPE D_06008C6C;
+extern UNK_TYPE D_06009530;
+extern UNK_TYPE D_0600A3D4;
+extern UNK_TYPE D_0600B10C;
+extern UNK_TYPE D_0600E198;
+extern UNK_TYPE D_06010060;
+extern UNK_TYPE D_060104B8;
+extern UNK_TYPE D_060119F4;
+extern UNK_TYPE D_0601366C;
+extern UNK_TYPE D_06014E60;
+extern UNK_TYPE D_060157F8;
+extern UNK_TYPE D_06016388;
+
 /*
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,

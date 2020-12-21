@@ -538,8 +538,11 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                  this->actor.initPosRot.rot.z & 1);
 }
 
-void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnGoroiwa* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void func_80A4D5E0(EnGoroiwa* this) {

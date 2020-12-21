@@ -1,3 +1,30 @@
+.late_rodata
+
+glabel jtbl_8087A7F0
+    .word L80879D7C
+    .word L80879D7C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D7C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D84
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D7C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D7C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D8C
+    .word L80879D7C
+    .word L80879D7C
+
+.text
 glabel func_80879D4C
 /* 002AC 80879D4C 848E001C */  lh      $t6, 0x001C($a0)           ## 0000001C
 /* 002B0 80879D50 3C0F8088 */  lui     $t7, %hi(D_8087AC40)       ## $t7 = 80880000

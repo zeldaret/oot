@@ -41,7 +41,7 @@ For macOS, use homebrew to install the following dependencies:
 * python3
 ```bash
 brew update
-brew install coreutils make python3
+brew install coreutils make python3 md5sha1sum
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).

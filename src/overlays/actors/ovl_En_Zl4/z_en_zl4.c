@@ -15,6 +15,27 @@ void EnZl4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02000104;
+extern UNK_TYPE D_02000444;
+extern UNK_TYPE D_02003994;
+extern UNK_TYPE D_0600E038;
+extern UNK_TYPE D_0600F0A4;
+extern UNK_TYPE D_0600F894;
+extern UNK_TYPE D_06010DF8;
+extern UNK_TYPE D_060125E4;
+extern UNK_TYPE D_06012E58;
+extern UNK_TYPE D_06015F14;
+extern UNK_TYPE D_060169B4;
+extern UNK_TYPE D_06016D08;
+extern UNK_TYPE D_0601805C;
+extern UNK_TYPE D_06018898;
+extern UNK_TYPE D_0601910C;
+extern UNK_TYPE D_0601A2FC;
+extern UNK_TYPE D_0601AAE0;
+extern UNK_TYPE D_0601B874;
+extern UNK_TYPE D_0601BCF0;
+extern UNK_TYPE D_0601CE08;
+
 /*
 const ActorInit En_Zl4_InitVars = {
     ACTOR_EN_ZL4,
