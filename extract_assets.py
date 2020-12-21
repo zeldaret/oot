@@ -31,14 +31,7 @@ for currentPath, folders, files in os.walk("assets"):
 		fullPath = os.path.join(currentPath, file)
 		if file.endswith(".xml") and currentPath.startswith("assets/xml"):
 			outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
-			#print(outPath)
-			#print(fullPath.split("assets/xml/"))
 			xmlFiles.append(fullPath)
-
-			#if (fullPath.startswith("assets/xml/scenes/")):
-				#ExtractScene(fullPath, outPath)
-			#else:
-				#Extract(fullPath, outPath)
 
 numCores = cpu_count()
 print("Extracting assets with " + str(numCores) + " CPU cores.")
