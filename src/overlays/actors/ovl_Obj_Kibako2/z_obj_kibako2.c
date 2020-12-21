@@ -14,7 +14,8 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_80B95DFC(ObjKibako2* thisx, GlobalContext* globalCtx);
+void func_80B95DFC(ObjKibako2* this, GlobalContext* globalCtx);
+void func_80B95ED4(ObjKibako2* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000960[];
 extern UNK_TYPE D_06000B70;
@@ -96,7 +97,20 @@ void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95DFC.s")
+void func_80B95DFC(ObjKibako2 *this, GlobalContext *globalCtx) {
+    if ((this->collider.base.acFlags & 2) != 0 || this->dyna.actor.initPosRot.rot.z != 0 || func_80033684(globalCtx, &this->dyna.actor) != 0) {
+        func_80B95A28(this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        this->dyna.actor.flags = this->dyna.actor.flags | 0x10;
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        this->dyna.actor.draw = NULL;
+        this->actionFunc = func_80B95ED4;
+        return;
+    }
+    if (this->dyna.actor.xzDistFromLink < 600.0f) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95ED4.s")
 
