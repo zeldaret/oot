@@ -3853,8 +3853,8 @@ endseg
 beginseg
     name "object_sk2"
     romalign 0x1000
-    include "build/baserom/object_sk2.o"
-    //include "build/assets/objects/object_sk2/object_sk2.o"
+    //include "build/baserom/object_sk2.o"
+    include "build/assets/objects/object_sk2/object_sk2.o"
     number 06
 endseg
 
@@ -4524,7 +4524,9 @@ endseg
 beginseg
     name "object_spot09_obj"
     romalign 0x1000
-    include "build/baserom/object_spot09_obj.o"
+    //include "build/baserom/object_spot09_obj.o"
+    include "build/assets/objects/object_spot09_obj/object_spot09_obj.o"
+    number 06
 endseg
 
 beginseg

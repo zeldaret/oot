@@ -1,5 +1,5 @@
 <Root>
-    <File Name="object_sk2">
+    <File Name="object_sk2" Segment="6">
         <DList Name="skeltonDLHead" Address="0x53D0"/>
         <DList Name="skeltonDLThirdVertebrae" Address="0x5720"/>
         <DList Name="skeltonDLRightShoulderBone" Address="0x57B8"/>
