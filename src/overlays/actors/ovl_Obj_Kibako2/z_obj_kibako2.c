@@ -32,18 +32,29 @@ const ActorInit Obj_Kibako2_InitVars = {
     (ActorFunc)ObjKibako2_Draw,
 };
 
-s32 D_80B95FD0[] = { 0x0A000900, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x40000040,
-                     0x00000000, 0x00010000, 0x001F0030, 0x00000000, 0x00000000 };
+// sCylinderInit
+static ColliderCylinderInit D_80B95FD0 =
+{
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 31, 48, 0, { 0, 0, 0 } },
+};
 
 // sInitChain
-static InitChainEntry D_80B95FFC[] = {
+InitChainEntry D_80B95FFC[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B959D0.s")
+void func_80B959D0(Actor *thisx, GlobalContext *globalCtx) {
+    ObjKibako2 *this = THIS;
+
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80B95FD0);
+    Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95A28.s")
 
