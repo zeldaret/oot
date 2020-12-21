@@ -3341,8 +3341,7 @@ endseg
 beginseg
     name "ovl_Mir_Ray"
     include "build/src/overlays/actors/ovl_Mir_Ray/z_mir_ray.o"
-    include "build/data/overlays/actors/z_mir_ray.data.o"
-    include "build/data/overlays/actors/z_mir_ray.reloc.o"
+    include "build/src/overlays/actors/ovl_Mir_Ray/ovl_Mir_Ray_reloc.o"
 endseg
 
 beginseg
