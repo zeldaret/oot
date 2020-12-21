@@ -95,6 +95,10 @@ void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95ED4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Update.s")
+void ObjKibako2_Update(Actor *thisx, GlobalContext *globalCtx) {
+    ObjKibako2 *this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Draw.s")
