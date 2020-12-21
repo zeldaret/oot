@@ -30,9 +30,9 @@
  * In the final game these environments only have a timer and do not damage you continuously.
  ***/
 
-#define HEART_PRIM_BURN_PRIM_R 255
-#define HEART_PRIM_BURN_PRIM_G 190
-#define HEART_PRIM_BURN_PRIM_B 0
+#define HEART_BURN_PRIM_R 255
+#define HEART_BURN_PRIM_G 190
+#define HEART_BURN_PRIM_B 0
 
 #define HEART_PRIM_BURN_ENV_R 255
 #define HEART_PRIM_BURN_ENV_G 0
@@ -48,8 +48,8 @@
 
 s16 sHeartPrimColors[][3] = {
     { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
-    { HEART_PRIM_BURN_PRIM_R, HEART_PRIM_BURN_PRIM_G, HEART_PRIM_BURN_PRIM_B }, // unused
-    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B },             // unused
+    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
+    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
 };
 
 s16 sHeartEnvColors[][3] = {
