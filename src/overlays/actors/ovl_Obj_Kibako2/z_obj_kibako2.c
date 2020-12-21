@@ -69,7 +69,6 @@ void func_80B95CA4(ObjKibako2 *this, GlobalContext *globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
     s16 pad;
@@ -79,19 +78,16 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
     sp2C = 0;
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, D_80B95FFC);
-    func_80B959D0(this, globalCtx);
+    func_80B959D0(thisx, globalCtx);
     DynaPolyInfo_Alloc(&D_06000B70, &sp2C);
     dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
     this->unk_1B4 = this->dyna.actor.initPosRot.rot.z & 0x3F;
     this->dyna.dynaPolyId = dynaPolyId;
     this->actionFunc = func_80B95DFC;
-    this->dyna.actor.initPosRot.rot.z = this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
+    this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
     // Wooden box (deferred)
     osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->unk_1B4, this->dyna.actor.initPosRot.rot.x);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Init.s")
-#endif
 
 void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
