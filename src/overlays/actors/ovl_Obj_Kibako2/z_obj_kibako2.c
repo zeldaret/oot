@@ -19,7 +19,6 @@ extern UNK_TYPE D_06000960;
 extern UNK_TYPE D_06000B70;
 extern UNK_TYPE D_06001000;
 
-/*
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORTYPE_BG,
@@ -31,7 +30,12 @@ const ActorInit Obj_Kibako2_InitVars = {
     (ActorFunc)ObjKibako2_Update,
     (ActorFunc)ObjKibako2_Draw,
 };
-*/
+
+s32 D_80B95FD0[] = { 0x0A000900, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x40000040,
+                     0x00000000, 0x00010000, 0x001F0030, 0x00000000, 0x00000000 };
+
+s32 D_80B95FFC[] = { 0xC8500064, 0xB0F40BB8, 0xB0F801F4, 0x30FC03E8, 0x00000000 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B959D0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95A28.s")
