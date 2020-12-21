@@ -112,7 +112,16 @@ void func_80B95DFC(ObjKibako2 *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95ED4.s")
+void func_80B95ED4(ObjKibako2 *this, GlobalContext *globalCtx) {
+    s16 params;
+
+    params = this->dyna.actor.params;
+    if ((params & 0x8000) == 0) {
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x95, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
+    }
+    func_80B95CA4(this, globalCtx);
+    Actor_Kill(&this->dyna.actor);
+}
 
 void ObjKibako2_Update(Actor *thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
