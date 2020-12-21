@@ -40,13 +40,10 @@ void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC)
     Collider_DrawPoly(gfx, vA, vB, vC, 255, 0, 0);
 }
 
-#ifdef NON_MATCHING
-// regalloc starting in the loop
 void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
     Vtx* vtxTbl;
     Vtx* vtx;
     f32 nx, ny, nz, originDist;
-    s32 i;
 
     OPEN_DISPS(gfx, "../z_collision_check.c", 713);
 
@@ -56,16 +53,8 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gSPTexture(POLY_OPA_DISP++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
     gDPPipeSync(POLY_OPA_DISP++);
-#ifdef NON_MATCHING
-    do {
-        Gfx* temp = POLY_OPA_DISP++;
-        temp->words.w0 = 0xFC41C7FF;
-        temp->words.w1 = 0xFFFFFE38;
-    } while (0);
-#else
     gDPSetCombineLERP(POLY_OPA_DISP++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                       COMBINED);
-#endif
     gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -91,9 +80,9 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
         vtx->n.flag = 0;
         vtx->n.tc[0] = 0;
         vtx->n.tc[1] = 0;
-        vtx->n.n[0] = nx;
-        vtx->n.n[1] = ny;
-        vtx->n.n[2] = nz;
+        vtx->n.n[0] = (u8)(s32)nx & 0xFF;
+        vtx->n.n[1] = (u8)(s32)ny & 0xFF;
+        vtx->n.n[2] = (u8)(s32)nz & 0xFF;
         vtx->n.a = 255;
     }
 
@@ -102,9 +91,6 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
 
     CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/Collider_DrawPoly.s")
-#endif
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
     static Collider init = { NULL, NULL, NULL, NULL, AT_OFF, AC_OFF, OC_OFF, OT_NONE, COLTYPE_HIT3, COLSHAPE_INVALID };
@@ -3208,15 +3194,17 @@ void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, actorPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#ifdef NON_EQUIVALENT // Might actually be equivalent. It's hard to tell.
+#ifdef NON_MATCHING // Might actually be equivalent. It's hard to tell.
 
 #define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
 #define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
 
-// Determines if the line segment connecting itemPos and itemProjPos intersects a cylinder with the given radius,
-// height, and offset at actorPos. Returns 3 if either endpoint is in the cylinder, otherwise returns the number of
-// points of intersection with the side of the cylinder. The locations of those points, if any, are put in out1 and
-// out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
+/*
+ * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
+ * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
+ * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
+ * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
+ */
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2) {
     Vec3f actorToItem;
@@ -3350,12 +3338,11 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     return 1;
 }
 #else
-
 /*
- * Determines if the line segment connecting itemPos and itemProjPos intersects a cylinder with the given
- * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise
- * returns the number of points of intersection with the side of the cylinder. The locations of those
- * points, if any, are put in out1 and out2, with out1 being closer to itemPos.
+ * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
+ * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
+ * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
+ * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
  */
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
