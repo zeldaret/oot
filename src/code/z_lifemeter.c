@@ -142,13 +142,10 @@ void Health_InitData(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// this function still needs some work but it should be functionally equivalent
 void Health_UpdateData(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    f32 temp_f0 = interfaceCtx->unk_1FE * 0.1f;
-    s16 temp1, temp2, temp3;
-
-    if (0) {}
+    f32 factor = globalCtx->interfaceCtx.unk_1FE * 0.1f;
+    s32 i;
 
     if (interfaceCtx->unk_200 != 0) {
         interfaceCtx->unk_1FE--;
@@ -165,7 +162,7 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     }
 
     interfaceCtx->healthPrimR[0] = HEART_PRIM_R;
-    interfaceCtx->healthPrimG[0] = HEART_PRIM_R;
+    interfaceCtx->healthPrimG[0] = HEART_PRIM_G;
     interfaceCtx->healthPrimB[0] = HEART_PRIM_B;
 
     interfaceCtx->healthEnvR[0] = HEART_ENV_R;
@@ -180,25 +177,13 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     interfaceCtx->healthEnvG[1] = sHeartEnvColors[0][1];
     interfaceCtx->healthEnvB[1] = sHeartEnvColors[0][2];
 
-    temp1 = D_8011FF38[0][0];
-    temp2 = D_8011FF38[0][1];
-    temp3 = D_8011FF38[0][2];
-    temp1 *= temp_f0;
-    interfaceCtx->beatingHeartPrim[0] = (u8)(temp1 + HEART_PRIM_R);
-    temp2 *= temp_f0;
-    interfaceCtx->beatingHeartPrim[1] = (u8)(temp2 + HEART_PRIM_R);
-    temp3 *= temp_f0;
-    interfaceCtx->beatingHeartPrim[2] = (u8)(temp3 + HEART_PRIM_B);
+    interfaceCtx->beatingHeartPrim[0] = (s32)((D_8011FF38[0][0] * factor) + HEART_PRIM_R) & 0xFF;
+    interfaceCtx->beatingHeartPrim[1] = (s32)((D_8011FF38[0][1] * factor) + HEART_PRIM_G) & 0xFF;
+    interfaceCtx->beatingHeartPrim[2] = (s32)((D_8011FF38[0][2] * factor) + HEART_PRIM_B) & 0xFF;
 
-    temp1 = D_8011FF4C[0][0];
-    temp2 = D_8011FF4C[0][1];
-    temp3 = D_8011FF4C[0][2];
-    temp1 *= temp_f0;
-    interfaceCtx->beatingHeartEnv[0] = (u8)(temp1 + HEART_ENV_R);
-    temp2 *= temp_f0;
-    interfaceCtx->beatingHeartEnv[1] = (u8)(temp2 + HEART_ENV_G);
-    temp3 *= temp_f0;
-    interfaceCtx->beatingHeartEnv[2] = (u8)(temp3 + HEART_ENV_B);
+    interfaceCtx->beatingHeartEnv[0] = (s32)((D_8011FF4C[0][0] * factor) + HEART_ENV_R) & 0xFF;
+    interfaceCtx->beatingHeartEnv[1] = (s32)((D_8011FF4C[0][1] * factor) + HEART_ENV_G) & 0xFF;
+    interfaceCtx->beatingHeartEnv[2] = (s32)((D_8011FF4C[0][2] * factor) + HEART_ENV_B) & 0xFF;
 
     D_8015FDD0[0][0] = HEART_DOUBLE_DEFENSE_PRIM_R;
     D_8015FDD0[0][1] = HEART_DOUBLE_DEFENSE_PRIM_G;
@@ -208,33 +193,27 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     D_8015FDE0[0][1] = HEART_DOUBLE_DEFENSE_ENV_G;
     D_8015FDE0[0][2] = HEART_DOUBLE_DEFENSE_ENV_B;
 
-    D_8015FDD0[1][0] = D_8011FF60[0][0];
-    D_8015FDD0[1][1] = D_8011FF60[0][1];
-    D_8015FDD0[1][2] = D_8011FF60[0][2];
+    // ido might have unrolled this
+    for (i = 0; i < 3; i++) {
+        D_8015FDD0[1][i] = D_8011FF60[0][i];
+        D_8015FDE0[1][i] = D_8011FF74[0][i];
+    }
+    /*
+        D_8015FDD0[1][0] = D_8011FF60[0][0];
+        D_8015FDD0[1][1] = D_8011FF60[0][1];
+        D_8015FDD0[1][2] = D_8011FF60[0][2];
 
-    D_8015FDE0[1][0] = D_8011FF74[0][0];
-    D_8015FDE0[1][1] = D_8011FF74[0][1];
-    D_8015FDE0[1][2] = D_8011FF74[0][2];
+        D_8015FDE0[1][0] = D_8011FF74[0][0];
+        D_8015FDE0[1][1] = D_8011FF74[0][1];
+        D_8015FDE0[1][2] = D_8011FF74[0][2];
+    */
+    D_8015FDC0[0] = (s32)((D_8011FF88[0][0] * factor) + HEART_DOUBLE_DEFENSE_PRIM_R) & 0xFF;
+    D_8015FDC0[1] = (s32)((D_8011FF88[0][1] * factor) + HEART_DOUBLE_DEFENSE_PRIM_G) & 0xFF;
+    D_8015FDC0[2] = (s32)((D_8011FF88[0][2] * factor) + HEART_DOUBLE_DEFENSE_PRIM_B) & 0xFF;
 
-    temp1 = D_8011FF88[0][0];
-    temp2 = D_8011FF88[0][1];
-    temp3 = D_8011FF88[0][2];
-    temp1 *= temp_f0;
-    D_8015FDC0[0] = (u8)(temp1 + HEART_DOUBLE_DEFENSE_PRIM_R);
-    temp2 *= temp_f0;
-    D_8015FDC0[1] = (u8)(temp2 + HEART_DOUBLE_DEFENSE_PRIM_G);
-    temp3 *= temp_f0;
-    D_8015FDC0[2] = (u8)(temp3 + HEART_DOUBLE_DEFENSE_PRIM_B);
-
-    temp1 = D_8011FF9C[0][0];
-    temp2 = D_8011FF9C[0][1];
-    temp3 = D_8011FF9C[0][2];
-    temp1 *= temp_f0;
-    D_8015FDC8[0] = (u8)(temp1 + HEART_DOUBLE_DEFENSE_ENV_R);
-    temp2 *= temp_f0;
-    D_8015FDC8[1] = (u8)(temp2 + HEART_DOUBLE_DEFENSE_ENV_G);
-    temp3 *= temp_f0;
-    D_8015FDC8[2] = (u8)(temp3 + HEART_DOUBLE_DEFENSE_ENV_B);
+    D_8015FDC8[0] = (s32)((D_8011FF9C[0][0] * factor) + HEART_DOUBLE_DEFENSE_ENV_R) & 0xFF;
+    D_8015FDC8[1] = (s32)((D_8011FF9C[0][1] * factor) + HEART_DOUBLE_DEFENSE_ENV_G) & 0xFF;
+    D_8015FDC8[2] = (s32)((D_8011FF9C[0][2] * factor) + HEART_DOUBLE_DEFENSE_ENV_B) & 0xFF;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_UpdateData.s")
