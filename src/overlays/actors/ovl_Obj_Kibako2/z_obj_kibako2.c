@@ -84,7 +84,12 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Init.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Destroy.s")
+void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    ObjKibako2 *this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95DFC.s")
 
