@@ -16,7 +16,7 @@ void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B95DFC(ObjKibako2* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06000960;
+extern Gfx D_06000960[];
 extern UNK_TYPE D_06000B70;
 extern UNK_TYPE D_06001000;
 
@@ -101,4 +101,6 @@ void ObjKibako2_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/ObjKibako2_Draw.s")
+void ObjKibako2_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_06000960);
+}
