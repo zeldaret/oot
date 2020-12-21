@@ -1,7 +1,7 @@
 <Root>
     <File Name="sutaru_scene">
         <Scene Name="sutaru_scene">
-            <BlobHint Address="0xC4" Size="0x0C"/>
+            <BlobHint Offset="0xC4" Size="0x0C"/>
         </Scene>
     </File>
     <File Name="sutaru_room_0">

@@ -1,8 +1,8 @@
 <Root>
     <File Name="spot10_scene">
         <Scene Name="spot10_scene">
-            <PathHint Address="0xC088"/>
-            <PathHint Address="0xC090"/>
+            <PathHint Offset="0xC088"/>
+            <PathHint Offset="0xC090"/>
         </Scene>
     </File>
     <File Name="spot10_room_0">

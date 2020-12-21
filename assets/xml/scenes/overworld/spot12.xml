@@ -1,7 +1,7 @@
 <Root>
     <File Name="spot12_scene">
         <Scene Name="spot12_scene">
-        <CutsceneHint Address="0x6490"/>
+        <CutsceneHint Offset="0x6490"/>
         </Scene>
     </File>
     <File Name="spot12_room_0">
