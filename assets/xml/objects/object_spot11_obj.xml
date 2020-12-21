@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_spot11_obj" Segment="6">
-        <Blob Name="bgSpot11Unk" Address="0x0000" Size="0x940"/>
-        <DList Name="bgSpot11DList1" Address="0x1980"/>
-        <Blob Name="bgSpot11DPI1" Address="0x1A58" Size="0x30"/>
+        <Blob Name="gBgSpot11Unk" Address="0x0000" Size="0x940"/>
+        <DList Name="gBgSpot11DL1" Address="0x1980"/>
+        <Blob Name="gBgSpot11Col" Address="0x1A58" Size="0x30"/>
     </File>
 </Root>

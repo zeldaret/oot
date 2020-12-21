@@ -108,7 +108,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     func_808B2180(this, globalCtx);
-    DynaPolyInfo_Alloc(bgSpot11DPI1, &sp24);
+    DynaPolyInfo_Alloc(gBgSpot11Col, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Actor_SetScale(&this->dyna.actor, 1.0f);
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -138,5 +138,5 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, bgSpot11DList1);
+    Gfx_DrawDListOpa(globalCtx, gBgSpot11DL1);
 }

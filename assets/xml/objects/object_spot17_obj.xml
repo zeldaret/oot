@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_spot17_obj" Segment="6">
-        <Blob Name="bgSpot17Unk" Address="0x0000" Size="0xA70"/>
-        <DList Name="bgSpot17DList1" Address="0xB40"/>
+        <Blob Name="gBgSpot17Unk" Address="0x0000" Size="0xA70"/>
+        <DList Name="gBgSpot17DL1" Address="0xB40"/>
     </File>
 </Root>

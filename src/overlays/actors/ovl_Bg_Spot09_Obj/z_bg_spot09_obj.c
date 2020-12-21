@@ -32,7 +32,7 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static UNK_PTR D_808B1F90[] = { NULL, bgSpot09DPI1, bgSpot09DPI2, bgSpot09DPI3, bgSpot09DPI4 };
+static UNK_PTR D_808B1F90[] = { NULL, gBgSpot09Col1, gBgSpot09Col2, gBgSpot09Col3, gBgSpot09Col4 };
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -52,7 +52,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-static Gfx* sDLists[] = { bgSpot09DList1, bgSpot09DList2, bgSpot09DList3, bgSpot09DList4, bgSpot09DList5 };
+static Gfx* sDLists[] = { gBgSpot09DL1, gBgSpot09DL2, gBgSpot09DL3, gBgSpot09DL4, gBgSpot09DL5 };
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 carpentersRescued;
@@ -175,7 +175,7 @@ void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, bgSpot09DList6);
+        gSPDisplayList(POLY_XLU_DISP++, gBgSpot09DL6);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }
