@@ -344,8 +344,7 @@ void EnBb_SetupKill(EnBb* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = -7.0f;
         this->timer = 5;
         this->actor.shape.rot.x += 0x4E20;
-        EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, 0x38CE, NA_SE_PL_WALK_SAND - SFX_FLAG,
-                                          NA_SE_PL_WALK_SAND - SFX_FLAG, 0x28);
+        EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_BUBLE_DEAD, 1, 1, 0x28);
     }
     this->action = BB_KILL;
     EnBb_SetupAction(this, EnBb_Kill);
