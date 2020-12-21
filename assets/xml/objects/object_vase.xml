@@ -1,5 +1,7 @@
 <Root>
-    <File Name="object_vase">
+    <File Name="object_vase" Segment="6">
         <DList Name="objVaseMesh"/>
+        <Texture Name="objVaseTop" Format="rgb5a1" Width="32" Height="32" Address="0xD90"/>
+        <Texture Name="objVaseBody" Format="rgb5a1" Width="32" Height="32" Address="0x590"/>
     </File>
 </Root>
