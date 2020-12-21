@@ -58,7 +58,16 @@ void func_80B959D0(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95A28.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95CA4.s")
+void func_80B95CA4(ObjKibako2 *this, GlobalContext *globalCtx) {
+    s16 initXPos;
+    s16 temp;
+
+    temp = this->unk_1B4;
+    initXPos = this->dyna.actor.initPosRot.rot.x;
+    if (initXPos >= 0 && initXPos < 0x1A) {
+        Item_DropCollectible(globalCtx, &this->dyna.actor.posRot.pos, initXPos | (temp << 8));
+    }
+}
 
 #ifdef NON_MATCHING
 void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {

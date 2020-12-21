@@ -12,7 +12,8 @@ typedef struct ObjKibako2 {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderCylinder collider;
     /* 0x01B0 */ ObjKibako2ActionFunc actionFunc;
-    /* 0x01B4 */ s32 unk_1B4;
+    /* 0x01B4 */ s16 unk_1B4;
+    /* 0x01B6 */ char unk_1B6[0x2];
 } ObjKibako2; // size = 0x01B8
 
 extern const ActorInit Obj_Kibako2_InitVars;
