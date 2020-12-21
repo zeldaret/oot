@@ -73,8 +73,8 @@
         <Blob Name="Unknown4" Address="0x0000FF38" Size="0x48"/>
         <Blob Name="Unknown5" Address="0x0000FF80" Size="0xD0"/>
         <DList Name="Gfx_Effect_Ss_Dust" Address="0x00010050"/>
-        <DList Name="Gfx_Mote_0" Address="0x00010130"/>
-        <DList Name="Gfx_Mote_1" Address="0x000101A8"/>
+        <DList Name="gameKeepDLMote0" Address="0x00010130"/>
+        <DList Name="gameKeepDLMote1" Address="0x000101A8"/>
         <Texture Name="Tex_Flash" Format="i8" Width="64" Height="64" Address="0x00010228"/>
         <Texture Name="Tex_Flame" Format="i8" Width="64" Height="32" Address="0x00011230"/>
         <Texture Name="Tex_Reflection" Format="i8" Width="64" Height="32" Address="0x00011A30"/>

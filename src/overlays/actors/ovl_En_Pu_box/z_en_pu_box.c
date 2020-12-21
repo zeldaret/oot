@@ -28,8 +28,6 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Draw,
 };
 
-extern UNK_TYPE puBoxDynaPolyInfo;
-
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
     EnPubox* this = THIS;
