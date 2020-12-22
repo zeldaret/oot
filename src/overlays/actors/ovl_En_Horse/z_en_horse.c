@@ -2969,7 +2969,7 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
     s32 sp70;
     u32 pad5;
     DynaPolyActor *dynaPoly;
-    Vec3f sp5C; // 5c ^ 64, directly above = 68
+    Vec3f sp5C;
     Vec3f sp50;
 
     func_8002E4B4(globalCtx, (Actor *) this, globalCtx->sceneNum == 99 ? 19.0f : 40.0f, 35.0f, 100.0f, 29);
