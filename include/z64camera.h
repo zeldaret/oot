@@ -875,7 +875,7 @@ typedef struct {
     /* 0x0100 */ f32 atLERPStepScale;
     /* 0x0104 */ f32 playerGroundY;
     /* 0x0108 */ Vec3f floorNorm;
-    /* 0x0114 */ f32 yDistToWaterPos;
+    /* 0x0114 */ f32 waterYPos;
     /* 0x0118 */ s32 waterPrevCamIdx;
     /* 0x011C */ s32 waterPrevCamSetting;
     /* 0x0120 */ s32 waterQuakeId;
