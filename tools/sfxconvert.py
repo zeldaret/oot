@@ -130,12 +130,9 @@ def fix_sfx(file, repo, outfile = None):
         if(i < j):
             continue
         if(find_audio_func(line)):
-            if(line.count(';')):
-                j = i + 1
-            else:
-                j = i
-                while(sourcedata[j].count(';') == 0):
-                    j += 1
+            j = i
+            while(sourcedata[j].count(';') == 0):
+                j += 1
             status = fix_sfx_func(sourcedata, i, j + 1, repo)
             if(status == -2):
                 iderrors += 1
