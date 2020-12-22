@@ -70,9 +70,9 @@ void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
 // Drawing Functions
 void EnFr_DrawIdle(EnFr* this);
 void EnFr_DrawActive(EnFr* this);
-s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx);
-void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this);
+void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* this);
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600B498; // Frog
@@ -140,11 +140,11 @@ typedef struct {
 // A pointer to each NPC froc actor instance on the heap
 EnFrPointers sEnFrPointers = {
     0x00,
-    { NULL,  // Frog 0: (Yellow - Middle)
-      NULL,  // Frog 1: (Blue - Front Left)
-      NULL,  // Frog 2: (Red - Front Right)
-      NULL,  // Frog 3: (Purple - Back Left)
-      NULL } // Frog 4: (White - Back Right)
+    { NULL,  // FROG_YELLOW
+      NULL,  // FROG_BLUE
+      NULL,  // FROG_RED
+      NULL,  // FROG_PURPLE
+      NULL } // FROG_WHITE
 };
 
 // Flags for gSaveContext.eventChkInf[13]
@@ -159,18 +159,18 @@ u16 sSongIndex[] = { 0x0002,   // ZL            (second bit)
 
 // u8 Frog Index
 // Frog to Index for Song Flag (sSongIndex) Mapping
-u8 sFrogToSongIndex[] = { 0x02,   // Frog 0: (Yellow - Middle)
-                          0x03,   // Frog 1: (Blue - Front Left)
-                          0x04,   // Frog 2: (Red - Front Right)
-                          0x00,   // Frog 3: (Purple - Back Left)
-                          0x01 }; // Frog 4: (White - Back Right)
+u8 sFrogToSongIndex[] = { 2,   // FROG_YELLOW
+                          3,   // FROG_BLUE
+                          4,   // FROG_RED
+                          0,   // FROG_PURPLE
+                          1 }; // FROG_WHITE
 
 // Song to Frog Index Mapping
-static s32 sSongToFrog[] = { 0x00000003,   // Song 0 = ZL    = Frog 3 = (Purple - Back Left)
-                             0x00000004,   // Song 1 = Epona = Frog 4 = (White - Back Right)
-                             0x00000000,   // Song 2 = Saria = Frog 0 = (Yellow - Middle)
-                             0x00000001,   // Song 3 = Suns  = Frog 1 = (Blue - Front Left)
-                             0x00000002 }; // Song 4 = SoT   = Frog 2 = (Red - Front Right)
+static s32 sSongToFrog[] = { 3,   // Song 0 = ZL    = FROG_PURPLE
+                             4,   // Song 1 = Epona = FROG_WHITE
+                             0,   // Song 2 = Saria = FROG_YELLOW
+                             1,   // Song 3 = Suns  = FROG_BLUE
+                             2 }; // Song 4 = SoT   = FROG_RED
 
 const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
@@ -184,11 +184,11 @@ const ActorInit En_Fr_InitVars = {
     NULL,
 };
 
-static EnFrColor sEnFrColor[5] = { { 0xC8, 0xAA, 0x00, 0xFF },   // frog 0 (Yellow - Middle)
-                                   { 0x00, 0xAA, 0xC8, 0xFF },   // frog 1 (Blue - Front Left)
-                                   { 0xD2, 0x78, 0x64, 0xFF },   // frog 2 (Red - Front Right)
-                                   { 0x78, 0x82, 0xE6, 0xFF },   // frog 3 (Purple - Back Left)
-                                   { 0xBE, 0xBE, 0xBE, 0xFF } }; // frog 4 (White - Back Right)
+static EnFrColor sEnFrColor[5] = { { 200, 170, 0, 255 },   // FROG_YELLOW
+                                   { 0, 170, 200, 255 },   // FROG_BLUE
+                                   { 210, 120, 100, 255 },   // FROG_RED
+                                   { 120, 130, 230, 255 },   // FROG_PURPLE
+                                   { 190, 190, 190, 255 } }; // FROG_WHITE
 
 // Jumping back into water frog animation
 //      sLogSpotToFromWater[frog].xzDist is magnitude of xz distance frog travels
@@ -196,11 +196,11 @@ static EnFrColor sEnFrColor[5] = { { 0xC8, 0xAA, 0x00, 0xFF },   // frog 0 (Yell
 //      sLogSpotToFromWater[frog].yDist is change in y distance frog travels
 static LogSpotToFromWater sLogSpotToFromWater[6] = {
     { 0.0, 0.0, 0.0 },              // Prop   (Where link pulls ocarina)
-    { 80.0, -0.375 * M_PI, -80.0 }, // frog 0 (Yellow - Middle)
-    { 80.0, -0.5 * M_PI, -80.0 },   // frog 1 (Blue - Front Left)
-    { 80.0, -0.25 * M_PI, -80.0 },  // frog 2 (Red - Front Right)
-    { 80.0, 0.875 * M_PI, -80.0 },  // frog 3 (Purple - Back Left)
-    { 80.0, 0.5 * M_PI, -80.0 }     // frog 4 (White - Back Right)
+    { 80.0, -0.375 * M_PI, -80.0 }, // FROG_YELLOW
+    { 80.0, -0.5 * M_PI, -80.0 },   // FROG_BLUE
+    { 80.0, -0.25 * M_PI, -80.0 },  // FROG_RED
+    { 80.0, 0.875 * M_PI, -80.0 },  // FROG_PURPLE
+    { 80.0, 0.5 * M_PI, -80.0 }     // FROG_WHITE
 };
 
 // Timer values for the frog song
@@ -218,11 +218,11 @@ InitChainEntry sInitChain[] = {
 
 // Counter to Coordinate Frog jumping out of water one at a time
 // Used as part of sEnFrPointers.flags
-static u8 sTimerJumpingOutOfWater[] = { 0x05,   // frog 0 (Yellow - Middle)
-                                        0x01,   // frog 1 (Blue - Front Left)
-                                        0x07,   // frog 2 (Red - Front Right)
-                                        0x03,   // frog 3 (Purple - Back Left)
-                                        0x09 }; // frog 4 (White - Back Right)
+static u8 sTimerJumpingOutOfWater[] = { 5,   // FROG_YELLOW
+                                        1,   // FROG_BLUE
+                                        7,   // FROG_RED
+                                        3,   // FROG_PURPLE
+                                        9 }; // FROG_WHITE
 
 // targetScale (default = 150.0) Actor scale target for Math_SmoothScaleMaxF
 // Used as a frog grows from hearing a new child song
@@ -231,32 +231,32 @@ static f32 sGrowingScale[] = { 180.0,   // 1st incremental scale
                                240.0,   // 3rd incremental scale
                                270.0 }; // Final scale
 
-static u8 sPitchSmallFrog[] = { 0x05,   // frog 0 (Yellow - C-Down Ocarina)
-                                0x02,   // frog 1 (Blue - A Button Ocarina)
-                                0x09,   // frog 2 (Red - C-Right Ocarina)
-                                0x0B,   // frog 3 (Purple - C-Left Ocarina)
-                                0x0E }; // frog 4 (White - C Up Ocarina)
+static u8 sPitchSmallFrog[] = { 5,   // frog 0 (Yellow - C-Down Ocarina)
+                                2,   // frog 1 (Blue - A Button Ocarina)
+                                9,   // frog 2 (Red - C-Right Ocarina)
+                                11,   // frog 3 (Purple - C-Left Ocarina)
+                                14 }; // frog 4 (White - C Up Ocarina)
 
-static u8 sPitchLargeFrog[] = { 0xF9,   // frog 0 (Yellow - C-Down Ocarina)
-                                0xF6,   // frog 1 (Blue - A Button Ocarina)
-                                0xFD,   // frog 2 (Red - C-Right Ocarina)
-                                0xFF,   // frog 3 (Purple - C-Left Ocarina)
-                                0x02 }; // frog 4 (White - C Up Ocarina)
+static s8 sPitchLargeFrog[] = { -7,   // frog 0 (Yellow - C-Down Ocarina)
+                                -10,   // frog 1 (Blue - A Button Ocarina)
+                                -3,   // frog 2 (Red - C-Right Ocarina)
+                                -1,   // frog 3 (Purple - C-Left Ocarina)
+                                2 }; // frog 4 (White - C Up Ocarina)
 
-static u8 sJumpOrder[] = { 0x01,   // frog 1 (Blue)
-                           0x00,   // frog 0 (Yellow)
-                           0x02,   // frog 2 (Red)
-                           0x03,   // frog 3 (Purple)
-                           0x04,   // frog 4 (White)
-                           0x01,   // frog 1 (Blue)
-                           0x00,   // frog 0 (Yellow)
-                           0x02 }; // frog 2 (Red)
+static u8 sJumpOrder[] = { FROG_BLUE,
+                           FROG_YELLOW,
+                           FROG_RED,
+                           FROG_PURPLE,
+                           FROG_WHITE,
+                           FROG_BLUE,
+                           FROG_YELLOW,
+                           FROG_RED };
 
-static u8 sOcarinaNotes[] = { 0x00,   // A Button
-                              0x01,   // C-Down
-                              0x02,   // C-Right
-                              0x03,   // C-Left
-                              0x04 }; // C-Up
+static u8 sOcarinaNotes[] = { 0,   // A Button
+                              1,   // C-Down
+                              2,   // C-Right
+                              3,   // C-Left
+                              4 }; // C-Up
 
 static s32 sDLists[] = { 0x060059A0, 0x06005BA0 };
 
@@ -307,9 +307,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
-    }
-
-    else {
+    } else {
         // Translation: The argument is wrong!!
         if ((this->actor.params >= 6) || (this->actor.params < 0)) {
             osSyncPrintf(VT_COL(RED, WHITE));
@@ -345,85 +343,89 @@ void EnFr_DrawActive(EnFr* this) {
     this->actor.draw = EnFr_Draw;
 }
 
+
+#ifdef NON_MATCHING
+void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
+
+    EnFr* this = THIS;
+    LightInfo* lightInfo;
+    s32 frogindex;
+    s16 randomNumber;
+
+    // if(globalCtx) {}
+
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+        this->actor.flags &= ~0x10;
+        frogindex = this->actor.params - 1;
+        sEnFrPointers.frogs[frogindex] = this;
+        Actor_ProcessInitChain(&this->actor, sInitChain);
+
+        // Skeleton for the frog
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
+                         &this->transitionDrawTable, 24);
+        // Skeleton for the butterfly
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->limbDrawTableButterfly,
+                       &this->transitionDrawTableButterfly, 8);
+
+        // When playing the frogs song for the HP,
+        // the frog with the next note and the butterfly
+        // turns on its lightsource
+        lightInfo = &this->lightInfo;
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
+        Lights_PointNoGlowSetInfo(lightInfo, this->actor.initPosRot.pos.x,
+                                  this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255,
+                                  255, 255, -1);
+
+        // Check to see if the song for a particular frog has been played.
+        // If it has, the frog is larger. If not, the frog is smaller
+        if (gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogindex]]) {
+            this->scale = 270.0f;
+        } else {
+            this->scale = 150.0f;
+        }
+
+        // When the frogs are not active (link doesn't have his ocarina out),
+        // Then shrink the frogs down by a factor of 10,000
+        Actor_SetScale(&this->actor, this->scale * 0.0001f);
+        this->actor.minVelocityY = -9999.0f;
+        Actor_SetHeight(&this->actor, 10.0f);
+
+        this->eyeTexIndex = 1;
+        randomNumber = ((s32)(Math_Rand_ZeroFloat(60.0f) + 20.0f) ) & 0xFFFF;
+        this->blinkTimer = (s16) randomNumber;
+        this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
+        this->posLogSpot = this->actor.posRot.pos;
+
+        this->isBelowWaterSurfaceCurrent = false;
+        this->isBelowWaterSurfacePrevious = false;
+
+        this->isJumpingUp = false;
+        this->actionFunc = EnFr_InitJumpingOutOfWater;
+        this->isDeactivating = false;
+        this->growingScaleIndex = 0;
+        this->isActive = false;
+        this->isJumpingToFrogSong = false;
+        this->songIndex = 7;
+        this->unusedButterflyActor = NULL;
+
+        EnFr_OrientUnderwater(this);
+        EnFr_DrawIdle(this);
+
+        this->actor.update = EnFr_UpdateActive;
+        this->isButterflyDrawn = false;
+        this->xyAngleButterfly = 0x1000 * (s16) Math_Rand_ZeroFloat(255.0f);
+        this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
+        this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
+        this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
+
+        this->actor.flags &= ~1;
+
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/EnFr_Update.s")
-// void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
+#endif
 
-//     EnFr* this = THIS;
-//     LightInfo* lightInfo;
-//     s32 frogindex;
-//     s16 randomNumber;
-
-//     // if(1) {}
-
-//     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-//         this->actor.flags &= ~0x10;
-//         frogindex = this->actor.params - 1;
-//         sEnFrPointers.frogs[frogindex] = this;
-//         Actor_ProcessInitChain(&this->actor, sInitChain);
-
-//         // Skeleton for the frog
-//         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
-//                          &this->transitionDrawTable, 24);
-//         // Skeleton for the butterfly
-//         SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->limbDrawTableButterfly,
-//                        &this->transitionDrawTableButterfly, 8);
-
-//         // When playing the frogs song for the HP,
-//         // the frog with the next note and the butterfly
-//         // turns on its lightsource
-//         lightInfo = &this->lightInfo;
-//         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
-//         Lights_PointNoGlowSetInfo(lightInfo, this->actor.initPosRot.pos.x,
-//                                   this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255,
-//                                   255, 255, -1);
-
-//         // Check to see if the song for a particular frog has been played.
-//         // If it has, the frog is larger. If not, the frog is smaller
-//         if (gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogindex]]) {
-//             this->scale = 270.0f;
-//         }
-//         else {
-//             this->scale = 150.0f;
-//         }
-
-//         // When the frogs are not active (link doesn't have his ocarina out),
-//         // Then shrink the frogs down by a factor of 10,000
-//         Actor_SetScale(&this->actor, this->scale * 0.0001f);
-//         this->actor.minVelocityY = -9999.0f;
-//         Actor_SetHeight(&this->actor, 10.0f);
-
-//         this->eyeTexIndex = 1;
-//         randomNumber = ((s32)(Math_Rand_ZeroFloat(60.0f) + 20.0f) ) & 0xFFFF;
-//         this->blinkTimer = (s16) randomNumber;
-//         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
-//         this->posLogSpot = this->actor.posRot.pos;
-
-//         this->isBelowWaterSurfaceCurrent = false;
-//         this->isBelowWaterSurfacePrevious = false;
-
-//         this->isJumpingUp = false;
-//         this->actionFunc = EnFr_InitJumpingOutOfWater;
-//         this->isDeactivating = false;
-//         this->growingScaleIndex = 0;
-//         this->isActive = false;
-//         this->isJumpingToFrogSong = false;
-//         this->songIndex = 7;
-//         this->unusedButterflyActor = 0;
-
-//         EnFr_OrientUnderwater(this);
-//         EnFr_DrawIdle(this);
-
-//         this->actor.update = EnFr_UpdateActive;
-//         this->isButterflyDrawn = false;
-//         this->xyAngleButterfly = 0x1000 * (s16) Math_Rand_ZeroFloat(255.0f);
-//         this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
-//         this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
-//         this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
-
-//         this->actor.flags &= ~1;
-
-//     }
-// }
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
@@ -456,12 +458,10 @@ void EnFr_DivingIntoWater(EnFr* this, GlobalContext* globalCtx) {
         vec.z = this->actor.posRot.pos.z;
         EffectSsGSplash_Spawn(globalCtx, &vec, NULL, NULL, 1, 1);
 
-        // Jumping out of the water
         if (this->isBelowWaterSurfaceCurrent == false) {
+            // Jumping out of the water
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
-        }
-        // Jumping into the water
-        else {
+        } else { // Jumping into the water
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
@@ -654,9 +654,7 @@ void EnFr_SetScaleActive(EnFr* this, GlobalContext* globalCtx) {
         if (this->isGrowing != true) {
             return;
         }
-    }
-
-    else {
+    } else {
         Math_SmoothScaleMaxF(&this->scale, sGrowingScale[this->growingScaleIndex], 2.0f, 25.0f);
         if (this->scale >= sGrowingScale[this->growingScaleIndex]) {
             this->scale = sGrowingScale[this->growingScaleIndex];
@@ -738,7 +736,6 @@ s32 EnFr_InitJumpingUp(EnFr* this, s32 frogIndex) {
     u8 audio_pitch;
 
     frog = sEnFrPointers.frogs[frogIndex];
-    // frog->actor.id
     if (frog && frog->isJumpingUp == false) {
         if (frog->growingScaleIndex == 3) {
             audio_pitch = sPitchLargeFrog[frogIndex];
@@ -781,9 +778,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
         this->reward = 0;
 
         this->actionFunc = EnFr_Activate;
-    }
-
-    else if (EnFr_IsAboveAndWithin30xzDist(player, this)) {
+    } else if (EnFr_IsAboveAndWithin30xzDist(player, this)) {
         player->unk_6A8 = &this->actor;
     }
 }
@@ -795,10 +790,7 @@ void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
-    }
-
-    // Goes to Frogs 2 Song
-    else if (globalCtx->msgCtx.msgMode == 0x37) {
+    } else if (globalCtx->msgCtx.msgMode == 0x37) { // Goes to Frogs 2 Song
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
     }
@@ -915,19 +907,14 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
             // 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3 (11 celebratory jumps)
             EnFr_InitJumpingUp(this, sJumpOrder[(this->jumpCounter >> 2) & 7]); // % 8
         }
-    }
-
-    else {
+    } else {
         songIndex = this->songIndex;
 
         // Song of Storms
         if (songIndex == 5) {
             this->actor.textId = 0x40AA;
             EnFr_InitReward(this, globalCtx, false);
-        }
-
-        // ZL, Epona, Saria, Suns, SoT
-        else if ((gSaveContext.eventChkInf[13] & sSongIndex[songIndex]) == 0) {
+        } else if ((gSaveContext.eventChkInf[13] & sSongIndex[songIndex]) == 0) { // ZL, Epona, Saria, Suns, SoT
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             // Sound Effect: Player Accomplished Something
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -939,9 +926,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
             } else {
                 this->jumpCounter = 48;
             }
-        }
-
-        else {
+        } else {
             this->actor.textId = 0x40A9;
             EnFr_InitReward(this, globalCtx, true);
         }
@@ -1012,10 +997,7 @@ u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
     // Frogs 2 HP is not obtained, song is set
     if ((gSaveContext.eventChkInf[13] & 1) == 0) {
         return gFrogsSongPtr[ocarinaNoteIndex];
-    }
-
-    // Frogs 2 HP is obtained, return random note
-    else {
+    } else { // Frogs 2 HP is obtained, return random note
         return sOcarinaNotes[(s32)Math_Rand_ZeroFloat(60.0f) % 5];
     }
 }
@@ -1024,10 +1006,7 @@ void EnFr_InitFrogSong(EnFr* this, GlobalContext* globalCtx) {
 
     if (this->frogSongTimer) {
         this->frogSongTimer--;
-    }
-
-    else {
-        // Initialize timer for frogs 2 HP (also set to 100 elsewhere?)
+    } else { // Initialize timer for frogs 2 HP
         this->frogSongTimer = 40;
         this->ocarinaNoteIndex = 0;
         func_8010BD58(globalCtx, 0x2F);
@@ -1161,9 +1140,7 @@ void EnFr_InitReward(EnFr* this, GlobalContext* globalCtx, u8 unk_condition) {
     if (unk_condition) {
         // Sound Effect: Reveal Treasure Chest
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-    }
-    // HP reward
-    else {
+    } else { // HP reward
         // Sound Effect: Player Accomplished Something
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
@@ -1204,20 +1181,14 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
-    }
-
-    // Song of Storms Reward: 1st time HP, afterwards blupee
-    else if (songIndex == 5) {
+    } else if (songIndex == 5) { // Song of Storms Reward: 1st time HP, afterwards blupee
         if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
             gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
-    }
-
-    // Frogs 2 Reward: 1st time HP, afterwards purple rupee
-    else if (songIndex == 6) {
+    } else if (songIndex == 6) { // Frogs 2 Reward: 1st time HP, afterwards purple rupee
         if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
             gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
             this->reward = GI_HEART_PIECE;

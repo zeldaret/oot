@@ -9,6 +9,14 @@ struct EnFr;
 typedef void (*EnFrActionFunc)(struct EnFr*, struct GlobalContext*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
+typedef enum {
+    /* 00 */ FROG_YELLOW,   // Middle
+    /* 01 */ FROG_BLUE,     // Front Left
+    /* 02 */ FROG_RED,      // Front Right
+    /* 03 */ FROG_PURPLE,   // Back Left
+    /* 04 */ FROG_WHITE     // Back Right
+} frogType;
+
 typedef struct EnFr {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;   // Frog Skeleton
