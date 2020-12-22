@@ -3160,17 +3160,15 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
+#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
+#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
+
 /*
  * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
  * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
  * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
  * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
  */
-#ifdef NON_MATCHING
-
-#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
-#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
-
 s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1,
                   Vec3f* out2) {
     Vec3f actorToItem;
@@ -3187,7 +3185,7 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     f32 temp_f2;
     f32 zero = 0.0f;
     f32 temp_f0;
-    f32 temp_f12 = 0.0f;
+    f32 pad;
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;
@@ -3223,7 +3221,9 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
             phi_v0 = 0;
         }
         temp_f0 = sqrtf(SQ(temp_f14) - (4.0f * temp_f2) * sp38);
-        sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
+        if (phi_v1 == 1) {
+            sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
+        }
         if (phi_v0 == 1) {
             sp4C = (-temp_f14 - temp_f0) / (2.0f * temp_f2);
         }
@@ -3305,13 +3305,6 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
 
 #undef SQXZ
 #undef DOTXZ
-
-#else
-s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
-                                    Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
-#endif
 
 s32 func_800635D0(s32 arg0) {
     s32 result;
