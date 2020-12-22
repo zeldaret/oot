@@ -5,9 +5,6 @@
 #include "z64light.h"
 #include "z64dma.h"
 
-
-
-
 typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
     /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals
@@ -22,12 +19,12 @@ typedef enum {
 
 typedef enum {
     /*  0 */ SKYBOX_DMA_INACTIVE,
-    /*  1 */ SKYBOX_DMA_BG1_START,
-    /*  2 */ SKYBOX_DMA_BG1_DONE,
-    /*  3 */ SKYBOX_DMA_CLOUDS1_START,
-    /* 11 */ SKYBOX_DMA_BG2_START = 11,
-    /* 12 */ SKYBOX_DMA_BG2_DONE,
-    /* 13 */ SKYBOX_DMA_CLOUDS2_START
+    /*  1 */ SKYBOX_DMA_FILE1_START,
+    /*  2 */ SKYBOX_DMA_FILE1_DONE,
+    /*  3 */ SKYBOX_DMA_PAL1_START,
+    /* 11 */ SKYBOX_DMA_FILE2_START = 11,
+    /* 12 */ SKYBOX_DMA_FILE2_DONE,
+    /* 13 */ SKYBOX_DMA_PAL2_START
 } SkyboxDmaState;
 
 typedef struct {
@@ -48,11 +45,22 @@ typedef struct {
     /* 0x06 */ u8 skybox2Index;
 } struct_8011FC1C; // size = 0x8
 
+typedef struct {
+    /* 0x00 */ u8 ambientColor[3];
+    /* 0x03 */ u8 upperLightColor[3];
+    /* 0x06 */ u8 upperLightDir[3];
+    /* 0x09 */ u8 lowerLightColor[3];
+    /* 0x0C */ u8 lowerLightDir[3];
+    /* 0x0F */ u8 fogColor[3];
+    /* 0x12 */ s16 fogNear; // apparently has another value masked in it?
+    /* 0x14 */ s16 fogFar;
+} EnvLighting;
+
 // 1.0: 801D8EC4
 // dbg: 80222A44
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
-    /* 0x02 */ u16 unk_02;
+    /* 0x02 */ u16 timeIncrement; // how many units of time that pass every update
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
     /* 0x10 */ u8 skybox1Index;
     /* 0x11 */ u8 skybox2Index;
@@ -66,8 +74,8 @@ typedef struct {
     /* 0x19 */ u8 unk_19;
     /* 0x1A */ u16 unk_1A;
     /* 0x1C */ char unk_1C[0x02];
-    /* 0x1E */ u8 unk_1E;
-    /* 0x1F */ u8 unk_1F;
+    /* 0x1E */ u8 indoors; // when set, day time has no effect on lighting
+    /* 0x1F */ u8 unk_1F; // outdoor lighting group, used to index array of outdoor light settings
     /* 0x20 */ u8 unk_20;
     /* 0x21 */ u8 unk_21;
     /* 0x22 */ u16 unk_22;
@@ -89,15 +97,16 @@ typedef struct {
     /* 0xA8 */ Vec3s windDirection;
     /* 0xB0 */ f32 windSpeed;
     /* 0xB4 */ u8 nbLightSettings;
-    /* 0xB8 */ UNK_PTR lightSettingsList;
+    /* 0xB8 */ EnvLighting* lightSettingsList;
     /* 0xBC */ u8 unk_BC;
     /* 0xBD */ u8 unk_BD;
     /* 0xBE */ u8 unk_BE;
     /* 0xBF */ u8 unk_BF;
-    /* 0xC0 */ u8 unk_C0[3][3];
-    /* 0xC9 */ u8 unk_C9[3][3];
-    /* 0xD2 */ s16 unk_D2;
-    /* 0xD4 */ s16 unk_D4;
+    // /* 0xC0 */ u8 unk_C0[3][3];
+    // /* 0xC9 */ u8 unk_C9[3][3];
+    // /* 0xD2 */ s16 unk_D2;
+    // /* 0xD4 */ s16 unk_D4;
+    /* 0xC0 */ EnvLighting lightPallete;
     /* 0xD6 */ u16 unk_D6;
     /* 0xD8 */ f32 unk_D8;
     /* 0xDC */ u8 unk_DC;

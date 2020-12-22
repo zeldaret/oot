@@ -146,7 +146,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
         if (intensity < 0.2f) {
             phi_f0 = 0.0f;
         }
-        globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.unk_D2) * phi_f0;
+        globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.lightPallete.fogNear) * phi_f0;
         if (intensity == 0.0f) {
             for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
                 globalCtx->envCtx.unk_8C[2][i] = 0;
@@ -158,7 +158,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
             }
 
             for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_C9[2][i] * temp_f0);
+                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.lightPallete.fogColor[i] * temp_f0);
             }
         }
     }

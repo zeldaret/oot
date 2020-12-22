@@ -4205,7 +4205,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 4;
         }
 
-        if (globalCtx->envCtx.unk_02 != 0) {
+        if (globalCtx->envCtx.timeIncrement != 0) {
             if (gSaveContext.unk_1422 != 2) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {

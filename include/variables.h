@@ -237,7 +237,7 @@ extern struct_8011FC1C D_8011FC1C[][9];
 extern SkyboxFile gSkyboxFiles[];
 extern u8 D_8011FDCC;
 extern u8 D_8011FDD0;
-extern u8 D_8011FDD4;
+extern f32 D_8011FDD4;
 extern s32 gZeldaArenaLogSeverity;
 extern s16 D_80120130;
 //extern ? D_80120134;

@@ -172,12 +172,6 @@ struct_8011FC1C D_8011FC1C[][9] = {
     },
 };
 
-// this is wrong, seperation is prob on tex vs pallete, not background and clouds
-typedef enum {
-    /* 0 */ SKYBOX_FILE_BG,
-    /* 1 */ SKYBOX_FILE_CLOUDS
-} SkyboxFileType;
-
 SkyboxFile gSkyboxFiles[] = {
     {
         { _vr_fine0_staticSegmentRomStart, _vr_fine0_staticSegmentRomEnd },
@@ -219,7 +213,7 @@ SkyboxFile gSkyboxFiles[] = {
 
 u8 D_8011FDCC = 0;
 u8 D_8011FDD0 = 0;
-u8 D_8011FDD4 = 0;
+f32 D_8011FDD4 = 0;
 
 // bss
 u8 gCustomLensFlareOn;     // D_8015FCF0
@@ -342,7 +336,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->unk_BC = 0;
     envCtx->unk_BF = 0xFF;
     envCtx->unk_D6 = 0xFFFF;
-    envCtx->unk_02 = 0;
+    envCtx->timeIncrement = 0;
     REG(15) = gTimeIncrement = 0;
     REG(9) = 1;
 
@@ -564,7 +558,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
 
 // func_8006FC88 skybox related
 #ifdef NON_MATCHING
-void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
+void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
     u8 newSkybox1Index = 0xFF;
@@ -572,7 +566,7 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
     u8 skyboxBlend = 0;
     struct_8011FC1C* entry;
 
-    if (arg0 == 5) {
+    if (skyboxId == 5) { // C18
         envCtx->unk_17 = 3;
 
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
@@ -588,16 +582,19 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
                 break;
             }
         }
-    } else if (arg0 == 1 && !envCtx->skyboxDisabled) {
+    } else if (skyboxId == 1 && !envCtx->skyboxDisabled) { // d60 && d74
         for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
             entry = &D_8011FC1C[envCtx->unk_17][i];
 
             if (((void)0, gSaveContext.skyboxTime) >= entry->startTime &&
                 (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
                 gSkyboxBlendingEnabled = entry->blend;
+                newSkybox1Index = entry->skybox1Index;
+                newSkybox2Index = entry->skybox2Index;
 
-                if (envCtx->unk_17) {
+                if (envCtx->unk_17 != 0) {
                     entry = &D_8011FC1C[envCtx->unk_17][i];
+
                     skyboxBlend =
                         Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
@@ -609,6 +606,7 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
 
                     if ((envCtx->unk_19 != 0) && (envCtx->unk_19 < 3)) {
                         envCtx->unk_19++;
+                        skyboxBlend = 0;
                     }
                 }
                 break;
@@ -635,7 +633,7 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
         }
 
         if ((newSkybox1Index != envCtx->skybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
-            envCtx->skyboxDmaState = SKYBOX_DMA_BG1_START;
+            envCtx->skyboxDmaState = SKYBOX_DMA_FILE1_START;
             size = gSkyboxFiles[newSkybox1Index].file.vromEnd - gSkyboxFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
@@ -646,7 +644,7 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
         }
 
         if ((newSkybox2Index != envCtx->skybox2Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
-            envCtx->skyboxDmaState = SKYBOX_DMA_BG2_START;
+            envCtx->skyboxDmaState = SKYBOX_DMA_FILE2_START;
             size = gSkyboxFiles[newSkybox2Index].file.vromEnd - gSkyboxFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
@@ -656,16 +654,17 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
             envCtx->skybox2Index = newSkybox2Index;
         }
 
-        if (envCtx->skyboxDmaState == SKYBOX_DMA_BG1_DONE) {
-            envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS1_START;
-            size = gSkyboxFiles[newSkybox1Index].pallete.vromEnd - gSkyboxFiles[newSkybox1Index].pallete.vromStart;
+        if (envCtx->skyboxDmaState == SKYBOX_DMA_FILE1_DONE) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_PAL1_START;
 
-            if ((newSkybox1Index & 1) != ((s32)(newSkybox1Index & 4) >> 2)) {
+            if (((newSkybox1Index & 4) >> 2) != (newSkybox1Index & 1)) { // & 1 at 12e8
+                size = gSkyboxFiles[newSkybox1Index].pallete.vromEnd - gSkyboxFiles[newSkybox1Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
                                     gSkyboxFiles[newSkybox1Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1307);
             } else {
+                size = gSkyboxFiles[newSkybox1Index].pallete.vromEnd - gSkyboxFiles[newSkybox1Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size, size,
                                     gSkyboxFiles[newSkybox1Index].pallete.vromStart, 0, &envCtx->loadQueue, NULL,
@@ -673,16 +672,17 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
             }
         }
 
-        if (envCtx->skyboxDmaState == SKYBOX_DMA_BG2_DONE) {
-            envCtx->skyboxDmaState = SKYBOX_DMA_CLOUDS2_START;
-            size = gSkyboxFiles[newSkybox2Index].pallete.vromEnd - gSkyboxFiles[newSkybox2Index].pallete.vromStart;
+        if (envCtx->skyboxDmaState == SKYBOX_DMA_FILE2_DONE) {
+            envCtx->skyboxDmaState = SKYBOX_DMA_PAL2_START;
 
-            if ((newSkybox2Index & 1) != ((s32)(newSkybox2Index & 4) >> 2)) {
+            if (((newSkybox2Index & 4) >> 2) != (newSkybox2Index & 1)) {
+                size = gSkyboxFiles[newSkybox2Index].pallete.vromEnd - gSkyboxFiles[newSkybox2Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2],
                                     gSkyboxFiles[newSkybox2Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                     "../z_kankyo.c", 1342);
             } else {
+                size = gSkyboxFiles[newSkybox2Index].pallete.vromEnd - gSkyboxFiles[newSkybox2Index].pallete.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
                 DmaMgr_SendRequest2(&envCtx->dmaRequest, (u32)skyboxCtx->staticSegments[2] + size,
                                     gSkyboxFiles[newSkybox2Index].pallete.vromStart, size, 0, &envCtx->loadQueue, NULL,
@@ -690,11 +690,11 @@ void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* sky
             }
         }
 
-        if ((envCtx->skyboxDmaState == SKYBOX_DMA_BG1_START) || (envCtx->skyboxDmaState == SKYBOX_DMA_BG2_START)) {
+        if ((envCtx->skyboxDmaState == SKYBOX_DMA_FILE1_START) || (envCtx->skyboxDmaState == SKYBOX_DMA_FILE2_START)) {
             if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState++;
             }
-        } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_BG1_DONE) {
+        } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_FILE1_DONE) {
             if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
             }
@@ -714,7 +714,7 @@ void func_80070600(GlobalContext* globalCtx, s32 arg1) {
         // Underwater color is not set in the water poly data
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
-    if (globalCtx->envCtx.unk_1E == 0) {
+    if (!globalCtx->envCtx.indoors) {
         D_8011FB34 = globalCtx->envCtx.unk_20;
         if (globalCtx->envCtx.unk_1F != arg1) {
             globalCtx->envCtx.unk_1F = arg1;
@@ -728,7 +728,7 @@ void func_80070600(GlobalContext* globalCtx, s32 arg1) {
 
 // runs when camera is leaving water
 void func_800706A0(GlobalContext* globalCtx) {
-    if (globalCtx->envCtx.unk_1E == 0) {
+    if (!globalCtx->envCtx.indoors) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
         globalCtx->envCtx.unk_20 = D_8011FB34;
     } else {
@@ -798,720 +798,703 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Destroy(&printer);
 }
 
-// void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext*
-// pauseCtx,
-//                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
-//     f32 sp8C;
-//     f32 sp88;
-//     void* sp7C;
-//     Gfx* sp74;
-//     Gfx* sp70;
-//     GraphicsContext* sp6C;
-//     Gfx* sp5C;
-//     s8 sp51;
-//     s8 sp50;
-//     s16 sp4E;
-//     s16 sp4C;
-//     f32 sp44;
-//     void* sp40;
-//     s32 sp34;
-//     ? 32 sp28;
-//     GameInfo* temp_v0_7;
-//     Gfx* temp_a0;
-//     Gfx* temp_t7;
-//     Gfx* temp_v1_2;
-//     GraphicsContext* temp_a1;
-//     char* temp_a3_2;
-//     char* temp_v0_14;
-//     char* temp_v0_17;
-//     char* temp_v0_19;
-//     f32 temp_f0;
-//     f32 temp_f0_2;
-//     f32 temp_f10;
-//     f32 temp_f10_2;
-//     f32 temp_f10_3;
-//     f32 temp_f12;
-//     f32 temp_f14;
-//     f32 temp_f14_2;
-//     f32 temp_f14_3;
-//     f32 temp_f14_4;
-//     f32 temp_f18;
-//     f32 temp_f18_2;
-//     f32 temp_f18_3;
-//     f32 temp_f18_4;
-//     f32 temp_f4;
-//     f32 temp_f4_2;
-//     f32 temp_f4_3;
-//     f32 temp_f6;
-//     f32 temp_f8;
-//     f32 temp_f8_2;
-//     f32 temp_f8_3;
-//     f32 temp_f8_4;
-//     s16 temp_a1_11;
-//     s16 temp_a1_7;
-//     s16 temp_v0_13;
-//     s16 temp_v1_16;
-//     s16 temp_v1_17;
-//     s16 temp_v1_18;
-//     s16 temp_v1_19;
-//     s32 temp_a0_10;
-//     s32 temp_a0_11;
-//     s32 temp_a0_12;
-//     s32 temp_a0_2;
-//     s32 temp_a0_9;
-//     s32 temp_a1_6;
-//     s32 temp_lo;
-//     s32 temp_v0;
-//     s32 temp_v0_10;
-//     s32 temp_v0_11;
-//     s32 temp_v0_12;
-//     s32 temp_v0_16;
-//     s32 temp_v0_20;
-//     s32 temp_v0_21;
-//     s32 temp_v0_9;
-//     s32 temp_v1;
-//     s8 temp_a1_8;
-//     s8 temp_a1_9;
-//     u16 temp_a3;
-//     u16 temp_t4;
-//     u16 temp_t6;
-//     u16 temp_t8;
-//     u16 temp_t9;
-//     u16 temp_t9_2;
-//     u16 temp_v0_3;
-//     u16 temp_v0_4;
-//     u16 temp_v0_5;
-//     u16 temp_v0_6;
-//     u16 temp_v0_8;
-//     u16 temp_v1_11;
-//     u32 temp_t6_2;
-//     u32 temp_t8_2;
-//     u32 temp_t8_3;
-//     u32 temp_t8_4;
-//     u32 temp_t9_3;
-//     u32 temp_t9_4;
-//     u32 temp_t9_5;
-//     u32 temp_t9_6;
-//     u8 temp_a1_10;
-//     u8 temp_a1_2;
-//     u8 temp_a1_3;
-//     u8 temp_a1_4;
-//     u8 temp_a1_5;
-//     u8 temp_a2;
-//     u8 temp_a2_2;
-//     u8 temp_a2_3;
-//     u8 temp_a2_4;
-//     u8 temp_a2_5;
-//     u8 temp_v0_2;
-//     u8 temp_v1_12;
-//     u8 temp_v1_13;
-//     u8 temp_v1_14;
-//     u8 temp_v1_3;
-//     void* temp_a0_3;
-//     void* temp_a0_4;
-//     void* temp_a0_5;
-//     void* temp_a0_6;
-//     void* temp_a0_7;
-//     void* temp_a0_8;
-//     void* temp_a2_6;
-//     void* temp_t2;
-//     void* temp_t2_2;
-//     void* temp_t2_3;
-//     void* temp_v0_15;
-//     void* temp_v0_18;
-//     void* temp_v0_22;
-//     void* temp_v0_23;
-//     void* temp_v1_10;
-//     void* temp_v1_15;
-//     void* temp_v1_4;
-//     void* temp_v1_5;
-//     void* temp_v1_6;
-//     void* temp_v1_7;
-//     void* temp_v1_8;
-//     void* temp_v1_9;
-//     SaveContext* phi_t5;
-//     u16 phi_v0;
-//     SaveContext* phi_t5_2;
-//     s32 phi_a0;
-//     s32 phi_ra;
-//     s32 phi_v0_2;
-//     f32 phi_f10;
-//     f32 phi_f18;
-//     f32 phi_f14;
-//     s32 phi_v0_3;
-//     f32 phi_f18_2;
-//     f32 phi_f8;
-//     f32 phi_f4;
-//     f32 phi_f10_2;
-//     s32 phi_v0_4;
-//     f32 phi_f18_3;
-//     f32 phi_f8_2;
-//     s32 phi_a0_2;
-//     s32 phi_v0_5;
-//     f32 phi_f4_2;
-//     s32 phi_a0_3;
-//     f32 phi_f8_3;
-//     f32 phi_f6;
-//     f32 phi_f10_3;
-//     f32 phi_f4_3;
-//     s32 phi_a0_4;
-//     void* phi_a1;
-//     GameInfo** phi_t3;
-//     GameInfo** phi_t3_2;
-//     f32 phi_f12;
-//     f32 phi_f18_4;
+#define CUR_LIGHT_PAL globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_04]
+#define NEXT_LIGHT_PAL globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_05]
 
-//     temp_v0 = gSaveContext.gameMode;
-//     sp40 = globalCtx + 0x10000;
+void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
+                   MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
+    s32 i;
+    s32 j;
 
-//     if (gSaveContext.gameMode != 0 && gSaveContext.gameMode != 3) {
-//         func_800AA16C(globalCtx);
-//     }
+    f32 sp8C;
+    f32 sp88;
+    void* sp7C;
+    Gfx* sp74;
+    Gfx* sp70;
+    GraphicsContext* sp6C;
+    Gfx* sp5C;
+    s8 sp51;
+    s8 sp50;
+    s16 sp4E;
+    s16 sp4C;
+    f32 sp44;
+    void* sp40;
+    s32 sp34;
+    ? 32 sp28;
+    GameInfo* temp_v0_7;
+    Gfx* temp_a0;
+    Gfx* temp_t7;
+    Gfx* temp_v1_2;
+    GraphicsContext* temp_a1;
+    char* temp_a3_2;
+    char* temp_v0_14;
+    char* temp_v0_17;
+    char* temp_v0_19;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f10;
+    f32 temp_f10_2;
+    f32 temp_f10_3;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f14_2;
+    f32 temp_f14_3;
+    f32 temp_f14_4;
+    f32 temp_f18;
+    f32 temp_f18_2;
+    f32 temp_f18_3;
+    f32 temp_f18_4;
+    f32 temp_f4;
+    f32 temp_f4_2;
+    f32 temp_f4_3;
+    f32 temp_f6;
+    f32 temp_f8;
+    f32 temp_f8_2;
+    f32 temp_f8_3;
+    f32 temp_f8_4;
+    s16 temp_a1_11;
+    s16 temp_a1_7;
+    s16 temp_v0_13;
+    s16 temp_v1_16;
+    s16 temp_v1_17;
+    s16 temp_v1_18;
+    s16 temp_v1_19;
+    s32 temp_a0_10;
+    s32 temp_a0_11;
+    s32 temp_a0_12;
+    s32 temp_a0_2;
+    s32 temp_a0_9;
+    s32 temp_a1_6;
+    s32 temp_lo;
+    s32 temp_v0;
+    s32 temp_v0_10;
+    s32 temp_v0_11;
+    s32 temp_v0_12;
+    s32 temp_v0_16;
+    s32 temp_v0_20;
+    s32 temp_v0_21;
+    s32 temp_v0_9;
+    s32 temp_v1;
+    s8 temp_a1_8;
+    s8 temp_a1_9;
+    u16 temp_a3;
+    u16 temp_t4;
+    u16 temp_t6;
+    u16 temp_t8;
+    u16 temp_t9;
+    u16 temp_t9_2;
+    u16 temp_v0_3;
+    u16 temp_v0_4;
+    u16 temp_v0_5;
+    u16 temp_v0_6;
+    u16 temp_v0_8;
+    u16 temp_v1_11;
+    u32 temp_t6_2;
+    u32 temp_t8_2;
+    u32 temp_t8_3;
+    u32 temp_t8_4;
+    u32 temp_t9_3;
+    u32 temp_t9_4;
+    u32 temp_t9_5;
+    u32 temp_t9_6;
+    u8 temp_a1_10;
+    u8 temp_a1_2;
+    u8 temp_a1_3;
+    u8 temp_a1_4;
+    u8 temp_a1_5;
+    u8 temp_a2;
+    u8 temp_a2_2;
+    u8 temp_a2_3;
+    u8 temp_a2_4;
+    u8 temp_a2_5;
+    u8 temp_v0_2;
+    u8 temp_v1_12;
+    u8 temp_v1_13;
+    u8 temp_v1_14;
+    u8 temp_v1_3;
+    void* temp_a0_3;
+    void* temp_a0_4;
+    void* temp_a0_5;
+    void* temp_a0_6;
+    void* temp_a0_7;
+    void* temp_a0_8;
+    void* temp_a2_6;
+    void* temp_t2;
+    void* temp_t2_2;
+    void* temp_t2_3;
+    void* temp_v0_15;
+    void* temp_v0_18;
+    void* temp_v0_22;
+    void* temp_v0_23;
+    void* temp_v1_10;
+    void* temp_v1_15;
+    void* temp_v1_4;
+    void* temp_v1_5;
+    void* temp_v1_6;
+    void* temp_v1_7;
+    void* temp_v1_8;
+    void* temp_v1_9;
+    SaveContext* phi_t5;
+    u16 phi_v0;
+    SaveContext* phi_t5_2;
+    s32 phi_a0;
+    s32 phi_ra;
+    s32 phi_v0_2;
+    f32 phi_f10;
+    f32 phi_f18;
+    f32 phi_f14;
+    s32 phi_v0_3;
+    f32 phi_f18_2;
+    f32 phi_f8;
+    f32 phi_f4;
+    f32 phi_f10_2;
+    s32 phi_v0_4;
+    f32 phi_f18_3;
+    f32 phi_f8_2;
+    s32 phi_a0_2;
+    s32 phi_v0_5;
+    f32 phi_f4_2;
+    s32 phi_a0_3;
+    f32 phi_f8_3;
+    f32 phi_f6;
+    f32 phi_f10_3;
+    f32 phi_f4_3;
+    s32 phi_a0_4;
+    void* phi_a1;
+    GameInfo** phi_t3;
+    GameInfo** phi_t3_2;
+    f32 phi_f12;
+    f32 phi_f18_4;
 
-//     if (pauseCtx->state == 0) {
-//         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
-//             if (globalCtx->skyboxId == 1) {
-//                 globalCtx->skyboxCtx.rot.y -= 0.001f;
-//             } else if (globalCtx->skyboxId == 5) {
-//                 globalCtx->skyboxCtx.rot.y -= 0.005f;
-//             }
-//         }
-//         // real?
-//         sp7C = globalCtx->envCtx.lightSettingsList;
-//         sp88 = 0.0f;
+    temp_v0 = gSaveContext.gameMode;
+    sp40 = globalCtx + 0x10000;
 
-//         func_800766C4(globalCtx); // increments or decrements unk_EE[1] depending on some condition
-//         func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
+    if (gSaveContext.gameMode != 0 && gSaveContext.gameMode != 3) {
+        func_800AA16C(globalCtx);
+    }
 
-//         if (gSaveContext.nextDayTime >= 0xFF00 && gSaveContext.nextDayTime != 0xFFFF) {
-//             gSaveContext.nextDayTime -= 16;
-//             osSyncPrintf("\nnext_zelda_time=[%x]", gSaveContext.nextDayTime);
-//             if (gSaveContext.nextDayTime == 0xFF0E) {
-//                 func_80078884(NA_SE_EV_CHICKEN_CRY_M);
-//                 gSaveContext.nextDayTime = 0xFFFF;
-//             } else if (gSaveContext.nextDayTime == 0xFF0D) {
-//                 func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
-//                 gSaveContext.nextDayTime = 0xFFFF;
-//             }
+    if (pauseCtx->state == 0) {
+        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
+            if (globalCtx->skyboxId == 1) {
+                globalCtx->skyboxCtx.rot.y -= 0.001f;
+            } else if (globalCtx->skyboxId == 5) {
+                globalCtx->skyboxCtx.rot.y -= 0.005f;
+            }
+        }
+        // real?
+        sp7C = globalCtx->envCtx.lightSettingsList;
+        sp88 = 0.0f;
 
-//         }
+        func_800766C4(globalCtx); // increments or decrements unk_EE[1] depending on some condition
+        func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
 
-//         if ((pauseCtx->state == 0) && (gameOverCtx->state == 0) && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
-//             (gSaveContext.nextDayTime == 3) && (envCtx->unk_1A == 0) && !func_800C0D28(globalCtx) &&
-//             (globalCtx->transitionMode == 0 || gSaveContext.gameMode != 0)) {
-//             if (!gSaveContext.nightFlag || gTimeIncrement >= 400) {
-//                 gSaveContext.dayTime += gTimeIncrement;
-//             } else {
-//                 gSaveContext.dayTime += gTimeIncrement * 2; // time moves twice as fast at night
-//             }
-//         }
+        if (gSaveContext.nextDayTime >= 0xFF00 && gSaveContext.nextDayTime != 0xFFFF) {
+            gSaveContext.nextDayTime -= 16;
+            osSyncPrintf("\nnext_zelda_time=[%x]", gSaveContext.nextDayTime);
+            if (gSaveContext.nextDayTime == 0xFF0E) {
+                func_80078884(NA_SE_EV_CHICKEN_CRY_M);
+                gSaveContext.nextDayTime = 0xFFFF;
+            } else if (gSaveContext.nextDayTime == 0xFF0D) {
+                func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
+                gSaveContext.nextDayTime = 0xFFFF;
+            }
+        }
 
-//         if (((gSaveContext.sceneSetupIndex < 5 && gTimeIncrement == 0) ||
-//              gSaveContext.dayTime <= ((void)0, gSaveContext.skyboxTime)) &&
-//             gSaveContext.dayTime > 0xAAA && gTimeIncrement < 0) {
-//             ((void)0, gSaveContext.skyboxTime) = gSaveContext.dayTime;
-//         }
+        if ((pauseCtx->state == 0) && (gameOverCtx->state == 0) && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
+            (gSaveContext.nextDayTime == 3) && (envCtx->unk_1A == 0) && !func_800C0D28(globalCtx) &&
+            (globalCtx->transitionMode == 0 || gSaveContext.gameMode != 0)) {
+            if (!gSaveContext.nightFlag || gTimeIncrement >= 400) {
+                gSaveContext.dayTime += gTimeIncrement;
+            } else {
+                gSaveContext.dayTime += gTimeIncrement * 2; // time moves twice as fast at night
+            }
+        }
 
-//         if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime < 0x4555) {
-//             gSaveContext.nightFlag = true;
-//         } else {
-//             gSaveContext.nightFlag = false;
-//         }
+        if (((gSaveContext.sceneSetupIndex < 5 && gTimeIncrement == 0) ||
+             gSaveContext.dayTime <= ((void)0, gSaveContext.skyboxTime)) &&
+            gSaveContext.dayTime > 0xAAA && gTimeIncrement < 0) {
+            gSaveContext.skyboxTime = gSaveContext.dayTime;
+        }
 
-//         if (SREG(0) != 0 || CREG(2) != 0) {
-//             Gfx* opaHead;
-//             Gfx* overlayHead;
+        if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime < 0x4555) {
+            gSaveContext.nightFlag = true;
+        } else {
+            gSaveContext.nightFlag = false;
+        }
 
-//             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 1682);
+        if (SREG(0) != 0 || CREG(2) != 0) {
+            Gfx* opaHead;
+            Gfx* overlayHead;
 
-//             opaHead = Graph_GfxPlusOne(POLY_OPA_DISP);
-//             overlayHead = OVERLAY_DISP++;
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 1682);
 
-//             gSPDisplayList(opaHead, overlayHead);
-//             Kankyo_PrintDebugInfo(globalCtx, &overlayHead);
-//             gSPEndDisplayList(overlayHead++);
-//             Graph_BranchDlist(opaHead, overlayHead);
+            opaHead = Graph_GfxPlusOne(POLY_OPA_DISP);
+            overlayHead = OVERLAY_DISP++;
 
-//             CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 1690);
-//         }
+            gSPDisplayList(opaHead, overlayHead);
+            Kankyo_PrintDebugInfo(globalCtx, &overlayHead);
+            gSPEndDisplayList(overlayHead++);
+            Graph_BranchDlist(opaHead, overlayHead);
 
-//         if ((envCtx->unk_BF != 0xFF) && (envCtx->unk_DC != 2) && (envCtx->unk_BD != envCtx->unk_BF) &&
-//             (envCtx->unk_D8 >= 1.0f) && (envCtx->unk_BF < 0x20)) {
-//             envCtx->unk_BE = envCtx->unk_BD;
-//             envCtx->unk_BD = envCtx->unk_BF;
-//             envCtx->unk_D8 = 0.0f;
-//         }
-//         // left off here
-//         if (temp_v1_3 != 0xFE) {
-//             if ((envCtx->unk_1E == 0) && (temp_v1_3 == 0xFF)) {
-//                 temp_t4 = phi_t5_2->skyboxTime;
-//                 phi_a0 = 0;
-//             loop_52:
-//                 temp_lo = phi_a0 * 6;
-//                 temp_a0_2 = (phi_a0 + 1) & 0xFFFF;
-//                 temp_v1_4 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                 temp_a3 = temp_v1_4->unk0;
-//                 if (temp_t4 >= temp_a3) {
-//                     temp_t9_2 = temp_v1_4->unk2;
-//                     sp28 = temp_t9_2;
-//                     if ((temp_t4 < temp_t9_2) || (phi_ra == temp_t9_2)) {
-//                         sp34 = temp_lo;
-//                         sp7C = globalCtx->envCtx.lightSettingsList;
-//                         sp88 = 0.0f;
-//                         temp_f0 = Kankyo_InvLerp(sp2A, temp_a3 & 0xFFFF, temp_t4 & 0xFFFF);
-//                         D_8011FDCC = (&D_8011FB48[envCtx->unk_1F] + temp_lo)->unk4 & 3;
-//                         temp_t2_3 = globalCtx->envCtx.lightSettingsList;
-//                         D_8011FDD0 = (&D_8011FB48[envCtx->unk_1F] + temp_lo)->unk5 & 3;
-//                         D_8011FDD4 = temp_f0;
-//                         phi_f14 = 0.0f;
-//                         if (envCtx->unk_21 != 0) {
-//                             temp_t8 = envCtx->unk_24;
-//                             temp_f12 = temp_t8;
-//                             phi_f12 = temp_f12;
-//                             if (temp_t8 < 0) {
-//                                 phi_f12 = temp_f12 + 4294967296.0f;
-//                             }
-//                             temp_v0_8 = envCtx->unk_22;
-//                             temp_t6 = temp_v0_8 - 1;
-//                             temp_f18 = temp_v0_8;
-//                             phi_f18_4 = temp_f18;
-//                             if (temp_v0_8 < 0) {
-//                                 phi_f18_4 = temp_f18 + 4294967296.0f;
-//                             }
-//                             envCtx->unk_22 = temp_t6;
-//                             temp_f14_3 = (phi_f12 - phi_f18_4) / phi_f12;
-//                             phi_f14 = temp_f14_3;
-//                             if ((temp_t6 & 0xFFFF) <= 0) {
-//                                 envCtx->unk_21 = 0;
-//                                 envCtx->unk_1F = envCtx->unk_20;
-//                                 phi_f14 = temp_f14_3;
-//                             }
-//                         }
-//                         phi_v0_2 = 0;
-//                     loop_63:
-//                         temp_v1_5 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_a1_2 = *(temp_t2_3 + (temp_v1_5->unk4 * 0x16) + phi_v0_2);
-//                         temp_f10 = temp_a1_2;
-//                         phi_f10 = temp_f10;
-//                         if (temp_a1_2 < 0) {
-//                             phi_f10 = temp_f10 + 4294967296.0f;
-//                         }
-//                         temp_t9_3 =
-//                             phi_f10 + ((*(temp_t2_3 + (temp_v1_5->unk5 * 0x16) + phi_v0_2) - temp_a1_2) * temp_f0);
-//                         sp50 = temp_t9_3;
-//                         temp_a0_3 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a2_2 = *(temp_t2_3 + (temp_a0_3->unk4 * 0x16) + phi_v0_2);
-//                         temp_f18_2 = temp_a2_2;
-//                         phi_f18 = temp_f18_2;
-//                         if (temp_a2_2 < 0) {
-//                             phi_f18 = temp_f18_2 + 4294967296.0f;
-//                         }
-//                         temp_t6_2 =
-//                             phi_f18 + ((*(temp_t2_3 + (temp_a0_3->unk5 * 0x16) + phi_v0_2) - temp_a2_2) * temp_f0);
-//                         sp51 = temp_t6_2;
-//                         temp_v0_9 = (phi_v0_2 + 1) & 0xFFFF;
-//                         (&envCtx->unk_00[phi_v0_2])[0xC0] =
-//                             (temp_t9_3 & 0xFF) + (((temp_t6_2 & 0xFF) - (temp_t9_3 & 0xFF)) * phi_f14);
-//                         phi_v0_2 = temp_v0_9;
-//                         if (temp_v0_9 < 3) {
-//                             goto loop_63;
-//                         }
-//                         sp34 = temp_lo;
-//                         sp7C = temp_t2_3;
-//                         sp8C = temp_f0;
-//                         sp88 = phi_f14;
-//                         envCtx->unkC3 = -(Math_Sins(gSaveContext.dayTime - 0x8000) * 120.0f);
-//                         envCtx->unkC4 = Math_Coss(gSaveContext.dayTime - 0x8000) * 120.0f;
-//                         temp_f8 = Math_Coss(gSaveContext.dayTime - 0x8000) * 20.0f;
-//                         temp_f14_4 = phi_f14;
-//                         envCtx->unk_C9 = -envCtx->unkC3;
-//                         envCtx->unkC5 = temp_f8;
-//                         envCtx->unkCA = -envCtx->unkC4;
-//                         envCtx->unkCB = -envCtx->unkC5;
-//                         phi_v0_3 = 0;
-//                     loop_69:
-//                         temp_a3_2 = &envCtx->unk_00[phi_v0_3];
-//                         temp_v1_6 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_a1_3 = (temp_t2_3 + (temp_v1_6->unk4 * 0x16) + phi_v0_3)->unk6;
-//                         temp_f18_3 = temp_a1_3;
-//                         phi_f18_2 = temp_f18_3;
-//                         if (temp_a1_3 < 0) {
-//                             phi_f18_2 = temp_f18_3 + 4294967296.0f;
-//                         }
-//                         temp_t8_2 = phi_f18_2 +
-//                                     (((temp_t2_3 + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) *
-//                                     temp_f0);
-//                         sp50 = temp_t8_2;
-//                         temp_a0_4 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a2_3 = (temp_t2_3 + (temp_a0_4->unk4 * 0x16) + phi_v0_3)->unk6;
-//                         temp_f8_2 = temp_a2_3;
-//                         phi_f8 = temp_f8_2;
-//                         if (temp_a2_3 < 0) {
-//                             phi_f8 = temp_f8_2 + 4294967296.0f;
-//                         }
-//                         temp_t9_4 =
-//                             phi_f8 + (((temp_t2_3 + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) *
-//                             temp_f0);
-//                         sp51 = temp_t9_4;
-//                         temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) *
-//                         temp_f14_4); temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo; temp_a1_4 = (temp_t2_3 +
-//                         (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC; temp_f4 = temp_a1_4; phi_f4 = temp_f4; if
-//                         (temp_a1_4 < 0) {
-//                             phi_f4 = temp_f4 + 4294967296.0f;
-//                         }
-//                         temp_t8_3 =
-//                             phi_f4 + (((temp_t2_3 + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) *
-//                             temp_f0);
-//                         sp50 = temp_t8_3;
-//                         temp_a0_5 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a2_4 = (temp_t2_3 + (temp_a0_5->unk4 * 0x16) + phi_v0_3)->unkC;
-//                         temp_f10_2 = temp_a2_4;
-//                         phi_f10_2 = temp_f10_2;
-//                         if (temp_a2_4 < 0) {
-//                             phi_f10_2 = temp_f10_2 + 4294967296.0f;
-//                         }
-//                         temp_v0_10 = (phi_v0_3 + 1) & 0xFFFF;
-//                         temp_t9_5 = phi_f10_2 +
-//                                     (((temp_t2_3 + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) *
-//                                     temp_f0);
-//                         sp51 = temp_t9_5;
-//                         temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) *
-//                         temp_f14_4); phi_v0_3 = temp_v0_10; if (temp_v0_10 < 3) {
-//                             goto loop_69;
-//                         }
-//                         phi_v0_4 = 0;
-//                     loop_79:
-//                         temp_v1_8 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_a1_5 = (temp_t2_3 + (temp_v1_8->unk4 * 0x16) + phi_v0_4)->unkF;
-//                         temp_f18_4 = temp_a1_5;
-//                         phi_f18_3 = temp_f18_4;
-//                         if (temp_a1_5 < 0) {
-//                             phi_f18_3 = temp_f18_4 + 4294967296.0f;
-//                         }
-//                         temp_t8_4 = phi_f18_3 +
-//                                     (((temp_t2_3 + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) *
-//                                     temp_f0);
-//                         sp50 = temp_t8_4;
-//                         temp_a0_6 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a2_5 = (temp_t2_3 + (temp_a0_6->unk4 * 0x16) + phi_v0_4)->unkF;
-//                         temp_f8_3 = temp_a2_5;
-//                         phi_f8_2 = temp_f8_3;
-//                         if (temp_a2_5 < 0) {
-//                             phi_f8_2 = temp_f8_3 + 4294967296.0f;
-//                         }
-//                         temp_t9_6 = phi_f8_2 +
-//                                     (((temp_t2_3 + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) *
-//                                     temp_f0);
-//                         sp51 = temp_t9_6;
-//                         temp_v0_11 = (phi_v0_4 + 1) & 0xFFFF;
-//                         (&envCtx->unk_00[phi_v0_4])[0xCF] =
-//                             (temp_t8_4 & 0xFF) + (((temp_t9_6 & 0xFF) - (temp_t8_4 & 0xFF)) * temp_f14_4);
-//                         phi_v0_4 = temp_v0_11;
-//                         if (temp_v0_11 < 3) {
-//                             goto loop_79;
-//                         }
-//                         temp_v1_9 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_v0_12 = (temp_t2_3 + (temp_v1_9->unk4 * 0x16))->unk12 & 0x3FF;
-//                         sp4C = temp_v0_12 +
-//                                ((((temp_t2_3 + (temp_v1_9->unk5 * 0x16))->unk12 & 0x3FF) - temp_v0_12) * temp_f0);
-//                         temp_a0_7 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-//                         temp_a1_6 = (temp_t2_3 + (temp_a0_7->unk4 * 0x16))->unk12 & 0x3FF;
-//                         sp4E = temp_a1_6 +
-//                                ((((temp_t2_3 + (temp_a0_7->unk5 * 0x16))->unk12 & 0x3FF) - temp_a1_6) * temp_f0);
-//                         envCtx->unk_D2 = sp4C + ((sp4E - sp4C) * temp_f14_4);
-//                         temp_v1_10 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-//                         temp_v0_13 = (temp_t2_3 + (temp_v1_10->unk4 * 0x16))->unk14;
-//                         sp4C = temp_v0_13 + (((temp_t2_3 + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) *
-//                         temp_f0); temp_a0_8 = &D_8011FB48[envCtx->unk_20] + temp_lo; temp_a1_7 = (temp_t2_3 +
-//                         (temp_a0_8->unk4 * 0x16))->unk14; sp4E = temp_a1_7 + (((temp_t2_3 + (temp_a0_8->unk5 *
-//                         0x16))->unk14 - temp_a1_7) * temp_f0); envCtx->unk_D4 = sp4C + ((sp4E - sp4C) * temp_f14_4);
-//                         phi_t3 = &gGameInfo;
-//                         if ((&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5 >= envCtx->nbLightSettings) {
-//                             sp34 = temp_lo;
-//                             osSyncPrintf("\x1b[41;37m\nカラーパレットの設定がおかしいようです！\x1b[m", temp_a1_7,
-//                                          temp_a2_5, 0x16);
-//                             osSyncPrintf("\x1b[41;37m\n設定パレット＝[%d] 最後パレット番号＝[%d]\n\x1b[m",
-//                                          (&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5, envCtx->nbLightSettings - 1);
-//                         block_113:
-//                             phi_t3 = &gGameInfo;
-//                         }
-//                     } else {
-//                     block_86:
-//                         phi_a0 = temp_a0_2;
-//                         if (temp_a0_2 < 7) {
-//                             goto loop_52;
-//                         }
-//                     }
-//                 } else {
-//                     goto block_86;
-//                 }
-//             } else {
-//                 phi_a0_2 = 0;
-//                 if (envCtx->unk_BC == 0) {
-//                 loop_89:
-//                     temp_v0_14 = &envCtx->unk_00[phi_a0_2];
-//                     temp_v0_14[0xC0] = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2);
-//                     temp_v0_14[0xC3] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
-//                     phi_a0_2)->unk3; temp_v0_14[0xC6] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD *
-//                     0x16) + phi_a0_2)->unk6; temp_v0_14[0xC9] = (globalCtx->envCtx.lightSettingsList +
-//                     (envCtx->unk_BD * 0x16) + phi_a0_2)->unk9; temp_v0_14[0xCC] =
-//                     (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkC; temp_a0_9 =
-//                     (phi_a0_2 + 1) & 0xFFFF; temp_v0_14[0xCF] = (globalCtx->envCtx.lightSettingsList +
-//                     (envCtx->unk_BD * 0x16) + phi_a0_2)->unkF; phi_a0_2 = temp_a0_9; if (temp_a0_9 < 3) {
-//                         goto loop_89;
-//                     }
-//                     temp_v0_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
-//                     envCtx->unk_D2 = temp_v0_15->unk12 & 0x3FF;
-//                     envCtx->unk_D8 = 1.0f;
-//                     envCtx->unk_D4 = temp_v0_15->unk14;
-//                 } else {
-//                     temp_v0_16 =
-//                         (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16))->unk12 >> 0xA) * 4) & 0xFF;
-//                     phi_v0_5 = temp_v0_16;
-//                     if (temp_v0_16 == 0) {
-//                         phi_v0_5 = (temp_v0_16 + 1) & 0xFF;
-//                     }
-//                     temp_v1_11 = envCtx->unk_D6;
-//                     if (phi_ra != temp_v1_11) {
-//                         phi_v0_5 = temp_v1_11 & 0xFF;
-//                     }
-//                     if (envCtx->unk_DC == 0) {
-//                         temp_f4_2 = phi_v0_5;
-//                         phi_f4_2 = temp_f4_2;
-//                         if (phi_v0_5 < 0) {
-//                             phi_f4_2 = temp_f4_2 + 4294967296.0f;
-//                         }
-//                         envCtx->unk_D8 = envCtx->unk_D8 + (phi_f4_2 / 255.0f);
-//                     }
-//                     phi_a0_3 = 0;
-//                     if (envCtx->unk_D8 > 1.0f) {
-//                         envCtx->unk_D8 = 1.0f;
-//                         phi_a0_3 = 0;
-//                     }
-//                 loop_101:
-//                     temp_v0_17 = &envCtx->unk_00[phi_a0_3];
-//                     temp_v1_12 = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3);
-//                     temp_f8_4 = temp_v1_12;
-//                     phi_f8_3 = temp_f8_4;
-//                     if (temp_v1_12 < 0) {
-//                         phi_f8_3 = temp_f8_4 + 4294967296.0f;
-//                     }
-//                     temp_v0_17[0xC0] =
-//                         phi_f8_3 +
-//                         ((*(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3) - temp_v1_12) *
-//                          envCtx->unk_D8);
-//                     temp_a1_8 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk3;
-//                     temp_v0_17[0xC3] =
-//                         temp_a1_8 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
-//                         phi_a0_3)->unk3 -
-//                                       temp_a1_8) *
-//                                      envCtx->unk_D8);
-//                     temp_v1_13 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk6;
-//                     temp_f6 = temp_v1_13;
-//                     phi_f6 = temp_f6;
-//                     if (temp_v1_13 < 0) {
-//                         phi_f6 = temp_f6 + 4294967296.0f;
-//                     }
-//                     temp_v0_17[0xC6] =
-//                         phi_f6 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk6 -
-//                                    temp_v1_13) *
-//                                   envCtx->unk_D8);
-//                     temp_a1_9 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk9;
-//                     temp_v0_17[0xC9] =
-//                         temp_a1_9 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
-//                         phi_a0_3)->unk9 -
-//                                       temp_a1_9) *
-//                                      envCtx->unk_D8);
-//                     temp_v1_14 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkC;
-//                     temp_f10_3 = temp_v1_14;
-//                     phi_f10_3 = temp_f10_3;
-//                     if (temp_v1_14 < 0) {
-//                         phi_f10_3 = temp_f10_3 + 4294967296.0f;
-//                     }
-//                     temp_v0_17[0xCC] =
-//                         phi_f10_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) +
-//                         phi_a0_3)->unkC -
-//                                       temp_v1_14) *
-//                                      envCtx->unk_D8);
-//                     temp_a1_10 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkF;
-//                     temp_f4_3 = temp_a1_10;
-//                     phi_f4_3 = temp_f4_3;
-//                     if (temp_a1_10 < 0) {
-//                         phi_f4_3 = temp_f4_3 + 4294967296.0f;
-//                     }
-//                     temp_a0_10 = (phi_a0_3 + 1) & 0xFFFF;
-//                     temp_v0_17[0xCF] =
-//                         phi_f4_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkF
-//                         -
-//                                      temp_a1_10) *
-//                                     envCtx->unk_D8);
-//                     phi_a0_3 = temp_a0_10;
-//                     if (temp_a0_10 < 3) {
-//                         goto loop_101;
-//                     }
-//                     temp_f0_2 = envCtx->unk_D8;
-//                     temp_v1_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16);
-//                     temp_a0_11 = temp_v1_15->unk12 & 0x3FF;
-//                     temp_v0_18 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
-//                     envCtx->unk_D2 = temp_a0_11 + (((temp_v0_18->unk12 & 0x3FF) - temp_a0_11) * temp_f0_2);
-//                     temp_a1_11 = temp_v1_15->unk14;
-//                     envCtx->unk_D4 = temp_a1_11 + ((temp_v0_18->unk14 - temp_a1_11) * temp_f0_2);
-//                 }
-//                 if (envCtx->unk_BD >= envCtx->nbLightSettings) {
-//                     osSyncPrintf("\n\x1b[31mカラーパレットがおかしいようです！");
-//                     osSyncPrintf("\n\x1b[33m設定パレット＝[%d] パレット数＝[%d]\n\x1b[m", envCtx->unk_BD,
-//                                  envCtx->nbLightSettings);
-//                     goto block_113;
-//                 }
-//             }
-//         }
-//         envCtx->unk_BC = 1;
-//         phi_a0_4 = 0;
-//     loop_115:
-//         temp_a2_6 = envCtx + (phi_a0_4 * 2);
-//         temp_v0_19 = &envCtx->unk_00[phi_a0_4];
-//         temp_v1_16 = temp_a2_6->unk8C + temp_v0_19[0xC0];
-//         if (temp_v1_16 >= 0x100) {
-//             lightCtx->ambientColor[phi_a0_4] = 0xFF;
-//             phi_a1 = lightCtx + phi_a0_4;
-//         } else if (temp_v1_16 < 0) {
-//             lightCtx->ambientColor[phi_a0_4] = 0;
-//             phi_a1 = lightCtx + phi_a0_4;
-//         } else {
-//             lightCtx->ambientColor[phi_a0_4] = temp_v1_16;
-//             phi_a1 = lightCtx + phi_a0_4;
-//         }
-//         temp_a0_12 = (phi_a0_4 + 1) & 0xFFFF;
-//         temp_v1_17 = temp_a2_6->unk92 + temp_v0_19[0xC6];
-//         if (temp_v1_17 >= 0x100) {
-//             temp_v0_19[0x2D] = 0xFF;
-//         } else if (temp_v1_17 < 0) {
-//             temp_v0_19[0x2D] = 0;
-//         } else {
-//             temp_v0_19[0x2D] = temp_v1_17;
-//         }
-//         temp_v1_18 = temp_a2_6->unk92 + temp_v0_19[0xCC];
-//         if (temp_v1_18 >= 0x100) {
-//             temp_v0_19[0x3B] = 0xFF;
-//         } else if (temp_v1_18 < 0) {
-//             temp_v0_19[0x3B] = 0;
-//         } else {
-//             temp_v0_19[0x3B] = temp_v1_18;
-//         }
-//         temp_v1_19 = temp_a2_6->unk98 + temp_v0_19[0xCF];
-//         if (temp_v1_19 >= 0x100) {
-//             phi_a1->unk7 = 0xFF;
-//         } else if (temp_v1_19 < 0) {
-//             phi_a1->unk7 = 0;
-//         } else {
-//             phi_a1->unk7 = temp_v1_19;
-//         }
-//         phi_a0_4 = temp_a0_12;
-//         if (temp_a0_12 < 3) {
-//             goto loop_115;
-//         }
-//         envCtx->unk_28.params.dir.z = envCtx->unkC5;
-//         envCtx->unk_36.params.dir.x = envCtx->unk_C9;
-//         envCtx->unk_28.params.dir.x = envCtx->unkC3;
-//         envCtx->unk_28.params.dir.y = envCtx->unkC4;
-//         temp_v0_20 = envCtx->unk_D2 + envCtx->unk_9E;
-//         envCtx->unk_36.params.dir.y = envCtx->unkCA;
-//         envCtx->unk_36.params.dir.z = envCtx->unkCB;
-//         if (temp_v0_20 < 0x3E5) {
-//             lightCtx->fogNear = temp_v0_20;
-//         } else {
-//             lightCtx->fogNear = 0x3E4;
-//         }
-//         temp_v0_21 = envCtx->unk_D4 + envCtx->unk_A0;
-//         if (temp_v0_21 < 0x3201) {
-//             lightCtx->fogFar = temp_v0_21;
-//         } else {
-//             lightCtx->fogFar = 0x3200;
-//         }
-//         temp_v0_22 = *phi_t3;
-//         if (temp_v0_22->unk26 != 0) {
-//             temp_v0_22->unk14 = lightCtx->ambientColor;
-//             (*phi_t3)->unk16 = lightCtx->unk5;
-//             (*phi_t3)->unk18 = lightCtx->unk6;
-//             (*phi_t3)->unk1A = envCtx->unk_28.params.dir.color;
-//             (*phi_t3)->unk1C = envCtx->unk_28.params.point.z;
-//             (*phi_t3)->unk1E = envCtx->unk2F;
-//             (*phi_t3)->unk20 = envCtx->unk_36.params.dir.color;
-//             (*phi_t3)->unk22 = envCtx->unk_36.params.point.z;
-//             (*phi_t3)->unk24 = envCtx->unk3D;
-//             (*phi_t3)->unk28 = lightCtx->fogColor;
-//             (*phi_t3)->unk2A = lightCtx->unk8;
-//             (*phi_t3)->unk2C = lightCtx->unk9;
-//             (*phi_t3)->unk2E = lightCtx->fogFar;
-//             (*phi_t3)->unk30 = lightCtx->fogNear;
-//             (*phi_t3)->unkB5A = envCtx->unk_28.params.dir.x;
-//             (*phi_t3)->unkB5C = envCtx->unk_28.params.dir.y;
-//             (*phi_t3)->unkB5E = envCtx->unk_28.params.dir.z;
-//             (*phi_t3)->unkB60 = envCtx->unk_36.params.dir.x;
-//             (*phi_t3)->unkB62 = envCtx->unk_36.params.dir.y;
-//             (*phi_t3)->unkB64 = envCtx->unk_36.params.dir.z;
-//             (*phi_t3)->unk874 = envCtx->windDirection.x;
-//             (*phi_t3)->unk876 = envCtx->windDirection.y;
-//             (*phi_t3)->unk878 = envCtx->windDirection.z;
-//             (*phi_t3)->unk87A = envCtx->windSpeed;
-//         } else {
-//             lightCtx->ambientColor = temp_v0_22->unk14;
-//             lightCtx->unk5 = (*phi_t3)->unk16;
-//             lightCtx->unk6 = (*phi_t3)->unk18;
-//             envCtx->unk_28.params.dir.color = (*phi_t3)->unk1A;
-//             envCtx->unk_28.params.point.z = (*phi_t3)->unk1C;
-//             envCtx->unk2F = (*phi_t3)->unk1E;
-//             envCtx->unk_36.params.dir.color = (*phi_t3)->unk20;
-//             envCtx->unk_36.params.point.z = (*phi_t3)->unk22;
-//             envCtx->unk3D = (*phi_t3)->unk24;
-//             lightCtx->fogColor = (*phi_t3)->unk28;
-//             lightCtx->unk8 = (*phi_t3)->unk2A;
-//             lightCtx->unk9 = (*phi_t3)->unk2C;
-//             lightCtx->fogNear = (*phi_t3)->unk30;
-//             lightCtx->fogFar = (*phi_t3)->unk2E;
-//             temp_v0_23 = *phi_t3;
-//             if (temp_v0_23->unkB70 != 0) {
-//                 sp44 = Math_Coss(temp_v0_23->unkB68);
-//                 gGameInfo->unkB5A = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
-//                 envCtx->unk_28.params.dir.x = gGameInfo->unkB5A;
-//                 sp44 = Math_Sins(gGameInfo->unkB68);
-//                 gGameInfo->unkB5C = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
-//                 envCtx->unk_28.params.dir.y = gGameInfo->unkB5C;
-//                 gGameInfo->unkB5E = Math_Sins(gGameInfo->unkB6A) * 120.0f;
-//                 envCtx->unk_28.params.dir.z = gGameInfo->unkB5E;
-//                 sp44 = Math_Coss(gGameInfo->unkB6C);
-//                 gGameInfo->unkB60 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
-//                 envCtx->unk_36.params.dir.x = gGameInfo->unkB60;
-//                 sp44 = Math_Sins(gGameInfo->unkB6C);
-//                 gGameInfo->unkB62 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
-//                 envCtx->unk_36.params.dir.y = gGameInfo->unkB62;
-//                 gGameInfo->unkB64 = Math_Sins(gGameInfo->unkB6E) * 120.0f;
-//                 envCtx->unk_36.params.dir.z = gGameInfo->unkB64;
-//                 phi_t3_2 = &gGameInfo;
-//             } else {
-//                 envCtx->unk_28.params.dir.x = temp_v0_23->unkB5A;
-//                 envCtx->unk_28.params.dir.y = (*phi_t3)->unkB5C;
-//                 envCtx->unk_28.params.dir.z = (*phi_t3)->unkB5E;
-//                 envCtx->unk_36.params.dir.x = (*phi_t3)->unkB60;
-//                 envCtx->unk_36.params.dir.y = (*phi_t3)->unkB62;
-//                 envCtx->unk_36.params.dir.z = (*phi_t3)->unkB64;
-//                 phi_t3_2 = phi_t3;
-//             }
-//             envCtx->windDirection.x = (*phi_t3_2)->unk874;
-//             envCtx->windDirection.y = (*phi_t3_2)->unk876;
-//             envCtx->windDirection.z = (*phi_t3_2)->unk878;
-//             envCtx->windSpeed = (*phi_t3_2)->unk87A;
-//         }
-//         if ((envCtx->unk_28.params.dir.x == 0) && (envCtx->unk_28.params.dir.y == 0) &&
-//             (envCtx->unk_28.params.dir.z == 0)) {
-//             envCtx->unk_28.params.dir.x = 1;
-//         }
-//         if ((envCtx->unk_36.params.dir.x == 0) && (envCtx->unk_36.params.dir.y == 0) &&
-//             (envCtx->unk_36.params.dir.z == 0)) {
-//             envCtx->unk_36.params.dir.x = 1;
-//         }
-//     }
-// }
+            CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 1690);
+        }
+
+        if ((envCtx->unk_BF != 0xFF) && (envCtx->unk_DC != 2) && (envCtx->unk_BD != envCtx->unk_BF) &&
+            (envCtx->unk_D8 >= 1.0f) && (envCtx->unk_BF < 0x20)) {
+            envCtx->unk_BE = envCtx->unk_BD;
+            envCtx->unk_BD = envCtx->unk_BF;
+            envCtx->unk_D8 = 0.0f;
+        }
+
+        // left off here
+        if (envCtx->unk_BF != 0xFE) {
+            if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
+                for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
+                    if ((gSaveContext.skyboxTime >= D_8011FB48[envCtx->unk_1F][i].startTime) &&
+                        ((gSaveContext.skyboxTime < D_8011FB48[envCtx->unk_1F][i].endTime) ||
+                         D_8011FB48[envCtx->unk_1F][i].endTime == 0xFFFF)) {
+                        sp34 = temp_lo;
+                        sp7C = globalCtx->envCtx.lightSettingsList;
+                        sp88 = 0.0f;
+
+                        temp_f0 = Kankyo_InvLerp(D_8011FB48[envCtx->unk_1F][i].endTime,
+                                                 D_8011FB48[envCtx->unk_1F][i].startTime, gSaveContext.skyboxTime);
+                        D_8011FDCC = D_8011FB48[envCtx->unk_1F][i].unk_04 & 3;
+
+                        D_8011FDD0 = D_8011FB48[envCtx->unk_1F][i].unk_05 & 3;
+                        D_8011FDD4 = temp_f0;
+                        phi_f14 = 0.0f;
+
+                        if (envCtx->unk_21 != 0) {
+                            if (DECR(envCtx->unk_22) <= 0) {
+                                phi_f14 = (envCtx->unk_24 - envCtx->unk_22) / envCtx->unk_24;
+                                envCtx->unk_21 = 0;
+                                envCtx->unk_1F = envCtx->unk_20;
+                            }
+                        }
+                        for (j = 0; j < ARRAY_COUNT(envCtx->lightPallete.ambientColor); j++) {
+                            f32 curAmbient;
+                            f32 nextAmbient;
+                            curAmbient = globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_04]
+                                             .ambientColor[j];
+
+                            envCtx->lightPallete.ambientColor[j] = temp_t9_3 + ((temp_t6_2 - temp_t9_3) * phi_f14);
+                        }
+                        phi_v0_2 = 0;
+                    loop_63:
+                        temp_t2_3 = globalCtx->envCtx.lightSettingsList;
+                        temp_v1_5 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_a1_2 = *(temp_t2_3 + (temp_v1_5->unk4 * 0x16) + phi_v0_2);
+                        temp_f10 = temp_a1_2;
+                        phi_f10 = temp_f10;
+                        if (temp_a1_2 < 0) {
+                            phi_f10 = temp_f10 + 4294967296.0f;
+                        }
+                        temp_t9_3 =
+                            phi_f10 + ((*(temp_t2_3 + (temp_v1_5->unk5 * 0x16) + phi_v0_2) - temp_a1_2) * temp_f0);
+                        sp50 = temp_t9_3;
+                        temp_a0_3 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a2_2 = *(temp_t2_3 + (temp_a0_3->unk4 * 0x16) + phi_v0_2);
+                        temp_f18_2 = temp_a2_2;
+                        phi_f18 = temp_f18_2;
+                        if (temp_a2_2 < 0) {
+                            phi_f18 = temp_f18_2 + 4294967296.0f;
+                        }
+                        temp_t6_2 =
+                            phi_f18 + ((*(temp_t2_3 + (temp_a0_3->unk5 * 0x16) + phi_v0_2) - temp_a2_2) * temp_f0);
+                        sp51 = temp_t6_2;
+                        temp_v0_9 = (phi_v0_2 + 1) & 0xFFFF;
+                        (&envCtx->unk_00[phi_v0_2])[0xC0] =
+                            (temp_t9_3 & 0xFF) + (((temp_t6_2 & 0xFF) - (temp_t9_3 & 0xFF)) * phi_f14);
+                        phi_v0_2 = temp_v0_9;
+                        if (temp_v0_9 < 3) {
+                            goto loop_63;
+                        }
+                        sp34 = temp_lo;
+                        sp7C = temp_t2_3;
+                        sp8C = temp_f0;
+                        sp88 = phi_f14;
+                        envCtx->unkC3 = -(Math_Sins(gSaveContext.dayTime - 0x8000) * 120.0f);
+                        envCtx->unkC4 = Math_Coss(gSaveContext.dayTime - 0x8000) * 120.0f;
+                        envCtx->unkC5 = -(Math_Coss(gSaveContext.dayTime - 0x8000) * 20.0f);
+                        temp_f14_4 = phi_f14;
+                        envCtx->unk_C9 = -envCtx->unkC3;
+                        envCtx->unkCA = -envCtx->unkC4;
+                        envCtx->unkCB = -envCtx->unkC5;
+                        phi_v0_3 = 0;
+                    loop_69:
+                        temp_a3_2 = &envCtx->unk_00[phi_v0_3];
+                        temp_v1_6 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_a1_3 = (temp_t2_3 + (temp_v1_6->unk4 * 0x16) + phi_v0_3)->unk6;
+                        temp_f18_3 = temp_a1_3;
+                        phi_f18_2 = temp_f18_3;
+                        if (temp_a1_3 < 0) {
+                            phi_f18_2 = temp_f18_3 + 4294967296.0f;
+                        }
+                        temp_t8_2 = phi_f18_2 +
+                                    (((temp_t2_3 + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) * temp_f0);
+                        sp50 = temp_t8_2;
+                        temp_a0_4 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a2_3 = (temp_t2_3 + (temp_a0_4->unk4 * 0x16) + phi_v0_3)->unk6;
+                        temp_f8_2 = temp_a2_3;
+                        phi_f8 = temp_f8_2;
+                        if (temp_a2_3 < 0) {
+                            phi_f8 = temp_f8_2 + 4294967296.0f;
+                        }
+                        temp_t9_4 =
+                            phi_f8 + (((temp_t2_3 + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) * temp_f0);
+                        sp51 = temp_t9_4;
+                        temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) * temp_f14_4);
+                        temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_a1_4 = (temp_t2_3 + (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC;
+                        temp_f4 = temp_a1_4;
+                        phi_f4 = temp_f4;
+                        if (temp_a1_4 < 0) {
+                            phi_f4 = temp_f4 + 4294967296.0f;
+                        }
+                        temp_t8_3 =
+                            phi_f4 + (((temp_t2_3 + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) * temp_f0);
+                        sp50 = temp_t8_3;
+                        temp_a0_5 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a2_4 = (temp_t2_3 + (temp_a0_5->unk4 * 0x16) + phi_v0_3)->unkC;
+                        temp_f10_2 = temp_a2_4;
+                        phi_f10_2 = temp_f10_2;
+                        if (temp_a2_4 < 0) {
+                            phi_f10_2 = temp_f10_2 + 4294967296.0f;
+                        }
+                        temp_v0_10 = (phi_v0_3 + 1) & 0xFFFF;
+                        temp_t9_5 = phi_f10_2 +
+                                    (((temp_t2_3 + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) * temp_f0);
+                        sp51 = temp_t9_5;
+                        temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) * temp_f14_4);
+                        phi_v0_3 = temp_v0_10;
+                        if (temp_v0_10 < 3) {
+                            goto loop_69;
+                        }
+                        phi_v0_4 = 0;
+                    loop_79:
+                        temp_v1_8 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_a1_5 = (temp_t2_3 + (temp_v1_8->unk4 * 0x16) + phi_v0_4)->unkF;
+                        temp_f18_4 = temp_a1_5;
+                        phi_f18_3 = temp_f18_4;
+                        if (temp_a1_5 < 0) {
+                            phi_f18_3 = temp_f18_4 + 4294967296.0f;
+                        }
+                        temp_t8_4 = phi_f18_3 +
+                                    (((temp_t2_3 + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) * temp_f0);
+                        sp50 = temp_t8_4;
+                        temp_a0_6 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a2_5 = (temp_t2_3 + (temp_a0_6->unk4 * 0x16) + phi_v0_4)->unkF;
+                        temp_f8_3 = temp_a2_5;
+                        phi_f8_2 = temp_f8_3;
+                        if (temp_a2_5 < 0) {
+                            phi_f8_2 = temp_f8_3 + 4294967296.0f;
+                        }
+                        temp_t9_6 = phi_f8_2 +
+                                    (((temp_t2_3 + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) * temp_f0);
+                        sp51 = temp_t9_6;
+                        temp_v0_11 = (phi_v0_4 + 1) & 0xFFFF;
+                        (&envCtx->unk_00[phi_v0_4])[0xCF] =
+                            (temp_t8_4 & 0xFF) + (((temp_t9_6 & 0xFF) - (temp_t8_4 & 0xFF)) * temp_f14_4);
+                        phi_v0_4 = temp_v0_11;
+                        if (temp_v0_11 < 3) {
+                            goto loop_79;
+                        }
+                        temp_v1_9 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_v0_12 = (temp_t2_3 + (temp_v1_9->unk4 * 0x16))->unk12 & 0x3FF;
+                        sp4C = temp_v0_12 +
+                               ((((temp_t2_3 + (temp_v1_9->unk5 * 0x16))->unk12 & 0x3FF) - temp_v0_12) * temp_f0);
+                        temp_a0_7 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a1_6 = (temp_t2_3 + (temp_a0_7->unk4 * 0x16))->unk12 & 0x3FF;
+                        sp4E = temp_a1_6 +
+                               ((((temp_t2_3 + (temp_a0_7->unk5 * 0x16))->unk12 & 0x3FF) - temp_a1_6) * temp_f0);
+                        envCtx->unk_D2 = sp4C + ((sp4E - sp4C) * temp_f14_4);
+                        temp_v1_10 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                        temp_v0_13 = (temp_t2_3 + (temp_v1_10->unk4 * 0x16))->unk14;
+                        sp4C = temp_v0_13 + (((temp_t2_3 + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) * temp_f0);
+                        temp_a0_8 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                        temp_a1_7 = (temp_t2_3 + (temp_a0_8->unk4 * 0x16))->unk14;
+                        sp4E = temp_a1_7 + (((temp_t2_3 + (temp_a0_8->unk5 * 0x16))->unk14 - temp_a1_7) * temp_f0);
+                        envCtx->unk_D4 = sp4C + ((sp4E - sp4C) * temp_f14_4);
+                        phi_t3 = &gGameInfo;
+                        if ((&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5 >= envCtx->nbLightSettings) {
+                            sp34 = temp_lo;
+                            // "The color palette setting seems to be wrong"
+                            osSyncPrintf("\x1b[41;37m\nカラーパレットの設定がおかしいようです！\x1b[m", temp_a1_7,
+                                         temp_a2_5, 0x16);
+                            // "Pallete setting: [] Last pallete number = []"
+                            osSyncPrintf("\x1b[41;37m\n設定パレット＝[%d] 最後パレット番号＝[%d]\n\x1b[m",
+                                         (&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5, envCtx->nbLightSettings - 1);
+                        block_113:
+                            phi_t3 = &gGameInfo;
+                        }
+                    }
+                }
+            } else {
+                phi_a0_2 = 0;
+                if (envCtx->unk_BC == 0) {
+                loop_89:
+                    temp_v0_14 = &envCtx->unk_00[phi_a0_2];
+                    temp_v0_14[0xC0] = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2);
+                    temp_v0_14[0xC3] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk3;
+                    temp_v0_14[0xC6] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk6;
+                    temp_v0_14[0xC9] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk9;
+                    temp_v0_14[0xCC] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkC;
+                    temp_a0_9 = (phi_a0_2 + 1) & 0xFFFF;
+                    temp_v0_14[0xCF] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkF;
+                    phi_a0_2 = temp_a0_9;
+                    if (temp_a0_9 < 3) {
+                        goto loop_89;
+                    }
+                    temp_v0_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
+                    envCtx->unk_D2 = temp_v0_15->unk12 & 0x3FF;
+                    envCtx->unk_D8 = 1.0f;
+                    envCtx->unk_D4 = temp_v0_15->unk14;
+                } else {
+                    temp_v0_16 =
+                        (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16))->unk12 >> 0xA) * 4) & 0xFF;
+                    phi_v0_5 = temp_v0_16;
+                    if (temp_v0_16 == 0) {
+                        phi_v0_5 = (temp_v0_16 + 1) & 0xFF;
+                    }
+                    temp_v1_11 = envCtx->unk_D6;
+                    if (phi_ra != temp_v1_11) {
+                        phi_v0_5 = temp_v1_11 & 0xFF;
+                    }
+                    if (envCtx->unk_DC == 0) {
+                        temp_f4_2 = phi_v0_5;
+                        phi_f4_2 = temp_f4_2;
+                        if (phi_v0_5 < 0) {
+                            phi_f4_2 = temp_f4_2 + 4294967296.0f;
+                        }
+                        envCtx->unk_D8 = envCtx->unk_D8 + (phi_f4_2 / 255.0f);
+                    }
+                    phi_a0_3 = 0;
+                    if (envCtx->unk_D8 > 1.0f) {
+                        envCtx->unk_D8 = 1.0f;
+                        phi_a0_3 = 0;
+                    }
+                loop_101:
+                    temp_v0_17 = &envCtx->unk_00[phi_a0_3];
+                    temp_v1_12 = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3);
+                    temp_f8_4 = temp_v1_12;
+                    phi_f8_3 = temp_f8_4;
+                    if (temp_v1_12 < 0) {
+                        phi_f8_3 = temp_f8_4 + 4294967296.0f;
+                    }
+                    temp_v0_17[0xC0] =
+                        phi_f8_3 +
+                        ((*(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3) - temp_v1_12) *
+                         envCtx->unk_D8);
+                    temp_a1_8 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk3;
+                    temp_v0_17[0xC3] =
+                        temp_a1_8 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk3 -
+                                      temp_a1_8) *
+                                     envCtx->unk_D8);
+                    temp_v1_13 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk6;
+                    temp_f6 = temp_v1_13;
+                    phi_f6 = temp_f6;
+                    if (temp_v1_13 < 0) {
+                        phi_f6 = temp_f6 + 4294967296.0f;
+                    }
+                    temp_v0_17[0xC6] =
+                        phi_f6 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk6 -
+                                   temp_v1_13) *
+                                  envCtx->unk_D8);
+                    temp_a1_9 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unk9;
+                    temp_v0_17[0xC9] =
+                        temp_a1_9 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unk9 -
+                                      temp_a1_9) *
+                                     envCtx->unk_D8);
+                    temp_v1_14 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkC;
+                    temp_f10_3 = temp_v1_14;
+                    phi_f10_3 = temp_f10_3;
+                    if (temp_v1_14 < 0) {
+                        phi_f10_3 = temp_f10_3 + 4294967296.0f;
+                    }
+                    temp_v0_17[0xCC] =
+                        phi_f10_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkC -
+                                      temp_v1_14) *
+                                     envCtx->unk_D8);
+                    temp_a1_10 = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3)->unkF;
+                    temp_f4_3 = temp_a1_10;
+                    phi_f4_3 = temp_f4_3;
+                    if (temp_a1_10 < 0) {
+                        phi_f4_3 = temp_f4_3 + 4294967296.0f;
+                    }
+                    temp_a0_10 = (phi_a0_3 + 1) & 0xFFFF;
+                    temp_v0_17[0xCF] =
+                        phi_f4_3 + (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_3)->unkF -
+                                     temp_a1_10) *
+                                    envCtx->unk_D8);
+                    phi_a0_3 = temp_a0_10;
+                    if (temp_a0_10 < 3) {
+                        goto loop_101;
+                    }
+                    temp_f0_2 = envCtx->unk_D8;
+                    temp_v1_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16);
+                    temp_a0_11 = temp_v1_15->unk12 & 0x3FF;
+                    temp_v0_18 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
+                    envCtx->unk_D2 = temp_a0_11 + (((temp_v0_18->unk12 & 0x3FF) - temp_a0_11) * temp_f0_2);
+                    temp_a1_11 = temp_v1_15->unk14;
+                    envCtx->unk_D4 = temp_a1_11 + ((temp_v0_18->unk14 - temp_a1_11) * temp_f0_2);
+                }
+                if (envCtx->unk_BD >= envCtx->nbLightSettings) {
+                    osSyncPrintf("\n\x1b[31mカラーパレットがおかしいようです！");
+                    osSyncPrintf("\n\x1b[33m設定パレット＝[%d] パレット数＝[%d]\n\x1b[m", envCtx->unk_BD,
+                                 envCtx->nbLightSettings);
+                    goto block_113;
+                }
+            }
+        }
+        envCtx->unk_BC = 1;
+        phi_a0_4 = 0;
+    loop_115:
+        temp_a2_6 = envCtx + (phi_a0_4 * 2);
+        temp_v0_19 = &envCtx->unk_00[phi_a0_4];
+        temp_v1_16 = temp_a2_6->unk8C + temp_v0_19[0xC0];
+        if (temp_v1_16 >= 0x100) {
+            lightCtx->ambientColor[phi_a0_4] = 0xFF;
+            phi_a1 = lightCtx + phi_a0_4;
+        } else if (temp_v1_16 < 0) {
+            lightCtx->ambientColor[phi_a0_4] = 0;
+            phi_a1 = lightCtx + phi_a0_4;
+        } else {
+            lightCtx->ambientColor[phi_a0_4] = temp_v1_16;
+            phi_a1 = lightCtx + phi_a0_4;
+        }
+        temp_a0_12 = (phi_a0_4 + 1) & 0xFFFF;
+        temp_v1_17 = temp_a2_6->unk92 + temp_v0_19[0xC6];
+        if (temp_v1_17 >= 0x100) {
+            temp_v0_19[0x2D] = 0xFF;
+        } else if (temp_v1_17 < 0) {
+            temp_v0_19[0x2D] = 0;
+        } else {
+            temp_v0_19[0x2D] = temp_v1_17;
+        }
+        temp_v1_18 = temp_a2_6->unk92 + temp_v0_19[0xCC];
+        if (temp_v1_18 >= 0x100) {
+            temp_v0_19[0x3B] = 0xFF;
+        } else if (temp_v1_18 < 0) {
+            temp_v0_19[0x3B] = 0;
+        } else {
+            temp_v0_19[0x3B] = temp_v1_18;
+        }
+        temp_v1_19 = temp_a2_6->unk98 + temp_v0_19[0xCF];
+        if (temp_v1_19 >= 0x100) {
+            phi_a1->unk7 = 0xFF;
+        } else if (temp_v1_19 < 0) {
+            phi_a1->unk7 = 0;
+        } else {
+            phi_a1->unk7 = temp_v1_19;
+        }
+        phi_a0_4 = temp_a0_12;
+        if (temp_a0_12 < 3) {
+            goto loop_115;
+        }
+        envCtx->unk_28.params.dir.z = envCtx->unkC5;
+        envCtx->unk_36.params.dir.x = envCtx->unk_C9;
+        envCtx->unk_28.params.dir.x = envCtx->unkC3;
+        envCtx->unk_28.params.dir.y = envCtx->unkC4;
+        temp_v0_20 = envCtx->unk_D2 + envCtx->unk_9E;
+        envCtx->unk_36.params.dir.y = envCtx->unkCA;
+        envCtx->unk_36.params.dir.z = envCtx->unkCB;
+        if (temp_v0_20 < 0x3E5) {
+            lightCtx->fogNear = temp_v0_20;
+        } else {
+            lightCtx->fogNear = 0x3E4;
+        }
+        temp_v0_21 = envCtx->unk_D4 + envCtx->unk_A0;
+        if (temp_v0_21 < 0x3201) {
+            lightCtx->fogFar = temp_v0_21;
+        } else {
+            lightCtx->fogFar = 0x3200;
+        }
+        temp_v0_22 = *phi_t3;
+        if (temp_v0_22->unk26 != 0) {
+            temp_v0_22->unk14 = lightCtx->ambientColor;
+            // game info regs
+            (*phi_t3)->unk16 = lightCtx->unk5;
+            (*phi_t3)->unk18 = lightCtx->unk6;
+            (*phi_t3)->unk1A = envCtx->unk_28.params.dir.color;
+            (*phi_t3)->unk1C = envCtx->unk_28.params.point.z;
+            (*phi_t3)->unk1E = envCtx->unk2F;
+            (*phi_t3)->unk20 = envCtx->unk_36.params.dir.color;
+            (*phi_t3)->unk22 = envCtx->unk_36.params.point.z;
+            (*phi_t3)->unk24 = envCtx->unk3D;
+            (*phi_t3)->unk28 = lightCtx->fogColor;
+            (*phi_t3)->unk2A = lightCtx->unk8;
+            (*phi_t3)->unk2C = lightCtx->unk9;
+            (*phi_t3)->unk2E = lightCtx->fogFar;
+            (*phi_t3)->unk30 = lightCtx->fogNear;
+            (*phi_t3)->unkB5A = envCtx->unk_28.params.dir.x;
+            (*phi_t3)->unkB5C = envCtx->unk_28.params.dir.y;
+            (*phi_t3)->unkB5E = envCtx->unk_28.params.dir.z;
+            (*phi_t3)->unkB60 = envCtx->unk_36.params.dir.x;
+            (*phi_t3)->unkB62 = envCtx->unk_36.params.dir.y;
+            (*phi_t3)->unkB64 = envCtx->unk_36.params.dir.z;
+            (*phi_t3)->unk874 = envCtx->windDirection.x;
+            (*phi_t3)->unk876 = envCtx->windDirection.y;
+            (*phi_t3)->unk878 = envCtx->windDirection.z;
+            (*phi_t3)->unk87A = envCtx->windSpeed;
+        } else {
+            lightCtx->ambientColor = temp_v0_22->unk14;
+            lightCtx->unk5 = (*phi_t3)->unk16;
+            lightCtx->unk6 = (*phi_t3)->unk18;
+            envCtx->unk_28.params.dir.color = (*phi_t3)->unk1A;
+            envCtx->unk_28.params.point.z = (*phi_t3)->unk1C;
+            envCtx->unk2F = (*phi_t3)->unk1E;
+            envCtx->unk_36.params.dir.color = (*phi_t3)->unk20;
+            envCtx->unk_36.params.point.z = (*phi_t3)->unk22;
+            envCtx->unk3D = (*phi_t3)->unk24;
+            lightCtx->fogColor = (*phi_t3)->unk28;
+            lightCtx->unk8 = (*phi_t3)->unk2A;
+            lightCtx->unk9 = (*phi_t3)->unk2C;
+            lightCtx->fogNear = (*phi_t3)->unk30;
+            lightCtx->fogFar = (*phi_t3)->unk2E;
+            temp_v0_23 = *phi_t3;
+            if (temp_v0_23->unkB70 != 0) {
+                sp44 = Math_Coss(temp_v0_23->unkB68);
+                gGameInfo->unkB5A = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
+                envCtx->unk_28.params.dir.x = gGameInfo->unkB5A;
+                sp44 = Math_Sins(gGameInfo->unkB68);
+                gGameInfo->unkB5C = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
+                envCtx->unk_28.params.dir.y = gGameInfo->unkB5C;
+                gGameInfo->unkB5E = Math_Sins(gGameInfo->unkB6A) * 120.0f;
+                envCtx->unk_28.params.dir.z = gGameInfo->unkB5E;
+                sp44 = Math_Coss(gGameInfo->unkB6C);
+                gGameInfo->unkB60 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
+                envCtx->unk_36.params.dir.x = gGameInfo->unkB60;
+                sp44 = Math_Sins(gGameInfo->unkB6C);
+                gGameInfo->unkB62 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
+                envCtx->unk_36.params.dir.y = gGameInfo->unkB62;
+                gGameInfo->unkB64 = Math_Sins(gGameInfo->unkB6E) * 120.0f;
+                envCtx->unk_36.params.dir.z = gGameInfo->unkB64;
+                phi_t3_2 = &gGameInfo;
+            } else {
+                envCtx->unk_28.params.dir.x = temp_v0_23->unkB5A;
+                envCtx->unk_28.params.dir.y = (*phi_t3)->unkB5C;
+                envCtx->unk_28.params.dir.z = (*phi_t3)->unkB5E;
+                envCtx->unk_36.params.dir.x = (*phi_t3)->unkB60;
+                envCtx->unk_36.params.dir.y = (*phi_t3)->unkB62;
+                envCtx->unk_36.params.dir.z = (*phi_t3)->unkB64;
+                phi_t3_2 = phi_t3;
+            }
+            envCtx->windDirection.x = (*phi_t3_2)->unk874;
+            envCtx->windDirection.y = (*phi_t3_2)->unk876;
+            envCtx->windDirection.z = (*phi_t3_2)->unk878;
+            envCtx->windSpeed = (*phi_t3_2)->unk87A;
+        }
+        if ((envCtx->unk_28.params.dir.x == 0) && (envCtx->unk_28.params.dir.y == 0) &&
+            (envCtx->unk_28.params.dir.z == 0)) {
+            envCtx->unk_28.params.dir.x = 1;
+        }
+        if ((envCtx->unk_36.params.dir.x == 0) && (envCtx->unk_36.params.dir.y == 0) &&
+            (envCtx->unk_36.params.dir.z == 0)) {
+            envCtx->unk_36.params.dir.x = 1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80070C24.s")
 
@@ -2382,11 +2365,11 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_8C[2][i] = -0xFF;
         }
 
-        if (globalCtx->envCtx.unk_D4 + globalCtx->envCtx.unk_A0 > 900) {
+        if (globalCtx->envCtx.lightPallete.fogFar + globalCtx->envCtx.unk_A0 > 900) {
             globalCtx->envCtx.unk_A0 -= 100;
         }
 
-        if (globalCtx->envCtx.unk_D2 + globalCtx->envCtx.unk_9E > 950) {
+        if (globalCtx->envCtx.lightPallete.fogNear + globalCtx->envCtx.unk_9E > 950) {
             globalCtx->envCtx.unk_9E -= 10;
         }
     } else {
@@ -2748,7 +2731,7 @@ void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     if (temp_f14 > 6.0f) {
         phi_f14 = 6.0f;
     }
-    if ((globalCtx->envCtx.unk_1E != 0) || (globalCtx->envCtx.unk_BF != 0xFF)) {
+    if (globalCtx->envCtx.indoors || (globalCtx->envCtx.unk_BF != 0xFF)) {
         sp58 = ctx10000;
         spA4 = D_8011FEC4[3];
         spA5 = D_8011FEC4[4];
@@ -2910,7 +2893,7 @@ void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 a
     if (arg1 < arg3) {
         temp = 0.0f;
     }
-    globalCtx->envCtx.unk_9E = (arg2 - globalCtx->envCtx.unk_D2) * temp;
+    globalCtx->envCtx.unk_9E = (arg2 - globalCtx->envCtx.lightPallete.fogNear) * temp;
 
     if (arg1 == 0.0f) {
         for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
@@ -2922,7 +2905,7 @@ void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 a
             temp = 1.0f;
         }
         for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-            globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_C9[2][i] * temp);
+            globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.lightPallete.fogColor[i] * temp);
         }
     }
 
@@ -2932,8 +2915,8 @@ void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 a
 
     arg1 *= arg4;
     for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-        globalCtx->envCtx.unk_8C[0][i] = -(s16)(globalCtx->envCtx.unk_C0[0][i] * arg1);
-        globalCtx->envCtx.unk_8C[1][i] = -(s16)(globalCtx->envCtx.unk_C0[2][i] * arg1);
+        globalCtx->envCtx.unk_8C[0][i] = -(s16)(globalCtx->envCtx.lightPallete.ambientColor[i] * arg1);
+        globalCtx->envCtx.unk_8C[1][i] = -(s16)(globalCtx->envCtx.lightPallete.upperLightDir[i] * arg1);
     }
 }
 

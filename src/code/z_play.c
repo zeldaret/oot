@@ -142,8 +142,8 @@ void func_800BC88C(GlobalContext* globalCtx) {
 }
 
 Gfx* Gameplay_SetFog(GlobalContext* globalCtx, Gfx* gfx) {
-    Gfx_SetFog2(gfx, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1], globalCtx->lightCtx.fogColor[2],
-                0, globalCtx->lightCtx.fogNear, 1000);
+    return Gfx_SetFog2(gfx, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
+                       globalCtx->lightCtx.fogColor[2], 0, globalCtx->lightCtx.fogNear, 1000);
 }
 
 void Gameplay_Destroy(GameState* thisx) {
