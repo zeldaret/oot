@@ -3,18 +3,18 @@ glabel func_80ACFB34
 /* 00698 80ACFB38 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 0069C 80ACFB3C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 006A0 80ACFB40 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 006A4 80ACFB44 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 006A4 80ACFB44 3C040600 */  lui     $a0, %hi(D_060009C4)                ## $a0 = 06000000
 /* 006A8 80ACFB48 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 006AC 80ACFB4C 248409C4 */  addiu   $a0, $a0, 0x09C4           ## $a0 = 060009C4
+/* 006AC 80ACFB4C 248409C4 */  addiu   $a0, $a0, %lo(D_060009C4)           ## $a0 = 060009C4
 /* 006B0 80ACFB50 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 006B4 80ACFB54 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 006B8 80ACFB58 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 006B8 80ACFB58 3C050600 */  lui     $a1, %hi(D_060009C4)                ## $a1 = 06000000
 /* 006BC 80ACFB5C 468021A0 */  cvt.s.w $f6, $f4
 /* 006C0 80ACFB60 240E0002 */  addiu   $t6, $zero, 0x0002         ## $t6 = 00000002
 /* 006C4 80ACFB64 44060000 */  mfc1    $a2, $f0
 /* 006C8 80ACFB68 AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 006CC 80ACFB6C 24A509C4 */  addiu   $a1, $a1, 0x09C4           ## $a1 = 060009C4
+/* 006CC 80ACFB6C 24A509C4 */  addiu   $a1, $a1, %lo(D_060009C4)           ## $a1 = 060009C4
 /* 006D0 80ACFB70 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 006D4 80ACFB74 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 006D8 80ACFB78 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000

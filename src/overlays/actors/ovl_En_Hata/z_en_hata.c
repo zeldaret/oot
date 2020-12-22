@@ -67,40 +67,38 @@ void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* gblCtx;
-    s32 target;
+void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnHata* this = THIS;
     s32 pitch;
-    Vec3f sp48;
+    Vec3f sp48 = sVec;
     Vec3f sp3C;
     f32 sin;
 
-    sp48 = sVec;
-    SkelAnime_FrameUpdateMatrix(&THIS->skelAnime);
-    gblCtx = globalCtx;
-    THIS->limbs[3].y = THIS->limbs[12].y = -0x4000;
-    sp3C.x = gblCtx->envCtx.unk_A8;
-    sp3C.y = gblCtx->envCtx.unk_AA;
-    sp3C.z = gblCtx->envCtx.unk_AC;
-    if (gblCtx->envCtx.unk_B0 > 255.0f) {
-        gblCtx->envCtx.unk_B0 = 255.0f;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->limbs[3].y = this->limbs[12].y = -0x4000;
+    sp3C.x = globalCtx->envCtx.unk_A8;
+    sp3C.y = globalCtx->envCtx.unk_AA;
+    sp3C.z = globalCtx->envCtx.unk_AC;
+    if (globalCtx->envCtx.unk_B0 > 255.0f) {
+        globalCtx->envCtx.unk_B0 = 255.0f;
     }
-    if (gblCtx->envCtx.unk_B0 < 0.0f) {
-        gblCtx->envCtx.unk_B0 = 0.0f;
+    if (globalCtx->envCtx.unk_B0 < 0.0f) {
+        globalCtx->envCtx.unk_B0 = 0.0f;
     }
     if (Math_Rand_ZeroOne() > 0.5f) {
-        THIS->unk_278 += 6000;
+        this->unk_278 += 6000;
     } else {
-        THIS->unk_278 += 3000;
+        this->unk_278 += 3000;
     }
-    sin = Math_Sins(THIS->unk_278) * 80.0f;
+    sin = Math_Sins(this->unk_278) * 80.0f;
     pitch = -Math_Vec3f_Pitch(&sp48, &sp3C);
-    target = ((s32)((0x3A98 - pitch) * (1.0f - (gblCtx->envCtx.unk_B0 / (255.0f - sin))))) + pitch;
-    Math_SmoothScaleMaxMinS(&THIS->limbs[4].y, target, THIS->invScale, THIS->maxStep, THIS->minStep);
-    THIS->limbs[13].y = THIS->limbs[4].y;
-    THIS->limbs[4].z = -Math_Vec3f_Yaw(&sp48, &sp3C);
-    THIS->limbs[13].z = THIS->limbs[4].z;
-    THIS->skelAnime.animPlaybackSpeed = (Math_Rand_ZeroFloat(1.25f) + 2.75f) * (gblCtx->envCtx.unk_B0 / 255.0f);
+    pitch = ((s32)((0x3A98 - pitch) * (1.0f - (globalCtx->envCtx.unk_B0 / (255.0f - sin))))) + pitch;
+    Math_SmoothScaleMaxMinS(&this->limbs[4].y, pitch, this->invScale, this->maxStep, this->minStep);
+    this->limbs[13].y = this->limbs[4].y;
+    this->limbs[4].z = -Math_Vec3f_Yaw(&sp48, &sp3C);
+    this->limbs[13].z = this->limbs[4].z;
+    this->skelAnime.animPlaybackSpeed = (Math_Rand_ZeroFloat(1.25f) + 2.75f) * (globalCtx->envCtx.unk_B0 / 255.0f);
 }
 
 s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

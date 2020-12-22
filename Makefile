@@ -11,13 +11,14 @@ ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
+  CPPFLAGS := -DNON_MATCHING
   COMPARE := 0
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CPPFLAGS = -P
+CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
     $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
@@ -59,6 +60,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
+EMULATOR = mupen64plus
+EMU_FLAGS = --noosd
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -199,6 +202,10 @@ setup:
 	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
+test: $(ROM)
+	$(EMULATOR) $(EMU_FLAGS) $<
+
+.PHONY: all clean setup test
 
 #### Various Recipes ####
 

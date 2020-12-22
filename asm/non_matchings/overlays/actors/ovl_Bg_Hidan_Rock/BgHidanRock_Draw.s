@@ -9,17 +9,17 @@ glabel BgHidanRock_Draw
 /* 00E20 8088BEA0 15C00007 */  bne     $t6, $zero, .L8088BEC0     
 /* 00E24 8088BEA4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E28 8088BEA8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00E2C 8088BEAC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 00E2C 8088BEAC 3C050601 */  lui     $a1, %hi(D_0600C100)                ## $a1 = 06010000
 /* 00E30 8088BEB0 0C00D498 */  jal     Gfx_DrawDListOpa
               
-/* 00E34 8088BEB4 24A5C100 */  addiu   $a1, $a1, 0xC100           ## $a1 = 0600C100
+/* 00E34 8088BEB4 24A5C100 */  addiu   $a1, $a1, %lo(D_0600C100)           ## $a1 = 0600C100
 /* 00E38 8088BEB8 10000005 */  beq     $zero, $zero, .L8088BED0   
 /* 00E3C 8088BEBC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L8088BEC0:
-/* 00E40 8088BEC0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 00E40 8088BEC0 3C050601 */  lui     $a1, %hi(D_0600C1F0)                ## $a1 = 06010000
 /* 00E44 8088BEC4 0C00D498 */  jal     Gfx_DrawDListOpa
               
-/* 00E48 8088BEC8 24A5C1F0 */  addiu   $a1, $a1, 0xC1F0           ## $a1 = 0600C1F0
+/* 00E48 8088BEC8 24A5C1F0 */  addiu   $a1, $a1, %lo(D_0600C1F0)           ## $a1 = 0600C1F0
 /* 00E4C 8088BECC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L8088BED0:
 /* 00E50 8088BED0 C606016C */  lwc1    $f6, 0x016C($s0)           ## 0000016C

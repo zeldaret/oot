@@ -88,8 +88,8 @@ glabel func_808DE988
 /* 0822C 808DEA9C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 08230 808DEAA0 AFA20038 */  sw      $v0, 0x0038($sp)           
 /* 08234 808DEAA4 8FA30038 */  lw      $v1, 0x0038($sp)           
-/* 08238 808DEAA8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 0823C 808DEAAC 2484BE90 */  addiu   $a0, $a0, 0xBE90           ## $a0 = 0600BE90
+/* 08238 808DEAA8 3C040601 */  lui     $a0, %hi(D_0600BE90)                ## $a0 = 06010000
+/* 0823C 808DEAAC 2484BE90 */  addiu   $a0, $a0, %lo(D_0600BE90)           ## $a0 = 0600BE90
 /* 08240 808DEAB0 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 08244 808DEAB4 8FAD004C */  lw      $t5, 0x004C($sp)           
 /* 08248 808DEAB8 0004C100 */  sll     $t8, $a0,  4               

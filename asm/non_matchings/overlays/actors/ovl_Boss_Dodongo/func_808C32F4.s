@@ -20,9 +20,9 @@ glabel func_808C32F4
 /* 0218C 808C331C 3C054160 */  lui     $a1, 0x4160                ## $a1 = 41600000
 /* 02190 808C3320 10400050 */  beq     $v0, $zero, .L808C3464
 /* 02194 808C3324 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 02198 808C3328 3C050602 */  lui     $a1, 0x0602                ## $a1 = 06020000
+/* 02198 808C3328 3C050602 */  lui     $a1, %hi(D_0601CAE0)                ## $a1 = 06020000
 /* 0219C 808C332C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
-/* 021A0 808C3330 24A5CAE0 */  addiu   $a1, $a1, 0xCAE0           ## $a1 = 0601CAE0
+/* 021A0 808C3330 24A5CAE0 */  addiu   $a1, $a1, %lo(D_0601CAE0)           ## $a1 = 0601CAE0
 /* 021A4 808C3334 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 021A8 808C3338 1000004A */  beq     $zero, $zero, .L808C3464
 /* 021AC 808C333C A60301AA */  sh      $v1, 0x01AA($s0)           ## 000001AA
