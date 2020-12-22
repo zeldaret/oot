@@ -381,7 +381,6 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
         temp_a0 += phi_v0;
         phi_v1 = (s16)(temp_a0 - phi_a1);
 
-
         if (((this->unk_25C[idx] * phi_v0) <= 0) && (phi_v1 > -100) && (phi_v1 < 100)) {
             temp_a0 = phi_a1;
             phi_v0 = 0;
@@ -430,7 +429,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     if (animCurrentFrame <= 42.0f) {
                         phi_v1_2 = phi_a1 - 2000;
                     } else {
-                        phi_v1_2 = (s32)((((animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
+                        phi_v1_2 =
+                            (s32)((((animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
                     }
 
                     if (phi_v1_2 >= temp_a0) {
