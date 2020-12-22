@@ -2888,7 +2888,7 @@ s32 Camera_Battle1(Camera* camera) {
     if (!skipEyeAtCalc) {
         var3 = atToTargetDir.pitch * batt1->swingPitchAdj;
         var2 = F32_LERPIMP(sp7C, sp78, distRatio);
-        tmpAng1 = DEGF_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * (.5f + distRatio * (1.0f - .5f)));
+        tmpAng1 = DEGF_TO_BINANG(var2) - (s16)(playerToTargetDir.pitch * (0.5f + distRatio * (1.0f - 0.5f)));
         tmpAng1 += (s16)(var3);
 
         if (tmpAng1 < -0x2AA8) {
@@ -3209,7 +3209,7 @@ s32 Camera_KeepOn1(Camera* camera) {
 
     if (sp88 == 0) {
         spE2 = DEGF_TO_BINANG((f32)(keep1->unk_14 + ((keep1->unk_18 - keep1->unk_14) * sp84)));
-        spE2 -= (s16)(spC8.pitch * (.5f + (sp84 * .5f)));
+        spE2 -= (s16)(spC8.pitch * (0.5f + (sp84 * 0.5f)));
 
         spE8 = spD0.pitch * keep1->unk_1C;
         spE2 += (s16)spE8;
@@ -3439,7 +3439,6 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-#ifdef NON_MATCHING
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
     static Vec3f D_8015BD60;
@@ -3477,15 +3476,15 @@ s32 Camera_KeepOn4(Camera* camera) {
             camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
             return 1;
         }
-        camera->unk_14C &= ~0x20;
         unk20->unk_14 = *temp_s0;
+        camera->unk_14C &= ~0x20;
     }
 
     if (unk20->unk_14 != *temp_s0) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, unk20->unk_14,
                      *temp_s0);
-        camera->unk_14C |= 0x20;
         camera->animState = 0x14;
+        camera->unk_14C |= 0x20;
         camera->unk_14C &= ~(0x4 | 0x2);
         camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
         return 1;
@@ -3631,6 +3630,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 spA0 = DEGF_TO_BINANG(keep4->unk_0C);
             } else if ((keep4->unk_1C & 8) && camera->target != NULL) {
                 PosRot sp60;
+
                 func_8002EF44(&sp60, camera->target);
                 spA2 = DEGF_TO_BINANG(keep4->unk_08) - sp60.rot.x;
                 spA0 = BINANG_SUB(BINANG_ROT180(sp60.rot.y), spA8.yaw) > 0
@@ -3640,13 +3640,12 @@ s32 Camera_KeepOn4(Camera* camera) {
                 sp9C++;
             } else if ((keep4->unk_1C & 0x80) && camera->target != NULL) {
                 PosRot sp4C;
+
                 func_8002EF14(&sp4C, camera->target);
-                spA2 = ((s16)((keep4->unk_08) * (182.04167f) + .5f));
-                if (1) {
-                    sp9E = Camera_XZAngle(&sp4C.pos, &playerPosRot->pos);
-                    spA0 = (BINANG_SUB(sp9E, spA8.yaw) > 0) ? sp9E + ((s16)((keep4->unk_0C) * (182.04167f) + .5f))
-                                                            : sp9E - ((s16)((keep4->unk_0C) * (182.04167f) + .5f));
-                }
+                spA2 = DEGF_TO_BINANG(keep4->unk_08);
+                sp9E = Camera_XZAngle(&sp4C.pos, &playerPosRot->pos);
+                spA0 = (BINANG_SUB(sp9E, spA8.yaw) > 0) ? sp9E + DEGF_TO_BINANG(keep4->unk_0C)
+                                                        : sp9E - DEGF_TO_BINANG(keep4->unk_0C);
                 spCC[1] = camera->target;
                 sp9C++;
             } else if (keep4->unk_1C & 0x40) {
@@ -3675,8 +3674,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 }
                 osSyncPrintf("camera: item: BG&collision check %d time(s)\n", i);
             }
-            temp_f0_2 = BINANG_SUB(spB8.pitch, spA8.pitch) / (f32)unk20->unk_10;
-            unk20->unk_04 = temp_f0_2;
+            unk20->unk_04 = BINANG_SUB(spB8.pitch, spA8.pitch) / (f32)unk20->unk_10;
             unk20->unk_00 = BINANG_SUB(spB8.yaw, spA8.yaw) / (f32)unk20->unk_10;
             unk20->unk_0C = spA8.yaw;
             unk20->unk_0E = spA8.pitch;
@@ -3699,7 +3697,8 @@ s32 Camera_KeepOn4(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(at, at, &spB8);
     }
     camera->atLERPStepScale = 0.0f;
-    spB8.r = camera->dist = Camera_LERPCeilF(keep4->unk_04, camera->dist, 0.25f, 2.0f);
+    camera->dist = Camera_LERPCeilF(keep4->unk_04, camera->dist, 0.25f, 2.0f);
+    spB8.r = camera->dist;
     if (unk20->unk_10 != 0) {
         camera->unk_14C |= 0x20;
         unk20->unk_0C += (s16)unk20->unk_00;
@@ -3734,12 +3733,6 @@ s32 Camera_KeepOn4(Camera* camera) {
     camera->fov = Camera_LERPCeilF(keep4->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
 }
-#else
-Vec3f D_8015BD50;
-Vec3f D_8015BD60;
-Vec3f D_8015BD70;
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_KeepOn4.s")
-#endif
 
 /**
  * Talking in a pre-rendered room
@@ -6983,31 +6976,25 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
 }
 
 #ifdef NON_MATCHING
+// Lots of saved register problems. Probably equivalent, but not certain.
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
     char sp48[8];
-    s16 temp_v0;
-    s32 temp_v0_2;
-    s8* temp_t6;
-    s8* temp_t7;
-    s8* temp_t8;
-    s8* temp_t9;
-    Camera* temp_a0;
-    s32 phi_a1;
     char* phi_v1;
     char* phi_t0;
-    s32 phi_v0;
-    s32 phi_v0_2;
+    s32 phi_a1;
 
-    if (OREG(0) & 1 && camera->thisIdx == camera->globalCtx->activeCamera && !gDbgCamEnabled) {
-        for (phi_a1 = 0, phi_v1 = sp58, phi_t0 = sp48; phi_v1 < &sp58[4]; phi_v1++, phi_t0++, phi_a1++) {
-            temp_a0 = camera->globalCtx->cameraPtrs[phi_a1];
-            if (temp_a0 == NULL) {
+    if ((OREG(0) & 1) && (camera->thisIdx == camera->globalCtx->activeCamera) && !gDbgCamEnabled) {
+        phi_a1 = 0;
+        phi_v1 = sp58;
+        phi_t0 = sp48;
+        for (; phi_v1 < sp58 + 4; phi_v1++, phi_t0++, phi_a1++) {
+            if (camera->globalCtx->cameraPtrs[phi_a1] == NULL) {
                 *phi_v1 = '-';
                 *phi_t0 = ' ';
             } else {
-                switch (temp_a0->status) {
+                switch (camera->globalCtx->cameraPtrs[phi_a1]->status) {
                     case 0:
                         *phi_v1 = 'c';
                         *phi_t0 = ' ';
@@ -7035,8 +7022,8 @@ void Camera_PrintSettings(Camera* camera) {
                 }
             }
         }
-        *phi_v1++ = '\0';
-        *phi_t0++ = '\0';
+        *phi_v1 = '\0';
+        *phi_t0 = '\0';
 
         sp48[camera->globalCtx->activeCamera] = 'a';
         func_8006376C(3, 0x16, 5, sp58);
@@ -7049,20 +7036,19 @@ void Camera_PrintSettings(Camera* camera) {
         func_8006376C(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
-        phi_v0 = 0;
+        phi_a1 = 0;
         if (camera->camDataIdx < 0) {
-            sp50[phi_v0++] = '-';
+            sp50[phi_a1++] = '-';
         }
-        phi_v0_2 = camera->camDataIdx / 0xA;
-        if (phi_v0_2 != 0) {
-            sp50[phi_v0++] = phi_v0 / 0xA + '0';
+        if (camera->camDataIdx / 0xA != 0) {
+            sp50[phi_a1++] = phi_a1 / 0xA + '0';
         }
-        sp50[phi_v0++] = phi_v0 % 10 + '0';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0] = '\0';
+        sp50[phi_a1++] = phi_a1 % 10 + '0';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1] = '\0';
         func_8006376C(3, 26, 5, "I:");
         func_8006376C(5, 26, 4, sp50);
     }

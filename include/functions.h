@@ -603,6 +603,8 @@ s32 func_8003DD6C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, UN
 s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
 s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
 s32 func_8003DFA0(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*, f32);
+s32 func_8003E0B8(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                  s32 chkOneFace);
 // ? func_8003E0FC(?);
 s32 func_8003E188(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, f32*);
 // ? func_8003E214(?);
@@ -2229,6 +2231,7 @@ void func_800F4C58(Vec3f*, u16 sfxId, u8);
 // ? func_800F5510(?);
 // ? func_800F5550(?);
 // ? func_800F56A8(?);
+void func_800F5718(void);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
 void func_800F5918(void);
 void func_800F595C(u16);

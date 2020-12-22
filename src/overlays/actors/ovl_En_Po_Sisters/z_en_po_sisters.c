@@ -542,6 +542,7 @@ void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
+
     this->actor.posRot.pos.y += (2.0f + 0.5f * Math_Rand_ZeroOne()) * Math_Sins(this->unk_196 * 0x800);
     if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
         if (this->actionFunc == func_80ADAC70) {
