@@ -34,7 +34,7 @@ void EnFz_Shrinking(EnFz* this, GlobalContext* globalCtx);
 void EnFz_Hidden(EnFz* this);
 
 // Damaged
-void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 unk_int, f32 unk_float);
+void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffects, f32 unk_float);
 void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx);
 
 // Killed with fire source
@@ -100,19 +100,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
 };
 
-static EnFzSpawnIceSmokeFunc sSpawnIceSmoke[] = {
-    EnFz_SpawnIceSmokeHiddenState,  // Hiding
-    EnFz_SpawnIceSmokeGrowingState, // Fully grown
-    EnFz_SpawnIceSmokeActiveState,  // Growing or Shrinking to/from hiding
-    EnFz_SpawnIceSmokeActiveState,  // melting from fire attack
-};
 
-static Gfx* sDLists[] = { 0x06001130,   // Body fully intact           (5 or 6 health)
-                           0x060021A0,   // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
-                           0x06002CA0 }; // Entire head chipped off     (1 or 2 health)
 
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
-
     EnFz* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, &sInitChain);
@@ -158,7 +148,6 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->envAlpha = 0;
         this->actor.scale.y = 0.0f;
         EnFz_Hidden(this);
-
     } else {
         this->envAlpha = 255;
         EnFz_BeginFreezingStationary(this);
@@ -212,10 +201,12 @@ s32 EnFz_IsCollision(EnFz* this, Vec3f* vec) {
     if (this->xzDistSquare <= (SQ(x_dist) + SQ(z_dist))) {
         return true;
     }
-    return false;
+    else {
+        return false;
+    }
 }
 
-void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 unk_int, f32 unk_float) {
+void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffects, f32 unk_float) {
     int i;
     Vec3f pos;
     Vec3f vel;
@@ -236,7 +227,7 @@ void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 unk_int,
     accel.y = -1.0f;
     accel.x = 0.0f;
 
-    for (i = 0; i < unk_int; i++) {
+    for (i = 0; i < numEffects; i++) {
         scale = Math_Rand_CenteredFloat(0.3f) + 0.6f;
         life = (s32)Math_Rand_CenteredFloat(5.0f) + 12;
         pos.x = Math_Rand_CenteredFloat(unk_float) + vec->x;
@@ -313,14 +304,10 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             this->timer = 10;
             EnFz_BeingShrinking(this);
-        }
-
-        else if (this->collider2.base.acFlags & 0x80) {
+        } else if (this->collider2.base.acFlags & 0x80) {
             this->collider2.base.acFlags &= ~0x80;
             this->collider1.base.acFlags &= ~2;
-        }
-
-        else if (this->collider1.base.acFlags & 2) {
+        } else if (this->collider1.base.acFlags & 2) {
             this->collider1.base.acFlags &= ~2;
 
             if (this->actor.colChkInfo.damageEffect != 2) {
@@ -332,7 +319,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
                         vec.x = this->actor.posRot.pos.x;
                         vec.y = this->actor.posRot.pos.y;
                         vec.z = this->actor.posRot.pos.z;
-                        EnFz_Damaged(this, globalCtx, &vec, 0xA, 0.0f);
+                        EnFz_Damaged(this, globalCtx, &vec, 10, 0.0f);
                         this->unusedCounter++;
                     } else {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
@@ -340,7 +327,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
                         vec.x = this->actor.posRot.pos.x;
                         vec.y = this->actor.posRot.pos.y;
                         vec.z = this->actor.posRot.pos.z;
-                        EnFz_Damaged(this, globalCtx, &vec, 0x1E, 10.0f);
+                        EnFz_Damaged(this, globalCtx, &vec, 30, 10.0f);
                         EnFz_BeginDespawn(this, globalCtx);
                     }
                 }
@@ -359,7 +346,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
 }
 
 void EnFz_RotateTowardsLink(EnFz* this) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 10, 2000, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 }
 
@@ -371,7 +358,6 @@ void EnFz_BeingShrinking(EnFz* this) {
 }
 
 void EnFz_Shrinking(EnFz* this, GlobalContext* globalCtx) {
-
     this->envAlpha -= 16;
     if (this->envAlpha >= 256) {
         this->envAlpha = 0;
@@ -406,7 +392,6 @@ void EnFz_Grow(EnFz* this) {
 }
 
 void EnFz_FinishGrowing(EnFz* this, GlobalContext* globalCtx) {
-
     if (this->timer == 0) {
         this->envAlpha += 8;
         if (this->envAlpha >= 256) {
@@ -481,10 +466,7 @@ void EnFz_Freezing(EnFz* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         EnFz_BeingShrinking(this);
-    }
-
-    // Freeze only for the
-    else if (this->timer >= 11) {
+    } else if (this->timer >= 11) {
 
         isTimerMod8 = false;
         primAlpha = 150;
@@ -555,7 +537,6 @@ void EnFz_BeginMelt(EnFz* this) {
 }
 
 void EnFz_Melt(EnFz* this, GlobalContext* globalCtx) {
-
     Math_ApproxF(&this->actor.scale.y, 0.0006f, 0.0002f);
 
     if (this->actor.scale.y < 0.006f) {
@@ -636,6 +617,12 @@ void EnFz_FreezingStationary(EnFz* this, GlobalContext* globalCtx) {
 }
 
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
+    static EnFzSpawnIceSmokeFunc sSpawnIceSmoke[] = {
+    EnFz_SpawnIceSmokeHiddenState,  // Hiding
+    EnFz_SpawnIceSmokeGrowingState, // Fully grown
+    EnFz_SpawnIceSmokeActiveState,  // Growing or Shrinking to/from hiding
+    EnFz_SpawnIceSmokeActiveState,  // melting from fire attack
+};
 
     EnFz* this = THIS;
     CollisionCheckContext* colChkCtx;
@@ -685,7 +672,9 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
-
+    static Gfx* sDLists[] = { 0x06001130,   // Body fully intact           (5 or 6 health)
+                              0x060021A0,   // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
+                              0x06002CA0 }; // Entire head chipped off     (1 or 2 health)
     EnFz* this = THIS;
     u32 frames;
     s32 index;
@@ -712,12 +701,12 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->state.frames & 0x7F, 0x20, 0x20, 1, 0,
                                     (globalCtx->state.frames * 2) & 0x7F, 0x20, 0x20));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fz.c", 0x49F),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fz.c", 1183),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIMITIVE, TEXEL0,
                           PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, ENVIRONMENT, 0);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 0x9B, 0xFF, 0xFF, 0xFF);
-        gDPSetEnvColor(POLY_XLU_DISP++, 0xC8, 0xC8, 0xC8, this->envAlpha);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 155, 255, 255, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, this->envAlpha);
         gSPDisplayList(POLY_XLU_DISP++, sDLists[index]);
     }
 
@@ -798,20 +787,14 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                     if (iceSmoke->primAlpha >= 100) {
                         iceSmoke->primAlphaState++;
                     }
-                }
-
-                // Becoming more transparent
-                else {
+                } else { // Becoming more transparent
                     iceSmoke->primAlpha -= 3;
                     if (iceSmoke->primAlpha <= 0) {
                         iceSmoke->primAlpha = 0;
                         iceSmoke->freezingState = 0;
                     }
                 }
-            }
-
-            // Freezing
-            else if (iceSmoke->freezingState == 2) {
+            } else if (iceSmoke->freezingState == 2) { // Freezing
                 Math_SmoothScaleMaxF(&iceSmoke->xyScale, iceSmoke->xyScaleTarget, 0.1f,
                                      iceSmoke->xyScaleTarget / 10.0f);
 
@@ -820,10 +803,7 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                     if (iceSmoke->numFramesActive >= 7) {
                         iceSmoke->primAlphaState++;
                     }
-                }
-
-                // Becoming more transparent, slows down
-                else {
+                } else { // Becoming more transparent, slows down
                     iceSmoke->accel.y = 2.0f;
                     iceSmoke->primAlpha -= 17;
                     iceSmoke->velocity.x *= 0.75f;
@@ -866,7 +846,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
     iceSmoke = this->iceSmoke;
     unk_counter = 0;
 
-    OPEN_DISPS(state, "../z_en_fz.c", 0x568);
+    OPEN_DISPS(state, "../z_en_fz.c", 1384);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
@@ -880,7 +860,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                 unk_counter++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xC3, 0xE1, 0xEB, iceSmoke->primAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, iceSmoke->primAlpha);
 
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (iceSmoke->numFramesActive + (i * 3)) * 3,
@@ -890,12 +870,12 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(state, "../z_en_fz.c", 0x590),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(state, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06003158));
         }
         iceSmoke += 1;
     }
-    CLOSE_DISPS(state, "../z_en_fz.c", 0x596);
+    CLOSE_DISPS(state, "../z_en_fz.c", 1430);
 }
