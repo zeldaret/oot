@@ -19,6 +19,13 @@ typedef struct BgHakaGate {
     /* 0x0172 */ s16 frames;
 } BgHakaGate; // size = 0x0174
 
+typedef enum {
+    BGHAKAGATE_STATUE,
+    BGHAKAGATE_FLOOR,
+    BGHAKAGATE_GATE,
+    BGHAKAGATE_SKULL
+} BgHakaGateType;
+
 extern const ActorInit Bg_Haka_Gate_InitVars;
 
 #endif

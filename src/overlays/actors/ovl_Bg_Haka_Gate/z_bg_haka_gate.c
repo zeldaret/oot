@@ -15,17 +15,17 @@ void BgHakaGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaGate_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaGate_Draw(Actor* this, GlobalContext* globalCtx);
 
-void func_8087C114(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C120(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C158(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C270(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C454(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C5D0(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C65C(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C6AC(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C73C(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C794(BgHakaGate* this, GlobalContext* globalCtx);
-void func_8087C85C(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_Noop(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_StatueInactive(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_FloorOpen(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_GateWait(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_TrueSkull(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx);
+void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx);
 
 extern Gfx D_0404D4E0[];
 extern ColHeader D_0600A938;
@@ -60,30 +60,30 @@ static InitChainEntry sInitChain[] = {
 void BgHakaGate_Init(Actor *thisx, GlobalContext *globalCtx) {
     s32 pad;
     BgHakaGate* this = THIS;
-    ColHeader* sp2C = NULL;
+    ColHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    if (thisx->params == 3) {
+    if (thisx->params == BGHAKAGATE_SKULL) {
         if (D_8087CCD0 != 0x100) {
-            this->actionFunc = func_8087C794;
+            this->actionFunc = BgHakaGate_FalseSkull;
         } else if (ABS(thisx->shape.rot.y) < 0x4000) {
             if ((Math_Rand_ZeroOne() * 3.0f) < D_8087CCD4) {
                 this->unk_170 = 1;
                 D_8087CCD0 = thisx->shape.rot.y + 0x8000;
                 if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                    this->actionFunc = func_8087C114;
+                    this->actionFunc = BgHakaGate_Noop;
                 } else {
-                    this->actionFunc = func_8087C73C;
+                    this->actionFunc = BgHakaGate_TrueSkull;
                 }
             } else {
                 D_8087CCD4++;
-                this->actionFunc = func_8087C794;
+                this->actionFunc = BgHakaGate_FalseSkull;
             }
         } else {
-            this->actionFunc = func_8087C794;
+            this->actionFunc = BgHakaGate_FalseSkull;
         }
         this->frames = Math_Rand_ZeroOne() * 20.0f;
         thisx->flags |= 0x10;
@@ -91,34 +91,34 @@ void BgHakaGate_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->unk_16E = 350;
         }
     } else {
-        if (thisx->params == 0) {
-            DynaPolyInfo_Alloc(&D_060131C4, &sp2C);
+        if (thisx->params == BGHAKAGATE_STATUE) {
+            DynaPolyInfo_Alloc(&D_060131C4, &colHeader);
             this->timer = 0;
             D_8087CCD8 = 0.0f;
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                this->actionFunc = func_8087C120;
+                this->actionFunc = BgHakaGate_StatueInactive;
             } else {
-                this->actionFunc = func_8087C158;
+                this->actionFunc = BgHakaGate_StatueIdle;
             }
-        } else if (thisx->params == 1) {
-            DynaPolyInfo_Alloc(&D_06010E10, &sp2C);
+        } else if (thisx->params == BGHAKAGATE_FLOOR) {
+            DynaPolyInfo_Alloc(&D_06010E10, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                this->actionFunc = func_8087C114;
+                this->actionFunc = BgHakaGate_Noop;
             } else {
-                this->actionFunc = func_8087C454;
+                this->actionFunc = BgHakaGate_FloorClosed;
             }
-        } else {
-            DynaPolyInfo_Alloc(&D_0600A938, &sp2C);
+        } else { // BGHAKAGATE_GATE
+            DynaPolyInfo_Alloc(&D_0600A938, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                this->actionFunc = func_8087C114;
+                this->actionFunc = BgHakaGate_Noop;
                 thisx->posRot.pos.y += 80.0f;
             } else {
                 thisx->flags |= 0x10;
                 Actor_SetHeight(thisx, 30.0f);
-                this->actionFunc = func_8087C65C;
+                this->actionFunc = BgHakaGate_GateWait;
             }
         }
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp2C);
+        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
@@ -127,25 +127,25 @@ void BgHakaGate_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     BgHakaGate* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-    if (this->dyna.actor.params == 0) {
+    if (this->dyna.actor.params == BGHAKAGATE_STATUE) {
         D_8087CCD0 = 0x100;
         D_8087CCD4 = 1;
     }
 }
 
-void func_8087C114(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_Noop(BgHakaGate *this, GlobalContext *globalCtx) {
 }
 
-void func_8087C120(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_StatueInactive(BgHakaGate *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2  &= ~0x10;
+        player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
     }
 }
 
-void func_8087C158(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_StatueIdle(BgHakaGate *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     s32 phi_v0;
     f32 phi_f0;
@@ -157,7 +157,7 @@ void func_8087C158(BgHakaGate *this, GlobalContext *globalCtx) {
             phi_f0 = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
             phi_v0 = ((s16)(this->dyna.actor.yawTowardsLink - player->actor.shape.rot.y) > 0) ? -1 : 1;
             this->timer = phi_v0 * phi_f0;
-            this->actionFunc = func_8087C270;
+            this->actionFunc = BgHakaGate_StatueTurn;
         } else {
             player->stateFlags2 &= ~0x10;
             this->dyna.unk_150 = 0.0f;
@@ -167,21 +167,21 @@ void func_8087C158(BgHakaGate *this, GlobalContext *globalCtx) {
         }
     } else {
         if (D_8087CCD4 == 100) {
-            this->actionFunc = func_8087C120;
+            this->actionFunc = BgHakaGate_StatueInactive;
         } else {
             this->timer = 0;
         }
     }
 }
 
-void func_8087C270(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_StatueTurn(BgHakaGate *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     s32 sp28;
     s16 sp26;
 
     this->unk_16C++;
     this->unk_16C = CLAMP_MAX(this->unk_16C, 5);
-    sp28 = Math_ApproxS(&this->unk_16E, 0x258, this->unk_16C);
+    sp28 = Math_ApproxS(&this->unk_16E, 600, this->unk_16C);
     sp26 = this->unk_16E * this->timer;
     this->dyna.actor.shape.rot.y = (this->unk_170 + sp26) * 0.1f * 182.04445f;
     if ((player->stateFlags2 & 0x10) && (D_8087CCD8 > 0.0f)) {
@@ -193,17 +193,17 @@ void func_8087C270(BgHakaGate *this, GlobalContext *globalCtx) {
     D_8087CFB0 = this->dyna.actor.shape.rot.y;
     if (sp28 != 0) {
         player->stateFlags2 &= ~0x10;
-        this->unk_170 = (this->unk_170 + sp26) % 0xE10;
+        this->unk_170 = (this->unk_170 + sp26) % 3600;
         this->unk_16C = 0;
         this->unk_16E = 0;
         this->timer = 5;
-        this->actionFunc = func_8087C158;
+        this->actionFunc = BgHakaGate_StatueIdle;
         this->dyna.unk_150 = 0.0f;
     }
     func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
-void func_8087C454(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_FloorClosed(BgHakaGate *this, GlobalContext *globalCtx) {
     if ((D_8087CCD8 > 1.0f) && (D_8087CFB0 != 0)) {
         Player* player = PLAYER;
         f32 temp1;
@@ -223,60 +223,60 @@ void func_8087C454(BgHakaGate *this, GlobalContext *globalCtx) {
             if (ABS(temp_v0) < 0x80) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 D_8087CCD4 = 100;
-                this->actionFunc = func_8087C114;
+                this->actionFunc = BgHakaGate_Noop;
             } else {
-                func_80078884(0x4806);
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_80078884(NA_SE_SY_ERROR);
+                Audio_PlayActorSound2(&this->dyna.actor,
+                NA_SE_EV_GROUND_GATE_OPEN);func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->timer = 60;
-                this->actionFunc = func_8087C5D0;
+                this->actionFunc = BgHakaGate_FloorOpen;
             }
         }
     }
 }
 
-void func_8087C5D0(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_FloorOpen(BgHakaGate *this, GlobalContext *globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
     if (this->timer == 0) {
         if (Math_ApproxUpdateScaledS(&this->unk_16C, 0, 0x800)) {
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-            this->actionFunc = func_8087C454;
+            this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {
         Math_ApproxUpdateScaledS(&this->unk_16C, 0x3000, 0x800);
     }
 }
 
-void func_8087C65C(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_GateWait(BgHakaGate *this, GlobalContext *globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         func_80080480(globalCtx, &this->dyna.actor);
-        this->actionFunc = func_8087C6AC;
+        this->actionFunc = BgHakaGate_GateOpen;
     }
 }
 
-void func_8087C6AC(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_GateOpen(BgHakaGate *this, GlobalContext *globalCtx) {
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 80.0f, 1.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
         this->dyna.actor.flags &= ~0x10;
-        this->actionFunc = func_8087C114;
+        this->actionFunc = BgHakaGate_Noop;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
 }
 
-void func_8087C73C(BgHakaGate *this, GlobalContext *globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->switchFlag) && Math_ApproxS(&this->unk_16E, 0x15E, 0x14)) {
-        this->actionFunc = func_8087C114;
+void BgHakaGate_TrueSkull(BgHakaGate *this, GlobalContext *globalCtx) {
+    if (Flags_GetSwitch(globalCtx, this->switchFlag) && Math_ApproxS(&this->unk_16E, 350, 20)) {
+        this->actionFunc = BgHakaGate_Noop;
     }
 }
 
-void func_8087C794(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_FalseSkull(BgHakaGate *this, GlobalContext *globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        Math_ApproxS(&this->unk_16E, 0x15E, 0x14);
+        Math_ApproxS(&this->unk_16E, 350, 20);
     }
-    if (globalCtx->actorCtx.unk_03 != 0) {
+    if (globalCtx->actorCtx.unk_03) {
         this->dyna.actor.flags |= 0x80;
     } else {
         this->dyna.actor.flags &= ~0x80;
@@ -288,12 +288,12 @@ void BgHakaGate_Update(Actor *thisx, GlobalContext *globalCtx) {
     BgHakaGate* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    if (this->dyna.actor.params == 3) {
+    if (this->dyna.actor.params == BGHAKAGATE_SKULL) {
         this->frames++;
     }
 }
 
-void func_8087C85C(BgHakaGate *this, GlobalContext *globalCtx) {
+void BgHakaGate_DrawFlame(BgHakaGate *this, GlobalContext *globalCtx) {
     Actor* thisx = &this->dyna.actor;
     f32 scale;
 
@@ -326,7 +326,7 @@ void BgHakaGate_Draw(Actor *thisx, GlobalContext *globalCtx) {
         Gfx_DrawDListXlu(globalCtx, D_0600F1B0);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
-        if (thisx->params == 1) {
+        if (thisx->params == BGHAKAGATE_FLOOR) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 781);
             Matrix_Get(&sp4C);
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
@@ -345,7 +345,7 @@ void BgHakaGate_Draw(Actor *thisx, GlobalContext *globalCtx) {
             Gfx_DrawDListOpa(globalCtx, D_8087CD00[thisx->params]);
         }
     }
-    if (thisx->params == 3) {
-        func_8087C85C(this, globalCtx);
+    if (thisx->params == BGHAKAGATE_SKULL) {
+        BgHakaGate_DrawFlame(this, globalCtx);
     }
 }
