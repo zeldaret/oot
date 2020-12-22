@@ -36,18 +36,19 @@ typedef enum ColChkMassTypes {
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassTypes;
 
-void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
-    Collider_DrawPoly(gfx, vA, vB, vC, 255, 0, 0);
+void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
+    Collider_DrawPoly(gfxCtx, vA, vB, vC, 255, 0, 0);
 }
 
-// #ifdef NON_MATCHING
-// bss why
-void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
+void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
     Vtx* vtxTbl;
     Vtx* vtx;
-    f32 nx, ny, nz, originDist;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 originDist;
 
-    OPEN_DISPS(gfx, "../z_collision_check.c", 713);
+    OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
 
     gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
@@ -61,7 +62,7 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    vtxTbl = (Vtx*)Graph_Alloc(gfx, 3 * sizeof(Vtx));
+    vtxTbl = Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
     if (vtxTbl == NULL) {
         __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
     }
@@ -91,11 +92,8 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
     gSPVertex(POLY_OPA_DISP++, vtxTbl, 3, 0);
     gSP1Triangle(POLY_OPA_DISP++, 0, 1, 2, 0);
 
-    CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
+    CLOSE_DISPS(gfxCtx, "../z_collision_check.c", 757);
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/Collider_DrawPoly.s")
-// #endif
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
     static Collider init = { NULL, NULL, NULL, NULL, AT_OFF, AC_OFF, OC_OFF, OT_NONE, COLTYPE_HIT3, COLSHAPE_INVALID };
@@ -2067,7 +2065,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-static u8 sBssDummy0;
+static s8 sBssDummy0;
 static s8 sBssDummy1;
 static s8 sBssDummy2;
 
@@ -3200,8 +3198,6 @@ void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, actorPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#ifdef NON_MATCHING // Might actually be equivalent. It's hard to tell.
-
 #define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
 #define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
 
@@ -3227,7 +3223,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     f32 temp_f2;
     f32 zero = 0.0f;
     f32 temp_f0;
-    f32 temp_f12 = 0.0f;
+    f32 pad;
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;
@@ -3244,7 +3240,6 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     if ((actorToItem.y > 0.0f) && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
         return 3;
     }
-    
     if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) &&
         (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)) {
         return 3;
@@ -3253,7 +3248,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     temp_f2 = SQXZ(itemStep);
     if (!IS_ZERO(temp_f2)) {
         temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
-        if (SQ(temp_f14) <  (4.0f * temp_f2) * sp38) {
+        if (SQ(temp_f14) < (4.0f * temp_f2) * sp38) {
             return 0;
         }
         if (SQ(temp_f14) - ((4.0f * temp_f2) * sp38) > zero) {
@@ -3262,8 +3257,10 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
             phi_v1 = 1;
             phi_v0 = 0;
         }
-        temp_f0 = sqrtf(SQ(temp_f14) -  (4.0f * temp_f2) * sp38);
-        sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
+        temp_f0 = sqrtf(SQ(temp_f14) - (4.0f * temp_f2) * sp38);
+        if (phi_v1 == 1) {
+            sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
+        }
         if (phi_v0 == 1) {
             sp4C = (-temp_f14 - temp_f0) / (2.0f * temp_f2);
         }
@@ -3293,7 +3290,6 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         }
         return 0;
     }
-    
     if (phi_v0 == 0) {
         if (sp50 < 0.0f || 1.0f < sp50) {
             return 0;
@@ -3312,7 +3308,6 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
             phi_v0 = 0;
         }
     }
-    
     if ((phi_v1 == 1) && ((sp50 * itemStep.y + actorToItem.y < 0.0f) || (height < sp50 * itemStep.y + actorToItem.y))) {
         phi_v1 = 0;
     }
@@ -3343,18 +3338,9 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     return 1;
     
 }
-#else
-/*
- * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
- * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
- * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
- * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
- */
-s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
-                                    Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/CollisionCheck_CylSideVsLineSeg.s")
-#endif
+#undef SQXZ
+#undef DOTXZ
 
 // Gets damage from a sword strike using generic values, and returns 0 if the attack not
 // sword-type. Used by bosses to require that a sword attack deal the killing blow.
