@@ -29,7 +29,7 @@ void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    vtxTbl = (Vtx*)Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
+    vtxTbl = Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
     if (vtxTbl == NULL) {
         __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
     }
@@ -3160,17 +3160,17 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#ifdef NON_MATCHING
-
-#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
-#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
-
 /*
  * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
  * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
  * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
  * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
  */
+#ifdef NON_MATCHING
+
+#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
+#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
+
 s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1,
                   Vec3f* out2) {
     Vec3f actorToItem;
@@ -3307,13 +3307,7 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
 #undef DOTXZ
 
 #else
-/*
- * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
- * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
- * number of points of intersection with the side of the cylinder. The locations of those points are put in out1 and
- * out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
- */
-s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
+s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
