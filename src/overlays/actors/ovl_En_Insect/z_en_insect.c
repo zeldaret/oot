@@ -446,7 +446,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
-    this->actor.posRot.pos.y += this->actor.waterY;
+    this->actor.posRot.pos.y += this->actor.yDistToWater;
     this->skelAnime.animPlaybackSpeed = CLAMP(this->unk_31A * 0.018f, 0.1f, 1.9f);
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -488,7 +488,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
 
     if (Math_Rand_ZeroOne() < 0.03f) {
         sp40.x = this->actor.posRot.pos.x;
-        sp40.y = this->actor.posRot.pos.y + this->actor.waterY;
+        sp40.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
         sp40.z = this->actor.posRot.pos.z;
         EffectSsGRipple_Spawn(globalCtx, &sp40, 20, 100, 4);
         EffectSsGRipple_Spawn(globalCtx, &sp40, 40, 200, 8);
@@ -524,7 +524,7 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 200;
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
-    if (this->actor.waterY > 5.0f && this->actor.waterY < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
+    if (this->actor.yDistToWater > 5.0f && this->actor.yDistToWater < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
         EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f,
                              (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
     }

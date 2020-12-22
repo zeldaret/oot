@@ -271,8 +271,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                 if (floorY <= -32000.0f) {
                     break;
                 }
-                if ((player->actor.waterY != -32000.0f) &&
-                    (floorY < (player->actor.posRot.pos.y - player->actor.waterY))) {
+                if ((player->actor.yDistToWater != -32000.0f) &&
+                    (floorY < (player->actor.posRot.pos.y - player->actor.yDistToWater))) {
                     break;
                 }
                 spawnPos.y = floorY;

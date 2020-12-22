@@ -419,7 +419,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     }
     if (this->actor.bgCheckFlags & 0x40) {
         contactPos.x = this->actor.posRot.pos.x;
-        contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+        contactPos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.posRot.pos.z;
         EffectSsGSplash_Spawn(globalCtx, &contactPos, 0, 0, 0, 350);
         if (type == ROCK_SMALL) {

@@ -129,7 +129,7 @@ typedef struct Actor {
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
     /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly an actor is touching
     /* 0x080 */ f32     groundY;
-    /* 0x084 */ f32     waterY;
+    /* 0x084 */ f32     yDistToWater;
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     yawTowardsLink;
     /* 0x08C */ f32     xyzDistFromLinkSq;

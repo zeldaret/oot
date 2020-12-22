@@ -378,7 +378,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
     } else {
         if (this->actor.bgCheckFlags & 0x40) {
             contactPos.x = this->actor.posRot.pos.x;
-            contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+            contactPos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
             contactPos.z = this->actor.posRot.pos.z;
             EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 400);
             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);

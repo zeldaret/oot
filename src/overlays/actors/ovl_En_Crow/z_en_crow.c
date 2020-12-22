@@ -205,7 +205,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
-    if (this->actor.waterY > -40.0f) {
+    if (this->actor.yDistToWater > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
@@ -231,7 +231,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     if ((this->timer == 0) && (this->actor.xzDistFromLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
-        (this->actor.waterY < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
 }
@@ -267,7 +267,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
-        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.waterY > -40.0f)) {
+        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & 2) {
             this->collider.base.atFlags &= ~2;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);

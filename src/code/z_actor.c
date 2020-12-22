@@ -1249,8 +1249,8 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
         func_8002E2AC(globalCtx, actor, &sp64, arg5);
         sp50 = actor->posRot.pos.y;
         if (func_8004213C(globalCtx, &globalCtx->colCtx, actor->posRot.pos.x, actor->posRot.pos.z, &sp50, &sp54)) {
-            actor->waterY = sp50 - actor->posRot.pos.y;
-            if (actor->waterY < 0.0f) {
+            actor->yDistToWater = sp50 - actor->posRot.pos.y;
+            if (actor->yDistToWater < 0.0f) {
                 actor->bgCheckFlags &= ~0x60;
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
@@ -1268,7 +1268,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
             }
         } else {
             actor->bgCheckFlags &= ~0x60;
-            actor->waterY = -32000.0f;
+            actor->yDistToWater = -32000.0f;
         }
     }
 }
@@ -1668,7 +1668,7 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
     s32 sfxId;
 
     if (actor->bgCheckFlags & 0x20) {
-        if (actor->waterY < 20.0f) {
+        if (actor->yDistToWater < 20.0f) {
             sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
             sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;

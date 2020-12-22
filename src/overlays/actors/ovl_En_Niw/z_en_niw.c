@@ -699,13 +699,13 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 0x20) {
         this->actor.gravity = 0.0f;
 
-        if (this->actor.waterY > 15.0f) {
+        if (this->actor.yDistToWater > 15.0f) {
             this->actor.posRot.pos.y += 2.0f;
         }
         if (this->timer4 == 0) {
             this->timer4 = 30;
             Math_Vec3f_Copy(&pos, &this->actor.posRot.pos);
-            pos.y += this->actor.waterY;
+            pos.y += this->actor.yDistToWater;
             EffectSsGRipple_Spawn(globalCtx, &pos, 100, 500, 30);
         }
         if (this->actor.bgCheckFlags & 8) {
@@ -1010,12 +1010,12 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (thisx->bgCheckFlags & 0x20 && thisx->waterY > 15.0f && this->actionFunc != func_80AB6F04 &&
+    if (thisx->bgCheckFlags & 0x20 && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
         Math_Vec3f_Copy(&pos, &thisx->posRot);
-        pos.y += thisx->waterY;
+        pos.y += thisx->yDistToWater;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
         this->timer5 = 0;

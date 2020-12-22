@@ -144,7 +144,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     Vec3f velocity;
 
     pos = *breakPos;
-    pos.y += this->actor.waterY;
+    pos.y += this->actor.yDistToWater;
     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
@@ -178,7 +178,7 @@ void ObjKibako_SetupIdle(ObjKibako* this) {
 void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjKibako_SetupHeld(this);
-    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 19.0f)) {
+    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 19.0f)) {
         ObjKibako_WaterBreak(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);

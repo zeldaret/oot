@@ -426,7 +426,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMBFLOWER_EXPLOSION)) {
-        if (thisx->waterY >= 20.0f) {
+        if (thisx->yDistToWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);

@@ -496,24 +496,24 @@ Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* dataCnt) {
  * Returns -2 if there is no camera index for the water box.
  * Returns the camera data index otherwise.
  */
-s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
+s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* yDistToWater) {
     PosRot playerPosShape;
     WaterBox* waterBox;
     s32 ret;
 
     func_8002EF44(&playerPosShape, &camera->player->actor);
-    *waterY = playerPosShape.pos.y;
+    *yDistToWater = playerPosShape.pos.y;
 
     if (!func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, playerPosShape.pos.x, playerPosShape.pos.z,
-                       waterY, &waterBox)) {
+                       yDistToWater, &waterBox)) {
         // player's position is not in a water box.
-        *waterY = BGCHECK_Y_MIN;
+        *yDistToWater = BGCHECK_Y_MIN;
         return -1;
     }
 
     if (!(camera->player->stateFlags1 & 0x8000000)) {
         // player is not swimming
-        *waterY = BGCHECK_Y_MIN;
+        *yDistToWater = BGCHECK_Y_MIN;
         return -1;
     }
 
@@ -533,25 +533,25 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
  */
 f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
     PosRot playerPosRot;
-    f32 waterY;
+    f32 yDistToWater;
     WaterBox* waterBox;
 
     func_8002EF44(&playerPosRot, &camera->player->actor);
-    waterY = playerPosRot.pos.y;
+    yDistToWater = playerPosRot.pos.y;
 
-    if (!func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, chkPos->x, chkPos->z, &waterY, &waterBox)) {
+    if (!func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, chkPos->x, chkPos->z, &yDistToWater, &waterBox)) {
         // chkPos is not within the x/z boundaries of a water box.
         return BGCHECK_Y_MIN;
     }
 
-    if (waterY < chkPos->y) {
+    if (yDistToWater < chkPos->y) {
         // the water's y position is below the check position
         // the aka the position is NOT in the water.
         return BGCHECK_Y_MIN;
     }
 
     *envProp = func_8004259C(&camera->globalCtx->colCtx, waterBox);
-    return waterY;
+    return yDistToWater;
 }
 
 /**
@@ -2514,12 +2514,12 @@ s32 Camera_Jump3(Camera* camera) {
     func_8002EEE4(&playerPosRot2, &camera->player->actor);
 
     modeSwitch = false;
-    if (((camera->waterYPos - eye->y) < OREG(44) || (camera->animState == 0))) {
+    if (((camera->yDistToWaterPos - eye->y) < OREG(44) || (camera->animState == 0))) {
         if (anim->mode != CAM_MODE_NORMAL) {
             anim->mode = CAM_MODE_NORMAL;
             modeSwitch = true;
         }
-    } else if (((camera->waterYPos - eye->y) > OREG(45)) && (anim->mode != CAM_MODE_BOOMERANG)) {
+    } else if (((camera->yDistToWaterPos - eye->y) > OREG(45)) && (anim->mode != CAM_MODE_BOOMERANG)) {
         anim->mode = CAM_MODE_BOOMERANG;
         modeSwitch = true;
     }
@@ -2608,10 +2608,10 @@ s32 Camera_Jump3(Camera* camera) {
     }
 
     if (!(phi_f0 < 10.0f)) {
-        if (camera->waterYPos <= playerPosRot2.pos.y) {
-            phi_f2 = playerPosRot2.pos.y - camera->waterYPos;
+        if (camera->yDistToWaterPos <= playerPosRot2.pos.y) {
+            phi_f2 = playerPosRot2.pos.y - camera->yDistToWaterPos;
         } else {
-            phi_f2 = -(playerPosRot2.pos.y - camera->waterYPos);
+            phi_f2 = -(playerPosRot2.pos.y - camera->yDistToWaterPos);
         }
         if (!(phi_f2 < 50.0f)) {
             camera->pitchUpdateRateInv = 100.0f;
@@ -7073,7 +7073,7 @@ void Camera_PrintSettings(Camera* camera);
 #endif
 
 s32 Camera_CheckWater(Camera* camera) {
-    f32 waterY;
+    f32 yDistToWater;
     s16 newQuakeId;
     s32 waterBoxProp;
     s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
@@ -7096,11 +7096,11 @@ s32 Camera_CheckWater(Camera* camera) {
         }
     }
     if (!(camera->unk_14C & (s16)0x8000)) {
-        if (waterCamIdx = Camera_GetWaterBoxDataIdx(camera, &waterY), waterCamIdx == -2) {
+        if (waterCamIdx = Camera_GetWaterBoxDataIdx(camera, &yDistToWater), waterCamIdx == -2) {
             // No camera data idx
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
-                camera->waterYPos = waterY;
+                camera->yDistToWaterPos = yDistToWater;
                 camera->waterPrevCamIdx = camera->camDataIdx;
                 *quakeId = -1;
             }
@@ -7116,7 +7116,7 @@ s32 Camera_CheckWater(Camera* camera) {
             // player is in a water box
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
-                camera->waterYPos = waterY;
+                camera->yDistToWaterPos = yDistToWater;
                 camera->waterPrevCamIdx = camera->camDataIdx;
                 *quakeId = -1;
             }
@@ -7143,8 +7143,8 @@ s32 Camera_CheckWater(Camera* camera) {
         }
     }
 
-    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
-        camera->waterYPos = waterY;
+    if (yDistToWater = Camera_GetWaterSurface(camera, &camera->eye, &waterBoxProp), yDistToWater != BGCHECK_Y_MIN) {
+        camera->yDistToWaterPos = yDistToWater;
         if (!(camera->unk_14C & 0x100)) {
             camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
@@ -7278,10 +7278,11 @@ void func_80058E8C(Camera* camera) {
             sp38 = 0.01f;
             sp3C = 0.09f;
             sp34 = 0.08f;
-            phi_f20 =
-                (((camera->waterYPos - camera->eye.y) > 150.0f ? 1.0f : (camera->waterYPos - camera->eye.y) / 150.0f) *
-                 0.45f) +
-                (camera->speedRatio * 0.45f);
+            phi_f20 = (((camera->yDistToWaterPos - camera->eye.y) > 150.0f
+                            ? 1.0f
+                            : (camera->yDistToWaterPos - camera->eye.y) / 150.0f) *
+                       0.45f) +
+                      (camera->speedRatio * 0.45f);
             sp60 = phi_f20;
         } else if (camera->unk_152 & 1) {
             // hot room flag
