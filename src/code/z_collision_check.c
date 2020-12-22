@@ -2,17 +2,20 @@
 #include "vt.h"
 
 // draw red poly
-void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
-    func_8005B2AC(gfx, vA, vB, vC, 255, 0, 0);
+void func_8005B280(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
+    func_8005B2AC(gfxCtx, vA, vB, vC, 255, 0, 0);
 }
 
 // draw poly
-void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
+void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
     Vtx* vtxTbl;
     Vtx* vtx;
-    f32 nx, ny, nz, originDist;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 originDist;
 
-    OPEN_DISPS(gfx, "../z_collision_check.c", 713);
+    OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
 
     gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
@@ -26,7 +29,7 @@ void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, 
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    vtxTbl = (Vtx*)Graph_Alloc(gfx, 3 * sizeof(Vtx));
+    vtxTbl = (Vtx*)Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
     if (vtxTbl == NULL) {
         __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
     }
@@ -56,7 +59,7 @@ void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, 
     gSPVertex(POLY_OPA_DISP++, vtxTbl, 3, 0);
     gSP1Triangle(POLY_OPA_DISP++, 0, 1, 2, 0);
 
-    CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
+    CLOSE_DISPS(gfxCtx, "../z_collision_check.c", 757);
 }
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
