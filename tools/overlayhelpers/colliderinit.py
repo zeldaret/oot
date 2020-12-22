@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import struct
 import argparse
 from filemap import FileResult, GetFromVRam, GetFromRom
@@ -439,3 +440,34 @@ args = parser.parse_args()
 
 print(GetColliderInitFull(args.address, args.type, args.num, "../.."))
 # print(GetColliderInit(args.address, args.type, args.num, "../.."))
+
+# fileResult = None
+
+# if args.address >= 0x80000000:
+#     fileResult = GetFromVRam(args.address)
+# else:
+#     fileResult = GetFromRom(args.address)
+
+# if fileResult is None:
+#     print("Invalid address")
+#     exit()
+
+# print(fileResult)
+
+# selectedType = TYPE_DICT[args.type]
+# arg2 = None
+# if selectedType[1] == 'Shape':
+#     arg2 = selectedType[2]
+# elif args.num > 0:
+#     arg2 = args.num
+# else:
+#     print("ItemInit type must specify number of elements")
+#     exit()
+
+# script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# ovlFile = open(script_dir + "/../../baserom/" + fileResult.name, "rb")
+# ovlData = bytearray(ovlFile.read())
+# ovlFile.close()
+
+# selectedType[0](ovlData, fileResult.offset, arg2)

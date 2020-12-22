@@ -40,6 +40,8 @@ void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC)
     Collider_DrawPoly(gfx, vA, vB, vC, 255, 0, 0);
 }
 
+// #ifdef NON_MATCHING
+// bss why
 void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
     Vtx* vtxTbl;
     Vtx* vtx;
@@ -91,6 +93,9 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
 
     CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
 }
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/Collider_DrawPoly.s")
+// #endif
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
     static Collider init = { NULL, NULL, NULL, NULL, AT_OFF, AC_OFF, OC_OFF, OT_NONE, COLTYPE_HIT3, COLSHAPE_INVALID };
@@ -1043,7 +1048,7 @@ void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-static ColChkResetFunc D_8011DEF8[] = {
+static ColChkResetFunc atResetFuncs[] = {
     Collider_ResetJntSphAT,
     Collider_ResetCylinderAT,
     Collider_ResetTrisAT,
@@ -1061,7 +1066,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     }
-    D_8011DEF8[collider->shape](globalCtx, collider);
+    atResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1090,7 +1095,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    D_8011DEF8[collider->shape](globalCtx, collider);
+    atResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1113,7 +1118,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     return index;
 }
 
-static ColChkResetFunc D_8011DF08[] = {
+static ColChkResetFunc acResetFuncs[] = {
     Collider_ResetJntSphAC,
     Collider_ResetCylinderAC,
     Collider_ResetTrisAC,
@@ -1131,7 +1136,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     }
-    D_8011DF08[collider->shape](globalCtx, collider);
+    acResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1160,7 +1165,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    D_8011DF08[collider->shape](globalCtx, collider);
+    acResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1184,7 +1189,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     return index;
 }
 
-static ColChkResetFunc D_8011DF18[] = {
+static ColChkResetFunc ocResetFuncs[] = {
     Collider_ResetJntSphOC,
     Collider_ResetCylinderOC,
     Collider_ResetTrisOC,
@@ -1202,7 +1207,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
     }
-    D_8011DF18[collider->shape](globalCtx, collider);
+    ocResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1231,7 +1236,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     }
-    D_8011DF18[collider->shape](globalCtx, collider);
+    ocResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
@@ -1487,11 +1492,11 @@ s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
 void CollisionCheck_HitEffects(GlobalContext* globalCtx, Collider* at, ColliderInfo* atInfo, Collider* ac,
                                ColliderInfo* acInfo, Vec3f* hitPos) {
 
-    static ColChkBloodFunc D_8011DF28[] = {
+    static ColChkBloodFunc bloodFuncs[] = {
         CollisionCheck_NoBlood,    CollisionCheck_BlueBlood, CollisionCheck_GreenBlood,
         CollisionCheck_WaterBurst, CollisionCheck_RedBlood,  CollisionCheck_RedBloodUnused,
     };
-    static HitInfo D_8011DF40[] = {
+    static HitInfo hitInfo[] = {
         { BLUE_BLOOD, HIT_WHITE }, { NO_BLOOD, HIT_DUST },  { GREEN_BLOOD, HIT_DUST },  { NO_BLOOD, HIT_WHITE },
         { WATER_BURST, HIT_NONE }, { NO_BLOOD, HIT_RED },   { GREEN_BLOOD, HIT_WHITE }, { RED_BLOOD, HIT_WHITE },
         { BLUE_BLOOD, HIT_RED },   { NO_BLOOD, HIT_SOLID }, { NO_BLOOD, HIT_NONE },     { NO_BLOOD, HIT_SOLID },
@@ -1505,20 +1510,20 @@ void CollisionCheck_HitEffects(GlobalContext* globalCtx, Collider* at, ColliderI
         return;
     }
     if (ac->actor != NULL) {
-        D_8011DF28[D_8011DF40[ac->colType].blood](globalCtx, ac, hitPos);
+        bloodFuncs[hitInfo[ac->colType].blood](globalCtx, ac, hitPos);
     }
     if (ac->actor != NULL) {
-        if (D_8011DF40[ac->colType].effect == HIT_SOLID) {
+        if (hitInfo[ac->colType].effect == HIT_SOLID) {
             CollisionCheck_HitSolid(globalCtx, atInfo, ac, hitPos);
-        } else if (D_8011DF40[ac->colType].effect == HIT_WOOD) {
+        } else if (hitInfo[ac->colType].effect == HIT_WOOD) {
             if (at->actor == NULL) {
                 CollisionCheck_SpawnShieldParticles(globalCtx, hitPos);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
                 CollisionCheck_ShieldParticlesWood(globalCtx, hitPos, &at->actor->projectedPos);
             }
-        } else if (D_8011DF40[ac->colType].effect != HIT_NONE) {
-            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[ac->colType].effect, hitPos);
+        } else if (hitInfo[ac->colType].effect != HIT_NONE) {
+            EffectSsHitMark_SpawnFixedScale(globalCtx, hitInfo[ac->colType].effect, hitPos);
             if (!(acInfo->bumperFlags & BUMP_NO_SWORD_SFX)) {
                 CollisionCheck_SwordHitAudio(at, acInfo);
             }
@@ -2062,6 +2067,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
+static u8 sBssDummy0;
 static s8 sBssDummy1;
 static s8 sBssDummy2;
 
@@ -2304,7 +2310,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-// D_8011DF5C ColliderJntSph
+// colChkApplyFuncs ColliderJntSph
 void CollisionCheck_SetJntSphHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     ColliderJntSphElement* element;
@@ -2322,7 +2328,7 @@ void CollisionCheck_SetJntSphHitFX(GlobalContext* globalCtx, CollisionCheckConte
     }
 }
 
-// D_8011DF5C ColliderCylinder
+// colChkApplyFuncs ColliderCylinder
 void CollisionCheck_SetCylHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
     Vec3f hitPos;
@@ -2336,7 +2342,7 @@ void CollisionCheck_SetCylHitFX(GlobalContext* globalCtx, CollisionCheckContext*
     }
 }
 
-// D_8011DF5C ColliderTris
+// colChkApplyFuncs ColliderTris
 void CollisionCheck_SetTrisHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* tris = (ColliderTris*)collider;
     ColliderTrisElement* element;
@@ -2354,7 +2360,7 @@ void CollisionCheck_SetTrisHitFX(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-// D_8011DF5C ColliderQuad
+// colChkApplyFuncs ColliderQuad
 void CollisionCheck_SetQuadHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
     Vec3f hitPos;
@@ -2369,7 +2375,7 @@ void CollisionCheck_SetQuadHitFX(GlobalContext* globalCtx, CollisionCheckContext
 
 // Handles hit effects for each AC collider that had an AC collision. Spawns hitmarks and plays sound effects.
 void CollisionCheck_SetHitEffects(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    static ColChkApplyFunc D_8011DF5C[] = {
+    static ColChkApplyFunc colChkApplyFuncs[] = {
         CollisionCheck_SetJntSphHitFX,
         CollisionCheck_SetCylHitFX,
         CollisionCheck_SetTrisHitFX,
@@ -2384,14 +2390,14 @@ void CollisionCheck_SetHitEffects(GlobalContext* globalCtx, CollisionCheckContex
             if (colAC->actor != NULL && colAC->actor->update == NULL) {
                 continue;
             }
-            D_8011DF5C[colAC->shape](globalCtx, colChkCtx, colAC);
+            colChkApplyFuncs[colAC->shape](globalCtx, colChkCtx, colAC);
         }
     }
 }
 
 // Iterates through all AC colliders, performing AC collisions with the AT collider.
 void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT) {
-    static ColChkVsFunc D_8011DF6C[4][4] = {
+    static ColChkVsFunc acVsFuncs[4][4] = {
         { CollisionCheck_AC_JntSphVsJntSph, CollisionCheck_AC_JntSphVsCyl, CollisionCheck_AC_JntSphVsTris,
           CollisionCheck_AC_JntSphVsQuad },
         { CollisionCheck_AC_CylVsJntSph, CollisionCheck_AC_CylVsCyl, CollisionCheck_AC_CylVsTris,
@@ -2415,7 +2421,7 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
                 if (!(colAT->atFlags & AT_SELF) && colAT->actor != NULL && colAC->actor == colAT->actor) {
                     continue;
                 }
-                D_8011DF6C[colAT->shape][colAC->shape](globalCtx, colChkCtx, colAT, colAC);
+                acVsFuncs[colAT->shape][colAC->shape](globalCtx, colChkCtx, colAT, colAC);
             }
         }
     }
@@ -2667,7 +2673,7 @@ s32 CollisionCheck_Incompatible(Collider* left, Collider* right) {
 // can collide, and each collider must have the OC flag corresponding to the other's OC type. Additionally, OT_UNK1
 // cannot collide with OT_UNK2, nor can two colliders that share an actor.
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    static ColChkVsFunc D_8011DFAC[4][4] = {
+    static ColChkVsFunc ocVsFuncs[4][4] = {
         { CollisionCheck_OC_JntSphVsJntSph, CollisionCheck_OC_JntSphVsCyl, NULL, NULL },
         { CollisionCheck_OC_CylVsJntSph, CollisionCheck_OC_CylVsCyl, NULL, NULL },
         { NULL, NULL, NULL, NULL },
@@ -2686,7 +2692,7 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
                 CollisionCheck_Incompatible(*left, *right) == 1) {
                 continue;
             }
-            vsFunc = D_8011DFAC[(*left)->shape][(*right)->shape];
+            vsFunc = ocVsFuncs[(*left)->shape][(*right)->shape];
             if (vsFunc == NULL) {
                 osSyncPrintf("CollisionCheck_OC():未対応 %d, %d\n", (*left)->shape, (*right)->shape);
                 // EUC-JP: 未対応 | Not compatible
@@ -2823,7 +2829,7 @@ void CollisionCheck_ApplyDamageQuad(GlobalContext* globalCtx, CollisionCheckCont
 // For all AC colliders, sets any damage effects from collisions with AT colliders to their corresponding actor's
 // CollisionCheckInfo.
 void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    static ColChkApplyFunc D_8011E008[4] = {
+    static ColChkApplyFunc damageApplyFuncs[4] = {
         CollisionCheck_ApplyDamageJntSph,
         CollisionCheck_ApplyDamageCyl,
         CollisionCheck_ApplyDamageTris,
@@ -2840,7 +2846,7 @@ void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colC
         if (collider->acFlags & AC_NO_DAMAGE) {
             continue;
         }
-        D_8011E008[collider->shape](globalCtx, colChkCtx, collider);
+        damageApplyFuncs[collider->shape](globalCtx, colChkCtx, collider);
     }
 }
 
@@ -2886,7 +2892,7 @@ s32 CollisionCheck_GeneralLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionChe
 // on the exclusion list. Returns true if there are any intersections and false otherwise.
 s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
                                       Actor** exclusions, s32 numExclusions) {
-    static ColChkLineFunc D_8011E018[4] = {
+    static ColChkLineFunc ocLineCheckFuncs[4] = {
         CollisionCheck_GeneralLineOcCheck_JntSph,
         CollisionCheck_GeneralLineOcCheck_Cyl,
         NULL,
@@ -2912,7 +2918,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
         if (exclude == 1) {
             continue;
         }
-        lineCheck = D_8011E018[(*col)->shape];
+        lineCheck = ocLineCheckFuncs[(*col)->shape];
         if (lineCheck == NULL) {
             osSyncPrintf("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", (*col)->shape);
             // EUC-JP: 未対応 %dタイプ | %d's type is not supported
@@ -3217,11 +3223,11 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     u32 phi_a1;
     u32 phi_a2;
     f32 sp38;
-    f32 temp_f0;
-    f32 temp_f12;
     f32 temp_f14;
     f32 temp_f2;
-    f32 temp_f0_2;
+    f32 zero = 0.0f;
+    f32 temp_f0;
+    f32 temp_f12 = 0.0f;
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;
@@ -3238,31 +3244,28 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     if ((actorToItem.y > 0.0f) && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
         return 3;
     }
+    
     if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) &&
         (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)) {
         return 3;
     }
-
     sp38 = SQXZ(actorToItem) - SQ(radius);
     temp_f2 = SQXZ(itemStep);
     if (!IS_ZERO(temp_f2)) {
         temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
-        temp_f0 = SQ(temp_f14);
-        temp_f12 = (4.0f * temp_f2) * sp38;
-        if (temp_f0 - temp_f12 < 0.0f) {
+        if (SQ(temp_f14) <  (4.0f * temp_f2) * sp38) {
             return 0;
         }
-        temp_f0_2 = sqrtf(temp_f0 - temp_f12);
-        if (temp_f0 - temp_f12 > 0.0f) {
-            phi_v1 = 1;
-            phi_v0 = 1;
+        if (SQ(temp_f14) - ((4.0f * temp_f2) * sp38) > zero) {
+            phi_v1 = phi_v0 = 1;
         } else {
             phi_v1 = 1;
             phi_v0 = 0;
         }
-        sp50 = (temp_f0_2 - temp_f14) / (2.0f * temp_f2);
+        temp_f0 = sqrtf(SQ(temp_f14) -  (4.0f * temp_f2) * sp38);
+        sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
         if (phi_v0 == 1) {
-            sp4C = (-temp_f14 - temp_f0_2) / (2.0f * temp_f2);
+            sp4C = (-temp_f14 - temp_f0) / (2.0f * temp_f2);
         }
 
     } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
@@ -3290,6 +3293,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         }
         return 0;
     }
+    
     if (phi_v0 == 0) {
         if (sp50 < 0.0f || 1.0f < sp50) {
             return 0;
@@ -3308,6 +3312,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
             phi_v0 = 0;
         }
     }
+    
     if ((phi_v1 == 1) && ((sp50 * itemStep.y + actorToItem.y < 0.0f) || (height < sp50 * itemStep.y + actorToItem.y))) {
         phi_v1 = 0;
     }
@@ -3336,6 +3341,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         return 1;
     }
     return 1;
+    
 }
 #else
 /*

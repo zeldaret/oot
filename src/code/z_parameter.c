@@ -608,7 +608,7 @@ void func_80083108(GlobalContext* globalCtx) {
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.unk_13E7 = 0;
 
-        if ((player->stateFlags1 & 0x00800000) || (globalCtx->unk_11E5C >= 2) ||
+        if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
             ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.unk_13E7 = 1;
@@ -629,7 +629,7 @@ void func_80083108(GlobalContext* globalCtx) {
                         Interface_LoadItemIcon1(globalCtx, 0);
                     } else {
                         gSaveContext.equips.buttonItems[0] = ITEM_BOW;
-                        if (globalCtx->unk_11E5C >= 2) {
+                        if (globalCtx->shootingGalleryStatus > 1) {
                             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                                 gSaveContext.equips.buttonItems[0] = ITEM_SLINGSHOT;
                             }
@@ -653,7 +653,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(1);
                 } else if (gSaveContext.minigameState == 1) {
                     Interface_ChangeAlpha(8);
-                } else if (globalCtx->unk_11E5C >= 2) {
+                } else if (globalCtx->shootingGalleryStatus > 1) {
                     Interface_ChangeAlpha(8);
                 } else if ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
                     Interface_ChangeAlpha(8);
@@ -1304,15 +1304,10 @@ void func_80084BF4(GlobalContext* globalCtx, u16 flag) {
 
 s16 sAmmoRefillCounts[] = { 5, 10, 20, 30, 5, 10, 30, 0, 5, 20, 1, 5, 20, 50, 200, 10 };
 
-#ifdef NON_MATCHING
-// regalloc, minor ordering and stack usage differences
 u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     s16 i;
     s16 slot;
-    s16 oldItem;
-    s16 bottleSlot;
-    s16 prevTradeItem;
-    s8 bombCount;
+    s16 temp;
 
     slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
@@ -1571,16 +1566,12 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     } else if (item == ITEM_BOMB) {
         // Translates to: "Bomb  Bomb  Bomb  Bomb Bomb   Bomb Bomb"
         osSyncPrintf(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
-        bombCount = AMMO(ITEM_BOMB) + 1;
-        AMMO(ITEM_BOMB) = bombCount;
-        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG)) {
+        if ((AMMO(ITEM_BOMB) += 1) > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
         }
         return ITEM_NONE;
     } else if ((item >= ITEM_BOMBS_5) && (item <= ITEM_BOMBS_30)) {
-        bombCount = AMMO(ITEM_BOMB) + sAmmoRefillCounts[item - ITEM_BOMBS_5];
-        AMMO(ITEM_BOMB) = bombCount;
-        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG)) {
+        if ((AMMO(ITEM_BOMB) += sAmmoRefillCounts[item - ITEM_BOMBS_5]) > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
         }
         return ITEM_NONE;
@@ -1713,50 +1704,52 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         Rupees_ChangeBy(sAmmoRefillCounts[item - ITEM_RUPEE_GREEN + 10]);
         return ITEM_NONE;
     } else if (item == ITEM_BOTTLE) {
+        temp = SLOT(item);
+
         for (i = 0; i < 4; i++) {
-            if (gSaveContext.inventory.items[SLOT(item) + i] == ITEM_NONE) {
-                gSaveContext.inventory.items[SLOT(item) + i] = item;
+            if (gSaveContext.inventory.items[temp + i] == ITEM_NONE) {
+                gSaveContext.inventory.items[temp + i] = item;
                 return ITEM_NONE;
             }
         }
     } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
-        bottleSlot = SLOT(item);
+        temp = SLOT(item);
 
         if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
             if (item == ITEM_MILK) {
                 item = ITEM_MILK_BOTTLE;
-                bottleSlot = SLOT(item);
+                temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
                     // Translates to: "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                                 gSaveContext.equips.cButtonSlots[2], bottleSlot + i, item);
+                                 gSaveContext.equips.cButtonSlots[2], temp + i, item);
 
-                    if ((bottleSlot + i) == gSaveContext.equips.cButtonSlots[0]) {
+                    if ((temp + i) == gSaveContext.equips.cButtonSlots[0]) {
                         gSaveContext.equips.buttonItems[1] = item;
                         Interface_LoadItemIcon2(globalCtx, 1);
                         gSaveContext.buttonStatus[1] = BTN_ENABLED;
-                    } else if ((bottleSlot + i) == gSaveContext.equips.cButtonSlots[1]) {
+                    } else if ((temp + i) == gSaveContext.equips.cButtonSlots[1]) {
                         gSaveContext.equips.buttonItems[2] = item;
                         Interface_LoadItemIcon2(globalCtx, 2);
                         gSaveContext.buttonStatus[2] = BTN_ENABLED;
-                    } else if ((bottleSlot + i) == gSaveContext.equips.cButtonSlots[2]) {
+                    } else if ((temp + i) == gSaveContext.equips.cButtonSlots[2]) {
                         gSaveContext.equips.buttonItems[3] = item;
                         Interface_LoadItemIcon1(globalCtx, 3);
                         gSaveContext.buttonStatus[3] = BTN_ENABLED;
                     }
 
-                    gSaveContext.inventory.items[bottleSlot + i] = item;
+                    gSaveContext.inventory.items[temp + i] = item;
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_NONE) {
-                    gSaveContext.inventory.items[bottleSlot + i] = item;
+                if (gSaveContext.inventory.items[temp + i] == ITEM_NONE) {
+                    gSaveContext.inventory.items[temp + i] = item;
                     return ITEM_NONE;
                 }
             }
@@ -1766,12 +1759,12 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             gSaveContext.itemGetInf[1] |= 0x8000;
         }
 
-        prevTradeItem = INV_CONTENT(item);
+        temp = INV_CONTENT(item);
         INV_CONTENT(item) = item;
 
-        if (prevTradeItem != ITEM_NONE) {
+        if (temp != ITEM_NONE) {
             for (i = 1; i < 4; i++) {
-                if (prevTradeItem == gSaveContext.equips.buttonItems[i]) {
+                if (temp == gSaveContext.equips.buttonItems[i]) {
                     if (item != ITEM_SOLD_OUT) {
                         gSaveContext.equips.buttonItems[i] = item;
                         Interface_LoadItemIcon1(globalCtx, i);
@@ -1786,20 +1779,17 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return ITEM_NONE;
     }
 
-    oldItem = gSaveContext.inventory.items[slot];
-    osSyncPrintf("Item_Register(%d)=%d  %d\n", slot, item, oldItem);
+    temp = gSaveContext.inventory.items[slot];
+    osSyncPrintf("Item_Register(%d)=%d  %d\n", slot, item, temp);
     INV_CONTENT(item) = item;
 
-    return oldItem;
+    return temp;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Item_Give.s")
-#endif
 
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
     s16 slot;
-    s32 bottleSlot;
+    s32 temp;
 
     slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
@@ -1898,22 +1888,22 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_BOTTLE) {
         return ITEM_NONE;
     } else if (((item >= ITEM_POTION_RED) && (item <= ITEM_POE)) || (item == ITEM_MILK)) {
-        bottleSlot = SLOT(item);
+        temp = SLOT(item);
 
         if ((item != ITEM_MILK_BOTTLE) && (item != ITEM_LETTER_RUTO)) {
             if (item == ITEM_MILK) {
                 item = ITEM_MILK_BOTTLE;
-                bottleSlot = SLOT(item);
+                temp = SLOT(item);
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_BOTTLE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_BOTTLE) {
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_NONE) {
+                if (gSaveContext.inventory.items[temp + i] == ITEM_NONE) {
                     return ITEM_NONE;
                 }
             }
@@ -2867,10 +2857,10 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
 
         if ((button == 0) && (gSaveContext.minigameState == 1)) {
             ammo = globalCtx->interfaceCtx.hbaAmmo;
-        } else if ((button == 0) && (globalCtx->unk_11E5C >= 2)) {
-            ammo = globalCtx->unk_11E5C - 1;
+        } else if ((button == 0) && (globalCtx->shootingGalleryStatus > 1)) {
+            ammo = globalCtx->shootingGalleryStatus - 1;
         } else if ((button == 0) && (globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
-            ammo = globalCtx->bombchuBowlingAmmo;
+            ammo = globalCtx->bombchuBowlingStatus;
             if (ammo < 0) {
                 ammo = 0;
             }
@@ -3055,6 +3045,14 @@ u16 D_80125B54 = 0xC220;       // unused
 u16 D_80125B58 = 0xC20C;       // unused
 s16 D_80125B5C[] = { 91, 91 }; // unused
 
+// Due to an unknown reason, bss ordering changes within the 5 static variables in the function below.
+// In order to restore the correct order, we need a specific number of bss variables in the file before that point.
+// For this, we introduce 3 dummy variables which end up in padding at the end of the file's bss, so they don't actually
+// take space.
+s8 sBssDummy1;
+s8 sBssDummy2;
+s8 sBssDummy3;
+
 #ifdef NON_MATCHING
 // mostly regalloc, minor ordering and stack usage differences
 void Interface_Draw(GlobalContext* globalCtx) {
@@ -3208,7 +3206,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 Interface_DrawItemIconTexture(globalCtx, (void*)(u32)interfaceCtx->icon_itemSegment, 0);
 
-                if ((player->stateFlags1 & 0x00800000) || (globalCtx->unk_11E5C >= 2) ||
+                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
@@ -3495,7 +3493,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (globalCtx->unk_10A20 == 0) &&
             (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
-            (globalCtx->unk_11E5C < 2) &&
+            (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             sp274 = 0;
             switch (gSaveContext.timer1State) {

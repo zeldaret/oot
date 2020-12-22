@@ -111,8 +111,8 @@ glabel func_80AF6D6C
 /* 01980 80AF6EE0 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 01984 80AF6EE4 15410004 */  bne     $t2, $at, .L80AF6EF8       
 /* 01988 80AF6EE8 8FAC0030 */  lw      $t4, 0x0030($sp)           
-/* 0198C 80AF6EEC 3C0B0600 */  lui     $t3, 0x0600                ## $t3 = 06000000
-/* 01990 80AF6EF0 256B7B80 */  addiu   $t3, $t3, 0x7B80           ## $t3 = 06007B80
+/* 0198C 80AF6EEC 3C0B0600 */  lui     $t3, %hi(D_06007B80)                ## $t3 = 06000000
+/* 01990 80AF6EF0 256B7B80 */  addiu   $t3, $t3, %lo(D_06007B80)           ## $t3 = 06007B80
 /* 01994 80AF6EF4 AD8B0000 */  sw      $t3, 0x0000($t4)           ## 00000000
 .L80AF6EF8:
 /* 01998 80AF6EF8 8FBF0014 */  lw      $ra, 0x0014($sp)           

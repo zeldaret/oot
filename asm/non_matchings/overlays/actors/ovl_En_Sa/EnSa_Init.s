@@ -23,14 +23,14 @@ glabel EnSa_Init
 /* 00C7C 80AF61DC 0C00AC78 */  jal     ActorShape_Init
 
 /* 00C80 80AF61E0 3C074140 */  lui     $a3, 0x4140                ## $a3 = 41400000
-/* 00C84 80AF61E4 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
+/* 00C84 80AF61E4 3C060601 */  lui     $a2, %hi(D_0600B1A0)                ## $a2 = 06010000
 /* 00C88 80AF61E8 260E0220 */  addiu   $t6, $s0, 0x0220           ## $t6 = 00000220
 /* 00C8C 80AF61EC 260F0286 */  addiu   $t7, $s0, 0x0286           ## $t7 = 00000286
 /* 00C90 80AF61F0 24180011 */  addiu   $t8, $zero, 0x0011         ## $t8 = 00000011
 /* 00C94 80AF61F4 AFB80018 */  sw      $t8, 0x0018($sp)
 /* 00C98 80AF61F8 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00C9C 80AF61FC AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 00CA0 80AF6200 24C6B1A0 */  addiu   $a2, $a2, 0xB1A0           ## $a2 = 0600B1A0
+/* 00CA0 80AF6200 24C6B1A0 */  addiu   $a2, $a2, %lo(D_0600B1A0)           ## $a2 = 0600B1A0
 /* 00CA4 80AF6204 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00CA8 80AF6208 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00CAC 80AF620C 0C0291BE */  jal     SkelAnime_InitFlex
@@ -91,9 +91,9 @@ glabel L80AF62B4
 /* 00D74 80AF62D4 1000002D */  beq     $zero, $zero, .L80AF638C
 /* 00D78 80AF62D8 AE0A0190 */  sw      $t2, 0x0190($s0)           ## 00000190
 glabel L80AF62DC
-/* 00D7C 80AF62DC 3C020201 */  lui     $v0, 0x0201                ## $v0 = 02010000
+/* 00D7C 80AF62DC 3C020201 */  lui     $v0, %hi(D_02010E20)                ## $v0 = 02010000
 /* 00D80 80AF62E0 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
-/* 00D84 80AF62E4 24420E20 */  addiu   $v0, $v0, 0x0E20           ## $v0 = 02010E20
+/* 00D84 80AF62E4 24420E20 */  addiu   $v0, $v0, %lo(D_02010E20)           ## $v0 = 02010E20
 /* 00D88 80AF62E8 44813000 */  mtc1    $at, $f6                   ## $f6 = -1.00
 /* 00D8C 80AF62EC 00025900 */  sll     $t3, $v0,  4
 /* 00D90 80AF62F0 000B6702 */  srl     $t4, $t3, 28

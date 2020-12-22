@@ -70,10 +70,10 @@ glabel EnDekunuts_Update
 /* 013C0 809EA920 258CA0C4 */  addiu   $t4, $t4, %lo(func_809EA0C4) ## $t4 = FFFFA0C4
 /* 013C4 809EA924 15830012 */  bne     $t4, $v1, .L809EA970       
 /* 013C8 809EA928 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 013CC 809EA92C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 013CC 809EA92C 3C040600 */  lui     $a0, %hi(D_060004D8)                ## $a0 = 06000000
 /* 013D0 809EA930 0C028800 */  jal     SkelAnime_GetFrameCount
               
-/* 013D4 809EA934 248404D8 */  addiu   $a0, $a0, 0x04D8           ## $a0 = 060004D8
+/* 013D4 809EA934 248404D8 */  addiu   $a0, $a0, %lo(D_060004D8)           ## $a0 = 060004D8
 /* 013D8 809EA938 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 013DC 809EA93C 44810000 */  mtc1    $at, $f0                   ## $f0 = 20.00
 /* 013E0 809EA940 C60A0164 */  lwc1    $f10, 0x0164($s0)          ## 00000164

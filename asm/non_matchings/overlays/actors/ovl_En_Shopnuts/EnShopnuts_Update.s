@@ -58,10 +58,10 @@ glabel EnShopnuts_Update
 /* 00AD0 80AFB1F0 256BAF64 */  addiu   $t3, $t3, %lo(func_80AFAF64) ## $t3 = FFFFAF64
 /* 00AD4 80AFB1F4 15630012 */  bne     $t3, $v1, .L80AFB240       
 /* 00AD8 80AFB1F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00ADC 80AFB1FC 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00ADC 80AFB1FC 3C040600 */  lui     $a0, %hi(D_0600039C)                ## $a0 = 06000000
 /* 00AE0 80AFB200 0C028800 */  jal     SkelAnime_GetFrameCount
               
-/* 00AE4 80AFB204 2484039C */  addiu   $a0, $a0, 0x039C           ## $a0 = 0600039C
+/* 00AE4 80AFB204 2484039C */  addiu   $a0, $a0, %lo(D_0600039C)           ## $a0 = 0600039C
 /* 00AE8 80AFB208 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00AEC 80AFB20C 44810000 */  mtc1    $at, $f0                   ## $f0 = 20.00
 /* 00AF0 80AFB210 C60A0164 */  lwc1    $f10, 0x0164($s0)          ## 00000164

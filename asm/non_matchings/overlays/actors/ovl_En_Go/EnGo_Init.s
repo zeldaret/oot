@@ -29,8 +29,8 @@ glabel EnGo_Init
 /* 01628 80A3FB98 0C00AC78 */  jal     ActorShape_Init
 
 /* 0162C 80A3FB9C AD0B0008 */  sw      $t3, 0x0008($t0)           ## FFFFFFE8
-/* 01630 80A3FBA0 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 01634 80A3FBA4 24C6FEF0 */  addiu   $a2, $a2, 0xFEF0           ## $a2 = 0600FEF0
+/* 01630 80A3FBA0 3C060601 */  lui     $a2, %hi(D_0600FEF0)                ## $a2 = 06010000
+/* 01634 80A3FBA4 24C6FEF0 */  addiu   $a2, $a2, %lo(D_0600FEF0)           ## $a2 = 0600FEF0
 /* 01638 80A3FBA8 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 0163C 80A3FBAC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 01640 80A3FBB0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -148,10 +148,10 @@ glabel L80A3FCC8
 /* 017D8 80A3FD48 10000048 */  beq     $zero, $zero, .L80A3FE6C
 /* 017DC 80A3FD4C 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80A3FD50
-/* 017E0 80A3FD50 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 017E0 80A3FD50 3C040600 */  lui     $a0, %hi(D_06004930)                ## $a0 = 06000000
 /* 017E4 80A3FD54 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 017E8 80A3FD58 24844930 */  addiu   $a0, $a0, 0x4930           ## $a0 = 06004930
+/* 017E8 80A3FD58 24844930 */  addiu   $a0, $a0, %lo(D_06004930)           ## $a0 = 06004930
 /* 017EC 80A3FD5C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
 /* 017F0 80A3FD60 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
 /* 017F4 80A3FD64 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A

@@ -861,7 +861,7 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnRd* this = THIS;
-    Vec3f thisPos = this->actor.posRot.pos;
+    Vec3f thisPos = thisx->posRot.pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1679);
 
@@ -874,10 +874,10 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                            POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
-            this->actor.dmgEffectTimer++;
-            THIS->unk_31A--;
+            thisx->dmgEffectTimer++;
+            this->unk_31A--;
             if (this->unk_31A % 4 == 0) {
-                EffectSsEnFire_SpawnVec3s(globalCtx, &this->actor, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
+                EffectSsEnFire_SpawnVec3s(globalCtx, thisx, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
                                           (this->unk_31A >> 2));
             }
         }
