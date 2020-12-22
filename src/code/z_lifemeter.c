@@ -46,64 +46,6 @@
 #define HEART_DROWN_ENV_G 0
 #define HEART_DROWN_ENV_B 255
 
-s16 sHeartPrimColors[][3] = {
-    { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
-    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
-    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
-};
-
-s16 sHeartEnvColors[][3] = {
-    { HEART_ENV_R, HEART_ENV_G, HEART_ENV_B },
-    { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G },            // unused
-    { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B }, // unused
-};
-
-s16 D_8011FF38[][3] = {
-    { 0, 0, 0 },
-    { 0, 120, -50 },   // unused
-    { -155, 30, 205 }, // unused
-};
-
-s16 D_8011FF4C[][3] = {
-    { 0, 0, 0 },
-    { 205, -40, -60 }, // unused
-    { -50, -40, 195 }, // unused
-};
-
-s16 D_8011FF60[][3] = {
-    { 255, 255, 255 },
-    { 255, 190, 0 },   // unused
-    { 100, 100, 255 }, // unused
-};
-
-s16 D_8011FF74[][3] = {
-    { 200, 0, 0 },
-    { 255, 0, 0 }, // unused
-    { 0, 0, 255 }, // unused
-};
-
-s16 D_8011FF88[][3] = {
-    { 0, 0, 0 },
-    { 0, -65, -255 },  // unused
-    { -155, -155, 0 }, // unused
-};
-
-s16 D_8011FF9C[][3] = {
-    { 0, 0, 0 },
-    { 55, 0, 0 },     // unused
-    { -200, 0, 255 }, // unused
-};
-
-u8* sHeartTextureList[] = {
-    0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
-    0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
-};
-
-u8* sDoubleDefenseHeartTextureList[] = {
-    0x02000900, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000700, 0x02000700,
-    0x02000700, 0x02000700, 0x02000700, 0x02000800, 0x02000800, 0x02000800, 0x02000800, 0x02000800,
-};
-
 s16 D_8015FDC0[3];
 s16 D_8015FDC8[3];
 s16 D_8015FDD0[2][3];
@@ -142,11 +84,56 @@ void Health_InitData(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// hardly matches at all, but it has been tested to be equivalent
+// Far from matching, but is equivalent. The for loop needs to become unrolled somehow in order to match.
 void Health_UpdateData(GlobalContext* globalCtx) {
+    static s16 sHeartPrimColors[3][3] = {
+        { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
+        { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
+        { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
+    };
+    static s16 sHeartEnvColors[3][3] = {
+        { HEART_ENV_R, HEART_ENV_G, HEART_ENV_B },
+        { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G },            // unused
+        { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B }, // unused
+    };
+    static s16 sHeartPrimFactors[3][3] = {
+        { 0, 0, 0 },
+        { 0, 120, -50 },   // unused
+        { -155, 30, 205 }, // unused
+    };
+    static s16 sHeartEnvFactors[3][3] = {
+        { 0, 0, 0 },
+        { 205, -40, -60 }, // unused
+        { -50, -40, 195 }, // unused
+    };
+    static s16 sHeartDDPrimColors[3][3] = {
+        { HEART_DOUBLE_DEFENSE_PRIM_R, HEART_DOUBLE_DEFENSE_PRIM_G, HEART_DOUBLE_DEFENSE_PRIM_B },
+        { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
+        { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
+    };
+    static s16 sHeartDDEnvColors[3][3] = {
+        { HEART_DOUBLE_DEFENSE_ENV_R, HEART_DOUBLE_DEFENSE_ENV_G, HEART_DOUBLE_DEFENSE_ENV_B },
+        { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G, HEART_PRIM_BURN_ENV_B }, // unused
+        { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B },             // unused
+    };
+    static s16 sHeartDDPrimFactors[3][3] = {
+        { 0, 0, 0 },
+        { 0, -65, -255 },  // unused
+        { -155, -155, 0 }, // unused
+    };
+    static s16 sHeartDDEnvFactors[3][3] = {
+        { 0, 0, 0 },
+        { 55, 0, 0 },     // unused
+        { -200, 0, 255 }, // unused
+    };
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 factor = interfaceCtx->unk_1FE * 0.1f;
-    s32 i;
+    s16 rFactor;
+    s16 gFactor;
+    s16 bFactor;
+    s16 i;
+    s16* new_var;
+    s16* new_var2;
 
     if (interfaceCtx->unk_200 != 0) {
         interfaceCtx->unk_1FE--;
@@ -178,13 +165,21 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     interfaceCtx->healthEnvG[1] = sHeartEnvColors[0][1];
     interfaceCtx->healthEnvB[1] = sHeartEnvColors[0][2];
 
-    interfaceCtx->beatingHeartPrim[0] = (u8)((s32)(D_8011FF38[0][0] * factor) + HEART_PRIM_R);
-    interfaceCtx->beatingHeartPrim[1] = (u8)((s32)(D_8011FF38[0][1] * factor) + HEART_PRIM_G);
-    interfaceCtx->beatingHeartPrim[2] = (u8)((s32)(D_8011FF38[0][2] * factor) + HEART_PRIM_B);
+    rFactor = sHeartPrimFactors[0][0] * factor;
+    gFactor = sHeartPrimFactors[0][1] * factor;
+    bFactor = sHeartPrimFactors[0][2] * factor;
 
-    interfaceCtx->beatingHeartEnv[0] = (u8)((s32)(D_8011FF4C[0][0] * factor) + HEART_ENV_R);
-    interfaceCtx->beatingHeartEnv[1] = (u8)((s32)(D_8011FF4C[0][1] * factor) + HEART_ENV_G);
-    interfaceCtx->beatingHeartEnv[2] = (u8)((s32)(D_8011FF4C[0][2] * factor) + HEART_ENV_B);
+    interfaceCtx->beatingHeartPrim[0] = (u8)(s32)(rFactor + HEART_PRIM_R) & 0xFF;
+    interfaceCtx->beatingHeartPrim[1] = (u8)(s32)(gFactor + HEART_PRIM_G) & 0xFF;
+    interfaceCtx->beatingHeartPrim[2] = (u8)(s32)(bFactor + HEART_PRIM_B) & 0xFF;
+
+    rFactor = sHeartEnvFactors[0][0] * factor;
+    gFactor = sHeartEnvFactors[0][1] * factor;
+    bFactor = sHeartEnvFactors[0][2] * factor;
+
+    interfaceCtx->beatingHeartEnv[0] = (u8)(s32)(rFactor + HEART_ENV_R) & 0xFF;
+    interfaceCtx->beatingHeartEnv[1] = (u8)(s32)(gFactor + HEART_ENV_G) & 0xFF;
+    interfaceCtx->beatingHeartEnv[2] = (u8)(s32)(bFactor + HEART_ENV_B) & 0xFF;
 
     D_8015FDD0[0][0] = HEART_DOUBLE_DEFENSE_PRIM_R;
     D_8015FDD0[0][1] = HEART_DOUBLE_DEFENSE_PRIM_G;
@@ -194,22 +189,68 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     D_8015FDE0[0][1] = HEART_DOUBLE_DEFENSE_ENV_G;
     D_8015FDE0[0][2] = HEART_DOUBLE_DEFENSE_ENV_B;
 
-    // Note: this should not actually compile as a loop, but currently IDO is not unrolling it like it should.
-    // If it can be unrolled then the rest of the function should hopefully be a lot closer to matching.
-    for (i = 0; i < 3; i++) {
-        D_8015FDD0[1][i] = D_8011FF60[0][i];
-        D_8015FDE0[1][i] = D_8011FF74[0][i];
+    for (new_var = &D_8015FDD0[1][0], new_var2 = &D_8015FDE0[1][0], i = 0; i < 3; i++) {
+        new_var[i] = sHeartDDPrimColors[0][i];
+        new_var2[i] = sHeartDDEnvColors[0][i];
     }
 
-    D_8015FDC0[0] = (u8)((s32)(D_8011FF88[0][0] * factor) + HEART_DOUBLE_DEFENSE_PRIM_R);
-    D_8015FDC0[1] = (u8)((s32)(D_8011FF88[0][1] * factor) + HEART_DOUBLE_DEFENSE_PRIM_G);
-    D_8015FDC0[2] = (u8)((s32)(D_8011FF88[0][2] * factor) + HEART_DOUBLE_DEFENSE_PRIM_B);
+    rFactor = sHeartDDPrimFactors[0][0] * factor;
+    gFactor = sHeartDDPrimFactors[0][1] * factor;
+    bFactor = sHeartDDPrimFactors[0][2] * factor;
 
-    D_8015FDC8[0] = (u8)((s32)(D_8011FF9C[0][0] * factor) + HEART_DOUBLE_DEFENSE_ENV_R);
-    D_8015FDC8[1] = (u8)((s32)(D_8011FF9C[0][1] * factor) + HEART_DOUBLE_DEFENSE_ENV_G);
-    D_8015FDC8[2] = (u8)((s32)(D_8011FF9C[0][2] * factor) + HEART_DOUBLE_DEFENSE_ENV_B);
+    D_8015FDC0[0] = (u8)(s32)(rFactor + HEART_DOUBLE_DEFENSE_PRIM_R) & 0xFF;
+    D_8015FDC0[1] = (u8)(s32)(gFactor + HEART_DOUBLE_DEFENSE_PRIM_G) & 0xFF;
+    D_8015FDC0[2] = (u8)(s32)(bFactor + HEART_DOUBLE_DEFENSE_PRIM_B) & 0xFF;
+
+    rFactor = sHeartDDEnvFactors[0][0] * factor;
+    gFactor = sHeartDDEnvFactors[0][1] * factor;
+    bFactor = sHeartDDEnvFactors[0][2] * factor;
+
+    D_8015FDC8[0] = (u8)(s32)(rFactor + HEART_DOUBLE_DEFENSE_ENV_R) & 0xFF;
+    D_8015FDC8[1] = (u8)(s32)(gFactor + HEART_DOUBLE_DEFENSE_ENV_G) & 0xFF;
+    D_8015FDC8[2] = (u8)(s32)(bFactor + HEART_DOUBLE_DEFENSE_ENV_B) & 0xFF;
 }
 #else
+s16 sHeartPrimColors[3][3] = {
+    { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
+    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },
+    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B },
+};
+s16 sHeartEnvColors[3][3] = {
+    { HEART_ENV_R, HEART_ENV_G, HEART_ENV_B },
+    { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G },
+    { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B },
+};
+s16 sHeartPrimFactors[3][3] = {
+    { 0, 0, 0 },
+    { 0, 120, -50 },
+    { -155, 30, 205 },
+};
+s16 sHeartEnvFactors[3][3] = {
+    { 0, 0, 0 },
+    { 205, -40, -60 },
+    { -50, -40, 195 },
+};
+s16 sHeartDDPrimColors[3][3] = {
+    { HEART_DOUBLE_DEFENSE_PRIM_R, HEART_DOUBLE_DEFENSE_PRIM_G, HEART_DOUBLE_DEFENSE_PRIM_B },
+    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },
+    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B },
+};
+s16 sHeartDDEnvColors[3][3] = {
+    { HEART_DOUBLE_DEFENSE_ENV_R, HEART_DOUBLE_DEFENSE_ENV_G, HEART_DOUBLE_DEFENSE_ENV_B },
+    { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G, HEART_PRIM_BURN_ENV_B },
+    { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B },
+};
+s16 sHeartDDPrimFactors[3][3] = {
+    { 0, 0, 0 },
+    { 0, -65, -255 },
+    { -155, -155, 0 },
+};
+s16 sHeartDDEnvFactors[3][3] = {
+    { 0, 0, 0 },
+    { 55, 0, 0 },
+    { -200, 0, 255 },
+};
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_UpdateData.s")
 #endif
 
@@ -250,6 +291,14 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 }
 
 void Health_Draw(GlobalContext* globalCtx) {
+    static u8* sHeartTextureList[] = {
+        0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
+        0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
+    };
+    static u8* sDoubleDefenseHeartTextureList[] = {
+        0x02000900, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000700, 0x02000700,
+        0x02000700, 0x02000700, 0x02000700, 0x02000800, 0x02000800, 0x02000800, 0x02000800, 0x02000800,
+    };
     s32 pad[5];
     u8* heartBgImg;
     u32 curColorSet;
