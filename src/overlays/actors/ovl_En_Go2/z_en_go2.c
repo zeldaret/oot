@@ -175,8 +175,16 @@ extern AnimationHeader D_06004930;
 extern AnimationHeader D_06010590;
 extern Gfx* D_0600BD80;
 extern Gfx* D_0600C140;
+extern Gfx* D_0600CE80;
+extern Gfx* D_0600D280;
+extern Gfx* D_0600D680;
+extern Gfx* D_0600DA80;
+extern Gfx* D_0600DE80;
+extern Gfx* D_0600E680;
 extern Gfx* D_0600FD40;
 extern Gfx* D_0600FD50;
+
+
 extern FlexSkeletonHeader D_0600FEF0;
 
 static Gfx* sDLists[] = {
@@ -209,23 +217,19 @@ const ActorInit En_Go2_InitVars = {
     (ActorFunc)EnGo2_Draw,
 };
 
-static EnGo2DataStruct1 D_80A4816C[14] = {
-    { 0x0000, 0x0000, 0x0000, 0x0044, 0x0094 }, { 0x0000, 0x0000, 0x0000, 0x0018, 0x0034 },
-    { 0x0000, 0x0140, 0x017C, 0x0190, 0x0078 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x002E, 0x005A }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 },
-    { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }, { 0x0000, 0x0000, 0x0000, 0x001E, 0x0044 }
-};
+static EnGo2DataStruct1 D_80A4816C[14] = { { 0, 0, 0, 68, 148 }, { 0, 0, 0, 24, 52 }, { 0, 320, 380, 400, 120 },
+                                           { 0, 0, 0, 30, 68 },  { 0, 0, 0, 46, 90 }, { 0, 0, 0, 30, 68 },
+                                           { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },
+                                           { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },
+                                           { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 } };
 
-static EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 0x06, 60.0f }, { 24.0f, 0.008f, 0x06, 30.0f },
-                                           { 28.0f, 0.16f, 0x05, 380.0f }, { 28.0f, 0.01f, 0x07, 40.0f },
-                                           { 30.0f, 0.015f, 0x06, 30.0f }, { 28.0f, 0.01f, 0x06, 30.0f },
-                                           { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f },
-                                           { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f },
-                                           { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f },
-                                           { 28.0f, 0.01f, 0x06, 30.0f },  { 28.0f, 0.01f, 0x06, 30.0f } };
+static EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 6, 60.0f }, { 24.0f, 0.008f, 6, 30.0f },
+                                           { 28.0f, 0.16f, 5, 380.0f }, { 28.0f, 0.01f, 7, 40.0f },
+                                           { 30.0f, 0.015f, 6, 30.0f }, { 28.0f, 0.01f, 6, 30.0f },
+                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
+                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
+                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
+                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f } };
 
 static f32 D_80A482D8[14][2] = { { 80.0f, 80.0f }, { -10.0f, -10.0f }, { 800.0f, 800.0f }, { 0.0f, 0.0f },
                                  { 20.0f, 40.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
@@ -251,7 +255,7 @@ static EnGo2DustEffectData sDustEffectData[2][4] = { { { 12, 0.2f, 0.2f, 1, 18.0
                                                        { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
                                                        { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f } } };
 
-static s32 unusedPadding[] = { 0x00000000, 0x00000000, 0x00000000 };
+static s32 unusedPadding[] = { 0, 0, 0 };
 
 void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
     EnGoEffect* dustEffect = this->dustEffects;
@@ -1442,7 +1446,7 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
-        func_80034EC0(&this->skelAnime, sAnimations, 0xA);
+        func_80034EC0(&this->skelAnime, sAnimations, 10);
         this->skelAnime.animPlaybackSpeed = 0.5f;
     } else {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -1574,20 +1578,20 @@ s32 EnGo2_IsRolling(EnGo2* this) {
 void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
     s32 animation;
 
-    animation = 0xD;
+    animation = 13;
     if ((this->actor.params & 0x1F) == GORON_CITY_LINK) {
         if ((this->actor.textId == 0x3035 && this->unk_20C == 0) ||
             (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
             if (this->skelAnime.animation != &D_06000D5C) {
-                animation = 0xC;
+                animation = 12;
                 this->eyeMouthTexState = 0;
             }
         }
 
-        if ((this->actor.textId == 0x3032 && this->unk_20C == 0xC) || (this->actor.textId == 0x3033) ||
+        if ((this->actor.textId == 0x3032 && this->unk_20C == 12) || (this->actor.textId == 0x3033) ||
             (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
             if (this->skelAnime.animation != &D_06000750) {
-                animation = 0xB;
+                animation = 11;
                 this->eyeMouthTexState = 1;
             }
         }
@@ -1598,7 +1602,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (animation != 0xD) {
+        if (animation != 13) {
             func_80034EC0(&this->skelAnime, sAnimations, animation);
         }
     }
@@ -2075,7 +2079,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 0.0f;
                 if ((((this->actor.params & 0xFC00) >> 0xA) != 1) && (((this->actor.params & 0xFC00) >> 0xA) != 2) &&
                     (((this->actor.params & 0xFC00) >> 0xA) != 4) && (((this->actor.params & 0xFC00) >> 0xA) != 5) &&
-                    (((this->actor.params & 0xFC00) >> 0xA) != 9) && (((this->actor.params & 0xFC00) >> 0xA) != 0xB)) {
+                    (((this->actor.params & 0xFC00) >> 0xA) != 9) && (((this->actor.params & 0xFC00) >> 0xA) != 11)) {
                     this->goronState++;
                 }
                 this->goronState++;
@@ -2157,7 +2161,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
 
     speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speedXZ;
 
-    Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 0x578)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2926),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, &D_0600C140);
@@ -2171,7 +2175,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
     Vec3s vec1;
     f32 float1;
 
-    if (limb == 0x11) {
+    if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_194.unk_08;
         float1 = (vec1.y / 32768.0f) * M_PI;
@@ -2180,14 +2184,14 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limb == 0xA) {
+    if (limb == 10) {
         vec1 = this->unk_194.unk_0E;
         float1 = (vec1.y / 32768.0f) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / 32768.0f) * M_PI;
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
-    if ((limb == 0xA) || (limb == 0xB) || (limb == 0xE)) {
+    if ((limb == 10) || (limb == 11) || (limb == 14)) {
         float1 = Math_Sins(this->unk_226[limb]);
         rot->y += float1 * 200.0f;
         float1 = Math_Coss(this->unk_24A[limb]);
@@ -2200,7 +2204,7 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnGo2* this = THIS;
     Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 0x11) {
+    if (limbIndex == 17) {
         Matrix_MultVec3f(&D_80A4856C, &this->actor.posRot2.pos);
     }
 }
@@ -2208,8 +2212,8 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2* this = THIS;
 
-    u8* sEyeTextures[] = { 0x0600DA80, 0x0600CE80, 0x0600D280, 0x0600D680 };
-    u8* sMouthTextures[] = { 0x0600DE80, 0x0600E680 };
+    u8* sEyeTextures[] = { &D_0600DA80, &D_0600CE80, &D_0600D280, &D_0600D680 };
+    u8* sMouthTextures[] = { &D_0600DE80, &D_0600E680 };
 
     EnGo2_UpdateDust(this);
     Matrix_Push();

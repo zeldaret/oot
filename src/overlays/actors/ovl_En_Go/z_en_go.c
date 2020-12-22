@@ -784,7 +784,7 @@ void EnGo_StopRolling(EnGo* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot = this->actor.posRot.rot;
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
-        EnGo_SpawnDust(this, 0xC, 0.16f, 0.1f, 1, 10.0f, 20.0f);
+        EnGo_SpawnDust(this, 12, 0.16f, 0.1f, 1, 10.0f, 20.0f);
     }
 }
 
@@ -794,7 +794,7 @@ void func_80A4008C(EnGo* this, GlobalContext* globalCtx) {
             this->actor.shape.unk_08 = 0.0f;
             EnGo_SetupAction(this, EnGo_CurledUp);
         } else {
-            EnGo_SpawnDust(this, 0xC, 0.16f, 0.1f, 1, 10.0f, 20.0f);
+            EnGo_SpawnDust(this, 12, 0.16f, 0.1f, 1, 10.0f, 20.0f);
         }
     }
 }
@@ -809,7 +809,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.shape.rot = this->actor.posRot.rot;
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
-        EnGo_SpawnDust(this, 0xC, 0.18f, 0.2f, 2, 13.0f, 20.0f);
+        EnGo_SpawnDust(this, 12, 0.18f, 0.2f, 2, 13.0f, 20.0f);
     }
 }
 
@@ -875,7 +875,7 @@ void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     if (!(float1 >= 0.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        EnGo_SpawnDust(this, 0xA, 0.4f, 0.1f, 0x10, 26.0f, 2.0f);
+        EnGo_SpawnDust(this, 10, 0.4f, 0.1f, 16, 26.0f, 2.0f);
         EnGo_SwapInitialFrameAnimFrameCount(this);
         this->skelanime.animPlaybackSpeed = 0.0f;
         this->skelanime.animCurrentFrame = 0.0f;
@@ -913,7 +913,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
         } else {
             if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
                 func_80A3EDE0(this, 2);
-                this->unk_21E = 0x64;
+                this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
@@ -957,7 +957,7 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
             this->skelanime.animCurrentFrame = 12.0f;
             this->skelanime.animPlaybackSpeed = 0.0f;
             if ((this->actor.params & 0xF0) != 0x90) {
-                this->unk_212 = 0x1E;
+                this->unk_212 = 30;
                 return;
             }
         }
@@ -1086,7 +1086,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
-        func_80034F54(globalCtx, this->unk_220, this->unk_244, 0x12);
+        func_80034F54(globalCtx, this->unk_220, this->unk_244, 18);
     }
     func_80A3F274(this);
     if (this->unk_1E0.unk_00 == 0) {
@@ -1123,7 +1123,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2355);
     Matrix_Push();
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_RotateRPY((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 0x578)), 0, this->actor.shape.rot.z,
+    Matrix_RotateRPY((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1139,7 +1139,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     Vec3s vec1;
     f32 float1;
 
-    if (limb == 0x11) {
+    if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
         float1 = (vec1.y / 32768.0f) * M_PI;
@@ -1149,7 +1149,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
-    if (limb == 0xA) {
+    if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
         float1 = (vec1.y / 32768.0f) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
@@ -1157,7 +1157,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 
-    if ((limb == 0xA) || (limb == 0xB) || (limb == 0xE)) {
+    if ((limb == 10) || (limb == 11) || (limb == 14)) {
         float1 = Math_Sins(this->unk_220[limb]);
         rot->y += float1 * 200.0f;
         float1 = Math_Coss(this->unk_244[limb]);
@@ -1171,7 +1171,7 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnGo* this = THIS;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 0x11) {
+    if (limbIndex == 17) {
         Matrix_MultVec3f(&D_80A41BCC, &this->actor.posRot2.pos);
     }
 }
