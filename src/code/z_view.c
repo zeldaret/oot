@@ -260,7 +260,7 @@ s32 func_800AA890(View* view, Mtx* mtx) {
 }
 
 void func_800AAA50(View* view, s32 arg1) {
-    arg1 = (view->flags & arg1) | arg1 >> 4;
+    arg1 = (view->flags & arg1) | (arg1 >> 4);
 
     if (arg1 & 8) {
         func_800AB0A8(view);
