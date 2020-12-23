@@ -54,11 +54,32 @@ static f32 sDistSquared2[] = {
     SQ(1705.0f),
 };
 
-/*static*/ s16 sActorSpawnAmounts[] = {
+#ifdef NON_MATCHING
+static s16 sActorSpawnAmounts[] = {
     9,
     12,
     8,
 };
+// Very close to matching, just regalloc and a stack diff
+void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
+    Vec3f* vecPtr = vec;
+    s32 i;
+
+    Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
+    for (i = 1, vecPtr++; i < sActorSpawnAmounts[this->actor.params & 3]; vecPtr++, i++) {
+        Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
+        vecPtr->x += (80.0f * Math_Sins((i - 1) * 0x2000));
+        vecPtr->z += (80.0f * Math_Coss((i - 1) * 0x2000));
+    }
+}
+#else
+s16 sActorSpawnAmounts[] = {
+    9,
+    12,
+    8,
+};
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
+#endif
 
 static s16 sActorSpawnIDs[] = {
     ACTOR_EN_KUSA,
@@ -88,23 +109,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 2100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
 };
-
-#ifdef NON_MATCHING
-// Very close to matching, just regalloc and a stack diff
-void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
-    Vec3f* vecPtr = vec;
-    s32 i;
-
-    Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
-    for (i = 1, vecPtr++; i < sActorSpawnAmounts[this->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
-        vecPtr->x += (80.0f * Math_Sins((i - 1) * 0x2000));
-        vecPtr->z += (80.0f * Math_Coss((i - 1) * 0x2000));
-    }
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
-#endif
 
 void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr;
