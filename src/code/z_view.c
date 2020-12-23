@@ -522,8 +522,6 @@ s32 func_800AB944(View* view) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences, skips a t register at arg1's assignment
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     GraphicsContext* gfxCtx = view->gfxCtx;
@@ -595,9 +593,6 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
 
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB9EC.s")
-#endif
 
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 error = 0;
