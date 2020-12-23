@@ -4047,7 +4047,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    Health_UpdateData(globalCtx);
+    Health_UpdateColor(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
         (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
