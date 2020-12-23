@@ -1390,7 +1390,7 @@ void View_SetViewport(View* view, Viewport* viewport);
 void View_GetViewport(View* view, Viewport* viewport);
 void func_800AA76C(View* view, f32 arg1, f32 arg2, f32 arg3);
 void func_800AA78C(View* view, f32 arg1, f32 arg2, f32 arg3);
-void func_800AA7AC(View* view, f32 arg1);
+s32 func_800AA7AC(View* view, f32 arg1);
 void func_800AA7B8(View* view);
 void func_800AA814(View* view);
 void func_800AA840(View* view, Vec3f vec1, Vec3f vec2, f32 arg3);

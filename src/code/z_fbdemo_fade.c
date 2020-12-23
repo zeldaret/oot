@@ -35,8 +35,6 @@ TransitionFade* TransitionFade_Init(TransitionFade* this) {
 void TransitionFade_Destroy(TransitionFade* this) {
 }
 
-#ifdef NON_MATCHING
-// Ordering differences around alpha temp
 void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
     s32 alpha;
     s16 newAlpha;
@@ -54,19 +52,20 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
                 // Divide by 0! Zero is included in ZCommonGet fade_speed
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
-            alpha = (this->fadeTimer * 255.0f) / gSaveContext.fadeDuration;
+
+            alpha = (255.0f * this->fadeTimer) / (0, gSaveContext.fadeDuration);
             this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:
             newAlpha = this->fadeColor.a;
             if (iREG(50) != 0) {
                 if (iREG(50) < 0) {
-                    if (Math_ApproxS(&newAlpha, 255, 255) != 0) {
+                    if (Math_ApproxS(&newAlpha, 255, 255)) {
                         iREG(50) = 150;
                     }
                 } else {
                     Math_ApproxS(&iREG(50), 20, 60);
-                    if (Math_ApproxS(&newAlpha, 0, iREG(50)) != 0) {
+                    if (Math_ApproxS(&newAlpha, 0, iREG(50))) {
                         iREG(50) = 0;
                         this->isDone = 1;
                     }
@@ -76,9 +75,6 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_fade/TransitionFade_Update.s")
-#endif
 
 void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {
     Gfx* gfx;

@@ -64,7 +64,6 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
                 vtx2->cn[1] = 0;
                 vtx2->cn[2] = 120;
                 vtx2->cn[3] = 255;
-                
             }
         }
     }
