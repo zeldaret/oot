@@ -106,6 +106,14 @@ typedef struct {
     };
 } struct_80854B18; // size = 0x08
 
+typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 unk_08;
+} struct_80858AC8; // size = 0x0A
+
 void func_80833770(GlobalContext* globalCtx, Player* this);
 void func_80833790(GlobalContext* globalCtx, Player* this);
 void func_8083379C(GlobalContext* globalCtx, Player* this);
@@ -789,11 +797,11 @@ LinkAnimationHeader* D_80853D4C[][3] = {
     { 0x04002988, 0x04002998, 0x04002990 },
 };
 
-LinkAnimationHeader* D_80853D7C[] = {
-    0x04003248, 0x04003200, 0x04003258, 0x04003210, 0x04003250, 0x04003208, 0x04003250,
-    0x04003208, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0,
-    0x040033F8, 0x040033D0, 0x04003400, 0x040033D8, 0x04003420, 0x04003420, 0x04003408,
-    0x040033E0, 0x04003410, 0x040033E8, 0x04003418, 0x04003418, 0x04003428, 0x04003428,
+LinkAnimationHeader* D_80853D7C[][2] = {
+    { 0x04003248, 0x04003200 }, { 0x04003258, 0x04003210 }, { 0x04003250, 0x04003208 }, { 0x04003250, 0x04003208 },
+    { 0x04003430, 0x040033F0 }, { 0x04003430, 0x040033F0 }, { 0x04003430, 0x040033F0 }, { 0x040033F8, 0x040033D0 },
+    { 0x04003400, 0x040033D8 }, { 0x04003420, 0x04003420 }, { 0x04003408, 0x040033E0 }, { 0x04003410, 0x040033E8 },
+    { 0x04003418, 0x04003418 }, { 0x04003428, 0x04003428 },
 };
 
 struct_80832924 D_80853DEC[] = {
@@ -1629,7 +1637,7 @@ s32 func_80833350(Player* this) {
     s32 i;
 
     if (func_80833338(this) != this->skelAnime.animation) {
-        for (i = 0, entry = &D_80853D7C[0]; i < 28; i++, entry++) {
+        for (i = 0, entry = &D_80853D7C[0][0]; i < 28; i++, entry++) {
             if (this->skelAnime.animation == *entry) {
                 return i + 1;
             }
@@ -1971,8 +1979,6 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// ordering and deduplication differences
 void func_808340DC(Player* this, GlobalContext* globalCtx) {
     LinkAnimationHeader* anim;
     f32 phi_f2;
@@ -2002,15 +2008,15 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
     }
 
     phi_f2 = SkelAnime_GetFrameCount(anim);
+    phi_f14 = phi_f2;
 
     if (sp38 >= 0) {
-        phi_f12 = 0.0f;
-        phi_f14 = phi_f2;
         phi_f0 = 1.2f;
+        phi_f12 = 0.0f;
     } else {
-        phi_f12 = phi_f2;
         phi_f14 = 0.0f;
         phi_f0 = -1.2f;
+        phi_f12 = phi_f2;
     }
 
     if (sp37 != PLAYER_AP_NONE) {
@@ -2021,9 +2027,6 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
 
     this->stateFlags1 &= ~0x100;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808340DC.s")
-#endif
 
 void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.type == ACTORTYPE_PLAYER) && !(this->stateFlags1 & 0x100) &&
@@ -6069,14 +6072,12 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
             if ((sp8C != 0) || (arg2 & 2) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
-                s32 i;
+                f32 phi_f20;
                 CollisionPoly* sp84 = this->actor.wallPoly;
                 f32 sp80;
                 f32 sp7C;
                 f32 phi_f12;
                 f32 phi_f14;
-                Vec3f sp50[3];
-                f32 phi_f20;
 
                 phi_f20 = phi_f12 = 0.0f;
 
@@ -6084,6 +6085,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     sp80 = this->actor.posRot.pos.x;
                     sp7C = this->actor.posRot.pos.z;
                 } else {
+                    Vec3f sp50[3];
+                    s32 i;
                     f32 sp48;
                     Vec3f* sp44 = &sp50[0];
                     s32 pad;
@@ -6179,8 +6182,6 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, anim, (4.0f / 3.0f));
 }
 
-#ifdef NON_MATCHING
-// single regalloc difference
 s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
     CollisionPoly* wallPoly;
     Vec3f sp50[3];
@@ -6192,7 +6193,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
     if (LINK_IS_CHILD && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
-        func_80038C78(wallPoly, this->actor.wallPolySource, &globalCtx->colCtx, &sp50);
+        func_80038C78(wallPoly, this->actor.wallPolySource, &globalCtx->colCtx, sp50);
 
         sp4C = phi_f2 = sp50[0].x;
         sp44 = phi_f12 = sp50[0].z;
@@ -6213,9 +6214,10 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
         sp4C = (sp4C + phi_f2) * 0.5f;
         sp44 = (sp44 + phi_f12) * 0.5f;
 
-        if (fabsf(((this->actor.posRot.pos.x - sp4C) * (wallPoly->norm.z * (1.0f / 32767.0f))) -
-                  ((this->actor.posRot.pos.z - sp44) * (wallPoly->norm.x * (1.0f / 32767.0f)))) < 8.0f) {
+        phi_f2 = ((this->actor.posRot.pos.x - sp4C) * (wallPoly->norm.z * (1.0f / 32767.0f))) -
+                 ((this->actor.posRot.pos.z - sp44) * (wallPoly->norm.x * (1.0f / 32767.0f)));
 
+        if (fabsf(phi_f2) < 8.0f) {
             this->stateFlags2 |= 0x10000;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
@@ -6240,9 +6242,6 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8083F0C8.s")
-#endif
 
 s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     CollisionPoly* wallPoly;
@@ -6745,8 +6744,6 @@ void func_808407CC(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_808409CC(GlobalContext* globalCtx, Player* this) {
     LinkAnimationHeader* anim;
     LinkAnimationHeader** animPtr;
@@ -6783,9 +6780,9 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
                     }
                 }
             }
-            animPtr = &D_80853D7C[sp38 * 2];
+            animPtr = &D_80853D7C[sp38][0];
             if (this->modelAnimType != 1) {
-                animPtr++;
+                animPtr = &D_80853D7C[sp38][1];
             }
             anim = *animPtr;
         }
@@ -6794,9 +6791,6 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f) * D_808535E8, 0.0f,
                              SkelAnime_GetFrameCount(anim), 2, -6.0f);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808409CC.s")
-#endif
 
 void func_80840BC8(Player* this, GlobalContext* globalCtx) {
     s32 sp44;
@@ -8568,8 +8562,6 @@ void func_808458D0(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// single regalloc difference
 s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2, f32 arg3, s16 arg4, s32 arg5) {
     if ((arg5 != 0) && (this->linearVelocity == 0.0f)) {
         return func_800A3BC0(globalCtx, &this->skelAnime);
@@ -8582,7 +8574,7 @@ s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2
         f32 sp28 = sqrtf(SQ(selfDistX) + SQ(selfDistZ)) / sp34;
         s32 sp24 = (arg2->endFrame - globalCtx->csCtx.frames) + 1;
 
-        arg4 = atan2s(selfDistX, selfDistZ);
+        arg4 = atan2s(selfDistZ, selfDistX);
 
         if (arg5 == 1) {
             f32 distX = arg2->endPos.x - arg2->startPos.x;
@@ -8610,10 +8602,6 @@ s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2
 
     return 0;
 }
-#else
-s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2, f32 arg3, s16 arg4, s32 arg5);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80845964.s")
-#endif
 
 s32 func_80845BA0(GlobalContext* arg0, Player* arg1, f32* arg2, s32 arg3) {
     f32 dx = arg1->unk_450.x - arg1->actor.posRot.pos.x;
@@ -9056,17 +9044,15 @@ void (*D_80854738[])(GlobalContext* globalCtx, Player* this) = {
 Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 
 #ifdef NON_MATCHING
-// mostly regalloc differences
-void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
+// single regalloc difference
+void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
     Scene* scene = globalCtx->loadedScene;
-    s32 temp;
-    u8 temp2;
+    s32 initMode;
+    s32 pad;
     s32 sp50;
     s32 sp4C;
-    s32 initMode;
-    s16 params;
-    u16 entranceSound;
 
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
@@ -9080,7 +9066,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->damagePlayer = Player_InflictDamage;
     globalCtx->talkWithPlayer = func_80853148;
 
-    this->actor.room = -1;
+    thisx->room = -1;
     this->ageProperties = &sAgeProperties[gSaveContext.linkAge];
     this->itemActionParam = this->heldItemActionParam = -1;
     this->heldItemId = ITEM_NONE;
@@ -9088,30 +9074,29 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80835F44(globalCtx, this, ITEM_NONE);
     Player_SetEquipmentData(globalCtx, this);
     this->prevBoots = this->currentBoots;
-    Player_InitCommon(this, globalCtx, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge]);
+    Player_InitCommon(this, globalCtx, gPlayerSkelHeaders[((void)0, gSaveContext.linkAge)]);
     this->giObjectSegment = (void*)(((u32)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
     sp50 = gSaveContext.respawnFlag;
 
     if (sp50 != 0) {
         if (sp50 == -3) {
-            this->actor.params = gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams;
+            thisx->params = gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams;
         } else {
             if ((sp50 == 1) || (sp50 == -1)) {
                 this->unk_A86 = -2;
             }
 
-            temp = sp50 - 1;
             if (sp50 < 0) {
                 sp4C = 0;
             } else {
-                sp4C = temp;
-                Math_Vec3f_Copy(&this->actor.posRot.pos, &gSaveContext.respawn[sp50 - 1].pos);
-                Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
-                Math_Vec3f_Copy(&this->actor.pos4, &this->actor.posRot.pos);
-                this->fallStartHeight = this->actor.posRot.pos.y;
-                this->currentYaw = this->actor.shape.rot.y = gSaveContext.respawn[temp].yaw;
-                this->actor.params = gSaveContext.respawn[temp].playerParams;
+                sp4C = sp50 - 1;
+                Math_Vec3f_Copy(&thisx->posRot.pos, &gSaveContext.respawn[sp50 - 1].pos);
+                Math_Vec3f_Copy(&thisx->initPosRot.pos, &thisx->posRot.pos);
+                Math_Vec3f_Copy(&thisx->pos4, &thisx->posRot.pos);
+                this->fallStartHeight = thisx->posRot.pos.y;
+                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[sp4C].yaw;
+                thisx->params = gSaveContext.respawn[sp4C].playerParams;
             }
 
             globalCtx->actorCtx.flags.tempSwch = gSaveContext.respawn[sp4C].tempSwchFlags & 0xFFFFFF;
@@ -9120,26 +9105,20 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((sp50 == 0) || (sp50 < -1)) {
-        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.showTitleCard) &&
-            (gSaveContext.sceneSetupIndex < 4) &&
-            (gEntranceTable[gSaveContext.entranceIndex + gSaveContext.sceneSetupIndex].field & 0x4000) &&
-            ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
-            ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
-            TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78, 0x90,
-                                    0x18, 0x14);
+        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && gSaveContext.showTitleCard) {
+            if ((gSaveContext.sceneSetupIndex < 4) &&
+                (gEntranceTable[(0, gSaveContext.entranceIndex) + (0, gSaveContext.sceneSetupIndex)].field & 0x4000) &&
+                ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
+                ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78,
+                                        0x90, 0x18, 0x14);
+            }
         }
         gSaveContext.showTitleCard = true;
     }
 
-    if (sp50 == 2) {
-        temp2 = 1;
-    } else {
-        temp2 = 0;
-    }
-
-    if (func_80845C68(globalCtx, temp2) == 0) {
-        params = this->actor.params;
-        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (params & 0xFF) | 0xD00;
+    if (func_80845C68(globalCtx, (sp50 == 2) ? 1 : 0) == 0) {
+        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (thisx->params & 0xFF) | 0xD00;
     }
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
@@ -9148,7 +9127,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.infTable[26] |= gBitFlags[globalCtx->sceneNum];
     }
 
-    initMode = (this->actor.params & 0xF00) >> 8;
+    initMode = (thisx->params & 0xF00) >> 8;
     if ((initMode == 5) || (initMode == 6)) {
         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
             initMode = 13;
@@ -9159,7 +9138,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (initMode != 0) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
-            this->naviActor = Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_80854778, FAIRY_NAVI);
+            this->naviActor = Player_SpawnFairy(globalCtx, this, &thisx->posRot.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
@@ -9173,8 +9152,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.entranceSound != 0) {
-        entranceSound = gSaveContext.entranceSound;
-        Audio_PlayActorSound2(&this->actor, entranceSound);
+        Audio_PlayActorSound2(&this->actor, (0, gSaveContext.entranceSound));
         gSaveContext.entranceSound = 0;
     }
 
@@ -10331,7 +10309,7 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     MREG(55) = this->actor.posRot.rot.y;
 }
 
-s16 D_80858AC8[5];
+struct_80858AC8 D_80858AC8;
 Vec3s D_80858AD8[25];
 
 Gfx* D_80854844[PLAYER_MASK_MAX - 1] = {
@@ -10361,15 +10339,15 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
             gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
-            sp68.x = D_80858AC8[1] + 0x3E2;
-            sp68.y = D_80858AC8[2] + 0xDBE;
-            sp68.z = D_80858AC8[0] - 0x348A;
+            sp68.x = D_80858AC8.unk_02 + 0x3E2;
+            sp68.y = D_80858AC8.unk_04 + 0xDBE;
+            sp68.z = D_80858AC8.unk_00 - 0x348A;
             func_800D1694(97.0f, -1203.0f, -240.0f, &sp68);
             Matrix_ToMtx(sp70++, "../z_player.c", 19273);
 
-            sp68.x = D_80858AC8[1] - 0x3E2;
-            sp68.y = -0xDBE - D_80858AC8[2];
-            sp68.z = D_80858AC8[0] - 0x348A;
+            sp68.x = D_80858AC8.unk_02 - 0x3E2;
+            sp68.y = -0xDBE - D_80858AC8.unk_04;
+            sp68.z = D_80858AC8.unk_00 - 0x348A;
             func_800D1694(97.0f, -1203.0f, 240.0f, &sp68);
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
@@ -10527,11 +10505,10 @@ void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     gSaveContext.linkAge = globalCtx->linkAgeOnLoad;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
     s32 temp1;
     s16 temp2;
+    s16 temp3;
 
     if (!func_8002DD78(this) && !func_808334B4(this) && (arg2 == 0)) {
         temp2 = sControlInput->rel.stick_y * 240.0f;
@@ -10542,14 +10519,16 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
         this->actor.posRot2.rot.y += temp2;
     } else {
         temp1 = (this->stateFlags1 & 0x800000) ? 3500 : 14000;
-        this->actor.posRot2.rot.x += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_y * 200)) * 1500.0f) *
-                                     ((sControlInput->rel.stick_y >= 0) ? 1 : -1);
+        temp3 = ((sControlInput->rel.stick_y >= 0) ? 1 : -1) *
+                (s32)((1.0f - Math_Coss(sControlInput->rel.stick_y * 200)) * 1500.0f);
+        this->actor.posRot2.rot.x += temp3;
         this->actor.posRot2.rot.x = CLAMP(this->actor.posRot2.rot.x, -temp1, temp1);
 
         temp1 = 19114;
         temp2 = this->actor.posRot2.rot.y - this->actor.shape.rot.y;
-        temp2 += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_x * 200)) * -1500.0f) *
-                 ((sControlInput->rel.stick_x >= 0) ? 1 : -1);
+        temp3 = ((sControlInput->rel.stick_x >= 0) ? 1 : -1) *
+                (s32)((1.0f - Math_Coss(sControlInput->rel.stick_x * 200)) * -1500.0f);
+        temp2 += temp3;
         this->actor.posRot2.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }
 
@@ -10557,10 +10536,6 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
     return func_80836AB8(this, (globalCtx->shootingGalleryStatus != 0) || func_8002DD78(this) || func_808334B4(this)) -
            arg3;
 }
-#else
-s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084ABD8.s")
-#endif
 
 void func_8084AEEC(Player* this, f32* arg1, f32 arg2, s16 arg3) {
     f32 temp1;
@@ -12614,45 +12589,45 @@ void func_8084FF7C(Player* this) {
 }
 
 #ifdef NON_MATCHING
-// minor ordering and regalloc differences
+// regalloc differences
 void func_8085002C(Player* this) {
     s32 pad;
     s16 sp2A;
     s16 sp28;
     s16 sp26;
 
-    D_80858AC8[3] -= D_80858AC8[3] >> 3;
-    D_80858AC8[4] -= D_80858AC8[4] >> 3;
-    D_80858AC8[3] += -D_80858AC8[0] >> 2;
-    D_80858AC8[4] += -D_80858AC8[1] >> 2;
+    D_80858AC8.unk_06 -= D_80858AC8.unk_06 >> 3;
+    D_80858AC8.unk_08 -= D_80858AC8.unk_08 >> 3;
+    D_80858AC8.unk_06 += -D_80858AC8.unk_00 >> 2;
+    D_80858AC8.unk_08 += -D_80858AC8.unk_02 >> 2;
 
     sp26 = this->actor.posRot.rot.y - this->actor.shape.rot.y;
 
     sp28 = this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
     sp2A = this->actor.speedXZ * 100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
 
-    D_80858AC8[3] += sp28 >> 2;
-    D_80858AC8[4] += sp2A >> 2;
+    D_80858AC8.unk_06 += sp28 >> 2;
+    D_80858AC8.unk_08 += sp2A >> 2;
 
-    if (D_80858AC8[3] > 6000) {
-        D_80858AC8[3] = 6000;
-    } else if (D_80858AC8[3] < -6000) {
-        D_80858AC8[3] = -6000;
+    if (D_80858AC8.unk_06 > 6000) {
+        D_80858AC8.unk_06 = 6000;
+    } else if (D_80858AC8.unk_06 < -6000) {
+        D_80858AC8.unk_06 = -6000;
     }
 
-    if (D_80858AC8[4] > 6000) {
-        D_80858AC8[4] = 6000;
-    } else if (D_80858AC8[4] < -6000) {
-        D_80858AC8[4] = -6000;
+    if (D_80858AC8.unk_08 > 6000) {
+        D_80858AC8.unk_08 = 6000;
+    } else if (D_80858AC8.unk_08 < -6000) {
+        D_80858AC8.unk_08 = -6000;
     }
 
-    D_80858AC8[0] += D_80858AC8[3];
-    D_80858AC8[1] += D_80858AC8[4];
+    D_80858AC8.unk_00 += D_80858AC8.unk_06;
+    D_80858AC8.unk_02 += D_80858AC8.unk_08;
 
-    if (D_80858AC8[0] < 0) {
-        D_80858AC8[2] = D_80858AC8[0] >> 1;
+    if (D_80858AC8.unk_00 < 0) {
+        D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
     } else {
-        D_80858AC8[2] = 0;
+        D_80858AC8.unk_04 = 0;
     }
 }
 #else
