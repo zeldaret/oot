@@ -1507,7 +1507,7 @@ endseg
 beginseg
     name "ovl_Demo_Ext"
     include "build/src/overlays/actors/ovl_Demo_Ext/z_demo_ext.o"
-    include "build/data/overlays/actors/z_demo_ext.data.o"
+    //include "build/data/overlays/actors/z_demo_ext.data.o"
     include "build/data/overlays/actors/z_demo_ext.reloc.o"
 endseg
 
