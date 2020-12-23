@@ -55,25 +55,26 @@ static f32 sDistSquared2[] = {
 };
 
 #ifdef NON_MATCHING
-static s16 sActorSpawnAmounts[] = {
+static s16 D_80B9A818[] = {
     9,
     12,
     8,
 };
+
 // Very close to matching, just regalloc and a stack diff
 void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr = vec;
     s32 i;
 
     Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
-    for (i = 1, vecPtr++; i < sActorSpawnAmounts[this->actor.params & 3]; vecPtr++, i++) {
+    for (i = 1, vecPtr++; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
         vecPtr->x += (80.0f * Math_Sins((i - 1) * 0x2000));
         vecPtr->z += (80.0f * Math_Coss((i - 1) * 0x2000));
     }
 }
 #else
-s16 sActorSpawnAmounts[] = {
+s16 D_80B9A818[] = {
     9,
     12,
     8,
@@ -116,7 +117,7 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     Vec3f* actorPos = &this->actor.posRot.pos; // Required to match
     ObjMure2* this2 = this;                    // Required to match
 
-    for (vecPtr = vec, i = 0; i < sActorSpawnAmounts[this2->actor.params & 3]; vecPtr++, i++) {
+    for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, actorPos);
         if (1) {}
         vecPtr->x += (sScatteredShrubInfo[i].radius * Math_Coss(sScatteredShrubInfo[i].angle));
@@ -128,7 +129,7 @@ void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr = vec;
     s32 i;
 
-    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; vecPtr++, i++) {
+    for (i = 0; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
         vecPtr->x += (80.0f * Math_Sins(i * 0x2000));
         vecPtr->z += (80.0f * Math_Coss(i * 0x2000));
@@ -154,7 +155,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
     sSetPosFunc[actorNum](&spawnPos, this);
     ObjMure2_SetActorSpawnParams(&params, this);
 
-    for (i = 0; i < sActorSpawnAmounts[actorNum]; i++) {
+    for (i = 0; i < D_80B9A818[actorNum]; i++) {
         if (this->actorSpawnPtrList[i] != NULL) {
             // Translation: Warning : I already have a child (%s %d)(arg_data 0x%04x)
             osSyncPrintf("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269,
@@ -176,7 +177,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
 void ObjMure2_CleanupAndDie(ObjMure2* this, GlobalContext* globalCtx) {
     s32 i;
 
-    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
         if (((this->currentActorNum >> i) & 1) == 0) {
             if (this->actorSpawnPtrList[i] != NULL) {
                 if (Actor_HasParent(this->actorSpawnPtrList[i], globalCtx)) {
@@ -195,7 +196,7 @@ void ObjMure2_CleanupAndDie(ObjMure2* this, GlobalContext* globalCtx) {
 void func_80B9A534(ObjMure2* this) {
     s32 i;
 
-    for (i = 0; i < sActorSpawnAmounts[this->actor.params & 3]; i++) {
+    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
         if (this->actorSpawnPtrList[i] != NULL && (((this->currentActorNum >> i) & 1) == 0) &&
             (this->actorSpawnPtrList[i]->update == NULL)) {
             this->currentActorNum |= (1 << i);
