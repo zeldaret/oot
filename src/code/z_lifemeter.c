@@ -51,7 +51,7 @@ s16 sHeartEnvCurrent1[3];
 s16 sHeartPrimCurrent2[2][3];
 s16 sHeartEnvCurrent2[2][3];
 
-void Health_InitColor(GlobalContext* globalCtx) {
+void Health_Init(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     interfaceCtx->unk_228 = 0x140;
@@ -85,7 +85,7 @@ void Health_InitColor(GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // Far from matching, but is equivalent. The for loop needs to become unrolled somehow in order to match.
-void Health_UpdateColor(GlobalContext* globalCtx) {
+void Health_Update(GlobalContext* globalCtx) {
     static s16 sHeartPrimColors[3][3] = {
         { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
         { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
@@ -251,7 +251,7 @@ s16 sHeartDDEnvFactors[3][3] = {
     { 55, 0, 0 },     // unused
     { -200, 0, 255 }, // unused
 };
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_UpdateColor.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_Update.s")
 #endif
 
 s32 func_80078E18(GlobalContext* globalCtx) {
