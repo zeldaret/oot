@@ -10,7 +10,7 @@ glabel EnViewer_Init
 /* 00024 80B2A224 24A5CEE4 */  addiu   $a1, $a1, %lo(D_80B2CEE4)  ## $a1 = 80B2CEE4
 /* 00028 80B2A228 3C0580B3 */  lui     $a1, %hi(func_80B2A570)    ## $a1 = 80B30000
 /* 0002C 80B2A22C 24A5A570 */  addiu   $a1, $a1, %lo(func_80B2A570) ## $a1 = 80B2A570
-/* 00030 80B2A230 0C2CA880 */  jal     func_80B2A200              
+/* 00030 80B2A230 0C2CA880 */  jal     EnViewer_SetupAction              
 /* 00034 80B2A234 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00038 80B2A238 3C0180B3 */  lui     $at, %hi(D_80B2CEC0)       ## $at = 80B30000
 /* 0003C 80B2A23C A020CEC0 */  sb      $zero, %lo(D_80B2CEC0)($at) 

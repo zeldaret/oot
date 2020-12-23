@@ -148,7 +148,7 @@ glabel func_80B2A570
 /* 00534 80B2A734 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00538 80B2A738 3C0580B3 */  lui     $a1, %hi(func_80B2A75C)    ## $a1 = 80B30000
 /* 0053C 80B2A73C 24A5A75C */  addiu   $a1, $a1, %lo(func_80B2A75C) ## $a1 = 80B2A75C
-/* 00540 80B2A740 0C2CA880 */  jal     func_80B2A200              
+/* 00540 80B2A740 0C2CA880 */  jal     EnViewer_SetupAction              
 /* 00544 80B2A744 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B2A748:
 /* 00548 80B2A748 8FBF001C */  lw      $ra, 0x001C($sp)           
