@@ -14,7 +14,7 @@ typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
     /* 2 */ ENZO_EFFECT_SPLASH,
-    /* 3 */ ENZO_EFFECT_BUBBLE,
+    /* 3 */ ENZO_EFFECT_BUBBLE
 } EnZoEffectType;
 
 void EnZo_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -297,7 +297,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 0x1A, 0x40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
