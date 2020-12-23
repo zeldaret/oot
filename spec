@@ -2131,21 +2131,18 @@ endseg
 beginseg
     name "ovl_En_Dnt_Demo"
     include "build/src/overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.o"
-    include "build/data/overlays/actors/z_en_dnt_demo.data.o"
     include "build/data/overlays/actors/z_en_dnt_demo.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Dnt_Jiji"
     include "build/src/overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.o"
-    include "build/data/overlays/actors/z_en_dnt_jiji.data.o"
     include "build/data/overlays/actors/z_en_dnt_jiji.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Dnt_Nomal"
     include "build/src/overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.o"
-    include "build/data/overlays/actors/z_en_dnt_nomal.data.o"
     include "build/data/overlays/actors/z_en_dnt_nomal.reloc.o"
 endseg
 
