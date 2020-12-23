@@ -11,13 +11,14 @@ ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
+  CPPFLAGS := -DNON_MATCHING
   COMPARE := 0
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CPPFLAGS = -P
+CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
     $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
@@ -59,6 +60,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
+EMULATOR = mupen64plus
+EMU_FLAGS = --noosd
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -129,7 +132,6 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 # create build directories
 $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
 
-
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
 build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
@@ -192,6 +194,11 @@ setup:
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
+
+test: $(ROM)
+	$(EMULATOR) $(EMU_FLAGS) $<
+
+.PHONY: all clean setup test
 
 #### Various Recipes ####
 

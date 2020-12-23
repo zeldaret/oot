@@ -2,8 +2,8 @@ glabel func_809E9770
 /* 00210 809E9770 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00214 809E9774 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00218 809E9778 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
-/* 0021C 809E977C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00220 809E9780 24A50AF0 */  addiu   $a1, $a1, 0x0AF0           ## $a1 = 06000AF0
+/* 0021C 809E977C 3C050600 */  lui     $a1, %hi(D_06000AF0)                ## $a1 = 06000000
+/* 00220 809E9780 24A50AF0 */  addiu   $a1, $a1, %lo(D_06000AF0)           ## $a1 = 06000AF0
 /* 00224 809E9784 AFA60018 */  sw      $a2, 0x0018($sp)
 /* 00228 809E9788 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 0022C 809E978C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C

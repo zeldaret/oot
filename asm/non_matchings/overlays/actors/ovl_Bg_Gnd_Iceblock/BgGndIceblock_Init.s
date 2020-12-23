@@ -38,8 +38,8 @@ glabel BgGndIceblock_Init
 /* 00028 80879AC8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 0002C 80879ACC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00030 80879AD0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00034 80879AD4 24844618 */  addiu   $a0, $a0, 0x4618           ## $a0 = 06004618
+/* 00030 80879AD0 3C040600 */  lui     $a0, %hi(D_06004618)                ## $a0 = 06000000
+/* 00034 80879AD4 24844618 */  addiu   $a0, $a0, %lo(D_06004618)           ## $a0 = 06004618
 /* 00038 80879AD8 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 0003C 80879ADC 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4

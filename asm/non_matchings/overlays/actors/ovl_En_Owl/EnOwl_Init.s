@@ -77,30 +77,30 @@ glabel EnOwl_Init
 /* 00030 80AC9F50 0C00AC78 */  jal     ActorShape_Init
 
 /* 00034 80AC9F54 3C074210 */  lui     $a3, 0x4210                ## $a3 = 42100000
-/* 00038 80AC9F58 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 0003C 80AC9F5C 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00038 80AC9F58 3C060601 */  lui     $a2, %hi(D_0600C0E8)                ## $a2 = 06010000
+/* 0003C 80AC9F5C 3C070600 */  lui     $a3, %hi(D_060015CC)                ## $a3 = 06000000
 /* 00040 80AC9F60 260E01DC */  addiu   $t6, $s0, 0x01DC           ## $t6 = 000001DC
 /* 00044 80AC9F64 260F025A */  addiu   $t7, $s0, 0x025A           ## $t7 = 0000025A
 /* 00048 80AC9F68 24180015 */  addiu   $t8, $zero, 0x0015         ## $t8 = 00000015
 /* 0004C 80AC9F6C AFB80018 */  sw      $t8, 0x0018($sp)
 /* 00050 80AC9F70 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00054 80AC9F74 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 00058 80AC9F78 24E715CC */  addiu   $a3, $a3, 0x15CC           ## $a3 = 060015CC
-/* 0005C 80AC9F7C 24C6C0E8 */  addiu   $a2, $a2, 0xC0E8           ## $a2 = 0600C0E8
+/* 00058 80AC9F78 24E715CC */  addiu   $a3, $a3, %lo(D_060015CC)           ## $a3 = 060015CC
+/* 0005C 80AC9F7C 24C6C0E8 */  addiu   $a2, $a2, %lo(D_0600C0E8)           ## $a2 = 0600C0E8
 /* 00060 80AC9F80 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00064 80AC9F84 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00068 80AC9F88 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 0006C 80AC9F8C 260502D8 */  addiu   $a1, $s0, 0x02D8           ## $a1 = 000002D8
-/* 00070 80AC9F90 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00074 80AC9F94 3C070601 */  lui     $a3, 0x0601                ## $a3 = 06010000
+/* 00070 80AC9F90 3C060601 */  lui     $a2, %hi(D_060100B0)                ## $a2 = 06010000
+/* 00074 80AC9F94 3C070601 */  lui     $a3, %hi(D_0600C8A0)                ## $a3 = 06010000
 /* 00078 80AC9F98 2619031C */  addiu   $t9, $s0, 0x031C           ## $t9 = 0000031C
 /* 0007C 80AC9F9C 2608037C */  addiu   $t0, $s0, 0x037C           ## $t0 = 0000037C
 /* 00080 80AC9FA0 24090010 */  addiu   $t1, $zero, 0x0010         ## $t1 = 00000010
 /* 00084 80AC9FA4 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 00088 80AC9FA8 AFA80014 */  sw      $t0, 0x0014($sp)
 /* 0008C 80AC9FAC AFB90010 */  sw      $t9, 0x0010($sp)
-/* 00090 80AC9FB0 24E7C8A0 */  addiu   $a3, $a3, 0xC8A0           ## $a3 = 0600C8A0
-/* 00094 80AC9FB4 24C600B0 */  addiu   $a2, $a2, 0x00B0           ## $a2 = 060100B0
+/* 00090 80AC9FB0 24E7C8A0 */  addiu   $a3, $a3, %lo(D_0600C8A0)           ## $a3 = 0600C8A0
+/* 00094 80AC9FB4 24C600B0 */  addiu   $a2, $a2, %lo(D_060100B0)           ## $a2 = 060100B0
 /* 00098 80AC9FB8 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 0009C 80AC9FBC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000A0 80AC9FC0 8FA40054 */  lw      $a0, 0x0054($sp)
@@ -126,8 +126,8 @@ glabel EnOwl_Init
 /* 000E8 80ACA008 E606004C */  swc1    $f6, 0x004C($s0)           ## 0000004C
 /* 000EC 80ACA00C 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 000F0 80ACA010 3C0580AD */  lui     $a1, %hi(func_80ACBA24)    ## $a1 = 80AD0000
-/* 000F4 80ACA014 3C0B0601 */  lui     $t3, 0x0601                ## $t3 = 06010000
-/* 000F8 80ACA018 256BC8A0 */  addiu   $t3, $t3, 0xC8A0           ## $t3 = 0600C8A0
+/* 000F4 80ACA014 3C0B0601 */  lui     $t3, %hi(D_0600C8A0)                ## $t3 = 06010000
+/* 000F8 80ACA018 256BC8A0 */  addiu   $t3, $t3, %lo(D_0600C8A0)           ## $t3 = 0600C8A0
 /* 000FC 80ACA01C 24A5BA24 */  addiu   $a1, $a1, %lo(func_80ACBA24) ## $a1 = 80ACBA24
 /* 00100 80ACA020 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 00104 80ACA024 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
