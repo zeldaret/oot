@@ -3,7 +3,7 @@ glabel D_8013C888
     .float 0.1
 
 .text
-glabel Health_Update
+glabel Health_UpdateData
 /* AEFBD8 80078A38 3C0E0001 */  lui   $t6, 1
 /* AEFBDC 80078A3C 01C47021 */  addu  $t6, $t6, $a0
 /* AEFBE0 80078A40 85CE06EE */  lh    $t6, 0x6ee($t6)
@@ -71,22 +71,22 @@ glabel Health_Update
 /* AEFCCC 80078B2C A458021C */  sh    $t8, 0x21c($v0)
 /* AEFCD0 80078B30 8739FF26 */  lh    $t9, %lo(sHeartEnvColors+2)($t9)
 /* AEFCD4 80078B34 2508FF4C */  addiu $t0, %lo(sHeartEnvFactors) # addiu $t0, $t0, -0xb4
-/* AEFCD8 80078B38 3C018016 */  lui   $at, %hi(D_8015FDD0+6) # $at, 0x8016
+/* AEFCD8 80078B38 3C018016 */  lui   $at, %hi(sHeartPrimCurrent2+6) # $at, 0x8016
 /* AEFCDC 80078B3C A4590220 */  sh    $t9, 0x220($v0)
 /* AEFCE0 80078B40 856BFF28 */  lh    $t3, %lo(sHeartEnvColors+4)($t3)
-/* AEFCE4 80078B44 3C098016 */  lui   $t1, %hi(D_8015FDC0) # $t1, 0x8016
-/* AEFCE8 80078B48 2529FDC0 */  addiu $t1, %lo(D_8015FDC0) # addiu $t1, $t1, -0x240
+/* AEFCE4 80078B44 3C098016 */  lui   $t1, %hi(sHeartPrimCurrent1) # $t1, 0x8016
+/* AEFCE8 80078B48 2529FDC0 */  addiu $t1, %lo(sHeartPrimCurrent1) # addiu $t1, $t1, -0x240
 /* AEFCEC 80078B4C A44B0224 */  sh    $t3, 0x224($v0)
 /* AEFCF0 80078B50 84EC0000 */  lh    $t4, ($a3)
 /* AEFCF4 80078B54 84EE0002 */  lh    $t6, 2($a3)
 /* AEFCF8 80078B58 84F80004 */  lh    $t8, 4($a3)
 /* AEFCFC 80078B5C 448C5000 */  mtc1  $t4, $f10
 /* AEFD00 80078B60 448E3000 */  mtc1  $t6, $f6
-/* AEFD04 80078B64 3C078016 */  lui   $a3, %hi(D_8015FDD0) # $a3, 0x8016
+/* AEFD04 80078B64 3C078016 */  lui   $a3, %hi(sHeartPrimCurrent2) # $a3, 0x8016
 /* AEFD08 80078B68 46805420 */  cvt.s.w $f16, $f10
-/* AEFD0C 80078B6C 24E7FDD0 */  addiu $a3, %lo(D_8015FDD0) # addiu $a3, $a3, -0x230
-/* AEFD10 80078B70 3C0A8016 */  lui   $t2, %hi(D_8015FDC8)
-/* AEFD14 80078B74 254AFDC8 */  addiu $t2, %lo(D_8015FDC8) # addiu $t2, $t2, -0x238
+/* AEFD0C 80078B6C 24E7FDD0 */  addiu $a3, %lo(sHeartPrimCurrent2) # addiu $a3, $a3, -0x230
+/* AEFD10 80078B70 3C0A8016 */  lui   $t2, %hi(sHeartEnvCurrent1)
+/* AEFD14 80078B74 254AFDC8 */  addiu $t2, %lo(sHeartEnvCurrent1) # addiu $t2, $t2, -0x238
 /* AEFD18 80078B78 46803220 */  cvt.s.w $f8, $f6
 /* AEFD1C 80078B7C 46008482 */  mul.s $f18, $f16, $f0
 /* AEFD20 80078B80 4600910D */  trunc.w.s $f4, $f18
@@ -121,9 +121,9 @@ glabel Health_Update
 /* AEFD94 80078BF4 85190004 */  lh    $t9, 4($t0)
 /* AEFD98 80078BF8 448D5000 */  mtc1  $t5, $f10
 /* AEFD9C 80078BFC 448F3000 */  mtc1  $t7, $f6
-/* AEFDA0 80078C00 3C088016 */  lui   $t0, %hi(D_8015FDE0) # $t0, 0x8016
+/* AEFDA0 80078C00 3C088016 */  lui   $t0, %hi(sHeartEnvCurrent2) # $t0, 0x8016
 /* AEFDA4 80078C04 46805420 */  cvt.s.w $f16, $f10
-/* AEFDA8 80078C08 2508FDE0 */  addiu $t0, %lo(D_8015FDE0) # addiu $t0, $t0, -0x220
+/* AEFDA8 80078C08 2508FDE0 */  addiu $t0, %lo(sHeartEnvCurrent2) # addiu $t0, $t0, -0x220
 /* AEFDAC 80078C0C 3C0F8012 */  lui   $t7, %hi(sHeartDDPrimColors) # $t7, 0x8012
 /* AEFDB0 80078C10 3C0B8012 */  lui   $t3, %hi(sHeartDDEnvColors)
 /* AEFDB4 80078C14 46803220 */  cvt.s.w $f8, $f6
@@ -171,16 +171,16 @@ glabel Health_Update
 /* AEFE5C 80078CBC 3C198012 */  lui   $t9, %hi(sHeartDDPrimColors+4) # $t9, 0x8012
 /* AEFE60 80078CC0 8739FF64 */  lh    $t9, %lo(sHeartDDPrimColors+4)($t9)
 /* AEFE64 80078CC4 46805420 */  cvt.s.w $f16, $f10
-/* AEFE68 80078CC8 A42FFDD6 */  sh    $t7, %lo(D_8015FDD0+6)($at)
-/* AEFE6C 80078CCC 3C018016 */  lui   $at, %hi(D_8015FDD0+8) # $at, 0x8016
+/* AEFE68 80078CC8 A42FFDD6 */  sh    $t7, %lo(sHeartPrimCurrent2+6)($at)
+/* AEFE6C 80078CCC 3C018016 */  lui   $at, %hi(sHeartPrimCurrent2+8) # $at, 0x8016
 /* AEFE70 80078CD0 856BFF74 */  lh    $t3, %lo(sHeartDDEnvColors)($t3)
-/* AEFE74 80078CD4 A438FDD8 */  sh    $t8, %lo(D_8015FDD0+8)($at)
+/* AEFE74 80078CD4 A438FDD8 */  sh    $t8, %lo(sHeartPrimCurrent2+8)($at)
 /* AEFE78 80078CD8 3C188012 */  lui   $t8, %hi(sHeartDDPrimFactors+2) # $t8, 0x8012
 /* AEFE7C 80078CDC 46008482 */  mul.s $f18, $f16, $f0
-/* AEFE80 80078CE0 A439FDDA */  sh    $t9, %lo(D_8015FDD0+0xa)($at)
+/* AEFE80 80078CE0 A439FDDA */  sh    $t9, %lo(sHeartPrimCurrent2+0xa)($at)
 /* AEFE84 80078CE4 8718FF8A */  lh    $t8, %lo(sHeartDDPrimFactors+2)($t8)
-/* AEFE88 80078CE8 3C018016 */  lui   $at, %hi(D_8015FDE0+6) # $at, 0x8016
-/* AEFE8C 80078CEC A42BFDE6 */  sh    $t3, %lo(D_8015FDE0+6)($at)
+/* AEFE88 80078CE8 3C018016 */  lui   $at, %hi(sHeartEnvCurrent2+6) # $at, 0x8016
+/* AEFE8C 80078CEC A42BFDE6 */  sh    $t3, %lo(sHeartEnvCurrent2+6)($at)
 /* AEFE90 80078CF0 3C0B8012 */  lui   $t3, %hi(sHeartDDPrimFactors+4)
 /* AEFE94 80078CF4 856BFF8C */  lh    $t3, %lo(sHeartDDPrimFactors+4)($t3)
 /* AEFE98 80078CF8 44983000 */  mtc1  $t8, $f6
@@ -195,13 +195,13 @@ glabel Health_Update
 /* AEFEBC 80078D1C 46809120 */  cvt.s.w $f4, $f18
 /* AEFEC0 80078D20 46004282 */  mul.s $f10, $f8, $f0
 /* AEFEC4 80078D24 00031C00 */  sll   $v1, $v1, 0x10
-/* AEFEC8 80078D28 3C018016 */  lui   $at, %hi(D_8015FDE0+8) # $at, 0x8016
+/* AEFEC8 80078D28 3C018016 */  lui   $at, %hi(sHeartEnvCurrent2+8) # $at, 0x8016
 /* AEFECC 80078D2C 00031C03 */  sra   $v1, $v1, 0x10
 /* AEFED0 80078D30 246E00FF */  addiu $t6, $v1, 0xff
 /* AEFED4 80078D34 46002182 */  mul.s $f6, $f4, $f0
-/* AEFED8 80078D38 A42DFDEA */  sh    $t5, %lo(D_8015FDE0+0xa)($at)
+/* AEFED8 80078D38 A42DFDEA */  sh    $t5, %lo(sHeartEnvCurrent2+0xa)($at)
 /* AEFEDC 80078D3C 31CF00FF */  andi  $t7, $t6, 0xff
-/* AEFEE0 80078D40 A42CFDE8 */  sh    $t4, %lo(D_8015FDE0+8)($at)
+/* AEFEE0 80078D40 A42CFDE8 */  sh    $t4, %lo(sHeartEnvCurrent2+8)($at)
 /* AEFEE4 80078D44 A52F0000 */  sh    $t7, ($t1)
 /* AEFEE8 80078D48 3C0F8012 */  lui   $t7, %hi(sHeartDDEnvFactors) # $t7, 0x8012
 /* AEFEEC 80078D4C 4600540D */  trunc.w.s $f16, $f10
