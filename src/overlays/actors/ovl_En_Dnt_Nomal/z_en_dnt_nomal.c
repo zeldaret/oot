@@ -66,7 +66,7 @@ static ColliderQuadInit D_809F5DFC = {
 
 static Color_RGBA8 D_809F5E4C[] = {
     { 255, 255, 255, 255 }, { 255, 195, 175, 255 }, { 210, 255, 0, 255 },
-    { 255, 255, 255, 255 }, { 210, 255, 0, 255 }, { 255, 195, 175, 255 },
+    { 255, 255, 255, 255 }, { 210, 255, 0, 255 },   { 255, 195, 175, 255 },
     { 255, 255, 255, 255 }, { 255, 195, 175, 255 }, { 210, 255, 0, 255 },
 };
 
@@ -87,6 +87,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_266 = -1;
     if (this->unk_26A == 0) {
         osSyncPrintf("\n\n");
+        // Deku Scrub target
         osSyncPrintf("\x1b[32m☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n\x1b[m");
         Collider_InitQuad(globalCtx, &this->targetQuad);
         Collider_SetQuad(globalCtx, &this->targetQuad, &this->actor, &D_809F5DFC);
@@ -94,6 +95,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_266 = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
+        // Deku Scrub mask show audience
         osSyncPrintf("\x1b[32m☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n\x1b[m");
         Collider_InitCylinder(globalCtx, &this->bodyCyl);
         Collider_SetCylinder(globalCtx, &this->bodyCyl, &this->actor, &D_809F5DD0);
@@ -103,7 +105,9 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_279 = Object_GetIndex(&globalCtx->objectCtx, this->unk_266);
         if (this->unk_279 < 0) {
             Actor_Kill(&this->actor);
+            // What?
             osSyncPrintf("\x1b[35m なにみの？ %d\n\x1b[m\n", this->unk_279);
+            // Bank is funny
             osSyncPrintf("\x1b[36m バンクおかしいしぞ！%d\n\x1b[m\n", this->actor.params);
             return;
         }
@@ -269,7 +273,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_270 = 0;
     }
     if (this->unk_260 == 0) {
-        this->unk_268 = this->unk_268 + 1;
+        this->unk_268++;
         if (this->unk_268 >= 3) {
             this->unk_268 = 0;
             this->unk_260 = (s16)Math_Rand_ZeroFloat(60.0f) + 20;

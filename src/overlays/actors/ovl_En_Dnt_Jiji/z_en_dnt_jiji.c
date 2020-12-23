@@ -53,6 +53,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809F2FA0);
     this->unk_258 = (EnDntDemo*)this->actor.parent;
     osSyncPrintf("\n\n");
+    // Deku Scrub mask show judge
     osSyncPrintf("\x1b[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1b[m", this->unk_258);
     this->actor.flags &= ~1;
     this->actor.colChkInfo.mass = 0xFF;
@@ -117,6 +118,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.015f);
     this->unk_246++;
     if (BREG(0)) {
+        // time
         osSyncPrintf("\x1b[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1b[m", this->unk_240);
     }
     if ((this->unk_240 > 1) && (this->unk_240 != 0)) {
