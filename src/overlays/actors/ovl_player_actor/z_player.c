@@ -6062,8 +6062,6 @@ s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
     if (this->wallHeight >= 79.0f) {
         if (!(this->stateFlags1 & 0x8000000) || (this->currentBoots == PLAYER_BOOTS_IRON) ||
@@ -6072,12 +6070,14 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
             if ((sp8C != 0) || (arg2 & 2) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
-                f32 phi_f20;
+                s32 i;
                 CollisionPoly* sp84 = this->actor.wallPoly;
                 f32 sp80;
                 f32 sp7C;
                 f32 phi_f12;
                 f32 phi_f14;
+                Vec3f sp50[3];
+                f32 phi_f20;
 
                 phi_f20 = phi_f12 = 0.0f;
 
@@ -6085,8 +6085,6 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     sp80 = this->actor.posRot.pos.x;
                     sp7C = this->actor.posRot.pos.z;
                 } else {
-                    Vec3f sp50[3];
-                    s32 i;
                     f32 sp48;
                     Vec3f* sp44 = &sp50[0];
                     s32 pad;
@@ -6172,10 +6170,6 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
     return 0;
 }
-#else
-s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8083EC18.s")
-#endif
 
 void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
     func_80835DAC(globalCtx, this, func_8084C5F8, 0);
@@ -9368,8 +9362,6 @@ s32 func_80847A78(Player* this) {
 
 Vec3f D_80854798 = { 0.0f, 18.0f, 0.0f };
 
-#ifdef NON_MATCHING
-// regalloc and stack alloc differences
 void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     u8 spC7 = 0;
     CollisionPoly* spC0;
@@ -9378,6 +9370,29 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     f32 spAC;
     f32 spA8;
     u32 spA4;
+    CollisionPoly* spA0;
+    u32 sp9C;
+    s16 sp9A;
+    u32 pad;
+    CollisionPoly* wallPoly;
+    f32 sp8C;
+    f32 sp88;
+    f32 sp84;
+    u32 pad2;
+    CollisionPoly* sp7C;
+    CollisionPoly* sp78;
+    u32 sp74;
+    Vec3f sp68;
+    f32 sp64;
+    f32 sp60;
+    s32 temp3;
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    f32 sp4C;
+    f32 wallHeight;
+    f32 sp44;
+    u32 pad3;
 
     D_80853604 = this->unk_A7A;
 
@@ -9473,11 +9488,6 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     this->actor.bgCheckFlags &= ~0x200;
 
     if (this->actor.bgCheckFlags & 8) {
-        CollisionPoly* spA0;
-        u32 sp9C;
-        s16 sp9A;
-        f32 temp1;
-
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
 
@@ -9500,40 +9510,35 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
         D_8085360C = ABS(sp9A);
 
-        temp1 = D_8085360C * 0.00008f;
-        if (!(this->actor.bgCheckFlags & 1) || (temp1 >= 1.0f)) {
+        spB0 = D_8085360C * 0.00008f;
+        if (!(this->actor.bgCheckFlags & 1) || (spB0) >= 1.0f) {
             this->unk_880 = R_RUN_SPEED_LIMIT / 100.0f;
         } else {
-            if ((this->unk_880 = (R_RUN_SPEED_LIMIT / 100.0f) * temp1) < 0.1f) {
+            spAC = (R_RUN_SPEED_LIMIT / 100.0f * (spB0));
+            this->unk_880 = spAC;
+            if (spAC < 0.1f) {
                 this->unk_880 = 0.1f;
             }
         }
 
         if ((this->actor.bgCheckFlags & 0x200) && (D_80853608 < 0x3000)) {
-            CollisionPoly* wallPoly = this->actor.wallPoly; // sp+0x90
+             wallPoly = this->actor.wallPoly; // sp+0x90
 
             if (ABS(wallPoly->norm.y) < 600) {
-                f32 sp8C = wallPoly->norm.x * (1.0f / 32767.0f);
-                f32 sp88 = wallPoly->norm.y * (1.0f / 32767.0f);
-                f32 sp84 = wallPoly->norm.z * (1.0f / 32767.0f);
-                f32 temp2;
-                CollisionPoly* sp7C;
-                CollisionPoly* sp78;
-                u32 sp74;
-                Vec3f sp68;
-                f32 sp64;
-                f32 sp60;
-                s32 temp3;
+                sp8C = wallPoly->norm.x * (1.0f / 32767.0f);
+                sp88 = wallPoly->norm.y * (1.0f / 32767.0f);
+                sp84 = wallPoly->norm.z * (1.0f / 32767.0f);
 
                 this->wallDistance = Math3D_UDistPlaneToPos(sp8C, sp88, sp84, wallPoly->dist, &this->actor.posRot.pos);
 
-                temp2 = this->wallDistance + 10.0f;
-                sp68.x = this->actor.posRot.pos.x - (temp2 * sp8C);
-                sp68.z = this->actor.posRot.pos.z - (temp2 * sp84);
+                spB0 = this->wallDistance + 10.0f;
+                sp68.x = this->actor.posRot.pos.x - (spB0 * sp8C);
+                sp68.z = this->actor.posRot.pos.z - (spB0 * sp84);
                 sp68.y = this->actor.posRot.pos.y + this->ageProperties->unk_0C;
 
                 sp64 = func_8003C890(&globalCtx->colCtx, &sp7C, &sp68);
-                this->wallHeight = sp64 - this->actor.posRot.pos.y;
+                wallHeight = sp64 - this->actor.posRot.pos.y;
+                this->wallHeight = wallHeight;
 
                 if ((this->wallHeight < 18.0f) ||
                     func_8003D7A0(&globalCtx->colCtx, &sp60, &this->actor.posRot.pos,
@@ -9583,13 +9588,6 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         D_808535E4 = func_80041D4C(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
 
         if (!func_80847A78(this)) {
-            f32 sp58;
-            f32 sp54;
-            f32 sp50;
-            f32 sp4C;
-            s32 pad;
-            f32 sp44;
-
             if (this->actor.floorPolySource != 50) {
                 func_800434C8(&globalCtx->colCtx, this->actor.floorPolySource);
             }
@@ -9622,9 +9620,6 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         this->unk_A79 = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80847BA0.s")
-#endif
 
 void func_808486A8(GlobalContext* globalCtx, Player* this) {
     u8 sp27;
@@ -9864,9 +9859,8 @@ Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
 f32 D_80854820[] = { 2.0f, 4.0f, 7.0f };
 f32 D_8085482C[] = { 0.5f, 1.0f, 3.0f };
 
-#ifdef NON_MATCHING
-// stack alloc differences
-void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
+void Player_UpdateCommon(Player* this, GlobalContext* gc, Input* input) {
+    GlobalContext* globalCtx = gc;
     s32 pad;
 
     sControlInput = input;
@@ -9934,8 +9928,12 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_80847BA0(globalCtx, this);
     } else {
-        f32 temp_f0;
-        f32 phi_f12;
+        f32 sp74;
+        f32 sp70;
+        s16 sp6E;
+        s16 yawDiff;
+        s32 phi_v0;
+        u32 pad2;
 
         if (this->currentBoots != this->prevBoots) {
             if (this->currentBoots == PLAYER_BOOTS_IRON) {
@@ -9977,7 +9975,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         Math_ApproxUpdateScaledS(&this->unk_6C2, 0, 400);
         func_80032CB4(this->unk_3A8, 20, 80, 6);
 
-        this->actor.shape.unk_06 = this->unk_3A8[0] + ((globalCtx->gameplayFrames & 32) ? 0 : 3);
+        this->actor.shape.unk_06 = this->unk_3A8[0] + ((gc->gameplayFrames & 32) ? 0 : 3);
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             func_8085002C(this);
@@ -9990,10 +9988,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         if (!(this->skelAnime.flags & 0x80)) {
             if (((this->actor.bgCheckFlags & 1) && (D_808535E4 == 5) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->stateFlags1 & 0x28000000))) {
-                f32 sp70 = this->linearVelocity;
-                s16 sp6E = this->currentYaw;
-                s16 yawDiff = this->actor.posRot.rot.y - sp6E;
-                s32 pad;
+                sp70 = this->linearVelocity;
+                sp6E = this->currentYaw;
+                yawDiff = this->actor.posRot.rot.y - sp6E;
 
                 if ((ABS(yawDiff) > 0x6000) && (this->actor.speedXZ != 0.0f)) {
                     sp70 = 0.0f;
@@ -10005,7 +10002,6 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 }
 
                 if (this->linearVelocity != 0.0f) {
-                    s32 phi_v0;
 
                     phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speedXZ) * 100.0f);
                     phi_v0 = CLAMP(phi_v0, 0, 1350);
@@ -10036,16 +10032,16 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->unk_A7A = 0;
 
             if (!(this->stateFlags1 & 1) && (this->stateFlags1 & 0x800000)) {
-                EnHorse* rideActor = (EnHorse*)this->rideActor;
+                Actor* rideActor = this->rideActor;
                 CollisionPoly* sp5C;
                 s32 sp58;
                 Vec3f sp4C;
 
-                if (!(rideActor->actor.bgCheckFlags & 1)) {
+                if (!(rideActor->bgCheckFlags & 1)) {
                     func_808396F4(globalCtx, this, &D_80854814, &sp4C, &sp5C, &sp58);
                 } else {
-                    sp5C = rideActor->actor.floorPoly;
-                    sp58 = rideActor->actor.floorPolySource;
+                    sp5C = rideActor->floorPoly;
+                    sp58 = rideActor->floorPolySource;
                 }
 
                 if ((sp5C != NULL) && func_80839034(globalCtx, this, sp5C, sp58)) {
@@ -10109,8 +10105,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         if ((globalCtx->csCtx.state != 0) && (this->csMode != 6) && !(this->stateFlags1 & 0x800000) &&
             !(this->stateFlags2 & 0x80) && (this->actor.type == ACTORTYPE_PLAYER)) {
+            CsCmdActorAction *linkAction = globalCtx->csCtx.linkAction;
 
-            if ((globalCtx->csCtx.linkAction != NULL) && (D_808547C4[globalCtx->csCtx.linkAction->action] != 0)) {
+            if ((linkAction != NULL) && (D_808547C4[linkAction->action] != 0)) {
                 func_8002DF54(globalCtx, NULL, 6);
                 func_80832210(this);
             } else if ((this->csMode == 0) && !(this->stateFlags2 & 0x400) && (globalCtx->csCtx.state != 3)) {
@@ -10160,7 +10157,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         if (this->skelAnime.flags & 8) {
             SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime,
-                                         (this->skelAnime.flags & 4) ? 1.0f : this->ageProperties->unk_08);
+                    (this->skelAnime.flags & 4) ? 1.0f : this->ageProperties->unk_08);
         }
 
         func_808368EC(this, globalCtx);
@@ -10191,23 +10188,23 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         this->stateFlags2 &= ~0x800000;
         this->unk_6A4 = FLT_MAX;
 
-        temp_f0 = this->actor.posRot.pos.y - this->actor.pos4.y;
+        sp70 = this->actor.posRot.pos.y - this->actor.pos4.y;
 
         this->doorType = 0;
         this->unk_8A1 = 0;
         this->unk_684 = NULL;
 
-        phi_f12 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + temp_f0;
-        temp_f0 += this->bodyPartsPos[7].y + 10.0f;
+        sp74 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + sp70;
+        sp70 += this->bodyPartsPos[7].y + 10.0f;
 
-        this->cylinder.dim.height = temp_f0 - phi_f12;
+        this->cylinder.dim.height = sp70 - sp74;
 
         if (this->cylinder.dim.height < 0) {
-            phi_f12 = temp_f0;
+            sp74 = sp70;
             this->cylinder.dim.height = -this->cylinder.dim.height;
         }
 
-        this->cylinder.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
+        this->cylinder.dim.yShift = sp74 - this->actor.posRot.pos.y;
 
         if (this->stateFlags1 & 0x400000) {
             this->cylinder.dim.height = this->cylinder.dim.height * 0.8f;
@@ -10251,9 +10248,6 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     Collider_QuadSetAC(globalCtx, &this->shieldQuad.base);
     Collider_QuadSetAT(globalCtx, &this->shieldQuad.base);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_UpdateCommon.s")
-#endif
 
 Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
 
@@ -12588,51 +12582,44 @@ void func_8084FF7C(Player* this) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_8085002C(Player* this) {
-    s32 pad;
+    s16 v0 = D_80858AC8.unk_08, v1 = D_80858AC8.unk_06;
     s16 sp2A;
     s16 sp28;
     s16 sp26;
 
-    D_80858AC8.unk_06 -= D_80858AC8.unk_06 >> 3;
-    D_80858AC8.unk_08 -= D_80858AC8.unk_08 >> 3;
+    D_80858AC8.unk_06 -= v1 >> 3;
+    D_80858AC8.unk_08 -= v0 >> 3;
     D_80858AC8.unk_06 += -D_80858AC8.unk_00 >> 2;
     D_80858AC8.unk_08 += -D_80858AC8.unk_02 >> 2;
 
-    sp26 = this->actor.posRot.rot.y - this->actor.shape.rot.y;
+    sp26 = (this->actor.posRot.rot.y) - this->actor.shape.rot.y;
 
-    sp28 = this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
-    sp2A = this->actor.speedXZ * 100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f);
+    sp28 = (s32)(this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0XFFFF;
+    sp2A = (s32)(this->actor.speedXZ *  100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0XFFFF;
 
     D_80858AC8.unk_06 += sp28 >> 2;
     D_80858AC8.unk_08 += sp2A >> 2;
 
-    if (D_80858AC8.unk_06 > 6000) {
-        D_80858AC8.unk_06 = 6000;
-    } else if (D_80858AC8.unk_06 < -6000) {
-        D_80858AC8.unk_06 = -6000;
+    v1 = D_80858AC8.unk_06;
+    if (v1 > 6000) {
+        v1 = D_80858AC8.unk_06 = 6000;
+    } else if (v1 < -6000) {
+        v1 = D_80858AC8.unk_06 = -6000;
     }
 
-    if (D_80858AC8.unk_08 > 6000) {
-        D_80858AC8.unk_08 = 6000;
-    } else if (D_80858AC8.unk_08 < -6000) {
-        D_80858AC8.unk_08 = -6000;
+    v0 = D_80858AC8.unk_08;
+    if (v0 > 6000) {
+        v0 = D_80858AC8.unk_08 = 6000;
+    } else if (v0 < -6000) {
+        v0 = D_80858AC8.unk_08 = -6000;
     }
 
-    D_80858AC8.unk_00 += D_80858AC8.unk_06;
-    D_80858AC8.unk_02 += D_80858AC8.unk_08;
+    D_80858AC8.unk_00 += v1;
+    D_80858AC8.unk_02 += v0;
 
-    if (D_80858AC8.unk_00 < 0) {
-        D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
-    } else {
-        D_80858AC8.unk_04 = 0;
-    }
+    D_80858AC8.unk_04 = (D_80858AC8.unk_00 < 0) ? D_80858AC8.unk_00 >> 1 : 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8085002C.s")
-#endif
 
 s32 func_80850224(Player* this, GlobalContext* globalCtx) {
     if (func_8083C6B8(globalCtx, this) == 0) {
