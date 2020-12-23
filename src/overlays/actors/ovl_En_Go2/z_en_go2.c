@@ -1281,7 +1281,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ||
         (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+    } else if ((!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
         return true;
     } else {
         return false;
@@ -1347,7 +1347,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
             EnGo2_BiggoronWakingUp(this);
             break;
         case GORON_CITY_LINK:
-            if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (!(CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                 EnGo2_WakingUp(this);
                 break;
             }
@@ -1823,7 +1823,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
                       (height * 0.6f));
         }
     }
-    if ((EnGo2_IsCameraModified(this, globalCtx) == 0) && (EnGo2_IsWakingUp(this) == false)) {
+    if ((!EnGo2_IsCameraModified(this, globalCtx)) && (!EnGo2_IsWakingUp(this))) {
         EnGo2_RollingAnimation(this, globalCtx);
     }
 }
@@ -1863,8 +1863,8 @@ void EnGo2_SlowRolling(EnGo2* this, GlobalContext* globalCtx) {
     s32 orientation;
     s32 index;
 
-    if (EnGo2_IsRolling(this) == false) {
-        if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 1) == 1) {
+    if (!EnGo2_IsRolling(this)) {
+        if (EnGo2_IsRollingOnGround(this, 4, 8.0f, 1) == true) {
             if (EnGo2_IsGoronLinkReversing(this)) {
                 this->actionFunc = EnGo2_ReverseRolling;
                 return;

@@ -951,7 +951,7 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
         float1 = this->skelanime.animCurrentFrame;
         float1 += this->skelanime.animPlaybackSpeed;
 
-        if ((float1 >= 12.0f)) {
+        if (float1 >= 12.0f) {
             return;
         } else {
             this->skelanime.animCurrentFrame = 12.0f;
