@@ -570,7 +570,7 @@ u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         return CUR_UPG_VALUE(UPG_STRENGTH)
                    ? 0x302C
-                   : Flags_GetSwitch(globalCtx, 0x1B) == 0 ? 0x3017
+                   : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
                                                            : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
     }
 }
@@ -719,7 +719,7 @@ u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (func_80106BC8(globalCtx)) {
                 if (this->actor.textId == 0x3059) {
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->actionFunc = EnGo2_BiggoronEyedrops;
@@ -1005,21 +1005,22 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
 
     if (this->path == NULL) {
         return 0;
-    } else {
-        change = (u8)(this->path->count - 1);
-        if (this->reverse) {
-            this->waypoint--;
-            if (this->waypoint < 0) {
-                this->waypoint = change - 1;
-            }
-        } else {
-            this->waypoint++;
-            if (this->waypoint >= change) {
-                this->waypoint = 0;
-            }
+    } 
+
+    change = (u8)(this->path->count - 1);
+    if (this->reverse) {
+        this->waypoint--;
+        if (this->waypoint < 0) {
+            this->waypoint = change - 1;
         }
-        return 1;
+    } else {
+        this->waypoint++;
+        if (this->waypoint >= change) {
+            this->waypoint = 0;
+        }
     }
+    
+    return 1;
 }
 
 s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx) {
@@ -1029,7 +1030,7 @@ s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx) {
     waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 6, 4000, 1);
 
-    if (waypointDistSq > 0.0f && waypointDistSq < 900.0f) {
+    if (waypointDistSq > 0.0f && waypointDistSq < SQ(30.0f)) {
         return EnGo2_UpdateWaypoint(this, globalCtx);
     } else {
         return 0;
@@ -1271,7 +1272,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         if (EnGo2_IsWakingUp(this)) {
             Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
             func_8005AD1C(camera, 4);
-        } else if ((EnGo2_IsWakingUp(this) == false) && (camera->setting == CAM_SET_TEPPEN)) {
+        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_TEPPEN)) {
             Camera_ChangeSetting(camera, CAM_SET_DUNGEON1);
             func_8005ACFC(camera, 4);
         }
@@ -1508,53 +1509,52 @@ void EnGo2_StopRolling(EnGo2* this, GlobalContext* globalCtx) {
 s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) {
         return false;
+    } 
+
+    // shaking curled up
+    this->actor.posRot.pos.x += (globalCtx->state.frames & 1) ? 1.0f : -1.0f;
+    if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
+        return true;
     } else {
-        // shaking curled up
-        this->actor.posRot.pos.x += (globalCtx->state.frames & 1) ? 1.0f : -1.0f;
-        if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
+    
 }
 
 s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.unk_00 != 2) {
         return false;
-    } else {
-        func_80034EC0(&this->skelAnime, sAnimations, 3);
-        this->unk_194.unk_00 = 0;
-        this->isAwake = false;
-        this->unk_26E = 1;
-        this->actionFunc = EnGo2_GoronDmtBombFlowerAnimation;
-        return true;
-    }
+    } 
+
+    func_80034EC0(&this->skelAnime, sAnimations, 3);
+    this->unk_194.unk_00 = 0;
+    this->isAwake = false;
+    this->unk_26E = 1;
+    this->actionFunc = EnGo2_GoronDmtBombFlowerAnimation;
+    return true;
 }
 
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.unk_00 != 2)) {
         return false;
-    } else {
-        this->unk_194.unk_00 = 0;
-        EnGo2_RollingAnimation(this, globalCtx);
-        this->actionFunc = EnGo2_GoronRollingBigContinueRolling;
-        return true;
-    }
+    } 
+    this->unk_194.unk_00 = 0;
+    EnGo2_RollingAnimation(this, globalCtx);
+    this->actionFunc = EnGo2_GoronRollingBigContinueRolling;
+    return true;
 }
 
 s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.unk_00 == 0) {
         return false;
-    } else {
-        this->actionFunc = EnGo2_GoronFireGenericAction;
-        return true;
-    }
+    } 
+    this->actionFunc = EnGo2_GoronFireGenericAction;
+    return true;
 }
 
 s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_CITY_LINK || (this->waypoint >= this->unk_216) ||
-        EnGo2_IsWakingUp(this) == false) {
+        !EnGo2_IsWakingUp(this)) {
         return false;
     } else {
         return true;
@@ -1564,15 +1564,15 @@ s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
 s32 EnGo2_IsRolling(EnGo2* this) {
     if (this->unk_194.unk_00 == 0 || this->actor.speedXZ < 1.0f) {
         return false;
-    } else {
-        if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
-            if ((this->unk_590 >= 9) && (this->unk_59C == 0)) {
-                this->unk_590 = 8;
-            }
-            EnGo2_GetDustData(this, 0);
-        }
-        return true;
     }
+    if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
+        if ((this->unk_590 >= 9) && (this->unk_59C == 0)) {
+            this->unk_590 = 8;
+        }
+        EnGo2_GetDustData(this, 0);
+    }
+    return true;
+    
 }
 
 void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
@@ -1688,13 +1688,13 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case GORON_CITY_LOWEST_FLOOR:
         case GORON_CITY_STAIRWELL:
         case GORON_CITY_LOST_WOODS:
-            if ((CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0) && LINK_IS_ADULT) {
+            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             }
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_MARKET_BAZAAR:
-            if ((LINK_IS_ADULT) || (CHECK_QUEST_ITEM(QUEST_GORON_RUBY) == 0)) {
+            if ((LINK_IS_ADULT) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 Actor_Kill(&this->actor);
             }
             EnGo2_GetItemAnimation(this, globalCtx);
@@ -1703,7 +1703,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             if ((gSaveContext.infTable[16] & 0x200)) {
                 Path_CopyLastPoint(this->path, &this->actor.posRot.pos);
                 this->actor.initPosRot.pos = this->actor.posRot.pos;
-                if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) == 0 && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
                     EnGo2_GetItemAnimation(this, globalCtx);
                 } else {
                     this->actionFunc = EnGo2_CurledUp;
@@ -1800,7 +1800,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
         EnGo2_GoronLinkAnimation(this, globalCtx);
         EnGo2_SelectGoronWakingUp(this);
 
-        if ((EnGo2_IsGoronRollingBig(this, globalCtx) == false) && (EnGo2_IsGoronFireGeneric(this) == false)) {
+        if (!EnGo2_IsGoronRollingBig(this, globalCtx) && !EnGo2_IsGoronFireGeneric(this)) {
             if (EnGo2_IsGoronDmtBombFlower(this)) {
                 return;
             }
@@ -1907,7 +1907,7 @@ void EnGo2_GroundRolling(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_ReverseRolling(EnGo2* this, GlobalContext* globalCtx) {
-    if (EnGo2_IsRolling(this) == false) {
+    if (!EnGo2_IsRolling(this)) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0f, 0.6f, 0.8f);
         if (this->actor.speedXZ >= 1.0f) {
             EnGo2_GetDustData(this, 3);

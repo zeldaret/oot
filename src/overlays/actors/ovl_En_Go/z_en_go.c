@@ -392,7 +392,7 @@ s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
         // GORON1_FIRE_GENERIC
-    } else if (globalCtx->sceneNum == SCENE_HIDAN && Flags_GetSwitch(globalCtx, (this->actor.params) >> 8) == 0 &&
+    } else if (globalCtx->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(globalCtx, (this->actor.params) >> 8) &&
                LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x10) {
         return true;
         // GORON1_CITY_LINK
@@ -596,7 +596,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unk_arg1, f32 unk_arg2) {
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return false;
-    } else if (this->unk_1E0.unk_00) {
+    } else if (this->unk_1E0.unk_00 != 0) {
         return true;
     } else if (DECR(this->unk_21C)) {
         if ((this->unk_21C & 1)) {
@@ -678,7 +678,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
     s32 pad;
-    Vec3f D_80A41BD_80A41B9C9C = { 0.0f, 0.0f, 0.0f }; // unused
+    Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
@@ -687,7 +687,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
-    if (EnGo_IsActorSpawned(this, globalCtx) == 0) {
+    if (!EnGo_IsActorSpawned(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -858,7 +858,7 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         EnGo_SetupAction(this, &func_80A405CC);
-    } else if (EnGo_IsCameraModified(this, globalCtx) == 0) {
+    } else if (!EnGo_IsCameraModified(this, globalCtx)) {
         EnGo_SwapInitialFrameAnimFrameCount(this);
         this->skelanime.animPlaybackSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A40494);
@@ -931,7 +931,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
     } else {
-        if ((DECR(this->unk_212) == 0) && (EnGo_IsCameraModified(this, globalCtx) == 0)) {
+        if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_SwapInitialFrameAnimFrameCount(this);
             this->skelanime.animPlaybackSpeed = -0.1f;
             this->skelanime.animPlaybackSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
