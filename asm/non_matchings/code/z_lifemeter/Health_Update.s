@@ -3,7 +3,7 @@ glabel D_8013C888
     .float 0.1
 
 .text
-glabel Health_UpdateData
+glabel Health_Update
 /* AEFBD8 80078A38 3C0E0001 */  lui   $t6, 1
 /* AEFBDC 80078A3C 01C47021 */  addu  $t6, $t6, $a0
 /* AEFBE0 80078A40 85CE06EE */  lh    $t6, 0x6ee($t6)
