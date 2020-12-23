@@ -199,8 +199,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 6:
-            if (globalCtx->envCtx.unk_A0 < 0x3200) {
-                globalCtx->envCtx.unk_A0 += 0x23;
+            if (globalCtx->envCtx.adjFogFar < 12800) {
+                globalCtx->envCtx.adjFogFar += 35;
             }
             break;
         case 7:
@@ -329,16 +329,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
-                    globalCtx->envCtx.unk_8C[0][0] += 2;
-                    globalCtx->envCtx.unk_8C[1][1] -= 3;
-                    globalCtx->envCtx.unk_8C[1][2] -= 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] < 40) {
+                    globalCtx->envCtx.adjAmbientColor[0] += 2;
+                    globalCtx->envCtx.adjLight1Color[1] -= 3;
+                    globalCtx->envCtx.adjLight1Color[2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
-                    globalCtx->envCtx.unk_8C[0][0] -= 2;
-                    globalCtx->envCtx.unk_8C[1][1] += 3;
-                    globalCtx->envCtx.unk_8C[1][2] += 3;
+                if (globalCtx->envCtx.adjAmbientColor[0] > 2) {
+                    globalCtx->envCtx.adjAmbientColor[0] -= 2;
+                    globalCtx->envCtx.adjLight1Color[1] += 3;
+                    globalCtx->envCtx.adjLight1Color[2] += 3;
                 }
             }
             break;

@@ -47,14 +47,22 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
-    /* 0x03 */ u8 upperLightColor[3];
-    /* 0x06 */ u8 upperLightDir[3];
-    /* 0x09 */ u8 lowerLightColor[3];
-    /* 0x0C */ u8 lowerLightDir[3];
+    /* 0x03 */ u8 light1Dir[3];
+    /* 0x06 */ u8 light1Color[3];
+    /* 0x09 */ u8 light2Dir[3];
+    /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ s16 fogNear; // apparently has another value masked in it?
+    /* 0x12 */ s16 fogNear;
     /* 0x14 */ s16 fogFar;
-} EnvLighting;
+} EnvLightSettings;
+
+typedef struct {
+    /* 0x00 */ s16 ambientColor[3];
+    /* 0x06 */ s16 light1Color[3];
+    /* 0x0C */ s16 fogColor[3];
+    /* 0x12 */ s16 fogNear;
+    /* 0x14 */ s16 fogFar;
+} EnvLightAdjustments;
 
 // 1.0: 801D8EC4
 // dbg: 80222A44
@@ -81,8 +89,8 @@ typedef struct {
     /* 0x22 */ u16 unk_22;
     /* 0x24 */ u16 unk_24;
     /* 0x26 */ char unk_26[0x02];
-    /* 0x28 */ LightInfo unk_28;
-    /* 0x36 */ LightInfo unk_36;
+    /* 0x28 */ LightInfo dirLight1; // used for sun light when outdoors
+    /* 0x36 */ LightInfo dirLight2; // used for moon light when outdoors
     /* 0x44 */ s8 skyboxDmaState;
     /* 0x45 */ char unk_45[0x3];
     /* 0x48 */ DmaRequest dmaRequest;
@@ -90,15 +98,17 @@ typedef struct {
     /* 0x80 */ OSMesg loadMsg;
     /* 0x84 */ f32 unk_84;
     /* 0x88 */ f32 unk_88;
-    /* 0x8C */ s16 unk_8C[3][3];
-    /* 0x9E */ s16 unk_9E;
-    /* 0xA0 */ s16 unk_A0;
-    /* 0xA2 */ char unk_A2[0x06];
+    /* 0x8C */ s16 adjAmbientColor[3];
+    /* 0x92 */ s16 adjLight1Color[3];
+    /* 0x98 */ s16 adjFogColor[3];
+    /* 0x9E */ s16 adjFogNear;
+    /* 0xA0 */ s16 adjFogFar;
+    /* 0xA2 */ u8 unk_A2[0x06];
     /* 0xA8 */ Vec3s windDirection;
     /* 0xB0 */ f32 windSpeed;
     /* 0xB4 */ u8 nbLightSettings;
-    /* 0xB8 */ EnvLighting* lightSettingsList;
-    /* 0xBC */ u8 unk_BC;
+    /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
+    /* 0xBC */ u8 blendIndoorLights; // when set, blend between indoor light settings when changing them
     /* 0xBD */ u8 unk_BD;
     /* 0xBE */ u8 unk_BE;
     /* 0xBF */ u8 unk_BF;
@@ -106,7 +116,7 @@ typedef struct {
     // /* 0xC9 */ u8 unk_C9[3][3];
     // /* 0xD2 */ s16 unk_D2;
     // /* 0xD4 */ s16 unk_D4;
-    /* 0xC0 */ EnvLighting lightPallete;
+    /* 0xC0 */ EnvLightSettings lightSettings;
     /* 0xD6 */ u16 unk_D6;
     /* 0xD8 */ f32 unk_D8;
     /* 0xDC */ u8 unk_DC;

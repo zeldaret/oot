@@ -1331,9 +1331,9 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Gfx* displayListHead;
     Gfx* displayList;
 
-    lightDir.x = globalCtx->envCtx.unk_28.params.dir.x;
-    lightDir.y = globalCtx->envCtx.unk_28.params.dir.y;
-    lightDir.z = globalCtx->envCtx.unk_28.params.dir.z;
+    lightDir.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    lightDir.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    lightDir.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     if (HREG(80) == 6) {
         osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", globalCtx->view.eye.x,
@@ -1362,9 +1362,9 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Gfx* displayListHead;
     Gfx* displayList;
 
-    lightDir.x = globalCtx->envCtx.unk_28.params.dir.x;
-    lightDir.y = globalCtx->envCtx.unk_28.params.dir.y;
-    lightDir.z = globalCtx->envCtx.unk_28.params.dir.z;
+    lightDir.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    lightDir.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    lightDir.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     hilite = func_8002EB44(&actor->posRot.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
@@ -3567,9 +3567,9 @@ void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
     Vec3f lightDir;
 
-    lightDir.x = globalCtx->envCtx.unk_28.params.dir.x;
-    lightDir.y = globalCtx->envCtx.unk_28.params.dir.y;
-    lightDir.z = globalCtx->envCtx.unk_28.params.dir.z;
+    lightDir.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    lightDir.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    lightDir.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     return func_8002EABC(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
@@ -3577,9 +3577,9 @@ Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     Vec3f lightDir;
 
-    lightDir.x = globalCtx->envCtx.unk_28.params.dir.x;
-    lightDir.y = globalCtx->envCtx.unk_28.params.dir.y;
-    lightDir.z = globalCtx->envCtx.unk_28.params.dir.z;
+    lightDir.x = globalCtx->envCtx.dirLight1.params.dir.x;
+    lightDir.y = globalCtx->envCtx.dirLight1.params.dir.y;
+    lightDir.z = globalCtx->envCtx.dirLight1.params.dir.z;
 
     return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }

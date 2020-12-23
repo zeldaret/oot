@@ -275,11 +275,11 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     globalCtx->state.gfxCtx->callback = Kankyo_GraphCallback;
     globalCtx->state.gfxCtx->callbackParam = globalCtx;
 
-    Lights_DirectionalSetInfo(&envCtx->unk_28, 80, 80, 80, 80, 80, 80);
-    LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &envCtx->unk_28);
+    Lights_DirectionalSetInfo(&envCtx->dirLight1, 80, 80, 80, 80, 80, 80);
+    LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &envCtx->dirLight1);
 
-    Lights_DirectionalSetInfo(&envCtx->unk_36, 80, 80, 80, 80, 80, 80);
-    LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &envCtx->unk_36);
+    Lights_DirectionalSetInfo(&envCtx->dirLight2, 80, 80, 80, 80, 80, 80);
+    LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &envCtx->dirLight2);
 
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
@@ -319,11 +319,11 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     gLightningStrike.flashGreen = 0;
     gLightningStrike.flashBlue = 0;
     sLightningFlashAlpha = 0;
-    ((void)0, gSaveContext.unk_1410 = 0);
+    gSaveContext.unk_1410 = 0;
 
-    envCtx->unk_8C[0][0] = envCtx->unk_8C[0][1] = envCtx->unk_8C[0][2] = envCtx->unk_8C[1][0] = envCtx->unk_8C[1][1] =
-        envCtx->unk_8C[1][2] = envCtx->unk_8C[2][0] = envCtx->unk_8C[2][1] = envCtx->unk_8C[2][2] = envCtx->unk_9E =
-            envCtx->unk_A0 = 0;
+    envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
+        envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
+            envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
 
     envCtx->sunPos.x = -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
     envCtx->sunPos.y = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
@@ -333,12 +333,12 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->windDirection.y = 80;
     envCtx->windDirection.z = 80;
 
-    envCtx->unk_BC = 0;
+    envCtx->blendIndoorLights = false;
     envCtx->unk_BF = 0xFF;
     envCtx->unk_D6 = 0xFFFF;
     envCtx->timeIncrement = 0;
-    REG(15) = gTimeIncrement = 0;
-    REG(9) = 1;
+    R_ENV_TIME_INCREMENT = gTimeIncrement = 0;
+    R_ENV_DISABLE_DBG = true;
 
     if (CREG(3) != 0) {
         gSaveContext.chamberCutsceneNum = CREG(3) - 1;
@@ -402,14 +402,14 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 
     D_8011FB38 = 0;
     D_8011FB34 = 0;
-    gSkyboxBlendingEnabled = 0;
+    gSkyboxBlendingEnabled = false;
     gSaveContext.unk_13C3 = 0;
-    cREG(3) = 80;
-    cREG(4) = 80;
-    cREG(5) = 80;
-    cREG(6) = -80;
-    cREG(7) = -80;
-    cREG(8) = -80;
+    R_ENV_LIGHT1_DIR(0) = 80;
+    R_ENV_LIGHT1_DIR(1) = 80;
+    R_ENV_LIGHT1_DIR(2) = 80;
+    R_ENV_LIGHT2_DIR(0) = -80;
+    R_ENV_LIGHT2_DIR(1) = -80;
+    R_ENV_LIGHT2_DIR(2) = -80;
     cREG(9) = 10;
     cREG(10) = 0;
     cREG(11) = 0;
@@ -431,7 +431,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !globalCtx->envCtx.sunMoonDisabled) {
         globalCtx->envCtx.sunMoonDisabled = true;
-        // Sun setting except field resident! So forced release!
+        // Sun setting other than field keep! So forced release!
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
@@ -716,12 +716,13 @@ void func_80070600(GlobalContext* globalCtx, s32 arg1) {
     }
     if (!globalCtx->envCtx.indoors) {
         D_8011FB34 = globalCtx->envCtx.unk_20;
+
         if (globalCtx->envCtx.unk_1F != arg1) {
             globalCtx->envCtx.unk_1F = arg1;
             globalCtx->envCtx.unk_20 = arg1;
         }
     } else {
-        globalCtx->envCtx.unk_BC = 0;
+        globalCtx->envCtx.blendIndoorLights = false;
         globalCtx->envCtx.unk_BF = arg1;
     }
 }
@@ -732,9 +733,9 @@ void func_800706A0(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
         globalCtx->envCtx.unk_20 = D_8011FB34;
     } else {
-        globalCtx->envCtx.unk_BC = 0;
-        globalCtx->envCtx.unk_BF = -1;
-        globalCtx->envCtx.unk_D8 = 1;
+        globalCtx->envCtx.blendIndoorLights = false;
+        globalCtx->envCtx.unk_BF = 0xFF;
+        globalCtx->envCtx.unk_D8 = 1.0f;
     }
 }
 
@@ -800,14 +801,19 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 
 #define CUR_LIGHT_PAL globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_04]
 #define NEXT_LIGHT_PAL globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_05]
+#define LIGHT_SETTINGS(i) globalCtx->envCtx.lightSettingsList[i]
 
 void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
     s32 i;
     s32 j;
-
     f32 sp8C;
-    f32 sp88;
+    f32 sp88 = 0.0f;
+    EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList; // 7C
+    u8 temp1;                                                                  // sp50?
+    u8 temp2;                                                                  // sp51?
+    s16 adjustment;
+
     void* sp7C;
     Gfx* sp74;
     Gfx* sp70;
@@ -921,7 +927,6 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     void* temp_a2_6;
     void* temp_t2;
     void* temp_t2_2;
-    void* temp_t2_3;
     void* temp_v0_15;
     void* temp_v0_18;
     void* temp_v0_22;
@@ -966,9 +971,6 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     f32 phi_f12;
     f32 phi_f18_4;
 
-    temp_v0 = gSaveContext.gameMode;
-    sp40 = globalCtx + 0x10000;
-
     if (gSaveContext.gameMode != 0 && gSaveContext.gameMode != 3) {
         func_800AA16C(globalCtx);
     }
@@ -981,13 +983,11 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                 globalCtx->skyboxCtx.rot.y -= 0.005f;
             }
         }
-        // real?
-        sp7C = globalCtx->envCtx.lightSettingsList;
-        sp88 = 0.0f;
 
         func_800766C4(globalCtx); // increments or decrements unk_EE[1] depending on some condition
         func_80075B44(globalCtx); // updates bgm/sfx and other things as the day progresses
 
+        // 0 trick or temp?
         if (gSaveContext.nextDayTime >= 0xFF00 && gSaveContext.nextDayTime != 0xFFFF) {
             gSaveContext.nextDayTime -= 16;
             osSyncPrintf("\nnext_zelda_time=[%x]", gSaveContext.nextDayTime);
@@ -1000,9 +1000,11 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             }
         }
 
-        if ((pauseCtx->state == 0) && (gameOverCtx->state == 0) && (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) &&
-            (gSaveContext.nextDayTime == 3) && (envCtx->unk_1A == 0) && !func_800C0D28(globalCtx) &&
+        if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE) &&
+            (msgCtx->unk_E300 != 0 || msgCtx->msgMode != 0) && (gSaveContext.nextDayTime == 3) &&
+            (envCtx->unk_1A == 0) && !func_800C0D28(globalCtx) &&
             (globalCtx->transitionMode == 0 || gSaveContext.gameMode != 0)) {
+
             if (!gSaveContext.nightFlag || gTimeIncrement >= 400) {
                 gSaveContext.dayTime += gTimeIncrement;
             } else {
@@ -1010,9 +1012,9 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             }
         }
 
-        if (((gSaveContext.sceneSetupIndex < 5 && gTimeIncrement == 0) ||
-             gSaveContext.dayTime <= ((void)0, gSaveContext.skyboxTime)) &&
-            gSaveContext.dayTime > 0xAAA && gTimeIncrement < 0) {
+        if ((((gSaveContext.sceneSetupIndex < 5) && (gTimeIncrement == 0)) ||
+             (gSaveContext.dayTime <= ((void)0, gSaveContext.skyboxTime))) &&
+            (gSaveContext.dayTime > 0xAAA) && (gTimeIncrement < 0)) {
             gSaveContext.skyboxTime = gSaveContext.dayTime;
         }
 
@@ -1046,235 +1048,213 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
             envCtx->unk_D8 = 0.0f;
         }
 
-        // left off here
         if (envCtx->unk_BF != 0xFE) {
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
                 for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
                     if ((gSaveContext.skyboxTime >= D_8011FB48[envCtx->unk_1F][i].startTime) &&
                         ((gSaveContext.skyboxTime < D_8011FB48[envCtx->unk_1F][i].endTime) ||
                          D_8011FB48[envCtx->unk_1F][i].endTime == 0xFFFF)) {
-                        sp34 = temp_lo;
-                        sp7C = globalCtx->envCtx.lightSettingsList;
-                        sp88 = 0.0f;
 
-                        temp_f0 = Kankyo_InvLerp(D_8011FB48[envCtx->unk_1F][i].endTime,
-                                                 D_8011FB48[envCtx->unk_1F][i].startTime, gSaveContext.skyboxTime);
+                        sp8C = Kankyo_InvLerp(D_8011FB48[envCtx->unk_1F][i].endTime,
+                                              D_8011FB48[envCtx->unk_1F][i].startTime, gSaveContext.skyboxTime);
+
                         D_8011FDCC = D_8011FB48[envCtx->unk_1F][i].unk_04 & 3;
-
                         D_8011FDD0 = D_8011FB48[envCtx->unk_1F][i].unk_05 & 3;
-                        D_8011FDD4 = temp_f0;
-                        phi_f14 = 0.0f;
+                        D_8011FDD4 = sp8C;
 
                         if (envCtx->unk_21 != 0) {
                             if (DECR(envCtx->unk_22) <= 0) {
-                                phi_f14 = (envCtx->unk_24 - envCtx->unk_22) / envCtx->unk_24;
+                                sp88 = (envCtx->unk_24 - envCtx->unk_22) / envCtx->unk_24;
                                 envCtx->unk_21 = 0;
                                 envCtx->unk_1F = envCtx->unk_20;
                             }
                         }
-                        for (j = 0; j < ARRAY_COUNT(envCtx->lightPallete.ambientColor); j++) {
+
+                        for (j = 0; j < ARRAY_COUNT(envCtx->lightSettings.ambientColor); j++) {
                             f32 curAmbient;
                             f32 nextAmbient;
-                            curAmbient = globalCtx->envCtx.lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_04]
-                                             .ambientColor[j];
 
-                            envCtx->lightPallete.ambientColor[j] = temp_t9_3 + ((temp_t6_2 - temp_t9_3) * phi_f14);
+                            curAmbient = lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_04].ambientColor[j];
+                            // curAmbient u8 for subtraction but float for add?
+                            temp1 =
+                                curAmbient + ((lightSettingsList[D_8011FB48[envCtx->unk_1F][i].unk_05].ambientColor[j] -
+                                               curAmbient) *
+                                              sp8C);
+
+                            nextAmbient = lightSettingsList[D_8011FB48[envCtx->unk_20][i].unk_04].ambientColor[j];
+                            // nextAmbient u8 for subtraction but float for add?
+                            temp2 = nextAmbient +
+                                    ((lightSettingsList[D_8011FB48[envCtx->unk_20][i].unk_05].ambientColor[j] -
+                                      nextAmbient) *
+                                     sp8C);
+
+                            envCtx->lightSettings.ambientColor[j] = temp1 + ((temp2 - temp1) * sp88);
                         }
-                        phi_v0_2 = 0;
-                    loop_63:
-                        temp_t2_3 = globalCtx->envCtx.lightSettingsList;
-                        temp_v1_5 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_a1_2 = *(temp_t2_3 + (temp_v1_5->unk4 * 0x16) + phi_v0_2);
-                        temp_f10 = temp_a1_2;
-                        phi_f10 = temp_f10;
-                        if (temp_a1_2 < 0) {
-                            phi_f10 = temp_f10 + 4294967296.0f;
+
+                        // sun
+                        envCtx->lightSettings.light1Dir[0] = -(Math_Sins(gSaveContext.dayTime - 0x8000) * 120.0f);
+                        envCtx->lightSettings.light1Dir[1] = Math_Coss(gSaveContext.dayTime - 0x8000) * 120.0f;
+                        envCtx->lightSettings.light1Dir[2] = -(Math_Coss(gSaveContext.dayTime - 0x8000) * 20.0f);
+
+                        // moon
+                        envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
+                        envCtx->lightSettings.light2Dir[1] = -envCtx->lightSettings.light1Dir[1];
+                        envCtx->lightSettings.light2Dir[2] = -envCtx->lightSettings.light1Dir[2];
+
+                        for (j = 0; j < 3; j++) {
+                            // start copy to light1Color
+                            temp_a3_2 = &envCtx->unk_00[phi_v0_3];
+                            temp_v1_6 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                            temp_a1_3 = (lightSettingsList + (temp_v1_6->unk4 * 0x16) + phi_v0_3)->unk6;
+                            temp_f18_3 = temp_a1_3;
+                            phi_f18_2 = temp_f18_3;
+                            if (temp_a1_3 < 0) {
+                                phi_f18_2 = temp_f18_3 + 4294967296.0f;
+                            }
+                            temp_t8_2 =
+                                phi_f18_2 +
+                                (((lightSettingsList + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) * sp8C);
+                            sp50 = temp_t8_2;
+                            temp_a0_4 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                            temp_a2_3 = (lightSettingsList + (temp_a0_4->unk4 * 0x16) + phi_v0_3)->unk6;
+                            temp_f8_2 = temp_a2_3;
+                            phi_f8 = temp_f8_2;
+                            if (temp_a2_3 < 0) {
+                                phi_f8 = temp_f8_2 + 4294967296.0f;
+                            }
+                            temp_t9_4 =
+                                phi_f8 +
+                                (((lightSettingsList + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) * sp8C);
+                            sp51 = temp_t9_4;
+                            temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) * sp88);
+
+                            // start copy to light2Color
+                            temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                            temp_a1_4 = (lightSettingsList + (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC;
+                            temp_f4 = temp_a1_4;
+                            phi_f4 = temp_f4;
+                            if (temp_a1_4 < 0) {
+                                phi_f4 = temp_f4 + 4294967296.0f;
+                            }
+                            temp_t8_3 =
+                                phi_f4 +
+                                (((lightSettingsList + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) * sp8C);
+                            sp50 = temp_t8_3;
+                            temp_a0_5 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                            temp_a2_4 = (lightSettingsList + (temp_a0_5->unk4 * 0x16) + phi_v0_3)->unkC;
+                            temp_f10_2 = temp_a2_4;
+                            phi_f10_2 = temp_f10_2;
+                            if (temp_a2_4 < 0) {
+                                phi_f10_2 = temp_f10_2 + 4294967296.0f;
+                            }
+                            temp_v0_10 = (phi_v0_3 + 1) & 0xFFFF;
+                            temp_t9_5 =
+                                phi_f10_2 +
+                                (((lightSettingsList + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) * sp8C);
+                            sp51 = temp_t9_5;
+                            temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) * sp88);
+                            phi_v0_3 = temp_v0_10;
                         }
-                        temp_t9_3 =
-                            phi_f10 + ((*(temp_t2_3 + (temp_v1_5->unk5 * 0x16) + phi_v0_2) - temp_a1_2) * temp_f0);
-                        sp50 = temp_t9_3;
-                        temp_a0_3 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a2_2 = *(temp_t2_3 + (temp_a0_3->unk4 * 0x16) + phi_v0_2);
-                        temp_f18_2 = temp_a2_2;
-                        phi_f18 = temp_f18_2;
-                        if (temp_a2_2 < 0) {
-                            phi_f18 = temp_f18_2 + 4294967296.0f;
+
+                        // fogColor
+                        for (j = 0; j < 3; j++) {
+                            temp_v1_8 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
+                            temp_a1_5 = (lightSettingsList + (temp_v1_8->unk4 * 0x16) + phi_v0_4)->unkF;
+                            temp_f18_4 = temp_a1_5;
+                            phi_f18_3 = temp_f18_4;
+                            if (temp_a1_5 < 0) {
+                                phi_f18_3 = temp_f18_4 + 4294967296.0f;
+                            }
+                            temp_t8_4 =
+                                phi_f18_3 +
+                                (((lightSettingsList + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) * sp8C);
+                            sp50 = temp_t8_4;
+                            temp_a0_6 = &D_8011FB48[envCtx->unk_20] + temp_lo;
+                            temp_a2_5 = (lightSettingsList + (temp_a0_6->unk4 * 0x16) + phi_v0_4)->unkF;
+                            temp_f8_3 = temp_a2_5;
+                            phi_f8_2 = temp_f8_3;
+                            if (temp_a2_5 < 0) {
+                                phi_f8_2 = temp_f8_3 + 4294967296.0f;
+                            }
+                            temp_t9_6 =
+                                phi_f8_2 +
+                                (((lightSettingsList + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) * sp8C);
+                            sp51 = temp_t9_6;
+                            temp_v0_11 = (phi_v0_4 + 1) & 0xFFFF;
+                            (&envCtx->unk_00[phi_v0_4])[0xCF] =
+                                (temp_t8_4 & 0xFF) + (((temp_t9_6 & 0xFF) - (temp_t8_4 & 0xFF)) * sp88);
+                            phi_v0_4 = temp_v0_11;
                         }
-                        temp_t6_2 =
-                            phi_f18 + ((*(temp_t2_3 + (temp_a0_3->unk5 * 0x16) + phi_v0_2) - temp_a2_2) * temp_f0);
-                        sp51 = temp_t6_2;
-                        temp_v0_9 = (phi_v0_2 + 1) & 0xFFFF;
-                        (&envCtx->unk_00[phi_v0_2])[0xC0] =
-                            (temp_t9_3 & 0xFF) + (((temp_t6_2 & 0xFF) - (temp_t9_3 & 0xFF)) * phi_f14);
-                        phi_v0_2 = temp_v0_9;
-                        if (temp_v0_9 < 3) {
-                            goto loop_63;
-                        }
-                        sp34 = temp_lo;
-                        sp7C = temp_t2_3;
-                        sp8C = temp_f0;
-                        sp88 = phi_f14;
-                        envCtx->unkC3 = -(Math_Sins(gSaveContext.dayTime - 0x8000) * 120.0f);
-                        envCtx->unkC4 = Math_Coss(gSaveContext.dayTime - 0x8000) * 120.0f;
-                        envCtx->unkC5 = -(Math_Coss(gSaveContext.dayTime - 0x8000) * 20.0f);
-                        temp_f14_4 = phi_f14;
-                        envCtx->unk_C9 = -envCtx->unkC3;
-                        envCtx->unkCA = -envCtx->unkC4;
-                        envCtx->unkCB = -envCtx->unkC5;
-                        phi_v0_3 = 0;
-                    loop_69:
-                        temp_a3_2 = &envCtx->unk_00[phi_v0_3];
-                        temp_v1_6 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_a1_3 = (temp_t2_3 + (temp_v1_6->unk4 * 0x16) + phi_v0_3)->unk6;
-                        temp_f18_3 = temp_a1_3;
-                        phi_f18_2 = temp_f18_3;
-                        if (temp_a1_3 < 0) {
-                            phi_f18_2 = temp_f18_3 + 4294967296.0f;
-                        }
-                        temp_t8_2 = phi_f18_2 +
-                                    (((temp_t2_3 + (temp_v1_6->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a1_3) * temp_f0);
-                        sp50 = temp_t8_2;
-                        temp_a0_4 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a2_3 = (temp_t2_3 + (temp_a0_4->unk4 * 0x16) + phi_v0_3)->unk6;
-                        temp_f8_2 = temp_a2_3;
-                        phi_f8 = temp_f8_2;
-                        if (temp_a2_3 < 0) {
-                            phi_f8 = temp_f8_2 + 4294967296.0f;
-                        }
-                        temp_t9_4 =
-                            phi_f8 + (((temp_t2_3 + (temp_a0_4->unk5 * 0x16) + phi_v0_3)->unk6 - temp_a2_3) * temp_f0);
-                        sp51 = temp_t9_4;
-                        temp_a3_2[0xC6] = (temp_t8_2 & 0xFF) + (((temp_t9_4 & 0xFF) - (temp_t8_2 & 0xFF)) * temp_f14_4);
-                        temp_v1_7 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_a1_4 = (temp_t2_3 + (temp_v1_7->unk4 * 0x16) + phi_v0_3)->unkC;
-                        temp_f4 = temp_a1_4;
-                        phi_f4 = temp_f4;
-                        if (temp_a1_4 < 0) {
-                            phi_f4 = temp_f4 + 4294967296.0f;
-                        }
-                        temp_t8_3 =
-                            phi_f4 + (((temp_t2_3 + (temp_v1_7->unk5 * 0x16) + phi_v0_3)->unkC - temp_a1_4) * temp_f0);
-                        sp50 = temp_t8_3;
-                        temp_a0_5 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a2_4 = (temp_t2_3 + (temp_a0_5->unk4 * 0x16) + phi_v0_3)->unkC;
-                        temp_f10_2 = temp_a2_4;
-                        phi_f10_2 = temp_f10_2;
-                        if (temp_a2_4 < 0) {
-                            phi_f10_2 = temp_f10_2 + 4294967296.0f;
-                        }
-                        temp_v0_10 = (phi_v0_3 + 1) & 0xFFFF;
-                        temp_t9_5 = phi_f10_2 +
-                                    (((temp_t2_3 + (temp_a0_5->unk5 * 0x16) + phi_v0_3)->unkC - temp_a2_4) * temp_f0);
-                        sp51 = temp_t9_5;
-                        temp_a3_2[0xCC] = (temp_t8_3 & 0xFF) + (((temp_t9_5 & 0xFF) - (temp_t8_3 & 0xFF)) * temp_f14_4);
-                        phi_v0_3 = temp_v0_10;
-                        if (temp_v0_10 < 3) {
-                            goto loop_69;
-                        }
-                        phi_v0_4 = 0;
-                    loop_79:
-                        temp_v1_8 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_a1_5 = (temp_t2_3 + (temp_v1_8->unk4 * 0x16) + phi_v0_4)->unkF;
-                        temp_f18_4 = temp_a1_5;
-                        phi_f18_3 = temp_f18_4;
-                        if (temp_a1_5 < 0) {
-                            phi_f18_3 = temp_f18_4 + 4294967296.0f;
-                        }
-                        temp_t8_4 = phi_f18_3 +
-                                    (((temp_t2_3 + (temp_v1_8->unk5 * 0x16) + phi_v0_4)->unkF - temp_a1_5) * temp_f0);
-                        sp50 = temp_t8_4;
-                        temp_a0_6 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a2_5 = (temp_t2_3 + (temp_a0_6->unk4 * 0x16) + phi_v0_4)->unkF;
-                        temp_f8_3 = temp_a2_5;
-                        phi_f8_2 = temp_f8_3;
-                        if (temp_a2_5 < 0) {
-                            phi_f8_2 = temp_f8_3 + 4294967296.0f;
-                        }
-                        temp_t9_6 = phi_f8_2 +
-                                    (((temp_t2_3 + (temp_a0_6->unk5 * 0x16) + phi_v0_4)->unkF - temp_a2_5) * temp_f0);
-                        sp51 = temp_t9_6;
-                        temp_v0_11 = (phi_v0_4 + 1) & 0xFFFF;
-                        (&envCtx->unk_00[phi_v0_4])[0xCF] =
-                            (temp_t8_4 & 0xFF) + (((temp_t9_6 & 0xFF) - (temp_t8_4 & 0xFF)) * temp_f14_4);
-                        phi_v0_4 = temp_v0_11;
-                        if (temp_v0_11 < 3) {
-                            goto loop_79;
-                        }
+
                         temp_v1_9 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_v0_12 = (temp_t2_3 + (temp_v1_9->unk4 * 0x16))->unk12 & 0x3FF;
+                        temp_v0_12 = (lightSettingsList + (temp_v1_9->unk4 * 0x16))->unk12 & 0x3FF;
                         sp4C = temp_v0_12 +
-                               ((((temp_t2_3 + (temp_v1_9->unk5 * 0x16))->unk12 & 0x3FF) - temp_v0_12) * temp_f0);
+                               ((((lightSettingsList + (temp_v1_9->unk5 * 0x16))->unk12 & 0x3FF) - temp_v0_12) * sp8C);
                         temp_a0_7 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a1_6 = (temp_t2_3 + (temp_a0_7->unk4 * 0x16))->unk12 & 0x3FF;
+                        temp_a1_6 = (lightSettingsList + (temp_a0_7->unk4 * 0x16))->unk12 & 0x3FF;
                         sp4E = temp_a1_6 +
-                               ((((temp_t2_3 + (temp_a0_7->unk5 * 0x16))->unk12 & 0x3FF) - temp_a1_6) * temp_f0);
-                        envCtx->unk_D2 = sp4C + ((sp4E - sp4C) * temp_f14_4);
+                               ((((lightSettingsList + (temp_a0_7->unk5 * 0x16))->unk12 & 0x3FF) - temp_a1_6) * sp8C);
+
+                        envCtx->lightSettings.fogNear = sp4C + ((sp4E - sp4C) * sp88);
+
                         temp_v1_10 = &D_8011FB48[envCtx->unk_1F] + temp_lo;
-                        temp_v0_13 = (temp_t2_3 + (temp_v1_10->unk4 * 0x16))->unk14;
-                        sp4C = temp_v0_13 + (((temp_t2_3 + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) * temp_f0);
+                        temp_v0_13 = (lightSettingsList + (temp_v1_10->unk4 * 0x16))->unk14;
+                        sp4C =
+                            temp_v0_13 + (((lightSettingsList + (temp_v1_10->unk5 * 0x16))->unk14 - temp_v0_13) * sp8C);
                         temp_a0_8 = &D_8011FB48[envCtx->unk_20] + temp_lo;
-                        temp_a1_7 = (temp_t2_3 + (temp_a0_8->unk4 * 0x16))->unk14;
-                        sp4E = temp_a1_7 + (((temp_t2_3 + (temp_a0_8->unk5 * 0x16))->unk14 - temp_a1_7) * temp_f0);
-                        envCtx->unk_D4 = sp4C + ((sp4E - sp4C) * temp_f14_4);
-                        phi_t3 = &gGameInfo;
+                        temp_a1_7 = (lightSettingsList + (temp_a0_8->unk4 * 0x16))->unk14;
+                        sp4E = temp_a1_7 + (((lightSettingsList + (temp_a0_8->unk5 * 0x16))->unk14 - temp_a1_7) * sp8C);
+
+                        envCtx->lightSettings.fogFar = sp4C + ((sp4E - sp4C) * sp88);
+
                         if ((&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5 >= envCtx->nbLightSettings) {
-                            sp34 = temp_lo;
                             // "The color palette setting seems to be wrong"
-                            osSyncPrintf("\x1b[41;37m\nカラーパレットの設定がおかしいようです！\x1b[m", temp_a1_7,
-                                         temp_a2_5, 0x16);
+                            osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
+
                             // "Pallete setting: [] Last pallete number = []"
-                            osSyncPrintf("\x1b[41;37m\n設定パレット＝[%d] 最後パレット番号＝[%d]\n\x1b[m",
+                            osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
                                          (&D_8011FB48[envCtx->unk_20] + temp_lo)->unk5, envCtx->nbLightSettings - 1);
-                        block_113:
-                            phi_t3 = &gGameInfo;
                         }
                     }
                 }
             } else {
-                phi_a0_2 = 0;
-                if (envCtx->unk_BC == 0) {
-                loop_89:
-                    temp_v0_14 = &envCtx->unk_00[phi_a0_2];
-                    temp_v0_14[0xC0] = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2);
-                    temp_v0_14[0xC3] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk3;
-                    temp_v0_14[0xC6] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk6;
-                    temp_v0_14[0xC9] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unk9;
-                    temp_v0_14[0xCC] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkC;
-                    temp_a0_9 = (phi_a0_2 + 1) & 0xFFFF;
-                    temp_v0_14[0xCF] = (globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16) + phi_a0_2)->unkF;
-                    phi_a0_2 = temp_a0_9;
-                    if (temp_a0_9 < 3) {
-                        goto loop_89;
+                // indoors
+                if (!envCtx->blendIndoorLights) {
+                    for (i = 0; i < 3; i++) {
+                        envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->unk_BD].ambientColor[i];
+                        envCtx->lightSettings.light1Dir[i] = lightSettingsList[envCtx->unk_BD].light1Dir[i];
+                        envCtx->lightSettings.light1Color[i] = lightSettingsList[envCtx->unk_BD].light1Color[i];
+                        envCtx->lightSettings.light2Dir[i] = lightSettingsList[envCtx->unk_BD].light2Dir[i];
+                        envCtx->lightSettings.light2Color[i] = lightSettingsList[envCtx->unk_BD].light2Color[i];
+                        envCtx->lightSettings.fogColor[i] = lightSettingsList[envCtx->unk_BD].fogColor[i];
                     }
-                    temp_v0_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
-                    envCtx->unk_D2 = temp_v0_15->unk12 & 0x3FF;
+
+                    envCtx->lightSettings.fogNear = lightSettingsList[envCtx->unk_BD].fogNear & 0x3FF;
+                    envCtx->lightSettings.fogFar = lightSettingsList[envCtx->unk_BD].fogFar;
                     envCtx->unk_D8 = 1.0f;
-                    envCtx->unk_D4 = temp_v0_15->unk14;
                 } else {
-                    temp_v0_16 =
-                        (((globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16))->unk12 >> 0xA) * 4) & 0xFF;
-                    phi_v0_5 = temp_v0_16;
-                    if (temp_v0_16 == 0) {
-                        phi_v0_5 = (temp_v0_16 + 1) & 0xFF;
+                    u8 temp;
+                    temp = ((lightSettingsList[envCtx->unk_BD].fogNear >> 0xA) << 0x2) & 0xFF;
+
+                    if (temp == 0) {
+                        temp++;
                     }
-                    temp_v1_11 = envCtx->unk_D6;
-                    if (phi_ra != temp_v1_11) {
-                        phi_v0_5 = temp_v1_11 & 0xFF;
+
+                    if (envCtx->unk_D6 != 0xFFFF) {
+                        temp = envCtx->unk_D6;
                     }
+
                     if (envCtx->unk_DC == 0) {
-                        temp_f4_2 = phi_v0_5;
-                        phi_f4_2 = temp_f4_2;
-                        if (phi_v0_5 < 0) {
-                            phi_f4_2 = temp_f4_2 + 4294967296.0f;
-                        }
-                        envCtx->unk_D8 = envCtx->unk_D8 + (phi_f4_2 / 255.0f);
+                        envCtx->unk_D8 += temp / 255.0f;
                     }
-                    phi_a0_3 = 0;
+
                     if (envCtx->unk_D8 > 1.0f) {
                         envCtx->unk_D8 = 1.0f;
-                        phi_a0_3 = 0;
                     }
+
+                    phi_a0_3 = 0;
                 loop_101:
+                    for (i = 0; i < 3; i++) {}
                     temp_v0_17 = &envCtx->unk_00[phi_a0_3];
                     temp_v1_12 = *(globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16) + phi_a0_3);
                     temp_f8_4 = temp_v1_12;
@@ -1331,167 +1311,173 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                     if (temp_a0_10 < 3) {
                         goto loop_101;
                     }
-                    temp_f0_2 = envCtx->unk_D8;
                     temp_v1_15 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BE * 0x16);
                     temp_a0_11 = temp_v1_15->unk12 & 0x3FF;
                     temp_v0_18 = globalCtx->envCtx.lightSettingsList + (envCtx->unk_BD * 0x16);
-                    envCtx->unk_D2 = temp_a0_11 + (((temp_v0_18->unk12 & 0x3FF) - temp_a0_11) * temp_f0_2);
+                    envCtx->unk_D2 = temp_a0_11 + (((temp_v0_18->unk12 & 0x3FF) - temp_a0_11) * envCtx->unk_D8);
                     temp_a1_11 = temp_v1_15->unk14;
-                    envCtx->unk_D4 = temp_a1_11 + ((temp_v0_18->unk14 - temp_a1_11) * temp_f0_2);
+                    envCtx->unk_D4 = temp_a1_11 + ((temp_v0_18->unk14 - temp_a1_11) * envCtx->unk_D8);
                 }
+
                 if (envCtx->unk_BD >= envCtx->nbLightSettings) {
-                    osSyncPrintf("\n\x1b[31mカラーパレットがおかしいようです！");
-                    osSyncPrintf("\n\x1b[33m設定パレット＝[%d] パレット数＝[%d]\n\x1b[m", envCtx->unk_BD,
+                    // "The color palette seems to be wrong!"
+                    osSyncPrintf(VT_FGCOL(RED) "\nカラーパレットがおかしいようです！");
+
+                    // "Pallete setting: [] Last pallete number = []"
+                    osSyncPrintf(VT_FGCOL(YELLOW) "\n設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->unk_BD,
                                  envCtx->nbLightSettings);
-                    goto block_113;
                 }
             }
         }
-        envCtx->unk_BC = 1;
-        phi_a0_4 = 0;
-    loop_115:
-        temp_a2_6 = envCtx + (phi_a0_4 * 2);
-        temp_v0_19 = &envCtx->unk_00[phi_a0_4];
-        temp_v1_16 = temp_a2_6->unk8C + temp_v0_19[0xC0];
-        if (temp_v1_16 >= 0x100) {
-            lightCtx->ambientColor[phi_a0_4] = 0xFF;
-            phi_a1 = lightCtx + phi_a0_4;
-        } else if (temp_v1_16 < 0) {
-            lightCtx->ambientColor[phi_a0_4] = 0;
-            phi_a1 = lightCtx + phi_a0_4;
-        } else {
-            lightCtx->ambientColor[phi_a0_4] = temp_v1_16;
-            phi_a1 = lightCtx + phi_a0_4;
-        }
-        temp_a0_12 = (phi_a0_4 + 1) & 0xFFFF;
-        temp_v1_17 = temp_a2_6->unk92 + temp_v0_19[0xC6];
-        if (temp_v1_17 >= 0x100) {
-            temp_v0_19[0x2D] = 0xFF;
-        } else if (temp_v1_17 < 0) {
-            temp_v0_19[0x2D] = 0;
-        } else {
-            temp_v0_19[0x2D] = temp_v1_17;
-        }
-        temp_v1_18 = temp_a2_6->unk92 + temp_v0_19[0xCC];
-        if (temp_v1_18 >= 0x100) {
-            temp_v0_19[0x3B] = 0xFF;
-        } else if (temp_v1_18 < 0) {
-            temp_v0_19[0x3B] = 0;
-        } else {
-            temp_v0_19[0x3B] = temp_v1_18;
-        }
-        temp_v1_19 = temp_a2_6->unk98 + temp_v0_19[0xCF];
-        if (temp_v1_19 >= 0x100) {
-            phi_a1->unk7 = 0xFF;
-        } else if (temp_v1_19 < 0) {
-            phi_a1->unk7 = 0;
-        } else {
-            phi_a1->unk7 = temp_v1_19;
-        }
-        phi_a0_4 = temp_a0_12;
-        if (temp_a0_12 < 3) {
-            goto loop_115;
-        }
-        envCtx->unk_28.params.dir.z = envCtx->unkC5;
-        envCtx->unk_36.params.dir.x = envCtx->unk_C9;
-        envCtx->unk_28.params.dir.x = envCtx->unkC3;
-        envCtx->unk_28.params.dir.y = envCtx->unkC4;
-        temp_v0_20 = envCtx->unk_D2 + envCtx->unk_9E;
-        envCtx->unk_36.params.dir.y = envCtx->unkCA;
-        envCtx->unk_36.params.dir.z = envCtx->unkCB;
-        if (temp_v0_20 < 0x3E5) {
-            lightCtx->fogNear = temp_v0_20;
-        } else {
-            lightCtx->fogNear = 0x3E4;
-        }
-        temp_v0_21 = envCtx->unk_D4 + envCtx->unk_A0;
-        if (temp_v0_21 < 0x3201) {
-            lightCtx->fogFar = temp_v0_21;
-        } else {
-            lightCtx->fogFar = 0x3200;
-        }
-        temp_v0_22 = *phi_t3;
-        if (temp_v0_22->unk26 != 0) {
-            temp_v0_22->unk14 = lightCtx->ambientColor;
-            // game info regs
-            (*phi_t3)->unk16 = lightCtx->unk5;
-            (*phi_t3)->unk18 = lightCtx->unk6;
-            (*phi_t3)->unk1A = envCtx->unk_28.params.dir.color;
-            (*phi_t3)->unk1C = envCtx->unk_28.params.point.z;
-            (*phi_t3)->unk1E = envCtx->unk2F;
-            (*phi_t3)->unk20 = envCtx->unk_36.params.dir.color;
-            (*phi_t3)->unk22 = envCtx->unk_36.params.point.z;
-            (*phi_t3)->unk24 = envCtx->unk3D;
-            (*phi_t3)->unk28 = lightCtx->fogColor;
-            (*phi_t3)->unk2A = lightCtx->unk8;
-            (*phi_t3)->unk2C = lightCtx->unk9;
-            (*phi_t3)->unk2E = lightCtx->fogFar;
-            (*phi_t3)->unk30 = lightCtx->fogNear;
-            (*phi_t3)->unkB5A = envCtx->unk_28.params.dir.x;
-            (*phi_t3)->unkB5C = envCtx->unk_28.params.dir.y;
-            (*phi_t3)->unkB5E = envCtx->unk_28.params.dir.z;
-            (*phi_t3)->unkB60 = envCtx->unk_36.params.dir.x;
-            (*phi_t3)->unkB62 = envCtx->unk_36.params.dir.y;
-            (*phi_t3)->unkB64 = envCtx->unk_36.params.dir.z;
-            (*phi_t3)->unk874 = envCtx->windDirection.x;
-            (*phi_t3)->unk876 = envCtx->windDirection.y;
-            (*phi_t3)->unk878 = envCtx->windDirection.z;
-            (*phi_t3)->unk87A = envCtx->windSpeed;
-        } else {
-            lightCtx->ambientColor = temp_v0_22->unk14;
-            lightCtx->unk5 = (*phi_t3)->unk16;
-            lightCtx->unk6 = (*phi_t3)->unk18;
-            envCtx->unk_28.params.dir.color = (*phi_t3)->unk1A;
-            envCtx->unk_28.params.point.z = (*phi_t3)->unk1C;
-            envCtx->unk2F = (*phi_t3)->unk1E;
-            envCtx->unk_36.params.dir.color = (*phi_t3)->unk20;
-            envCtx->unk_36.params.point.z = (*phi_t3)->unk22;
-            envCtx->unk3D = (*phi_t3)->unk24;
-            lightCtx->fogColor = (*phi_t3)->unk28;
-            lightCtx->unk8 = (*phi_t3)->unk2A;
-            lightCtx->unk9 = (*phi_t3)->unk2C;
-            lightCtx->fogNear = (*phi_t3)->unk30;
-            lightCtx->fogFar = (*phi_t3)->unk2E;
-            temp_v0_23 = *phi_t3;
-            if (temp_v0_23->unkB70 != 0) {
-                sp44 = Math_Coss(temp_v0_23->unkB68);
-                gGameInfo->unkB5A = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
-                envCtx->unk_28.params.dir.x = gGameInfo->unkB5A;
-                sp44 = Math_Sins(gGameInfo->unkB68);
-                gGameInfo->unkB5C = Math_Coss(gGameInfo->unkB6A) * sp44 * 120.0f;
-                envCtx->unk_28.params.dir.y = gGameInfo->unkB5C;
-                gGameInfo->unkB5E = Math_Sins(gGameInfo->unkB6A) * 120.0f;
-                envCtx->unk_28.params.dir.z = gGameInfo->unkB5E;
-                sp44 = Math_Coss(gGameInfo->unkB6C);
-                gGameInfo->unkB60 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
-                envCtx->unk_36.params.dir.x = gGameInfo->unkB60;
-                sp44 = Math_Sins(gGameInfo->unkB6C);
-                gGameInfo->unkB62 = Math_Coss(gGameInfo->unkB6E) * sp44 * 120.0f;
-                envCtx->unk_36.params.dir.y = gGameInfo->unkB62;
-                gGameInfo->unkB64 = Math_Sins(gGameInfo->unkB6E) * 120.0f;
-                envCtx->unk_36.params.dir.z = gGameInfo->unkB64;
-                phi_t3_2 = &gGameInfo;
+        // L80072A64
+        envCtx->blendIndoorLights = true;
+
+        // Apply adjustments to lighting and fog if there are any
+        for (i = 0; i < 3; i++) {
+            adjustment = envCtx->adjAmbientColor[i] + envCtx->lightSettings.ambientColor[i];
+
+            if (adjustment > 255) {
+                lightCtx->ambientColor[i] = 255;
+            } else if (adjustment < 0) {
+                lightCtx->ambientColor[i] = 0;
             } else {
-                envCtx->unk_28.params.dir.x = temp_v0_23->unkB5A;
-                envCtx->unk_28.params.dir.y = (*phi_t3)->unkB5C;
-                envCtx->unk_28.params.dir.z = (*phi_t3)->unkB5E;
-                envCtx->unk_36.params.dir.x = (*phi_t3)->unkB60;
-                envCtx->unk_36.params.dir.y = (*phi_t3)->unkB62;
-                envCtx->unk_36.params.dir.z = (*phi_t3)->unkB64;
-                phi_t3_2 = phi_t3;
+                lightCtx->ambientColor[i] = adjustment;
             }
-            envCtx->windDirection.x = (*phi_t3_2)->unk874;
-            envCtx->windDirection.y = (*phi_t3_2)->unk876;
-            envCtx->windDirection.z = (*phi_t3_2)->unk878;
-            envCtx->windSpeed = (*phi_t3_2)->unk87A;
+
+            adjustment = envCtx->adjLight1Color[i] + envCtx->lightSettings.light1Color[i];
+
+            if (adjustment > 255) {
+                envCtx->dirLight1.params.dir.color[i] = 255;
+            } else if (adjustment < 0) {
+                envCtx->dirLight1.params.dir.color[i] = 0;
+            } else {
+                envCtx->dirLight1.params.dir.color[i] = adjustment;
+            }
+
+            adjustment = envCtx->adjFogColor[i] + envCtx->lightSettings.fogColor[i];
+
+            if (adjustment > 255) {
+                lightCtx->fogColor[i] = 255;
+            } else if (adjustment < 0) {
+                lightCtx->fogColor[i] = 0;
+            } else {
+                lightCtx->fogColor[i] = adjustment;
+            }
         }
-        if ((envCtx->unk_28.params.dir.x == 0) && (envCtx->unk_28.params.dir.y == 0) &&
-            (envCtx->unk_28.params.dir.z == 0)) {
-            envCtx->unk_28.params.dir.x = 1;
+
+        // Set both directional light directions
+        envCtx->dirLight1.params.dir.x = envCtx->lightSettings.light1Dir[0];
+        envCtx->dirLight1.params.dir.z = envCtx->lightSettings.light1Dir[1];
+        envCtx->dirLight1.params.dir.y = envCtx->lightSettings.light1Dir[2];
+
+        envCtx->dirLight2.params.dir.x = envCtx->lightSettings.light2Dir[0];
+        envCtx->dirLight2.params.dir.y = envCtx->lightSettings.light2Dir[1];
+        envCtx->dirLight2.params.dir.z = envCtx->lightSettings.light2Dir[2];
+
+        // Adjust fog near and far if necessary
+        adjustment = envCtx->lightSettings.fogNear + envCtx->adjFogNear;
+
+        if (adjustment <= 996) {
+            lightCtx->fogNear = adjustment;
+        } else {
+            lightCtx->fogNear = 996;
         }
-        if ((envCtx->unk_36.params.dir.x == 0) && (envCtx->unk_36.params.dir.y == 0) &&
-            (envCtx->unk_36.params.dir.z == 0)) {
-            envCtx->unk_36.params.dir.x = 1;
+
+        adjustment = envCtx->lightSettings.fogFar + envCtx->adjFogFar;
+
+        if (adjustment <= 12800) {
+            lightCtx->fogFar = adjustment;
+        } else {
+            lightCtx->fogFar = 12800;
+        }
+
+        // When environment debug is enabled, various environment related variables can be configured in the reg editor
+        if (R_ENV_DISABLE_DBG) {
+            R_ENV_AMBIENT_COLOR(0) = lightCtx->ambientColor[0];
+            R_ENV_AMBIENT_COLOR(1) = lightCtx->ambientColor[1];
+            R_ENV_AMBIENT_COLOR(2) = lightCtx->ambientColor[2];
+
+            R_ENV_LIGHT1_COLOR(0) = envCtx->dirLight1.params.dir.color[0];
+            R_ENV_LIGHT1_COLOR(1) = envCtx->dirLight1.params.dir.color[1];
+            R_ENV_LIGHT1_COLOR(2) = envCtx->dirLight1.params.dir.color[2];
+
+            R_ENV_LIGHT2_COLOR(0) = envCtx->dirLight2.params.dir.color[0];
+            R_ENV_LIGHT2_COLOR(1) = envCtx->dirLight2.params.dir.color[1];
+            R_ENV_LIGHT2_COLOR(2) = envCtx->dirLight2.params.dir.color[2];
+
+            R_ENV_FOG_COLOR(0) = lightCtx->fogColor[0];
+            R_ENV_FOG_COLOR(1) = lightCtx->fogColor[1];
+            R_ENV_FOG_COLOR(2) = lightCtx->fogColor[2];
+            R_ENV_FOG_FAR = lightCtx->fogFar;
+            R_ENV_FOG_NEAR = lightCtx->fogNear;
+
+            R_ENV_LIGHT1_DIR(0) = envCtx->dirLight1.params.dir.x;
+            R_ENV_LIGHT1_DIR(1) = envCtx->dirLight1.params.dir.y;
+            R_ENV_LIGHT1_DIR(2) = envCtx->dirLight1.params.dir.z;
+
+            R_ENV_LIGHT2_DIR(0) = envCtx->dirLight2.params.dir.x;
+            R_ENV_LIGHT2_DIR(1) = envCtx->dirLight2.params.dir.y;
+            R_ENV_LIGHT2_DIR(2) = envCtx->dirLight2.params.dir.z;
+
+            R_ENV_WIND_DIR(0) = envCtx->windDirection.x;
+            R_ENV_WIND_DIR(1) = envCtx->windDirection.y;
+            R_ENV_WIND_DIR(2) = envCtx->windDirection.z;
+            R_ENV_WIND_SPEED = envCtx->windSpeed;
+        } else {
+            lightCtx->ambientColor[0] = R_ENV_AMBIENT_COLOR(0);
+            lightCtx->ambientColor[1] = R_ENV_AMBIENT_COLOR(1);
+            lightCtx->ambientColor[2] = R_ENV_AMBIENT_COLOR(2);
+
+            envCtx->dirLight1.params.dir.color[0] = R_ENV_LIGHT1_COLOR(0);
+            envCtx->dirLight1.params.dir.color[1] = R_ENV_LIGHT1_COLOR(1);
+            envCtx->dirLight1.params.dir.color[2] = R_ENV_LIGHT1_COLOR(2);
+
+            envCtx->dirLight2.params.dir.color[0] = R_ENV_LIGHT2_COLOR(0);
+            envCtx->dirLight2.params.dir.color[1] = R_ENV_LIGHT2_COLOR(1);
+            envCtx->dirLight2.params.dir.color[2] = R_ENV_LIGHT2_COLOR(2);
+
+            lightCtx->fogColor[0] = R_ENV_FOG_COLOR(0);
+            lightCtx->fogColor[1] = R_ENV_FOG_COLOR(1);
+            lightCtx->fogColor[2] = R_ENV_FOG_COLOR(2);
+            lightCtx->fogFar = R_ENV_FOG_FAR;
+            lightCtx->fogNear = R_ENV_FOG_NEAR;
+
+            if (cREG(14)) {
+                envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0) =
+                    Math_Coss(cREG(11)) * Math_Coss(cREG(10)) * 120.0f;
+                envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1) =
+                    Math_Coss(cREG(11)) * Math_Sins(cREG(10)) * 120.0f;
+                envCtx->dirLight1.params.dir.z = R_ENV_LIGHT1_DIR(2) = Math_Sins(cREG(11)) * 120.0f;
+
+                envCtx->dirLight2.params.dir.x = R_ENV_LIGHT2_DIR(0) =
+                    Math_Coss(cREG(13)) * Math_Coss(cREG(12)) * 120.0f;
+                envCtx->dirLight2.params.dir.y = R_ENV_LIGHT2_DIR(1) =
+                    Math_Coss(cREG(13)) * Math_Sins(cREG(12)) * 120.0f;
+                envCtx->dirLight2.params.dir.z = R_ENV_LIGHT2_DIR(2) = Math_Sins(cREG(13)) * 120.0f;
+            } else {
+                envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0);
+                envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1);
+                envCtx->dirLight1.params.dir.z = R_ENV_LIGHT1_DIR(2);
+
+                envCtx->dirLight2.params.dir.x = R_ENV_LIGHT2_DIR(0);
+                envCtx->dirLight2.params.dir.y = R_ENV_LIGHT2_DIR(1);
+                envCtx->dirLight2.params.dir.z = R_ENV_LIGHT2_DIR(2);
+            }
+
+            envCtx->windDirection.x = R_ENV_WIND_DIR(0);
+            envCtx->windDirection.y = R_ENV_WIND_DIR(1);
+            envCtx->windDirection.z = R_ENV_WIND_DIR(2);
+            envCtx->windSpeed = R_ENV_WIND_SPEED;
+        }
+
+        if ((envCtx->dirLight1.params.dir.x == 0) && (envCtx->dirLight1.params.dir.y == 0) &&
+            (envCtx->dirLight1.params.dir.z == 0)) {
+            envCtx->dirLight1.params.dir.x = 1;
+        }
+
+        if ((envCtx->dirLight2.params.dir.x == 0) && (envCtx->dirLight2.params.dir.y == 0) &&
+            (envCtx->dirLight2.params.dir.z == 0)) {
+            envCtx->dirLight2.params.dir.x = 1;
         }
     }
 }
@@ -2034,9 +2020,9 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
                 gLightningStrike.flashGreen = 200;
                 gLightningStrike.flashBlue = 255;
 
-                globalCtx->envCtx.unk_8C[0][0] += 80;
-                globalCtx->envCtx.unk_8C[0][1] += 80;
-                globalCtx->envCtx.unk_8C[0][2] += 100;
+                globalCtx->envCtx.adjAmbientColor[0] += 80;
+                globalCtx->envCtx.adjAmbientColor[1] += 80;
+                globalCtx->envCtx.adjAmbientColor[2] += 100;
 
                 sLightningFlashAlpha += 100;
 
@@ -2047,21 +2033,21 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
                 }
                 break;
             case LIGHTNING_STRIKE_END:
-                if (globalCtx->envCtx.unk_8C[0][0] > 0) {
-                    globalCtx->envCtx.unk_8C[0][0] -= 10;
-                    globalCtx->envCtx.unk_8C[0][1] -= 10;
+                if (globalCtx->envCtx.adjAmbientColor[0] > 0) {
+                    globalCtx->envCtx.adjAmbientColor[0] -= 10;
+                    globalCtx->envCtx.adjAmbientColor[1] -= 10;
                 }
 
-                if (globalCtx->envCtx.unk_8C[0][2] > 0) {
-                    globalCtx->envCtx.unk_8C[0][2] -= 10;
+                if (globalCtx->envCtx.adjAmbientColor[2] > 0) {
+                    globalCtx->envCtx.adjAmbientColor[2] -= 10;
                 }
 
                 sLightningFlashAlpha -= 10;
 
                 if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
-                    globalCtx->envCtx.unk_8C[0][0] = 0;
-                    globalCtx->envCtx.unk_8C[0][1] = 0;
-                    globalCtx->envCtx.unk_8C[0][2] = 0;
+                    globalCtx->envCtx.adjAmbientColor[0] = 0;
+                    globalCtx->envCtx.adjAmbientColor[1] = 0;
+                    globalCtx->envCtx.adjAmbientColor[2] = 0;
 
                     gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
 
@@ -2337,7 +2323,7 @@ void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
 
     Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
                               (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f, 0, 0, 0,
-                              0xFF);
+                              255);
     sSGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sSGameOverLightInfo);
 }
 
@@ -2357,20 +2343,20 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
     }
 
     if (func_800C0CB8(globalCtx)) {
-        for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-            if (globalCtx->envCtx.unk_8C[0][i] >= -0xFE) {
-                globalCtx->envCtx.unk_8C[0][i] -= 12;
-                globalCtx->envCtx.unk_8C[1][i] -= 12;
+        for (i = 0; i < 3; i++) {
+            if (globalCtx->envCtx.adjAmbientColor[i] > -255) {
+                globalCtx->envCtx.adjAmbientColor[i] -= 12;
+                globalCtx->envCtx.adjLight1Color[i] -= 12;
             }
-            globalCtx->envCtx.unk_8C[2][i] = -0xFF;
+            globalCtx->envCtx.adjFogColor[i] = -255;
         }
 
-        if (globalCtx->envCtx.lightPallete.fogFar + globalCtx->envCtx.unk_A0 > 900) {
-            globalCtx->envCtx.unk_A0 -= 100;
+        if (globalCtx->envCtx.lightSettings.fogFar + globalCtx->envCtx.adjFogFar > 900) {
+            globalCtx->envCtx.adjFogFar -= 100;
         }
 
-        if (globalCtx->envCtx.lightPallete.fogNear + globalCtx->envCtx.unk_9E > 950) {
-            globalCtx->envCtx.unk_9E -= 10;
+        if (globalCtx->envCtx.lightSettings.fogNear + globalCtx->envCtx.adjFogNear > 950) {
+            globalCtx->envCtx.adjFogNear -= 10;
         }
     } else {
         globalCtx->envCtx.unk_E1 = 1;
@@ -2397,20 +2383,20 @@ void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
     } else if (sGameOverLightsRGB >= 2) {
         Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
                                   (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
-                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 0xFF);
+                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
         Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
                                   (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
-                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 0xFF);
+                                  sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
     }
 
     if (func_800C0CB8(globalCtx)) {
-        for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_8C[0][i], 0, 5, 12, 1);
-            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_8C[1][i], 0, 5, 12, 1);
-            globalCtx->envCtx.unk_8C[2][i] = 0;
+        for (i = 0; i < 3; i++) {
+            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.adjAmbientColor[i], 0, 5, 12, 1);
+            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.adjLight1Color[i], 0, 5, 12, 1);
+            globalCtx->envCtx.adjFogColor[i] = 0;
         }
-        globalCtx->envCtx.unk_A0 = 0;
-        globalCtx->envCtx.unk_9E = 0;
+        globalCtx->envCtx.adjFogFar = 0;
+        globalCtx->envCtx.adjFogNear = 0;
     } else {
         globalCtx->envCtx.unk_E1 = 1;
         globalCtx->envCtx.unk_E2[0] = 0;
@@ -2874,49 +2860,53 @@ char D_8011FED0[] = { 0x9B, 0x6A, 0x23, 0xC8, 0x96, 0x32, 0xAA, 0x6E, 0x00, 0x32
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80076934.s")
 #endif
 
+// arg1 baseScale
+// arg4 colorScale
 void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 temp;
     s32 i;
 
-    if (globalCtx->roomCtx.curRoom.unk_03 == 5 || !func_800C0CB8(globalCtx)) {
-        return;
-    }
-
-    if (arg1 < 0.0f) {
-        arg1 = 0.0f;
-    }
-    if (arg1 > 1.0f) {
-        arg1 = 1.0f;
-    }
-
-    temp = arg1 - arg3;
-    if (arg1 < arg3) {
-        temp = 0.0f;
-    }
-    globalCtx->envCtx.unk_9E = (arg2 - globalCtx->envCtx.lightPallete.fogNear) * temp;
-
-    if (arg1 == 0.0f) {
-        for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-            globalCtx->envCtx.unk_8C[2][i] = 0;
+    if (globalCtx->roomCtx.curRoom.unk_03 != 5 && func_800C0CB8(globalCtx)) {
+        if (arg1 < 0.0f) {
+            arg1 = 0.0f;
         }
-    } else {
-        temp = arg1 * 5.0f;
-        if (temp > 1.0f) {
-            temp = 1.0f;
-        }
-        for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-            globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.lightPallete.fogColor[i] * temp);
-        }
-    }
 
-    if (arg4 <= 0.0f) {
-        return;
-    }
+        if (arg1 > 1.0f) {
+            arg1 = 1.0f;
+        }
 
-    arg1 *= arg4;
-    for (i = 0; i < ARRAY_COUNT(*globalCtx->envCtx.unk_8C); i++) {
-        globalCtx->envCtx.unk_8C[0][i] = -(s16)(globalCtx->envCtx.lightPallete.ambientColor[i] * arg1);
-        globalCtx->envCtx.unk_8C[1][i] = -(s16)(globalCtx->envCtx.lightPallete.upperLightDir[i] * arg1);
+        temp = arg1 - arg3;
+        if (arg1 < arg3) {
+            temp = 0.0f;
+        }
+
+        globalCtx->envCtx.adjFogNear = (arg2 - globalCtx->envCtx.lightSettings.fogNear) * temp;
+
+        if (arg1 == 0.0f) {
+            for (i = 0; i < 3; i++) {
+                globalCtx->envCtx.adjFogColor[i] = 0;
+            }
+        } else {
+            temp = arg1 * 5.0f;
+
+            if (temp > 1.0f) {
+                temp = 1.0f;
+            }
+
+            for (i = 0; i < 3; i++) {
+                globalCtx->envCtx.adjFogColor[i] = -(s16)(globalCtx->envCtx.lightSettings.fogColor[i] * temp);
+            }
+        }
+
+        if (arg4 <= 0.0f) {
+            return;
+        }
+
+        arg1 *= arg4;
+        for (i = 0; i < 3; i++) {
+            globalCtx->envCtx.adjAmbientColor[i] = -(s16)(globalCtx->envCtx.lightSettings.ambientColor[i] * arg1);
+            globalCtx->envCtx.adjLight1Color[i] = -(s16)(globalCtx->envCtx.lightSettings.light1Color[i] * arg1);
+        }
     }
 }
 
