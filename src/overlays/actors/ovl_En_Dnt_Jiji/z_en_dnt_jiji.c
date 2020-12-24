@@ -1,5 +1,6 @@
 #include "z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -71,7 +72,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_258 = (EnDntDemo*)this->actor.parent;
     osSyncPrintf("\n\n");
     // Deku Scrub mask show judge
-    osSyncPrintf("\x1b[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1b[m", this->unk_258);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->unk_258);
     this->actor.flags &= ~1;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.unk_1F = 6;
@@ -88,7 +89,7 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_809F1C04(EnDntJiji* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
-        this->unk_230 = this->actor.posRot.pos;
+        this->flowerPos = this->actor.posRot.pos;
         this->actionFunc = func_809F1C44;
     }
 }
@@ -97,7 +98,7 @@ void func_809F1C44(EnDntJiji* this, GlobalContext* globalCtx) {
     this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000560);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000560, 0.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->skelAnime.animCurrentFrame = 8.0f;
-    this->unk_23C = this->unk_23E = 0;
+    this->isSolid = this->unk_23E = 0;
     this->actionFunc = func_809F1CF4;
 }
 
@@ -155,7 +156,7 @@ void func_809F2068(EnDntJiji* this, GlobalContext* globalCtx) {
     this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->actor.speedXZ = 1.0f;
-    this->unk_23C = 1;
+    this->isSolid = 1;
     this->unk_25A = 1;
     this->actionFunc = func_809F2118;
 }
@@ -321,7 +322,7 @@ void func_809F29E0(EnDntJiji* this, GlobalContext* globalCtx) {
     this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->actor.speedXZ = 2.0f;
-    this->unk_23C = this->unk_25A = 1;
+    this->isSolid = this->unk_25A = 1;
     this->actionFunc = func_809F2A90;
 }
 
@@ -330,8 +331,8 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
     f32 sp28;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    sp2C = this->unk_230.x - this->actor.posRot.pos.x;
-    sp28 = this->unk_230.z - this->actor.posRot.pos.z;
+    sp2C = this->flowerPos.x - this->actor.posRot.pos.x;
+    sp28 = this->flowerPos.z - this->actor.posRot.pos.z;
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
@@ -343,8 +344,8 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((fabsf(sp2C) < 5.0f) && (fabsf(sp28) < 5.0f)) {
-        this->actor.posRot.pos.x = this->unk_230.x;
-        this->actor.posRot.pos.z = this->unk_230.z;
+        this->actor.posRot.pos.x = this->flowerPos.x;
+        this->actor.posRot.pos.z = this->flowerPos.z;
         if (this->unk_252 != 0) {
             if ((this->unk_258->actor.update != NULL) && (this->unk_258->unk_158 == 0)) {
                 this->unk_258->unk_158 = 4;
@@ -353,7 +354,7 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
             }
         }
         this->actor.speedXZ = 0.0f;
-        this->unk_23C = 0;
+        this->isSolid = 0;
         this->actionFunc = func_809F2254;
     }
 }
@@ -366,7 +367,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_246++;
     if (BREG(0)) {
         // time
-        osSyncPrintf("\x1b[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1b[m", this->unk_240);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->unk_240);
     }
     if ((this->unk_240 > 1) && (this->unk_240 != 0)) {
         this->unk_240--;
@@ -374,17 +375,17 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_242 != 0) {
         this->unk_242--;
     }
-    if (this->unk_244 != 0) {
-        this->unk_244--;
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
     }
     switch (this->unk_24E) {
         case 1:
-            this->unk_23C = 1;
+            this->isSolid = 1;
             this->unk_23E = 1;
             this->actionFunc = func_809F1DA8;
             break;
         case 2:
-            this->unk_23C = 0;
+            this->isSolid = 0;
             this->unk_23E = 0;
             this->actionFunc = func_809F2254;
             break;
@@ -400,18 +401,18 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_24E != 0) {
         this->unk_24E = 0;
     }
-    if (this->unk_244 == 0) {
-        this->unk_24C++;
-        if (this->unk_24C > 2) {
-            this->unk_24C = 0;
-            this->unk_244 = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+    if (this->blinkTimer == 0) {
+        this->eyeState++;
+        if (this->eyeState > 2) {
+            this->eyeState = 0;
+            this->blinkTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    if (this->unk_23C != 0) {
+    if (this->isSolid != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
@@ -423,10 +424,10 @@ void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Push();
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809F2FCC[this->unk_24C]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809F2FCC[this->eyeState]));
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, this);
     Matrix_Pull();
-    Matrix_Translate(this->unk_230.x, this->unk_230.y, this->unk_230.z, MTXMODE_NEW);
+    Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

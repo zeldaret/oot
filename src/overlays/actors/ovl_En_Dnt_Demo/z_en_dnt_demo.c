@@ -2,6 +2,7 @@
 
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
+#include "vt.h"
 
 #define FLAGS 0x00000000
 
@@ -11,9 +12,9 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntDemo_Update(Actor* this, GlobalContext* globalCtx);
 
-void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx);
-void func_809F1100(EnDntDemo* this, GlobalContext* globalCtx);
-void func_809F1374(EnDntDemo* this, GlobalContext* globalCtx);
+void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx);
+void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx);
+void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
@@ -27,12 +28,18 @@ const ActorInit En_Dnt_Demo_InitVars = {
     NULL,
 };
 
-s16 D_809F15C0[8][7] = {
-    { 0, 1, 0, 1, 2, 0, 1 }, { 1, 0, 1, 0, 1, 1, 2 }, { 2, 1, 1, 1, 0, 0, 0 }, { 1, 2, 1, 1, 1, 1, 0 },
-    { 0, 0, 2, 0, 0, 0, 1 }, { 0, 0, 0, 2, 1, 2, 0 }, { 1, 1, 1, 1, 1, 1, 1 }, { 2, 2, 2, 2, 2, 2, 2 },
+static s16 D_809F15C0[8][7] = {
+    { 0, 1, 0, 1, 2, 0, 1 },
+    { 1, 0, 1, 0, 1, 1, 2 },
+    { 2, 1, 1, 1, 0, 0, 0 },
+    { 1, 2, 1, 1, 1, 1, 0 },
+    { 0, 0, 2, 0, 0, 0, 1 },
+    { 0, 0, 0, 2, 1, 2, 0 },
+    { 1, 1, 1, 1, 1, 1, 1 },
+    { 2, 2, 2, 2, 2, 2, 2 },
 };
 
-s16 D_809F1630[3][2] = { { 4, 3 }, { 4, 2 }, { 3, 1 } };
+static s16 D_809F1630[3][2] = { { 4, 3 }, { 4, 2 }, { 3, 1 }, };
 
 static Vec3f D_809F163C[] = {
     { 3810.0f, -20.0f, 1010.0f }, { 3890.0f, -20.0f, 990.0f }, { 3730.0f, -20.0f, 950.0f },
@@ -51,33 +58,33 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     osSyncPrintf("\n\n");
     // Deku Scrub mask show start
-    osSyncPrintf("\x1b[32m☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n\x1b[m");
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
     for (i = 0; i < 9; i++) {
-        this->unk_160[i] = D_809F163C[i];
-        this->unk_1D8[i] =
+        this->scrubPos[i] = D_809F163C[i];
+        this->scrubs[i] =
             (EnDntNomal*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_NOMAL,
-                                            this->unk_160[i].x, this->unk_160[i].y, this->unk_160[i].z, 0, 0, 0, i + 1);
-        if (this->unk_1D8[i] != NULL) {
+                                            this->scrubPos[i].x, this->scrubPos[i].y, this->scrubPos[i].z, 0, 0, 0, i + 1);
+        if (this->scrubs[i] != NULL) {
             // zako zako [small fries]
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n\x1b[m", this->unk_1D8[i]);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
         }
     }
 
-    this->unk_1CC.x = 4050.0f;
-    this->unk_1CC.y = -20.0f;
-    this->unk_1CC.z = 1000.0f;
-    this->unk_1FC = (EnDntJiji*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_JIJI,
-                                                   this->unk_1CC.x, this->unk_1CC.y, this->unk_1CC.z, 0, 0, 0, 0);
-    if (this->unk_1FC != NULL) {
+    this->leaderPos.x = 4050.0f;
+    this->leaderPos.y = -20.0f;
+    this->leaderPos.z = 1000.0f;
+    this->leader = (EnDntJiji*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_JIJI,
+                                                   this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
+    if (this->leader != NULL) {
         // jiji jiji jiji jiji jiji [onomatopoeia for the scrub sound?]
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n\x1b[m", this->unk_1FC);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
-    this->unk_15E = 0;
+    this->subCamera = 0;
     this->actor.flags &= ~1;
-    this->actionFunc = func_809F0AA4;
+    this->actionFunc = EnDntDemo_Judge;
 }
 
-void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
+void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
     s16 sp3E;
     s16 sp3C;
     s16 sp3A;
@@ -88,43 +95,43 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
 
     if (this->unk_158 != 0) {
         for (i = 0; i < 9; i++) {
-            this->unk_1D8[i]->unk_270 = this->unk_158;
-            this->unk_1D8[i]->unk_274 = this->unk_15A;
-            this->unk_1D8[i]->unk_278 = 0;
+            this->scrubs[i]->unk_270 = this->unk_158;
+            this->scrubs[i]->unk_274 = this->unk_15A;
+            this->scrubs[i]->unk_278 = 0;
         }
-        if (this->unk_1FC->unk_23C != 0) {
-            this->unk_1FC->unk_24E = 2;
+        if (this->leader->isSolid) {
+            this->leader->unk_24E = 2;
         }
         this->unk_158 = 0;
-        this->actionFunc = func_809F1100;
+        this->actionFunc = EnDntDemo_Results;
     } else if ((this->actor.xzDistFromLink > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
-        this->unk_156++;
-        if (this->unk_15E != 0) {
-            this->unk_15E = 0;
+        this->debugArrowTimer++;
+        if (this->subCamera != 0) {
+            this->subCamera = 0;
         }
-        if (this->unk_150 != 0) {
+        if (this->judgeTimer != 0) {
             for (i = 0; i < 9; i++) {
-                this->unk_1D8[i]->unk_270 = 4;
+                this->scrubs[i]->unk_270 = 4;
             }
-            this->unk_150 = 0;
+            this->judgeTimer = 0;
         }
     } else {
-        if ((Player_GetMask(globalCtx) != 0) && (this->unk_15E == 0)) {
-            this->unk_15E = func_800800F8(globalCtx, 0x8AC, -0x63, &this->unk_1D8[3]->actor, 0);
+        if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == 0)) {
+            this->subCamera = func_800800F8(globalCtx, 0x8AC, -0x63, &this->scrubs[3]->actor, 0);
         }
-        this->unk_156 = 0;
-        if (this->unk_150 == 40) {
+        this->debugArrowTimer = 0;
+        if (this->judgeTimer == 40) {
             for (i = 0; i < 9; i++) {
-                this->unk_1D8[i]->unk_270 = 1;
+                this->scrubs[i]->unk_270 = 1;
             }
         }
-        if (this->unk_150 > 40) {
+        if (this->judgeTimer > 40) {
             // gera gera [onomatopoeia for loud giggling]
-            osSyncPrintf("\x1b[31m☆☆☆☆☆ げらげら ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
             func_800F436C(&this->actor.projectedPos, 0x205D, 2.0f);
         }
-        if (this->unk_150 < 0x78) {
-            this->unk_150++;
+        if (this->judgeTimer < 120) {
+            this->judgeTimer++;
         } else {
             sp35 = 0;
             sp3C = 0;
@@ -133,21 +140,21 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
                 case PLAYER_MASK_SKULL:
                     if (!(gSaveContext.itemGetInf[1] & 0x4000)) {
                         sp3C = 2;
-                        this->unk_15C = 2;
+                        this->prize = 2;
                         Audio_SetBGM(0x3E);
                         break;
                     }
                 case PLAYER_MASK_TRUTH:
-                    if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != 2)) {
+                    if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
-                        this->unk_15C = 1;
-                        this->unk_1FC->unk_24E = 1;
+                        this->prize = 1;
+                        this->leader->unk_24E = 1;
                         sp3C = 1;
-                        if (this->unk_15E != 0) {
-                            this->unk_15E = 0;
+                        if (this->subCamera != 0) {
+                            this->subCamera = 0;
                             sp3C = 1;
-                            func_800800F8(globalCtx, 0x924, -0x63, &this->unk_1FC->actor, 0);
+                            func_800800F8(globalCtx, 0x924, -0x63, &this->leader->actor, 0);
                         }
                         break;
                     }
@@ -165,14 +172,14 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
                         sp3E = 8;
                         sp3C = 4;
                         // Special!
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n\x1b[m");
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
                     } else {
                         if (sp38 >= PLAYER_MASK_MAX - 1) {
                             // This is dangerous!
-                            osSyncPrintf("\x1b[32m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n\x1b[m");
-                            osSyncPrintf("\x1b[33m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n\x1b[m");
-                            osSyncPrintf("\x1b[35m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n\x1b[m");
-                            osSyncPrintf("\x1b[36m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n\x1b[m");
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             sp38 = Math_Rand_ZeroFloat(7.99f);
                         }
 
@@ -184,9 +191,9 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
                                 Audio_SetBGM(0x2D);
                                 break;
                             case 2:
-                                if (this->unk_15E != 0) {
-                                    this->unk_15E = 0;
-                                    func_800800F8(globalCtx, 0x92E, -0x63, &this->unk_1D8[3]->actor, 0);
+                                if (this->subCamera != 0) {
+                                    this->subCamera = 0;
+                                    func_800800F8(globalCtx, 0x92E, -0x63, &this->scrubs[3]->actor, 0);
                                 }
                                 Audio_SetBGM(0x81A);
                                 break;
@@ -196,16 +203,16 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
                         }
                         osSyncPrintf("\n\n");
                         // Each index 1
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n\x1b[m", sp3A);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n" VT_RST, sp3A);
                         // Each index 2
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n\x1b[m", sp38);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n" VT_RST, sp38);
                         // Each index 3
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n\x1b[m", sp36);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n" VT_RST, sp36);
                         osSyncPrintf("\n");
                         // What kind of evaluation?
-                        osSyncPrintf("\x1b[33m☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n\x1b[m", sp3C);
+                        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, sp3C);
                         // What kind of action?
-                        osSyncPrintf("\x1b[35m☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n\x1b[m", this->unk_15A);
+                        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->unk_15A);
                         osSyncPrintf("\n\n");
                         break;
                     }
@@ -213,74 +220,74 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
             if (sp3C != 0) {
                 for (i = 0; i < 9; i++) {
                     if (sp3E != 0) {
-                        this->unk_1D8[i]->unk_264 = sp3E * i;
+                        this->scrubs[i]->unk_264 = sp3E * i;
                     }
-                    this->unk_1D8[i]->unk_274 = this->unk_15A;
-                    this->unk_1D8[i]->unk_270 = sp3C;
-                    this->unk_1D8[i]->unk_276 = sp35;
-                    if (this->unk_15C != 0) {
-                        this->unk_1D8[i]->unk_258 = 0x12C;
-                        this->unk_1D8[i]->unk_278 = this->unk_15C;
-                        this->unk_1D8[i]->unk_288 = this->unk_1FC->actor.posRot.pos;
-                        if (this->unk_15C == 1) {
-                            this->unk_1FC->unk_24E = 1;
+                    this->scrubs[i]->unk_274 = this->unk_15A;
+                    this->scrubs[i]->unk_270 = sp3C;
+                    this->scrubs[i]->unk_276 = sp35;
+                    if (this->prize != 0) {
+                        this->scrubs[i]->unk_258 = 300;
+                        this->scrubs[i]->unk_278 = this->prize;
+                        this->scrubs[i]->unk_288 = this->leader->actor.posRot.pos;
+                        if (this->prize == 1) {
+                            this->leader->unk_24E = 1;
                         }
-                        if (this->unk_15C == 2) {
-                            this->unk_1FC->unk_240 = 0x12C;
+                        if (this->prize == 2) {
+                            this->leader->unk_240 = 300;
                         }
                     }
                 }
-                this->actionFunc = func_809F1100;
+                this->actionFunc = EnDntDemo_Results;
             }
         }
     }
 }
 
-void func_809F1100(EnDntDemo* this, GlobalContext* globalCtx) {
+void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->unk_158 != 0) {
         for (i = 0; i < 9; i++) {
-            this->unk_1D8[i]->unk_274 = this->unk_15A;
-            this->unk_1D8[i]->unk_270 = this->unk_158;
-            this->unk_1D8[i]->unk_278 = 0;
+            this->scrubs[i]->unk_274 = this->unk_15A;
+            this->scrubs[i]->unk_270 = this->unk_158;
+            this->scrubs[i]->unk_278 = 0;
         }
-        if (this->unk_1FC->unk_23E == 1) {
-            this->unk_1FC->unk_24E = 2;
-        } else if (this->unk_1FC->unk_25A) {
-            this->unk_1FC->unk_24E = 3;
+        if (this->leader->unk_23E == 1) {
+            this->leader->unk_24E = 2;
+        } else if (this->leader->unk_25A) {
+            this->leader->unk_24E = 3;
         } else {
-            this->unk_1FC->unk_23E = 3;
+            this->leader->unk_23E = 3;
         }
-        this->unk_1FC->unk_240 = 0;
+        this->leader->unk_240 = 0;
         this->unk_158 = this->unk_15A = 0;
-        this->actionFunc = func_809F1374;
-    } else if (this->unk_15C == 2) {
+        this->actionFunc = EnDntDemo_Prize;
+    } else if (this->prize == 2) {
         for (i = 0; i < 9; i++) {
-            s16 phi_s1 = -this->unk_1FC->actor.shape.rot.y;
-            Vec3f sp64 = this->unk_1FC->actor.posRot.pos;
+            s16 phi_s1 = -this->leader->actor.shape.rot.y;
+            Vec3f sp64 = this->leader->actor.posRot.pos;
             f32 temp_f20;
 
             if (!(i & 1)) {
                 phi_s1 -= 0x59D8;
             }
             temp_f20 = ((i + 1) * 20.0f) + 20.0f;
-            this->unk_1D8[i]->unk_25A = 10;
-            this->unk_1D8[i]->unk_288.x = sp64.x + Math_Sins(phi_s1) * temp_f20;
-            this->unk_1D8[i]->unk_288.y = sp64.y;
-            this->unk_1D8[i]->unk_288.z = sp64.z + Math_Coss(phi_s1) * temp_f20;
+            this->scrubs[i]->unk_25A = 10;
+            this->scrubs[i]->unk_288.x = sp64.x + Math_Sins(phi_s1) * temp_f20;
+            this->scrubs[i]->unk_288.y = sp64.y;
+            this->scrubs[i]->unk_288.z = sp64.z + Math_Coss(phi_s1) * temp_f20;
         }
     }
 }
 
-void func_809F1374(EnDntDemo* this, GlobalContext* globalCtx) {
+void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->unk_158 != 0) {
         for (i = 0; i < 9; i++) {
-            this->unk_1D8[i]->unk_274 = this->unk_15A;
-            this->unk_1D8[i]->unk_270 = this->unk_158;
-            this->unk_1D8[i]->unk_278 = 0;
+            this->scrubs[i]->unk_274 = this->unk_15A;
+            this->scrubs[i]->unk_270 = this->unk_158;
+            this->scrubs[i]->unk_278 = 0;
         }
         this->unk_158 = this->unk_15A = 0;
     }
@@ -290,16 +297,16 @@ void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnDntDemo* this = THIS;
 
-    if (this->unk_154 != 0) {
-        this->unk_154--;
+    if (this->unkTimer2 != 0) {
+        this->unkTimer2--;
     }
-    if (this->unk_152 != 0) {
-        this->unk_152--;
+    if (this->unkTimer1 != 0) {
+        this->unkTimer1--;
     }
     this->actionFunc(this, globalCtx);
     if (BREG(0)) {
-        if (this->unk_156 != 0) {
-            if (!(this->unk_156 & 1)) {
+        if (this->debugArrowTimer != 0) {
+            if (!(this->debugArrowTimer & 1)) {
                 DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                        this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
                                        1.0f, 1.0f, 1.0f, 120, 120, 0, 255, 4, globalCtx->state.gfxCtx);
