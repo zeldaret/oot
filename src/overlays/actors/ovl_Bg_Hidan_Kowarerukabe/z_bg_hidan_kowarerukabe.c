@@ -9,7 +9,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_05000530;
+extern Gfx D_05000530[];
 
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
@@ -40,9 +40,9 @@ static ColHeader* sCollisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
 
 static s16 sSphereRadii[] = { 80, 45, 80 };
 
-static s16 sSphYPositions[] = { 0, 500, 500 };
+static s16 sSphereYPositions[] = { 0, 500, 500 };
 
-static f32 D_8088AE6C[] = { 0.7f, 0.0f, 0.0f };
+static f32 sActorYPosOffsets[] = { 0.7f, 0.0f, 0.0f };
 
 static u32 sInitChain[] = {
     0xB0F407D0, 0xB0F80190, 0x30FC03E8, 0x00000000, 0x00000000, 0x00000000,
@@ -70,11 +70,12 @@ void func_8088A0B8(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItems);
 
     this->collider.list[0].dim.modelSphere.radius = sSphereRadii[this->dyna.actor.params & 0xFF];
-    this->collider.list[0].dim.modelSphere.center.y = sSphYPositions[this->dyna.actor.params & 0xFF];
+    this->collider.list[0].dim.modelSphere.center.y = sSphereYPositions[this->dyna.actor.params & 0xFF];
 }
 
 void func_8088A150(BgHidanKowarerukabe* this) {
-    this->dyna.actor.posRot.pos.y = D_8088AE6C[this->dyna.actor.params & 0xFF] + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.posRot.pos.y =
+        sActorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.initPosRot.pos.y;
 }
 
 void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -83,6 +84,8 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_8088A020(this, globalCtx);
 
     if ((this->dyna.actor.params & 0xFF) < 0 || (this->dyna.actor.params & 0xFF) >= 3) {
+        // Translation: Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data
+        // 0x%04x)
         osSyncPrintf("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
                      "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
@@ -98,6 +101,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     func_8088A0B8(this, globalCtx);
     func_8088A150(this);
+    // Translation: (fire walls, floors, destroyed by bombs)(arg_data 0x%04x)
     osSyncPrintf("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
@@ -109,19 +113,19 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088A290(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    Actor* thisx = (Actor*)this;
-    Vec3f sp28;
+    s32 pad;
+    Vec3f pos;
 
-    sp28 = thisx->posRot.pos;
-    sp28.y += 10.0f;
+    pos = this->dyna.actor.posRot.pos;
+    pos.y += 10.0f;
 
-    func_80033480(globalCtx, &sp28, 0.0f, 0, 600, 300, 1);
+    func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 1);
 
-    sp28.x = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + thisx->posRot.pos.x;
-    sp28.y = (Math_Rand_ZeroOne() * 100.0f) + thisx->posRot.pos.y;
-    sp28.z = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + thisx->posRot.pos.z;
+    pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.x;
+    pos.y = (Math_Rand_ZeroOne() * 100.0f) + this->dyna.actor.posRot.pos.y;
+    pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.z;
 
-    func_80033480(globalCtx, &sp28, 100.0f, 4, 200, 250, 1);
+    func_80033480(globalCtx, &pos, 100.0f, 4, 200, 250, 1);
 }
 
 void func_8088A3B0(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
@@ -129,48 +133,106 @@ void func_8088A3B0(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     s32 j;
     Vec3f velocity;
     Vec3f pos;
-    s16 arg9;
+    s16 arg5;
     Actor* thisx = (Actor*)this;
     f32 sin = Math_Sins(thisx->shape.rot.y);
     f32 cos = Math_Coss(thisx->shape.rot.y);
-    f32 num1;
-    f32 num2;
-    s16 arg5;
+    f32 velocityFactor;
+    f32 velocityFactor1;
+    s16 arg9;
 
     pos.y = thisx->posRot.pos.y + 10.0f;
-
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 5; j++) {
-            num2 = (i * 0x18) - 0x30;
-            pos.x = ((((j * 0x18) - 0x30) * sin) + (num2 * cos)) + thisx->posRot.pos.x;
-            pos.z = ((((j * 0x18) - 0x30) * cos) - (num2 * sin)) + thisx->posRot.pos.z;
-
-            num1 = (Math_Rand_ZeroOne() * 8.0f) * (i - 2);
-            num2 = (Math_Rand_ZeroOne() * 8.0f) * (j - 2);
-
-            velocity.x = (num2 * sin) + (num1 * cos);
+            velocityFactor1 = (i * 24) - 48;
+            pos.x = ((((j * 24) - 48) * sin) + (velocityFactor1 * cos)) + thisx->posRot.pos.x;
+            pos.z = ((((j * 24) - 48) * cos) - (velocityFactor1 * sin)) + thisx->posRot.pos.z;
+            velocityFactor = (Math_Rand_ZeroOne() * 8.0f) * (i - 2);
+            velocityFactor1 = (Math_Rand_ZeroOne() * 8.0f) * (j - 2);
+            velocity.x = (velocityFactor1 * sin) + (velocityFactor * cos);
             velocity.y = Math_Rand_ZeroOne() * 30.0f;
-            velocity.z = (num2 * cos) - (num1 * sin);
-
+            velocity.z = (velocityFactor1 * cos) - (velocityFactor * sin);
             arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
-
             if (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) {
                 arg5 = 65;
             } else {
                 arg5 = 64;
             }
-
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
                                  100, -1, OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05000530);
         }
     }
 }
 
-void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/func_8088A67C.s")
+void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 j;
+    Vec3f velocity;
+    Vec3f pos;
+    s16 arg5;
+    Actor* thisx = (Actor*)this;
+    f32 sin = Math_Sins(thisx->shape.rot.y);
+    f32 cos = Math_Coss(thisx->shape.rot.y);
+    f32 velocityFactor;
+    f32 velocityFactor1;
+    s16 arg9;
+    s32 i;
 
-void func_8088A914(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/func_8088A914.s")
+    for (i = 0; i < 100; i += 20) {
+        pos.y = i + thisx->posRot.pos.y;
+        for (j = 0; j < 5; j++) {
+            pos.x = (((j * 16) - 32) * cos) + thisx->posRot.pos.x;
+            pos.z = thisx->posRot.pos.z - (((j * 16) - 32) * sin);
+            velocityFactor = Math_Rand_ZeroOne() * 3.0f * (j - 2);
+            velocityFactor1 = Math_Rand_ZeroOne() * 6.0f;
+            velocity.x = (velocityFactor1 * sin) + (velocityFactor * cos);
+            velocity.y = Math_Rand_ZeroOne() * 18.0f;
+            velocity.z = (velocityFactor1 * cos) - (velocityFactor * sin);
+            arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
+            arg5 = (arg9 >= 15) ? 32 : 64;
+            if (Math_Rand_ZeroOne() < 5.0f) {
+                arg5 |= 1;
+            }
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot, -540, arg5, 20, 20, 0, arg9, 2, 32, 100,
+                                 -1, 3, &D_05000530);
+        }
+    }
+}
+
+void func_8088A914(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 j;
+    Vec3f velocity;
+    Vec3f pos;
+    s16 arg5;
+    Actor* thisx = (Actor*)this;
+    f32 sin = Math_Sins(thisx->shape.rot.y);
+    f32 cos = Math_Coss(thisx->shape.rot.y);
+    f32 velocityFactor;
+    f32 velocityFactor1;
+    s16 arg9;
+    s32 i;
+
+    for (i = 0; i < 120; i += 24) {
+        pos.y = i + thisx->posRot.pos.y;
+        for (j = 0; j < 5; j++) {
+            pos.x = (((j * 28) - 56) * cos) + thisx->posRot.pos.x;
+            pos.z = thisx->posRot.pos.z - (((j * 28) - 56) * sin);
+            velocityFactor = Math_Rand_ZeroOne() * 6.0f * (j - 2);
+            velocityFactor1 = Math_Rand_ZeroOne() * 6.0f;
+            velocity.x = (velocityFactor1 * sin) + (velocityFactor * cos);
+            velocity.y = Math_Rand_ZeroOne() * 34.0f;
+            velocity.z = (velocityFactor1 * cos) - (velocityFactor * sin);
+            arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 14.0f * 1.6f) + 14.0f;
+            arg5 = (arg9 > 20) ? 32 : 64;
+            if (Math_Rand_ZeroOne() < 5.0f) {
+                arg5 |= 1;
+            }
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
+                                 -1, 3, &D_05000530);
+        }
+    }
+}
 
 void func_8088ABA0(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xFF) {
