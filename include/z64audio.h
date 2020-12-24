@@ -1103,4 +1103,18 @@ typedef struct {
 #define SFX_INDEX(sfxId)    (sfxId & 0x01FF)
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
 
+typedef struct {
+    /* 0x0000 */ u8 noteIdx;
+    /* 0x0001 */ u8 unk_01;
+    /* 0x0002 */ u16 unk_02;
+    /* 0x0004 */ u8 volume;
+    /* 0x0005 */ u8 vibrato;
+    /* 0x0006 */ s8 tone;
+    /* 0x0007 */ u8 semitone;
+} OcarinaNote;  // size = 0x8
+
+typedef struct {
+    /* 0x0000 */ OcarinaNote notes[20];
+} OcarinaSong; // size = 0xA0
+
 #endif

@@ -3253,8 +3253,8 @@ glabel L800F12F0
 /* B684F0 800F1350 24050003 */  li    $a1, 3
 /* B684F4 800F1354 0C03ED07 */  jal   GfxPrint_SetPos
 /* B684F8 800F1358 24060004 */   li    $a2, 4
-/* B684FC 800F135C 3C028017 */  lui   $v0, %hi(D_8016B9FC) # $v0, 0x8017
-/* B68500 800F1360 2442B9FC */  addiu $v0, %lo(D_8016B9FC) # addiu $v0, $v0, -0x4604
+/* B684FC 800F135C 3C028017 */  lui   $v0, %hi(sDisplayedStaff) # $v0, 0x8017
+/* B68500 800F1360 2442B9FC */  addiu $v0, %lo(sDisplayedStaff) # addiu $v0, $v0, -0x4604
 /* B68504 800F1364 904D0002 */  lbu   $t5, 2($v0)
 /* B68508 800F1368 3C058015 */  lui   $a1, %hi(D_8014A290) # $a1, 0x8015
 /* B6850C 800F136C 24A5A290 */  addiu $a1, %lo(D_8014A290) # addiu $a1, $a1, -0x5d70
@@ -3326,10 +3326,10 @@ glabel L800F12F0
 /* B6860C 800F146C 24050003 */  li    $a1, 3
 /* B68610 800F1470 0C03ED07 */  jal   GfxPrint_SetPos
 /* B68614 800F1474 24060018 */   li    $a2, 24
-/* B68618 800F1478 3C0A8013 */  lui   $t2, %hi(D_80130F38) # $t2, 0x8013
+/* B68618 800F1478 3C0A8013 */  lui   $t2, %hi(sPlaybackState) # $t2, 0x8013
 /* B6861C 800F147C 3C0B8013 */  lui   $t3, %hi(D_80131858) # $t3, 0x8013
 /* B68620 800F1480 916B1858 */  lbu   $t3, %lo(D_80131858)($t3)
-/* B68624 800F1484 914A0F38 */  lbu   $t2, %lo(D_80130F38)($t2)
+/* B68624 800F1484 914A0F38 */  lbu   $t2, %lo(sPlaybackState)($t2)
 /* B68628 800F1488 3C058015 */  lui   $a1, %hi(D_8014A2E4) # $a1, 0x8015
 /* B6862C 800F148C 3C068013 */  lui   $a2, %hi(D_80130F10) # $a2, 0x8013
 /* B68630 800F1490 3C078013 */  lui   $a3, %hi(D_80130F3C) # $a3, 0x8013

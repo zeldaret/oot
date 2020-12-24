@@ -210,7 +210,7 @@ glabel func_800ED458
 /* B648AC 800ED70C 3C038013 */  lui   $v1, %hi(D_80130F2C) # $v1, 0x8013
 /* B648B0 800ED710 24630F2C */  addiu $v1, %lo(D_80130F2C) # addiu $v1, $v1, 0xf2c
 /* B648B4 800ED714 A06C0000 */  sb    $t4, ($v1)
-/* B648B8 800ED718 0C03B298 */  jal   func_800ECA60
+/* B648B8 800ED718 0C03B298 */  jal   AudioOcarina_NormalizeTone
 /* B648BC 800ED71C 80640000 */   lb    $a0, ($v1)
 /* B648C0 800ED720 3C028017 */  lui   $v0, %hi(D_8016BA08) # $v0, 0x8017
 /* B648C4 800ED724 8042BA08 */  lb    $v0, %lo(D_8016BA08)($v0)
