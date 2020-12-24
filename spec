@@ -864,7 +864,6 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Kowarerukabe"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/z_bg_hidan_kowarerukabe.o"
-    include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.data.o"
     include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.reloc.o"
 endseg
 
