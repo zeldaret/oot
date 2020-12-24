@@ -16,8 +16,8 @@ f32 Math_SinS(s16 angle) {
     return sins(angle) * SHT_MINV;
 }
 
-// Changes pValue by step towards target, setting it equal when the target is reached. step is scaled by the game's
-// update rate. Returns true when target is reached, false otherwise.
+// Changes pValue by step (scaled by the update rate) towards target, setting it equal when the target is reached.
+// Returns true when target is reached, false otherwise.
 s32 Math_ApproxUpdateScaledS(s16* pValue, s16 target, s16 step) {
     if (step != 0) {
         f32 updateScale = R_UPDATE_RATE * 0.5f;
@@ -81,30 +81,30 @@ s32 Math_ApproxF(f32* pValue, f32 target, f32 step) {
     return false;
 }
 
-// Changes pValue by step. If pvalue reaches target angle or its opposite, sets it equal to target.
-// Returns true when target is reached, false otherwise.
-s32 func_80077A90(s16* pValue, s16 target, s16 step) {
+// Changes pValue by step. If pvalue reaches limit angle or its opposite, sets it equal to limit angle.
+// Returns true when limit angle or its opposite is reached, false otherwise.
+s32 func_80077A90(s16* pValue, s16 limit, s16 step) {
     s16 orig = *pValue;
 
     *pValue += step;
 
-    if (((s16)(*pValue - target) * (s16)(orig - target)) <= 0) {
-        *pValue = target;
+    if (((s16)(*pValue - limit) * (s16)(orig - limit)) <= 0) {
+        *pValue = limit;
         return true;
     }
 
     return false;
 }
 
-// Changes pValue by step. If pvalue reaches target, sets it equal to target.
-// Returns true when target is reached, false otherwise.
-s32 func_80077AF8(s16* pValue, s16 target, s16 step) {
+// Changes pValue by step. If pvalue reaches limit, sets it equal to limit.
+// Returns true when limit is reached, false otherwise.
+s32 func_80077AF8(s16* pValue, s16 limit, s16 step) {
     s16 orig = *pValue;
 
     *pValue += step;
 
-    if (((*pValue - target) * (orig - target)) <= 0) {
-        *pValue = target;
+    if (((*pValue - limit) * (orig - limit)) <= 0) {
+        *pValue = limit;
         return true;
     }
 
@@ -142,23 +142,23 @@ s32 func_80077B58(s16* pValue, s16 target, s16 step) {
     return false;
 }
 
-// Changes pValue by step. If pvalue reaches target, sets it equal to target.
-// Returns true when target is reached, false otherwise.
-s32 func_80077C1C(f32* pValue, f32 target, f32 step) {
+// Changes pValue by step. If pvalue reaches limit, sets it equal to limit.
+// Returns true when limit is reached, false otherwise.
+s32 func_80077C1C(f32* pValue, f32 limit, f32 step) {
     f32 orig = *pValue;
 
     *pValue += step;
 
-    if (((*pValue - target) * (orig - target)) <= 0) {
-        *pValue = target;
+    if (((*pValue - limit) * (orig - limit)) <= 0) {
+        *pValue = limit;
         return true;
     }
 
     return false;
 }
 
-// Increases pValue by incrStep if pValue is less than target and decreases by decrStep if it is greater. If pvalue
-// reaches target, sets it equal to target. Returns true when target is reached, false otherwise.
+// Changes pValue toward target by incrStep if pValue is smaller and by decrStep if it is greater, setting it equal when
+// target is reached. Returns true when target is reached, false otherwise.
 s32 func_80077C6C(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     f32 step = (target >= *pValue) ? incrStep : decrStep;
 
@@ -403,8 +403,7 @@ f32 Math_SmoothScaleMaxMinF(f32* pValue, f32 target, f32 fraction, f32 step, f32
     return fabsf(target - *pValue);
 }
 
-// Changes pValue by step towards target. If this step is more than fraction of the remaining distance, step by that
-// instead.
+// Changes pValue by step towards target. If step is more than fraction of the remaining distance, step by that instead.
 void Math_SmoothScaleMaxF(f32* pValue, f32 target, f32 fraction, f32 step) {
     if (*pValue != target) {
         f32 stepSize = (target - *pValue) * fraction;
@@ -419,8 +418,7 @@ void Math_SmoothScaleMaxF(f32* pValue, f32 target, f32 fraction, f32 step) {
     }
 }
 
-// Changes pValue by step towards zero. If this step is more than fraction of the remaining distance, step by that
-// instead.
+// Changes pValue by step towards zero. If step is more than fraction of the remaining distance, step by that instead.
 void Math_SmoothDownscaleMaxF(f32* pValue, f32 fraction, f32 step) {
     f32 stepSize = *pValue * fraction;
 
@@ -526,8 +524,7 @@ s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 scale, s16 step, s16 mi
     return diff;
 }
 
-// Changes pValue by step towards target. If this step is more than 1/scale of the remaining distance, step by that
-// instead.
+// Changes pValue by step towards target. If step is more than 1/scale of the remaining distance, step by that instead.
 void Math_SmoothScaleMaxS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
     s16 diff = target - *pValue;
 
