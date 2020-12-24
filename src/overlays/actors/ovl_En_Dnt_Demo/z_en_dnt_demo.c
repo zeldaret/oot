@@ -139,7 +139,8 @@ void func_809F0AA4(EnDntDemo* this, GlobalContext* globalCtx) {
                     }
                 case PLAYER_MASK_TRUTH:
                     if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != 2)) {
-                        Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
                         this->unk_15C = 1;
                         this->unk_1FC->unk_24E = 1;
                         sp3C = 1;
