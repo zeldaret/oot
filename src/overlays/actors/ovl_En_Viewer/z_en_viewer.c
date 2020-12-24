@@ -42,7 +42,7 @@ void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void func_80B2C398(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2);
-void func_80B2C8AC(EnViewer* this, GlobalContext* globalCtx);
+void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx);
 void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this);
 
 extern Mtx D_01000000;
@@ -828,9 +828,8 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
     if (this) {}
 }
 
-#ifdef NON_MATCHING
-void func_80B2C8AC(EnViewer* this, GlobalContext* globalCtx) {
-    s32 pad;
+void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
+    EnViewer* this = this2;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1941);
@@ -846,14 +845,14 @@ void func_80B2C8AC(EnViewer* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxMinF(&this->unk_1E8[i].unk_24.z, 1.0f, 1.0f, this->unk_1E8[i].unk_24.x,
                                         this->unk_1E8[i].unk_24.x);
                 this->unk_1E8[i].unk_18.x =
-                    this->unk_1E8[i].unk_24.z * (this->unk_1E8[i].unk_C.x - this->unk_1E8[i].unk_0.x) +
-                    this->unk_1E8[i].unk_0.x;
+                    this->unk_1E8[i].unk_0.x +
+                    (this->unk_1E8[i].unk_C.x - this->unk_1E8[i].unk_0.x) * this->unk_1E8[i].unk_24.z;
                 this->unk_1E8[i].unk_18.y =
-                    this->unk_1E8[i].unk_24.z * (this->unk_1E8[i].unk_C.y - this->unk_1E8[i].unk_0.y) +
-                    this->unk_1E8[i].unk_0.y;
+                    this->unk_1E8[i].unk_0.y +
+                    (this->unk_1E8[i].unk_C.y - this->unk_1E8[i].unk_0.y) * this->unk_1E8[i].unk_24.z;
                 this->unk_1E8[i].unk_18.z =
-                    this->unk_1E8[i].unk_24.z * (this->unk_1E8[i].unk_C.z - this->unk_1E8[i].unk_0.z) +
-                    this->unk_1E8[i].unk_0.z;
+                    this->unk_1E8[i].unk_0.z +
+                    (this->unk_1E8[i].unk_C.z - this->unk_1E8[i].unk_0.z) * this->unk_1E8[i].unk_24.z;
                 if (this->unk_1E8[i].unk_24.z >= 1.0f) {
                     this->unk_1E8[i].unk_30++;
                 }
@@ -872,7 +871,7 @@ void func_80B2C8AC(EnViewer* this, GlobalContext* globalCtx) {
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
-                                    ((((i * 4) + i) * 2) - (globalCtx->state.frames * 20)) & 0x1FF, 32, 128));
+                                    (10 * i - 20 * globalCtx->state.frames) & 0x1FF, 32, 128));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 170, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 00, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2027),
@@ -883,18 +882,15 @@ void func_80B2C8AC(EnViewer* this, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Viewer/func_80B2C8AC.s")
-#endif
 
 #ifdef NON_MATCHING
-void func_80B2CC1C(GlobalContext *globalCtx, EnViewer *this) {
+void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
     Vec3f vec1;
-    Vec3f vec2;    
+    Vec3f vec2;
     s16 angle;
 
     if (this->actor.params >> 8 == 5) {
-        if(1) {}
+        if (1) {}
         D_80B2D440[0]->unk_16B0 = BREG(54) / 10.0f;
         D_80B2D440[0]->unk_16B4 = (BREG(60) + 25) / 100.0f;
         D_80B2D440[0]->unk_16B8 = (BREG(55) - 45) / 10.0f;
@@ -903,9 +899,10 @@ void func_80B2CC1C(GlobalContext *globalCtx, EnViewer *this) {
         D_80B2D440[0]->unk_16C8 = (BREG(67) - 10) / 10.0f;
         angle = 0x2000;
         vec1.x = KREG(16) - 13.0f;
-        vec1.y = (KREG(17) + 3.0f) + Math_Sins(D_80B2CFEC) * KREG(20);
-        vec1.z = KREG(18) - 10.0f;
-        D_80B2CFEC += (KREG(19) * 0x1000) + angle;
+        vec1.y = KREG(17) + 3.0f + Math_Sins(D_80B2CFEC) * KREG(20);
+        vec1.z = KREG(18) - 10.0f;  
+        D_80B2CFEC += KREG(19) * 0x1000 + angle;
+        // D_80B2CFEC += KREG(19) * 0x1000 + 0x2000;
         Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
         D_80B2D440[0]->unk_16D4.x = D_80B2D448.x + vec2.x;
