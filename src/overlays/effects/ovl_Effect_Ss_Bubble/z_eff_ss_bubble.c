@@ -29,8 +29,7 @@ u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     // the addresses were changed to refer to different segments
     this->gfx = SEGMENTED_TO_VIRTUAL(Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
     this->pos.x = ((Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.x;
-    this->pos.y =
-        (((Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;
+    this->pos.y = (((Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;
     this->pos.z = ((Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.z;
     Math_Vec3f_Copy(&this->vec, &this->pos);
     this->life = 1;

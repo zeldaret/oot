@@ -144,10 +144,8 @@ void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* t
             this->pos.z = this->actor->posRot.pos.z + this->vec.z;
             this->life++;
         } else if (this->life == 9) {
-            this->accel.x =
-                Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
-            this->accel.z =
-                Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }

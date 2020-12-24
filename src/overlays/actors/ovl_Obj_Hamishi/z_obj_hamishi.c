@@ -135,8 +135,7 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
-        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y =
-            Rand_ZeroFloat(65536.0f);
+        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y = Rand_ZeroFloat(65536.0f);
     }
 
     ObjHamishi_InitCollision(&this->actor, globalCtx);

@@ -105,11 +105,11 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
     }
-    pos.x = this->actor.posRot.pos.x +
-            this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.x =
+        this->actor.posRot.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
-    pos.z = this->actor.posRot.pos.z +
-            this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.z =
+        this->actor.posRot.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 2000, 5);
     }

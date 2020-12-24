@@ -148,8 +148,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                             Rand_CenteredFloat(50.0f);
                     pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(60.0f);
                     velocity.y = Rand_ZeroOne() + 1.0f;
-                    EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Rand_S16Offset(80, 100),
-                                                       25, 0, true);
+                    EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Rand_S16Offset(80, 100), 25,
+                                                       0, true);
                 }
                 break;
             case 5:

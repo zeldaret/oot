@@ -52,8 +52,8 @@ void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec
     static Color_RGBA8 brownPrim = { 100, 80, 100, 0 };
     static Color_RGBA8 redEnv = { 255, 110, 96, 0 };
 
-    func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv,
-                  ((Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
+    func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv, ((Rand_ZeroOne() * (scale * 0.2f)) + scale),
+                  scaleStep, life);
 }
 
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
@@ -180,8 +180,8 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
-                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 0x1E,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x2000;
     }
@@ -263,8 +263,8 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
-                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x10000;
     }

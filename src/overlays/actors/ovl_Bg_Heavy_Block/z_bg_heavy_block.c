@@ -465,12 +465,10 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
         this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1678.0f,
-                                       Rand_ZeroFloat(100.0f) + 1286.0f, Rand_CenteredFloat(30.0f) + 552.0f,
-                                       0.0f, 0.0f, 0.0f, 0);
-                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1729.0f,
-                                       Rand_ZeroFloat(80.0f) + 1269.0f, Rand_CenteredFloat(30.0f) + 600.0f,
-                                       0.0f, 0.0f, 0.0f, 0);
+                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1678.0f, Rand_ZeroFloat(100.0f) + 1286.0f,
+                                       Rand_CenteredFloat(30.0f) + 552.0f, 0.0f, 0.0f, 0.0f, 0);
+                BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1729.0f, Rand_ZeroFloat(80.0f) + 1269.0f,
+                                       Rand_CenteredFloat(30.0f) + 600.0f, 0.0f, 0.0f, 0.0f, 0);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
                 BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(100.0f) + -735.0f, 29.0f,

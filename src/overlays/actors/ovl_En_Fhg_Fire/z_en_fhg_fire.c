@@ -201,8 +201,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                     ballVelocity.z = Rand_CenteredFloat(30.f);
                     ballAccel.y = -0.2f;
                     EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &ballVelocity, &ballAccel,
-                                                    (s16)(Rand_ZeroOne() * 100.0f) + 240,
-                                                    FHGFLASH_LIGHTBALL_GREEN);
+                                                    (s16)(Rand_ZeroOne() * 100.0f) + 240, FHGFLASH_LIGHTBALL_GREEN);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, 10);
