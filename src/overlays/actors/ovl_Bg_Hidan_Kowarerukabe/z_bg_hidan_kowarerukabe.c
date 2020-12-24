@@ -84,8 +84,10 @@ void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
         actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.initPosRot.pos.y;
 }
 
-static u32 sInitChain[] = {
-    0xB0F407D0, 0xB0F80190, 0x30FC03E8, 0x00000000, 0x00000000, 0x00000000,
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
