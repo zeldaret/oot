@@ -1,4 +1,4 @@
-#include <vt.h>
+#include "vt.h"
 #include "z_en_owl.h"
 
 #define FLAGS 0x00000019
@@ -1157,7 +1157,7 @@ void func_80ACC460(EnOwl* this)
         if (this->unk_3FE > 0)
         {
             this->unk_3FE--;
-            SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+            SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animation), 2, 0.0f);
         } else {
             this->unk_3FE = 0xA0;
             this->unk_410 = func_80ACC390;
@@ -1170,7 +1170,7 @@ void func_80ACC540(EnOwl* this)
 {
     if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0)
     {
-        SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+        SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animation), 2, 0.0f);
         this->actionFlags |= 1;
     } else {
         this->actionFlags &= ~1;
@@ -1235,9 +1235,9 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
     }
     if (!(this->actionFlags & 0x80) && func_80ACC624(this, globalCtx))
     {
-        curAnim = this->skelAnime.animCurrentSeg;
+        curAnim = this->skelAnime.animation;
         curAnimFrame = this->skelAnime.animCurrentFrame;
-        if((this->skelAnime.animCurrentSeg == &D_06001168 && this->skelAnime.animCurrentFrame != 2.0f && (this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f || this->skelAnime.animCurrentFrame == 40.0f || this->skelAnime.animCurrentFrame == 58.0f)) || (this->skelAnime.animCurrentSeg == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)){
+        if((this->skelAnime.animation == &D_06001168 && this->skelAnime.animCurrentFrame != 2.0f && (this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f || this->skelAnime.animCurrentFrame == 40.0f || this->skelAnime.animCurrentFrame == 58.0f)) || (this->skelAnime.animation == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)){
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
@@ -1497,8 +1497,8 @@ void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx)
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
-    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
+    SkelAnime_DrawFlexOpa(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
 }
 

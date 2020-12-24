@@ -9,6 +9,13 @@ void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot02Objects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060013F0;
+extern UNK_TYPE D_060126F0;
+extern UNK_TYPE D_060128D8;
+extern UNK_TYPE D_06012BA4;
+extern UNK_TYPE D_06012D30;
+extern UNK_TYPE D_060133EC;
+
 /*
 const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,

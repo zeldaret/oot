@@ -1,8 +1,8 @@
 #ifndef _Z_EN_WALLMAS_H_
 #define _Z_EN_WALLMAS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef enum {
     /* 0x00 */ WMT_TIMER,

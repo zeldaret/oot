@@ -1,7 +1,7 @@
 #ifndef _Z64PLAYER_H_
 #define _Z64PLAYER_H_
 
-#include <z64actor.h>
+#include "z64actor.h"
 
 struct Player;
 
@@ -176,15 +176,15 @@ typedef struct {
     /* 0x86 */ Vec3s unk_86[2];
     /* 0x92 */ u16 unk_92;
     /* 0x94 */ u16 unk_94;
-    /* 0x98 */ LinkAnimetionEntry* unk_98;
-    /* 0x9C */ LinkAnimetionEntry* unk_9C;
-    /* 0xA0 */ LinkAnimetionEntry* unk_A0;
-    /* 0xA4 */ LinkAnimetionEntry* unk_A4;
-    /* 0xA8 */ LinkAnimetionEntry* unk_A8;
-    /* 0xAC */ LinkAnimetionEntry* unk_AC[4];
-    /* 0xBC */ LinkAnimetionEntry* unk_BC[2];
-    /* 0xC4 */ LinkAnimetionEntry* unk_C4[2];
-    /* 0xCC */ LinkAnimetionEntry* unk_CC[2];
+    /* 0x98 */ LinkAnimationHeader* unk_98;
+    /* 0x9C */ LinkAnimationHeader* unk_9C;
+    /* 0xA0 */ LinkAnimationHeader* unk_A0;
+    /* 0xA4 */ LinkAnimationHeader* unk_A4;
+    /* 0xA8 */ LinkAnimationHeader* unk_A8;
+    /* 0xAC */ LinkAnimationHeader* unk_AC[4];
+    /* 0xBC */ LinkAnimationHeader* unk_BC[2];
+    /* 0xC4 */ LinkAnimationHeader* unk_C4[2];
+    /* 0xCC */ LinkAnimationHeader* unk_CC[2];
 } PlayerAgeProperties; // size = 0xD4
 
 typedef struct {
@@ -273,7 +273,7 @@ typedef struct Player {
     /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ Actor*     boomerangActor;
     /* 0x068C */ Actor*     naviActor;
-    /* 0x0690 */ s16        naviMessageId;
+    /* 0x0690 */ s16        naviTextId;
     /* 0x0692 */ u8         stateFlags3;
     /* 0x0693 */ s8         exchangeItemId;
     /* 0x0694 */ Actor*     targetActor;

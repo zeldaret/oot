@@ -11,13 +11,14 @@ ORIG_COMPILER ?= 0
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
+  CPPFLAGS := -DNON_MATCHING
   COMPARE := 0
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CPPFLAGS = -P
+CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
     $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
@@ -59,6 +60,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
+EMULATOR = mupen64plus
+EMU_FLAGS = --noosd
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -131,6 +134,12 @@ $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_D
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
+build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
+
+build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
+
 build/src/code/fault.o: CFLAGS += -trapuv
 build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
@@ -140,18 +149,12 @@ build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
 
-# Todo: split libultra_code into libultra_code_O1, etc..
-build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/absf.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/osSetTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
-
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
+build/src/libultra_code_O1/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2_g3/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
-build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
@@ -192,6 +195,11 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py
 
+test: $(ROM)
+	$(EMULATOR) $(EMU_FLAGS) $<
+
+.PHONY: all clean setup test
+
 #### Various Recipes ####
 
 build/baserom/%.o: baserom/%
@@ -229,7 +237,7 @@ build/src/%.o: src/%.c
 	$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-build/src/libultra_code/llcvt.o: src/libultra_code/llcvt.c
+build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	python3 tools/set_o32abi_bit.py $@

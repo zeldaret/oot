@@ -70,14 +70,13 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_sibuki.c", 176),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_sibuki.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D18(gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                    this->rPrimColorA);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, this->gfx);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
+    gDPSetEnvColor(POLY_OPA_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+    gSPSegment(POLY_OPA_DISP++, 0x08, this->gfx);
+    gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_0401A160));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 198);
 }
@@ -96,7 +95,7 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->rMoveDelay--;
 
         if (this->rMoveDelay == 0) {
-            yaw = func_8005A948(Gameplay_GetCamera(globalCtx, 0));
+            yaw = Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, 0));
             xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->rDirection != 0) {

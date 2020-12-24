@@ -14,7 +14,7 @@ glabel EnShopnuts_Draw
 /* 00D7C 80AFB49C 25EFB25C */  addiu   $t7, $t7, %lo(func_80AFB25C) ## $t7 = 80AFB25C
 /* 00D80 80AFB4A0 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 00D84 80AFB4A4 AFB80014 */  sw      $t8, 0x0014($sp)
-/* 00D88 80AFB4A8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00D88 80AFB4A8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00D8C 80AFB4AC AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 00D90 80AFB4B0 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 00D94 80AFB4B4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

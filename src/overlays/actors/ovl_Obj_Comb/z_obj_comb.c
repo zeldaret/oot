@@ -33,14 +33,14 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
-ColliderJntSphInit sJntSphInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     1,
     &sJntSphItemsInit,
@@ -145,8 +145,11 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb_SetupWait(this);
 }
 
-void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    ObjComb* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void ObjComb_SetupWait(ObjComb* this) {
@@ -203,10 +206,10 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_050095B0);
+    gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
 
     func_800628A4(0, &this->collider);
 

@@ -1,8 +1,8 @@
 #ifndef _Z_EN_BOMBF_H_
 #define _Z_EN_BOMBF_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnBombf;
 
@@ -25,7 +25,7 @@ typedef struct EnBombf {
 typedef enum {
     /* 0xFFFF */ BOMBFLOWER_FLOWER = -1,
     /* 0x0000 */ BOMBFLOWER_BODY,
-    /* 0x0001 */ BOMBFLOWER_EXPLOSION,
+    /* 0x0001 */ BOMBFLOWER_EXPLOSION
 } EnBombfType;
 
 extern const ActorInit En_Bombf_InitVars;

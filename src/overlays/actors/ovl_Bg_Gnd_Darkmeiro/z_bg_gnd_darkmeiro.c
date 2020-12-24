@@ -36,8 +36,7 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 
 extern Gfx D_060088B0[];
 extern Gfx D_0600BEC0[];
-
-extern UNK_TYPE D_0600C080;
+extern ColHeader D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 2) {
@@ -53,7 +52,7 @@ void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    s32 local_c = 0;
+    ColHeader* colHeader = NULL;
     BgGndDarkmeiro* this = THIS;
 
     this->updateFunc = BgGndDarkmeiro_Noop;
@@ -64,9 +63,9 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.flags |= 0x80;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
-            DynaPolyInfo_Alloc(&D_0600C080, &local_c);
+            DynaPolyInfo_Alloc(&D_0600C080, &colHeader);
             this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, local_c);
+                DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
@@ -205,7 +204,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 378);
         //@bug Due to a bug in the display list, the transparency data is not used.
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 198, 202, 208, this->timer2);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 198, 202, 208, this->timer2);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 380);
 
         Gfx_DrawDListXlu(globalCtx, D_0600BEC0);
@@ -214,7 +213,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndDarkmeiro_DrawStaticBlock(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 391);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 198, 202, 208, 255);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 198, 202, 208, 255);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_darkmeiro.c", 393);
 
     Gfx_DrawDListXlu(globalCtx, D_0600BEC0);

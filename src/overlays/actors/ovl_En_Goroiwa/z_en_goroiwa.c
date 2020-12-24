@@ -7,7 +7,7 @@
 #include "z_en_goroiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -341,7 +341,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f sp5C;
     f32 temp_f0_2;
     s32 pad2;
-    u32 sp50;
+    s32 sp50;
     Vec3f sp44;
     WaterBox* waterBox;
     f32 ySurface;
@@ -538,8 +538,11 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                  this->actor.initPosRot.rot.z & 1);
 }
 
-void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnGoroiwa* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void func_80A4D5E0(EnGoroiwa* this) {

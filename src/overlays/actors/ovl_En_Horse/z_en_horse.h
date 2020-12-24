@@ -1,8 +1,8 @@
 #ifndef _Z_EN_HORSE_H_
 #define _Z_EN_HORSE_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnHorse;
 
@@ -39,6 +39,11 @@ typedef struct EnHorse {
       !((horseActor)->unk_1F0 & 0x80000) && !((horseActor)->unk_1F0 & 0x2000000))                       \
          ? true                                                                                         \
          : false)
+
+#define EN_HORSE_CHECK_5(horseActor) \
+    (((horseActor)->unk_1F0 & 0x4) \
+        ? true                       \
+        : false)
 
 extern const ActorInit En_Horse_InitVars;
 

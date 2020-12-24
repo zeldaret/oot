@@ -34,10 +34,10 @@ glabel func_808C2BC8
 /* 01A9C 808C2C2C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 01AA0 808C2C30 E7A60010 */  swc1    $f6, 0x0010($sp)           
-/* 01AA4 808C2C34 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 01AA4 808C2C34 3C040600 */  lui     $a0, %hi(D_06001074)                ## $a0 = 06000000
 /* 01AA8 808C2C38 0C028800 */  jal     SkelAnime_GetFrameCount
               
-/* 01AAC 808C2C3C 24841074 */  addiu   $a0, $a0, 0x1074           ## $a0 = 06001074
+/* 01AAC 808C2C3C 24841074 */  addiu   $a0, $a0, %lo(D_06001074)           ## $a0 = 06001074
 /* 01AB0 808C2C40 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
 /* 01AB4 808C2C44 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 01AB8 808C2C48 46804220 */  cvt.s.w $f8, $f8                   

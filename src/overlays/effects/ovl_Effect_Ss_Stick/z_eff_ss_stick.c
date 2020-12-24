@@ -62,12 +62,12 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         Matrix_RotateRPY(0, this->rYaw, globalCtx->state.frames * 10000, MTXMODE_APPLY);
     }
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D18(gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, gCullBackDList);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
+    gSPDisplayList(POLY_OPA_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_stick.c", 188);
 }
