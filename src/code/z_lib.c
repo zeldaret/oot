@@ -16,11 +16,11 @@ f32 Math_SinS(s16 angle) {
     return sins(angle) * SHT_MINV;
 }
 
+// Changes pValue by step towards target, setting it equal when the target is reached. step is scaled by the game's update rate.
+// Returns true when target is reached, false otherwise.
 s32 Math_ApproxUpdateScaledS(s16* pValue, s16 target, s16 step) {
-    f32 updateScale;
-
     if (step != 0) {
-        updateScale = R_UPDATE_RATE * 0.5f;
+        f32 updateScale = R_UPDATE_RATE * 0.5f;
 
         if ((s16)(*pValue - target) > 0) {
             step = -step;
@@ -30,15 +30,17 @@ s32 Math_ApproxUpdateScaledS(s16* pValue, s16 target, s16 step) {
 
         if (((s16)(*pValue - target) * step) >= 0) {
             *pValue = target;
-            return 1;
+            return true;
         }
     } else if (target == *pValue) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step towards target, setting it equal when the target is reached.
+// Returns true when target is reached, false otherwise.
 s32 Math_ApproxS(s16* pValue, s16 target, s16 step) {
     if (step != 0) {
         if (target < *pValue) {
@@ -49,15 +51,17 @@ s32 Math_ApproxS(s16* pValue, s16 target, s16 step) {
 
         if (((*pValue - target) * step) >= 0) {
             *pValue = target;
-            return 1;
+            return true;
         }
     } else if (target == *pValue) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step towards target, setting it equal when the target is reached.
+// Returns true when target is reached, false otherwise.
 s32 Math_ApproxF(f32* pValue, f32 target, f32 step) {
     if (step != 0.0f) {
         if (target < *pValue) {
@@ -68,15 +72,17 @@ s32 Math_ApproxF(f32* pValue, f32 target, f32 step) {
 
         if (((*pValue - target) * step) >= 0) {
             *pValue = target;
-            return 1;
+            return true;
         }
     } else if (target == *pValue) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step. If pvalue reaches target angle or its opposite, sets it equal to target.
+// Returns true when target is reached, false otherwise.
 s32 func_80077A90(s16* pValue, s16 target, s16 step) {
     s16 orig = *pValue;
 
@@ -84,12 +90,14 @@ s32 func_80077A90(s16* pValue, s16 target, s16 step) {
 
     if (((s16)(*pValue - target) * (s16)(orig - target)) <= 0) {
         *pValue = target;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step. If pvalue reaches target, sets it equal to target.
+// Returns true when target is reached, false otherwise.
 s32 func_80077AF8(s16* pValue, s16 target, s16 step) {
     s16 orig = *pValue;
 
@@ -97,41 +105,45 @@ s32 func_80077AF8(s16* pValue, s16 target, s16 step) {
 
     if (((*pValue - target) * (orig - target)) <= 0) {
         *pValue = target;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step towards target angle, setting it equal when the target is reached.
+// Returns true when target is reached, false otherwise.
 s32 func_80077B58(s16* pValue, s16 target, s16 step) {
-    s32 phi_v0 = target - *pValue;
+    s32 diff = target - *pValue;
 
-    if (phi_v0 < 0) {
+    if (diff < 0) {
         step = -step;
     }
 
-    if (phi_v0 >= 0x8000) {
+    if (diff >= 0x8000) {
         step = -step;
-        phi_v0 = -0xFFFF - -phi_v0;
-    } else if (phi_v0 <= -0x8000) {
-        phi_v0 += 0xFFFF;
+        diff = -0xFFFF - -diff;
+    } else if (diff <= -0x8000) {
+        diff += 0xFFFF;
         step = -step;
     }
 
     if (step != 0) {
         *pValue += step;
 
-        if ((phi_v0 * step) <= 0) {
+        if ((diff * step) <= 0) {
             *pValue = target;
-            return 1;
+            return true;
         }
     } else if (target == *pValue) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Changes pValue by step. If pvalue reaches target, sets it equal to target.
+// Returns true when target is reached, false otherwise.
 s32 func_80077C1C(f32* pValue, f32 target, f32 step) {
     f32 orig = *pValue;
 
@@ -139,12 +151,14 @@ s32 func_80077C1C(f32* pValue, f32 target, f32 step) {
 
     if (((*pValue - target) * (orig - target)) <= 0) {
         *pValue = target;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
+// Increases pValue by incrStep if pValue is less than target and decreases by decrStep if it is greater. If pvalue reaches target, sets it equal to target.
+// Returns true when target is reached, false otherwise.
 s32 func_80077C6C(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     f32 step = (target >= *pValue) ? incrStep : decrStep;
 
@@ -351,32 +365,32 @@ void IChain_Apply_Vec3s(u8* ptr, InitChainEntry* ichain) {
     vec->x = val;
 }
 
-f32 Math_SmoothScaleMaxMinF(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) {
-    f32 var;
-
+// Changes pValue by step towards target. If this step is more than fraction of the remaining distance, step by that instead, with a minimum step of minStep.
+// Returns remaining distance to target.
+f32 Math_SmoothScaleMaxMinF(f32* pValue, f32 target, f32 fraction, f32 step, f32 minStep) {
     if (*pValue != target) {
-        var = (target - *pValue) * scale;
+        f32 stepSize = (target - *pValue) * fraction;
 
-        if ((var >= minStep) || (var <= -minStep)) {
-            if (var > maxStep) {
-                var = maxStep;
+        if ((stepSize >= minStep) || (stepSize <= -minStep)) {
+            if (stepSize > step) {
+                stepSize = step;
             }
 
-            if (var < -maxStep) {
-                var = -maxStep;
+            if (stepSize < -step) {
+                stepSize = -step;
             }
 
-            *pValue += var;
+            *pValue += stepSize;
         } else {
-            if (var < minStep) {
+            if (stepSize < minStep) {
                 *pValue += minStep;
-                var = minStep;
+                stepSize = minStep;
 
                 if (target < *pValue) {
                     *pValue = target;
                 }
             }
-            if (var > -minStep) {
+            if (stepSize > -minStep) {
                 *pValue += -minStep;
 
                 if (*pValue < target) {
@@ -389,73 +403,70 @@ f32 Math_SmoothScaleMaxMinF(f32* pValue, f32 target, f32 scale, f32 maxStep, f32
     return fabsf(target - *pValue);
 }
 
-void Math_SmoothScaleMaxF(f32* pValue, f32 target, f32 scale, f32 maxStep) {
-    f32 step;
-
+// Changes pValue by step towards target. If this step is more than fraction of the remaining distance, step by that instead.
+void Math_SmoothScaleMaxF(f32* pValue, f32 target, f32 fraction, f32 step) {
     if (*pValue != target) {
-        step = (target - *pValue) * scale;
+        f32 stepSize = (target - *pValue) * fraction;
 
-        if (step > maxStep) {
-            step = maxStep;
-        } else if (step < -maxStep) {
-            step = -maxStep;
+        if (stepSize > step) {
+            stepSize = step;
+        } else if (stepSize < -step) {
+            stepSize = -step;
         }
 
-        *pValue += step;
+        *pValue += stepSize;
     }
 }
 
-void Math_SmoothDownscaleMaxF(f32* pValue, f32 scale, f32 maxStep) {
-    f32 step;
-
-    step = *pValue * scale;
-
-    if (step > maxStep) {
-        step = maxStep;
-    } else if (step < -maxStep) {
-        step = -maxStep;
+// Changes pValue by step towards zero. If this step is more than fraction of the remaining distance, step by that instead.
+void Math_SmoothDownscaleMaxF(f32* pValue, f32 fraction, f32 step) {
+    f32 stepSize = *pValue * fraction;
+    
+    if (stepSize > step) {
+        stepSize = step;
+    } else if (stepSize < -step) {
+        stepSize = -step;
     }
 
-    *pValue -= step;
+    *pValue -= stepSize;
 }
 
-f32 func_800784D8(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) {
-    f32 step;
-    f32 baseStep;
-
-    step = 0.0f;
-    baseStep = target - *pValue;
+// Changes pValue by step towards target angle in degrees. If this step is more than fraction of the remaining distance, step by that instead, with a minimum step of minStep.
+// Returns the value of the step taken.
+f32 func_800784D8(f32* pValue, f32 target, f32 fraction, f32 step, f32 minStep) {
+    f32 stepSize = 0.0f;
+    f32 diff = target - *pValue;
 
     if (*pValue != target) {
-        if (baseStep > 180.0f) {
-            baseStep = -(360.0f - baseStep);
-        } else if (baseStep < -180.0f) {
-            baseStep = 360.0f + baseStep;
+        if (diff > 180.0f) {
+            diff = -(360.0f - diff);
+        } else if (diff < -180.0f) {
+            diff = 360.0f + diff;
         }
 
-        step = baseStep * scale;
+        stepSize = diff * fraction;
 
-        if ((step >= minStep) || (step <= -minStep)) {
-            if (step > maxStep) {
-                step = maxStep;
+        if ((stepSize >= minStep) || (stepSize <= -minStep)) {
+            if (stepSize > step) {
+                stepSize = step;
             }
 
-            if (step < -maxStep) {
-                step = -maxStep;
+            if (stepSize < -step) {
+                stepSize = -step;
             }
 
-            *pValue += step;
+            *pValue += stepSize;
         } else {
-            if (step < minStep) {
-                step = minStep;
-                *pValue += step;
+            if (stepSize < minStep) {
+                stepSize = minStep;
+                *pValue += stepSize;
                 if (*pValue > target) {
                     *pValue = target;
                 }
             }
-            if (step > -minStep) {
-                step = -minStep;
-                *pValue += step;
+            if (stepSize > -minStep) {
+                stepSize = -minStep;
+                *pValue += stepSize;
                 if (*pValue < target) {
                     *pValue = target;
                 }
@@ -471,28 +482,28 @@ f32 func_800784D8(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) 
         *pValue += 360.0f;
     }
 
-    return step;
+    return stepSize;
 }
 
-s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 invScale, s16 maxStep, s16 minStep) {
-    s16 step = 0;
-    s16 diff = (target - *pValue);
-
-    s32 baseStep = diff / invScale;
+// Changes pValue by step towards target. If this step is more than 1/scale of the remaining distance, step by that instead, with a minimum step of minStep.
+// Returns remaining distance to target.
+s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep) {
+    s16 stepSize = 0;
+    s16 diff = target - *pValue;
 
     if (*pValue != target) {
-        step = baseStep;
+        stepSize = diff / scale;
 
-        if ((step > minStep) || (step < -minStep)) {
-            if (step > maxStep) {
-                step = maxStep;
+        if ((stepSize > minStep) || (stepSize < -minStep)) {
+            if (stepSize > step) {
+                stepSize = step;
             }
 
-            if (step < -maxStep) {
-                step = -maxStep;
+            if (stepSize < -step) {
+                stepSize = -step;
             }
 
-            *pValue += step;
+            *pValue += stepSize;
         } else {
             if (diff >= 0) {
                 *pValue += minStep;
@@ -513,17 +524,18 @@ s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 invScale, s16 maxStep, 
     return diff;
 }
 
-void Math_SmoothScaleMaxS(s16* pValue, s16 target, s16 invScale, s16 maxStep) {
-    s16 step = target - *pValue;
+// Changes pValue by step towards target. If this step is more than 1/scale of the remaining distance, step by that instead.
+void Math_SmoothScaleMaxS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
+    s16 diff = target - *pValue;
 
-    step /= invScale;
+    diff /= scale;
 
-    if (step > maxStep) {
+    if (diff > maxStep) {
         *pValue += maxStep;
-    } else if (step < -maxStep) {
+    } else if (diff < -maxStep) {
         *pValue -= maxStep;
     } else {
-        *pValue += step;
+        *pValue += diff;
     }
 }
 
