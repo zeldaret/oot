@@ -55,14 +55,20 @@ typedef enum {
     /* 4 */ INTRO_LOOK_GROUND,
     /* 5 */ INTRO_COLLAPSE,
     /* 6 */ INTRO_EMERGE
-} BossFdCutsceneStates;
+} BossFdCutsceneState;
 
 typedef enum {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
     /* 2 */ INTRO_FLY_CAMERA,
     /* 3 */ INTRO_FLY_RETRAT
-} BossFdIntroFlyStates;
+} BossFdIntroFlyState;
+
+typedef enum {
+    /* 0 */ MANE_CENTER,
+    /* 1 */ MANE_RIGHT,
+    /* 2 */ MANE_LEFT
+} BossFdManeIdx;
 
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
@@ -284,9 +290,9 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.05f);
-    SkelAnime_Init(globalCtx, &this->skelAnime1, &D_06011660, &D_060115E4, 0, 0, 0);
-    SkelAnime_Init(globalCtx, &this->skelAnime2, &D_060115A0, &D_06011524, 0, 0, 0);
-    SkelAnime_Init(globalCtx, &this->skelAnime3, &D_060114E0, &D_06011464, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnimeHead, &D_06011660, &D_060115E4, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnimeRightArm, &D_060115A0, &D_06011524, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnimeLeftArm, &D_060114E0, &D_06011464, 0, 0, 0);
     this->introState = INTRO_WAIT;
     if (this->introState == NO_CUTSCENE) {
         Audio_SetBGM(0x6B);
@@ -332,9 +338,9 @@ void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossFd* this = THIS;
 
-    SkelAnime_Free(&this->skelAnime1, globalCtx);
-    SkelAnime_Free(&this->skelAnime2, globalCtx);
-    SkelAnime_Free(&this->skelAnime3, globalCtx);
+    SkelAnime_Free(&this->skelAnimeHead, globalCtx);
+    SkelAnime_Free(&this->skelAnimeRightArm, globalCtx);
+    SkelAnime_Free(&this->skelAnimeLeftArm, globalCtx);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -343,9 +349,9 @@ s32 BossFd_IsFacingLink(BossFd* this) {
 }
 
 void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime1, &D_060115E4);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime2, &D_06011524);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime3, &D_06011464);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeHead, &D_060115E4);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeRightArm, &D_06011524);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeLeftArm, &D_06011464);
     this->actionFunc = BossFd_Fly;
     this->maxTurnRate = 1000.0f;
 }
@@ -382,9 +388,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 temp_z;
     s32 pad19C;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime2);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime3);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnimeHead);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnimeRightArm);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnimeLeftArm);
     dx = this->targetPosition.x - this->actor.posRot.pos.x;
     dy = this->targetPosition.y - this->actor.posRot.pos.y;
     dz = this->targetPosition.z - this->actor.posRot.pos.z;
@@ -425,53 +431,43 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     player2->actor.posRot.pos.x = 380.0f;
                     player2->actor.posRot.pos.y = 100.0f;
                     player2->actor.posRot.pos.z = 0.0f;
-                    player2->actor.posRot.rot.y = -0x4000;
+                    player2->actor.shape.rot.y = player2->actor.posRot.rot.y = -0x4000;
                     player2->actor.speedXZ = 0.0f;
-                    player2->actor.shape.rot.y = player2->actor.posRot.rot.y;
                     this->cameraEye.x = player2->actor.posRot.pos.x - 70.0f;
                     this->cameraEye.y = player2->actor.posRot.pos.y + 40.0f;
                     this->cameraEye.z = player2->actor.posRot.pos.z + 70.0f;
                     this->cameraAt.x = player2->actor.posRot.pos.x;
                     this->cameraAt.y = player2->actor.posRot.pos.y + 30.0f;
                     this->cameraAt.z = player2->actor.posRot.pos.z;
-                    this->cameraNextEye.x = (player2->actor.posRot.pos.x - 50.0f) + 18.0f;
+                    this->cameraNextEye.x = player2->actor.posRot.pos.x - 50.0f + 18.0f;
                     this->cameraNextEye.y = player2->actor.posRot.pos.y + 40;
-                    this->cameraNextEye.z = (player2->actor.posRot.pos.z + 50.0f) - 18.0f;
+                    this->cameraNextEye.z = player2->actor.posRot.pos.z + 50.0f - 18.0f;
                     this->cameraNextAt.x = player2->actor.posRot.pos.x;
                     this->cameraNextAt.y = player2->actor.posRot.pos.y + 50.0f;
                     this->cameraNextAt.z = player2->actor.posRot.pos.z;
                     BossFd_SetCameraSpeed(this, 1.0f);
+                    this->cameraAtMaxVel.x = this->cameraAtMaxVel.y = this->cameraAtMaxVel.z = 0.05f;
+                    this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.05f;
                     this->timers[0] = 0;
-                    this->cameraAtMaxVel.z = 0.05f;
-                    this->cameraAtMaxVel.y = 0.05f;
-                    this->cameraAtMaxVel.x = 0.05f;
-                    this->cameraEyeMaxVel.z = 0.05f;
-                    this->cameraEyeMaxVel.y = 0.05f;
-                    this->cameraEyeMaxVel.x = 0.05f;
                     this->cameraSpeedMod = 0.0f;
                     this->cameraAccel = 0.0f;
                     if (gSaveContext.eventChkInf[7] & 8) {
                         this->introState = INTRO_EMERGE;
-                        this->cameraNextEye.x = ((player2->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
-                        this->cameraNextEye.y = (player2->actor.posRot.pos.y + 100.0f) - 50.0f;
-                        this->cameraNextEye.z = (player2->actor.posRot.pos.z + 200.0f) - 150.0f;
+                        this->cameraNextEye.x = player2->actor.posRot.pos.x + 100.0f + 300.0f - 600.0f;
+                        this->cameraNextEye.y = player2->actor.posRot.pos.y + 100.0f - 50.0f;
+                        this->cameraNextEye.z = player2->actor.posRot.pos.z + 200.0f - 150.0f;
                         this->cameraNextAt.x = 0.0f;
                         this->cameraNextAt.y = 120.0f;
                         this->cameraNextAt.z = 0.0f;
                         BossFd_SetCameraSpeed(this, 0.5f);
+                        this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.1f;
+                        this->cameraAtMaxVel.x = this->cameraAtMaxVel.y = this->cameraAtMaxVel.z = 0.1f;
+                        this->cameraAccel = 0.005f;
                         this->timers[0] = 0;
                         this->holeIndex = 1;
-                        holePosition1 = &sHoleLocations[(u8)this->holeIndex];
-                        this->cameraEyeMaxVel.x = 0.1f;
-                        this->cameraEyeMaxVel.y = 0.1f;
-                        this->cameraEyeMaxVel.z = 0.1f;
-                        this->cameraAtMaxVel.x = 0.1f;
-                        this->cameraAtMaxVel.y = 0.1f;
-                        this->cameraAtMaxVel.z = 0.1f;
-                        this->cameraAccel = 0.005f;
-                        this->targetPosition.x = holePosition1->x;
-                        this->targetPosition.y = holePosition1->y - 200.0f;
-                        this->targetPosition.z = holePosition1->z;
+                        this->targetPosition.x = sHoleLocations[this->holeIndex].x;
+                        this->targetPosition.y = sHoleLocations[this->holeIndex].y - 200.0f;
+                        this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                         this->timers[0] = 50;
                         this->actionState = FD_EMERGE;
                         this->actor.posRot.rot.x = 0x4000;
@@ -489,12 +485,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = INTRO_LOOK_LINK;
                 }
             case INTRO_LOOK_LINK:
-                player2->actor.posRot.rot.y = -0x4000;
                 player2->actor.posRot.pos.x = 380.0f;
                 player2->actor.posRot.pos.y = 100.0f;
                 player2->actor.posRot.pos.z = 0.0f;
                 player2->actor.speedXZ = 0.0f;
-                player2->actor.shape.rot.y = player2->actor.posRot.rot.y;
+                player2->actor.shape.rot.y = player2->actor.posRot.rot.y = -0x4000;
                 if (this->timers[0] == 50) {
                     this->fogMode = 1;
                 }
@@ -524,7 +519,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                        &D_801333E0, &D_801333E8);
                 if (this->timers[0] == 0) {
                     this->introState = INTRO_COLLAPSE;
-                    this->cameraNextEye.x = (player2->actor.posRot.pos.x + 100.0f) + 300.0f;
+                    this->cameraNextEye.x = player2->actor.posRot.pos.x + 100.0f + 300.0f;
                     this->cameraNextEye.y = player2->actor.posRot.pos.y + 100.0f;
                     this->cameraNextEye.z = player2->actor.posRot.pos.z + 200.0f;
                     this->cameraNextAt.x = player2->actor.posRot.pos.x;
@@ -823,13 +818,16 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 0) {
                 this->timers[0] = (s16)Math_Rand_ZeroFloat(10.0f) + 10;
-                do {
+                while (1) {
                     this->targetPosition.x = Math_Rand_CenteredFloat(200.0f);
                     this->targetPosition.y = 390.0f;
                     this->targetPosition.z = Math_Rand_CenteredFloat(200.0f);
                     temp_x = this->targetPosition.x - this->actor.posRot.pos.x;
                     temp_z = this->targetPosition.z - this->actor.posRot.pos.z;
-                } while (!(sqrtf(SQ(temp_x) + SQ(temp_z)) > 100.0f));
+                    if (sqrtf(SQ(temp_x) + SQ(temp_z)) > 100.0f) {
+                        break;
+                    }
+                };
             }
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
@@ -1136,12 +1134,16 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 }
 #else
 
-Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                           { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                           { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+Vec3f sHoleLocations[] = {
+    { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
+    { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+    { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f },
+};
 
-Vec3f sCeilingTargets[] = { { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
-                            { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f } };
+Vec3f sCeilingTargets[] = {
+    { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
+    { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
+};
 
 Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
@@ -1792,7 +1794,7 @@ s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              void* thisx) {
+                               void* thisx) {
     BossFd* this = THIS;
 
     switch (limbIndex) {
@@ -1882,8 +1884,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4483);
 }
 
-s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx) {
+s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossFd* this = THIS;
 
     switch (limbIndex) {
@@ -1929,7 +1930,7 @@ static Gfx* sBodyDLists[] = { 0x060079A0, 0x06007AC0, 0x06007B70, 0x06007BD0, 0x
 
 void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     s16 segIndex;
-    s16 i1;
+    s16 i;
     f32 temp_float;
     Mtx* tempMat = Graph_Alloc(globalCtx->state.gfxCtx, 18 * sizeof(Mtx));
 
@@ -1952,8 +1953,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(-13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, BossFd_OverrideRightArmDraw,
-                   NULL, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeRightArm.skeleton, this->skelAnimeRightArm.limbDrawTbl,
+                      BossFd_OverrideRightArmDraw, NULL, this);
     Matrix_Pull();
     osSyncPrintf("RH\n");
     Matrix_Push();
@@ -1964,43 +1965,43 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, BossFd_OverrideLeftArmDraw, NULL,
-                   this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeLeftArm.skeleton, this->skelAnimeLeftArm.limbDrawTbl,
+                      BossFd_OverrideLeftArmDraw, NULL, this);
     Matrix_Pull();
     osSyncPrintf("BD\n");
     gSPSegment(POLY_OPA_DISP++, 0x0D, tempMat);
 
     Matrix_Push();
-    for (i1 = 0; i1 < 18; i1++, tempMat++) {
-        segIndex = (sBodyIndex[i1 + 1] + this->leadBodySeg) % 100;
+    for (i = 0; i < 18; i++, tempMat++) {
+        segIndex = (sBodyIndex[i + 1] + this->leadBodySeg) % 100;
         Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
                          MTXMODE_NEW);
         Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
         Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-        if (i1 < this->skinSegments) {
-            Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) * (*this).bodyPulse),
-                         1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) * (*this).bodyPulse), 1.0f,
+        if (i < this->skinSegments) {
+            Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse),
+                         1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse), 1.0f,
                          MTXMODE_APPLY);
             Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 4719);
             gSPMatrix(POLY_OPA_DISP++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, sBodyDLists[i1]);
+            gSPDisplayList(POLY_OPA_DISP++, sBodyDLists[i]);
         } else {
             MtxF spFC;
             Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
             Vec3f spE4;
             Vec3s spDC;
             f32 spD8;
-            if (this->bodyFallApart[i1] < 2) {
+            if (this->bodyFallApart[i] < 2) {
                 f32 spD4 = 0.1f;
                 temp_float = 0.1f;
 
                 Matrix_Translate(0.0f, 0.0f, -1100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-M_PI, MTXMODE_APPLY);
-                if (i1 >= 14) {
-                    f32 sp84 = 1.0f - ((i1 - 14) * 0.2f);
+                if (i >= 14) {
+                    f32 sp84 = 1.0f - ((i - 14) * 0.2f);
                     Matrix_Scale(sp84, sp84, 1.0f, 1);
                     spD4 = 0.1f * sp84;
                     temp_float = 0.1f * sp84;
@@ -2010,15 +2011,15 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, D_0600B2F8);
 
-                if (this->bodyFallApart[i1] == 1) {
+                if (this->bodyFallApart[i] == 1) {
                     EnVbBall* bones;
-                    this->bodyFallApart[i1] = 2;
+                    this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
                     func_800D20CC(&spFC, &spDC, 0);
                     bones =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                                      spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i1 + 200);
+                                                      spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);
 
                     bones->actor.scale.x = this->actor.scale.x * temp_float;
                     bones->actor.scale.y = this->actor.scale.y * spD4;
@@ -2026,8 +2027,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                 }
             }
         }
-        if (i1 > 0) {
-            func_800628A4(i1 + 1, &this->collider);
+        if (i > 0) {
+            func_800628A4(i + 1, &this->collider);
         }
     }
     Matrix_Pull();
@@ -2051,8 +2052,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Pull();
     osSyncPrintf("BHCE\n");
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, BossFd_OverrideHeadDraw,
-                   BossFd_PostHeadDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeHead.skeleton, this->skelAnimeHead.limbDrawTbl, BossFd_OverrideHeadDraw,
+                      BossFd_PostHeadDraw, &this->actor);
     osSyncPrintf("SK\n");
     {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
@@ -2062,18 +2063,18 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->centerManeColor, 0, 255);
         Matrix_Push();
         Matrix_MultVec3f(&spB0, &this->centerMane.head);
-        BossFd_DrawMane(globalCtx, this, this->centerMane.pos, this->fireManeRot, this->centerMane.scale, 0);
+        BossFd_DrawMane(globalCtx, this, this->centerMane.pos, this->fireManeRot, this->centerMane.scale, MANE_CENTER);
         Matrix_Pull();
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->rightManeColor, 0, 255);
         Matrix_Push();
         Matrix_MultVec3f(&spA4, &this->rightMane.head);
-        BossFd_DrawMane(globalCtx, this, this->rightMane.pos, this->fireManeRot, this->rightMane.scale, 1);
+        BossFd_DrawMane(globalCtx, this, this->rightMane.pos, this->fireManeRot, this->rightMane.scale, MANE_RIGHT);
         Matrix_Pull();
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->leftManeColor, 0, 255);
         Matrix_Push();
         spA4.x *= -1.0f;
         Matrix_MultVec3f(&spA4, &this->leftMane.head);
-        BossFd_DrawMane(globalCtx, this, this->leftMane.pos, this->fireManeRot, this->leftMane.scale, 2);
+        BossFd_DrawMane(globalCtx, this, this->leftMane.pos, this->fireManeRot, this->leftMane.scale, MANE_LEFT);
         Matrix_Pull();
         Matrix_Pull();
         osSyncPrintf("END\n");

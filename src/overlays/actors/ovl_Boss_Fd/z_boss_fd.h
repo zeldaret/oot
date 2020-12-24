@@ -59,9 +59,9 @@ typedef struct BossFdMane {
 
 typedef struct BossFd {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime1;
-    /* 0x0190 */ SkelAnime skelAnime2;
-    /* 0x01D4 */ SkelAnime skelAnime3;
+    /* 0x014C */ SkelAnime skelAnimeHead;
+    /* 0x0190 */ SkelAnime skelAnimeRightArm;
+    /* 0x01D4 */ SkelAnime skelAnimeLeftArm;
     /* 0x0218 */ BossFdActionFunc actionFunc;
     /* 0x021C */ s16 fireBreathTimer;
     /* 0x021E */ s16 skinSegments;
