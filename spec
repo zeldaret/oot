@@ -770,8 +770,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Sgami"
     include "build/src/overlays/actors/ovl_Bg_Haka_Sgami/z_bg_haka_sgami.o"
-    include "build/data/overlays/actors/z_bg_haka_sgami.data.o"
-    include "build/data/overlays/actors/z_bg_haka_sgami.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Sgami/ovl_Bg_Haka_Sgami_reloc.o"
 endseg
 
 beginseg
@@ -987,8 +986,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Haheniron"
     include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/z_bg_jya_haheniron.o"
-    include "build/data/overlays/actors/z_bg_jya_haheniron.data.o"
-    include "build/data/overlays/actors/z_bg_jya_haheniron.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Haheniron/ovl_Bg_Jya_Haheniron_reloc.o"
 endseg
 
 beginseg
@@ -1148,8 +1146,7 @@ endseg
 beginseg
     name "ovl_Bg_Relay_Objects"
     include "build/src/overlays/actors/ovl_Bg_Relay_Objects/z_bg_relay_objects.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.data.o"
-    include "build/data/overlays/actors/z_bg_relay_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Relay_Objects/ovl_Bg_Relay_Objects_reloc.o"
 endseg
 
 beginseg
@@ -1280,7 +1277,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot15_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.o"
-    include "build/data/overlays/actors/z_bg_spot15_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot15_Saku/ovl_Bg_Spot15_Saku_reloc.o"
 endseg
 
 beginseg
@@ -1957,7 +1954,7 @@ endseg
 beginseg
     name "ovl_En_Bird"
     include "build/src/overlays/actors/ovl_En_Bird/z_en_bird.o"
-    include "build/data/overlays/actors/z_en_bird.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bird/ovl_En_Bird_reloc.o"
 endseg
 
 beginseg
@@ -3254,11 +3251,7 @@ endseg
 beginseg
     name "ovl_En_Zl3"
     include "build/src/overlays/actors/ovl_En_Zl3/z_en_zl3.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Zl3/ovl_En_Zl3_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_zl3.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3271,8 +3264,7 @@ endseg
 beginseg
     name "ovl_En_Zo"
     include "build/src/overlays/actors/ovl_En_Zo/z_en_zo.o"
-    include "build/data/overlays/actors/z_en_zo.data.o"
-    include "build/data/overlays/actors/z_en_zo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zo/ovl_En_Zo_reloc.o"
 endseg
 
 beginseg
@@ -3349,8 +3341,7 @@ endseg
 beginseg
     name "ovl_Mir_Ray"
     include "build/src/overlays/actors/ovl_Mir_Ray/z_mir_ray.o"
-    include "build/data/overlays/actors/z_mir_ray.data.o"
-    include "build/data/overlays/actors/z_mir_ray.reloc.o"
+    include "build/src/overlays/actors/ovl_Mir_Ray/ovl_Mir_Ray_reloc.o"
 endseg
 
 beginseg
@@ -3393,8 +3384,7 @@ endseg
 beginseg
     name "ovl_Obj_Hamishi"
     include "build/src/overlays/actors/ovl_Obj_Hamishi/z_obj_hamishi.o"
-    include "build/data/overlays/actors/z_obj_hamishi.data.o"
-    include "build/data/overlays/actors/z_obj_hamishi.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Hamishi/ovl_Obj_Hamishi_reloc.o"
 endseg
 
 beginseg
