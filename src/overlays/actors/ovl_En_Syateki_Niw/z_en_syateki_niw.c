@@ -320,7 +320,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
                                 0);
         Math_SmoothScaleMaxF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
@@ -466,7 +466,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y,
-                            (s16)(MathF_Atan2(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
+                            (s16)(MathF_Atan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
                                               player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
                                   10430.378f) +
                                 phi_f16,

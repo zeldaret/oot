@@ -175,7 +175,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (MathF_Atan2(pathDiffX, pathDiffZ) * 10430.378f), 3,
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (MathF_Atan2F(pathDiffX, pathDiffZ) * 10430.378f), 3,
                                 this->bodyTurnSpeed, 0);
 
         Math_SmoothScaleMaxF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);

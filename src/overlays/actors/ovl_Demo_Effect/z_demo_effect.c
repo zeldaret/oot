@@ -2109,8 +2109,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = MathF_Atan2(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = MathF_Atan2(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = MathF_Atan2F(x, z) * (32768.0f / M_PI);
+    this->actor.shape.rot.x = MathF_Atan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
 /**

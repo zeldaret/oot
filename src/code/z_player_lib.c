@@ -754,7 +754,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp54 = MathF_Atan2(sp58, sp60);
+            sp54 = MathF_Atan2F(sp58, sp60);
 
             sp6C = sp80 - spA4.y;
 
@@ -765,9 +765,9 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp50 = MathF_Atan2(sp58, sp60);
+            sp50 = MathF_Atan2F(sp58, sp60);
 
-            temp1 = (M_PI - (MathF_Atan2(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
+            temp1 = (M_PI - (MathF_Atan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
             temp1 = temp1 - skelAnime->limbDrawTbl[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->limbDrawTbl[shinLimbIndex].x) + ABS(skelAnime->limbDrawTbl[shinLimbIndex].y)) <

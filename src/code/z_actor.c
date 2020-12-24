@@ -80,7 +80,7 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0,
                     (u32)(((arg3 * 0.00005f) > 1.0f ? 1.0f : (arg3 * 0.00005f)) * arg4) & 0xFF);
 
-    sp58 = MathF_Atan2(light->l.dir[0], light->l.dir[2]);
+    sp58 = MathF_Atan2F(light->l.dir[0], light->l.dir[2]);
     arg6 *= (4.5f - (light->l.dir[1] * 0.035f));
     arg6 = (arg6 < 1.0f) ? 1.0f : arg6;
     Matrix_Put(arg2);
@@ -4120,12 +4120,12 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         sp38 = Math_SinS(arg1);
         sp34 = Math_CosS(arg1);
         sp28 = (-(sp44 * sp38) - (sp3C * sp34));
-        arg2->x = -(s16)(MathF_Atan2(sp28 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->x = -(s16)(MathF_Atan2F(sp28 * sp40, 1.0f) * (32768 / M_PI));
 
         sp2C = Math_SinS(arg1 - 16375);
         sp30 = Math_CosS(arg1 - 16375);
         sp24 = (-(sp44 * sp2C) - (sp3C * sp30));
-        arg2->z = -(s16)(MathF_Atan2(sp24 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->z = -(s16)(MathF_Atan2F(sp24 * sp40, 1.0f) * (32768 / M_PI));
     }
 }
 

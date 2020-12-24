@@ -1079,7 +1079,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
         temp2 = this->actor.posRot.pos.z - player->actor.posRot.pos.z;
-        temp_f16 = MathF_Atan2(temp1, temp2) * 10430.3779296875f;
+        temp_f16 = MathF_Atan2F(temp1, temp2) * 10430.3779296875f;
         if (*shapeRotY != temp_f16) {
             Math_SmoothScaleMaxMinS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.posRot.rot.y = *shapeRotY;

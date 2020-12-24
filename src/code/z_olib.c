@@ -122,14 +122,14 @@ VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     if ((dist == 0.0f) && (vec->y == 0.0f)) {
         sph.pitch = 0;
     } else {
-        sph.pitch = DEGF_TO_BINANG(RADF_TO_DEGF(MathF_Atan2(dist, vec->y)));
+        sph.pitch = DEGF_TO_BINANG(RADF_TO_DEGF(MathF_Atan2F(dist, vec->y)));
     }
 
     sph.r = sqrtf(SQ(vec->y) + distSquared);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
         sph.yaw = 0;
     } else {
-        sph.yaw = DEGF_TO_BINANG(RADF_TO_DEGF(MathF_Atan2(vec->x, vec->z)));
+        sph.yaw = DEGF_TO_BINANG(RADF_TO_DEGF(MathF_Atan2F(vec->x, vec->z)));
     }
 
     *dest = sph;
@@ -183,8 +183,8 @@ VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* dest, Vec3f* a, Vec3f* b) {
 Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f anglesRad;
 
-    anglesRad.x = MathF_Atan2(b->z - a->z, b->y - a->y);
-    anglesRad.y = MathF_Atan2(b->x - a->x, b->z - a->z);
+    anglesRad.x = MathF_Atan2F(b->z - a->z, b->y - a->y);
+    anglesRad.y = MathF_Atan2F(b->x - a->x, b->z - a->z);
     anglesRad.z = 0;
 
     *dest = anglesRad;

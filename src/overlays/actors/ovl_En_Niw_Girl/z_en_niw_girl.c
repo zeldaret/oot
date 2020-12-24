@@ -118,7 +118,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     }
 
     // Change her angle so that she is always facing the cuckoo
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2(xDistBetween, zDistBetween) * 10430.378f, 3,
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2F(xDistBetween, zDistBetween) * 10430.378f, 3,
                             this->unk_27C, 0);
     Math_SmoothScaleMaxF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;

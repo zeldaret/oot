@@ -784,7 +784,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     actorShape->unk_14 = 0xFF;
-    this->actor.posRot.rot.y = actorShape->rot.y = MathF_Atan2(actionXDelta, actionZDelta) * 10430.3779296875f;
+    this->actor.posRot.rot.y = actorShape->rot.y = MathF_Atan2F(actionXDelta, actionZDelta) * 10430.3779296875f;
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {

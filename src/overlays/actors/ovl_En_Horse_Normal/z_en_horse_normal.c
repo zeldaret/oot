@@ -263,7 +263,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.posRot.pos.x;
     dz = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2F(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
         this->waypoint++;
@@ -524,7 +524,7 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     sp28.y = this->actor.posRot.pos.y + 60.0f;
     sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
     this->unk_220 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = MathF_Atan2(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = MathF_Atan2F(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
 static EnHorseNormalActionFunc sActionFuncs[] = {

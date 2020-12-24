@@ -417,7 +417,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->spinTimer = Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = MathF_Atan2(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.posRot.rot.y = MathF_Atan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -518,7 +518,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     }
     Math_SmoothScaleMaxMinF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||

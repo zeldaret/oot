@@ -320,7 +320,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     dx = point->x - this->actor.posRot.pos.x;
     dz = point->z - this->actor.posRot.pos.z;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
