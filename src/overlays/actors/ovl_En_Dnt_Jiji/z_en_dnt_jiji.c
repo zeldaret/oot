@@ -11,19 +11,36 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809F1C04(EnDntJiji* this, GlobalContext* globalCtx);
-void func_809F29E0(EnDntJiji* this, GlobalContext* globalCtx);
-void func_809F2254(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F1CF4(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F1C44(EnDntJiji* this, GlobalContext* globalCtx);
 void func_809F1DA8(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F1E8C(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F1EFC(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F1FE0(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2068(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2118(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2254(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2344(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F236C(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F24AC(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2550(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F25E4(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F26B0(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2720(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F28DC(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2974(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F29E0(EnDntJiji* this, GlobalContext* globalCtx);
+void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000560;
-extern UNK_TYPE D_06000944;
-extern UNK_TYPE D_06000A70;
-extern UNK_TYPE D_06000BD0;
-extern UNK_TYPE D_06000DF8;
-extern UNK_TYPE D_060012B0;
+extern AnimationHeader D_06000944;
+extern AnimationHeader D_06000A70;
+extern AnimationHeader D_06000BD0;
+extern AnimationHeader D_06000DF8;
+extern AnimationHeader D_060012B0;
 extern Gfx D_06002310[];
 extern SkeletonHeader D_060033E0;
-extern UNK_TYPE D_060037C0;
+extern AnimationHeader D_060037C0;
 
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
@@ -69,47 +86,278 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1C04.s")
+void func_809F1C04(EnDntJiji *this, GlobalContext *globalCtx) {
+    if (this->actor.bgCheckFlags & 1) {
+        this->unk_230 = this->actor.posRot.pos;
+        this->actionFunc = func_809F1C44;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1C44.s")
+void func_809F1C44(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32) SkelAnime_GetFrameCount(&D_06000560);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000560, 0.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->skelAnime.animCurrentFrame = 8.0f;
+    this->unk_23C = this->unk_23E = 0;
+    this->actionFunc = func_809F1CF4;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1CF4.s")
+void func_809F1CF4(EnDntJiji *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1DA8.s")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if ((this->unk_240 == 1) && (this->actor.xzDistFromLink < 150.0f) && !Gameplay_InCsMode(globalCtx) && !(player->stateFlags1 & 0x800)) {
+        func_800800F8(globalCtx, 0x8B6, -0x63, &this->actor, 0);
+        this->unk_240 = 0;
+        func_8002DF54(globalCtx, NULL, 8);
+        this->actionFunc = func_809F1EFC;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1E8C.s")
+void func_809F1DA8(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060012B0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060012B0, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
+    Audio_PlayActorSound2(&this->actor, 0x387C);
+    this->actionFunc = func_809F1E8C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1EFC.s")
+void func_809F1E8C(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    if (this->actor.xzDistFromLink < 150.0f) {
+        this->actionFunc = func_809F236C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F1FE0.s")
+void func_809F1EFC(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000DF8);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000DF8, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
+    Audio_PlayActorSound2(&this->actor, 0x387C);
+    this->actionFunc = func_809F1FE0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2068.s")
+void func_809F1FE0(EnDntJiji *this, GlobalContext *globalCtx) {
+    f32 sp1C = this->skelAnime.animCurrentFrame;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2118.s")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_248 <= sp1C) {
+        if (this->unk_23E != 3) {
+            this->actionFunc = func_809F2068;
+        } else {
+            this->actionFunc = func_809F29E0;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2254.s")
+void func_809F2068(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->actor.speedXZ = 1.0f;
+    this->unk_23C = 1;
+    this->unk_25A = 1;
+    this->actionFunc = func_809F2118;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2344.s")
+void func_809F2118(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x3E8, 0);
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
+    if (this->unk_242 == 0) {
+        this->unk_242 = 5;
+        Audio_PlayActorSound2(&this->actor, 0x387F);
+    }
+    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+        this->actor.velocity.y = 9.0f;
+        this->actor.speedXZ = 3.0f;
+    }
+    if (this->actor.xzDistFromLink < 100.0f) {
+        if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
+            this->unk_254 = 0x77;
+        } else {
+            this->unk_254 = 0x78;
+        }
+        this->actor.textId = 0x104D;
+        func_8010B680(globalCtx, this->actor.textId, NULL);
+        this->actor.speedXZ = 0.0f;
+        this->unk_250 = 5;
+        this->actionFunc = func_809F25E4;
+        
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F236C.s")
+void func_809F2254(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000560);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000560, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
+    Audio_PlayActorSound2(&this->actor, 0x387C);
+    Audio_PlayActorSound2(&this->actor, 0x387D);
+    this->actionFunc = func_809F2344;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F24AC.s")
+void func_809F2344(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2550.s")
+void func_809F236C(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000944);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000944, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 9, 3, 0xA, -1, 0xA, 0);
+    Audio_PlayActorSound2(&this->actor, 0x387C);
+    
+    if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
+        this->unk_254 = 0x79;
+    } else {
+        this->unk_254 = 0x7A;
+    }
+    this->actor.flags |= 1;
+    this->actor.textId = 0x10DB;
+    this->unk_250 = 5;
+    this->actionFunc = func_809F24AC;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F25E4.s")
+void func_809F24AC(EnDntJiji *this, GlobalContext *globalCtx) {
+    f32 sp2C = this->skelAnime.animCurrentFrame;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F26B0.s")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    if (this->unk_248 <= sp2C) {
+        if (func_8002F194(&this->actor, globalCtx)) {
+            this->actionFunc = func_809F2550;
+        } else {
+            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2720.s")
+void func_809F2550(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32) SkelAnime_GetFrameCount(&D_06000BD0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000BD0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->actionFunc = func_809F25E4;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F28DC.s")
+void func_809F25E4(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+        func_8005B1A4(ACTIVE_CAM);
+        func_80106CCC(globalCtx);
+        func_8002DF54(globalCtx, NULL, 7);
+        this->actor.parent = NULL;
+        func_8002F434(&this->actor, globalCtx, this->unk_254, 400.0f, 200.0f);
+        this->actionFunc = func_809F26B0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2974.s")
+void func_809F26B0(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actionFunc = func_809F2720;
+    } else {
+        func_8002F434(&this->actor, globalCtx, this->unk_254, 400.0f, 200.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F29E0.s")
+void func_809F2720(EnDntJiji *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+        if ((this->unk_254 == 0x79) || (this->unk_254 == 0x7A)) {
+            // nut
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            osSyncPrintf("実 \n");
+            gSaveContext.itemGetInf[1] |= 0x8000;
+        } else {
+            // stick
+            osSyncPrintf("棒 \n");
+            osSyncPrintf("棒 \n");
+            osSyncPrintf("棒 \n");
+            osSyncPrintf("棒 \n");
+            osSyncPrintf("棒 \n");
+            osSyncPrintf("棒 \n");
+            gSaveContext.itemGetInf[1] |= 0x4000;
+        }
+        this->actor.textId = 0;
+        if ((this->unk_258 != 0) && (this->unk_258->actor.update != 0)) {
+            this->unk_258->unk_15A = 0;
+            if (this->unk_25A == 0) {
+                this->unk_258->unk_158 = 4;
+            } else {
+                this->unk_258->unk_158 = 5;
+            }
+        }
+        this->actor.flags &= ~1;
+        if (this->unk_25A == 0) {
+            this->actionFunc = func_809F28DC;
+            return;
+        } else {
+            this->actionFunc = func_809F29E0;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/func_809F2A90.s")
+void func_809F28DC(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000A70);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000A70, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->actionFunc = func_809F2974;
+}
+
+void func_809F2974(EnDntJiji *this, GlobalContext *globalCtx) {
+    f32 sp1C = this->skelAnime.animCurrentFrame;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_248 <= sp1C) {
+        this->actionFunc = func_809F1C44;
+    }
+}
+
+void func_809F29E0(EnDntJiji *this, GlobalContext *globalCtx) {
+    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->actor.speedXZ = 2.0f;
+    this->unk_23C = this->unk_25A = 1;
+    this->actionFunc = func_809F2A90;
+}
+
+void func_809F2A90(EnDntJiji *this, GlobalContext *globalCtx) {
+    f32 sp2C;
+    f32 sp28;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    sp2C = this->unk_230.x - this->actor.posRot.pos.x;
+    sp28 = this->unk_230.z - this->actor.posRot.pos.z;
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+        this->actor.velocity.y = 9.0f;
+        this->actor.speedXZ = 3.0f;
+    }
+    if (this->unk_242 == 0) {
+        this->unk_242 = 3;
+        Audio_PlayActorSound2(&this->actor, 0x387F);
+    }
+    if ((fabsf(sp2C) < 5.0f) && (fabsf(sp28) < 5.0f)) {
+        this->actor.posRot.pos.x = this->unk_230.x;
+        this->actor.posRot.pos.z = this->unk_230.z;
+        if (this->unk_252 != 0) {
+            if ((this->unk_258->actor.update != NULL) && (this->unk_258->unk_158 == 0)) {
+                this->unk_258->unk_158 = 4;
+                this->unk_258->unk_15A = 2;
+                Audio_SetBGM(0x81A);
+            }
+        }
+        this->actor.speedXZ = 0.0f;
+        this->unk_23C = 0;
+        this->actionFunc = func_809F2254;
+        
+    }
+}
 
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

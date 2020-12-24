@@ -21,11 +21,13 @@ typedef struct EnDntJiji {
     /* 0x0242 */ s16 unk_242;
     /* 0x0244 */ s16 unk_244;
     /* 0x0246 */ s16 unk_246;
-    /* 0x0248 */ char unk_248[2];
+    /* 0x0248 */ s16 unk_248;
     /* 0x024A */ s16 unk_25A;
     /* 0x024C */ s16 unk_24C;
     /* 0x024E */ s16 unk_24E;
-    /* 0x0250 */ char unk_250[8];
+    /* 0x0250 */ s16 unk_250;
+    /* 0x0252 */ s16 unk_252;
+    /* 0x0254 */ s32 unk_254;
     /* 0x0258 */ struct EnDntDemo* unk_258;
     /* 0x025C */ ColliderCylinder collider;
 } EnDntJiji; // size = 0x02A8
