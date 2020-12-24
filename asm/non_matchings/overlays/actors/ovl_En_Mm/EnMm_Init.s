@@ -16,14 +16,14 @@ glabel EnMm_Init
 
 /* 00154 80AAD8C4 3C0741A8 */  lui     $a3, 0x41A8                ## $a3 = 41A80000
 /* 00158 80AAD8C8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 0015C 80AAD8CC 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
+/* 0015C 80AAD8CC 3C060600 */  lui     $a2, %hi(D_06005E18)                ## $a2 = 06000000
 /* 00160 80AAD8D0 260E0260 */  addiu   $t6, $s0, 0x0260           ## $t6 = 00000260
 /* 00164 80AAD8D4 260F02C0 */  addiu   $t7, $s0, 0x02C0           ## $t7 = 000002C0
 /* 00168 80AAD8D8 24180010 */  addiu   $t8, $zero, 0x0010         ## $t8 = 00000010
 /* 0016C 80AAD8DC AFB80018 */  sw      $t8, 0x0018($sp)
 /* 00170 80AAD8E0 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00174 80AAD8E4 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 00178 80AAD8E8 24C65E18 */  addiu   $a2, $a2, 0x5E18           ## $a2 = 06005E18
+/* 00178 80AAD8E8 24C65E18 */  addiu   $a2, $a2, %lo(D_06005E18)           ## $a2 = 06005E18
 /* 0017C 80AAD8EC AFA50038 */  sw      $a1, 0x0038($sp)
 /* 00180 80AAD8F0 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 00184 80AAD8F4 0C0291BE */  jal     SkelAnime_InitFlex

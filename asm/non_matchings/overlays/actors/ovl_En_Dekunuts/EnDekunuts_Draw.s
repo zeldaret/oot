@@ -9,10 +9,10 @@ glabel EnDekunuts_Draw
 /* 01580 809EAAE0 15E10007 */  bne     $t7, $at, .L809EAB00       
 /* 01584 809EAAE4 8FB80020 */  lw      $t8, 0x0020($sp)           
 /* 01588 809EAAE8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 0158C 809EAAEC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 0158C 809EAAEC 3C050600 */  lui     $a1, %hi(D_06002298)                ## $a1 = 06000000
 /* 01590 809EAAF0 0C00D498 */  jal     Gfx_DrawDListOpa
               
-/* 01594 809EAAF4 24A52298 */  addiu   $a1, $a1, 0x2298           ## $a1 = 06002298
+/* 01594 809EAAF4 24A52298 */  addiu   $a1, $a1, %lo(D_06002298)           ## $a1 = 06002298
 /* 01598 809EAAF8 10000009 */  beq     $zero, $zero, .L809EAB20   
 /* 0159C 809EAAFC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809EAB00:
