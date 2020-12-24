@@ -40,29 +40,21 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
-    /* 0x04 */ u8 blend; // if true, blent between.. skyboxes? palletes?
+    /* 0x04 */ u8 blend; // if true, blend between.. skyboxes? palletes?
     /* 0x05 */ u8 skybox1Index; // whats the difference between _pal and non _pal files?
     /* 0x06 */ u8 skybox2Index;
 } struct_8011FC1C; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
-    /* 0x03 */ u8 light1Dir[3];
+    /* 0x03 */ s8 light1Dir[3];
     /* 0x06 */ u8 light1Color[3];
-    /* 0x09 */ u8 light2Dir[3];
+    /* 0x09 */ s8 light2Dir[3];
     /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
     /* 0x12 */ s16 fogNear;
     /* 0x14 */ s16 fogFar;
 } EnvLightSettings;
-
-typedef struct {
-    /* 0x00 */ s16 ambientColor[3];
-    /* 0x06 */ s16 light1Color[3];
-    /* 0x0C */ s16 fogColor[3];
-    /* 0x12 */ s16 fogNear;
-    /* 0x14 */ s16 fogFar;
-} EnvLightAdjustments;
 
 // 1.0: 801D8EC4
 // dbg: 80222A44
@@ -108,14 +100,10 @@ typedef struct {
     /* 0xB0 */ f32 windSpeed;
     /* 0xB4 */ u8 nbLightSettings;
     /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
-    /* 0xBC */ u8 blendIndoorLights; // when set, blend between indoor light settings when changing them
+    /* 0xBC */ u8 blendIndoorLights; // when set, blend between indoor light settings when switching
     /* 0xBD */ u8 unk_BD;
     /* 0xBE */ u8 unk_BE;
     /* 0xBF */ u8 unk_BF;
-    // /* 0xC0 */ u8 unk_C0[3][3];
-    // /* 0xC9 */ u8 unk_C9[3][3];
-    // /* 0xD2 */ s16 unk_D2;
-    // /* 0xD4 */ s16 unk_D4;
     /* 0xC0 */ EnvLightSettings lightSettings;
     /* 0xD6 */ u16 unk_D6;
     /* 0xD8 */ f32 unk_D8;
