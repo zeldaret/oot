@@ -18,15 +18,19 @@ struct SkelAnime;
 #define ANIM_FLAG_NOMOVE (1 << 4)
 
 typedef enum {
-    ANIMMODE_LOOP,
-    ANIMMODE_LOOP_INTERP,
-    ANIMMODE_STOP,
-    ANIMMODE_STOP_INTERP,
-    ANIMMODE_LOOP_PARTIAL,
-    ANIMMODE_LOOP_PARTIAL_INTERP
+    /* 0 */ ANIMMODE_LOOP,
+    /* 1 */ ANIMMODE_LOOP_INTERP,
+    /* 2 */ ANIMMODE_STOP,
+    /* 3 */ ANIMMODE_STOP_INTERP,
+    /* 4 */ ANIMMODE_LOOP_PARTIAL,
+    /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationModes;
 
-typedef enum { ANIMTAPER_DECEL = -1, ANIMTAPER_NONE, ANIMTAPER_ACCEL } AnimationTapers;
+typedef enum { 
+    /* -1 */ ANIMTAPER_DECEL = -1, 
+    /*  0 */ ANIMTAPER_NONE, 
+    /*  1 */ ANIMTAPER_ACCEL
+} AnimationTapers;
 
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent

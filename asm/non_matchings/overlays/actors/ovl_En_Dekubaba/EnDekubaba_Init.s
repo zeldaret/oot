@@ -89,8 +89,8 @@ glabel EnDekubaba_Init
 /* 00148 809E5918 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0014C 809E591C 13200003 */  beq     $t9, $zero, .L809E592C     
 /* 00150 809E5920 3C05809F */  lui     $a1, %hi(D_809E9000)       ## $a1 = 809F0000
-/* 00154 809E5924 3C01809F */  lui     $at, %hi(D_809E901B)       ## $at = 809F0000
-/* 00158 809E5928 A028901B */  sb      $t0, %lo(D_809E901B)($at)  
+/* 00154 809E5924 3C01809F */  lui     $at, %hi(D_809E9000+0x1B)       ## $at = 809F0000
+/* 00158 809E5928 A028901B */  sb      $t0, %lo(D_809E9000+0x1B)($at)  
 .L809E592C:
 /* 0015C 809E592C 0C0187B5 */  jal     func_80061ED4              
 /* 00160 809E5930 24A59000 */  addiu   $a1, $a1, %lo(D_809E9000)  ## $a1 = 809E9000
@@ -127,10 +127,10 @@ glabel EnDekubaba_Init
 .L809E59A4:
 /* 001D4 809E59A4 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 001D8 809E59A8 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004
-/* 001DC 809E59AC 3C01809F */  lui     $at, %hi(D_809E8FFB)       ## $at = 809F0000
+/* 001DC 809E59AC 3C01809F */  lui     $at, %hi(D_809E8FE0+0x1B)       ## $at = 809F0000
 /* 001E0 809E59B0 13000002 */  beq     $t8, $zero, .L809E59BC     
 /* 001E4 809E59B4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 001E8 809E59B8 A0398FFB */  sb      $t9, %lo(D_809E8FFB)($at)  
+/* 001E8 809E59B8 A0398FFB */  sb      $t9, %lo(D_809E8FE0+0x1B)($at)  
 .L809E59BC:
 /* 001EC 809E59BC 0C0187B5 */  jal     func_80061ED4              
 /* 001F0 809E59C0 24C68FD8 */  addiu   $a2, $a2, %lo(D_809E8FD8)  ## $a2 = 809E8FD8

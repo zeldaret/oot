@@ -603,6 +603,8 @@ s32 func_8003DD6C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, UN
 s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
 s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
 s32 func_8003DFA0(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*, f32);
+s32 func_8003E0B8(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                  s32 chkOneFace);
 // ? func_8003E0FC(?);
 s32 func_8003E188(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, f32*);
 // ? func_8003E214(?);
@@ -722,8 +724,8 @@ Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
                           UNK_TYPE arg6);
 DamageTable* DamageTable_Get(s32 index);
-// ? func_8005B280(?);
-void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
+void func_8005B280(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
+void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_SetBase_Actor(GlobalContext* globalCtx, Collider* collider, ColliderInit_Actor* src);
@@ -858,7 +860,8 @@ void func_80062D60(GlobalContext* globalCtx, Vec3f* v);
 void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
 void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
-s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
+s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1,
+                  Vec3f* out2);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
@@ -1304,9 +1307,9 @@ void AnimationContext_SetBlendToMorph(GlobalContext* globalCtx, SkelAnime* skelA
 void LinkAnimation_SetStop(SkelAnime* skelAnime);
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
 s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animationseg, Vec3s* jointTbl, Vec3s* arg5, s32 limbCount);
+                   AnimationHeader* animationseg, Vec3s* jointTbl, Vec3s* morphTbl, s32 limbCount);
 s32 SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animationseg, Vec3s* jointTbl, Vec3s* arg5, s32 limbCount);
+                       AnimationHeader* animationseg, Vec3s* jointTbl, Vec3s* morphTbl, s32 limbCount);
 s32 SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                        AnimationHeader* animationseg);
 s32 SkelAnime_Update(SkelAnime* skelAnime);
@@ -2236,6 +2239,7 @@ void func_800F4C58(Vec3f*, u16 sfxId, u8);
 // ? func_800F5510(?);
 // ? func_800F5550(?);
 // ? func_800F56A8(?);
+void func_800F5718(void);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
 void func_800F5918(void);
 void func_800F595C(u16);
