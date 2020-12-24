@@ -8,13 +8,14 @@ struct EnViewer;
 
 typedef void (*EnViewerActionFunc)(struct EnViewer*, GlobalContext*);
 typedef void (*EnViewerDrawFunc)(struct EnViewer*, GlobalContext*);
+typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, FlexSkeletonHeader*, AnimationHeader*);
 
 typedef struct {
     /* 0x00 */ Vec3f unk_0;
     /* 0x0C */ Vec3f unk_C;
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ Vec3f unk_24;
-    /* 0x30 */ u8 unk_30
+    /* 0x30 */ u8 unk_30;
 } EnViewerUnkStruct; // 0x34
 
 typedef struct EnViewer {
@@ -32,3 +33,5 @@ typedef struct EnViewer {
 extern const ActorInit En_Viewer_InitVars;
 
 #endif
+
+
