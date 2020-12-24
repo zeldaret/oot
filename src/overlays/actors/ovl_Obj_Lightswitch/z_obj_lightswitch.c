@@ -252,7 +252,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
 
         this->timer++;
 
-        Math_ApproxS(&this->flameRingRotSpeed, -0xAA, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, -0xAA, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
@@ -321,7 +321,7 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->toggleDelay <= 0) {
         this->timer--;
 
-        Math_ApproxS(&this->flameRingRotSpeed, 0, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);

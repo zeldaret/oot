@@ -75,7 +75,7 @@ glabel func_808DBF30
 /* 057A0 808DC010 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 057A4 808DC014 3C073FA0 */  lui     $a3, 0x3FA0                ## $a3 = 3FA00000
 /* 057A8 808DC018 46048180 */  add.s   $f6, $f16, $f4             
-/* 057AC 808DC01C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 057AC 808DC01C 0C01E107 */  jal     Math_ApproachF
               
 /* 057B0 808DC020 E6060258 */  swc1    $f6, 0x0258($s0)           ## 00000258
 /* 057B4 808DC024 860A01B6 */  lh      $t2, 0x01B6($s0)           ## 000001B6
@@ -89,7 +89,7 @@ glabel func_808DBF30
 .L808DC040:
 /* 057D0 808DC040 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 057D4 808DC044 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
-/* 057D8 808DC048 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 057D8 808DC048 0C01E1EF */  jal     Math_ApproachS
               
 /* 057DC 808DC04C 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 057E0 808DC050 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
@@ -102,12 +102,12 @@ glabel func_808DBF30
 /* 057FC 808DC06C 46048180 */  add.s   $f6, $f16, $f4             
 /* 05800 808DC070 E6120024 */  swc1    $f18, 0x0024($s0)          ## 00000024
 /* 05804 808DC074 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 05808 808DC078 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 05808 808DC078 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0580C 808DC07C E606002C */  swc1    $f6, 0x002C($s0)           ## 0000002C
 /* 05810 808DC080 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
 /* 05814 808DC084 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 05818 808DC088 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 05818 808DC088 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0581C 808DC08C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 05820 808DC090 860401A2 */  lh      $a0, 0x01A2($s0)           ## 000001A2

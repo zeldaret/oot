@@ -47,7 +47,7 @@ glabel func_8099A098
 /* 01994 8099A114 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 01998 8099A118 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0199C 8099A11C 3C0740C0 */  lui     $a3, 0x40C0                ## $a3 = 40C00000
-/* 019A0 8099A120 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 019A0 8099A120 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 019A4 8099A124 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 019A8 8099A128 960F0192 */  lhu     $t7, 0x0192($s0)           ## 00000192
@@ -91,13 +91,13 @@ glabel func_8099A098
 .L8099A1C0:
 /* 01A40 8099A1C0 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3C23D70A
 /* 01A44 8099A1C4 26040194 */  addiu   $a0, $s0, 0x0194           ## $a0 = 00000194
-/* 01A48 8099A1C8 0C01DE80 */  jal     Math_ApproxF
+/* 01A48 8099A1C8 0C01DE80 */  jal     Math_StepToF
               
 /* 01A4C 8099A1CC 3C054000 */  lui     $a1, 0x4000                ## $a1 = 40000000
 /* 01A50 8099A1D0 3C063CA3 */  lui     $a2, 0x3CA3                ## $a2 = 3CA30000
 /* 01A54 8099A1D4 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3CA3D70A
 /* 01A58 8099A1D8 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
-/* 01A5C 8099A1DC 0C01DE80 */  jal     Math_ApproxF
+/* 01A5C 8099A1DC 0C01DE80 */  jal     Math_StepToF
               
 /* 01A60 8099A1E0 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 01A64 8099A1E4 C6320024 */  lwc1    $f18, 0x0024($s1)          ## 00000024
@@ -206,7 +206,7 @@ glabel func_8099A098
 /* 01BF8 8099A378 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01BFC 8099A37C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 01C00 8099A380 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 01C04 8099A384 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01C04 8099A384 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01C08 8099A388 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01C0C 8099A38C 8FBF0034 */  lw      $ra, 0x0034($sp)           

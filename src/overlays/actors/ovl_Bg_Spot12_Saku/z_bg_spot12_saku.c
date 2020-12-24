@@ -102,7 +102,7 @@ void func_808B35E4(BgSpot12Saku* this) {
 }
 
 void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
-    f32 temp_ret = Math_SmoothScaleMaxMinF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
+    f32 temp_ret = Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
     f32 temp_f18 = ((0.1f - this->dyna.actor.scale.x) * 840.0f);
 
     this->dyna.actor.posRot.pos.x =

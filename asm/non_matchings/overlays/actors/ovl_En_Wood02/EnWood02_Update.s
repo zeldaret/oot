@@ -269,14 +269,14 @@ glabel EnWood02_Update
 /* 00B50 80B3BAC0 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 00B54 80B3BAC4 A639014C */  sh      $t9, 0x014C($s1)           ## 0000014C
 /* 00B58 80B3BAC8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00B5C 80B3BACC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00B5C 80B3BACC 0C01E107 */  jal     Math_ApproachF
               
 /* 00B60 80B3BAD0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B64 80B3BAD4 3C073D4C */  lui     $a3, 0x3D4C                ## $a3 = 3D4C0000
 /* 00B68 80B3BAD8 34E7CCCC */  ori     $a3, $a3, 0xCCCC           ## $a3 = 3D4CCCCC
 /* 00B6C 80B3BADC 26240064 */  addiu   $a0, $s1, 0x0064           ## $a0 = 00000064
 /* 00B70 80B3BAE0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00B74 80B3BAE4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00B74 80B3BAE4 0C01E107 */  jal     Math_ApproachF
               
 /* 00B78 80B3BAE8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B7C 80B3BAEC 0C00B5FB */  jal     func_8002D7EC              

@@ -490,7 +490,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_254 = this->unk_288.unk_08;
     this->unk_25A = this->unk_288.unk_0E;
     if (this->unk_276 == 0) {
-        Math_SmoothScaleMaxMinS(&this->unk_254.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
     }
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
     if (this->objectOsAnimeIndex >= 0) {

@@ -74,7 +74,7 @@ glabel func_80B210B0
 /* 003E0 80B211C0 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 003E4 80B211C4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 003E8 80B211C8 44053000 */  mfc1    $a1, $f6                   
-/* 003EC 80B211CC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 003EC 80B211CC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 003F0 80B211D0 00000000 */  nop
 /* 003F4 80B211D4 8E0201D4 */  lw      $v0, 0x01D4($s0)           ## 000001D4

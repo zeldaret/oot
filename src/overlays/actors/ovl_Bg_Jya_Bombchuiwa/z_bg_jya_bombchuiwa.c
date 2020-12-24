@@ -164,7 +164,7 @@ void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     if (this->timer & 4) {
         func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 3, 100, 100, 0);
     }
-    if (Math_ApproxF(&this->lightRayIntensity, 1.0f, 0.028)) {
+    if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     }
 }

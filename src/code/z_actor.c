@@ -80,7 +80,7 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0,
                     (u32)(((arg3 * 0.00005f) > 1.0f ? 1.0f : (arg3 * 0.00005f)) * arg4) & 0xFF);
 
-    sp58 = MathF_Atan2F(light->l.dir[0], light->l.dir[2]);
+    sp58 = Math_FAtan2F(light->l.dir[0], light->l.dir[2]);
     arg6 *= (4.5f - (light->l.dir[1] * 0.035f));
     arg6 = (arg6 < 1.0f) ? 1.0f : arg6;
     Matrix_Put(arg2);
@@ -463,7 +463,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         unkActor = &player->actor;
     }
 
-    if (Math_ApproxF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
+    if (Math_StepToF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
         temp1 = 0.25f / targetCtx->unk_40;
         temp2 = unkActor->posRot.pos.x - targetCtx->naviRefPos.x;
         temp3 = (unkActor->posRot.pos.y + (unkActor->unk_4C * unkActor->scale.y)) - targetCtx->naviRefPos.y;
@@ -502,7 +502,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         if (targetCtx->unk_4B == 0) {
             temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
             temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
-            if (Math_ApproxF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
+            if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
                 targetCtx->unk_4B++;
             }
         } else {
@@ -511,7 +511,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         }
     } else {
         targetCtx->targetedActor = NULL;
-        Math_ApproxF(&targetCtx->unk_44, 500.0f, 80.0f);
+        Math_StepToF(&targetCtx->unk_44, 500.0f, 80.0f);
     }
 }
 
@@ -697,11 +697,11 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
 void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if (DECR(titleCtx->delayB) == 0) {
         if (DECR(titleCtx->delayA) == 0) {
-            Math_ApproxS(&titleCtx->unk_C, 0, 30);
-            Math_ApproxS(&titleCtx->unk_E, 0, 70);
+            Math_StepToS(&titleCtx->unk_C, 0, 30);
+            Math_StepToS(&titleCtx->unk_E, 0, 70);
         } else {
-            Math_ApproxS(&titleCtx->unk_C, 255, 10);
-            Math_ApproxS(&titleCtx->unk_E, 255, 20);
+            Math_StepToS(&titleCtx->unk_C, 255, 10);
+            Math_StepToS(&titleCtx->unk_E, 255, 20);
         }
     }
 }
@@ -1829,7 +1829,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 sp9C = (1.0f / D_8015BC18) * temp_ret;
                 phi_f14 = 20.0f / sp9C;
                 phi_f14 = (phi_f14 < 0.05f) ? 0.05f : phi_f14;
-                Math_ApproxF(&D_8015BC18, 0.0f, phi_f14);
+                Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
                 temp_f2 = ((D_8015BC18 / spC0) * temp_ret) / temp_ret;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x =
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
@@ -3403,13 +3403,13 @@ f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 ar
     f32 ret = 0.0f;
 
     if (arg4 <= Math_Vec3f_DistXYZ(arg0, arg1)) {
-        ret = Math_SmoothScaleMaxMinF(&arg1->x, arg0->x, arg2, arg3, 0.0f);
-        ret += Math_SmoothScaleMaxMinF(&arg1->y, arg0->y, arg2, arg3, 0.0f);
-        ret += Math_SmoothScaleMaxMinF(&arg1->z, arg0->z, arg2, arg3, 0.0f);
+        ret = Math_SmoothStepToF(&arg1->x, arg0->x, arg2, arg3, 0.0f);
+        ret += Math_SmoothStepToF(&arg1->y, arg0->y, arg2, arg3, 0.0f);
+        ret += Math_SmoothStepToF(&arg1->z, arg0->z, arg2, arg3, 0.0f);
     } else if (arg5 < Math_Vec3f_DistXYZ(arg0, arg1)) {
-        ret = Math_SmoothScaleMaxMinF(&arg1->x, arg0->x, arg2, arg3, 0.0f);
-        ret += Math_SmoothScaleMaxMinF(&arg1->y, arg0->y, arg2, arg3, 0.0f);
-        ret += Math_SmoothScaleMaxMinF(&arg1->z, arg0->z, arg2, arg3, 0.0f);
+        ret = Math_SmoothStepToF(&arg1->x, arg0->x, arg2, arg3, 0.0f);
+        ret += Math_SmoothStepToF(&arg1->y, arg0->y, arg2, arg3, 0.0f);
+        ret += Math_SmoothStepToF(&arg1->z, arg0->z, arg2, arg3, 0.0f);
     }
 
     return ret;
@@ -3666,7 +3666,7 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     sp40 = Math_Vec3f_Yaw(&actor->posRot.pos, &arg1->unk_18) - actor->shape.rot.y;
 
     temp1 = CLAMP(sp40, -arg2, arg2);
-    Math_SmoothScaleMaxMinS(&arg1->unk_08.y, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
     sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
     arg1->unk_08.y = CLAMP(arg1->unk_08.y, -sp40, sp40);
@@ -3674,23 +3674,23 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     sp40 = sp40 - arg1->unk_08.y;
 
     temp1 = CLAMP(sp40, -arg5, arg5);
-    Math_SmoothScaleMaxMinS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
 
     sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
     arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -sp40, sp40);
 
     if (arg8 != 0) {
         if (arg3) {} // Seems necessary to match
-        Math_SmoothScaleMaxMinS(&actor->shape.rot.y, sp44, 6, 2000, 1);
+        Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
     temp1 = CLAMP(sp46, arg4, arg3);
-    Math_SmoothScaleMaxMinS(&arg1->unk_08.x, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08.x;
 
     temp1 = CLAMP(temp2, arg7, arg6);
-    Math_SmoothScaleMaxMinS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")
@@ -3839,10 +3839,10 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
 
     if (arg3 < var) {
         actor->flags &= ~1;
-        Math_SmoothScaleMaxMinS(&arg2, 0, 6, 0x14, 1);
+        Math_SmoothStepToS(&arg2, 0, 6, 0x14, 1);
     } else {
         actor->flags |= 1;
-        Math_SmoothScaleMaxMinS(&arg2, 0xFF, 6, 0x14, 1);
+        Math_SmoothStepToS(&arg2, 0xFF, 6, 0x14, 1);
     }
 
     return arg2;
@@ -3885,7 +3885,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & 1)) {
                 Actor_MoveForward(actor);
-                Math_SmoothScaleMaxMinF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
+                Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & 2) && (actor->velocity.y < -4.0f)) {
                 ret = 1;
             } else {
@@ -4120,12 +4120,12 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         sp38 = Math_SinS(arg1);
         sp34 = Math_CosS(arg1);
         sp28 = (-(sp44 * sp38) - (sp3C * sp34));
-        arg2->x = -(s16)(MathF_Atan2F(sp28 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->x = -(s16)(Math_FAtan2F(sp28 * sp40, 1.0f) * (32768 / M_PI));
 
         sp2C = Math_SinS(arg1 - 16375);
         sp30 = Math_CosS(arg1 - 16375);
         sp24 = (-(sp44 * sp2C) - (sp3C * sp30));
-        arg2->z = -(s16)(MathF_Atan2F(sp24 * sp40, 1.0f) * (32768 / M_PI));
+        arg2->z = -(s16)(Math_FAtan2F(sp24 * sp40, 1.0f) * (32768 / M_PI));
     }
 }
 
@@ -5433,10 +5433,10 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
 }
 
 s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
-    Math_SmoothScaleMaxMinS(&arg0->y, 0, 6, 6200, 100);
-    Math_SmoothScaleMaxMinS(&arg0->x, 0, 6, 6200, 100);
-    Math_SmoothScaleMaxMinS(&arg1->y, 0, 6, 6200, 100);
-    Math_SmoothScaleMaxMinS(&arg1->x, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&arg0->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&arg0->x, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&arg1->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&arg1->x, 0, 6, 6200, 100);
     return 1;
 }
 
@@ -5448,17 +5448,17 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
     sp36 = Math_Vec3f_Pitch(&actor->posRot2.pos, arg1);
     sp34 = Math_Vec3f_Yaw(&actor->posRot2.pos, arg1) - actor->posRot.rot.y;
 
-    Math_SmoothScaleMaxMinS(&arg2->x, sp36, 6, 2000, 1);
+    Math_SmoothStepToS(&arg2->x, sp36, 6, 2000, 1);
     arg2->x = (arg2->x < -6000) ? -6000 : ((arg2->x > 6000) ? 6000 : arg2->x);
 
-    var = Math_SmoothScaleMaxMinS(&arg2->y, sp34, 6, 2000, 1);
+    var = Math_SmoothStepToS(&arg2->y, sp34, 6, 2000, 1);
     arg2->y = (arg2->y < -8000) ? -8000 : ((arg2->y > 8000) ? 8000 : arg2->y);
 
     if (var && (ABS(arg2->y) < 8000)) {
         return 0;
     }
 
-    Math_SmoothScaleMaxMinS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
+    Math_SmoothStepToS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
     arg3->y = (arg3->y < -12000) ? -12000 : ((arg3->y > 12000) ? 12000 : arg3->y);
 
     return 1;

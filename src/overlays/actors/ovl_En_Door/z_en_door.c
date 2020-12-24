@@ -249,13 +249,13 @@ void EnDoor_AjarWait(EnDoor* this, GlobalContext* globalCtx) {
 void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
         this->actionFunc = EnDoor_AjarClose;
-    } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
+    } else if (Math_ScaledStepToS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
         this->actionFunc = EnDoor_AjarWait;
     }
 }
 
 void EnDoor_AjarClose(EnDoor* this, GlobalContext* globalCtx) {
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, 0, 0x700)) {
+    if (Math_ScaledStepToS(&this->actor.posRot.rot.y, 0, 0x700)) {
         this->actionFunc = EnDoor_Idle;
     }
 }

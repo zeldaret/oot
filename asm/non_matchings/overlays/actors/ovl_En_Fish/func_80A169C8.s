@@ -21,7 +21,7 @@ glabel func_80A169C8
 /* 0178C 80A16A0C A61900B8 */  sh      $t9, 0x00B8($s0)           ## 000000B8
 /* 01790 80A16A10 24847014 */  addiu   $a0, $a0, %lo(D_80A17014)  ## $a0 = 80A17014
 /* 01794 80A16A14 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 01798 80A16A18 0C01DE80 */  jal     Math_ApproxF
+/* 01798 80A16A18 0C01DE80 */  jal     Math_StepToF
               
 /* 0179C 80A16A1C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 017A0 80A16A20 C7A40028 */  lwc1    $f4, 0x0028($sp)           

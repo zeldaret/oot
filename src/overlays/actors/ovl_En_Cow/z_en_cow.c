@@ -332,8 +332,8 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         targetY = 0;
         targetX = 0;
     }
-    Math_SmoothScaleMaxMinS(&this->someRot.x, targetX, 0xA, 0xC8, 0xA);
-    Math_SmoothScaleMaxMinS(&this->someRot.y, targetY, 0xA, 0xC8, 0xA);
+    Math_SmoothStepToS(&this->someRot.x, targetX, 0xA, 0xC8, 0xA);
+    Math_SmoothStepToS(&this->someRot.y, targetY, 0xA, 0xC8, 0xA);
 }
 
 void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {

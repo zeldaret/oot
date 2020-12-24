@@ -124,7 +124,7 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             this->life++;
         }
         if (this->actor->update != NULL) {
-            Math_SmoothScaleMaxMinS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
+            Math_SmoothStepToS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
 
             if (this->rBodyPart < 0) {
                 Matrix_Translate(this->actor->posRot.pos.x, this->actor->posRot.pos.y, this->actor->posRot.pos.z,

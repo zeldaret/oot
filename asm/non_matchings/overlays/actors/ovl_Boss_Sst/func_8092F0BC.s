@@ -25,7 +25,7 @@ glabel func_8092F0BC
 /* 02B2C 8092F0FC 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 02B30 8092F100 46062201 */  sub.s   $f8, $f4, $f6              
 /* 02B34 8092F104 44054000 */  mfc1    $a1, $f8                   
-/* 02B38 8092F108 0C01DE80 */  jal     Math_ApproxF
+/* 02B38 8092F108 0C01DE80 */  jal     Math_StepToF
               
 /* 02B3C 8092F10C 00000000 */  nop
 /* 02B40 8092F110 86030198 */  lh      $v1, 0x0198($s0)           ## 00000198
@@ -52,7 +52,7 @@ glabel func_8092F0BC
 /* 02B90 8092F160 26060038 */  addiu   $a2, $s0, 0x0038           ## $a2 = 00000038
 /* 02B94 8092F164 260403C4 */  addiu   $a0, $s0, 0x03C4           ## $a0 = 000003C4
 /* 02B98 8092F168 3C05C3AF */  lui     $a1, 0xC3AF                ## $a1 = C3AF0000
-/* 02B9C 8092F16C 0C01DE80 */  jal     Math_ApproxF
+/* 02B9C 8092F16C 0C01DE80 */  jal     Math_StepToF
               
 /* 02BA0 8092F170 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 02BA4 8092F174 10000061 */  beq     $zero, $zero, .L8092F2FC   

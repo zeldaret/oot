@@ -148,7 +148,7 @@ glabel func_809499AC
 /* 10EE8 80949BB8 26C400B6 */  addiu   $a0, $s6, 0x00B6           ## $a0 = 000000B6
 /* 10EEC 80949BBC 86C5008A */  lh      $a1, 0x008A($s6)           ## 0000008A
 /* 10EF0 80949BC0 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
-/* 10EF4 80949BC4 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 10EF4 80949BC4 0C01E1EF */  jal     Math_ApproachS
               
 /* 10EF8 80949BC8 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 10EFC 80949BCC 8FBF0064 */  lw      $ra, 0x0064($sp)           

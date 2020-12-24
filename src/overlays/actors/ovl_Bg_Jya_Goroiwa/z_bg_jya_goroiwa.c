@@ -161,7 +161,7 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
             func_80897DDC(this);
         }
     } else {
-        Math_ApproxF(&this->unk_1B0, 1.0f, 0.04f);
+        Math_StepToF(&this->unk_1B0, 1.0f, 0.04f);
     }
 
     if (thisx->posRot.pos.x > 1745.0f) {

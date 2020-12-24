@@ -255,7 +255,7 @@ glabel func_808D2CE0
 .L808D2FE0:
 /* 00970 808D2FE0 8645008A */  lh      $a1, 0x008A($s2)           ## 0000008A
 /* 00974 808D2FE4 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 00978 808D2FE8 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 00978 808D2FE8 0C01E1EF */  jal     Math_ApproachS
               
 /* 0097C 808D2FEC 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 00980 808D2FF0 864901BC */  lh      $t1, 0x01BC($s2)           ## 000001BC

@@ -436,7 +436,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         this->actor.bgCheckFlags &= ~0x40;
     }
-    Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
+    Math_StepToF(&this->actor.shape.unk_08, 0.0f, 2.0f);
     EnIshi_Fall(this);
     func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
     func_8002D7EC(&this->actor);

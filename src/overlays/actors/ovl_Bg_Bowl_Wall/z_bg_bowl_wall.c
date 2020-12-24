@@ -136,13 +136,13 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     wallFallen = false;
 
     if (this->dyna.actor.params == 0) { // wall collapses backwards
-        Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
+        Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             wallFallen = true;
         }
     } else { // wall slides downwards
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         if (this->dyna.actor.posRot.pos.y < (this->initPos.y - 400.0f)) {
             wallFallen = true;
         }
@@ -170,9 +170,9 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->timer >= 2) {
         if (this->dyna.actor.params == 0) {
-            Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
+            Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
         } else {
-            Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         }
     } else if (this->timer == 1) {
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
@@ -184,7 +184,7 @@ void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
 
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->chuGirl->wallStatus[this->dyna.actor.params] != 2) {
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
         if (fabsf(this->dyna.actor.posRot.pos.y - this->initPos.y) <= 10.0f) {
             this->dyna.actor.posRot.pos.y = this->initPos.y;
             this->isHit = false;

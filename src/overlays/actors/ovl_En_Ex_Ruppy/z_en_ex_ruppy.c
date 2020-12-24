@@ -209,7 +209,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     EnDivingGame* divingGame;
 
     this->actor.shape.rot.y += 0x7A8;
-    Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
+    Math_ApproachF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
@@ -358,9 +358,9 @@ void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->galleryFlag) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
     }
 }
 

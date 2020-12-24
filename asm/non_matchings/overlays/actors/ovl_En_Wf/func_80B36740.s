@@ -24,7 +24,7 @@ glabel func_80B36740
 /* 02ACC 80B3677C 00052C03 */  sra     $a1, $a1, 16               
 /* 02AD0 80B36780 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 02AD4 80B36784 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 02AD8 80B36788 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02AD8 80B36788 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02ADC 80B3678C 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 02AE0 80B36790 96030088 */  lhu     $v1, 0x0088($s0)           ## 00000088
@@ -88,7 +88,7 @@ glabel func_80B36740
 /* 02BB4 80B36864 3C05C080 */  lui     $a1, 0xC080                ## $a1 = C0800000
 /* 02BB8 80B36868 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 02BBC 80B3686C 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 02BC0 80B36870 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02BC0 80B36870 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02BC4 80B36874 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 02BC8 80B36878 1000001A */  beq     $zero, $zero, .L80B368E4   
@@ -110,7 +110,7 @@ glabel func_80B36740
 /* 02C04 80B368B4 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 02C08 80B368B8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 02C0C 80B368BC 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 02C10 80B368C0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02C10 80B368C0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02C14 80B368C4 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 02C18 80B368C8 10000006 */  beq     $zero, $zero, .L80B368E4   
@@ -118,7 +118,7 @@ glabel func_80B36740
 /* 02C20 80B368D0 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 .L80B368D4:
 /* 02C24 80B368D4 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 02C28 80B368D8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02C28 80B368D8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02C2C 80B368DC E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 02C30 80B368E0 C60202EC */  lwc1    $f2, 0x02EC($s0)           ## 000002EC

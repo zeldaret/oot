@@ -21,7 +21,7 @@ glabel func_80919A40
 .L80919A88:
 /* 04078 80919A88 24058000 */  addiu   $a1, $zero, 0x8000         ## $a1 = FFFF8000
 /* 0407C 80919A8C 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 04080 80919A90 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 04080 80919A90 0C01E1EF */  jal     Math_ApproachS
               
 /* 04084 80919A94 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
 /* 04088 80919A98 96390088 */  lhu     $t9, 0x0088($s1)           ## 00000088

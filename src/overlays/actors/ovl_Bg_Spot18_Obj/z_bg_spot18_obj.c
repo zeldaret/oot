@@ -247,7 +247,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    Math_ApproxF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
+    Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
     Actor_MoveForward(&this->dyna.actor);
     func_808B8DDC(this, globalCtx);
 

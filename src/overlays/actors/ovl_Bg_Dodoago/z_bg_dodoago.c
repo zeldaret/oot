@@ -210,10 +210,10 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
 
     BgDodoago_SpawnSparkles(&currentPos, globalCtx);
-    Math_ApproxS(&this->unk_164, 0x64, 3);
+    Math_StepToS(&this->unk_164, 0x64, 3);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
-    if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
+    if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
         BgDodoago_SetupAction(this, func_8087227C);
         Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);

@@ -26,7 +26,7 @@ glabel func_80B35024
 /* 013B0 80B35060 00052C00 */  sll     $a1, $a1, 16               
 /* 013B4 80B35064 00052C03 */  sra     $a1, $a1, 16               
 /* 013B8 80B35068 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 013BC 80B3506C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 013BC 80B3506C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 013C0 80B35070 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 013C4 80B35074 8FA4005C */  lw      $a0, 0x005C($sp)           
@@ -107,7 +107,7 @@ glabel func_80B35024
 /* 014DC 80B3518C 3C05C080 */  lui     $a1, 0xC080                ## $a1 = C0800000
 /* 014E0 80B35190 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 014E4 80B35194 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 014E8 80B35198 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 014E8 80B35198 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 014EC 80B3519C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 014F0 80B351A0 1000001A */  beq     $zero, $zero, .L80B3520C   
@@ -129,7 +129,7 @@ glabel func_80B35024
 /* 0152C 80B351DC 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 01530 80B351E0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01534 80B351E4 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 01538 80B351E8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01538 80B351E8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0153C 80B351EC E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01540 80B351F0 10000006 */  beq     $zero, $zero, .L80B3520C   
@@ -137,7 +137,7 @@ glabel func_80B35024
 /* 01548 80B351F8 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 .L80B351FC:
 /* 0154C 80B351FC 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 01550 80B35200 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01550 80B35200 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01554 80B35204 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 01558 80B35208 C60C02EC */  lwc1    $f12, 0x02EC($s0)          ## 000002EC

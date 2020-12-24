@@ -58,14 +58,14 @@ glabel func_80A2FFFC
 .L80A300AC:
 /* 00F2C 80A300AC 4405C000 */  mfc1    $a1, $f24                  
 /* 00F30 80A300B0 8E0703AC */  lw      $a3, 0x03AC($s0)           ## 000003AC
-/* 00F34 80A300B4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00F34 80A300B4 0C01E107 */  jal     Math_ApproachF
               
 /* 00F38 80A300B8 261103AC */  addiu   $s1, $s0, 0x03AC           ## $s1 = 000003AC
 /* 00F3C 80A300BC 4405C000 */  mfc1    $a1, $f24                  
 /* 00F40 80A300C0 3C063A83 */  lui     $a2, 0x3A83                ## $a2 = 3A830000
 /* 00F44 80A300C4 4407C000 */  mfc1    $a3, $f24                  
 /* 00F48 80A300C8 34C6126F */  ori     $a2, $a2, 0x126F           ## $a2 = 3A83126F
-/* 00F4C 80A300CC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00F4C 80A300CC 0C01E107 */  jal     Math_ApproachF
               
 /* 00F50 80A300D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 000003AC
 /* 00F54 80A300D4 3C0180A3 */  lui     $at, %hi(D_80A307FC)       ## $at = 80A30000
@@ -104,14 +104,14 @@ glabel func_80A2FFFC
 /* 00FC8 80A30148 3C063CA3 */  lui     $a2, 0x3CA3                ## $a2 = 3CA30000
 /* 00FCC 80A3014C 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3CA3D70A
 /* 00FD0 80A30150 8E0703AC */  lw      $a3, 0x03AC($s0)           ## 000003AC
-/* 00FD4 80A30154 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00FD4 80A30154 0C01E107 */  jal     Math_ApproachF
               
 /* 00FD8 80A30158 261103AC */  addiu   $s1, $s0, 0x03AC           ## $s1 = 000003AC
 /* 00FDC 80A3015C 4405C000 */  mfc1    $a1, $f24                  
 /* 00FE0 80A30160 3C063A83 */  lui     $a2, 0x3A83                ## $a2 = 3A830000
 /* 00FE4 80A30164 4407C000 */  mfc1    $a3, $f24                  
 /* 00FE8 80A30168 34C6126F */  ori     $a2, $a2, 0x126F           ## $a2 = 3A83126F
-/* 00FEC 80A3016C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00FEC 80A3016C 0C01E107 */  jal     Math_ApproachF
               
 /* 00FF0 80A30170 02202025 */  or      $a0, $s1, $zero            ## $a0 = 000003AC
 /* 00FF4 80A30174 C60203A8 */  lwc1    $f2, 0x03A8($s0)           ## 000003A8
@@ -139,7 +139,7 @@ glabel func_80A2FFFC
 .L80A301C8:
 /* 01048 80A301C8 4405B000 */  mfc1    $a1, $f22                  
 /* 0104C 80A301CC 4407C000 */  mfc1    $a3, $f24                  
-/* 01050 80A301D0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 01050 80A301D0 0C01E107 */  jal     Math_ApproachF
               
 /* 01054 80A301D4 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 01058 80A301D8 C60203A8 */  lwc1    $f2, 0x03A8($s0)           ## 000003A8

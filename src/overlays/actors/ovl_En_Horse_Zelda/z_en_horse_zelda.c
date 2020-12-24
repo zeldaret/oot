@@ -200,7 +200,7 @@ void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
     sp28.y = this->actor.posRot.pos.y + 60.0f;
     sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
     this->unk_1F4 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = MathF_Atan2F(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
 }
 
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {

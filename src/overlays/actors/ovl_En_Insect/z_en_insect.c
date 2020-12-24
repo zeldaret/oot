@@ -233,7 +233,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
 
     sp2E = this->actor.params & 3;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
 
     animPlaybackSpeed = (Rand_ZeroOne() * 0.8f) + (this->actor.speedXZ * 1.2f);
     this->skelAnime.animPlaybackSpeed = CLAMP(animPlaybackSpeed, 0.0f, 1.9f);
@@ -267,15 +267,15 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     s16 yaw;
     s16 sp34 = this->actor.params & 3;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 
     if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 1600.0f ||
         (this->unk_31A < 4)) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, 2000);
     } else if (this->actor.child != NULL && &this->actor != this->actor.child) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.child->posRot.pos);
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, 2000);
     }
 
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -312,12 +312,12 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
     s16 yaw;
     s16 sp38 = this->actor.xzDistFromLink < 40.0f;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
     if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 25600.0f ||
         this->unk_31A < 4) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, 2000);
     } else if (sp38 != 0) {
         frames = globalCtx->state.frames;
         yaw = this->actor.yawTowardsLink + 0x8000;
@@ -332,7 +332,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
             }
         }
         if (globalCtx) {}
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, 2000);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
@@ -393,8 +393,8 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Vec3f velocity;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
-    Math_ApproxS(&this->actor.shape.rot.x, 10922, 352);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_StepToS(&this->actor.shape.rot.x, 10922, 352);
 
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.0002f, 0.001f));
 
@@ -441,9 +441,9 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     sp4E = this->actor.params & 3;
 
     if (this->unk_31A >= 81) {
-        Math_ApproxF(&this->actor.speedXZ, 0.6f, 0.08f);
+        Math_StepToF(&this->actor.speedXZ, 0.6f, 0.08f);
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.02f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y += this->actor.waterY;
@@ -483,7 +483,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y += this->unk_318;
 
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, 0, 3000);
+    Math_ScaledStepToS(&this->actor.posRot.rot.x, 0, 3000);
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
 
     if (Rand_ZeroOne() < 0.03f) {
@@ -624,13 +624,13 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, CLAMP_MAX(thisTemp->actor.scale.x + 0.0008f, 0.01f));
 
     if (this->actor.bgCheckFlags & 1) {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->unk_324, 0.1f, 0.5f, 0.0f);
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_328, 2000);
-        sp50 = Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, 0, 2000);
+        Math_SmoothStepToF(&this->actor.speedXZ, this->unk_324, 0.1f, 0.5f, 0.0f);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_328, 2000);
+        sp50 = Math_ScaledStepToS(&this->actor.posRot.rot.x, 0, 2000);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
         this->actor.shape.rot.x = this->actor.posRot.rot.x;
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
         this->actor.speedXZ += (Rand_ZeroOne() - 0.5f) * 0.14f;
         this->actor.velocity.y += Rand_ZeroOne() * 0.12f;
         this->actor.posRot.rot.y += this->unk_316;

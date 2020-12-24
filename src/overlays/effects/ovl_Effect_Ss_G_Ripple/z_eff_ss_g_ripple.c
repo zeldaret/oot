@@ -116,14 +116,14 @@ void EffectSsGRipple_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
     if (DECR(this->rLifespan) == 0) {
         radius = this->rRadius;
-        Math_SmoothScaleMaxMinF(&radius, this->rRadiusMax, 0.2f, 30.0f, 1.0f);
+        Math_SmoothStepToF(&radius, this->rRadiusMax, 0.2f, 30.0f, 1.0f);
         this->rRadius = radius;
 
         primAlpha = this->rPrimColorA;
         envAlpha = this->rEnvColorA;
 
-        Math_SmoothScaleMaxMinF(&primAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
-        Math_SmoothScaleMaxMinF(&envAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+        Math_SmoothStepToF(&primAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+        Math_SmoothStepToF(&envAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
 
         this->rPrimColorA = primAlpha;
         this->rEnvColorA = envAlpha;

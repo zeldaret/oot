@@ -14,12 +14,12 @@ glabel func_80B8F59C
 /* 00B28 80B8F5A8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00B2C 80B8F5AC 860601C6 */  lh      $a2, 0x01C6($s0)           ## 000001C6
 /* 00B30 80B8F5B0 860501C4 */  lh      $a1, 0x01C4($s0)           ## 000001C4
-/* 00B34 80B8F5B4 0C01DE5F */  jal     Math_ApproxS
+/* 00B34 80B8F5B4 0C01DE5F */  jal     Math_StepToS
               
 /* 00B38 80B8F5B8 248401C2 */  addiu   $a0, $a0, 0x01C2           ## $a0 = 000001C2
 /* 00B3C 80B8F5BC 260401C8 */  addiu   $a0, $s0, 0x01C8           ## $a0 = 000001C8
 /* 00B40 80B8F5C0 860501CA */  lh      $a1, 0x01CA($s0)           ## 000001CA
-/* 00B44 80B8F5C4 0C01DE5F */  jal     Math_ApproxS
+/* 00B44 80B8F5C4 0C01DE5F */  jal     Math_StepToS
               
 /* 00B48 80B8F5C8 860601CC */  lh      $a2, 0x01CC($s0)           ## 000001CC
 /* 00B4C 80B8F5CC 860E01CE */  lh      $t6, 0x01CE($s0)           ## 000001CE

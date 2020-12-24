@@ -39,7 +39,7 @@ glabel func_80B8EBE4
 /* 0019C 80B8EC1C A48901BA */  sh      $t1, 0x01BA($a0)           ## 000001BA
 /* 001A0 80B8EC20 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 001A4 80B8EC24 248401E4 */  addiu   $a0, $a0, 0x01E4           ## $a0 = 000001E4
-/* 001A8 80B8EC28 0C01DE80 */  jal     Math_ApproxF
+/* 001A8 80B8EC28 0C01DE80 */  jal     Math_StepToF
               
 /* 001AC 80B8EC2C 3C054000 */  lui     $a1, 0x4000                ## $a1 = 40000000
 /* 001B0 80B8EC30 860401B6 */  lh      $a0, 0x01B6($s0)           ## 000001B6

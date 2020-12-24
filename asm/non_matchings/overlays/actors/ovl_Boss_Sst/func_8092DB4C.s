@@ -96,7 +96,7 @@ glabel func_8092DB4C
 /* 016D0 8092DCA0 00052C03 */  sra     $a1, $a1, 16               
 /* 016D4 8092DCA4 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 016D8 8092DCA8 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 016DC 8092DCAC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 016DC 8092DCAC 0C01E1EF */  jal     Math_ApproachS
               
 /* 016E0 8092DCB0 24070400 */  addiu   $a3, $zero, 0x0400         ## $a3 = 00000400
 /* 016E4 8092DCB4 86020198 */  lh      $v0, 0x0198($s0)           ## 00000198

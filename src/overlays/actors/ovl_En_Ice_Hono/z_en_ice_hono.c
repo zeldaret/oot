@@ -201,9 +201,9 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
 void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
     u32 bgFlag = this->actor.bgCheckFlags & 1;
 
-    Math_ApproxF(&this->actor.scale.x, 0.0017f, 0.00008f);
+    Math_StepToF(&this->actor.scale.x, 0.0017f, 0.00008f);
     this->actor.scale.z = this->actor.scale.x;
-    Math_ApproxF(&this->actor.scale.y, 0.0017f, 0.00008f);
+    Math_StepToF(&this->actor.scale.y, 0.0017f, 0.00008f);
 
     if (bgFlag != 0) {
         s32 i;
@@ -235,11 +235,11 @@ void EnIceHono_SetupActionSpreadFlames(EnIceHono* this) {
 
 void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     if (this->timer > 20) {
-        Math_ApproxF(&this->actor.scale.x, 0.011f, 0.00014f);
-        Math_ApproxF(&this->actor.scale.y, 0.006f, 0.00012f);
+        Math_StepToF(&this->actor.scale.x, 0.011f, 0.00014f);
+        Math_StepToF(&this->actor.scale.y, 0.006f, 0.00012f);
     } else {
-        Math_ApproxF(&this->actor.scale.x, 0.0001f, 0.00015f);
-        Math_ApproxF(&this->actor.scale.y, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
     Actor_MoveForward(&this->actor);
@@ -285,14 +285,14 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
 
 void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
     if (this->timer > 20) {
-        Math_ApproxF(&this->actor.scale.x, 0.006f, 0.00016f);
-        Math_ApproxF(&this->actor.scale.y, this->smallFlameTargetYScale * 0.667f, 0.00014f);
+        Math_StepToF(&this->actor.scale.x, 0.006f, 0.00016f);
+        Math_StepToF(&this->actor.scale.y, this->smallFlameTargetYScale * 0.667f, 0.00014f);
     } else {
-        Math_ApproxF(&this->actor.scale.x, 0.0001f, 0.00015f);
-        Math_ApproxF(&this->actor.scale.y, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
-    Math_ApproxF(&this->actor.speedXZ, 0, 0.06f);
+    Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
 

@@ -37,7 +37,7 @@ glabel func_80B230D8
 /* 00470 80B23160 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 00474 80B23164 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 00478 80B23168 2406000A */  addiu   $a2, $zero, 0x000A         ## $a2 = 0000000A
-/* 0047C 80B2316C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0047C 80B2316C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00480 80B23170 24070400 */  addiu   $a3, $zero, 0x0400         ## $a3 = 00000400
 /* 00484 80B23174 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6

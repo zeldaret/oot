@@ -25,7 +25,7 @@ glabel func_80860F84
 /* 01974 80860FC4 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
 /* 01978 80860FC8 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 0197C 80860FCC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 01980 80860FD0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01980 80860FD0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01984 80860FD4 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 01988 80860FD8 861800B6 */  lh      $t8, 0x00B6($s0)           ## 000000B6
@@ -176,7 +176,7 @@ glabel func_80860F84
 /* 01B98 808611E8 44818000 */  mtc1    $at, $f16                  ## $f16 = 110.00
 /* 01B9C 808611EC 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 01BA0 808611F0 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3F4CCCCD
-/* 01BA4 808611F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01BA4 808611F4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01BA8 808611F8 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 01BAC 808611FC 1000001A */  beq     $zero, $zero, .L80861268   
@@ -198,7 +198,7 @@ glabel func_80860F84
 /* 01BE8 80861238 260407EC */  addiu   $a0, $s0, 0x07EC           ## $a0 = 000007EC
 /* 01BEC 8086123C 3C054020 */  lui     $a1, 0x4020                ## $a1 = 40200000
 /* 01BF0 80861240 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01BF4 80861244 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01BF4 80861244 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01BF8 80861248 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01BFC 8086124C 10000006 */  beq     $zero, $zero, .L80861268   
@@ -206,7 +206,7 @@ glabel func_80860F84
 /* 01C04 80861254 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 .L80861258:
 /* 01C08 80861258 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 01C0C 8086125C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01C0C 8086125C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01C10 80861260 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01C14 80861264 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

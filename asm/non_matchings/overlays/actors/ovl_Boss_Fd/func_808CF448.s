@@ -273,7 +273,7 @@ glabel func_808CF448
 /* 04A50 808CF810 4405B000 */  mfc1    $a1, $f22                  
 /* 04A54 808CF814 4406F000 */  mfc1    $a2, $f30                  
 /* 04A58 808CF818 4407F000 */  mfc1    $a3, $f30                  
-/* 04A5C 808CF81C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04A5C 808CF81C 0C01E107 */  jal     Math_ApproachF
               
 /* 04A60 808CF820 26240030 */  addiu   $a0, $s1, 0x0030           ## $a0 = 000019A0
 /* 04A64 808CF824 8622002C */  lh      $v0, 0x002C($s1)           ## 0000199C

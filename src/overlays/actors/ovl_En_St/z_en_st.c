@@ -506,9 +506,9 @@ s32 EnSt_SetTeethColor(EnSt* this, s16 redTarget, s16 greenTarget, s16 blueTarge
         minMaxStep = 1;
     }
 
-    Math_SmoothScaleMaxMinS(&red, redTarget, 1, minMaxStep, minMaxStep);
-    Math_SmoothScaleMaxMinS(&green, greenTarget, 1, minMaxStep, minMaxStep);
-    Math_SmoothScaleMaxMinS(&blue, blueTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&red, redTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&green, greenTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&blue, blueTarget, 1, minMaxStep, minMaxStep);
     this->teethR = red;
     this->teethG = green;
     this->teethB = blue;
@@ -582,7 +582,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
         if (ABS(yawDiff) <= 0x4000) {
-            Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
+            Math_SmoothStepToS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
         }
@@ -641,7 +641,7 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
     if ((globalCtx->state.frames & 8) != 0) {
         ySpeedTarget *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, ySpeedTarget, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.velocity.y, ySpeedTarget, 0.4f, 1000.0f, 0.0f);
 }
 
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
@@ -844,7 +844,7 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
         this->sfxTimer = 0;
         EnSt_SetupAction(this, EnSt_WaitOnGround);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.3f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 1.0f, 0.0f);
     }
 }
 
@@ -907,7 +907,7 @@ void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx) {
         this->actor.gravity = -2.0f;
         EnSt_SetupAction(this, EnSt_FinishBouncing);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 400.0f, 0.4f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.unk_08, 400.0f, 0.4f, 10000.0f, 0.0f);
     }
 }
 
@@ -929,9 +929,9 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx) {
         this->setTargetYawTimer = 8;
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, 0x3FFC, 4, 0x2710, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.z, 0, 4, 0x2710, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->deathYawTarget, 0xA, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.x, 0x3FFC, 4, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.z, 0, 4, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->deathYawTarget, 0xA, 0x2710, 1);
 
     this->actor.shape.rot = this->actor.posRot.rot;
 

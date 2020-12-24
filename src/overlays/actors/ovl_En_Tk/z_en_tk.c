@@ -320,7 +320,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     dx = point->x - this->actor.posRot.pos.x;
     dz = point->z - this->actor.posRot.pos.z;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
@@ -559,7 +559,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     }
 
     a1_ = CLAMP(-v1, 1270, 10730);
-    Math_SmoothScaleMaxMinS(&this->headRot, a1_, 6, 1000, 1);
+    Math_SmoothStepToS(&this->headRot, a1_, 6, 1000, 1);
 }
 
 void EnTk_Walk(EnTk* this, GlobalContext* globalCtx) {
@@ -570,7 +570,7 @@ void EnTk_Walk(EnTk* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = EnTk_Step(this, globalCtx);
         EnTk_Orient(this, globalCtx);
-        Math_SmoothScaleMaxMinS(&this->headRot, 0, 6, 1000, 1);
+        Math_SmoothStepToS(&this->headRot, 0, 6, 1000, 1);
         EnTk_CheckCurrentSpot(this);
 
         DECR(this->actionCountdown);

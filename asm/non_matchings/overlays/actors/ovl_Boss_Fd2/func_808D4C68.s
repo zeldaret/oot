@@ -101,7 +101,7 @@ glabel func_808D4C68
 .L808D4DA0:
 /* 02730 808D4DA0 44050000 */  mfc1    $a1, $f0                   
 /* 02734 808D4DA4 44071000 */  mfc1    $a3, $f2                   
-/* 02738 808D4DA8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02738 808D4DA8 0C01E107 */  jal     Math_ApproachF
               
 /* 0273C 808D4DAC 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3E99999A
 /* 02740 808D4DB0 860201A4 */  lh      $v0, 0x01A4($s0)           ## 000001A4

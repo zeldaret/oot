@@ -178,10 +178,10 @@ void func_80B536C4(EnZl3* this) {
     Vec3s* vec1 = &this->unk_3F8.unk_08;
     Vec3s* vec2 = &this->unk_3F8.unk_0E;
 
-    Math_SmoothScaleMaxMinS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec1->y, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
 }
 
 void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
@@ -198,8 +198,8 @@ s32 func_80B537E8(EnZl3* this) {
     s16* unk_3D0 = &this->unk_3D0;
     s16 pad[3];
 
-    Math_SmoothScaleMaxMinS(unk_3D0, ABS((s16)(yawTowardsLink - *rotY)), 5, 6200, 100);
-    Math_SmoothScaleMaxMinS(rotY, yawTowardsLink, 5, *unk_3D0, 100);
+    Math_SmoothStepToS(unk_3D0, ABS((s16)(yawTowardsLink - *rotY)), 5, 6200, 100);
+    Math_SmoothStepToS(rotY, yawTowardsLink, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
     // no return statement despite being of type s32
     // the function directly below needs this to not be void I guess
@@ -1639,7 +1639,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(MathF_Atan2F(xDiff, zDiff) * 10430.3779296875f);
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_FAtan2F(xDiff, zDiff) * 10430.3779296875f);
     }
     return 0;
 }
@@ -1652,7 +1652,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.posRot.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return MathF_Atan2F(xDiff, zDiff) * (0x8000 / M_PI);
+            return Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI);
         }
     }
     return 0;
@@ -1685,7 +1685,7 @@ void func_80B57240(EnZl3* this) {
     s32 temp_a1 = func_80B571FC(this);
     s16* rotY = &this->actor.posRot.rot.y;
 
-    Math_SmoothScaleMaxMinS(rotY, temp_a1, 2, 6400, 1000);
+    Math_SmoothStepToS(rotY, temp_a1, 2, 6400, 1000);
     this->actor.shape.rot.y = *rotY;
 }
 
@@ -1693,7 +1693,7 @@ void func_80B57298(EnZl3* this) {
     s16* rotY = &this->actor.posRot.rot.y;
     s16 temp_a1 = func_80B571A8(this);
 
-    Math_SmoothScaleMaxMinS(rotY, temp_a1, 2, 6400, 1000);
+    Math_SmoothStepToS(rotY, temp_a1, 2, 6400, 1000);
     this->actor.shape.rot.y = *rotY;
 }
 
@@ -1766,7 +1766,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - (s16)(MathF_Atan2F(temp_f12, temp_f13) * 10430.3779296875f));
+    temp_v0 = (s16)(temp_v1 - (s16)(Math_FAtan2F(temp_f12, temp_f13) * 10430.3779296875f));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1853,7 +1853,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (MathF_Atan2F(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
+                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {

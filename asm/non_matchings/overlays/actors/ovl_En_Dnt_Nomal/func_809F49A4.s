@@ -53,7 +53,7 @@ glabel func_809F49A4
 /* 01798 809F4A58 1000004D */  beq     $zero, $zero, .L809F4B90   
 /* 0179C 809F4A5C E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 .L809F4A60:
-/* 017A0 809F4A60 0C03F494 */  jal     MathF_Atan2F              
+/* 017A0 809F4A60 0C03F494 */  jal     Math_FAtan2F              
 /* 017A4 809F4A64 00000000 */  nop
 /* 017A8 809F4A68 3C01809F */  lui     $at, %hi(D_809F6050)       ## $at = 809F0000
 /* 017AC 809F4A6C C4326050 */  lwc1    $f18, %lo(D_809F6050)($at) 
@@ -66,7 +66,7 @@ glabel func_809F49A4
 /* 017C8 809F4A88 44053000 */  mfc1    $a1, $f6                   
 /* 017CC 809F4A8C 00000000 */  nop
 /* 017D0 809F4A90 00052C00 */  sll     $a1, $a1, 16               
-/* 017D4 809F4A94 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 017D4 809F4A94 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 017D8 809F4A98 00052C03 */  sra     $a1, $a1, 16               
 /* 017DC 809F4A9C 860800B6 */  lh      $t0, 0x00B6($s0)           ## 000000B6
@@ -99,14 +99,14 @@ glabel func_809F49A4
 /* 0183C 809F4AFC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01840 809F4B00 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 01844 809F4B04 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
-/* 01848 809F4B08 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01848 809F4B08 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0184C 809F4B0C 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 /* 01850 809F4B10 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 01854 809F4B14 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01858 809F4B18 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 0185C 809F4B1C 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 01860 809F4B20 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01860 809F4B20 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01864 809F4B24 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 .L809F4B28:

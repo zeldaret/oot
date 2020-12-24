@@ -192,7 +192,7 @@ void EnButte_Turn(EnButte* this) {
     s16 target = this->actor.posRot.rot.y + 0x8000;
     s16 diff = target - this->actor.shape.rot.y;
 
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, target, ABS(diff) >> 3);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, target, ABS(diff) >> 3);
     this->actor.shape.rot.x = (s16)(sinf(this->unk_260) * 600.0f) - 0x2320;
 }
 
@@ -214,7 +214,7 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
     distSqFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
                                      this->actor.initPosRot.pos.z);
     func_809CD56C(this);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
+    Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
                             flightParams->speedXZStep, 0.0f);
 
     if (this->unk_257 == 1) {
@@ -230,17 +230,17 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
 
     if ((this->flightParamsIdx != 0) && ((distSqFromHome > maxDistSqFromHome) || (this->timer < 4))) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-        if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, flightParams->rotYStep) == 0) {
+        if (Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, flightParams->rotYStep) == 0) {
             minAnimSpeed = 0.5f;
         }
     } else if ((this->unk_257 == 0) && (this->actor.child != NULL) && (this->actor.child != &this->actor)) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.child->posRot.pos);
-        if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, rotStep) == 0) {
+        if (Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, rotStep) == 0) {
             minAnimSpeed = 0.3f;
         }
     } else if (this->unk_257 == 1) {
         yaw = this->actor.yawTowardsLink + 0x8000 + (s16)((Rand_ZeroOne() - 0.5f) * 0x6000);
-        if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, rotStep) == 0) {
+        if (Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, rotStep) == 0) {
             minAnimSpeed = 0.4f;
         }
     } else {
@@ -288,7 +288,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     s16 yaw;
 
     func_809CD634(this);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
+    Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
                             flightParams->speedXZStep, 0.0f);
     minAnimSpeed = 0.0f;
 
@@ -298,7 +298,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         swordTip.z = player->swordInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
-        if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000) != 0) {
+        if (Math_ScaledStepToS(&this->actor.posRot.rot.y, yaw, 2000) != 0) {
             if (globalCtx->gameplayFrames % 2) {
                 this->actor.posRot.rot.y += (s16)(sinf(this->unk_25C) * 60.0f);
             }
@@ -399,7 +399,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.update != NULL) {
         Actor_MoveForward(&this->actor);
-        Math_ApproxF(&this->actor.posRot.pos.y, this->posYTarget, 0.6f);
+        Math_StepToF(&this->actor.posRot.pos.y, this->posYTarget, 0.6f);
         if (this->actor.xyzDistFromLinkSq < 5000.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }

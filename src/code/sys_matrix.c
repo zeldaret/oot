@@ -752,17 +752,17 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->zx;
     temp *= temp;
     temp += SQ(mf->zz);
-    vec->x = MathF_Atan2F(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
+    vec->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
 
     if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
         vec->z = 0;
 
-        vec->y = MathF_Atan2F(-mf->xz, mf->xx) * (32768 / M_PI);
+        vec->y = Math_FAtan2F(-mf->xz, mf->xx) * (32768 / M_PI);
     } else {
-        vec->y = MathF_Atan2F(mf->zx, mf->zz) * (32768 / M_PI);
+        vec->y = Math_FAtan2F(mf->zx, mf->zz) * (32768 / M_PI);
 
         if (!flag) {
-            vec->z = MathF_Atan2F(mf->xy, mf->yy) * (32768 / M_PI);
+            vec->z = Math_FAtan2F(mf->xy, mf->yy) * (32768 / M_PI);
         } else {
             temp = mf->xx;
             temp4 = mf->xz;
@@ -783,7 +783,7 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            vec->z = MathF_Atan2F(temp, temp2) * (32768 / M_PI);
+            vec->z = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
         }
     }
 }
@@ -800,18 +800,18 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->xx;
     temp *= temp;
     temp += SQ(mf->xy);
-    vec->y = MathF_Atan2F(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
+    vec->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
 
     if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
         vec->x = 0;
-        vec->z = MathF_Atan2F(-mf->yx, mf->yy) * (32768 / M_PI);
+        vec->z = Math_FAtan2F(-mf->yx, mf->yy) * (32768 / M_PI);
         return;
     }
 
-    vec->z = MathF_Atan2F(mf->xy, mf->xx) * (32768 / M_PI);
+    vec->z = Math_FAtan2F(mf->xy, mf->xx) * (32768 / M_PI);
 
     if (!flag) {
-        vec->x = MathF_Atan2F(mf->yz, mf->zz) * (32768 / M_PI);
+        vec->x = Math_FAtan2F(mf->yz, mf->zz) * (32768 / M_PI);
     } else {
         temp = mf->yx;
         temp *= temp;
@@ -827,7 +827,7 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
         temp2 = sqrtf(temp2);
         temp2 = mf->zz / temp2;
 
-        vec->x = MathF_Atan2F(temp, temp2) * (32768 / M_PI);
+        vec->x = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
     }
 }
 #else

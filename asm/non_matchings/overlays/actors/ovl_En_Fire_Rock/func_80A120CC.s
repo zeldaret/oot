@@ -86,13 +86,13 @@ glabel func_80A120CC
 /* 005C4 80A121E4 44051000 */  mfc1    $a1, $f2                   
 /* 005C8 80A121E8 26240024 */  addiu   $a0, $s1, 0x0024           ## $a0 = 00000024
 /* 005CC 80A121EC 4406A000 */  mfc1    $a2, $f20                  
-/* 005D0 80A121F0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 005D0 80A121F0 0C01E107 */  jal     Math_ApproachF
               
 /* 005D4 80A121F4 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 005D8 80A121F8 4406A000 */  mfc1    $a2, $f20                  
 /* 005DC 80A121FC 2624002C */  addiu   $a0, $s1, 0x002C           ## $a0 = 0000002C
 /* 005E0 80A12200 8E05002C */  lw      $a1, 0x002C($s0)           ## 0000002C
-/* 005E4 80A12204 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 005E4 80A12204 0C01E107 */  jal     Math_ApproachF
               
 /* 005E8 80A12208 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 .L80A1220C:

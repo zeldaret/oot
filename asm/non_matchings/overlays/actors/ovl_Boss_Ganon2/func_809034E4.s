@@ -201,14 +201,14 @@ glabel func_809034E4
 /* 06888 809037C8 00052C03 */  sra     $a1, $a1, 16               
 /* 0688C 809037CC 27A402C8 */  addiu   $a0, $sp, 0x02C8           ## $a0 = FFFFFFE8
 /* 06890 809037D0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 06894 809037D4 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 06894 809037D4 0C01E1EF */  jal     Math_ApproachS
               
 /* 06898 809037D8 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 0689C 809037DC 00112C00 */  sll     $a1, $s1, 16               
 /* 068A0 809037E0 00052C03 */  sra     $a1, $a1, 16               
 /* 068A4 809037E4 27A402CA */  addiu   $a0, $sp, 0x02CA           ## $a0 = FFFFFFEA
 /* 068A8 809037E8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 068AC 809037EC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 068AC 809037EC 0C01E1EF */  jal     Math_ApproachS
               
 /* 068B0 809037F0 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 068B4 809037F4 0C01DE0D */  jal     Math_CosS
@@ -472,14 +472,14 @@ glabel func_809034E4
 /* 06C7C 80903BBC 00052C03 */  sra     $a1, $a1, 16               
 /* 06C80 80903BC0 27A402C8 */  addiu   $a0, $sp, 0x02C8           ## $a0 = FFFFFFE8
 /* 06C84 80903BC4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 06C88 80903BC8 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 06C88 80903BC8 0C01E1EF */  jal     Math_ApproachS
               
 /* 06C8C 80903BCC 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 06C90 80903BD0 00112C00 */  sll     $a1, $s1, 16               
 /* 06C94 80903BD4 00052C03 */  sra     $a1, $a1, 16               
 /* 06C98 80903BD8 27A402CA */  addiu   $a0, $sp, 0x02CA           ## $a0 = FFFFFFEA
 /* 06C9C 80903BDC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 06CA0 80903BE0 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 06CA0 80903BE0 0C01E1EF */  jal     Math_ApproachS
               
 /* 06CA4 80903BE4 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 06CA8 80903BE8 0C01DE0D */  jal     Math_CosS

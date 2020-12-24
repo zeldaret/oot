@@ -218,9 +218,9 @@ void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.scale.x, 0.01f, 0.0005f);
+    Math_StepToF(&this->actor.scale.x, 0.01f, 0.0005f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 60.0f, 5.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 60.0f, 5.0f)) {
         EnKarebaba_SetupUpright(this);
     }
     this->actor.shape.rot.y += 0x1999;
@@ -297,10 +297,10 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
     Vec3f position;
     Vec3f rotation;
 
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
 
     if (this->actor.params == 0) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
@@ -347,10 +347,10 @@ void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.scale.x, 0.005f, 0.0005f);
+    Math_StepToF(&this->actor.scale.x, 0.005f, 0.0005f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 14.0f, 5.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 14.0f, 5.0f)) {
         EnKarebaba_SetupIdle(this);
     }
 

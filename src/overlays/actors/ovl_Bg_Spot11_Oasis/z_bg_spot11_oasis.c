@@ -103,7 +103,7 @@ void func_808B29E0(BgSpot11Oasis* this) {
 }
 
 void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
         func_808B2AA8(this);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_SPAWNER);

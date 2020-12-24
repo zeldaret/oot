@@ -175,7 +175,7 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
         this->actionFunc = BgIceTurara_Wait;
         this->dyna.actor.velocity.y = 0.0f;
     }

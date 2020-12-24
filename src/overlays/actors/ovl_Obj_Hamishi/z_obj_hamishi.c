@@ -63,8 +63,8 @@ void ObjHamishi_Shake(ObjHamishi* this) {
         this->shakePosPhase += 5000;
         this->shakeRotPhase += 0xE10;
 
-        Math_ApproxF(&this->shakePosSize, 0.0f, 0.15f);
-        Math_ApproxF(&this->shakeRotSize, 0.0f, 40.0f);
+        Math_StepToF(&this->shakePosSize, 0.0f, 0.15f);
+        Math_StepToF(&this->shakeRotSize, 0.0f, 40.0f);
 
         this->actor.posRot.pos.x =
             this->actor.initPosRot.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
@@ -75,10 +75,10 @@ void ObjHamishi_Shake(ObjHamishi* this) {
         this->actor.shape.rot.z =
             this->actor.initPosRot.rot.z + (s16)(Math_CosS(this->shakeRotPhase * 7) * this->shakeRotSize);
     } else {
-        Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-        Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0xBB8);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0xBB8);
+        Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
+        Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0xBB8);
+        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0xBB8);
     }
 }
 

@@ -261,7 +261,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     this->unk_174 = CLAMP_MAX(this->unk_174, 2.0f);
 
-    approxFResult = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
+    approxFResult = Math_StepToF(&this->unk_178, 20.0f, this->unk_174);
 
     sign = this->unk_17C >= 0.0f ? 1.0f : -1.0f;
 

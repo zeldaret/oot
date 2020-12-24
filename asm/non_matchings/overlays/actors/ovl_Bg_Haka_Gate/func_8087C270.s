@@ -27,7 +27,7 @@ glabel func_8087C270
 .L8087C2B4:
 /* 004C4 8087C2B4 8606016C */  lh      $a2, 0x016C($s0)           ## 0000016C
 /* 004C8 8087C2B8 AFA3002C */  sw      $v1, 0x002C($sp)           
-/* 004CC 8087C2BC 0C01DE5F */  jal     Math_ApproxS
+/* 004CC 8087C2BC 0C01DE5F */  jal     Math_StepToS
               
 /* 004D0 8087C2C0 2604016E */  addiu   $a0, $s0, 0x016E           ## $a0 = 0000016E
 /* 004D4 8087C2C4 AFA20028 */  sw      $v0, 0x0028($sp)           

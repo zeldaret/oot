@@ -66,7 +66,7 @@ glabel func_800730DC
 /* AEA30C 8007316C 46003207 */  neg.s $f8, $f6
 /* AEA310 80073170 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA314 80073174 44052000 */  mfc1  $a1, $f4
-/* AEA318 80073178 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA318 80073178 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA31C 8007317C 00000000 */   nop   
 /* AEA320 80073180 3C028016 */  lui   $v0, %hi(gSaveContext+0xc) # $v0, 0x8016
 /* AEA324 80073184 9442E66C */  lhu   $v0, %lo(gSaveContext+0xc)($v0)
@@ -91,7 +91,7 @@ glabel func_800730DC
 /* AEA370 800731D0 E7A20010 */  swc1  $f2, 0x10($sp)
 /* AEA374 800731D4 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA378 800731D8 44052000 */  mfc1  $a1, $f4
-/* AEA37C 800731DC 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA37C 800731DC 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA380 800731E0 00000000 */   nop   
 /* AEA384 800731E4 3C028016 */  lui   $v0, %hi(gSaveContext+0xc) # $v0, 0x8016
 /* AEA388 800731E8 9442E66C */  lhu   $v0, %lo(gSaveContext+0xc)($v0)
@@ -114,7 +114,7 @@ glabel func_800730DC
 /* AEA3CC 8007322C 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA3D0 80073230 E7A60010 */  swc1  $f6, 0x10($sp)
 /* AEA3D4 80073234 44052000 */  mfc1  $a1, $f4
-/* AEA3D8 80073238 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA3D8 80073238 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA3DC 8007323C 00000000 */   nop   
 /* AEA3E0 80073240 10000031 */  b     .L80073308
 /* AEA3E4 80073244 00000000 */   nop   

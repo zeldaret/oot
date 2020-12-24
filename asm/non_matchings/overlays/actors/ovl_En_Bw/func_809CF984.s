@@ -35,7 +35,7 @@ glabel func_809CF984
 /* 012C8 809CF9A8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 012CC 809CF9AC 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
 /* 012D0 809CF9B0 E7A00010 */  swc1    $f0, 0x0010($sp)           
-/* 012D4 809CF9B4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 012D4 809CF9B4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 012D8 809CF9B8 AFAF003C */  sw      $t7, 0x003C($sp)           
 /* 012DC 809CF9BC 86180222 */  lh      $t8, 0x0222($s0)           ## 00000222

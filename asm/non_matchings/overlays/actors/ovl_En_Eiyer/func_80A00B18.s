@@ -70,7 +70,7 @@ glabel func_80A00B18
 /* 00C54 80A00BF4 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 00C58 80A00BF8 46062200 */  add.s   $f8, $f4, $f6              
 /* 00C5C 80A00BFC 44054000 */  mfc1    $a1, $f8                   
-/* 00C60 80A00C00 0C01DE80 */  jal     Math_ApproxF
+/* 00C60 80A00C00 0C01DE80 */  jal     Math_StepToF
               
 /* 00C64 80A00C04 00000000 */  nop
 /* 00C68 80A00C08 3C0180A0 */  lui     $at, %hi(D_80A019FC)       ## $at = 80A00000

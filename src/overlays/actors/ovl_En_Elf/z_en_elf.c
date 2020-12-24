@@ -483,7 +483,7 @@ void func_80A02BD8(EnElf* this, Vec3f* targetPos, f32 arg2) {
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     yVelTarget = fabsf(yVelTarget);
     yVelTarget = CLAMP(yVelTarget, 0.0f, 20.0f) * yVelDirection;
-    Math_ApproxF(&this->actor.velocity.y, yVelTarget, 32.0f);
+    Math_StepToF(&this->actor.velocity.y, yVelTarget, 32.0f);
 }
 
 void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
@@ -505,8 +505,8 @@ void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
     zVelTarget = CLAMP(zVelTarget, 0.0f, 20.0f) * zVelDirection;
 
     func_80A02BD8(this, targetPos, arg2);
-    Math_ApproxF(&this->actor.velocity.x, xVelTarget, 1.5f);
-    Math_ApproxF(&this->actor.velocity.z, zVelTarget, 1.5f);
+    Math_StepToF(&this->actor.velocity.x, xVelTarget, 1.5f);
+    Math_StepToF(&this->actor.velocity.z, zVelTarget, 1.5f);
     func_8002D7EC(&this->actor);
 }
 
@@ -536,7 +536,7 @@ void func_80A02F2C(EnElf* this, Vec3f* targetPos) {
     this->unk_2AA += this->unk_2AE;
     yVelTarget = fabsf(yVelTarget);
     yVelTarget = CLAMP(yVelTarget, 0.0f, 20.0f) * yVelDirection;
-    Math_ApproxF(&this->actor.velocity.y, yVelTarget, 1.5f);
+    Math_StepToF(&this->actor.velocity.y, yVelTarget, 1.5f);
 }
 
 void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
@@ -545,7 +545,7 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     Vec3f* unk_28C = &this->unk_28C;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->unk_2B8, 0.2f, 0.5f, 0.01f);
+    Math_SmoothStepToF(&this->actor.speedXZ, this->unk_2B8, 0.2f, 0.5f, 0.01f);
 
     switch (this->unk_2A8) {
         case 0:
@@ -567,7 +567,7 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Math_SmoothScaleMaxMinS(&this->unk_2BC, targetYaw, 10, this->unk_2AC, 0x20);
+    Math_SmoothStepToS(&this->unk_2BC, targetYaw, 10, this->unk_2AC, 0x20);
     this->actor.posRot.rot.y = this->unk_2BC;
     Actor_MoveForward(&this->actor);
 }
@@ -595,8 +595,8 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
         zVelTarget *= xzVelocity;
     }
 
-    Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
-    Math_ApproxF(&this->actor.velocity.z, zVelTarget, 5.0f);
+    Math_StepToF(&this->actor.velocity.x, xVelTarget, 5.0f);
+    Math_StepToF(&this->actor.velocity.z, zVelTarget, 5.0f);
     func_8002D7EC(&this->actor);
 }
 
@@ -694,7 +694,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
+    Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
     this->unk_28C.y = this->unk_28C.y + this->unk_2B4;
@@ -980,7 +980,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     } else if (this->unk_2A8 == 8) {
         this->actor.scale.x = 0.0f;
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
+        Math_SmoothStepToF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
     }
 
     EnElf_UpdateLights(this, globalCtx);
@@ -1021,7 +1021,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
-            if (Math_ApproxF(&this->unk_29C, 0.0f, 0.25f) != 0) {
+            if (Math_StepToF(&this->unk_29C, 0.0f, 0.25f) != 0) {
                 this->innerColor = globalCtx->actorCtx.targetCtx.naviInner;
                 this->outerColor = globalCtx->actorCtx.targetCtx.naviOuter;
             } else {
@@ -1241,7 +1241,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
         EnElf_SpawnSparkles(this, globalCtx, 16);
     }
 
-    Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
+    Math_SmoothStepToF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
     EnElf_UpdateLights(this, globalCtx);
 }
 
@@ -1249,9 +1249,9 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
 void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_2BC, 5, 0x1000, 0x400);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_2BC, 5, 0x1000, 0x400);
     this->timer++;
-    Math_ApproxF(&this->unk_2A4, 1.0f, 0.05f);
+    Math_StepToF(&this->unk_2A4, 1.0f, 0.05f);
     func_800773A8(globalCtx, SQ(this->unk_2A4), player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
 }
 
@@ -1432,7 +1432,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     this->timer++;
 
     if (this->unk_2A4 > 0.0f) {
-        Math_ApproxF(&this->unk_2A4, 0.0f, 0.05f);
+        Math_StepToF(&this->unk_2A4, 0.0f, 0.05f);
         func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
     }
 

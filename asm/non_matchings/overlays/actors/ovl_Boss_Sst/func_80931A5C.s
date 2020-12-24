@@ -57,7 +57,7 @@ glabel func_80931A5C
 /* 05544 80931B14 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 05548 80931B18 44812000 */  mtc1    $at, $f4                   ## $f4 = 5.00
 /* 0554C 80931B1C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 05550 80931B20 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 05550 80931B20 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05554 80931B24 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 05558 80931B28 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

@@ -17,14 +17,14 @@ glabel func_80872C58
 /* 00450 80872C80 24840028 */  addiu   $a0, $a0, 0x0028           ## $a0 = 00000028
 /* 00454 80872C84 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 00458 80872C88 44050000 */  mfc1    $a1, $f0                   
-/* 0045C 80872C8C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0045C 80872C8C 0C01E107 */  jal     Math_ApproachF
               
 /* 00460 80872C90 E48002F4 */  swc1    $f0, 0x02F4($a0)           ## 0000031C
 /* 00464 80872C94 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 00468 80872C98 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 0046C 80872C9C 26040320 */  addiu   $a0, $s0, 0x0320           ## $a0 = 00000320
 /* 00470 80872CA0 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
-/* 00474 80872CA4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00474 80872CA4 0C01E107 */  jal     Math_ApproachF
               
 /* 00478 80872CA8 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
 /* 0047C 80872CAC 8FAE0024 */  lw      $t6, 0x0024($sp)           

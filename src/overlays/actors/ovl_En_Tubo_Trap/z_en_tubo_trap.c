@@ -237,7 +237,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
 
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 5000;
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetY, 0.8f, 3.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->targetY, 0.8f, 3.0f);
 
     if (fabsf(this->actor.posRot.pos.y - this->targetY) < 10.0f) {
         this->actor.speedXZ = 10.0f;
@@ -254,7 +254,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
-        Math_SmoothScaleMaxF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
+        Math_ApproachF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
     }
 
     this->actor.shape.rot.y += 5000;

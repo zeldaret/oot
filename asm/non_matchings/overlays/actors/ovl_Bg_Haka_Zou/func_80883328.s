@@ -34,7 +34,7 @@ glabel func_80883328
 /* 00DD4 80883394 44188000 */  mfc1    $t8, $f16                  
 /* 00DD8 80883398 00000000 */  nop
 /* 00DDC 8088339C A498FF7C */  sh      $t8, -0x0084($a0)          ## 00000030
-/* 00DE0 808833A0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00DE0 808833A0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00DE4 808833A4 86E60030 */  lh      $a2, 0x0030($s7)           ## 00000030
 /* 00DE8 808833A8 1040003B */  beq     $v0, $zero, .L80883498     

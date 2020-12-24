@@ -636,8 +636,8 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
-    Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
+    Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         func_8010B680(globalCtx, 0x708F, NULL);
@@ -674,8 +674,8 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
-    Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
+    Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z > 0) {
         Actor_Kill(&this->actor);

@@ -1836,11 +1836,11 @@ void func_8009DA30(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC555) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2189,11 +2189,11 @@ void func_8009F5D4(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC000) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 

@@ -142,7 +142,7 @@ glabel BossFd_Update
 .L808CEE84:
 /* 040C4 808CEE84 26640270 */  addiu   $a0, $s3, 0x0270           ## $a0 = 00000270
 /* 040C8 808CEE88 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 040CC 808CEE8C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 040CC 808CEE8C 0C01E107 */  jal     Math_ApproachF
               
 /* 040D0 808CEE90 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 040D4 808CEE94 8679021E */  lh      $t9, 0x021E($s3)           ## 0000021E
@@ -166,7 +166,7 @@ glabel BossFd_Update
 /* 04114 808CEED4 00000000 */  nop
 /* 04118 808CEED8 44050000 */  mfc1    $a1, $f0                   
 .L808CEEDC:
-/* 0411C 808CEEDC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0411C 808CEEDC 0C01E107 */  jal     Math_ApproachF
               
 /* 04120 808CEEE0 3C074280 */  lui     $a3, 0x4280                ## $a3 = 42800000
 .L808CEEE4:
@@ -207,19 +207,19 @@ glabel BossFd_Update
 /* 04198 808CEF58 00000000 */  nop
 .L808CEF5C:
 /* 0419C 808CEF5C 44050000 */  mfc1    $a1, $f0                   
-/* 041A0 808CEF60 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 041A0 808CEF60 0C01E107 */  jal     Math_ApproachF
               
 /* 041A4 808CEF64 3C074180 */  lui     $a3, 0x4180                ## $a3 = 41800000
 /* 041A8 808CEF68 4405B000 */  mfc1    $a1, $f22                  
 /* 041AC 808CEF6C 26640288 */  addiu   $a0, $s3, 0x0288           ## $a0 = 00000288
 /* 041B0 808CEF70 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 041B4 808CEF74 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 041B4 808CEF74 0C01E107 */  jal     Math_ApproachF
               
 /* 041B8 808CEF78 3C074180 */  lui     $a3, 0x4180                ## $a3 = 41800000
 /* 041BC 808CEF7C 4405A000 */  mfc1    $a1, $f20                  
 /* 041C0 808CEF80 2664028C */  addiu   $a0, $s3, 0x028C           ## $a0 = 0000028C
 /* 041C4 808CEF84 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 041C8 808CEF88 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 041C8 808CEF88 0C01E107 */  jal     Math_ApproachF
               
 /* 041CC 808CEF8C 3C074180 */  lui     $a3, 0x4180                ## $a3 = 41800000
 /* 041D0 808CEF90 8662023A */  lh      $v0, 0x023A($s3)           ## 0000023A

@@ -61,7 +61,7 @@ glabel func_80953FC4
 /* 04DD0 80954090 44060000 */  mfc1    $a2, $f0                   
 /* 04DD4 80954094 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3D4CCCCD
 /* 04DD8 80954098 26040168 */  addiu   $a0, $s0, 0x0168           ## $a0 = 00000168
-/* 04DDC 8095409C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04DDC 8095409C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04DE0 809540A0 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 04DE4 809540A4 0C03F66B */  jal     Rand_ZeroOne

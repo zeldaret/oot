@@ -64,7 +64,7 @@ glabel func_80B0D590
 /* 01898 80B0D648 00000000 */  nop
 .L80B0D64C:
 /* 0189C 80B0D64C 44050000 */  mfc1    $a1, $f0                   
-/* 018A0 80B0D650 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 018A0 80B0D650 0C01E107 */  jal     Math_ApproachF
               
 /* 018A4 80B0D654 26040050 */  addiu   $a0, $s0, 0x0050           ## $a0 = 00000050
 /* 018A8 80B0D658 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

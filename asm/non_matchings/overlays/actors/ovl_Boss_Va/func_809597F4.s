@@ -510,7 +510,7 @@ glabel func_809597F4
 /* 0AC1C 80959EDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0AC20 80959EE0 02418821 */  addu    $s1, $s2, $at              
 /* 0AC24 80959EE4 34A5999A */  ori     $a1, $a1, 0x999A           ## $a1 = 3D99999A
-/* 0AC28 80959EE8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0AC28 80959EE8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0AC2C 80959EEC E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0AC30 80959EF0 3C018096 */  lui     $at, %hi(D_8095C8AC)       ## $at = 80960000
@@ -520,7 +520,7 @@ glabel func_809597F4
 /* 0AC40 80959F00 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3F19999A
 /* 0AC44 80959F04 2604004C */  addiu   $a0, $s0, 0x004C           ## $a0 = 8095DF9C
 /* 0AC48 80959F08 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 0AC4C 80959F0C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0AC4C 80959F0C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0AC50 80959F10 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 0AC54 80959F14 8E281DE4 */  lw      $t0, 0x1DE4($s1)           ## 00001DE4
@@ -532,7 +532,7 @@ glabel func_809597F4
 /* 0AC6C 80959F2C 00153C00 */  sll     $a3, $s5, 16               
 /* 0AC70 80959F30 00073C03 */  sra     $a3, $a3, 16               
 /* 0AC74 80959F34 00063403 */  sra     $a2, $a2, 16               
-/* 0AC78 80959F38 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0AC78 80959F38 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0AC7C 80959F3C AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80959F40:
@@ -566,7 +566,7 @@ glabel func_809597F4
 /* 0ACE0 80959FA0 00000000 */  nop
 /* 0ACE4 80959FA4 25590050 */  addiu   $t9, $t2, 0x0050           ## $t9 = 00000050
 /* 0ACE8 80959FA8 A619003E */  sh      $t9, 0x003E($s0)           ## 8095DF8E
-/* 0ACEC 80959FAC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0ACEC 80959FAC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0ACF0 80959FB0 E7B60010 */  swc1    $f22, 0x0010($sp)          
 /* 0ACF4 80959FB4 C6040048 */  lwc1    $f4, 0x0048($s0)           ## 8095DF98

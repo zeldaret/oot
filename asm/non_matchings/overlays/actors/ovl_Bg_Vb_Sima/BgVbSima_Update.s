@@ -54,7 +54,7 @@ glabel BgVbSima_Update
 /* 001F0 808BDF50 3C05C47A */  lui     $a1, 0xC47A                ## $a1 = C47A0000
 /* 001F4 808BDF54 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 001F8 808BDF58 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 001FC 808BDF5C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 001FC 808BDF5C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00200 808BDF60 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00204 808BDF64 86C40174 */  lh      $a0, 0x0174($s6)           ## 00000174

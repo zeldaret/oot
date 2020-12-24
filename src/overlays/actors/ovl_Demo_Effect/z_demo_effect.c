@@ -1075,7 +1075,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                 break;
 
             case 3:
-                Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 0.1f, 0.1f, 0.005f);
+                Math_SmoothStepToF(&this->actor.scale.x, 0.0f, 0.1f, 0.1f, 0.005f);
                 Actor_SetScale(&this->actor, this->actor.scale.x);
                 break;
 
@@ -2109,8 +2109,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = MathF_Atan2F(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = MathF_Atan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = Math_FAtan2F(x, z) * (32768.0f / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
 /**

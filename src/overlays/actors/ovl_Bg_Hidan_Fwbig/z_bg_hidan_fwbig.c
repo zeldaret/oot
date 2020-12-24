@@ -116,7 +116,7 @@ void BgHidanFwbig_WaitForCs(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_Rise(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 10.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 10.0f)) {
         if (this->direction == 0) {
             Flags_UnsetSwitch(globalCtx, this->actor.params);
             this->actionFunc = BgHidanFwbig_WaitForSwitch;
@@ -127,7 +127,7 @@ void BgHidanFwbig_Rise(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y),
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y),
                      10.0f)) {
         if (this->direction == 0) {
             this->actionFunc = BgHidanFwbig_WaitForTimer;
@@ -168,7 +168,7 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (!Player_InCsMode(globalCtx)) {
-        if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
+        if (Math_ScaledStepToS(&this->actor.shape.rot.y,
                                      this->actor.initPosRot.rot.y + (this->direction * 0x6390), 0x20)) {
             this->moveState = FWBIG_RESET;
             this->actionFunc = BgHidanFwbig_Lower;

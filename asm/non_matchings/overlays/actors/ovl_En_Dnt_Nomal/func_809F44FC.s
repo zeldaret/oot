@@ -43,7 +43,7 @@ glabel func_809F44FC
 /* 012C0 809F4580 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 012C4 809F4584 E7A0002C */  swc1    $f0, 0x002C($sp)           
 /* 012C8 809F4588 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 012CC 809F458C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 012CC 809F458C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 012D0 809F4590 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 /* 012D4 809F4594 10000018 */  beq     $zero, $zero, .L809F45F8   
@@ -54,7 +54,7 @@ glabel func_809F44FC
 /* 012E4 809F45A4 C6040290 */  lwc1    $f4, 0x0290($s0)           ## 00000290
 /* 012E8 809F45A8 C608002C */  lwc1    $f8, 0x002C($s0)           ## 0000002C
 /* 012EC 809F45AC 46128301 */  sub.s   $f12, $f16, $f18           
-/* 012F0 809F45B0 0C03F494 */  jal     MathF_Atan2F              
+/* 012F0 809F45B0 0C03F494 */  jal     Math_FAtan2F              
 /* 012F4 809F45B4 46082381 */  sub.s   $f14, $f4, $f8             
 /* 012F8 809F45B8 3C01809F */  lui     $at, %hi(D_809F604C)       ## $at = 809F0000
 /* 012FC 809F45BC C426604C */  lwc1    $f6, %lo(D_809F604C)($at)  
@@ -67,7 +67,7 @@ glabel func_809F44FC
 /* 01318 809F45D8 44058000 */  mfc1    $a1, $f16                  
 /* 0131C 809F45DC 00000000 */  nop
 /* 01320 809F45E0 00052C00 */  sll     $a1, $a1, 16               
-/* 01324 809F45E4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01324 809F45E4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01328 809F45E8 00052C03 */  sra     $a1, $a1, 16               
 /* 0132C 809F45EC 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
@@ -142,7 +142,7 @@ glabel func_809F44FC
 /* 01424 809F46E4 00052C03 */  sra     $a1, $a1, 16               
 .L809F46E8:
 /* 01428 809F46E8 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
-/* 0142C 809F46EC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0142C 809F46EC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01430 809F46F0 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L809F46F4:

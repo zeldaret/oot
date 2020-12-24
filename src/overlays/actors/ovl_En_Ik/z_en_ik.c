@@ -319,9 +319,9 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
         temp_a1 =
             (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
@@ -384,7 +384,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         this->unk_2FE = 1;
     } else {
         if ((this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
         }
         this->unk_2FE = 0;
@@ -446,7 +446,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
     if (((this->skelAnime.animCurrentFrame > 1.0f) && (this->skelAnime.animCurrentFrame < 9.0f)) ||
         ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f))) {
         if ((this->unk_2FC == 0) && (this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
         }
         if (this->unk_2FE < 0) {
@@ -488,7 +488,7 @@ void func_80A754A0(EnIk* this) {
 }
 
 void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
-    func_80077AF8(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x7D0);
+    Math_StepUntilS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x7D0);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
@@ -549,7 +549,7 @@ void func_80A75790(EnIk* this) {
 }
 
 void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (func_8003305C(&this->actor, &this->unk_308, globalCtx, this->actor.params + 4)) {
         this->unk_308.unk_10 = 0;
     }
@@ -666,7 +666,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         func_80032C7C(globalCtx, &this->actor);
         return;
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
     if ((this->actor.params == 0) && (Rand_ZeroOne() < 0.5f)) {
         if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) > 0x4000) {
             func_80A754A0(this);

@@ -177,9 +177,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             }
         }
         this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &playerPos);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
         func_80035844(&this->unk_1F4, &this->unk_1DC, &test, 0);
         Matrix_Translate(this->unk_1DC.x, this->unk_1DC.y, this->unk_1DC.z, MTXMODE_NEW);
         Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
@@ -206,8 +206,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             player->unk_850 = 200;
         }
         this->actor.initPosRot.rot.z = 1;
-        Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     }
 }
@@ -225,9 +225,9 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 2000, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.y, 0, 1, 600, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 2000, 0);
+    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 2000, 0);
+    Math_SmoothStepToS(&this->unk_1D0.y, 0, 1, 600, 0);
+    Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 2000, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->unk_1C8--;
     if (this->unk_1C8 == 0) {
@@ -260,8 +260,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
-    result = Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
+    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
+    result = Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (result == 0) {
         vector = this->actor.posRot.pos;

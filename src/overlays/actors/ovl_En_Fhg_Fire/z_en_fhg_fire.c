@@ -137,9 +137,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         tempf1 = player->actor.posRot.pos.x - thisx->posRot.pos.x;
         tempf2 = player->actor.posRot.pos.y + 30.0f - thisx->posRot.pos.y;
         tempf3 = player->actor.posRot.pos.z - thisx->posRot.pos.z;
-        thisx->posRot.rot.y = MathF_Atan2F(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
+        thisx->posRot.rot.y = Math_FAtan2F(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
         tempf0 = sqrtf(SQ(tempf1) + SQ(tempf3));
-        thisx->posRot.rot.x = MathF_Atan2F(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
+        thisx->posRot.rot.x = Math_FAtan2F(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
@@ -181,7 +181,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
 
         case 0x0A:
             this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
-            Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
+            Math_ApproachF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->unk_150.x == 0) {
                 this->fireMode = 0x0B;
@@ -212,7 +212,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
         case 0x0B:
             this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*tmp & 0xFF) << 0x0F);
 
-            Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
+            Math_ApproachF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->unk_150.x == 0x1E) {
                 randY = (Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
@@ -246,7 +246,7 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
             this->fireMode = 1;
             this->unk_150.x = (s16)(Rand_ZeroOne() * 7.0f) + 0x07;
         case 1:
-            Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
+            Math_ApproachF(&this->scale, 1.7f, 1.0f, 0.34f);
 
             if (this->unk_150.x == 0) {
                 this->fireMode = 0x02;
@@ -257,7 +257,7 @@ void func_80A0FA90(EnFhgFire* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.34f);
+            Math_ApproachZeroF(&this->scale, 1.0f, 0.34f);
             if (this->unk_150.x == 0) {
                 Actor_Kill(&this->actor);
             }
@@ -329,10 +329,10 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_150.x < 0x15) {
-        Math_SmoothDownscaleMaxF(&this->unk_160, 1.0f, 45.0f);
-        Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.5f);
+        Math_ApproachZeroF(&this->unk_160, 1.0f, 45.0f);
+        Math_ApproachZeroF(&this->scale, 1.0f, 0.5f);
     } else {
-        Math_SmoothScaleMaxF(&this->scale, this->unk_18C, 0.5f, 3.0f);
+        Math_ApproachF(&this->scale, this->unk_18C, 0.5f, 3.0f);
     }
 
     Actor_SetScale(&this->actor, this->scale);
@@ -350,9 +350,9 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     if (this->unk_1FE != 0) {
         this->unk_1FE--;
         this->unk_1FC = 1;
-        Math_SmoothScaleMaxF(&this->unk_200, 40.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->unk_200, 40.0f, 0.3f, 10.0f);
     } else {
-        Math_SmoothDownscaleMaxF(&this->unk_200, 1.0f, 5.0f);
+        Math_ApproachZeroF(&this->unk_200, 1.0f, 5.0f);
         if (this->unk_200 == 0.0f) {
             this->unk_1FC = 0;
         }
@@ -436,12 +436,12 @@ void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
             phi_f0 = -1.0f;
         }
 
-        Math_SmoothScaleMaxF(&this->unk_184, phi_f0, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->unk_188, 255.0f, 1.0f, 10.2f);
+        Math_ApproachF(&this->unk_184, phi_f0, 1.0f, 0.04f);
+        Math_ApproachF(&this->unk_188, 255.0f, 1.0f, 10.2f);
     } else {
         if (this->unk_150.x < 0x1A) {
-            Math_SmoothDownscaleMaxF(&this->unk_184, 1.0f, 0.04f);
-            Math_SmoothDownscaleMaxF(&this->unk_188, 1.0f, 10.2f);
+            Math_ApproachZeroF(&this->unk_184, 1.0f, 0.04f);
+            Math_ApproachZeroF(&this->unk_188, 1.0f, 10.2f);
         }
     }
 

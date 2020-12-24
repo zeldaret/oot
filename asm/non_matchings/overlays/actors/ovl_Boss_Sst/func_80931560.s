@@ -98,7 +98,7 @@ glabel func_80931560
 /* 050EC 809316BC A602019A */  sh      $v0, 0x019A($s0)           ## 0000019A
 .L809316C0:
 /* 050F0 809316C0 86050016 */  lh      $a1, 0x0016($s0)           ## 00000016
-/* 050F4 809316C4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 050F4 809316C4 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 050F8 809316C8 8606019A */  lh      $a2, 0x019A($s0)           ## 0000019A
 /* 050FC 809316CC 1040000A */  beq     $v0, $zero, .L809316F8     

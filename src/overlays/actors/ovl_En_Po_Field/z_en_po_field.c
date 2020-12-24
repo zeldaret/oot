@@ -326,7 +326,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupDisappear(this);
         return;
     }
-    Math_SmoothScaleMaxF(
+    Math_ApproachF(
         &this->actor.initPosRot.pos.y,
         ((player->actor.posRot.pos.y > this->actor.groundY) ? player->actor.posRot.pos.y : this->actor.groundY) + 13.0f,
         0.2f, 5.0f);
@@ -430,10 +430,10 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     if (ABS(temp_v1) < 16) {
         this->actor.posRot.rot.y += 512.0f * fabsf(Math_SinS(this->unk_194 * 0x800));
     }
-    Math_SmoothScaleMaxF(&this->scaleModifier, 180.0f, 0.5f, 10.0f);
-    Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.2f, 6.0f);
-    Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.z, player->actor.posRot.pos.z, 0.2f, 6.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x800, 0x200);
+    Math_ApproachF(&this->scaleModifier, 180.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.2f, 6.0f);
+    Math_ApproachF(&this->actor.initPosRot.pos.z, player->actor.posRot.pos.z, 0.2f, 6.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x800, 0x200);
     if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x > 100.0f) {
         this->actor.initPosRot.pos.x = player->actor.posRot.pos.x + 100.0f;
     } else if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x < -100.0f) {
@@ -470,7 +470,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     } else {
         phi_t0 = 0;
     }
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink - phi_t0, 6, 0x400);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink - phi_t0, 6, 0x400);
     EnPoField_SetFleeSpeed(this, globalCtx);
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x8000;
     temp_f6 = Math_SinS(this->actionTimer * 0x800) * 3.0f;
@@ -485,7 +485,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Damage(EnPoField* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnPoField_SetupDeath(this);
@@ -718,10 +718,10 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
             this->flameTimer = 19;
         }
         if (this->flameTimer < 20) {
-            Math_ApproxF(&this->flameScale, 0.0f, 0.00015f);
+            Math_StepToF(&this->flameScale, 0.0f, 0.00015f);
             return;
         }
-        if (Math_ApproxF(&this->flameScale, 0.003f, 0.0006f) != 0) {
+        if (Math_StepToF(&this->flameScale, 0.003f, 0.0006f) != 0) {
             this->flamePosition.x += 2.5f * Math_SinS(this->flameRotation);
             this->flamePosition.z += 2.5f * Math_CosS(this->flameRotation);
         }

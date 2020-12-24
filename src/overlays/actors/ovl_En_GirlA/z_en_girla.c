@@ -988,7 +988,7 @@ void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
         if (this->unk_1B4 != 0) {
             this->unk_1B8 += 0x1F4;
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_1B8, 0, 10, 0x7D0, 0);
+            Math_SmoothStepToS(&this->unk_1B8, 0, 10, 0x7D0, 0);
         }
     }
 }

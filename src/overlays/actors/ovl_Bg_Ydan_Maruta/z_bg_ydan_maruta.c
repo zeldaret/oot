@@ -169,7 +169,7 @@ void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
 
 void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += 1.0f;
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_LADDER_DOUND);
         this->actionFunc = BgYdanMaruta_DoNothing;
     }

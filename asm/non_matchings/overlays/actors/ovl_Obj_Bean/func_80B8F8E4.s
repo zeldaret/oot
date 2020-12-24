@@ -12,7 +12,7 @@ glabel func_80B8F8E4
 /* 00E70 80B8F8F0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00E74 80B8F8F4 248401D0 */  addiu   $a0, $a0, 0x01D0           ## $a0 = 000001D0
 /* 00E78 80B8F8F8 240533E9 */  addiu   $a1, $zero, 0x33E9         ## $a1 = 000033E9
-/* 00E7C 80B8F8FC 0C01DE5F */  jal     Math_ApproxS
+/* 00E7C 80B8F8FC 0C01DE5F */  jal     Math_StepToS
               
 /* 00E80 80B8F900 24060168 */  addiu   $a2, $zero, 0x0168         ## $a2 = 00000168
 /* 00E84 80B8F904 0C01DE1C */  jal     Math_SinS

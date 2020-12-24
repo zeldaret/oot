@@ -37,7 +37,7 @@ glabel func_809CBD78
 /* 001F0 809CBDF0 AFD80008 */  sw      $t8, 0x0008($s8)           ## FFFFFFF8
 /* 001F4 809CBDF4 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 001F8 809CBDF8 24840220 */  addiu   $a0, $a0, 0x0220           ## $a0 = 00000220
-/* 001FC 809CBDFC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 001FC 809CBDFC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00200 809CBE00 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00204 809CBE04 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -45,7 +45,7 @@ glabel func_809CBD78
 /* 0020C 809CBE0C 4407B000 */  mfc1    $a3, $f22                  
 /* 00210 809CBE10 26C40224 */  addiu   $a0, $s6, 0x0224           ## $a0 = 00000224
 /* 00214 809CBE14 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
-/* 00218 809CBE18 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00218 809CBE18 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0021C 809CBE1C E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 00220 809CBE20 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
@@ -53,7 +53,7 @@ glabel func_809CBD78
 /* 00228 809CBE28 4407B000 */  mfc1    $a3, $f22                  
 /* 0022C 809CBE2C 26C40210 */  addiu   $a0, $s6, 0x0210           ## $a0 = 00000210
 /* 00230 809CBE30 3C054258 */  lui     $a1, 0x4258                ## $a1 = 42580000
-/* 00234 809CBE34 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00234 809CBE34 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00238 809CBE38 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0023C 809CBE3C 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
@@ -62,7 +62,7 @@ glabel func_809CBD78
 /* 00248 809CBE48 4407B000 */  mfc1    $a3, $f22                  
 /* 0024C 809CBE4C 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3E4CCCCD
 /* 00250 809CBE50 26C40214 */  addiu   $a0, $s6, 0x0214           ## $a0 = 00000214
-/* 00254 809CBE54 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00254 809CBE54 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00258 809CBE58 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 0025C 809CBE5C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

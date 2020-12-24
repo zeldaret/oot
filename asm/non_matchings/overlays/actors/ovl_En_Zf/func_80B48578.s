@@ -21,7 +21,7 @@ glabel func_80B48578
 /* 04554 80B485A4 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 04558 80B485A8 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 0455C 80B485AC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 04560 80B485B0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 04560 80B485B0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 04564 80B485B4 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 04568 80B485B8 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
@@ -168,7 +168,7 @@ glabel func_80B48578
 /* 04764 80B487B4 3C05C080 */  lui     $a1, 0xC080                ## $a1 = C0800000
 /* 04768 80B487B8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 0476C 80B487BC 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 04770 80B487C0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04770 80B487C0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04774 80B487C4 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 04778 80B487C8 1000001A */  beq     $zero, $zero, .L80B48834   
@@ -190,7 +190,7 @@ glabel func_80B48578
 /* 047B4 80B48804 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 047B8 80B48808 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 047BC 80B4880C 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 047C0 80B48810 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 047C0 80B48810 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 047C4 80B48814 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 047C8 80B48818 10000006 */  beq     $zero, $zero, .L80B48834   
@@ -198,7 +198,7 @@ glabel func_80B48578
 /* 047D0 80B48820 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
 .L80B48824:
 /* 047D4 80B48824 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 047D8 80B48828 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 047D8 80B48828 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 047DC 80B4882C E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 047E0 80B48830 C6020408 */  lwc1    $f2, 0x0408($s0)           ## 00000408

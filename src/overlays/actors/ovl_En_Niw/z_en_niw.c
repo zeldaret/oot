@@ -293,28 +293,28 @@ void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2) {
         }
     }
     if (this->unk_2E0 != this->unk_26C[9]) {
-        Math_SmoothScaleMaxF(&this->unk_2E0, this->unk_26C[9], 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_2E0, this->unk_26C[9], 0.5f, 4000.0f);
     }
     if (this->unk_2DC != this->unk_26C[0]) {
-        Math_SmoothScaleMaxF(&this->unk_2DC, this->unk_26C[0], 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_2DC, this->unk_26C[0], 0.5f, 4000.0f);
     }
     if (this->unk_2C4 != this->unk_26C[2]) {
-        Math_SmoothScaleMaxF(&this->unk_2C4, this->unk_26C[2], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2C4, this->unk_26C[2], 0.8f, 7000.0f);
     }
     if (this->unk_2C8 != this->unk_26C[7]) {
-        Math_SmoothScaleMaxF(&this->unk_2C8, this->unk_26C[7], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2C8, this->unk_26C[7], 0.8f, 7000.0f);
     }
     if (this->unk_2CC != this->unk_26C[8]) {
-        Math_SmoothScaleMaxF(&this->unk_2CC, this->unk_26C[8], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2CC, this->unk_26C[8], 0.8f, 7000.0f);
     }
     if (this->unk_2D0 != this->unk_26C[1]) {
-        Math_SmoothScaleMaxF(&this->unk_2D0, this->unk_26C[1], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2D0, this->unk_26C[1], 0.8f, 7000.0f);
     }
     if (this->unk_2D4 != this->unk_26C[5]) {
-        Math_SmoothScaleMaxF(&this->unk_2D4, this->unk_26C[5], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2D4, this->unk_26C[5], 0.8f, 7000.0f);
     }
     if (this->unk_2D8 != this->unk_26C[6]) {
-        Math_SmoothScaleMaxF(&this->unk_2D8, this->unk_26C[6], 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2D8, this->unk_26C[6], 0.8f, 7000.0f);
     }
 }
 
@@ -378,8 +378,8 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
         }
     }
     targetRotY = this->unk_2E4 + factor;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetRotY, 3, this->unk_2FC, 0);
-    Math_SmoothScaleMaxF(&this->unk_2FC, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, targetRotY, 3, this->unk_2FC, 0);
+    Math_ApproachF(&this->unk_2FC, 3000.0f, 1.0f, 500.0f);
     func_80AB5BF8(this, globalCtx, 5);
 }
 
@@ -487,7 +487,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_2E6++;
             this->unk_2E6 &= 1;
         }
-        Math_SmoothScaleMaxF(&this->unk_26C[9], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_26C[9], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
     }
 
     if (this->timer5 == 0 && this->timer4 == 0) {
@@ -537,11 +537,11 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer4 != 0) {
-        Math_SmoothDownscaleMaxF(&this->unk_26C[9], 0.5f, 4000.0f);
+        Math_ApproachZeroF(&this->unk_26C[9], 0.5f, 4000.0f);
         tmp = 1;
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_2B8, 1.0f, this->unk_2FC);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_2C0, 1.0f, this->unk_2FC);
-        Math_SmoothScaleMaxF(&this->unk_2FC, 3.0f, 1.0f, 0.3f);
+        Math_ApproachF(&this->actor.posRot.pos.x, this->unk_2B8, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->actor.posRot.pos.z, this->unk_2C0, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->unk_2FC, 3.0f, 1.0f, 0.3f);
         posY = this->unk_2B8 - this->actor.posRot.pos.x;
         posZ = this->unk_2C0 - this->actor.posRot.pos.z;
 
@@ -556,9 +556,9 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300,
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300,
                                 0);
-        Math_SmoothScaleMaxF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
+        Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
     func_80AB5BF8(this, globalCtx, tmp);
@@ -585,7 +585,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-        this->unk_2E4 = MathF_Atan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
+        this->unk_2E4 = Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -818,7 +818,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = MathF_Atan2F(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
+        this->unk_2E4 = Math_FAtan2F(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
                                     this->actor.posRot.pos.z - player->actor.posRot.pos.z) *
                         (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 0);
@@ -1158,8 +1158,8 @@ void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
             feather->vel.z += feather->accel.z;
             if (feather->type == 1) {
                 feather->unk_2A++;
-                Math_SmoothScaleMaxF(&feather->vel.x, 0.0f, 1.0f, 0.05f);
-                Math_SmoothScaleMaxF(&feather->vel.z, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&feather->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&feather->vel.z, 0.0f, 1.0f, 0.05f);
                 if (feather->vel.y < -0.5f) {
                     feather->vel.y = -0.5f;
                 }

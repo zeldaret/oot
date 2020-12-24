@@ -766,7 +766,7 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC > 35) {
         for (i = 1; i < ARRAY_COUNT(this->unk_2B8); i++) {
             if (this->unk_2B8[i] != NULL) {
-                Math_SmoothScaleMaxMinS(&this->unk_2B8[i]->actor.posRot.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
+                Math_SmoothStepToS(&this->unk_2B8[i]->actor.posRot.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
                 this->unk_2B8[i]->actor.shape.rot.y = this->unk_2B8[i]->actor.posRot.rot.y;
             }
         }
@@ -1152,10 +1152,10 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_2E0 & 1) {
         func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.posRot2.pos);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_2D4.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2D4.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2DA.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2DA.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2DA.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2DA.y, 0, 6, 6200, 100);
     }
 
     this->unk_2E0 &= ~0x5;

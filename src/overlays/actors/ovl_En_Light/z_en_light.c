@@ -120,13 +120,13 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x800) != 0) {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         } else {
             if (scale < 0.1f) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         }
     } else {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
@@ -134,9 +134,9 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         } else {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         }
     }
 

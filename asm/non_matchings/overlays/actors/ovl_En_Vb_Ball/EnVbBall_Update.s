@@ -63,7 +63,7 @@ glabel EnVbBall_Update
 /* 006E0 80B29680 100001B4 */  beq     $zero, $zero, .L80B29D54   
 /* 006E4 80B29684 8FBF0064 */  lw      $ra, 0x0064($sp)           
 .L80B29688:
-/* 006E8 80B29688 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 006E8 80B29688 0C01E107 */  jal     Math_ApproachF
               
 /* 006EC 80B2968C 3C074220 */  lui     $a3, 0x4220                ## $a3 = 42200000
 /* 006F0 80B29690 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
@@ -251,7 +251,7 @@ glabel EnVbBall_Update
 /* 00980 80B29920 46004282 */  mul.s   $f10, $f8, $f0             
 /* 00984 80B29924 E60A0158 */  swc1    $f10, 0x0158($s0)          ## 00000158
 /* 00988 80B29928 C7AE00F4 */  lwc1    $f14, 0x00F4($sp)          
-/* 0098C 80B2992C 0C03F494 */  jal     MathF_Atan2F              
+/* 0098C 80B2992C 0C03F494 */  jal     Math_FAtan2F              
 /* 00990 80B29930 C7AC00EC */  lwc1    $f12, 0x00EC($sp)          
 /* 00994 80B29934 3C0180B3 */  lui     $at, %hi(D_80B2A100)       ## $at = 80B30000
 /* 00998 80B29938 C430A100 */  lwc1    $f16, %lo(D_80B2A100)($at) 

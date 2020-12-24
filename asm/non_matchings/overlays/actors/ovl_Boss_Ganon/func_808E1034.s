@@ -55,13 +55,13 @@ glabel func_808E1034
 /* 0A814 808E1084 1441000B */  bne     $v0, $at, .L808E10B4       
 /* 0A818 808E1088 248401CC */  addiu   $a0, $a0, 0x01CC           ## $a0 = 000001CC
 /* 0A81C 808E108C 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 0A820 808E1090 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0A820 808E1090 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0A824 808E1094 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 0A828 808E1098 26240050 */  addiu   $a0, $s1, 0x0050           ## $a0 = 00000050
 /* 0A82C 808E109C 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 0A830 808E10A0 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 0A834 808E10A4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0A834 808E10A4 0C01E107 */  jal     Math_ApproachF
               
 /* 0A838 808E10A8 3C0742C8 */  lui     $a3, 0x42C8                ## $a3 = 42C80000
 /* 0A83C 808E10AC 10000020 */  beq     $zero, $zero, .L808E1130   
@@ -81,13 +81,13 @@ glabel func_808E1034
 /* 0A870 808E10E0 3C0641F0 */  lui     $a2, 0x41F0                ## $a2 = 41F00000
 /* 0A874 808E10E4 AD6C0004 */  sw      $t4, 0x0004($t3)           ## 8015FCFC
 /* 0A878 808E10E8 8E2D002C */  lw      $t5, 0x002C($s1)           ## 0000002C
-/* 0A87C 808E10EC 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0A87C 808E10EC 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0A880 808E10F0 AD6D0008 */  sw      $t5, 0x0008($t3)           ## 8015FD00
 /* 0A884 808E10F4 26240050 */  addiu   $a0, $s1, 0x0050           ## $a0 = 00000050
 /* 0A888 808E10F8 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 /* 0A88C 808E10FC 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 0A890 808E1100 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0A890 808E1100 0C01E107 */  jal     Math_ApproachF
               
 /* 0A894 808E1104 3C0742C8 */  lui     $a3, 0x42C8                ## $a3 = 42C80000
 /* 0A898 808E1108 3C018090 */  lui     $at, %hi(D_808F817C)       ## $at = 80900000

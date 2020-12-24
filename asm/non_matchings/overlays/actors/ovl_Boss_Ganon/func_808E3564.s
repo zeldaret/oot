@@ -158,14 +158,14 @@ glabel func_808E3564
 /* 0CEC4 808E3734 46128581 */  sub.s   $f22, $f16, $f18           
 /* 0CEC8 808E3738 4600A306 */  mov.s   $f12, $f20                 
 /* 0CECC 808E373C 46085601 */  sub.s   $f24, $f10, $f8            
-/* 0CED0 808E3740 0C03F494 */  jal     MathF_Atan2F              
+/* 0CED0 808E3740 0C03F494 */  jal     Math_FAtan2F              
 /* 0CED4 808E3744 4600B386 */  mov.s   $f14, $f22                 
 /* 0CED8 808E3748 4614A682 */  mul.s   $f26, $f20, $f20           
 /* 0CEDC 808E374C E7A000B0 */  swc1    $f0, 0x00B0($sp)           
 /* 0CEE0 808E3750 4600C306 */  mov.s   $f12, $f24                 
 /* 0CEE4 808E3754 4616B702 */  mul.s   $f28, $f22, $f22           
 /* 0CEE8 808E3758 461CD000 */  add.s   $f0, $f26, $f28            
-/* 0CEEC 808E375C 0C03F494 */  jal     MathF_Atan2F              
+/* 0CEEC 808E375C 0C03F494 */  jal     Math_FAtan2F              
 /* 0CEF0 808E3760 46000384 */  sqrt.s  $f14, $f0                  
 /* 0CEF4 808E3764 C6040038 */  lwc1    $f4, 0x0038($s0)           ## 00010038
 /* 0CEF8 808E3768 46000507 */  neg.s   $f20, $f0                  
@@ -182,7 +182,7 @@ glabel func_808E3564
 /* 0CF24 808E3794 4406F000 */  mfc1    $a2, $f30                  
 /* 0CF28 808E3798 26040038 */  addiu   $a0, $s0, 0x0038           ## $a0 = 00010038
 /* 0CF2C 808E379C 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
-/* 0CF30 808E37A0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0CF30 808E37A0 0C01E107 */  jal     Math_ApproachF
               
 /* 0CF34 808E37A4 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
 /* 0CF38 808E37A8 4618C182 */  mul.s   $f6, $f24, $f24            
@@ -252,7 +252,7 @@ glabel func_808E3564
 /* 0D020 808E3890 26040038 */  addiu   $a0, $s0, 0x0038           ## $a0 = 00010038
 /* 0D024 808E3894 46124402 */  mul.s   $f16, $f8, $f18            
 /* 0D028 808E3898 44078000 */  mfc1    $a3, $f16                  
-/* 0D02C 808E389C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D02C 808E389C 0C01E107 */  jal     Math_ApproachF
               
 /* 0D030 808E38A0 00000000 */  nop
 /* 0D034 808E38A4 10000120 */  beq     $zero, $zero, .L808E3D28   
@@ -433,14 +433,14 @@ glabel func_808E3564
 /* 0D2A4 808E3B14 3C073C23 */  lui     $a3, 0x3C23                ## $a3 = 3C230000
 .L808E3B18:
 /* 0D2A8 808E3B18 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3C23D70A
-/* 0D2AC 808E3B1C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D2AC 808E3B1C 0C01E107 */  jal     Math_ApproachF
               
 /* 0D2B0 808E3B20 8E050038 */  lw      $a1, 0x0038($s0)           ## 00010038
 /* 0D2B4 808E3B24 4406F000 */  mfc1    $a2, $f30                  
 /* 0D2B8 808E3B28 3C073E19 */  lui     $a3, 0x3E19                ## $a3 = 3E190000
 /* 0D2BC 808E3B2C 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
 /* 0D2C0 808E3B30 26040040 */  addiu   $a0, $s0, 0x0040           ## $a0 = 00010040
-/* 0D2C4 808E3B34 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D2C4 808E3B34 0C01E107 */  jal     Math_ApproachF
               
 /* 0D2C8 808E3B38 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 0D2CC 808E3B3C 1000007A */  beq     $zero, $zero, .L808E3D28   
@@ -495,14 +495,14 @@ glabel func_808E3564
 .L808E3BEC:
 /* 0D37C 808E3BEC 3C073DCC */  lui     $a3, 0x3DCC                ## $a3 = 3DCC0000
 /* 0D380 808E3BF0 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3DCCCCCD
-/* 0D384 808E3BF4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D384 808E3BF4 0C01E107 */  jal     Math_ApproachF
               
 /* 0D388 808E3BF8 8E050038 */  lw      $a1, 0x0038($s0)           ## 00010038
 /* 0D38C 808E3BFC 4405F000 */  mfc1    $a1, $f30                  
 /* 0D390 808E3C00 4406F000 */  mfc1    $a2, $f30                  
 /* 0D394 808E3C04 3C073E19 */  lui     $a3, 0x3E19                ## $a3 = 3E190000
 /* 0D398 808E3C08 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
-/* 0D39C 808E3C0C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D39C 808E3C0C 0C01E107 */  jal     Math_ApproachF
               
 /* 0D3A0 808E3C10 26040040 */  addiu   $a0, $s0, 0x0040           ## $a0 = 00010040
 /* 0D3A4 808E3C14 10000044 */  beq     $zero, $zero, .L808E3D28   
@@ -525,7 +525,7 @@ glabel func_808E3564
 /* 0D3E4 808E3C54 A2000000 */  sb      $zero, 0x0000($s0)         ## 00010000
 .L808E3C58:
 /* 0D3E8 808E3C58 8E050038 */  lw      $a1, 0x0038($s0)           ## 00010038
-/* 0D3EC 808E3C5C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0D3EC 808E3C5C 0C01E107 */  jal     Math_ApproachF
               
 /* 0D3F0 808E3C60 34E71EB8 */  ori     $a3, $a3, 0x1EB8           ## $a3 = 3E051EB8
 /* 0D3F4 808E3C64 920E0001 */  lbu     $t6, 0x0001($s0)           ## 00010001

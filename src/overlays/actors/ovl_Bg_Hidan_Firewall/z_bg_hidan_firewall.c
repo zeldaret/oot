@@ -111,9 +111,9 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx) 
 
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
     if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
-        Math_ApproxF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
+        Math_StepToF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
     } else {
-        if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
+        if (Math_StepToF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
             this->actor.draw = NULL;
             this->actionFunc = BgHidanFirewall_Wait;
         } else {

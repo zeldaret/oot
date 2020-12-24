@@ -201,7 +201,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     EnBom* bomb;
     Actor* flareDancer;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animation == &D_06006CF8) {
         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
@@ -226,7 +226,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
 
     if (this->explosionTimer != 0) {
         this->skelAnime.animPlaybackSpeed = 0.0f;
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
+        Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.dmgEffectTimer == 0) {
             func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
@@ -260,13 +260,13 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         }
 
         // Run outwards until the radius of the run circle is 200
-        Math_SmoothScaleMaxMinF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
+        Math_SmoothStepToF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
 
         if (this->turnAround) {
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
             tmpAngle = (s16)(this->actor.posRot.rot.y ^ 0x8000);
             facingDir = this->actor.shape.rot.y;
-            tmpAngle = Math_SmoothScaleMaxMinF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
+            tmpAngle = Math_SmoothStepToF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
             this->actor.shape.rot.y = facingDir;
             if (tmpAngle > 0x1554) {
                 return;
@@ -275,7 +275,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         } else {
             Vec3f sp48;
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (MathF_Atan2F(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
+            Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
                                     1);
         }
 
@@ -292,7 +292,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
                 this->slideSfxTimer = 4;
             }
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
             this->skelAnime.animPlaybackSpeed = 0.0f;
             EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
@@ -301,7 +301,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
                 this->runDirection = -this->runDirection;
             }
         } else {
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
             phi_v0 = this->skelAnime.animCurrentFrame;
             if (phi_v0 == 1 || phi_v0 == 4) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
@@ -315,7 +315,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
     s16 angleToParentInit;
 
     angleToParentInit = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.parent->initPosRot.pos);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, angleToParentInit, 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, angleToParentInit, 4, 0xFA0, 1);
     if (ABS(angleToParentInit - this->actor.shape.rot.y) < 0x65) {
         // angle to parent init pos is ~0.5 degrees
         this->actor.posRot.rot = this->actor.shape.rot;
@@ -332,8 +332,8 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
         this->actor.parent->params |= 0x8000;
         Actor_Kill(&this->actor);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.parent->initPosRot.pos.x, 0.6f, 8.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.parent->initPosRot.pos.z, 0.6f, 8.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.parent->initPosRot.pos.x, 0.6f, 8.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.z, this->actor.parent->initPosRot.pos.z, 0.6f, 8.0f, 0.0f);
     }
 }
 

@@ -32,7 +32,7 @@ glabel func_80B64AA8
 /* 02118 80B64AD8 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
 /* 0211C 80B64ADC 50A00004 */  beql    $a1, $zero, .L80B64AF0     
 /* 02120 80B64AE0 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
-/* 02124 80B64AE4 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 02124 80B64AE4 0C01E1EF */  jal     Math_ApproachS
               
 /* 02128 80B64AE8 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 0212C 80B64AEC 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
@@ -70,7 +70,7 @@ glabel func_80B64AA8
 /* 021A0 80B64B60 44050000 */  mfc1    $a1, $f0                   
 /* 021A4 80B64B64 44070000 */  mfc1    $a3, $f0                   
 /* 021A8 80B64B68 4406A000 */  mfc1    $a2, $f20                  
-/* 021AC 80B64B6C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 021AC 80B64B6C 0C01E107 */  jal     Math_ApproachF
               
 /* 021B0 80B64B70 26240058 */  addiu   $a0, $s1, 0x0058           ## $a0 = 00000058
 /* 021B4 80B64B74 3C053B03 */  lui     $a1, 0x3B03                ## $a1 = 3B030000
@@ -79,14 +79,14 @@ glabel func_80B64AA8
 /* 021C0 80B64B80 34E7B717 */  ori     $a3, $a3, 0xB717           ## $a3 = 38D1B717
 /* 021C4 80B64B84 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 021C8 80B64B88 34A5126F */  ori     $a1, $a1, 0x126F           ## $a1 = 3B03126F
-/* 021CC 80B64B8C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 021CC 80B64B8C 0C01E107 */  jal     Math_ApproachF
               
 /* 021D0 80B64B90 26240050 */  addiu   $a0, $s1, 0x0050           ## $a0 = 00000050
 /* 021D4 80B64B94 3C063D4C */  lui     $a2, 0x3D4C                ## $a2 = 3D4C0000
 /* 021D8 80B64B98 4407A000 */  mfc1    $a3, $f20                  
 /* 021DC 80B64B9C 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 021E0 80B64BA0 26240028 */  addiu   $a0, $s1, 0x0028           ## $a0 = 00000028
-/* 021E4 80B64BA4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 021E4 80B64BA4 0C01E107 */  jal     Math_ApproachF
               
 /* 021E8 80B64BA8 3C054348 */  lui     $a1, 0x4348                ## $a1 = 43480000
 /* 021EC 80B64BAC 862201D4 */  lh      $v0, 0x01D4($s1)           ## 000001D4

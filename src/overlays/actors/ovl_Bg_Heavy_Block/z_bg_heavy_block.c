@@ -456,9 +456,9 @@ void BgHeavyBlock_DoNothing(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x8AD0, 6, 2000, 100) != 0) {
-        Math_ApproxF(&this->dyna.actor.speedXZ, 0.0f, 20.0f);
-        Math_ApproxF(&this->dyna.actor.velocity.y, 0.0f, 3.0f);
+    if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x8AD0, 6, 2000, 100) != 0) {
+        Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 20.0f);
+        Math_StepToF(&this->dyna.actor.velocity.y, 0.0f, 3.0f);
         this->dyna.actor.gravity = 0.0f;
         this->dyna.actor.posRot.pos = this->dyna.actor.initPosRot.pos;
         Actor_MoveForward(&this->dyna.actor);

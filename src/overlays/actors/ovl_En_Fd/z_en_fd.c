@@ -335,7 +335,7 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
 
 void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
     if (this->invincibilityTimer != 0) {
-        Math_SmoothScaleMaxMinF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
         this->actor.shape.unk_14 = this->fadeAlpha;
         if (!(this->fadeAlpha >= 0.9f)) {
             this->invincibilityTimer = 0;
@@ -412,12 +412,12 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Vec3f adjPos;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
         this->spinTimer = Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = MathF_Atan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.posRot.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -452,7 +452,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         rotSpeed = 0.0f;
         tgtSpeed = fabsf(deceleration);
         deceleration /= tgtSpeed;
-        Math_SmoothScaleMaxF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
+        Math_ApproachF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
         rotSpeed *= deceleration;
         this->actor.shape.rot.y += (s16)rotSpeed;
         rotSpeed = fabsf(rotSpeed);
@@ -516,16 +516,16 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     } else {
         runRadiusTarget = 200.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
+    Math_SmoothStepToF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, MathF_Atan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||
         this->skelAnime.animCurrentFrame == 28.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
     }
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
 /**

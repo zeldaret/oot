@@ -520,13 +520,13 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_32A == 0) {
         this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
-        if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_330, 1, 0x3E8, 0) == 0) {
+        if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_330, 1, 0x3E8, 0) == 0) {
             this->actor.posRot.rot.y = this->actor.shape.rot.y;
             func_80AA6A18(this);
         }
     } else {
         this->unk_32A--;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x3E8, 0);
     }
     yDist = this->actor.yDistFromLink;
     yDistAbs = ABS(yDist);
@@ -544,7 +544,7 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
     if (this->actor.speedXZ > 1.0f) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     }
@@ -588,7 +588,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
     }
     if (this->actor.bgCheckFlags & 1) {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
         if (1.0f < this->actor.speedXZ) {
             func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
         }
@@ -650,7 +650,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
 
     if (this->unk_32E != 0) {
         this->unk_32E--;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 3000, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 3000, 0);
     } else {
         this->actor.speedXZ = 10.0f;
         this->attackParams = 1;
@@ -676,7 +676,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     s16 sp54[] = { 20, 40, 0 };
     s16 sp4C[] = { -2500, 0, 3500 };
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
+    Math_SmoothStepToS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
                             0);
 
     if (this->collider2.base.atFlags & 2) {
@@ -743,7 +743,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     }
     if (this->unk_32E != 0) {
         this->unk_32E--;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x1F40, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x1F40, 0);
         sp48 = 0;
     } else {
         this->actor.speedXZ = 10.0f;
@@ -926,7 +926,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
     effPosition = this->actor.posRot.pos;
     effPosition.x += Math_SinS(this->actor.shape.rot.y) * -70.0f;
     effPosition.z += Math_CosS(this->actor.shape.rot.y) * -70.0f;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     temp = effPosition;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->unk_32A > 0) {
@@ -963,7 +963,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
 
     yawDiff = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
     yawDiff = ABS(yawDiff);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
     currentFrame = this->skelAnime.animCurrentFrame;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -973,7 +973,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     playbackSpeedABS = ABS(this->skelAnime.animPlaybackSpeed);
     if ((this->unk_32E == 0) &&
         (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
         this->actor.flags |= 1;
         if (this->actor.xzDistFromLink < 500.0f) {
             if (yawDiff < 0x1388) {
@@ -985,7 +985,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         if ((this->unk_360 < Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos)) ||
             (this->soundTimer != 0)) {
             yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot);
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, yaw, 1, 750, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 1, 750, 0);
         } else {
         }
         if (this->soundTimer != 0) {
@@ -1028,11 +1028,11 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
         Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &this->actor.posRot.pos) <= 4.0f) {
         func_80AA68FC(this, globalCtx);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
         this->skelAnime.animPlaybackSpeed = (this->actor.speedXZ + this->actor.speedXZ);
     }
     this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_330, 1, 0x5DC, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_330, 1, 0x5DC, 0);
     yDistAbs = (this->actor.yDistFromLink >= 0.0f) ? this->actor.yDistFromLink : -this->actor.yDistFromLink;
     if (yDistAbs <= 20.0f && func_80AA652C(this, globalCtx) != 0) {
         yawDiff = (this->actor.shape.rot.y - this->actor.yawTowardsLink);
@@ -1109,7 +1109,7 @@ void func_80AA8E88(EnMb* this) {
 }
 
 void func_80AA8F50(EnMb* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->actor.params < 0) {
             func_80AA6830(this);
@@ -1143,7 +1143,7 @@ void func_80AA8FC8(EnMb* this) {
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= ~0x80;

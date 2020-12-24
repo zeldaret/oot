@@ -120,8 +120,8 @@ void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80891DD4(BgIceShutter* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_ApproxF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

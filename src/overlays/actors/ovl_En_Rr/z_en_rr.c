@@ -513,7 +513,7 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if ((this->actionTimer == 0) && (this->actor.xzDistFromLink < 160.0f)) {
         EnRr_SetupReach(this);
@@ -523,7 +523,7 @@ void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     switch (this->reachState) {
         case REACH_EXTEND:
@@ -571,10 +571,10 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
         EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
+        Math_ApproachF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
+        Math_ApproachF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
     }
 }
 
@@ -600,7 +600,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
 
     if (this->frameCount < 40) {
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
+            Math_ApproachF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
                 (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
         }
@@ -667,8 +667,8 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
 
         EffectSsDeadDb_Spawn(globalCtx, &pos, &vel, &accel, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
-        Math_SmoothScaleMaxF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
+        Math_ApproachF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
+        Math_ApproachF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
         this->actor.scale.z = this->actor.scale.x;
     }
 }
@@ -678,7 +678,7 @@ void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx) {
         this->retreat = false;
         this->actionFunc = EnRr_Approach;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.speedXZ == 0.0f) {
             EnRr_SetSpeed(this, 2.0f);
@@ -735,7 +735,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         __assert("0", "../z_en_rr.c", 1355);
     }
 
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
     Actor_MoveForward(&this->actor);
     Collider_CylinderUpdate(&this->actor, &this->collider1);
     this->collider2.dim.pos.x = this->mouthPos.x;
@@ -756,24 +756,24 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {
-        Math_SmoothScaleMaxF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
-        Math_SmoothScaleMaxF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
-        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffX, this->segWobbleXTarget, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
-        Math_SmoothScaleMaxF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
-        Math_SmoothScaleMaxF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
+        Math_ApproachF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
+        Math_ApproachF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->segWobblePhaseDiffX, this->segWobbleXTarget, 1.0f, 0.04f);
+        Math_ApproachF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
+        Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
+        Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
+            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
                                     this->segMoveRate * 1000.0f, 0);
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
+            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
                                     this->segMoveRate * 1000.0f, 0);
-            Math_SmoothScaleMaxF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
+            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
                                  this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
-            Math_SmoothScaleMaxF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
+            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
                                  this->segMoveRate * 300.0f);
         }
-        Math_SmoothScaleMaxF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
+        Math_ApproachF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
     }
 }
 

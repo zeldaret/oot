@@ -161,10 +161,10 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_278 == 0) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
         if (this->actor.shape.unk_08 < 0.0f) {
-            Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
-            Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+            Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
+            Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
         } else {
             this->unk_288 = 0.0f;
             this->actor.shape.unk_08 = 0.0f;
@@ -205,7 +205,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -236,7 +236,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -271,7 +271,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
     if (this->unk_272 == 0) {
         if (this->isBig) {
@@ -291,8 +291,8 @@ void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.shape.unk_10, 1.0f, 0.3f);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.1f, 0.3f);
+    Math_ApproachZeroF(&this->actor.shape.unk_10, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.1f, 0.3f);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.unk_08) {
@@ -301,8 +301,8 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
                           1);
         }
 
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
-        Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
+        Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -420,7 +420,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.speedXZ = 0.0f;
-        Math_SmoothDownscaleMaxF(&this->scale, 0.1f, 0.01f);
+        Math_ApproachZeroF(&this->scale, 0.1f, 0.01f);
 
         if (this->scale < 0.01f) {
             pos.x = this->actor.posRot.pos.x;

@@ -455,13 +455,13 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
             if (this->unk_1F4 < 120) {
                 this->unk_1F4++;
             } else {
-                Math_ApproxF(&this->unk_1B0, 0.0f, 0.05f);
+                Math_StepToF(&this->unk_1B0, 0.0f, 0.05f);
             }
         } else {
             if (this->unk_1F4 > -120) {
                 this->unk_1F4--;
             } else {
-                Math_ApproxF(&this->unk_1B0, 0.0f, 0.05f);
+                Math_StepToF(&this->unk_1B0, 0.0f, 0.05f);
             }
         }
     } else {

@@ -131,8 +131,8 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s16 rotY;
 
-    Math_ApproxF(&this->rotSpeed, 0.6f, 0.02f);
-    if (Math_ApproxF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
+    Math_StepToF(&this->rotSpeed, 0.6f, 0.02f);
+    if (Math_StepToF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
         BgMoriKaitenkabe_SetupWait(this);
         func_8002DF54(globalCtx, thisx, 7);
         if (this->rotDirection > 0.0f) {

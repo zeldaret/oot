@@ -82,13 +82,13 @@ glabel func_8088B268
 /* 002E0 8088B360 3C048089 */  lui     $a0, %hi(D_8088BFC0)       ## $a0 = 80890000
 /* 002E4 8088B364 2484BFC0 */  addiu   $a0, $a0, %lo(D_8088BFC0)  ## $a0 = 8088BFC0
 /* 002E8 8088B368 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
-/* 002EC 8088B36C 0C01DE80 */  jal     Math_ApproxF
+/* 002EC 8088B36C 0C01DE80 */  jal     Math_StepToF
               
 /* 002F0 8088B370 8E060068 */  lw      $a2, 0x0068($s0)           ## 00000068
 /* 002F4 8088B374 10000004 */  beq     $zero, $zero, .L8088B388   
 /* 002F8 8088B378 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
 .L8088B37C:
-/* 002FC 8088B37C 0C01DE80 */  jal     Math_ApproxF
+/* 002FC 8088B37C 0C01DE80 */  jal     Math_StepToF
               
 /* 00300 8088B380 8E060068 */  lw      $a2, 0x0068($s0)           ## 00000068
 /* 00304 8088B384 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000

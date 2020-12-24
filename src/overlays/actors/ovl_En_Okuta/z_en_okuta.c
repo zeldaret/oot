@@ -266,7 +266,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
@@ -299,7 +299,7 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
         EnOkuta_SetupHide(this);
     } else {
-        temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
+        temp_v0_2 = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
         if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistFromLink < 200.0f)) {
             EnOkuta_SetupShoot(this, globalCtx);
@@ -308,7 +308,7 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->timer != 0) {
             this->timer--;
@@ -344,7 +344,7 @@ void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         EnOkuta_SetupDie(this);
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }
 
 void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
@@ -358,7 +358,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->timer++;
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
     if (this->timer == 5) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 40.0f;
@@ -380,7 +380,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     } else if (this->timer < 11) {
         Actor_SetScale(&this->actor, (((this->timer - 5) * 0.04f) + 0.8f) * 0.01f);
     } else {
-        if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
+        if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0005f)) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
             for (i = 0; i < 20; i++) {
@@ -414,7 +414,7 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.2f) + 1.9f);
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }
 
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {

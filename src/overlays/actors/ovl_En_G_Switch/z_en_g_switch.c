@@ -294,8 +294,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                     case MOVE_TARGET:
                         if ((fabsf(this->actor.posRot.pos.x - this->targetPos.x) > 5.0f) ||
                             (fabsf(this->actor.posRot.pos.y - this->targetPos.y) > 5.0f)) {
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->targetPos.x, 0.3f, 30.0f);
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetPos.y, 0.3f, 30.0f);
+                            Math_ApproachF(&this->actor.posRot.pos.x, this->targetPos.x, 0.3f, 30.0f);
+                            Math_ApproachF(&this->actor.posRot.pos.y, this->targetPos.y, 0.3f, 30.0f);
                         } else {
                             this->moveState = MOVE_HOME;
                             this->waitTimer = 60;
@@ -305,9 +305,9 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                         if (this->waitTimer == 0) {
                             if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
                                 (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
-                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
+                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
                                                      30.0f);
-                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
+                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
                                                      30.0f);
                             } else {
                                 gallery = ((EnSyatekiItm*)this->actor.parent);
@@ -511,10 +511,10 @@ void EnGSwitch_UpdateEffects(EnGSwitch* this, GlobalContext* globalCtx) {
             temp.x = effect->pos.x + effect->velocity.x;
             temp.y = effect->pos.y + effect->velocity.y;
             temp.z = effect->pos.z + effect->velocity.z;
-            Math_SmoothScaleMaxF(&effect->pos.x, temp.x, 0.3f, 30.0f);
-            Math_SmoothScaleMaxF(&effect->pos.y, temp.y, 0.8f, 250.0f);
-            Math_SmoothScaleMaxF(&effect->pos.z, temp.z, 0.3f, 30.0f);
-            Math_SmoothScaleMaxF(&effect->velocity.y, -20.0f, 0.9f, 1.0f);
+            Math_ApproachF(&effect->pos.x, temp.x, 0.3f, 30.0f);
+            Math_ApproachF(&effect->pos.y, temp.y, 0.8f, 250.0f);
+            Math_ApproachF(&effect->pos.z, temp.z, 0.3f, 30.0f);
+            Math_ApproachF(&effect->velocity.y, -20.0f, 0.9f, 1.0f);
             if (effect->timer != 0) {
                 effect->timer--;
             } else if (effect->scale < 10) {

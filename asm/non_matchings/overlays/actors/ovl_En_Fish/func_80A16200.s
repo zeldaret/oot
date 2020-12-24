@@ -29,7 +29,7 @@ glabel func_80A16200
 /* 00FBC 80A1623C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00FC0 80A16240 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00FC4 80A16244 44053000 */  mfc1    $a1, $f6                   
-/* 00FC8 80A16248 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00FC8 80A16248 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00FCC 80A1624C 00000000 */  nop
 /* 00FD0 80A16250 87A20042 */  lh      $v0, 0x0042($sp)           
@@ -60,11 +60,11 @@ glabel func_80A16200
 /* 01034 80A162B4 00052C03 */  sra     $a1, $a1, 16               
 .L80A162B8:
 /* 01038 80A162B8 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 0103C 80A162BC 0C01DED6 */  jal     func_80077B58              
+/* 0103C 80A162BC 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01040 80A162C0 AFA7002C */  sw      $a3, 0x002C($sp)           
 /* 01044 80A162C4 26040034 */  addiu   $a0, $s0, 0x0034           ## $a0 = 00000034
 /* 01048 80A162C8 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
-/* 0104C 80A162CC 0C01DED6 */  jal     func_80077B58              
+/* 0104C 80A162CC 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01050 80A162D0 240603E8 */  addiu   $a2, $zero, 0x03E8         ## $a2 = 000003E8
 /* 01054 80A162D4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float

@@ -170,7 +170,7 @@ glabel func_8002FBAC
 /* AA6EF8 8002FD58 44067000 */  mfc1  $a2, $f14
 .L8002FD5C:
 /* AA6EFC 8002FD5C E7AC009C */  swc1  $f12, 0x9c($sp)
-/* AA6F00 8002FD60 0C01DE80 */  jal   Math_ApproxF
+/* AA6F00 8002FD60 0C01DE80 */  jal   Math_StepToF
 /* AA6F04 8002FD64 E7B000B0 */   swc1  $f16, 0xb0($sp)
 /* AA6F08 8002FD68 3C018016 */  lui   $at, %hi(D_8015BC18)
 /* AA6F0C 8002FD6C C426BC18 */  lwc1  $f6, %lo(D_8015BC18)($at)

@@ -7,7 +7,7 @@ glabel func_80AFAE28
 /* 0071C 80AFAE3C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00720 80AFAE40 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 00724 80AFAE44 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 00728 80AFAE48 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 00728 80AFAE48 0C01E1EF */  jal     Math_ApproachS
               
 /* 0072C 80AFAE4C 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 00730 80AFAE50 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000

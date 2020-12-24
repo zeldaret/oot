@@ -540,7 +540,7 @@ u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, MathF_Atan2F(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
                             4000, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 100.0f) {

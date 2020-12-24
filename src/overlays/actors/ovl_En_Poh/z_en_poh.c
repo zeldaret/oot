@@ -414,7 +414,7 @@ void func_80ADE9BC(EnPoh* this) {
 void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Math_ApproxF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f);
+    Math_StepToF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f);
     this->actor.posRot.pos.y += 2.5f * Math_SinS(this->unk_195 * 0x800);
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
@@ -428,7 +428,7 @@ void func_80ADEA5C(EnPoh* this) {
     if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) > 400.0f) {
         this->unk_19C = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     }
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_19C, 0x71C);
+    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_19C, 0x71C);
 }
 
 void func_80ADEAC4(EnPoh* this, GlobalContext* globalCtx) {
@@ -449,7 +449,7 @@ void func_80ADEAC4(EnPoh* this, GlobalContext* globalCtx) {
 
 void EnPoh_Idle(EnPoh* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.speedXZ, 1.0f, 0.2f);
+    Math_StepToF(&this->actor.speedXZ, 1.0f, 0.2f);
     if (func_800A56C8(&this->skelAnime, 0.0f) && this->unk_198 != 0) {
         this->unk_198--;
     }
@@ -480,11 +480,11 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
     }
     facingDiff = this->actor.yawTowardsLink - player->actor.shape.rot.y;
     if (facingDiff >= 0x3001) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x3000, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x3000, 0x71C);
     } else if (facingDiff < -0x3000) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x3000, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x3000, 0x71C);
     } else {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->actor.xzDistFromLink > 280.0f) {
@@ -508,7 +508,7 @@ void EnPoh_Attack(EnPoh* this, GlobalContext* globalCtx) {
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->unk_198 >= 10) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xE38);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xE38);
     } else if (this->unk_198 == 9) {
         this->actor.speedXZ = 5.0f;
         this->skelAnime.animPlaybackSpeed = 2.0f;
@@ -519,7 +519,7 @@ void EnPoh_Attack(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADEECC(EnPoh* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             func_80ADE368(this);
@@ -607,14 +607,14 @@ void func_80ADF574(EnPoh* this, GlobalContext* globalCtx) {
         EnPoh_SetupIdle(this);
         this->unk_198 = 23;
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
         this->actor.shape.rot.y += 0x1000;
     }
 }
 
 void func_80ADF5E0(EnPoh* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_19C, 1820) != 0) {
+    if (Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_19C, 1820) != 0) {
         EnPoh_SetupIdle(this);
     }
     if (this->actor.xzDistFromLink < 200.0f) {
@@ -655,7 +655,7 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
     multiplier = Math_SinS(this->unk_195 * 0x800) * 3.0f;
     this->actor.posRot.pos.x -= multiplier * Math_CosS(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += multiplier * Math_SinS(this->actor.shape.rot.y);
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
+    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->unk_198 == 0 || this->actor.xzDistFromLink > 250.0f) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;

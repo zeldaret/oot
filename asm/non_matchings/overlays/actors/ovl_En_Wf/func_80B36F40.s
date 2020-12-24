@@ -47,7 +47,7 @@ glabel func_80B36F40
 /* 03324 80B36FD4 03192823 */  subu    $a1, $t8, $t9              
 /* 03328 80B36FD8 00052C00 */  sll     $a1, $a1, 16               
 /* 0332C 80B36FDC 00052C03 */  sra     $a1, $a1, 16               
-/* 03330 80B36FE0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03330 80B36FE0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03334 80B36FE4 240705DC */  addiu   $a3, $zero, 0x05DC         ## $a3 = 000005DC
 /* 03338 80B36FE8 860204D6 */  lh      $v0, 0x04D6($s0)           ## 000004D6

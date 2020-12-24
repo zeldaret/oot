@@ -286,17 +286,17 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->unk_15A == -1) {
-                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000,
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000,
                                              1500)) {
                     this->unk_15A = -2;
                 }
             } else {
-                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000,
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000,
                                              1500)) {
                     this->unk_15A = -1;
                 }
             }
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, 0, 2, 2500, 500);
+            Math_SmoothStepToS(&this->actor.posRot.rot.x, 0, 2, 2500, 500);
         }
     }
 
@@ -304,7 +304,7 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
         this->actor.shape.unk_08 = Math_SinS(this->actor.shape.rot.y) * 150.0f + 850.0f;
     }
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
 
     if (this->unk_154 == 0) {
         if ((this->actor.params != ITEM00_SMALL_KEY) && (this->actor.params != ITEM00_HEART_PIECE) &&
@@ -463,7 +463,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    Math_SmoothScaleMaxMinF(&this->actor.scale.x, this->unk_15C, 0.1f, this->unk_15C * 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.scale.x, this->unk_15C, 0.1f, this->unk_15C * 0.1f, 0.0f);
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
 

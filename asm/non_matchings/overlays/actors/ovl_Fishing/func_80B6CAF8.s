@@ -191,7 +191,7 @@ glabel func_80B6CAF8
 /* 03398 80B6CD38 3C073E99 */  lui     $a3, 0x3E99                ## $a3 = 3E990000
 /* 0339C 80B6CD3C 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E99999A
 /* 033A0 80B6CD40 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
-/* 033A4 80B6CD44 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 033A4 80B6CD44 0C01E107 */  jal     Math_ApproachF
               
 /* 033A8 80B6CD48 AFA4001C */  sw      $a0, 0x001C($sp)           
 /* 033AC 80B6CD4C 10000008 */  beq     $zero, $zero, .L80B6CD70   

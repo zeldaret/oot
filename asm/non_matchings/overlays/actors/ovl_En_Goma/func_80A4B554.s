@@ -88,7 +88,7 @@ glabel func_80A4B554
 /* 027C8 80A4B688 3C073A44 */  lui     $a3, 0x3A44                ## $a3 = 3A440000
 /* 027CC 80A4B68C 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 027D0 80A4B690 34E79BA6 */  ori     $a3, $a3, 0x9BA6           ## $a3 = 3A449BA6
-/* 027D4 80A4B694 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 027D4 80A4B694 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 027D8 80A4B698 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 027DC 80A4B69C 3C0180A5 */  lui     $at, %hi(D_80A4B984)       ## $at = 80A50000

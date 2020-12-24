@@ -127,7 +127,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
     Vec3f velocity;
     Vec3f pos;
 
-    if (Math_ApproxF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
+    if (Math_StepToF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
         func_8002DF54(globalCtx, &this->dyna.actor, 7);
         Actor_Kill(&this->dyna.actor);
     }

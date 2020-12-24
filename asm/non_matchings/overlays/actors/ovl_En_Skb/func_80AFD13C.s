@@ -36,7 +36,7 @@ glabel func_80AFD13C
 /* 00808 80AFD1A8 00052C00 */  sll     $a1, $a1, 16               
 /* 0080C 80AFD1AC 00052C03 */  sra     $a1, $a1, 16               
 /* 00810 80AFD1B0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00814 80AFD1B4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00814 80AFD1B4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00818 80AFD1B8 240702EE */  addiu   $a3, $zero, 0x02EE         ## $a3 = 000002EE
 /* 0081C 80AFD1BC C6060164 */  lwc1    $f6, 0x0164($s0)           ## 00000164

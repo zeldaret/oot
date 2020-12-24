@@ -73,7 +73,7 @@ glabel EnNy_Update
 /* 009E4 80ABD594 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 009E8 80ABD598 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 009EC 80ABD59C 264401E4 */  addiu   $a0, $s2, 0x01E4           ## $a0 = 000001E4
-/* 009F0 80ABD5A0 0C01DE80 */  jal     Math_ApproxF
+/* 009F0 80ABD5A0 0C01DE80 */  jal     Math_StepToF
               
 /* 009F4 80ABD5A4 8E4501E8 */  lw      $a1, 0x01E8($s2)           ## 000001E8
 /* 009F8 80ABD5A8 8E59014C */  lw      $t9, 0x014C($s2)           ## 0000014C

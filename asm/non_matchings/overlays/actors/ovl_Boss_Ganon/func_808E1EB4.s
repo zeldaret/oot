@@ -109,7 +109,7 @@ glabel func_808E1EB4
 /* 0B794 808E2004 460A4381 */  sub.s   $f14, $f8, $f10            
 /* 0B798 808E2008 4600A306 */  mov.s   $f12, $f20                 
 /* 0B79C 808E200C 46062581 */  sub.s   $f22, $f4, $f6             
-/* 0B7A0 808E2010 0C03F494 */  jal     MathF_Atan2F              
+/* 0B7A0 808E2010 0C03F494 */  jal     Math_FAtan2F              
 /* 0B7A4 808E2014 E7AE0084 */  swc1    $f14, 0x0084($sp)          
 /* 0B7A8 808E2018 3C018090 */  lui     $at, %hi(D_808F81C4)       ## $at = 80900000
 /* 0B7AC 808E201C C43281C4 */  lwc1    $f18, %lo(D_808F81C4)($at) 
@@ -127,7 +127,7 @@ glabel func_808E1EB4
 /* 0B7DC 808E204C 00108400 */  sll     $s0, $s0, 16               
 /* 0B7E0 808E2050 00108403 */  sra     $s0, $s0, 16               
 /* 0B7E4 808E2054 46001384 */  sqrt.s  $f14, $f2                  
-/* 0B7E8 808E2058 0C03F494 */  jal     MathF_Atan2F              
+/* 0B7E8 808E2058 0C03F494 */  jal     Math_FAtan2F              
 /* 0B7EC 808E205C E7A2005C */  swc1    $f2, 0x005C($sp)           
 /* 0B7F0 808E2060 3C018090 */  lui     $at, %hi(D_808F81C8)       ## $at = 80900000
 /* 0B7F4 808E2064 C43281C8 */  lwc1    $f18, %lo(D_808F81C8)($at) 
@@ -139,14 +139,14 @@ glabel func_808E1EB4
 /* 0B80C 808E207C 44053000 */  mfc1    $a1, $f6                   
 /* 0B810 808E2080 00000000 */  nop
 /* 0B814 808E2084 00052C00 */  sll     $a1, $a1, 16               
-/* 0B818 808E2088 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 0B818 808E2088 0C01E1EF */  jal     Math_ApproachS
               
 /* 0B81C 808E208C 00052C03 */  sra     $a1, $a1, 16               
 /* 0B820 808E2090 00102C00 */  sll     $a1, $s0, 16               
 /* 0B824 808E2094 00052C03 */  sra     $a1, $a1, 16               
 /* 0B828 808E2098 26240032 */  addiu   $a0, $s1, 0x0032           ## $a0 = 00000032
 /* 0B82C 808E209C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 0B830 808E20A0 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 0B830 808E20A0 0C01E1EF */  jal     Math_ApproachS
               
 /* 0B834 808E20A4 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
 /* 0B838 808E20A8 4616B282 */  mul.s   $f10, $f22, $f22           

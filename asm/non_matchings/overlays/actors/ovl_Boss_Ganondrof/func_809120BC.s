@@ -53,12 +53,12 @@ glabel func_809120BC
 /* 01B08 80912148 46105480 */  add.s   $f18, $f10, $f16           
 /* 01B0C 8091214C E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 01B10 80912150 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01B14 80912154 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01B14 80912154 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01B18 80912158 E612002C */  swc1    $f18, 0x002C($s0)          ## 0000002C
 /* 01B1C 8091215C 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
 /* 01B20 80912160 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 01B24 80912164 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01B24 80912164 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01B28 80912168 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 01B2C 8091216C 86040194 */  lh      $a0, 0x0194($s0)           ## 00000194

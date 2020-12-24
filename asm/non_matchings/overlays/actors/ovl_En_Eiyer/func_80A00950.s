@@ -79,7 +79,7 @@ glabel func_80A00950
 /* 00AB4 80A00A54 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 .L80A00A58:
 /* 00AB8 80A00A58 86050196 */  lh      $a1, 0x0196($s0)           ## 00000196
-/* 00ABC 80A00A5C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00ABC 80A00A5C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00AC0 80A00A60 240600B6 */  addiu   $a2, $zero, 0x00B6         ## $a2 = 000000B6
 /* 00AC4 80A00A64 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

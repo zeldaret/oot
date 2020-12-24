@@ -250,10 +250,10 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
-        Math_SmoothScaleMaxMinS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
         func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.posRot2.pos);

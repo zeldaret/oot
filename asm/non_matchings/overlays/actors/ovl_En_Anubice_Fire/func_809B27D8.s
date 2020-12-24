@@ -80,7 +80,7 @@ glabel func_809B27D8
 .L809B28F4:
 /* 00354 809B28F4 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00
 /* 00358 809B28F8 26240150 */  addiu   $a0, $s1, 0x0150           ## $a0 = 00000150
-/* 0035C 809B28FC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0035C 809B28FC 0C01E107 */  jal     Math_ApproachF
               
 /* 00360 809B2900 8E250154 */  lw      $a1, 0x0154($s1)           ## 00000154
 /* 00364 809B2904 862D015A */  lh      $t5, 0x015A($s1)           ## 0000015A

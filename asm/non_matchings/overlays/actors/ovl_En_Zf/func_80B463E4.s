@@ -24,7 +24,7 @@ glabel func_80B463E4
 /* 023C0 80B46410 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 023C4 80B46414 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 023C8 80B46418 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 023CC 80B4641C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 023CC 80B4641C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 023D0 80B46420 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 023D4 80B46424 8FA4005C */  lw      $a0, 0x005C($sp)           
@@ -219,7 +219,7 @@ glabel func_80B463E4
 /* 02684 80B466D4 3C05C080 */  lui     $a1, 0xC080                ## $a1 = C0800000
 /* 02688 80B466D8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 0268C 80B466DC 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 02690 80B466E0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02690 80B466E0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02694 80B466E4 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 02698 80B466E8 1000001A */  beq     $zero, $zero, .L80B46754   
@@ -241,7 +241,7 @@ glabel func_80B463E4
 /* 026D4 80B46724 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 026D8 80B46728 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 026DC 80B4672C 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 026E0 80B46730 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 026E0 80B46730 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 026E4 80B46734 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 026E8 80B46738 10000006 */  beq     $zero, $zero, .L80B46754   
@@ -249,7 +249,7 @@ glabel func_80B463E4
 /* 026F0 80B46740 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L80B46744:
 /* 026F4 80B46744 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 026F8 80B46748 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 026F8 80B46748 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 026FC 80B4674C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 02700 80B46750 C6020408 */  lwc1    $f2, 0x0408($s0)           ## 00000408

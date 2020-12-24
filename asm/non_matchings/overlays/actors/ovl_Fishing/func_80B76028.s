@@ -45,7 +45,7 @@ glabel func_80B76028
 /* 0C710 80B760B0 460A4402 */  mul.s   $f16, $f8, $f10            
 /* 0C714 80B760B4 2444000C */  addiu   $a0, $v0, 0x000C           ## $a0 = 0000000C
 /* 0C718 80B760B8 44058000 */  mfc1    $a1, $f16                  
-/* 0C71C 80B760BC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0C71C 80B760BC 0C01E107 */  jal     Math_ApproachF
               
 /* 0C720 80B760C0 00000000 */  nop
 .L80B760C4:

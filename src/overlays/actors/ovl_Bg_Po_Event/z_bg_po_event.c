@@ -295,7 +295,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
     static s32 firstFall = 0;
 
     this->dyna.actor.velocity.y++;
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
         this->dyna.actor.flags &= ~0x20;
         this->dyna.actor.velocity.y = 0.0f;
         sBlocksAtRest++;
@@ -376,7 +376,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.speedXZ += 0.1f;
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
-    blockStop = Math_ApproxF(&blockPushDist, 20.0f, this->dyna.actor.speedXZ);
+    blockStop = Math_StepToF(&blockPushDist, 20.0f, this->dyna.actor.speedXZ);
     displacement = this->direction * blockPushDist;
     this->dyna.actor.posRot.pos.x = (Math_SinS(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z = (Math_CosS(this->dyna.unk_158) * displacement) + this->dyna.actor.initPosRot.pos.z;
@@ -409,8 +409,8 @@ void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, 493.0f, 1.0f) &&
-        Math_ApproxUpdateScaledS(&this->dyna.actor.shape.rot.z, this->dyna.actor.posRot.rot.z - 0x4000, 0x400)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, 493.0f, 1.0f) &&
+        Math_ScaledStepToS(&this->dyna.actor.shape.rot.z, this->dyna.actor.posRot.rot.z - 0x4000, 0x400)) {
 
         this->index = (this->index + 1) % 4;
         this->actionFunc = BgPoEvent_BlockFall;
@@ -428,7 +428,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, 369.0f, 2.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, 369.0f, 2.0f)) {
         sPuzzleState = 0x20;
         Actor_Kill(&this->dyna.actor);
     }

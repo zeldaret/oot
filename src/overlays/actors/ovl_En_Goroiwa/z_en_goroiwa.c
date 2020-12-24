@@ -278,12 +278,12 @@ s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
     return result;
 }
@@ -300,7 +300,7 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.posRot.pos) < 25.0f) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.posRot.pos, &posDiff);
     } else {
@@ -312,9 +312,9 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
     return result;
 }
 
@@ -323,10 +323,10 @@ s32 func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_ApproxF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
-    return Math_ApproxF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
+    return Math_StepToF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
 }
 
 s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -348,7 +348,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f sp30;
 
     nextPointY = nextPointPos->y;
-    Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, -14.0f, 1.0f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
     thisY = this->actor.posRot.pos.y;

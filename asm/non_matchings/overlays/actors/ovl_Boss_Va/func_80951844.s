@@ -97,14 +97,14 @@ glabel func_80951844
 /* 026B4 80951974 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 026B8 80951978 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 026BC 8095197C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 026C0 80951980 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 026C0 80951980 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 026C4 80951984 240700C8 */  addiu   $a3, $zero, 0x00C8         ## $a3 = 000000C8
 /* 026C8 80951988 86050034 */  lh      $a1, 0x0034($s0)           ## 00000034
 /* 026CC 8095198C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 026D0 80951990 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
 /* 026D4 80951994 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 026D8 80951998 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 026D8 80951998 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 026DC 8095199C 240700C8 */  addiu   $a3, $zero, 0x00C8         ## $a3 = 000000C8
 /* 026E0 809519A0 860F01AC */  lh      $t7, 0x01AC($s0)           ## 000001AC

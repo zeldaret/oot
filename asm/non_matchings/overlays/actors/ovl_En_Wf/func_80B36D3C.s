@@ -25,7 +25,7 @@ glabel func_80B36D3C
 /* 030E4 80B36D94 26240068 */  addiu   $a0, $s1, 0x0068           ## $a0 = 00000068
 /* 030E8 80B36D98 44050000 */  mfc1    $a1, $f0                   
 /* 030EC 80B36D9C 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 030F0 80B36DA0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 030F0 80B36DA0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 030F4 80B36DA4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 030F8 80B36DA8 A6200300 */  sh      $zero, 0x0300($s1)         ## 00000300

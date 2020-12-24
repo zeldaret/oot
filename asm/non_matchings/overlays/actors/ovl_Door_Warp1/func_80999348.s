@@ -21,7 +21,7 @@ glabel func_80999348
 /* 00C00 80999380 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 00C04 80999384 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 00C08 80999388 3C074080 */  lui     $a3, 0x4080                ## $a3 = 40800000
-/* 00C0C 8099938C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00C0C 8099938C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00C10 80999390 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00C14 80999394 3C014316 */  lui     $at, 0x4316                ## $at = 43160000

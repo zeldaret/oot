@@ -3,34 +3,34 @@
 
 s32 gUseAtanContFrac;
 
-f32 MathF_TanF(f32 x) {
+f32 Math_FTanF(f32 x) {
     f32 sin = sinf(x);
     f32 cos = cosf(x);
     return sin / cos;
 }
 
-f32 MathF_FloorF(f32 x) {
+f32 Math_FFloorF(f32 x) {
     return floorf(x);
 }
 
-f32 MathF_CeilF(f32 x) {
+f32 Math_FCeilF(f32 x) {
     return ceilf(x);
 }
 
-f32 MathF_RoundF(f32 x) {
+f32 Math_FRoundF(f32 x) {
     return roundf(x);
 }
 
-f32 MathF_TruncF(f32 x) {
+f32 Math_FTruncF(f32 x) {
     return truncf(x);
 }
 
-f32 MathF_NearbyIntF(f32 x) {
+f32 Math_FNearbyIntF(f32 x) {
     return nearbyintf(x);
 }
 
 /* Arctangent approximation using a Taylor series (one quadrant) */
-f32 MathF_AtanTaylorQF(f32 x) {
+f32 Math_FAtanTaylorQF(f32 x) {
     static const f32 coeffs[] = {
         -1.0f / 3, +1.0f / 5, -1.0f / 7, +1.0f / 9, -1.0f / 11, +1.0f / 13, -1.0f / 15, +1.0f / 17, 0.0f,
     };
@@ -54,7 +54,7 @@ f32 MathF_AtanTaylorQF(f32 x) {
 }
 
 /* Ditto for two quadrants */
-f32 MathF_AtanTaylorF(f32 x) {
+f32 Math_FAtanTaylorF(f32 x) {
     f32 t;
     f32 q;
 
@@ -69,13 +69,13 @@ f32 MathF_AtanTaylorF(f32 x) {
     }
 
     if (t <= M_SQRT2 - 1.0f) {
-        return MathF_AtanTaylorQF(x);
+        return Math_FAtanTaylorQF(x);
     }
 
     if (t >= M_SQRT2 + 1.0f) {
-        q = M_PI / 2 - MathF_AtanTaylorQF(1.0f / t);
+        q = M_PI / 2 - Math_FAtanTaylorQF(1.0f / t);
     } else {
-        q = M_PI / 4 - MathF_AtanTaylorQF((1.0f - t) / (1.0f + t));
+        q = M_PI / 4 - Math_FAtanTaylorQF((1.0f - t) / (1.0f + t));
     }
 
     if (x > 0.0f) {
@@ -86,7 +86,7 @@ f32 MathF_AtanTaylorF(f32 x) {
 }
 
 /* Arctangent approximation using a continued fraction */
-f32 MathF_AtanContFracF(f32 x) {
+f32 Math_FAtanContFracF(f32 x) {
     s32 sector;
     f32 z;
     f32 conv;
@@ -123,15 +123,15 @@ f32 MathF_AtanContFracF(f32 x) {
     }
 }
 
-f32 MathF_AtanF(f32 x) {
+f32 Math_FAtanF(f32 x) {
     if (!gUseAtanContFrac) {
-        return MathF_AtanTaylorF(x);
+        return Math_FAtanTaylorF(x);
     } else {
-        return MathF_AtanContFracF(x);
+        return Math_FAtanContFracF(x);
     }
 }
 
-f32 MathF_Atan2F(f32 y, f32 x) {
+f32 Math_FAtan2F(f32 y, f32 x) {
     if (x == 0.0f) {
         if (y == 0.0f) {
             return 0.0f;
@@ -143,18 +143,18 @@ f32 MathF_Atan2F(f32 y, f32 x) {
             return qNaN0x10000;
         }
     } else if (x >= 0.0f) {
-        return MathF_AtanF(y / x);
+        return Math_FAtanF(y / x);
     } else if (y < 0.0f) {
-        return MathF_AtanF(y / x) - M_PI;
+        return Math_FAtanF(y / x) - M_PI;
     } else {
-        return M_PI - MathF_AtanF(-(y / x));
+        return M_PI - Math_FAtanF(-(y / x));
     }
 }
 
-f32 MathF_AsinF(f32 x) {
-    return MathF_Atan2F(x, sqrtf(1.0f - SQ(x)));
+f32 Math_FAsinF(f32 x) {
+    return Math_FAtan2F(x, sqrtf(1.0f - SQ(x)));
 }
 
-f32 MathF_AcosF(f32 x) {
-    return M_PI / 2 - MathF_AsinF(x);
+f32 Math_FAcosF(f32 x) {
+    return M_PI / 2 - Math_FAsinF(x);
 }

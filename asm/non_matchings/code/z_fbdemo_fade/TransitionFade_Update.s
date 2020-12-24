@@ -89,7 +89,7 @@ glabel TransitionFade_Update
 /* B2A82C 800B368C 27A4002A */  addiu $a0, $sp, 0x2a
 /* B2A830 800B3690 240500FF */  li    $a1, 255
 /* B2A834 800B3694 240600FF */  li    $a2, 255
-/* B2A838 800B3698 0C01DE5F */  jal   Math_ApproxS
+/* B2A838 800B3698 0C01DE5F */  jal   Math_StepToS
 /* B2A83C 800B369C AFA70030 */   sw    $a3, 0x30($sp)
 /* B2A840 800B36A0 10400017 */  beqz  $v0, .L800B3700
 /* B2A844 800B36A4 8FA70030 */   lw    $a3, 0x30($sp)
@@ -101,13 +101,13 @@ glabel TransitionFade_Update
 .L800B36BC:
 /* B2A85C 800B36BC 24050014 */  li    $a1, 20
 /* B2A860 800B36C0 2406003C */  li    $a2, 60
-/* B2A864 800B36C4 0C01DE5F */  jal   Math_ApproxS
+/* B2A864 800B36C4 0C01DE5F */  jal   Math_StepToS
 /* B2A868 800B36C8 AFA70030 */   sw    $a3, 0x30($sp)
 /* B2A86C 800B36CC 3C188016 */  lui   $t8, %hi(gGameInfo) # $t8, 0x8016
 /* B2A870 800B36D0 8F18FA90 */  lw    $t8, %lo(gGameInfo)($t8)
 /* B2A874 800B36D4 27A4002A */  addiu $a0, $sp, 0x2a
 /* B2A878 800B36D8 00002825 */  move  $a1, $zero
-/* B2A87C 800B36DC 0C01DE5F */  jal   Math_ApproxS
+/* B2A87C 800B36DC 0C01DE5F */  jal   Math_StepToS
 /* B2A880 800B36E0 87060D38 */   lh    $a2, 0xd38($t8)
 /* B2A884 800B36E4 10400006 */  beqz  $v0, .L800B3700
 /* B2A888 800B36E8 8FA70030 */   lw    $a3, 0x30($sp)

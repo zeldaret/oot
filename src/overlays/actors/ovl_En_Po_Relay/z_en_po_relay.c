@@ -145,13 +145,13 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 }
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
-    Math_ApproxF(&this->actor.initPosRot.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f,
+    Math_StepToF(&this->actor.initPosRot.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f,
                  2.0f);
     this->actor.posRot.pos.y = Math_SinS(this->unk_195 * 0x800) * 8.0f + this->actor.initPosRot.pos.y;
 }
 
 void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnPoRelay_Talk;
@@ -164,7 +164,7 @@ void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
     if (func_8002F334(&this->actor, globalCtx) != 0) {
         Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x2F);
         this->textId = this->actor.textId;
@@ -200,7 +200,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
                         (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
         }
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y + (this->actionTimer * 0x800) + 0x8000;
     if (this->pathIndex < 23) {
         // If the player travels along a different path to Dampé that converges later
@@ -223,9 +223,9 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
         multiplier = 250.0f - this->actor.xzDistFromLink;
         multiplier = CLAMP_MIN(multiplier, 0.0f);
         speed += multiplier * 0.02f + 1.0f;
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
+        Math_ApproachF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
+        Math_ApproachF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }
     EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
     if (func_8002DBB0(&this->actor, &vec) < 40.0f) {
@@ -246,7 +246,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, -0x4000, 0x800);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, -0x4000, 0x800);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnPoRelay_Talk2;
     } else if (globalCtx->roomCtx.curRoom.num == 5) {
@@ -260,7 +260,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx) {
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         if (func_80106BC8(globalCtx) != 0) {
             if (this->hookshotSlotFull != 0) {
@@ -312,7 +312,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
     }
-    if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
+    if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
         if (this->hookshotSlotFull != 0) {
             sp60.x = this->actor.posRot.pos.x;
             sp60.y = this->actor.groundY;

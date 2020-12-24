@@ -26,7 +26,7 @@ glabel func_80930D70
 /* 047F8 80930DC8 860501A4 */  lh      $a1, 0x01A4($s0)           ## 000001A4
 /* 047FC 80930DCC 8607019A */  lh      $a3, 0x019A($s0)           ## 0000019A
 /* 04800 80930DD0 AFA80010 */  sw      $t0, 0x0010($sp)           
-/* 04804 80930DD4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 04804 80930DD4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 04808 80930DD8 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 0480C 80930DDC 54400009 */  bnel    $v0, $zero, .L80930E04     

@@ -199,25 +199,25 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("MODE DOWN\n");
     if (this->flashState == FLASH_GROW) {
-        Math_SmoothScaleMaxF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
-        Math_SmoothScaleMaxF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
+        Math_ApproachF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
+        Math_ApproachF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
+        Math_ApproachF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
         if (this->flashYScale == 2.5f) {
             this->flashState = FLASH_SHRINK;
         }
     } else if (this->flashState == FLASH_SHRINK) {
-        Math_SmoothScaleMaxF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothDownscaleMaxF(&this->flashYScale, 1.0f, 0.25f);
+        Math_ApproachF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
+        Math_ApproachF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
+        Math_ApproachF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
+        Math_ApproachZeroF(&this->flashYScale, 1.0f, 0.25f);
         if (this->flashYScale == 0.0f) {
             this->flashState = FLASH_NONE;
         }
     }
     if (this->dropTimer == 0) {
         this->flashYScale = 0.0f;
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
         if (!(this->unwalledSides & OTYUKA_SIDE_EAST)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
@@ -257,8 +257,8 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
                                    &D_801333E0, &D_801333E8);
         }
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
     }
     osSyncPrintf("MODE DOWN END\n");
 }

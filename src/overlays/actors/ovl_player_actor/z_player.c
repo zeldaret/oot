@@ -2416,7 +2416,7 @@ s32 func_808351D4(Player* this, GlobalContext* globalCtx) {
         sp2C = 1;
     }
 
-    Math_ApproxUpdateScaledS(&this->unk_6C0, 1200, 400);
+    Math_ScaledStepToS(&this->unk_6C0, 1200, 400);
     this->unk_6AE |= 0x100;
 
     if ((this->unk_836 == 0) && (func_80833350(this) == 0) && (this->skelAnime.animation == &D_040026E8)) {
@@ -2929,7 +2929,7 @@ s32 func_80836670(Player* this, GlobalContext* globalCtx) {
             SkelAnime_LoadAnimationType4(globalCtx, this->skelAnime.limbCount, this->skelAnime2.limbDrawTbl,
                                          this->skelAnime.limbDrawTbl, D_80853410);
         }
-        Math_ApproxF(&this->unk_830, 0.0f, 0.25f);
+        Math_StepToF(&this->unk_830, 0.0f, 0.25f);
         SkelAnime_LoadAnimationType2(globalCtx, this->skelAnime.limbCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime2.limbDrawTbl, 1.0f - this->unk_830);
     } else if ((func_80833350(this) == 0) || (this->linearVelocity != 0.0f)) {
@@ -2956,13 +2956,13 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags2 & 0x60)) {
         if ((this->unk_664 != NULL) &&
             ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.type != ACTORTYPE_PLAYER))) {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
+            Math_ScaledStepToS(&this->actor.shape.rot.y,
                                      Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_664->posRot2.pos), 4000);
         } else if ((this->stateFlags1 & 0x20000) && !(this->stateFlags2 & 0x60)) {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 4000);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000);
         }
     } else if (!(this->stateFlags2 & 0x40)) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->currentYaw, 2000);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, this->currentYaw, 2000);
     }
 
     this->unk_87C = this->actor.shape.rot.y - previousYaw;
@@ -2977,7 +2977,7 @@ s32 func_808369C8(s16* pValue, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5)
     temp2 = CLAMP(temp2, -arg5, arg5);
     *pValue += (s16)(temp1 - temp2);
 
-    Math_ApproxUpdateScaledS(pValue, arg1, arg2);
+    Math_ScaledStepToS(pValue, arg1, arg2);
 
     temp3 = *pValue;
     if (*pValue < -arg3) {
@@ -3164,7 +3164,7 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
 }
 
 s32 func_8083721C(Player* this) {
-    return Math_ApproxF(&this->linearVelocity, 0.0f, REG(43) / 100.0f);
+    return Math_StepToF(&this->linearVelocity, 0.0f, REG(43) / 100.0f);
 }
 
 s32 func_80837268(Player* this, f32* arg1, s16* arg2, f32 arg3, GlobalContext* globalCtx) {
@@ -5717,8 +5717,8 @@ s32 func_8083DB98(Player* this, s32 arg1) {
     sp30.z = this->actor.posRot.pos.z;
     sp2E = Math_Vec3f_Pitch(&sp30, &unk_664->posRot2.pos);
     sp2C = Math_Vec3f_Yaw(&sp30, &unk_664->posRot2.pos);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.y, sp2C, 4, 10000, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, sp2E, 4, 10000, 0);
+    Math_SmoothStepToS(&this->actor.posRot2.rot.y, sp2C, 4, 10000, 0);
+    Math_SmoothStepToS(&this->actor.posRot2.rot.x, sp2E, 4, 10000, 0);
     this->unk_6AE |= 2;
 
     return func_80836AB8(this, arg1);
@@ -5742,7 +5742,7 @@ void func_8083DC54(Player* this, GlobalContext* globalCtx) {
     }
 
     if (D_808535E4 == 11) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, -20000, 10, 4000, 800);
+        Math_SmoothStepToS(&this->actor.posRot2.rot.x, -20000, 10, 4000, 800);
     } else {
         sp46 = 0;
         temp1 = func_8083973C(globalCtx, this, &D_8085456C, &sp34);
@@ -5751,7 +5751,7 @@ void func_8083DC54(Player* this, GlobalContext* globalCtx) {
             sp46 = CLAMP(temp2, -4000, 4000);
         }
         this->actor.posRot2.rot.y = this->actor.shape.rot.y;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, sp46, 14, 4000, 30);
+        Math_SmoothStepToS(&this->actor.posRot2.rot.x, sp46, 14, 4000, 30);
     }
 
     func_80836AB8(this, func_8002DD78(this) || func_808334B4(this));
@@ -5766,10 +5766,10 @@ void func_8083DDC8(Player* this, GlobalContext* globalCtx) {
         temp2 = (s16)(this->currentYaw - this->actor.shape.rot.y) * this->linearVelocity * 0.1f;
         temp1 = CLAMP(temp1, -4000, 4000);
         temp2 = CLAMP(-temp2, -4000, 4000);
-        Math_ApproxUpdateScaledS(&this->unk_6BC, temp1, 900);
+        Math_ScaledStepToS(&this->unk_6BC, temp1, 900);
         this->unk_6B6 = -(f32)this->unk_6BC * 0.5f;
-        Math_ApproxUpdateScaledS(&this->unk_6BA, temp2, 300);
-        Math_ApproxUpdateScaledS(&this->unk_6C0, temp2, 200);
+        Math_ScaledStepToS(&this->unk_6BA, temp2, 300);
+        Math_ScaledStepToS(&this->unk_6C0, temp2, 200);
         this->unk_6AE |= 0x168;
     } else {
         func_8083DC54(this, globalCtx);
@@ -5777,8 +5777,8 @@ void func_8083DDC8(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_8083DF68(Player* this, f32 arg1, s16 arg2) {
-    func_80077C6C(&this->linearVelocity, arg1, REG(19) / 100.0f, 1.5f);
-    Math_ApproxUpdateScaledS(&this->currentYaw, arg2, REG(27));
+    Math_AymStepToF(&this->linearVelocity, arg1, REG(19) / 100.0f, 1.5f);
+    Math_ScaledStepToS(&this->currentYaw, arg2, REG(27));
 }
 
 void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
@@ -5789,12 +5789,12 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
     }
 
     if (ABS(yawDiff) > 0x6000) {
-        if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f)) {
+        if (Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
             this->currentYaw = *arg2;
         }
     } else {
-        func_80077C6C(&this->linearVelocity, *arg1, 0.05f, 0.1f);
-        Math_ApproxUpdateScaledS(&this->currentYaw, *arg2, 200);
+        Math_AymStepToF(&this->linearVelocity, *arg1, 0.05f, 0.1f);
+        Math_ScaledStepToS(&this->currentYaw, *arg2, 200);
     }
 }
 
@@ -5883,7 +5883,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2) {
                 temp2 = 1.2f;
             }
             this->windDirection = sp3A;
-            Math_ApproxF(&this->windSpeed, temp1, temp2);
+            Math_StepToF(&this->windSpeed, temp1, temp2);
         } else {
             func_80835C58(globalCtx, this, func_8084F390, 0);
             func_80832564(globalCtx, this);
@@ -6275,7 +6275,7 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
         temp1 = wallPoly->norm.x * (1.0f / 32767.0f);
         temp2 = wallPoly->norm.z * (1.0f / 32767.0f);
         temp = Math_Atan2S(-temp2, -temp1);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp, 800);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, temp, 800);
 
         this->currentYaw = this->actor.shape.rot.y;
         this->actor.posRot.pos.x = sp54.x - (Math_SinS(this->actor.shape.rot.y) * arg2);
@@ -6479,7 +6479,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
         if (this->unk_664 != NULL) {
             func_8083DB98(this, 1);
         } else {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, sControlInput->rel.stick_y * 240.0f, 14, 4000, 30);
+            Math_SmoothStepToS(&this->actor.posRot2.rot.x, sControlInput->rel.stick_y * 240.0f, 14, 4000, 30);
             func_80836AB8(this, 1);
         }
     } else {
@@ -6544,7 +6544,7 @@ void func_80840138(Player* this, f32 arg1, s16 arg2) {
         }
     }
 
-    Math_ApproxF(&this->unk_870, this->unk_874, 0.3f);
+    Math_StepToF(&this->unk_870, this->unk_874, 0.3f);
 }
 
 void func_808401B0(GlobalContext* globalCtx, Player* this) {
@@ -6658,7 +6658,7 @@ void func_80840450(Player* this, GlobalContext* globalCtx) {
 
         temp2 = this->unk_868;
         if ((temp2 < 6) || ((temp2 - 0xE) < 6)) {
-            Math_ApproxF(&this->linearVelocity, 0.0f, 1.5f);
+            Math_StepToF(&this->linearVelocity, 0.0f, 1.5f);
             return;
         }
 
@@ -6666,16 +6666,16 @@ void func_80840450(Player* this, GlobalContext* globalCtx) {
         temp4 = ABS(temp3);
 
         if (temp4 > 0x4000) {
-            if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.5f)) {
+            if (Math_StepToF(&this->linearVelocity, 0.0f, 1.5f)) {
                 this->currentYaw = sp42;
             }
             return;
         }
 
-        func_80077C6C(&this->linearVelocity, sp44 * 0.3f, 2.0f, 1.5f);
+        Math_AymStepToF(&this->linearVelocity, sp44 * 0.3f, 2.0f, 1.5f);
 
         if (!(this->stateFlags3 & 8)) {
-            Math_ApproxUpdateScaledS(&this->currentYaw, sp42, temp4 * 0.1f);
+            Math_ScaledStepToS(&this->currentYaw, sp42, temp4 * 0.1f);
         }
     }
 }
@@ -6845,7 +6845,7 @@ void func_80840BC8(Player* this, GlobalContext* globalCtx) {
                 return;
             }
 
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, sp3A, 1200);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, sp3A, 1200);
             this->currentYaw = this->actor.shape.rot.y;
             if (func_80833338(this) == this->skelAnime.animation) {
                 func_8083DC54(this, globalCtx);
@@ -6933,14 +6933,14 @@ void func_80840DE4(Player* this, GlobalContext* globalCtx) {
         temp3 = ABS(temp2);
 
         if (temp3 > 0x4000) {
-            if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.5f)) {
+            if (Math_StepToF(&this->linearVelocity, 0.0f, 1.5f)) {
                 this->currentYaw = sp42;
             }
             return;
         }
 
-        func_80077C6C(&this->linearVelocity, sp44 * 0.4f, 1.5f, 1.5f);
-        Math_ApproxUpdateScaledS(&this->currentYaw, sp42, temp3 * 0.1f);
+        Math_AymStepToF(&this->linearVelocity, sp44 * 0.4f, 1.5f, 1.5f);
+        Math_ScaledStepToS(&this->currentYaw, sp42, temp3 * 0.1f);
     }
 }
 
@@ -7034,8 +7034,8 @@ void func_808414F8(Player* this, GlobalContext* globalCtx) {
         } else {
             sp2A = sp32 - this->currentYaw;
 
-            func_80077C6C(&this->linearVelocity, sp34 * 1.5f, 1.5f, 2.0f);
-            Math_ApproxUpdateScaledS(&this->currentYaw, sp32, sp2A * 0.1f);
+            Math_AymStepToF(&this->linearVelocity, sp34 * 1.5f, 1.5f, 2.0f);
+            Math_ScaledStepToS(&this->currentYaw, sp32, sp2A * 0.1f);
 
             if ((sp34 == 0.0f) && (this->linearVelocity == 0.0f)) {
                 func_80839F30(this, globalCtx);
@@ -7152,15 +7152,15 @@ void func_8084193C(Player* this, GlobalContext* globalCtx) {
         temp3 = ABS(temp2);
 
         if (temp3 > 0x4000) {
-            if (Math_ApproxF(&this->linearVelocity, 0.0f, 3.0f) != 0) {
+            if (Math_StepToF(&this->linearVelocity, 0.0f, 3.0f) != 0) {
                 this->currentYaw = sp3A;
             }
             return;
         }
 
         sp3C *= 0.9f;
-        func_80077C6C(&this->linearVelocity, sp3C, 2.0f, 3.0f);
-        Math_ApproxUpdateScaledS(&this->currentYaw, sp3A, temp3 * 0.1f);
+        Math_AymStepToF(&this->linearVelocity, sp3C, 2.0f, 3.0f);
+        Math_ScaledStepToS(&this->currentYaw, sp3A, temp3 * 0.1f);
     }
 }
 
@@ -7183,7 +7183,7 @@ void func_80841BA8(Player* this, GlobalContext* globalCtx) {
         if (sp34 != 0.0f) {
             this->actor.shape.rot.y = sp32;
             func_8083C858(this, globalCtx);
-        } else if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, sp32, this->unk_87E)) {
+        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, sp32, this->unk_87E)) {
             func_8083C0E8(this, globalCtx);
         }
 
@@ -7202,7 +7202,7 @@ void func_80841CC4(Player* this, s32 arg1, GlobalContext* globalCtx) {
         target = CLAMP(D_80853610, -10922, 10922);
     }
 
-    Math_ApproxUpdateScaledS(&this->unk_89C, target, 400);
+    Math_ScaledStepToS(&this->unk_89C, target, 400);
 
     if ((this->modelAnimType == 3) || ((this->unk_89C == 0) && (this->unk_6C4 <= 0.0f))) {
         if (arg1 == 0) {
@@ -7686,9 +7686,9 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
             sp46 = 50;
         }
 
-        Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, sp4C, sp48);
+        Math_ScaledStepToS(&this->actor.posRot2.rot.x, sp4C, sp48);
         this->unk_6BC = this->actor.posRot2.rot.x;
-        Math_ApproxUpdateScaledS(&this->unk_6BE, sp4A, sp46);
+        Math_ScaledStepToS(&this->unk_6BE, sp4A, sp46);
 
         if (this->unk_84F != 0) {
             if (!func_80842DF4(globalCtx, this)) {
@@ -7949,7 +7949,7 @@ s32 func_80843E64(GlobalContext* globalCtx, Player* this) {
         sp34 = this->fallDistance;
     }
 
-    Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f);
+    Math_StepToF(&this->linearVelocity, 0.0f, 1.0f);
 
     this->stateFlags1 &= ~0xC0000;
 
@@ -8146,7 +8146,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
 
     if (func_80842964(this, globalCtx) == 0) {
         if (this->unk_850 != 0) {
-            Math_ApproxF(&this->linearVelocity, 0.0f, 2.0f);
+            Math_StepToF(&this->linearVelocity, 0.0f, 2.0f);
 
             temp = func_808374A0(globalCtx, this, &this->skelAnime, 5.0f);
             if ((temp != 0) && ((temp > 0) || sp44)) {
@@ -8212,7 +8212,7 @@ void func_80844A44(Player* this, GlobalContext* globalCtx) {
         func_80832284(globalCtx, this, &D_04003160);
     }
 
-    Math_ApproxF(&this->linearVelocity, 0.0f, 0.05f);
+    Math_StepToF(&this->linearVelocity, 0.0f, 0.05f);
 
     if (this->actor.bgCheckFlags & 1) {
         this->actor.colChkInfo.damage = 0x10;
@@ -8298,7 +8298,7 @@ void func_80844DC8(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80844E3C(Player* this) {
-    Math_ApproxF(&this->unk_858, 1.0f, 0.02f);
+    Math_StepToF(&this->unk_858, 1.0f, 0.02f);
 }
 
 void func_80844E68(Player* this, GlobalContext* globalCtx) {
@@ -8394,14 +8394,14 @@ void func_80845000(Player* this, GlobalContext* globalCtx) {
         sp44 = ABS(temp5);
 
         if (sp44 > 0x4000) {
-            if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f)) {
+            if (Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
                 this->currentYaw = sp52;
             }
             return;
         }
 
-        func_80077C6C(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
-        Math_ApproxUpdateScaledS(&this->currentYaw, sp52, sp44 * 0.1f);
+        Math_AymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
+        Math_ScaledStepToS(&this->currentYaw, sp52, sp44 * 0.1f);
 
         if ((sp54 == 0.0f) && (this->linearVelocity == 0.0f)) {
             func_80844DC8(this, globalCtx);
@@ -8462,14 +8462,14 @@ void func_80845308(Player* this, GlobalContext* globalCtx) {
         sp44 = ABS(temp5);
 
         if (sp44 > 0x4000) {
-            if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f)) {
+            if (Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
                 this->currentYaw = sp52;
             }
             return;
         }
 
-        func_80077C6C(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
-        Math_ApproxUpdateScaledS(&this->currentYaw, sp52, sp44 * 0.1f);
+        Math_AymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
+        Math_ScaledStepToS(&this->currentYaw, sp52, sp44 * 0.1f);
 
         if ((sp54 == 0.0f) && (this->linearVelocity == 0.0f) && (sp5C == 0.0f)) {
             func_80844DC8(this, globalCtx);
@@ -8547,7 +8547,7 @@ void func_80845668(Player* this, GlobalContext* globalCtx) {
                 func_80832854(this);
                 this->unk_850 = 1;
             }
-            Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 150.0f);
+            Math_StepToF(&this->actor.shape.unk_08, 0.0f, 150.0f);
         }
     }
 }
@@ -8744,7 +8744,7 @@ void func_80846050(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    Math_ApproxUpdateScaledS(&this->unk_3BC.y, 0, 4000);
+    Math_ScaledStepToS(&this->unk_3BC.y, 0, 4000);
 }
 
 struct_80832924 D_8085461C[] = {
@@ -9169,7 +9169,7 @@ void func_808471F4(s16* pValue) {
     step = (ABS(*pValue) * 100.0f) / 1000.0f;
     step = CLAMP(step, 400, 4000);
 
-    Math_ApproxUpdateScaledS(pValue, 0, step);
+    Math_ScaledStepToS(pValue, 0, step);
 }
 
 void func_80847298(Player* this) {
@@ -9975,7 +9975,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->unk_844--;
         }
 
-        Math_ApproxUpdateScaledS(&this->unk_6C2, 0, 400);
+        Math_ScaledStepToS(&this->unk_6C2, 0, 400);
         func_80032CB4(this->unk_3A8, 20, 80, 6);
 
         this->actor.shape.unk_06 = this->unk_3A8[0] + ((globalCtx->gameplayFrames & 32) ? 0 : 3);
@@ -10001,7 +10001,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     sp6E += 0x8000;
                 }
 
-                if (Math_ApproxF(&this->actor.speedXZ, sp70, 0.35f) && (sp70 == 0.0f)) {
+                if (Math_StepToF(&this->actor.speedXZ, sp70, 0.35f) && (sp70 == 0.0f)) {
                     this->actor.posRot.rot.y = this->currentYaw;
                 }
 
@@ -10011,7 +10011,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speedXZ) * 100.0f);
                     phi_v0 = CLAMP(phi_v0, 0, 1350);
 
-                    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, sp6E, phi_v0);
+                    Math_ScaledStepToS(&this->actor.posRot.rot.y, sp6E, phi_v0);
                 }
 
                 if ((this->linearVelocity == 0.0f) && (this->actor.speedXZ != 0.0f)) {
@@ -10077,12 +10077,12 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 sp48 = D_8085482C[D_808535F4];
             }
 
-            Math_ApproxF(&this->windSpeed, sp48, sp48 * 0.1f);
+            Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f);
 
-            Math_ApproxUpdateScaledS(&this->windDirection, D_808535FC,
+            Math_ScaledStepToS(&this->windDirection, D_808535FC,
                                      ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * sp48);
         } else if (this->windSpeed != 0.0f) {
-            Math_ApproxF(&this->windSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
+            Math_StepToF(&this->windSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
         }
 
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & 0x40000)) {
@@ -10513,7 +10513,7 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
 
     if (!func_8002DD78(this) && !func_808334B4(this) && (arg2 == 0)) {
         temp2 = sControlInput->rel.stick_y * 240.0f;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, temp2, 14, 4000, 30);
+        Math_SmoothStepToS(&this->actor.posRot2.rot.x, temp2, 14, 4000, 30);
 
         temp2 = sControlInput->rel.stick_x * -16.0f;
         temp2 = CLAMP(temp2, -3000, 3000);
@@ -10556,8 +10556,8 @@ void func_8084AEEC(Player* this, f32* arg1, f32 arg2, s16 arg3) {
         arg2 = 0.0f;
     }
 
-    func_80077C6C(arg1, arg2 * 0.8f, temp1, (fabsf(*arg1) * 0.02f) + 0.05f);
-    Math_ApproxUpdateScaledS(&this->currentYaw, arg3, 1600);
+    Math_AymStepToF(arg1, arg2 * 0.8f, temp1, (fabsf(*arg1) * 0.02f) + 0.05f);
+    Math_ScaledStepToS(&this->currentYaw, arg3, 1600);
 }
 
 void func_8084B000(Player* this) {
@@ -10913,7 +10913,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->currentYaw, 0x800);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, this->currentYaw, 0x800);
 
     if (this->unk_84F != 0) {
         func_80837268(this, &sp3C, &sp3A, 0.0f, globalCtx);
@@ -11566,7 +11566,7 @@ void func_8084D610(Player* this, GlobalContext* globalCtx) {
 
             if (sp34 != 0.0f) {
                 s16 temp = this->actor.shape.rot.y - sp32;
-                if ((ABS(temp) > 0x6000) && !Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f)) {
+                if ((ABS(temp) > 0x6000) && !Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
                     return;
                 }
 
@@ -11629,7 +11629,7 @@ s32 func_8084D980(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3) 
     if (ABS(temp1) > 0x6000) {
         anim = &D_04003328;
 
-        if (Math_ApproxF(&this->linearVelocity, 0.0f, 1.0f)) {
+        if (Math_StepToF(&this->linearVelocity, 0.0f, 1.0f)) {
             this->currentYaw = *arg3;
         } else {
             *arg2 = 0.0f;
@@ -11741,7 +11741,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
             }
 
             func_8084B158(globalCtx, this, sControlInput, fabsf(this->actor.velocity.y));
-            Math_ApproxUpdateScaledS(&this->unk_6C2, -10000, 800);
+            Math_ScaledStepToS(&this->unk_6C2, -10000, 800);
 
             if (sp2C > 8.0f) {
                 sp2C = 8.0f;
@@ -11993,7 +11993,7 @@ void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
         }
 
         if (this->skelAnime.animation == &D_04002788) {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 4000);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 4000);
         }
 
         if (func_800A4530(&this->skelAnime, 21.0f)) {
@@ -12341,7 +12341,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             sp4C = 1.0f;
         }
 
-        if (func_80077C6C(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
+        if (Math_AymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
             LinkAnimationHeader* anim;
             if (this->unk_84F == 0) {
                 anim = D_80853D04[this->modelAnimType];
@@ -12351,8 +12351,8 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, anim, globalCtx);
         }
 
-        Math_SmoothScaleMaxMinS(&this->currentYaw, sp46, 10, 4000, 800);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, sp44, 2000);
+        Math_SmoothStepToS(&this->currentYaw, sp46, 10, 4000, 800);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, sp44, 2000);
     }
 }
 
@@ -12391,7 +12391,7 @@ void func_8084F710(Player* this, GlobalContext* globalCtx) {
                 func_80853080(this, globalCtx);
             }
         }
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.3f, 8.0f, 0.5f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 8.0f, 0.5f);
     }
 
     if ((globalCtx->sceneNum == SCENE_KENJYANOMA) && func_8083ADD4(globalCtx, this)) {
@@ -12445,7 +12445,7 @@ void func_8084F9C0(Player* this, GlobalContext* globalCtx) {
     if (this->actor.velocity.y < 0.0f) {
         func_80837B9C(this, globalCtx);
     } else if (this->actor.velocity.y < 6.0f) {
-        Math_ApproxF(&this->linearVelocity, 3.0f, 0.5f);
+        Math_StepToF(&this->linearVelocity, 3.0f, 0.5f);
     }
 }
 
@@ -12675,7 +12675,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
             func_8084269C(globalCtx, this);
         }
 
-        Math_ApproxF(&this->linearVelocity, 0.0f, 5.0f);
+        Math_StepToF(&this->linearVelocity, 0.0f, 5.0f);
         func_8083C50C(this);
 
         if (func_800A3BC0(globalCtx, &this->skelAnime)) {
@@ -12710,7 +12710,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
                 sp2C = this->actor.posRot.pos.y - shockwavePos.y;
 
-                Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, Math_Atan2S(45.0f, sp2C), 800);
+                Math_ScaledStepToS(&this->actor.posRot2.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
 
                 if ((((this->swordAnimation == 0x16) && func_800A4530(&this->skelAnime, 7.0f)) ||
@@ -12925,7 +12925,7 @@ void func_80850AEC(Player* this, GlobalContext* globalCtx) {
 
     if ((this->skelAnime.animation != &D_04002C90) || (4.0f <= this->skelAnime.animCurrentFrame)) {
         this->actor.gravity = 0.0f;
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0x800);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0x800);
         func_8083264C(this, 100, 2, 100, 0);
     }
 }
@@ -13166,7 +13166,7 @@ void func_808513BC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
             this->unk_84F = 1;
         } else {
             func_8084B158(globalCtx, this, NULL, fabsf(this->actor.velocity.y));
-            Math_ApproxUpdateScaledS(&this->unk_6C2, -10000, 800);
+            Math_ScaledStepToS(&this->unk_6C2, -10000, 800);
             func_8084AEEC(this, &this->actor.velocity.y, 4.0f, this->currentYaw);
         }
         return;
@@ -13433,12 +13433,12 @@ void func_80851D80(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
 void func_80851DEC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     func_800A3BC0(globalCtx, &this->skelAnime);
-    Math_ApproxS(&this->actor.shape.unk_06, 0, 1);
+    Math_StepToS(&this->actor.shape.unk_06, 0, 1);
 }
 
 void func_80851E28(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     func_800A3BC0(globalCtx, &this->skelAnime);
-    Math_ApproxS(&this->actor.shape.unk_06, 2, 1);
+    Math_StepToS(&this->actor.shape.unk_06, 2, 1);
 }
 
 void func_80851E64(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {

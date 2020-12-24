@@ -94,7 +94,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
     sin = Math_SinS(this->unk_278) * 80.0f;
     pitch = -Math_Vec3f_Pitch(&sp48, &sp3C);
     pitch = ((s32)((0x3A98 - pitch) * (1.0f - (globalCtx->envCtx.unk_B0 / (255.0f - sin))))) + pitch;
-    Math_SmoothScaleMaxMinS(&this->limbs[4].y, pitch, this->invScale, this->maxStep, this->minStep);
+    Math_SmoothStepToS(&this->limbs[4].y, pitch, this->invScale, this->maxStep, this->minStep);
     this->limbs[13].y = this->limbs[4].y;
     this->limbs[4].z = -Math_Vec3f_Yaw(&sp48, &sp3C);
     this->limbs[13].z = this->limbs[4].z;

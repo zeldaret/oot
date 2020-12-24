@@ -76,14 +76,14 @@ glabel func_80AD1258
 /* 01EA8 80AD1348 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 01EAC 80AD134C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01EB0 80AD1350 24070258 */  addiu   $a3, $zero, 0x0258         ## $a3 = 00000258
-/* 01EB4 80AD1354 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01EB4 80AD1354 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01EB8 80AD1358 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01EBC 80AD135C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01EC0 80AD1360 24051194 */  addiu   $a1, $zero, 0x1194         ## $a1 = 00001194
 /* 01EC4 80AD1364 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01EC8 80AD1368 24070258 */  addiu   $a3, $zero, 0x0258         ## $a3 = 00000258
-/* 01ECC 80AD136C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01ECC 80AD136C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01ED0 80AD1370 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01ED4 80AD1374 861800B6 */  lh      $t8, 0x00B6($s0)           ## 000000B6

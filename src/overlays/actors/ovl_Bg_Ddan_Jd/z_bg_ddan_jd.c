@@ -165,7 +165,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
         func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
-    } else if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->targetY, this->ySpeed)) {
+    } else if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
     }

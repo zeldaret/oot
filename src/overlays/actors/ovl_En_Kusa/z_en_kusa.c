@@ -392,8 +392,8 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         }
         EnKusa_Fall(this);
-        Math_ApproxS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
-        Math_ApproxS(&D_80A9C1DC, D_80A9C1D8, 0xAA);
+        Math_StepToS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
+        Math_StepToS(&D_80A9C1DC, D_80A9C1D8, 0xAA);
         this->actor.shape.rot.x += D_80A9C1D4;
         this->actor.shape.rot.y += D_80A9C1DC;
         func_80A9B174(&this->actor.velocity, 0.05f);
@@ -435,7 +435,7 @@ void func_80A9BF3C(EnKusa* this) {
 
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
     if (this->timer > 120) {
-        if ((Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f)) && (this->timer >= 170)) {
+        if ((Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f)) && (this->timer >= 170)) {
             func_80A9C00C(this);
         }
     }
@@ -451,8 +451,8 @@ void func_80A9C00C(EnKusa* this) {
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    sp24 = Math_ApproxF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
-    sp24 &= Math_ApproxF(&this->actor.scale.x, 0.4f, 0.011f);
+    sp24 = Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
+    sp24 &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
 
     if (sp24) {

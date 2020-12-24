@@ -34,7 +34,7 @@ glabel func_80B35EE4
 /* 0229C 80B35F4C A6000300 */  sh      $zero, 0x0300($s0)         ## 00000300
 .L80B35F50:
 /* 022A0 80B35F50 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 022A4 80B35F54 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 022A4 80B35F54 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 022A8 80B35F58 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 022AC 80B35F5C 8FA4002C */  lw      $a0, 0x002C($sp)           

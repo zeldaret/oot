@@ -1079,9 +1079,9 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
         temp2 = this->actor.posRot.pos.z - player->actor.posRot.pos.z;
-        temp_f16 = MathF_Atan2F(temp1, temp2) * 10430.3779296875f;
+        temp_f16 = Math_FAtan2F(temp1, temp2) * 10430.3779296875f;
         if (*shapeRotY != temp_f16) {
-            Math_SmoothScaleMaxMinS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
+            Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.posRot.rot.y = *shapeRotY;
         } else {
             return 1;
@@ -1296,11 +1296,11 @@ void func_80AED83C(EnRu1* this) {
     Vec3s* tempPtr2;
 
     tempPtr = &this->unk_374.unk_08;
-    Math_SmoothScaleMaxMinS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
     tempPtr2 = &this->unk_374.unk_0E;
-    Math_SmoothScaleMaxMinS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
 
 void func_80AED8DC(EnRu1* this) {
@@ -1324,14 +1324,14 @@ void func_80AED8DC(EnRu1* this) {
     }
 
     if (this->unk_2B0 == 0) {
-        Math_SmoothScaleMaxMinS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, 0, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, 0, 3, ABS(*unk_29E), 0x64);
     } else if (this->unk_2B0 == 1) {
-        Math_SmoothScaleMaxMinS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
     } else {
-        Math_SmoothScaleMaxMinS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
     }
 }
 

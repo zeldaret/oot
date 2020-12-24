@@ -19,7 +19,7 @@ glabel func_80883254
 /* 00CD4 80883294 46083281 */  sub.s   $f10, $f6, $f8             
 /* 00CD8 80883298 44068000 */  mfc1    $a2, $f16                  
 /* 00CDC 8088329C 44055000 */  mfc1    $a1, $f10                  
-/* 00CE0 808832A0 0C01DE80 */  jal     Math_ApproxF
+/* 00CE0 808832A0 0C01DE80 */  jal     Math_StepToF
               
 /* 00CE4 808832A4 00000000 */  nop
 /* 00CE8 808832A8 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
@@ -29,7 +29,7 @@ glabel func_80883254
 /* 00CF8 808832B8 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00CFC 808832BC 46049181 */  sub.s   $f6, $f18, $f4             
 /* 00D00 808832C0 44053000 */  mfc1    $a1, $f6                   
-/* 00D04 808832C4 0C01DE80 */  jal     Math_ApproxF
+/* 00D04 808832C4 0C01DE80 */  jal     Math_StepToF
               
 /* 00D08 808832C8 00000000 */  nop
 /* 00D0C 808832CC 1040000F */  beq     $v0, $zero, .L8088330C     

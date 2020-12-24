@@ -175,11 +175,11 @@ void func_80984DB8(DemoIm* this) {
     Vec3s* vec1 = &this->unk_2D4.unk_08;
     Vec3s* vec2 = &this->unk_2D4.unk_0E;
 
-    Math_SmoothScaleMaxMinS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
 
-    Math_SmoothScaleMaxMinS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {

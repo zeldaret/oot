@@ -275,10 +275,10 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2A2.y = this->unk_2A2.z;
         this->unk_2A2.x = this->unk_2A2.z;
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_29C.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 
     if (DECR(this->unk_2AE) == 0) {

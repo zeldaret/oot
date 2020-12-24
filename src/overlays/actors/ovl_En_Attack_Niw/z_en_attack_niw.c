@@ -143,28 +143,28 @@ void func_809B5268(EnAttackNiw* this, GlobalContext* globalCtx, s16 arg2) {
     }
 
     if (this->unk_288 != this->unk_2C0) {
-        Math_SmoothScaleMaxF(&this->unk_2C0, this->unk_288, 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_2C0, this->unk_288, 0.5f, 4000.0f);
     }
     if (this->unk_264 != this->unk_2BC) {
-        Math_SmoothScaleMaxF(&this->unk_2BC, this->unk_264, 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_2BC, this->unk_264, 0.5f, 4000.0f);
     }
     if (this->unk_26C != this->unk_2A4.x) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
     }
     if (this->unk_280 != this->unk_2A4.y) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
     }
     if (this->unk_284 != this->unk_2A4.z) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
     }
     if (this->unk_268 != this->unk_2B0.x) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
     }
     if (this->unk_278 != this->unk_2B0.y) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
     }
     if (this->unk_27C != this->unk_2B0.z) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
     }
 }
 
@@ -203,9 +203,9 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     this->unk_2D4 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp34);
     this->unk_2D0 = Math_Vec3f_Pitch(&this->actor.posRot.pos, &sp34) * -1.0f;
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2D4, 5, this->unk_2DC, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
-    Math_SmoothScaleMaxF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_2D4, 5, this->unk_2DC, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
+    Math_ApproachF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
 
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp4E, &sp4C);
@@ -268,10 +268,10 @@ void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx) {
     if (this->unk_25C == 0x32) {
         this->unk_2D4 = Rand_CenteredFloat(200.0f) + this->actor.yawTowardsLink;
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2D4, 2, this->unk_2DC, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);
-    Math_SmoothScaleMaxF(&this->unk_2DC, 10000.0f, 1.0f, 1000.0f);
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, this->unk_2E0, 0.9f, 1.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_2D4, 2, this->unk_2DC, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);
+    Math_ApproachF(&this->unk_2DC, 10000.0f, 1.0f, 1000.0f);
+    Math_ApproachF(&this->actor.speedXZ, this->unk_2E0, 0.9f, 1.0f);
     if ((this->actor.gravity == -2.0f) && (this->unk_262 == 0) &&
         ((this->actor.bgCheckFlags & 8) || (this->unk_25C == 0))) {
         this->unk_2E0 = 0.0f;
@@ -291,9 +291,9 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
-    Math_SmoothScaleMaxF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
-    Math_SmoothScaleMaxF(&this->actor.velocity.y, 5.0f, 0.3f, 1.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
+    Math_ApproachF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
+    Math_ApproachF(&this->actor.velocity.y, 5.0f, 0.3f, 1.0f);
     func_809B5268(this, globalCtx, 2);
 }
 

@@ -421,7 +421,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
 
     yawDiff = ABS(yawDiff);
 
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 1.5f, 0.1f, 1.0f, 0.0f);
 
     playbackSpeed = this->actor.speedXZ * 0.75f;
     if (this->actor.speedXZ >= 0.0f) {
@@ -451,7 +451,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     }
 
     if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 400.0f) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x1F4, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x1F4, 0);
         this->actor.flags |= 1;
         if ((this->actor.xzDistFromLink < 100.0f) && (yawDiff < 0x1388) && (this->actor.yDistFromLink < 60.0f)) {
             EnDodongo_SetupBreatheFire(this);
@@ -462,7 +462,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
             (this->retreatTimer != 0)) {
             s16 yawToHome = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
 
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, yawToHome, 1, 0x1F4, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, yawToHome, 1, 0x1F4, 0);
         }
         if (this->retreatTimer != 0) {
             this->retreatTimer--;

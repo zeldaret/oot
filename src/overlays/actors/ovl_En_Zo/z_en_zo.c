@@ -114,7 +114,7 @@ void EnZo_UpdateRipples(EnZo* this) {
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
-            Math_SmoothScaleMaxF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
+            Math_ApproachF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
             if (effect->color.a > 20) {
                 effect->color.a -= 20;
             } else {
@@ -700,8 +700,8 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
     } else if (this->actor.waterY < 80.0f) {
-        Math_SmoothScaleMaxF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
-        Math_SmoothScaleMaxF(&this->alpha, 255.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
+        Math_ApproachF(&this->alpha, 255.0f, 0.3f, 10.0f);
     }
 }
 
@@ -714,7 +714,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     }
     EnZo_SetAnimation(this);
 
-    Math_SmoothScaleMaxF(&this->actor.velocity.y, this->actor.waterY < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
+    Math_ApproachF(&this->actor.velocity.y, this->actor.waterY < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
     if (this->rippleTimer != 0) {
         this->rippleTimer--;
         if ((this->rippleTimer == 3) || (this->rippleTimer == 6)) {
@@ -755,8 +755,8 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.waterY > 80.0f || this->actor.bgCheckFlags & 1) {
-        Math_SmoothScaleMaxF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
-        Math_SmoothScaleMaxF(&this->alpha, 0.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
+        Math_ApproachF(&this->alpha, 0.0f, 0.3f, 10.0f);
     }
 
     if ((s16)this->alpha == 0) {

@@ -75,10 +75,10 @@ void func_80A8F28C(EnKakasi* this) {
     this->skelanime.animPlaybackSpeed = 0.0f;
     this->unk_1A8 = this->unk_1AC = 0;
 
-    Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
+    Math_ApproachZeroF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
 }
 
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
@@ -135,9 +135,9 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
-        Math_SmoothScaleMaxF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1A8, 5, 0x3E8, 0);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AC, 5, 0x3E8, 0);
+        Math_ApproachF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk_1A8, 5, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.z, this->unk_1AC, 5, 0x3E8, 0);
 
         if (this->unk_1A8 != 0 && fabsf(this->actor.shape.rot.x - this->unk_1A8) < 50.0f) {
             this->unk_1A8 *= -1.0f;
