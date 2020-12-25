@@ -972,7 +972,7 @@ glabel L80B78DE8
 /* 0F4DC 80B78E7C 3C0180B8 */  lui     $at, %hi(D_80B7FEC4)       ## $at = 80B80000
 /* 0F4E0 80B78E80 A420FEC4 */  sh      $zero, %lo(D_80B7FEC4)($at) 
 /* 0F4E4 80B78E84 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F4E8 80B78E88 0C01C180 */  jal     func_80070600              
+/* 0F4E8 80B78E88 0C01C180 */  jal     Kankyo_EnableUnderwaterLights              
 /* 0F4EC 80B78E8C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F4F0 80B78E90 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0F4F4 80B78E94 00300821 */  addu    $at, $at, $s0              
@@ -1094,7 +1094,7 @@ glabel L80B78F8C
 /* 0F6BC 80B7905C 2418001E */  addiu   $t8, $zero, 0x001E         ## $t8 = 0000001E
 /* 0F6C0 80B79060 A038A6D0 */  sb      $t8, %lo(D_80B7A6D0)($at)  
 /* 0F6C4 80B79064 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F6C8 80B79068 0C01C180 */  jal     func_80070600              
+/* 0F6C8 80B79068 0C01C180 */  jal     Kankyo_EnableUnderwaterLights              
 /* 0F6CC 80B7906C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F6D0 80B79070 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0F6D4 80B79074 00300821 */  addu    $at, $at, $s0              
@@ -1422,7 +1422,7 @@ glabel L80B791B0
 /* 0FB98 80B79538 24190014 */  addiu   $t9, $zero, 0x0014         ## $t9 = 00000014
 /* 0FB9C 80B7953C A439E0A6 */  sh      $t9, %lo(D_80B7E0A6)($at)  
 /* 0FBA0 80B79540 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0FBA4 80B79544 0C01C180 */  jal     func_80070600              
+/* 0FBA4 80B79544 0C01C180 */  jal     Kankyo_EnableUnderwaterLights              
 /* 0FBA8 80B79548 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0FBAC 80B7954C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0FBB0 80B79550 00300821 */  addu    $at, $at, $s0              
@@ -1467,7 +1467,7 @@ glabel L80B7955C
 /* 0FC3C 80B795DC 00000000 */  nop
 /* 0FC40 80B795E0 45000011 */  bc1f    .L80B79628                 
 /* 0FC44 80B795E4 00000000 */  nop
-/* 0FC48 80B795E8 0C01C180 */  jal     func_80070600              
+/* 0FC48 80B795E8 0C01C180 */  jal     Kankyo_EnableUnderwaterLights              
 /* 0FC4C 80B795EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0FC50 80B795F0 3C0D80B8 */  lui     $t5, %hi(D_80B7E076)       ## $t5 = 80B80000
 /* 0FC54 80B795F4 91ADE076 */  lbu     $t5, %lo(D_80B7E076)($t5)  
@@ -1486,7 +1486,7 @@ glabel L80B7955C
 /* 0FC80 80B79620 10000007 */  beq     $zero, $zero, .L80B79640   
 /* 0FC84 80B79624 8FA800E4 */  lw      $t0, 0x00E4($sp)           
 .L80B79628:
-/* 0FC88 80B79628 0C01C180 */  jal     func_80070600              
+/* 0FC88 80B79628 0C01C180 */  jal     Kankyo_EnableUnderwaterLights              
 /* 0FC8C 80B7962C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0FC90 80B79630 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0FC94 80B79634 00300821 */  addu    $at, $at, $s0              

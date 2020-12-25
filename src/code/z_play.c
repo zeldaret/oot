@@ -1201,7 +1201,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 1)) {
-                    func_80074D6C(globalCtx);
+                    Kankyo_DrawSkyboxFilters(globalCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {

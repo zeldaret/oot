@@ -117,8 +117,8 @@ typedef struct {
     /* 0xE6 */ u8 sandstormState;
     /* 0xE7 */ u8 sandstormPrimA;
     /* 0xE8 */ u8 sandstormEnvA;
-    /* 0xE9 */ u8 unk_E9;
-    /* 0xEA */ u8 unk_EA[4]; // color
+    /* 0xE9 */ u8 customSkyboxFilter;
+    /* 0xEA */ u8 skyboxFilterColor[4]; // color
     /* 0xEE */ u8 unk_EE[4];
     /* 0xF2 */ u8 unk_F2[4];
     /* 0xF6 */ char unk_F6[0x06];

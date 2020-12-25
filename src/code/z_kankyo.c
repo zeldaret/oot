@@ -302,11 +302,11 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->unk_E2[1] = 0;
     envCtx->unk_E2[2] = 0;
     envCtx->unk_E2[3] = 0;
-    envCtx->unk_E9 = 0;
-    envCtx->unk_EA[0] = 0;
-    envCtx->unk_EA[1] = 0;
-    envCtx->unk_EA[2] = 0;
-    envCtx->unk_EA[3] = 0;
+    envCtx->customSkyboxFilter = false;
+    envCtx->skyboxFilterColor[0] = 0;
+    envCtx->skyboxFilterColor[1] = 0;
+    envCtx->skyboxFilterColor[2] = 0;
+    envCtx->skyboxFilterColor[3] = 0;
     envCtx->sandstormState = 0;
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
@@ -707,28 +707,27 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006FC88.s")
 #endif
 
-// runs when camera is entering water
-void func_80070600(GlobalContext* globalCtx, s32 arg1) {
-    if (arg1 == 0x1F) {
-        arg1 = 0;
-        // Underwater color is not set in the water poly data
+void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
+    if (waterLightsIndex == 0x1F) {
+        waterLightsIndex = 0;
+        // "Underwater color is not set in the water poly data"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
+
     if (!globalCtx->envCtx.indoors) {
         D_8011FB34 = globalCtx->envCtx.unk_20;
 
-        if (globalCtx->envCtx.unk_1F != arg1) {
-            globalCtx->envCtx.unk_1F = arg1;
-            globalCtx->envCtx.unk_20 = arg1;
+        if (globalCtx->envCtx.unk_1F != waterLightsIndex) {
+            globalCtx->envCtx.unk_1F = waterLightsIndex;
+            globalCtx->envCtx.unk_20 = waterLightsIndex;
         }
     } else {
         globalCtx->envCtx.blendIndoorLights = false;
-        globalCtx->envCtx.unk_BF = arg1;
+        globalCtx->envCtx.unk_BF = waterLightsIndex;
     }
 }
 
-// runs when camera is leaving water
-void func_800706A0(GlobalContext* globalCtx) {
+void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx) {
     if (!globalCtx->envCtx.indoors) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
         globalCtx->envCtx.unk_20 = D_8011FB34;
@@ -934,15 +933,17 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                             // 21d0
 
                             // color1 = lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j];
-                            // temp1 = color1 + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] - color1) * sp8C);
+                            // temp1 = color1 + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] - color1) *
+                            // sp8C);
 
-                            temp1 = LERP(lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j], lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j], sp8C);
+                            temp1 = LERP(lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j],
+                                         lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j], sp8C);
 
                             color2 = lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j];
                             temp2 = color2 + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] - color2) * sp8C);
 
                             envCtx->lightSettings.ambientColor[j] = temp1 + ((temp2 - temp1) * sp88);
-                            
+
                             // 24e4 bnez    at,21d0 ~>
                         }
 
@@ -1755,9 +1756,19 @@ void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
     }
 }
 
-// draws a filter over the screen in the color of the env fog
-// not sure what the second color filter is for yet
-void func_80074D6C(GlobalContext* globalCtx) {
+/**
+ * Draw color filters over the skybox. There are two filters.
+ * The first uses the global fog color, and an alpha calculated with `fogNear`.
+ * This filter draws unconditionally for skybox 29 at full alpha.
+ * (note: skybox 29 is unused in the original game)
+ * For the rest of the skyboxes it will draw if fogNear is less than 980.
+ *
+ * The second filter uses a custom color specified in `skyboxFilterColor`
+ * and can be enabled with `customSkyboxFilter`.
+ *
+ * An example usage of a filter is to dim the skybox in cloudy conditions.
+ */
+void Kankyo_DrawSkyboxFilters(GlobalContext* globalCtx) {
     if (((globalCtx->skyboxId != 0) && (globalCtx->lightCtx.fogNear < 980)) || (globalCtx->skyboxId == 29)) {
         f32 alpha;
 
@@ -1782,12 +1793,13 @@ void func_80074D6C(GlobalContext* globalCtx) {
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3043);
     }
 
-    if (globalCtx->envCtx.unk_E9 != 0) {
+    if (globalCtx->envCtx.customSkyboxFilter) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3048);
 
         func_800938B4(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, globalCtx->envCtx.unk_EA[0], globalCtx->envCtx.unk_EA[1],
-                        globalCtx->envCtx.unk_EA[2], globalCtx->envCtx.unk_EA[3]);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, globalCtx->envCtx.skyboxFilterColor[0],
+                        globalCtx->envCtx.skyboxFilterColor[1], globalCtx->envCtx.skyboxFilterColor[2],
+                        globalCtx->envCtx.skyboxFilterColor[3]);
         gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 3056);
@@ -2672,9 +2684,9 @@ char D_8011FED0[] = { 0x9B, 0x6A, 0x23, 0xC8, 0x96, 0x32, 0xAA, 0x6E, 0x00, 0x32
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80076934.s")
 #endif
 
-// arg1 baseScale
+// arg1 intensity
 // arg4 colorScale
-void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Kankyo_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 temp;
     s32 i;
 

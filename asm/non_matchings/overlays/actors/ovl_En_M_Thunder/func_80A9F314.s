@@ -8,7 +8,7 @@ glabel func_80A9F314
 /* 0034C 80A9F32C 44056000 */  mfc1    $a1, $f12                  
 /* 00350 80A9F330 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3E4CCCCD
 /* 00354 80A9F334 34C68000 */  ori     $a2, $a2, 0x8000           ## $a2 = 44548000
-/* 00358 80A9F338 0C01DCEA */  jal     func_800773A8              
+/* 00358 80A9F338 0C01DCEA */  jal     Kankyo_AdjustLights              
 /* 0035C 80A9F33C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00360 80A9F340 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00364 80A9F344 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000

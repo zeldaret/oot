@@ -133,7 +133,7 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += 5.0f;
 
     temp = (2.0f - this->unk_174) * this->unk_174;
-    func_800773A8(globalCtx, temp * 0.5F, 880.0f, 0.2f, 0.9f);
+    Kankyo_AdjustLights(globalCtx, temp * 0.5F, 880.0f, 0.2f, 0.9f);
 
     Lights_PointNoGlowSetInfo(&this->lightInfo1, (s16)this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 55.0f,
                               (s16)this->actor.posRot.pos.z, (s32)(255.0f * temp), (s32)(255.0f * temp),

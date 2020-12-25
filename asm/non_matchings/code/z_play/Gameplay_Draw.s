@@ -499,7 +499,7 @@ glabel Gameplay_Draw
 /* B366BC 800BF51C 53000007 */  beql  $t8, $zero, .L800BF53C
 /* B366C0 800BF520 2401000A */   li    $at, 10
 .L800BF524:
-/* B366C4 800BF524 0C01D35B */  jal   func_80074D6C
+/* B366C4 800BF524 0C01D35B */  jal   Kankyo_DrawSkyboxFilters
 /* B366C8 800BF528 02002025 */   move  $a0, $s0
 /* B366CC 800BF52C 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B366D0 800BF530 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

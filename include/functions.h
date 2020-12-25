@@ -926,8 +926,8 @@ void Kankyo_Init(GlobalContext* globalCtx, EnvironmentContext* envCtx, s32 unuse
 f32 Kankyo_InvLerp(u16, u16, u16);
 f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 frames, u16, u16);
 void Kankyo_UpdateSkybox(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
-void func_80070600(GlobalContext* globalCtx, s32 waterboxProperties);
-void func_800706A0(GlobalContext* globalCtx);
+void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterboxProperties);
+void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx);
 void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                    MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx);
 void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx);
@@ -936,7 +936,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
                           Vec3f pos, UNK_TYPE, s16, f32, s16, u8);
 void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
 void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
-void func_80074D6C(GlobalContext* globalCtx);
+void Kankyo_DrawSkyboxFilters(GlobalContext* globalCtx);
 void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx);
 void Kankyo_AddLightningBolts(GlobalContext* globalCtx, u8 max);
 void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused);
@@ -947,7 +947,7 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx);
 void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx);
 void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 alpha, u8 drawFlags);
 void Kankyo_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState);
-void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
+void Kankyo_AdjustLights(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
 s32 Kankyo_GetBgsDayCount(void);
 void Kankyo_ClearBgsDayCount(void);
 s32 Kankyo_GetTotalDays(void);

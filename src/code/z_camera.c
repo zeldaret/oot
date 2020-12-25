@@ -529,9 +529,9 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
 /**
  * Checks if `chkPos` is inside a waterbox. If there is no water box below `chkPos`
  * or if `chkPos` is above the water surface, return BGCHECK_Y_MIN, output
- * environment properites to `envProp` if `chkPos` is inside the waterbox.
+ * environment properites to `waterLightsIndex` if `chkPos` is inside the waterbox.
  */
-f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
+f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* waterLightsIndex) {
     PosRot playerPosRot;
     f32 waterY;
     WaterBox* waterBox;
@@ -546,11 +546,11 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
 
     if (waterY < chkPos->y) {
         // the water's y position is below the check position
-        // the aka the position is NOT in the water.
+        // meaning the position is NOT in the water.
         return BGCHECK_Y_MIN;
     }
 
-    *envProp = func_8004259C(&camera->globalCtx->colCtx, waterBox);
+    *waterLightsIndex = func_8004259C(&camera->globalCtx->colCtx, waterBox);
     return waterY;
 }
 
@@ -7075,7 +7075,7 @@ void Camera_PrintSettings(Camera* camera);
 s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
-    s32 waterBoxProp;
+    s32 waterLightsIndex;
     s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
     s16 waterCamIdx;
     s16* quakeId = (s16*)&camera->waterQuakeId;
@@ -7143,12 +7143,12 @@ s32 Camera_CheckWater(Camera* camera) {
         }
     }
 
-    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterBoxProp), waterY != BGCHECK_Y_MIN) {
+    if (waterY = Camera_GetWaterSurface(camera, &camera->eye, &waterLightsIndex), waterY != BGCHECK_Y_MIN) {
         camera->waterYPos = waterY;
         if (!(camera->unk_14C & 0x100)) {
             camera->unk_14C |= 0x100;
             osSyncPrintf("kankyo changed water, sound on\n");
-            func_80070600(camera->globalCtx, waterBoxProp);
+            Kankyo_EnableUnderwaterLights(camera->globalCtx, waterLightsIndex);
             camera->unk_150 = 0x50;
         }
 
@@ -7183,7 +7183,7 @@ s32 Camera_CheckWater(Camera* camera) {
     if (camera->unk_14C & 0x100) {
         camera->unk_14C &= ~0x100;
         osSyncPrintf("kankyo changed water off, sound off\n");
-        func_800706A0(camera->globalCtx);
+        Kankyo_DisableUnderwaterLights(camera->globalCtx);
         if (*quakeId != 0) {
             Quake_RemoveFromIdx(*quakeId);
         }
