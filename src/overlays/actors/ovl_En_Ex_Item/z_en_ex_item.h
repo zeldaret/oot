@@ -7,6 +7,7 @@
 struct EnExItem;
 
 typedef void (*EnExItemActionFunc)(struct EnExItem* this, GlobalContext* globalCtx);
+typedef void (*EnExItemLightFunc)(Actor*, GlobalContext*, s32);
 
 typedef struct EnExItem {
     /* 0x0000 */ Actor actor;
@@ -24,8 +25,8 @@ typedef struct EnExItem {
     /* 0x0168 */ f32 unk_168;
     /* 0x016C */ s8 unk_16C;
     /* 0x0170 */ Vec3f unk_170;
-    /* 0x017C */ void* unk_17C;
-    /* 0x0180 */ void* unk_180;
+    /* 0x017C */ EnExItemLightFunc unk_17C;
+    /* 0x0180 */ EnExItemLightFunc unk_180;
 } EnExItem; // size = 0x0184
 
 extern const ActorInit En_Ex_Item_InitVars;

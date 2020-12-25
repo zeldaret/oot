@@ -25,7 +25,6 @@ void func_80A09724(EnExItem* this, GlobalContext* globalCtx);
 void func_80A09978(EnExItem* this, GlobalContext* globalCtx);
 void func_80A09A00(EnExItem* this, GlobalContext* globalCtx);
 
-
 const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORTYPE_PROP,
@@ -52,7 +51,9 @@ void EnExItem_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->unk_152 = this->actor.params & 0xFF;
     this->unk_154 = (this->actor.params >> 8) & 0xFF;
     osSyncPrintf("\n\n");
+    // What will come out?
     osSyncPrintf("\x1b[32m☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n\x1b[m", this->unk_152);
+    // What will come out?
     osSyncPrintf("\x1b[33m☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n\x1b[m", this->unk_154);
     this->unk_170 = this->actor.posRot.pos;
     this->unk_150 = -1;
@@ -102,7 +103,9 @@ void EnExItem_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->actor.draw = NULL;
         if (this->unk_16C < 0) {
             Actor_Kill(&this->actor);
+            // What?
             osSyncPrintf("なにみの？ %d\n", this->actor.params);
+            // bank is funny
             osSyncPrintf("\x1b[35m バンクおかしいしぞ！%d\n\x1b[m\n", this->actor.params);
             return;
         }
@@ -114,6 +117,7 @@ void func_80A09054(EnExItem *this, GlobalContext *globalCtx) {
     s32 phi_v0;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk_16C)) {
+        // End of transfer
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m", this->actor.params, this);
         osSyncPrintf("\x1b[33m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m", this->actor.params, this);
         osSyncPrintf("\x1b[34m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m", this->actor.params, this);
@@ -248,7 +252,7 @@ void func_80A09054(EnExItem *this, GlobalContext *globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 typedef struct {
     Actor actor;
     char unk_14C[0xA];
@@ -256,18 +260,19 @@ typedef struct {
 } EnExItemParentActor;
 
 void func_80A09434(EnExItem *this, GlobalContext *globalCtx) {
+    s32 pad;
+    f32 tmpf1;
+    f32 tmpf2;
+    f32 tmpf3;
+    f32 tmpf4;
+    f32 tmpf5;
+    f32 tmpf6;
+    f32 tmpf7;
     f32 sp3C;
-    f32 temp_f0;
-    f32 temp_f14;
-    f32 temp_f18;
-    f32 temp_f2;
-    f32 temp1;
-    f32 temp2;
-    f32 temp3;
 
     if (this->unk_158 == 0) {
         this->actor.shape.rot.y += 0x1000;
-        if ((this->unk_15E == 0) && (this->actor.shape.rot.y == 0x9000)) {
+        if ((this->unk_15E == 0) && ((this->actor.shape.rot.y & 0xFFFF) == 0x9000)) {
             this->unk_158++;
         }
     } else {
@@ -279,23 +284,31 @@ void func_80A09434(EnExItem *this, GlobalContext *globalCtx) {
             if (this->unk_152 == 2) {
                 sp3C = 220.0f;
             }
-            temp_f2 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            temp_f14 = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-            temp_f18 = (globalCtx->view.lookAt.z + sp3C) - globalCtx->view.eye.z;
-            temp_f0 = sqrtf((temp_f2 * temp_f2) + (temp_f14 * temp_f14) + (temp_f18 * temp_f18));
-            temp1 = ((temp_f2 / temp_f0) * 5.0f);
-            temp2 = ((temp_f14 / temp_f0) * 5.0f);
-            temp3 = ((temp_f18 / temp_f0) * 5.0f);
+            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.lookAt.z + sp3C - globalCtx->view.eye.z;
+            tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
-            this->actor.posRot.pos.x += ((((globalCtx->view.eye.x + temp1) - this->actor.posRot.pos.x) / temp_f0) * 5.0f);
-            this->actor.posRot.pos.y += ((((globalCtx->view.eye.y + temp2) - this->actor.posRot.pos.y) / temp_f0) * 5.0f);
-            this->actor.posRot.pos.z += ((((globalCtx->view.eye.z + temp3) - this->actor.posRot.pos.z) / temp_f0) * 5.0f);
+            tmpf5 = (tmpf1 / tmpf4) * 5.0f;
+            tmpf6 = (tmpf2 / tmpf4) * 5.0f;
+            tmpf7 = (tmpf3 / tmpf4) * 5.0f;
+
+            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.posRot.pos.x;
+            tmpf2 = globalCtx->view.eye.y + tmpf6 - this->actor.posRot.pos.y;
+            tmpf3 = globalCtx->view.eye.z + tmpf7 - this->actor.posRot.pos.z;
+
+            this->actor.posRot.pos.x += (tmpf1 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.y += (tmpf2 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
+        // parent
         osSyncPrintf("\x1b[32m ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n\x1b[m", this->actor.parent);
+        // Can it move?
         osSyncPrintf("\x1b[32m ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n\x1b[m", this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
             ((EnExItemParentActor*)this->actor.parent)->unk_156 = 1;
+            // It can't move!
             osSyncPrintf("\x1b[32m ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n\x1b[m");
         }
         Actor_Kill(&this->actor);
@@ -326,35 +339,88 @@ void func_80A096A8(EnExItem *this, GlobalContext *globalCtx) {
     } else {
         this->actor.velocity.y = 0.0f;
         if (this->unk_15C == 0) {
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     }
-    Actor_MoveForward(this);
+    Actor_MoveForward(&this->actor);
 }
 
 void func_80A09710(EnExItem *this, GlobalContext *globalCtx) {
     this->actor.shape.rot.y += 0x800;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09724.s")
+void func_80A09724(EnExItem* this, GlobalContext* globalCtx) {
+    f32 tmpf1;
+    f32 tmpf2;
+    f32 tmpf3;
+    f32 tmpf4;
+    f32 tmpf5;
+    f32 tmpf6;
+    f32 tmpf7;
+
+    Math_SmoothScaleMaxF(&this->unk_164, 0.8f, 0.1f, 0.02f);
+    if (this->unk_158 == 0) {
+        this->actor.shape.rot.y += 0x1000;
+        if ((this->unk_15E == 0) && ((this->actor.shape.rot.y & 0xFFFF) == 0x9000)) {
+            this->unk_158++;
+        }
+    } else {
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, -0x4000, 5, 0x1000, 0);
+    }
+
+    if (this->unk_15A != 0) {
+        if (this->unk_15E != 0) {
+            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
+            tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
+
+            tmpf5 = (tmpf1 / tmpf4) * 5.0f;
+            tmpf6 = (tmpf2 / tmpf4) * 5.0f;
+            tmpf7 = (tmpf3 / tmpf4) * 5.0f;
+
+            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.posRot.pos.x;
+            tmpf2 = globalCtx->view.eye.y - 10.0f + tmpf6 - this->actor.posRot.pos.y;
+            tmpf3 = globalCtx->view.eye.z + 10.0f + tmpf7 - this->actor.posRot.pos.z;
+
+            this->actor.posRot.pos.x += (tmpf1 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.y += (tmpf2 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.z += (tmpf3 / tmpf4) * 5.0f;
+        }
+    } else {
+        s32 itemId;
+
+        this->actor.draw = NULL;
+        func_8002DF54(globalCtx, NULL, 7);
+        this->actor.parent = NULL;
+        if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
+            itemId = GI_BULLET_BAG_40;
+        } else {
+            itemId = GI_BULLET_BAG_50;
+        }
+        func_8002F434(&this->actor, globalCtx, itemId, 2000.0f, 1000.0f);
+        this->actionFunc = func_80A09978;
+    }
+}
 
 void func_80A09978(EnExItem *this, GlobalContext *globalCtx) {
     s32 phi_a2;
 
-    if (Actor_HasParent(this, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80A09A00;
     } else {
         phi_a2 = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(this, globalCtx, phi_a2, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, globalCtx, phi_a2, 2000.0f, 1000.0f);
     }
 }
 
 void func_80A09A00(EnExItem *this, GlobalContext *globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+        // Successful completion
         osSyncPrintf("\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m");
         gSaveContext.itemGetInf[1] |= 0x2000;
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
     }
 }
 
@@ -415,12 +481,43 @@ void EnExItem_Draw(Actor* thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09B6C.s")
+void func_80A09B6C(EnExItem *this, GlobalContext *globalCtx) {
+    if (this->unk_17C != NULL) {
+        this->unk_17C(&this->actor, globalCtx, 0);
+    }
+    if(this){}
+    func_8002ED80(&this->actor, globalCtx, 0);
+    func_800694A0(globalCtx, this->unk_156);
+    
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09BCC.s")
+void func_80A09BCC(EnExItem *this, GlobalContext *globalCtx) {
+    func_8002ED80(&this->actor, globalCtx, 0);
+    func_800694A0(globalCtx, 0x13);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09BFC.s")
+void func_80A09BFC(EnExItem *this, GlobalContext *globalCtx, s16 arg2) {
+    func_8002ED80(&this->actor, globalCtx, 0);
+    func_800694A0(globalCtx, D_80A09E00[arg2]);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09C40.s")
+void func_80A09C40(EnExItem *this, GlobalContext *globalCtx, s32 arg2) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09D6C.s")
+    func_8009460C(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 887), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A09E08[arg2]));
+    gSPDisplayList(POLY_OPA_DISP++, D_0403F070);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 893);
+}
+
+void func_80A09D6C(EnExItem *this, GlobalContext *globalCtx) {
+    if(this->unk_17C != NULL) {
+        this->unk_17C(&this->actor, globalCtx, 0);
+    }
+    if(this->unk_180 != NULL) {
+        this->unk_180(&this->actor, globalCtx, 0);
+    }
+    func_800694A0(globalCtx, this->unk_156);
+}
