@@ -180,7 +180,7 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
             }
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
-                                 100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05000530);
+                                 100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
 }
