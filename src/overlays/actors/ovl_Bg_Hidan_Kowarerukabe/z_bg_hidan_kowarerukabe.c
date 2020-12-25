@@ -150,8 +150,8 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
     Actor* thisx = &this->dyna.actor;
     f32 sin = Math_Sins(thisx->shape.rot.y);
     f32 cos = Math_Coss(thisx->shape.rot.y);
-    f32 velocityFactor;
-    f32 velocityFactor1;
+    f32 tmp1;
+    f32 tmp2;
     s16 arg9;
 
     pos.y = thisx->posRot.pos.y + 10.0f;
@@ -190,8 +190,8 @@ void BgHidanKowarerukabe_WallBreak(BgHidanKowarerukabe* this, GlobalContext* glo
     Actor* thisx = &this->dyna.actor;
     f32 sin = Math_Sins(thisx->shape.rot.y);
     f32 cos = Math_Coss(thisx->shape.rot.y);
-    f32 velocityFactor;
-    f32 velocityFactor1;
+    f32 tmp1;
+    f32 tmp2;
     s16 arg9;
     s32 i;
 
@@ -232,8 +232,8 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     Actor* thisx = &this->dyna.actor;
     f32 sin = Math_Sins(thisx->shape.rot.y);
     f32 cos = Math_Coss(thisx->shape.rot.y);
-    f32 velocityFactor;
-    f32 velocityFactor1;
+    f32 tmp1;
+    f32 tmp2;
     s16 arg9;
     s32 i;
 
