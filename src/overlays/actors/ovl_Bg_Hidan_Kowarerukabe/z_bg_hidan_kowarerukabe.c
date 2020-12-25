@@ -181,8 +181,8 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
     }
 }
 
-void BgHidanKowarerukabe_WallBreak(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    s32 pad;
+void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
+    s32 i;
     s32 j;
     Vec3f velocity;
     Vec3f pos;
@@ -193,13 +193,12 @@ void BgHidanKowarerukabe_WallBreak(BgHidanKowarerukabe* this, GlobalContext* glo
     f32 tmp1;
     f32 tmp2;
     s16 arg9;
-    s32 i;
 
     for (i = 0; i < 5; i++) {
         pos.y = (20 * i) + thisx->posRot.pos.y;
         for (j = 0; j < 5; j++) {
             tmp1 = 16 * (j - 2);
-            
+
             pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
             pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
 
@@ -217,14 +216,14 @@ void BgHidanKowarerukabe_WallBreak(BgHidanKowarerukabe* this, GlobalContext* glo
                 arg5 |= 1;
             }
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -540, arg5, 20, 20, 0, arg9, 2, 32, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -540, arg5, 20, 20, 0, arg9, 2, 32,
+                                 100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
 }
 
 void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    s32 pad;
+    s32 i;
     s32 j;
     Vec3f velocity;
     Vec3f pos;
@@ -235,7 +234,6 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     f32 tmp1;
     f32 tmp2;
     s16 arg9;
-    s32 i;
 
     for (i = 0; i < 5; i++) {
         pos.y = (24 * i) + thisx->posRot.pos.y;
@@ -243,7 +241,7 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
             tmp1 = 28 * (j - 2);
 
             pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
-            pos.z = -(tmp1 * sin) + thisx->posRot.pos.z ;
+            pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
 
             tmp1 = 6.0f * Math_Rand_ZeroOne() * (j - 2);
             tmp2 = 6.0f * Math_Rand_ZeroOne();
@@ -271,7 +269,7 @@ void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, GlobalContext* globalC
             BgHidanKowarerukabe_FloorBreak(this, globalCtx);
             break;
         case BOMBABLE_WALL:
-            BgHidanKowarerukabe_WallBreak(this, globalCtx);
+            func_8088A67C(this, globalCtx);
             break;
         case LARGE_BOMBABLE_WALL:
             BgHidanKowarerukabe_LargeWallBreak(this, globalCtx);
@@ -299,6 +297,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
+
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
