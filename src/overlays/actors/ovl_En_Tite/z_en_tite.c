@@ -61,13 +61,9 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnTite_SetupIdle(EnTite* this);
-void EnTite_SetupAttack(EnTite* this);
 void EnTite_SetupTurnTowardPlayer(EnTite* this);
 void EnTite_SetupMoveTowardPlayer(EnTite* this);
-void EnTite_SetupRecoil(EnTite* this);
-void EnTite_SetupStunned(EnTite* this);
 void EnTite_SetupDeathCry(EnTite* this);
-void EnTite_SetupFlipOnBack(EnTite* this);
 void EnTite_SetupFlipUpright(EnTite* this);
 
 void EnTite_Idle(EnTite* this, GlobalContext* globalCtx);
