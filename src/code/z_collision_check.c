@@ -3200,8 +3200,7 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
         return 3;
     }
 
-    if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) &&
-        (sqrtf(SQXZ(actorToItemProj)) < radius)) {
+    if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) && (sqrtf(SQXZ(actorToItemProj)) < radius)) {
         return 3;
     }
     radSqDiff = SQXZ(actorToItem) - SQ(radius);
@@ -3268,10 +3267,12 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
         }
     }
 
-    if ((intersect1 == 1) && ((frac1 * itemStep.y + actorToItem.y < 0.0f) || (height < frac1 * itemStep.y + actorToItem.y))) {
+    if ((intersect1 == 1) &&
+        ((frac1 * itemStep.y + actorToItem.y < 0.0f) || (height < frac1 * itemStep.y + actorToItem.y))) {
         intersect1 = 0;
     }
-    if ((intersect2 == 1) && ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
+    if ((intersect2 == 1) &&
+        ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
         intersect2 = 0;
     }
     if (intersect1 == 0 && intersect2 == 0) {

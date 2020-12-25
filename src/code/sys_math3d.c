@@ -1647,7 +1647,6 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     s32 count;
     s32 i;
 
-
     if (Math3D_PointInCyl(cyl, linePointA) && Math3D_PointInCyl(cyl, linePointB)) {
         // both points are in the cylinder
         *intersectA = *linePointA;
@@ -1666,14 +1665,14 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
 
     /**
      * This section checks for intersections with the cylinder's base and top
-     */ 
+     */
     if (!IS_ZERO(ptAToPtB.y)) {
         // fraction of length along AB to reach y = 0
         fracBase = -cylToPtA.y / ptAToPtB.y;
         if ((0.0f <= fracBase) && (fracBase <= 1.0f)) {
             f32 baseIntX = (ptAToPtB.x * fracBase) + cylToPtA.x;
             f32 baseIntZ = (ptAToPtB.z * fracBase) + cylToPtA.z;
-            
+
             if (SQ(baseIntX) + SQ(baseIntZ) < cylRadiusSq) {
                 // adds base intersection point to intPts and sets its flag
                 intPts[0].x = cyl->pos.x + baseIntX;
@@ -1687,7 +1686,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         if ((0.0f <= fracA) && (fracA <= 1.0f)) {
             f32 topIntX = ptAToPtB.x * fracA + cylToPtA.x;
             f32 topIntZ = ptAToPtB.z * fracA + cylToPtA.z;
-            
+
             if (SQ(topIntX) + SQ(topIntZ) < cylRadiusSq) {
                 // adds top intersection point to intPts and sets its flag
                 intPts[1].x = cyl->pos.x + topIntX;
@@ -1698,10 +1697,12 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         }
     }
     /**
-     * This section finds the points of intersection of the infinite line containing AB with the side of the infinite cylinder containing cyl. Intersection points beyond the bounds of the segment and cylinder are filtered out afterward.
+     * This section finds the points of intersection of the infinite line containing AB with the side of the infinite
+     * cylinder containing cyl. Intersection points beyond the bounds of the segment and cylinder are filtered out
+     * afterward.
      */
     radSqDiff = SQXZ(cylToPtA) - cylRadiusSq;
-    if (!IS_ZERO(2.0f* SQXZ(ptAToPtB))) {
+    if (!IS_ZERO(2.0f * SQXZ(ptAToPtB))) {
         dot2AB = 2.0f * DOTXZ(ptAToPtB, cylToPtA);
         if (SQ(dot2AB) < 4.0f * SQXZ(ptAToPtB) * radSqDiff) {
             // Line's closest xz-approach is outside cylinder. No intersections.
@@ -1717,11 +1718,11 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         distCent2 = sqrtf(SQ(dot2AB) - (4.0f * SQXZ(ptAToPtB) * radSqDiff));
         if (sideIntA == 1) {
             // fraction of length along AB for side intersection closer to A
-            fracA = (distCent2 - dot2AB) / ( 2.0f * SQXZ(ptAToPtB));
+            fracA = (distCent2 - dot2AB) / (2.0f * SQXZ(ptAToPtB));
         }
         if (sideIntB == 1) {
             // fraction of length along AB for side intersection closer to B
-            fracB = (-dot2AB - distCent2) / ( 2.0f * SQXZ(ptAToPtB));
+            fracB = (-dot2AB - distCent2) / (2.0f * SQXZ(ptAToPtB));
         }
     } else if (!IS_ZERO(2.0f * DOTXZ(ptAToPtB, cylToPtA))) {
         // Used if the line segment is nearly vertical. Unclear what it's calculating.
@@ -1750,10 +1751,12 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         }
     }
     // checks for intersection points outside the bounds of the cylinder
-    if ((sideIntA == 1) && ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
+    if ((sideIntA == 1) &&
+        ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
         sideIntA = 0;
     }
-    if ((sideIntB == 1) && ((fracB * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracB * ptAToPtB.y + cylToPtA.y))) {
+    if ((sideIntB == 1) &&
+        ((fracB * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracB * ptAToPtB.y + cylToPtA.y))) {
         sideIntB = 0;
     }
     if (sideIntA == 0 && sideIntB == 0) {
@@ -1782,7 +1785,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     }
 
     /**
-     * Places the found intersection points into intersectA and intersectB. IntersectA is always closer to point A 
+     * Places the found intersection points into intersectA and intersectB. IntersectA is always closer to point A
      */
     for (count = 0, i = 0; i < 4; i++) {
         if (intFlags & (1 << i)) {
