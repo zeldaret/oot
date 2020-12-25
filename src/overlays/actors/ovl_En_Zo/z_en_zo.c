@@ -292,18 +292,7 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
 }
 
 static ColliderCylinderInit sCylinderInit = {
-<<<<<<< HEAD
-    {
-        COLTYPE_UNK10,
-        0x00,
-        0x00,
-        0x39,
-        0x20,
-        COLSHAPE_CYLINDER,
-    },
-=======
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
->>>>>>> master
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 0x1A, 0x40, 0, { 0, 0, 0 } },
 };
