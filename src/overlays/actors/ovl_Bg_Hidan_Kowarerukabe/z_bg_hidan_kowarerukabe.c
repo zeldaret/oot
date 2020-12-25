@@ -239,18 +239,20 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     s16 arg9;
     s32 i;
 
-    for (i = 0; i < 120; i += 24) {
-        pos.y = i + thisx->posRot.pos.y;
+    for (i = 0; i < 5; i++) {
+        pos.y = (24 * i) + thisx->posRot.pos.y;
         for (j = 0; j < 5; j++) {
-            pos.x = (((j * 28) - 56) * cos) + thisx->posRot.pos.x;
-            pos.z = thisx->posRot.pos.z - (((j * 28) - 56) * sin);
+            tmp1 = 28 * (j - 2);
 
-            velocityFactor = Math_Rand_ZeroOne() * 6.0f * (j - 2);
-            velocityFactor1 = Math_Rand_ZeroOne() * 6.0f;
+            pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
+            pos.z = -(tmp1 * sin) + thisx->posRot.pos.z ;
 
-            velocity.x = (velocityFactor1 * sin) + (velocityFactor * cos);
-            velocity.y = Math_Rand_ZeroOne() * 34.0f;
-            velocity.z = (velocityFactor1 * cos) - (velocityFactor * sin);
+            tmp1 = 6.0f * Math_Rand_ZeroOne() * (j - 2);
+            tmp2 = 6.0f * Math_Rand_ZeroOne();
+
+            velocity.x = (tmp2 * sin) + (tmp1 * cos);
+            velocity.y = 34.0f * Math_Rand_ZeroOne();
+            velocity.z = (tmp2 * cos) - (tmp1 * sin);
 
             arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 14.0f * 1.6f) + 14.0f;
             arg5 = (arg9 > 20) ? 32 : 64;
