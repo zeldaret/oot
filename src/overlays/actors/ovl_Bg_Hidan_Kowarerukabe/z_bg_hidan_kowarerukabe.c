@@ -71,7 +71,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, GlobalCon
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 
     this->collider.list[0].dim.modelSphere.radius = sphereRadii[this->dyna.actor.params & 0xFF];
     this->collider.list[0].dim.modelSphere.center.y = sphereYPositions[this->dyna.actor.params & 0xFF];
