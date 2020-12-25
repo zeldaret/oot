@@ -287,7 +287,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKowarerukabe* this = THIS;
     s32 pad;
 
-    if (Actor_GetCollidedExplosive(globalCtx, &this->collider) != NULL) {
+    if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
         BgHidanKowarerukabe_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
 
