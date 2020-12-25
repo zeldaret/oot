@@ -173,11 +173,7 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
 
             arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
 
-            if (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) {
-                arg5 = 65;
-            } else {
-                arg5 = 64;
-            }
+            arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
                                  100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
