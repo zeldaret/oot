@@ -1625,7 +1625,7 @@ s32 Math3D_PointInCyl(Cylinder16* cyl, Vec3f* point) {
     }
 }
 
-s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* ptA, Vec3f* ptB, Vec3f* intersectA, Vec3f* intersectB) {
+s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA, Vec3f* intersectB) {
     Vec3f cylToPtA;
     Vec3f cylToPtB;
     Vec3f ptAToPtB;
@@ -1648,19 +1648,19 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* ptA, Vec3f* ptB, Vec3f* intersec
     s32 i;
 
 
-    if (Math3D_PointInCyl(cyl, ptA) && Math3D_PointInCyl(cyl, ptB)) {
+    if (Math3D_PointInCyl(cyl, linePointA) && Math3D_PointInCyl(cyl, linePointB)) {
         // both points are in the cylinder
-        *intersectA = *ptA;
-        *intersectB = *ptB;
+        *intersectA = *linePointA;
+        *intersectB = *linePointB;
         return 2;
     }
 
-    cylToPtA.x = ptA->x - cyl->pos.x;
-    cylToPtA.y = ptA->y - cyl->pos.y - cyl->yShift;
-    cylToPtA.z = ptA->z - cyl->pos.z;
-    cylToPtB.x = ptB->x - cyl->pos.x;
-    cylToPtB.y = ptB->y - cyl->pos.y - cyl->yShift;
-    cylToPtB.z = ptB->z - cyl->pos.z;
+    cylToPtA.x = linePointA->x - cyl->pos.x;
+    cylToPtA.y = linePointA->y - cyl->pos.y - cyl->yShift;
+    cylToPtA.z = linePointA->z - cyl->pos.z;
+    cylToPtB.x = linePointB->x - cyl->pos.x;
+    cylToPtB.y = linePointB->y - cyl->pos.y - cyl->yShift;
+    cylToPtB.z = linePointB->z - cyl->pos.z;
     Math_Vec3f_Diff(&cylToPtB, &cylToPtA, &ptAToPtB);
     cylRadiusSq = SQ(cyl->radius);
 
@@ -1789,7 +1789,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* ptA, Vec3f* ptB, Vec3f* intersec
             if (count == 0) {
                 *intersectA = intPts[i];
             } else if (count == 1) {
-                if (Math3D_Vec3fDistSq(intersectA, ptA) < Math3D_Vec3fDistSq(intersectA, &intPts[i])) {
+                if (Math3D_Vec3fDistSq(intersectA, linePointA) < Math3D_Vec3fDistSq(intersectA, &intPts[i])) {
                     *intersectB = intPts[i];
                 } else {
                     *intersectB = *intersectA;
