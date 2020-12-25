@@ -185,9 +185,9 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u32 toggle;
-    /* 0x04 */ s32 counter;
-} SubGlobalContext7B8; // size = 0x8
+    /* 0x00 */ s32 enabled;
+    /* 0x04 */ s32 timer;
+} FrameAdvanceContext; // size = 0x8
 
 typedef struct {
     /* 0x00 */ char unk_00[0x2];
@@ -375,6 +375,13 @@ typedef struct {
     /* 0xE40E */ s16    unk_E40E;
     /* 0xE410 */ char   unk_E410[0x08];
 } MessageContext; // size = 0xE418
+
+typedef enum {
+    /* 0 */ SUNS_INACTIVE,
+    /* 1 */ SUNS_START, // the suns ocarina effect signals that the song has finished playing
+    /* 2 */ SUNS_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
+    /* 3 */ SUNS_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
+} SunsState;
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -854,7 +861,7 @@ typedef struct GlobalContext {
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
     /* 0x007A8 */ LightContext lightCtx;
-    /* 0x007B8 */ SubGlobalContext7B8 sub_7B8;
+    /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"

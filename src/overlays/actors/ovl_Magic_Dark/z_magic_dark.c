@@ -162,8 +162,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
             }
 
             for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.adjFogColor); i++) {
-                globalCtx->envCtx.adjFogColor[i] =
-                    -(s16)(globalCtx->envCtx.lightSettings.fogColor[i] * colorScale);
+                globalCtx->envCtx.adjFogColor[i] = -(s16)(globalCtx->envCtx.lightSettings.fogColor[i] * colorScale);
             }
         }
     }

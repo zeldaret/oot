@@ -361,7 +361,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
         case 33:
-            gSaveContext.unk_1422 = 1;
+            gSaveContext.sunsState = SUNS_START;
             break;
         case 34:
             if (!gSaveContext.nightFlag) {

@@ -377,7 +377,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
         globalCtx->envCtx.timeIncrement = 0;
     }
 
-    if (gSaveContext.unk_1422 == 0) {
+    if (gSaveContext.sunsState == SUNS_INACTIVE) {
         gTimeIncrement = globalCtx->envCtx.timeIncrement;
     }
 

@@ -174,7 +174,7 @@ typedef struct {
     /* 0x141D */ u8 nextTransition;
     /* 0x141E */ char unk_141E[0x0002];
     /* 0x1420 */ s16 worldMapArea;
-    /* 0x1422 */ s16 unk_1422; // day time related
+    /* 0x1422 */ s16 sunsState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
 

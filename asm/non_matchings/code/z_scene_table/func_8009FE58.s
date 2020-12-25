@@ -170,7 +170,7 @@ glabel func_8009FE58
 /* B171DC 800A003C AE0B02D0 */  sw    $t3, 0x2d0($s0)
 /* B171E0 800A0040 AC660004 */  sw    $a2, 4($v1)
 /* B171E4 800A0044 AC650000 */  sw    $a1, ($v1)
-/* B171E8 800A0048 0C03034A */  jal   func_800C0D28
+/* B171E8 800A0048 0C03034A */  jal   FrameAdvance_IsEnabled
 /* B171EC 800A004C 8FA40098 */   lw    $a0, 0x98($sp)
 /* B171F0 800A0050 24010001 */  li    $at, 1
 /* B171F4 800A0054 1041007D */  beq   $v0, $at, .L800A024C

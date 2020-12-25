@@ -4200,29 +4200,31 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    if (gSaveContext.unk_1422 != 0) {
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.unk_1422 == 1)) {
+    if (gSaveContext.sunsState != SUNS_INACTIVE) {
+        // exit out of ocarina mode after suns song finishes playing
+        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.sunsState == SUNS_START)) {
             globalCtx->msgCtx.unk_E3EE = 4;
         }
 
+        // handle suns song in areas where time moves
         if (globalCtx->envCtx.timeIncrement != 0) {
-            if (gSaveContext.unk_1422 != 2) {
+            if (gSaveContext.sunsState != SUNS_SPEED_TIME) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     D_80125B60 = 1;
                 }
 
-                gSaveContext.unk_1422 = 2;
+                gSaveContext.sunsState = SUNS_SPEED_TIME;
                 sOldTimeIncrement = gTimeIncrement;
                 gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                    gSaveContext.unk_1422 = 0;
+                    gSaveContext.sunsState = SUNS_INACTIVE;
                     gTimeIncrement = sOldTimeIncrement;
                     globalCtx->msgCtx.unk_E3EE = 4;
                 }
             } else if (gSaveContext.dayTime > 0xC001) {
-                gSaveContext.unk_1422 = 0;
+                gSaveContext.sunsState = SUNS_INACTIVE;
                 gTimeIncrement = sOldTimeIncrement;
                 globalCtx->msgCtx.unk_E3EE = 4;
             }
@@ -4247,12 +4249,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
             globalCtx->sceneLoadFlag = 0x14;
-            gSaveContext.unk_1422 = 0;
+            gSaveContext.sunsState = SUNS_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqIndex = 0xFF;
             gSaveContext.nightSeqIndex = 0xFF;
         } else {
-            gSaveContext.unk_1422 = 3;
+            gSaveContext.sunsState = SUNS_SPECIAL;
         }
     }
 }

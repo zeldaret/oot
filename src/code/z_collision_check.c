@@ -987,7 +987,7 @@ s32 (*D_8011DEF8[])(GlobalContext*, Collider*) = { Collider_JntSphSetAT, Collide
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1021,7 +1021,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     }
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     D_8011DEF8[collider->shape](globalCtx, collider);
@@ -1054,7 +1054,7 @@ s32 (*D_8011DF08[])(GlobalContext*, Collider*) = { Collider_JntSphSetAC, Collide
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1088,7 +1088,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
     }
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     D_8011DF08[collider->shape](globalCtx, collider);
@@ -1126,7 +1126,7 @@ s32 (*D_8011DF18[])(GlobalContext*, Collider*) = {
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1157,7 +1157,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1191,7 +1191,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == 1) {
         return -1;
     }
     func_8005D3A4(globalCtx, collider);

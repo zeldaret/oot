@@ -492,7 +492,7 @@ glabel Gameplay_Update
 /* B34648 800BD4A8 AFA80044 */  sw    $t0, 0x44($sp)
 /* B3464C 800BD4AC AFA50030 */  sw    $a1, 0x30($sp)
 /* B34650 800BD4B0 0306C821 */  addu  $t9, $t8, $a2
-/* B34654 800BD4B4 0C0239AB */  jal   func_8008E6AC
+/* B34654 800BD4B4 0C0239AB */  jal   FrameAdvance_Update
 /* B34658 800BD4B8 AC590008 */   sw    $t9, 8($v0)
 /* B3465C 800BD4BC 1040059C */  beqz  $v0, .L800BEB30
 /* B34660 800BD4C0 00000000 */   nop

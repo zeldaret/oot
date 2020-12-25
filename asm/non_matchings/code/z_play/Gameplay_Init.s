@@ -397,7 +397,7 @@ glabel Gameplay_Init
 /* B34138 800BCF98 3C010001 */  lui   $at, 1
 /* B3413C 800BCF9C 00310821 */  addu  $at, $at, $s1
 /* B34140 800BCFA0 A020241B */  sb    $zero, 0x241b($at)
-/* B34144 800BCFA4 0C0239A8 */  jal   func_8008E6A0
+/* B34144 800BCFA4 0C0239A8 */  jal   FrameAdvance_Init
 /* B34148 800BCFA8 262407B8 */   addiu $a0, $s1, 0x7b8
 /* B3414C 800BCFAC 0C001A78 */  jal   osGetTime
 /* B34150 800BCFB0 00000000 */   nop
