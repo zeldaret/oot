@@ -299,7 +299,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
