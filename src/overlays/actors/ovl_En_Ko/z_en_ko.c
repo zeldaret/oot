@@ -121,11 +121,18 @@ struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6
                                  { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
                                  { 0x02, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
                                  /*0x00*/ };
-s32 D_80A9A590[] = { 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000,
-                     0x43340000, 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000, 0x43340000, 0x01000000,
-                     0x41F00000, 0x43700000, 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000, 0x43340000,
-                     0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000,
-                     0x43340000, 0x06000000, 0x41F00000, 0x43340000, 0x06000000, 0x41F00000, 0x43340000 };
+
+typedef struct {
+    s8 unk_0;
+    f32 unk_4;
+    f32 unk_8;
+} struct_80A9A590;
+
+struct_80A9A590 D_80A9A590[] = { { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f },
+                                 { 6, 30.0f, 180.0f }, { 1, 30.0f, 240.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f },
+                                 { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f },
+                                 { 6, 30.0f, 180.0f } };
+
 s32 D_80A9A62C[] = { 0x00000000, 0x00000000, 0x00000000, 0xC1F00000, 0xC1A00000, 0x00000000, 0x00000000, 0x00000000,
                      0xC1A00000, 0xC1200000, 0x00000000, 0x00000000, 0x00000000, 0xC1F00000, 0xC1A00000, 0xC1200000,
                      0x41200000, 0x41200000, 0xC1200000, 0xC1F00000, 0x00000000, 0x00000000, 0x00000000, 0xC1200000,
@@ -270,7 +277,19 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98C18.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98CD8.s")
+s32 func_80A98CD8(EnKo* this) {
+    s32 temp_v0;
+    struct_80A9A590* temp_v1;
+
+    temp_v1 = &D_80A9A590[this->actor.params & 0xFF];
+    this->actor.unk_1F = temp_v1->unk_0;
+    temp_v0 = this->actor.params & 0xFF;
+    if (1) {}
+    this->unk_21C = temp_v1->unk_4;
+    this->unk_21C = this->unk_21C + this->collider.dim.radius;
+    this->unk_218 = temp_v1->unk_8;
+    return this->actor.params & 0xFF;
+}
 
 s32 func_80A98D2C(EnKo* this) {
     if (LINK_IS_ADULT) {
@@ -357,7 +376,35 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99560.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
+void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    f32 temp_f10;
+    f32 temp_f2;
+    s16 temp_v0;
+    f32 phi_f0;
+
+    temp_v0 = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
+    this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
+    temp_f10 = 80.0f * Math_Sins(temp_v0);
+    this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = this->actor.posRot.pos.x + temp_f10;
+    // yawToLink = this->actor.yawTowardsLink;
+    temp_f10 = 80.0f * Math_Coss(temp_v0);
+    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
+    this->actor.posRot.pos.z +=  temp_f10;
+    if ((this->unk_1E8 == 0) || (this->actor.unk_10C == 0)) {
+        temp_f2 = fabsf(this->actor.yawTowardsLink - temp_v0) * 0.001f * 3.0f;
+        if (((temp_f2) > 1.0f)) {
+
+            phi_f0 = CLAMP_MAX(temp_f2, 3.0f);
+            this->skelAnime.animPlaybackSpeed = phi_f0;
+            return;
+        }
+    }
+    this->skelAnime.animPlaybackSpeed = 1.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Update.s")
 

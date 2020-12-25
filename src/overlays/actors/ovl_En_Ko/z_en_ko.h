@@ -21,7 +21,9 @@ typedef struct EnKo {
     /* 0x01E4 */ Path* path;
     /* 0x01E4 */ char unk_1E8[0x2A];
     /* 0x0212 */ s16 unk_212;
-    /* 0x0214 */ char unk_214[0xC];
+    /* 0x0214 */ char unk_214[0x4];
+    /* 0x0218 */ f32 unk_218;
+    /* 0x021C */ f32 unk_21C;
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ Vec3s limbDrawTable[16];
     /* 0x0284 */ Vec3s transitionDrawTable[16];
