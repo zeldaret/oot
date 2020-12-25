@@ -103,4 +103,12 @@ typedef struct {
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
 #define BINANG_TO_DEGF(binang) ((f32)binang * (360.0001525f / 65535.0f))
 
+/**
+ * Vector macros
+ */
+#define SQXZ(vec) ((vec.x) * (vec.x) + (vec.z) * (vec.z))
+#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
+#define SQXYZ(vec) ((vec.x) * (vec.x) + (vec.y) * (vec.y) + (vec.z) * (vec.z))
+#define DOTXYZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.y) * (vec2.y) + (vec1.z) * (vec2.z))
+
 #endif
