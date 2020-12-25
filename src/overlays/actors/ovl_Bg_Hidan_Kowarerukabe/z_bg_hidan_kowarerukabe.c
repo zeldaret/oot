@@ -158,17 +158,18 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
 
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 5; j++) {
-            velocityFactor1 = (i * 24) - 48;
+            tmp1 = 24 * (i - 2);
+            tmp2 = 24 * (j - 2);
 
-            pos.x = ((((j * 24) - 48) * sin) + (velocityFactor1 * cos)) + thisx->posRot.pos.x;
-            pos.z = ((((j * 24) - 48) * cos) - (velocityFactor1 * sin)) + thisx->posRot.pos.z;
+            pos.x = (tmp2 * sin) + (tmp1 * cos) + thisx->posRot.pos.x;
+            pos.z = (tmp2 * cos) - (tmp1 * sin) + thisx->posRot.pos.z;
 
-            velocityFactor = (Math_Rand_ZeroOne() * 8.0f) * (i - 2);
-            velocityFactor1 = (Math_Rand_ZeroOne() * 8.0f) * (j - 2);
+            tmp1 = 8.0f * Math_Rand_ZeroOne() * (i - 2);
+            tmp2 = 8.0f * Math_Rand_ZeroOne() * (j - 2);
 
-            velocity.x = (velocityFactor1 * sin) + (velocityFactor * cos);
-            velocity.y = Math_Rand_ZeroOne() * 30.0f;
-            velocity.z = (velocityFactor1 * cos) - (velocityFactor * sin);
+            velocity.x = (tmp2 * sin) + (tmp1 * cos);
+            velocity.y = 30.0f * Math_Rand_ZeroOne();
+            velocity.z = (tmp2 * cos) - (tmp1 * sin);
 
             arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
 
