@@ -81,8 +81,8 @@ typedef struct {
     /* 0x22 */ u16 unk_22;
     /* 0x24 */ u16 unk_24;
     /* 0x26 */ char unk_26[0x02];
-    /* 0x28 */ LightInfo dirLight1; // used for sun light when outdoors
-    /* 0x36 */ LightInfo dirLight2; // used for moon light when outdoors
+    /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
+    /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors
     /* 0x44 */ s8 skyboxDmaState;
     /* 0x45 */ char unk_45[0x3];
     /* 0x48 */ DmaRequest dmaRequest;

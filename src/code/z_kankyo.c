@@ -457,61 +457,62 @@ f32 Kankyo_InvLerp(u16 max, u16 min, u16 val) {
     return 1.0f;
 }
 
-f32 func_8006F9BC(u16 arg0, u16 arg1, u16 arg2, u16 arg3, u16 arg4) {
-    f32 arg0f;
-    f32 arg1f;
-    f32 arg2f;
+f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 curFrame, u16 arg3, u16 arg4) {
+    f32 endFrameF;
+    f32 startFrameF;
+    f32 curFrameF;
     f32 arg3f;
     f32 arg4f;
-    f32 arg0f_arg1f;
-    f32 reciprocal;
-    f32 arg2f_arg1f;
+    f32 totalFrames;
+    f32 temp;
+    f32 framesElapsed;
     f32 ret;
 
-    if (arg1 >= arg2) {
+    if (startFrame >= curFrame) {
         return 0.0f;
     }
 
-    if (arg2 >= arg0) {
+    if (curFrame >= endFrame) {
         return 1.0f;
     }
 
-    arg0f = (s32)arg0;
-    arg1f = (s32)arg1;
-    arg2f = (s32)arg2;
-    arg0f_arg1f = arg0f - arg1f;
-    arg2f_arg1f = arg2f - arg1f;
+    endFrameF = (s32)endFrame;
+    startFrameF = (s32)startFrame;
+    curFrameF = (s32)curFrame;
+    totalFrames = endFrameF - startFrameF;
+    framesElapsed = curFrameF - startFrameF;
     arg3f = (s32)arg3;
     arg4f = (s32)arg4;
 
-    if (arg0f <= arg1f || arg0f_arg1f < arg3f + arg4f) {
+    if (endFrameF <= startFrameF || totalFrames < arg3f + arg4f) {
         // The frame relation between end_frame and start_frame is wrong
         osSyncPrintf(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
         osSyncPrintf(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
         return 0.0f;
     }
 
-    reciprocal = 1.0f / (arg0f_arg1f + arg0f_arg1f - arg3f - arg4f);
+    temp = 1.0f / (totalFrames + totalFrames - arg3f - arg4f);
 
     if (arg3f != 0.0f) {
-        if (arg2f_arg1f <= arg3f) {
-            return reciprocal * arg2f_arg1f * arg2f_arg1f / arg3f;
+        if (framesElapsed <= arg3f) {
+            return temp * framesElapsed * framesElapsed / arg3f;
         }
-        ret = reciprocal * arg3f;
+        ret = temp * arg3f;
     } else {
         ret = 0.0f;
     }
 
-    if (arg2f_arg1f <= arg0f_arg1f - arg4f) {
-        ret += (reciprocal + reciprocal) * (arg2f_arg1f - arg3f);
+    if (framesElapsed <= totalFrames - arg4f) {
+        ret += (temp + temp) * (framesElapsed - arg3f);
         return ret;
     }
 
-    ret += (reciprocal + reciprocal) * (arg0f_arg1f - arg3f - arg4f);
+    ret += (temp + temp) * (totalFrames - arg3f - arg4f);
+
     if (arg4f != 0.0f) {
-        ret += reciprocal * arg4f;
-        if (arg2f_arg1f < arg0f_arg1f) {
-            ret -= reciprocal * (arg0f_arg1f - arg2f_arg1f) * (arg0f_arg1f - arg2f_arg1f) / arg4f;
+        ret += temp * arg4f;
+        if (framesElapsed < totalFrames) {
+            ret -= temp * (totalFrames - framesElapsed) * (totalFrames - framesElapsed) / arg4f;
         }
     }
 
