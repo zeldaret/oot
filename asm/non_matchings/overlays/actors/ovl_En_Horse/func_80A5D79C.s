@@ -169,7 +169,7 @@ glabel func_80A5D79C
 /* 02708 80A5D9F8 00000000 */  nop
 /* 0270C 80A5D9FC 4501000A */  bc1t    .L80A5DA28                 
 /* 02710 80A5DA00 00000000 */  nop
-/* 02714 80A5DA04 0C01DE0D */  jal     Math_Coss
+/* 02714 80A5DA04 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02718 80A5DA08 87A4003A */  lh      $a0, 0x003A($sp)           
 /* 0271C 80A5DA0C 3C01BF00 */  lui     $at, 0xBF00                ## $at = BF000000

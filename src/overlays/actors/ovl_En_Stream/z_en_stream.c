@@ -94,16 +94,16 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     if (func_80B0B81C(&this->actor.posRot.pos, &player->actor.posRot.pos, &posDifference, this->actor.scale.y) != 0) {
         xzDist = sqrtf(SQ(posDifference.x) + SQ(posDifference.z));
         yDistWithOffset = player->actor.posRot.pos.y - (this->actor.posRot.pos.y - 90.0f);
-        player->windDirection = Math_atan2f(-posDifference.x, -posDifference.z) * 10430.378f;
+        player->windDirection = Math_FAtan2F(-posDifference.x, -posDifference.z) * 10430.378f;
         if (xzDist > 3.0f) {
-            Math_SmoothScaleMaxMinF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
+            Math_SmoothStepToF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {
             player->windSpeed = 0.0f;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
         }
         if (yDistWithOffset > 0.0f) {
-            Math_SmoothScaleMaxMinF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
+            Math_SmoothStepToF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posDifference.y < -70.0f) {
                 player->stateFlags2 |= 0x80000000;
             }

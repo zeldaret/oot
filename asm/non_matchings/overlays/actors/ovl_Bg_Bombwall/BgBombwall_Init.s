@@ -21,11 +21,11 @@ glabel BgBombwall_Init
 /* 00100 8086E8D0 F7B60028 */  sdc1    $f22, 0x0028($sp)          
 /* 00104 8086E8D4 F7B40020 */  sdc1    $f20, 0x0020($sp)          
 /* 00108 8086E8D8 AFA500BC */  sw      $a1, 0x00BC($sp)           
-/* 0010C 8086E8DC 0C01DE1C */  jal     Math_Sins
+/* 0010C 8086E8DC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00110 8086E8E0 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
 /* 00114 8086E8E4 46000586 */  mov.s   $f22, $f0                  
-/* 00118 8086E8E8 0C01DE0D */  jal     Math_Coss
+/* 00118 8086E8E8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0011C 8086E8EC 866400B6 */  lh      $a0, 0x00B6($s3)           ## 000000B6
 /* 00120 8086E8F0 3C058087 */  lui     $a1, %hi(D_8086F004)       ## $a1 = 80870000

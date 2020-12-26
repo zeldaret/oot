@@ -177,7 +177,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
         this->actor.speedXZ = 0.0f;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
     }
 }
 

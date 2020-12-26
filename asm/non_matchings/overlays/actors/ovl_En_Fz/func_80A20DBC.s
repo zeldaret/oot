@@ -17,7 +17,7 @@ glabel func_80A20DBC
 /* 01014 80A20DD4 34C6B717 */  ori     $a2, $a2, 0xB717           ## $a2 = 3951B717
 /* 01018 80A20DD8 34A54952 */  ori     $a1, $a1, 0x4952           ## $a1 = 3A1D4952
 /* 0101C 80A20DDC AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 01020 80A20DE0 0C01DE80 */  jal     Math_ApproxF
+/* 01020 80A20DE0 0C01DE80 */  jal     Math_StepToF
               
 /* 01024 80A20DE4 24840054 */  addiu   $a0, $a0, 0x0054           ## $a0 = 00000054
 /* 01028 80A20DE8 8FA70018 */  lw      $a3, 0x0018($sp)           

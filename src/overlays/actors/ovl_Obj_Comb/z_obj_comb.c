@@ -72,19 +72,19 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 31; i++) {
         angle += 20000;
-        rand1 = Math_Rand_ZeroOne() * 10.0f;
+        rand1 = Rand_ZeroOne() * 10.0f;
 
-        pos1.x = Math_Sins(angle) * rand1;
+        pos1.x = Math_SinS(angle) * rand1;
         pos1.y = (i - 15) * 0.7f;
-        pos1.z = Math_Coss(angle) * rand1;
+        pos1.z = Math_CosS(angle) * rand1;
 
         Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
 
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
-        velocity.y = (Math_Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
+        velocity.y = (Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
 
-        scale = Math_Rand_ZeroOne() * 72.0f + 25.0f;
+        scale = Rand_ZeroOne() * 72.0f + 25.0f;
 
         if (scale < 40) {
             gravity = -200;
@@ -97,7 +97,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
             arg6 = 20;
         }
 
-        rand2 = Math_Rand_ZeroOne();
+        rand2 = Rand_ZeroOne();
 
         if (rand2 < 0.1f) {
             arg5 = 96;
@@ -127,7 +127,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             } else {
                 params = (params | (((this->actor.params >> 8) & 0x3F) << 8));
             }
-        } else if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (Rand_ZeroOne() < 0.5f) {
             params = -1;
         }
         if (params >= 0) {
@@ -188,7 +188,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {

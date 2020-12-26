@@ -27,7 +27,7 @@ glabel func_80B34F28
 /* 012C4 80B34F74 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 012C8 80B34F78 E7A80018 */  swc1    $f8, 0x0018($sp)
-/* 012CC 80B34F7C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 012CC 80B34F7C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 012D0 80B34F80 00000000 */  nop
 /* 012D4 80B34F84 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -49,7 +49,7 @@ glabel func_80B34F28
 /* 01310 80B34FC0 861900B6 */  lh      $t9, 0x00B6($s0)           ## 000000B6
 /* 01314 80B34FC4 46100482 */  mul.s   $f18, $f0, $f16
 /* 01318 80B34FC8 A6190032 */  sh      $t9, 0x0032($s0)           ## 00000032
-/* 0131C 80B34FCC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0131C 80B34FCC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01320 80B34FD0 E61201A4 */  swc1    $f18, 0x01A4($s0)          ## 000001A4
 /* 01324 80B34FD4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

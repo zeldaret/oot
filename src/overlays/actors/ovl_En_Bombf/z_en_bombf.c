@@ -214,9 +214,9 @@ void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
     this->flowerBombScale = 1.0f;
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -6.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.5f;
@@ -374,9 +374,9 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-                Math_SmoothScaleMaxMinF(&this->flashIntensity, 150.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
+                Math_SmoothStepToF(&this->flashIntensity, 150.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
             } else {
-                Math_SmoothScaleMaxMinF(&this->flashIntensity, 0.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
+                Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
             }
 
             if (this->timer < 3) {
