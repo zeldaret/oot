@@ -71,7 +71,7 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     eye = ACTIVE_CAM->eye;
     Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     if (this->counter < 32) {
-        z = Math_Sins(this->counter << 9) * 1330;
+        z = Math_SinS(this->counter << 9) * 1330;
     } else {
         z = 1330;
     }

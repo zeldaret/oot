@@ -3,6 +3,8 @@
 import os;
 import sys;
 import struct;
+from multiprocessing import Pool
+from multiprocessing import cpu_count
 
 
 ROM_FILE_NAME = 'baserom.z64'
@@ -1555,22 +1557,7 @@ def write_output_file(name, offset, size):
     except IOError:
         print('failed to write file ' + name)
 
-
-try:
-    os.mkdir('baserom')
-except:
-    pass
-
-# read baserom data
-try:
-    with open(ROM_FILE_NAME, 'rb') as f:
-        romData = f.read()
-except IOError:
-    print('failed to read file' + ROM_FILE_NAME)
-    sys.exit(1)
-
-# extract files
-for i in range(0, 1532):
+def ExtractFunc(i):
     filename = 'baserom/' + FILE_NAMES[i]
     entryOffset = FILE_TABLE_OFFSET + 16 * i
 
@@ -1590,3 +1577,24 @@ for i in range(0, 1532):
     write_output_file(filename, physStart, size)
     if compressed:
         os.system('tools/yaz0 -d ' + filename + ' ' + filename)
+
+#####################################################################
+
+try:
+    os.mkdir('baserom')
+except:
+    pass
+
+# read baserom data
+try:
+    with open(ROM_FILE_NAME, 'rb') as f:
+        romData = f.read()
+except IOError:
+    print('failed to read file' + ROM_FILE_NAME)
+    sys.exit(1)
+
+# extract files
+numCores = cpu_count()
+print("Extracting baserom with " + str(numCores) + " CPU cores.")
+p = Pool(numCores)
+p.map(ExtractFunc, range(0, FILE_COUNT))

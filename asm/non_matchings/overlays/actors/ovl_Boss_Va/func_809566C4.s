@@ -13,28 +13,28 @@ glabel func_809566C4
 /* 0742C 809566EC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 07430 809566F0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 07434 809566F4 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
-/* 07438 809566F8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 07438 809566F8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0743C 809566FC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 07440 80956700 260401E4 */  addiu   $a0, $s0, 0x01E4           ## $a0 = 000001E4
 /* 07444 80956704 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 07448 80956708 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0744C 8095670C 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
-/* 07450 80956710 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 07450 80956710 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 07454 80956714 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 07458 80956718 260401EC */  addiu   $a0, $s0, 0x01EC           ## $a0 = 000001EC
 /* 0745C 8095671C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 07460 80956720 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 07464 80956724 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
-/* 07468 80956728 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 07468 80956728 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0746C 8095672C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 07470 80956730 260401EA */  addiu   $a0, $s0, 0x01EA           ## $a0 = 000001EA
 /* 07474 80956734 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 07478 80956738 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0747C 8095673C 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
-/* 07480 80956740 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 07480 80956740 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 07484 80956744 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 07488 80956748 860500B6 */  lh      $a1, 0x00B6($s0)           ## 000000B6
@@ -44,7 +44,7 @@ glabel func_809566C4
 /* 07498 80956758 00052C00 */  sll     $a1, $a1, 16               
 /* 0749C 8095675C 00052C03 */  sra     $a1, $a1, 16               
 /* 074A0 80956760 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 074A4 80956764 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 074A4 80956764 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 074A8 80956768 24072710 */  addiu   $a3, $zero, 0x2710         ## $a3 = 00002710
 /* 074AC 8095676C 8E0E016C */  lw      $t6, 0x016C($s0)           ## 0000016C
@@ -55,7 +55,7 @@ glabel func_809566C4
 /* 074C0 80956780 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
 /* 074C4 80956784 24A5EC78 */  addiu   $a1, $a1, 0xEC78           ## $a1 = FFFFEC78
 /* 074C8 80956788 00052C00 */  sll     $a1, $a1, 16               
-/* 074CC 8095678C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 074CC 8095678C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 074D0 80956790 00052C03 */  sra     $a1, $a1, 16               
 /* 074D4 80956794 8E0F0118 */  lw      $t7, 0x0118($s0)           ## 00000118

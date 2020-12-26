@@ -65,7 +65,7 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Actor_SetScale(&this->actor, D_80A9E840[this->actor.params & 0xF].scale * 0.0001f);
-    this->timer = (s32)(Math_Rand_ZeroOne() * 255.0f);
+    this->timer = (s32)(Rand_ZeroOne() * 255.0f);
 
     if ((this->actor.params & 0x400) != 0) {
         this->actor.update = EnLight_UpdateSwitch;
@@ -97,7 +97,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
     Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                   (flameParams->primColor.g * intensity), (flameParams->primColor.b * intensity),
@@ -120,13 +120,13 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x800) != 0) {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         } else {
             if (scale < 0.1f) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         }
     } else {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
@@ -134,14 +134,14 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         } else {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         }
     }
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
     Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                   (flameParams->primColor.g * intensity), (flameParams->primColor.b * intensity),
                                   300.0f * scale);

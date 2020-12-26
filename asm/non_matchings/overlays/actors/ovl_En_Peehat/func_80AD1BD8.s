@@ -82,19 +82,19 @@ glabel func_80AD1BD8
 /* 0285C 80AD1CFC 4481A000 */  mtc1    $at, $f20                  ## $f20 = 20.00
 /* 02860 80AD1D00 27B20054 */  addiu   $s2, $sp, 0x0054           ## $s2 = FFFFFFF4
 .L80AD1D04:
-/* 02864 80AD1D04 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02864 80AD1D04 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02868 80AD1D08 4600A306 */  mov.s   $f12, $f20                 
 /* 0286C 80AD1D0C C6240024 */  lwc1    $f4, 0x0024($s1)           ## 00000024
 /* 02870 80AD1D10 46040180 */  add.s   $f6, $f0, $f4              
-/* 02874 80AD1D14 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02874 80AD1D14 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02878 80AD1D18 E7A60054 */  swc1    $f6, 0x0054($sp)           
 /* 0287C 80AD1D1C 46160202 */  mul.s   $f8, $f0, $f22             
 /* 02880 80AD1D20 C62A0028 */  lwc1    $f10, 0x0028($s1)          ## 00000028
 /* 02884 80AD1D24 4600A306 */  mov.s   $f12, $f20                 
 /* 02888 80AD1D28 460A4400 */  add.s   $f16, $f8, $f10            
-/* 0288C 80AD1D2C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0288C 80AD1D2C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02890 80AD1D30 E7B00058 */  swc1    $f16, 0x0058($sp)          
 /* 02894 80AD1D34 C632002C */  lwc1    $f18, 0x002C($s1)          ## 0000002C

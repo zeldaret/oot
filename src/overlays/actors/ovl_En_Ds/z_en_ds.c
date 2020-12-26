@@ -113,7 +113,7 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         func_8010B720(globalCtx, 0x504D);
     }
 
-    Math_ApproxF(&this->unk_1E4, 0, 0.03f);
+    Math_StepToF(&this->unk_1E4, 0, 0.03f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
@@ -135,7 +135,7 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
         this->brewTimer = 20;
     }
 
-    Math_ApproxF(&this->unk_1E4, 1.0f, 0.01f);
+    Math_StepToF(&this->unk_1E4, 1.0f, 0.01f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
@@ -247,10 +247,10 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1E8 & 1) {
         func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1DE.x, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1DE.y, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1DE.x, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1DE.y, 0, 6, 0x1838, 100);
     }
 }
 

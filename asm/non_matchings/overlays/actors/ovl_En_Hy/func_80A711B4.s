@@ -14,7 +14,7 @@ glabel func_80A711B4
 /* 01C34 80A711E4 87A5002E */  lh      $a1, 0x002E($sp)           
 /* 01C38 80A711E8 2406000A */  addiu   $a2, $zero, 0x000A         ## $a2 = 0000000A
 /* 01C3C 80A711EC 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 01C40 80A711F0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01C40 80A711F0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01C44 80A711F4 E7A00028 */  swc1    $f0, 0x0028($sp)           
 /* 01C48 80A711F8 8A180030 */  lwl     $t8, 0x0030($s0)           ## 00000030

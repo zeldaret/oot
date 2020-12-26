@@ -52,34 +52,35 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-#ifdef NON_MATCHING
-// regalloc differences, checks if the player is range of the vortex
+// Checks if the player is in range of the vortex
 s32 func_80B0B81C(Vec3f* vortexPosRot, Vec3f* playerPosRot, Vec3f* posDifference, f32 vortexYScale) {
     s32 ret = 0;
-    f32 smallConstant = 28;
-    f32 lowerBounds = 0 * vortexYScale * 50;
-    f32 upperBounds = 160 * vortexYScale * 50;
+    f32 smallConstant = 28.0f;
+    f32 upperBounds = 160 * vortexYScale * 50.0f;
+    f32 lowerBounds = 0 * vortexYScale * 50.0f;
     f32 xzDist;
+    f32 range;
 
     posDifference->x = playerPosRot->x - vortexPosRot->x;
     posDifference->y = playerPosRot->y - vortexPosRot->y;
     posDifference->z = playerPosRot->z - vortexPosRot->z;
     xzDist = sqrtf(SQ(posDifference->x) + SQ(posDifference->z));
+
     if (lowerBounds <= posDifference->y && posDifference->y <= upperBounds) {
-        posDifference->y = posDifference->y - lowerBounds;
-        if (xzDist <= (((75 - smallConstant) * (posDifference->y / (upperBounds - lowerBounds))) + 28)) {
+        posDifference->y -= lowerBounds;
+
+        range = ((75.0f - smallConstant) * (posDifference->y / (upperBounds - lowerBounds))) + 28.0f;
+        if (xzDist <= range) {
             ret = 1;
         }
     }
-    if ((posDifference->y <= lowerBounds) && (xzDist <= 28)) {
+
+    if ((posDifference->y <= lowerBounds) && (xzDist <= 28.0f)) {
         ret = 2;
     }
+
     return ret;
 }
-#else
-s32 func_80B0B81C(Vec3f* vortexPos, Vec3f* playerPos, Vec3f* posDifference, f32 vortexYScale);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
-#endif
 
 void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -93,16 +94,16 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     if (func_80B0B81C(&this->actor.posRot.pos, &player->actor.posRot.pos, &posDifference, this->actor.scale.y) != 0) {
         xzDist = sqrtf(SQ(posDifference.x) + SQ(posDifference.z));
         yDistWithOffset = player->actor.posRot.pos.y - (this->actor.posRot.pos.y - 90.0f);
-        player->windDirection = Math_atan2f(-posDifference.x, -posDifference.z) * 10430.378f;
+        player->windDirection = Math_FAtan2F(-posDifference.x, -posDifference.z) * 10430.378f;
         if (xzDist > 3.0f) {
-            Math_SmoothScaleMaxMinF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
+            Math_SmoothStepToF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {
             player->windSpeed = 0.0f;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
         }
         if (yDistWithOffset > 0.0f) {
-            Math_SmoothScaleMaxMinF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
+            Math_SmoothStepToF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posDifference.y < -70.0f) {
                 player->stateFlags2 |= 0x80000000;
             }

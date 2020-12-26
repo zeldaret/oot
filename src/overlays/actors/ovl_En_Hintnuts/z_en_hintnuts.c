@@ -121,7 +121,7 @@ void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, GlobalContext* globalCtx
 
 void EnHintnuts_SetupWait(EnHintnuts* this) {
     SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_06002B90, 0.0f);
-    this->animFlagAndTimer = Math_Rand_S16Offset(100, 50);
+    this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     this->actor.posRot.pos = this->actor.initPosRot.pos;
     this->collider.base.acFlags &= ~1;
@@ -280,7 +280,7 @@ void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
         this->animFlagAndTimer--;
     }
     if (!(this->animFlagAndTimer & 0x1000)) {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
+        Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     }
     if (this->actor.xzDistFromLink < 120.0f || this->animFlagAndTimer == 0x1000) {
         EnHintnuts_SetupBurrow(this);
@@ -292,15 +292,15 @@ void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     Vec3f nutPos;
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     if (this->actor.xzDistFromLink < 120.0f) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         EnHintnuts_SetupStand(this);
     } else if (func_800A56C8(&this->skelAnime, 6.0f) != 0) {
-        nutPos.x = (Math_Sins(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
+        nutPos.x = (Math_SinS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
         nutPos.y = this->actor.posRot.pos.y + 12.0f;
-        nutPos.z = (Math_Coss(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
+        nutPos.z = (Math_CosS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
@@ -323,8 +323,8 @@ void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~1;
     }
 
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.5f, 3.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.5f, 3.0f);
+    Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.5f, 3.0f);
+    Math_ApproachF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.5f, 3.0f);
 }
 
 void EnHintnuts_BeginRun(EnHintnuts* this, GlobalContext* globalCtx) {
@@ -332,7 +332,7 @@ void EnHintnuts_BeginRun(EnHintnuts* this, GlobalContext* globalCtx) {
         this->unk_196 = this->actor.yawTowardsLink + 0x8000;
         EnHintnuts_SetupRun(this);
     }
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
 }
 
 void EnHintnuts_BeginFreeze(EnHintnuts* this, GlobalContext* globalCtx) {
@@ -370,8 +370,8 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
 
-    Math_ApproxF(&this->actor.speedXZ, 7.5f, 1.0f);
-    if (Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
+    Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
+    if (Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
         if (this->actor.bgCheckFlags & 0x20) {
             this->unk_196 = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
         } else if (this->actor.bgCheckFlags & 8) {
@@ -409,7 +409,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x3, 0x400, 0x100);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x3, 0x400, 0x100);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         EnHintnuts_SetupLeave(this, globalCtx);
     }
@@ -436,7 +436,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
             temp_a1 = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - (temp_a1 >> 1) + 0x8000;
         }
     }
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp_a1, 0x800);
+    Math_ScaledStepToS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
         func_80106CCC(globalCtx);
@@ -466,7 +466,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
         } else if (sPuzzleCounter == -4) {
             this->animFlagAndTimer = 2;
         }
-    } else if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 35.0f, 7.0f) != 0) {
+    } else if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 35.0f, 7.0f) != 0) {
         if (this->animFlagAndTimer == 1) {
             Actor_Kill(&this->actor);
         } else {

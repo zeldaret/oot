@@ -151,9 +151,9 @@ void EnFd_SpawnDot(EnFd* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.groundY + 4.0f;
         pos.z = this->actor.posRot.pos.z;
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-        accel.y = ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+        accel.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+        accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
+        accel.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         EnFd_AddEffect(this, FD_EFFECT_FLAME, &pos, &velocity, &accel, 8, 0.6f, 0.2f);
     }
 }
@@ -296,8 +296,8 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
     Vec3f newPos;
 
     angle = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554); // ~30 degrees
-    newPos.x = (Math_Sins(angle) * radius) + this->actor.initPosRot.pos.x;
-    newPos.z = (Math_Coss(angle) * radius) + this->actor.initPosRot.pos.z;
+    newPos.x = (Math_SinS(angle) * radius) + this->actor.initPosRot.pos.x;
+    newPos.z = (Math_CosS(angle) * radius) + this->actor.initPosRot.pos.z;
     newPos.x -= this->actor.posRot.pos.x;
     newPos.z -= this->actor.posRot.pos.z;
     *dst = newPos;
@@ -327,7 +327,7 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
         return false;
     }
 
-    if (Math_Rand_ZeroOne() > 0.5f) {
+    if (Rand_ZeroOne() > 0.5f) {
         *runDir = -*runDir;
     }
     return true;
@@ -335,7 +335,7 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
 
 void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
     if (this->invincibilityTimer != 0) {
-        Math_SmoothScaleMaxMinF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
         this->actor.shape.unk_14 = this->fadeAlpha;
         if (!(this->fadeAlpha >= 0.9f)) {
             this->invincibilityTimer = 0;
@@ -360,7 +360,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
-    this->runDir = Math_Rand_ZeroOne() < 0.5f ? -1 : 1;
+    this->runDir = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->actor.naviEnemyId = 0x22;
     this->actionFunc = EnFd_Reappear;
 }
@@ -412,12 +412,12 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Vec3f adjPos;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-        this->spinTimer = Math_Rand_S16Offset(60, 90);
+        this->spinTimer = Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.posRot.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -452,7 +452,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         rotSpeed = 0.0f;
         tgtSpeed = fabsf(deceleration);
         deceleration /= tgtSpeed;
-        Math_SmoothScaleMaxF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
+        Math_ApproachF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
         rotSpeed *= deceleration;
         this->actor.shape.rot.y += (s16)rotSpeed;
         rotSpeed = fabsf(rotSpeed);
@@ -465,7 +465,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
             this->initYawToInitPos = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
-            this->spinTimer = Math_Rand_S16Offset(30, 120);
+            this->spinTimer = Rand_S16Offset(30, 120);
             func_80034EC0(&this->skelAnime, sAnimations, 3);
             this->actionFunc = EnFd_Run;
         }
@@ -516,16 +516,16 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     } else {
         runRadiusTarget = 200.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
+    Math_SmoothStepToF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||
         this->skelAnime.animCurrentFrame == 28.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
     }
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
 /**
@@ -633,12 +633,12 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         if ((globalCtx->state.frames % 2) != 0) {
             for (i = 0; i < 1; i++) {
                 Matrix_MultVec3f(&initialPos, &pos);
-                pos.x += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-                pos.y += (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
-                pos.z += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-                accel.x = (Math_Rand_ZeroOne() - 0.5f) * 0.4f;
-                accel.y = ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.6f;
-                accel.z = (Math_Rand_ZeroOne() - 0.5f) * 0.4f;
+                pos.x += (Rand_ZeroOne() - 0.5f) * 20.0f;
+                pos.y += (Rand_ZeroOne() - 0.5f) * 40.0f;
+                pos.z += (Rand_ZeroOne() - 0.5f) * 20.0f;
+                accel.x = (Rand_ZeroOne() - 0.5f) * 0.4f;
+                accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.6f;
+                accel.z = (Rand_ZeroOne() - 0.5f) * 0.4f;
                 EnFd_AddEffect(this, FD_EFFECT_DOT, &pos, &velocity, &accel, 0, 0.006f, 0.0f);
             }
         }
@@ -710,7 +710,7 @@ void EnFd_AddEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* acc
         eff->velocity = *velocity;
         if (eff->type == FD_EFFECT_DOT) {
             eff->color.a = 255;
-            eff->timer = (s16)(Math_Rand_ZeroOne() * 10.0f);
+            eff->timer = (s16)(Rand_ZeroOne() * 10.0f);
         }
         return;
     }
@@ -726,8 +726,8 @@ void EnFd_UpdateFlames(EnFd* this) {
             if (eff->timer == 0) {
                 eff->type = FD_EFFECT_NONE;
             }
-            eff->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            eff->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
             eff->pos.z += eff->velocity.z;

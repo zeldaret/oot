@@ -17,7 +17,7 @@ glabel func_80A20774
 /* 009EC 80A207AC 34E7126F */  ori     $a3, $a3, 0x126F           ## $a3 = 3A03126F
 /* 009F0 80A207B0 26040054 */  addiu   $a0, $s0, 0x0054           ## $a0 = 00000054
 /* 009F4 80A207B4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 009F8 80A207B8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 009F8 80A207B8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 009FC 80A207BC E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00A00 80A207C0 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00

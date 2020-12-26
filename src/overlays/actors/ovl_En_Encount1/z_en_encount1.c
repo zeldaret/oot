@@ -128,9 +128,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                     spawnParams = LEEVER_BIG;
                 }
 
-                spawnPos.x = player->actor.posRot.pos.x + Math_Sins(spawnAngle) * spawnDist;
+                spawnPos.x = player->actor.posRot.pos.x + Math_SinS(spawnAngle) * spawnDist;
                 spawnPos.y = player->actor.groundY + 120.0f;
-                spawnPos.z = player->actor.posRot.pos.z + Math_Coss(spawnAngle) * spawnDist;
+                spawnPos.z = player->actor.posRot.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
@@ -159,9 +159,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                         this->bigLeever = leever;
                     }
                     if (!this->reduceLeevers) {
-                        this->maxCurSpawns = (s16)Math_Rand_ZeroFloat(3.99f) + 2;
+                        this->maxCurSpawns = (s16)Rand_ZeroFloat(3.99f) + 2;
                     } else {
-                        this->maxCurSpawns = (s16)Math_Rand_ZeroFloat(2.99f) + 1;
+                        this->maxCurSpawns = (s16)Rand_ZeroFloat(2.99f) + 1;
                     }
                 } else {
                     // Cannot spawn!
@@ -190,9 +190,9 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
         } else {
             this->outOfRangeTimer = 0;
             if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
-                spawnPos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(50.0f);
+                spawnPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(50.0f);
                 spawnPos.y = this->actor.posRot.pos.y + 120.0f;
-                spawnPos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(50.0f);
+                spawnPos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(50.0f);
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
                     return;
@@ -256,17 +256,17 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                     break;
                 }
 
-                spawnDist = Math_Rand_CenteredFloat(40.0f) + 200.0f;
+                spawnDist = Rand_CenteredFloat(40.0f) + 200.0f;
                 spawnAngle = player->actor.shape.rot.y;
                 if (this->curNumSpawn != 0) {
                     spawnAngle = -spawnAngle;
-                    spawnDist = Math_Rand_CenteredFloat(40.0f) + 100.0f;
+                    spawnDist = Rand_CenteredFloat(40.0f) + 100.0f;
                 }
                 spawnPos.x =
-                    player->actor.posRot.pos.x + (Math_Sins(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
+                    player->actor.posRot.pos.x + (Math_SinS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
                 spawnPos.y = player->actor.groundY + 120.0f;
                 spawnPos.z =
-                    player->actor.posRot.pos.z + (Math_Coss(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
+                    player->actor.posRot.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
                     break;

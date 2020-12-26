@@ -111,10 +111,10 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
         this->unk_2A8 &= ~1;
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_29C.x, 12800, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 }
 
