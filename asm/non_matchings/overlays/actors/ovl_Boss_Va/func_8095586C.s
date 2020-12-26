@@ -11,10 +11,10 @@ glabel func_8095586C
 /* 065CC 8095588C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 065D0 80955890 00000000 */  nop
 /* 065D4 80955894 468021A0 */  cvt.s.w $f6, $f4
-/* 065D8 80955898 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 065D8 80955898 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 065DC 8095589C E7A6003C */  swc1    $f6, 0x003C($sp)
-/* 065E0 809558A0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 065E0 809558A0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 065E4 809558A4 E7A00034 */  swc1    $f0, 0x0034($sp)
 /* 065E8 809558A8 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000

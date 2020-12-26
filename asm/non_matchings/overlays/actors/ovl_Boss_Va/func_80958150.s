@@ -166,12 +166,12 @@ glabel func_80958150
 /* 09088 80958348 2B21000E */  slti    $at, $t9, 0x000E           
 /* 0908C 8095834C 1420000C */  bne     $at, $zero, .L80958380     
 /* 09090 80958350 3C018096 */  lui     $at, %hi(D_8095C824)       ## $at = 80960000
-/* 09094 80958354 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 09094 80958354 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 09098 80958358 C42CC824 */  lwc1    $f12, %lo(D_8095C824)($at) 
 /* 0909C 8095835C 3C018096 */  lui     $at, %hi(D_8095C828)       ## $at = 80960000
 /* 090A0 80958360 E7A00078 */  swc1    $f0, 0x0078($sp)           
-/* 090A4 80958364 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 090A4 80958364 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 090A8 80958368 C42CC828 */  lwc1    $f12, %lo(D_8095C828)($at) 
 /* 090AC 8095836C 3C01C270 */  lui     $at, 0xC270                ## $at = C2700000
@@ -334,7 +334,7 @@ glabel func_80958150
 /* 09304 809585C4 272C0274 */  addiu   $t4, $t9, 0x0274           ## $t4 = 00000274
 /* 09308 809585C8 3C0143A0 */  lui     $at, 0x43A0                ## $at = 43A00000
 /* 0930C 809585CC 44816000 */  mtc1    $at, $f12                  ## $f12 = 320.00
-/* 09310 809585D0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 09310 809585D0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 09314 809585D4 AFAC0038 */  sw      $t4, 0x0038($sp)           
 /* 09318 809585D8 3C01C37A */  lui     $at, 0xC37A                ## $at = C37A0000
@@ -342,12 +342,12 @@ glabel func_80958150
 /* 09320 809585E0 3C0143A0 */  lui     $at, 0x43A0                ## $at = 43A00000
 /* 09324 809585E4 44816000 */  mtc1    $at, $f12                  ## $f12 = 320.00
 /* 09328 809585E8 460A0400 */  add.s   $f16, $f0, $f10            
-/* 0932C 809585EC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0932C 809585EC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 09330 809585F0 E7B00078 */  swc1    $f16, 0x0078($sp)          
 /* 09334 809585F4 3C0143A0 */  lui     $at, 0x43A0                ## $at = 43A00000
 /* 09338 809585F8 44816000 */  mtc1    $at, $f12                  ## $f12 = 320.00
-/* 0933C 809585FC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0933C 809585FC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 09340 80958600 E7A0007C */  swc1    $f0, 0x007C($sp)           
 /* 09344 80958604 C7A2007C */  lwc1    $f2, 0x007C($sp)           

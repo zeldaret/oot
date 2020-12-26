@@ -5,6 +5,7 @@
  */
 
 #include "z_en_vase.h"
+#include "objects/object_vase/object_vase.h"
 
 #define FLAGS 0x00000010
 
@@ -26,8 +27,6 @@ const ActorInit En_Vase_InitVars = {
     (ActorFunc)EnVase_Draw,
 };
 
-extern Gfx D_06000000[];
-
 void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVase* this = THIS;
 
@@ -40,5 +39,5 @@ void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06000000);
+    Gfx_DrawDListOpa(globalCtx, &gVaseDL);
 }

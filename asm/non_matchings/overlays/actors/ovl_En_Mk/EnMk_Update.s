@@ -73,7 +73,7 @@ glabel EnMk_Update
 .L80AAD3C4:
 /* 00AC4 80AAD3C4 240D0064 */  addiu   $t5, $zero, 0x0064         ## $t5 = 00000064
 /* 00AC8 80AAD3C8 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 00ACC 80AAD3CC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00ACC 80AAD3CC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00AD0 80AAD3D0 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 00AD4 80AAD3D4 240E0064 */  addiu   $t6, $zero, 0x0064         ## $t6 = 00000064
@@ -81,7 +81,7 @@ glabel EnMk_Update
 /* 00ADC 80AAD3DC 2604027A */  addiu   $a0, $s0, 0x027A           ## $a0 = 0000027A
 /* 00AE0 80AAD3E0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00AE4 80AAD3E4 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 00AE8 80AAD3E8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00AE8 80AAD3E8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00AEC 80AAD3EC 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 00AF0 80AAD3F0 9605027E */  lhu     $a1, 0x027E($s0)           ## 0000027E

@@ -125,7 +125,7 @@ void func_809F1DA8(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void func_809F1E8C(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if (this->actor.xzDistFromLink < 150.0f) {
         this->actionFunc = func_809F236C;
     }
@@ -163,9 +163,9 @@ void func_809F2068(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void func_809F2118(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x3E8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x3E8, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
     if (this->unk_242 == 0) {
         this->unk_242 = 5;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
@@ -222,7 +222,7 @@ void func_809F24AC(EnDntJiji* this, GlobalContext* globalCtx) {
     f32 sp2C = this->skelAnime.animCurrentFrame;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if (this->unk_248 <= sp2C) {
         if (func_8002F194(&this->actor, globalCtx)) {
             this->actionFunc = func_809F2550;
@@ -240,7 +240,7 @@ void func_809F2550(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void func_809F25E4(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8005B1A4(ACTIVE_CAM);
         func_80106CCC(globalCtx);
@@ -333,7 +333,7 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     sp2C = this->flowerPos.x - this->actor.posRot.pos.x;
     sp28 = this->flowerPos.z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
         this->actor.velocity.y = 9.0f;
@@ -405,7 +405,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeState++;
         if (this->eyeState > 2) {
             this->eyeState = 0;
-            this->blinkTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+            this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->actionFunc(this, globalCtx);

@@ -6,6 +6,7 @@
 
 #include "z_bg_spot11_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_spot11_obj/object_spot11_obj.h"
 
 #define FLAGS 0x00000030
 
@@ -37,8 +38,6 @@ static ColliderCylinderInit sCylinderInit = {
 static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
-extern UNK_TYPE D_06001A58;
-extern Gfx D_06001980[];
 extern Gfx D_0500A880[];
 
 void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
@@ -67,12 +66,12 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
 
         Math_Vec3f_Sum(&thisx->posRot.pos, &D_808B272C, &burstDepthY);
 
-        burstDepthY.x += (Math_Rand_ZeroOne() - 0.5f) * 120.0f;
+        burstDepthY.x += (Rand_ZeroOne() - 0.5f) * 120.0f;
         burstDepthY.y += (30.0f + (i * 6.5f));
-        burstDepthY.z += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        burstDepthY.z += (Rand_ZeroOne() - 0.5f) * 20.0f;
 
-        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = (Math_Rand_ZeroOne() * 55.0f) + 8.0f;
+        burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = (Rand_ZeroOne() * 55.0f) + 8.0f;
 
         if (scale < 20) {
             gravityInfluence = -300;
@@ -81,7 +80,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
         } else {
             gravityInfluence = -420;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             rotationSpeed = 65;
         } else {
             rotationSpeed = 33;
@@ -109,7 +108,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     func_808B2180(this, globalCtx);
-    DynaPolyInfo_Alloc(&D_06001A58, &sp24);
+    DynaPolyInfo_Alloc(gBgSpot11Col, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Actor_SetScale(&this->dyna.actor, 1.0f);
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -139,5 +138,5 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_06001980);
+    Gfx_DrawDListOpa(globalCtx, gBgSpot11DL1);
 }

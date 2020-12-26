@@ -94,7 +94,7 @@ glabel func_80AD2438
 /* 0309C 80AD253C 00822021 */  addu    $a0, $a0, $v0              
 /* 030A0 80AD2540 00042140 */  sll     $a0, $a0,  5               
 /* 030A4 80AD2544 00042400 */  sll     $a0, $a0, 16               
-/* 030A8 80AD2548 0C01DE1C */  jal     Math_Sins
+/* 030A8 80AD2548 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 030AC 80AD254C 00042403 */  sra     $a0, $a0, 16               
 /* 030B0 80AD2550 3C0180AD */  lui     $at, %hi(D_80AD2974)       ## $at = 80AD0000

@@ -164,7 +164,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                 case PLAYER_MASK_GORON:
                 case PLAYER_MASK_ZORA:
                 case PLAYER_MASK_GERUDO:
-                    sp3A = Math_Rand_ZeroFloat(8.99f);
+                    sp3A = Rand_ZeroFloat(8.99f);
                     sp38 = Player_GetMask(globalCtx);
                     sp38--;
                     if (sp3A == 8) {
@@ -180,7 +180,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            sp38 = Math_Rand_ZeroFloat(7.99f);
+                            sp38 = Rand_ZeroFloat(7.99f);
                         }
 
                         sp36 = D_809F15C0[sp3A][sp38];
@@ -273,9 +273,9 @@ void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
             }
             temp_f20 = ((i + 1) * 20.0f) + 20.0f;
             this->scrubs[i]->unk_25A = 10;
-            this->scrubs[i]->unk_288.x = sp64.x + Math_Sins(phi_s1) * temp_f20;
+            this->scrubs[i]->unk_288.x = sp64.x + Math_SinS(phi_s1) * temp_f20;
             this->scrubs[i]->unk_288.y = sp64.y;
-            this->scrubs[i]->unk_288.z = sp64.z + Math_Coss(phi_s1) * temp_f20;
+            this->scrubs[i]->unk_288.z = sp64.z + Math_CosS(phi_s1) * temp_f20;
         }
     }
 }

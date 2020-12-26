@@ -11,7 +11,7 @@ glabel func_80A01374
 /* 013F8 80A01398 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 013FC 80A0139C A48E0194 */  sh      $t6, 0x0194($a0)           ## 00000194
 .L80A013A0:
-/* 01400 80A013A0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01400 80A013A0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01404 80A013A4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01408 80A013A8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C

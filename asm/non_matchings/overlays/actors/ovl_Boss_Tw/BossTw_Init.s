@@ -203,7 +203,7 @@ glabel BossTw_Init
 /* 00CC8 80939998 3C018095 */  lui     $at, %hi(D_8094C858)       ## $at = 80950000
 /* 00CCC 8093999C E426C858 */  swc1    $f6, %lo(D_8094C858)($at)
 /* 00CD0 809399A0 3C018095 */  lui     $at, %hi(D_8094AEC4)       ## $at = 80950000
-/* 00CD4 809399A4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00CD4 809399A4 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00CD8 809399A8 C42CAEC4 */  lwc1    $f12, %lo(D_8094AEC4)($at)
 /* 00CDC 809399AC 444EF800 */  cfc1    $t6, $31

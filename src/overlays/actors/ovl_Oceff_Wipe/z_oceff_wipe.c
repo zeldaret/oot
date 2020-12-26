@@ -80,7 +80,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 
     if (this->counter < 32) {
-        z = Math_Sins(this->counter << 9) * 1400;
+        z = Math_SinS(this->counter << 9) * 1400;
     } else {
         z = 1400;
     }

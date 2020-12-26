@@ -72,7 +72,7 @@ void func_80A6948C(EnHorseLinkChild* this) {
             Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         } else if (this->animationIdx == 1) {
-            if (Math_Rand_ZeroOne() > 0.5f) {
+            if (Rand_ZeroOne() > 0.5f) {
                 Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
             } else {
@@ -399,7 +399,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
 void func_80A6A4DC(EnHorseLinkChild* this) {
     this->action = 5;
-    this->animationIdx = Math_Rand_ZeroOne() > 0.5f ? 0 : 1;
+    this->animationIdx = Rand_ZeroOne() > 0.5f ? 0 : 1;
     DREG(53) = 0;
     SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
                          SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0f);
@@ -417,12 +417,12 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
         // 0.7071 = cos(pi/4)
-        if ((Math_Coss(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
+        if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
             func_8006DD9C(&this->actor, &PLAYER->actor.posRot.pos, 300);
         }
 
         if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-            if (Math_Coss(yawDiff) < 0.0f) {
+            if (Math_CosS(yawDiff) < 0.0f) {
                 this->animationIdx = 2;
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx],
                                      D_80A6AF64[this->animationIdx], 0.0f,
@@ -530,7 +530,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
 
-    if ((Math_Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
+    if ((Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
         this->unk_1EC++;
     } else if (this->unk_1EC > 0) {
         this->unk_1EC++;

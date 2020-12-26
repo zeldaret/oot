@@ -28,7 +28,7 @@ glabel func_80A01104
 /* 011B0 80A01150 8E070068 */  lw      $a3, 0x0068($s0)           ## 00000068
 /* 011B4 80A01154 460A4400 */  add.s   $f16, $f8, $f10            
 /* 011B8 80A01158 44058000 */  mfc1    $a1, $f16                  
-/* 011BC 80A0115C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 011BC 80A0115C 0C01E107 */  jal     Math_ApproachF
               
 /* 011C0 80A01160 00000000 */  nop
 /* 011C4 80A01164 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -50,12 +50,12 @@ glabel func_80A01104
 /* 01200 80A011A0 01014821 */  addu    $t1, $t0, $at              
 /* 01204 80A011A4 A6090196 */  sh      $t1, 0x0196($s0)           ## 00000196
 .L80A011A8:
-/* 01208 80A011A8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01208 80A011A8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0120C 80A011AC 86050196 */  lh      $a1, 0x0196($s0)           ## 00000196
 /* 01210 80A011B0 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01214 80A011B4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01218 80A011B8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01218 80A011B8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0121C 80A011BC 24060200 */  addiu   $a2, $zero, 0x0200         ## $a2 = 00000200
 /* 01220 80A011C0 860A0194 */  lh      $t2, 0x0194($s0)           ## 00000194

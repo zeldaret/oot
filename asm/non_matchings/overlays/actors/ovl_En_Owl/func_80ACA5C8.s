@@ -16,7 +16,7 @@ glabel func_80ACA5C8
 /* 006E0 80ACA600 8FAF0020 */  lw      $t7, 0x0020($sp)           
 /* 006E4 80ACA604 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C
 /* 006E8 80ACA608 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
-/* 006EC 80ACA60C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 006EC 80ACA60C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 006F0 80ACA610 A5E003F4 */  sh      $zero, 0x03F4($t7)         ## 000003F4
 /* 006F4 80ACA614 8FB80020 */  lw      $t8, 0x0020($sp)           
