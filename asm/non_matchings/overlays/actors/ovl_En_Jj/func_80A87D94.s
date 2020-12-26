@@ -27,7 +27,7 @@ glabel func_80A87D94
 /* 005E0 80A87DE0 306F0002 */  andi    $t7, $v1, 0x0002           ## $t7 = 00000000
 /* 005E4 80A87DE4 51E00034 */  beql    $t7, $zero, .L80A87EB8     
 /* 005E8 80A87DE8 30780001 */  andi    $t8, $v1, 0x0001           ## $t8 = 00000000
-/* 005EC 80A87DEC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 005EC 80A87DEC 0C01DF64 */  jal     Rand_S16Offset
               
 /* 005F0 80A87DF0 A200030E */  sb      $zero, 0x030E($s0)         ## 0000030E
 /* 005F4 80A87DF4 9618030A */  lhu     $t8, 0x030A($s0)           ## 0000030A

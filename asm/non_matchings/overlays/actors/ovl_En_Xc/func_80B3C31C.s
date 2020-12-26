@@ -18,7 +18,7 @@ glabel func_80B3C31C
 /* 00174 80B3C354 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C
 /* 00178 80B3C358 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 0017C 80B3C35C AFA3001C */  sw      $v1, 0x001C($sp)           
-/* 00180 80B3C360 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00180 80B3C360 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00184 80B3C364 AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 00188 80B3C368 8FA3001C */  lw      $v1, 0x001C($sp)           

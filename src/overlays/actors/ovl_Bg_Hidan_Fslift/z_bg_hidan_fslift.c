@@ -108,7 +108,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 4.0f)) {
+    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 4.0f)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
@@ -121,7 +121,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (func_80043590(thisx)) {
-        if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 790.0f, 4.0f)) {
+        if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 790.0f, 4.0f)) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {

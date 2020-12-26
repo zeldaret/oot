@@ -9,12 +9,12 @@ glabel func_80A01010
 /* 01088 80A01028 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0108C 80A0102C 26040030 */  addiu   $a0, $s0, 0x0030           ## $a0 = 00000030
 /* 01090 80A01030 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 01094 80A01034 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01094 80A01034 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01098 80A01038 24060450 */  addiu   $a2, $zero, 0x0450         ## $a2 = 00000450
 /* 0109C 80A0103C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 010A0 80A01040 3C0540E0 */  lui     $a1, 0x40E0                ## $a1 = 40E00000
-/* 010A4 80A01044 0C01DE80 */  jal     Math_ApproxF
+/* 010A4 80A01044 0C01DE80 */  jal     Math_StepToF
               
 /* 010A8 80A01048 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 010AC 80A0104C 86020194 */  lh      $v0, 0x0194($s0)           ## 00000194

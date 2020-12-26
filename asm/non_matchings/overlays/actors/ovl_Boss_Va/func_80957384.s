@@ -18,7 +18,7 @@ glabel func_80957384
 /* 080F0 809573B0 8F2801DC */  lw      $t0, 0x01DC($t9)           ## 000001DC
 /* 080F4 809573B4 AF080004 */  sw      $t0, 0x0004($t8)           ## FFFFFFF0
 /* 080F8 809573B8 8F2901E0 */  lw      $t1, 0x01E0($t9)           ## 000001E0
-/* 080FC 809573BC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 080FC 809573BC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08100 809573C0 AF090008 */  sw      $t1, 0x0008($t8)           ## FFFFFFF4
 /* 08104 809573C4 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -40,7 +40,7 @@ glabel func_80957384
 /* 08144 80957404 31CF007F */  andi    $t7, $t6, 0x007F           ## $t7 = 00000000
 /* 08148 80957408 15E0000C */  bne     $t7, $zero, .L8095743C     
 /* 0814C 8095740C 00000000 */  nop
-/* 08150 80957410 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 08150 80957410 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08154 80957414 00000000 */  nop
 /* 08158 80957418 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -66,7 +66,7 @@ glabel func_80957384
 /* 081A4 80957464 A7AC0050 */  sh      $t4, 0x0050($sp)           
 /* 081A8 80957468 860501F6 */  lh      $a1, 0x01F6($s0)           ## 000001F6
 /* 081AC 8095746C AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 081B0 80957470 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 081B0 80957470 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 081B4 80957474 2407001E */  addiu   $a3, $zero, 0x001E         ## $a3 = 0000001E
 /* 081B8 80957478 860E01F8 */  lh      $t6, 0x01F8($s0)           ## 000001F8
@@ -130,7 +130,7 @@ glabel func_80957384
 /* 08288 80957548 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 0828C 8095754C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 08290 80957550 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 08294 80957554 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 08294 80957554 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 08298 80957558 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0829C 8095755C 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFEC
@@ -147,7 +147,7 @@ glabel func_80957384
 /* 082C4 80957584 312A0007 */  andi    $t2, $t1, 0x0007           ## $t2 = 00000000
 /* 082C8 80957588 15400015 */  bne     $t2, $zero, .L809575E0     
 /* 082CC 8095758C 00000000 */  nop
-/* 082D0 80957590 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 082D0 80957590 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 082D4 80957594 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 082D8 80957598 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
@@ -219,7 +219,7 @@ glabel func_80957384
 /* 083D8 80957698 00812021 */  addu    $a0, $a0, $at              
 /* 083DC 8095769C 00042100 */  sll     $a0, $a0,  4               
 /* 083E0 809576A0 00042400 */  sll     $a0, $a0, 16               
-/* 083E4 809576A4 0C01DE1C */  jal     Math_Sins
+/* 083E4 809576A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 083E8 809576A8 00042403 */  sra     $a0, $a0, 16               
 /* 083EC 809576AC C7B0004C */  lwc1    $f16, 0x004C($sp)          
@@ -233,7 +233,7 @@ glabel func_80957384
 /* 0840C 809576CC E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 08410 809576D0 46069100 */  add.s   $f4, $f18, $f6             
 /* 08414 809576D4 44052000 */  mfc1    $a1, $f4                   
-/* 08418 809576D8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 08418 809576D8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0841C 809576DC 00000000 */  nop
 /* 08420 809576E0 87A50050 */  lh      $a1, 0x0050($sp)           
@@ -243,10 +243,10 @@ glabel func_80957384
 /* 08430 809576F0 00052C00 */  sll     $a1, $a1, 16               
 /* 08434 809576F4 00052C03 */  sra     $a1, $a1, 16               
 /* 08438 809576F8 2407003C */  addiu   $a3, $zero, 0x003C         ## $a3 = 0000003C
-/* 0843C 809576FC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0843C 809576FC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 08440 80957700 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 08444 80957704 0C0329C8 */  jal     func_800CA720              
+/* 08444 80957704 0C0329C8 */  jal     Math_SinF              
 /* 08448 80957708 C60C01A4 */  lwc1    $f12, 0x01A4($s0)          ## 000001A4
 /* 0844C 8095770C 46000400 */  add.s   $f16, $f0, $f0             
 /* 08450 80957710 C60A0028 */  lwc1    $f10, 0x0028($s0)          ## 00000028
@@ -301,7 +301,7 @@ glabel func_80957384
 /* 084FC 809577BC 2407003C */  addiu   $a3, $zero, 0x003C         ## $a3 = 0000003C
 /* 08500 809577C0 24A50096 */  addiu   $a1, $a1, 0x0096           ## $a1 = 00000096
 /* 08504 809577C4 00052C00 */  sll     $a1, $a1, 16               
-/* 08508 809577C8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 08508 809577C8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0850C 809577CC 00052C03 */  sra     $a1, $a1, 16               
 /* 08510 809577D0 8E0D0118 */  lw      $t5, 0x0118($s0)           ## 00000118
@@ -313,7 +313,7 @@ glabel func_80957384
 /* 08528 809577E8 920C0114 */  lbu     $t4, 0x0114($s0)           ## 00000114
 /* 0852C 809577EC 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 08530 809577F0 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 08534 809577F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 08534 809577F4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 08538 809577F8 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 0853C 809577FC 1000000D */  beq     $zero, $zero, .L80957834   
@@ -332,7 +332,7 @@ glabel func_80957384
 /* 0856C 8095782C 0C00D09B */  jal     func_8003426C              
 /* 08570 80957830 AFAF0010 */  sw      $t7, 0x0010($sp)           
 .L80957834:
-/* 08574 80957834 0C0329C8 */  jal     func_800CA720              
+/* 08574 80957834 0C0329C8 */  jal     Math_SinF              
 /* 08578 80957838 C60C01A4 */  lwc1    $f12, 0x01A4($s0)          ## 000001A4
 /* 0857C 8095783C 3C014080 */  lui     $at, 0x4080                ## $at = 40800000
 /* 08580 80957840 44814000 */  mtc1    $at, $f8                   ## $f8 = 4.00
@@ -359,7 +359,7 @@ glabel func_80957384
 /* 085CC 8095788C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 085D0 80957890 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 085D4 80957894 240705DC */  addiu   $a3, $zero, 0x05DC         ## $a3 = 000005DC
-/* 085D8 80957898 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 085D8 80957898 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 085DC 8095789C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 085E0 809578A0 8FA4006C */  lw      $a0, 0x006C($sp)           
@@ -376,11 +376,11 @@ glabel func_80957384
 /* 08608 809578C8 316C0003 */  andi    $t4, $t3, 0x0003           ## $t4 = 00000000
 /* 0860C 809578CC 15800003 */  bne     $t4, $zero, .L809578DC     
 /* 08610 809578D0 00000000 */  nop
-/* 08614 809578D4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 08614 809578D4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 08618 809578D8 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L809578DC:
-/* 0861C 809578DC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0861C 809578DC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08620 809578E0 00000000 */  nop
 /* 08624 809578E4 3C018096 */  lui     $at, %hi(D_8095C7BC)       ## $at = 80960000
@@ -413,7 +413,7 @@ glabel func_80957384
 /* 08684 80957944 01AB6023 */  subu    $t4, $t5, $t3              
 /* 08688 80957948 A60C0032 */  sh      $t4, 0x0032($s0)           ## 00000032
 .L8095794C:
-/* 0868C 8095794C 0C01DE1C */  jal     Math_Sins
+/* 0868C 8095794C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 08690 80957950 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 08694 80957954 C60601A0 */  lwc1    $f6, 0x01A0($s0)           ## 000001A0
@@ -421,7 +421,7 @@ glabel func_80957384
 /* 0869C 8095795C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 086A0 80957960 46060202 */  mul.s   $f8, $f0, $f6              
 /* 086A4 80957964 46044280 */  add.s   $f10, $f8, $f4             
-/* 086A8 80957968 0C01DE0D */  jal     Math_Coss
+/* 086A8 80957968 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 086AC 8095796C E60A0024 */  swc1    $f10, 0x0024($s0)          ## 00000024
 /* 086B0 80957970 C61001A0 */  lwc1    $f16, 0x01A0($s0)          ## 000001A0

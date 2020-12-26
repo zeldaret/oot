@@ -84,7 +84,7 @@ glabel L809F5714
 /* 02454 809F5714 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 02458 809F5718 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
 /* 0245C 809F571C A6000274 */  sh      $zero, 0x0274($s0)         ## 00000274
-/* 02460 809F5720 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02460 809F5720 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02464 809F5724 A20000AE */  sb      $zero, 0x00AE($s0)         ## 000000AE
 /* 02468 809F5728 860B026A */  lh      $t3, 0x026A($s0)           ## 0000026A
@@ -143,7 +143,7 @@ glabel L809F57B0
 /* 02520 809F57E0 14200009 */  bne     $at, $zero, .L809F5808     
 /* 02524 809F57E4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 02528 809F57E8 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 0252C 809F57EC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0252C 809F57EC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02530 809F57F0 A6000268 */  sh      $zero, 0x0268($s0)         ## 00000268
 /* 02534 809F57F4 4600010D */  trunc.w.s $f4, $f0                   

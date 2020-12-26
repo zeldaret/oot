@@ -32,7 +32,7 @@ glabel func_80931300
 /* 04D9C 8093136C A2020195 */  sb      $v0, 0x0195($s0)           ## 00000195
 /* 04DA0 80931370 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 04DA4 80931374 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 04DA8 80931378 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 04DA8 80931378 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 04DAC 8093137C 24060600 */  addiu   $a2, $zero, 0x0600         ## $a2 = 00000600
 /* 04DB0 80931380 82190195 */  lb      $t9, 0x0195($s0)           ## 00000195
@@ -40,7 +40,7 @@ glabel func_80931300
 /* 04DB8 80931388 860501A6 */  lh      $a1, 0x01A6($s0)           ## 000001A6
 /* 04DBC 8093138C 03224024 */  and     $t0, $t9, $v0              
 /* 04DC0 80931390 A2080195 */  sb      $t0, 0x0195($s0)           ## 00000195
-/* 04DC4 80931394 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 04DC4 80931394 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 04DC8 80931398 24060600 */  addiu   $a2, $zero, 0x0600         ## $a2 = 00000600
 /* 04DCC 8093139C 82090195 */  lb      $t1, 0x0195($s0)           ## 00000195
@@ -48,7 +48,7 @@ glabel func_80931300
 /* 04DD4 809313A4 860501A4 */  lh      $a1, 0x01A4($s0)           ## 000001A4
 /* 04DD8 809313A8 01225024 */  and     $t2, $t1, $v0              
 /* 04DDC 809313AC A20A0195 */  sb      $t2, 0x0195($s0)           ## 00000195
-/* 04DE0 809313B0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 04DE0 809313B0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 04DE4 809313B4 24060200 */  addiu   $a2, $zero, 0x0200         ## $a2 = 00000200
 /* 04DE8 809313B8 820B0195 */  lb      $t3, 0x0195($s0)           ## 00000195
@@ -56,7 +56,7 @@ glabel func_80931300
 /* 04DF0 809313C0 860501A4 */  lh      $a1, 0x01A4($s0)           ## 000001A4
 /* 04DF4 809313C4 01626024 */  and     $t4, $t3, $v0              
 /* 04DF8 809313C8 A20C0195 */  sb      $t4, 0x0195($s0)           ## 00000195
-/* 04DFC 809313CC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 04DFC 809313CC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 04E00 809313D0 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 04E04 809313D4 820D0195 */  lb      $t5, 0x0195($s0)           ## 00000195
@@ -70,7 +70,7 @@ glabel func_80931300
 /* 04E24 809313F4 8DE50090 */  lw      $a1, 0x0090($t7)           ## 80940090
 /* 04E28 809313F8 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 04E2C 809313FC 3C074248 */  lui     $a3, 0x4248                ## $a3 = 42480000
-/* 04E30 80931400 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04E30 80931400 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04E34 80931404 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 04E38 80931408 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -89,7 +89,7 @@ glabel func_80931300
 /* 04E68 80931438 44815000 */  mtc1    $at, $f10                  ## $f10 = 1.00
 /* 04E6C 8093143C 03194024 */  and     $t0, $t8, $t9              
 /* 04E70 80931440 A2080195 */  sb      $t0, 0x0195($s0)           ## 00000195
-/* 04E74 80931444 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04E74 80931444 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04E78 80931448 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 04E7C 8093144C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -104,7 +104,7 @@ glabel func_80931300
 /* 04EA0 80931470 012A5824 */  and     $t3, $t1, $t2              
 .L80931474:
 /* 04EA4 80931474 A20B0195 */  sb      $t3, 0x0195($s0)           ## 00000195
-/* 04EA8 80931478 0C01DE1C */  jal     Math_Sins
+/* 04EA8 80931478 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04EAC 8093147C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 04EB0 80931480 C61203C4 */  lwc1    $f18, 0x03C4($s0)          ## 000003C4
@@ -114,7 +114,7 @@ glabel func_80931300
 /* 04EC0 80931490 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 04EC4 80931494 C5860024 */  lwc1    $f6, 0x0024($t4)           ## 80940024
 /* 04EC8 80931498 46062200 */  add.s   $f8, $f4, $f6              
-/* 04ECC 8093149C 0C01DE0D */  jal     Math_Coss
+/* 04ECC 8093149C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 04ED0 809314A0 E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 04ED4 809314A4 C60A03C4 */  lwc1    $f10, 0x03C4($s0)          ## 000003C4

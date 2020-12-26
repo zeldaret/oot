@@ -47,7 +47,7 @@ glabel func_80A3F300
 /* 00E40 80A3F3B0 46083301 */  sub.s   $f12, $f6, $f8             
 /* 00E44 80A3F3B4 46128381 */  sub.s   $f14, $f16, $f18           
 /* 00E48 80A3F3B8 E7AC002C */  swc1    $f12, 0x002C($sp)          
-/* 00E4C 80A3F3BC 0C03F494 */  jal     Math_atan2f              
+/* 00E4C 80A3F3BC 0C03F494 */  jal     Math_FAtan2F              
 /* 00E50 80A3F3C0 E7AE0028 */  swc1    $f14, 0x0028($sp)          
 /* 00E54 80A3F3C4 3C0180A4 */  lui     $at, %hi(D_80A420D8)       ## $at = 80A40000
 /* 00E58 80A3F3C8 C42420D8 */  lwc1    $f4, %lo(D_80A420D8)($at)  
@@ -61,7 +61,7 @@ glabel func_80A3F300
 /* 00E78 80A3F3E8 44054000 */  mfc1    $a1, $f8                   
 /* 00E7C 80A3F3EC 00000000 */  nop
 /* 00E80 80A3F3F0 00052C00 */  sll     $a1, $a1, 16               
-/* 00E84 80A3F3F4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00E84 80A3F3F4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00E88 80A3F3F8 00052C03 */  sra     $a1, $a1, 16               
 /* 00E8C 80A3F3FC C7AC002C */  lwc1    $f12, 0x002C($sp)          

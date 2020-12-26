@@ -5,7 +5,7 @@ glabel func_809D01CC
 /* 01AF8 809D01D8 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 01AFC 809D01DC A08E0220 */  sb      $t6, 0x0220($a0)           ## 00000220
 /* 01B00 809D01E0 E4840068 */  swc1    $f4, 0x0068($a0)           ## 00000068
-/* 01B04 809D01E4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01B04 809D01E4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01B08 809D01E8 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01B0C 809D01EC 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000

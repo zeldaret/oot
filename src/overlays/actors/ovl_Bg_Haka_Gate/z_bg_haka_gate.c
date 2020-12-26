@@ -86,7 +86,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (sSkullOfTruthRotY != 0x100) {
             this->actionFunc = BgHakaGate_FalseSkull;
         } else if (ABS(thisx->shape.rot.y) < 0x4000) {
-            if ((Math_Rand_ZeroOne() * 3.0f) < sPuzzleState) {
+            if ((Rand_ZeroOne() * 3.0f) < sPuzzleState) {
                 this->vIsSkullOfTruth = true;
                 sSkullOfTruthRotY = thisx->shape.rot.y + 0x8000;
                 if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -101,7 +101,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actionFunc = BgHakaGate_FalseSkull;
         }
-        this->vScrollTimer = Math_Rand_ZeroOne() * 20.0f;
+        this->vScrollTimer = Rand_ZeroOne() * 20.0f;
         thisx->flags |= 0x10;
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->vFlameScale = 350;
@@ -197,16 +197,16 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
 
     this->vTurnRateDeg10++;
     this->vTurnRateDeg10 = CLAMP_MAX(this->vTurnRateDeg10, 5);
-    turnFinished = Math_ApproxS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
+    turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
     this->dyna.actor.shape.rot.y = (this->vRotYdeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
     if ((player->stateFlags2 & 0x10) && (sStatueDistFromLink > 0.0f)) {
         player->actor.posRot.pos.x =
             this->dyna.actor.initPosRot.pos.x +
-            (Math_Sins(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
         player->actor.posRot.pos.z =
             this->dyna.actor.initPosRot.pos.z +
-            (Math_Coss(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
     } else {
         sStatueDistFromLink = 0.0f;
     }
@@ -228,8 +228,8 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
         Player* player = PLAYER;
         f32 radialDist;
         f32 angDist;
-        f32 cos = Math_Coss(sStatueRotY);
-        f32 sin = Math_Sins(sStatueRotY);
+        f32 cos = Math_CosS(sStatueRotY);
+        f32 sin = Math_SinS(sStatueRotY);
         f32 dx = player->actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
         f32 dz = player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
 
@@ -260,12 +260,12 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, GlobalContext* globalCtx) {
         this->vTimer--;
     }
     if (this->vTimer == 0) {
-        if (Math_ApproxUpdateScaledS(&this->vOpenAngle, 0, 0x800)) {
+        if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {
-        Math_ApproxUpdateScaledS(&this->vOpenAngle, 0x3000, 0x800);
+        Math_ScaledStepToS(&this->vOpenAngle, 0x3000, 0x800);
     }
 }
 
@@ -277,7 +277,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 80.0f, 1.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 80.0f, 1.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
         this->dyna.actor.flags &= ~0x10;
         this->actionFunc = BgHakaGate_DoNothing;
@@ -287,14 +287,14 @@ void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_SkullOfTruth(BgHakaGate* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->switchFlag) && Math_ApproxS(&this->vFlameScale, 350, 20)) {
+    if (Flags_GetSwitch(globalCtx, this->switchFlag) && Math_StepToS(&this->vFlameScale, 350, 20)) {
         this->actionFunc = BgHakaGate_DoNothing;
     }
 }
 
 void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        Math_ApproxS(&this->vFlameScale, 350, 20);
+        Math_StepToS(&this->vFlameScale, 350, 20);
     }
     if (globalCtx->actorCtx.unk_03) {
         this->dyna.actor.flags |= 0x80;

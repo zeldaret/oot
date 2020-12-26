@@ -102,7 +102,7 @@ glabel EnDntJiji_Update
 /* 01264 809F2D44 14200009 */  bne     $at, $zero, .L809F2D6C     
 /* 01268 809F2D48 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 0126C 809F2D4C 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 01270 809F2D50 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01270 809F2D50 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01274 809F2D54 A600024C */  sh      $zero, 0x024C($s0)         ## 0000024C
 /* 01278 809F2D58 4600010D */  trunc.w.s $f4, $f0                   

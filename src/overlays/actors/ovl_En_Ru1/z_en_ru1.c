@@ -228,7 +228,7 @@ void func_80AEAE1C(EnRu1* this) {
     s16* unk_25C = &this->unk_25C;
 
     if (DECR(*unk_25E) == 0) {
-        *unk_25E = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_25E = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_25C = *unk_25E;
@@ -500,7 +500,7 @@ void func_80AEB7D0(EnRu1* this) {
 f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {
     s32 csCtxFrames = globalCtx->csCtx.frames;
     if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
-        return (Math_Coss(((csCtxFrames - csCmdNPCAction->startFrame) /
+        return (Math_CosS(((csCtxFrames - csCmdNPCAction->startFrame) /
                            (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
                           32768.0f) *
                 -0.5f) +
@@ -1017,9 +1017,9 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
 
     yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
+    spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsLink)) + pos->z;
     this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
                                        0, yawTowardsLink, 0, 5);
 }
@@ -1045,9 +1045,9 @@ void func_80AECE20(EnRu1* this, GlobalContext* globalCtx) {
     f32 unk_27C = this->unk_27C;
     Vec3f* pos = &thisx->posRot.pos;
 
-    pos->x = (Math_Sins(shapeRotY) * unk_27C) + playerPos->x;
+    pos->x = (Math_SinS(shapeRotY) * unk_27C) + playerPos->x;
     pos->y = playerPos->y;
-    pos->z = (Math_Coss(shapeRotY) * unk_27C) + playerPos->z;
+    pos->z = (Math_CosS(shapeRotY) * unk_27C) + playerPos->z;
 }
 
 void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1057,8 +1057,8 @@ void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
     Vec3f* pos = &thisx->posRot.pos;
     s16 shapeRotY = thisx->shape.rot.y;
 
-    player_unk_450->x = ((kREG(2) + 30.0f) * Math_Sins(shapeRotY)) + pos->x;
-    player_unk_450->z = ((kREG(2) + 30.0f) * Math_Coss(shapeRotY)) + pos->z;
+    player_unk_450->x = ((kREG(2) + 30.0f) * Math_SinS(shapeRotY)) + pos->x;
+    player_unk_450->z = ((kREG(2) + 30.0f) * Math_CosS(shapeRotY)) + pos->z;
 }
 
 s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
@@ -1079,9 +1079,9 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
         temp2 = this->actor.posRot.pos.z - player->actor.posRot.pos.z;
-        temp_f16 = Math_atan2f(temp1, temp2) * 10430.3779296875f;
+        temp_f16 = Math_FAtan2F(temp1, temp2) * 10430.3779296875f;
         if (*shapeRotY != temp_f16) {
-            Math_SmoothScaleMaxMinS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
+            Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.posRot.rot.y = *shapeRotY;
         } else {
             return 1;
@@ -1296,11 +1296,11 @@ void func_80AED83C(EnRu1* this) {
     Vec3s* tempPtr2;
 
     tempPtr = &this->unk_374.unk_08;
-    Math_SmoothScaleMaxMinS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
     tempPtr2 = &this->unk_374.unk_0E;
-    Math_SmoothScaleMaxMinS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothScaleMaxMinS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
 
 void func_80AED8DC(EnRu1* this) {
@@ -1311,7 +1311,7 @@ void func_80AED8DC(EnRu1* this) {
     s32 pad[2];
 
     if (DECR(*unk_2AC) == 0) {
-        *unk_2AC = Math_Rand_S16Offset(0xA, 0x19);
+        *unk_2AC = Rand_S16Offset(0xA, 0x19);
         temp_hi = *unk_2AC % 5;
         if (temp_hi == 0) {
             this->unk_2B0 = 1;
@@ -1324,14 +1324,14 @@ void func_80AED8DC(EnRu1* this) {
     }
 
     if (this->unk_2B0 == 0) {
-        Math_SmoothScaleMaxMinS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, 0, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, 0, 3, ABS(*unk_29E), 0x64);
     } else if (this->unk_2B0 == 1) {
-        Math_SmoothScaleMaxMinS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
     } else {
-        Math_SmoothScaleMaxMinS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothScaleMaxMinS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
     }
 }
 
@@ -1491,8 +1491,8 @@ void func_80AEE050(EnRu1* this) {
             if (this->actor.speedXZ <= 0.1f) {
                 this->actor.speedXZ = 0.0f;
             }
-            this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-            this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
             func_8002D7EC(this);
         }
     } else {
@@ -1504,7 +1504,7 @@ void func_80AEE050(EnRu1* this) {
             } else {
                 sp28 = this->unk_358;
                 sp24 = this->unk_354;
-                temp_f10 = Math_Coss(this->unk_35C) * -sp28;
+                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
                 this->actor.posRot.pos.y = temp_f10 + sp24;
                 this->unk_35C += 0x3E8;
                 this->unk_358 *= 0.95f;
@@ -1676,7 +1676,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
         this->unk_370 += 1.0f;
         if (this->action != 32) {
             if (*unk_370 > 30.0f) {
-                if (Math_Rand_S16Offset(0, 3) == 0) {
+                if (Rand_S16Offset(0, 3) == 0) {
                     frameCount = SkelAnime_GetFrameCount(&D_06004350);
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_06004350, 1.0f, 0, frameCount, 0, -8.0f);
                     func_80AED5DC(this);
