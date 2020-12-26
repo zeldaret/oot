@@ -2310,9 +2310,6 @@ void func_8009FC90(GlobalContext* globalCtx) {
 
 f32 D_8012A398 = 0.0f;
 
-// Scene Draw Config 21
-#ifdef NON_MATCHING
-// regalloc differences and single equivalent instruction difference
 void func_8009FE58(GlobalContext* globalCtx) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
@@ -2346,11 +2343,10 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, Math_Coss(D_8012A39C) * (0.00009587531f * temp),
-                      Math_Sins(D_8012A39C) * (0.00009587531f * temp), Math_Sins(D_8012A3A0) * (0.00009587531f * temp));
-        func_800AA78C(&globalCtx->view, 1.0f + (Math_Sins(D_8012A3A0) * (0.79999995f * temp)),
-                      1.0f + (Math_Coss(D_8012A3A0) * (0.39999998f * temp)),
-                      1.0f + (Math_Coss(D_8012A39C) * (1 * temp)));
+        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_Coss(D_8012A39C),
+                      0.00009587531f * temp * Math_Sins(D_8012A39C), 0.00009587531f * temp * Math_Sins(D_8012A3A0));
+        func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_Sins(D_8012A3A0)),
+                      1.f + (0.39999998f * temp * Math_Coss(D_8012A3A0)), 1.f + (1 * temp * Math_Coss(D_8012A39C)));
         func_800AA7AC(&globalCtx->view, 0.95f);
 
         switch (globalCtx->unk_11D30[0]) {
@@ -2377,7 +2373,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
     }
 
     if (globalCtx->roomCtx.curRoom.num == 2) {
-        Matrix_Scale(1, sinf(D_8012A398) * 0.8f, 1, MTXMODE_NEW);
+        Matrix_Scale(1.0f, sinf(D_8012A398) * 0.8f, 1.0f, MTXMODE_NEW);
     } else {
         Matrix_Scale(1.005f, sinf(D_8012A398) * 0.8f, 1.005f, MTXMODE_NEW);
     }
@@ -2386,12 +2382,6 @@ void func_8009FE58(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7811);
 }
-#else
-s16 D_8012A39C = 538;
-s16 D_8012A3A0 = 4272;
-void func_8009FE58(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene_table/func_8009FE58.s")
-#endif
 
 // Scene Draw Config 26
 void func_800A0334(GlobalContext* globalCtx) {

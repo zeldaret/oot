@@ -14,7 +14,7 @@ typedef enum {
     /* 0 */ ENZO_EFFECT_NONE,
     /* 1 */ ENZO_EFFECT_RIPPLE,
     /* 2 */ ENZO_EFFECT_SPLASH,
-    /* 3 */ ENZO_EFFECT_BUBBLE,
+    /* 3 */ ENZO_EFFECT_BUBBLE
 } EnZoEffectType;
 
 void EnZo_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -82,7 +82,7 @@ void EnZo_Bubble(EnZo* this, Vec3f* pos) {
                 effect->scale = ((Math_Rand_ZeroOne() - 0.5f) * 0.02f) + 0.12f;
                 break;
             }
-        } 
+        }
         effect++;
     }
 }
@@ -103,7 +103,7 @@ void EnZo_Splash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
             effect->color.a = (Math_Rand_ZeroOne() * 100.0f) + 100.0f;
             effect->scale = scale;
             break;
-        } 
+        }
         effect++;
     }
 }
@@ -241,7 +241,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 281),
-                    G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06002350);
         }
         effect++;
@@ -273,7 +273,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 325),
-                    G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, D_06002510);
         }
@@ -292,14 +292,12 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
 }
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER, },
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 0x1A, 0x40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
@@ -314,14 +312,10 @@ const ActorInit En_Zo_InitVars = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, -8.0f, },
-    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0,  0.0f, },
-    { &D_06002F10, 0.0f, 1.0f,  1.0f, 2,  0.0f, },
-    { &D_06002F10, 1.0f, 1.0f, -1.0f, 0, -8.0f, },
-    { &D_06002F10, 1.0f, 8.0f, -1.0f, 0, -8.0f, },
-    { &D_0600219C, 1.0f, 0.0f, -1.0f, 0, -8.0f, },
-    { &D_06000598, 1.0f, 0.0f, -1.0f, 0, -8.0f, },
-    { &D_06000D48, 1.0f, 0.0f, -1.0f, 0, -8.0f, },
+    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, 0.0f },
+    { &D_06002F10, 0.0f, 1.0f, 1.0f, 2, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, 0, -8.0f },
+    { &D_06002F10, 1.0f, 8.0f, -1.0f, 0, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, 0, -8.0f },
+    { &D_06000598, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, 0, -8.0f },
 };
 
 void EnZo_SpawnSplashes(EnZo* this) {

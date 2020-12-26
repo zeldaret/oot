@@ -1579,8 +1579,7 @@ endseg
 beginseg
     name "ovl_Demo_Tre_Lgt"
     include "build/src/overlays/actors/ovl_Demo_Tre_Lgt/z_demo_tre_lgt.o"
-    include "build/data/overlays/actors/z_demo_tre_lgt.data.o"
-    include "build/data/overlays/actors/z_demo_tre_lgt.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Tre_Lgt/ovl_Demo_Tre_Lgt_reloc.o"
 endseg
 
 beginseg
