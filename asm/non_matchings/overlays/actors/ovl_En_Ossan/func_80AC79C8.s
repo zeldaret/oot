@@ -47,8 +47,8 @@ glabel func_80AC79C8
 /* 04DB0 80AC7A50 AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
 /* 04DB4 80AC7A54 AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
 /* 04DB8 80AC7A58 8D0202B0 */  lw      $v0, 0x02B0($t0)           ## 000002B0
-/* 04DBC 80AC7A5C 3C180401 */  lui     $t8, 0x0401                ## $t8 = 04010000
-/* 04DC0 80AC7A60 2718CF40 */  addiu   $t8, $t8, 0xCF40           ## $t8 = 0400CF40
+/* 04DBC 80AC7A5C 3C180401 */  lui     $t8, %hi(D_0400CF40)                ## $t8 = 04010000
+/* 04DC0 80AC7A60 2718CF40 */  addiu   $t8, $t8, %lo(D_0400CF40)           ## $t8 = 0400CF40
 /* 04DC4 80AC7A64 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 04DC8 80AC7A68 AD0E02B0 */  sw      $t6, 0x02B0($t0)           ## 000002B0
 /* 04DCC 80AC7A6C 3C0FFD70 */  lui     $t7, 0xFD70                ## $t7 = FD700000
@@ -151,8 +151,8 @@ glabel func_80AC79C8
 /* 04F4C 80AC7BEC 8FA80094 */  lw      $t0, 0x0094($sp)           
 /* 04F50 80AC7BF0 8D0202B0 */  lw      $v0, 0x02B0($t0)           ## 000002B0
 .L80AC7BF4:
-/* 04F54 80AC7BF4 3C0C0401 */  lui     $t4, 0x0401                ## $t4 = 04010000
-/* 04F58 80AC7BF8 258CCE40 */  addiu   $t4, $t4, 0xCE40           ## $t4 = 0400CE40
+/* 04F54 80AC7BF4 3C0C0401 */  lui     $t4, %hi(D_0400CE40)                ## $t4 = 04010000
+/* 04F58 80AC7BF8 258CCE40 */  addiu   $t4, $t4, %lo(D_0400CE40)           ## $t4 = 0400CE40
 /* 04F5C 80AC7BFC 244A0008 */  addiu   $t2, $v0, 0x0008           ## $t2 = 00000008
 /* 04F60 80AC7C00 AD0A02B0 */  sw      $t2, 0x02B0($t0)           ## 000002B0
 /* 04F64 80AC7C04 3C0BFD70 */  lui     $t3, 0xFD70                ## $t3 = FD700000

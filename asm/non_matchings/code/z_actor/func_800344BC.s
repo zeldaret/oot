@@ -54,7 +54,7 @@ glabel func_800344BC
 /* AAB720 80034580 240A0001 */  li    $t2, 1
 /* AAB724 80034584 AFAA0010 */  sw    $t2, 0x10($sp)
 /* AAB728 80034588 2504000A */  addiu $a0, $t0, 0xa
-/* AAB72C 8003458C 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AAB72C 8003458C 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AAB730 80034590 A7A30040 */   sh    $v1, 0x40($sp)
 /* AAB734 80034594 87A30040 */  lh    $v1, 0x40($sp)
 /* AAB738 80034598 8FA8004C */  lw    $t0, 0x4c($sp)
@@ -120,7 +120,7 @@ glabel func_800344BC
 .L80034660:
 /* AAB800 80034660 25040010 */  addiu $a0, $t0, 0x10
 /* AAB804 80034664 AFAC0010 */  sw    $t4, 0x10($sp)
-/* AAB808 80034668 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AAB808 80034668 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AAB80C 8003466C A7A30040 */   sh    $v1, 0x40($sp)
 /* AAB810 80034670 87A30040 */  lh    $v1, 0x40($sp)
 /* AAB814 80034674 8FA8004C */  lw    $t0, 0x4c($sp)
@@ -167,7 +167,7 @@ glabel func_800344BC
 /* AAB89C 800346FC 11A00005 */  beqz  $t5, .L80034714
 /* AAB8A0 80034700 248400B6 */   addiu $a0, $a0, 0xb6
 /* AAB8A4 80034704 240E0001 */  li    $t6, 1
-/* AAB8A8 80034708 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AAB8A8 80034708 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AAB8AC 8003470C AFAE0010 */   sw    $t6, 0x10($sp)
 /* AAB8B0 80034710 8FA8004C */  lw    $t0, 0x4c($sp)
 .L80034714:
@@ -194,7 +194,7 @@ glabel func_800344BC
 /* AAB8FC 8003475C 00052C03 */  sra   $a1, $a1, 0x10
 .L80034760:
 /* AAB900 80034760 240F0001 */  li    $t7, 1
-/* AAB904 80034764 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AAB904 80034764 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AAB908 80034768 AFAF0010 */   sw    $t7, 0x10($sp)
 /* AAB90C 8003476C 8FA8004C */  lw    $t0, 0x4c($sp)
 /* AAB910 80034770 87B80046 */  lh    $t8, 0x46($sp)
@@ -224,7 +224,7 @@ glabel func_800344BC
 /* AAB968 800347C8 00052C03 */  sra   $a1, $a1, 0x10
 .L800347CC:
 /* AAB96C 800347CC 2504000E */  addiu $a0, $t0, 0xe
-/* AAB970 800347D0 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AAB970 800347D0 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AAB974 800347D4 AFAA0010 */   sw    $t2, 0x10($sp)
 /* AAB978 800347D8 8FBF001C */  lw    $ra, 0x1c($sp)
 /* AAB97C 800347DC 27BD0048 */  addiu $sp, $sp, 0x48

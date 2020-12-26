@@ -33,7 +33,7 @@ glabel func_80A63210
 /* 07F78 80A63268 00000000 */  nop
 /* 07F7C 80A6326C 468083A0 */  cvt.s.w $f14, $f16
 /* 07F80 80A63270 46007582 */  mul.s   $f22, $f14, $f0
-/* 07F84 80A63274 0C03F494 */  jal     Math_atan2f
+/* 07F84 80A63274 0C03F494 */  jal     Math_FAtan2F
 /* 07F88 80A63278 00000000 */  nop
 /* 07F8C 80A6327C 3C0180A6 */  lui     $at, %hi(D_80A66974)       ## $at = 80A60000
 /* 07F90 80A63280 C4326974 */  lwc1    $f18, %lo(D_80A66974)($at)
@@ -45,7 +45,7 @@ glabel func_80A63210
 /* 07FA8 80A63298 032B2023 */  subu    $a0, $t9, $t3
 /* 07FAC 80A6329C 24848001 */  addiu   $a0, $a0, 0x8001           ## $a0 = FFFF8001
 /* 07FB0 80A632A0 00042400 */  sll     $a0, $a0, 16
-/* 07FB4 80A632A4 0C01DE0D */  jal     Math_Coss
+/* 07FB4 80A632A4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 07FB8 80A632A8 00042403 */  sra     $a0, $a0, 16
 /* 07FBC 80A632AC 3C0180A6 */  lui     $at, %hi(D_80A66978)       ## $at = 80A60000

@@ -778,13 +778,13 @@ void BossSst_HeadNeutral(BossSst* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         if ((PLAYER->actor.posRot.pos.y > -50.0f) && !(PLAYER->stateFlags1 & 0x6080)) {
-            sHand[Math_Rand_ZeroOne() <= 0.5f]->ready = true;
+            sHand[Rand_ZeroOne() <= 0.5f]->ready = true;
             BossSst_HeadSetupWait(this);
         } else {
             this->timer = 28;
         }
     } else {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, func_8002DAC0(&PLAYER->actor, &sRoomCenter) + 0x8000, 4, 0x400);
+        Math_ApproachS(&this->actor.shape.rot.y, func_8002DAC0(&PLAYER->actor, &sRoomCenter) + 0x8000, 4, 0x400);
         if ((this->timer == 28) || (this->timer == 84)) {
             BossSst_HeadSfx(this, NA_SE_EN_SHADEST_PRAY);
         }
@@ -827,7 +827,7 @@ void BossSst_HeadReadyCharge(BossSst* this, GlobalContext* globalCtx) {
         (sHand[RIGHT]->actionFunc == BossSst_HandReadyCharge)) {
         BossSst_HeadSetupCharge(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0x800, 0x400);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0x800, 0x400);
     }
 }
 
@@ -856,7 +856,7 @@ void BossSst_HeadCharge(BossSst* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 45.0f);
 
     if (this->ready) {
-        if (Math_SmoothScaleMaxMinF(&this->radius, 650.0f, 0.4f, this->actor.speedXZ, 1.0f) < 10.0f) {
+        if (Math_SmoothStepToF(&this->radius, 650.0f, 0.4f, this->actor.speedXZ, 1.0f) < 10.0f) {
             this->radius = 650.0f;
             BossSst_HeadSetupEndCharge(this);
         } else {
@@ -873,8 +873,8 @@ void BossSst_HeadCharge(BossSst* this, GlobalContext* globalCtx) {
             sHandOffset[RIGHT].z += 5.0f;
         }
     } else {
-        Math_SmoothScaleMaxF(&this->radius, -700.0f, 0.4f, this->actor.speedXZ);
-        Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 180.0f, 20.0f);
+        Math_ApproachF(&this->radius, -700.0f, 0.4f, this->actor.speedXZ);
+        Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 180.0f, 20.0f);
         sHandOffset[LEFT].y += 5.0f;
         sHandOffset[RIGHT].y += 5.0f;
     }
@@ -899,7 +899,7 @@ void BossSst_HeadSetupEndCharge(BossSst* this) {
 
 void BossSst_HeadEndCharge(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->targetYaw, 4, 0x800, 0x100) == 0) {
+    if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->targetYaw, 4, 0x800, 0x100) == 0) {
         BossSst_HandSetupRetreat(sHand[LEFT]);
         BossSst_HandSetupRetreat(sHand[RIGHT]);
         BossSst_HeadSetupNeutral(this);
@@ -948,10 +948,10 @@ void BossSst_HeadStunned(BossSst* this, GlobalContext* globalCtx) {
     s32 animFinish;
     f32 currentFrame;
 
-    Math_ApproxF(&sHandOffset[LEFT].z, 600.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[RIGHT].z, 600.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[LEFT].x, 200.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[RIGHT].x, -200.0f, 20.0f);
+    Math_StepToF(&sHandOffset[LEFT].z, 600.0f, 20.0f);
+    Math_StepToF(&sHandOffset[RIGHT].z, 600.0f, 20.0f);
+    Math_StepToF(&sHandOffset[LEFT].x, 200.0f, 20.0f);
+    Math_StepToF(&sHandOffset[RIGHT].x, -200.0f, 20.0f);
     this->actor.velocity.y += this->actor.gravity;
     animFinish = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     currentFrame = this->skelAnime.animCurrentFrame;
@@ -973,9 +973,9 @@ void BossSst_HeadStunned(BossSst* this, GlobalContext* globalCtx) {
     }
 
     if (this->radius < -500.0f) {
-        Math_SmoothScaleMaxMinF(&this->radius, -500.0f, 1.0f, 50.0f, 5.0f);
+        Math_SmoothStepToF(&this->radius, -500.0f, 1.0f, 50.0f, 5.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.5f, 15.0f, 3.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 15.0f, 3.0f);
         this->radius += this->actor.speedXZ;
     }
 
@@ -1003,10 +1003,10 @@ void BossSst_HeadSetupVulnerable(BossSst* this) {
 
 void BossSst_HeadVulnerable(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&sHandOffset[LEFT].z, 600.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[RIGHT].z, 600.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[LEFT].x, 200.0f, 20.0f);
-    Math_ApproxF(&sHandOffset[RIGHT].x, -200.0f, 20.0f);
+    Math_StepToF(&sHandOffset[LEFT].z, 600.0f, 20.0f);
+    Math_StepToF(&sHandOffset[RIGHT].z, 600.0f, 20.0f);
+    Math_StepToF(&sHandOffset[LEFT].x, 200.0f, 20.0f);
+    Math_StepToF(&sHandOffset[RIGHT].x, -200.0f, 20.0f);
     if ((this->actor.flags & 0x2000) == 0x2000) {
         this->timer += 2;
         this->timer = CLAMP_MAX(this->timer, 50);
@@ -1061,12 +1061,12 @@ void BossSst_HeadRecover(BossSst* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y += 10.0f;
         sHandOffset[LEFT].y -= 10.0f;
         sHandOffset[RIGHT].y -= 10.0f;
-        Math_SmoothScaleMaxMinF(&this->radius, -750.0f, 1.0f, this->actor.speedXZ, 2.0f);
+        Math_SmoothStepToF(&this->radius, -750.0f, 1.0f, this->actor.speedXZ, 2.0f);
     } else {
         this->actor.speedXZ *= 1.25f;
         this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 50.0f);
-        diff = Math_SmoothScaleMaxMinF(&this->radius, -650.0f, 1.0f, this->actor.speedXZ, 2.0f);
-        diff += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f, 3.0f);
+        diff = Math_SmoothStepToF(&this->radius, -650.0f, 1.0f, this->actor.speedXZ, 2.0f);
+        diff += Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f, 3.0f);
     }
     if (animFinish && (diff < 10.0f)) {
         this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
@@ -1108,8 +1108,8 @@ void BossSst_UpdateDeathCamera(BossSst* this, GlobalContext* globalCtx) {
     sCameraEye.y += sCameraEyeVel.y;
     sCameraEye.z += sCameraEyeVel.z;
 
-    sn = Math_Sins(this->actor.shape.rot.y);
-    cs = Math_Coss(this->actor.shape.rot.y);
+    sn = Math_SinS(this->actor.shape.rot.y);
+    cs = Math_CosS(this->actor.shape.rot.y);
     cameraAt.x = this->actor.posRot.pos.x + (sCameraAt.z * sn) + (sCameraAt.x * cs);
     cameraAt.y = this->actor.initPosRot.pos.y - 140.0f + sCameraAt.y;
     cameraAt.z = this->actor.posRot.pos.z + (sCameraAt.z * cs) - (sCameraAt.x * sn);
@@ -1147,27 +1147,27 @@ void BossSst_HeadDeath(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     DECR(this->timer);
 
-    Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 140.0f, 20.0f);
+    Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 140.0f, 20.0f);
     if (this->timer == 0) {
         BossSst_HandSetupThrash(sHand[LEFT]);
         BossSst_HandSetupThrash(sHand[RIGHT]);
         BossSst_HeadSetupThrash(this);
     } else if (this->timer > 48) {
         Gameplay_CameraSetAtEye(globalCtx, sCutsceneCamera, &this->actor.posRot2.pos, &sCameraEye);
-        Math_ApproxF(&this->radius, -350.0f, 10.0f);
+        Math_StepToF(&this->radius, -350.0f, 10.0f);
     } else if (this->timer == 48) {
         Player* player = PLAYER;
 
-        player->actor.posRot.pos.x = sRoomCenter.x + (400.0f * Math_Sins(this->actor.shape.rot.y)) +
-                                     (Math_Coss(this->actor.shape.rot.y) * -120.0f);
-        player->actor.posRot.pos.z = sRoomCenter.z + (400.0f * Math_Coss(this->actor.shape.rot.y)) -
-                                     (Math_Sins(this->actor.shape.rot.y) * -120.0f);
+        player->actor.posRot.pos.x = sRoomCenter.x + (400.0f * Math_SinS(this->actor.shape.rot.y)) +
+                                     (Math_CosS(this->actor.shape.rot.y) * -120.0f);
+        player->actor.posRot.pos.z = sRoomCenter.z + (400.0f * Math_CosS(this->actor.shape.rot.y)) -
+                                     (Math_SinS(this->actor.shape.rot.y) * -120.0f);
         player->actor.shape.rot.y = func_8002DAC0(&player->actor, &sRoomCenter);
         func_8002DBD0(&this->actor, &sCameraEye, &globalCtx->cameraPtrs[globalCtx->activeCamera]->eye);
         func_8002DBD0(&this->actor, &sCameraAt, &globalCtx->cameraPtrs[globalCtx->activeCamera]->at);
         this->radius = -350.0f;
-        this->actor.posRot.pos.x = sRoomCenter.x - (Math_Sins(this->actor.shape.rot.y) * 350.0f);
-        this->actor.posRot.pos.z = sRoomCenter.z - (Math_Coss(this->actor.shape.rot.y) * 350.0f);
+        this->actor.posRot.pos.x = sRoomCenter.x - (Math_SinS(this->actor.shape.rot.y) * 350.0f);
+        this->actor.posRot.pos.z = sRoomCenter.z - (Math_CosS(this->actor.shape.rot.y) * 350.0f);
         BossSst_SetCameraTargets(1.0 / 48, 0);
         BossSst_UpdateDeathCamera(this, globalCtx);
     } else {
@@ -1235,7 +1235,7 @@ void BossSst_HeadSetupFall(BossSst* this) {
 
 void BossSst_HeadFall(BossSst* this, GlobalContext* globalCtx) {
     this->actor.speedXZ *= 1.5f;
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 230.0f, this->actor.speedXZ)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - 230.0f, this->actor.speedXZ)) {
         BossSst_HeadSetupMelt(this);
     }
 
@@ -1303,8 +1303,8 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
     } else if (this->effects[0].alpha == 0) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, -50.0f, 0.0f, 0.0f, 0, 0, 0, -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
-                    (Math_Sins(this->actor.shape.rot.y) * 200.0f) + -50.0f, 0.0f,
-                    Math_Coss(this->actor.shape.rot.y) * 200.0f, 0, 0, 0, 0);
+                    (Math_SinS(this->actor.shape.rot.y) * 200.0f) + -50.0f, 0.0f,
+                    Math_CosS(this->actor.shape.rot.y) * 200.0f, 0, 0, 0, 0);
         BossSst_SetCameraTargets(1.0f, 7);
         this->effectMode = BONGO_NULL;
     } else if (this->timer == 0) {
@@ -1320,9 +1320,9 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
     colorDarkIndigo.a = this->effects[0].alpha;
 
     for (i = 0; i < 5; i++) {
-        spawnPos.x = Math_Rand_CenteredFloat(800.0f) + sRoomCenter.x;
-        spawnPos.y = (Math_Rand_ZeroOne() * 5.0f) + (sRoomCenter.y + -28.0f);
-        spawnPos.z = Math_Rand_CenteredFloat(800.0f) + sRoomCenter.z;
+        spawnPos.x = Rand_CenteredFloat(800.0f) + sRoomCenter.x;
+        spawnPos.y = (Rand_ZeroOne() * 5.0f) + (sRoomCenter.y + -28.0f);
+        spawnPos.z = Rand_CenteredFloat(800.0f) + sRoomCenter.z;
         EffectSsGSplash_Spawn(globalCtx, &spawnPos, &colorIndigo, &colorDarkIndigo, 0, 0x3E8);
     }
 }
@@ -1338,9 +1338,9 @@ void BossSst_HandSetupWait(BossSst* this) {
 
 void BossSst_HandWait(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY, 20.0f);
-    Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-    Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
+    Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY, 20.0f);
+    Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
+    Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
     if (HAND_STATE(OTHER_HAND) == HAND_DAMAGED) {
         Player* player = PLAYER;
 
@@ -1375,10 +1375,10 @@ void BossSst_HandDownbeat(BossSst* this, GlobalContext* globalCtx) {
 
         if (this->timer >= 3) {
             this->actor.shape.rot.x -= 0x100;
-            Math_ApproxF(&this->actor.posRot.pos.y, 180.0f, 20.0f);
+            Math_StepToF(&this->actor.posRot.pos.y, 180.0f, 20.0f);
         } else {
             this->actor.shape.rot.x += 0x300;
-            Math_ApproxF(&this->actor.posRot.pos.y, 0.0f, 60.0f);
+            Math_StepToF(&this->actor.posRot.pos.y, 0.0f, 60.0f);
         }
 
         if (this->timer == 0) {
@@ -1409,10 +1409,10 @@ void BossSst_HandDownbeatEnd(BossSst* this, GlobalContext* globalCtx) {
     if (HAND_STATE(OTHER_HAND) == HAND_DAMAGED) {
         BossSst_HandSetupWait(this);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 40.0f, 0.5f, 20.0f, 3.0f);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x800, 0x100);
-        Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-        Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.y, 40.0f, 0.5f, 20.0f, 3.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, 0x100);
+        Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
+        Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
         if ((sHead->actionFunc != BossSst_HeadIntro) && ((sHead->timer % 28) == 12)) {
             BossSst_HandSetupDownbeat(this);
         }
@@ -1436,10 +1436,10 @@ void BossSst_HandOffbeat(BossSst* this, GlobalContext* globalCtx) {
 
         if (this->timer != 0) {
             this->actor.shape.rot.x -= 0x140;
-            Math_ApproxF(&this->actor.posRot.pos.y, 60.0f, 15.0f);
+            Math_StepToF(&this->actor.posRot.pos.y, 60.0f, 15.0f);
         } else {
             this->actor.shape.rot.x += 0x500;
-            Math_ApproxF(&this->actor.posRot.pos.y, 0.0f, 60.0f);
+            Math_StepToF(&this->actor.posRot.pos.y, 0.0f, 60.0f);
         }
 
         if (this->timer == 0) {
@@ -1459,10 +1459,10 @@ void BossSst_HandOffbeatEnd(BossSst* this, GlobalContext* globalCtx) {
     if (HAND_STATE(OTHER_HAND) == HAND_DAMAGED) {
         BossSst_HandSetupWait(this);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 40.0f, 0.5f, 20.0f, 3.0f);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x400, 0xA0);
-        Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-        Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.y, 40.0f, 0.5f, 20.0f, 3.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x400, 0xA0);
+        Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
+        Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
         if (sHead->actionFunc == BossSst_HeadWait) {
             if (this->ready) {
                 BossSst_HandSelectAttack(this);
@@ -1509,9 +1509,9 @@ void BossSst_HandRetreat(BossSst* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = this->actor.speedXZ * 1.2f;
     this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 50.0f);
 
-    diff = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, this->actor.speedXZ,
+    diff = Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, this->actor.speedXZ,
                                    1.0f);
-    diff += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.3f, this->actor.speedXZ,
+    diff += Math_SmoothStepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.3f, this->actor.speedXZ,
                                     1.0f);
     if (this->timer != 0) {
         DECR(this->timer);
@@ -1523,11 +1523,11 @@ void BossSst_HandRetreat(BossSst* this, GlobalContext* globalCtx) {
             SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, D_8093784C[this->actor.params], 4.0f);
         }
     } else {
-        inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x200);
-        inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x200);
-        inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x800);
+        inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x200);
+        inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x200);
+        inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
-        if ((Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) && inPosition &&
+        if ((Math_SmoothStepToF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) && inPosition &&
             (diff < 10.0f)) {
             this->timer = 8;
         }
@@ -1551,13 +1551,13 @@ void BossSst_HandReadySlam(BossSst* this, GlobalContext* globalCtx) {
         }
     } else {
         Player* player = PLAYER;
-        if (Math_ApproxF(&this->actor.posRot.pos.y, 300.0f, 30.0f) && (this->actor.xzDistFromLink < 140.0f)) {
+        if (Math_StepToF(&this->actor.posRot.pos.y, 300.0f, 30.0f) && (this->actor.xzDistFromLink < 140.0f)) {
             this->timer = 20;
         }
 
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x1000, 0x100);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 0.5f, 40.0f);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 0.5f, 40.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x1000, 0x100);
+        Math_ApproachF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 0.5f, 40.0f);
+        Math_ApproachF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 0.5f, 40.0f);
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
     }
 }
@@ -1574,9 +1574,9 @@ void BossSst_HandSetupSlam(BossSst* this) {
 
 void BossSst_HandSlam(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxS(&this->handZPosMod, -0xDAC, 0x1F4);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x1000);
-    Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x1000);
+    Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x1000);
+    Math_ScaledStepToS(&this->handYRotMod, 0, 0x1000);
     if (this->timer != 0) {
         DECR(this->timer);
 
@@ -1594,7 +1594,7 @@ void BossSst_HandSlam(BossSst* this, GlobalContext* globalCtx) {
             this->colliderJntSph.base.atFlags &= ~3;
         } else {
             this->actor.velocity.y *= 1.5f;
-            if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY, this->actor.velocity.y)) {
+            if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY, this->actor.velocity.y)) {
                 this->ready = true;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_TAIKO_LOW);
                 BossSst_SpawnShockwave(this);
@@ -1607,14 +1607,14 @@ void BossSst_HandSlam(BossSst* this, GlobalContext* globalCtx) {
         if (this->colliderJntSph.base.atFlags & 2) {
             Player* player = PLAYER;
 
-            player->actor.posRot.pos.x = (Math_Sins(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.x;
-            player->actor.posRot.pos.z = (Math_Coss(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.z;
+            player->actor.posRot.pos.x = (Math_SinS(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.x;
+            player->actor.posRot.pos.z = (Math_CosS(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.z;
 
             this->colliderJntSph.base.atFlags &= ~3;
             func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsLink, 0.0f);
         }
 
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x200);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x200);
     }
 }
 
@@ -1631,13 +1631,13 @@ void BossSst_HandReadySweep(BossSst* this, GlobalContext* globalCtx) {
     s32 inPosition;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    inPosition = Math_ApproxF(&this->actor.posRot.pos.y, 50.0f, 4.0f);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
-    inPosition &= (Math_SmoothScaleMaxMinF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f) < 10.0f);
+    inPosition = Math_StepToF(&this->actor.posRot.pos.y, 50.0f, 4.0f);
+    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
+    inPosition &= Math_ScaledStepToS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
+    inPosition &= (Math_SmoothStepToF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f) < 10.0f);
 
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
     if (inPosition) {
         BossSst_HandSetupSweep(this);
     } else {
@@ -1664,7 +1664,7 @@ void BossSst_HandSweep(BossSst* this, GlobalContext* globalCtx) {
     this->handAngSpeed += 0x60;
     this->handAngSpeed = CLAMP_MAX(this->handAngSpeed, this->handMaxSpeed);
 
-    if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->targetYaw, 4, this->handAngSpeed, 0x10) == 0) {
+    if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->targetYaw, 4, this->handAngSpeed, 0x10) == 0) {
         this->colliderJntSph.base.maskA &= ~4;
         BossSst_HandSetupRetreat(this);
     } else if (this->colliderJntSph.base.atFlags & 2) {
@@ -1686,8 +1686,8 @@ void BossSst_HandSweep(BossSst* this, GlobalContext* globalCtx) {
         this->colliderJntSph.base.maskA |= 4;
     }
 
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
 }
 
 void BossSst_HandSetupReadyPunch(BossSst* this) {
@@ -1697,7 +1697,7 @@ void BossSst_HandSetupReadyPunch(BossSst* this) {
 }
 
 void BossSst_HandReadyPunch(BossSst* this, GlobalContext* globalCtx) {
-    s32 inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x400);
+    s32 inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x400);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && inPosition) {
         BossSst_HandSetupPunch(this);
@@ -1715,16 +1715,16 @@ void BossSst_HandSetupPunch(BossSst* this) {
 
 void BossSst_HandPunch(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.posRot.pos.y, 80.0f, 20.0f);
-    if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->targetRoll, 0x400)) {
+    Math_StepToF(&this->actor.posRot.pos.y, 80.0f, 20.0f);
+    if (Math_ScaledStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x400)) {
         this->targetRoll *= -1;
     }
 
     this->actor.speedXZ *= 1.25f;
     this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 50.0f);
 
-    this->actor.posRot.pos.x += this->actor.speedXZ * Math_Sins(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += this->actor.speedXZ * Math_Coss(this->actor.shape.rot.y);
+    this->actor.posRot.pos.x += this->actor.speedXZ * Math_SinS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += this->actor.speedXZ * Math_CosS(this->actor.shape.rot.y);
     if (this->actor.bgCheckFlags & 8) {
         BossSst_HandSetupRetreat(this);
     } else if (this->colliderJntSph.base.atFlags & 2) {
@@ -1764,15 +1764,15 @@ void BossSst_HandReadyClap(BossSst* this, GlobalContext* globalCtx) {
         }
     } else if (!this->ready) {
         this->ready = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x600);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->targetRoll, 0x600);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
-        this->ready &= Math_SmoothScaleMaxMinF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 50.0f, 1.0f) < 10.0f;
-        this->ready &= Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x600);
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x600);
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
+        this->ready &= Math_ScaledStepToS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
+        this->ready &= Math_SmoothStepToF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 50.0f, 1.0f) < 10.0f;
+        this->ready &= Math_SmoothStepToF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
 
-        this->actor.posRot.pos.x = Math_Sins(this->actor.posRot.rot.y) * this->radius + sHead->actor.posRot.pos.x;
-        this->actor.posRot.pos.z = Math_Coss(this->actor.posRot.rot.y) * this->radius + sHead->actor.posRot.pos.z;
+        this->actor.posRot.pos.x = Math_SinS(this->actor.posRot.rot.y) * this->radius + sHead->actor.posRot.pos.x;
+        this->actor.posRot.pos.z = Math_CosS(this->actor.posRot.rot.y) * this->radius + sHead->actor.posRot.pos.z;
     } else if (OTHER_HAND->ready) {
         this->timer = 20;
     }
@@ -1798,7 +1798,7 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
 
         if (this->timer == 0) {
             if (dropFlag) {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (Math_Rand_ZeroOne() < 0.5f) ? 8 : 15);
+                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (Rand_ZeroOne() < 0.5f) ? 8 : 15);
                 dropFlag = false;
             }
 
@@ -1822,7 +1822,7 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
             this->handAngSpeed += 0x40;
             this->handAngSpeed = CLAMP_MAX(this->handAngSpeed, this->handMaxSpeed);
 
-            if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, this->handAngSpeed)) {
+            if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, this->handAngSpeed)) {
                 if (this->actor.params == BONGO_LEFT_HAND) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_CLAP);
                 }
@@ -1831,8 +1831,8 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
                 func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
             }
 
-            this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
-            this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
+            this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
+            this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
         }
     }
 
@@ -1851,12 +1851,12 @@ void BossSst_HandSetupEndClap(BossSst* this) {
 
 void BossSst_HandEndClap(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x200);
-    if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x100)) {
+    Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x200);
+    if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x100)) {
         BossSst_HandSetupRetreat(this);
     }
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
 }
 
 void BossSst_HandSetupReadyGrab(BossSst* this) {
@@ -1871,10 +1871,10 @@ void BossSst_HandReadyGrab(BossSst* this, GlobalContext* globalCtx) {
     s32 inPosition;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    inPosition = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
+    inPosition = Math_SmoothStepToS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
     inPosition &=
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->targetYaw, 0xA00);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 20.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->targetYaw, 0xA00);
+    Math_ApproachF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 20.0f);
     if (inPosition) {
         BossSst_HandSetupGrab(this);
     }
@@ -1899,18 +1899,18 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
         ((1.0f - sinf(this->timer * (M_PI / 60.0f))) * (this->parity * 0x2000)) + this->targetYaw;
     this->actor.shape.rot.y = this->actor.posRot.rot.y - (this->parity * 0x4000);
     if (this->timer < 5) {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.5f, 25.0f, 5.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 25.0f, 5.0f);
         if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             this->colliderJntSph.base.atFlags &= ~3;
             this->actor.speedXZ = 0.0f;
             if (player->stateFlags2 & 0x80) {
-                if (Math_Rand_ZeroOne() < 0.5f) {
+                if (Rand_ZeroOne() < 0.5f) {
                     BossSst_HandSetupCrush(this);
                 } else {
                     BossSst_HandSetupSwing(this);
                 }
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, Math_Rand_ZeroOne() < 0.5f ? 8 : 15);
+                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, Rand_ZeroOne() < 0.5f ? 8 : 15);
                 BossSst_HandSetupRetreat(this);
             }
         }
@@ -1927,8 +1927,8 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
         this->timer = CLAMP_MAX(this->timer, 5);
     }
 
-    this->actor.posRot.pos.x += this->actor.speedXZ * Math_Sins(this->actor.posRot.rot.y);
-    this->actor.posRot.pos.z += this->actor.speedXZ * Math_Coss(this->actor.posRot.rot.y);
+    this->actor.posRot.pos.x += this->actor.speedXZ * Math_SinS(this->actor.posRot.rot.y);
+    this->actor.posRot.pos.z += this->actor.speedXZ * Math_CosS(this->actor.posRot.rot.y);
     if (player->stateFlags2 & 0x80) {
         player->unk_850 = 0;
         player->actor.posRot.pos = this->actor.posRot.pos;
@@ -1983,9 +1983,9 @@ void BossSst_HandEndCrush(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HandSetupSwing(BossSst* this) {
     this->amplitude = -0x4000;
     this->timer = 1;
-    this->center.x = this->actor.posRot.pos.x - (Math_Sins(this->actor.shape.rot.y) * 200.0f);
+    this->center.x = this->actor.posRot.pos.x - (Math_SinS(this->actor.shape.rot.y) * 200.0f);
     this->center.y = this->actor.posRot.pos.y;
-    this->center.z = this->actor.posRot.pos.z - (Math_Coss(this->actor.shape.rot.y) * 200.0f);
+    this->center.z = this->actor.posRot.pos.z - (Math_CosS(this->actor.shape.rot.y) * 200.0f);
     this->actionFunc = BossSst_HandSwing;
 }
 
@@ -1993,7 +1993,7 @@ void BossSst_HandSwing(BossSst* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 offXZ;
 
-    if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->amplitude, this->timer * 0xE4 + 0x1C8)) {
+    if (Math_ScaledStepToS(&this->actor.shape.rot.x, this->amplitude, this->timer * 0xE4 + 0x1C8)) {
         if (this->amplitude != 0) {
             this->amplitude = 0;
             if (this->timer == 4) {
@@ -2011,14 +2011,14 @@ void BossSst_HandSwing(BossSst* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.posRot.pos.y = (Math_Coss(this->actor.shape.rot.x + 0x4000) * 200.0f) + this->center.y;
-    offXZ = Math_Sins(this->actor.shape.rot.x + 0x4000) * 200.0f;
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * offXZ) + this->center.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * offXZ) + this->center.z;
+    this->actor.posRot.pos.y = (Math_CosS(this->actor.shape.rot.x + 0x4000) * 200.0f) + this->center.y;
+    offXZ = Math_SinS(this->actor.shape.rot.x + 0x4000) * 200.0f;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * offXZ) + this->center.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * offXZ) + this->center.z;
     if (this->timer != 4) {
         this->actor.shape.rot.z = (this->actor.shape.rot.x + 0x4000) * this->parity;
     } else {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x800);
+        Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x800);
     }
 
     if (player->stateFlags2 & 0x80) {
@@ -2027,17 +2027,17 @@ void BossSst_HandSwing(BossSst* this, GlobalContext* globalCtx) {
         player->actor.shape.rot.x = this->actor.shape.rot.x;
         player->actor.shape.rot.z = (this->parity * -0x4000) + this->actor.shape.rot.z;
     } else {
-        Math_ApproxUpdateScaledS(&player->actor.shape.rot.x, 0, 0x600);
-        Math_ApproxUpdateScaledS(&player->actor.shape.rot.z, 0, 0x600);
-        player->actor.posRot.pos.x += 20.0f * Math_Sins(this->actor.shape.rot.y);
-        player->actor.posRot.pos.z += 20.0f * Math_Coss(this->actor.shape.rot.y);
+        Math_ScaledStepToS(&player->actor.shape.rot.x, 0, 0x600);
+        Math_ScaledStepToS(&player->actor.shape.rot.z, 0, 0x600);
+        player->actor.posRot.pos.x += 20.0f * Math_SinS(this->actor.shape.rot.y);
+        player->actor.posRot.pos.z += 20.0f * Math_CosS(this->actor.shape.rot.y);
     }
 
     if ((this->timer == 4) && (this->amplitude == 0) && SkelAnime_FrameUpdateMatrix(&this->skelAnime) &&
         (player->stateFlags2 & 0x80)) {
         BossSst_HandReleasePlayer(this, globalCtx, 0);
-        player->actor.posRot.pos.x += 70.0f * Math_Sins(this->actor.shape.rot.y);
-        player->actor.posRot.pos.z += 70.0f * Math_Coss(this->actor.shape.rot.y);
+        player->actor.posRot.pos.x += 70.0f * Math_SinS(this->actor.shape.rot.y);
+        player->actor.posRot.pos.z += 70.0f * Math_CosS(this->actor.shape.rot.y);
         func_8002F71C(globalCtx, &this->actor, 15.0f, this->actor.shape.rot.y, 2.0f);
         func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
     }
@@ -2067,12 +2067,12 @@ void BossSst_HandReel(BossSst* this, GlobalContext* globalCtx) {
     }
 
     this->actor.dmgEffectTimer = 200;
-    this->actor.posRot.pos.x += Math_Rand_CenteredFloat(20.0f);
-    this->actor.posRot.pos.y += Math_Rand_CenteredFloat(20.0f);
-    this->actor.posRot.pos.z += Math_Rand_CenteredFloat(20.0f);
+    this->actor.posRot.pos.x += Rand_CenteredFloat(20.0f);
+    this->actor.posRot.pos.y += Rand_CenteredFloat(20.0f);
+    this->actor.posRot.pos.z += Rand_CenteredFloat(20.0f);
 
     if (this->actor.posRot.pos.y < (this->actor.groundY + 100.0f)) {
-        Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY + 100.0f, 20.0f);
+        Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY + 100.0f, 20.0f);
     }
 
     if (this->timer == 0) {
@@ -2089,15 +2089,15 @@ void BossSst_HandReadyShake(BossSst* this, GlobalContext* globalCtx) {
     f32 diff;
     s32 inPosition;
 
-    diff = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.5f, 25.0f, 1.0f);
-    diff += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.5f, 25.0f, 1.0f);
+    diff = Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.5f, 25.0f, 1.0f);
+    diff += Math_SmoothStepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.5f, 25.0f, 1.0f);
     diff +=
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 200.0f, 0.2f, 30.0f, 1.0f);
-    inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4000, 0x400);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x1000);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
-    inPosition &= Math_ApproxS(&this->handZPosMod, -0x5DC, 0x1F4);
-    inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, this->parity * -0x2000, 0x800);
+        Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 200.0f, 0.2f, 30.0f, 1.0f);
+    inPosition = Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x400);
+    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x1000);
+    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
+    inPosition &= Math_StepToS(&this->handZPosMod, -0x5DC, 0x1F4);
+    inPosition &= Math_ScaledStepToS(&this->handYRotMod, this->parity * -0x2000, 0x800);
     this->actor.dmgEffectTimer = 200;
     if ((diff < 30.0f) && inPosition) {
         BossSst_HandSetupShake(this);
@@ -2143,12 +2143,12 @@ void BossSst_HandSetupReadyCharge(BossSst* this) {
 void BossSst_HandReadyCharge(BossSst* this, GlobalContext* globalCtx) {
     if (!this->ready) {
         this->ready = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x800);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x800);
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.y,
                                                 this->actor.initPosRot.rot.y + (this->parity * 0x1000), 0x800);
-        this->ready &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x800);
-        this->ready &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->parity * 0x2800, 0x800);
-        this->ready &= Math_ApproxS(&this->handZPosMod, -0xDAC, 0x1F4);
+        this->ready &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
+        this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->parity * 0x2800, 0x800);
+        this->ready &= Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
         if (this->ready) {
             this->actor.dmgEffectTimer = 0;
         }
@@ -2176,22 +2176,22 @@ void BossSst_HandSetupStunned(BossSst* hand) {
 
 void BossSst_HandStunned(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z,
-                         (Math_Coss(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.z, 0.5f, 25.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x,
-                         (Math_Sins(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.x, 0.5f, 25.0f);
+    Math_ApproachF(&this->actor.posRot.pos.z,
+                         (Math_CosS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.z, 0.5f, 25.0f);
+    Math_ApproachF(&this->actor.posRot.pos.x,
+                         (Math_SinS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.x, 0.5f, 25.0f);
     if (!this->ready) {
-        Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x800);
-        Math_ApproxS(&this->handZPosMod, -0xDAC, 0x1F4);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0x800);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x800);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
+        Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
+        Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0x800);
+        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x800);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
         if (sHead->actionFunc == BossSst_HeadVulnerable) {
             this->ready = true;
             SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_80937874[this->actor.params], 10.0f);
         }
     } else {
-        Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY, 30.0f);
+        Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY, 30.0f);
     }
 }
 
@@ -2208,10 +2208,10 @@ void BossSst_HandDamage(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->timer >= 2) {
         this->actor.shape.rot.x -= 0x200;
-        Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY + 200.0f, 50.0f);
+        Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY + 200.0f, 50.0f);
     } else {
         this->actor.shape.rot.x += 0x400;
-        Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY, 100.0f);
+        Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY, 100.0f);
     }
 
     if (this->timer == 0) {
@@ -2242,11 +2242,11 @@ void BossSst_HandThrash(BossSst* this, GlobalContext* globalCtx) {
     DECR(this->timer);
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z,
-                         (Math_Coss(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.z, 0.5f, 25.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x,
-                         (Math_Sins(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.x, 0.5f, 25.0f);
-    if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->amplitude, this->handAngSpeed)) {
+    Math_ApproachF(&this->actor.posRot.pos.z,
+                         (Math_CosS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.z, 0.5f, 25.0f);
+    Math_ApproachF(&this->actor.posRot.pos.x,
+                         (Math_SinS(sHead->actor.shape.rot.y) * 200.0f) + this->actor.initPosRot.pos.x, 0.5f, 25.0f);
+    if (Math_ScaledStepToS(&this->actor.shape.rot.x, this->amplitude, this->handAngSpeed)) {
         if (this->amplitude != 0) {
             this->amplitude = 0;
             SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_80937854[this->actor.params], 5.0f);
@@ -2276,8 +2276,8 @@ void BossSst_HandSetupDarken(BossSst* this) {
 
 void BossSst_HandDarken(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x800, this->handAngSpeed);
-    Math_ApproxF(&this->actor.posRot.pos.y, 90.0f, 5.0f);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, this->handAngSpeed);
+    Math_StepToF(&this->actor.posRot.pos.y, 90.0f, 5.0f);
     if (sHead->actionFunc == BossSst_HeadFall) {
         BossSst_HandSetupFall(this);
     }
@@ -2290,7 +2290,7 @@ void BossSst_HandSetupFall(BossSst* this) {
 
 void BossSst_HandFall(BossSst* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x400);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x400);
     this->actor.posRot.pos.y = sHead->actor.posRot.pos.y + 230.0f;
     if (sHead->actionFunc == BossSst_HeadMelt) {
         BossSst_HandSetupMelt(this);
@@ -2338,7 +2338,7 @@ void BossSst_HandSetupRecover(BossSst* this) {
 }
 
 void BossSst_HandRecover(BossSst* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!this->ready) {
             SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_80937884[this->actor.params], 10.0f);
@@ -2381,17 +2381,17 @@ void BossSst_HandFrozen(BossSst* this, GlobalContext* globalCtx) {
     } else {
         this->actor.dmgEffectTimer = 10;
         if (this->handAngSpeed != 0) {
-            f32 offY = Math_Sins(OTHER_HAND->actor.shape.rot.x) * 5.0f;
-            f32 offXZ = Math_Coss(OTHER_HAND->actor.shape.rot.x) * 5.0f;
+            f32 offY = Math_SinS(OTHER_HAND->actor.shape.rot.x) * 5.0f;
+            f32 offXZ = Math_CosS(OTHER_HAND->actor.shape.rot.x) * 5.0f;
 
             if (this->handAngSpeed & 1) {
                 offY *= -1.0f;
                 offXZ *= -1.0f;
             }
 
-            this->actor.posRot.pos.x = this->center.x + (Math_Coss(OTHER_HAND->actor.shape.rot.y) * offXZ);
+            this->actor.posRot.pos.x = this->center.x + (Math_CosS(OTHER_HAND->actor.shape.rot.y) * offXZ);
             this->actor.posRot.pos.y = this->center.y + offY;
-            this->actor.posRot.pos.z = this->center.z + (Math_Sins(OTHER_HAND->actor.shape.rot.y) * offXZ);
+            this->actor.posRot.pos.z = this->center.z + (Math_SinS(OTHER_HAND->actor.shape.rot.y) * offXZ);
             this->handAngSpeed--;
         }
     }
@@ -2415,14 +2415,14 @@ void BossSst_HandSetupReadyBreakIce(BossSst* this) {
 void BossSst_HandReadyBreakIce(BossSst* this, GlobalContext* globalCtx) {
     s32 inPosition;
 
-    inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1000, 0x400);
-    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x800);
-    inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x400);
-    inPosition &= Math_ApproxF(&this->actor.posRot.pos.y, OTHER_HAND->center.y + 200.0f, 50.0f);
-    inPosition &= Math_ApproxF(&this->radius, 400.0f, 60.0f);
-    this->actor.posRot.pos.x = OTHER_HAND->center.x - (Math_Sins(this->targetYaw) * this->radius);
-    this->actor.posRot.pos.z = OTHER_HAND->center.z - (Math_Coss(this->targetYaw) * this->radius);
+    inPosition = Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
+    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1000, 0x400);
+    inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x800);
+    inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x400);
+    inPosition &= Math_StepToF(&this->actor.posRot.pos.y, OTHER_HAND->center.y + 200.0f, 50.0f);
+    inPosition &= Math_StepToF(&this->radius, 400.0f, 60.0f);
+    this->actor.posRot.pos.x = OTHER_HAND->center.x - (Math_SinS(this->targetYaw) * this->radius);
+    this->actor.posRot.pos.z = OTHER_HAND->center.z - (Math_CosS(this->targetYaw) * this->radius);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && inPosition) {
         BossSst_HandSetupBreakIce(this);
     }
@@ -2439,7 +2439,7 @@ void BossSst_HandBreakIce(BossSst* this, GlobalContext* globalCtx) {
         this->actor.speedXZ *= 1.5f;
         this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 60.0f);
 
-        if (Math_ApproxF(&this->radius, 100.0f, this->actor.speedXZ)) {
+        if (Math_StepToF(&this->radius, 100.0f, this->actor.speedXZ)) {
             BossSst_SpawnIceShard(this);
             DECR(this->timer);
 
@@ -2451,14 +2451,14 @@ void BossSst_HandBreakIce(BossSst* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.speedXZ *= 0.8f;
-        Math_ApproxF(&this->radius, 500.0f, this->actor.speedXZ);
+        Math_StepToF(&this->radius, 500.0f, this->actor.speedXZ);
         if (this->actor.speedXZ < 2.0f) {
             DECR(this->timer);
         }
     }
 
-    this->actor.posRot.pos.x = OTHER_HAND->center.x - (Math_Sins(this->targetYaw) * this->radius);
-    this->actor.posRot.pos.z = OTHER_HAND->center.z - (Math_Coss(this->targetYaw) * this->radius);
+    this->actor.posRot.pos.x = OTHER_HAND->center.x - (Math_SinS(this->targetYaw) * this->radius);
+    this->actor.posRot.pos.z = OTHER_HAND->center.z - (Math_CosS(this->targetYaw) * this->radius);
     this->actor.posRot.pos.y = OTHER_HAND->center.y + (this->radius * 0.4f);
     if (this->timer == 0) {
         OTHER_HAND->ready = true;
@@ -2503,8 +2503,8 @@ void BossSst_MoveAround(BossSst* this) {
     f32 cs;
     s32 i;
 
-    sn = Math_Sins(this->actor.shape.rot.y);
-    cs = Math_Coss(this->actor.shape.rot.y);
+    sn = Math_SinS(this->actor.shape.rot.y);
+    cs = Math_CosS(this->actor.shape.rot.y);
     if (this->actionFunc != BossSst_HeadEndCharge) {
         this->actor.posRot.pos.x = sRoomCenter.x + (this->radius * sn);
         this->actor.posRot.pos.z = sRoomCenter.z + (this->radius * cs);
@@ -2532,7 +2532,7 @@ void BossSst_MoveAround(BossSst* this) {
 }
 
 void BossSst_HandSelectAttack(BossSst* this) {
-    f32 rand = Math_Rand_ZeroOne() * 6.0f;
+    f32 rand = Rand_ZeroOne() * 6.0f;
     s32 randInt;
 
     if (HAND_STATE(OTHER_HAND) == HAND_DAMAGED) {
@@ -2606,7 +2606,7 @@ void BossSst_HandCollisionCheck(BossSst* this, GlobalContext* globalCtx) {
             }
 
             BossSst_HeadSetupDamagedHand(sHead, bothHands);
-            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, Math_Rand_ZeroOne() < 0.5f ? 8 : 15);
+            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, Rand_ZeroOne() < 0.5f ? 8 : 15);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_DAMAGE_HAND);
         }
     }
@@ -2847,38 +2847,38 @@ s32 BossSst_HeadOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         if ((limbIndex == 3) || (limbIndex == 39) || (limbIndex == 42)) {
 
             shakeMod = sinf(this->timer * (M_PI / 5));
-            rot->x += ((0x500 * Math_Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
+            rot->x += ((0x500 * Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
 
             shakeMod = sinf((this->timer % 5) * (M_PI / 5));
-            rot->z -= ((0x800 * Math_Rand_ZeroOne() + 0x1000) / 0x10) * shakeAmp * shakeMod + 0x1000;
+            rot->z -= ((0x800 * Rand_ZeroOne() + 0x1000) / 0x10) * shakeAmp * shakeMod + 0x1000;
 
             if (limbIndex == 3) {
 
                 shakeMod = sinf(this->timer * (M_PI / 5));
-                rot->y += ((0x500 * Math_Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
+                rot->y += ((0x500 * Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
             }
         } else if ((limbIndex == 5) || (limbIndex == 6)) {
 
             shakeMod = sinf((this->timer % 5) * (M_PI / 5));
-            rot->z -= ((0x280 * Math_Rand_ZeroOne() + 0x500) / 0x10) * shakeAmp * shakeMod + 0x500;
+            rot->z -= ((0x280 * Rand_ZeroOne() + 0x500) / 0x10) * shakeAmp * shakeMod + 0x500;
 
             if (limbIndex == 5) {
 
                 shakeMod = sinf(this->timer * (M_PI / 5));
-                rot->x += ((0x500 * Math_Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
+                rot->x += ((0x500 * Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
 
                 shakeMod = sinf(this->timer * (M_PI / 5));
-                rot->y += ((0x500 * Math_Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
+                rot->y += ((0x500 * Rand_ZeroOne() + 0xA00) / 0x10) * shakeAmp * shakeMod;
             }
         } else if (limbIndex == 2) {
             shakeMod = sinf(this->timer * (M_PI / 5));
-            rot->x += ((0x200 * Math_Rand_ZeroOne() + 0x400) / 0x10) * shakeAmp * shakeMod;
+            rot->x += ((0x200 * Rand_ZeroOne() + 0x400) / 0x10) * shakeAmp * shakeMod;
 
             shakeMod = sinf(this->timer * (M_PI / 5));
-            rot->y += ((0x200 * Math_Rand_ZeroOne() + 0x400) / 0x10) * shakeAmp * shakeMod;
+            rot->y += ((0x200 * Rand_ZeroOne() + 0x400) / 0x10) * shakeAmp * shakeMod;
 
             shakeMod = sinf((this->timer % 5) * (M_PI / 5));
-            rot->z -= ((0x100 * Math_Rand_ZeroOne() + 0x200) / 0x10) * shakeAmp * shakeMod + 0x200;
+            rot->z -= ((0x100 * Rand_ZeroOne() + 0x200) / 0x10) * shakeAmp * shakeMod + 0x200;
         }
     } else if (this->actionFunc == BossSst_HeadDeath) {
         if (this->timer > 48) {
@@ -2947,8 +2947,8 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc == BossSst_HeadThrash) {
-        f32 randPitch = Math_Rand_ZeroOne() * (2 * M_PI);
-        f32 randYaw = Math_Rand_ZeroOne() * (2 * M_PI);
+        f32 randPitch = Rand_ZeroOne() * (2 * M_PI);
+        f32 randYaw = Rand_ZeroOne() * (2 * M_PI);
 
         Matrix_RotateY(randYaw, MTXMODE_APPLY);
         Matrix_RotateX(randPitch, MTXMODE_APPLY);
@@ -3012,8 +3012,8 @@ void BossSst_SpawnHeadShadow(BossSst* this) {
     f32 cs;
 
     this->effectMode = BONGO_SHADOW;
-    sn = Math_Sins(this->actor.shape.rot.y);
-    cs = Math_Coss(this->actor.shape.rot.y);
+    sn = Math_SinS(this->actor.shape.rot.y);
+    cs = Math_CosS(this->actor.shape.rot.y);
 
     for (i = 0; i < 3; i++) {
         BossSstEffect* shadow = &this->effects[i];
@@ -3033,8 +3033,8 @@ void BossSst_SpawnHeadShadow(BossSst* this) {
 
 void BossSst_SpawnHandShadow(BossSst* this) {
     this->effectMode = BONGO_SHADOW;
-    this->effects[0].pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 30.0f * this->parity);
-    this->effects[0].pos.z = this->actor.posRot.pos.z - (Math_Sins(this->actor.shape.rot.y) * 30.0f * this->parity);
+    this->effects[0].pos.x = this->actor.posRot.pos.x + (Math_CosS(this->actor.shape.rot.y) * 30.0f * this->parity);
+    this->effects[0].pos.z = this->actor.posRot.pos.z - (Math_SinS(this->actor.shape.rot.y) * 30.0f * this->parity);
     this->effects[0].pos.y = this->actor.posRot.pos.y;
     this->effects[0].scale = 2300;
     this->effects[0].alpha = 254;
@@ -3091,16 +3091,16 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index) {
 
     ice->status = false;
 
-    ice->rot.x = Math_Rand_ZeroOne() * 0x10000;
-    ice->rot.y = Math_Rand_ZeroOne() * 0x10000;
-    ice->rot.z = Math_Rand_ZeroOne() * 0x10000;
+    ice->rot.x = Rand_ZeroOne() * 0x10000;
+    ice->rot.y = Rand_ZeroOne() * 0x10000;
+    ice->rot.z = Rand_ZeroOne() * 0x10000;
 
     ice->alpha = 120;
     ice->move = true;
 
-    ice->vel.x = (Math_Rand_ZeroOne() * 0.06f + 0.12f) * ice->pos.x;
-    ice->vel.y = (Math_Rand_ZeroOne() * 15.0f + 5.0f);
-    ice->vel.z = (Math_Rand_ZeroOne() * 0.06f + 0.12f) * ice->pos.z;
+    ice->vel.x = (Rand_ZeroOne() * 0.06f + 0.12f) * ice->pos.x;
+    ice->vel.y = (Rand_ZeroOne() * 15.0f + 5.0f);
+    ice->vel.z = (Rand_ZeroOne() * 0.06f + 0.12f) * ice->pos.z;
     ice->scale = 4000;
 
     if ((index & 1) == 0) {
@@ -3114,28 +3114,28 @@ void BossSst_SpawnIceShard(BossSst* this) {
     f32 offXZ;
 
     this->effectMode = BONGO_ICE;
-    offXZ = Math_Coss(this->actor.shape.rot.x) * 50.0f;
-    spawnPos.x = Math_Coss(this->actor.shape.rot.y) * offXZ + this->actor.posRot.pos.x;
-    spawnPos.y = Math_Sins(this->actor.shape.rot.x) * 50.0f + this->actor.posRot.pos.y - 10.0f;
-    spawnPos.z = Math_Sins(this->actor.shape.rot.y) * offXZ + this->actor.posRot.pos.z;
+    offXZ = Math_CosS(this->actor.shape.rot.x) * 50.0f;
+    spawnPos.x = Math_CosS(this->actor.shape.rot.y) * offXZ + this->actor.posRot.pos.x;
+    spawnPos.y = Math_SinS(this->actor.shape.rot.x) * 50.0f + this->actor.posRot.pos.y - 10.0f;
+    spawnPos.z = Math_SinS(this->actor.shape.rot.y) * offXZ + this->actor.posRot.pos.z;
 
     for (i = 0; i < 18; i++) {
         BossSstEffect* ice = &this->effects[i];
 
         Math_Vec3f_Copy(&ice->pos, &spawnPos);
         ice->status = true;
-        ice->rot.x = Math_Rand_ZeroOne() * 0x10000;
-        ice->rot.y = Math_Rand_ZeroOne() * 0x10000;
-        ice->rot.z = Math_Rand_ZeroOne() * 0x10000;
+        ice->rot.x = Rand_ZeroOne() * 0x10000;
+        ice->rot.y = Rand_ZeroOne() * 0x10000;
+        ice->rot.z = Rand_ZeroOne() * 0x10000;
 
         ice->alpha = 120;
         ice->move = true;
 
-        ice->vel.x = Math_Rand_CenteredFloat(20.0f);
-        ice->vel.y = Math_Rand_ZeroOne() * 10.0f + 3.0f;
-        ice->vel.z = Math_Rand_CenteredFloat(20.0f);
+        ice->vel.x = Rand_CenteredFloat(20.0f);
+        ice->vel.y = Rand_ZeroOne() * 10.0f + 3.0f;
+        ice->vel.z = Rand_CenteredFloat(20.0f);
 
-        ice->scale = Math_Rand_ZeroOne() * 200.0f + 400.0f;
+        ice->scale = Rand_ZeroOne() * 200.0f + 400.0f;
     }
 }
 

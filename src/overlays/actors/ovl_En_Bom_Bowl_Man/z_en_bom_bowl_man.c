@@ -82,7 +82,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->prizeSelect = (s16)Math_Rand_ZeroFloat(4.99f);
+    this->prizeSelect = (s16)Rand_ZeroFloat(4.99f);
     this->actor.unk_1F = 1;
     this->actionFunc = EnBomBowMan_SetupWaitAsleep;
 }
@@ -163,7 +163,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->frameCount = (f32)SkelAnime_GetFrameCount(&D_060072AC);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060072AC, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
         this->eyeMode = CHU_GIRL_EYES_AWAKE;
-        this->blinkTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+        this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         // Check for beaten Dodongo's Cavern
         if (!((gSaveContext.eventChkInf[2] & 0x20) || BREG(2))) {
             this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
@@ -478,7 +478,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->eyeTextureIndex++;
                 if (this->eyeTextureIndex >= 3) {
                     this->eyeTextureIndex = 0;
-                    this->blinkTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+                    this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
                 }
             }
 

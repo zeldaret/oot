@@ -117,7 +117,7 @@ glabel BgDyYoseizo_Update
 /* 0229C 80874ACC 860902F4 */  lh      $t1, 0x02F4($s0)           ## 000002F4
 /* 022A0 80874AD0 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 022A4 80874AD4 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 022A8 80874AD8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 022A8 80874AD8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 022AC 80874ADC A60902F2 */  sh      $t1, 0x02F2($s0)           ## 000002F2
 /* 022B0 80874AE0 4600010D */  trunc.w.s $f4, $f0                   

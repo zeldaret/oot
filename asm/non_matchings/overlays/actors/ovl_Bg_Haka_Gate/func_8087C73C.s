@@ -11,7 +11,7 @@ glabel func_8087C73C
 /* 0096C 8087C75C 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00970 8087C760 2484016E */  addiu   $a0, $a0, 0x016E           ## $a0 = 0000016E
 /* 00974 8087C764 2405015E */  addiu   $a1, $zero, 0x015E         ## $a1 = 0000015E
-/* 00978 8087C768 0C01DE5F */  jal     Math_ApproxS
+/* 00978 8087C768 0C01DE5F */  jal     Math_StepToS
               
 /* 0097C 8087C76C 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
 /* 00980 8087C770 10400004 */  beq     $v0, $zero, .L8087C784     

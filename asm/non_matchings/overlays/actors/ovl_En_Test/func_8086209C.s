@@ -9,7 +9,7 @@ glabel func_8086209C
 /* 02A68 808620B8 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
 /* 02A6C 808620BC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 02A70 808620C0 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 02A74 808620C4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02A74 808620C4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02A78 808620C8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02A7C 808620CC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

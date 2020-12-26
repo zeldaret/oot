@@ -3,8 +3,8 @@ glabel func_80B1985C
 /* 00DE0 80B19860 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 00DE4 80B19864 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DE8 80B19868 AFBF001C */  sw      $ra, 0x001C($sp)
-/* 00DEC 80B1986C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00DF0 80B19870 24A50C70 */  addiu   $a1, $a1, 0x0C70           ## $a1 = 06000C70
+/* 00DEC 80B1986C 3C050600 */  lui     $a1, %hi(D_06000C70)                ## $a1 = 06000000
+/* 00DF0 80B19870 24A50C70 */  addiu   $a1, $a1, %lo(D_06000C70)           ## $a1 = 06000C70
 /* 00DF4 80B19874 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00DF8 80B19878 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DFC 80B1987C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -19,7 +19,7 @@ glabel func_80B1985C
 /* 00E20 80B198A0 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 00E24 80B198A4 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 00E28 80B198A8 E606006C */  swc1    $f6, 0x006C($s0)           ## 0000006C
-/* 00E2C 80B198AC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00E2C 80B198AC 0C01DF64 */  jal     Rand_S16Offset
 
 /* 00E30 80B198B0 E6080068 */  swc1    $f8, 0x0068($s0)           ## 00000068
 /* 00E34 80B198B4 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

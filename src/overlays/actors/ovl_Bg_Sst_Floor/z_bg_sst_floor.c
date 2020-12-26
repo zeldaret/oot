@@ -105,7 +105,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);
-    Math_ApproxS(&this->drumAmp, 0, 5);
+    Math_StepToS(&this->drumAmp, 0, 5);
 
     colHeader->vertexArray[1].y = colHeader->vertexArray[0].y = colHeader->vertexArray[2].y =
         colHeader->vertexArray[3].y = colHeader->vertexArray[4].y = colHeader->vertexArray[7].y =

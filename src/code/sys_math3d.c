@@ -870,8 +870,8 @@ s32 Math3D_LineVsCubeShort(Vec3s* min, Vec3s* max, Vec3s* a, Vec3s* b) {
  * outputs the plane equation `a``pointOnPlane->x` + 0y + `c``pointOnPlane->z`+`d` = 0
  */
 void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d) {
-    *a = Math_Sins(angle) * 32767.0f;
-    *c = Math_Coss(angle) * 32767.0f;
+    *a = Math_SinS(angle) * 32767.0f;
+    *c = Math_CosS(angle) * 32767.0f;
     *d = -((*a * pointOnPlane->x) + (*c * pointOnPlane->z));
 }
 

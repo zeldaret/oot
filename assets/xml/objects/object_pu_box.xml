@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_pu_box" Segment="6">
+        <DList Name="gPuBoxDL"/>
+        <DList Name="gPuBoxDL2" Offset="0x380"/>
+        <Blob Name="gPuBoxCol" Offset="0x6D0" Size="0x80"/>
+    </File>
+</Root>

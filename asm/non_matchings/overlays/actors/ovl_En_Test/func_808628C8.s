@@ -20,7 +20,7 @@ glabel func_808628C8
 /* 032A4 808628F4 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 032A8 808628F8 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 032AC 808628FC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 032B0 80862900 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 032B0 80862900 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 032B4 80862904 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 032B8 80862908 920307DE */  lbu     $v1, 0x07DE($s0)           ## 000007DE
@@ -175,7 +175,7 @@ glabel func_808628C8
 /* 034D4 80862B24 44818000 */  mtc1    $at, $f16                  ## $f16 = 110.00
 /* 034D8 80862B28 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 034DC 80862B2C 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3F4CCCCD
-/* 034E0 80862B30 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 034E0 80862B30 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 034E4 80862B34 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 034E8 80862B38 1000001A */  beq     $zero, $zero, .L80862BA4   
@@ -197,7 +197,7 @@ glabel func_808628C8
 /* 03524 80862B74 260407EC */  addiu   $a0, $s0, 0x07EC           ## $a0 = 000007EC
 /* 03528 80862B78 3C054020 */  lui     $a1, 0x4020                ## $a1 = 40200000
 /* 0352C 80862B7C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 03530 80862B80 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 03530 80862B80 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 03534 80862B84 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 03538 80862B88 10000006 */  beq     $zero, $zero, .L80862BA4   
@@ -205,7 +205,7 @@ glabel func_808628C8
 /* 03540 80862B90 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 .L80862B94:
 /* 03544 80862B94 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
-/* 03548 80862B98 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 03548 80862B98 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0354C 80862B9C E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 03550 80862BA0 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
@@ -215,7 +215,7 @@ glabel func_808628C8
 /* 0355C 80862BAC 00000000 */  nop
 /* 03560 80862BB0 45030010 */  bc1tl   .L80862BF4                 
 /* 03564 80862BB4 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
-/* 03568 80862BB8 0C01DE1C */  jal     Math_Sins
+/* 03568 80862BB8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0356C 80862BBC 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 03570 80862BC0 C61207EC */  lwc1    $f18, 0x07EC($s0)          ## 000007EC
@@ -223,7 +223,7 @@ glabel func_808628C8
 /* 03578 80862BC8 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0357C 80862BCC 46120102 */  mul.s   $f4, $f0, $f18             
 /* 03580 80862BD0 46048180 */  add.s   $f6, $f16, $f4             
-/* 03584 80862BD4 0C01DE0D */  jal     Math_Coss
+/* 03584 80862BD4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03588 80862BD8 E6060024 */  swc1    $f6, 0x0024($s0)           ## 00000024
 /* 0358C 80862BDC C60A07EC */  lwc1    $f10, 0x07EC($s0)          ## 000007EC

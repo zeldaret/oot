@@ -2,8 +2,8 @@ glabel func_80B34CFC
 /* 0104C 80B34CFC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01050 80B34D00 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 01054 80B34D04 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 01058 80B34D08 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 0105C 80B34D0C 24A598C8 */  addiu   $a1, $a1, 0x98C8           ## $a1 = 060098C8
+/* 01058 80B34D08 3C050601 */  lui     $a1, %hi(D_060098C8)                ## $a1 = 06010000
+/* 0105C 80B34D0C 24A598C8 */  addiu   $a1, $a1, %lo(D_060098C8)           ## $a1 = 060098C8
 /* 01060 80B34D10 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 01064 80B34D14 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 01068 80B34D18 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
