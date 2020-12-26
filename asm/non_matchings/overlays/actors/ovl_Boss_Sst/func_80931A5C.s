@@ -57,7 +57,7 @@ glabel func_80931A5C
 /* 05544 80931B14 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 05548 80931B18 44812000 */  mtc1    $at, $f4                   ## $f4 = 5.00
 /* 0554C 80931B1C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 05550 80931B20 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 05550 80931B20 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05554 80931B24 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 05558 80931B28 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
@@ -75,7 +75,7 @@ glabel func_80931A5C
 /* 05584 80931B54 31090080 */  andi    $t1, $t0, 0x0080           ## $t1 = 00000000
 /* 05588 80931B58 11200012 */  beq     $t1, $zero, .L80931BA4     
 /* 0558C 80931B5C 00000000 */  nop
-/* 05590 80931B60 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 05590 80931B60 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 05594 80931B64 00000000 */  nop
 /* 05598 80931B68 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -95,7 +95,7 @@ glabel func_80931A5C
 /* 055CC 80931B9C 10000026 */  beq     $zero, $zero, .L80931C38   
 /* 055D0 80931BA0 920203E4 */  lbu     $v0, 0x03E4($s0)           ## 000003E4
 .L80931BA4:
-/* 055D4 80931BA4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 055D4 80931BA4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 055D8 80931BA8 00000000 */  nop
 /* 055DC 80931BAC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -158,7 +158,7 @@ glabel func_80931A5C
 /* 056A8 80931C78 A60C0198 */  sh      $t4, 0x0198($s0)           ## 00000198
 /* 056AC 80931C7C A6020198 */  sh      $v0, 0x0198($s0)           ## 00000198
 .L80931C80:
-/* 056B0 80931C80 0C01DE1C */  jal     Math_Sins
+/* 056B0 80931C80 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 056B4 80931C84 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 056B8 80931C88 C6060068 */  lwc1    $f6, 0x0068($s0)           ## 00000068
@@ -166,7 +166,7 @@ glabel func_80931A5C
 /* 056C0 80931C90 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 056C4 80931C94 46003282 */  mul.s   $f10, $f6, $f0             
 /* 056C8 80931C98 460A4480 */  add.s   $f18, $f8, $f10            
-/* 056CC 80931C9C 0C01DE0D */  jal     Math_Coss
+/* 056CC 80931C9C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 056D0 80931CA0 E6120024 */  swc1    $f18, 0x0024($s0)          ## 00000024
 /* 056D4 80931CA4 C6040068 */  lwc1    $f4, 0x0068($s0)           ## 00000068

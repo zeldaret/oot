@@ -49,7 +49,7 @@ glabel func_80AFD6CC
 /* 00DC8 80AFD768 E60A0068 */  swc1    $f10, 0x0068($s0)          ## 00000068
 /* 00DCC 80AFD76C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 .L80AFD770:
-/* 00DD0 80AFD770 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00DD0 80AFD770 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00DD4 80AFD774 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00DD8 80AFD778 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

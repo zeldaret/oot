@@ -127,7 +127,7 @@ glabel func_809B977C
 /* 01654 809B9934 00052C00 */  sll     $a1, $a1, 16               
 /* 01658 809B9938 00052C03 */  sra     $a1, $a1, 16               
 /* 0165C 809B993C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 01660 809B9940 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01660 809B9940 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01664 809B9944 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 01668 809B9948 C6120164 */  lwc1    $f18, 0x0164($s0)          ## 00000164

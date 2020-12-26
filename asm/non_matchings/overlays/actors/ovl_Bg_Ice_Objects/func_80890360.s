@@ -17,7 +17,7 @@ glabel func_80890360
 /* 00B8C 8089039C 8CE5000C */  lw      $a1, 0x000C($a3)           ## 0000000C
 .L808903A0:
 /* 00B90 808903A0 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 00B94 808903A4 0C01DE80 */  jal     Math_ApproxF
+/* 00B94 808903A4 0C01DE80 */  jal     Math_StepToF
               
 /* 00B98 808903A8 24E40028 */  addiu   $a0, $a3, 0x0028           ## $a0 = 00000028
 /* 00B9C 808903AC 1040000F */  beq     $v0, $zero, .L808903EC     

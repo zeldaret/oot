@@ -115,8 +115,8 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 }
 
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
     this->rEnvColorA += this->rAlphaStep;
 
     if (this->rEnvColorA < 0) {
@@ -133,8 +133,8 @@ void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->velocity.x *= 0.95f;
     this->velocity.z *= 0.95f;
-    this->accel.x = Math_Rand_CenteredFloat(0.2f);
-    this->accel.z = Math_Rand_CenteredFloat(0.2f);
+    this->accel.x = Rand_CenteredFloat(0.2f);
+    this->accel.z = Rand_CenteredFloat(0.2f);
     this->rEnvColorA += this->rAlphaStep;
 
     if (this->rEnvColorA < 0) {
@@ -149,5 +149,5 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->rScale = this->rEnvColorA * Math_Sins((32768.0f / this->rLifespan) * this->life);
+    this->rScale = this->rEnvColorA * Math_SinS((32768.0f / this->rLifespan) * this->life);
 }

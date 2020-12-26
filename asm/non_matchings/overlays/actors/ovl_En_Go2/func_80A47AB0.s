@@ -82,8 +82,8 @@ glabel func_80A47AB0
 /* 04E80 80A47BB0 0C0346A2 */  jal     Matrix_NewMtx
 /* 04E84 80A47BB4 AFA2002C */  sw      $v0, 0x002C($sp)
 /* 04E88 80A47BB8 8FA3002C */  lw      $v1, 0x002C($sp)
-/* 04E8C 80A47BBC 3C0B0601 */  lui     $t3, 0x0601                ## $t3 = 06010000
-/* 04E90 80A47BC0 256BC140 */  addiu   $t3, $t3, 0xC140           ## $t3 = 0600C140
+/* 04E8C 80A47BBC 3C0B0601 */  lui     $t3, %hi(D_0600C140)                ## $t3 = 06010000
+/* 04E90 80A47BC0 256BC140 */  addiu   $t3, $t3, %lo(D_0600C140)           ## $t3 = 0600C140
 /* 04E94 80A47BC4 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 04E98 80A47BC8 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 04E9C 80A47BCC 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000

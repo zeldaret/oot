@@ -71,10 +71,7 @@ def fix_sfx_flag(id):
 
 def fix_sfx_func(sourcedata, i, j, repo):
     data = ''.join(sourcedata[i:j])
-    func = find_audio_func(data)
-    if(not func):
-        print('Function parse error at line', i)
-        return -3
+    func = data.split('(')[0].strip()
     index = data.find(func)
     argnum = AudioFunctions.get(func,-1)
     if(argnum == -1 or index == -1):
@@ -96,6 +93,7 @@ def fix_sfx_func(sourcedata, i, j, repo):
 
 def find_audio_func(line):
     audiofuncs = list(AudioFunctions.keys())
+    funcname = line.split('(')[0].strip()
     for func in audiofuncs:
         if(line.count(func)):
             return func
@@ -132,16 +130,11 @@ def fix_sfx(file, repo, outfile = None):
         if(i < j):
             continue
         if(find_audio_func(line)):
-            if(line.count(';')):
-                j = i + 1
-            else:
-                j = i
-                while(sourcedata[j].count(';') == 0):
-                    j += 1
+            j = i
+            while(sourcedata[j].count(';') == 0):
+                j += 1
             status = fix_sfx_func(sourcedata, i, j + 1, repo)
-            if(status == -3):
-                funcerrors += 1
-            elif(status == -2):
+            if(status == -2):
                 iderrors += 1
             elif(status == -1):
                 lookuperrors += 1
@@ -156,8 +149,6 @@ def fix_sfx(file, repo, outfile = None):
         print('No changes made to', file)
     if(lookuperrors > 0):
         print('Problem with function lookup. Try formatting functions.h')
-    if(funcerrors > 0):
-        print('Problem with function parsing. Encountering this message should be impossible, so please report that you did.')
     if(iderrors > 0):
         print('Problem with id parsing. Make sure your SFX ids are in hex.')
     return 1

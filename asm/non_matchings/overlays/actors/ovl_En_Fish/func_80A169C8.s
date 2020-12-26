@@ -4,11 +4,11 @@ glabel func_80A169C8
 /* 01750 80A169D0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01754 80A169D4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01758 80A169D8 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0175C 80A169DC 0C01DE1C */  jal     Math_Sins
+/* 0175C 80A169DC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01760 80A169E0 8484024C */  lh      $a0, 0x024C($a0)           ## 0000024C
 /* 01764 80A169E4 E7A00028 */  swc1    $f0, 0x0028($sp)           
-/* 01768 80A169E8 0C01DE1C */  jal     Math_Sins
+/* 01768 80A169E8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0176C 80A169EC 8604024E */  lh      $a0, 0x024E($s0)           ## 0000024E
 /* 01770 80A169F0 E7A00024 */  swc1    $f0, 0x0024($sp)           
@@ -21,7 +21,7 @@ glabel func_80A169C8
 /* 0178C 80A16A0C A61900B8 */  sh      $t9, 0x00B8($s0)           ## 000000B8
 /* 01790 80A16A10 24847014 */  addiu   $a0, $a0, %lo(D_80A17014)  ## $a0 = 80A17014
 /* 01794 80A16A14 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 01798 80A16A18 0C01DE80 */  jal     Math_ApproxF
+/* 01798 80A16A18 0C01DE80 */  jal     Math_StepToF
               
 /* 0179C 80A16A1C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 017A0 80A16A20 C7A40028 */  lwc1    $f4, 0x0028($sp)           
