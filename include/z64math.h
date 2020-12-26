@@ -92,9 +92,7 @@ typedef struct {
 #define COLPOLY_NORM_FRAC (1.0f / 32767)
 #define BGCHECK_Y_MIN -32000.0f
 
-/**
- * Trig macros
-*/
+// Trig macros
 #define DEGF_TO_BINANG(degreesf) (s16)(degreesf * 182.04167f + .5f)
 #define RADF_TO_DEGF(radf) (radf * (180.0f / M_PI))
 #define DEGF_TO_RADF(degf) (degf * (M_PI / 180.0f))
@@ -103,9 +101,7 @@ typedef struct {
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
 #define BINANG_TO_DEGF(binang) ((f32)binang * (360.0001525f / 65535.0f))
 
-/**
- * Vector macros
- */
+// Vector macros
 #define SQXZ(vec) ((vec.x) * (vec.x) + (vec.z) * (vec.z))
 #define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
 #define SQXYZ(vec) ((vec.x) * (vec.x) + (vec.y) * (vec.y) + (vec.z) * (vec.z))
