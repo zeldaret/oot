@@ -109,7 +109,7 @@ glabel func_8007542C
 /* AEC710 80075570 46006503 */  div.s $f20, $f12, $f0
 /* AEC714 80075574 461C9102 */  mul.s $f4, $f18, $f28
 /* AEC718 80075578 46047180 */  add.s $f6, $f14, $f4
-/* AEC71C 8007557C 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC71C 8007557C 0C03F66B */  jal   Rand_ZeroOne
 /* AEC720 80075580 E6060010 */   swc1  $f6, 0x10($s0)
 /* AEC724 80075584 3C01447A */  li    $at, 0x447A0000 # 0.000000
 /* AEC728 80075588 44814000 */  mtc1  $at, $f8
@@ -121,18 +121,18 @@ glabel func_8007542C
 /* AEC740 800755A0 E6120014 */  swc1  $f18, 0x14($s0)
 /* AEC744 800755A4 C66400E8 */  lwc1  $f4, 0xe8($s3)
 /* AEC748 800755A8 46062200 */  add.s $f8, $f4, $f6
-/* AEC74C 800755AC 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC74C 800755AC 0C03F66B */  jal   Rand_ZeroOne
 /* AEC750 800755B0 E6080018 */   swc1  $f8, 0x18($s0)
 /* AEC754 800755B4 46160281 */  sub.s $f10, $f0, $f22
 /* AEC758 800755B8 44809000 */  mtc1  $zero, $f18
 /* AEC75C 800755BC 461E5402 */  mul.s $f16, $f10, $f30
 /* AEC760 800755C0 E6120008 */  swc1  $f18, 8($s0)
-/* AEC764 800755C4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC764 800755C4 0C03F66B */  jal   Rand_ZeroOne
 /* AEC768 800755C8 E6100004 */   swc1  $f16, 4($s0)
 /* AEC76C 800755CC 46160101 */  sub.s $f4, $f0, $f22
 /* AEC770 800755D0 A200001E */  sb    $zero, 0x1e($s0)
 /* AEC774 800755D4 461E2182 */  mul.s $f6, $f4, $f30
-/* AEC778 800755D8 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC778 800755D8 0C03F66B */  jal   Rand_ZeroOne
 /* AEC77C 800755DC E606000C */   swc1  $f6, 0xc($s0)
 /* AEC780 800755E0 46160201 */  sub.s $f8, $f0, $f22
 /* AEC784 800755E4 3C014220 */  li    $at, 0x42200000 # 0.000000
@@ -141,7 +141,7 @@ glabel func_8007542C
 /* AEC790 800755F0 460A4402 */  mul.s $f16, $f8, $f10
 /* AEC794 800755F4 4600848D */  trunc.w.s $f18, $f16
 /* AEC798 800755F8 440F9000 */  mfc1  $t7, $f18
-/* AEC79C 800755FC 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC79C 800755FC 0C03F66B */  jal   Rand_ZeroOne
 /* AEC7A0 80075600 A20F001C */   sb    $t7, 0x1c($s0)
 /* AEC7A4 80075604 46160101 */  sub.s $f4, $f0, $f22
 /* AEC7A8 80075608 3C014220 */  li    $at, 0x42200000 # 0.000000

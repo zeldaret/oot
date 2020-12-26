@@ -47,7 +47,7 @@ void func_80AE72D0(EnRl* this) {
     s16* eyeTextureIndex = &this->eyeTextureIndex;
 
     if (DECR(*timer) == 0) {
-        *timer = Math_Rand_S16Offset(60, 60);
+        *timer = Rand_S16Offset(60, 60);
     }
 
     *eyeTextureIndex = *timer;

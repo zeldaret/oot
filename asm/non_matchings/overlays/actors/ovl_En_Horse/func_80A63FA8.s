@@ -94,7 +94,7 @@ glabel func_80A63FA8
 /* 08E00 80A640F0 000B6100 */  sll     $t4, $t3,  4               
 /* 08E04 80A640F4 05830012 */  bgezl   $t4, .L80A64140            
 /* 08E08 80A640F8 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 08E0C 80A640FC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 08E0C 80A640FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08E10 80A64100 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 08E14 80A64104 3C0180A6 */  lui     $at, %hi(D_80A669A8)       ## $at = 80A60000

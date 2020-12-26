@@ -12,7 +12,7 @@ glabel func_808AED7C
 /* 00624 808AEDA4 46062200 */  add.s   $f8, $f4, $f6              
 /* 00628 808AEDA8 24E40028 */  addiu   $a0, $a3, 0x0028           ## $a0 = 00000028
 /* 0062C 808AEDAC 44054000 */  mfc1    $a1, $f8                   
-/* 00630 808AEDB0 0C01DE80 */  jal     Math_ApproxF
+/* 00630 808AEDB0 0C01DE80 */  jal     Math_StepToF
               
 /* 00634 808AEDB4 00000000 */  nop
 /* 00638 808AEDB8 1040000A */  beq     $v0, $zero, .L808AEDE4     

@@ -164,10 +164,10 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
-            Math_SmoothScaleMaxF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
+            Math_ApproachF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {
-        Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, (sREG(81) / 10.0f) + 50.0f);
+        Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, (sREG(81) / 10.0f) + 50.0f);
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->skelAnime.animCurrentFrame = 0.0f;
@@ -176,15 +176,15 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_284 & 1) {
         func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.posRot2.pos);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
-        Math_SmoothScaleMaxMinS(&this->unk_278.y, 0, 6, 0x1838, 0x64);
-        Math_SmoothScaleMaxMinS(&this->unk_27E.x, 0, 6, 0x1838, 0x64);
-        Math_SmoothScaleMaxMinS(&this->unk_27E.y, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->unk_278.y, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->unk_27E.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->unk_27E.y, 0, 6, 0x1838, 0x64);
     }
     this->unk_284 &= ~0x1;
 
     if (DECR(this->unk_288) == 0) {
-        this->unk_288 = Math_Rand_S16Offset(0x3C, 0x3C);
+        this->unk_288 = Rand_S16Offset(0x3C, 0x3C);
     }
 
     this->unk_286 = this->unk_288;

@@ -168,8 +168,8 @@ void EnKanban_SetFloorRot(EnKanban* this) {
         f32 ny = this->actor.floorPoly->norm.y * COLPOLY_NORM_FRAC;
         f32 nz = this->actor.floorPoly->norm.z * COLPOLY_NORM_FRAC;
 
-        this->floorRot.x = -Math_atan2f(-nz * ny, 1.0f);
-        this->floorRot.z = Math_atan2f(-nx * ny, 1.0f);
+        this->floorRot.x = -Math_FAtan2F(-nz * ny, 1.0f);
+        this->floorRot.z = Math_FAtan2F(-nx * ny, 1.0f);
     }
 }
 
@@ -353,18 +353,18 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     piece->actor.gravity = -1.0f;
                     piece->actionState = ENKANBAN_AIR;
                     piece->actor.posRot.rot.y =
-                        (s16)Math_Rand_CenteredFloat(0x3000) + this->actor.yawTowardsLink + 0x8000;
-                    piece->actor.velocity.y = Math_Rand_ZeroFloat(2.0f) + 3.0f;
-                    piece->actor.speedXZ = Math_Rand_ZeroFloat(2.0f) + 3.0f;
+                        (s16)Rand_CenteredFloat(0x3000) + this->actor.yawTowardsLink + 0x8000;
+                    piece->actor.velocity.y = Rand_ZeroFloat(2.0f) + 3.0f;
+                    piece->actor.speedXZ = Rand_ZeroFloat(2.0f) + 3.0f;
                     if (piece->partCount >= 4) {
-                        piece->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                        piece->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                        piece->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
+                        piece->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;
                     } else {
-                        piece->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                        piece->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                        piece->bounceX = (s16)Rand_ZeroFloat(7.0f) + 3;
+                        piece->bounceZ = (s16)Rand_ZeroFloat(7.0f) + 3;
                     }
-                    piece->spinVel.y = Math_Rand_CenteredFloat(0x1800);
-                    if (Math_Rand_ZeroOne() < 0.5f) {
+                    piece->spinVel.y = Rand_CenteredFloat(0x1800);
+                    if (Rand_ZeroOne() < 0.5f) {
                         piece->direction = 1;
                     } else {
                         piece->direction = -1;
@@ -490,7 +490,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (this->bounceCount <= 0) {
                     this->bounceCount++;
                     this->actor.velocity.y *= -0.3f;
-                    this->actor.posRot.rot.y += (s16)Math_Rand_CenteredFloat(16384.0f);
+                    this->actor.posRot.rot.y += (s16)Rand_CenteredFloat(16384.0f);
                 } else {
                     this->actor.velocity.y = 0.0f;
                 }
@@ -503,7 +503,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             this->bounceX = 0;
                         }
                     }
-                    if (Math_Rand_ZeroOne() < 0.5f) {
+                    if (Rand_ZeroOne() < 0.5f) {
                         this->spinXFlag = true;
                     } else {
                         this->spinXFlag = false;
@@ -518,14 +518,14 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             this->bounceZ = 0;
                         }
                     }
-                    if (Math_Rand_ZeroOne() < 0.5f) {
+                    if (Rand_ZeroOne() < 0.5f) {
                         this->spinZFlag = true;
                     } else {
                         this->spinZFlag = false;
                     }
                     bounced = true;
                 }
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->direction * 0x4000, 1, 0x2000);
+                Math_ApproachS(&this->actor.shape.rot.x, this->direction * 0x4000, 1, 0x2000);
             } else {
                 this->actor.shape.rot.y += this->spinVel.y;
                 this->actor.shape.rot.x += this->direction * 0x7D0;
@@ -544,8 +544,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 pos.y = this->actor.groundY + 3.0f;
                 dustCount = this->partCount * 0.5f;
                 for (j = 0; j < dustCount + 3; j++) {
-                    pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
-                    pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
+                    pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
+                    pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
                     func_800286CC(globalCtx, &pos, &velocity, &accel, 100, 5);
                 }
             }
@@ -560,18 +560,18 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (signpost->partFlags == 0xFFFF) {
                 Actor_Kill(&this->actor);
             }
-            Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 100.0f, 1.0f, 5.0f);
+            Math_ApproachF(&this->actor.shape.unk_08, 100.0f, 1.0f, 5.0f);
             if (this->actionState == ENKANBAN_WATER) {
                 s32 rippleDelay;
                 s32 rippleScale;
 
                 if ((player->actor.speedXZ > 0.0f) && (player->actor.posRot.pos.y < this->actor.posRot.pos.y) &&
                     (this->actor.xyzDistFromLinkSq < 2500.0f)) {
-                    Math_SmoothScaleMaxF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
+                    Math_ApproachF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;
                     }
-                    if (Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 1,
+                    if (Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 1,
                                                 0x1000, 0) > 0) {
                         this->spinVel.y = this->actor.speedXZ * 1000.0f;
                     } else {
@@ -592,15 +592,15 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             this->spinVel.y = 0x7D0;
                         }
                     }
-                    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.15f);
+                    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.15f);
                 }
                 this->actor.shape.rot.y += this->spinVel.y;
-                Math_SmoothScaleMaxS(&this->spinVel.y, 0, 1, 0x3A);
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->direction * 0x4000, 2, 0x1000);
-                Math_SmoothScaleMaxS(&this->spinRot.x, Math_Sins(2500 * this->frameCount) * 500.0f, 2, 0x1000);
-                Math_SmoothScaleMaxS(&this->spinRot.z, Math_Coss(3000 * this->frameCount) * 500.0f, 2, 0x1000);
-                Math_SmoothDownscaleMaxF(&this->floorRot.x, 0.5f, 0.2f);
-                Math_SmoothDownscaleMaxF(&this->floorRot.z, 0.5f, 0.2f);
+                Math_ApproachS(&this->spinVel.y, 0, 1, 0x3A);
+                Math_ApproachS(&this->actor.shape.rot.x, this->direction * 0x4000, 2, 0x1000);
+                Math_ApproachS(&this->spinRot.x, Math_SinS(2500 * this->frameCount) * 500.0f, 2, 0x1000);
+                Math_ApproachS(&this->spinRot.z, Math_CosS(3000 * this->frameCount) * 500.0f, 2, 0x1000);
+                Math_ApproachZeroF(&this->floorRot.x, 0.5f, 0.2f);
+                Math_ApproachZeroF(&this->floorRot.z, 0.5f, 0.2f);
                 if (fabsf(this->actor.speedXZ) > 1.0f) {
                     rippleDelay = 0;
                 } else if (fabsf(this->actor.speedXZ) > 0.5f) {
@@ -623,20 +623,20 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 this->actionState = ENKANBAN_AIR;
                 this->actor.gravity = -1.0f;
-                this->actor.posRot.rot.y = Math_Rand_CenteredFloat(0x10000);
+                this->actor.posRot.rot.y = Rand_CenteredFloat(0x10000);
                 if (this->partCount >= 4) {
-                    this->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                    this->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                    this->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
+                    this->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;
                     this->actor.velocity.y = 2.0f + hammerStrength;
-                    this->actor.speedXZ = Math_Rand_ZeroFloat(1.0f);
+                    this->actor.speedXZ = Rand_ZeroFloat(1.0f);
                 } else {
-                    this->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                    this->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                    this->bounceX = (s16)Rand_ZeroFloat(7.0f) + 3;
+                    this->bounceZ = (s16)Rand_ZeroFloat(7.0f) + 3;
                     this->actor.velocity.y = 3.0f + hammerStrength;
-                    this->actor.speedXZ = Math_Rand_ZeroFloat(1.5f);
+                    this->actor.speedXZ = Rand_ZeroFloat(1.5f);
                 }
-                this->spinVel.y = Math_Rand_CenteredFloat(0x1800);
-                if (Math_Rand_ZeroOne() < 0.5f) {
+                this->spinVel.y = Rand_CenteredFloat(0x1800);
+                if (Rand_ZeroOne() < 0.5f) {
                     this->direction = 1;
                 } else {
                     this->direction = -1;
@@ -662,20 +662,20 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         this->actionState = ENKANBAN_AIR;
                         this->actor.gravity = -1.0f;
-                        this->actor.posRot.rot.y = Math_atan2f(dx, dz) * (0x8000 / M_PI);
+                        this->actor.posRot.rot.y = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
                         if (this->partCount >= 4) {
-                            this->bounceX = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
-                            this->bounceZ = (s16)Math_Rand_ZeroFloat(10.0f) + 6;
+                            this->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
+                            this->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;
                             this->actor.velocity.y = 2.5f + bombStrength;
                             this->actor.speedXZ = 3.0f + bombStrength;
                         } else {
-                            this->bounceX = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
-                            this->bounceZ = (s16)Math_Rand_ZeroFloat(7.0f) + 3;
+                            this->bounceX = (s16)Rand_ZeroFloat(7.0f) + 3;
+                            this->bounceZ = (s16)Rand_ZeroFloat(7.0f) + 3;
                             this->actor.velocity.y = 5.0f + bombStrength;
                             this->actor.speedXZ = 4.0f + bombStrength;
                         }
-                        this->spinVel.y = Math_Rand_CenteredFloat(0x1800);
-                        if (Math_Rand_ZeroOne() < 0.5f) {
+                        this->spinVel.y = Rand_CenteredFloat(0x1800);
+                        if (Rand_ZeroOne() < 0.5f) {
                             this->direction = 1;
                         } else {
                             this->direction = -1;
@@ -719,20 +719,20 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
-            distX = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, signpost->actor.posRot.pos.x + offset.x, 1.0f,
+            distX = Math_SmoothStepToF(&this->actor.posRot.pos.x, signpost->actor.posRot.pos.x + offset.x, 1.0f,
                                             3.0f, 0.0f);
-            distY = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, signpost->actor.posRot.pos.y + offset.y, 1.0f,
+            distY = Math_SmoothStepToF(&this->actor.posRot.pos.y, signpost->actor.posRot.pos.y + offset.y, 1.0f,
                                             3.0f, 0.0f);
-            distZ = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, signpost->actor.posRot.pos.z + offset.z, 1.0f,
+            distZ = Math_SmoothStepToF(&this->actor.posRot.pos.z, signpost->actor.posRot.pos.z + offset.z, 1.0f,
                                             3.0f, 0.0f);
-            pDiff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, signpost->actor.shape.rot.x, 1, 0x200, 0);
-            yDiff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, signpost->actor.shape.rot.y, 1, 0x200, 0);
-            rDiff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, signpost->actor.shape.rot.z, 1, 0x200, 0);
-            Math_SmoothScaleMaxS(&this->spinRot.x, 0, 1, 0x200);
-            Math_SmoothScaleMaxS(&this->spinRot.z, 0, 1, 0x200);
-            Math_SmoothDownscaleMaxF(&this->floorRot.x, 1.0f, 0.05f);
-            Math_SmoothDownscaleMaxF(&this->floorRot.z, 1.0f, 0.05f);
-            Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, 2.0f);
+            pDiff = Math_SmoothStepToS(&this->actor.shape.rot.x, signpost->actor.shape.rot.x, 1, 0x200, 0);
+            yDiff = Math_SmoothStepToS(&this->actor.shape.rot.y, signpost->actor.shape.rot.y, 1, 0x200, 0);
+            rDiff = Math_SmoothStepToS(&this->actor.shape.rot.z, signpost->actor.shape.rot.z, 1, 0x200, 0);
+            Math_ApproachS(&this->spinRot.x, 0, 1, 0x200);
+            Math_ApproachS(&this->spinRot.z, 0, 1, 0x200);
+            Math_ApproachZeroF(&this->floorRot.x, 1.0f, 0.05f);
+            Math_ApproachZeroF(&this->floorRot.z, 1.0f, 0.05f);
+            Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, 2.0f);
             if (((distX + distY + distZ) == 0.0f) &&
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
@@ -765,8 +765,8 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, this->actor.shape.unk_08, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        zShift = fabsf(Math_Sins(this->spinRot.x) * this->pieceHeight);
-        zShift2 = fabsf(Math_Sins(this->spinRot.z) * this->pieceWidth);
+        zShift = fabsf(Math_SinS(this->spinRot.x) * this->pieceHeight);
+        zShift2 = fabsf(Math_SinS(this->spinRot.z) * this->pieceWidth);
         zShift = MAX(zShift2, zShift);
         zShift *= -(f32)this->direction;
         Matrix_Translate(0.0f, 0.0f, zShift, MTXMODE_APPLY);

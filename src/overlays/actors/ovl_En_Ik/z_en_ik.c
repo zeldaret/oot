@@ -319,9 +319,9 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
         temp_a1 =
             (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
@@ -371,8 +371,8 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame == 15.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
     } else if (this->skelAnime.animCurrentFrame == 21.0f) {
-        sp2C.x = this->actor.posRot.pos.x + Math_Sins(this->actor.shape.rot.y + 0x6A4) * 70.0f;
-        sp2C.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y + 0x6A4) * 70.0f;
+        sp2C.x = this->actor.posRot.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
+        sp2C.z = this->actor.posRot.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.posRot.pos.y;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
@@ -384,7 +384,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         this->unk_2FE = 1;
     } else {
         if ((this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
         }
         this->unk_2FE = 0;
@@ -437,7 +437,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
     f32 temp_f0;
 
     this->unk_300 += 0x1C2;
-    temp_f0 = Math_Sins(this->unk_300);
+    temp_f0 = Math_SinS(this->unk_300);
     this->skelAnime.animPlaybackSpeed = ABS(temp_f0);
 
     if (this->skelAnime.animCurrentFrame > 11.0f) {
@@ -446,7 +446,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
     if (((this->skelAnime.animCurrentFrame > 1.0f) && (this->skelAnime.animCurrentFrame < 9.0f)) ||
         ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f))) {
         if ((this->unk_2FC == 0) && (this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
         }
         if (this->unk_2FE < 0) {
@@ -488,7 +488,7 @@ void func_80A754A0(EnIk* this) {
 }
 
 void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
-    func_80077AF8(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x7D0);
+    Math_StepUntilS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x7D0);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
@@ -549,7 +549,7 @@ void func_80A75790(EnIk* this) {
 }
 
 void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (func_8003305C(&this->actor, &this->unk_308, globalCtx, this->actor.params + 4)) {
         this->unk_308.unk_10 = 0;
     }
@@ -586,9 +586,9 @@ void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
             this->unk_2F9--;
 
             for (i = 0xC - (this->unk_2F9 >> 1); i >= 0; i--) {
-                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(120.0f);
-                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(120.0f);
-                pos.y = this->actor.posRot.pos.y + 20.0f + Math_Rand_CenteredFloat(50.0f);
+                pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(120.0f);
+                pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(120.0f);
+                pos.y = this->actor.posRot.pos.y + 20.0f + Rand_CenteredFloat(50.0f);
                 EffectSsDeadDb_Spawn(globalCtx, &pos, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
             }
             if (this->unk_2F9 == 0) {
@@ -666,8 +666,8 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         func_80032C7C(globalCtx, &this->actor);
         return;
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
-    if ((this->actor.params == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
+    if ((this->actor.params == 0) && (Rand_ZeroOne() < 0.5f)) {
         if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) > 0x4000) {
             func_80A754A0(this);
         }
@@ -958,7 +958,7 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
             Vec3f effectPos;
 
             Matrix_MultVec3f(&D_80A78514[i], &effectPos);
-            temp_v0 = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
+            temp_v0 = (Rand_ZeroOne() * 20.0f) - 10.0f;
             primColor.r += temp_v0;
             primColor.g += temp_v0;
             primColor.b += temp_v0;
@@ -966,7 +966,7 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
             envColor.g += temp_v0;
             envColor.b += temp_v0;
             func_8002829C(globalCtx, &effectPos, &effectVelocity, &effectAccel, &primColor, &envColor,
-                          (Math_Rand_ZeroOne() * 60.0f) + 300.0f, 0);
+                          (Rand_ZeroOne() * 60.0f) + 300.0f, 0);
         }
 
         this->unk_4D4 = 1;

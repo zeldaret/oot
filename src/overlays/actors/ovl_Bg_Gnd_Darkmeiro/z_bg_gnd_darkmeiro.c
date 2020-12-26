@@ -194,7 +194,7 @@ void BgGndDarkmeiro_DrawSwitchBlock(Actor* thisx, GlobalContext* globalCtx) {
         if (vanishTimer > 64) {
             this->timer2 = (this->timer2 < 120) ? this->timer2 + 8 : 127;
         } else if (vanishTimer > 16) {
-            this->timer2 = (Math_Coss((u16)this->timer1 * 0x1000) * 64.0f) + 127.0f;
+            this->timer2 = (Math_CosS((u16)this->timer1 * 0x1000) * 64.0f) + 127.0f;
             if (this->timer2 > 127) {
                 this->timer2 = 127;
             }

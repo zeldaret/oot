@@ -9,7 +9,7 @@ glabel func_809BDAE8
 /* 00EA4 809BDB04 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 00EA8 809BDB08 24A54000 */  addiu   $a1, $a1, 0x4000           ## $a1 = 00004000
 /* 00EAC 809BDB0C 00052C00 */  sll     $a1, $a1, 16               
-/* 00EB0 809BDB10 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00EB0 809BDB10 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00EB4 809BDB14 00052C03 */  sra     $a1, $a1, 16               
 /* 00EB8 809BDB18 50400019 */  beql    $v0, $zero, .L809BDB80     

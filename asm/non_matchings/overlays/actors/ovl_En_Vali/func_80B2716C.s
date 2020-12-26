@@ -36,7 +36,7 @@ glabel func_80B2716C
 /* 00B08 80B271B8 44033000 */  mfc1    $v1, $f6                   
 /* 00B0C 80B271BC 260402F8 */  addiu   $a0, $s0, 0x02F8           ## $a0 = 000002F8
 /* 00B10 80B271C0 44058000 */  mfc1    $a1, $f16                  
-/* 00B14 80B271C4 0C01DE80 */  jal     Math_ApproxF
+/* 00B14 80B271C4 0C01DE80 */  jal     Math_StepToF
               
 /* 00B18 80B271C8 AFA30024 */  sw      $v1, 0x0024($sp)           
 /* 00B1C 80B271CC 8FA30024 */  lw      $v1, 0x0024($sp)           

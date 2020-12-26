@@ -13,7 +13,7 @@ glabel func_80A7AEF0
 /* 01F6C 80A7AF1C 8C99002C */  lw      $t9, 0x002C($a0)           ## 0000002C
 /* 01F70 80A7AF20 ADF90008 */  sw      $t9, 0x0008($t7)           ## FFFFFFF4
 /* 01F74 80A7AF24 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
-/* 01F78 80A7AF28 0C01DE1C */  jal     Math_Sins
+/* 01F78 80A7AF28 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01F7C 80A7AF2C AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 01F80 80A7AF30 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
@@ -22,7 +22,7 @@ glabel func_80A7AEF0
 /* 01F8C 80A7AF3C 46003202 */  mul.s   $f8, $f6, $f0              
 /* 01F90 80A7AF40 46082280 */  add.s   $f10, $f4, $f8             
 /* 01F94 80A7AF44 E7AA002C */  swc1    $f10, 0x002C($sp)          
-/* 01F98 80A7AF48 0C01DE0D */  jal     Math_Coss
+/* 01F98 80A7AF48 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01F9C 80A7AF4C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 01FA0 80A7AF50 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000

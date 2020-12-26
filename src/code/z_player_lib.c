@@ -754,7 +754,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp54 = Math_atan2f(sp58, sp60);
+            sp54 = Math_FAtan2F(sp58, sp60);
 
             sp6C = sp80 - spA4.y;
 
@@ -765,9 +765,9 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp50 = Math_atan2f(sp58, sp60);
+            sp50 = Math_FAtan2F(sp58, sp60);
 
-            temp1 = (M_PI - (Math_atan2f(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
+            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
             temp1 = temp1 - skelAnime->limbDrawTbl[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->limbDrawTbl[shinLimbIndex].x) + ABS(skelAnime->limbDrawTbl[shinLimbIndex].y)) <
@@ -814,7 +814,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         pos->y -= this->unk_6C4;
 
         if (this->unk_6C2 != 0) {
-            Matrix_Translate(pos->x, ((Math_Coss(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
+            Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
             Matrix_RotateX(this->unk_6C2 * (M_PI / 32768), MTXMODE_APPLY);
             Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
@@ -1034,8 +1034,8 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* this, Vec3f* refPo
     gSPSegment(POLY_OPA_DISP++, 0x06, this->giObjectSegment);
     gSPSegment(POLY_XLU_DISP++, 0x06, this->giObjectSegment);
 
-    Matrix_Translate(refPos->x + (3.3f * Math_Sins(this->actor.shape.rot.y)), refPos->y + height,
-                     refPos->z + ((3.3f + (IREG(90) / 10.0f)) * Math_Coss(this->actor.shape.rot.y)), MTXMODE_NEW);
+    Matrix_Translate(refPos->x + (3.3f * Math_SinS(this->actor.shape.rot.y)), refPos->y + height,
+                     refPos->z + ((3.3f + (IREG(90) / 10.0f)) * Math_CosS(this->actor.shape.rot.y)), MTXMODE_NEW);
     Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
     Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
 
