@@ -16,7 +16,9 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx);
 void func_80A99438(EnKo* this, GlobalContext* globalCtx);
 void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
-
+Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a);
+s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+void func_80A99BC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 extern UNK_TYPE D_06006A60;
 extern UNK_TYPE D_06007830;
 extern UNK_TYPE D_06007D94;
@@ -100,29 +102,31 @@ u8 D_80A9A4BC[13][5] = { { 0x08, 0x09, 0x09, 0x0E, 0x0B }, { 0x02, 0x0C, 0x02, 0
 typedef struct {
     s8 unk_0;
     s8 unk_1;
-    s8 unk_2;
-    s8 unk_3;
-    s8 unk_4;
-    s8 unk_5;
+    Color_RGBA8 color1;
+    // s8 unk_2; // R
+    // s8 unk_3; // G
+    // s8 unk_4; // B
+    // s8 unk_5; // A
     u8 unk_6;
-    s8 unk_7;
-    s8 unk_8;
-    s8 unk_9;
-    s8 unk_A;
+    Color_RGBA8 color2;
+    // s8 unk_7; // R
+    // s8 unk_8; // G
+    // s8 unk_9; // B
+    // s8 unk_A; // A
 } struct_80A9A500;
-struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x01, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x01, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
-                                 { 0x01, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x01, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
-                                 { 0x01, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
-                                 { 0x00, 0x00, 0x00, 0x82, 0x46, 0xFF, 0x00, 0x6E, 0xAA, 0x14, 0xFF },
-                                 { 0x02, 0x01, 0x46, 0xBE, 0x3C, 0xFF, 0x01, 0x64, 0x1E, 0x00, 0xFF },
+struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
+                                 { 0x02, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
                                  /*0x00*/ };
 
 typedef struct {
@@ -404,17 +408,15 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A99560(EnKo *this, GlobalContext *globalCtx) {
+void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
     if (this->unk_1E8 == 3) {
         this->actor.textId = 0x10B9;
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_1E8 = 1;
-        gSaveContext.itemGetInf[3] |=2;
+        gSaveContext.itemGetInf[3] |= 2;
         this->actionFunc = func_80A99384;
     }
 }
-
-
 
 #ifdef NON_MATCHING
 void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
@@ -455,4 +457,47 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99C94.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
+void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnKo* this = THIS;
+    Color_RGBA8 color1;
+    Color_RGBA8 color2;
+    //GraphicsContext* gfxCtx;
+
+    color1 = D_80A9A500[thisx->params & 0xFF].color1;
+    color2 = D_80A9A500[thisx->params & 0xFF].color2;
+    thisx->shape.unk_14 = this->unk_220;
+    //gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 0x82F);
+    //temp_f0 = this->unk_220;
+    //temp_v0 = (s16)(s32)temp_f0;
+    if ((s16)this->unk_220 == 0xFF) {
+        // temp_v0_2 = temp_s1->polyOpa.p;
+        // temp_s1->polyOpa.p = temp_v0_2 + 8;
+        // temp_v0_2->words.w0 = 0xDB060020;
+        // sp44 = temp_v0_2;
+        // sp44->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp60, sp61, sp62, 0xFF);
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, 0xFF));
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, 0xFF));
+        // temp_v0_3 = temp_s1->polyOpa.p;
+        // temp_s1->polyOpa.p = temp_v0_3 + 8;
+        // temp_v0_3->words.w0 = 0xDB060024;
+        // sp40 = temp_v0_3;
+        // sp40->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp5C, sp5D, sp5E, 0xFF);
+        // func_80034BA0(globalCtx, (SkelAnime*)(thisx + 0x14C), &func_80A99864, &func_80A99BC4, thisx,
+        //              (s32)thisx->unk220);
+        func_80034BA0(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx, this->unk_220);
+    } else if ((s16)this->unk_220 != 0) {
+        //sp63 = (u8)(u32)temp_f0;
+        //sp5F = (u8)(u32)this->unk_220;
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, this->unk_220));
+        // temp_v0_4 = temp_s1->polyXlu.p;
+        // temp_s1->polyXlu.p = temp_v0_4 + 8;
+        // temp_v0_4->words.w0 = 0xDB060020;
+        // sp3C = temp_v0_4;
+        // sp3C->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp60, sp61, sp62, (?32) sp63);
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, this->unk_220));
+        func_80034CC4(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx, this->unk_220);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 0x858);
+}
