@@ -292,21 +292,12 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
 }
 
 static ColliderCylinderInit sCylinderInit = {
-    {
-        COLTYPE_UNK10,
-        0x00,
-        0x00,
-        0x39,
-        0x20,
-        COLSHAPE_CYLINDER,
-    },
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 0x1A, 0x40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
@@ -321,70 +312,10 @@ const ActorInit En_Zo_InitVars = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    {
-        &D_06002FE8,
-        1.0f,
-        0.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
-    {
-        &D_06002FE8,
-        1.0f,
-        0.0f,
-        -1.0f,
-        0,
-        0.0f,
-    },
-    {
-        &D_06002F10,
-        0.0f,
-        1.0f,
-        1.0f,
-        2,
-        0.0f,
-    },
-    {
-        &D_06002F10,
-        1.0f,
-        1.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
-    {
-        &D_06002F10,
-        1.0f,
-        8.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
-    {
-        &D_0600219C,
-        1.0f,
-        0.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
-    {
-        &D_06000598,
-        1.0f,
-        0.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
-    {
-        &D_06000D48,
-        1.0f,
-        0.0f,
-        -1.0f,
-        0,
-        -8.0f,
-    },
+    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, 0.0f },
+    { &D_06002F10, 0.0f, 1.0f, 1.0f, 2, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, 0, -8.0f },
+    { &D_06002F10, 1.0f, 8.0f, -1.0f, 0, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, 0, -8.0f },
+    { &D_06000598, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, 0, -8.0f },
 };
 
 void EnZo_SpawnSplashes(EnZo* this) {

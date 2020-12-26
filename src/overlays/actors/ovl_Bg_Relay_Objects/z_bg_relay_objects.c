@@ -10,7 +10,10 @@
 
 #define THIS ((BgRelayObjects*)thisx)
 
-typedef enum { WINDMILL_ROTATING_GEAR, WINDMILL_DAMPE_STONE_DOOR } WindmillSetpiecesMode;
+typedef enum {
+    /* 0 */ WINDMILL_ROTATING_GEAR,
+    /* 1 */ WINDMILL_DAMPE_STONE_DOOR
+} WindmillSetpiecesMode;
 
 void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
