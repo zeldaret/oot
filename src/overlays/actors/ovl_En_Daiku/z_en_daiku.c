@@ -172,7 +172,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         }
 
-        this->skelAnime.animCurrentFrame = (s32)(Math_Rand_ZeroOne() * this->skelAnime.animFrameCount);
+        this->skelAnime.animCurrentFrame = (s32)(Rand_ZeroOne() * this->skelAnime.animFrameCount);
         this->actionFunc = EnDaiku_TentIdle;
     }
 }
@@ -391,7 +391,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.posRot.pos.x;
         dz = pointPos->z - this->actor.posRot.pos.z;
-        this->rotYtowardsPath = Math_atan2f(dx, dz) * (0x8000 / M_PI);
+        this->rotYtowardsPath = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
         dxz = sqrtf(SQ(dx) + SQ(dz));
         if (dxz > 10.0f) {
             exitLoop = true;
@@ -409,7 +409,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_EscapeRotate(EnDaiku* this, GlobalContext* globalCtx) {
     s16 diff;
 
-    diff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rotYtowardsPath, 1, 0x1388, 0);
+    diff = Math_SmoothStepToS(&this->actor.shape.rot.y, this->rotYtowardsPath, 1, 0x1388, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (diff == 0) {
         this->actionFunc = EnDaiku_EscapeRun;
@@ -458,9 +458,9 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamAtTarget.y = this->actor.posRot.pos.y + 60.0f;
     this->subCamAtTarget.z = this->actor.posRot.pos.z;
 
-    Math_SmoothScaleMaxMinF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
 
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
@@ -479,7 +479,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
-                        this->initPos.z + vec.z, 0, Math_atan2f(-vec.x, -vec.z) * (0x8000 / M_PI), 0, 2);
+                        this->initPos.z + vec.z, 0, Math_FAtan2F(-vec.x, -vec.z) * (0x8000 / M_PI), 0, 2);
 
         if (gerudoGuard == NULL) {
             Actor_Kill(&this->actor);
@@ -506,7 +506,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.posRot.pos.x;
     dz = pointPos->z - this->actor.posRot.pos.z;
-    ry = Math_atan2f(dx, dz) * (0x8000 / M_PI);
+    ry = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
     dxz = sqrtf(SQ(dx) + SQ(dz));
     if (dxz <= 20.88f) {
         this->waypoint++;
@@ -519,9 +519,9 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 

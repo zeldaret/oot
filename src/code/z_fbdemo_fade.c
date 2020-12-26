@@ -60,12 +60,12 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
             newAlpha = this->fadeColor.a;
             if (iREG(50) != 0) {
                 if (iREG(50) < 0) {
-                    if (Math_ApproxS(&newAlpha, 255, 255)) {
+                    if (Math_StepToS(&newAlpha, 255, 255)) {
                         iREG(50) = 150;
                     }
                 } else {
-                    Math_ApproxS(&iREG(50), 20, 60);
-                    if (Math_ApproxS(&newAlpha, 0, iREG(50))) {
+                    Math_StepToS(&iREG(50), 20, 60);
+                    if (Math_StepToS(&newAlpha, 0, iREG(50))) {
                         iREG(50) = 0;
                         this->isDone = 1;
                     }

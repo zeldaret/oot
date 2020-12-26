@@ -317,7 +317,7 @@ glabel L809F0D80
 glabel L809F0E1C
 .L809F0E1C:
 /* 0053C 809F0E1C 3C01809F */  lui     $at, %hi(D_809F19A0)       ## $at = 809F0000
-/* 00540 809F0E20 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00540 809F0E20 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00544 809F0E24 C42C19A0 */  lwc1    $f12, %lo(D_809F19A0)($at) 
 /* 00548 809F0E28 4600020D */  trunc.w.s $f8, $f0                   
@@ -366,7 +366,7 @@ glabel L809F0E1C
               
 /* 005E0 809F0EC0 2484183C */  addiu   $a0, $a0, %lo(D_809F183C)  ## $a0 = 809F183C
 /* 005E4 809F0EC4 3C01809F */  lui     $at, %hi(D_809F19A4)       ## $at = 809F0000
-/* 005E8 809F0EC8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 005E8 809F0EC8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 005EC 809F0ECC C42C19A4 */  lwc1    $f12, %lo(D_809F19A4)($at) 
 /* 005F0 809F0ED0 4600028D */  trunc.w.s $f10, $f0                  

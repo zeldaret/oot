@@ -30,13 +30,13 @@ glabel func_80A4A608
 .L80A4A674:
 /* 017B4 80A4A674 00112C00 */  sll     $a1, $s1, 16               
 /* 017B8 80A4A678 00052C03 */  sra     $a1, $a1, 16               
-/* 017BC 80A4A67C 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 017BC 80A4A67C 0C01E1EF */  jal     Math_ApproachS
               
 /* 017C0 80A4A680 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 017C4 80A4A684 260402BA */  addiu   $a0, $s0, 0x02BA           ## $a0 = 000002BA
 /* 017C8 80A4A688 87A50026 */  lh      $a1, 0x0026($sp)           
 /* 017CC 80A4A68C 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 017D0 80A4A690 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 017D0 80A4A690 0C01E1EF */  jal     Math_ApproachS
               
 /* 017D4 80A4A694 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 017D8 80A4A698 8FBF001C */  lw      $ra, 0x001C($sp)           

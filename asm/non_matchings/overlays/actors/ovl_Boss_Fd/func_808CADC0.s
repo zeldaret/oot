@@ -37,7 +37,7 @@ glabel func_808CADC0
 /* 00088 808CAE48 A48C002A */  sh      $t4, 0x002A($a0)           ## 0000002A
 /* 0008C 808CAE4C 46062203 */  div.s   $f8, $f4, $f6              
 /* 00090 808CAE50 E4880030 */  swc1    $f8, 0x0030($a0)           ## 00000030
-/* 00094 808CAE54 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00094 808CAE54 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00098 808CAE58 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 0009C 808CAE5C 4600028D */  trunc.w.s $f10, $f0                  

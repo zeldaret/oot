@@ -46,7 +46,7 @@ glabel func_809D0268
 /* 01C18 809D02F8 3109007F */  andi    $t1, $t0, 0x007F           ## $t1 = 00000000
 /* 01C1C 809D02FC 5520000B */  bnel    $t1, $zero, .L809D032C     
 /* 01C20 809D0300 C6100258 */  lwc1    $f16, 0x0258($s0)          ## 00000258
-/* 01C24 809D0304 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01C24 809D0304 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01C28 809D0308 00000000 */  nop
 /* 01C2C 809D030C 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
@@ -68,7 +68,7 @@ glabel func_809D0268
 /* 01C68 809D0348 E6040258 */  swc1    $f4, 0x0258($s0)           ## 00000258
 /* 01C6C 809D034C 26040260 */  addiu   $a0, $s0, 0x0260           ## $a0 = 00000260
 /* 01C70 809D0350 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01C74 809D0354 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01C74 809D0354 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01C78 809D0358 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01C7C 809D035C 860A0222 */  lh      $t2, 0x0222($s0)           ## 00000222

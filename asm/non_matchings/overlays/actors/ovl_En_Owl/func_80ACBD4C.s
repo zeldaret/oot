@@ -15,7 +15,7 @@ glabel func_80ACBD4C
 /* 01E60 80ACBD80 45020008 */  bc1fl   .L80ACBDA4                 
 /* 01E64 80ACBD84 3C014234 */  lui     $at, 0x4234                ## $at = 42340000
 /* 01E68 80ACBD88 86050400 */  lh      $a1, 0x0400($s0)           ## 00000400
-/* 01E6C 80ACBD8C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01E6C 80ACBD8C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01E70 80ACBD90 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01E74 80ACBD94 860F0032 */  lh      $t7, 0x0032($s0)           ## 00000032

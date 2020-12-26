@@ -186,8 +186,8 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
         this->timer = SCYTHE_SPIN_TIME;
     }
 
-    actorRotYSin = Math_Sins(this->actor.shape.rot.y);
-    actorRotYCos = Math_Coss(this->actor.shape.rot.y);
+    actorRotYSin = Math_SinS(this->actor.shape.rot.y);
+    actorRotYCos = Math_CosS(this->actor.shape.rot.y);
 
     iterateCount = (this->actor.params != 0) ? 4 : 2;
 

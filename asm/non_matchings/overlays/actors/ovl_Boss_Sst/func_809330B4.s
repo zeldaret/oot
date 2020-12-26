@@ -9,7 +9,7 @@ glabel func_809330B4
 /* 06AFC 809330CC 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 06B00 809330D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 06B04 809330D4 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
-/* 06B08 809330D8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 06B08 809330D8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 06B0C 809330DC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 06B10 809330E0 3C028094 */  lui     $v0, %hi(D_80938C90)       ## $v0 = 80940000

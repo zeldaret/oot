@@ -107,21 +107,21 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
     Vec3f velocity;
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
-        f32 sn = Math_Sins(angle);
-        f32 cs = Math_Coss(angle);
+        f32 sn = Math_SinS(angle);
+        f32 cs = Math_CosS(angle);
         f32 temp_rand;
         s16 phi_s0;
 
         pos.x = sn * 16.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cs * 16.0f;
         velocity.x = pos.x * 0.2f;
-        velocity.y = (Math_Rand_ZeroOne() * 6.0f) + 2.0f;
+        velocity.y = (Rand_ZeroOne() * 6.0f) + 2.0f;
         velocity.z = pos.z * 0.2f;
         pos.x += breakPos->x;
         pos.y += breakPos->y;
         pos.z += breakPos->z;
-        temp_rand = Math_Rand_ZeroOne();
+        temp_rand = Rand_ZeroOne();
         if (temp_rand < 0.1f) {
             phi_s0 = 0x60;
         } else if (temp_rand < 0.7f) {
@@ -130,7 +130,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
             phi_s0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -200, phi_s0, 10, 10, 0,
-                             (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
+                             (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 40.0f, 3, 50, 140, 1);
@@ -148,24 +148,24 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
-        f32 sn = Math_Sins(angle);
-        f32 cs = Math_Coss(angle);
+        f32 sn = Math_SinS(angle);
+        f32 cs = Math_CosS(angle);
         f32 temp_rand;
         s16 phi_s0;
 
         pos.x = sn * 16.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cs * 16.0f;
         velocity.x = pos.x * 0.18f;
-        velocity.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
+        velocity.y = (Rand_ZeroOne() * 4.0f) + 2.0f;
         velocity.z = pos.z * 0.18f;
         pos.x += breakPos->x;
         pos.y += breakPos->y;
         pos.z += breakPos->z;
-        temp_rand = Math_Rand_ZeroOne();
+        temp_rand = Rand_ZeroOne();
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -180, phi_s0, 30, 30, 0,
-                             (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
+                             (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
 }
@@ -232,8 +232,8 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako_SetupThrown(ObjKibako* this) {
-    this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.colChkInfo.mass = 240;
     this->actionFunc = ObjKibako_Thrown;
 }

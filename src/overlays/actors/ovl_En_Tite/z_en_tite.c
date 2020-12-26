@@ -195,20 +195,20 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnTite_SetupIdle(EnTite* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060012E4, 4.0f);
     this->action = TEKTITE_IDLE;
-    this->vIdleTimer = Math_Rand_S16Offset(15, 30);
+    this->vIdleTimer = Rand_S16Offset(15, 30);
     this->actor.speedXZ = 0.0f;
     EnTite_SetupAction(this, EnTite_Idle);
 }
 
 void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (IS_BLUE) {
         if (this->actor.bgCheckFlags & 0x20) {
             // Float on water surface
             this->actor.gravity = 0.0f;
-            Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
+            Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
                                     1.0f, 2.0f, 0.0f);
         } else {
             this->actor.gravity = -1.0f;
@@ -229,7 +229,7 @@ void EnTite_SetupAttack(EnTite* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600083C);
     this->action = TEKTITE_ATTACK;
     this->vAttackState = TEKTITE_BEGIN_LUNGE;
-    this->vQueuedJumps = Math_Rand_S16Offset(1, 3);
+    this->vQueuedJumps = Rand_S16Offset(1, 3);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -318,7 +318,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
     switch (this->vAttackState) {
         case TEKTITE_BEGIN_LUNGE:
             // Slightly turn to player and switch to turning/idling action if the player is too far
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
             angleToPlayer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
             if ((this->actor.xzDistFromLink > 300.0f) && (this->actor.yDistFromLink > 80.0f)) {
@@ -355,13 +355,13 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             break;
         case TEKTITE_LANDED:
             // Slightly turn to player
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1500, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1500, 0);
             break;
         case TEKTITE_SUBMERGED:
             // Float up to water surface
-            Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
+            Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
                                     1.0f, 2.0f, 0.0f);
             break;
     }
@@ -463,7 +463,7 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
     this->actor.velocity.y = 10.0f;
     this->actor.gravity = -1.0f;
     this->actor.speedXZ = 4.0f;
-    this->vQueuedJumps = Math_Rand_S16Offset(1, 3);
+    this->vQueuedJumps = Rand_S16Offset(1, 3);
     if (IS_BLUE && (this->actor.bgCheckFlags & 0x20)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
     } else {
@@ -474,7 +474,7 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
 
 // Jumping toward player as a method of travel (different from attacking, has no hitbox)
 void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & 0x42) {
@@ -501,7 +501,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         (this->actor.velocity.y <= 0.0f)) {
         // slightly turn toward player upon landing and snap to ground or water.
         this->actor.speedXZ = 0.0f;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4000, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4000, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if ((!IS_BLUE) || (!(this->actor.bgCheckFlags & 0x20))) {
             if (this->actor.groundY > BGCHECK_Y_MIN) {
@@ -517,8 +517,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
             return;
         } else {
             // If submerged, float to surface
-            Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
+            Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
                                     1.0f, 2.0f, 0.0f);
             if (0.0f != this->actor.yDistToWater) {
                 // Do not change state until tekite has floated to surface
@@ -558,7 +558,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     } else {
         // Turn slowly toward player
         this->actor.flags |= 0x1000000;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
         if (this->actor.velocity.y >= 6.0f) {
             if (this->actor.bgCheckFlags & 1) {
                 func_800355B8(globalCtx, &this->frontLeftFootPos);
@@ -584,7 +584,7 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
     s16 angleToPlayer;
 
     // Snap to ground or water surface upon landing
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (((this->actor.bgCheckFlags & 3) || (IS_BLUE && (this->actor.bgCheckFlags & 0x20))) &&
         (this->actor.velocity.y <= 0.0f)) {
         if ((!IS_BLUE) || (!(this->actor.bgCheckFlags & 0x20))) {
@@ -648,7 +648,7 @@ void EnTite_SetupStunned(EnTite* this) {
 // stunned or frozen
 void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
     s16 angleToPlayer;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     // Snap to ground or water
     if (((this->actor.bgCheckFlags & 3) || (IS_BLUE && (this->actor.bgCheckFlags & 0x20))) &&
         (this->actor.velocity.y <= 0.0f)) {
@@ -734,19 +734,19 @@ void EnTite_SetupFlipOnBack(EnTite* this) {
     this->vOnBackTimer = 500;
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = -1.0f;
-    this->vLegTwitchTimer = (Math_Rand_ZeroOne() * 50.0f);
+    this->vLegTwitchTimer = (Rand_ZeroOne() * 50.0f);
     this->actor.velocity.y = 11.0f;
     EnTite_SetupAction(this, EnTite_FlipOnBack);
 }
 
 // During the flip animation and also while idling on back
 void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 0x7FFF, 1, 4000, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, 0x7FFF, 1, 4000, 0);
     // randomly reset the leg wiggling animation whenever timer reaches 0 to give illusion of twitching legs
     this->vLegTwitchTimer--;
     if (this->vLegTwitchTimer == 0) {
-        this->vLegTwitchTimer = Math_Rand_ZeroOne() * 30.0f;
-        this->skelAnime.animCurrentFrame = Math_Rand_ZeroOne() * 5.0f;
+        this->vLegTwitchTimer = Rand_ZeroOne() * 30.0f;
+        this->skelAnime.animCurrentFrame = Rand_ZeroOne() * 5.0f;
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->actor.bgCheckFlags & 3) {
@@ -777,7 +777,7 @@ void EnTite_SetupFlipUpright(EnTite* this) {
 }
 
 void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 0, 1, 0xFA0, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 0xFA0, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     //! @bug flying tektite: the following condition is never met and tektite stays stuck in this action forever
     if (this->actor.bgCheckFlags & 2) {
@@ -893,9 +893,9 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             // Otherwise ensure the tektite is rotating back upright
         } else {
-            Math_SmoothScaleMaxMinS(&thisx->shape.rot.x, 0, 1, 1000, 0);
+            Math_SmoothStepToS(&thisx->shape.rot.x, 0, 1, 1000, 0);
             if (this->flipState <= TEKTITE_UNFLIPPED) {
-                Math_SmoothScaleMaxMinS(&thisx->shape.rot.z, 0, 1, 1000, 0);
+                Math_SmoothStepToS(&thisx->shape.rot.z, 0, 1, 1000, 0);
                 if (thisx->shape.unk_08 > 0) {
                     thisx->shape.unk_08 -= 400.0f;
                 }

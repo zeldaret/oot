@@ -93,7 +93,7 @@ void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y = 12.0f;
     this->spawnRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &player->actor.posRot.pos);
     this->scale = 3.0f;
-    this->tile2Y = (s16)Math_Rand_ZeroFloat(5.0f) - 25;
+    this->tile2Y = (s16)Rand_ZeroFloat(5.0f) - 25;
     this->actionFunc = func_80A0E70C;
 }
 
@@ -107,8 +107,8 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f targetPos = this->actor.parent->posRot.pos;
 
-    targetPos.x += this->spawnRadius * Math_Sins(this->actor.posRot.rot.y);
-    targetPos.z += this->spawnRadius * Math_Coss(this->actor.posRot.rot.y);
+    targetPos.x += this->spawnRadius * Math_SinS(this->actor.posRot.rot.y);
+    targetPos.z += this->spawnRadius * Math_CosS(this->actor.posRot.rot.y);
     EnFdFire_UpdatePos(this, &targetPos);
     if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
@@ -146,8 +146,8 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
     if (DECR(this->deathTimer) == 0) {
         this->actionFunc = EnFdFire_Disappear;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 8, 0xFA0, 1);
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 8, 0xFA0, 1);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
         if (this->actor.speedXZ < 0.1f) {
             this->actor.speedXZ = 5.0f;
         }
@@ -156,9 +156,9 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Disappear(EnFdFire* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
     func_8002D868(&this->actor);
-    Math_SmoothScaleMaxMinF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.unk_10 = 20.0f;
     this->actor.shape.unk_10 *= (this->scale / 3.0f);
     if (!(this->scale > 0.01f)) {
@@ -209,8 +209,8 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
     sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - Camera_GetCamDirYaw(ACTIVE_CAM);
-    sp84 = fabsf(Math_Coss(sp8E));
-    sp88 = Math_Sins(sp8E);
+    sp84 = fabsf(Math_CosS(sp8E));
+    sp88 = Math_SinS(sp8E);
     sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
     if (1) {}
     if (1) {}
