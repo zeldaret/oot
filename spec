@@ -111,6 +111,12 @@ beginseg
     include "build/src/libultra_boot_O1/__osGetHWIntrRoutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
+    // Required for GCC support, should any functions use gcc library functions.
+    // Linked in if defined.
+#ifdef COMPILER_GCC
+    include "build/asm/llmuldiv_gcc.o"
+    include "build/src/boot/missing_gcc_functions.o"
+#endif
 endseg
 
 beginseg

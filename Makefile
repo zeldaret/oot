@@ -8,10 +8,21 @@ COMPARE ?= 1
 NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
+# If COMPILER is gcc, compile with gcc instead of IDO.
+COMPILER ?= ido
+
+# If gcc is used, define the NON_MATCHING and NON_EQUIVALENT flags respectively so the files that
+# are safe to be used can avoid using GLOBAL_ASM which doesn't work with gcc.
+ifeq ($(COMPILER),gcc)
+  $(warning WARNING: GCC support is experimental. Use at your own risk.)
+  NON_MATCHING := 1
+  NON_EQUIVALENT := 1
+  CPPFLAGS := -DCOMPILER_GCC
+endif
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
-  CPPFLAGS := -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
   COMPARE := 0
 endif
 
@@ -161,6 +172,17 @@ build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(
 build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+
+#### GCC Override ###
+
+# TODO: Generate gcc_safe_files automatically with a more robust python script.
+
+ifeq ($(COMPILER),gcc)
+  include gcc_safe_files.mk
+  $(SAFE_C_FILES): CC := mips-linux-gnu-gcc
+  $(SAFE_C_FILES): CFLAGS := -c -G 0 -nostdinc -Iinclude -Isrc -I. -DNON_MATCHING=1 -DNON_EQUIVALENT=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -fno-PIC -mno-abicalls -fno-strict-aliasing -fno-inline-functions -ffreestanding -fwrapv -Wall -Wextra
+  $(SAFE_C_FILES): MIPS_VERSION := -mips3
+endif
 
 #### Main Targets ###
 

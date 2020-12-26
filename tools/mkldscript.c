@@ -371,7 +371,7 @@ static void write_ld_script(void)
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.rodata*)\n", seg->includes[j]);
 
          //fprintf(fout, "        . = ALIGN(0x10);\n");
 
