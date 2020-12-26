@@ -132,7 +132,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
     this->drainTimer--;
     if ((roomNum == 7) || (roomNum == 8) || (roomNum == 9)) {
         if (this->drainTimer < 70) {
-            Math_ApproxF(&thisx->posRot.pos.y, this->targetWaterLevel, 3.5f);
+            Math_StepToF(&thisx->posRot.pos.y, this->targetWaterLevel, 3.5f);
             BgMoriIdomizu_SetWaterLevel(globalCtx, thisx->posRot.pos.y);
             if (this->drainTimer > 0) {
                 if (switchFlagSet) {

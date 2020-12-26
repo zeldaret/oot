@@ -27,7 +27,7 @@ glabel func_80B3487C
 /* 00C08 80B348B8 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00C0C 80B348BC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00C10 80B348C0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00C14 80B348C4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00C14 80B348C4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00C18 80B348C8 240702EE */  addiu   $a3, $zero, 0x02EE         ## $a3 = 000002EE
 /* 00C1C 80B348CC 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
@@ -56,7 +56,7 @@ glabel func_80B3487C
 /* 00C74 80B34924 C7A40050 */  lwc1    $f4, 0x0050($sp)           
 /* 00C78 80B34928 45020006 */  bc1fl   .L80B34944                 
 /* 00C7C 80B3492C 44819000 */  mtc1    $at, $f18                  ## $f18 = 65.00
-/* 00C80 80B34930 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00C80 80B34930 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00C84 80B34934 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 00C88 80B34938 10000016 */  beq     $zero, $zero, .L80B34994   
@@ -76,14 +76,14 @@ glabel func_80B3487C
 /* 00CBC 80B3496C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00CC0 80B34970 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00CC4 80B34974 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
-/* 00CC8 80B34978 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00CC8 80B34978 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00CCC 80B3497C E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 00CD0 80B34980 10000004 */  beq     $zero, $zero, .L80B34994   
 /* 00CD4 80B34984 00000000 */  nop
 /* 00CD8 80B34988 44051000 */  mfc1    $a1, $f2                   
 .L80B3498C:
-/* 00CDC 80B3498C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00CDC 80B3498C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00CE0 80B34990 E7A20010 */  swc1    $f2, 0x0010($sp)           
 .L80B34994:
@@ -122,7 +122,7 @@ glabel func_80B3487C
 /* 00D60 80B34A10 C61001A0 */  lwc1    $f16, 0x01A0($s0)          ## 000001A0
 /* 00D64 80B34A14 8602008A */  lh      $v0, 0x008A($s0)           ## 0000008A
 /* 00D68 80B34A18 A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032
-/* 00D6C 80B34A1C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00D6C 80B34A1C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00D70 80B34A20 A60200B6 */  sh      $v0, 0x00B6($s0)           ## 000000B6
 /* 00D74 80B34A24 3C0180B3 */  lui     $at, %hi(D_80B37B80)       ## $at = 80B30000
@@ -174,7 +174,7 @@ glabel func_80B3487C
 /* 00E14 80B34AC4 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 00E18 80B34AC8 14400012 */  bne     $v0, $zero, .L80B34B14     
 /* 00E1C 80B34ACC 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
-/* 00E20 80B34AD0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00E20 80B34AD0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00E24 80B34AD4 00000000 */  nop
 /* 00E28 80B34AD8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -214,7 +214,7 @@ glabel func_80B3487C
 /* 00EA8 80B34B58 A7A30042 */  sh      $v1, 0x0042($sp)           
 /* 00EAC 80B34B5C 1440001C */  bne     $v0, $zero, .L80B34BD0     
 /* 00EB0 80B34B60 87A30042 */  lh      $v1, 0x0042($sp)           
-/* 00EB4 80B34B64 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00EB4 80B34B64 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00EB8 80B34B68 A7A30042 */  sh      $v1, 0x0042($sp)           
 /* 00EBC 80B34B6C 3C0180B3 */  lui     $at, %hi(D_80B37B84)       ## $at = 80B30000
@@ -251,7 +251,7 @@ glabel func_80B3487C
 /* 00F28 80B34BD8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00F2C 80B34BDC 1040000E */  beq     $v0, $zero, .L80B34C18     
 /* 00F30 80B34BE0 00000000 */  nop
-/* 00F34 80B34BE4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F34 80B34BE4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F38 80B34BE8 00000000 */  nop
 /* 00F3C 80B34BEC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

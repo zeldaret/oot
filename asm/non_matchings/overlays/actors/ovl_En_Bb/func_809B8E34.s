@@ -7,7 +7,7 @@ glabel func_809B8E34
 /* 00B68 809B8E48 24A50444 */  addiu   $a1, $a1, %lo(D_06000444)           ## $a1 = 06000444
 /* 00B6C 809B8E4C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00B70 809B8E50 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00B74 809B8E54 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00B74 809B8E54 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00B78 809B8E58 00000000 */  nop
 /* 00B7C 809B8E5C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -15,7 +15,7 @@ glabel func_809B8E34
 /* 00B84 809B8E64 00000000 */  nop
 /* 00B88 809B8E68 46020102 */  mul.s   $f4, $f0, $f2
 /* 00B8C 809B8E6C 46022180 */  add.s   $f6, $f4, $f2
-/* 00B90 809B8E70 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00B90 809B8E70 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00B94 809B8E74 E6060068 */  swc1    $f6, 0x0068($s0)           ## 00000068
 /* 00B98 809B8E78 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -26,7 +26,7 @@ glabel func_809B8E34
 /* 00BAC 809B8E8C 46105480 */  add.s   $f18, $f10, $f16
 /* 00BB0 809B8E90 4600910D */  trunc.w.s $f4, $f18
 /* 00BB4 809B8E94 440F2000 */  mfc1    $t7, $f4
-/* 00BB8 809B8E98 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00BB8 809B8E98 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00BBC 809B8E9C AE0F0260 */  sw      $t7, 0x0260($s0)           ## 00000260
 /* 00BC0 809B8EA0 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

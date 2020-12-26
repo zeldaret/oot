@@ -67,12 +67,12 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
 
         Math_Vec3f_Sum(&thisx->posRot.pos, &D_808B272C, &burstDepthY);
 
-        burstDepthY.x += (Math_Rand_ZeroOne() - 0.5f) * 120.0f;
+        burstDepthY.x += (Rand_ZeroOne() - 0.5f) * 120.0f;
         burstDepthY.y += (30.0f + (i * 6.5f));
-        burstDepthY.z += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        burstDepthY.z += (Rand_ZeroOne() - 0.5f) * 20.0f;
 
-        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = (Math_Rand_ZeroOne() * 55.0f) + 8.0f;
+        burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = (Rand_ZeroOne() * 55.0f) + 8.0f;
 
         if (scale < 20) {
             gravityInfluence = -300;
@@ -81,7 +81,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
         } else {
             gravityInfluence = -420;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             rotationSpeed = 65;
         } else {
             rotationSpeed = 33;

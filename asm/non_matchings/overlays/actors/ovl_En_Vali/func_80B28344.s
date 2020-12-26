@@ -109,12 +109,12 @@ glabel func_80B28344
 /* 01DAC 80B2845C 0C034348 */  jal     Matrix_RotateY              
 /* 01DB0 80B28460 00000000 */  nop
 /* 01DB4 80B28464 8FA800C0 */  lw      $t0, 0x00C0($sp)           
-/* 01DB8 80B28468 0C01DE0D */  jal     Math_Coss
+/* 01DB8 80B28468 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01DBC 80B2846C 850400B6 */  lh      $a0, 0x00B6($t0)           ## 000000B6
 /* 01DC0 80B28470 8FA900C0 */  lw      $t1, 0x00C0($sp)           
 /* 01DC4 80B28474 E7A0007C */  swc1    $f0, 0x007C($sp)           
-/* 01DC8 80B28478 0C01DE1C */  jal     Math_Sins
+/* 01DC8 80B28478 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01DCC 80B2847C 852400B6 */  lh      $a0, 0x00B6($t1)           ## 000000B6
 /* 01DD0 80B28480 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0

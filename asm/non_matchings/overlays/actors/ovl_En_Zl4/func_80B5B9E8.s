@@ -41,7 +41,7 @@ glabel L80B5BA48
 /* 00298 80B5BA48 14400026 */  bne     $v0, $zero, .L80B5BAE4     
 /* 0029C 80B5BA4C 2404001E */  addiu   $a0, $zero, 0x001E         ## $a0 = 0000001E
 /* 002A0 80B5BA50 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
-/* 002A4 80B5BA54 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 002A4 80B5BA54 0C01DF64 */  jal     Rand_S16Offset
               
 /* 002A8 80B5BA58 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 002AC 80B5BA5C 8FA60018 */  lw      $a2, 0x0018($sp)           

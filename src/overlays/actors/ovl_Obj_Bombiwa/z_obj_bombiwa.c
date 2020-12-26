@@ -73,7 +73,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
-            s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
+            s16 rand = (s16)Rand_ZeroFloat(65536.0f);
             thisx->posRot.rot.y = rand;
             thisx->shape.rot.y = rand;
         }
@@ -99,12 +99,12 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 
     dlist = D_060009E0;
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
-        pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.x;
-        pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.initPosRot.pos.y) + 8.0f;
-        pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.z;
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
-        velocity.y = (Math_Rand_ZeroOne() * 16.0f) + 5.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
+        pos.x = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.x;
+        pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.initPosRot.pos.y) + 8.0f;
+        pos.z = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.z;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 15.0f;
+        velocity.y = (Rand_ZeroOne() * 16.0f) + 5.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
         scale = sEffectScales[i];
         arg5 = (scale >= 11) ? 37 : 33;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, 10, 2, 0, scale, 1, 0, 80, KAKERA_COLOR_NONE,

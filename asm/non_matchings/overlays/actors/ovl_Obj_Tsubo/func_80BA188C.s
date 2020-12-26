@@ -8,20 +8,20 @@ glabel func_80BA188C
 /* 00B30 80BA1890 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00B34 80BA1894 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00B38 80BA1898 AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 00B3C 80BA189C 0C01DE1C */  jal     Math_Sins
+/* 00B3C 80BA189C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00B40 80BA18A0 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 00B44 80BA18A4 C6040068 */  lwc1    $f4, 0x0068($s0)           ## 00000068
 /* 00B48 80BA18A8 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 00B4C 80BA18AC 46040182 */  mul.s   $f6, $f0, $f4              
-/* 00B50 80BA18B0 0C01DE0D */  jal     Math_Coss
+/* 00B50 80BA18B0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00B54 80BA18B4 E606005C */  swc1    $f6, 0x005C($s0)           ## 0000005C
 /* 00B58 80BA18B8 C6080068 */  lwc1    $f8, 0x0068($s0)           ## 00000068
 /* 00B5C 80BA18BC 240E00F0 */  addiu   $t6, $zero, 0x00F0         ## $t6 = 000000F0
 /* 00B60 80BA18C0 A20E00AE */  sb      $t6, 0x00AE($s0)           ## 000000AE
 /* 00B64 80BA18C4 46080282 */  mul.s   $f10, $f0, $f8             
-/* 00B68 80BA18C8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00B68 80BA18C8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00B6C 80BA18CC E60A0064 */  swc1    $f10, 0x0064($s0)          ## 00000064
 /* 00B70 80BA18D0 3C0180BA */  lui     $at, %hi(D_80BA1C6C)       ## $at = 80BA0000
@@ -33,7 +33,7 @@ glabel func_80BA188C
 /* 00B88 80BA18E8 46049182 */  mul.s   $f6, $f18, $f4             
 /* 00B8C 80BA18EC 4600320D */  trunc.w.s $f8, $f6                   
 /* 00B90 80BA18F0 44184000 */  mfc1    $t8, $f8                   
-/* 00B94 80BA18F4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00B94 80BA18F4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00B98 80BA18F8 A4381B50 */  sh      $t8, %lo(D_80BA1B50)($at)  
 /* 00B9C 80BA18FC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

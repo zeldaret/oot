@@ -19,7 +19,7 @@ glabel func_80AC69A4
 /* 03D44 80AC69E4 54200012 */  bnel    $at, $zero, .L80AC6A30     
 /* 03D48 80AC69E8 A48201F2 */  sh      $v0, 0x01F2($a0)           ## 000001F2
 /* 03D4C 80AC69EC A48001F2 */  sh      $zero, 0x01F2($a0)         ## 000001F2
-/* 03D50 80AC69F0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03D50 80AC69F0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03D54 80AC69F4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 03D58 80AC69F8 3C014270 */  lui     $at, 0x4270                ## $at = 42700000

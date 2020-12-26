@@ -79,7 +79,7 @@ void EnZo_Bubble(EnZo* this, Vec3f* pos) {
                 effect->pos = *pos;
                 effect->vec = *pos;
                 effect->vel = vel;
-                effect->scale = ((Math_Rand_ZeroOne() - 0.5f) * 0.02f) + 0.12f;
+                effect->scale = ((Rand_ZeroOne() - 0.5f) * 0.02f) + 0.12f;
                 break;
             }
         }
@@ -100,7 +100,7 @@ void EnZo_Splash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
             effect->pos = *pos;
             effect->vec = accel;
             effect->vel = *vel;
-            effect->color.a = (Math_Rand_ZeroOne() * 100.0f) + 100.0f;
+            effect->color.a = (Rand_ZeroOne() * 100.0f) + 100.0f;
             effect->scale = scale;
             break;
         }
@@ -114,7 +114,7 @@ void EnZo_UpdateRipples(EnZo* this) {
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
-            Math_SmoothScaleMaxF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
+            Math_ApproachF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
             if (effect->color.a > 20) {
                 effect->color.a -= 20;
             } else {
@@ -137,8 +137,8 @@ void EnZo_UpdateBubbles(EnZo* this) {
     effect = this->effects;
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
-            effect->pos.x = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.x;
-            effect->pos.z = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.z;
+            effect->pos.x = ((Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.x;
+            effect->pos.z = ((Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.z;
             effect->pos.y += effect->vel.y;
 
             // Bubbles turn into ripples when they reach the surface
@@ -325,10 +325,10 @@ void EnZo_SpawnSplashes(EnZo* this) {
 
     // Convert 20 particles into splashes (all of them since there are only 15)
     for (i = 0; i < 20; i++) {
-        f32 speed = Math_Rand_ZeroOne() * 1.5f + 0.5f;
-        f32 angle = Math_Rand_ZeroOne() * 6.28f; // ~pi * 2
+        f32 speed = Rand_ZeroOne() * 1.5f + 0.5f;
+        f32 angle = Rand_ZeroOne() * 6.28f; // ~pi * 2
 
-        vel.y = Math_Rand_ZeroOne() * 3.0f + 3.0f;
+        vel.y = Rand_ZeroOne() * 3.0f + 3.0f;
 
         vel.x = sinf(angle) * speed;
         vel.z = cosf(angle) * speed;
@@ -482,7 +482,7 @@ void EnZo_Blink(EnZo* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeTexture++;
         if (this->eyeTexture >= 3) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeTexture = 0;
         }
     }
@@ -631,8 +631,8 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
     } else if (this->actor.waterY < 80.0f) {
-        Math_SmoothScaleMaxF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
-        Math_SmoothScaleMaxF(&this->alpha, 255.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
+        Math_ApproachF(&this->alpha, 255.0f, 0.3f, 10.0f);
     }
 }
 
@@ -645,7 +645,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     }
     EnZo_SetAnimation(this);
 
-    Math_SmoothScaleMaxF(&this->actor.velocity.y, this->actor.waterY < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
+    Math_ApproachF(&this->actor.velocity.y, this->actor.waterY < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
     if (this->rippleTimer != 0) {
         this->rippleTimer--;
         if ((this->rippleTimer == 3) || (this->rippleTimer == 6)) {
@@ -657,7 +657,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     }
 
     if (EnZo_PlayerInProximity(this, globalCtx) != 0) {
-        this->timeToDive = Math_Rand_S16Offset(40, 40);
+        this->timeToDive = Rand_S16Offset(40, 40);
     } else if (DECR(this->timeToDive) == 0) {
         f32 initialFrame;
         func_80034EC0(&this->skelAnime, sAnimations, 4);
@@ -686,8 +686,8 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.waterY > 80.0f || this->actor.bgCheckFlags & 1) {
-        Math_SmoothScaleMaxF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
-        Math_SmoothScaleMaxF(&this->alpha, 0.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
+        Math_ApproachF(&this->alpha, 0.0f, 0.3f, 10.0f);
     }
 
     if ((s16)this->alpha == 0) {
@@ -717,9 +717,9 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->state.frames & 8) {
         pos = this->actor.posRot.pos;
 
-        pos.y += (Math_Rand_ZeroOne() - 0.5f) * 10.0f + 18.0f;
-        pos.x += (Math_Rand_ZeroOne() - 0.5f) * 28.0f;
-        pos.z += (Math_Rand_ZeroOne() - 0.5f) * 28.0f;
+        pos.y += (Rand_ZeroOne() - 0.5f) * 10.0f + 18.0f;
+        pos.x += (Rand_ZeroOne() - 0.5f) * 28.0f;
+        pos.z += (Rand_ZeroOne() - 0.5f) * 28.0f;
         EnZo_Bubble(this, &pos);
     }
 
@@ -753,8 +753,8 @@ s32 EnZo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
-        rot->y += (Math_Sins(this->unk_656[limbIndex]) * 200.0f);
-        rot->z += (Math_Coss(this->unk_67E[limbIndex]) * 200.0f);
+        rot->y += (Math_SinS(this->unk_656[limbIndex]) * 200.0f);
+        rot->z += (Math_CosS(this->unk_67E[limbIndex]) * 200.0f);
     }
 
     return 0;

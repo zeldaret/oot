@@ -605,16 +605,16 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
         accel.z = 0.0f;
 
         if (isSmallSpawner) {
-            velocity.x = Math_Rand_ZeroOne() - 0.5f;
-            velocity.z = Math_Rand_ZeroOne() - 0.5f;
+            velocity.x = Rand_ZeroOne() - 0.5f;
+            velocity.z = Rand_ZeroOne() - 0.5f;
         } else {
-            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
 
-        pos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-        pos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-        pos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+        pos.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
+        pos.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+        pos.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 1000, 16);
     }
@@ -1075,7 +1075,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                 break;
 
             case 3:
-                Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 0.1f, 0.1f, 0.005f);
+                Math_SmoothStepToF(&this->actor.scale.x, 0.0f, 0.1f, 0.1f, 0.005f);
                 Actor_SetScale(&this->actor, this->actor.scale.x);
                 break;
 
@@ -1487,7 +1487,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
+        this->jewelCsRotation.x = Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
@@ -1525,8 +1525,8 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     primColor.a = 0;
 
     for (i = 0; i < spawnerCount; i++) {
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
                                         3000, 16);
@@ -1639,8 +1639,8 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
         pos = this->actor.posRot.pos;
 
         pos.y += 600.0f;
-        pos.x += Math_Rand_CenteredFloat(300.0f);
-        pos.z += 200.0f + Math_Rand_CenteredFloat(300.0f);
+        pos.x += Rand_CenteredFloat(300.0f);
+        pos.z += 200.0f + Rand_CenteredFloat(300.0f);
 
         velocity.z = 0.0f;
         velocity.x = 0.0f;
@@ -2109,8 +2109,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = Math_atan2f(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = Math_atan2f(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = Math_FAtan2F(x, z) * (32768.0f / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
 /**

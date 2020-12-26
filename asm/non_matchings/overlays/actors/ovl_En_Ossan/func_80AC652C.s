@@ -12,7 +12,7 @@ glabel func_80AC652C
 /* 038A0 80AC6540 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
 /* 038A4 80AC6544 248402D0 */  addiu   $a0, $a0, 0x02D0           ## $a0 = 000002D0
 /* 038A8 80AC6548 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 038AC 80AC654C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 038AC 80AC654C 0C01E107 */  jal     Math_ApproachF
               
 /* 038B0 80AC6550 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 038B4 80AC6554 3C0180AD */  lui     $at, %hi(D_80AC9608)       ## $at = 80AD0000

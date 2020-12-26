@@ -412,8 +412,8 @@ s32 ObjOshihiki_CheckGround(ObjOshihiki* this, GlobalContext* globalCtx) {
 
 s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, ObjOshihiki* this) {
     f32 maxDist = ((direction >= 0.0f) ? 1.0f : -1.0f) * (300.0f * this->dyna.actor.scale.x + 20.0f - 0.5f);
-    f32 sn = Math_Sins(angle);
-    f32 cs = Math_Coss(angle);
+    f32 sn = Math_SinS(angle);
+    f32 cs = Math_CosS(angle);
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -571,7 +571,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx) {
     this->pushSpeed += 0.5f;
     this->stateFlags |= PUSHBLOCK_PUSH;
     this->pushSpeed = CLAMP_MAX(this->pushSpeed, 2.0f);
-    stopFlag = Math_ApproxF(&this->pushDist, 20.0f, this->pushSpeed);
+    stopFlag = Math_StepToF(&this->pushDist, 20.0f, this->pushSpeed);
     pushDistSigned = ((this->direction >= 0.0f) ? 1.0f : -1.0f) * this->pushDist;
     thisx->posRot.pos.x = thisx->initPosRot.pos.x + (pushDistSigned * this->yawSin);
     thisx->posRot.pos.z = thisx->initPosRot.pos.z + (pushDistSigned * this->yawCos);
@@ -651,8 +651,8 @@ void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
 
-    this->yawSin = Math_Sins(this->dyna.actor.posRot.rot.y);
-    this->yawCos = Math_Coss(this->dyna.actor.posRot.rot.y);
+    this->yawSin = Math_SinS(this->dyna.actor.posRot.rot.y);
+    this->yawCos = Math_CosS(this->dyna.actor.posRot.rot.y);
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

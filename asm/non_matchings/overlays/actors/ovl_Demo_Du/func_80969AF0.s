@@ -18,7 +18,7 @@ glabel func_80969AF0
 /* 00058 80969B28 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C
 /* 0005C 80969B2C 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 00060 80969B30 AFA3001C */  sw      $v1, 0x001C($sp)           
-/* 00064 80969B34 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00064 80969B34 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00068 80969B38 AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 0006C 80969B3C 8FA3001C */  lw      $v1, 0x001C($sp)           

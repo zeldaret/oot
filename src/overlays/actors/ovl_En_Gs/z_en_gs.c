@@ -158,10 +158,10 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
 
 f32 func_80A4E754(EnGs* this, GlobalContext* globalCtx, f32* arg2, f32* arg3, u16* arg4, f32 arg5, f32 arg6, f32 arg7,
                   s32 arg8, s32 arg9) {
-    f32 sp2C = Math_SmoothScaleMaxMinF(arg2, *arg3, arg5, arg6, arg7);
+    f32 sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
 
     if (arg9 == 0) {
-        sp2C = Math_SmoothScaleMaxMinF(arg2, *arg3, arg5, arg6, arg7);
+        sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
         this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
         this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
         *arg4 += 1;
@@ -214,7 +214,7 @@ void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1EC = -0.8f;
         this->unk_19F++;
     } else if (this->unk_19F == 1) {
-        ret = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.4f, 0.001f);
+        ret = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.4f, 0.001f);
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (ret == 0.0f) {
             this->unk_200 = 0;
@@ -228,7 +228,7 @@ void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx) {
             this->unk_1EC = 0.0f;
         }
     } else if (this->unk_19F == 3) {
-        ret = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.5f, 0.001f);
+        ret = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.5f, 0.001f);
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (ret == 0.0f) {
             this->unk_1E8 = 0.5f;
@@ -300,14 +300,14 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 3) {
         for (i = 0; i < 3; i++) {
-            dustVelocity.x = Math_Rand_CenteredFloat(15.0f);
-            dustVelocity.y = Math_Rand_ZeroFloat(-1.0f);
-            dustVelocity.z = Math_Rand_CenteredFloat(15.0f);
+            dustVelocity.x = Rand_CenteredFloat(15.0f);
+            dustVelocity.y = Rand_ZeroFloat(-1.0f);
+            dustVelocity.z = Rand_CenteredFloat(15.0f);
             dustPos.x = this->actor.posRot.pos.x + (dustVelocity.x + dustVelocity.x);
             dustPos.y = this->actor.posRot.pos.y + 7.0f;
             dustPos.z = this->actor.posRot.pos.z + (dustVelocity.z + dustVelocity.z);
             func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
-                          (s16)Math_Rand_ZeroFloat(50.0f) + 200, 40, 15);
+                          (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
@@ -359,8 +359,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19F = 1;
     }
     if (this->unk_19F == 1) {
-        Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
+        Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
         this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
@@ -380,8 +380,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     }
     if (this->unk_19F == 3) {
         this->unk_1A0[0].y += 0x4000;
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
+        Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
@@ -391,7 +391,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 4) {
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 16384.0f, 3640.0f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 16384.0f, 3640.0f);
         this->unk_1A0[0].y += (s16)this->unk_1E8;
         if (tmpf1 == 0.0f) {
 
@@ -411,7 +411,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
             tmp += 0xFFFF0001;
         }
         this->unk_1E8 = tmp;
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
         this->unk_1A0[0].y = this->unk_1E8;
         if (tmpf1 == 0.0f) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
@@ -427,9 +427,9 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 6) {
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.1f, 0.001f);
-        tmpf2 = Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.1f, 0.001f);
-        tmpf3 = Math_SmoothScaleMaxMinF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.1f, 0.001f);
+        tmpf2 = Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.1f, 0.001f);
+        tmpf3 = Math_SmoothStepToF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;

@@ -1449,11 +1449,11 @@ void func_8009BEEC(GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 127);
     }
 
-    if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
+    if ((globalCtx->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
         var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
+        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
@@ -1836,11 +1836,11 @@ void func_8009DA30(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC555) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2189,11 +2189,11 @@ void func_8009F5D4(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC000) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2343,10 +2343,10 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_Coss(D_8012A39C),
-                      0.00009587531f * temp * Math_Sins(D_8012A39C), 0.00009587531f * temp * Math_Sins(D_8012A3A0));
-        func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_Sins(D_8012A3A0)),
-                      1.f + (0.39999998f * temp * Math_Coss(D_8012A3A0)), 1.f + (1 * temp * Math_Coss(D_8012A39C)));
+        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_CosS(D_8012A39C),
+                      0.00009587531f * temp * Math_SinS(D_8012A39C), 0.00009587531f * temp * Math_SinS(D_8012A3A0));
+        func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_SinS(D_8012A3A0)),
+                      1.f + (0.39999998f * temp * Math_CosS(D_8012A3A0)), 1.f + (1 * temp * Math_CosS(D_8012A39C)));
         func_800AA7AC(&globalCtx->view, 0.95f);
 
         switch (globalCtx->unk_11D30[0]) {

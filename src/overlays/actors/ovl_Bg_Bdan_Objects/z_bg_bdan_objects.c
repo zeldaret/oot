@@ -195,7 +195,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
-    if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 500.0f, 0.5f, 7.5f,
+    if (Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 500.0f, 0.5f, 7.5f,
                                 1.0f) < 0.1f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = func_8086C29C;
@@ -242,7 +242,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->dyna.actor.velocity.y += 0.5f;
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + -70.0f,
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + -70.0f,
                      this->dyna.actor.velocity.y)) {
         this->dyna.actor.posRot.rot.y = 0;
         this->unk_16A = 0x3C;
@@ -311,9 +311,9 @@ void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx) {
-    s32 cond = Math_ApproxUpdateScaledS(&this->dyna.actor.shape.rot.y, this->dyna.actor.initPosRot.rot.y, 0x200);
+    s32 cond = Math_ScaledStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.initPosRot.rot.y, 0x200);
 
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + -125.0f, 3.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + -125.0f, 3.0f)) {
         if (cond) {
             this->actionFunc = func_8086C76C;
         }
@@ -330,7 +330,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
-    if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 965.0f, 0.5f, 15.0f,
+    if (Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 965.0f, 0.5f, 15.0f,
                                 0.2f) < 0.01f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_DoNothing;
@@ -383,13 +383,13 @@ void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 0.5f)) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 0.5f)) {
             Flags_UnsetSwitch(globalCtx, this->unk_168);
             this->actionFunc = func_8086C9A8;
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 75.0f, 0.5f)) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 75.0f, 0.5f)) {
             this->actionFunc = func_8086CABC;
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
