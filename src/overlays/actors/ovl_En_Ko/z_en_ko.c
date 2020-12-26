@@ -13,6 +13,9 @@ void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A99048(EnKo* this, GlobalContext* globalCtx);
 void func_80A995CC(EnKo* this, GlobalContext* globalCtx);
 void func_80A99384(EnKo* this, GlobalContext* globalCtx);
+void func_80A99438(EnKo* this, GlobalContext* globalCtx);
+void func_80A99504(EnKo* this, GlobalContext* globalCtx);
+void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06006A60;
 extern UNK_TYPE D_06007830;
@@ -44,7 +47,7 @@ s32 D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, 0x00000000 };
 
 typedef struct {
     s16 objectId;
-    SkeletonHeader* header;
+    FlexSkeletonHeader* header;
 } struct_80A9A158;
 
 struct_80A9A158 D_80A9A158[] = { { 0x00FC, 0x06001890 } };
@@ -53,7 +56,7 @@ s32 D_80A9A160[] = { 0x00000000, 0x00FD0000, 0x06002C10, &D_80A9A148, 0x013D0000
 
 typedef struct {
     s16 objectId;
-    SkeletonHeader* unk_4;
+    FlexSkeletonHeader* unk_4;
 } struct_80A9A17C;
 // Object IDS? OBJECT_KM1 / OBJECT_KW1
 struct_80A9A17C D_80A9A17C[2] = { { OBJECT_KM1, 0x060000F0 }, { OBJECT_KW1, 0x060000F0 } };
@@ -277,18 +280,19 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98C18.s")
 
+// Seems fake
 s32 func_80A98CD8(EnKo* this) {
-    s32 temp_v0;
+    s32 type;
     struct_80A9A590* temp_v1;
 
     temp_v1 = &D_80A9A590[this->actor.params & 0xFF];
     this->actor.unk_1F = temp_v1->unk_0;
-    temp_v0 = this->actor.params & 0xFF;
+    type = this->actor.params & 0xFF;
     if (1) {}
     this->unk_21C = temp_v1->unk_4;
     this->unk_21C = this->unk_21C + this->collider.dim.radius;
     this->unk_218 = temp_v1->unk_8;
-    return this->actor.params & 0xFF;
+    return type;
 }
 
 s32 func_80A98D2C(EnKo* this) {
@@ -326,7 +330,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->unk_196;
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].unk_4,
-                           NULL, &this->limbDrawTable, &this->transitionDrawTable, 16);
+                           NULL, this->limbDrawTable, this->transitionDrawTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
@@ -349,7 +353,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
             this->collider.base.maskA = this->collider.base.maskA | 0x40;
         }
         this->unk_212 = func_80A98D2C(this);
-        func_80034EC0(&this->skelAnime, &D_80A9A18C, D_80A9A4BC[this->actor.params & 0xFF][this->unk_212]);
+        func_80034EC0(&this->skelAnime, D_80A9A18C, D_80A9A4BC[this->actor.params & 0xFF][this->unk_212]);
         Actor_SetScale(&this->actor, 0.01f);
         func_80A98CD8(this);
         this->unk_220 = 0.0f;
@@ -368,36 +372,70 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99384.s")
+void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
+    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 != 0) && (this->actor.textId == 0x10B9)) {
+        func_80034EC0(&this->skelAnime, D_80A9A18C, 7);
+        this->actionFunc = func_80A99438;
+    } else if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 == 2)) {
+        this->actionFunc = func_80A99504;
+        globalCtx->msgCtx.unk_E3E7 = 4;
+        globalCtx->msgCtx.msgMode = 0x36;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99438.s")
+void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
+    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 == 2)) {
+        func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
+        this->actionFunc = func_80A99504;
+        globalCtx->msgCtx.unk_E3E7 = 4;
+        globalCtx->msgCtx.msgMode = 0x36;
+    } else if ((this->unk_1E8 == 0) || (this->actor.textId != 0x10B9)) {
+        func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
+        this->actionFunc = func_80A99384;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99504.s")
+void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
+        this->actionFunc = func_80A99560;
+    } else {
+        func_8002F434(&this->actor, globalCtx, GI_SAW, 120.0f, 10.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99560.s")
+void func_80A99560(EnKo *this, GlobalContext *globalCtx) {
+    if (this->unk_1E8 == 3) {
+        this->actor.textId = 0x10B9;
+        func_8010B720(globalCtx, this->actor.textId);
+        this->unk_1E8 = 1;
+        gSaveContext.itemGetInf[3] |=2;
+        this->actionFunc = func_80A99384;
+    }
+}
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
+
+
+#ifdef NON_MATCHING
 void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 temp_f10;
     f32 temp_f2;
-    s16 temp_v0;
+    s16 yawToPlayer;
     f32 phi_f0;
 
-    temp_v0 = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
+    yawToPlayer = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-    temp_f10 = 80.0f * Math_Sins(temp_v0);
-    this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
+    temp_f10 = 80.0f * Math_Sins(yawToPlayer);
     this->actor.posRot.pos.x = this->actor.posRot.pos.x + temp_f10;
+    this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
     // yawToLink = this->actor.yawTowardsLink;
-    temp_f10 = 80.0f * Math_Coss(temp_v0);
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    this->actor.shape.rot.y = this->actor.yawTowardsLink;
-    this->actor.posRot.pos.z +=  temp_f10;
+    this->actor.posRot.pos.z += 80.0f * Math_Coss(yawToPlayer);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    // this->actor.posRot.pos.z +=  temp_f10;
     if ((this->unk_1E8 == 0) || (this->actor.unk_10C == 0)) {
-        temp_f2 = fabsf(this->actor.yawTowardsLink - temp_v0) * 0.001f * 3.0f;
+        temp_f2 = fabsf(this->actor.yawTowardsLink - yawToPlayer) * 0.001f * 3.0f;
         if (((temp_f2) > 1.0f)) {
-
             phi_f0 = CLAMP_MAX(temp_f2, 3.0f);
             this->skelAnime.animPlaybackSpeed = phi_f0;
             return;
@@ -405,6 +443,9 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     }
     this->skelAnime.animPlaybackSpeed = 1.0f;
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Update.s")
 
