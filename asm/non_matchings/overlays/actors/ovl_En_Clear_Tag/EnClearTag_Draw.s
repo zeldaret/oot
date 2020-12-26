@@ -172,7 +172,7 @@ glabel EnClearTag_Draw
 /* 01620 809D4BD0 00812023 */  subu    $a0, $a0, $at              
 /* 01624 809D4BD4 00042300 */  sll     $a0, $a0, 12               
 /* 01628 809D4BD8 00042400 */  sll     $a0, $a0, 16               
-/* 0162C 809D4BDC 0C01DE1C */  jal     Math_Sins
+/* 0162C 809D4BDC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01630 809D4BE0 00042403 */  sra     $a0, $a0, 16               
 /* 01634 809D4BE4 C7B00060 */  lwc1    $f16, 0x0060($sp)          
@@ -186,7 +186,7 @@ glabel EnClearTag_Draw
 /* 01654 809D4C04 00812023 */  subu    $a0, $a0, $at              
 /* 01658 809D4C08 00042200 */  sll     $a0, $a0,  8               
 /* 0165C 809D4C0C 00042400 */  sll     $a0, $a0, 16               
-/* 01660 809D4C10 0C01DE1C */  jal     Math_Sins
+/* 01660 809D4C10 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01664 809D4C14 00042403 */  sra     $a0, $a0, 16               
 /* 01668 809D4C18 C7A40060 */  lwc1    $f4, 0x0060($sp)           
@@ -375,7 +375,7 @@ glabel EnClearTag_Draw
 /* 0193C 809D4EEC 00812023 */  subu    $a0, $a0, $at              
 /* 01940 809D4EF0 00042300 */  sll     $a0, $a0, 12               
 /* 01944 809D4EF4 00042400 */  sll     $a0, $a0, 16               
-/* 01948 809D4EF8 0C01DE1C */  jal     Math_Sins
+/* 01948 809D4EF8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0194C 809D4EFC 00042403 */  sra     $a0, $a0, 16               
 /* 01950 809D4F00 C7A40034 */  lwc1    $f4, 0x0034($sp)           
@@ -389,7 +389,7 @@ glabel EnClearTag_Draw
 /* 01970 809D4F20 00812023 */  subu    $a0, $a0, $at              
 /* 01974 809D4F24 00042200 */  sll     $a0, $a0,  8               
 /* 01978 809D4F28 00042400 */  sll     $a0, $a0, 16               
-/* 0197C 809D4F2C 0C01DE1C */  jal     Math_Sins
+/* 0197C 809D4F2C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01980 809D4F30 00042403 */  sra     $a0, $a0, 16               
 /* 01984 809D4F34 C7A80034 */  lwc1    $f8, 0x0034($sp)           

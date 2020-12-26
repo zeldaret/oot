@@ -403,8 +403,8 @@ s32 func_80996D14(DoorShutter* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
             func_80996C60(this, globalCtx);
         }
-        Math_ApproxF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
+        Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
                          this->dyna.actor.velocity.y)) {
             return true;
         }
@@ -413,7 +413,7 @@ s32 func_80996D14(DoorShutter* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYODOOR_OPEN);
             func_80996C60(this, globalCtx);
         }
-        if (Math_ApproxS(&this->unk_166, 0, 10)) {
+        if (Math_StepToS(&this->unk_166, 0, 10)) {
             return true;
         }
     }
@@ -436,7 +436,7 @@ s32 func_80996E08(DoorShutter* this, GlobalContext* globalCtx, f32 arg2) {
             }
         }
     }
-    if (Math_ApproxF(&this->unk_170, arg2, 0.2f)) {
+    if (Math_StepToF(&this->unk_170, arg2, 0.2f)) {
         return true;
     }
     return false;
@@ -539,9 +539,9 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     s32 quakeId;
 
     if (this->dyna.actor.velocity.y < 20.0f) {
-        Math_ApproxF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
+        Math_StepToF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.posRot.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
@@ -557,7 +557,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80997528(DoorShutter* this, GlobalContext* globalCtx) {
-    if (Math_ApproxS(&this->unk_166, 0x64, 0xA)) {
+    if (Math_StepToS(&this->unk_166, 0x64, 0xA)) {
         func_80997220(this, globalCtx);
     }
 }
@@ -603,7 +603,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx) {
         this->unk_164--;
     }
     phi_f0 = (this->unk_164 % 2 != 0) ? -3.0f : 0.0f;
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, -34.0f + phi_f0, 1.0f, 20.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, -34.0f + phi_f0, 1.0f, 20.0f, 0.0f);
     osSyncPrintf("FHG SAKU END !!\n");
 }
 

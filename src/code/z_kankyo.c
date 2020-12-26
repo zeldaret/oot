@@ -31,7 +31,7 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80073A5C.s")
 
 f32 func_800746DC() {
-    return Math_Rand_ZeroOne() - 0.5f;
+    return Rand_ZeroOne() - 0.5f;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80074704.s")

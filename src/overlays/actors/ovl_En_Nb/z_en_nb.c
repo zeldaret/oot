@@ -125,7 +125,7 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.y = pointPos[1].y;
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
-            (Math_atan2f(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
+            (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {
@@ -177,11 +177,11 @@ void func_80AB10C4(EnNb* this) {
     Vec3s* tempPtr2;
 
     tempPtr = &this->unk_300.unk_08;
-    Math_SmoothScaleMaxMinS(&tempPtr->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&tempPtr->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
     tempPtr2 = &this->unk_300.unk_0E;
-    Math_SmoothScaleMaxMinS(&tempPtr2->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&tempPtr2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
 }
 
 void EnNb_UpdateEyes(EnNb* this) {
@@ -190,7 +190,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     s16* eyeIdx = &this->eyeIdx;
 
     if (DECR(*blinkTimer) == 0) {
-        *blinkTimer = Math_Rand_S16Offset(60, 60);
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
     *eyeIdx = *blinkTimer;
@@ -1164,12 +1164,12 @@ void func_80AB36DC(EnNb* this, GlobalContext* globalCtx) {
     if ((((u16)((u16)(kREG(17) + 25) - 4))) > moveTime) {
         s16 invScale = 4 - moveTime;
         if (invScale > 0) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->pathYaw, invScale, 6200, 100);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, this->pathYaw, invScale, 6200, 100);
         }
     } else {
         s16 invScale = (u16)(kREG(17) + 25) - moveTime;
         if (invScale > 0) {
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, invScale, 6200, 100);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, invScale, 6200, 100);
         }
     }
 }

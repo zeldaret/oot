@@ -90,16 +90,16 @@ void BgIceTurara_Break(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_ICE_BROKEN);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 10; j++) {
-            pos.x = this->dyna.actor.posRot.pos.x + Math_Rand_CenteredFloat(8.0f);
-            pos.y = this->dyna.actor.posRot.pos.y + (Math_Rand_ZeroOne() * arg2) + (i * arg2);
-            pos.z = this->dyna.actor.posRot.pos.z + Math_Rand_CenteredFloat(8.0f);
+            pos.x = this->dyna.actor.posRot.pos.x + Rand_CenteredFloat(8.0f);
+            pos.y = this->dyna.actor.posRot.pos.y + (Rand_ZeroOne() * arg2) + (i * arg2);
+            pos.z = this->dyna.actor.posRot.pos.z + Rand_CenteredFloat(8.0f);
 
-            vel.x = Math_Rand_CenteredFloat(7.0f);
-            vel.z = Math_Rand_CenteredFloat(7.0f);
-            vel.y = (Math_Rand_ZeroOne() * 4.0f) + 8.0f;
+            vel.x = Rand_CenteredFloat(7.0f);
+            vel.z = Rand_CenteredFloat(7.0f);
+            vel.y = (Rand_ZeroOne() * 4.0f) + 8.0f;
 
-            EffectSsEnIce_Spawn(globalCtx, &pos, (Math_Rand_ZeroOne() * 0.2f) + 0.1f, &vel, &accel, &primColor,
-                                &envColor, 30);
+            EffectSsEnIce_Spawn(globalCtx, &pos, (Rand_ZeroOne() * 0.2f) + 0.1f, &vel, &accel, &primColor, &envColor,
+                                30);
         }
     }
 }
@@ -139,11 +139,11 @@ void BgIceTurara_Shiver(BgIceTurara* this, GlobalContext* globalCtx) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->actionFunc = BgIceTurara_Fall;
     } else {
-        sp28 = Math_Rand_ZeroOne();
-        phi_v0_2 = (Math_Rand_ZeroOne() < 0.5f ? -1 : 1);
+        sp28 = Rand_ZeroOne();
+        phi_v0_2 = (Rand_ZeroOne() < 0.5f ? -1 : 1);
         this->dyna.actor.posRot.pos.x = (phi_v0_2 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.initPosRot.pos.x;
-        sp28 = Math_Rand_ZeroOne();
-        phi_v0_3 = (Math_Rand_ZeroOne() < 0.5f ? -1 : 1);
+        sp28 = Rand_ZeroOne();
+        phi_v0_3 = (Rand_ZeroOne() < 0.5f ? -1 : 1);
         this->dyna.actor.posRot.pos.z = (phi_v0_3 * ((0.5f * sp28) + 0.5f)) + this->dyna.actor.initPosRot.pos.z;
     }
 }
@@ -175,7 +175,7 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
         this->actionFunc = BgIceTurara_Wait;
         this->dyna.actor.velocity.y = 0.0f;
     }

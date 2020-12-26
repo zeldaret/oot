@@ -20,7 +20,7 @@ glabel func_80A34CE4
 .L80A34D24:
 /* 00704 80A34D24 54400007 */  bnel    $v0, $zero, .L80A34D44     
 /* 00708 80A34D28 A4C302FC */  sh      $v1, 0x02FC($a2)           ## 000002FC
-/* 0070C 80A34D2C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0070C 80A34D2C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00710 80A34D30 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00714 80A34D34 8FA60018 */  lw      $a2, 0x0018($sp)           

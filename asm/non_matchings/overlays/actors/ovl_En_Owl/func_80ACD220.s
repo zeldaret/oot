@@ -21,7 +21,7 @@ glabel func_80ACD220
 /* 0334C 80ACD26C E7A2001C */  swc1    $f2, 0x001C($sp)           
 /* 03350 80ACD270 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 03354 80ACD274 44050000 */  mfc1    $a1, $f0                   
-/* 03358 80ACD278 0C01DE80 */  jal     Math_ApproxF
+/* 03358 80ACD278 0C01DE80 */  jal     Math_StepToF
               
 /* 0335C 80ACD27C E7AE0024 */  swc1    $f14, 0x0024($sp)          
 /* 03360 80ACD280 C7A2001C */  lwc1    $f2, 0x001C($sp)           

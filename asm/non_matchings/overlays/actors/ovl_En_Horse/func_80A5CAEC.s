@@ -53,7 +53,7 @@ glabel func_80A5CAEC
 /* 01888 80A5CB78 27A6003E */  addiu   $a2, $sp, 0x003E           ## $a2 = FFFFFFF6
 /* 0188C 80A5CB7C 0C298C52 */  jal     func_80A63148              
 /* 01890 80A5CB80 E7AC0060 */  swc1    $f12, 0x0060($sp)          
-/* 01894 80A5CB84 0C01DE0D */  jal     Math_Coss
+/* 01894 80A5CB84 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01898 80A5CB88 87A4003E */  lh      $a0, 0x003E($sp)           
 /* 0189C 80A5CB8C C7AA0054 */  lwc1    $f10, 0x0054($sp)          

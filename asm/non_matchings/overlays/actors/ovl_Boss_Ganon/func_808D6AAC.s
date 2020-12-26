@@ -43,7 +43,7 @@ glabel func_808D6AAC
 /* 002DC 808D6B4C 46062203 */  div.s   $f8, $f4, $f6              
 /* 002E0 808D6B50 E6080034 */  swc1    $f8, 0x0034($s0)           ## 00010034
 /* 002E4 808D6B54 C7B20034 */  lwc1    $f18, 0x0034($sp)          
-/* 002E8 808D6B58 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 002E8 808D6B58 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 002EC 808D6B5C E6120040 */  swc1    $f18, 0x0040($s0)          ## 00010040
 /* 002F0 808D6B60 4600010D */  trunc.w.s $f4, $f0                   
@@ -54,14 +54,14 @@ glabel func_808D6AAC
 /* 00304 808D6B74 25F800C8 */  addiu   $t8, $t7, 0x00C8           ## $t8 = 000000C8
 /* 00308 808D6B78 A618002E */  sh      $t8, 0x002E($s0)           ## 0001002E
 /* 0030C 808D6B7C 87B9003A */  lh      $t9, 0x003A($sp)           
-/* 00310 808D6B80 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00310 808D6B80 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00314 808D6B84 A6190030 */  sh      $t9, 0x0030($s0)           ## 00010030
 /* 00318 808D6B88 4600018D */  trunc.w.s $f6, $f0                   
 /* 0031C 808D6B8C C60C0018 */  lwc1    $f12, 0x0018($s0)          ## 00010018
 /* 00320 808D6B90 C60E0010 */  lwc1    $f14, 0x0010($s0)          ## 00010010
 /* 00324 808D6B94 440B3000 */  mfc1    $t3, $f6                   
-/* 00328 808D6B98 0C0341F5 */  jal     atan2f
+/* 00328 808D6B98 0C0341F5 */  jal     Math_Atan2F
               
 /* 0032C 808D6B9C A20B0001 */  sb      $t3, 0x0001($s0)           ## 00010001
 /* 00330 808D6BA0 C6100010 */  lwc1    $f16, 0x0010($s0)          ## 00010010
@@ -71,7 +71,7 @@ glabel func_808D6AAC
 /* 00340 808D6BB0 C60E0014 */  lwc1    $f14, 0x0014($s0)          ## 00010014
 /* 00344 808D6BB4 46021282 */  mul.s   $f10, $f2, $f2             
 /* 00348 808D6BB8 460A4000 */  add.s   $f0, $f8, $f10             
-/* 0034C 808D6BBC 0C0341F5 */  jal     atan2f
+/* 0034C 808D6BBC 0C0341F5 */  jal     Math_Atan2F
               
 /* 00350 808D6BC0 46000304 */  sqrt.s  $f12, $f0                  
 /* 00354 808D6BC4 46000487 */  neg.s   $f18, $f0                  

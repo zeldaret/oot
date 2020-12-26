@@ -90,13 +90,13 @@ glabel EnBigokuta_Draw
 /* 0253C 809BF19C 54200021 */  bnel    $at, $zero, .L809BF224
 /* 02540 809BF1A0 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 .L809BF1A4:
-/* 02544 809BF1A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02544 809BF1A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02548 809BF1A8 00000000 */  nop
 /* 0254C 809BF1AC 3C01809C */  lui     $at, %hi(D_809BF580)       ## $at = 809C0000
 /* 02550 809BF1B0 C424F580 */  lwc1    $f4, %lo(D_809BF580)($at)
 /* 02554 809BF1B4 46040182 */  mul.s   $f6, $f0, $f4
-/* 02558 809BF1B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02558 809BF1B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0255C 809BF1BC E7A6004C */  swc1    $f6, 0x004C($sp)
 /* 02560 809BF1C0 3C01809C */  lui     $at, %hi(D_809BF584)       ## $at = 809C0000

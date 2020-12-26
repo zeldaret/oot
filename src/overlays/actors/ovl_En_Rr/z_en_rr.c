@@ -480,11 +480,11 @@ void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     }
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-            Math_Coss(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
+            Math_CosS(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
     }
     for (i = 1; i < 5; i++) {
-        this->bodySegs[i].rotTarget.x = Math_Coss(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
-        this->bodySegs[i].rotTarget.z = Math_Sins(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.x = Math_CosS(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.z = Math_SinS(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
     }
 }
 
@@ -495,15 +495,15 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
     if (!this->isDead) {
         for (i = 0; i < 5; i++) {
             this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-                Math_Coss(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
+                Math_CosS(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
         }
         phase = this->segMovePhase;
         if (!this->isDead && (this->reachState == 0)) {
             for (i = 1; i < 5; i++) {
                 this->bodySegs[i].rotTarget.x =
-                    Math_Coss(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
+                    Math_CosS(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
                 this->bodySegs[i].rotTarget.z =
-                    Math_Sins(phase + i * (s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
+                    Math_SinS(phase + i * (s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
             }
         }
     }
@@ -513,7 +513,7 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if ((this->actionTimer == 0) && (this->actor.xzDistFromLink < 160.0f)) {
         EnRr_SetupReach(this);
@@ -523,7 +523,7 @@ void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     switch (this->reachState) {
         case REACH_EXTEND:
@@ -571,10 +571,10 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
         EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
+        Math_ApproachF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
+        Math_ApproachF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
     }
 }
 
@@ -600,7 +600,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
 
     if (this->frameCount < 40) {
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
+            Math_ApproachF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
                 (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
         }
@@ -667,8 +667,8 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
 
         EffectSsDeadDb_Spawn(globalCtx, &pos, &vel, &accel, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
-        Math_SmoothScaleMaxF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
+        Math_ApproachF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
+        Math_ApproachF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
         this->actor.scale.z = this->actor.scale.x;
     }
 }
@@ -678,7 +678,7 @@ void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx) {
         this->retreat = false;
         this->actionFunc = EnRr_Approach;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.speedXZ == 0.0f) {
             EnRr_SetSpeed(this, 2.0f);
@@ -735,7 +735,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         __assert("0", "../z_en_rr.c", 1355);
     }
 
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
     Actor_MoveForward(&this->actor);
     Collider_CylinderUpdate(&this->actor, &this->collider1);
     this->collider2.dim.pos.x = this->mouthPos.x;
@@ -756,24 +756,24 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {
-        Math_SmoothScaleMaxF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
-        Math_SmoothScaleMaxF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
-        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffX, this->segWobbleXTarget, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
-        Math_SmoothScaleMaxF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
-        Math_SmoothScaleMaxF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
+        Math_ApproachF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
+        Math_ApproachF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->segWobblePhaseDiffX, this->segWobbleXTarget, 1.0f, 0.04f);
+        Math_ApproachF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
+        Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
+        Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
+            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
                                     this->segMoveRate * 1000.0f, 0);
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
+            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
                                     this->segMoveRate * 1000.0f, 0);
-            Math_SmoothScaleMaxF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
+            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
                                  this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
-            Math_SmoothScaleMaxF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
+            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
                                  this->segMoveRate * 300.0f);
         }
-        Math_SmoothScaleMaxF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
+        Math_ApproachF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
     }
 }
 
@@ -837,9 +837,9 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
             s32 segIndex = 4 - (effectTimer >> 2);
             s32 offIndex = (effectTimer >> 1) & 3;
 
-            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Math_Rand_CenteredFloat(10.0f);
-            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Math_Rand_CenteredFloat(10.0f);
-            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Math_Rand_CenteredFloat(10.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
             if (this->actor.dmgEffectParams & 0x4000) {
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &effectPos, 100, 0, 0, -1);
             } else {

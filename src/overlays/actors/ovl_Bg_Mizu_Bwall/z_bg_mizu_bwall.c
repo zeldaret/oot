@@ -128,8 +128,8 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                                  484, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
                     s32 i;
                     s32 j;
                     Vec3f offset;
@@ -164,8 +164,8 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                                  558, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
                     s32 i;
                     s32 j;
                     Vec3f offset;
@@ -200,8 +200,8 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                                  638, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
                     s32 i;
                     s32 j;
                     Vec3f offset;
@@ -238,8 +238,8 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                                  724, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
                     s32 i;
                     s32 j;
                     Vec3f offset;
@@ -276,8 +276,8 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                                  798, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
-                    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-                    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+                    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+                    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
                     s32 i;
                     s32 j;
                     Vec3f offset;
@@ -313,7 +313,7 @@ void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMizuBwall_SetAlpha(BgMizuBwall* this, GlobalContext* globalCtx) {
-    f32 waterLevel = globalCtx->colCtx.stat.colHeader->waterBoxes[2].unk_02;
+    f32 waterLevel = globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface;
     s32 alphaMod;
 
     if (globalCtx->colCtx.stat.colHeader->waterBoxes) {}
@@ -354,28 +354,28 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx) {
     Vec3f debrisPos;
     f32 tempx;
     f32 tempz;
-    f32 sin = Math_Sins(this->dyna.actor.shape.rot.y);
-    f32 cos = Math_Coss(this->dyna.actor.shape.rot.y);
+    f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
+    f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
     Vec3f debrisOffsets[15];
 
     for (i = 0; i < ARRAY_COUNT(debrisOffsets); i++) {
         switch ((u16)this->dyna.actor.params & 0xF) {
             case MIZUBWALL_FLOOR:
-                debrisOffsets[i].x = (Math_Rand_ZeroOne() * 80.0f) - 40.0f;
-                debrisOffsets[i].y = Math_Rand_ZeroOne() * 0;
-                debrisOffsets[i].z = (Math_Rand_ZeroOne() * 80.0f) - 40.0f;
+                debrisOffsets[i].x = (Rand_ZeroOne() * 80.0f) - 40.0f;
+                debrisOffsets[i].y = Rand_ZeroOne() * 0;
+                debrisOffsets[i].z = (Rand_ZeroOne() * 80.0f) - 40.0f;
                 break;
             case MIZUBWALL_RUTO_ROOM:
-                debrisOffsets[i].x = Math_Rand_ZeroOne() * 0;
-                debrisOffsets[i].y = Math_Rand_ZeroOne() * 100.0f;
-                debrisOffsets[i].z = (Math_Rand_ZeroOne() * 80.0f) - 40.0f;
+                debrisOffsets[i].x = Rand_ZeroOne() * 0;
+                debrisOffsets[i].y = Rand_ZeroOne() * 100.0f;
+                debrisOffsets[i].z = (Rand_ZeroOne() * 80.0f) - 40.0f;
                 break;
             case MIZUBWALL_UNUSED:
             case MIZUBWALL_STINGER_ROOM_1:
             default:
-                debrisOffsets[i].x = (Math_Rand_ZeroOne() * 120) - 60.0f;
-                debrisOffsets[i].y = Math_Rand_ZeroOne() * 120;
-                debrisOffsets[i].z = Math_Rand_ZeroOne() * 0;
+                debrisOffsets[i].x = (Rand_ZeroOne() * 120) - 60.0f;
+                debrisOffsets[i].y = Rand_ZeroOne() * 120;
+                debrisOffsets[i].z = Rand_ZeroOne() * 0;
                 break;
         }
     }
@@ -388,8 +388,8 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx) {
         debrisPos.y = thisPos->y + debrisOffsets[i].y;
         debrisPos.z = thisPos->z + tempz * cos - tempx * sin;
 
-        rand1 = (s16)(Math_Rand_ZeroOne() * 120.0f) + 20;
-        rand2 = (s16)(Math_Rand_ZeroOne() * 240.0f) + 20;
+        rand1 = (s16)(Rand_ZeroOne() * 120.0f) + 20;
+        rand2 = (s16)(Rand_ZeroOne() * 240.0f) + 20;
         func_80033480(globalCtx, &debrisPos, 50.0f, 2, rand1, rand2, 0);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_A_OBJ, debrisPos.x, debrisPos.y, debrisPos.z, 0, 0, 0,
                     0xB);

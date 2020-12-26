@@ -60,7 +60,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         thisx->initPosRot.pos.y = (thisx->initPosRot.pos.y + -5.0f);
         thisx->posRot.pos.y = thisx->initPosRot.pos.y;
-        waterBox->unk_02 = thisx->initPosRot.pos.y;
+        waterBox->ySurface = thisx->initPosRot.pos.y;
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
         if (thisx->params == 0) {
@@ -68,7 +68,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
             DynaPolyInfo_Alloc(&D_06007798, &localConst);
             thisx->scale.z = 0.15f;
             thisx->scale.x = 0.15f;
-            thisx->posRot.pos.y = (waterBox->unk_02 + 20.0f);
+            thisx->posRot.pos.y = (waterBox->ySurface + 20.0f);
             this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
         } else {
             // 3 platforms on 2F
@@ -96,11 +96,11 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
 
     framesAfterMath = sinf((globalCtx->gameplayFrames & 0xFF) * 0.024543693f) * 165.0f;
     this->dyna.actor.posRot.pos.x =
-        ((Math_Sins(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.x);
+        ((Math_SinS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.x);
     this->dyna.actor.posRot.pos.z =
-        ((Math_Coss(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.z);
+        ((Math_CosS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.z);
     waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[1];
-    this->dyna.actor.posRot.pos.y = waterBox->unk_02 + 20.0f;
+    this->dyna.actor.posRot.pos.y = waterBox->ySurface + 20.0f;
     if (this->timer != 0) {
         this->timer--;
     }
@@ -122,19 +122,19 @@ WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     WaterBox* waterBox;
 
     if (this->timer == 0) {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f) != 0) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f) != 0) {
             Flags_UnsetSwitch(globalCtx, this->unk_168);
             this->actionFunc = BgYdanHasi_InitWater;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 47.0f, 0.5f)) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 47.0f, 0.5f)) {
             this->actionFunc = BgYdanHasi_DecWaterTimer;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes;
-    globalCtx->colCtx.stat.colHeader->waterBoxes[1].unk_02 = this->dyna.actor.posRot.pos.y;
+    globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = this->dyna.actor.posRot.pos.y;
     if (1) {}
     return waterBox + 0x1;
 }
@@ -165,7 +165,7 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     if (this->timer == 0) {
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 3.0f) != 0) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 3.0f) != 0) {
             Flags_UnsetSwitch(globalCtx, this->unk_168);
             this->dyna.actor.draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
@@ -174,7 +174,7 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         return;
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 3.0f) == 0) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 3.0f) == 0) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         return;
     }

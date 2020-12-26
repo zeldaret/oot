@@ -9,17 +9,17 @@ glabel func_8092FC60
 /* 036A8 8092FC78 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 036AC 8092FC7C 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 036B0 8092FC80 8E050080 */  lw      $a1, 0x0080($s0)           ## 00000080
-/* 036B4 8092FC84 0C01DE80 */  jal     Math_ApproxF
+/* 036B4 8092FC84 0C01DE80 */  jal     Math_StepToF
               
 /* 036B8 8092FC88 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 036BC 8092FC8C 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 036C0 8092FC90 8E050008 */  lw      $a1, 0x0008($s0)           ## 00000008
-/* 036C4 8092FC94 0C01DE80 */  jal     Math_ApproxF
+/* 036C4 8092FC94 0C01DE80 */  jal     Math_StepToF
               
 /* 036C8 8092FC98 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 036CC 8092FC9C 2604002C */  addiu   $a0, $s0, 0x002C           ## $a0 = 0000002C
 /* 036D0 8092FCA0 8E050010 */  lw      $a1, 0x0010($s0)           ## 00000010
-/* 036D4 8092FCA4 0C01DE80 */  jal     Math_ApproxF
+/* 036D4 8092FCA4 0C01DE80 */  jal     Math_StepToF
               
 /* 036D8 8092FCA8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 036DC 8092FCAC 8E0E011C */  lw      $t6, 0x011C($s0)           ## 0000011C
