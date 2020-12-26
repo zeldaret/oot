@@ -1531,8 +1531,8 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
         s16 pad18;
         f32 dist;
 
-        angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y & 0xFFFF & 0xFFFF; 
+        angleToFacing = func_8002DA78(&this->actor, actor) -  this->actor.shape.rot.y;
+        this->actor.posRot.rot.y = (u16) this->actor.shape.rot.y & 0xFFFF; 
         dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
         //! @bug
         // func_8002DB6C already sqrtfs the distance, so this actually checks for a
