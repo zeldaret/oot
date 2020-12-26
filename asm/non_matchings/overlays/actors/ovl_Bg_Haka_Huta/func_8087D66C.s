@@ -26,7 +26,7 @@ glabel func_8087D66C
 /* 00700 8087D6C0 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 00704 8087D6C4 46002180 */  add.s   $f6, $f4, $f0              
 /* 00708 8087D6C8 44053000 */  mfc1    $a1, $f6                   
-/* 0070C 8087D6CC 0C01DE80 */  jal     Math_ApproxF
+/* 0070C 8087D6CC 0C01DE80 */  jal     Math_StepToF
               
 /* 00710 8087D6D0 00000000 */  nop
 /* 00714 8087D6D4 14400003 */  bne     $v0, $zero, .L8087D6E4     

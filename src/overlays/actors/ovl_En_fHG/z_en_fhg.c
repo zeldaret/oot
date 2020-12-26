@@ -154,7 +154,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                     Audio_SetBGM(0x1B);
                 }
                 if (this->timers[0] == 0) {
-                    EnfHG_SetupApproach(this, globalCtx, Math_Rand_ZeroOne() * 5.99f);
+                    EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
                     this->bossFhgSignal = FHG_START_FIGHT;
                 }
                 break;
@@ -199,13 +199,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 1) {
                 Audio_SetBGM(0x23);
             }
-            Math_SmoothScaleMaxF(&this->cameraEye.x, 54.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, 4.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, -3235.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, -86.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, 14.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, -2980.0f, 0.05f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.01f);
+            Math_ApproachF(&this->cameraEye.x, 54.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraEye.y, 4.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraEye.z, -3235.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.x, -86.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.y, 14.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.z, -2980.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.01f);
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_REVEAL;
                 this->timers[0] = 50;
@@ -213,13 +213,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             }
             break;
         case INTRO_REVEAL:
-            Math_SmoothScaleMaxF(&this->cameraEye.x, 84.0f, 0.1f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, -3115.0f, 0.1f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, -136.0f, 0.1f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, 74.0f, 0.1f, this->cameraSpeedMod * 20.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, -3380.0f, 0.1f, this->cameraSpeedMod * 40.0f);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->cameraEye.x, 84.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraEye.z, -3115.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.x, -136.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.y, 74.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_ApproachF(&this->cameraAt.z, -3380.0f, 0.1f, this->cameraSpeedMod * 40.0f);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 5) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
             }
@@ -241,13 +241,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cameraAtVel.z = fabsf(this->cameraAt.z - -3380.0f);
             this->timers[0] = 250;
         case INTRO_LAUGH:
-            Math_SmoothScaleMaxF(&this->cameraEye.x, 34.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.x);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, 69.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.y);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, -3290.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.z);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, -136.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.x);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, 164.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.y);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, -3380.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.z);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 0.01f, 1.0f, 0.001f);
+            Math_ApproachF(&this->cameraEye.x, 34.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.x);
+            Math_ApproachF(&this->cameraEye.y, 69.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.y);
+            Math_ApproachF(&this->cameraEye.z, -3290.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.z);
+            Math_ApproachF(&this->cameraAt.x, -136.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.x);
+            Math_ApproachF(&this->cameraAt.y, 164.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.y);
+            Math_ApproachF(&this->cameraAt.z, -3380.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.z);
+            Math_ApproachF(&this->cameraSpeedMod, 0.01f, 1.0f, 0.001f);
             if ((this->timers[0] == 245) || (this->timers[0] == 3)) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600DDB8, -8.0f);
                 this->bossFhgSignal = FHG_REAR;
@@ -307,18 +307,18 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600E8A0, 0.5f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600E8A0.genericHeader), 1, -3.0f);
             }
-            Math_SmoothScaleMaxF(&this->cameraEye.x, 194.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.x);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.y);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3175.0f, 0.1f,
+            Math_ApproachF(&this->cameraEye.x, 194.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.x);
+            Math_ApproachF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.y);
+            Math_ApproachF(&this->cameraEye.z, this->cameraPanZ + -3175.0f, 0.1f,
                                  this->cameraSpeedMod * this->cameraEyeVel.z);
-            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.1f, this->cameraSpeedMod * 10.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
+            Math_ApproachF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_ApproachF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.1f, this->cameraSpeedMod * 10.0f);
+            Math_ApproachF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
                                  this->cameraSpeedMod * 10.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.1f, this->cameraSpeedMod * 10.0f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 2.0f);
-            this->actor.posRot.pos.y += 2.0f * Math_Sins(this->gallopTimer * 0x5DC);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.1f, this->cameraSpeedMod * 10.0f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 2.0f);
+            this->actor.posRot.pos.y += 2.0f * Math_SinS(this->gallopTimer * 0x5DC);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_060059A0),
                                        0xA0, 0xB4, 0x80, 0x28);
@@ -345,10 +345,10 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 8);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             }
-            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
-            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, -2915.5f, 1.0f, this->cameraSpeedMod * 10.0f);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
+            Math_ApproachF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_ApproachF(&this->actor.posRot.pos.z, -2915.5f, 1.0f, this->cameraSpeedMod * 10.0f);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if ((fabsf(this->actor.posRot.pos.z - -2915.5f) < 300.0f) && !this->spawnedWarp) {
                 this->spawnedWarp = true;
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f,
@@ -356,8 +356,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                                    FHGFIRE_WARP_RETREAT);
                 this->fhgFireKillWarp = true;
             }
-            Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 50.0f);
+            Math_ApproachF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
+            Math_ApproachF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 50.0f);
             osSyncPrintf("TIME %d-------------------------------------------------\n", this->timers[0]);
             if (fabsf(this->actor.posRot.pos.z - -2915.5f) < 1.0f) {
                 globalCtx->envCtx.unk_BF = 0;
@@ -371,9 +371,9 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             break;
         case INTRO_FINISH:
             EnfHG_Retreat(this, globalCtx);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
-            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
+            Math_ApproachF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
+            Math_ApproachF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_ApproachF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
                                  this->cameraSpeedMod * 10.0f);
             if (this->timers[1] == 0) {
                 camera = Gameplay_GetCamera(globalCtx, 0);
@@ -454,9 +454,9 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
         }
     }
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.scale.x, 0.011499999f, 1.0f, this->approachRate);
-    Math_SmoothScaleMaxF(&this->approachRate, 0.0002f, 1.0f, 0.0000015f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
+    Math_ApproachF(&this->actor.scale.x, 0.011499999f, 1.0f, this->approachRate);
+    Math_ApproachF(&this->approachRate, 0.0002f, 1.0f, 0.0000015f);
+    Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
     this->actor.scale.y = this->actor.scale.x;
     if (this->timers[0] == 0) {
         osSyncPrintf("arg_data ------------------------------------>%d\n", this->actor.params);
@@ -486,21 +486,21 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
     this->bossFhgInPainting = false;
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
     if (this->timers[0] != 0) {
-        Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.0002f);
+        Math_ApproachF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.0002f);
         if (this->timers[0] == 1) {
             this->bossFhgSignal = FHG_RAISE_SPEAR;
             this->timers[1] = 50;
             SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600C65C, 0.0f);
         }
-        Math_SmoothScaleMaxF(&this->warpFogR, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogG, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogB, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogUnk1, -60.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->warpFogR, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogG, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogB, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogUnk1, -60.0f, 1.0f, 5.0f);
     } else {
-        Math_SmoothScaleMaxF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
         if (this->timers[1] == 29) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
@@ -522,10 +522,10 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
                 this->bossFhgSignal = FHG_RESET;
             }
         }
-        Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f, this->inPaintingVelX);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f, this->inPaintingVelZ);
+        Math_ApproachF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
+        Math_ApproachF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f, this->inPaintingVelX);
+        Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
+        Math_ApproachF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f, this->inPaintingVelZ);
     }
     if (this->hitTimer == 20) {
         this->actionFunc = EnfHG_Damage;
@@ -569,13 +569,13 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("REVISE !!\n");
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
-    Math_SmoothScaleMaxF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
-    Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
+    Math_ApproachF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
+    Math_ApproachF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
     if (this->timers[0] != 0) {
-        Math_SmoothDownscaleMaxF(&this->damageSpeedMod, 1.0f, 0.1f);
+        Math_ApproachZeroF(&this->damageSpeedMod, 1.0f, 0.1f);
         if (this->timers[0] == 1) {
             this->targetPainting = this->curPainting;
             this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + 10.0f;
@@ -583,12 +583,12 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
             this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - 3325.0f;
         }
     } else {
-        Math_SmoothScaleMaxF(&this->damageSpeedMod, 1.0f, 1.0f, 0.1f);
+        Math_ApproachF(&this->damageSpeedMod, 1.0f, 1.0f, 0.1f);
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f,
+    Math_ApproachF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f,
                          this->damageSpeedMod * this->inPaintingVelX);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f,
+    Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
+    Math_ApproachF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f,
                          this->damageSpeedMod * this->inPaintingVelZ);
     dx = this->actor.posRot.pos.x - this->inPaintingPos.x;
     dz = this->actor.posRot.pos.z - this->inPaintingPos.z;
@@ -621,7 +621,7 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("KABE IN !!\n");
     if (this->turnAround != 0) {
-        Math_SmoothScaleMaxS(&this->turnRot, this->turnAround, 5, 2000);
+        Math_ApproachS(&this->turnRot, this->turnAround, 5, 2000);
     }
     if (this->actor.params == 1) {
         this->hoofSfxPos.x = this->actor.projectedPos.x / (this->actor.scale.x * 100.0f);
@@ -632,9 +632,9 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
         }
     }
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.scale.z, 0.001f, 1.0f, 0.001f);
-    Math_SmoothScaleMaxF(&this->actor.scale.x, 0.002f, 0.05f, 0.0001f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 200.0f, 0.05f, 1.0f);
+    Math_ApproachF(&this->actor.scale.z, 0.001f, 1.0f, 0.001f);
+    Math_ApproachF(&this->actor.scale.x, 0.002f, 0.05f, 0.0001f);
+    Math_ApproachF(&this->actor.posRot.pos.y, 200.0f, 0.05f, 1.0f);
     this->actor.scale.y = this->actor.scale.x;
     if ((this->timers[0] == 80) && (this->actor.params == 1)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
@@ -648,10 +648,10 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
             this->actionFunc = EnfHG_Done;
             this->actor.draw = NULL;
         } else {
-            temp_rand1 = Math_Rand_ZeroOne() * 5.99f;
+            temp_rand1 = Rand_ZeroOne() * 5.99f;
             EnfHG_SetupApproach(this, globalCtx, temp_rand1);
             do {
-                temp_rand2 = Math_Rand_ZeroOne() * 5.99f;
+                temp_rand2 = Rand_ZeroOne() * 5.99f;
             } while (temp_rand2 == temp_rand1);
             osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
                          Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANONDROF,
@@ -688,8 +688,8 @@ void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 
-    this->actor.shape.unk_08 = Math_Sins(this->hitTimer * 0x9000) * 700.0f * (this->hitTimer / 20.0f);
-    this->actor.shape.rot.z = (s16)(Math_Sins(this->hitTimer * 0x7000) * 1500.0f) * (this->hitTimer / 20.0f);
+    this->actor.shape.unk_08 = Math_SinS(this->hitTimer * 0x9000) * 700.0f * (this->hitTimer / 20.0f);
+    this->actor.shape.rot.z = (s16)(Math_SinS(this->hitTimer * 0x7000) * 1500.0f) * (this->hitTimer / 20.0f);
 }
 
 void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {

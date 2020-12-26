@@ -338,11 +338,11 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
         Vec3f sp88;
         Vec3f sp7C = { 0.0f, 0.0f, 0.0f };
         Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-        sp88.x = this->bodyPartsPos[14].x + Math_Rand_CenteredFloat(10.0f);
-        sp88.y = this->bodyPartsPos[14].y + Math_Rand_ZeroFloat(-5.0f);
-        sp88.z = this->bodyPartsPos[14].z + Math_Rand_CenteredFloat(10.0f) + 5.0f;
+        sp88.x = this->bodyPartsPos[14].x + Rand_CenteredFloat(10.0f);
+        sp88.y = this->bodyPartsPos[14].y + Rand_ZeroFloat(-5.0f);
+        sp88.z = this->bodyPartsPos[14].z + Rand_CenteredFloat(10.0f) + 5.0f;
         sp70.y = 0.03f;
-        EffectSsKFire_Spawn(globalCtx, &sp88, &sp7C, &sp70, (s16)Math_Rand_ZeroFloat(10.0f) + 5, 0);
+        EffectSsKFire_Spawn(globalCtx, &sp88, &sp7C, &sp70, (s16)Rand_ZeroFloat(10.0f) + 5, 0);
     }
 
     if (this->timers[1] == 20) {
@@ -397,11 +397,11 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
             break;
     }
 
-    this->armRotY = Math_Sins(this->varianceTimer * 0x6E8) * 0;
-    this->armRotZ = Math_Coss(this->varianceTimer * 0x8DC) * 300.0f;
+    this->armRotY = Math_SinS(this->varianceTimer * 0x6E8) * 0;
+    this->armRotZ = Math_CosS(this->varianceTimer * 0x8DC) * 300.0f;
     for (i = 0; i < 30; i++) {
-        this->rideRotY[i] = Math_Sins(this->varianceTimer * ((i * 50) + 0x7B0)) * 100.0f;
-        this->rideRotZ[i] = Math_Coss(this->varianceTimer * ((i * 50) + 0x8DC)) * 100.0f;
+        this->rideRotY[i] = Math_SinS(this->varianceTimer * ((i * 50) + 0x7B0)) * 100.0f;
+        this->rideRotZ[i] = Math_CosS(this->varianceTimer * ((i * 50) + 0x8DC)) * 100.0f;
     }
 
     if (horse->bossFhgSignal == FHG_START_FIGHT) {
@@ -471,7 +471,7 @@ void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1) {
     this->actionFunc = BossGanondrof_Neutral;
     this->actor.flags |= 1;
     this->floatSpeed = 0.0f;
-    this->timers[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 30;
+    this->timers[0] = (s16)(Rand_ZeroOne() * 64.0f) + 30;
 }
 
 void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
@@ -488,8 +488,8 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
     switch (this->flyMode) {
         case FHG_FLY_NEUTRAL:
             if (this->timers[0] == 0) {
-                this->timers[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 30;
-                rand01 = Math_Rand_ZeroOne();
+                this->timers[0] = (s16)(Rand_ZeroOne() * 64.0f) + 30;
+                rand01 = Rand_ZeroOne();
                 if (thisx->colChkInfo.health < 5) {
                     if (rand01 < 0.25f) {
                         BossGanondrof_SetupThrow(this, globalCtx);
@@ -518,8 +518,8 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
                 targetX = 14.0f;
                 targetZ = -3315.0f;
             } else {
-                targetX = playerx->posRot.pos.x + (180.0f * Math_Sins(playerx->shape.rot.y));
-                targetZ = playerx->posRot.pos.z + (180.0f * Math_Coss(playerx->shape.rot.y));
+                targetX = playerx->posRot.pos.x + (180.0f * Math_SinS(playerx->shape.rot.y));
+                targetZ = playerx->posRot.pos.z + (180.0f * Math_CosS(playerx->shape.rot.y));
                 if (sqrtf(SQ(targetX - 14.0f) + SQ(targetZ - -3315.0f)) > 280.0f) {
                     this->timers[1] = 50;
                     this->floatSpeed = 0.0f;
@@ -527,16 +527,16 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             }
 
             targetY = playerx->posRot.pos.y + 100.0f + 0.0f;
-            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
-            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
+            targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             break;
         case FHG_FLY_VOLLEY:
             targetX = 0.0f;
             targetZ = -3050.0f;
 
             targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
-            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
-            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
+            targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
                 this->flyMode = FHG_FLY_RETURN;
                 this->returnSuccess = false;
@@ -549,8 +549,8 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             targetZ = -3050.0f;
 
             targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
-            targetX += Math_Sins(this->varianceTimer * 0x500) * 50.0f;
-            targetZ += Math_Coss(this->varianceTimer * 0x700) * 50.0f;
+            targetX += Math_SinS(this->varianceTimer * 0x500) * 50.0f;
+            targetZ += Math_CosS(this->varianceTimer * 0x700) * 50.0f;
             if (this->returnSuccess) {
                 this->returnSuccess = false;
                 BossGanondrof_SetupReturn(this, globalCtx);
@@ -566,38 +566,38 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             targetZ = -3100.0f;
 
             targetY = playerx->posRot.pos.y + 100.0f + 50.0f;
-            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
-            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
+            targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
                 BossGanondrof_SetupCharge(this, globalCtx);
             }
             break;
     }
 
-    Math_SmoothScaleMaxF(&thisx->posRot.pos.x, targetX, 0.05f, this->floatSpeed);
+    Math_ApproachF(&thisx->posRot.pos.x, targetX, 0.05f, this->floatSpeed);
     if (this->timers[2] != 0) {
-        Math_SmoothScaleMaxF(&thisx->posRot.pos.y, targetY + 100.0f, 0.1f, 50.0f);
+        Math_ApproachF(&thisx->posRot.pos.y, targetY + 100.0f, 0.1f, 50.0f);
     } else {
-        Math_SmoothScaleMaxF(&thisx->posRot.pos.y, targetY, 0.05f, 10.0f);
+        Math_ApproachF(&thisx->posRot.pos.y, targetY, 0.05f, 10.0f);
     }
 
-    Math_SmoothScaleMaxF(&thisx->posRot.pos.z, targetZ, 0.05f, this->floatSpeed);
-    Math_SmoothScaleMaxF(&this->floatSpeed, 50.0f, 1.0f, 0.5f);
+    Math_ApproachF(&thisx->posRot.pos.z, targetZ, 0.05f, this->floatSpeed);
+    Math_ApproachF(&this->floatSpeed, 50.0f, 1.0f, 0.5f);
     thisx->velocity.x = thisx->posRot.pos.x - thisx->pos4.x;
     thisx->velocity.z = thisx->posRot.pos.z - thisx->pos4.z;
-    thisx->posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
-    Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0xBB8);
+    thisx->posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0xBB8);
     if ((this->varianceTimer & 1) == 0) {
         Vec3f sp5C;
         Vec3f sp50 = { 0.0f, 0.0f, 0.0f };
         Vec3f sp44 = { 0.0f, 0.0f, 0.0f };
 
         for (i = 0; i < 3; i++) {
-            sp5C.x = Math_Rand_CenteredFloat(20.0f) + this->spearTip.x;
-            sp5C.y = Math_Rand_CenteredFloat(20.0f) + this->spearTip.y;
-            sp5C.z = Math_Rand_CenteredFloat(20.0f) + this->spearTip.z;
+            sp5C.x = Rand_CenteredFloat(20.0f) + this->spearTip.x;
+            sp5C.y = Rand_CenteredFloat(20.0f) + this->spearTip.y;
+            sp5C.z = Rand_CenteredFloat(20.0f) + this->spearTip.z;
             sp44.y = -0.08f;
-            EffectSsFhgFlash_SpawnLightBall(globalCtx, &sp5C, &sp50, &sp44, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150,
+            EffectSsFhgFlash_SpawnLightBall(globalCtx, &sp5C, &sp50, &sp44, (s16)(Rand_ZeroOne() * 80.0f) + 150,
                                             FHGFLASH_LIGHTBALL_GREEN);
         }
     }
@@ -616,7 +616,7 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
     this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600EC94.genericHeader);
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600EC94, -5.0f);
     this->actionFunc = BossGanondrof_Throw;
-    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->flyMode == FHG_FLY_NEUTRAL)) {
+    if ((Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->flyMode == FHG_FLY_NEUTRAL)) {
         this->actionState = THROW_SLOW;
         this->throwFrame = 1000;
         lightTime = 32;
@@ -665,18 +665,18 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
         this->actor.child = &horse->actor;
     }
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
+    Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
+    Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
+    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
 }
 
 void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
     static AnimationHeader* returnAnime[] = { 0x06010FD4, 0x06011800 };
 
-    s16 rand = Math_Rand_ZeroOne() * 1.99f;
+    s16 rand = Rand_ZeroOne() * 1.99f;
 
     this->animeFrameCount = SkelAnime_GetFrameCount(&returnAnime[rand]->genericHeader);
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, returnAnime[rand], 0.0f);
@@ -697,9 +697,9 @@ void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
 
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
+    Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
+    Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
+    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     if (this->returnSuccess) {
         this->returnSuccess = false;
         BossGanondrof_SetupReturn(this, globalCtx);
@@ -770,9 +770,9 @@ void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
-    Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
+    Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
+    Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
+    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     if (this->timers[0] == 0) {
         BossGanondrof_SetupNeutral(this, -5.0f);
         this->timers[0] = 10;
@@ -809,8 +809,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
 
             thisx->posRot.pos.x += thisx->velocity.x;
             thisx->posRot.pos.z += thisx->velocity.z;
-            Math_SmoothDownscaleMaxF(&thisx->velocity.x, 1.0f, 0.5f);
-            Math_SmoothDownscaleMaxF(&thisx->velocity.z, 1.0f, 0.5f);
+            Math_ApproachZeroF(&thisx->velocity.x, 1.0f, 0.5f);
+            Math_ApproachZeroF(&thisx->velocity.z, 1.0f, 0.5f);
             if (this->timers[0] == 0) {
                 this->actionState = CHARGE_START;
                 this->timers[0] = 10;
@@ -819,7 +819,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06011F44, 0.0f);
             }
 
-            Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+            Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
             break;
         case CHARGE_START:
             if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
@@ -831,18 +831,18 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->timers[0] != 0) {
                 Vec3f vecToLink;
 
-                Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
                 vecToLink.x = playerx->posRot.pos.x - thisx->posRot.pos.x;
                 vecToLink.y = playerx->posRot.pos.y + 40.0f - thisx->posRot.pos.y;
                 vecToLink.z = playerx->posRot.pos.z - thisx->posRot.pos.z;
                 thisx->posRot.rot.y = thisx->shape.rot.y;
                 thisx->posRot.rot.x =
-                    Math_atan2f(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
+                    Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
             }
 
             func_8002D908(thisx);
             func_8002D7EC(thisx);
-            Math_SmoothScaleMaxF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
+            Math_ApproachF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
             if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistFromLinkSq < SQ(100.0f))) {
                 this->actionState = CHARGE_FINISH;
                 this->timers[0] = 20;
@@ -858,14 +858,14 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             }
 
             if (sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) {
-                Math_SmoothDownscaleMaxF(&thisx->speedXZ, 1.0f, 2.0f);
+                Math_ApproachZeroF(&thisx->speedXZ, 1.0f, 2.0f);
                 this->timers[0] = 0;
             }
 
             if (this->timers[0] == 0) {
-                Math_SmoothDownscaleMaxF(&thisx->speedXZ, 1.0f, 2.0f);
-                Math_SmoothDownscaleMaxF(&thisx->velocity.y, 1.0f, 2.0f);
-                Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+                Math_ApproachZeroF(&thisx->speedXZ, 1.0f, 2.0f);
+                Math_ApproachZeroF(&thisx->velocity.y, 1.0f, 2.0f);
+                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
                 if ((thisx->speedXZ <= 0.5f) && (fabsf(thisx->velocity.y) <= 0.1f)) {
                     BossGanondrof_SetupNeutral(this, -10.0f);
                     this->timers[0] = 30;
@@ -876,7 +876,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (thisx->posRot.pos.y > 50.0f) {
-        thisx->posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
+        thisx->posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     }
     {
         s16 i;
@@ -998,10 +998,10 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                     bodyDecayLevel = 1;
                     break;
             }
-            Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->varianceTimer * -100, 5, 0xBB8);
-            Math_SmoothScaleMaxF(&this->cameraNextEye.z, this->targetPos.z + 60.0f, 0.02f, 0.5f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 100.0f, 0.05f, 100.0f);
-            this->actor.posRot.pos.y += Math_Sins(this->varianceTimer * 1500);
+            Math_ApproachS(&this->actor.shape.rot.y, this->varianceTimer * -100, 5, 0xBB8);
+            Math_ApproachF(&this->cameraNextEye.z, this->targetPos.z + 60.0f, 0.02f, 0.5f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 100.0f, 0.05f, 100.0f);
+            this->actor.posRot.pos.y += Math_SinS(this->varianceTimer * 1500);
             this->cameraNextAt.x = this->targetPos.x;
             this->cameraNextAt.y = this->targetPos.y - 10.0f;
             this->cameraNextAt.z = this->targetPos.z;
@@ -1028,21 +1028,21 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             }
 
             this->actor.shape.rot.y -= 0xC8;
-            this->actor.posRot.pos.y += Math_Sins(this->varianceTimer * 1500);
+            this->actor.posRot.pos.y += Math_SinS(this->varianceTimer * 1500);
             this->cameraAngle += 120.0f;
-            camX = Math_Sins(this->cameraAngle) * (*this).cameraZoom;
-            camZ = Math_Coss(this->cameraAngle) * (*this).cameraZoom;
+            camX = Math_SinS(this->cameraAngle) * (*this).cameraZoom;
+            camZ = Math_CosS(this->cameraAngle) * (*this).cameraZoom;
             this->cameraEye.x = 14.0f + camX;
             this->cameraEye.y = this->cameraNextEye.y;
             this->cameraEye.z = -3315.0f + camZ;
             this->cameraAt.x = 14.0f;
             this->cameraAt.y = -10.0f;
             this->cameraAt.z = -3315.0f;
-            Math_SmoothScaleMaxF(&this->cameraNextEye.y, 0.0f, 0.05f, 0.5f);
-            Math_SmoothScaleMaxF(&this->cameraZoom, 170.0f, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, 14.0f, 0.05f, 1.5f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 50.0f, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, -3315.0f, 0.05f, 1.5f);
+            Math_ApproachF(&this->cameraNextEye.y, 0.0f, 0.05f, 0.5f);
+            Math_ApproachF(&this->cameraZoom, 170.0f, 0.05f, 1.0f);
+            Math_ApproachF(&this->actor.posRot.pos.x, 14.0f, 0.05f, 1.5f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 50.0f, 0.05f, 1.0f);
+            Math_ApproachF(&this->actor.posRot.pos.z, -3315.0f, 0.05f, 1.5f);
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_SCREAM;
                 this->timers[0] = 50;
@@ -1078,9 +1078,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         case DEATH_DISINTEGRATE:
             holdCamera = true;
             bodyDecayLevel = 3;
-            Math_SmoothDownscaleMaxF(&this->cameraEye.y, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
+            Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f);
+            Math_ApproachF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
+            Math_ApproachF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
                 this->timers[0] = 250;
                 this->deathState = DEATH_FINISH;
@@ -1094,9 +1094,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, 14.0f, -33.0f, -3315.0f, 0, 0, 0, -1);
             }
 
-            Math_SmoothDownscaleMaxF(&this->cameraEye.y, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
+            Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f);
+            Math_ApproachF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
+            Math_ApproachF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
                 EnfHG* horse = (EnfHG*)this->actor.child;
 
@@ -1131,11 +1131,11 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->deathEnvTimer == 0) {
                 if (globalCtx->envCtx.unk_BF == 0) {
                     globalCtx->envCtx.unk_BF = 3;
-                    this->deathEnvTimer = (s16)Math_Rand_ZeroFloat(5.0f) + 4.0f;
+                    this->deathEnvTimer = (s16)Rand_ZeroFloat(5.0f) + 4.0f;
                     globalCtx->envCtx.unk_D6 = 0x28;
                 } else {
                     globalCtx->envCtx.unk_BF = 0;
-                    this->deathEnvTimer = (s16)Math_Rand_ZeroFloat(2.0f) + 2.0f;
+                    this->deathEnvTimer = (s16)Rand_ZeroFloat(2.0f) + 2.0f;
                     globalCtx->envCtx.unk_D6 = 0x14;
                 }
             } else {
@@ -1146,9 +1146,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 limbDecayIndex = this->limbDecayIndex;
                 this->limbDecayIndex++;
                 this->limbDecayIndex %= 25;
-                sp94.x = this->bodyPartsPos[limbDecayIndex].x + Math_Rand_CenteredFloat(5.0f);
-                sp94.y = this->bodyPartsPos[limbDecayIndex].y + Math_Rand_CenteredFloat(5.0f);
-                sp94.z = this->bodyPartsPos[limbDecayIndex].z + Math_Rand_CenteredFloat(5.0f);
+                sp94.x = this->bodyPartsPos[limbDecayIndex].x + Rand_CenteredFloat(5.0f);
+                sp94.y = this->bodyPartsPos[limbDecayIndex].y + Rand_CenteredFloat(5.0f);
+                sp94.z = this->bodyPartsPos[limbDecayIndex].z + Rand_CenteredFloat(5.0f);
                 sp7C.y = 0.0f;
 
                 if (bodyDecayLevel == 3) {
@@ -1160,10 +1160,10 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                     sp70.z = (-3315.0f - sp94.z) * 0.001f;
                 }
 
-                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Math_Rand_ZeroFloat(20.0f) + 15,
+                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Rand_ZeroFloat(20.0f) + 15,
                                     bodyDecayLevel);
-                if ((Math_Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
-                    EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Math_Rand_ZeroFloat(4.0f) + 7,
+                if ((Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
+                    EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Rand_ZeroFloat(4.0f) + 7,
                                         HAHEN_OBJECT_DEFAULT, 10, 0);
                 }
             }
@@ -1190,19 +1190,19 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
 
     if (this->deathCamera != 0) {
         if (!holdCamera) {
-            Math_SmoothScaleMaxF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
+            Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
                                  this->cameraEyeVel.x * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
+            Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
                                  this->cameraEyeVel.y * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
+            Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
                                  this->cameraEyeVel.z * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
+            Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
                                  this->cameraAtVel.x * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
+            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
                                  this->cameraAtVel.y * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
+            Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
                                  this->cameraAtVel.z * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
 
         Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
@@ -1328,20 +1328,20 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.posRot2.pos = this->targetPos;
 
-    sp70 = Math_Sins(-this->actor.shape.rot.y);
-    sp74 = Math_Coss(-this->actor.shape.rot.y);
+    sp70 = Math_SinS(-this->actor.shape.rot.y);
+    sp74 = Math_CosS(-this->actor.shape.rot.y);
     sp6C = ((sp70 * this->actor.velocity.z) + (sp74 * this->actor.velocity.x)) * 300.0f;
     sp68 = ((-sp70 * this->actor.velocity.x) + (sp74 * this->actor.velocity.z)) * 300.0f;
-    Math_SmoothScaleMaxF(&this->legRotY, sp6C, 1.0f, 600.0f);
-    Math_SmoothScaleMaxF(&this->legRotZ, sp68, 1.0f, 600.0f);
+    Math_ApproachF(&this->legRotY, sp6C, 1.0f, 600.0f);
+    Math_ApproachF(&this->legRotZ, sp68, 1.0f, 600.0f);
     if ((this->flyMode != FHG_FLY_PAINTING) && (this->actionFunc != BossGanondrof_Stunned) &&
         (this->deathState == NOT_DEAD)) {
-        sp64 = (Math_Sins(this->varianceTimer * 0x8DC) * -500.0f) - 500.0f;
+        sp64 = (Math_SinS(this->varianceTimer * 0x8DC) * -500.0f) - 500.0f;
     } else {
         sp64 = 0.0f;
     }
 
-    Math_SmoothScaleMaxF(&this->legSplitY, sp64, 1.0f, 100.0f);
+    Math_ApproachF(&this->legSplitY, sp64, 1.0f, 100.0f);
     if (this->shockTimer != 0) {
         this->shockTimer--;
         osSyncPrintf("F 1\n");

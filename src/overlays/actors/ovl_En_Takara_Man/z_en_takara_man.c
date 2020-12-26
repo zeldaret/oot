@@ -194,7 +194,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTextureIdx++;
         if (this->eyeTextureIdx >= 2) {
             this->eyeTextureIdx = 0;
-            this->eyeTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+            this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_212++;

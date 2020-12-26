@@ -143,9 +143,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         dxL = player->actor.posRot.pos.x - this->actor.posRot.pos.x;
         dyL = player->actor.posRot.pos.y + 30.0f - this->actor.posRot.pos.y;
         dzL = player->actor.posRot.pos.z - this->actor.posRot.pos.z;
-        this->actor.posRot.rot.y = Math_atan2f(dxL, dzL) * (0x8000 / M_PI);
+        this->actor.posRot.rot.y = Math_FAtan2F(dxL, dzL) * (0x8000 / M_PI);
         dxzL = sqrtf(SQ(dxL) + SQ(dzL));
-        this->actor.posRot.rot.x = Math_atan2f(dyL, dxzL) * (0x8000 / M_PI);
+        this->actor.posRot.rot.x = Math_FAtan2F(dyL, dxzL) * (0x8000 / M_PI);
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
@@ -180,7 +180,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
         case STRIKE_BURST:
             this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + 0x8000 * ((*this).varianceTimer & 0xFF);
-            Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
+            Math_ApproachF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->timer == 0) {
                 this->fireMode = STRIKE_TRAILS;
@@ -196,12 +196,12 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
                     Vec3f sp70 = { 0.0f, -1.0f, 0.0f };
 
                     for (i = 0; i < 35; i++) {
-                        sp7C.x = Math_Rand_CenteredFloat(30.f);
-                        sp7C.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
-                        sp7C.z = Math_Rand_CenteredFloat(30.f);
+                        sp7C.x = Rand_CenteredFloat(30.f);
+                        sp7C.y = Rand_ZeroFloat(5.0f) + 3.0f;
+                        sp7C.z = Rand_CenteredFloat(30.f);
                         sp70.y = -0.2f;
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &sp7C, &sp70,
-                                                        (s16)(Math_Rand_ZeroOne() * 100.0f) + 240,
+                                                        (s16)(Rand_ZeroOne() * 100.0f) + 240,
                                                         FHGFLASH_LIGHTBALL_GREEN);
                     }
                 }
@@ -212,9 +212,9 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
         case STRIKE_TRAILS:
             this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*this).varianceTimer & 0xFF) * 0x8000;
 
-            Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
+            Math_ApproachF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->timer == 30) {
-                s16 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
+                s16 randY = (Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
@@ -239,25 +239,25 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void EnFhgFire_LightningTrail(EnFhgFire* this, GlobalContext* globalCtx) {
     osSyncPrintf("FF MOVE 1\n");
-    this->actor.shape.rot.x += (s16)(Math_Rand_ZeroOne() * 4000.0f) + 0x4000;
+    this->actor.shape.rot.x += (s16)(Rand_ZeroOne() * 4000.0f) + 0x4000;
 
     switch (this->fireMode) {
         case TRAIL_INIT:
             this->fireMode = TRAIL_APPEAR;
-            this->timer = (s16)(Math_Rand_ZeroOne() * 7.0f) + 7;
+            this->timer = (s16)(Rand_ZeroOne() * 7.0f) + 7;
         case TRAIL_APPEAR:
-            Math_SmoothScaleMaxF(&this->scale, 1.7f, 1.0f, 0.34f);
+            Math_ApproachF(&this->scale, 1.7f, 1.0f, 0.34f);
 
             if (this->timer == 0) {
                 this->fireMode = TRAIL_DISSIPATE;
                 this->timer = 10;
-                this->actor.posRot.pos.z += Math_Sins(this->actor.shape.rot.y) * -200.0f * this->scale;
-                this->actor.posRot.pos.x += Math_Coss(this->actor.shape.rot.y) * 200.0f * this->scale;
+                this->actor.posRot.pos.z += Math_SinS(this->actor.shape.rot.y) * -200.0f * this->scale;
+                this->actor.posRot.pos.x += Math_CosS(this->actor.shape.rot.y) * 200.0f * this->scale;
                 this->actor.shape.rot.y += 0x8000;
             }
             break;
         case TRAIL_DISSIPATE:
-            Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.34f);
+            Math_ApproachZeroF(&this->scale, 1.0f, 0.34f);
             if (this->timer == 0) {
                 Actor_Kill(&this->actor);
             }
@@ -281,7 +281,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 
-    if (Math_Rand_ZeroOne() < 0.5f) {
+    if (Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
         EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &pos, 200, FHGFLASH_SHOCK_NO_ACTOR);
@@ -329,10 +329,10 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer <= 20) {
-        Math_SmoothDownscaleMaxF(&this->alpha, 1.0f, 45.0f);
-        Math_SmoothDownscaleMaxF(&this->scale, 1.0f, 0.5f);
+        Math_ApproachZeroF(&this->alpha, 1.0f, 45.0f);
+        Math_ApproachZeroF(&this->scale, 1.0f, 0.5f);
     } else {
-        Math_SmoothScaleMaxF(&this->scale, this->burstScale, 0.5f, 3.0f);
+        Math_ApproachF(&this->scale, this->burstScale, 0.5f, 3.0f);
     }
 
     Actor_SetScale(&this->actor, this->scale);
@@ -350,9 +350,9 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     if (this->unkTimer != 0) {
         this->unkTimer--;
         this->unkFlag = true;
-        Math_SmoothScaleMaxF(&this->unkFloat, 40.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->unkFloat, 40.0f, 0.3f, 10.0f);
     } else {
-        Math_SmoothDownscaleMaxF(&this->unkFloat, 1.0f, 5.0f);
+        Math_ApproachZeroF(&this->unkFloat, 1.0f, 5.0f);
         if (this->unkFloat == 0.0f) {
             this->unkFlag = false;
         }
@@ -380,7 +380,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     this->actor.posRot.pos = bossFhg->spearTip;
-    this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 0x4E20) + 0x4000;
+    this->actor.shape.rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
     if (this->fireMode == FHGFIRE_LIGHT_GREEN) {
@@ -391,13 +391,13 @@ void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {
         osSyncPrintf("FLASH !!\n");
 
         for (i = 0; i < 2; i++) {
-            ballPos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-            ballPos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-            ballPos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+            ballPos.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+            ballPos.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+            ballPos.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
             ballAccel.y = -0.08f;
 
             EffectSsFhgFlash_SpawnLightBall(globalCtx, &ballPos, &ballVel, &ballAccel,
-                                            (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
+                                            (s16)(Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
         }
     }
 
@@ -441,7 +441,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
         } else {
             Actor_SetScale(&this->actor, 5.25f);
         }
-        this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 0x4E20) + 0x4000;
+        this->actor.shape.rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
         {
             u8 lightBallColor1 = FHGFLASH_LIGHTBALL_GREEN;
             s16 i1;
@@ -453,12 +453,12 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                 lightBallColor1 = FHGFLASH_LIGHTBALL_LIGHTBLUE;
             }
             for (i1 = 0; i1 < 3; i1++) {
-                spD4.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                spD4.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-                spD4.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                spD4.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                spD4.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+                spD4.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
                 spBC.y = -0.08f;
                 EffectSsFhgFlash_SpawnLightBall(globalCtx, &spD4, &spC8, &spBC,
-                                                (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, lightBallColor1);
+                                                (s16)(Rand_ZeroOne() * 80.0f) + 150, lightBallColor1);
             }
         }
         switch (this->fireMode) {
@@ -478,11 +478,11 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                     s16 angleModY;
 
                     for (i2 = 0; i2 < 30; i2++) {
-                        spA8.x = Math_Rand_CenteredFloat(20.0f);
-                        spA8.y = Math_Rand_CenteredFloat(20.0f);
-                        spA8.z = Math_Rand_CenteredFloat(20.0f);
+                        spA8.x = Rand_CenteredFloat(20.0f);
+                        spA8.y = Rand_CenteredFloat(20.0f);
+                        spA8.z = Rand_CenteredFloat(20.0f);
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &spA8, &sp9C,
-                                                        (s16)(Math_Rand_ZeroOne() * 25.0f) + 50,
+                                                        (s16)(Rand_ZeroOne() * 25.0f) + 50,
                                                         FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
@@ -493,14 +493,14 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                         func_800AA000(this->actor.xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
                     } else {
                         if (bossFhg->flyMode == FHG_FLY_NEUTRAL) {
-                            angleModX = Math_Rand_CenteredFloat(0x2000);
-                            angleModY = Math_Rand_CenteredFloat(0x2000);
+                            angleModX = Rand_CenteredFloat(0x2000);
+                            angleModY = Rand_CenteredFloat(0x2000);
                             this->actor.speedXZ = 15.0f;
                         } else {
                             angleModX = 0;
                             angleModY = 0;
                             this->returnCount++;
-                            if ((this->returnCount > 3) && (Math_Rand_ZeroOne() < 0.5f)) {
+                            if ((this->returnCount > 3) && (Rand_ZeroOne() < 0.5f)) {
                                 this->returnCount = 100;
                             }
 
@@ -511,9 +511,9 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                                 this->actor.speedXZ += 1.0f;
                             }
                         }
-                        this->actor.posRot.rot.y = (s16)(Math_atan2f(dxPG, dzPG) * (0x8000 / M_PI)) + angleModY;
+                        this->actor.posRot.rot.y = (s16)(Math_FAtan2F(dxPG, dzPG) * (0x8000 / M_PI)) + angleModY;
                         this->actor.posRot.rot.x =
-                            (s16)(Math_atan2f(dyPG, sqrtf((dxPG * dxPG) + (dzPG * dzPG))) * (0x8000 / M_PI)) +
+                            (s16)(Math_FAtan2F(dyPG, sqrtf((dxPG * dxPG) + (dzPG * dzPG))) * (0x8000 / M_PI)) +
                             angleModX;
                         this->fireMode = FHGFIRE_LIGHT_BLUE;
                         this->effectsTimer = 2;
@@ -532,7 +532,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                 break;
             case FHGFIRE_LIGHT_BLUE:
                 if ((bossFhg->flyMode == FHG_FLY_RETURN) && (this->returnCount < 100)) {
-                    this->actor.posRot.rot.y = Math_atan2f(dxPG, dzPG) * (0x8000 / M_PI);
+                    this->actor.posRot.rot.y = Math_FAtan2F(dxPG, dzPG) * (0x8000 / M_PI);
                     if ((sqrtf(SQ(dxPG) + SQ(dzPG)) < (150.0f + (this->actor.speedXZ * 8.0f)))) {
                         this->fireMode = FHGFIRE_LIGHT_REFLECT;
                         bossFhg->returnSuccess = true;
@@ -543,8 +543,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                         if ((sqrtf(SQ(dxPG) + SQ(dyPG) + SQ(dzPG)) < 100.0f)) {
                             bossFhg->returnSuccess = true;
                         }
-                        this->actor.posRot.rot.y = Math_atan2f(dxPG, dzPG) * (0x8000 / M_PI);
-                        this->actor.posRot.rot.x = Math_atan2f(dyPG, sqrtf(SQ(dxPG) + SQ(dzPG))) * (0x8000 / M_PI);
+                        this->actor.posRot.rot.y = Math_FAtan2F(dxPG, dzPG) * (0x8000 / M_PI);
+                        this->actor.posRot.rot.x = Math_FAtan2F(dyPG, sqrtf(SQ(dxPG) + SQ(dzPG))) * (0x8000 / M_PI);
                     }
                     if ((fabsf(dxPG) < 30.0f) && (fabsf(dzPG) < 30.0f) && (fabsf(dyPG) < 45.0f)) {
                         killMode = BALL_IMPACT;
@@ -563,16 +563,16 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                     Vec3f sp7C = { 0.0f, -0.5f, 0.0f };
 
                     for (i3 = 0; i3 < 30; i3++) {
-                        sp88.x = Math_Rand_CenteredFloat(20.0f);
-                        sp88.y = Math_Rand_CenteredFloat(20.0f);
-                        sp88.z = Math_Rand_CenteredFloat(20.0f);
+                        sp88.x = Rand_CenteredFloat(20.0f);
+                        sp88.y = Rand_CenteredFloat(20.0f);
+                        sp88.z = Rand_CenteredFloat(20.0f);
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &sp88, &sp7C,
-                                                        (s16)(Math_Rand_ZeroOne() * 40.0f) + 80,
+                                                        (s16)(Rand_ZeroOne() * 40.0f) + 80,
                                                         FHGFLASH_LIGHTBALL_GREEN);
                     }
-                    this->actor.posRot.rot.y = Math_atan2f(dxL, dzL) * (0x8000 / M_PI);
+                    this->actor.posRot.rot.y = Math_FAtan2F(dxL, dzL) * (0x8000 / M_PI);
                     dxzL = sqrtf(SQ(dxL) + SQ(dzL));
-                    this->actor.posRot.rot.x = Math_atan2f(dyL, dxzL) * (0x8000 / M_PI);
+                    this->actor.posRot.rot.x = Math_FAtan2F(dyL, dxzL) * (0x8000 / M_PI);
                     this->fireMode = FHGFIRE_LIGHT_GREEN;
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
                     this->actor.speedXZ += 2.0f;
@@ -594,12 +594,12 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                     lightBallColor2 = FHGFLASH_LIGHTBALL_LIGHTBLUE;
                 }
                 for (i4 = 0; i4 < 30; i4++) {
-                    sp6C.x = Math_Rand_CenteredFloat(20.0f);
-                    sp6C.y = Math_Rand_CenteredFloat(20.0f);
-                    sp6C.z = Math_Rand_CenteredFloat(20.0f);
+                    sp6C.x = Rand_CenteredFloat(20.0f);
+                    sp6C.y = Rand_CenteredFloat(20.0f);
+                    sp6C.z = Rand_CenteredFloat(20.0f);
                     sp60.y = -0.1f;
                     EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &sp6C, &sp60,
-                                                    (s16)(Math_Rand_ZeroOne() * 50.0f) + 100, lightBallColor2);
+                                                    (s16)(Rand_ZeroOne() * 50.0f) + 100, lightBallColor2);
                 }
                 if (killMode == BALL_BURST) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
@@ -657,11 +657,11 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, GlobalContext* globalCtx) {
         if (this->actor.params > FHGFIRE_WARP_EMERGE) {
             scrollDirection = -1.0f;
         }
-        Math_SmoothScaleMaxF(&this->warpTexSpeed, scrollDirection, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->warpAlpha, 255.0f, 1.0f, 10.2f);
+        Math_ApproachF(&this->warpTexSpeed, scrollDirection, 1.0f, 0.04f);
+        Math_ApproachF(&this->warpAlpha, 255.0f, 1.0f, 10.2f);
     } else if (this->timer <= 25) {
-        Math_SmoothDownscaleMaxF(&this->warpTexSpeed, 1.0f, 0.04f);
-        Math_SmoothDownscaleMaxF(&this->warpAlpha, 1.0f, 10.2f);
+        Math_ApproachZeroF(&this->warpTexSpeed, 1.0f, 0.04f);
+        Math_ApproachZeroF(&this->warpAlpha, 1.0f, 10.2f);
     }
 
     osSyncPrintf("EFC 1\n");

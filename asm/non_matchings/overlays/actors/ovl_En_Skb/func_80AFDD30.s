@@ -41,7 +41,7 @@ glabel func_80AFDD30
 /* 01404 80AFDDA4 00812023 */  subu    $a0, $a0, $at              
 /* 01408 80AFDDA8 00042100 */  sll     $a0, $a0,  4               
 /* 0140C 80AFDDAC 00042400 */  sll     $a0, $a0, 16               
-/* 01410 80AFDDB0 0C01DE1C */  jal     Math_Sins
+/* 01410 80AFDDB0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01414 80AFDDB4 00042403 */  sra     $a0, $a0, 16               
 /* 01418 80AFDDB8 3C0142BE */  lui     $at, 0x42BE                ## $at = 42BE0000
@@ -60,7 +60,7 @@ glabel func_80AFDD30
 /* 0144C 80AFDDEC 01830019 */  multu   $t4, $v1                   
 /* 01450 80AFDDF0 00002012 */  mflo    $a0                        
 /* 01454 80AFDDF4 00042400 */  sll     $a0, $a0, 16               
-/* 01458 80AFDDF8 0C01DE1C */  jal     Math_Sins
+/* 01458 80AFDDF8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0145C 80AFDDFC 00042403 */  sra     $a0, $a0, 16               
 /* 01460 80AFDE00 3C0142BE */  lui     $at, 0x42BE                ## $at = 42BE0000
@@ -78,7 +78,7 @@ glabel func_80AFDD30
 /* 0148C 80AFDE2C 01C30019 */  multu   $t6, $v1                   
 /* 01490 80AFDE30 00002012 */  mflo    $a0                        
 /* 01494 80AFDE34 00042400 */  sll     $a0, $a0, 16               
-/* 01498 80AFDE38 0C01DE1C */  jal     Math_Sins
+/* 01498 80AFDE38 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0149C 80AFDE3C 00042403 */  sra     $a0, $a0, 16               
 /* 014A0 80AFDE40 3C0142BE */  lui     $at, 0x42BE                ## $at = 42BE0000

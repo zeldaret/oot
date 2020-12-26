@@ -31,20 +31,20 @@ glabel EnJj_Init
 /* 00074 80A87874 10000083 */  beq     $zero, $zero, .L80A87A84
 /* 00078 80A87878 8FBF003C */  lw      $ra, 0x003C($sp)
 .L80A8787C:
-/* 0007C 80A8787C 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00080 80A87880 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 0007C 80A8787C 3C060601 */  lui     $a2, %hi(D_0600B9A8)                ## $a2 = 06010000
+/* 00080 80A87880 3C070600 */  lui     $a3, %hi(D_06001F4C)                ## $a3 = 06000000
 /* 00084 80A87884 260E01A8 */  addiu   $t6, $s0, 0x01A8           ## $t6 = 000001A8
 /* 00088 80A87888 260F022C */  addiu   $t7, $s0, 0x022C           ## $t7 = 0000022C
 /* 0008C 80A8788C 24180016 */  addiu   $t8, $zero, 0x0016         ## $t8 = 00000016
 /* 00090 80A87890 AFB80018 */  sw      $t8, 0x0018($sp)
 /* 00094 80A87894 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00098 80A87898 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 0009C 80A8789C 24E71F4C */  addiu   $a3, $a3, 0x1F4C           ## $a3 = 06001F4C
-/* 000A0 80A878A0 24C6B9A8 */  addiu   $a2, $a2, 0xB9A8           ## $a2 = 0600B9A8
+/* 0009C 80A8789C 24E71F4C */  addiu   $a3, $a3, %lo(D_06001F4C)           ## $a3 = 06001F4C
+/* 000A0 80A878A0 24C6B9A8 */  addiu   $a2, $a2, %lo(D_0600B9A8)           ## $a2 = 0600B9A8
 /* 000A4 80A878A4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000A8 80A878A8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 000AC 80A878AC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 000B0 80A878B0 24A51F4C */  addiu   $a1, $a1, 0x1F4C           ## $a1 = 06001F4C
+/* 000AC 80A878AC 3C050600 */  lui     $a1, %hi(D_06001F4C)                ## $a1 = 06000000
+/* 000B0 80A878B0 24A51F4C */  addiu   $a1, $a1, %lo(D_06001F4C)           ## $a1 = 06001F4C
 /* 000B4 80A878B4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 000B8 80A878B8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000BC 80A878BC A600030A */  sh      $zero, 0x030A($s0)         ## 0000030A
@@ -94,8 +94,8 @@ glabel EnJj_Init
 /* 00160 80A87960 0C010D20 */  jal     DynaPolyInfo_SetActorMove
 
 /* 00164 80A87964 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00168 80A87968 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0016C 80A8796C 24840A1C */  addiu   $a0, $a0, 0x0A1C           ## $a0 = 06000A1C
+/* 00168 80A87968 3C040600 */  lui     $a0, %hi(D_06000A1C)                ## $a0 = 06000000
+/* 0016C 80A8796C 24840A1C */  addiu   $a0, $a0, %lo(D_06000A1C)           ## $a0 = 06000A1C
 /* 00170 80A87970 0C010620 */  jal     DynaPolyInfo_Alloc
 
 /* 00174 80A87974 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFF4
@@ -125,8 +125,8 @@ glabel EnJj_Init
 /* 001C4 80A879C4 0C010D20 */  jal     DynaPolyInfo_SetActorMove
 
 /* 001C8 80A879C8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 001CC 80A879CC 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 001D0 80A879D0 24841830 */  addiu   $a0, $a0, 0x1830           ## $a0 = 06001830
+/* 001CC 80A879CC 3C040600 */  lui     $a0, %hi(D_06001830)                ## $a0 = 06000000
+/* 001D0 80A879D0 24841830 */  addiu   $a0, $a0, %lo(D_06001830)           ## $a0 = 06001830
 /* 001D4 80A879D4 0C010620 */  jal     DynaPolyInfo_Alloc
 
 /* 001D8 80A879D8 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFF4
@@ -157,8 +157,8 @@ glabel EnJj_Init
 /* 00230 80A87A30 0C010D20 */  jal     DynaPolyInfo_SetActorMove
 
 /* 00234 80A87A34 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00238 80A87A38 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 0023C 80A87A3C 2484BA8C */  addiu   $a0, $a0, 0xBA8C           ## $a0 = 0600BA8C
+/* 00238 80A87A38 3C040601 */  lui     $a0, %hi(D_0600BA8C)                ## $a0 = 06010000
+/* 0023C 80A87A3C 2484BA8C */  addiu   $a0, $a0, %lo(D_0600BA8C)           ## $a0 = 0600BA8C
 /* 00240 80A87A40 0C010620 */  jal     DynaPolyInfo_Alloc
 
 /* 00244 80A87A44 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFF4

@@ -20,7 +20,7 @@ glabel func_808C3224
 /* 020D4 808C3264 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3D4CCCCD
 /* 020D8 808C3268 26040208 */  addiu   $a0, $s0, 0x0208           ## $a0 = 00000208
 /* 020DC 808C326C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 020E0 808C3270 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 020E0 808C3270 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 020E4 808C3274 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 020E8 808C3278 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

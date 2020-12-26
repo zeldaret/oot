@@ -12,7 +12,7 @@ glabel func_809324F4
 /* 05F4C 8093251C 24840024 */  addiu   $a0, $a0, 0x0024           ## $a0 = 00000024
 /* 05F50 80932520 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 05F54 80932524 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
-/* 05F58 80932528 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 05F58 80932528 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05F5C 8093252C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 05F60 80932530 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -22,7 +22,7 @@ glabel func_809324F4
 /* 05F70 80932540 2604002C */  addiu   $a0, $s0, 0x002C           ## $a0 = 0000002C
 /* 05F74 80932544 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 05F78 80932548 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
-/* 05F7C 8093254C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 05F7C 8093254C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05F80 80932550 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 05F84 80932554 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -37,31 +37,31 @@ glabel func_809324F4
 /* 05FA8 80932578 44058000 */  mfc1    $a1, $f16                  
 /* 05FAC 8093257C 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 05FB0 80932580 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 05FB4 80932584 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 05FB4 80932584 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05FB8 80932588 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 05FBC 8093258C 4600A500 */  add.s   $f20, $f20, $f0            
 /* 05FC0 80932590 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 05FC4 80932594 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
-/* 05FC8 80932598 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 05FC8 80932598 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 05FCC 8093259C 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 05FD0 809325A0 00408825 */  or      $s1, $v0, $zero            ## $s1 = 00000000
 /* 05FD4 809325A4 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
 /* 05FD8 809325A8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 05FDC 809325AC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 05FDC 809325AC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 05FE0 809325B0 24061000 */  addiu   $a2, $zero, 0x1000         ## $a2 = 00001000
 /* 05FE4 809325B4 02228824 */  and     $s1, $s1, $v0              
 /* 05FE8 809325B8 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 05FEC 809325BC 86050016 */  lh      $a1, 0x0016($s0)           ## 00000016
-/* 05FF0 809325C0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 05FF0 809325C0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 05FF4 809325C4 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 05FF8 809325C8 02228824 */  and     $s1, $s1, $v0              
 /* 05FFC 809325CC 2604019E */  addiu   $a0, $s0, 0x019E           ## $a0 = 0000019E
 /* 06000 809325D0 2405FA24 */  addiu   $a1, $zero, 0xFA24         ## $a1 = FFFFFA24
-/* 06004 809325D4 0C01DE5F */  jal     Math_ApproxS
+/* 06004 809325D4 0C01DE5F */  jal     Math_StepToS
               
 /* 06008 809325D8 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
 /* 0600C 809325DC 82050194 */  lb      $a1, 0x0194($s0)           ## 00000194
@@ -71,7 +71,7 @@ glabel func_809324F4
 /* 0601C 809325EC 00202825 */  or      $a1, $at, $zero            ## $a1 = 00000000
 /* 06020 809325F0 00052F40 */  sll     $a1, $a1, 29               
 /* 06024 809325F4 00052C03 */  sra     $a1, $a1, 16               
-/* 06028 809325F8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 06028 809325F8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0602C 809325FC 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 06030 80932600 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

@@ -27,7 +27,7 @@ glabel func_80A40494
 /* 01F80 80A404F0 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
 /* 01F84 80A404F4 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 01F88 80A404F8 44053000 */  mfc1    $a1, $f6                   
-/* 01F8C 80A404FC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01F8C 80A404FC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01F90 80A40500 00000000 */  nop
 /* 01F94 80A40504 C6000164 */  lwc1    $f0, 0x0164($s0)           ## 00000164
@@ -69,7 +69,7 @@ glabel func_80A40494
 /* 02020 80A40590 2404001E */  addiu   $a0, $zero, 0x001E         ## $a0 = 0000001E
 /* 02024 80A40594 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
 /* 02028 80A40598 E6000168 */  swc1    $f0, 0x0168($s0)           ## 00000168
-/* 0202C 80A4059C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0202C 80A4059C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 02030 80A405A0 E6000164 */  swc1    $f0, 0x0164($s0)           ## 00000164
 /* 02034 80A405A4 3C0580A4 */  lui     $a1, %hi(func_80A40218)    ## $a1 = 80A40000

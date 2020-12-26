@@ -198,7 +198,7 @@ glabel BgSstFloor_Update
 /* 00348 808B9C58 46060282 */  mul.s   $f10, $f0, $f6
 /* 0034C 808B9C5C 4600520D */  trunc.w.s $f8, $f10
 /* 00350 808B9C60 440F4000 */  mfc1    $t7, $f8
-/* 00354 808B9C64 0C01DE5F */  jal     Math_ApproxS
+/* 00354 808B9C64 0C01DE5F */  jal     Math_StepToS
 
 /* 00358 808B9C68 A62F0168 */  sh      $t7, 0x0168($s1)           ## 00000168
 /* 0035C 808B9C6C 86380168 */  lh      $t8, 0x0168($s1)           ## 00000168

@@ -175,7 +175,7 @@ glabel func_808E324C
 /* 0CC1C 808E348C 0C0342A3 */  jal     Matrix_Scale              
 /* 0CC20 808E3490 46006386 */  mov.s   $f14, $f12                 
 /* 0CC24 808E3494 3C018090 */  lui     $at, %hi(D_808F823C)       ## $at = 80900000
-/* 0CC28 808E3498 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0CC28 808E3498 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0CC2C 808E349C C42C823C */  lwc1    $f12, %lo(D_808F823C)($at) 
 /* 0CC30 808E34A0 46000306 */  mov.s   $f12, $f0                  

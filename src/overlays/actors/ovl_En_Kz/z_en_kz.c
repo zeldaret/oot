@@ -165,7 +165,7 @@ void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx += 1;
         if (this->eyeIdx >= 3) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
         }
     }
@@ -268,7 +268,7 @@ s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (Math_atan2f(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA,
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA,
                             0x3E8, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 10.0f) {
@@ -454,21 +454,22 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    s32 limb = limbIndex;
+    EnKz* this = THIS;
 
-    if (limb == 8 || limb == 9 || limb == 10) {
-        rot->y += Math_Sins(THIS->unk_2A6[limb]) * 200.0f;
-        rot->z += Math_Coss(THIS->unk_2BE[limb]) * 200.0f;
+    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
+        rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
     }
+    if (limbIndex) {}
     return 0;
 }
 
 void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    s32 limb = limbIndex;
+    EnKz* this = THIS;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
-    if (limb == 11) {
-        Matrix_MultVec3f(&mult, &THIS->actor.posRot2.pos);
+    if (limbIndex == 11) {
+        Matrix_MultVec3f(&mult, &this->actor.posRot2.pos);
     }
 }
 
