@@ -17,7 +17,7 @@ glabel func_808AF120
 /* 009BC 808AF13C 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 009C0 808AF140 A48E016A */  sh      $t6, 0x016A($a0)           ## 0000016A
 .L808AF144:
-/* 009C4 808AF144 0C01DE1C */  jal     Math_Sins
+/* 009C4 808AF144 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 009C8 808AF148 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 009CC 808AF14C 3C01808B */  lui     $at, %hi(D_808AFA14)       ## $at = 808B0000
@@ -26,7 +26,7 @@ glabel func_808AF120
 /* 009D8 808AF158 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 009DC 808AF15C 46003202 */  mul.s   $f8, $f6, $f0              
 /* 009E0 808AF160 46082280 */  add.s   $f10, $f4, $f8             
-/* 009E4 808AF164 0C01DE0D */  jal     Math_Coss
+/* 009E4 808AF164 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 009E8 808AF168 E60A0024 */  swc1    $f10, 0x0024($s0)          ## 00000024
 /* 009EC 808AF16C 3C01808B */  lui     $at, %hi(D_808AFA18)       ## $at = 808B0000

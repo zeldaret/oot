@@ -61,8 +61,8 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     } else {
         this->actor = initParams->actor;
         this->velocity = this->accel = zeroVec;
-        this->life = (s16)(Math_Rand_ZeroOne() * 10.0f) + 111;
-        this->rScale = (s16)Math_Rand_ZeroFloat(initParams->scale) + initParams->scale;
+        this->life = (s16)(Rand_ZeroOne() * 10.0f) + 111;
+        this->rScale = (s16)Rand_ZeroFloat(initParams->scale) + initParams->scale;
         this->rAlpha = 255;
         this->draw = EffectSsFhgFlash_DrawShock;
         this->update = EffectSsFhgFlash_UpdateShock;
@@ -146,7 +146,7 @@ void EffectSsFhgFlash_DrawShock(GlobalContext* globalCtx, u32 index, EffectSs* t
 }
 
 void EffectSsFhgFlash_UpdateLightBall(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s16 rand = (Math_Rand_ZeroOne() * 20000.0f);
+    s16 rand = (Rand_ZeroOne() * 20000.0f);
 
     this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
@@ -174,21 +174,21 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     BossGanondrof* phantomGanon;
     s16 rand;
 
-    rand = (Math_Rand_ZeroOne() * 20000.0f);
+    rand = (Rand_ZeroOne() * 20000.0f);
     this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
         player = PLAYER;
-        randBodypart = Math_Rand_ZeroFloat(17.9f);
-        this->pos.x = player->bodyPartsPos[randBodypart].x + Math_Rand_CenteredFloat(10.0f);
-        this->pos.y = player->bodyPartsPos[randBodypart].y + Math_Rand_CenteredFloat(15.0f);
-        this->pos.z = player->bodyPartsPos[randBodypart].z + Math_Rand_CenteredFloat(10.0f);
+        randBodypart = Rand_ZeroFloat(17.9f);
+        this->pos.x = player->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(10.0f);
+        this->pos.y = player->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(15.0f);
+        this->pos.z = player->bodyPartsPos[randBodypart].z + Rand_CenteredFloat(10.0f);
     } else if (this->rParam == FHGFLASH_SHOCK_PG) {
         phantomGanon = (BossGanondrof*)this->actor;
-        randBodypart = Math_Rand_ZeroFloat(23.9f);
-        this->pos.x = phantomGanon->bodyPartsPos[randBodypart].x + Math_Rand_CenteredFloat(15.0f);
-        this->pos.y = phantomGanon->bodyPartsPos[randBodypart].y + Math_Rand_CenteredFloat(20.0f);
-        this->pos.z = phantomGanon->bodyPartsPos[randBodypart].z + Math_Rand_CenteredFloat(15.0f);
+        randBodypart = Rand_ZeroFloat(23.9f);
+        this->pos.x = phantomGanon->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(15.0f);
+        this->pos.y = phantomGanon->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(20.0f);
+        this->pos.z = phantomGanon->bodyPartsPos[randBodypart].z + Rand_CenteredFloat(15.0f);
     }
 
     if (this->life < 100) {

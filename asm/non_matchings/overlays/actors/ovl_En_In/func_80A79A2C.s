@@ -26,7 +26,7 @@ glabel func_80A79A2C
 /* 00AD4 80A79A84 29010003 */  slti    $at, $t0, 0x0003           
 /* 00AD8 80A79A88 54200007 */  bnel    $at, $zero, .L80A79AA8     
 /* 00ADC 80A79A8C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00AE0 80A79A90 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00AE0 80A79A90 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00AE4 80A79A94 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00AE8 80A79A98 8FA60018 */  lw      $a2, 0x0018($sp)           

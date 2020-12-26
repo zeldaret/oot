@@ -17,7 +17,7 @@ glabel func_809002CC
 /* 033C8 80900308 44816000 */  mtc1    $at, $f12                  ## $f12 = 50.00
 /* 033CC 8090030C ACEE0190 */  sw      $t6, 0x0190($a3)           ## 00000190
 /* 033D0 80900310 A0E00338 */  sb      $zero, 0x0338($a3)         ## 00000338
-/* 033D4 80900314 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 033D4 80900314 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 033D8 80900318 A4EF01A2 */  sh      $t7, 0x01A2($a3)           ## 000001A2
 /* 033DC 8090031C 4600010D */  trunc.w.s $f4, $f0

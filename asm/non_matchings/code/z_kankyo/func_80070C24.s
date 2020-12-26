@@ -693,7 +693,7 @@ glabel func_80070C24
 /* AE8740 800715A0 00042403 */  sra   $a0, $a0, 0x10
 /* AE8744 800715A4 AFAA007C */  sw    $t2, 0x7c($sp)
 /* AE8748 800715A8 E7A2008C */  swc1  $f2, 0x8c($sp)
-/* AE874C 800715AC 0C01DE1C */  jal   Math_Sins
+/* AE874C 800715AC 0C01DE1C */  jal   Math_SinS
 /* AE8750 800715B0 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE8754 800715B4 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AE8758 800715B8 44818000 */  mtc1  $at, $f16
@@ -709,7 +709,7 @@ glabel func_80070C24
 /* AE8780 800715E0 95A6000C */  lhu   $a2, 0xc($t5)
 /* AE8784 800715E4 00C12021 */  addu  $a0, $a2, $at
 /* AE8788 800715E8 00042400 */  sll   $a0, $a0, 0x10
-/* AE878C 800715EC 0C01DE0D */  jal   Math_Coss
+/* AE878C 800715EC 0C01DE0D */  jal   Math_CosS
 /* AE8790 800715F0 00042403 */   sra   $a0, $a0, 0x10
 /* AE8794 800715F4 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AE8798 800715F8 44813000 */  mtc1  $at, $f6
@@ -724,7 +724,7 @@ glabel func_80070C24
 /* AE87BC 8007161C 95A6000C */  lhu   $a2, 0xc($t5)
 /* AE87C0 80071620 00C12021 */  addu  $a0, $a2, $at
 /* AE87C4 80071624 00042400 */  sll   $a0, $a0, 0x10
-/* AE87C8 80071628 0C01DE0D */  jal   Math_Coss
+/* AE87C8 80071628 0C01DE0D */  jal   Math_CosS
 /* AE87CC 8007162C 00042403 */   sra   $a0, $a0, 0x10
 /* AE87D0 80071630 3C0141A0 */  li    $at, 0x41A00000 # 0.000000
 /* AE87D4 80071634 44812000 */  mtc1  $at, $f4
@@ -2327,13 +2327,13 @@ glabel func_80070C24
 /* AE9F84 80072DE4 84590B70 */  lh    $t9, 0xb70($v0)
 /* AE9F88 80072DE8 53200082 */  beql  $t9, $zero, .L80072FF4
 /* AE9F8C 80072DEC 84590B5A */   lh    $t9, 0xb5a($v0)
-/* AE9F90 80072DF0 0C01DE0D */  jal   Math_Coss
+/* AE9F90 80072DF0 0C01DE0D */  jal   Math_CosS
 /* AE9F94 80072DF4 84440B68 */   lh    $a0, 0xb68($v0)
 /* AE9F98 80072DF8 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AE9F9C 80072DFC 256BFA90 */  addiu $t3, %lo(gGameInfo) # addiu $t3, $t3, -0x570
 /* AE9FA0 80072E00 8D780000 */  lw    $t8, ($t3)
 /* AE9FA4 80072E04 E7A00044 */  swc1  $f0, 0x44($sp)
-/* AE9FA8 80072E08 0C01DE0D */  jal   Math_Coss
+/* AE9FA8 80072E08 0C01DE0D */  jal   Math_CosS
 /* AE9FAC 80072E0C 87040B6A */   lh    $a0, 0xb6a($t8)
 /* AE9FB0 80072E10 C7B00044 */  lwc1  $f16, 0x44($sp)
 /* AE9FB4 80072E14 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
@@ -2351,13 +2351,13 @@ glabel func_80070C24
 /* AE9FE4 80072E44 870F0B5A */  lh    $t7, 0xb5a($t8)
 /* AE9FE8 80072E48 A20F002A */  sb    $t7, 0x2a($s0)
 /* AE9FEC 80072E4C 8D6E0000 */  lw    $t6, ($t3)
-/* AE9FF0 80072E50 0C01DE1C */  jal   Math_Sins
+/* AE9FF0 80072E50 0C01DE1C */  jal   Math_SinS
 /* AE9FF4 80072E54 85C40B68 */   lh    $a0, 0xb68($t6)
 /* AE9FF8 80072E58 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AE9FFC 80072E5C 256BFA90 */  addiu $t3, %lo(gGameInfo) # addiu $t3, $t3, -0x570
 /* AEA000 80072E60 8D790000 */  lw    $t9, ($t3)
 /* AEA004 80072E64 E7A00044 */  swc1  $f0, 0x44($sp)
-/* AEA008 80072E68 0C01DE0D */  jal   Math_Coss
+/* AEA008 80072E68 0C01DE0D */  jal   Math_CosS
 /* AEA00C 80072E6C 87240B6A */   lh    $a0, 0xb6a($t9)
 /* AEA010 80072E70 C7A60044 */  lwc1  $f6, 0x44($sp)
 /* AEA014 80072E74 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
@@ -2375,7 +2375,7 @@ glabel func_80070C24
 /* AEA044 80072EA4 87380B5C */  lh    $t8, 0xb5c($t9)
 /* AEA048 80072EA8 A218002B */  sb    $t8, 0x2b($s0)
 /* AEA04C 80072EAC 8D6F0000 */  lw    $t7, ($t3)
-/* AEA050 80072EB0 0C01DE1C */  jal   Math_Sins
+/* AEA050 80072EB0 0C01DE1C */  jal   Math_SinS
 /* AEA054 80072EB4 85E40B6A */   lh    $a0, 0xb6a($t7)
 /* AEA058 80072EB8 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AEA05C 80072EBC 44812000 */  mtc1  $at, $f4
@@ -2391,13 +2391,13 @@ glabel func_80070C24
 /* AEA084 80072EE4 85EE0B5E */  lh    $t6, 0xb5e($t7)
 /* AEA088 80072EE8 A20E002C */  sb    $t6, 0x2c($s0)
 /* AEA08C 80072EEC 8D790000 */  lw    $t9, ($t3)
-/* AEA090 80072EF0 0C01DE0D */  jal   Math_Coss
+/* AEA090 80072EF0 0C01DE0D */  jal   Math_CosS
 /* AEA094 80072EF4 87240B6C */   lh    $a0, 0xb6c($t9)
 /* AEA098 80072EF8 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AEA09C 80072EFC 256BFA90 */  addiu $t3, %lo(gGameInfo) # addiu $t3, $t3, -0x570
 /* AEA0A0 80072F00 8D780000 */  lw    $t8, ($t3)
 /* AEA0A4 80072F04 E7A00044 */  swc1  $f0, 0x44($sp)
-/* AEA0A8 80072F08 0C01DE0D */  jal   Math_Coss
+/* AEA0A8 80072F08 0C01DE0D */  jal   Math_CosS
 /* AEA0AC 80072F0C 87040B6E */   lh    $a0, 0xb6e($t8)
 /* AEA0B0 80072F10 C7AA0044 */  lwc1  $f10, 0x44($sp)
 /* AEA0B4 80072F14 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
@@ -2415,13 +2415,13 @@ glabel func_80070C24
 /* AEA0E4 80072F44 870F0B60 */  lh    $t7, 0xb60($t8)
 /* AEA0E8 80072F48 A20F0038 */  sb    $t7, 0x38($s0)
 /* AEA0EC 80072F4C 8D6E0000 */  lw    $t6, ($t3)
-/* AEA0F0 80072F50 0C01DE1C */  jal   Math_Sins
+/* AEA0F0 80072F50 0C01DE1C */  jal   Math_SinS
 /* AEA0F4 80072F54 85C40B6C */   lh    $a0, 0xb6c($t6)
 /* AEA0F8 80072F58 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AEA0FC 80072F5C 256BFA90 */  addiu $t3, %lo(gGameInfo) # addiu $t3, $t3, -0x570
 /* AEA100 80072F60 8D790000 */  lw    $t9, ($t3)
 /* AEA104 80072F64 E7A00044 */  swc1  $f0, 0x44($sp)
-/* AEA108 80072F68 0C01DE0D */  jal   Math_Coss
+/* AEA108 80072F68 0C01DE0D */  jal   Math_CosS
 /* AEA10C 80072F6C 87240B6E */   lh    $a0, 0xb6e($t9)
 /* AEA110 80072F70 C7B00044 */  lwc1  $f16, 0x44($sp)
 /* AEA114 80072F74 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
@@ -2439,7 +2439,7 @@ glabel func_80070C24
 /* AEA144 80072FA4 87380B62 */  lh    $t8, 0xb62($t9)
 /* AEA148 80072FA8 A2180039 */  sb    $t8, 0x39($s0)
 /* AEA14C 80072FAC 8D6F0000 */  lw    $t7, ($t3)
-/* AEA150 80072FB0 0C01DE1C */  jal   Math_Sins
+/* AEA150 80072FB0 0C01DE1C */  jal   Math_SinS
 /* AEA154 80072FB4 85E40B6E */   lh    $a0, 0xb6e($t7)
 /* AEA158 80072FB8 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AEA15C 80072FBC 44813000 */  mtc1  $at, $f6

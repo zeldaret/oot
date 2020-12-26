@@ -144,7 +144,7 @@ glabel EnBdfire_Init
 /* 001F8 809BC228 00000000 */  nop
 /* 001FC 809BC22C E60C018C */  swc1    $f12, 0x018C($s0)          ## 0000018C
 .L809BC230:
-/* 00200 809BC230 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00200 809BC230 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00204 809BC234 00000000 */  nop
 /* 00208 809BC238 3C014100 */  lui     $at, 0x4100                ## $at = 41000000

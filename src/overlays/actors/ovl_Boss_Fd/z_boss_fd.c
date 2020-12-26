@@ -185,7 +185,7 @@ void BossFd_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocit
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->alpha = 255;
-            particle->timer1 = (s16)Math_Rand_ZeroFloat(10.0f);
+            particle->timer1 = (s16)Rand_ZeroFloat(10.0f);
             break;
         }
     }
@@ -201,8 +201,8 @@ void BossFd_SpawnDebris(BossFdParticle* particle, Vec3f* position, Vec3f* veloci
             particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
-            particle->xRot = Math_Rand_ZeroFloat(100.0f);
-            particle->yRot = Math_Rand_ZeroFloat(100.0f);
+            particle->xRot = Rand_ZeroFloat(100.0f);
+            particle->yRot = Rand_ZeroFloat(100.0f);
             break;
         }
     }
@@ -240,7 +240,7 @@ void BossFd_SpawnFireBreath(BossFdParticle* particle, Vec3f* position, Vec3f* ve
             particle->pos.z -= particle->velocity.z;
             particle->scaleMod = 0.0f;
             particle->alpha = alpha;
-            particle->yStop = Math_Rand_ZeroFloat(10.0f);
+            particle->yStop = Rand_ZeroFloat(10.0f);
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;
             particle->kbAngle = kbAngle;
@@ -260,22 +260,22 @@ void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
     if (this->introCamera != 0) {
-        Math_SmoothScaleMaxF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
+        Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
                              this->cameraEyeVel.x * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
+        Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
                              this->cameraEyeVel.y * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
+        Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
                              this->cameraEyeVel.z * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
+        Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
                              this->cameraAtVel.x * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
+        Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
                              this->cameraAtVel.y * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
+        Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
                              this->cameraAtVel.z * this->cameraSpeedMod);
-        Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
+        Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         this->cameraAt.y += this->cameraYMod;
         Gameplay_CameraSetAtEye(globalCtx, this->introCamera, &this->cameraAt, &this->cameraEye);
-        Math_SmoothDownscaleMaxF(&this->cameraYMod, 1.0f, 0.1f);
+        Math_ApproachZeroF(&this->cameraYMod, 1.0f, 0.1f);
     }
 }
 
@@ -394,15 +394,15 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     dx = this->targetPosition.x - this->actor.posRot.pos.x;
     dy = this->targetPosition.y - this->actor.posRot.pos.y;
     dz = this->targetPosition.z - this->actor.posRot.pos.z;
-    dx += Math_Sins(this->movementTimer * (2096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
-    dy += Math_Sins(this->movementTimer * (1096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
-    dz += Math_Sins(this->movementTimer * (1796.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
-    angleToTarget = (s16)(Math_atan2f(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_atan2f(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
+    dx += Math_SinS(this->movementTimer * (2096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
+    dy += Math_SinS(this->movementTimer * (1096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
+    dz += Math_SinS(this->movementTimer * (1796.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
+    angleToTarget = (s16)(Math_FAtan2F(dx, dz) * (0x8000 / M_PI));
+    pitchToTarget = (s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
 
     osSyncPrintf("MODE %d\n", this->actionState);
 
-    Math_SmoothScaleMaxF(&this->bodyPulse, 0.1f, 1.0f, 0.02);
+    Math_ApproachF(&this->bodyPulse, 0.1f, 1.0f, 0.02);
 
     /****************************************************************************************
      *                                   Boss Intro Cutscene                                *
@@ -496,8 +496,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[0] < 50) {
                     Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                            &D_801333E0, &D_801333E8);
-                    this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
-                    Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
+                    this->cameraYMod = Math_CosS(this->movementTimer * 0x8000) * this->cameraShake;
+                    Math_ApproachF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->timers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
@@ -513,8 +513,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 break;
             case INTRO_LOOK_GROUND:
-                this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
-                Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
+                this->cameraYMod = Math_CosS(this->movementTimer * 0x8000) * this->cameraShake;
+                Math_ApproachF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
                 if (this->timers[0] == 0) {
@@ -534,8 +534,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case INTRO_COLLAPSE:
                 this->cameraAccel = 0.005f;
-                this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
-                Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
+                this->cameraYMod = Math_CosS(this->movementTimer * 0x8000) * this->cameraShake;
+                Math_ApproachF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
                 if (this->timers[0] == 100) {
@@ -587,8 +587,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->cameraAtVel.y = 85.56f;
                     this->cameraAtVel.z = 25.0f;
                 } else {
-                    Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.1 * 0.08f);
-                    this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
+                    Math_ApproachF(&this->cameraShake, 2.0f, 1.0f, 0.1 * 0.08f);
+                    this->cameraYMod = Math_CosS(this->movementTimer * 0x8000) * this->cameraShake;
                 }
                 if (this->timers[3] == 160) {
                     Audio_SetBGM(0x6B);
@@ -669,7 +669,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->holeIndex = 6;
                     } else {
                         do {
-                            temp_rand = Math_Rand_ZeroFloat(8.9f);
+                            temp_rand = Rand_ZeroFloat(8.9f);
                         } while (temp_rand == this->holeIndex);
                         this->holeIndex = temp_rand;
                     }
@@ -782,7 +782,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
             } else {
                 pitchToTarget = this->ceilingBounce;
-                Math_SmoothDownscaleMaxF(&this->ceilingBounce, 1.0f, 1000.0f);
+                Math_ApproachZeroF(&this->ceilingBounce, 1.0f, 1000.0f);
             }
             if (this->timers[2] == 0) {
                 this->actionState = FD_FLY_MAIN;
@@ -792,7 +792,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             break;
         case FD_FLY_CHASE:
             this->actor.flags |= 0x1000000;
-            temp_y = Math_Sins(this->movementTimer * 2396.0f) * 30.0f;
+            temp_y = Math_SinS(this->movementTimer * 2396.0f) * 30.0f;
             temp_y = temp_y + this->targetLinkYOffset;
             this->targetPosition.x = player->actor.posRot.pos.x;
             this->targetPosition.y = player->actor.posRot.pos.y + temp_y + 30.0f;
@@ -809,7 +809,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->timers[0] = 0;
                 this->startAttack = false;
             } else {
-                Math_SmoothScaleMaxF(&this->targetLinkYOffset, 50.0, 1.0f, 2.0f);
+                Math_ApproachF(&this->targetLinkYOffset, 50.0, 1.0f, 2.0f);
             }
             break;
         case FD_DEATH_START:
@@ -817,11 +817,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->timers[0] = 0;
             }
             if (this->timers[0] == 0) {
-                this->timers[0] = (s16)Math_Rand_ZeroFloat(10.0f) + 10;
+                this->timers[0] = (s16)Rand_ZeroFloat(10.0f) + 10;
                 while (1) {
-                    this->targetPosition.x = Math_Rand_CenteredFloat(200.0f);
+                    this->targetPosition.x = Rand_CenteredFloat(200.0f);
                     this->targetPosition.y = 390.0f;
-                    this->targetPosition.z = Math_Rand_CenteredFloat(200.0f);
+                    this->targetPosition.z = Rand_CenteredFloat(200.0f);
                     temp_x = this->targetPosition.x - this->actor.posRot.pos.x;
                     temp_z = this->targetPosition.z - this->actor.posRot.pos.z;
                     if (sqrtf(SQ(temp_x) + SQ(temp_z)) > 100.0f) {
@@ -832,7 +832,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
             this->maxTurnRate = 10000.0f;
-            Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
+            Math_ApproachF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if (this->timers[1] == 0) {
                 this->actionState = FD_SKIN_BURN;
                 this->timers[0] = 30;
@@ -845,7 +845,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->flightWobbleAmplitude = 200.0f;
             this->flightWobbleRate = 1000.0f;
             this->maxTurnRate = 2000.0f;
-            Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
+            Math_ApproachF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if ((this->timers[0] == 0) && ((this->movementTimer % 4) == 0)) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
@@ -883,7 +883,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 for (i1 = 0; i1 < sp150; i1++) {
                     if (sp150) { // Needed for matching
-                        temp_rand2 = Math_Rand_ZeroFloat(99.9f);
+                        temp_rand2 = Rand_ZeroFloat(99.9f);
 
                         sp188.x = this->bodySegsPos[temp_rand2].x;
                         sp188.y = this->bodySegsPos[temp_rand2].y - 10.0f;
@@ -891,20 +891,20 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                         sp164.y = 0.03f;
 
-                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40,
+                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Rand_ZeroFloat(20.0f) + 40,
                                             0x64);
 
                         for (i2 = 0; i2 < 15; i2++) {
-                            sp170.x = Math_Rand_CenteredFloat(20.0f);
-                            sp170.y = Math_Rand_CenteredFloat(20.0f);
-                            sp170.z = Math_Rand_CenteredFloat(20.0f);
+                            sp170.x = Rand_CenteredFloat(20.0f);
+                            sp170.y = Rand_CenteredFloat(20.0f);
+                            sp170.z = Rand_CenteredFloat(20.0f);
 
                             sp158.y = 0.4f;
-                            sp158.x = Math_Rand_CenteredFloat(0.5f);
-                            sp158.z = Math_Rand_CenteredFloat(0.5f);
+                            sp158.x = Rand_CenteredFloat(0.5f);
+                            sp158.z = Rand_CenteredFloat(0.5f);
 
                             BossFd_SpawnEmber(this->particles, &sp188, &sp170, &sp158,
-                                              (s16)Math_Rand_ZeroFloat(3.0f) + 8);
+                                              (s16)Rand_ZeroFloat(3.0f) + 8);
                         }
                     }
                 }
@@ -960,17 +960,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             Vec3f sp138 = { 0.0f, 0.0f, 0.0f };
                             Vec3f sp12C;
 
-                            sp144.x = Math_Rand_CenteredFloat(8.0f);
-                            sp144.y = Math_Rand_ZeroFloat(1.0f);
-                            sp144.z = Math_Rand_CenteredFloat(8.0f);
+                            sp144.x = Rand_CenteredFloat(8.0f);
+                            sp144.y = Rand_ZeroFloat(1.0f);
+                            sp144.z = Rand_CenteredFloat(8.0f);
 
                             sp138.y = 0.3f;
 
-                            sp12C.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-                            sp12C.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                            sp12C.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+                            sp12C.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
+                            sp12C.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+                            sp12C.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
                             BossFd_SpawnDust(this->particles, &sp12C, &sp144, &sp138,
-                                             Math_Rand_ZeroFloat(100.0f) + 300);
+                                             Rand_ZeroFloat(100.0f) + 300);
                         }
                     }
                 } else {
@@ -997,16 +997,16 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
 
-                sp120.x = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
-                sp120.y = (Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y) - 10.0f;
-                sp120.z = (Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z) + 5.0f;
+                sp120.x = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
+                sp120.y = (Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y) - 10.0f;
+                sp120.z = (Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z) + 5.0f;
 
                 sp108.y = 0.03f;
 
-                EffectSsKFire_Spawn(globalCtx, &sp120, &sp114, &sp108, (s16)Math_Rand_ZeroFloat(15.0f) + 30, 0);
+                EffectSsKFire_Spawn(globalCtx, &sp120, &sp114, &sp108, (s16)Rand_ZeroFloat(15.0f) + 30, 0);
             }
             if (this->timers[0] < 20) {
-                Math_SmoothDownscaleMaxF(&this->actor.scale.x, 1.0f, 0.0025f);
+                Math_ApproachZeroF(&this->actor.scale.x, 1.0f, 0.0025f);
                 Actor_SetScale(&this->actor, this->actor.scale.x);
             }
             if (this->timers[0] == 0) {
@@ -1035,17 +1035,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         f32 padB0;
         f32 padAC;
 
-        Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
+        Math_ApproachS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
 
         if (((this->actionState == FD_FLY_CHASE) || (this->actionState == FD_FLY_UNUSED)) &&
             (this->actor.posRot.pos.y < 110.0f) && (pitchToTarget < 0)) {
             pitchToTarget = 0;
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 110.0f, 1.0f, 5.0f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 110.0f, 1.0f, 5.0f);
         }
 
-        Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, pitchToTarget, 0xA, this->turnRate);
-        Math_SmoothScaleMaxF(&this->turnRate, this->maxTurnRate, 1.0f, 20000.0f);
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, this->flightSpeed, 1.0f, 0.1f);
+        Math_ApproachS(&this->actor.posRot.rot.x, pitchToTarget, 0xA, this->turnRate);
+        Math_ApproachF(&this->turnRate, this->maxTurnRate, 1.0f, 20000.0f);
+        Math_ApproachF(&this->actor.speedXZ, this->flightSpeed, 1.0f, 0.1f);
         if (this->actionState < FD_SKULL_FALL) {
             func_8002D908(&this->actor);
         }
@@ -1068,9 +1068,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->leadManeSeg = 0;
         }
         i4 = this->leadManeSeg;
-        this->centerMane.scale[i4] = (Math_Sins(this->movementTimer * 5596.0f) * 0.3f) + 1.0f;
-        this->rightMane.scale[i4] = (Math_Sins(this->movementTimer * 5496.0f) * 0.3f) + 1.0f;
-        this->leftMane.scale[i4] = (Math_Coss(this->movementTimer * 5696.0f) * 0.3f) + 1.0f;
+        this->centerMane.scale[i4] = (Math_SinS(this->movementTimer * 5596.0f) * 0.3f) + 1.0f;
+        this->rightMane.scale[i4] = (Math_SinS(this->movementTimer * 5496.0f) * 0.3f) + 1.0f;
+        this->leftMane.scale[i4] = (Math_CosS(this->movementTimer * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
         this->fireManeRot[i4].x = (this->actor.posRot.rot.x / (f32)0x8000) * M_PI;
         this->fireManeRot[i4].y = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
@@ -1079,9 +1079,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->leftMane.pos[i4] = this->leftMane.head;
 
         if ((0x3000 > this->actor.posRot.rot.x) && (this->actor.posRot.rot.x > -0x3000)) {
-            Math_SmoothScaleMaxF(&this->flattenMane, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->flattenMane, 1.0f, 1.0f, 0.05f);
         } else {
-            Math_SmoothScaleMaxF(&this->flattenMane, 0.5f, 1.0f, 0.05f);
+            Math_ApproachF(&this->flattenMane, 0.5f, 1.0f, 0.05f);
         }
 
         if (this->actionState < FD_SKULL_FALL) {
@@ -1101,33 +1101,33 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         }
 
         if (!sp1CF) {
-            spE0[0].x = spE0[0].y = Math_Sins(this->movementTimer * 1500.0f) * 3000.0f;
-            spE0[1].x = Math_Sins(this->movementTimer * 2000.0f) * 4000.0f;
-            spE0[1].y = Math_Sins(this->movementTimer * 2200.0f) * 4000.0f;
-            spE0[2].x = Math_Sins(this->movementTimer * 1700.0f) * 2000.0f;
-            spE0[2].y = Math_Sins(this->movementTimer * 1900.0f) * 2000.0f;
-            spBC[0].x = spBC[0].y = Math_Sins(this->movementTimer * 1500.0f) * -3000.0f;
-            spBC[1].x = Math_Sins(this->movementTimer * 2200.0f) * -4000.0f;
-            spBC[1].y = Math_Sins(this->movementTimer * 2000.0f) * -4000.0f;
-            spBC[2].x = Math_Sins(this->movementTimer * 1900.0f) * -2000.0f;
-            spBC[2].y = Math_Sins(this->movementTimer * 1700.0f) * -2000.0f;
+            spE0[0].x = spE0[0].y = Math_SinS(this->movementTimer * 1500.0f) * 3000.0f;
+            spE0[1].x = Math_SinS(this->movementTimer * 2000.0f) * 4000.0f;
+            spE0[1].y = Math_SinS(this->movementTimer * 2200.0f) * 4000.0f;
+            spE0[2].x = Math_SinS(this->movementTimer * 1700.0f) * 2000.0f;
+            spE0[2].y = Math_SinS(this->movementTimer * 1900.0f) * 2000.0f;
+            spBC[0].x = spBC[0].y = Math_SinS(this->movementTimer * 1500.0f) * -3000.0f;
+            spBC[1].x = Math_SinS(this->movementTimer * 2200.0f) * -4000.0f;
+            spBC[1].y = Math_SinS(this->movementTimer * 2000.0f) * -4000.0f;
+            spBC[2].x = Math_SinS(this->movementTimer * 1900.0f) * -2000.0f;
+            spBC[2].y = Math_SinS(this->movementTimer * 1700.0f) * -2000.0f;
 
             for (i3 = 0; i3 < 3; i3++) {
-                Math_SmoothScaleMaxF(&this->rightArmRot[i3].x, spE0[i3].x, 1.0f, 1000.0f);
-                Math_SmoothScaleMaxF(&this->rightArmRot[i3].y, spE0[i3].y, 1.0f, 1000.0f);
-                Math_SmoothScaleMaxF(&this->leftArmRot[i3].x, spBC[i3].x, 1.0f, 1000.0f);
-                Math_SmoothScaleMaxF(&this->leftArmRot[i3].y, spBC[i3].y, 1.0f, 1000.0f);
+                Math_ApproachF(&this->rightArmRot[i3].x, spE0[i3].x, 1.0f, 1000.0f);
+                Math_ApproachF(&this->rightArmRot[i3].y, spE0[i3].y, 1.0f, 1000.0f);
+                Math_ApproachF(&this->leftArmRot[i3].x, spBC[i3].x, 1.0f, 1000.0f);
+                Math_ApproachF(&this->leftArmRot[i3].y, spBC[i3].y, 1.0f, 1000.0f);
             }
         } else {
             for (i2 = 0; i2 < 3; i2++) {
                 phi_f20 = 0.0f;
-                Math_SmoothDownscaleMaxF(&this->rightArmRot[i2].y, 0.1f, 100.0f);
-                Math_SmoothDownscaleMaxF(&this->leftArmRot[i2].y, 0.1f, 100.0f);
+                Math_ApproachZeroF(&this->rightArmRot[i2].y, 0.1f, 100.0f);
+                Math_ApproachZeroF(&this->leftArmRot[i2].y, 0.1f, 100.0f);
                 if (i2 == 0) {
                     phi_f20 = -3000.0f;
                 }
-                Math_SmoothScaleMaxF(&this->rightArmRot[i2].x, phi_f20, 0.1f, 100.0f);
-                Math_SmoothScaleMaxF(&this->leftArmRot[i2].x, -phi_f20, 0.1f, 100.0f);
+                Math_ApproachF(&this->rightArmRot[i2].x, phi_f20, 0.1f, 100.0f);
+                Math_ApproachF(&this->leftArmRot[i2].x, -phi_f20, 0.1f, 100.0f);
             }
         }
     }
@@ -1163,7 +1163,7 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
         this->handoffSignal = 0;
         BossFd_SetupFly(this, globalCtx);
         do {
-            temp_rand = Math_Rand_ZeroFloat(8.9f);
+            temp_rand = Rand_ZeroFloat(8.9f);
         } while (temp_rand == this->holeIndex);
         this->holeIndex = temp_rand;
         if (1) {} // Needed for matching
@@ -1205,7 +1205,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->fogMode == 0) {
         globalCtx->envCtx.unk_BF = 0;
-        globalCtx->envCtx.unk_D8 = 0.5f + 0.5f * Math_Sins(this->varianceTimer * 0x500);
+        globalCtx->envCtx.unk_D8 = 0.5f + 0.5f * Math_SinS(this->varianceTimer * 0x500);
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 1;
         globalCtx->envCtx.unk_BE = 0;
@@ -1214,11 +1214,11 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 2;
         globalCtx->envCtx.unk_BE = 0;
-        Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
     } else if (this->fogMode == 2) {
         this->fogMode--;
         globalCtx->envCtx.unk_BF = 0;
-        Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 0.55f + 0.05f * Math_Sins(this->varianceTimer * 0x3E00), 1.0f,
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.55f + 0.05f * Math_SinS(this->varianceTimer * 0x3E00), 1.0f,
                              0.15f);
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 3;
@@ -1226,13 +1226,13 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
     } else if (this->fogMode == 10) {
         this->fogMode = 1;
         globalCtx->envCtx.unk_BF = 0;
-        Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 0.21f + 0.07f * Math_Sins(this->varianceTimer * 0xC00), 1.0f,
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.21f + 0.07f * Math_SinS(this->varianceTimer * 0xC00), 1.0f,
                              0.05f);
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 3;
         globalCtx->envCtx.unk_BE = 0;
     } else if (this->fogMode == 1) {
-        Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 0.0f, 1.0f, 0.03f);
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.0f, 1.0f, 0.03f);
         if (globalCtx->envCtx.unk_D8 <= 0.01f) {
             this->fogMode = 0;
         }
@@ -1245,10 +1245,10 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         emberRate = 3.0f;
         emberSpeed = 5.0f;
     }
-    Math_SmoothScaleMaxF(&this->maneEmberRate, emberRate, 1.0f, 0.1f);
-    Math_SmoothScaleMaxF(&this->maneEmberSpeed, emberSpeed, 1.0f, 0.5f);
+    Math_ApproachF(&this->maneEmberRate, emberRate, 1.0f, 0.1f);
+    Math_ApproachF(&this->maneEmberSpeed, emberSpeed, 1.0f, 0.5f);
 
-    if (((this->varianceTimer % 8) == 0) && (Math_Rand_ZeroOne() < 0.3f)) {
+    if (((this->varianceTimer % 8) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->blinkTimer = 4;
     }
     this->eyeState = eyeStates[this->blinkTimer];
@@ -1265,7 +1265,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         jawAngle = (this->varianceTimer & 0x10) ? 0.0f : 1000.0f;
         jawSpeed = 500.0f;
     }
-    Math_SmoothScaleMaxF(&this->jawOpening, jawAngle, 0.3f, jawSpeed);
+    Math_ApproachF(&this->jawOpening, jawAngle, 0.3f, jawSpeed);
     DECR(this->roarTimer);
 
     if (this->timers[4] != 0) {
@@ -1286,9 +1286,9 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 this->fogMode = 2;
             }
             for (i = 0; i < 5; i++) {
-                spawnVel1.x = Math_Rand_CenteredFloat(20.0f);
-                spawnVel1.y = Math_Rand_ZeroFloat(5.0f) + 4.0f;
-                spawnVel1.z = Math_Rand_CenteredFloat(20.0f);
+                spawnVel1.x = Rand_CenteredFloat(20.0f);
+                spawnVel1.y = Rand_ZeroFloat(5.0f) + 4.0f;
+                spawnVel1.z = Rand_CenteredFloat(20.0f);
 
                 spawnAccel1.x = spawnAccel1.z = 0.0f;
                 spawnAccel1.y = -0.3f;
@@ -1300,13 +1300,13 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 spawnPos1.z = temp_z + this->holePosition.z;
 
                 func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
-                              (s16)Math_Rand_ZeroFloat(150.0f) + 800, 10, (s16)Math_Rand_ZeroFloat(5.0f) + 17);
+                              (s16)Rand_ZeroFloat(150.0f) + 800, 10, (s16)Rand_ZeroFloat(5.0f) + 17);
             }
         } else {
             for (i = 0; i < 2; i++) {
-                spawnVel1.x = Math_Rand_CenteredFloat(10.0f);
-                spawnVel1.y = Math_Rand_ZeroFloat(3.0f) + 3.0f;
-                spawnVel1.z = Math_Rand_CenteredFloat(10.0f);
+                spawnVel1.x = Rand_CenteredFloat(10.0f);
+                spawnVel1.y = Rand_ZeroFloat(3.0f) + 3.0f;
+                spawnVel1.z = Rand_CenteredFloat(10.0f);
 
                 spawnAccel1.x = spawnAccel1.z = 0.0f;
                 spawnAccel1.y = -0.3f;
@@ -1322,20 +1322,20 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         }
 
         for (i = 0; i < 8; i++) {
-            spawnVel1.x = Math_Rand_CenteredFloat(20.0f);
-            spawnVel1.y = Math_Rand_ZeroFloat(10.0f);
-            spawnVel1.z = Math_Rand_CenteredFloat(20.0f);
+            spawnVel1.x = Rand_CenteredFloat(20.0f);
+            spawnVel1.y = Rand_ZeroFloat(10.0f);
+            spawnVel1.z = Rand_CenteredFloat(20.0f);
 
             spawnAccel1.y = 0.4f;
-            spawnAccel1.x = Math_Rand_CenteredFloat(0.5f);
-            spawnAccel1.z = Math_Rand_CenteredFloat(0.5f);
+            spawnAccel1.x = Rand_CenteredFloat(0.5f);
+            spawnAccel1.z = Rand_CenteredFloat(0.5f);
 
-            spawnPos1.x = Math_Rand_CenteredFloat(60.0) + this->holePosition.x;
-            spawnPos1.y = Math_Rand_ZeroFloat(40.0f) + 100.0f;
-            spawnPos1.z = Math_Rand_CenteredFloat(60.0) + this->holePosition.z;
+            spawnPos1.x = Rand_CenteredFloat(60.0) + this->holePosition.x;
+            spawnPos1.y = Rand_ZeroFloat(40.0f) + 100.0f;
+            spawnPos1.z = Rand_CenteredFloat(60.0) + this->holePosition.z;
 
             BossFd_SpawnEmber(this->particles, &spawnPos1, &spawnVel1, &spawnAccel1,
-                              (s16)Math_Rand_ZeroFloat(1.5f) + 6);
+                              (s16)Rand_ZeroFloat(1.5f) + 6);
         }
     }
 
@@ -1363,7 +1363,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
 
         BossFd_SpawnFireBreath(this->particles, &spawnPos2, &spawnVel2, &spawnAccel2,
-                               50.0f * Math_Sins(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
+                               50.0f * Math_SinS(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
                                this->actor.posRot.rot.y);
 
         spawnPos2.x += spawnVel2.x * 0.5f;
@@ -1371,15 +1371,15 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         spawnPos2.z += spawnVel2.z * 0.5f;
 
         BossFd_SpawnFireBreath(this->particles, &spawnPos2, &spawnVel2, &spawnAccel2,
-                               50.0f * Math_Sins(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
+                               50.0f * Math_SinS(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
                                this->actor.posRot.rot.y);
         spawnSpeed2.x = 0.0f;
         spawnSpeed2.z = 0.0f;
         spawnSpeed2.y = 17.0f;
 
         for (i = 0; i < 6; i++) {
-            spawnAngleY = Math_Rand_ZeroFloat(2.0f * M_PI);
-            spawnAngleX = Math_Rand_ZeroFloat(2.0f * M_PI);
+            spawnAngleY = Rand_ZeroFloat(2.0f * M_PI);
+            spawnAngleX = Rand_ZeroFloat(2.0f * M_PI);
             Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
             Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
             Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
@@ -1389,7 +1389,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
             spawnAccel2.z = (spawnVel2.z * -10) / 100;
 
             BossFd_SpawnEmber(this->particles, &this->headPos, &spawnVel2, &spawnAccel2,
-                              (s16)Math_Rand_ZeroFloat(2.0f) + 8);
+                              (s16)Rand_ZeroFloat(2.0f) + 8);
         }
     }
 
@@ -1456,40 +1456,40 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->bodyTex2Scroll += 3.0f;
     this->bodyTex2Rot -= 2.0f;
 
-    Math_SmoothScaleMaxF(&this->bodyTex2Opacity, (this->varianceTimer & 0x10) ? 30.0f : 158.0f, 1.0f, 8.0f);
+    Math_ApproachF(&this->bodyTex2Opacity, (this->varianceTimer & 0x10) ? 30.0f : 158.0f, 1.0f, 8.0f);
     if (this->skinSegments == 0) {
         this->headTex2Opacity = this->bodyTex2Opacity;
     } else {
         headGlow = (this->varianceTimer & 4) ? 0.0f : 255.0f;
-        Math_SmoothScaleMaxF(&this->headTex2Opacity, headGlow, 1.0f, 64.0f);
+        Math_ApproachF(&this->headTex2Opacity, headGlow, 1.0f, 64.0f);
     }
 
     headGlow = (this->varianceTimer & 8) ? 128.0f : 255.0f;
     rManeGlow = ((this->varianceTimer + 3) & 8) ? 128.0f : 255.0f;
     lManeGlow = ((this->varianceTimer + 6) & 8) ? 128.0f : 255.0f;
 
-    Math_SmoothScaleMaxF(&this->centerManeColor, headGlow, 1.0f, 16.0f);
-    Math_SmoothScaleMaxF(&this->rightManeColor, rManeGlow, 1.0f, 16.0f);
-    Math_SmoothScaleMaxF(&this->leftManeColor, lManeGlow, 1.0f, 16.0f);
+    Math_ApproachF(&this->centerManeColor, headGlow, 1.0f, 16.0f);
+    Math_ApproachF(&this->rightManeColor, rManeGlow, 1.0f, 16.0f);
+    Math_ApproachF(&this->leftManeColor, lManeGlow, 1.0f, 16.0f);
 
     if (this->rockTimer != 0) {
         this->rockTimer--;
         if ((this->rockTimer % 16) == 0) {
             EnVbBall* bossFdRock = (EnVbBall*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL, this->actor.posRot.pos.x, 1000.0f,
-                this->actor.posRot.pos.z, 0, 0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+                this->actor.posRot.pos.z, 0, 0, (s16)Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != NULL) {
                 for (i = 0; i < 10; i++) {
                     Vec3f debrisVel = { 0.0f, 0.0f, 0.0f };
                     Vec3f debrisAccel = { 0.0f, -1.0f, 0.0f };
                     Vec3f debrisPos;
 
-                    debrisPos.x = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.x;
-                    debrisPos.y = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.y;
-                    debrisPos.z = Math_Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.z;
+                    debrisPos.x = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.x;
+                    debrisPos.y = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.y;
+                    debrisPos.z = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.z;
 
                     BossFd_SpawnDebris(this->particles, &debrisPos, &debrisVel, &debrisAccel,
-                                       (s16)Math_Rand_ZeroFloat(15.0f) + 0x14);
+                                       (s16)Rand_ZeroFloat(15.0f) + 0x14);
                 }
             }
         }
@@ -1503,36 +1503,36 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         for (i = 0; i < 6; i++) {
             emberAccel.y = 0.4f;
-            emberAccel.x = Math_Rand_CenteredFloat(0.5f);
-            emberAccel.z = Math_Rand_CenteredFloat(0.5f);
+            emberAccel.x = Rand_CenteredFloat(0.5f);
+            emberAccel.z = Rand_CenteredFloat(0.5f);
 
-            temp_rand = Math_Rand_ZeroFloat(8.9f);
+            temp_rand = Rand_ZeroFloat(8.9f);
 
-            emberPos.x = sHoleLocations[temp_rand].x + Math_Rand_CenteredFloat(60.0f);
-            emberPos.y = (sHoleLocations[temp_rand].y + 10.0f) + Math_Rand_ZeroFloat(40.0f);
-            emberPos.z = sHoleLocations[temp_rand].z + Math_Rand_CenteredFloat(60.0f);
+            emberPos.x = sHoleLocations[temp_rand].x + Rand_CenteredFloat(60.0f);
+            emberPos.y = (sHoleLocations[temp_rand].y + 10.0f) + Rand_ZeroFloat(40.0f);
+            emberPos.z = sHoleLocations[temp_rand].z + Rand_CenteredFloat(60.0f);
 
-            BossFd_SpawnEmber(this->particles, &emberPos, &emberVel, &emberAccel, (s16)Math_Rand_ZeroFloat(2.0f) + 6);
+            BossFd_SpawnEmber(this->particles, &emberPos, &emberVel, &emberAccel, (s16)Rand_ZeroFloat(2.0f) + 6);
         }
 
         if (this->skinSegments != 0) {
             for (i = 0; i < (s16)this->maneEmberRate; i++) {
-                temp_rand = Math_Rand_ZeroFloat(29.9f);
-                emberPos.y = this->centerMane.pos[temp_rand].y + Math_Rand_CenteredFloat(20.0f);
+                temp_rand = Rand_ZeroFloat(29.9f);
+                emberPos.y = this->centerMane.pos[temp_rand].y + Rand_CenteredFloat(20.0f);
                 if (emberPos.y >= 90.0f) {
-                    emberPos.x = this->centerMane.pos[temp_rand].x + Math_Rand_CenteredFloat(20.0f);
-                    emberPos.z = this->centerMane.pos[temp_rand].z + Math_Rand_CenteredFloat(20.0f);
+                    emberPos.x = this->centerMane.pos[temp_rand].x + Rand_CenteredFloat(20.0f);
+                    emberPos.z = this->centerMane.pos[temp_rand].z + Rand_CenteredFloat(20.0f);
 
-                    emberVel.x = Math_Rand_CenteredFloat(this->maneEmberSpeed);
-                    emberVel.y = Math_Rand_CenteredFloat(this->maneEmberSpeed);
-                    emberVel.z = Math_Rand_CenteredFloat(this->maneEmberSpeed);
+                    emberVel.x = Rand_CenteredFloat(this->maneEmberSpeed);
+                    emberVel.y = Rand_CenteredFloat(this->maneEmberSpeed);
+                    emberVel.z = Rand_CenteredFloat(this->maneEmberSpeed);
 
                     emberAccel.y = 0.4f;
-                    emberAccel.x = Math_Rand_CenteredFloat(0.5f);
-                    emberAccel.z = Math_Rand_CenteredFloat(0.5f);
+                    emberAccel.x = Rand_CenteredFloat(0.5f);
+                    emberAccel.z = Rand_CenteredFloat(0.5f);
 
                     BossFd_SpawnEmber(this->particles, &emberPos, &emberVel, &emberAccel,
-                                      (s16)Math_Rand_ZeroFloat(2.0f) + 8);
+                                      (s16)Rand_ZeroFloat(2.0f) + 8);
                 }
             }
         }
@@ -1582,7 +1582,7 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                 if (particle->timer2 >= 8) {
                     particle->timer2 = 8;
                     particle->type = 0;
-                } else if ((particle->timer1 & 1) || (Math_Rand_ZeroOne() < 0.3f)) {
+                } else if ((particle->timer1 & 1) || (Rand_ZeroOne() < 0.3f)) {
                     particle->timer2++;
                 }
             } else if (particle->type == FD_FIRE_BREATH) {
@@ -1594,7 +1594,7 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                     func_8002F6D4(globalCtx, NULL, 5.0f, particle->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == 0) {
                         for (i2 = 0; i2 < 18; i2++) {
-                            player->flameTimers[i2] = Math_Rand_S16Offset(0, 200);
+                            player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = 1;
                     }
@@ -1613,7 +1613,7 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if (particle->scale < 2.5f) {
-                        Math_SmoothScaleMaxF(&particle->scale, 2.5f, 0.5f, 0.5f);
+                        Math_ApproachF(&particle->scale, 2.5f, 0.5f, 0.5f);
                     }
                     particle->timer2++;
                     if (particle->timer2 >= 9) {
@@ -1981,8 +1981,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
         Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (i < this->skinSegments) {
-            Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse),
-                         1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse), 1.0f,
+            Matrix_Scale(1.0f + (Math_SinS((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse),
+                         1.0f + (Math_SinS((this->leadBodySeg * 5000.0f) + (i * 7000.0f)) * (*this).bodyPulse), 1.0f,
                          MTXMODE_APPLY);
             Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 4719);

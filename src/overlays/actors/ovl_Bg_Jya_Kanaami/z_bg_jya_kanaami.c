@@ -102,7 +102,7 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 var;
     this->unk_168 += 0x20;
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, 0x4000, this->unk_168)) {
+    if (Math_ScaledStepToS(&this->actor.posRot.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRAP_BOUND);
         var = Quake_Add(ACTIVE_CAM, 3);
