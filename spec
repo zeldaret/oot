@@ -973,7 +973,6 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-    include "build/data/overlays/actors/z_bg_jya_cobra.data.o"
     include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
 endseg
 
