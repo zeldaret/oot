@@ -194,10 +194,15 @@ static void parse_rom_spec(char *spec)
     while (line[0] != 0)
     {
         char *nextLine = line_split(line);
+        char* stmtName;
 
         if (line[0] != 0)
         {
-            char *stmtName = skip_whitespace(line);
+            stmtName = skip_whitespace(line);
+        }
+
+        if (line[0] != 0 && stmtName[0] != 0)
+        {
             char *args = token_split(stmtName);
             unsigned int stmt;
 

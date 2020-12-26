@@ -39,7 +39,7 @@ glabel func_80A705A4
 /* 01080 80A70630 8DAE0000 */  lw      $t6, 0x0000($t5)           ## 00000000
 /* 01084 80A70634 55C00007 */  bnel    $t6, $zero, .L80A70654     
 /* 01088 80A70638 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0108C 80A7063C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0108C 80A7063C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 01090 80A70640 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 01094 80A70644 8FA60018 */  lw      $a2, 0x0018($sp)           

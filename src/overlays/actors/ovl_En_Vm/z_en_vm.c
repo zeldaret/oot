@@ -143,7 +143,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
     switch (this->unk_25E) {
         case 0:
-            Math_SmoothScaleMaxMinS(&this->beamRot.x, 0, 10, 1500, 0);
+            Math_SmoothStepToS(&this->beamRot.x, 0, 10, 1500, 0);
             headRot = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
             pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
 
@@ -155,8 +155,8 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
             if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
                 this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
-                Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 0xFA0, 0);
-                if (Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
+                Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xFA0, 0);
+                if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
                                             (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
                     this->timer--;
                     if (this->timer == 0) {
@@ -179,7 +179,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
             return;
     }
 
-    Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F40, 0);
+    Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F40, 0);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->unk_260++;
@@ -238,7 +238,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
     }
 
     if (this->beamRot.x < 0xAAA || this->timer == 0) {
-        Math_SmoothScaleMaxMinF(&this->beamScale, 0.0f, 1.0f, 0.03f, 0.0f);
+        Math_SmoothStepToF(&this->beamScale, 0.0f, 1.0f, 0.03f, 0.0f);
         this->unk_260 = 0;
 
         if (this->beamScale.x == 0.0f) {
@@ -251,9 +251,9 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_SmoothScaleMaxMinS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsLink, 10, 0xDAC, 0);
-        Math_SmoothScaleMaxMinS(&this->beamRot.y, this->actor.yawTowardsLink, 10, 0xDAC, 0);
-        Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsLink, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->beamRot.y, this->actor.yawTowardsLink, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xDAC, 0);
         playerPos = player->actor.posRot.pos;
 
         if (player->actor.groundY > -32000.0f) {
@@ -261,8 +261,8 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         }
 
         dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);
-        Math_SmoothScaleMaxMinF(&this->beamScale.z, dist, 1.0f, this->beamSpeed, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->beamScale.x, 0.1f, 1.0f, 0.12f, 0.0f);
+        Math_SmoothStepToF(&this->beamScale.z, dist, 1.0f, this->beamSpeed, 0.0f);
+        Math_SmoothStepToF(&this->beamScale.x, 0.1f, 1.0f, 0.12f, 0.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
 
         if (this->unk_260 > 2) {
@@ -305,7 +305,7 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        Math_SmoothScaleMaxMinS(&this->beamRot, 0, 10, 0x5DC, 0);
+        Math_SmoothStepToS(&this->beamRot, 0, 10, 0x5DC, 0);
         this->timer--;
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     }
@@ -322,8 +322,8 @@ void EnVm_SetupDie(EnVm* this) {
     this->actor.posRot.pos.y += 5000.0f * this->actor.scale.y;
     this->actor.velocity.y = 8.0f;
     this->actor.gravity = -0.5f;
-    this->actor.speedXZ = Math_Rand_ZeroOne() + 1.0f;
-    this->actor.posRot.rot.y = Math_Rand_CenteredFloat(65535.0f);
+    this->actor.speedXZ = Rand_ZeroOne() + 1.0f;
+    this->actor.posRot.rot.y = Rand_CenteredFloat(65535.0f);
     EnVm_SetupAction(this, EnVm_Die);
 }
 

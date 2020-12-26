@@ -1,9 +1,9 @@
 glabel func_8096BBA8
 /* 020D8 8096BBA8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 020DC 8096BBAC AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 020E0 8096BBB0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 020E0 8096BBB0 3C050600 */  lui     $a1, %hi(D_06005458)                ## $a1 = 06000000
 /* 020E4 8096BBB4 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 020E8 8096BBB8 24A55458 */  addiu   $a1, $a1, 0x5458           ## $a1 = 06005458
+/* 020E8 8096BBB8 24A55458 */  addiu   $a1, $a1, %lo(D_06005458)           ## $a1 = 06005458
 /* 020EC 8096BBBC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 020F0 8096BBC0 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
 /* 020F4 8096BBC4 0C25A777 */  jal     func_80969DDC              

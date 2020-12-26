@@ -8,7 +8,7 @@ glabel func_80AC4D20
 /* 02098 80AC4D38 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 0209C 80AC4D3C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 020A0 80AC4D40 248402D4 */  addiu   $a0, $a0, 0x02D4           ## $a0 = 000002D4
-/* 020A4 80AC4D44 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 020A4 80AC4D44 0C01E107 */  jal     Math_ApproachF
               
 /* 020A8 80AC4D48 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 020AC 80AC4D4C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

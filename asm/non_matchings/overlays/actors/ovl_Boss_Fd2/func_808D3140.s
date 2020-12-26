@@ -24,7 +24,7 @@ glabel func_808D3140
 /* 00AFC 808D316C A7AE0036 */  sh      $t6, 0x0036($sp)
 /* 00B00 808D3170 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00B04 808D3174 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00B08 808D3178 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00B08 808D3178 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 00B0C 808D317C 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 00B10 808D3180 A6020196 */  sh      $v0, 0x0196($s0)           ## 00000196

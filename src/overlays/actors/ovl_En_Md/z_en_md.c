@@ -469,7 +469,7 @@ void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx++;
         if (this->eyeIdx > 2) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
         }
     }
@@ -540,7 +540,7 @@ u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
                             4000, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 100.0f) {
@@ -664,10 +664,10 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &actorToBlock->posRot.pos);
 
         this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-        this->actor.posRot.pos.x += 60.0f * Math_Sins(yaw);
+        this->actor.posRot.pos.x += 60.0f * Math_SinS(yaw);
 
         this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-        this->actor.posRot.pos.z += 60.0f * Math_Coss(yaw);
+        this->actor.posRot.pos.z += 60.0f * Math_CosS(yaw);
 
         temp = fabsf((f32)this->actor.yawTowardsLink - yaw) * 0.001f * 3.0f;
         this->skelAnime.animPlaybackSpeed = CLAMP(temp, 1.0f, 3.0f);
@@ -791,8 +791,8 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (((limbIndex == 9) || (limbIndex == 10)) || (limbIndex == 13)) {
-        rot->y += Math_Sins(this->unk_214[limbIndex]) * 200.0f;
-        rot->z += Math_Coss(this->unk_236[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
     }
 
     return 0;

@@ -10,7 +10,7 @@
 
 #define THIS ((BossMo*)thisx)
 
-#define WATER_LEVEL globalCtx->colCtx.stat.colHeader->waterBoxes[0].unk_02
+#define WATER_LEVEL globalCtx->colCtx.stat.colHeader->waterBoxes[0].ySurface
 
 #define OTHER_TENT_HAS_LINK \
     ((otherTent != NULL) && ((otherTent->actionState == TENT_GRAB) || (otherTent->actionState == TENT_SHAKE)))
@@ -474,7 +474,7 @@ void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BossMo_SetupTentacle(BossMo* this, GlobalContext* globalCtx) {
     this->actionFunc = BossMo_Tentacle;
     this->actionState = TENT_WAIT;
-    this->timers[0] = 50 + (s16)Math_Rand_ZeroFloat(20.0f);
+    this->timers[0] = 50 + (s16)Rand_ZeroFloat(20.0f);
 }
 
 void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
@@ -613,12 +613,12 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             swingRateAccel = 30.0f;
             swingSizeAccel = 60.0f;
         }
-        Math_SmoothScaleMaxF(&this->swingRateX, maxSwingRateX, 1.0f, swingRateAccel);
-        Math_SmoothScaleMaxF(&this->swingLagX, maxSwingLagX, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->swingSizeX, maxSwingSizeX, 1.0f, swingSizeAccel);
-        Math_SmoothScaleMaxF(&this->swingRateZ, maxSwingRateZ, 1.0f, swingRateAccel);
-        Math_SmoothScaleMaxF(&this->swingLagZ, maxSwingLagZ, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->swingSizeZ, maxSwingSizeZ, 1.0f, swingSizeAccel);
+        Math_ApproachF(&this->swingRateX, maxSwingRateX, 1.0f, swingRateAccel);
+        Math_ApproachF(&this->swingLagX, maxSwingLagX, 1.0f, 30.0f);
+        Math_ApproachF(&this->swingSizeX, maxSwingSizeX, 1.0f, swingSizeAccel);
+        Math_ApproachF(&this->swingRateZ, maxSwingRateZ, 1.0f, swingRateAccel);
+        Math_ApproachF(&this->swingLagZ, maxSwingLagZ, 1.0f, 30.0f);
+        Math_ApproachF(&this->swingSizeZ, maxSwingSizeZ, 1.0f, swingSizeAccel);
         this->tentSwingX += (s16)this->swingRateX;
         this->tentSwingZ += (s16)this->swingRateZ;
     }
@@ -635,8 +635,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             this->drawActor = true;
             this->baseBubblesTimer = 20;
             if (this->timers[0] < 20) {
-                Math_SmoothScaleMaxF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
-                Math_SmoothScaleMaxF(&this->baseAlpha, 150.0f, 1.0f, 5.0f);
+                Math_ApproachF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
+                Math_ApproachF(&this->baseAlpha, 150.0f, 1.0f, 5.0f);
                 if (this->baseAlpha >= 150.0f) {
                     this->actionState = TENT_READY;
                     this->timers[0] = 60;
@@ -654,8 +654,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 rippleCount = 3;
             }
             for (indS1 = 0; indS1 < rippleCount; indS1++) {
-                rand_f = Math_Rand_ZeroFloat(50.0f);
-                rand_angle = Math_Rand_ZeroFloat(0x10000);
+                rand_f = Rand_ZeroFloat(50.0f);
+                rand_angle = Rand_ZeroFloat(0x10000);
                 sp16C = this->actor.posRot.pos;
                 sp16C.x += sinf(rand_angle) * rand_f;
                 sp16C.z += cosf(rand_angle) * rand_f;
@@ -668,42 +668,42 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if (sMorphaCore->cutsceneState == NO_CUTSCENE) {
                 func_80078914(&this->unk_1010, NA_SE_EN_MOFER_APPEAR - SFX_FLAG);
             }
-            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            Math_ApproachF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
             for (indS1 = 0; indS1 < 41; indS1++) {
 
-                pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
 
-                pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                 temp_f24 = this->swingSizeZ * (indS1 * 0.025f * pad154);
 
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
+                Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
                 if (indS1 == 28) {
                     sp1B4 = this->tentRot[indS1].x;
                 }
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->targetPos = this->actor.posRot.pos;
-            Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.75f, 1.0f, 0.04f);
+            Math_ApproachF(&this->actor.speedXZ, 0.75f, 1.0f, 0.04f);
             if (this->actionState == TENT_SWING) {
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->attackAngleMod, 0xA,
+                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->attackAngleMod, 0xA,
                                      0x1F4);
             }
-            Math_SmoothScaleMaxF(&this->tentMaxStretch, 1.0f, 0.5f, 0.04);
+            Math_ApproachF(&this->tentMaxStretch, 1.0f, 0.5f, 0.04);
             if (sMorphaCore->cutsceneState != NO_CUTSCENE) {
-                Math_SmoothScaleMaxF(&this->tentMaxAngle, 1.0f, 1.0f, 0.001f);
-                Math_SmoothScaleMaxF(&this->tentSpeed, 240.0f, 1.0f, 3.0);
+                Math_ApproachF(&this->tentMaxAngle, 1.0f, 1.0f, 0.001f);
+                Math_ApproachF(&this->tentSpeed, 240.0f, 1.0f, 3.0);
             } else {
-                Math_SmoothScaleMaxF(&this->tentMaxAngle, 1.0f, 1.0f, 0.002f);
-                Math_SmoothScaleMaxF(&this->tentSpeed, 400.0f, 1.0f, 6.0f);
+                Math_ApproachF(&this->tentMaxAngle, 1.0f, 1.0f, 0.002f);
+                Math_ApproachF(&this->tentSpeed, 400.0f, 1.0f, 6.0f);
             }
             if (this->actionState == TENT_READY) {
                 if ((this->timers[0] == 0) && !OTHER_TENT_HAS_LINK) {
                     this->actionState = TENT_SWING;
                     this->timers[0] = 50;
                     func_800F4BE8();
-                    this->attackAngleMod = Math_Rand_CenteredFloat(0x1000);
+                    this->attackAngleMod = Rand_CenteredFloat(0x1000);
                 }
             } else {
                 tentXrot = this->tentRot[28].x;
@@ -720,17 +720,17 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         case TENT_ATTACK:
             this->actor.flags |= 0x1000000;
             func_80078914(&this->unk_1010, NA_SE_EN_MOFER_ATTACK - SFX_FLAG);
-            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            Math_ApproachF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
             for (indS1 = 0; indS1 < 41; indS1++) {
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y,
+                Math_ApproachF(&this->tentStretch[indS1].y,
                                      this->tentMaxStretch * ((((40 - indS1) * 25.0f) / 100.0f) + 5.0f), 0.5f, 0.7f);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, sAttackRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
+                Math_ApproachS(&this->tentRot[indS1].x, sAttackRot[indS1] * 0x100, 1.0f / this->tentMaxAngle,
                                      this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, 0, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, 0, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->targetPos = this->actor.posRot.pos;
-            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
-            Math_SmoothScaleMaxF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
+            Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
+            Math_ApproachF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
             if ((this->timers[0] == 0) || (this->linkHitTimer != 0)) {
                 dx = this->tentPos[22].x - player->actor.posRot.pos.x;
                 dy = this->tentPos[22].y - player->actor.posRot.pos.y;
@@ -766,7 +766,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             break;
         case TENT_CURL:
         case TENT_GRAB:
-            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            Math_ApproachF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
             if (this->timers[0] == 125) {
                 this->tentMaxAngle = .001f;
                 this->tentSpeed = 0;
@@ -774,26 +774,26 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             for (indS1 = 0; indS1 < 41; indS1++) {
                 if (this->timers[0] > 25) {
                     if (!this->linkToLeft) {
-                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, sCurlRot[indS1] * 0x100,
+                        Math_ApproachS(&this->tentRot[indS1].z, sCurlRot[indS1] * 0x100,
                                              1.0f / this->tentMaxAngle, this->tentSpeed);
                     } else {
-                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, sCurlRot[indS1] * -0x100,
+                        Math_ApproachS(&this->tentRot[indS1].z, sCurlRot[indS1] * -0x100,
                                              1.0f / this->tentMaxAngle, this->tentSpeed);
                     }
                 } else {
                     if (!this->linkToLeft) {
-                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, sGrabRot[indS1] * 0x100,
+                        Math_ApproachS(&this->tentRot[indS1].z, sGrabRot[indS1] * 0x100,
                                              1.0f / this->tentMaxAngle, this->tentSpeed);
                     } else {
-                        Math_SmoothScaleMaxS(&this->tentRot[indS1].z, sGrabRot[indS1] * -0x100,
+                        Math_ApproachS(&this->tentRot[indS1].z, sGrabRot[indS1] * -0x100,
                                              1.0f / this->tentMaxAngle, this->tentSpeed);
                     }
                 }
             }
-            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.1f, 1.0f, 0.01f);
-            Math_SmoothScaleMaxF(&this->tentSpeed, 960.0f, 1.0f, 30.0f);
+            Math_ApproachF(&this->tentMaxAngle, 0.1f, 1.0f, 0.01f);
+            Math_ApproachF(&this->tentSpeed, 960.0f, 1.0f, 30.0f);
             if (this->timers[0] >= 30) {
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xC8);
+                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xC8);
             }
             if (this->actionState == TENT_CURL) {
                 if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)) {
@@ -828,12 +828,12 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if (this->actionState == TENT_GRAB) {
                 player->unk_850 = 0xA;
                 player->actor.speedXZ = player->actor.velocity.y = 0;
-                Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
-                Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
-                Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
-                Math_SmoothScaleMaxS(&player->actor.shape.rot.x, this->grabPosRot.rot.x, 2, 0x7D0);
-                Math_SmoothScaleMaxS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
-                Math_SmoothScaleMaxS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
+                Math_ApproachF(&player->actor.posRot.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
+                Math_ApproachF(&player->actor.posRot.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
+                Math_ApproachF(&player->actor.posRot.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
+                Math_ApproachS(&player->actor.shape.rot.x, this->grabPosRot.rot.x, 2, 0x7D0);
+                Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
+                Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
                 if (this->timers[0] == 0) {
                     camera1 = Gameplay_GetCamera(globalCtx, 0);
                     this->actionState = TENT_SHAKE;
@@ -849,7 +849,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
                     this->cameraEye = camera1->eye;
                     this->cameraAt = camera1->at;
-                    this->cameraYaw = Math_atan2f(this->cameraEye.x - this->actor.posRot.pos.x,
+                    this->cameraYaw = Math_FAtan2F(this->cameraEye.x - this->actor.posRot.pos.x,
                                                   this->cameraEye.z - this->actor.posRot.pos.z);
                     this->cameraYawRate = 0;
                     goto tent_shake; // I think this is genuinely the correct code
@@ -865,7 +865,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if ((this->timers[0] % 8) == 0) {
                 globalCtx->damagePlayer(globalCtx, -1);
             }
-            Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
+            Math_ApproachF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
             sp1B4 = this->tentRot[15].x;
             buttons = globalCtx->state.input[0].press.button;
             if (CHECK_BTN_ALL(buttons, BTN_A) || CHECK_BTN_ALL(buttons, BTN_B)) {
@@ -873,14 +873,14 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             }
             for (indS1 = 0; indS1 < 41; indS1++) {
                 if (indS1 < 20) {
-                    pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                    pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                     temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
-                    pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                    pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                     temp_f24 = this->swingSizeZ * (indS1 * 0.025f * pad154);
                     pad150 = ((((40 - indS1) * 25.0f) / 100.0f) + 5.0f);
-                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * pad150, 0.1f, 0.1f);
-                    Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                    Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * pad150, 0.1f, 0.1f);
+                    Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                    Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 }
             }
             player->unk_850 = 0xA;
@@ -892,10 +892,10 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             player->actor.posRot.rot.z = player->actor.shape.rot.z = this->grabPosRot.rot.z;
             player->actor.velocity.y = 0;
             player->actor.speedXZ = 0;
-            Math_SmoothScaleMaxF(&this->tentMaxStretch, 1.0f, 0.5f, 0.01);
-            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.005f);
-            Math_SmoothScaleMaxF(&this->tentSpeed, 480.0f, 1.0f, 10.0f);
-            Math_SmoothScaleMaxF(&this->tentPulse, 0.3f, 0.5f, 0.03f);
+            Math_ApproachF(&this->tentMaxStretch, 1.0f, 0.5f, 0.01);
+            Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.005f);
+            Math_ApproachF(&this->tentSpeed, 480.0f, 1.0f, 10.0f);
+            Math_ApproachF(&this->tentPulse, 0.3f, 0.5f, 0.03f);
             if ((this->mashCounter >= 40) || (this->timers[0] == 0)) {
                 tentXrot = this->tentRot[15].x;
                 if ((tentXrot < 0) && (sp1B4 >= 0)) {
@@ -917,15 +917,15 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 sp138.y = 100.0f;
                 sp138.z = 200.0f;
                 this->cameraYaw -= this->cameraYawRate;
-                Math_SmoothScaleMaxF(&this->cameraYawRate, 0.01, 1.0f, 0.002f);
+                Math_ApproachF(&this->cameraYawRate, 0.01, 1.0f, 0.002f);
                 Matrix_RotateY(this->cameraYaw, MTXMODE_NEW);
                 Matrix_MultVec3f(&sp138, &sp12C);
-                Math_SmoothScaleMaxF(&this->cameraEye.x, this->actor.posRot.pos.x + sp12C.x, 0.1f, 10.0f);
-                Math_SmoothScaleMaxF(&this->cameraEye.y, this->actor.posRot.pos.y + sp12C.y, 0.1f, 10.0f);
-                Math_SmoothScaleMaxF(&this->cameraEye.z, this->actor.posRot.pos.z + sp12C.z, 0.1f, 10.0f);
-                Math_SmoothScaleMaxF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
-                Math_SmoothScaleMaxF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
-                Math_SmoothScaleMaxF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraEye.x, this->actor.posRot.pos.x + sp12C.x, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraEye.y, this->actor.posRot.pos.y + sp12C.y, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraEye.z, this->actor.posRot.pos.z + sp12C.z, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
             }
             break;
@@ -936,18 +936,18 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 player->actor.parent = NULL;
                 player->csMode = 0;
             }
-            Math_SmoothScaleMaxF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
+            Math_ApproachF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
             if (this->meltIndex < 41) {
                 for (indS0 = 0; indS0 < 10; indS0++) {
                     sp120 = this->tentPos[this->meltIndex];
-                    sp120.x += Math_Rand_CenteredFloat(30.0f);
-                    sp120.y += Math_Rand_CenteredFloat(30.0f);
-                    sp120.z += Math_Rand_CenteredFloat(30.0f);
-                    BossMo_SpawnStillDroplet(globalCtx->unk_11E10, &sp120, Math_Rand_ZeroFloat(0.1f) + .2f);
+                    sp120.x += Rand_CenteredFloat(30.0f);
+                    sp120.y += Rand_CenteredFloat(30.0f);
+                    sp120.z += Rand_CenteredFloat(30.0f);
+                    BossMo_SpawnStillDroplet(globalCtx->unk_11E10, &sp120, Rand_ZeroFloat(0.1f) + .2f);
                 }
                 this->meltIndex++;
             }
-            Math_SmoothScaleMaxF(&this->cutScale, 0.0, 1.0f, 0.2f);
+            Math_ApproachF(&this->cutScale, 0.0, 1.0f, 0.2f);
             if ((this->meltIndex >= 41) || (this->timers[0] == 0)) {
                 this->actionState = TENT_RETREAT;
                 this->timers[0] = 75;
@@ -959,9 +959,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             break;
         case TENT_RETREAT:
             if (this->cutsceneCamera != 0) {
-                Math_SmoothScaleMaxF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
-                Math_SmoothScaleMaxF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
-                Math_SmoothScaleMaxF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
                 if (player->actor.posRot.pos.y <= 42.0f) {
                     camera2 = Gameplay_GetCamera(globalCtx, 0);
@@ -974,23 +974,23 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 }
             }
             for (indS1 = 0; indS1 < 41; indS1++) {
-                pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->tentMaxStretch * (indS1 * 0.025f * pad158 * this->swingSizeX);
-                pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                 temp_f24 = this->tentMaxStretch * (indS1 * 0.025f * pad154 * this->swingSizeZ);
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.5f, 0.2f);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.5f, 0.2f);
+                Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            Math_SmoothScaleMaxF(&this->tentMaxStretch, 0, 0.5f, 0.02f);
-            Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
-            Math_SmoothScaleMaxF(&this->tentSpeed, 320.0f, 1.0f, 50.0f);
+            Math_ApproachF(&this->tentMaxStretch, 0, 0.5f, 0.02f);
+            Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
+            Math_ApproachF(&this->tentSpeed, 320.0f, 1.0f, 50.0f);
             if (this->timers[0] == 0) {
                 this->actor.flags &= ~1;
-                Math_SmoothScaleMaxF(&this->baseAlpha, 0.0, 1.0f, 5.0f);
+                Math_ApproachF(&this->baseAlpha, 0.0, 1.0f, 5.0f);
                 for (indS1 = 0; indS1 < 40; indS1++) {
                     if (sMorphaTent2->tentSpawnPos) {}
-                    indT5 = Math_Rand_ZeroFloat(20.9f);
+                    indT5 = Rand_ZeroFloat(20.9f);
                     VEC_SET(spFC, 0, 0, 0);
                     indS0 = sTentSpawnIndex[indT5];
                     Matrix_RotateY((player->actor.posRot.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
@@ -1003,7 +1003,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                         this->targetPos.x = sTentSpawnPos[indS0].x;
                         this->targetPos.z = sTentSpawnPos[indS0].y;
                         this->tentSpawnPos = indS0;
-                        this->timers[0] = (s16)Math_Rand_ZeroFloat(20.0f) + 30;
+                        this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 30;
                         this->actionState = TENT_DESPAWN;
                         break;
                     }
@@ -1030,7 +1030,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             break;
         case TENT_DESPAWN:
             this->actor.flags &= ~1;
-            Math_SmoothScaleMaxF(&this->baseAlpha, 0, 1.0f, 5.0f);
+            Math_ApproachF(&this->baseAlpha, 0, 1.0f, 5.0f);
             if ((this->baseAlpha <= 0.5f) && (this->timers[0] == 0)) {
                 this->meltIndex = 0;
                 this->actor.posRot.pos.x = this->targetPos.x;
@@ -1039,7 +1039,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 this->cutScale = 1.0f;
                 this->cutIndex = this->meltIndex;
                 this->actionState = TENT_WAIT;
-                this->timers[0] = (s16)Math_Rand_ZeroFloat(20.0f) + 10;
+                this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 10;
 
                 this->tentSpeed = 0;
                 this->swingRateX = 0;
@@ -1055,73 +1055,73 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             break;
         case TENT_DEATH_3:
             this->baseBubblesTimer = 20;
-            Math_SmoothScaleMaxF(&sMorphaCore->waterLevel, -300.0f, 0.1f, 0.8f);
+            Math_ApproachF(&sMorphaCore->waterLevel, -300.0f, 0.1f, 0.8f);
             this->actor.flags &= ~1;
             for (indS1 = 0; indS1 < 41; indS1++) {
-                pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
-                pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                 temp_f24 = this->swingSizeZ * (indS1 * 0.025f * pad154);
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
+                Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->actor.speedXZ = 0.0;
-            Math_SmoothScaleMaxF(&this->tentMaxStretch, 4.3f, 0.5f, 0.04);
-            Math_SmoothScaleMaxF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
+            Math_ApproachF(&this->tentMaxStretch, 4.3f, 0.5f, 0.04);
+            Math_ApproachF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
             break;
         case TENT_DEATH_1:
             this->baseBubblesTimer = 20;
             this->actor.shape.rot.y = 0x4000;
             this->actor.shape.rot.x = -0x8000;
             this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
-            Math_SmoothScaleMaxF(&sMorphaCore->waterLevel, -300.0f, 0.1f, 1.3f);
+            Math_ApproachF(&sMorphaCore->waterLevel, -300.0f, 0.1f, 1.3f);
             for (indS1 = 0; indS1 < 41; indS1++) {
-                pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
-                pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                 temp_f24 = this->swingSizeZ * (indS1 * 0.025f * pad154);
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
+                Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->actor.speedXZ = 0.0;
-            Math_SmoothScaleMaxF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
+            Math_ApproachF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
             break;
         case TENT_DEATH_2:
             this->baseBubblesTimer = 20;
-            Math_SmoothScaleMaxF(&sMorphaCore->waterLevel, -295.0f, 0.1f, 1.3f);
+            Math_ApproachF(&sMorphaCore->waterLevel, -295.0f, 0.1f, 1.3f);
             this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
             for (indS1 = 0; indS1 < 41; indS1++) {
-                pad158 = Math_Sins(((s16)this->swingLagX * indS1) + this->tentSwingX);
+                pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
-                pad154 = Math_Sins(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
+                pad154 = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                 temp_f24 = this->swingSizeZ * (indS1 * 0.025f * pad154);
-                Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.1f, 0.4f);
+                Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->actor.speedXZ = 0.0;
             this->noBubbles--;
-            Math_SmoothScaleMaxF(&this->tentMaxStretch, 0.1f, 0.1f, 0.03);
-            Math_SmoothScaleMaxF(&this->tentPulse, 0.02f, 0.5f, 0.015f);
+            Math_ApproachF(&this->tentMaxStretch, 0.1f, 0.1f, 0.03);
+            Math_ApproachF(&this->tentPulse, 0.02f, 0.5f, 0.015f);
             if ((this->timers[0] > 0) && (this->timers[0] < 40)) {
-                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.035f, 0.05f, this->flattenRate);
+                Math_ApproachF(&this->actor.scale.x, 0.035f, 0.05f, this->flattenRate);
                 if (this->timers[0] == 1) {
                     this->flattenRate = 0.0;
                 }
             } else if (this->timers[0] == 0) {
-                Math_SmoothScaleMaxF(&this->actor.scale.x, .001f, 0.05f, this->flattenRate);
+                Math_ApproachF(&this->actor.scale.x, .001f, 0.05f, this->flattenRate);
             }
-            Math_SmoothScaleMaxF(&this->flattenRate, 0.00045f, 0.1f, 0.00001f);
+            Math_ApproachF(&this->flattenRate, 0.00045f, 0.1f, 0.00001f);
             break;
         case TENT_DEATH_5:
             for (indS1 = 0; indS1 < 41; indS1++) {
                 if (this->timers[0] != 0) {
-                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.05f,
+                    Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.05f,
                                          this->tentSpeed);
                 } else {
-                    Math_SmoothScaleMaxF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.3f, 100.0f);
+                    Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * 5.0f, 0.3f, 100.0f);
                 }
                 this->tentRot[indS1].x = this->tentRot[indS1].z = 0;
             }
@@ -1129,15 +1129,15 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if (this->timers[0] != 0) {
                 this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
                 this->tentMaxStretch = 0.5f;
-                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0015f, 0.05f, this->tentMaxAngle);
-                Math_SmoothScaleMaxF(&this->tentMaxAngle, 0.00035f, 1.0f, 0.0000175f);
-                Math_SmoothScaleMaxF(&this->tentSpeed, 0.1f, 1.0f, 0.005f);
+                Math_ApproachF(&this->actor.scale.x, 0.0015f, 0.05f, this->tentMaxAngle);
+                Math_ApproachF(&this->tentMaxAngle, 0.00035f, 1.0f, 0.0000175f);
+                Math_ApproachF(&this->tentSpeed, 0.1f, 1.0f, 0.005f);
                 this->actor.velocity.y = 0.0;
             } else {
                 this->tentMaxStretch = 0.2f;
-                this->tentMaxStretch += Math_Sins(this->movementTimer * 0x2000) * 0.05f;
-                padEC = Math_Coss(this->movementTimer * 0x2000) * 0.0005f;
-                Math_SmoothScaleMaxF(&this->actor.scale.x, 0.002f + padEC, 0.5f, 0.0005f);
+                this->tentMaxStretch += Math_SinS(this->movementTimer * 0x2000) * 0.05f;
+                padEC = Math_CosS(this->movementTimer * 0x2000) * 0.0005f;
+                Math_ApproachF(&this->actor.scale.x, 0.002f + padEC, 0.5f, 0.0005f);
                 this->actor.posRot.pos.y += this->actor.velocity.y;
                 this->actor.velocity.y -= 1.0f;
                 if (this->actor.posRot.pos.y < -250.0f) {
@@ -1153,7 +1153,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                         spC8.z = indS1 * 0.03f;
                         Matrix_RotateY(indS1 * 0.23f, MTXMODE_NEW);
                         Matrix_MultVec3f(&spC8, &spE0);
-                        spE0.y = Math_Rand_ZeroFloat(7.0f) + 4.0f;
+                        spE0.y = Rand_ZeroFloat(7.0f) + 4.0f;
                         spD4 = this->actor.posRot.pos;
                         spD4.x += spE0.x * 3.0f;
                         spD4.y += (spE0.y * 3.0f) - 30.0f;
@@ -1179,7 +1179,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     if (((this->actionState == TENT_ATTACK) || (this->actionState == TENT_DEATH_2) ||
          (this->actionState == TENT_CURL) || (this->actionState == TENT_GRAB)) &&
-        (Math_Rand_ZeroOne() < 0.8f) && (this->actor.scale.x > 0.001f)) {
+        (Rand_ZeroOne() < 0.8f) && (this->actor.scale.x > 0.001f)) {
         Vec3f spBC;                        // real
         Vec3f spB0 = { 0.0f, 0.0f, 0.0f }; // real
         f32 padAC;
@@ -1187,16 +1187,16 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
 
         if (this->actionState >= TENT_DEATH_2) {
             indS1 = 38;
-            padAC = Math_Rand_ZeroFloat(0.1f) + 0.1f;
+            padAC = Rand_ZeroFloat(0.1f) + 0.1f;
             spBC.y = this->tentPos[indS1].y;
         } else {
-            indS1 = (s16)Math_Rand_ZeroFloat(20.0f) + 18;
-            padAC = Math_Rand_ZeroFloat(0.02f) + .05f;
+            indS1 = (s16)Rand_ZeroFloat(20.0f) + 18;
+            padAC = Rand_ZeroFloat(0.02f) + .05f;
             spBC.y = this->tentPos[indS1].y - 10.0f;
         }
         padA8 = (this->actor.scale.x * 100.0f) * 20.0f;
-        spBC.x = this->tentPos[indS1].x + Math_Rand_CenteredFloat(padA8);
-        spBC.z = this->tentPos[indS1].z + Math_Rand_CenteredFloat(padA8);
+        spBC.x = this->tentPos[indS1].x + Rand_CenteredFloat(padA8);
+        spBC.z = this->tentPos[indS1].z + Rand_CenteredFloat(padA8);
         BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spBC, &spB0, padAC);
     }
 }
@@ -1228,13 +1228,13 @@ void BossMo_TentCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
             }
             this->tentRippleSize = 0.2f;
             for (i2 = 0; i2 < 10; i2++) {
-                sp78.x = Math_Rand_CenteredFloat(8.0f);
-                sp78.y = Math_Rand_ZeroFloat(7.0f) + 4.0f;
-                sp78.z = Math_Rand_CenteredFloat(8.0f);
+                sp78.x = Rand_CenteredFloat(8.0f);
+                sp78.y = Rand_ZeroFloat(7.0f) + 4.0f;
+                sp78.z = Rand_CenteredFloat(8.0f);
                 sp84 = this->tentPos[2 * i1];
                 sp84.x += sp78.x * 3.0f;
                 sp84.z += sp78.z * 3.0f;
-                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp84, &sp78, Math_Rand_ZeroFloat(0.08f) + 0.13f);
+                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp84, &sp78, Rand_ZeroFloat(0.08f) + 0.13f);
             }
             break;
         } else if (this->colliderTent.list[i1].body.toucherFlags & 2) {
@@ -1321,40 +1321,40 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 sp64.x = (this->cameraEye.x + 20.0f) + 10.0f;
                 sp64.y = -250.0f;
                 sp64.z = this->cameraEye.z;
-                EffectSsBubble_Spawn(globalCtx, &sp64, 0.0f, 10.0f, 50.0f, Math_Rand_ZeroFloat(0.05f) + 0.13f);
+                EffectSsBubble_Spawn(globalCtx, &sp64, 0.0f, 10.0f, 50.0f, Rand_ZeroFloat(0.05f) + 0.13f);
             }
             if (this->timers[2] == 40) {
                 func_80078914(&sAudioZeroVec, NA_SE_EN_MOFER_BUBLE_DEMO);
             }
             break;
         case INTRO_SWIM:
-            Math_SmoothScaleMaxF(&this->cameraYawShake, 0.1f, 1.0f, 0.002f);
+            Math_ApproachF(&this->cameraYawShake, 0.1f, 1.0f, 0.002f);
             this->targetPos = cutsceneTargets[this->targetIndex];
             if (this->targetIndex == 5) {
-                temp_y = Math_Sins(this->movementTimer * 0x500) * 20.0f;
+                temp_y = Math_SinS(this->movementTimer * 0x500) * 20.0f;
             } else {
-                temp_y = Math_Sins(this->movementTimer * 0x500) * 5.0f;
+                temp_y = Math_SinS(this->movementTimer * 0x500) * 5.0f;
             }
             dx = this->targetPos.x - this->cameraEye.x;
             dy = this->targetPos.y - this->cameraEye.y + temp_y;
             dz = this->targetPos.z - this->cameraEye.z;
-            temp_y = Math_atan2f(dx, dz);
-            temp_x = Math_atan2f(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, temp_y * (0x8000 / M_PI), 5, this->cameraYawRate);
-            Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, temp_x * (0x8000 / M_PI), 5, this->cameraYawRate);
+            temp_y = Math_FAtan2F(dx, dz);
+            temp_x = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
+            Math_ApproachS(&this->actor.posRot.rot.y, temp_y * (0x8000 / M_PI), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.posRot.rot.x, temp_x * (0x8000 / M_PI), 5, this->cameraYawRate);
             if (this->movementTimer == 150) {
                 this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.posRot.pos.x);
                 this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.posRot.pos.y);
                 this->cameraAtVel.z = fabsf(this->cameraAt.z - player->actor.posRot.pos.z);
             }
             if (this->movementTimer >= 150) {
-                Math_SmoothScaleMaxF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.1f,
+                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.1f,
                                      this->cameraAtVel.x * this->cameraSpeedMod);
-                Math_SmoothScaleMaxF(&this->cameraAt.y, player->actor.posRot.pos.y + 50.0f, 0.1f,
+                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y + 50.0f, 0.1f,
                                      this->cameraAtVel.y * this->cameraSpeedMod);
-                Math_SmoothScaleMaxF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.1f,
+                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.1f,
                                      this->cameraAtVel.z * this->cameraSpeedMod);
-                Math_SmoothScaleMaxF(&this->cameraSpeedMod, 0.02f, 1.0f, 0.001f);
+                Math_ApproachF(&this->cameraSpeedMod, 0.02f, 1.0f, 0.001f);
             }
             if (this->movementTimer == 190) {
                 func_80078914(&sAudioZeroVec, NA_SE_EN_MOFER_BUBLE_DEMO);
@@ -1363,7 +1363,7 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 sp58.x = (this->cameraEye.x + 20.0f) + 10.0f;
                 sp58.y = -250.0f;
                 sp58.z = this->cameraEye.z;
-                EffectSsBubble_Spawn(globalCtx, &sp58, 0.0f, 10.0f, 50.0f, Math_Rand_ZeroFloat(0.05f) + 0.13f);
+                EffectSsBubble_Spawn(globalCtx, &sp58, 0.0f, 10.0f, 50.0f, Rand_ZeroFloat(0.05f) + 0.13f);
             }
             sp7C = (f32)0x1000;
             sp78 = 0.1f;
@@ -1381,7 +1381,7 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
             }
 
             if (this->movementTimer > 250) {
-                Math_SmoothScaleMaxF(&this->introWaterTexAlpha, 100.0f, 1.0f, 1.0f);
+                Math_ApproachF(&this->introWaterTexAlpha, 100.0f, 1.0f, 1.0f);
             }
             if (this->targetIndex < 5) {
                 if (sqrtf(SQ(dx) + SQ(dz) + SQ(dy)) < 40.0f) {
@@ -1392,8 +1392,8 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 sp80 = 1.5f;
                 sp7C = (f32)0x600;
             }
-            Math_SmoothScaleMaxF(&this->actor.speedXZ, sp80, 1.0f, sp78);
-            Math_SmoothScaleMaxF(&this->cameraYawRate, sp7C, 1.0f, 128.0f);
+            Math_ApproachF(&this->actor.speedXZ, sp80, 1.0f, sp78);
+            Math_ApproachF(&this->cameraYawRate, sp7C, 1.0f, 128.0f);
             if (this->movementTimer == 525) {
                 func_8002DF54(globalCtx, &this->actor, 2);
             }
@@ -1520,19 +1520,19 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
     }
     if (this->cutsceneCamera != 0) {
         if (sp9F) {
-            Math_SmoothScaleMaxF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
+            Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
                                  this->cameraEyeVel.x * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
+            Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
                                  this->cameraEyeVel.y * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
+            Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
                                  this->cameraEyeVel.z * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
+            Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
                                  this->cameraAtVel.x * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
+            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
                                  this->cameraAtVel.y * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
+            Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
                                  this->cameraAtVel.z * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         } else if (this->cutsceneState < INTRO_REVEAL) {
             func_8002D908(&this->actor);
             this->cameraEye.x += this->actor.velocity.x;
@@ -1580,7 +1580,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
             this->timers[0] = 90;
             dx = this->actor.posRot.pos.x - this->cameraEye.x;
             dz = this->actor.posRot.pos.z - this->cameraEye.z;
-            this->cameraYaw = Math_atan2f(dx, dz);
+            this->cameraYaw = Math_FAtan2F(dx, dz);
             this->cameraDist = sqrtf(SQ(dx) + SQ(dz));
             this->cameraYawRate = 0.0f;
         case DEATH_CORE_BURST:
@@ -1592,32 +1592,32 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                 sp80 = 0.015f;
                 sp7C = 0.005f;
             }
-            Math_SmoothScaleMaxF(&this->actor.scale.x, sp80, 0.5f, 0.002f);
+            Math_ApproachF(&this->actor.scale.x, sp80, 0.5f, 0.002f);
             this->actor.scale.z = this->actor.scale.x;
-            Math_SmoothScaleMaxF(&this->actor.scale.y, sp7C, 0.5f, 0.002f);
+            Math_ApproachF(&this->actor.scale.y, sp7C, 0.5f, 0.002f);
             this->cameraYaw += this->cameraYawRate;
             if (this->timers[0] >= 30) {
-                Math_SmoothScaleMaxF(&this->cameraYawRate, 0.05f, 1.0f, 0.002f);
+                Math_ApproachF(&this->cameraYawRate, 0.05f, 1.0f, 0.002f);
             } else {
-                Math_SmoothScaleMaxF(&this->cameraYawRate, 0.0f, 1.0f, 0.002f);
+                Math_ApproachF(&this->cameraYawRate, 0.0f, 1.0f, 0.002f);
             }
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 150.0f, 0.05f, 5.0f);
-            Math_SmoothScaleMaxF(&this->cameraEye.y, 100.0f, 0.05f, 2.0f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 150.0f, 0.05f, 5.0f);
+            Math_ApproachF(&this->cameraEye.y, 100.0f, 0.05f, 2.0f);
             this->cameraAt = this->cameraNextAt = this->actor.posRot.pos;
             if (this->timers[0] > 20) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_DEAD - SFX_FLAG);
             }
             if (this->timers[0] == 20) {
                 for (i = 0; i < 300; i++) {
-                    sp54.x = Math_Rand_CenteredFloat(10.0f);
-                    sp54.y = Math_Rand_CenteredFloat(10.0f);
-                    sp54.z = Math_Rand_CenteredFloat(10.0f);
+                    sp54.x = Rand_CenteredFloat(10.0f);
+                    sp54.y = Rand_CenteredFloat(10.0f);
+                    sp54.z = Rand_CenteredFloat(10.0f);
                     sp48 = this->actor.posRot.pos;
                     sp48.x += 2.0f * sp54.x;
                     sp48.y += 2.0f * sp54.y;
                     sp48.z += 2.0f * sp54.z;
                     BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp48, &sp54,
-                                        Math_Rand_ZeroFloat(0.08f) + 0.13f);
+                                        Rand_ZeroFloat(0.08f) + 0.13f);
                 }
                 this->drawActor = false;
                 this->actor.flags &= ~1;
@@ -1698,8 +1698,8 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                 this->timers[0] = 150;
             }
         case DEATH_CEILING:
-            Math_SmoothScaleMaxF(&this->cameraYaw, 0.0f, 0.05f, 0.0029999996f);
-            Math_SmoothScaleMaxF(&this->cameraDist, 490.0f, 0.1f, 1.0f);
+            Math_ApproachF(&this->cameraYaw, 0.0f, 0.05f, 0.0029999996f);
+            Math_ApproachF(&this->cameraDist, 490.0f, 0.1f, 1.0f);
             if (this->timers[0] == 0) {
                 this->cutsceneState = DEATH_DROPLET;
                 this->timers[0] = 140;
@@ -1716,22 +1716,22 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 0) {
                 if (-100.0f < this->cameraEye.y) {
-                    Math_SmoothScaleMaxF(&this->cameraEye.y, sMorphaTent1->actor.posRot.pos.y - 100.0f, 0.1f, 2000.0f);
+                    Math_ApproachF(&this->cameraEye.y, sMorphaTent1->actor.posRot.pos.y - 100.0f, 0.1f, 2000.0f);
                 } else {
-                    Math_SmoothScaleMaxF(&this->cameraEye.y, -200.0f, 0.1f, 2000.0f);
+                    Math_ApproachF(&this->cameraEye.y, -200.0f, 0.1f, 2000.0f);
                 }
 
-                Math_SmoothScaleMaxF(&this->cameraAt.y, (sMorphaTent1->actor.posRot.pos.y - 50.0f) + 30.0f, 0.5f,
+                Math_ApproachF(&this->cameraAt.y, (sMorphaTent1->actor.posRot.pos.y - 50.0f) + 30.0f, 0.5f,
                                      2000.0f);
                 this->cameraNextAt.y = this->cameraAt.y;
             } else {
-                Math_SmoothScaleMaxF(&this->cameraEye.y, 300.0f, 0.05f, this->cameraSpeed);
+                Math_ApproachF(&this->cameraEye.y, 300.0f, 0.05f, this->cameraSpeed);
             }
-            Math_SmoothScaleMaxF(&this->cameraYaw, -M_PI / 2.0f, 0.05f, this->cameraYawRate);
-            Math_SmoothScaleMaxF(&this->cameraSpeed, 3.0f, 1.0f, 0.05f);
-            Math_SmoothScaleMaxF(&this->cameraYawRate, 0.012999999f, 1.0f, 0.0005f);
+            Math_ApproachF(&this->cameraYaw, -M_PI / 2.0f, 0.05f, this->cameraYawRate);
+            Math_ApproachF(&this->cameraSpeed, 3.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->cameraYawRate, 0.012999999f, 1.0f, 0.0005f);
             if (sMorphaTent1->actionState == TENT_DEATH_6) {
-                Math_SmoothScaleMaxF(&this->cameraDist, 200.0f, 0.02f, this->cameraSpeed);
+                Math_ApproachF(&this->cameraDist, 200.0f, 0.02f, this->cameraSpeed);
                 if (sMorphaTent1->timers[0] == 0) {
                     this->cutsceneState = DEATH_FINISH;
                     camera->eye = this->cameraEye;
@@ -1744,7 +1744,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                     sMorphaTent1->actor.posRot.pos.y = -1000.0f;
                 }
             } else {
-                Math_SmoothScaleMaxF(&this->cameraDist, 150.0f, 0.05f, this->cameraSpeed);
+                Math_ApproachF(&this->cameraDist, 150.0f, 0.05f, this->cameraSpeed);
             }
             break;
         case DEATH_FINISH:
@@ -1768,9 +1768,9 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
         }
     }
     if (sMorphaCore->waterLevel < -250.0f) {
-        Math_SmoothScaleMaxF(&sMorphaTent1->waterTexAlpha, 0.0f, 1.0f, 3.0f);
+        Math_ApproachF(&sMorphaTent1->waterTexAlpha, 0.0f, 1.0f, 3.0f);
     }
-    Math_SmoothScaleMaxF(&this->swingSizeX, 0.0f, 0.1f, 0.05f);
+    Math_ApproachF(&this->swingSizeX, 0.0f, 0.1f, 0.05f);
 
     sp70.x = this->cameraDist;
     sp70.y = 0.0f;
@@ -1782,9 +1782,9 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
     pad8C = 1; // Super fake, but it works
     if (this->cutsceneCamera != 0) {
         if (pad8C) {
-            Math_SmoothScaleMaxF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
+            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
                                  this->cameraAtVel.y * this->cameraSpeedMod);
-            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
+            Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
         Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
@@ -1880,13 +1880,13 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 }
             }
             for (i = 0; i < 10; i++) {
-                sp48.x = Math_Rand_CenteredFloat(4.0f);
-                sp48.y = Math_Rand_ZeroFloat(2.0f) + 3.0f;
-                sp48.z = Math_Rand_CenteredFloat(4.0f);
+                sp48.x = Rand_CenteredFloat(4.0f);
+                sp48.y = Rand_ZeroFloat(2.0f) + 3.0f;
+                sp48.z = Rand_CenteredFloat(4.0f);
                 sp54 = this->actor.posRot.pos;
                 sp54.x += (sp48.x * 3.0f);
                 sp54.z += (sp48.z * 3.0f);
-                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp54, &sp48, Math_Rand_ZeroFloat(0.08f) + 0.13f);
+                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp54, &sp48, Rand_ZeroFloat(0.08f) + 0.13f);
             }
         }
     }
@@ -1935,7 +1935,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     this->waterTex2x = this->waterTex2x;
     this->waterTex2y++;
 
-    Math_SmoothScaleMaxF(&this->baseAlpha, 255.0f, 1.0f, 10.0f);
+    Math_ApproachF(&this->baseAlpha, 255.0f, 1.0f, 10.0f);
     if ((this->cutsceneState != NO_CUTSCENE) && (this->cutsceneState < DEATH_START)) {
         BossMo_Intro(this, globalCtx);
         if (this->actionState == CORE_INTRO_WAIT) {
@@ -1958,9 +1958,9 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     } else {
         spC0 = spBC = 0.008f;
     }
-    Math_SmoothScaleMaxF(&this->actor.scale.x, spC0, 0.2f, 0.001f);
+    Math_ApproachF(&this->actor.scale.x, spC0, 0.2f, 0.001f);
     this->actor.scale.z = this->actor.scale.x;
-    Math_SmoothScaleMaxF(&this->actor.scale.y, spBC, 0.2f, 0.001f);
+    Math_ApproachF(&this->actor.scale.y, spBC, 0.2f, 0.001f);
     this->drawShadow = BossMo_OnLand(&this->actor.posRot.pos, 15.0f);
     onLand = BossMo_OnLand(&this->actor.posRot.pos, 0.0f);
     if ((player->actor.posRot.pos.y < (WATER_LEVEL - 50.0f)) &&
@@ -2028,7 +2028,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.flags |= 1;
                 this->corePos++;
                 if (sMorphaTent1->actionState == TENT_ATTACK) {
-                    temp = (s16)(Math_Sins(this->movementTimer * 0x300) * 10.0f) + 15;
+                    temp = (s16)(Math_SinS(this->movementTimer * 0x300) * 10.0f) + 15;
                     if (this->corePos >= temp) {
                         this->corePos = temp;
                     }
@@ -2051,7 +2051,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             case CORE_INTRO_REVEAL:
                 this->actor.flags &= ~1;
                 this->corePos++;
-                temp = (s16)(Math_Sins(this->movementTimer * 0x500) * 10.0f) + 15;
+                temp = (s16)(Math_SinS(this->movementTimer * 0x500) * 10.0f) + 15;
                 if (this->corePos >= temp) {
                     this->corePos = temp;
                 }
@@ -2073,7 +2073,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         for (j = -5; j < 6; j++) {
             index = (this->corePos + j) - 2;
             if ((0 <= index) && (index <= 40)) {
-                Math_SmoothScaleMaxF(&sMorphaTent1->tentScale[index].x, ((coreBulge[j + 5] * 300.0f) / 100.0f) + sp88,
+                Math_ApproachF(&sMorphaTent1->tentScale[index].x, ((coreBulge[j + 5] * 300.0f) / 100.0f) + sp88,
                                      0.75f, 5.0f);
             }
         }
@@ -2083,24 +2083,24 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         if (this->corePos <= 1) {
             this->targetPos.y -= 20.0f;
         }
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 30.0f, 1.0f, 1.0f);
+        Math_ApproachF(&this->actor.posRot.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.posRot.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.posRot.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.speedXZ, 30.0f, 1.0f, 1.0f);
     } else {
         switch (this->actionState) {
             case CORE_MOVE:
-                sp80 = Math_Sins(this->rippleTimer * 0x800) * 100.0f;
-                sp7C = Math_Coss(this->rippleTimer * 0x800) * 100.0f;
-                Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f,
+                sp80 = Math_SinS(this->rippleTimer * 0x800) * 100.0f;
+                sp7C = Math_CosS(this->rippleTimer * 0x800) * 100.0f;
+                Math_ApproachF(&this->actor.posRot.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f,
                                      this->actor.speedXZ);
-                Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f,
+                Math_ApproachF(&this->actor.posRot.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f,
                                      this->actor.speedXZ);
-                Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
                 break;
             case CORE_STUNNED:
-                this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
-                this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+                this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+                this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
                 this->actor.posRot.pos.x += this->actor.velocity.x;
                 this->actor.posRot.pos.z += this->actor.velocity.z;
                 break;
@@ -2111,10 +2111,10 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             func_8002E4B4(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
             spA4.x = spA4.y = spA4.z = 0.0f;
             for (i = 0; i < 1; i++) {
-                spB0.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                spB0.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-                spB0.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4, Math_Rand_ZeroFloat(0.02f) + 0.05f);
+                spB0.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                spB0.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+                spB0.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4, Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
             if (onLand) {
@@ -2129,14 +2129,14 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                         this->timers[1] = 2;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_LAND);
                         for (i = 0; i < 10; i++) {
-                            spA4.x = Math_Rand_CenteredFloat(4.0f);
-                            spA4.y = Math_Rand_ZeroFloat(2.0f) + 3.0f;
-                            spA4.z = Math_Rand_CenteredFloat(4.0f);
+                            spA4.x = Rand_CenteredFloat(4.0f);
+                            spA4.y = Rand_ZeroFloat(2.0f) + 3.0f;
+                            spA4.z = Rand_CenteredFloat(4.0f);
                             spB0 = this->actor.posRot.pos;
                             spB0.x += spA4.x;
                             spB0.z += spA4.z;
                             BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4,
-                                                Math_Rand_ZeroFloat(0.08f) + 0.13f);
+                                                Rand_ZeroFloat(0.08f) + 0.13f);
                         }
                         spA4.x = spA4.y = spA4.z = 0.0f;
                         spB0 = this->actor.posRot.pos;
@@ -2156,7 +2156,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                     this->targetPos.x = sMorphaTent1->targetPos.x;
                     this->targetPos.y = sMorphaTent1->actor.posRot.pos.y - 40.0f;
                     this->targetPos.z = sMorphaTent1->targetPos.z;
-                    Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                    Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
                 } else if (this->actionState == CORE_UNDERWATER) {
                     switch (this->waitUnderwater) {
                         case false:
@@ -2170,34 +2170,34 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             this->targetPos.x = player->actor.posRot.pos.x + sp64.x;
                             this->targetPos.y = player->actor.posRot.pos.y + 30.0f;
                             this->targetPos.z = player->actor.posRot.pos.z + sp64.z;
-                            Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
+                            Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
                             if (this->timers[0] == 0) {
                                 this->waitUnderwater = true;
-                                this->timers[0] = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+                                this->timers[0] = (s16)Rand_ZeroFloat(50.0f) + 50;
                             }
                             break;
                         case true:
-                            Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 1.0f, 0.5f);
+                            Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.5f);
                             if (this->timers[0] == 0) {
                                 this->waitUnderwater = false;
-                                this->timers[0] = (s16)Math_Rand_ZeroFloat(20.0f) + 20;
+                                this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 20;
                                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_MOVE_WT);
                             }
                             break;
                     }
                 }
-                this->targetPos.x += Math_Sins(this->movementTimer * 3096.0f) * 30.0f;
-                this->targetPos.y += Math_Sins(this->movementTimer * 2096.0f) * 30.0f;
-                this->targetPos.z += Math_Sins(this->movementTimer * 2796.0f) * 30.0f;
+                this->targetPos.x += Math_SinS(this->movementTimer * 3096.0f) * 30.0f;
+                this->targetPos.y += Math_SinS(this->movementTimer * 2096.0f) * 30.0f;
+                this->targetPos.z += Math_SinS(this->movementTimer * 2796.0f) * 30.0f;
                 this->tentMaxAngle = 5.0f;
                 this->tentSpeed = 4000.0f;
                 spDC = this->targetPos.x - this->actor.posRot.pos.x;
                 spD8 = this->targetPos.y - this->actor.posRot.pos.y;
                 spD4 = this->targetPos.z - this->actor.posRot.pos.z;
-                spCC = (s16)(Math_atan2f(spDC, spD4) * (0x8000 / M_PI));
-                spD0 = (s16)(Math_atan2f(spD8, sqrtf(SQ(spDC) + SQ(spD4))) * (0x8000 / M_PI));
-                Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
-                Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
+                spCC = (s16)(Math_FAtan2F(spDC, spD4) * (0x8000 / M_PI));
+                spD0 = (s16)(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))) * (0x8000 / M_PI));
+                Math_ApproachS(&this->actor.posRot.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->actor.posRot.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);
             } else {
                 this->actor.posRot.pos.y += this->actor.velocity.y;
@@ -2223,17 +2223,17 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         } else {
             this->timers[3] = 8;
             for (i = 0; i < 10; i++) {
-                sp5C = Math_Rand_ZeroFloat(3.14f);
-                sp60 = Math_Rand_ZeroFloat(0.6f) + 1.6f;
-                spA4.x = Math_Sins(((i * (f32)0x10000) / 10.0f) + sp5C) * sp60;
-                spA4.z = Math_Coss(((i * (f32)0x10000) / 10.0f) + sp5C) * sp60;
-                spA4.y = Math_Rand_ZeroFloat(0.3f) + 3.0f;
+                sp5C = Rand_ZeroFloat(3.14f);
+                sp60 = Rand_ZeroFloat(0.6f) + 1.6f;
+                spA4.x = Math_SinS(((i * (f32)0x10000) / 10.0f) + sp5C) * sp60;
+                spA4.z = Math_CosS(((i * (f32)0x10000) / 10.0f) + sp5C) * sp60;
+                spA4.y = Rand_ZeroFloat(0.3f) + 3.0f;
 
                 spB0 = this->actor.posRot.pos;
                 spB0.x += spA4.x * 3.0f;
                 spB0.y = WATER_LEVEL;
                 spB0.z += spA4.z * 3.0f;
-                BossMo_SpawnDroplet(MO_SPLASH, globalCtx->unk_11E10, &spB0, &spA4, Math_Rand_ZeroFloat(0.075f) + 0.15f);
+                BossMo_SpawnDroplet(MO_SPLASH, globalCtx->unk_11E10, &spB0, &spA4, Rand_ZeroFloat(0.075f) + 0.15f);
             }
             spB0 = this->actor.posRot.pos;
             spB0.y = WATER_LEVEL;
@@ -2253,10 +2253,10 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 sp98.y = 0.1f;
                 sp58 = 20.0f;
             }
-            spB0.x = Math_Rand_CenteredFloat(sp58) + this->actor.posRot.pos.x;
-            spB0.y = Math_Rand_CenteredFloat(sp58) + this->actor.posRot.pos.y;
-            spB0.z = Math_Rand_CenteredFloat(sp58) + this->actor.posRot.pos.z;
-            BossMo_SpawnBubble(globalCtx->unk_11E10, &spB0, &spA4, &sp98, Math_Rand_ZeroFloat(0.05f) + 0.1f, NULL);
+            spB0.x = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.x;
+            spB0.y = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.y;
+            spB0.z = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.z;
+            BossMo_SpawnBubble(globalCtx->unk_11E10, &spB0, &spA4, &sp98, Rand_ZeroFloat(0.05f) + 0.1f, NULL);
         }
     }
     BossMo_CoreCollisionCheck(this, globalCtx);
@@ -2319,8 +2319,8 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->tentPos[40], &this->unk_1010, &this->actor.projectedW);
     osSyncPrintf("MO : Move mode = <%d>\n", this->actionState);
-    Math_SmoothScaleMaxS(&player->actor.shape.rot.x, 0, 5, 0x3E8);
-    Math_SmoothScaleMaxS(&player->actor.shape.rot.z, 0, 5, 0x3E8);
+    Math_ApproachS(&player->actor.shape.rot.x, 0, 5, 0x3E8);
+    Math_ApproachS(&player->actor.shape.rot.z, 0, 5, 0x3E8);
     this->rippleTimer++;
     this->sfxTimer++;
     this->movementTimer++;
@@ -2330,17 +2330,17 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->tentPulsePhase -= 3000;
     index = this->tentWidthIndex;
-    this->tentWidth[index] = (Math_Sins(this->tentPulsePhase) * this->tentPulse) + (1.0f + this->tentPulse);
+    this->tentWidth[index] = (Math_SinS(this->tentPulsePhase) * this->tentPulse) + (1.0f + this->tentPulse);
     for (i = 0; i < 41; i++) {
         if (this->actionState >= TENT_DEATH_START) {
             if (this->actionState >= TENT_DEATH_1) {
                 if (this->actionState == TENT_DEATH_5) {
                     phi_f0 = (this->timers[0] != 0) ? sFlatWidth[i] : sDropletWidth[i];
-                    Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 100.0f);
+                    Math_ApproachF(&this->tentScale[i].x, phi_f0, 0.5f, 100.0f);
                 } else {
                     index = ((this->tentWidthIndex + (i * 2)) + 220) % 300;
                     phi_f0 = this->tentWidth[index] + SQ(sTentWidth[i]);
-                    Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
+                    Math_ApproachF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
                 }
             } else {
                 index = ((this->tentWidthIndex - (i * 2)) + 300) % 300;
@@ -2350,23 +2350,23 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             index = ((this->tentWidthIndex - (i * 2)) + 300) % 300;
             phi_f0 = this->tentWidth[index] * sTentWidth[i];
-            Math_SmoothScaleMaxF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
+            Math_ApproachF(&this->tentScale[i].x, phi_f0, 0.5f, 0.3f);
         }
-        phi_f0 = Math_Sins((this->rippleTimer * 12000.0f) + (i * 20000.0f));
+        phi_f0 = Math_SinS((this->rippleTimer * 12000.0f) + (i * 20000.0f));
         this->tentRipple[i].x = (1.0f * phi_f0) * this->tentRippleSize;
         this->tentScale[i].y = this->tentScale[i].z = this->tentScale[i].x;
         this->tentRipple[i].y = this->tentRipple[i].z = this->tentRipple[i].x;
     }
 
-    Math_SmoothScaleMaxF(&this->tentRippleSize, 0.0f, 0.1f, 0.005f);
-    Math_SmoothScaleMaxF(&this->tentPulse, 0.2f, 0.5f, 0.01f);
+    Math_ApproachF(&this->tentRippleSize, 0.0f, 0.1f, 0.005f);
+    Math_ApproachF(&this->tentPulse, 0.2f, 0.5f, 0.01f);
     this->actionFunc(this, globalCtx);
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
-    Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xA, 0xC8);
+    Math_ApproachS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xA, 0xC8);
     Actor_MoveForward(&this->actor);
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0, 1.0f, 0.02f);
+    Math_ApproachF(&this->actor.speedXZ, 0.0, 1.0f, 0.02f);
 
     if (BossMo_OnLand(&this->actor.posRot.pos, 40)) {
         this->actor.posRot.pos = this->actor.pos4;
@@ -2397,7 +2397,7 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
         sp88.x = 0.0;
         sp88.y = 0.0;
         sp88.z = 100.0f;
-        Matrix_RotateY(Math_Rand_ZeroFloat(2.0f * M_PI), MTXMODE_NEW);
+        Matrix_RotateY(Rand_ZeroFloat(2.0f * M_PI), MTXMODE_NEW);
         Matrix_MultVec3f(&sp88, &sp7C);
         if ((this->actionState >= TENT_DEATH_1) && (this->actionState != TENT_DEATH_3)) {
             i = 38;
@@ -2408,9 +2408,9 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         sp70.x = this->tentPos[i].x + sp7C.x;
-        sp70.y = (WATER_LEVEL - 40.0f) + Math_Rand_ZeroFloat(20.0f);
+        sp70.y = (WATER_LEVEL - 40.0f) + Rand_ZeroFloat(20.0f);
         sp70.z = this->tentPos[i].z + sp7C.z;
-        BossMo_SpawnBubble(globalCtx->unk_11E10, &sp70, &sp64, &sp64, Math_Rand_ZeroFloat(0.05f) + 0.2f,
+        BossMo_SpawnBubble(globalCtx->unk_11E10, &sp70, &sp64, &sp64, Rand_ZeroFloat(0.05f) + 0.2f,
                            &this->tentPos[i]);
     }
 
@@ -2435,7 +2435,7 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->baseTex1y++;
     this->baseTex2x -= 3;
     this->baseTex2y++;
-    Math_SmoothDownscaleMaxF(&this->waterLevelMod, 0.1f, 0.2f);
+    Math_ApproachZeroF(&this->waterLevelMod, 0.1f, 0.2f);
 }
 
 void BossMo_UpdateTentColliders(BossMo* this, s32 item, ColliderJntSph* colliderTent, Vec3f* center) {
@@ -2710,8 +2710,8 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         sp88 = this->cameraAt.y - this->cameraEye.y;
         sp84 = this->cameraAt.z - this->cameraEye.z;
         pad80 = SQ(sp8C) + SQ(sp84);
-        sp7C = Math_atan2f(sp8C, sp84);
-        sp78 = -Math_atan2f(sp88, sqrtf(pad80));
+        sp7C = Math_FAtan2F(sp8C, sp84);
+        sp78 = -Math_FAtan2F(sp88, sqrtf(pad80));
 
         sp6C.x = 0.0f;
         sp6C.y = 0.0f;
@@ -2760,7 +2760,7 @@ void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                 this->baseTex2x, this->baseTex2y, 0x20, 0x20));
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->baseAlpha);
-    scroll = (s16)(Math_Sins(this->rippleTimer * 0xB00) * 30.0f) + 350;
+    scroll = (s16)(Math_SinS(this->rippleTimer * 0xB00) * 30.0f) + 350;
     gSPTexture(POLY_XLU_DISP++, scroll, scroll, 0, G_TX_RENDERTILE, G_ON);
 
     if (this->drawActor) {
@@ -2795,7 +2795,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                 if (this->cutsceneState >= DEATH_START) {
                     particle->pos.y = WATER_LEVEL;
                 }
-                Math_SmoothScaleMaxF(&particle->scale, particle->maxSize, 0.2f, particle->spreadRate);
+                Math_ApproachF(&particle->scale, particle->maxSize, 0.2f, particle->spreadRate);
                 if (particle->rippleMode == 0) {
                     particle->alpha += 15;
                     if (particle->alpha >= particle->maxAlpha) {
@@ -2829,12 +2829,12 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         dx = targetPos->x - particle->pos.x;
                         dz = targetPos->z - particle->pos.z;
                         bubbleSpeed.z = particle->suction;
-                        Matrix_RotateY(Math_atan2f(dx, dz), MTXMODE_NEW);
+                        Matrix_RotateY(Math_FAtan2F(dx, dz), MTXMODE_NEW);
                         Matrix_MultVec3f(&bubbleSpeed, &bubbleVel);
                         particle->vel.x = bubbleVel.x;
                         particle->vel.z = bubbleVel.z;
                     }
-                    Math_SmoothScaleMaxF(&particle->suction, 5.0f, 1.0f, 0.5f);
+                    Math_ApproachF(&particle->suction, 5.0f, 1.0f, 0.5f);
                     if (particle->timer > 20) {
                         particle->alpha -= 30;
                         particle->accel.y = 1.5f;
@@ -2853,9 +2853,9 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                        (particle->type == MO_SPLASH_TRAIL) || (particle->type == MO_WET_SPOT)) {
                 f32 shimmer = (particle->timer & 6) ? 80.0f : 200.0f;
 
-                Math_SmoothScaleMaxF(&particle->shimmer, shimmer, 1.0f, 80.0f);
+                Math_ApproachF(&particle->shimmer, shimmer, 1.0f, 80.0f);
                 if (particle->type == MO_WET_SPOT) {
-                    Math_SmoothScaleMaxF(&particle->scale, particle->maxScale, 0.1f, 0.6f);
+                    Math_ApproachF(&particle->scale, particle->maxScale, 0.1f, 0.6f);
                     particle->alpha -= 15;
                     if (particle->alpha <= 0) {
                         particle->alpha = 0;
@@ -2864,7 +2864,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                 } else {
                     particle->alpha = particle->shimmer;
                     if (particle->type == MO_SPLASH_TRAIL) {
-                        Math_SmoothScaleMaxF(&particle->scale, 0.0f, 1.0f, 0.02f);
+                        Math_ApproachF(&particle->scale, 0.0f, 1.0f, 0.02f);
                         if (particle->scale <= 0.0f) {
                             particle->type = MO_NULL;
                         }
@@ -2880,11 +2880,11 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         }
                         if (particle->stopTimer == 0) {
                             if (particle->vel.y < -5.0f) {
-                                Math_SmoothScaleMaxF(&particle->stretch, 5.0f, 0.1f, 0.15f);
+                                Math_ApproachF(&particle->stretch, 5.0f, 0.1f, 0.15f);
                             }
                         } else if (particle->stopTimer == 1) {
-                            particle->vel.x = Math_Rand_CenteredFloat(3.0f);
-                            particle->vel.z = Math_Rand_CenteredFloat(3.0f);
+                            particle->vel.x = Rand_CenteredFloat(3.0f);
+                            particle->vel.z = Rand_CenteredFloat(3.0f);
                             particle->accel.y = -1.0f;
                         }
                         if ((particle->pos.y <= -280.0f) || ((1.0f >= particle->pos.y) && (particle->pos.y >= -20.0f) &&

@@ -73,13 +73,13 @@ glabel func_8087D0AC
 /* 001FC 8087D1BC 46105480 */  add.s   $f18, $f10, $f16           
 /* 00200 8087D1C0 E7B2009C */  swc1    $f18, 0x009C($sp)          
 .L8087D1C4:
-/* 00204 8087D1C4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00204 8087D1C4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00208 8087D1C8 00000000 */  nop
 /* 0020C 8087D1CC 46160202 */  mul.s   $f8, $f0, $f22             
 /* 00210 8087D1D0 C6240008 */  lwc1    $f4, 0x0008($s1)           ## 00000008
 /* 00214 8087D1D4 46082181 */  sub.s   $f6, $f4, $f8              
-/* 00218 8087D1D8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00218 8087D1D8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0021C 8087D1DC E7A60094 */  swc1    $f6, 0x0094($sp)           
 /* 00220 8087D1E0 461A0282 */  mul.s   $f10, $f0, $f26            

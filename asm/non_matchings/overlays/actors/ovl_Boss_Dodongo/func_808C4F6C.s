@@ -15,14 +15,14 @@ glabel func_808C4F6C
 /* 03E10 808C4FA0 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 03E14 808C4FA4 00042023 */  subu    $a0, $zero, $a0            
 /* 03E18 808C4FA8 00042400 */  sll     $a0, $a0, 16               
-/* 03E1C 808C4FAC 0C01DE0D */  jal     Math_Coss
+/* 03E1C 808C4FAC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03E20 808C4FB0 00042403 */  sra     $a0, $a0, 16               
 /* 03E24 808C4FB4 E7A00020 */  swc1    $f0, 0x0020($sp)           
 /* 03E28 808C4FB8 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 03E2C 808C4FBC 00042023 */  subu    $a0, $zero, $a0            
 /* 03E30 808C4FC0 00042400 */  sll     $a0, $a0, 16               
-/* 03E34 808C4FC4 0C01DE1C */  jal     Math_Sins
+/* 03E34 808C4FC4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03E38 808C4FC8 00042403 */  sra     $a0, $a0, 16               
 /* 03E3C 808C4FCC C7A40020 */  lwc1    $f4, 0x0020($sp)           
@@ -36,14 +36,14 @@ glabel func_808C4F6C
 /* 03E5C 808C4FEC 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 03E60 808C4FF0 00042023 */  subu    $a0, $zero, $a0            
 /* 03E64 808C4FF4 00042400 */  sll     $a0, $a0, 16               
-/* 03E68 808C4FF8 0C01DE1C */  jal     Math_Sins
+/* 03E68 808C4FF8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03E6C 808C4FFC 00042403 */  sra     $a0, $a0, 16               
 /* 03E70 808C5000 E7A00020 */  swc1    $f0, 0x0020($sp)           
 /* 03E74 808C5004 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 03E78 808C5008 00042023 */  subu    $a0, $zero, $a0            
 /* 03E7C 808C500C 00042400 */  sll     $a0, $a0, 16               
-/* 03E80 808C5010 0C01DE0D */  jal     Math_Coss
+/* 03E80 808C5010 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03E84 808C5014 00042403 */  sra     $a0, $a0, 16               
 /* 03E88 808C5018 C7A40020 */  lwc1    $f4, 0x0020($sp)           

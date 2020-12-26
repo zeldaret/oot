@@ -1,0 +1,17 @@
+<Root>
+    <File Name="miharigoya_scene">
+        <Scene Name="miharigoya_scene">
+            <BlobHint Offset="0xFC" Size="0x04"/>
+            <BlobHint Offset="0xC48" Size="0x08"/>
+            <BlobHint Offset="0x1350" Size="0x2000"/>
+            <BlobHint Offset="0x3550" Size="0x1000"/>
+            <BlobHint Offset="0x6550" Size="0x1000"/>
+        </Scene>
+    </File>
+    <File Name="miharigoya_room_0">
+        <Room Name="miharigoya_room_0">
+            <BlobHint Offset="0x38D8" Size="0x68"/>
+            <DListHint Offset="0x3DA0" Comment="This display list appears to be unused..."/>
+        </Room>
+    </File>
+</Root>

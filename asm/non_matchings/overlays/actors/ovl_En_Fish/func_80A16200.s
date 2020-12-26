@@ -15,7 +15,7 @@ glabel func_80A16200
 /* 00F88 80A16208 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00F8C 80A1620C 84A2009E */  lh      $v0, 0x009E($a1)           ## 0000009E
 /* 00F90 80A16210 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00F94 80A16214 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F94 80A16214 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F98 80A16218 A7A20042 */  sh      $v0, 0x0042($sp)           
 /* 00F9C 80A1621C 3C0180A1 */  lui     $at, %hi(D_80A171CC)       ## $at = 80A10000
@@ -29,7 +29,7 @@ glabel func_80A16200
 /* 00FBC 80A1623C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00FC0 80A16240 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00FC4 80A16244 44053000 */  mfc1    $a1, $f6                   
-/* 00FC8 80A16248 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00FC8 80A16248 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00FCC 80A1624C 00000000 */  nop
 /* 00FD0 80A16250 87A20042 */  lh      $v0, 0x0042($sp)           
@@ -60,21 +60,21 @@ glabel func_80A16200
 /* 01034 80A162B4 00052C03 */  sra     $a1, $a1, 16               
 .L80A162B8:
 /* 01038 80A162B8 AFA40030 */  sw      $a0, 0x0030($sp)           
-/* 0103C 80A162BC 0C01DED6 */  jal     func_80077B58              
+/* 0103C 80A162BC 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01040 80A162C0 AFA7002C */  sw      $a3, 0x002C($sp)           
 /* 01044 80A162C4 26040034 */  addiu   $a0, $s0, 0x0034           ## $a0 = 00000034
 /* 01048 80A162C8 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
-/* 0104C 80A162CC 0C01DED6 */  jal     func_80077B58              
+/* 0104C 80A162CC 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01050 80A162D0 240603E8 */  addiu   $a2, $zero, 0x03E8         ## $a2 = 000003E8
-/* 01054 80A162D4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01054 80A162D4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01058 80A162D8 00000000 */  nop
 /* 0105C 80A162DC E7A00034 */  swc1    $f0, 0x0034($sp)           
-/* 01060 80A162E0 0C01DE1C */  jal     Math_Sins
+/* 01060 80A162E0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01064 80A162E4 8604024E */  lh      $a0, 0x024E($s0)           ## 0000024E
 /* 01068 80A162E8 E7A00038 */  swc1    $f0, 0x0038($sp)           
-/* 0106C 80A162EC 0C01DE1C */  jal     Math_Sins
+/* 0106C 80A162EC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01070 80A162F0 8604024C */  lh      $a0, 0x024C($s0)           ## 0000024C
 /* 01074 80A162F4 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

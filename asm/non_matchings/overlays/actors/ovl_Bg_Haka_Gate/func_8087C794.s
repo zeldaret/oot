@@ -13,7 +13,7 @@ glabel func_8087C794
 /* 009CC 8087C7BC 24E4016E */  addiu   $a0, $a3, 0x016E           ## $a0 = 0000016E
 /* 009D0 8087C7C0 2405015E */  addiu   $a1, $zero, 0x015E         ## $a1 = 0000015E
 /* 009D4 8087C7C4 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
-/* 009D8 8087C7C8 0C01DE5F */  jal     Math_ApproxS
+/* 009D8 8087C7C8 0C01DE5F */  jal     Math_StepToS
               
 /* 009DC 8087C7CC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 009E0 8087C7D0 8FA70018 */  lw      $a3, 0x0018($sp)           

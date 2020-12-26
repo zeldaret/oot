@@ -83,7 +83,7 @@ void func_80B43AD4(EnYukabyun* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 10.0f;
         this->actionfunc = func_80B43B6C;
     }
-    Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 30.0f, 1.0f);
+    Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 30.0f, 1.0f);
     func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
