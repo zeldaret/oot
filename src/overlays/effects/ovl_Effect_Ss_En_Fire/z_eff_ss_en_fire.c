@@ -38,7 +38,7 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->life = 20;
     this->rLifespan = this->life;
     this->actor = initParams->actor;
-    this->rScroll = Math_Rand_ZeroOne() * 20.0f;
+    this->rScroll = Rand_ZeroOne() * 20.0f;
     this->draw = EffectSsEnFire_Draw;
     this->update = EffectSsEnFire_Update;
     this->rUnused = -15;
@@ -78,7 +78,7 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     camYaw = (Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000);
     Matrix_RotateY(camYaw * 0.0000958738f, MTXMODE_APPLY);
 
-    scale = Math_Sins(this->life * 0x333) * (this->rScale * 0.00005f);
+    scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_en_fire.c", 180),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -124,7 +124,7 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             this->life++;
         }
         if (this->actor->update != NULL) {
-            Math_SmoothScaleMaxMinS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
+            Math_SmoothStepToS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
 
             if (this->rBodyPart < 0) {
                 Matrix_Translate(this->actor->posRot.pos.x, this->actor->posRot.pos.y, this->actor->posRot.pos.z,

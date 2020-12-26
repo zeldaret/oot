@@ -307,9 +307,9 @@ void EnBb_FlameTrail(EnBb* this, GlobalContext* globalCtx) {
     } else {
         if (this->timer == 0) {
             if (((EnBb*)this->targetActor)->flameScaleY != 0.0f) {
-                Math_SmoothScaleMaxMinF(&this->flameScaleY, this->actor.scale.y, 1.0f, this->actor.scale.y * 0.1f,
+                Math_SmoothStepToF(&this->flameScaleY, this->actor.scale.y, 1.0f, this->actor.scale.y * 0.1f,
                                         0.0f);
-                Math_SmoothScaleMaxMinF(&this->flameScaleX, this->actor.scale.z, 1.0f, this->actor.scale.z * 0.1f,
+                Math_SmoothStepToF(&this->flameScaleX, this->actor.scale.z, 1.0f, this->actor.scale.z * 0.1f,
                                         0.0f);
                 if (this->flamePrimAlpha != this->trailMaxAlpha) {
                     this->flamePrimAlpha += 10;
@@ -356,8 +356,8 @@ void EnBb_Kill(EnBb* this, GlobalContext* globalCtx) {
     Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
 
     if (this->actor.params <= ENBB_BLUE) {
-        Math_SmoothScaleMaxMinF(&this->flameScaleY, 0.0f, 1.0f, 30.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->flameScaleX, 0.0f, 1.0f, 30.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleY, 0.0f, 1.0f, 30.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleX, 0.0f, 1.0f, 30.0f, 0.0f);
         if (this->timer != 0) {
             this->timer--;
             this->actor.shape.rot.x -= 0x4E20;
@@ -405,7 +405,7 @@ void EnBb_SetupDamage(EnBb* this) {
 }
 
 void EnBb_Damage(EnBb* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (this->actor.speedXZ == 0.0f) {
         this->actor.shape.unk_08 = 200.0f;
         EnBb_SetupDown(this);
@@ -414,9 +414,9 @@ void EnBb_Damage(EnBb* this, GlobalContext* globalCtx) {
 
 void EnBb_SetupBlue(EnBb* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
-    this->actor.speedXZ = Math_Rand_ZeroOne() * 0.5f + 0.5f;
-    this->timer = Math_Rand_ZeroOne() * 20.0f + 40.0f;
-    this->unk_264 = Math_Rand_ZeroOne() * 30.0f + 180.0f;
+    this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 0.5f;
+    this->timer = Rand_ZeroOne() * 20.0f + 40.0f;
+    this->unk_264 = Rand_ZeroOne() * 30.0f + 180.0f;
     this->targetActor = NULL;
     this->action = BB_BLUE;
     EnBb_SetupAction(this, EnBb_Blue);
@@ -428,32 +428,32 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
     s16 thisYawToWall;
     s16 afterHitAngle;
 
-    Math_SmoothScaleMaxMinF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
+    Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
+    Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
     if (this->actor.groundY > -32000.0f) {
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
+        Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
                                 0.0f);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800CA774(this->bobPhase) == 0.0f) {
+    if (Math_CosF(this->bobPhase) == 0.0f) {
         if (this->charge) {
-            this->bobSpeedMod = Math_Rand_ZeroOne() * 2.0f;
+            this->bobSpeedMod = Rand_ZeroOne() * 2.0f;
         } else {
-            this->bobSpeedMod = Math_Rand_ZeroOne() * 4.0f;
+            this->bobSpeedMod = Rand_ZeroOne() * 4.0f;
         }
     }
-    this->actor.posRot.pos.y += (func_800CA774(this->bobPhase) * (1.0f + this->bobSpeedMod));
+    this->actor.posRot.pos.y += (Math_CosF(this->bobPhase) * (1.0f + this->bobSpeedMod));
     this->bobPhase += 0.2f;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->maxSpeed, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, this->maxSpeed, 1.0f, 0.5f, 0.0f);
 
     if (Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 300.0f) {
         this->moveAngleY = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x7D0, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x7D0, 0);
     } else {
         this->timer--;
         if (this->timer <= 0) {
             this->charge ^= true;
-            this->flyHeightMod = (s16)(func_800CA774(this->bobPhase) * 10.0f);
+            this->flyHeightMod = (s16)(Math_CosF(this->bobPhase) * 10.0f);
             this->actor.speedXZ = 0.0f;
             if (this->charge && (this->targetActor == NULL)) {
                 this->moveAngleY = this->actor.posRot.rot.y;
@@ -461,21 +461,21 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
                     this->moveAngleY = this->actor.yawTowardsLink;
                 }
-                this->maxSpeed = Math_Rand_ZeroOne() * 1.5f + 6.0f;
-                this->timer = Math_Rand_ZeroOne() * 5.0f + 20.0f;
+                this->maxSpeed = Rand_ZeroOne() * 1.5f + 6.0f;
+                this->timer = Rand_ZeroOne() * 5.0f + 20.0f;
                 this->actionState = false;
             } else {
                 SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
-                this->maxSpeed = (Math_Rand_ZeroOne() * 1.5f) + 1.0f;
-                this->timer = (Math_Rand_ZeroOne() * 20.0f) + 40.0f;
-                this->moveAngleY = func_800CA720(this->bobPhase) * 65535.0f;
+                this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 1.0f;
+                this->timer = (Rand_ZeroOne() * 20.0f) + 40.0f;
+                this->moveAngleY = Math_SinF(this->bobPhase) * 65535.0f;
             }
         }
         if ((this->actor.xzDistFromLink < 150.0f) && this->actionState) {
             if (!this->charge) {
                 SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
-                this->maxSpeed = Math_Rand_ZeroOne() * 1.5f + 6.0f;
-                this->timer = Math_Rand_ZeroOne() * 5.0f + 20.0f;
+                this->maxSpeed = Rand_ZeroOne() * 1.5f + 6.0f;
+                this->timer = Rand_ZeroOne() * 5.0f + 20.0f;
                 this->moveAngleY = this->actor.yawTowardsLink;
                 this->actionState = this->charge = true;
             }
@@ -496,27 +496,27 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->targetActor = bomb;
                 this->actor.speedXZ *= 0.5f;
             }
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x1388, 0);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, bomb->posRot.pos.x, 1.0f, 1.5f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, bomb->posRot.pos.y + 40.0f, 1.0f, 1.5f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, bomb->posRot.pos.z, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x1388, 0);
+            Math_SmoothStepToF(&this->actor.posRot.pos.x, bomb->posRot.pos.x, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, bomb->posRot.pos.y + 40.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.z, bomb->posRot.pos.z, 1.0f, 1.5f, 0.0f);
         } else {
             this->targetActor = NULL;
         }
         if (this->bombHopPhase != 0) {
-            this->actor.posRot.pos.y += -Math_Coss(this->bombHopPhase) * 10.0f;
+            this->actor.posRot.pos.y += -Math_CosS(this->bombHopPhase) * 10.0f;
             this->bombHopPhase += 0x1000;
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x7D0, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x7D0, 0);
         }
         thisYawToWall = this->actor.wallPolyRot - this->actor.posRot.rot.y;
         moveYawToWall = this->actor.wallPolyRot - this->moveAngleY;
         if ((this->targetActor == NULL) && (this->actor.bgCheckFlags & 8) &&
             (ABS(thisYawToWall) > 0x4000 || ABS(moveYawToWall) > 0x4000)) {
             this->moveAngleY = this->actor.wallPolyRot + this->actor.wallPolyRot - this->actor.posRot.rot.y - 0x8000;
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0xBB8, 0);
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0xBB8, 0);
         }
     }
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x3E8, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->moveAngleY, 1, 0x3E8, 0);
     if ((this->collider.base.acFlags & 2) || (this->collider.base.atFlags & 2)) {
         this->moveAngleY = this->actor.yawTowardsLink + 0x8000;
         if (this->collider.base.acFlags & 2) {
@@ -544,7 +544,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
         }
     }
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Math_Rand_ZeroOne() < 0.1f)) {
+    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -597,7 +597,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
         }
         this->actor.bgCheckFlags &= ~1;
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 7.0f, 2, 2.0f, 0, 0, 0);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, -this->actor.yawTowardsLink, 1, 0xBB8, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, -this->actor.yawTowardsLink, 1, 0xBB8, 0);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if ((s32)this->skelAnime.animCurrentFrame == 5) {
@@ -684,9 +684,9 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
                 this->moveMode = BBMOVE_NORMAL;
                 this->actor.flags |= 1;
             }
-            this->bobPhase += Math_Rand_ZeroOne();
-            Math_SmoothScaleMaxMinF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
+            this->bobPhase += Rand_ZeroOne();
+            Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
+            Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
             if (this->actor.bgCheckFlags & 8) {
                 yawDiff = this->actor.posRot.rot.y - this->actor.wallPolyRot;
                 if (ABS(yawDiff) > 0x4000) {
@@ -707,7 +707,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
                     if (this->actor.velocity.y > 13.0f) {
                         this->actor.velocity.y = 13.0f;
                     }
-                    this->actor.posRot.rot.y = func_800CA720(this->bobPhase) * 65535.0f;
+                    this->actor.posRot.rot.y = Math_SinF(this->bobPhase) * 65535.0f;
                 }
                 this->actor.bgCheckFlags &= ~1;
             }
@@ -763,7 +763,7 @@ void EnBb_SetupWhite(GlobalContext* globalCtx, EnBb* this) {
     this->flameScaleX = 100.0f;
     this->action = BB_WHITE;
     this->waypoint = 0;
-    this->timer = Math_Rand_ZeroOne() * 30.0f + 40.0f;
+    this->timer = Rand_ZeroOne() * 30.0f + 40.0f;
     this->maxSpeed = 7.0f;
     EnBb_SetupAction(this, EnBb_White);
 }
@@ -774,22 +774,22 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
         f32 vx;
         f32 vz;
         s16 pitch = Math_Vec3f_Pitch(&this->actor.posRot.pos, &this->waypointPos);
-        f32 vy = Math_Sins(pitch) * this->maxSpeed;
-        f32 vxz = Math_Coss(pitch) * this->maxSpeed;
+        f32 vy = Math_SinS(pitch) * this->maxSpeed;
+        f32 vxz = Math_CosS(pitch) * this->maxSpeed;
 
-        vx = Math_Sins(this->actor.shape.rot.y) * vxz;
-        vz = Math_Coss(this->actor.shape.rot.y) * vxz;
-        distL1 = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->waypointPos.x, 1.0f, ABS(vx), 0.0f);
-        distL1 += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->waypointPos.y, 1.0f, ABS(vy), 0.0f);
-        distL1 += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->waypointPos.z, 1.0f, ABS(vz), 0.0f);
-        this->bobPhase += (0.05f + (Math_Rand_ZeroOne() * 0.01f));
+        vx = Math_SinS(this->actor.shape.rot.y) * vxz;
+        vz = Math_CosS(this->actor.shape.rot.y) * vxz;
+        distL1 = Math_SmoothStepToF(&this->actor.posRot.pos.x, this->waypointPos.x, 1.0f, ABS(vx), 0.0f);
+        distL1 += Math_SmoothStepToF(&this->actor.posRot.pos.y, this->waypointPos.y, 1.0f, ABS(vy), 0.0f);
+        distL1 += Math_SmoothStepToF(&this->actor.posRot.pos.z, this->waypointPos.z, 1.0f, ABS(vz), 0.0f);
+        this->bobPhase += (0.05f + (Rand_ZeroOne() * 0.01f));
         if (distL1 == 0.0f) {
             this->timer--;
             if (this->timer == 0) {
                 EnBb_SetWaypoint(this, globalCtx);
                 EnBb_FaceWaypoint(this);
                 SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
-                this->timer = Math_Rand_ZeroOne() * 30.0f + 40.0f;
+                this->timer = Rand_ZeroOne() * 30.0f + 40.0f;
             } else {
                 if (this->moveMode != BBMOVE_NORMAL) {
                     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
@@ -807,11 +807,11 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
             this->collider.base.atFlags &= ~2;
         }
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    } else if (Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
+    } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
         EnBb_FaceWaypoint(this);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Math_Rand_ZeroOne() <= 0.1f)) {
+    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() <= 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 
@@ -829,7 +829,7 @@ void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
     this->moveMode = BBMOVE_NOCLIP;
     this->actionState = 0;
-    this->bobPhase = Math_Rand_ZeroOne();
+    this->bobPhase = Rand_ZeroOne();
     this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     if (this->actor.params == ENBB_GREEN_BIG) {
@@ -845,7 +845,7 @@ void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
     this->targetActor = NULL;
     this->action = BB_GREEN;
     this->actor.speedXZ = 0.0f;
-    this->flameTimer = (Math_Rand_ZeroOne() * 30.0f) + 180.0f;
+    this->flameTimer = (Rand_ZeroOne() * 30.0f) + 180.0f;
     EnBb_SetupAction(this, EnBb_Green);
 }
 
@@ -856,7 +856,7 @@ void EnBb_SetupGreen(EnBb* this) {
     this->targetActor = NULL;
     this->action = BB_GREEN;
     this->actor.speedXZ = 0.0f;
-    this->flameTimer = Math_Rand_ZeroOne() * 30.0f + 180.0f;
+    this->flameTimer = Rand_ZeroOne() * 30.0f + 180.0f;
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     EnBb_SetupAction(this, EnBb_Green);
@@ -872,19 +872,19 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         if (this->actor.speedXZ == 0.0f) {
             s16 pitch = Math_Vec3f_Pitch(&this->actor.initPosRot.pos, &this->waypointPos);
             s16 yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->waypointPos);
-            f32 vy = Math_Sins(pitch) * this->maxSpeed;
-            f32 vxz = Math_Coss(pitch) * this->maxSpeed;
+            f32 vy = Math_SinS(pitch) * this->maxSpeed;
+            f32 vxz = Math_CosS(pitch) * this->maxSpeed;
             f32 vz;
             f32 vx;
             f32 distL1;
 
-            Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, yaw, 1, 0x3E8, 0);
-            vx = Math_Sins(this->actor.posRot.rot.y) * vxz;
-            distL1 = Math_Coss(this->actor.posRot.rot.y) * vxz;
-            vz = Math_SmoothScaleMaxMinF(&this->actor.initPosRot.pos.x, this->waypointPos.x, 1.0f, ABS(vx), 0.0f);
-            vz += Math_SmoothScaleMaxMinF(&this->actor.initPosRot.pos.y, this->waypointPos.y, 1.0f, ABS(vy), 0.0f);
-            vz += Math_SmoothScaleMaxMinF(&this->actor.initPosRot.pos.z, this->waypointPos.z, 1.0f, ABS(distL1), 0.0f);
-            this->bobPhase += (0.05f + (Math_Rand_ZeroOne() * 0.01f));
+            Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 1, 0x3E8, 0);
+            vx = Math_SinS(this->actor.posRot.rot.y) * vxz;
+            distL1 = Math_CosS(this->actor.posRot.rot.y) * vxz;
+            vz = Math_SmoothStepToF(&this->actor.initPosRot.pos.x, this->waypointPos.x, 1.0f, ABS(vx), 0.0f);
+            vz += Math_SmoothStepToF(&this->actor.initPosRot.pos.y, this->waypointPos.y, 1.0f, ABS(vy), 0.0f);
+            vz += Math_SmoothStepToF(&this->actor.initPosRot.pos.z, this->waypointPos.z, 1.0f, ABS(distL1), 0.0f);
+            this->bobPhase += (0.05f + (Rand_ZeroOne() * 0.01f));
             if (vz == 0.0f) {
                 EnBb_SetWaypoint(this, globalCtx);
             }
@@ -894,26 +894,26 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_BITE);
                 this->collider.base.atFlags &= ~2;
             }
-            if (func_800CA774(this->bobPhase) == 0.0f) {
+            if (Math_CosF(this->bobPhase) == 0.0f) {
                 if (this->charge) {
-                    this->bobSpeedMod = Math_Rand_ZeroOne();
+                    this->bobSpeedMod = Rand_ZeroOne();
                 } else {
-                    this->bobSpeedMod = Math_Rand_ZeroOne() * 3.0f;
+                    this->bobSpeedMod = Rand_ZeroOne() * 3.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
                 }
             }
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
-        } else if (Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
+        } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
             EnBb_FaceWaypoint(this);
         }
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 0);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, Math_Vec3f_Pitch(&this->actor.posRot.pos, &nextPos), 1, 0xFA0,
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, Math_Vec3f_Pitch(&this->actor.posRot.pos, &nextPos), 1, 0xFA0,
                                 0);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800CA774(this->bobPhase) <= 0.002f) {
-        this->bobSpeedMod = Math_Rand_ZeroOne() * 0.05f;
+    if (Math_CosF(this->bobPhase) <= 0.002f) {
+        this->bobSpeedMod = Rand_ZeroOne() * 0.05f;
     }
     Matrix_Translate(this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
                      MTXMODE_NEW);
@@ -921,13 +921,13 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
     Matrix_RotateZ(this->bobPhase, MTXMODE_APPLY);
     bobOffset.y = this->bobSize;
     Matrix_MultVec3f(&bobOffset, &nextPos);
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, nextPos.x, 1.0f, this->bobPhase * 0.75f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, nextPos.y, 1.0f, this->bobPhase * 0.75f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, nextPos.z, 1.0f, this->bobPhase * 0.75f, 0.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.x, nextPos.x, 1.0f, this->bobPhase * 0.75f, 0.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.y, nextPos.y, 1.0f, this->bobPhase * 0.75f, 0.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.z, nextPos.z, 1.0f, this->bobPhase * 0.75f, 0.0f);
     this->bobPhase += 0.1f + this->bobSpeedMod;
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) || (--this->flameTimer == 0)) {
         this->actionState++;
-        this->timer = (Math_Rand_ZeroOne() * 30.0f) + 60.0f;
+        this->timer = (Rand_ZeroOne() * 30.0f) + 60.0f;
         if (this->flameTimer != 0) {
             this->collider.base.acFlags &= ~2;
         }
@@ -937,19 +937,19 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         this->timer--;
         if (this->timer == 0) {
             this->actionState = 0;
-            this->flameTimer = (Math_Rand_ZeroOne() * 30.0f) + 180.0f;
+            this->flameTimer = (Rand_ZeroOne() * 30.0f) + 180.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_UP);
         }
-        Math_SmoothScaleMaxMinF(&this->flameScaleY, 0.0f, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->flameScaleX, 0.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleY, 0.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleX, 0.0f, 1.0f, 10.0f, 0.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
     }
     if ((s32)this->skelAnime.animCurrentFrame == 5) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
     }
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Math_Rand_ZeroOne() < 0.1f)) {
+    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 }

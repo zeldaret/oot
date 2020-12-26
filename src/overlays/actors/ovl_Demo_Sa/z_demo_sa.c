@@ -106,7 +106,7 @@ void func_8098E480(DemoSa* this) {
     s16* unk_192 = &this->unk_192;
 
     if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_192 = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_190 = *unk_192;

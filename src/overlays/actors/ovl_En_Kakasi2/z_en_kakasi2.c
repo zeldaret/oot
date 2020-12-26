@@ -166,7 +166,7 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y += 0x800;
-    Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 0.5f, 500.0f);
+    Math_ApproachZeroF(&this->actor.shape.unk_08, 0.5f, 500.0f);
 
     if (this->actor.shape.unk_08 > -100.0f) {
         this->actionFunc = func_80A9062C;
@@ -183,9 +183,9 @@ void func_80A9062C(EnKakasi2* this, GlobalContext* globalCtx) {
 
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame != 0) {
-        Math_SmoothDownscaleMaxF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
+        Math_ApproachZeroF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
     }
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_198, 5, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_198, 5, 0xBB8, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 

@@ -24,13 +24,13 @@ glabel func_809CBC00
 /* 00040 809CBC40 C424CEEC */  lwc1    $f4, %lo(D_809CCEEC)($at)  
 /* 00044 809CBC44 E6020220 */  swc1    $f2, 0x0220($s0)           ## 00000220
 /* 00048 809CBC48 E6020224 */  swc1    $f2, 0x0224($s0)           ## 00000224
-/* 0004C 809CBC4C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0004C 809CBC4C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00050 809CBC50 E6040214 */  swc1    $f4, 0x0214($s0)           ## 00000214
-/* 00054 809CBC54 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00054 809CBC54 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00058 809CBC58 E7A00024 */  swc1    $f0, 0x0024($sp)           
-/* 0005C 809CBC5C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0005C 809CBC5C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00060 809CBC60 E7A00020 */  swc1    $f0, 0x0020($sp)           
 /* 00064 809CBC64 C7AC0024 */  lwc1    $f12, 0x0024($sp)          

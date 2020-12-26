@@ -135,19 +135,19 @@ glabel func_808D52CC
 /* 02DF8 808D5468 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02DFC 808D546C 00006012 */  mflo    $t4                        
 /* 02E00 808D5470 01999021 */  addu    $s2, $t4, $t9              
-/* 02E04 808D5474 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02E04 808D5474 0C01E107 */  jal     Math_ApproachF
               
 /* 02E08 808D5478 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 02E0C 808D547C 4406A000 */  mfc1    $a2, $f20                  
 /* 02E10 808D5480 4407A000 */  mfc1    $a3, $f20                  
 /* 02E14 808D5484 26440004 */  addiu   $a0, $s2, 0x0004           ## $a0 = 00000004
-/* 02E18 808D5488 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02E18 808D5488 0C01E107 */  jal     Math_ApproachF
               
 /* 02E1C 808D548C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02E20 808D5490 4406A000 */  mfc1    $a2, $f20                  
 /* 02E24 808D5494 4407A000 */  mfc1    $a3, $f20                  
 /* 02E28 808D5498 26440008 */  addiu   $a0, $s2, 0x0008           ## $a0 = 00000008
-/* 02E2C 808D549C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02E2C 808D549C 0C01E107 */  jal     Math_ApproachF
               
 /* 02E30 808D54A0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02E34 808D54A4 8FA2016C */  lw      $v0, 0x016C($sp)           
@@ -218,7 +218,7 @@ glabel func_808D52CC
 /* 02F28 808D5598 4600B386 */  mov.s   $f14, $f22                 
 /* 02F2C 808D559C 46064280 */  add.s   $f10, $f8, $f6             
 /* 02F30 808D55A0 46125501 */  sub.s   $f20, $f10, $f18           
-/* 02F34 808D55A4 0C0341F5 */  jal     atan2f
+/* 02F34 808D55A4 0C0341F5 */  jal     Math_Atan2F
               
 /* 02F38 808D55A8 4600A306 */  mov.s   $f12, $f20                 
 /* 02F3C 808D55AC 4616B102 */  mul.s   $f4, $f22, $f22            
@@ -226,7 +226,7 @@ glabel func_808D52CC
 /* 02F44 808D55B4 4600C386 */  mov.s   $f14, $f24                 
 /* 02F48 808D55B8 4614A202 */  mul.s   $f8, $f20, $f20            
 /* 02F4C 808D55BC 46082000 */  add.s   $f0, $f4, $f8              
-/* 02F50 808D55C0 0C0341F5 */  jal     atan2f
+/* 02F50 808D55C0 0C0341F5 */  jal     Math_Atan2F
               
 /* 02F54 808D55C4 46000304 */  sqrt.s  $f12, $f0                  
 /* 02F58 808D55C8 8FB80170 */  lw      $t8, 0x0170($sp)           

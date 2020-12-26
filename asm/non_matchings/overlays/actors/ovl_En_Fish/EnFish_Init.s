@@ -43,7 +43,7 @@ glabel EnFish_Init
 /* 0026C 80A154EC 0C017014 */  jal     Collider_SetJntSph
 /* 00270 80A154F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00274 80A154F4 24090032 */  addiu   $t1, $zero, 0x0032         ## $t1 = 00000032
-/* 00278 80A154F8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00278 80A154F8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0027C 80A154FC A20900AE */  sb      $t1, 0x00AE($s0)           ## 000000AE
 /* 00280 80A15500 3C0180A1 */  lui     $at, %hi(D_80A17194)       ## $at = 80A10000
@@ -51,7 +51,7 @@ glabel EnFish_Init
 /* 00288 80A15508 46040182 */  mul.s   $f6, $f0, $f4
 /* 0028C 80A1550C 4600320D */  trunc.w.s $f8, $f6
 /* 00290 80A15510 440B4000 */  mfc1    $t3, $f8
-/* 00294 80A15514 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00294 80A15514 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00298 80A15518 A60B024C */  sh      $t3, 0x024C($s0)           ## 0000024C
 /* 0029C 80A1551C 3C0180A1 */  lui     $at, %hi(D_80A17198)       ## $at = 80A10000

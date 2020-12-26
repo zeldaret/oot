@@ -31,7 +31,7 @@ glabel func_809EA240
 .L809EA2A8:
 /* 00D48 809EA2A8 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00D4C 809EA2AC 3C0540F0 */  lui     $a1, 0x40F0                ## $a1 = 40F00000
-/* 00D50 809EA2B0 0C01DE80 */  jal     Math_ApproxF
+/* 00D50 809EA2B0 0C01DE80 */  jal     Math_StepToF
               
 /* 00D54 809EA2B4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00D58 809EA2B8 86050198 */  lh      $a1, 0x0198($s0)           ## 00000198
@@ -39,7 +39,7 @@ glabel func_809EA240
 /* 00D60 809EA2C0 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00D64 809EA2C4 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 00D68 809EA2C8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00D6C 809EA2CC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00D6C 809EA2CC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00D70 809EA2D0 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 00D74 809EA2D4 5440003F */  bnel    $v0, $zero, .L809EA3D4     
