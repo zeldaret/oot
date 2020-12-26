@@ -30,7 +30,7 @@ Gfx D_808972B0[] = {
  gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
  gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_DEC | FORCE_BL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1), G_RM_AA_ZB_XLU_DECAL2),
  gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
- gsSPVertex((s32)D_80897270, 4, 0),
+ gsSPVertex(D_80897270, 4, 0),
  gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
  gsSPEndDisplayList(),
 };
@@ -48,6 +48,10 @@ const ActorInit Bg_Jya_Cobra_InitVars = {
 };
 
 s16 D_80897308[] = { 0, 0, 0, 0 };
+
+s8 D_80897310[] = { 1, 0, 1, 0 };
+
+s16 D_80897314[] = { 0xC000, 0000, 0x4000, 0000 };
 
 // D_80897528
 static InitChainEntry sInitChain[] = {
@@ -161,8 +165,263 @@ void func_80895BEC(BgJyaCobra *this, GlobalContext *globalCtx) {
     player->actor.posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
 }
 
-s32 func_80895C74(BgJyaCobra* this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
+// s32 func_80895C74(BgJyaCobra* this, GlobalContext *globalCtx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
+
+s32 func_80895C74(BgJyaCobra *this, GlobalContext *globalCtx) {
+//     s32 sp18;
+//     f32 *temp_a0;
+//     s16 temp_v0;
+//     s16 temp_v1_2;
+//     s16 temp_v1_3;
+//     s32 temp_v0_3;
+//     s32 temp_v0_4;
+//     s32 temp_v0_5;
+//     s32 temp_v0_6;
+//     s32 temp_v0_7;
+//     s32 temp_v1;
+//     BgJyaBigmirror* attached;
+//     u8 temp_v0_2;
+//     s32 phi_v0;
+//     f32 phi_f0;
+//     f32 phi_f0_2;
+//     s32 phi_return;
+//     s32 phi_return_2;
+//     s32 phi_return_3;
+
+//     temp_v0 = this->dyna.actor.params;
+//     temp_v1 = temp_v0 & 3;
+//     attached = (BgJyaBigmirror*)this->dyna.actor.attachedA;
+//     phi_return = (s32) temp_v0;
+//     if (temp_v1 == 2) {
+//         phi_return = (s32) temp_v0;
+//         if (attached != 0) {
+//             temp_v0_2 = attached->unk_15C;
+//             temp_a0 = &this->unk_18C;
+//             if ((temp_v0_2 & 4) != 0) {
+//                 phi_return = (s32) temp_v0_2;
+//                 if ((temp_v0_2 & 1) == 0) {
+// block_4:
+//                     sp18 = temp_v1;
+//                     this = this;
+//                     phi_return = Math_ApproxF(temp_a0, 0.0f, 0.05f);
+//                 } else {
+// block_5:
+//                     this->unk_18C = 1.0f;
+//                     if (*(&D_80897310 + temp_v1) != 0) {
+//                         temp_v0_3 = (s32) ((this->dyna.actor.shape.rot.y - *(&D_80897314 + (temp_v1 * 2))) << 0x10) >> 0x10;
+//                         phi_v0 = temp_v0_3;
+//                         phi_return_3 = temp_v0_3;
+//                         if (temp_v0_3 < 0) {
+//                             temp_v0_3 = (s32) ((0 - temp_v0_3) << 0x10) >> 0x10;
+//                             phi_v0 = temp_v0_3;
+//                             phi_return_3 = temp_v0_3;
+//                         }
+//                         phi_return = phi_return_3;
+//                         if (phi_v0 < 0x2000) {
+//                             phi_return = phi_return_3;
+//                             if (phi_v0 != -0x8000) {
+//                                 this->unk_18C = (f32) (this->unk_18C + ((f32) (phi_v0 - 0x2000) * 0.00018310547f));
+//                                 phi_return = (bitwise s32) 0.0f;
+//                                 if (this->unk_18C < 0.0f) {
+//                                     this->unk_18C = 0.0f;
+//                                     phi_return = (bitwise s32) 0.0f;
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             } else {
+//                 goto block_4;
+//             }
+//         } else {
+//             goto block_5;
+//         }
+//     } else {
+//         goto block_5;
+//     }
+//     this->unk_180.x = (f32) this->dyna.actor.posRot.pos.x;
+//     this->unk_180.z = (f32) this->dyna.actor.posRot.pos.z;
+//     this->unk_180.y = (f32) (this->dyna.actor.posRot.pos.y + 57.0f);
+//     if ((temp_v0 & 3) == 0) {
+//         this->unk_190 = 0.1f;
+//         return phi_return;
+//     }
+//     if ((temp_v0 & 3) == 1) {
+//         temp_v1_2 = this->dyna.actor.shape.rot.y;
+//         temp_v0_4 = (s32) ((temp_v1_2 - 0x8000) << 0x10) >> 0x10;
+//         if (temp_v0_4 < 0x500) {
+//             if (temp_v0_4 >= -0x4FF) {
+//                 phi_f0 = 0.34f;
+//             } else {
+// block_18:
+//                 temp_v0_5 = (s32) ((temp_v1_2 - 0x4000) << 0x10) >> 0x10;
+//                 phi_f0 = 0.1f;
+//                 if (temp_v0_5 < 0x500) {
+//                     phi_f0 = 0.1f;
+//                     if (temp_v0_5 >= -0x4FF) {
+//                         phi_f0 = 0.1f;
+//                         if (this->dyna.actor.attachedA != 0) {
+//                             phi_f0 = 0.1f;
+//                             if ((((BgJyaBigmirror*)this->dyna.actor.attachedA)->unk_15C & 4) != 0) {
+//                                 phi_f0 = 0.34f;
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         } else {
+//             goto block_18;
+//         }
+//         return Math_ApproxF(this + 0x190, phi_f0, 0.04f);
+//     }
+//     phi_return_2 = phi_return;
+//     if ((temp_v0 & 3) == 2) {
+//         temp_v1_3 = this->dyna.actor.shape.rot.y;
+//         temp_v0_6 = (s32) ((temp_v1_3 - 0x8000) << 0x10) >> 0x10;
+//         if (temp_v0_6 < 0x500) {
+//             if (temp_v0_6 >= -0x4FF) {
+//                 phi_f0_2 = 0.34f;
+//             } else {
+// block_28:
+//                 temp_v0_7 = (s32) ((temp_v1_3 + 0xFFFF4000) << 0x10) >> 0x10;
+//                 phi_f0_2 = 0.1f;
+//                 if (temp_v0_7 < 0x500) {
+//                     phi_f0_2 = 0.1f;
+//                     if (temp_v0_7 >= -0x4FF) {
+//                         phi_f0_2 = 0.34f;
+//                     }
+//                 }
+//             }
+//         } else {
+//             goto block_28;
+//         }
+//         phi_return_2 = Math_ApproxF(this + 0x190, phi_f0_2, 0.04f);
+//     }
+//     return phi_return_2;
+
+
+    s32 sp18;
+    f32 *temp_a0;
+    s16 temp_v0;
+    s16 temp_v1_2;
+    s16 temp_v1_3;
+    s32 temp_v0_3;
+    s32 temp_v0_4;
+    s32 temp_v0_5;
+    s32 temp_v0_6;
+    s32 temp_v0_7;
+    s32 temp_v1;
+    BgJyaBigmirror* attached;
+    u8 temp_v0_2;
+    s32 phi_v0;
+    f32 phi_f0;
+    f32 phi_f0_2;
+    s32 phi_return;
+    s32 phi_return_2;
+    s32 phi_return_3;
+
+    temp_v0 = this->dyna.actor.params;
+    temp_v1 = temp_v0 & 3;
+    attached = (BgJyaBigmirror*)this->dyna.actor.attachedA;
+    phi_return = (s32) temp_v0;
+    if (temp_v1 == 2) {
+        phi_return = (s32) temp_v0;
+        if (attached != 0) {
+            temp_v0_2 = attached->unk_15C;
+            temp_a0 = &this->unk_18C;
+            if ((temp_v0_2 & 4) != 0) {
+                phi_return = (s32) temp_v0_2;
+                if ((temp_v0_2 & 1) == 0) {
+block_4:
+                    sp18 = temp_v1;
+                    this = this;
+                    phi_return = Math_ApproxF(temp_a0, 0.0f, 0.05f);
+                } else {
+block_5:
+                    this->unk_18C = 1.0f;
+                    if (D_80897310[temp_v1] != 0) {
+                        temp_v0_3 = (s32) ((this->dyna.actor.shape.rot.y - D_80897314[temp_v1]) << 0x10) >> 0x10;
+                        phi_v0 = temp_v0_3;
+                        phi_return_3 = temp_v0_3;
+                        if (temp_v0_3 < 0) {
+                            temp_v0_3 = (s32) ((0 - temp_v0_3) << 0x10) >> 0x10;
+                            phi_v0 = temp_v0_3;
+                            phi_return_3 = temp_v0_3;
+                        }
+                        phi_return = phi_return_3;
+                        if (phi_v0 < 0x2000) {
+                            phi_return = phi_return_3;
+                            if (phi_v0 != -0x8000) {
+                                this->unk_18C = (f32) (this->unk_18C + ((f32) (phi_v0 - 0x2000) * 0.00018310547f));
+                                phi_return = 0.0f;
+                                if (this->unk_18C < 0.0f) {
+                                    this->unk_18C = 0.0f;
+                                    phi_return = 0.0f;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                goto block_4;
+            }
+        } else {
+            goto block_5;
+        }
+    } else {
+        goto block_5;
+    }
+    this->unk_180.x = (f32) this->dyna.actor.posRot.pos.x;
+    this->unk_180.z = (f32) this->dyna.actor.posRot.pos.z;
+    this->unk_180.y = (f32) (this->dyna.actor.posRot.pos.y + 57.0f);
+    if ((temp_v0 & 3) == 0) {
+        this->unk_190 = 0.1f;
+        return phi_return;
+    }
+    if ((temp_v0 & 3) == 1) {
+        temp_v1_2 = this->dyna.actor.shape.rot.y;
+        temp_v0_4 = (s32) ((temp_v1_2 - 0x8000) << 0x10) >> 0x10;
+        if (temp_v0_4 < 0x500 && temp_v0_4 >= -0x4FF) {
+                phi_f0 = 0.34f;
+        } else {
+            temp_v0_5 = (s32) ((temp_v1_2 - 0x4000) << 0x10) >> 0x10;
+            phi_f0 = 0.1f;
+            if (temp_v0_5 < 0x500) {
+                phi_f0 = 0.1f;
+                if (temp_v0_5 >= -0x4FF) {
+                    phi_f0 = 0.1f;
+                    if (this->dyna.actor.attachedA != 0) {
+                        phi_f0 = 0.1f;
+                        if ((((BgJyaBigmirror*)this->dyna.actor.attachedA)->unk_15C & 4) != 0) {
+                            phi_f0 = 0.34f;
+                        }
+                    }
+                }
+            }
+        }
+        return Math_ApproxF(this + 0x190, phi_f0, 0.04f);
+    }
+    phi_return_2 = phi_return;
+    if ((temp_v0 & 3) == 2) {
+        temp_v1_3 = this->dyna.actor.shape.rot.y;
+        temp_v0_6 = (s32) ((temp_v1_3 - 0x8000) << 0x10) >> 0x10;
+        if (temp_v0_6 < 0x500 && temp_v0_6 >= -0x4FF) {
+            phi_f0_2 = 0.34f;
+        } else {
+            temp_v0_7 = (s32) ((temp_v1_3 + 0xFFFF4000) << 0x10) >> 0x10;
+            phi_f0_2 = 0.1f;
+            if (temp_v0_7 < 0x500) {
+                phi_f0_2 = 0.1f;
+                if (temp_v0_7 >= -0x4FF) {
+                    phi_f0_2 = 0.34f;
+                }
+            }
+        }
+        phi_return_2 = Math_ApproxF(this + 0x190, phi_f0_2, 0.04f);
+    }
+    return phi_return_2;
+}
 
 void func_80895EF0(BgJyaCobra* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
@@ -233,7 +492,39 @@ void func_80896950(BgJyaCobra *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_808969F8.s")
+void func_808969F8(BgJyaCobra *this, GlobalContext *globalCtx) {
+    Player *player;
+    s32 phi_a3;
+    s16 temp2;
+
+    player = PLAYER;
+    this->actionFunc = func_80896ABC;
+    temp2 = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
+    phi_a3 = ((this->dyna.actor.shape.rot.y - this->dyna.unk_158) << 0x10) >> 0x10;
+    if ((phi_a3) < 0) {
+        phi_a3 = 0 - (phi_a3);
+    }
+
+    if (temp2 > 0) {
+        if (phi_a3 >= 0x4001) {
+            this->unk_16A = 1;
+        } else {
+            this->unk_16A = -1;
+        }
+    } else {
+        if (phi_a3 >= 0x4001) {
+            this->unk_16A = -1;
+        } else {
+            this->unk_16A = 1;
+        }
+    }
+
+    this->unk_174.x = player->actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
+    this->unk_174.y = player->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
+    this->unk_174.z = player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+    this->unk_170 = this->unk_16E = 0;
+    this->unk_172 = 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896ABC.s")
 // regalloc
@@ -353,7 +644,7 @@ void func_80896EE4(BgJyaCobra *this, GlobalContext *globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (s32)(&this->unk_1A3) & ~0xF);
+    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ALIGN16((s32)&this->unk_194));
     gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
     gDPLoadSync(POLY_XLU_DISP++);
     temp = sp72;

@@ -21,9 +21,7 @@ typedef struct BgJyaCobra {
     /* 0x0180 */ Vec3f unk_180;
     /* 0x018C */ f32 unk_18C;
     /* 0x0190 */ f32 unk_190;
-    /* 0x0194 */ char unk_194[0x000F];
-    /* 0x0194 */ s8 unk_1A3;
-    /* 0x0194 */ char unk_1A4[0x1000];
+    /* 0x0194 */ char unk_194[0x1010];
 } BgJyaCobra; // size = 0x11A4
 
 extern const ActorInit Bg_Jya_Cobra_InitVars;
