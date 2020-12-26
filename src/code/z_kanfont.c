@@ -11,8 +11,8 @@ extern const char D_0703811C[]; // end marker of last message
 void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
 }
 
-void Font_LoadChar(u32 offset, u8 character, u16 codePointIndex) {
-    DmaMgr_SendRequest1(((u32)offset + codePointIndex) + 8,
+void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
+    DmaMgr_SendRequest1((u32)&font->xy + codePointIndex,
                         &_nes_font_staticSegmentRomStart[character * FONT_CHAR_TEX_SIZE], FONT_CHAR_TEX_SIZE,
                         "../z_kanfont.c", 93);
 }

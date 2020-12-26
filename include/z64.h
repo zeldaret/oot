@@ -420,7 +420,7 @@ typedef struct {
     /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
     /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
     /* 0xE3F4 */ u16    unk_E3F4;
-    /* 0xE3F6 */ s16    unk_E3F6;
+    /* 0xE3F6 */ u16    unk_E3F6;
     /* 0xE3F8 */ s8     unk_E3F8;
     /* 0xE3F8 */ s8     unk_E3F9;
     /* 0xE3F8 */ s8     unk_E3FA;
