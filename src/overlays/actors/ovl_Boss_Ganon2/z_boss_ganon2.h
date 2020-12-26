@@ -13,7 +13,7 @@ typedef struct BossGanon2 {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanon2ActionFunc actionFunc;
     /* 0x0194 */ f32 unk_194;
-    /* 0x0198 */ char unk_198[0x4];
+    /* 0x0198 */ f32 unk_198;
     /* 0x019C */ s16 unk_19C;
     /* 0x019E */ char unk_19E[0x4];
     /* 0x01A2 */ s16 unk_1A2[5];
@@ -55,7 +55,7 @@ typedef struct BossGanon2 {
     /* 0x0335 */ u8 unk_335;
     /* 0x0336 */ u8 unk_336;
     /* 0x0337 */ u8 unk_337;
-    /* 0x0338 */ char unk_338[0x1];
+    /* 0x0338 */ u8 unk_338;
     /* 0x0339 */ s8 unk_339;
     /* 0x033A */ char unk_33A[0x2];
     /* 0x033C */ f32 unk_33C;

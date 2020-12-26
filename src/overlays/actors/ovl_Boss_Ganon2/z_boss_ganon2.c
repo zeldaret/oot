@@ -30,8 +30,11 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
+void func_8090026C(BossGanon2* this, GlobalContext* globalCtx);
 void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
+void func_80900344(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
+void func_80900650(BossGanon2* this, GlobalContext* globalCtx);
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
@@ -49,11 +52,11 @@ extern AnimationHeader D_06003F38;
 extern UNK_TYPE D_06007288;
 extern UNK_TYPE D_06008EB8;
 extern Gfx D_0600A8E0[];
-extern UNK_TYPE D_0600ADD0;
+extern AnimationHeader D_0600ADD0;
 extern UNK_TYPE D_0600BE90;
-extern UNK_TYPE D_0600CAF8;
-extern UNK_TYPE D_0600DFF0;
-extern UNK_TYPE D_0600E8EC;
+extern AnimationHeader D_0600CAF8;
+extern AnimationHeader D_0600DFF0;
+extern AnimationHeader D_0600E8EC;
 extern AnimationHeader D_0600FFE4;
 extern AnimationHeader D_06010380;
 extern FlexSkeletonHeader D_060114E8;
@@ -64,12 +67,12 @@ extern UNK_TYPE D_0601EA08[];
 extern UNK_TYPE D_06021A90[];
 extern FlexSkeletonHeader D_06025970;
 extern AnimationHeader D_06026510;
-extern UNK_TYPE D_06026AF4;
-extern UNK_TYPE D_06027824;
+extern AnimationHeader D_06026AF4;
+extern AnimationHeader D_06027824;
 extern UNK_TYPE D_0602A848;
 extern UNK_TYPE D_060334F8;
 extern UNK_TYPE D_06034278;
-extern UNK_TYPE D_060353C0;
+extern AnimationHeader D_060353C0;
 
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
@@ -757,12 +760,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3B0.x = this->actor.posRot.pos.x;
             }
             if ((globalCtx->gameplayFrames & 0x1F) == 0) {
-                Audio_PlayActorSound2(&this->actor, 0x39D1);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
             }
             break;
         case 15:
             if (((globalCtx->gameplayFrames & 0x1F) == 0) && (this->unk_398 < 0x64)) {
-                Audio_PlayActorSound2(&this->actor, 0x39D1);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
             }
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
             Math_SmoothScaleMaxF(&this->unk_3B0.y, this->actor.posRot.pos.y + 77.0f, 0.05f, 5.0f);
@@ -787,7 +790,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_194 = SkelAnime_GetFrameCount(&D_06003754);
                 this->unk_339 = 0x37;
                 globalCtx->envCtx.unk_D8 = 1.0f;
-                Audio_PlayActorSound2(&this->actor, 0x39D3);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_CASBREAK);
             } else {
                 break;
             }
@@ -812,8 +815,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->unk_3A4.y, ((this->actor.posRot.pos.y + 60.0f) - 60.0f) - 70.0f, 0.1f, 13.0f);
             Math_SmoothScaleMaxF(&this->unk_3B0.y, this->actor.posRot.pos.y + 40.0f, 0.1f, 3.6999998f);
             if (this->unk_398 == 0x1E) {
-                Audio_PlayActorSound2(&this->actor, 0x39D4);
-                Audio_PlayActorSound2(&this->actor, 0x396D);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BIGMASIC);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_BIG);
             }
             if (this->unk_398 < 0x33) {
                 sp8D = 1;
@@ -1135,7 +1138,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.posRot.pos.x = 140.0f;
             player->actor.posRot.pos.z = -196.0f;
             if (this->unk_398 == 0x32) {
-                Audio_PlayActorSound2(&this->actor, 0x398F);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_ROAR);
             }
             if (func_800A56C8(&this->skelAnime, this->unk_194) != 0) {
                 temp_v0 = Gameplay_GetCamera(globalCtx, 0);
@@ -1157,7 +1160,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_30C > 4.0f) && (sp8D == 0)) {
-        Audio_PlayActorSound2(&this->actor, 0x3163);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
     }
 
     if (this->unk_39E != 0) {
@@ -1378,19 +1381,158 @@ void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80900104;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900104.s")
+void func_80900104(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900210.s")
+    switch (this->unk_1AC) {
+        case 0:
+            if (func_800A56C8(&this->skelAnime, this->unk_194)) {
+                this->unk_1AC = 1;
+                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06026AF4, 0.0f);
+                this->unk_1A2[0] = 80;
+            }
+            break;
+        case 1:
+            if (this->unk_1A2[0] == 0) {
+                this->unk_1AC = 2;
+                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06027824, -5.0f);
+                this->unk_194 = SkelAnime_GetFrameCount(&D_06027824);
+            }
+            break;
+        case 2:
+            if (func_800A56C8(&this->skelAnime, this->unk_194)) {
+                func_809002CC(this, globalCtx);
+            }
+            break;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090026C.s")
+void func_80900210(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600DFF0, -3.0f);
+    this->unk_194 = SkelAnime_GetFrameCount(&D_0600DFF0);
+    this->actionFunc = func_8090026C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809002CC.s")
+void func_8090026C(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900344.s")
+    if (func_800A56C8(&this->skelAnime, this->unk_194)) {
+        func_809002CC(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900580.s")
+void func_809002CC(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600E8EC, -10.0f);
+    this->actionFunc = func_80900344;
+    this->unk_338 = 0;
+    this->unk_1A2[0] = 100;
+    this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900650.s")
+void func_80900344(BossGanon2* this, GlobalContext* globalCtx) {
+    f32 phi_f0;
+
+    if (this->unk_390 == 0) {
+        this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 30;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_UNARI);
+    }
+
+    Math_SmoothScaleMaxF(&this->unk_324, 255.0f, 1.0f, 10.0f);
+
+    if (this->unk_338 != 0) {
+        if (func_800A56C8(&this->skelAnime, 13.0f) != 0) {
+            func_808FD4D4(this, globalCtx, 1, 3);
+        } else if (func_800A56C8(&this->skelAnime, 28.0f) != 0) {
+            func_808FD4D4(this, globalCtx, 2, 3);
+        }
+        if (this->actor.xzDistFromLink < 200.0f) {
+            this->unk_338 = 0;
+            SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600E8EC, -10.0f);
+        } else {
+            this->skelAnime.animPlaybackSpeed = ((this->actor.xzDistFromLink - 300.0f) * 0.005f) + 1.0f;
+            if (this->skelAnime.animPlaybackSpeed > 2.0f) {
+                this->skelAnime.animPlaybackSpeed = 2.0f;
+            }
+            if (this->unk_334 != 0) {
+                this->skelAnime.animPlaybackSpeed *= 1.5f;
+            }
+        }
+        phi_f0 = this->skelAnime.animPlaybackSpeed * 3.0f;
+    } else {
+        phi_f0 = 2.0f;
+        if (this->actor.xzDistFromLink >= 200.0f) {
+            this->unk_338 = 1;
+            SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060353C0, -10.0f);
+        }
+    }
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothScaleMaxF(&this->actor.speedXZ, phi_f0, 0.5f, 1.0f);
+
+    if (this->unk_1A2[0] == 0) {
+        func_808FFDB0(this, globalCtx);
+    } else {
+        func_808FFCFC(this, globalCtx);
+    }
+
+    func_808FFAC8(this, globalCtx, 1);
+    func_808FFBBC(this, globalCtx, 1);
+}
+
+void func_80900580(BossGanon2* this, GlobalContext* globalCtx) {
+    if (this->unk_311 == 0) {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600ADD0, -5.0f);
+        this->unk_194 = SkelAnime_GetFrameCount(&D_0600ADD0);
+        this->unk_198 = (this->unk_194 - 15.0f) - 5.0f;
+    } else {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600CAF8, -5.0f);
+        this->unk_194 = SkelAnime_GetFrameCount(&D_0600CAF8);
+        this->unk_198 = (this->unk_194 - 15.0f) - 5.0f;
+    }
+
+    this->actionFunc = func_80900650;
+}
+
+void func_80900650(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
+    if (func_800A56C8(&this->skelAnime, this->unk_198)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_SWORD);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_ROAR);
+    }
+
+    if (this->unk_311 == 0) {
+        if (((this->unk_198 - 4.0f) < this->skelAnime.animCurrentFrame) &&
+            (this->skelAnime.animCurrentFrame < (this->unk_198 + 6.0f))) {
+            this->unk_312 = 1;
+        }
+    } else if ((((this->unk_198 - 4.0f) + 4.0f) < this->skelAnime.animCurrentFrame) &&
+               (this->skelAnime.animCurrentFrame < (this->unk_198 + 6.0f))) {
+        this->unk_312 = 2;
+    }
+
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+
+    if (func_800A56C8(&this->skelAnime, this->unk_194)) {
+        this->unk_311 = 1 - this->unk_311;
+
+        if ((this->unk_311 == 1) && (this->actor.xzDistFromLink < 250.0f) && (this->unk_313 != 0)) {
+            func_80900580(this, globalCtx);
+        } else {
+            func_808FFDB0(this, globalCtx);
+        }
+    }
+
+    func_808FFAC8(this, globalCtx, 0);
+
+    if ((this->unk_334 == 0) && (this->unk_311 == 0)) {
+        this->unk_320 = 0.0f;
+    } else {
+        func_808FFBBC(this, globalCtx, 0);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900818.s")
 
