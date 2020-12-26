@@ -157,7 +157,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                 this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
                 Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xFA0, 0);
                 if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
-                                            (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
+                                       (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
                     this->timer--;
                     if (this->timer == 0) {
                         this->unk_25E++;

@@ -208,8 +208,8 @@ void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
             // Float on water surface
             this->actor.gravity = 0.0f;
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
-                                    1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater, 1.0f,
+                               2.0f, 0.0f);
         } else {
             this->actor.gravity = -1.0f;
         }
@@ -361,8 +361,8 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             // Float up to water surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
-                                    1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater, 1.0f,
+                               2.0f, 0.0f);
             break;
     }
     // Create ripples on water surface where tektite feet landed
@@ -518,8 +518,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         } else {
             // If submerged, float to surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater,
-                                    1.0f, 2.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.posRot.pos.y + this->actor.yDistToWater, 1.0f,
+                               2.0f, 0.0f);
             if (0.0f != this->actor.yDistToWater) {
                 // Do not change state until tekite has floated to surface
                 return;

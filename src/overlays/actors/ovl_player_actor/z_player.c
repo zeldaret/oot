@@ -2957,7 +2957,7 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
         if ((this->unk_664 != NULL) &&
             ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.type != ACTORTYPE_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                     Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_664->posRot2.pos), 4000);
+                               Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_664->posRot2.pos), 4000);
         } else if ((this->stateFlags1 & 0x20000) && !(this->stateFlags2 & 0x60)) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000);
         }
@@ -10081,7 +10081,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f);
 
             Math_ScaledStepToS(&this->windDirection, D_808535FC,
-                                     ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * sp48);
+                               ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * sp48);
         } else if (this->windSpeed != 0.0f) {
             Math_StepToF(&this->windSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
         }
