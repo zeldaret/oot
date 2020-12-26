@@ -53,7 +53,7 @@ glabel func_80A2FC70
 /* 00BAC 80A2FD2C A203040D */  sb      $v1, 0x040D($s0)           ## 0000040D
 /* 00BB0 80A2FD30 A204040F */  sb      $a0, 0x040F($s0)           ## 0000040F
 /* 00BB4 80A2FD34 A2030389 */  sb      $v1, 0x0389($s0)           ## 00000389
-/* 00BB8 80A2FD38 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00BB8 80A2FD38 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00BBC 80A2FD3C A204038B */  sb      $a0, 0x038B($s0)           ## 0000038B
 /* 00BC0 80A2FD40 4600048D */  trunc.w.s $f18, $f0

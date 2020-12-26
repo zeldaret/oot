@@ -26,7 +26,7 @@ glabel func_80A49F10
 /* 010A8 80A49F68 25CEA368 */  addiu   $t6, $t6, %lo(func_80A4A368) ## $t6 = 80A4A368
 /* 010AC 80A49F6C 24040046 */  addiu   $a0, $zero, 0x0046         ## $a0 = 00000046
 /* 010B0 80A49F70 2405006E */  addiu   $a1, $zero, 0x006E         ## $a1 = 0000006E
-/* 010B4 80A49F74 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 010B4 80A49F74 0C01DF64 */  jal     Rand_S16Offset
 
 /* 010B8 80A49F78 ADEE02B0 */  sw      $t6, 0x02B0($t7)           ## 000002B0
 /* 010BC 80A49F7C 8FB80028 */  lw      $t8, 0x0028($sp)

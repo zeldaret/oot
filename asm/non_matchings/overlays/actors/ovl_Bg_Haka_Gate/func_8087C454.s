@@ -15,12 +15,12 @@ glabel func_8087C454
 /* 00698 8087C488 5080004D */  beql    $a0, $zero, .L8087C5C0     
 /* 0069C 8087C48C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 006A0 8087C490 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
-/* 006A4 8087C494 0C01DE0D */  jal     Math_Coss
+/* 006A4 8087C494 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 006A8 8087C498 AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 006AC 8087C49C 3C048088 */  lui     $a0, %hi(D_8087CFB0)       ## $a0 = 80880000
 /* 006B0 8087C4A0 8484CFB0 */  lh      $a0, %lo(D_8087CFB0)($a0)  
-/* 006B4 8087C4A4 0C01DE1C */  jal     Math_Sins
+/* 006B4 8087C4A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 006B8 8087C4A8 E7A00020 */  swc1    $f0, 0x0020($sp)           
 /* 006BC 8087C4AC 8FA2002C */  lw      $v0, 0x002C($sp)           

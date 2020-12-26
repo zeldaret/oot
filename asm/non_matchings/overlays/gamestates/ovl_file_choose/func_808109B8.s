@@ -19,13 +19,13 @@ glabel func_808109B8
 /* 0CCBC 808109FC AC400004 */  sw      $zero, 0x0004($v0)         ## 00000004
 /* 0CCC0 80810A00 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 0CCC4 80810A04 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
-/* 0CCC8 80810A08 0C01DE0D */  jal     Math_Coss
+/* 0CCC8 80810A08 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0CCCC 80810A0C 870407AA */  lh      $a0, 0x07AA($t8)           ## 801607AA
 /* 0CCD0 80810A10 3C198016 */  lui     $t9, %hi(gGameInfo)
 /* 0CCD4 80810A14 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 0CCD8 80810A18 E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 0CCDC 80810A1C 0C01DE1C */  jal     Math_Sins
+/* 0CCDC 80810A1C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0CCE0 80810A20 872407AA */  lh      $a0, 0x07AA($t9)           ## 801607AA
 /* 0CCE4 80810A24 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
@@ -43,13 +43,13 @@ glabel func_808109B8
 /* 0CD14 80810A54 00000000 */  nop
 /* 0CD18 80810A58 468084A0 */  cvt.s.w $f18, $f16                 
 /* 0CD1C 80810A5C E7B20094 */  swc1    $f18, 0x0094($sp)          
-/* 0CD20 80810A60 0C01DE1C */  jal     Math_Sins
+/* 0CD20 80810A60 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0CD24 80810A64 844407AA */  lh      $a0, 0x07AA($v0)           ## 801607AA
 /* 0CD28 80810A68 3C098016 */  lui     $t1, %hi(gGameInfo)
 /* 0CD2C 80810A6C 8D29FA90 */  lw      $t1, %lo(gGameInfo)($t1)
 /* 0CD30 80810A70 E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 0CD34 80810A74 0C01DE0D */  jal     Math_Coss
+/* 0CD34 80810A74 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0CD38 80810A78 852407AA */  lh      $a0, 0x07AA($t1)           ## 801607AA
 /* 0CD3C 80810A7C 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

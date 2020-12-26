@@ -18,7 +18,7 @@ glabel func_809C0600
 /* 00D98 809C0638 2406038E */  addiu   $a2, $zero, 0x038E         ## $a2 = 0000038E
 /* 00D9C 809C063C 00A12821 */  addu    $a1, $a1, $at              
 /* 00DA0 809C0640 00052C00 */  sll     $a1, $a1, 16               
-/* 00DA4 809C0644 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00DA4 809C0644 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00DA8 809C0648 00052C03 */  sra     $a1, $a1, 16               
 /* 00DAC 809C064C 0C270023 */  jal     func_809C008C              

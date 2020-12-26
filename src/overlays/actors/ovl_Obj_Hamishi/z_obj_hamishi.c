@@ -63,22 +63,22 @@ void ObjHamishi_Shake(ObjHamishi* this) {
         this->shakePosPhase += 5000;
         this->shakeRotPhase += 0xE10;
 
-        Math_ApproxF(&this->shakePosSize, 0.0f, 0.15f);
-        Math_ApproxF(&this->shakeRotSize, 0.0f, 40.0f);
+        Math_StepToF(&this->shakePosSize, 0.0f, 0.15f);
+        Math_StepToF(&this->shakeRotSize, 0.0f, 40.0f);
 
         this->actor.posRot.pos.x =
-            this->actor.initPosRot.pos.x + (Math_Sins(this->shakePosPhase * 4) * this->shakePosSize);
+            this->actor.initPosRot.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
         this->actor.posRot.pos.z =
-            this->actor.initPosRot.pos.z + (Math_Coss(this->shakePosPhase * 7) * this->shakePosSize);
+            this->actor.initPosRot.pos.z + (Math_CosS(this->shakePosPhase * 7) * this->shakePosSize);
         this->actor.shape.rot.x =
-            this->actor.initPosRot.rot.x + (s16)(Math_Sins(this->shakeRotPhase * 4) * this->shakeRotSize);
+            this->actor.initPosRot.rot.x + (s16)(Math_SinS(this->shakeRotPhase * 4) * this->shakeRotSize);
         this->actor.shape.rot.z =
-            this->actor.initPosRot.rot.z + (s16)(Math_Coss(this->shakeRotPhase * 7) * this->shakeRotSize);
+            this->actor.initPosRot.rot.z + (s16)(Math_CosS(this->shakeRotPhase * 7) * this->shakeRotSize);
     } else {
-        Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-        Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0xBB8);
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0xBB8);
+        Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
+        Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0xBB8);
+        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0xBB8);
     }
 }
 
@@ -96,16 +96,16 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
         phi_s0 += 20000;
 
-        temp_f20 = Math_Rand_ZeroOne() * 10.0f;
-        pos.x = (Math_Sins(phi_s0) * temp_f20) + this->actor.posRot.pos.x;
-        pos.y = (Math_Rand_ZeroOne() * 40.0f) + this->actor.posRot.pos.y + 5.0f;
-        pos.z = (Math_Coss(phi_s0) * temp_f20) + this->actor.posRot.pos.z;
+        temp_f20 = Rand_ZeroOne() * 10.0f;
+        pos.x = (Math_SinS(phi_s0) * temp_f20) + this->actor.posRot.pos.x;
+        pos.y = (Rand_ZeroOne() * 40.0f) + this->actor.posRot.pos.y + 5.0f;
+        pos.z = (Math_CosS(phi_s0) * temp_f20) + this->actor.posRot.pos.z;
 
-        temp_f20 = (Math_Rand_ZeroOne() * 10.0f) + 2.0f;
-        velocity.x = Math_Sins(phi_s0) * temp_f20;
-        temp_f22 = Math_Rand_ZeroOne();
-        velocity.y = (Math_Rand_ZeroOne() * i * 2.5f) + (temp_f22 * 15.0f);
-        velocity.z = Math_Coss(phi_s0) * temp_f20;
+        temp_f20 = (Rand_ZeroOne() * 10.0f) + 2.0f;
+        velocity.x = Math_SinS(phi_s0) * temp_f20;
+        temp_f22 = Rand_ZeroOne();
+        velocity.y = (Rand_ZeroOne() * i * 2.5f) + (temp_f22 * 15.0f);
+        velocity.z = Math_CosS(phi_s0) * temp_f20;
 
         if (i == 0) {
             phi_v0 = 41;
@@ -135,8 +135,7 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
-        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y =
-            Math_Rand_ZeroFloat(65536.0f);
+        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y = Rand_ZeroFloat(65536.0f);
     }
 
     ObjHamishi_InitCollision(&this->actor, globalCtx);

@@ -129,7 +129,7 @@ void func_808A90F4(BgRelayObjects* this, GlobalContext* globalCtx) {
                 this->timer = 160;
             }
         }
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 12.0f)) {
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 12.0f)) {
             this->actionFunc = func_808A91AC;
         }
     }
@@ -150,7 +150,7 @@ void func_808A91AC(BgRelayObjects* this, GlobalContext* globalCtx) {
 
 void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += this->dyna.actor.gravity;
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
         func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 180, 20, 100);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != globalCtx->roomCtx.curRoom.num) {
@@ -189,9 +189,9 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
         gSaveContext.eventChkInf[6] |= 0x20;
     }
     if (gSaveContext.eventChkInf[6] & 0x20) {
-        Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.y, 0x400, 8);
+        Math_ScaledStepToS(&this->dyna.actor.posRot.rot.y, 0x400, 8);
     } else {
-        Math_ApproxUpdateScaledS(&this->dyna.actor.posRot.rot.y, 0x80, 8);
+        Math_ScaledStepToS(&this->dyna.actor.posRot.rot.y, 0x80, 8);
     }
     this->dyna.actor.shape.rot.y += this->dyna.actor.posRot.rot.y;
     func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_WOOD_GEAR - SFX_FLAG,

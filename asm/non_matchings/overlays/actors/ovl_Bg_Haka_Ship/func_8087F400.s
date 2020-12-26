@@ -90,7 +90,7 @@ glabel func_8087F400
 .L8087F504:
 /* 00404 8087F504 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3E4CCCCD
 /* 00408 8087F508 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 0040C 8087F50C 0C01DE80 */  jal     Math_ApproxF
+/* 0040C 8087F50C 0C01DE80 */  jal     Math_StepToF
               
 /* 00410 8087F510 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 .L8087F514:
