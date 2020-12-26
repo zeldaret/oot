@@ -107,7 +107,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
         thisx->flags |= 0x30;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = thisx->posRot.pos.y;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = thisx->posRot.pos.y;
         this->actionFunc = func_8086C9A8;
         return;
     }
@@ -394,7 +394,7 @@ void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
-    globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = this->dyna.actor.posRot.pos.y;
+    globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = this->dyna.actor.posRot.pos.y;
 }
 
 void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {

@@ -6,6 +6,7 @@
 
 #include "z_en_butte.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -122,7 +123,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_04010130));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gGameKeepMoteDL0));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 326);
 }

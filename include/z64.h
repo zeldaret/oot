@@ -189,10 +189,17 @@ typedef struct {
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0x8];
-    /* 0x0C */ u32 unk_0C;
+    /* 0x00 */ s16 xMin;
+    /* 0x02 */ s16 ySurface;
+    /* 0x04 */ s16 zMin;
+    /* 0x06 */ s16 xLength;
+    /* 0x08 */ s16 zLength;
+    /* 0x0C */ u32 properties;
+
+    // 0x0008_0000 = ?
+    // 0x0007_E000 = Room Index, 0x3F = all rooms
+    // 0x0000_1F00 = Lighting Settings Index
+    // 0x0000_00FF = CamData index
 } WaterBox; // size = 0x10
 
 typedef struct {
