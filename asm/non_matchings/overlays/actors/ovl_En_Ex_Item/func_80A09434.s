@@ -40,7 +40,7 @@ glabel func_80A09434
 /* 005F0 80A09490 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 005F4 80A09494 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
 /* 005F8 80A09498 24071000 */  addiu   $a3, $zero, 0x1000         ## $a3 = 00001000
-/* 005FC 80A0949C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 005FC 80A0949C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00600 80A094A0 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80A094A4:

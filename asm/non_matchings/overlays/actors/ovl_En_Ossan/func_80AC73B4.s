@@ -20,7 +20,7 @@ glabel func_80AC73B4
 /* 0475C 80AC73FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 04760 80AC7400 260401EE */  addiu   $a0, $s0, 0x01EE           ## $a0 = 000001EE
 /* 04764 80AC7404 860501F0 */  lh      $a1, 0x01F0($s0)           ## 000001F0
-/* 04768 80AC7408 0C01DE5F */  jal     Math_ApproxS
+/* 04768 80AC7408 0C01DE5F */  jal     Math_StepToS
               
 /* 0476C 80AC740C 24060190 */  addiu   $a2, $zero, 0x0190         ## $a2 = 00000190
 /* 04770 80AC7410 8FA6002C */  lw      $a2, 0x002C($sp)           

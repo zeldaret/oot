@@ -133,8 +133,8 @@ glabel func_8087C85C
 /* 00C24 8087CA14 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00C28 8087CA18 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 00C2C 8087CA1C 8FA3004C */  lw      $v1, 0x004C($sp)           
-/* 00C30 8087CA20 3C0C0405 */  lui     $t4, 0x0405                ## $t4 = 04050000
-/* 00C34 8087CA24 258CD4E0 */  addiu   $t4, $t4, 0xD4E0           ## $t4 = 0404D4E0
+/* 00C30 8087CA20 3C0C0405 */  lui     $t4, %hi(D_0404D4E0)                ## $t4 = 04050000
+/* 00C34 8087CA24 258CD4E0 */  addiu   $t4, $t4, %lo(D_0404D4E0)           ## $t4 = 0404D4E0
 /* 00C38 8087CA28 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00C3C 8087CA2C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00C40 8087CA30 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000

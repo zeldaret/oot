@@ -122,15 +122,15 @@ void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalC
 
 void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    f32 s = Math_Sins(this->actor.shape.rot.y);
-    f32 c = Math_Coss(this->actor.shape.rot.y);
+    f32 s = Math_SinS(this->actor.shape.rot.y);
+    f32 c = Math_CosS(this->actor.shape.rot.y);
     f32 x;
     f32 y;
     f32 z;
     s32 pad;
 
     if (this->alpha >= (100 << 6)) {
-        x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Math_Rand_ZeroOne();
+        x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Rand_ZeroOne();
         y = x - 30.0f;
         if (x > 30.0f) {
             x = 30.0f;
@@ -141,8 +141,8 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
             }
             x = sqrtf(x);
         }
-        x = 2.0f * (x * (Math_Rand_ZeroOne() - 0.5f));
-        z = (30.0f - fabsf(x)) * 0.5f + 10.0f * Math_Rand_ZeroOne();
+        x = 2.0f * (x * (Rand_ZeroOne() - 0.5f));
+        z = (30.0f - fabsf(x)) * 0.5f + 10.0f * Rand_ZeroOne();
         pos.x = this->actor.posRot.pos.x + ((z * s) + (x * c));
         pos.y = this->actor.posRot.pos.y + y + 10.0f;
         pos.z = this->actor.posRot.pos.z + ((z * c) - (x * s));
@@ -252,7 +252,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
 
         this->timer++;
 
-        Math_ApproxS(&this->flameRingRotSpeed, -0xAA, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, -0xAA, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
@@ -321,7 +321,7 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->toggleDelay <= 0) {
         this->timer--;
 
-        Math_ApproxS(&this->flameRingRotSpeed, 0, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);

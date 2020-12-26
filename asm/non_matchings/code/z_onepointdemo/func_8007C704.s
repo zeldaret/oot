@@ -14,7 +14,7 @@ glabel func_8007C704
 /* AF38B4 8007C714 C4860000 */  lwc1  $f6, ($a0)
 /* AF38B8 8007C718 C4A40000 */  lwc1  $f4, ($a1)
 /* AF38BC 8007C71C 460A4381 */  sub.s $f14, $f8, $f10
-/* AF38C0 8007C720 0C03F494 */  jal   Math_atan2f
+/* AF38C0 8007C720 0C03F494 */  jal   Math_FAtan2F
 /* AF38C4 8007C724 46062301 */   sub.s $f12, $f4, $f6
 /* AF38C8 8007C728 3C018014 */  lui   $at, %hi(D_8013CE40)
 /* AF38CC 8007C72C C430CE40 */  lwc1  $f16, %lo(D_8013CE40)($at)

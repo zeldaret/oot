@@ -44,7 +44,7 @@ glabel func_80B86CA8
 /* 003F4 80B86D14 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 003F8 80B86D18 0C00B92D */  jal     func_8002E4B4              
 /* 003FC 80B86D1C E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 00400 80B86D20 0C01DE1C */  jal     Math_Sins
+/* 00400 80B86D20 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00404 80B86D24 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00408 80B86D28 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -53,13 +53,13 @@ glabel func_80B86CA8
 /* 00414 80B86D34 00000000 */  nop
 /* 00418 80B86D38 45000005 */  bc1f    .L80B86D50                 
 /* 0041C 80B86D3C 00000000 */  nop
-/* 00420 80B86D40 0C01DE1C */  jal     Math_Sins
+/* 00420 80B86D40 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00424 80B86D44 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00428 80B86D48 10000004 */  beq     $zero, $zero, .L80B86D5C   
 /* 0042C 80B86D4C 46000086 */  mov.s   $f2, $f0                   
 .L80B86D50:
-/* 00430 80B86D50 0C01DE1C */  jal     Math_Sins
+/* 00430 80B86D50 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00434 80B86D54 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 00438 80B86D58 46000087 */  neg.s   $f2, $f0                   
@@ -129,15 +129,15 @@ glabel func_80B86CA8
 /* 0052C 80B86E4C 5420000C */  bnel    $at, $zero, .L80B86E80     
 /* 00530 80B86E50 2652000C */  addiu   $s2, $s2, 0x000C           ## $s2 = 0000000C
 /* 00534 80B86E54 A22B019E */  sb      $t3, 0x019E($s1)           ## 0000019E
-/* 00538 80B86E58 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00538 80B86E58 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0053C 80B86E5C 4600B306 */  mov.s   $f12, $f22                 
 /* 00540 80B86E60 E60001A8 */  swc1    $f0, 0x01A8($s0)           ## 000001A8
-/* 00544 80B86E64 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00544 80B86E64 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00548 80B86E68 4600E306 */  mov.s   $f12, $f28                 
 /* 0054C 80B86E6C E60001AC */  swc1    $f0, 0x01AC($s0)           ## 000001AC
-/* 00550 80B86E70 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00550 80B86E70 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00554 80B86E74 4600B306 */  mov.s   $f12, $f22                 
 /* 00558 80B86E78 E60001B0 */  swc1    $f0, 0x01B0($s0)           ## 000001B0

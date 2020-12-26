@@ -16,8 +16,8 @@ glabel func_80B35D18
 
 /* 0209C 80B35D4C AFA70018 */  sw      $a3, 0x0018($sp)
 /* 020A0 80B35D50 8FA70018 */  lw      $a3, 0x0018($sp)
-/* 020A4 80B35D54 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 020A8 80B35D58 24A59B20 */  addiu   $a1, $a1, 0x9B20           ## $a1 = 06009B20
+/* 020A4 80B35D54 3C050601 */  lui     $a1, %hi(D_06009B20)                ## $a1 = 06010000
+/* 020A8 80B35D58 24A59B20 */  addiu   $a1, $a1, %lo(D_06009B20)           ## $a1 = 06009B20
 /* 020AC 80B35D5C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 020B0 80B35D60 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 020B4 80B35D64 24E40188 */  addiu   $a0, $a3, 0x0188           ## $a0 = 00000188

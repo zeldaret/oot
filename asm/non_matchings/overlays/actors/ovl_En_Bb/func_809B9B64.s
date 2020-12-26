@@ -92,7 +92,7 @@ glabel func_809B9B64
 /* 019B8 809B9C98 37280001 */  ori     $t0, $t9, 0x0001           ## $t0 = 00000001
 /* 019BC 809B9C9C AE080004 */  sw      $t0, 0x0004($s0)           ## 00000004
 .L809B9CA0:
-/* 019C0 809B9CA0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 019C0 809B9CA0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 019C4 809B9CA4 00000000 */  nop
 /* 019C8 809B9CA8 C6100274 */  lwc1    $f16, 0x0274($s0)          ## 00000274
@@ -103,7 +103,7 @@ glabel func_809B9B64
 /* 019DC 809B9CBC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 019E0 809B9CC0 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 019E4 809B9CC4 E6120274 */  swc1    $f18, 0x0274($s0)          ## 00000274
-/* 019E8 809B9CC8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 019E8 809B9CC8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 019EC 809B9CCC E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 019F0 809B9CD0 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -111,7 +111,7 @@ glabel func_809B9B64
 /* 019F8 809B9CD8 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 019FC 809B9CDC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01A00 809B9CE0 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
-/* 01A04 809B9CE4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01A04 809B9CE4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01A08 809B9CE8 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 01A0C 809B9CEC 96040088 */  lhu     $a0, 0x0088($s0)           ## 00000088
@@ -182,7 +182,7 @@ glabel func_809B9B64
 /* 01AFC 809B9DDC 00000000 */  nop
 /* 01B00 809B9DE0 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
 .L809B9DE4:
-/* 01B04 809B9DE4 0C0329C8 */  jal     func_800CA720              
+/* 01B04 809B9DE4 0C0329C8 */  jal     Math_SinF              
 /* 01B08 809B9DE8 C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 01B0C 809B9DEC 3C01809C */  lui     $at, %hi(D_809BBCA0)       ## $at = 809C0000
 /* 01B10 809B9DF0 C430BCA0 */  lwc1    $f16, %lo(D_809BBCA0)($at) 
