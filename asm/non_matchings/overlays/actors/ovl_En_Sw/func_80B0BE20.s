@@ -39,7 +39,7 @@ glabel func_80B0BE20
 /* 000E8 80B0BE98 C492036C */  lwc1    $f18, 0x036C($a0)          ## 0000036C
 /* 000EC 80B0BE9C 46125182 */  mul.s   $f6, $f10, $f18
 /* 000F0 80B0BEA0 46102200 */  add.s   $f8, $f4, $f16
-/* 000F4 80B0BEA4 0C03F4DA */  jal     Math_acosf
+/* 000F4 80B0BEA4 0C03F4DA */  jal     Math_FAcosF
 /* 000F8 80B0BEA8 46064300 */  add.s   $f12, $f8, $f6
 /* 000FC 80B0BEAC 26040364 */  addiu   $a0, $s0, 0x0364           ## $a0 = 00000364
 /* 00100 80B0BEB0 E7A00034 */  swc1    $f0, 0x0034($sp)

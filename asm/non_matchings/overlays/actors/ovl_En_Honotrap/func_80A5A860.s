@@ -18,13 +18,13 @@ glabel func_80A5A860
 /* 00C40 80A5A870 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 00C44 80A5A874 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00C48 80A5A878 24840032 */  addiu   $a0, $a0, 0x0032           ## $a0 = 00000032
-/* 00C4C 80A5A87C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00C4C 80A5A87C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00C50 80A5A880 24060300 */  addiu   $a2, $zero, 0x0300         ## $a2 = 00000300
 /* 00C54 80A5A884 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 00C58 80A5A888 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 00C5C 80A5A88C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 00C60 80A5A890 0C01DE80 */  jal     Math_ApproxF
+/* 00C60 80A5A890 0C01DE80 */  jal     Math_StepToF
               
 /* 00C64 80A5A894 3C054040 */  lui     $a1, 0x4040                ## $a1 = 40400000
 /* 00C68 80A5A898 C6040094 */  lwc1    $f4, 0x0094($s0)           ## 00000094

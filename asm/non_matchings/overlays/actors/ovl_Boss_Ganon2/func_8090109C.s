@@ -34,16 +34,16 @@ glabel func_8090109C
 /* 041DC 8090111C 27B40098 */  addiu   $s4, $sp, 0x0098           ## $s4 = FFFFFFF0
 /* 041E0 80901120 27B5008C */  addiu   $s5, $sp, 0x008C           ## $s5 = FFFFFFE4
 .L80901124:
-/* 041E4 80901124 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 041E4 80901124 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 041E8 80901128 4600A306 */  mov.s   $f12, $f20                 
 /* 041EC 8090112C E7A00098 */  swc1    $f0, 0x0098($sp)           
-/* 041F0 80901130 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 041F0 80901130 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 041F4 80901134 4600C306 */  mov.s   $f12, $f24                 
 /* 041F8 80901138 461A0100 */  add.s   $f4, $f0, $f26             
 /* 041FC 8090113C 4600A306 */  mov.s   $f12, $f20                 
-/* 04200 80901140 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 04200 80901140 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 04204 80901144 E7A4009C */  swc1    $f4, 0x009C($sp)           
 /* 04208 80901148 E7A000A0 */  swc1    $f0, 0x00A0($sp)           
@@ -56,7 +56,7 @@ glabel func_8090109C
 /* 04224 80901164 C62801BC */  lwc1    $f8, 0x01BC($s1)           ## 000001BC
 /* 04228 80901168 E7A80084 */  swc1    $f8, 0x0084($sp)           
 /* 0422C 8090116C C62A01C0 */  lwc1    $f10, 0x01C0($s1)          ## 000001C0
-/* 04230 80901170 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04230 80901170 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 04234 80901174 E7AA0088 */  swc1    $f10, 0x0088($sp)          
 /* 04238 80901178 4600040D */  trunc.w.s $f16, $f0                  

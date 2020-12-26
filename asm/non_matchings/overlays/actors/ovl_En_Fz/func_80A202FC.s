@@ -14,14 +14,14 @@ glabel func_80A202FC
 /* 00558 80A20318 55E0002C */  bnel    $t7, $zero, .L80A203CC     
 /* 0055C 80A2031C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00560 80A20320 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
-/* 00564 80A20324 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00564 80A20324 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00568 80A20328 00000000 */  nop
 /* 0056C 80A2032C C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
 /* 00570 80A20330 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00574 80A20334 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
 /* 00578 80A20338 46040180 */  add.s   $f6, $f0, $f4              
-/* 0057C 80A2033C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0057C 80A2033C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00580 80A20340 E7A60044 */  swc1    $f6, 0x0044($sp)           
 /* 00584 80A20344 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
@@ -31,7 +31,7 @@ glabel func_80A202FC
 /* 00594 80A20354 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00598 80A20358 44816000 */  mtc1    $at, $f12                  ## $f12 = 40.00
 /* 0059C 80A2035C 46105480 */  add.s   $f18, $f10, $f16           
-/* 005A0 80A20360 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 005A0 80A20360 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 005A4 80A20364 E7B20048 */  swc1    $f18, 0x0048($sp)          
 /* 005A8 80A20368 C604002C */  lwc1    $f4, 0x002C($s0)           ## 0000002C
@@ -47,7 +47,7 @@ glabel func_80A202FC
 /* 005D0 80A20390 E7A20040 */  swc1    $f2, 0x0040($sp)           
 /* 005D4 80A20394 E7A2003C */  swc1    $f2, 0x003C($sp)           
 /* 005D8 80A20398 E7A20038 */  swc1    $f2, 0x0038($sp)           
-/* 005DC 80A2039C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 005DC 80A2039C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 005E0 80A203A0 E7A80030 */  swc1    $f8, 0x0030($sp)           
 /* 005E4 80A203A4 3C014170 */  lui     $at, 0x4170                ## $at = 41700000

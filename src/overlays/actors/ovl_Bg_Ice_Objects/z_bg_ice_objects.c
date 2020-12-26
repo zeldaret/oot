@@ -124,7 +124,7 @@ void BgIceObjects_CheckPits(BgIceObjects* this, GlobalContext* globalCtx) {
         ((thisx->posRot.pos.x >= -860.0f) && (thisx->posRot.pos.z >= -700.0f))) {
 
         thisx->velocity.y += 1.0f;
-        if (Math_ApproxF(&thisx->posRot.pos.y, -300.0f, thisx->velocity.y)) {
+        if (Math_StepToF(&thisx->posRot.pos.y, -300.0f, thisx->velocity.y)) {
             thisx->velocity.y = 0.0f;
             thisx->posRot.pos.x = thisx->initPosRot.pos.x;
             thisx->posRot.pos.y = thisx->initPosRot.pos.y - 60.0f;
@@ -166,9 +166,9 @@ void BgIceObjects_Slide(BgIceObjects* this, GlobalContext* globalCtx) {
     f32 spread;
     Actor* thisx = &this->dyna.actor;
 
-    Math_ApproxF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_ApproxF(&thisx->posRot.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_ApproxF(&thisx->posRot.pos.z, this->targetPos.z, thisx->speedXZ);
+    Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
+    atTarget = Math_StepToF(&thisx->posRot.pos.x, this->targetPos.x, thisx->speedXZ);
+    atTarget &= Math_StepToF(&thisx->posRot.pos.z, this->targetPos.z, thisx->speedXZ);
     if (atTarget) {
         thisx->speedXZ = 0.0f;
         this->targetPos.x = thisx->posRot.pos.x;
@@ -185,22 +185,22 @@ void BgIceObjects_Slide(BgIceObjects* this, GlobalContext* globalCtx) {
             this->actionFunc = BgIceObjects_Idle;
         }
     } else if ((thisx->speedXZ > 6.0f) && (thisx->posRot.pos.y >= 0.0f)) {
-        spread = Math_Rand_CenteredFloat(120.0f);
-        velocity.x = -(1.5f + Math_Rand_ZeroOne()) * Math_Sins(this->dyna.unk_158);
-        velocity.y = Math_Rand_ZeroOne() + 1.0f;
-        velocity.z = -(1.5f + Math_Rand_ZeroOne()) * Math_Coss(this->dyna.unk_158);
+        spread = Rand_CenteredFloat(120.0f);
+        velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
+        velocity.y = Rand_ZeroOne() + 1.0f;
+        velocity.z = -(1.5f + Rand_ZeroOne()) * Math_CosS(this->dyna.unk_158);
         pos.x =
-            thisx->posRot.pos.x - (60.0f * Math_Sins(this->dyna.unk_158)) - (Math_Coss(this->dyna.unk_158) * spread);
+            thisx->posRot.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) - (Math_CosS(this->dyna.unk_158) * spread);
         pos.z =
-            thisx->posRot.pos.z - (60.0f * Math_Coss(this->dyna.unk_158)) + (Math_Sins(this->dyna.unk_158) * spread);
+            thisx->posRot.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) + (Math_SinS(this->dyna.unk_158) * spread);
         pos.y = thisx->posRot.pos.y;
-        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Math_Rand_S16Offset(40, 15));
-        spread = Math_Rand_CenteredFloat(120.0f);
+        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
+        spread = Rand_CenteredFloat(120.0f);
         pos.x =
-            thisx->posRot.pos.x - (60.0f * Math_Sins(this->dyna.unk_158)) + (Math_Coss(this->dyna.unk_158) * spread);
+            thisx->posRot.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
         pos.z =
-            thisx->posRot.pos.z - (60.0f * Math_Coss(this->dyna.unk_158)) - (Math_Sins(this->dyna.unk_158) * spread);
-        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Math_Rand_S16Offset(40, 15));
+            thisx->posRot.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
+        func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }
     BgIceObjects_CheckPits(this, globalCtx);
@@ -214,7 +214,7 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
     }
-    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 1.0f)) {
         thisx->flags &= ~0x10;
         Math_Vec3f_Copy(&this->targetPos, &thisx->initPosRot.pos);
         this->actionFunc = BgIceObjects_Idle;

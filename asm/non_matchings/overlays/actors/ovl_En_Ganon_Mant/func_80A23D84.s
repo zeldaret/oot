@@ -21,18 +21,18 @@ glabel func_80A23D84
 /* 00048 80A23DA8 F7BA0030 */  sdc1    $f26, 0x0030($sp)          
 /* 0004C 80A23DAC F7B60020 */  sdc1    $f22, 0x0020($sp)          
 /* 00050 80A23DB0 F7B40018 */  sdc1    $f20, 0x0018($sp)          
-/* 00054 80A23DB4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00054 80A23DB4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00058 80A23DB8 4600C306 */  mov.s   $f12, $f24                 
 /* 0005C 80A23DBC 3C014280 */  lui     $at, 0x4280                ## $at = 42800000
 /* 00060 80A23DC0 4481D000 */  mtc1    $at, $f26                  ## $f26 = 64.00
 /* 00064 80A23DC4 E7A00050 */  swc1    $f0, 0x0050($sp)           
-/* 00068 80A23DC8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00068 80A23DC8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0006C 80A23DCC 4600D306 */  mov.s   $f12, $f26                 
 /* 00070 80A23DD0 3C0180A2 */  lui     $at, %hi(D_80A27EC8)       ## $at = 80A20000
 /* 00074 80A23DD4 C42C7EC8 */  lwc1    $f12, %lo(D_80A27EC8)($at) 
-/* 00078 80A23DD8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00078 80A23DD8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0007C 80A23DDC E7A0004C */  swc1    $f0, 0x004C($sp)           
 /* 00080 80A23DE0 46000586 */  mov.s   $f22, $f0                  
@@ -45,7 +45,7 @@ glabel func_80A23D84
 /* 00094 80A23DF4 4600B306 */  mov.s   $f12, $f22                 
 /* 00098 80A23DF8 3C0180A2 */  lui     $at, %hi(D_80A27ECC)       ## $at = 80A20000
 /* 0009C 80A23DFC 46000586 */  mov.s   $f22, $f0                  
-/* 000A0 80A23E00 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 000A0 80A23E00 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 000A4 80A23E04 C42C7ECC */  lwc1    $f12, %lo(D_80A27ECC)($at) 
 /* 000A8 80A23E08 4600010D */  trunc.w.s $f4, $f0                   
@@ -138,11 +138,11 @@ glabel func_80A23D84
 /* 001E8 80A23F48 3C0180A2 */  lui     $at, %hi(D_80A27ED0)       ## $at = 80A20000
 /* 001EC 80A23F4C C4367ED0 */  lwc1    $f22, %lo(D_80A27ED0)($at) 
 .L80A23F50:
-/* 001F0 80A23F50 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 001F0 80A23F50 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 001F4 80A23F54 4600B306 */  mov.s   $f12, $f22                 
 /* 001F8 80A23F58 46000506 */  mov.s   $f20, $f0                  
-/* 001FC 80A23F5C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 001FC 80A23F5C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00200 80A23F60 4600B306 */  mov.s   $f12, $f22                 
 /* 00204 80A23F64 4600028D */  trunc.w.s $f10, $f0                  

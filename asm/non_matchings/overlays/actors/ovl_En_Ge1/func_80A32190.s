@@ -43,7 +43,7 @@ glabel func_80A32190
 .L80A3222C:
 /* 018BC 80A3222C AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 018C0 80A32230 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 018C4 80A32234 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 018C4 80A32234 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 018C8 80A32238 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 018CC 80A3223C 24090064 */  addiu   $t1, $zero, 0x0064         ## $t1 = 00000064
@@ -51,7 +51,7 @@ glabel func_80A32190
 /* 018D4 80A32244 2604029E */  addiu   $a0, $s0, 0x029E           ## $a0 = 0000029E
 /* 018D8 80A32248 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 018DC 80A3224C 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 018E0 80A32250 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 018E0 80A32250 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 018E4 80A32254 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 018E8 80A32258 8FBF002C */  lw      $ra, 0x002C($sp)           

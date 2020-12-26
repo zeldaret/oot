@@ -78,10 +78,10 @@ void func_80A90E28(EnKakasi3* this) {
     this->skelAnime.animPlaybackSpeed = 0.0f;
     this->unk_1AA = this->unk_1AE = 0x0;
 
-    Math_SmoothDownscaleMaxF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
+    Math_ApproachZeroF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
 }
 
 void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
@@ -91,11 +91,11 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
     phi_v0 = globalCtx->msgCtx.unk_E410[0];
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
-            this->unk_19C[3] = (s16)Math_Rand_ZeroFloat(10.99f) + 30;
-            this->unk_1A6 = (s16)Math_Rand_ZeroFloat(4.99f);
+            this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;
+            this->unk_1A6 = (s16)Rand_ZeroFloat(4.99f);
         }
 
-        this->unk_19A = (s16)Math_Rand_ZeroFloat(2.99f) + 5;
+        this->unk_19A = (s16)Rand_ZeroFloat(2.99f) + 5;
         phi_v0 = this->unk_1A6;
     }
     switch (phi_v0) {
@@ -138,9 +138,9 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
-        Math_SmoothScaleMaxF(&this->skelAnime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1AA, 0x5, 0x3E8, 0);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AE, 0x5, 0x3E8, 0);
+        Math_ApproachF(&this->skelAnime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk_1AA, 0x5, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.z, this->unk_1AE, 0x5, 0x3E8, 0);
 
         if (this->unk_1AA != 0x0 && fabsf(this->actor.shape.rot.x - this->unk_1AA) < 50.0f) {
             this->unk_1AA *= -1.0f;

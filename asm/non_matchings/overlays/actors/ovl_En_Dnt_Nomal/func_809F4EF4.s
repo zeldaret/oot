@@ -92,7 +92,7 @@ glabel func_809F4EF4
 /* 01D6C 809F502C A4620150 */  sh      $v0, 0x0150($v1)           ## 00000150
 /* 01D70 809F5030 AFA30044 */  sw      $v1, 0x0044($sp)           
 /* 01D74 809F5034 A7A2003E */  sh      $v0, 0x003E($sp)           
-/* 01D78 809F5038 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01D78 809F5038 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01D7C 809F503C C42C6058 */  lwc1    $f12, %lo(D_809F6058)($at) 
 /* 01D80 809F5040 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

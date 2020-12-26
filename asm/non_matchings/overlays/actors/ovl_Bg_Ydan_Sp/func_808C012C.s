@@ -46,7 +46,7 @@ glabel func_808C012C
 /* 00D9C 808C01AC 00007810 */  mfhi    $t7                        
 /* 00DA0 808C01B0 55E0009B */  bnel    $t7, $zero, .L808C0420     
 /* 00DA4 808C01B4 8FBF009C */  lw      $ra, 0x009C($sp)           
-/* 00DA8 808C01B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00DA8 808C01B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00DAC 808C01BC 00000000 */  nop
 /* 00DB0 808C01C0 3C01808C */  lui     $at, %hi(D_808C0A84)       ## $at = 808C0000
@@ -71,7 +71,7 @@ glabel func_808C012C
 .L808C020C:
 /* 00DFC 808C020C 3C014620 */  lui     $at, 0x4620                ## $at = 46200000
 /* 00E00 808C0210 44816000 */  mtc1    $at, $f12                  ## $f12 = 10240.00
-/* 00E04 808C0214 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00E04 808C0214 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00E08 808C0218 00000000 */  nop
 /* 00E0C 808C021C 44935000 */  mtc1    $s3, $f10                  ## $f10 = 0.00
@@ -84,20 +84,20 @@ glabel func_808C012C
 /* 00E28 808C0238 00029400 */  sll     $s2, $v0, 16               
 /* 00E2C 808C023C 00022400 */  sll     $a0, $v0, 16               
 /* 00E30 808C0240 00129403 */  sra     $s2, $s2, 16               
-/* 00E34 808C0244 0C01DE1C */  jal     Math_Sins
+/* 00E34 808C0244 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E38 808C0248 00042403 */  sra     $a0, $a0, 16               
 /* 00E3C 808C024C 00122400 */  sll     $a0, $s2, 16               
 /* 00E40 808C0250 46000506 */  mov.s   $f20, $f0                  
-/* 00E44 808C0254 0C01DE0D */  jal     Math_Coss
+/* 00E44 808C0254 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E48 808C0258 00042403 */  sra     $a0, $a0, 16               
 /* 00E4C 808C025C 46000586 */  mov.s   $f22, $f0                  
-/* 00E50 808C0260 0C01DE0D */  jal     Math_Coss
+/* 00E50 808C0260 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E54 808C0264 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00E58 808C0268 46140602 */  mul.s   $f24, $f0, $f20            
-/* 00E5C 808C026C 0C01DE1C */  jal     Math_Sins
+/* 00E5C 808C026C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E60 808C0270 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00E64 808C0274 4600A502 */  mul.s   $f20, $f20, $f0            
@@ -129,20 +129,20 @@ glabel func_808C012C
 /* 00EC8 808C02D8 00000000 */  nop
 /* 00ECC 808C02DC 45020021 */  bc1fl   .L808C0364                 
 /* 00ED0 808C02E0 3C0140D0 */  lui     $at, 0x40D0                ## $at = 40D00000
-/* 00ED4 808C02E4 0C01DE1C */  jal     Math_Sins
+/* 00ED4 808C02E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00ED8 808C02E8 00042403 */  sra     $a0, $a0, 16               
 /* 00EDC 808C02EC 00112400 */  sll     $a0, $s1, 16               
 /* 00EE0 808C02F0 46000506 */  mov.s   $f20, $f0                  
-/* 00EE4 808C02F4 0C01DE0D */  jal     Math_Coss
+/* 00EE4 808C02F4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00EE8 808C02F8 00042403 */  sra     $a0, $a0, 16               
 /* 00EEC 808C02FC 46000586 */  mov.s   $f22, $f0                  
-/* 00EF0 808C0300 0C01DE0D */  jal     Math_Coss
+/* 00EF0 808C0300 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00EF4 808C0304 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00EF8 808C0308 46140602 */  mul.s   $f24, $f0, $f20            
-/* 00EFC 808C030C 0C01DE1C */  jal     Math_Sins
+/* 00EFC 808C030C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00F00 808C0310 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00F04 808C0314 4600A502 */  mul.s   $f20, $f20, $f0            

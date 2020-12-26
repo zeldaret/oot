@@ -20,7 +20,7 @@ glabel func_809E7F14
 /* 0276C 809E7F3C 46062202 */  mul.s   $f8, $f4, $f6              
 /* 02770 809E7F40 24840028 */  addiu   $a0, $a0, 0x0028           ## $a0 = 00000028
 /* 02774 809E7F44 44064000 */  mfc1    $a2, $f8                   
-/* 02778 809E7F48 0C01DE80 */  jal     Math_ApproxF
+/* 02778 809E7F48 0C01DE80 */  jal     Math_StepToF
               
 /* 0277C 809E7F4C 00000000 */  nop
 /* 02780 809E7F50 3C01809F */  lui     $at, %hi(D_809E91C0)       ## $at = 809F0000
@@ -33,7 +33,7 @@ glabel func_809E7F14
 /* 0279C 809E7F6C 46049002 */  mul.s   $f0, $f18, $f4             
 /* 027A0 809E7F70 44050000 */  mfc1    $a1, $f0                   
 /* 027A4 809E7F74 44060000 */  mfc1    $a2, $f0                   
-/* 027A8 809E7F78 0C01DE80 */  jal     Math_ApproxF
+/* 027A8 809E7F78 0C01DE80 */  jal     Math_StepToF
               
 /* 027AC 809E7F7C 00000000 */  nop
 /* 027B0 809E7F80 1040002E */  beq     $v0, $zero, .L809E803C     
