@@ -55,12 +55,12 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[6] & 0x80) {
         this->waterHeight = -550.0f;
     }
-    globalCtx->colCtx.stat.colHeader->waterBoxes[0].unk_02 = this->actor.posRot.pos.y;
+    globalCtx->colCtx.stat.colHeader->waterBoxes[0].ySurface = this->actor.posRot.pos.y;
     if (this->waterHeight < this->actor.posRot.pos.y) {
         Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->waterHeight, 1.0f, 2.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->waterHeight, 1.0f, 2.0f);
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {

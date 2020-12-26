@@ -93,7 +93,7 @@ glabel func_80B2C8AC
 /* 027B8 80B2C9B8 4405A000 */  mfc1    $a1, $f20                  
 /* 027BC 80B2C9BC 4406A000 */  mfc1    $a2, $f20                  
 /* 027C0 80B2C9C0 44070000 */  mfc1    $a3, $f0                   
-/* 027C4 80B2C9C4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 027C4 80B2C9C4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 027C8 80B2C9C8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 027CC 80B2C9CC C60001E8 */  lwc1    $f0, 0x01E8($s0)           ## 000001E8

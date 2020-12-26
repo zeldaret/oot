@@ -252,7 +252,6 @@ void func_80A09054(EnExItem *this, GlobalContext *globalCtx) {
     }
 }
 
-#ifndef NON_MATCHING
 typedef struct {
     Actor actor;
     char unk_14C[0xA];
@@ -276,7 +275,7 @@ void func_80A09434(EnExItem *this, GlobalContext *globalCtx) {
             this->unk_158++;
         }
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, 0, 5, 0x1000, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 5, 0x1000, 0);
     }
     if (this->unk_15A != 0) {
         if (this->unk_15E != 0) {
@@ -314,9 +313,6 @@ void func_80A09434(EnExItem *this, GlobalContext *globalCtx) {
         Actor_Kill(&this->actor);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ex_Item/func_80A09434.s")
-#endif
 
 void func_80A0964C(EnExItem *this, GlobalContext *globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y = 0x4268;
@@ -358,14 +354,14 @@ void func_80A09724(EnExItem* this, GlobalContext* globalCtx) {
     f32 tmpf6;
     f32 tmpf7;
 
-    Math_SmoothScaleMaxF(&this->unk_164, 0.8f, 0.1f, 0.02f);
+    Math_ApproachF(&this->unk_164, 0.8f, 0.1f, 0.02f);
     if (this->unk_158 == 0) {
         this->actor.shape.rot.y += 0x1000;
         if ((this->unk_15E == 0) && ((this->actor.shape.rot.y & 0xFFFF) == 0x9000)) {
             this->unk_158++;
         }
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, -0x4000, 5, 0x1000, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, -0x4000, 5, 0x1000, 0);
     }
 
     if (this->unk_15A != 0) {

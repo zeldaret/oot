@@ -127,22 +127,22 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
     f32 spreadAngle;
     f32 scaleMod;
 
-    spreadAngle = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
+    spreadAngle = (Rand_ZeroOne() - 0.5f) * 6.28f;
     pos.y = this->actor.groundY;
-    pos.x = (func_800CA720(spreadAngle) * spread) + spawnPos->x;
-    pos.z = (func_800CA774(spreadAngle) * spread) + spawnPos->z;
-    accel.x = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
-    accel.z = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
-    vel.y += (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-    scaleMod = (Math_Rand_ZeroOne() * 5.0f) + 12.0f;
+    pos.x = (Math_SinF(spreadAngle) * spread) + spawnPos->x;
+    pos.z = (Math_CosF(spreadAngle) * spread) + spawnPos->z;
+    accel.x = (Rand_ZeroOne() - 0.5f) * accelXZ;
+    accel.z = (Rand_ZeroOne() - 0.5f) * accelXZ;
+    vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
+    scaleMod = (Rand_ZeroOne() * 5.0f) + 12.0f;
     EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, arg4, scaleMod * scale, -1, 10, NULL);
 }
 
 void EnDh_SetupWait(EnDh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06003A8C);
     this->curAction = DH_WAIT;
-    this->actor.posRot.pos.x = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
     this->actor.shape.unk_08 = -15000.0f;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -169,9 +169,9 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
             case 1:
                 this->dirtWavePhase += 0x3A7;
-                Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 5.0f, 0.0f);
-                this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
-                this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+                Math_SmoothStepToF(&this->dirtWaveSpread, 300.0f, 1.0f, 5.0f, 0.0f);
+                this->dirtWaveHeight = Math_SinS(this->dirtWavePhase) * 55.0f;
+                this->dirtWaveAlpha = (s16)(Math_SinS(this->dirtWavePhase) * 255.0f);
                 EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
                 if (this->actor.shape.unk_08 == 0.0f) {
                     this->drawDirtWave = false;
@@ -184,7 +184,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
                 EnDh_SetupWalk(this);
                 break;
         }
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
         if (this->actor.params != ENDH_START_ATTACK_BOMB) {
             func_8008EEAC(globalCtx, &this->actor);
@@ -202,7 +202,7 @@ void EnDh_SetupWalk(EnDh* this) {
 }
 
 void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (((s32)this->skelAnime.animCurrentFrame % 8) == 0) {
@@ -235,7 +235,7 @@ void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
         this->retreat = false;
         EnDh_SetupBurrow(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsLink + 0x8000), 1, 0xBB8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsLink + 0x8000), 1, 0xBB8, 0);
     }
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -266,7 +266,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             this->actionState++;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_BITE);
         case 0:
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             break;
         case 2:
             if (this->skelAnime.animCurrentFrame >= 4.0f) {
@@ -328,9 +328,9 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
             this->collider1.body.toucher.damage = 4;
         case 1:
             this->dirtWavePhase += 0x47E;
-            Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 8.0f, 0.0f);
-            this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
-            this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+            Math_SmoothStepToF(&this->dirtWaveSpread, 300.0f, 1.0f, 8.0f, 0.0f);
+            this->dirtWaveHeight = Math_SinS(this->dirtWavePhase) * 55.0f;
+            this->dirtWaveAlpha = (s16)(Math_SinS(this->dirtWavePhase) * 255.0f);
             EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
             this->collider1.dim.radius = this->dirtWaveSpread * 0.6f;
             if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {

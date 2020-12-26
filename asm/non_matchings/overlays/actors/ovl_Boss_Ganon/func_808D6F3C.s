@@ -50,7 +50,7 @@ glabel func_808D6F3C
 /* 00774 808D6FE4 C7A6002C */  lwc1    $f6, 0x002C($sp)           
 /* 00778 808D6FE8 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
 /* 0077C 808D6FEC E4460038 */  swc1    $f6, 0x0038($v0)           ## 00010038
-/* 00780 808D6FF0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00780 808D6FF0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00784 808D6FF4 AFA20018 */  sw      $v0, 0x0018($sp)           
 /* 00788 808D6FF8 4600020D */  trunc.w.s $f8, $f0                   

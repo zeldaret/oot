@@ -15,7 +15,7 @@ glabel func_8093D3D8
 /* 0473C 8093D40C 8FAF0018 */  lw      $t7, 0x0018($sp)
 /* 04740 8093D410 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 04744 8093D414 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 04748 8093D418 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04748 8093D418 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 0474C 8093D41C A1E005F8 */  sb      $zero, 0x05F8($t7)         ## 000005F8
 /* 04750 8093D420 4600010D */  trunc.w.s $f4, $f0

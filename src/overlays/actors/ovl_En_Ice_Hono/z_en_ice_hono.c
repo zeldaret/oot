@@ -142,8 +142,8 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 10,
                                   this->actor.posRot.pos.z, 155, 210, 255, 0);
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-        this->unk_154 = Math_Rand_ZeroOne() * (0x1FFFF / 2.0f);
-        this->unk_156 = Math_Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->unk_154 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
+        this->unk_156 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
         // Translates to: "(ice flame)"
         osSyncPrintf("(ice 炎)(arg_data 0x%04x)\n", this->actor.params);
     }
@@ -163,9 +163,9 @@ u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
 
     if (this->actor.xzDistFromLink < 60.0f) {
         Vec3f tempPos;
-        tempPos.x = Math_Sins(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.x;
+        tempPos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.x;
         tempPos.y = player->actor.posRot.pos.y;
-        tempPos.z = Math_Coss(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.z;
+        tempPos.z = Math_CosS(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.z;
         if (EnIceHono_SquareDist(&tempPos, &this->actor.posRot.pos) <= SQ(40.0f)) {
             return 1;
         }
@@ -201,16 +201,16 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
 void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
     u32 bgFlag = this->actor.bgCheckFlags & 1;
 
-    Math_ApproxF(&this->actor.scale.x, 0.0017f, 0.00008f);
+    Math_StepToF(&this->actor.scale.x, 0.0017f, 0.00008f);
     this->actor.scale.z = this->actor.scale.x;
-    Math_ApproxF(&this->actor.scale.y, 0.0017f, 0.00008f);
+    Math_StepToF(&this->actor.scale.y, 0.0017f, 0.00008f);
 
     if (bgFlag != 0) {
         s32 i;
         for (i = 0; i < 8; i++) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
+                        ((s32)(Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
@@ -235,11 +235,11 @@ void EnIceHono_SetupActionSpreadFlames(EnIceHono* this) {
 
 void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     if (this->timer > 20) {
-        Math_ApproxF(&this->actor.scale.x, 0.011f, 0.00014f);
-        Math_ApproxF(&this->actor.scale.y, 0.006f, 0.00012f);
+        Math_StepToF(&this->actor.scale.x, 0.011f, 0.00014f);
+        Math_StepToF(&this->actor.scale.y, 0.006f, 0.00012f);
     } else {
-        Math_ApproxF(&this->actor.scale.x, 0.0001f, 0.00015f);
-        Math_ApproxF(&this->actor.scale.y, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
     Actor_MoveForward(&this->actor);
@@ -261,7 +261,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
             s32 rot = i * 0x1999;
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ICE_HONO, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                        ((s32)(Math_Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
+                        ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
         }
     }
 
@@ -275,24 +275,24 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
     this->timer = 44;
     this->alpha = 255;
     if (this->actor.params == 1) {
-        this->smallFlameTargetYScale = (Math_Rand_ZeroOne() * 0.005f) + 0.004f;
-        this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.6f) + 0.5f;
+        this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.004f;
+        this->actor.speedXZ = (Rand_ZeroOne() * 1.6f) + 0.5f;
     } else {
-        this->smallFlameTargetYScale = (Math_Rand_ZeroOne() * 0.005f) + 0.003f;
-        this->actor.speedXZ = (Math_Rand_ZeroOne() * 2.0f) + 0.5f;
+        this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.003f;
+        this->actor.speedXZ = (Rand_ZeroOne() * 2.0f) + 0.5f;
     }
 }
 
 void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
     if (this->timer > 20) {
-        Math_ApproxF(&this->actor.scale.x, 0.006f, 0.00016f);
-        Math_ApproxF(&this->actor.scale.y, this->smallFlameTargetYScale * 0.667f, 0.00014f);
+        Math_StepToF(&this->actor.scale.x, 0.006f, 0.00016f);
+        Math_StepToF(&this->actor.scale.y, this->smallFlameTargetYScale * 0.667f, 0.00014f);
     } else {
-        Math_ApproxF(&this->actor.scale.x, 0.0001f, 0.00015f);
-        Math_ApproxF(&this->actor.scale.y, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+        Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
-    Math_ApproxF(&this->actor.speedXZ, 0, 0.06f);
+    Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
 
@@ -322,9 +322,9 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         this->unk_154 += 0x1111;
         this->unk_156 += 0x4000;
-        sin156 = Math_Sins(this->unk_156);
-        sin154 = Math_Sins(this->unk_154);
-        intensity = (Math_Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
+        sin156 = Math_SinS(this->unk_156);
+        sin154 = Math_SinS(this->unk_154);
+        intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             // Translates to: "impossible value(ratio = %f)"
             osSyncPrintf("ありえない値(ratio = %f)\n", intensity);
