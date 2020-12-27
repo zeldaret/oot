@@ -44,17 +44,21 @@ ColliderCylinderInit D_80A9A100 = {
 };
 CollisionCheckInfoInit2 D_80A9A12C = { 0, 0, 0, 0, 0xFF };
 
-s32 D_80A9A138[] = { 0x06000240, 0x06000D40, 0x06001140, 0x00000000 };
-s32 D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, 0x00000000 };
+void* D_80A9A138[] = { 0x06000240, 0x06000D40, 0x06001140, 0x00000000 };
+void* D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, 0x00000000 };
 
 typedef struct {
     s16 objectId;
-    FlexSkeletonHeader* header;
+    Gfx* gfx;
+    void** unk_8;
 } struct_80A9A158;
 
-struct_80A9A158 D_80A9A158[] = { { 0x00FC, 0x06001890 } };
+// struct_80A9A158 D_80A9A158[] = { { 0x00FC, 0x06001890 } };
 
-s32 D_80A9A160[] = { 0x00000000, 0x00FD0000, 0x06002C10, &D_80A9A148, 0x013D0000, 0x06002940, &D_80A9A138 };
+struct_80A9A158 D_80A9A158[] = { { 0x00FC, 0x06001890, NULL },
+                                 { 0x00FD, 0x06002C10, D_80A9A148 },
+                                 { 0x013D, 0x06002940, D_80A9A138 } };
+// s32 D_80A9A160[] = { 0x00000000, 0x00FD0000, 0x06002C10, &D_80A9A148, 0x013D0000, 0x06002940, &D_80A9A138 };
 
 typedef struct {
     s16 objectId;
@@ -100,7 +104,7 @@ u8 D_80A9A4BC[13][5] = { { 0x08, 0x09, 0x09, 0x0E, 0x0B }, { 0x02, 0x0C, 0x02, 0
                          { 0x02, 0x02, 0x02, 0x02, 0x16 }, { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E },
                          { 0x05, 0x05, 0x05, 0x05, 0x05 } };
 typedef struct {
-    s8 unk_0;
+    u8 unk_0;
     s8 unk_1;
     Color_RGBA8 color1;
     // s8 unk_2; // R
@@ -282,7 +286,21 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98934.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98C18.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98C18.s")
+void func_80A98C18(EnKo* this) {
+    void** temp_v1;
+    s32 phi_v1;
+
+    if (DECR(this->unk_214) == 0) {
+        phi_v1 = D_80A9A500[this->actor.params & 0xFF].unk_0;
+        this->unk_216++;
+        temp_v1 = D_80A9A158[phi_v1].unk_8;
+        if ((temp_v1 != NULL) && (temp_v1[this->unk_216] == NULL)) {
+            this->unk_214 = Math_Rand_S16Offset(30, 30);
+            this->unk_216 = 0;
+        }
+    }
+}
 
 // Seems fake
 s32 func_80A98CD8(EnKo* this) {
@@ -309,7 +327,29 @@ s32 func_80A98D2C(EnKo* this) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98DB4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98DB4.s")
+void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
+    f32 dist;
+    f32 phi_f0;
+
+    // temp_v0 = globalCtx->sceneNum;
+    if ((globalCtx->sceneNum != SCENE_SPOT10) && (globalCtx->sceneNum != SCENE_SPOT04)) {
+        this->unk_220 = 255.0f;
+        return;
+    }
+    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
+        dist = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &globalCtx->view.eye) * 0.25f;
+    } else {
+        dist = this->actor.xzDistFromLink;
+    }
+
+    Math_SmoothScaleMaxMinF(&this->unk_220, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
+    if (this->unk_220 < 10.0f) {
+        this->actor.flags = this->actor.flags & ~1;
+        return;
+    }
+    this->actor.flags = this->actor.flags | 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98ECC.s")
 
@@ -449,16 +489,103 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Update.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Update.s")
+void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ColliderCylinder* collider;
+    EnKo* this = THIS;
+
+    if (this->actionFunc != func_80A99048) {
+        if ((s32)this->unk_220 != 0) {
+            gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex].segment);
+            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            func_80A98DB4(this, globalCtx);
+            func_80A98C18(this);
+        } else {
+            func_80A98DB4(this, globalCtx);
+        }
+    }
+    if (this->unk_1E8 == 0) {
+        Actor_MoveForward(&this->actor);
+    }
+    if (func_80A97C7C(this) != 0) {
+        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        this->actor.gravity = -1.0f;
+    } else {
+        this->actor.gravity = 0.0f;
+    }
+    this->actionFunc(this, globalCtx);
+    func_80A9877C(this, globalCtx);
+    collider = &this->collider;
+    { s32 pad; } // Probably fake but works
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99864.s")
+/*s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                  void* arg6) {
+    EnKo* this = THIS;
+    s16 sp40;
+    void* temp_a1;
+    s32 temp_a2;
+    struct_80A9A158* temp_v0;
+    void* temp_v1;
+    void* temp_v1_2;
+    void* temp_v1_3;
+
+    if (limbIndex == 0xF) {
+        // temp_v1 = *arg6;
+        //*arg6 = (void *) (temp_v1 + 8);
+        // temp_v1->unk0 = 0xDB060018;
+        // temp_v1->unk4 = (void *) globalCtx->objectCtx.status[this->unk194].segment;
+        gSPSegment(arg6++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_194].segment);
+        temp_v0 = &D_80A9A158[D_80A9A500[this->actor.params & 0xFF].unk_0];
+        *dList = temp_v0->gfx;
+        temp_a1 = temp_v0->unk_8;
+        if (temp_a1 != 0) {
+            temp_a2 = temp_a1[this->unk_216];
+            gSPSegment(arg6++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
+        }
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_196].segment);
+    }
+    if (limbIndex == 8) {
+        sp40.unk0 = (?32) (unaligned s32) this->unk1F6;
+        sp40.unk4 = (u16)this->unk1FA;
+        Matrix_RotateX(((f32)(0 - sp42) / 32768.0f) * 3.1415927f, (u8)1U);
+        Matrix_RotateZ(((f32)sp40 / 32768.0f) * 3.1415927f, (u8)1U);
+    }
+    if (limbIndex == 0xF) {
+        Matrix_Translate(1200.0f, 0.0f, 0.0f, (u8)1U);
+        sp40.unk0 = (?32) (unaligned s32) this->unk1F0;
+        (&sp40)[2] = (s16)this->unk1F4;
+        Matrix_RotateX(((f32)sp42 / 32768.0f) * 3.1415927f, (u8)1U);
+        Matrix_RotateZ(((f32)sp40 / 32768.0f) * 3.1415927f, (u8)1U);
+        Matrix_Translate(-1200.0f, 0.0f, 0.0f, (u8)1U);
+    }
+    if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 0xC)) {
+        temp_v1_3 = this + (limbIndex * 2);
+        rot->y = (s16)(s32)((f32)rot->y + (Math_Sins(temp_v1_3->unk2E4) * 200.0f));
+        rot->z = (s16)(s32)((f32)rot->z + (Math_Coss(temp_v1_3->unk304) * 200.0f));
+    }
+    return 0;
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99BC4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99C94.s")
+// AllocColorDList?
+Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
+    Gfx* dList;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
-void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    // dListHead = dList;
+    gDPSetEnvColor(dList, r, g, b, a);
+    gSPEndDisplayList(dList + 1);
+    return dList;
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
+/*void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
     Color_RGBA8 color1;
     Color_RGBA8 color2;
@@ -490,14 +617,17 @@ void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if ((s16)this->unk_220 != 0) {
         //sp63 = (u8)(u32)temp_f0;
         //sp5F = (u8)(u32)this->unk_220;
-        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, this->unk_220));
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b,
+(u8)(u32)this->unk_220));
         // temp_v0_4 = temp_s1->polyXlu.p;
         // temp_s1->polyXlu.p = temp_v0_4 + 8;
         // temp_v0_4->words.w0 = 0xDB060020;
         // sp3C = temp_v0_4;
         // sp3C->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp60, sp61, sp62, (?32) sp63);
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, this->unk_220));
-        func_80034CC4(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx, this->unk_220);
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b,
+(u8)(u32)this->unk_220)); func_80034CC4(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx,
+(s32)this->unk_220);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 0x858);
 }
+*/
