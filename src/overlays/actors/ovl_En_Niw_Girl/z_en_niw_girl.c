@@ -102,7 +102,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 zDistBetween;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
     xDistBetween = this->chasedEnNiw->actor.posRot.pos.x - this->actor.posRot.pos.x;
@@ -118,9 +118,9 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     }
 
     // Change her angle so that she is always facing the cuckoo
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(xDistBetween, zDistBetween) * 10430.378f, 3,
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * 10430.378f, 3,
                             this->unk_27C, 0);
-    Math_SmoothScaleMaxF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
+    Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
     // Only allow Link to talk to her when she is playing the jumping animation
@@ -164,14 +164,14 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx)) {
         this->chasedEnNiw->path = 0;
     }
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.8f, 0.2f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.8f, 0.2f);
     if (func_8002F194(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
         }
     } else {
         if ((this->jumpTimer == 0) && !func_8010BDBC(&globalCtx->msgCtx)) {
-            this->jumpTimer = Math_Rand_ZeroFloat(100.0f) + 250.0f;
+            this->jumpTimer = Rand_ZeroFloat(100.0f) + 250.0f;
             this->actionFunc = EnNiwGirl_Jump;
         } else {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -191,7 +191,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_272++;
         if (this->unk_272 >= 3) {
             this->unk_272 = 0;
-            this->unk_274 = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+            this->unk_274 = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_280 = 30.0f;
@@ -205,9 +205,9 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_260 = this->unk_2D4.unk_08;
         this->unk_266 = this->unk_2D4.unk_0E;
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_266.y, 0, 5, 3000, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_260.y, 0, 5, 3000, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_260.z, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->unk_260.z, 0, 5, 3000, 0);
     }
     if (this->unk_274 != 0) {
         this->unk_274--;

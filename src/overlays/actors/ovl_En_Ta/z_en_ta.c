@@ -766,13 +766,13 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC > 35) {
         for (i = 1; i < ARRAY_COUNT(this->unk_2B8); i++) {
             if (this->unk_2B8[i] != NULL) {
-                Math_SmoothScaleMaxMinS(&this->unk_2B8[i]->actor.posRot.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
+                Math_SmoothStepToS(&this->unk_2B8[i]->actor.posRot.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
                 this->unk_2B8[i]->actor.shape.rot.y = this->unk_2B8[i]->actor.posRot.rot.y;
             }
         }
     } else if (this->unk_2CC == 35) {
         for (i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
-            this->unk_2C4[i] = (s32)(Math_Rand_CenteredFloat(6.0f) + 10.0f);
+            this->unk_2C4[i] = (s32)(Rand_CenteredFloat(6.0f) + 10.0f);
 
             if (this->unk_2B8[i] != NULL) {
                 EnNiw* niw = this->unk_2B8[i];
@@ -1081,7 +1081,7 @@ void func_80B16700(EnTa* this) {
                 this->unk_2CE--;
                 temp2B6 = 1;
             } else {
-                temp2B6 = (s32)(Math_Rand_ZeroOne() * 60.0f) + 20;
+                temp2B6 = (s32)(Rand_ZeroOne() * 60.0f) + 20;
             }
             this->unk_2B6 = temp2B6;
             this->unk_2B0 = func_80B166CC;
@@ -1112,7 +1112,7 @@ void func_80B16854(EnTa* this) {
     } else {
         if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, this->unk_2E4);
-            this->unk_2E2 = Math_Rand_ZeroFloat(100.0f) + 100.0f;
+            this->unk_2E2 = Rand_ZeroFloat(100.0f) + 100.0f;
         }
 
         if (this->skelAnime.animCurrentFrame < 96.0f && this->skelAnime.animCurrentFrame >= 53.0f) {
@@ -1152,10 +1152,10 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_2E0 & 1) {
         func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.posRot2.pos);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_2D4.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2D4.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2DA.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2DA.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2DA.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2DA.y, 0, 6, 6200, 100);
     }
 
     this->unk_2E0 &= ~0x5;
@@ -1183,8 +1183,8 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         this->unk_2E0 &= ~0x8;
     } else if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
         s32 limbIdx50 = limbIndex * 50;
-        rot->y += Math_Sins(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
-        rot->z += Math_Coss(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(globalCtx->state.frames * (limbIdx50 + 0x814)) * 200.0f;
+        rot->z += Math_CosS(globalCtx->state.frames * (limbIdx50 + 0x940)) * 200.0f;
     }
 
     return 0;

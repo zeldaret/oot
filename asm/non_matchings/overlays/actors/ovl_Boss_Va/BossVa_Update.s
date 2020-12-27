@@ -133,7 +133,7 @@ glabel L80957E74
 /* 08C0C 80957ECC 00042400 */  sll     $a0, $a0, 16               
 /* 08C10 80957ED0 ACD90040 */  sw      $t9, 0x0040($a2)           ## 00000040
 /* 08C14 80957ED4 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 08C18 80957ED8 0C01DE0D */  jal     Math_Coss
+/* 08C18 80957ED8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 08C1C 80957EDC 00042403 */  sra     $a0, $a0, 16               
 /* 08C20 80957EE0 8FA60018 */  lw      $a2, 0x0018($sp)           
@@ -154,7 +154,7 @@ glabel L80957E74
 /* 08C5C 80957F1C 00042080 */  sll     $a0, $a0,  2               
 /* 08C60 80957F20 00042400 */  sll     $a0, $a0, 16               
 /* 08C64 80957F24 00042403 */  sra     $a0, $a0, 16               
-/* 08C68 80957F28 0C01DE1C */  jal     Math_Sins
+/* 08C68 80957F28 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 08C6C 80957F2C E4C401DC */  swc1    $f4, 0x01DC($a2)           ## 000001DC
 /* 08C70 80957F30 3C018096 */  lui     $at, %hi(D_8095C81C)       ## $at = 80960000

@@ -602,16 +602,16 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         vtx[0].v = baseVtx;
         vtx[1].v = baseVtx;
 
-        vtx[0].v.ob[0] = Math_nearbyintf(sp158.x);
-        vtx[0].v.ob[1] = Math_nearbyintf(sp158.y);
-        vtx[0].v.ob[2] = Math_nearbyintf(sp158.z);
+        vtx[0].v.ob[0] = Math_FNearbyIntF(sp158.x);
+        vtx[0].v.ob[1] = Math_FNearbyIntF(sp158.y);
+        vtx[0].v.ob[2] = Math_FNearbyIntF(sp158.z);
         vtx[0].v.cn[0] = sp148.r;
         vtx[0].v.cn[1] = sp148.g;
         vtx[0].v.cn[2] = sp148.b;
         vtx[0].v.cn[3] = sp148.a;
-        vtx[1].v.ob[0] = Math_nearbyintf(sp14C.x);
-        vtx[1].v.ob[1] = Math_nearbyintf(sp14C.y);
-        vtx[1].v.ob[2] = Math_nearbyintf(sp14C.z);
+        vtx[1].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+        vtx[1].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+        vtx[1].v.ob[2] = Math_FNearbyIntF(sp14C.z);
         vtx[1].v.cn[0] = sp144.r;
         vtx[1].v.cn[1] = sp144.g;
         vtx[1].v.cn[2] = sp144.b;
@@ -644,17 +644,17 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             vtx[j1].v = baseVtx;
             vtx[j2].v = baseVtx;
 
-            vtx[j1].v.ob[0] = Math_nearbyintf(sp158.x);
-            vtx[j1].v.ob[1] = Math_nearbyintf(sp158.y);
-            vtx[j1].v.ob[2] = Math_nearbyintf(sp158.z);
+            vtx[j1].v.ob[0] = Math_FNearbyIntF(sp158.x);
+            vtx[j1].v.ob[1] = Math_FNearbyIntF(sp158.y);
+            vtx[j1].v.ob[2] = Math_FNearbyIntF(sp158.z);
             vtx[j1].v.cn[0] = func_80027E84(sp1A4.r, sp19C.r, temp_f28);
             vtx[j1].v.cn[1] = func_80027E84(sp1A4.g, sp19C.g, temp_f28);
             vtx[j1].v.cn[2] = func_80027E84(sp1A4.b, sp19C.b, temp_f28);
             vtx[j1].v.cn[3] = func_80027E84(sp1A4.a, sp19C.a, temp_f28);
 
-            vtx[j2].v.ob[0] = Math_nearbyintf(sp14C.x);
-            vtx[j2].v.ob[1] = Math_nearbyintf(sp14C.y);
-            vtx[j2].v.ob[2] = Math_nearbyintf(sp14C.z);
+            vtx[j2].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+            vtx[j2].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+            vtx[j2].v.ob[2] = Math_FNearbyIntF(sp14C.z);
             vtx[j2].v.cn[0] = func_80027E84(sp1A0.r, sp198.r, temp_f28);
             vtx[j2].v.cn[1] = func_80027E84(sp1A0.g, sp198.g, temp_f28);
             vtx[j2].v.cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);

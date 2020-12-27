@@ -124,24 +124,24 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     if (1) {}
 
     if ((this->unk_198 % 6) == 0) {
-        temp_2 = Math_Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
+        temp_2 = Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
         vecA.y = 0.0f;
         vecB.y = this->actor.posRot.pos.y;
 
         this2 = this;
         for (i = 0; i < 6; i++) {
-            temp_1 = Math_Rand_CenteredFloat(0x2800) + temp_2;
-            temp_3 = Math_Sins(temp_1);
-            temp_4 = Math_Coss(temp_1);
+            temp_1 = Rand_CenteredFloat(0x2800) + temp_2;
+            temp_3 = Math_SinS(temp_1);
+            temp_4 = Math_CosS(temp_1);
             vecB.x = this2->actor.posRot.pos.x + (120.0f * temp_3);
             vecB.z = this2->actor.posRot.pos.z + (120.0f * temp_4);
-            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.f);
+            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.0f);
             if (distXZ < 0.7f) {
-                temp_3 = Math_Sins(temp_1 + 0x8000);
-                temp_4 = Math_Coss(temp_1 + 0x8000);
+                temp_3 = Math_SinS(temp_1 + 0x8000);
+                temp_4 = Math_CosS(temp_1 + 0x8000);
                 vecB.x = this->actor.posRot.pos.x + (120.0f * temp_3);
                 vecB.z = this->actor.posRot.pos.z + (120.0f * temp_4);
-                distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &vecB) * (1.0f / 120.f);
+                distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &vecB) * (1.0f / 120.0f);
             }
 
             vecA.x = 4.0f * temp_3 * distXZ;

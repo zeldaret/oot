@@ -33,7 +33,7 @@ u32 EffectSsKFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->life = 100;
     this->rScaleMax = initParams->scaleMax;
     this->rAlpha = 255;
-    this->rScroll = (s16)Math_Rand_ZeroFloat(5.0f) - 0x19;
+    this->rScroll = (s16)Rand_ZeroFloat(5.0f) - 0x19;
     this->rType = initParams->type;
     this->draw = EffectSsKFire_Draw;
     this->update = EffectSsKFire_Update;

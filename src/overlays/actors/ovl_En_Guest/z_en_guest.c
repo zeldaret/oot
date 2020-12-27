@@ -120,7 +120,7 @@ void func_80A5046C(EnGuest* this) {
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
-                this->unk_2CA = (s32)Math_Rand_ZeroFloat(60.0f) + 20;
+                this->unk_2CA = (s32)Rand_ZeroFloat(60.0f) + 20;
             } else {
                 this->unk_2CA = 1;
             }
@@ -207,8 +207,8 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_Sins(this->unk_2CC[limbIndex]) * 200.0f;
-        rot->z += Math_Coss(this->unk_2EC[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->unk_2CC[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_2EC[limbIndex]) * 200.0f;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 388);

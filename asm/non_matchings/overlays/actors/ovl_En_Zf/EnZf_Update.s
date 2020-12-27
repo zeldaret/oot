@@ -121,7 +121,7 @@ glabel EnZf_Update
 /* 053B0 80B49400 1420001E */  bne     $at, $zero, .L80B4947C     
 /* 053B4 80B49404 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 053B8 80B49408 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
-/* 053BC 80B4940C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 053BC 80B4940C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 053C0 80B49410 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 053C4 80B49414 8E1903DC */  lw      $t9, 0x03DC($s0)           ## 000003DC

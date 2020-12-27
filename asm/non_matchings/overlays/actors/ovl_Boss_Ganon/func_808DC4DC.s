@@ -91,17 +91,17 @@ glabel func_808DC4DC
 /* 05DB4 808DC624 E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
 /* 05DB8 808DC628 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 05DBC 808DC62C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 05DC0 808DC630 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 05DC0 808DC630 0C01E123 */  jal     Math_ApproachZeroF
 
 /* 05DC4 808DC634 E610002C */  swc1    $f16, 0x002C($s0)          ## 0000002C
 /* 05DC8 808DC638 26040060 */  addiu   $a0, $s0, 0x0060           ## $a0 = 00000060
 /* 05DCC 808DC63C 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 05DD0 808DC640 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 05DD0 808DC640 0C01E123 */  jal     Math_ApproachZeroF
 
 /* 05DD4 808DC644 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 05DD8 808DC648 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
 /* 05DDC 808DC64C 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 05DE0 808DC650 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 05DE0 808DC650 0C01E123 */  jal     Math_ApproachZeroF
 
 /* 05DE4 808DC654 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 05DE8 808DC658 8FBF001C */  lw      $ra, 0x001C($sp)

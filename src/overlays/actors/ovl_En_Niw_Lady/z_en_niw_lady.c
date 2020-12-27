@@ -490,7 +490,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_254 = this->unk_288.unk_08;
     this->unk_25A = this->unk_288.unk_0E;
     if (this->unk_276 == 0) {
-        Math_SmoothScaleMaxMinS(&this->unk_254.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
     }
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
     if (this->objectOsAnimeIndex >= 0) {
@@ -516,7 +516,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->faceState++;
                 if (this->faceState >= 3) {
                     this->faceState = 0;
-                    this->unusedRandomTimer = ((s16)Math_Rand_ZeroFloat(60.0f) + 0x14);
+                    this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
@@ -549,8 +549,8 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-            rot->y += (Math_Sins((globalCtx->state.frames * ((limbIndex * 0x32) + 0x814))) * 200.0f);
-            rot->z += (Math_Coss((globalCtx->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
+            rot->y += (Math_SinS((globalCtx->state.frames * ((limbIndex * 0x32) + 0x814))) * 200.0f);
+            rot->z += (Math_CosS((globalCtx->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
         }
     }
     return 0;

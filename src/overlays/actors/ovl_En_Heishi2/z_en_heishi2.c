@@ -636,8 +636,8 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
-    Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
+    Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         func_8010B680(globalCtx, 0x708F, NULL);
@@ -657,14 +657,14 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, NULL, 7);
         func_80106CCC(globalCtx);
 
-        pos.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
-        pos.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
-        pos.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-        rotY = Math_Rand_CenteredFloat(7000.0f) + thisx->yawTowardsLink;
+        pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
+        pos.y = Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
+        pos.z = Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
+        rotY = Rand_CenteredFloat(7000.0f) + thisx->yawTowardsLink;
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
         if (bomb != NULL) {
-            bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
-            bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+            bomb->actor.speedXZ = Rand_CenteredFloat(5.0f) + 10.0f;
+            bomb->actor.velocity.y = Rand_CenteredFloat(5.0f) + 10.0f;
         }
 
         // This is down!
@@ -674,8 +674,8 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
-    Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
+    Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z > 0) {
         Actor_Kill(&this->actor);

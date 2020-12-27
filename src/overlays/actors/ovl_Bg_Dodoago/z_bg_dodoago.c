@@ -63,9 +63,9 @@ void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 4; i > 0; i--) {
-        pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
-        pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
-        pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
+        pos.x = Rand_CenteredFloat(20.0f) + vec->x;
+        pos.y = Rand_CenteredFloat(10.0f) + vec->y;
+        pos.z = Rand_CenteredFloat(20.0f) + vec->z;
         EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &velocity, &acceleration, &primColor, &envColor);
     }
 }
@@ -210,10 +210,10 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
 
     BgDodoago_SpawnSparkles(&currentPos, globalCtx);
-    Math_ApproxS(&this->unk_164, 0x64, 3);
+    Math_StepToS(&this->unk_164, 0x64, 3);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
-    if (Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
+    if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
         BgDodoago_SetupAction(this, func_8087227C);
         Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);

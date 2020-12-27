@@ -124,7 +124,7 @@ void EnGm_UpdateEye(EnGm* this) {
 
         if (this->eyeTexIndex >= 3) {
             this->eyeTexIndex = 0;
-            this->blinkTimer = Math_Rand_ZeroFloat(60.0f) + 20.0f;
+            this->blinkTimer = Rand_ZeroFloat(60.0f) + 20.0f;
         }
     }
 }

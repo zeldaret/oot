@@ -118,20 +118,20 @@ glabel BgYdanSp_Init
 /* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetHeight
               
 /* 001B8 808BF5C8 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
-/* 001BC 808BF5CC 0C01DE1C */  jal     Math_Sins
+/* 001BC 808BF5CC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001C0 808BF5D0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 001C4 808BF5D4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 001C8 808BF5D8 0C01DE0D */  jal     Math_Coss
+/* 001C8 808BF5D8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001CC 808BF5DC E7A00040 */  swc1    $f0, 0x0040($sp)           
 /* 001D0 808BF5E0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
-/* 001D4 808BF5E4 0C01DE1C */  jal     Math_Sins
+/* 001D4 808BF5E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001D8 808BF5E8 E7A00044 */  swc1    $f0, 0x0044($sp)           
 /* 001DC 808BF5EC 46000387 */  neg.s   $f14, $f0                  
 /* 001E0 808BF5F0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
-/* 001E4 808BF5F4 0C01DE0D */  jal     Math_Coss
+/* 001E4 808BF5F4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001E8 808BF5F8 E7AE0038 */  swc1    $f14, 0x0038($sp)          
 /* 001EC 808BF5FC 3C03808C */  lui     $v1, %hi(D_808C096C)       ## $v1 = 808C0000

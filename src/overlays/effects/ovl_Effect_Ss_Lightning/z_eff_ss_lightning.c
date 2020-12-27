@@ -126,18 +126,18 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
 
     if ((this->rNumBolts != 0) && ((this->life + 1) == this->rLifespan)) {
 
-        yaw = this->rYaw + (((Math_Rand_ZeroOne() < 0.5f) ? -1 : 1) * ((s16)((Math_Rand_ZeroOne() * 3640.0f)) + 0xE38));
+        yaw = this->rYaw + (((Rand_ZeroOne() < 0.5f) ? -1 : 1) * ((s16)((Rand_ZeroOne() * 3640.0f)) + 0xE38));
 
         scale = (this->rScale * 0.01f) * 80.0f;
-        pos.y = this->pos.y + (Math_Sins(this->rYaw - 0x4000) * scale);
+        pos.y = this->pos.y + (Math_SinS(this->rYaw - 0x4000) * scale);
 
-        scale = Math_Coss(this->rYaw - 0x4000) * scale;
-        pos.x = this->pos.x - (Math_Coss(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
-        pos.z = this->pos.z + (Math_Sins(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        scale = Math_CosS(this->rYaw - 0x4000) * scale;
+        pos.x = this->pos.x - (Math_CosS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        pos.z = this->pos.z + (Math_SinS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
 
         EffectSsLightning_NewLightning(globalCtx, &pos, yaw, this);
 
-        if (Math_Rand_ZeroOne() < 0.1f) {
+        if (Rand_ZeroOne() < 0.1f) {
             EffectSsLightning_NewLightning(globalCtx, &pos, (this->rYaw * 2) - yaw, this);
         }
     }

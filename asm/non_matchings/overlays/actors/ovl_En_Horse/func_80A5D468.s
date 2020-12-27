@@ -35,7 +35,7 @@ glabel func_80A5D468
 /* 021E0 80A5D4D0 1000003D */  beq     $zero, $zero, .L80A5D5C8   
 /* 021E4 80A5D4D4 00000000 */  nop
 .L80A5D4D8:
-/* 021E8 80A5D4D8 0C01DE0D */  jal     Math_Coss
+/* 021E8 80A5D4D8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 021EC 80A5D4DC 87A40028 */  lh      $a0, 0x0028($sp)           
 /* 021F0 80A5D4E0 3C01BF00 */  lui     $at, 0xBF00                ## $at = BF000000
@@ -50,7 +50,7 @@ glabel func_80A5D468
 /* 02214 80A5D504 10000030 */  beq     $zero, $zero, .L80A5D5C8   
 /* 02218 80A5D508 00000000 */  nop
 .L80A5D50C:
-/* 0221C 80A5D50C 0C01DE0D */  jal     Math_Coss
+/* 0221C 80A5D50C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02220 80A5D510 87A40028 */  lh      $a0, 0x0028($sp)           
 /* 02224 80A5D514 3C0180A6 */  lui     $at, %hi(D_80A668A8)       ## $at = 80A60000
@@ -108,7 +108,7 @@ glabel func_80A5D468
 /* 022DC 80A5D5CC 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 022E0 80A5D5D0 50400011 */  beql    $v0, $zero, .L80A5D618     
 /* 022E4 80A5D5D4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 022E8 80A5D5D8 0C01DE0D */  jal     Math_Coss
+/* 022E8 80A5D5D8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 022EC 80A5D5DC 87A40028 */  lh      $a0, 0x0028($sp)           
 /* 022F0 80A5D5E0 3C0180A6 */  lui     $at, %hi(D_80A668B0)       ## $at = 80A60000

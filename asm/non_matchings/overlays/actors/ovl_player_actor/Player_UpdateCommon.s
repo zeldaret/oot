@@ -247,7 +247,7 @@ glabel Player_UpdateCommon
 .L808492D0:
 /* 170C0 808492D0 A2080844 */  sb      $t0, 0x0844($s0)           ## 00000844
 .L808492D4:
-/* 170C4 808492D4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 170C4 808492D4 0C01DE2B */  jal     Math_ScaledStepToS
 
 /* 170C8 808492D8 24060190 */  addiu   $a2, $zero, 0x0190         ## $a2 = 00000190
 /* 170CC 808492DC 260403A8 */  addiu   $a0, $s0, 0x03A8           ## $a0 = 000003A8
@@ -344,7 +344,7 @@ glabel Player_UpdateCommon
 .L8084942C:
 /* 1721C 8084942C 34C63333 */  ori     $a2, $a2, 0x3333           ## $a2 = 3EB33333
 /* 17220 80849430 A7A7006E */  sh      $a3, 0x006E($sp)
-/* 17224 80849434 0C01DE80 */  jal     Math_ApproxF
+/* 17224 80849434 0C01DE80 */  jal     Math_StepToF
 
 /* 17228 80849438 E7A00070 */  swc1    $f0, 0x0070($sp)
 /* 1722C 8084943C 87A7006E */  lh      $a3, 0x006E($sp)
@@ -394,7 +394,7 @@ glabel Player_UpdateCommon
 /* 172CC 808494DC 00C01025 */  or      $v0, $a2, $zero            ## $v0 = 00000546
 .L808494E0:
 /* 172D0 808494E0 00023400 */  sll     $a2, $v0, 16
-/* 172D4 808494E4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 172D4 808494E4 0C01DE2B */  jal     Math_ScaledStepToS
 
 /* 172D8 808494E8 00063403 */  sra     $a2, $a2, 16
 /* 172DC 808494EC C60C0838 */  lwc1    $f12, 0x0838($s0)          ## 00000838
@@ -449,7 +449,7 @@ glabel Player_UpdateCommon
 /* 17394 808495A4 258C07F4 */  addiu   $t4, $t4, %lo(func_808507F4) ## $t4 = 808507F4
 /* 17398 808495A8 104C000F */  beq     $v0, $t4, .L808495E8
 /* 1739C 808495AC 00000000 */  nop
-/* 173A0 808495B0 0C01DE1C */  jal     Math_Sins
+/* 173A0 808495B0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 173A4 808495B4 860408B0 */  lh      $a0, 0x08B0($s0)           ## 000008B0
 /* 173A8 808495B8 C60408AC */  lwc1    $f4, 0x08AC($s0)           ## 000008AC
@@ -457,7 +457,7 @@ glabel Player_UpdateCommon
 /* 173B0 808495C0 860408B0 */  lh      $a0, 0x08B0($s0)           ## 000008B0
 /* 173B4 808495C4 46002202 */  mul.s   $f8, $f4, $f0
 /* 173B8 808495C8 46089180 */  add.s   $f6, $f18, $f8
-/* 173BC 808495CC 0C01DE0D */  jal     Math_Coss
+/* 173BC 808495CC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 173C0 808495D0 E606005C */  swc1    $f6, 0x005C($s0)           ## 0000005C
 /* 173C4 808495D4 C61008AC */  lwc1    $f16, 0x08AC($s0)          ## 000008AC
@@ -570,7 +570,7 @@ glabel Player_UpdateCommon
 /* 1754C 8084975C 46100282 */  mul.s   $f10, $f0, $f16
 /* 17550 80849760 E7A00048 */  swc1    $f0, 0x0048($sp)
 /* 17554 80849764 44065000 */  mfc1    $a2, $f10
-/* 17558 80849768 0C01DE80 */  jal     Math_ApproxF
+/* 17558 80849768 0C01DE80 */  jal     Math_StepToF
 
 /* 1755C 8084976C 00000000 */  nop
 /* 17560 80849770 8E0C067C */  lw      $t4, 0x067C($s0)           ## 0000067C
@@ -595,7 +595,7 @@ glabel Player_UpdateCommon
 /* 175A4 808497B4 44069000 */  mfc1    $a2, $f18
 /* 175A8 808497B8 00000000 */  nop
 /* 175AC 808497BC 00063400 */  sll     $a2, $a2, 16
-/* 175B0 808497C0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 175B0 808497C0 0C01DE2B */  jal     Math_ScaledStepToS
 
 /* 175B4 808497C4 00063403 */  sra     $a2, $a2, 16
 /* 175B8 808497C8 10000017 */  beq     $zero, $zero, .L80849828
@@ -623,7 +623,7 @@ glabel Player_UpdateCommon
 /* 17604 80849814 00000000 */  nop
 /* 17608 80849818 44061000 */  mfc1    $a2, $f2
 .L8084981C:
-/* 1760C 8084981C 0C01DE80 */  jal     Math_ApproxF
+/* 1760C 8084981C 0C01DE80 */  jal     Math_StepToF
 
 /* 17610 80849820 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 17614 80849824 8FA40084 */  lw      $a0, 0x0084($sp)

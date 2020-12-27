@@ -12,7 +12,7 @@ glabel func_80B18E08
 /* 003B0 80B18E30 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 003B4 80B18E34 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 003B8 80B18E38 A0CE02BC */  sb      $t6, 0x02BC($a2)           ## 000002BC
-/* 003BC 80B18E3C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 003BC 80B18E3C 0C01DF64 */  jal     Rand_S16Offset
 
 /* 003C0 80B18E40 A4C002E0 */  sh      $zero, 0x02E0($a2)         ## 000002E0
 /* 003C4 80B18E44 8FA40018 */  lw      $a0, 0x0018($sp)

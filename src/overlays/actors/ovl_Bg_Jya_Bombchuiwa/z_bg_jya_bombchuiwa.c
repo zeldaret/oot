@@ -97,19 +97,19 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        pos.x = Math_Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
-        pos.y = Math_Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
-        pos.z = Math_Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
-        velocity.x = Math_Rand_ZeroOne() * 3.0f - 0.3f;
-        velocity.y = Math_Rand_ZeroOne() * 18.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
-        scale = (s32)(Math_Rand_ZeroOne() * 20.0f) + 1;
+        pos.x = Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
+        pos.y = Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
+        pos.z = Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
+        velocity.x = Rand_ZeroOne() * 3.0f - 0.3f;
+        velocity.y = Rand_ZeroOne() * 18.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
+        scale = (s32)(Rand_ZeroOne() * 20.0f) + 1;
         if (scale > 10) {
             arg5 = 5;
         } else {
             arg5 = 1;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             arg5 |= 0x40;
             arg6 = 0xC;
             arg7 = 8;
@@ -164,7 +164,7 @@ void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     if (this->timer & 4) {
         func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 3, 100, 100, 0);
     }
-    if (Math_ApproxF(&this->lightRayIntensity, 1.0f, 0.028)) {
+    if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     }
 }

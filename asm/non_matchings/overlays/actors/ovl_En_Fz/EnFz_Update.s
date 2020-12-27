@@ -78,7 +78,7 @@ glabel EnFz_Update
 .L80A211C4:
 /* 01404 80A211C4 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3E4CCCCD
 /* 01408 80A211C8 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 0140C 80A211CC 0C01DE80 */  jal     Math_ApproxF
+/* 0140C 80A211CC 0C01DE80 */  jal     Math_StepToF
               
 /* 01410 80A211D0 8E050254 */  lw      $a1, 0x0254($s0)           ## 00000254
 /* 01414 80A211D4 0C00B638 */  jal     Actor_MoveForward

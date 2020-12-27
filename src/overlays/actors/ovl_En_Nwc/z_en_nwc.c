@@ -213,9 +213,9 @@ void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {
         chick->type = CHICK_NORMAL;
-        chick->pos.x = thisx->posRot.pos.x + ((Math_Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.x = thisx->posRot.pos.x + ((Rand_ZeroOne() * 100.0f) - 50.0f);
         chick->pos.y = thisx->posRot.pos.y + 20.0f;
-        chick->pos.z = thisx->posRot.pos.z + ((Math_Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.z = thisx->posRot.pos.z + ((Rand_ZeroOne() * 100.0f) - 50.0f);
         chick->height = 5;
     }
     EnNwc_SetUpdate(this, EnNwc_Idle);

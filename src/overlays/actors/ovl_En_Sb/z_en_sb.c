@@ -175,7 +175,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
 
 void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistFromLink <= 160.0f) && (this->actor.xzDistFromLink > 40.0f)) {
         EnSb_SetupOpen(this);
@@ -189,7 +189,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
         if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
@@ -199,7 +199,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
@@ -218,7 +218,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
     s16 invertedYaw;
 
     invertedYaw = this->attackYaw + 0x8000;
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, invertedYaw, 0x1, 0x1F40, 0xA);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, invertedYaw, 0x1, 0x1F40, 0xA);
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.posRot.rot.y = this->attackYaw;
@@ -240,7 +240,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 }
 
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
         if (!(this->actor.waterY > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -257,7 +257,7 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
 
     currentFrame = this->skelAnime.animCurrentFrame;
     frameCount = SkelAnime_GetFrameCount(&D_060000B4);
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
 
     if (currentFrame == frameCount) {
         if (this->bouncesLeft != 0) {
@@ -463,9 +463,9 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
         // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement
         if ((fireDecr & 1) == 0) {
             offset = &sFlamePosOffsets[(fireDecr & 3)];
-            flamePos.x = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
-            flamePos.y = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
-            flamePos.z = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
+            flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
+            flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
+            flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
             EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 100, 0, 0, -1);
         }
     }

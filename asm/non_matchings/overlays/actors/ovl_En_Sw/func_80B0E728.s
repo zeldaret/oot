@@ -56,7 +56,7 @@ glabel func_80B0E728
 /* 02A40 80B0E7F0 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 02A44 80B0E7F4 14400014 */  bne     $v0, $zero, .L80B0E848     
 /* 02A48 80B0E7F8 24040014 */  addiu   $a0, $zero, 0x0014         ## $a0 = 00000014
-/* 02A4C 80B0E7FC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 02A4C 80B0E7FC 0C01DF64 */  jal     Rand_S16Offset
               
 /* 02A50 80B0E800 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
 /* 02A54 80B0E804 A6020442 */  sh      $v0, 0x0442($s0)           ## 00000442

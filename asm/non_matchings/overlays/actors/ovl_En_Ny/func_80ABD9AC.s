@@ -64,17 +64,17 @@ glabel func_80ABD9AC
 /* 00EB8 80ABDA68 4406B000 */  mfc1    $a2, $f22                  
 /* 00EBC 80ABDA6C E60401FC */  swc1    $f4, 0x01FC($s0)           ## 000001FC
 /* 00EC0 80ABDA70 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000258
-/* 00EC4 80ABDA74 0C01DE80 */  jal     Math_ApproxF
+/* 00EC4 80ABDA74 0C01DE80 */  jal     Math_StepToF
               
 /* 00EC8 80ABDA78 E60A0200 */  swc1    $f10, 0x0200($s0)          ## 00000200
 /* 00ECC 80ABDA7C 4405C000 */  mfc1    $a1, $f24                  
 /* 00ED0 80ABDA80 4406D000 */  mfc1    $a2, $f26                  
-/* 00ED4 80ABDA84 0C01DE80 */  jal     Math_ApproxF
+/* 00ED4 80ABDA84 0C01DE80 */  jal     Math_StepToF
               
 /* 00ED8 80ABDA88 02602025 */  or      $a0, $s3, $zero            ## $a0 = 0000025C
 /* 00EDC 80ABDA8C 4405A000 */  mfc1    $a1, $f20                  
 /* 00EE0 80ABDA90 4406B000 */  mfc1    $a2, $f22                  
-/* 00EE4 80ABDA94 0C01DE80 */  jal     Math_ApproxF
+/* 00EE4 80ABDA94 0C01DE80 */  jal     Math_StepToF
               
 /* 00EE8 80ABDA98 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000260
 /* 00EEC 80ABDA9C 2631000C */  addiu   $s1, $s1, 0x000C           ## $s1 = 0000000C
@@ -115,17 +115,17 @@ glabel func_80ABD9AC
 /* 00F6C 80ABDB1C 4406B000 */  mfc1    $a2, $f22                  
 /* 00F70 80ABDB20 E60A01FC */  swc1    $f10, 0x01FC($s0)          ## 00000208
 /* 00F74 80ABDB24 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000264
-/* 00F78 80ABDB28 0C01DE80 */  jal     Math_ApproxF
+/* 00F78 80ABDB28 0C01DE80 */  jal     Math_StepToF
               
 /* 00F7C 80ABDB2C E6040200 */  swc1    $f4, 0x0200($s0)           ## 0000020C
 /* 00F80 80ABDB30 4405C000 */  mfc1    $a1, $f24                  
 /* 00F84 80ABDB34 4406D000 */  mfc1    $a2, $f26                  
-/* 00F88 80ABDB38 0C01DE80 */  jal     Math_ApproxF
+/* 00F88 80ABDB38 0C01DE80 */  jal     Math_StepToF
               
 /* 00F8C 80ABDB3C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000268
 /* 00F90 80ABDB40 4405A000 */  mfc1    $a1, $f20                  
 /* 00F94 80ABDB44 4406B000 */  mfc1    $a2, $f22                  
-/* 00F98 80ABDB48 0C01DE80 */  jal     Math_ApproxF
+/* 00F98 80ABDB48 0C01DE80 */  jal     Math_StepToF
               
 /* 00F9C 80ABDB4C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 0000026C
 /* 00FA0 80ABDB50 2631000C */  addiu   $s1, $s1, 0x000C           ## $s1 = 00000018

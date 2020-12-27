@@ -55,7 +55,7 @@ glabel func_80B07EE0
 .L80B07F9C:
 /* 00A5C 80B07F9C 54400006 */  bnel    $v0, $zero, .L80B07FB8     
 /* 00A60 80B07FA0 A60302B4 */  sh      $v1, 0x02B4($s0)           ## 000002B4
-/* 00A64 80B07FA4 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00A64 80B07FA4 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00A68 80B07FA8 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 00A6C 80B07FAC A60202B6 */  sh      $v0, 0x02B6($s0)           ## 000002B6

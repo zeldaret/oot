@@ -194,7 +194,7 @@ glabel EnDaikuKakariko_Init
 /* 00368 809E4688 0C2790C8 */  jal     func_809E4320
 /* 0036C 809E468C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L809E4690:
-/* 00370 809E4690 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00370 809E4690 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00374 809E4694 00000000 */  nop
 /* 00378 809E4698 C606015C */  lwc1    $f6, 0x015C($s0)           ## 0000015C
@@ -211,7 +211,7 @@ glabel EnDaikuKakariko_Init
 /* 003A0 809E46C0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003A4 809E46C4 0C2790C8 */  jal     func_809E4320
 /* 003A8 809E46C8 260601EC */  addiu   $a2, $s0, 0x01EC           ## $a2 = 000001EC
-/* 003AC 809E46CC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003AC 809E46CC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003B0 809E46D0 00000000 */  nop
 /* 003B4 809E46D4 C604015C */  lwc1    $f4, 0x015C($s0)           ## 0000015C

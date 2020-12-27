@@ -111,9 +111,9 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx) 
 
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
     if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
-        Math_ApproxF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
+        Math_StepToF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
     } else {
-        if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
+        if (Math_StepToF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
             this->actor.draw = NULL;
             this->actionFunc = BgHidanFirewall_Wait;
         } else {
@@ -164,8 +164,8 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     } else {
         sp30.z = this->actor.params * 25.0f;
     }
-    sp28 = Math_Sins(this->actor.shape.rot.y);
-    temp_ret = Math_Coss(this->actor.shape.rot.y);
+    sp28 = Math_SinS(this->actor.shape.rot.y);
+    temp_ret = Math_CosS(this->actor.shape.rot.y);
     this->collider.dim.pos.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
     this->collider.dim.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }

@@ -244,7 +244,7 @@ void func_8001D480(EnAObj* this, s16 params) {
 }
 
 void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
     this->dyna.actor.shape.rot.x = this->dyna.actor.shape.rot.x + (this->dyna.actor.posRot.rot.x >> 1);
     this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.posRot.rot.z >> 1);
 
@@ -282,7 +282,7 @@ void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
                                    ? -2.5f
                                    : ((this->dyna.actor.speedXZ > 2.5f) ? 2.5f : this->dyna.actor.speedXZ);
 
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->dyna.actor.speedXZ != 0.0f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);

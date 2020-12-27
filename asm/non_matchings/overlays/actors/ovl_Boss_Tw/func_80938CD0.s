@@ -43,7 +43,7 @@ glabel func_80938CD0
 /* 000A0 80938D70 A46C002C */  sh      $t4, 0x002C($v1)           ## 0001002C
 /* 000A4 80938D74 46062203 */  div.s   $f8, $f4, $f6              
 /* 000A8 80938D78 E4680034 */  swc1    $f8, 0x0034($v1)           ## 00010034
-/* 000AC 80938D7C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 000AC 80938D7C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 000B0 80938D80 AFA30020 */  sw      $v1, 0x0020($sp)           
 /* 000B4 80938D84 4600028D */  trunc.w.s $f10, $f0                  

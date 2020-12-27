@@ -18,11 +18,11 @@ glabel func_80A59D70
 /* 00180 80A59DB0 0C00B58B */  jal     Actor_SetScale
               
 /* 00184 80A59DB4 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3DCCCCCD
-/* 00188 80A59DB8 0C01DE1C */  jal     Math_Sins
+/* 00188 80A59DB8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0018C 80A59DBC 87C40016 */  lh      $a0, 0x0016($s8)           ## 00000016
 /* 00190 80A59DC0 46000586 */  mov.s   $f22, $f0                  
-/* 00194 80A59DC4 0C01DE0D */  jal     Math_Coss
+/* 00194 80A59DC4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00198 80A59DC8 87C40016 */  lh      $a0, 0x0016($s8)           ## 00000016
 /* 0019C 80A59DCC 27D70150 */  addiu   $s7, $s8, 0x0150           ## $s7 = 00000150

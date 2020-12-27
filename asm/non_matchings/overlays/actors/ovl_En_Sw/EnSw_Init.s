@@ -137,7 +137,7 @@ glabel EnSw_Init
 /* 0093C 80B0C6EC C6060028 */  lwc1    $f6, 0x0028($s0)           ## 00000028
 /* 00940 80B0C6F0 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 00944 80B0C6F4 E6060488 */  swc1    $f6, 0x0488($s0)           ## 00000488
-/* 00948 80B0C6F8 0C01DE1C */  jal     Math_Sins
+/* 00948 80B0C6F8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0094C 80B0C6FC AFA20030 */  sw      $v0, 0x0030($sp)           
 /* 00950 80B0C700 3C01C270 */  lui     $at, 0xC270                ## $at = C2700000
@@ -146,7 +146,7 @@ glabel EnSw_Init
 /* 0095C 80B0C70C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 00960 80B0C710 46080282 */  mul.s   $f10, $f0, $f8             
 /* 00964 80B0C714 46105480 */  add.s   $f18, $f10, $f16           
-/* 00968 80B0C718 0C01DE0D */  jal     Math_Coss
+/* 00968 80B0C718 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0096C 80B0C71C E6120484 */  swc1    $f18, 0x0484($s0)          ## 00000484
 /* 00970 80B0C720 3C01C270 */  lui     $at, 0xC270                ## $at = C2700000
@@ -173,7 +173,7 @@ glabel EnSw_Init
 /* 009C0 80B0C770 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 009C4 80B0C774 24844000 */  addiu   $a0, $a0, 0x4000           ## $a0 = 00004000
 /* 009C8 80B0C778 00042400 */  sll     $a0, $a0, 16               
-/* 009CC 80B0C77C 0C01DE1C */  jal     Math_Sins
+/* 009CC 80B0C77C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 009D0 80B0C780 00042403 */  sra     $a0, $a0, 16               
 /* 009D4 80B0C784 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
@@ -182,7 +182,7 @@ glabel EnSw_Init
 /* 009E0 80B0C790 24844000 */  addiu   $a0, $a0, 0x4000           ## $a0 = 00004000
 /* 009E4 80B0C794 00042400 */  sll     $a0, $a0, 16               
 /* 009E8 80B0C798 00042403 */  sra     $a0, $a0, 16               
-/* 009EC 80B0C79C 0C01DE0D */  jal     Math_Coss
+/* 009EC 80B0C79C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 009F0 80B0C7A0 E6100374 */  swc1    $f16, 0x0374($s0)          ## 00000374
 /* 009F4 80B0C7A4 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -192,13 +192,13 @@ glabel EnSw_Init
 /* 00A04 80B0C7B4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00A08 80B0C7B8 E6020364 */  swc1    $f2, 0x0364($s0)           ## 00000364
 /* 00A0C 80B0C7BC E602036C */  swc1    $f2, 0x036C($s0)           ## 0000036C
-/* 00A10 80B0C7C0 0C01DE1C */  jal     Math_Sins
+/* 00A10 80B0C7C0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00A14 80B0C7C4 E6120368 */  swc1    $f18, 0x0368($s0)          ## 00000368
 /* 00A18 80B0C7C8 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00A1C 80B0C7CC E600037C */  swc1    $f0, 0x037C($s0)           ## 0000037C
 /* 00A20 80B0C7D0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 00A24 80B0C7D4 0C01DE0D */  jal     Math_Coss
+/* 00A24 80B0C7D4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00A28 80B0C7D8 E6040380 */  swc1    $f4, 0x0380($s0)           ## 00000380
 /* 00A2C 80B0C7DC E6000384 */  swc1    $f0, 0x0384($s0)           ## 00000384
@@ -284,7 +284,7 @@ glabel EnSw_Init
 /* 00B4C 80B0C8FC A20F0117 */  sb      $t7, 0x0117($s0)           ## 00000117
 .L80B0C900:
 /* 00B50 80B0C900 2404000F */  addiu   $a0, $zero, 0x000F         ## $a0 = 0000000F
-/* 00B54 80B0C904 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00B54 80B0C904 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00B58 80B0C908 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
 /* 00B5C 80B0C90C A602038E */  sh      $v0, 0x038E($s0)           ## 0000038E

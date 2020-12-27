@@ -121,7 +121,7 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
     if (this->speedModifier != 0) {
         this->speedModifier--;
     }
-    this->actor.posRot.pos.y = Math_Sins(this->speedModifier * 0x800) * 13.0f + this->targetY;
+    this->actor.posRot.pos.y = Math_SinS(this->speedModifier * 0x800) * 13.0f + this->targetY;
 }
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
@@ -147,14 +147,14 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     temp_f20 = sinf(this->actionTimer * (M_PI / 20.0f)) * 5.0f;
-    this->actor.posRot.pos.x += temp_f20 * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += temp_f20 * Math_Sins(this->actor.shape.rot.y);
+    this->actor.posRot.pos.x += temp_f20 * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += temp_f20 * Math_SinS(this->actor.shape.rot.y);
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }
     temp_f20 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
     this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     this->targetY = this->actor.initPosRot.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
@@ -226,7 +226,7 @@ void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
     if (limbIndex == 7) {
         Matrix_MultVec3f(&baseLightPos, &lightPos);
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
         color.b = (s16)(rand * 160.0f) + 95;

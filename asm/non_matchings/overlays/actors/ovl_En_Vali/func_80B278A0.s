@@ -21,7 +21,7 @@ glabel func_80B278A0
 /* 01218 80B278C8 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 0121C 80B278CC 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
 /* 01220 80B278D0 24440028 */  addiu   $a0, $v0, 0x0028           ## $a0 = 00000028
-/* 01224 80B278D4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01224 80B278D4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01228 80B278D8 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0122C 80B278DC 3C0180B3 */  lui     $at, %hi(D_80B28A70)       ## $at = 80B30000

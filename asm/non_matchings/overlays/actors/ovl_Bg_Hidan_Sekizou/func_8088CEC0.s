@@ -10,11 +10,11 @@ glabel func_8088CEC0
 /* 00020 8088CEE0 AFA9001C */  sw      $t1, 0x001C($sp)           
 /* 00024 8088CEE4 AFA70040 */  sw      $a3, 0x0040($sp)           
 /* 00028 8088CEE8 87A4004A */  lh      $a0, 0x004A($sp)           
-/* 0002C 8088CEEC 0C01DE1C */  jal     Math_Sins
+/* 0002C 8088CEEC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00030 8088CEF0 AFA30020 */  sw      $v1, 0x0020($sp)           
 /* 00034 8088CEF4 87A4004A */  lh      $a0, 0x004A($sp)           
-/* 00038 8088CEF8 0C01DE0D */  jal     Math_Coss
+/* 00038 8088CEF8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0003C 8088CEFC E7A00030 */  swc1    $f0, 0x0030($sp)           
 /* 00040 8088CF00 8FA30020 */  lw      $v1, 0x0020($sp)           

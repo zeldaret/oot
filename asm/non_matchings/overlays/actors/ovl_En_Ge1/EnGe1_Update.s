@@ -72,7 +72,7 @@ glabel EnGe1_Update
 .L80A3236C:
 /* 019FC 80A3236C 54400006 */  bnel    $v0, $zero, .L80A32388     
 /* 01A00 80A32370 A60302A8 */  sh      $v1, 0x02A8($s0)           ## 000002A8
-/* 01A04 80A32374 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 01A04 80A32374 0C01DF64 */  jal     Rand_S16Offset
               
 /* 01A08 80A32378 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 01A0C 80A3237C A60202AA */  sh      $v0, 0x02AA($s0)           ## 000002AA

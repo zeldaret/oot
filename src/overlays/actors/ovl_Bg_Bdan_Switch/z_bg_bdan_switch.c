@@ -112,14 +112,14 @@ void func_8086D0EC(BgBdanSwitch* this) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
     }
     this->dyna.actor.shape.unk_08 = 1.2f / this->unk_1D0;
