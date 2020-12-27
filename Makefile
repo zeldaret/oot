@@ -76,7 +76,7 @@ EMU_FLAGS = --noosd
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -Iassets -Ibuild -include stdarg.h $(CHECK_WARNINGS)
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -D AVOID_UB -Iinclude -Isrc -Iassets -Ibuild -include stdarg.h $(CHECK_WARNINGS)
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -188,7 +188,7 @@ build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(
 ifeq ($(COMPILER),gcc)
   include gcc_safe_files.mk
   $(SAFE_C_FILES): CC := mips-linux-gnu-gcc
-  $(SAFE_C_FILES): CFLAGS := -c -G 0 -nostdinc -Iinclude -Isrc -Iassets -Ibuild -I. -DNON_MATCHING=1 -DNON_EQUIVALENT=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -fno-PIC -mno-abicalls -fno-strict-aliasing -fno-inline-functions -fno-toplevel-reorder -ffreestanding -fwrapv -Wall -Wextra
+  $(SAFE_C_FILES): CFLAGS := -c -G 0 -nostdinc -Iinclude -Isrc -Iassets -Ibuild -I. -DNON_MATCHING=1 -DNON_EQUIVALENT=1 -DAVOID_UB=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -fno-PIC -mno-abicalls -fno-strict-aliasing -fno-inline-functions -fno-toplevel-reorder -ffreestanding -fwrapv -Wall -Wextra
   $(SAFE_C_FILES): MIPS_VERSION := -mips3
 endif
 
