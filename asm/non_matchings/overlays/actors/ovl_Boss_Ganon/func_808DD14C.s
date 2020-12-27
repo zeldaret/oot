@@ -19,7 +19,7 @@ glabel func_808DD14C
 /* 0691C 808DD18C 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 06920 808DD190 3C073E19 */  lui     $a3, 0x3E19                ## $a3 = 3E190000
 /* 06924 808DD194 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
-/* 06928 808DD198 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 06928 808DD198 0C01E107 */  jal     Math_ApproachF
 
 /* 0692C 808DD19C 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 06930 808DD1A0 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001

@@ -138,7 +138,7 @@ glabel EnWood02_Update
 /* 00980 80B3B8F0 AFAA0044 */  sw      $t2, 0x0044($sp)           
 .L80B3B8F4:
 /* 00984 80B3B8F4 3C0180B4 */  lui     $at, %hi(D_80B3C060)       ## $at = 80B40000
-/* 00988 80B3B8F8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00988 80B3B8F8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0098C 80B3B8FC C42CC060 */  lwc1    $f12, %lo(D_80B3C060)($at) 
 /* 00990 80B3B900 4600018D */  trunc.w.s $f6, $f0                   
@@ -269,14 +269,14 @@ glabel EnWood02_Update
 /* 00B50 80B3BAC0 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 00B54 80B3BAC4 A639014C */  sh      $t9, 0x014C($s1)           ## 0000014C
 /* 00B58 80B3BAC8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00B5C 80B3BACC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00B5C 80B3BACC 0C01E107 */  jal     Math_ApproachF
               
 /* 00B60 80B3BAD0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B64 80B3BAD4 3C073D4C */  lui     $a3, 0x3D4C                ## $a3 = 3D4C0000
 /* 00B68 80B3BAD8 34E7CCCC */  ori     $a3, $a3, 0xCCCC           ## $a3 = 3D4CCCCC
 /* 00B6C 80B3BADC 26240064 */  addiu   $a0, $s1, 0x0064           ## $a0 = 00000064
 /* 00B70 80B3BAE0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00B74 80B3BAE4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00B74 80B3BAE4 0C01E107 */  jal     Math_ApproachF
               
 /* 00B78 80B3BAE8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B7C 80B3BAEC 0C00B5FB */  jal     func_8002D7EC              
@@ -291,7 +291,7 @@ glabel EnWood02_Update
 /* 00BA0 80B3BB10 00812023 */  subu    $a0, $a0, $at              
 /* 00BA4 80B3BB14 000420C0 */  sll     $a0, $a0,  3               
 /* 00BA8 80B3BB18 00042400 */  sll     $a0, $a0, 16               
-/* 00BAC 80B3BB1C 0C01DE1C */  jal     Math_Sins
+/* 00BAC 80B3BB1C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00BB0 80B3BB20 00042403 */  sra     $a0, $a0, 16               
 /* 00BB4 80B3BB24 3C014680 */  lui     $at, 0x4680                ## $at = 46800000
@@ -321,7 +321,7 @@ glabel EnWood02_Update
 /* 00C08 80B3BB78 00810019 */  multu   $a0, $at                   
 /* 00C0C 80B3BB7C 00002012 */  mflo    $a0                        
 /* 00C10 80B3BB80 00042400 */  sll     $a0, $a0, 16               
-/* 00C14 80B3BB84 0C01DE1C */  jal     Math_Sins
+/* 00C14 80B3BB84 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00C18 80B3BB88 00042403 */  sra     $a0, $a0, 16               
 /* 00C1C 80B3BB8C 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
@@ -333,7 +333,7 @@ glabel EnWood02_Update
 /* 00C34 80B3BBA4 862E008A */  lh      $t6, 0x008A($s1)           ## 0000008A
 /* 00C38 80B3BBA8 01CF2023 */  subu    $a0, $t6, $t7              
 /* 00C3C 80B3BBAC 00042400 */  sll     $a0, $a0, 16               
-/* 00C40 80B3BBB0 0C01DE0D */  jal     Math_Coss
+/* 00C40 80B3BBB0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00C44 80B3BBB4 00042403 */  sra     $a0, $a0, 16               
 /* 00C48 80B3BBB8 C7B2006C */  lwc1    $f18, 0x006C($sp)          
@@ -345,7 +345,7 @@ glabel EnWood02_Update
 /* 00C60 80B3BBD0 00042403 */  sra     $a0, $a0, 16               
 /* 00C64 80B3BBD4 4600218D */  trunc.w.s $f6, $f4                   
 /* 00C68 80B3BBD8 44193000 */  mfc1    $t9, $f6                   
-/* 00C6C 80B3BBDC 0C01DE1C */  jal     Math_Sins
+/* 00C6C 80B3BBDC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00C70 80B3BBE0 A63900B4 */  sh      $t9, 0x00B4($s1)           ## 000000B4
 /* 00C74 80B3BBE4 C7A8006C */  lwc1    $f8, 0x006C($sp)           

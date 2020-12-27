@@ -64,15 +64,15 @@ glabel ItemShield_Init
 /* 000D8 80B869F8 24140011 */  addiu   $s4, $zero, 0x0011         ## $s4 = 00000011
 .L80B869FC:
 /* 000DC 80B869FC A251019E */  sb      $s1, 0x019E($s2)           ## 0000019E
-/* 000E0 80B86A00 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 000E0 80B86A00 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 000E4 80B86A04 4600A306 */  mov.s   $f12, $f20                 
 /* 000E8 80B86A08 E60001A8 */  swc1    $f0, 0x01A8($s0)           ## 000001A8
-/* 000EC 80B86A0C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 000EC 80B86A0C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 000F0 80B86A10 4600A306 */  mov.s   $f12, $f20                 
 /* 000F4 80B86A14 E60001AC */  swc1    $f0, 0x01AC($s0)           ## 000001AC
-/* 000F8 80B86A18 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 000F8 80B86A18 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 000FC 80B86A1C 4600A306 */  mov.s   $f12, $f20                 
 /* 00100 80B86A20 26310002 */  addiu   $s1, $s1, 0x0002           ## $s1 = 00000003

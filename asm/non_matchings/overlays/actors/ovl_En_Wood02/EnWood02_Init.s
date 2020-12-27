@@ -171,15 +171,15 @@ glabel L80B3B470
 /* 00510 80B3B480 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 00514 80B3B484 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
 /* 00518 80B3B488 A7A8004E */  sh      $t0, 0x004E($sp)           
-/* 0051C 80B3B48C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0051C 80B3B48C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00520 80B3B490 E7A40048 */  swc1    $f4, 0x0048($sp)           
 /* 00524 80B3B494 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 00528 80B3B498 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
-/* 0052C 80B3B49C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0052C 80B3B49C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00530 80B3B4A0 E600005C */  swc1    $f0, 0x005C($s0)           ## 0000005C
-/* 00534 80B3B4A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00534 80B3B4A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00538 80B3B4A8 E6000064 */  swc1    $f0, 0x0064($s0)           ## 00000064
 /* 0053C 80B3B4AC 3C013FA0 */  lui     $at, 0x3FA0                ## $at = 3FA00000
@@ -258,7 +258,7 @@ glabel L80B3B470
 /* 0063C 80B3B5AC 014B6021 */  addu    $t4, $t2, $t3              
 /* 00640 80B3B5B0 01822021 */  addu    $a0, $t4, $v0              
 /* 00644 80B3B5B4 00042400 */  sll     $a0, $a0, 16               
-/* 00648 80B3B5B8 0C01DE0D */  jal     Math_Coss
+/* 00648 80B3B5B8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0064C 80B3B5BC 00042403 */  sra     $a0, $a0, 16               
 /* 00650 80B3B5C0 3C0180B4 */  lui     $at, %hi(D_80B3C1D0)       ## $at = 80B40000
@@ -270,7 +270,7 @@ glabel L80B3B470
 /* 00668 80B3B5D8 01AEC021 */  addu    $t8, $t5, $t6              
 /* 0066C 80B3B5DC 03022021 */  addu    $a0, $t8, $v0              
 /* 00670 80B3B5E0 00042400 */  sll     $a0, $a0, 16               
-/* 00674 80B3B5E4 0C01DE1C */  jal     Math_Sins
+/* 00674 80B3B5E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00678 80B3B5E8 00042403 */  sra     $a0, $a0, 16               
 /* 0067C 80B3B5EC 3C0280B4 */  lui     $v0, %hi(D_80B3C1D4)       ## $v0 = 80B40000

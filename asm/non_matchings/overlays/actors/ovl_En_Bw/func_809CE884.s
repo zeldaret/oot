@@ -33,7 +33,7 @@ glabel func_809CE884
 /* 001C0 809CE8A0 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
 /* 001C4 809CE8A4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 001C8 809CE8A8 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 001CC 809CE8AC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 001CC 809CE8AC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 001D0 809CE8B0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 001D4 809CE8B4 860E0222 */  lh      $t6, 0x0222($s0)           ## 00000222
@@ -46,7 +46,7 @@ glabel func_809CE884
 /* 001F0 809CE8D0 00000000 */  nop
 /* 001F4 809CE8D4 468021A0 */  cvt.s.w $f6, $f4                   
 /* 001F8 809CE8D8 46083302 */  mul.s   $f12, $f6, $f8             
-/* 001FC 809CE8DC 0C0329C8 */  jal     func_800CA720              
+/* 001FC 809CE8DC 0C0329C8 */  jal     Math_SinF              
 /* 00200 809CE8E0 00000000 */  nop
 /* 00204 809CE8E4 3C01809D */  lui     $at, %hi(D_809D15A8)       ## $at = 809D0000
 /* 00208 809CE8E8 C42A15A8 */  lwc1    $f10, %lo(D_809D15A8)($at) 
@@ -61,7 +61,7 @@ glabel func_809CE884
 /* 0022C 809CE90C E6040050 */  swc1    $f4, 0x0050($s0)           ## 00000050
 /* 00230 809CE910 C42A15B0 */  lwc1    $f10, %lo(D_809D15B0)($at) 
 /* 00234 809CE914 460A4302 */  mul.s   $f12, $f8, $f10            
-/* 00238 809CE918 0C0329C8 */  jal     func_800CA720              
+/* 00238 809CE918 0C0329C8 */  jal     Math_SinF              
 /* 0023C 809CE91C 00000000 */  nop
 /* 00240 809CE920 3C01809D */  lui     $at, %hi(D_809D15B4)       ## $at = 809D0000
 /* 00244 809CE924 C43015B4 */  lwc1    $f16, %lo(D_809D15B4)($at) 
@@ -77,7 +77,7 @@ glabel func_809CE884
 /* 0026C 809CE94C E6060054 */  swc1    $f6, 0x0054($s0)           ## 00000054
 /* 00270 809CE950 C43215BC */  lwc1    $f18, %lo(D_809D15BC)($at) 
 /* 00274 809CE954 46125302 */  mul.s   $f12, $f10, $f18           
-/* 00278 809CE958 0C0329C8 */  jal     func_800CA720              
+/* 00278 809CE958 0C0329C8 */  jal     Math_SinF              
 /* 0027C 809CE95C 00000000 */  nop
 /* 00280 809CE960 3C01809D */  lui     $at, %hi(D_809D15C0)       ## $at = 809D0000
 /* 00284 809CE964 C43015C0 */  lwc1    $f16, %lo(D_809D15C0)($at) 

@@ -52,8 +52,8 @@ void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec
     static Color_RGBA8 brownPrim = { 100, 80, 100, 0 };
     static Color_RGBA8 redEnv = { 255, 110, 96, 0 };
 
-    func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv,
-                  ((Math_Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
+    func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv, ((Rand_ZeroOne() * (scale * 0.2f)) + scale),
+                  scaleStep, life);
 }
 
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
@@ -116,19 +116,19 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
     for (i = 0; i < 12; i++) {
 
-        pos.x = Math_Sins(angle) * 46.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-        pos.z = Math_Coss(angle) * 46.0f;
+        pos.x = Math_SinS(angle) * 46.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.z = Math_CosS(angle) * 46.0f;
 
         velocity.x = (pos.x * 0.1f) + 20.0f;
-        velocity.y = Math_Rand_ZeroOne() * 16.0f;
+        velocity.y = Rand_ZeroOne() * 16.0f;
         velocity.z = pos.z * 0.1f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 96;
@@ -139,7 +139,7 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
-                             (s32)(Math_Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Math_Rand_ZeroOne() * 0.0f) + 30,
+                             (s32)(Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
         angle += 0x1555;
     }
@@ -157,19 +157,19 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
     for (i = 0; i < 8; i++) {
 
-        pos.x = Math_Sins(angle) * 30.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-        pos.z = Math_Coss(angle) * 30.0f;
+        pos.x = Math_SinS(angle) * 30.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.z = Math_CosS(angle) * 30.0f;
 
         velocity.x = 0.0f;
-        velocity.y = Math_Rand_ZeroOne() * -4.0f;
+        velocity.y = Rand_ZeroOne() * -4.0f;
         velocity.z = pos.z * 0.1f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 96;
@@ -180,8 +180,8 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 0x1E,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x2000;
     }
@@ -199,19 +199,19 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
     for (i = 0; i < 12; i++) {
 
-        pos.x = Math_Sins(angle) * 16.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        pos.z = Math_Coss(angle) * 16.0f;
+        pos.x = Math_SinS(angle) * 16.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = Math_CosS(angle) * 16.0f;
 
         velocity.x = pos.x * 0.6f;
-        velocity.y = (Math_Rand_ZeroOne() * 36.0f) + 6.0f;
+        velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
         velocity.z = pos.z * 0.6f;
 
         pos.x += spawnerPos->x;
         pos.y += spawnerPos->y;
         pos.z += spawnerPos->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 97;
@@ -222,7 +222,7 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -200, phi_s0, 10, 10, 0,
-                             Math_Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Math_Rand_ZeroOne() * 30.0f) + 30,
+                             Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
         angle += 0x1555;
     }
@@ -240,19 +240,19 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
 
     for (i = 0; i < 1; i++) {
 
-        pos.x = Math_Sins(angle) * 46.0f;
-        pos.y = (Math_Rand_ZeroOne() * 75.0f) - 28.0f;
-        pos.z = Math_Coss(angle) * 46.0f;
+        pos.x = Math_SinS(angle) * 46.0f;
+        pos.y = (Rand_ZeroOne() * 75.0f) - 28.0f;
+        pos.z = Math_CosS(angle) * 46.0f;
 
-        velocity.x = Math_Sins(arg2) * 3.0f;
-        velocity.y = (Math_Rand_ZeroOne() * -4.0f) + 10.0f;
-        velocity.z = Math_Coss(arg2) * 3.0f;
+        velocity.x = Math_SinS(arg2) * 3.0f;
+        velocity.y = (Rand_ZeroOne() * -4.0f) + 10.0f;
+        velocity.z = Math_CosS(arg2) * 3.0f;
 
         pos.x += arg1->x;
         pos.y += arg1->y;
         pos.z += arg1->z;
 
-        temp_f0 = Math_Rand_ZeroOne();
+        temp_f0 = Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
             phi_s0 = 97;
@@ -263,8 +263,8 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
-                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
         angle += 0x10000;
     }
@@ -288,13 +288,13 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
 
         for (i = frames; i < arg6; i += arg7) {
 
-            pos.x = (Math_Sins(phi_s0) * arg4) + spawnerPos->x;
+            pos.x = (Math_SinS(phi_s0) * arg4) + spawnerPos->x;
             pos.y = spawnerPos->y;
-            pos.z = (Math_Coss(phi_s0) * arg4) + spawnerPos->z;
+            pos.z = (Math_CosS(phi_s0) * arg4) + spawnerPos->z;
 
             DemoGt_SpawnDust(globalCtx, &pos, velocity, accel, dustScale, dustScaleStep, life);
 
-            if (Math_Rand_ZeroOne() <= 0.05f) {
+            if (Rand_ZeroOne() <= 0.05f) {
                 func_8097E1D4(globalCtx, &pos, phi_s0);
             }
 
@@ -434,9 +434,9 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     unk16C->y += phi_a2;
     unk16C->z += phi_a3;
 
-    tempf1 = Math_Coss(unk16C->x) * phi_f14;
-    tempf2 = Math_Coss(unk16C->y) * phi_f12;
-    tempf3 = Math_Coss(unk16C->z) * phi_f2;
+    tempf1 = Math_CosS(unk16C->x) * phi_f14;
+    tempf2 = Math_CosS(unk16C->y) * phi_f12;
+    tempf3 = Math_CosS(unk16C->z) * phi_f2;
 
     pos->x += tempf1;
     pos->y += tempf2;
@@ -660,16 +660,16 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     spB8 = (s16)((s32)kREG(70)) + 0x4000;
     spBA = kREG(70);
     spB4 = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    sp98 = 1.0f - Math_Coss(spC6);
+    sp98 = 1.0f - Math_CosS(spC6);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part1.c", 458);
 
-    spA8.x = Math_Coss(spB8);
+    spA8.x = Math_CosS(spB8);
     spA8.y = 0.0f;
-    spA8.z = Math_Sins(spB8);
-    sp9C.x = Math_Coss(spBA) * spBC * sp98;
-    sp9C.y = Math_Sins(spC6) * spBC;
-    sp9C.z = Math_Sins(spBA) * spBC * sp98;
+    spA8.z = Math_SinS(spB8);
+    sp9C.x = Math_CosS(spBA) * spBC * sp98;
+    sp9C.y = Math_SinS(spC6) * spBC;
+    sp9C.z = Math_SinS(spBA) * spBC * sp98;
 
     Matrix_Push();
 
@@ -1281,17 +1281,17 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         sp6A = kREG(58);
         gfxCtx = globalCtx2->state.gfxCtx;
         sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
-        sp44 = 1.0f - Math_Coss(sp76);
+        sp44 = 1.0f - Math_CosS(sp76);
 
         OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 217);
 
-        sp54.x = Math_Coss(sp68);
+        sp54.x = Math_CosS(sp68);
         sp54.y = 0.0f;
-        sp54.z = Math_Sins(sp68);
+        sp54.z = Math_SinS(sp68);
 
-        sp48.x = (Math_Coss(sp6A) * sp6C) * sp44;
-        sp48.y = Math_Sins(sp76) * sp6C;
-        sp48.z = (Math_Sins(sp6A) * sp6C) * sp44;
+        sp48.x = (Math_CosS(sp6A) * sp6C) * sp44;
+        sp48.y = Math_SinS(sp76) * sp6C;
+        sp48.z = (Math_SinS(sp6A) * sp6C) * sp44;
 
         Matrix_Push();
 
@@ -1400,17 +1400,17 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     sp68 = (s16)(kREG(59) - 0x4000) + 0x4000;
     gfxCtx = globalCtx->state.gfxCtx;
     sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    sp44 = 1 - Math_Coss(sp76);
+    sp44 = 1 - Math_CosS(sp76);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 212);
 
-    sp54.x = Math_Coss(sp68);
+    sp54.x = Math_CosS(sp68);
     sp54.y = 0.0f;
-    sp54.z = Math_Sins(sp68);
+    sp54.z = Math_SinS(sp68);
 
-    sp48.x = Math_Coss(sp6A) * sp6C * sp44;
-    sp48.y = Math_Sins(sp76) * sp6C;
-    sp48.z = Math_Sins(sp6A) * sp6C * sp44;
+    sp48.x = Math_CosS(sp6A) * sp6C * sp44;
+    sp48.y = Math_SinS(sp76) * sp6C;
+    sp48.z = Math_SinS(sp6A) * sp6C * sp44;
 
     Matrix_Push();
 
@@ -1496,17 +1496,17 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
     sp6C += 0x4000;
     gfxCtx = globalCtx->state.gfxCtx;
     sp64 = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    sp48 = 1.0f - Math_Coss(sp78);
+    sp48 = 1.0f - Math_CosS(sp78);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 276);
 
-    sp58.x = Math_Coss(sp6C);
+    sp58.x = Math_CosS(sp6C);
     sp58.y = 0.0f;
-    sp58.z = Math_Sins(sp6C);
+    sp58.z = Math_SinS(sp6C);
 
-    sp4C.x = Math_Coss(sp6E) * sp70 * sp48;
-    sp4C.y = Math_Sins(sp78) * sp70;
-    sp4C.z = Math_Sins(sp6E) * sp70 * sp48;
+    sp4C.x = Math_CosS(sp6E) * sp70 * sp48;
+    sp4C.y = Math_SinS(sp78) * sp70;
+    sp4C.z = Math_SinS(sp6E) * sp70 * sp48;
 
     Matrix_Push();
 
@@ -1588,17 +1588,17 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
     sp60 = kREG(74) + 0x7FEC;
     sp60 = sp60 + 0x4000;
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    sp40 = 1.0f - Math_Coss(sp6E);
+    sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
 
-    sp50.x = Math_Coss(sp60);
+    sp50.x = Math_CosS(sp60);
     sp50.y = 0.0f;
-    sp50.z = Math_Sins(sp60);
+    sp50.z = Math_SinS(sp60);
 
-    sp44.x = (Math_Coss(sp62) * sp64) * sp40;
-    sp44.y = Math_Sins(sp6E) * sp64;
-    sp44.z = (Math_Sins(sp62) * sp64) * sp40;
+    sp44.x = (Math_CosS(sp62) * sp64) * sp40;
+    sp44.y = Math_SinS(sp6E) * sp64;
+    sp44.z = (Math_SinS(sp62) * sp64) * sp40;
 
     Matrix_Push();
 
@@ -1679,17 +1679,17 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
     sp60 = kREG(77) + 0xBE80;
     sp60 += 0x4000;
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    sp40 = 1.0f - Math_Coss(sp6E);
+    sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 137);
 
-    sp50.x = Math_Coss(sp60);
+    sp50.x = Math_CosS(sp60);
     sp50.y = 0.0f;
-    sp50.z = Math_Sins(sp60);
+    sp50.z = Math_SinS(sp60);
 
-    sp44.x = Math_Coss(sp62) * sp64 * sp40;
-    sp44.y = Math_Sins(sp6E) * sp64;
-    sp44.z = Math_Sins(sp62) * sp64 * sp40;
+    sp44.x = Math_CosS(sp62) * sp64 * sp40;
+    sp44.y = Math_SinS(sp6E) * sp64;
+    sp44.z = Math_SinS(sp62) * sp64 * sp40;
 
     Matrix_Push();
 

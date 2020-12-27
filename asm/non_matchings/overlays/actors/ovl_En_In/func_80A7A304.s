@@ -79,7 +79,7 @@ glabel func_80A7A304
 /* 01454 80A7A404 0C03DCE3 */  jal     Audio_PlaySoundGeneral
 
 /* 01458 80A7A408 AFA70010 */  sw      $a3, 0x0010($sp)
-/* 0145C 80A7A40C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0145C 80A7A40C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01460 80A7A410 00000000 */  nop
 /* 01464 80A7A414 3C0180A8 */  lui     $at, %hi(D_80A7BADC)       ## $at = 80A80000
