@@ -296,7 +296,7 @@ void func_80A98C18(EnKo* this) {
         this->unk_216++;
         temp_v1 = D_80A9A158[phi_v1].unk_8;
         if ((temp_v1 != NULL) && (temp_v1[this->unk_216] == NULL)) {
-            this->unk_214 = Math_Rand_S16Offset(30, 30);
+            this->unk_214 = Rand_S16Offset(30, 30);
             this->unk_216 = 0;
         }
     }
@@ -343,7 +343,7 @@ void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
         dist = this->actor.xzDistFromLink;
     }
 
-    Math_SmoothScaleMaxMinF(&this->unk_220, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
+    Math_SmoothStepToF(&this->unk_220, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->unk_220 < 10.0f) {
         this->actor.flags = this->actor.flags & ~1;
         return;
@@ -468,11 +468,11 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 
     yawToPlayer = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-    temp_f10 = 80.0f * Math_Sins(yawToPlayer);
+    temp_f10 = 80.0f * Math_SinS(yawToPlayer);
     this->actor.posRot.pos.x = this->actor.posRot.pos.x + temp_f10;
     this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
     // yawToLink = this->actor.yawTowardsLink;
-    this->actor.posRot.pos.z += 80.0f * Math_Coss(yawToPlayer);
+    this->actor.posRot.pos.z += 80.0f * Math_CosS(yawToPlayer);
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     // this->actor.posRot.pos.z +=  temp_f10;
     if ((this->unk_1E8 == 0) || (this->actor.unk_10C == 0)) {
@@ -565,8 +565,8 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 0xC)) {
         temp_v1_3 = this + (limbIndex * 2);
-        rot->y = (s16)(s32)((f32)rot->y + (Math_Sins(temp_v1_3->unk2E4) * 200.0f));
-        rot->z = (s16)(s32)((f32)rot->z + (Math_Coss(temp_v1_3->unk304) * 200.0f));
+        rot->y = (s16)(s32)((f32)rot->y + (Math_SinS(temp_v1_3->unk2E4) * 200.0f));
+        rot->z = (s16)(s32)((f32)rot->z + (Math_CosS(temp_v1_3->unk304) * 200.0f));
     }
     return 0;
 }*/
