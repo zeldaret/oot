@@ -1,149 +1,42 @@
 #!/usr/bin/python3
 import os
 from shutil import copyfile
+from multiprocessing import Pool
+from multiprocessing import cpu_count
 
 def Extract(xmlPath, outputPath):
-	ExtractFile(xmlPath, outputPath, 1, 0)
+	ExtractFile(xmlPath, outputPath, 1, 0)	
 
 def ExtractScene(xmlPath, outputPath):
 	ExtractFile(xmlPath, outputPath, 1, 1)
 
 def ExtractFile(xmlPath, outputPath, genSrcFile, incFilePrefix):
-	execStr = "tools/ZAP2/ZAP2.out e -eh -tm 1 -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAP2/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
+	execStr = "tools/ZAP2/ZAP2.out e -eh -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAP2/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
 
 	print(execStr)
 	os.system(execStr)
-    
 
-# Textures
-Extract("assets/xml/textures/icon_item_24_static.xml", "assets/textures/icon_item_24_static")
-Extract("assets/xml/textures/icon_item_dungeon_static.xml", "assets/textures/icon_item_dungeon_static")
-Extract("assets/xml/textures/icon_item_field_static.xml", "assets/textures/icon_item_field_static")
-Extract("assets/xml/textures/icon_item_gameover_static.xml", "assets/textures/icon_item_gameover_static")
-Extract("assets/xml/textures/icon_item_nes_static.xml", "assets/textures/icon_item_nes_static")
-Extract("assets/xml/textures/icon_item_static.xml", "assets/textures/icon_item_static")
+def ExtractFunc(fullPath):
+	outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
-# Objects
-#Extract("assets/xml/objects/object_vase.xml", "assets/objects/object_vase")
-#Extract("assets/xml/objects/object_pu_box.xml", "assets/objects/object_pu_box")
-#Extract("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
-#Extract("assets/xml/objects/object_sk2.xml", "assets/objects/object_sk2")
+	if (fullPath.startswith("assets/xml/scenes/")):
+		ExtractScene(fullPath, outPath)
+	else:
+		Extract(fullPath, outPath)
 
-# Scenes and Rooms
-ExtractScene("scenes/xml/test_levels/test01.xml", "scenes/test_levels/test01")
-ExtractScene("scenes/xml/test_levels/testroom.xml", "scenes/test_levels/testroom")
-ExtractScene("scenes/xml/test_levels/sutaru.xml", "scenes/test_levels/sutaru")
-ExtractScene("scenes/xml/test_levels/syotes.xml", "scenes/test_levels/syotes")
-ExtractScene("scenes/xml/test_levels/syotes2.xml", "scenes/test_levels/syotes2")
-ExtractScene("scenes/xml/test_levels/besitu.xml", "scenes/test_levels/besitu")
-ExtractScene("scenes/xml/test_levels/sasatest.xml", "scenes/test_levels/sasatest")
-ExtractScene("scenes/xml/test_levels/depth_test.xml", "scenes/test_levels/depth_test")
-ExtractScene("scenes/xml/misc/kinsuta.xml", "scenes/misc/kinsuta")
-ExtractScene("scenes/xml/misc/kakusiana.xml", "scenes/misc/kakusiana")
-ExtractScene("scenes/xml/misc/hakaana.xml", "scenes/misc/hakaana")
-ExtractScene("scenes/xml/misc/hakaana2.xml", "scenes/misc/hakaana2")
-ExtractScene("scenes/xml/misc/hakaana_ouke.xml", "scenes/misc/hakaana_ouke")
-ExtractScene("scenes/xml/misc/hiral_demo.xml", "scenes/misc/hiral_demo")
-ExtractScene("scenes/xml/misc/market_day.xml", "scenes/misc/market_day")
-ExtractScene("scenes/xml/misc/market_night.xml", "scenes/misc/market_night")
-ExtractScene("scenes/xml/misc/market_ruins.xml", "scenes/misc/market_ruins")
-ExtractScene("scenes/xml/misc/market_alley.xml", "scenes/misc/market_alley")
-ExtractScene("scenes/xml/misc/market_alley_n.xml", "scenes/misc/market_alley_n")
-ExtractScene("scenes/xml/misc/kakariko3.xml", "scenes/misc/kakariko3")
-ExtractScene("scenes/xml/misc/turibori.xml", "scenes/misc/turibori")
-ExtractScene("scenes/xml/misc/shrine.xml", "scenes/misc/shrine")
-ExtractScene("scenes/xml/misc/shrine_n.xml", "scenes/misc/shrine_n")
-ExtractScene("scenes/xml/misc/shrine_r.xml", "scenes/misc/shrine_r")
-ExtractScene("scenes/xml/misc/entra_n.xml", "scenes/misc/entra_n")
-ExtractScene("scenes/xml/misc/enrui.xml", "scenes/misc/enrui")
+xmlFiles = []
 
-ExtractScene("scenes/xml/overworld/spot00.xml", "scenes/overworld/spot00")
-ExtractScene("scenes/xml/overworld/spot01.xml", "scenes/overworld/spot01")
-ExtractScene("scenes/xml/overworld/spot02.xml", "scenes/overworld/spot02")
-ExtractScene("scenes/xml/overworld/spot03.xml", "scenes/overworld/spot03")
-ExtractScene("scenes/xml/overworld/spot04.xml", "scenes/overworld/spot04")
-ExtractScene("scenes/xml/overworld/spot05.xml", "scenes/overworld/spot05")
-ExtractScene("scenes/xml/overworld/spot06.xml", "scenes/overworld/spot06")
-ExtractScene("scenes/xml/overworld/spot07.xml", "scenes/overworld/spot07")
-ExtractScene("scenes/xml/overworld/spot08.xml", "scenes/overworld/spot08")
-ExtractScene("scenes/xml/overworld/spot09.xml", "scenes/overworld/spot09")
-ExtractScene("scenes/xml/overworld/spot10.xml", "scenes/overworld/spot10")
-ExtractScene("scenes/xml/overworld/spot11.xml", "scenes/overworld/spot11")
-ExtractScene("scenes/xml/overworld/spot12.xml", "scenes/overworld/spot12")
-ExtractScene("scenes/xml/overworld/spot13.xml", "scenes/overworld/spot13")
-ExtractScene("scenes/xml/overworld/spot15.xml", "scenes/overworld/spot15")
-ExtractScene("scenes/xml/overworld/spot16.xml", "scenes/overworld/spot16")
-ExtractScene("scenes/xml/overworld/spot17.xml", "scenes/overworld/spot17")
-ExtractScene("scenes/xml/overworld/spot18.xml", "scenes/overworld/spot18")
-ExtractScene("scenes/xml/overworld/spot20.xml", "scenes/overworld/spot20")
-ExtractScene("scenes/xml/overworld/souko.xml", "scenes/overworld/souko")
-ExtractScene("scenes/xml/overworld/entra.xml", "scenes/overworld/entra")
+for currentPath, folders, files in os.walk("assets"):
+	for file in files:
+		fullPath = os.path.join(currentPath, file)
+		if file.endswith(".xml") and currentPath.startswith("assets/xml"):
+			outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+			xmlFiles.append(fullPath)
 
-ExtractScene("scenes/xml/indoors/takaraya.xml", "scenes/indoors/takaraya")
-ExtractScene("scenes/xml/indoors/tokinoma.xml", "scenes/indoors/tokinoma")
-ExtractScene("scenes/xml/indoors/kenjyanoma.xml", "scenes/indoors/kenjyanoma")
-ExtractScene("scenes/xml/indoors/hylia_labo.xml", "scenes/indoors/hylia_labo")
-ExtractScene("scenes/xml/indoors/miharigoya.xml", "scenes/indoors/miharigoya")
-ExtractScene("scenes/xml/indoors/mahouya.xml", "scenes/indoors/mahouya")
-ExtractScene("scenes/xml/indoors/syatekijyou.xml", "scenes/indoors/syatekijyou")
-ExtractScene("scenes/xml/indoors/hairal_niwa.xml", "scenes/indoors/hairal_niwa")
-ExtractScene("scenes/xml/indoors/hairal_niwa2.xml", "scenes/indoors/hairal_niwa2")
-ExtractScene("scenes/xml/indoors/hairal_niwa_n.xml", "scenes/indoors/hairal_niwa_n")
-ExtractScene("scenes/xml/indoors/labo.xml", "scenes/indoors/labo")
-ExtractScene("scenes/xml/indoors/tent.xml", "scenes/indoors/tent")
-ExtractScene("scenes/xml/indoors/impa.xml", "scenes/indoors/impa")
-ExtractScene("scenes/xml/indoors/bowling.xml", "scenes/indoors/bowling")
-ExtractScene("scenes/xml/indoors/hakasitarelay.xml", "scenes/indoors/hakasitarelay")
+numCores = cpu_count()
+print("Extracting assets with " + str(numCores) + " CPU cores.")
+p = Pool(numCores)
+p.map(ExtractFunc, xmlFiles)
 
-ExtractScene("scenes/xml/indoors/nakaniwa.xml", "scenes/indoors/nakaniwa")
-ExtractScene("scenes/xml/indoors/daiyousei_izumi.xml", "scenes/indoors/daiyousei_izumi")
-ExtractScene("scenes/xml/indoors/yousei_izumi_tate.xml", "scenes/indoors/yousei_izumi_tate")
-ExtractScene("scenes/xml/indoors/yousei_izumi_yoko.xml", "scenes/indoors/yousei_izumi_yoko")
-ExtractScene("scenes/xml/indoors/malon_stable.xml", "scenes/indoors/malon_stable")
-ExtractScene("scenes/xml/indoors/kakariko.xml", "scenes/indoors/kakariko")
-ExtractScene("scenes/xml/indoors/hut.xml", "scenes/indoors/hut")
-ExtractScene("scenes/xml/indoors/kokiri_home.xml", "scenes/indoors/kokiri_home")
-ExtractScene("scenes/xml/indoors/kokiri_home3.xml", "scenes/indoors/kokiri_home3")
-ExtractScene("scenes/xml/indoors/kokiri_home4.xml", "scenes/indoors/kokiri_home4")
-ExtractScene("scenes/xml/indoors/kokiri_home5.xml", "scenes/indoors/kokiri_home5")
-ExtractScene("scenes/xml/indoors/link_home.xml", "scenes/indoors/link_home")
-
-ExtractScene("scenes/xml/shops/golon.xml", "scenes/shops/golon")
-ExtractScene("scenes/xml/shops/zoora.xml", "scenes/shops/zoora")
-ExtractScene("scenes/xml/shops/drag.xml", "scenes/shops/drag")
-ExtractScene("scenes/xml/shops/alley_shop.xml", "scenes/shops/alley_shop")
-ExtractScene("scenes/xml/shops/night_shop.xml", "scenes/shops/night_shop")
-ExtractScene("scenes/xml/shops/face_shop.xml", "scenes/shops/face_shop")
-ExtractScene("scenes/xml/shops/kokiri_shop.xml", "scenes/shops/kokiri_shop")
-ExtractScene("scenes/xml/shops/shop1.xml", "scenes/shops/shop1")
-
-ExtractScene("scenes/xml/dungeons/ydan.xml", "scenes/dungeons/ydan")
-ExtractScene("scenes/xml/dungeons/ydan_boss.xml", "scenes/dungeons/ydan_boss")
-ExtractScene("scenes/xml/dungeons/ddan.xml", "scenes/dungeons/ddan")
-ExtractScene("scenes/xml/dungeons/ddan_boss.xml", "scenes/dungeons/ddan_boss")
-ExtractScene("scenes/xml/dungeons/bdan.xml", "scenes/dungeons/bdan")
-ExtractScene("scenes/xml/dungeons/bdan_boss.xml", "scenes/dungeons/bdan_boss")
-ExtractScene("scenes/xml/dungeons/Bmori1.xml", "scenes/dungeons/Bmori1")
-ExtractScene("scenes/xml/dungeons/FIRE_bs.xml", "scenes/dungeons/FIRE_bs")
-ExtractScene("scenes/xml/dungeons/moribossroom.xml", "scenes/dungeons/moribossroom")
-ExtractScene("scenes/xml/dungeons/HIDAN.xml", "scenes/dungeons/HIDAN")
-ExtractScene("scenes/xml/dungeons/MIZUsin.xml", "scenes/dungeons/MIZUsin")
-ExtractScene("scenes/xml/dungeons/MIZUsin_bs.xml", "scenes/dungeons/MIZUsin_bs")
-ExtractScene("scenes/xml/dungeons/jyasinzou.xml", "scenes/dungeons/jyasinzou")
-ExtractScene("scenes/xml/dungeons/HAKAdan.xml", "scenes/dungeons/HAKAdan")
-ExtractScene("scenes/xml/dungeons/HAKAdan_bs.xml", "scenes/dungeons/HAKAdan_bs")
-ExtractScene("scenes/xml/dungeons/HAKAdanCH.xml", "scenes/dungeons/HAKAdanCH")
-ExtractScene("scenes/xml/dungeons/ice_doukutu.xml", "scenes/dungeons/ice_doukutu")
-ExtractScene("scenes/xml/dungeons/jyasinboss.xml", "scenes/dungeons/jyasinboss")
-ExtractScene("scenes/xml/dungeons/men.xml", "scenes/dungeons/men")
-ExtractScene("scenes/xml/dungeons/gerudoway.xml", "scenes/dungeons/gerudoway")
-ExtractScene("scenes/xml/dungeons/ganontika.xml", "scenes/dungeons/ganontika")
-ExtractScene("scenes/xml/dungeons/ganontikasonogo.xml", "scenes/dungeons/ganontikasonogo")
-ExtractScene("scenes/xml/dungeons/ganon.xml", "scenes/dungeons/ganon")
-ExtractScene("scenes/xml/dungeons/ganon_boss.xml", "scenes/dungeons/ganon_boss")
-ExtractScene("scenes/xml/dungeons/ganon_demo.xml", "scenes/dungeons/ganon_demo")
-ExtractScene("scenes/xml/dungeons/ganon_final.xml", "scenes/dungeons/ganon_final")
-ExtractScene("scenes/xml/dungeons/ganon_sonogo.xml", "scenes/dungeons/ganon_sonogo")
-ExtractScene("scenes/xml/dungeons/ganon_tou.xml", "scenes/dungeons/ganon_tou")
 
 #os.system("make resources")

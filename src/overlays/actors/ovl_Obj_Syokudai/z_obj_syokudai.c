@@ -77,7 +77,7 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->litTimer = -1;
     }
 
-    this->flameTexScroll = (s32)(Math_Rand_ZeroOne() * 20.0f);
+    this->flameTexScroll = (s32)(Rand_ZeroOne() * 20.0f);
     sLitTorchCount = 0;
     Actor_SetHeight(&this->actor, 60.0f);
 }
@@ -224,7 +224,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             lightRadius = (this->litTimer * 200.0f) / 20.0f;
         }
-        brightness = (u8)(Math_Rand_ZeroOne() * 127.0f) + 128;
+        brightness = (u8)(Rand_ZeroOne() * 127.0f) + 128;
         func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
     Lights_PointSetColorAndRadius(&this->lightInfo, brightness, brightness, 0, lightRadius);

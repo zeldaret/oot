@@ -43,7 +43,7 @@ glabel BgHakaGate_Init
 /* 00094 8087BE84 28614000 */  slti    $at, $v1, 0x4000           
 /* 00098 8087BE88 5020002D */  beql    $at, $zero, .L8087BF40     
 /* 0009C 8087BE8C AE080164 */  sw      $t0, 0x0164($s0)           ## 00000164
-/* 000A0 8087BE90 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 000A0 8087BE90 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 000A4 8087BE94 00000000 */  nop
 /* 000A8 8087BE98 3C038088 */  lui     $v1, %hi(D_8087CCD4)       ## $v1 = 80880000
@@ -93,7 +93,7 @@ glabel BgHakaGate_Init
 /* 00148 8087BF38 AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 /* 0014C 8087BF3C AE080164 */  sw      $t0, 0x0164($s0)           ## 00000164
 .L8087BF40:
-/* 00150 8087BF40 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00150 8087BF40 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00154 8087BF44 00000000 */  nop
 /* 00158 8087BF48 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -117,8 +117,8 @@ glabel BgHakaGate_Init
 .L8087BF8C:
 /* 0019C 8087BF8C 14400015 */  bne     $v0, $zero, .L8087BFE4     
 /* 001A0 8087BF90 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 001A4 8087BF94 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 001A8 8087BF98 248431C4 */  addiu   $a0, $a0, 0x31C4           ## $a0 = 060131C4
+/* 001A4 8087BF94 3C040601 */  lui     $a0, %hi(D_060131C4)                ## $a0 = 06010000
+/* 001A8 8087BF98 248431C4 */  addiu   $a0, $a0, %lo(D_060131C4)           ## $a0 = 060131C4
 /* 001AC 8087BF9C 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 001B0 8087BFA0 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
@@ -143,8 +143,8 @@ glabel BgHakaGate_Init
 .L8087BFE4:
 /* 001F4 8087BFE4 14410011 */  bne     $v0, $at, .L8087C02C       
 /* 001F8 8087BFE8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 001FC 8087BFEC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 00200 8087BFF0 24840E10 */  addiu   $a0, $a0, 0x0E10           ## $a0 = 06010E10
+/* 001FC 8087BFEC 3C040601 */  lui     $a0, %hi(D_06010E10)                ## $a0 = 06010000
+/* 00200 8087BFF0 24840E10 */  addiu   $a0, $a0, %lo(D_06010E10)           ## $a0 = 06010E10
 /* 00204 8087BFF4 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00208 8087BFF8 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4

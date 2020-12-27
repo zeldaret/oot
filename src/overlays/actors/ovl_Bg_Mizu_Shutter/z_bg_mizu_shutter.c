@@ -106,19 +106,19 @@ void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx
 
 void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
         if ((this->dyna.actor.posRot.pos.x == this->openPos.x) && (this->dyna.actor.posRot.pos.y == this->openPos.y) &&
             (this->dyna.actor.posRot.pos.z == this->openPos.z)) {
             this->timer = this->timerMax;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         }
     } else {
-        Math_SmoothScaleMaxMinF(&this->maxSpeed, 20.0f, 1.0f, 3.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->maxSpeed, 20.0f, 1.0f, 3.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
         if ((this->dyna.actor.posRot.pos.x == this->closedPos.x) &&
             (this->dyna.actor.posRot.pos.y == this->closedPos.y) &&
             (this->dyna.actor.posRot.pos.z == this->closedPos.z)) {

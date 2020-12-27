@@ -115,7 +115,7 @@ void func_80984BE0(DemoIm* this) {
     s16* unk_25C = &this->unk_25C;
 
     if (DECR(*unk_25E) == 0) {
-        *unk_25E = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_25E = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_25C = *unk_25E;
@@ -175,11 +175,11 @@ void func_80984DB8(DemoIm* this) {
     Vec3s* vec1 = &this->unk_2D4.unk_08;
     Vec3s* vec2 = &this->unk_2D4.unk_0E;
 
-    Math_SmoothScaleMaxMinS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
 
-    Math_SmoothScaleMaxMinS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothScaleMaxMinS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
@@ -730,9 +730,9 @@ void func_809865F8(DemoIm* this, GlobalContext* globalCtx, s32 arg2) {
             if (this->unk_27C == 0) {
                 Vec3f* thisPos = &this->actor.posRot.pos;
                 s16 shapeRotY = this->actor.shape.rot.y;
-                f32 spawnPosX = thisPos->x + (Math_Sins(shapeRotY) * 30.0f);
+                f32 spawnPosX = thisPos->x + (Math_SinS(shapeRotY) * 30.0f);
                 f32 spawnPosY = thisPos->y;
-                f32 spawnPosZ = thisPos->z + (Math_Coss(shapeRotY) * 30.0f);
+                f32 spawnPosZ = thisPos->z + (Math_CosS(shapeRotY) * 30.0f);
 
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, spawnPosX, spawnPosY, spawnPosZ, 0xFA0,
                             this->actor.shape.rot.y, 0, 0xFFF6);

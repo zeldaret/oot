@@ -27,7 +27,7 @@ glabel BgHakaZou_Init
 /* 0003C 808825FC A2180169 */  sb      $t8, 0x0169($s0)           ## 00000169
 /* 00040 80882600 15210052 */  bne     $t1, $at, .L8088274C       
 /* 00044 80882604 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00048 80882608 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00048 80882608 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0004C 8088260C 00000000 */  nop
 /* 00050 80882610 3C018088 */  lui     $at, %hi(D_80883660)       ## $at = 80880000
@@ -41,10 +41,10 @@ glabel BgHakaZou_Init
 /* 00070 80882630 0C00B58B */  jal     Actor_SetScale
               
 /* 00074 80882634 00000000 */  nop
-/* 00078 80882638 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00078 80882638 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0007C 8088263C 00000000 */  nop
-/* 00080 80882640 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00080 80882640 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00084 80882644 E6000068 */  swc1    $f0, 0x0068($s0)           ## 00000068
 /* 00088 80882648 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -58,7 +58,7 @@ glabel BgHakaZou_Init
 /* 000A8 80882668 10000001 */  beq     $zero, $zero, .L80882670   
 /* 000AC 8088266C 2403FFFF */  addiu   $v1, $zero, 0xFFFF         ## $v1 = FFFFFFFF
 .L80882670:
-/* 000B0 80882670 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 000B0 80882670 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 000B4 80882674 AFA30028 */  sw      $v1, 0x0028($sp)           
 /* 000B8 80882678 8FA30028 */  lw      $v1, 0x0028($sp)           
@@ -75,10 +75,10 @@ glabel BgHakaZou_Init
 /* 000E4 808826A4 46040180 */  add.s   $f6, $f0, $f4              
 /* 000E8 808826A8 4600320D */  trunc.w.s $f8, $f6                   
 /* 000EC 808826AC 440D4000 */  mfc1    $t5, $f8                   
-/* 000F0 808826B0 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 000F0 808826B0 0C01DF64 */  jal     Rand_S16Offset
               
 /* 000F4 808826B4 A60D0032 */  sh      $t5, 0x0032($s0)           ## 00000032
-/* 000F8 808826B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 000F8 808826B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 000FC 808826BC A7A20026 */  sh      $v0, 0x0026($sp)           
 /* 00100 808826C0 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -97,10 +97,10 @@ glabel BgHakaZou_Init
 /* 00130 808826F0 24050800 */  addiu   $a1, $zero, 0x0800         ## $a1 = 00000800
 /* 00134 808826F4 0000C012 */  mflo    $t8                        
 /* 00138 808826F8 A6180030 */  sh      $t8, 0x0030($s0)           ## 00000030
-/* 0013C 808826FC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 0013C 808826FC 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00140 80882700 00000000 */  nop
-/* 00144 80882704 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00144 80882704 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00148 80882708 A7A20026 */  sh      $v0, 0x0026($sp)           
 /* 0014C 8088270C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

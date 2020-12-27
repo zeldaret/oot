@@ -69,7 +69,7 @@ glabel func_809B75A0
 /* 01350 809B76A0 00118C03 */  sra     $s1, $s1, 16
 /* 01354 809B76A4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01358 809B76A8 266400B6 */  addiu   $a0, $s3, 0x00B6           ## $a0 = 000000B6
-/* 0135C 809B76AC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0135C 809B76AC 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 01360 809B76B0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01364 809B76B4 00112C00 */  sll     $a1, $s1, 16
@@ -77,7 +77,7 @@ glabel func_809B75A0
 /* 0136C 809B76BC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01370 809B76C0 00052C03 */  sra     $a1, $a1, 16
 /* 01374 809B76C4 266400B4 */  addiu   $a0, $s3, 0x00B4           ## $a0 = 000000B4
-/* 01378 809B76C8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01378 809B76C8 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 0137C 809B76CC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01380 809B76D0 C66C0024 */  lwc1    $f12, 0x0024($s3)          ## 00000024
@@ -114,14 +114,14 @@ glabel func_809B75A0
 /* 013F8 809B7748 8667031C */  lh      $a3, 0x031C($s3)           ## 0000031C
 /* 013FC 809B774C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01400 809B7750 02802025 */  or      $a0, $s4, $zero            ## $a0 = 000002C6
-/* 01404 809B7754 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01404 809B7754 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 01408 809B7758 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0140C 809B775C 866502C8 */  lh      $a1, 0x02C8($s3)           ## 000002C8
 /* 01410 809B7760 8667031C */  lh      $a3, 0x031C($s3)           ## 0000031C
 /* 01414 809B7764 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01418 809B7768 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 000002C8
-/* 0141C 809B776C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 0141C 809B776C 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 01420 809B7770 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01424 809B7774 C60C0158 */  lwc1    $f12, 0x0158($s0)          ## 00000194

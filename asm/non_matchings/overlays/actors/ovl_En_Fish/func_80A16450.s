@@ -17,7 +17,7 @@ glabel func_80A16450
 /* 011F8 80A16478 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 011FC 80A1647C 34A53333 */  ori     $a1, $a1, 0x3333           ## $a1 = 40333333
 /* 01200 80A16480 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
-/* 01204 80A16484 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01204 80A16484 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01208 80A16488 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0120C 80A1648C 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
@@ -41,15 +41,15 @@ glabel func_80A16450
 .L80A164CC:
 /* 0124C 80A164CC AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 01250 80A164D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01254 80A164D4 0C01DED6 */  jal     func_80077B58              
+/* 01254 80A164D4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01258 80A164D8 240605DC */  addiu   $a2, $zero, 0x05DC         ## $a2 = 000005DC
 /* 0125C 80A164DC 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 01260 80A164E0 86050016 */  lh      $a1, 0x0016($s0)           ## 00000016
-/* 01264 80A164E4 0C01DED6 */  jal     func_80077B58              
+/* 01264 80A164E4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01268 80A164E8 24060BB8 */  addiu   $a2, $zero, 0x0BB8         ## $a2 = 00000BB8
 /* 0126C 80A164EC 26040034 */  addiu   $a0, $s0, 0x0034           ## $a0 = 00000034
 /* 01270 80A164F0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01274 80A164F4 0C01DED6 */  jal     func_80077B58              
+/* 01274 80A164F4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 01278 80A164F8 240603E8 */  addiu   $a2, $zero, 0x03E8         ## $a2 = 000003E8
 /* 0127C 80A164FC 8FB80028 */  lw      $t8, 0x0028($sp)           
 /* 01280 80A16500 96090088 */  lhu     $t1, 0x0088($s0)           ## 00000088
@@ -69,7 +69,7 @@ glabel func_80A16450
 /* 012B8 80A16538 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 012BC 80A1653C 46128101 */  sub.s   $f4, $f16, $f18            
 /* 012C0 80A16540 44052000 */  mfc1    $a1, $f4                   
-/* 012C4 80A16544 0C01DE80 */  jal     Math_ApproxF
+/* 012C4 80A16544 0C01DE80 */  jal     Math_StepToF
               
 /* 012C8 80A16548 00000000 */  nop
 /* 012CC 80A1654C 1000000A */  beq     $zero, $zero, .L80A16578   
@@ -81,7 +81,7 @@ glabel func_80A16450
 /* 012E0 80A16560 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 012E4 80A16564 46083281 */  sub.s   $f10, $f6, $f8             
 /* 012E8 80A16568 44055000 */  mfc1    $a1, $f10                  
-/* 012EC 80A1656C 0C01DE80 */  jal     Math_ApproxF
+/* 012EC 80A1656C 0C01DE80 */  jal     Math_StepToF
               
 /* 012F0 80A16570 00000000 */  nop
 /* 012F4 80A16574 860B0248 */  lh      $t3, 0x0248($s0)           ## 00000248

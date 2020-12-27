@@ -59,7 +59,7 @@ void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 iVar1;
 
     if (this->actor.parent == NULL) {
-        iVar1 = Math_ApproxF(&this->actor.scale.x, 0, 0.005);
+        iVar1 = Math_StepToF(&this->actor.scale.x, 0, 0.005);
 
         if (iVar1 != 0) {
             Actor_Kill(&this->actor);

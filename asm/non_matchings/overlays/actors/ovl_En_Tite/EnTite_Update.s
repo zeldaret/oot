@@ -213,7 +213,7 @@ glabel EnTite_Update
 /* 02628 80B1B0A8 A60A00B8 */  sh      $t2, 0x00B8($s0)           ## 000000B8
 .L80B1B0AC:
 /* 0262C 80B1B0AC 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 02630 80B1B0B0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02630 80B1B0B0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02634 80B1B0B4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02638 80B1B0B8 920B02BD */  lbu     $t3, 0x02BD($s0)           ## 000002BD
@@ -223,7 +223,7 @@ glabel EnTite_Update
 /* 02648 80B1B0C8 1020000F */  beq     $at, $zero, .L80B1B108     
 /* 0264C 80B1B0CC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 02650 80B1B0D0 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 02654 80B1B0D4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02654 80B1B0D4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02658 80B1B0D8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0265C 80B1B0DC C60000BC */  lwc1    $f0, 0x00BC($s0)           ## 000000BC

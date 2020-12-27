@@ -107,8 +107,8 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 
     // increase rotation around circle ~30 degrees.
     angle = Math_Vec3f_Yaw(&this->actor.parent->initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554);
-    posAdj.x = (Math_Sins(angle) * radius) + this->actor.parent->initPosRot.pos.x;
-    posAdj.z = (Math_Coss(angle) * radius) + this->actor.parent->initPosRot.pos.z;
+    posAdj.x = (Math_SinS(angle) * radius) + this->actor.parent->initPosRot.pos.x;
+    posAdj.z = (Math_CosS(angle) * radius) + this->actor.parent->initPosRot.pos.z;
     posAdj.x -= this->actor.posRot.pos.x;
     posAdj.z -= this->actor.posRot.pos.z;
     *dst = posAdj;
@@ -151,14 +151,14 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 
     pos = this->actor.posRot.pos;
     pos.y = this->actor.groundY + 2.0f;
-    angle = ((Math_Rand_ZeroOne() - 0.5f) * 0x10000);
+    angle = ((Rand_ZeroOne() - 0.5f) * 0x10000);
     i = dustCnt;
     while (i >= 0) {
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
+        accel.x = (Rand_ZeroOne() - 0.5f) * xzAccel;
         accel.y = yAccel;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
-        pos.x = (Math_Sins(angle) * radius) + this->actor.posRot.pos.x;
-        pos.z = (Math_Coss(angle) * radius) + this->actor.posRot.pos.z;
+        accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
+        pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
+        pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
         EnFw_AddDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
         angle += (s16)(0x10000 / dustCnt);
         i--;
@@ -189,7 +189,7 @@ void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFw_Bounce(EnFw* this, GlobalContext* globalCtx) {
     if (EnFw_DoBounce(this, 3, 8.0f) && this->bounceCnt == 0) {
-        this->returnToParentTimer = Math_Rand_S16Offset(300, 150);
+        this->returnToParentTimer = Rand_S16Offset(300, 150);
         this->actionFunc = EnFw_Run;
     }
 }
@@ -201,7 +201,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     EnBom* bomb;
     Actor* flareDancer;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animation == &D_06006CF8) {
         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
@@ -226,7 +226,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
 
     if (this->explosionTimer != 0) {
         this->skelAnime.animPlaybackSpeed = 0.0f;
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
+        Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.dmgEffectTimer == 0) {
             func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
@@ -260,13 +260,13 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         }
 
         // Run outwards until the radius of the run circle is 200
-        Math_SmoothScaleMaxMinF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
+        Math_SmoothStepToF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
 
         if (this->turnAround) {
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
             tmpAngle = (s16)(this->actor.posRot.rot.y ^ 0x8000);
             facingDir = this->actor.shape.rot.y;
-            tmpAngle = Math_SmoothScaleMaxMinF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
+            tmpAngle = Math_SmoothStepToF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
             this->actor.shape.rot.y = facingDir;
             if (tmpAngle > 0x1554) {
                 return;
@@ -275,7 +275,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         } else {
             Vec3f sp48;
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
+            Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
                                     1);
         }
 
@@ -292,16 +292,16 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
                 this->slideSfxTimer = 4;
             }
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
             this->skelAnime.animPlaybackSpeed = 0.0f;
-            EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
+            EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
             if (this->slideTimer == 0) {
                 this->turnAround = true;
                 this->runDirection = -this->runDirection;
             }
         } else {
-            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
             phi_v0 = this->skelAnime.animCurrentFrame;
             if (phi_v0 == 1 || phi_v0 == 4) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
@@ -315,7 +315,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
     s16 angleToParentInit;
 
     angleToParentInit = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.parent->initPosRot.pos);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, angleToParentInit, 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, angleToParentInit, 4, 0xFA0, 1);
     if (ABS(angleToParentInit - this->actor.shape.rot.y) < 0x65) {
         // angle to parent init pos is ~0.5 degrees
         this->actor.posRot.rot = this->actor.shape.rot;
@@ -332,8 +332,8 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
         this->actor.parent->params |= 0x8000;
         Actor_Kill(&this->actor);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.parent->initPosRot.pos.x, 0.6f, 8.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.parent->initPosRot.pos.z, 0.6f, 8.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.parent->initPosRot.pos.x, 0.6f, 8.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.posRot.pos.z, this->actor.parent->initPosRot.pos.z, 0.6f, 8.0f, 0.0f);
     }
 }
 
@@ -414,8 +414,8 @@ void EnFw_UpdateDust(EnFw* this) {
             if ((--eff->timer) == 0) {
                 eff->type = 0;
             }
-            eff->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            eff->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
             eff->pos.z += eff->velocity.z;

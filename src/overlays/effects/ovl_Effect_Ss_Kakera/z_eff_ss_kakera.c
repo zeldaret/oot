@@ -62,8 +62,8 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->vec = initParams->unk_18;
     this->rReg0 = initParams->unk_2C;
     this->rGravity = initParams->gravity;
-    this->rPitch = Math_Rand_ZeroOne() * 32767.0f;
-    this->rYaw = Math_Rand_ZeroOne() * 32767.0f;
+    this->rPitch = Rand_ZeroOne() * 32767.0f;
+    this->rYaw = Rand_ZeroOne() * 32767.0f;
     this->rReg4 = initParams->unk_26;
     this->rReg5 = initParams->unk_28;
     this->rReg6 = initParams->unk_2A;
@@ -82,7 +82,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
         osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
 
-    temp_f2 = Math_Rand_ZeroOne() * arg1;
+    temp_f2 = Rand_ZeroOne() * arg1;
     return ((temp_f2 * 2.0f) - arg1) + arg0;
 }
 

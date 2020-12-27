@@ -91,9 +91,9 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if ((thisx->bgCheckFlags & 1) == 0) {
-                Math_ApproxF(&thisx->speedXZ, 0, IREG(57) / 100.0f);
+                Math_StepToF(&thisx->speedXZ, 0, IREG(57) / 100.0f);
             } else {
-                Math_ApproxF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
+                Math_StepToF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
                 if ((thisx->bgCheckFlags & 2) && (thisx->velocity.y < IREG(59) / 100.0f)) {
                     Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);

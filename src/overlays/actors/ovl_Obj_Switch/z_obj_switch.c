@@ -126,8 +126,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
-    f32 s = Math_Sins(angle);
-    f32 c = Math_Coss(angle);
+    f32 s = Math_SinS(angle);
+    f32 c = Math_CosS(angle);
 
     dest->x = src->z * s + src->x * c;
     dest->y = src->y;

@@ -1,3 +1,28 @@
+.rdata
+glabel D_8087A790
+    .asciz "../z_bg_gnd_iceblock.c"
+    .balign 4
+
+glabel D_8087A7A8
+    .asciz "thisx->world.position.x = %f\n"
+    .balign 4
+
+glabel D_8087A7C8
+    .asciz "0"
+    .balign 4
+
+glabel D_8087A7CC
+    .asciz "../z_bg_gnd_iceblock.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087A7E4
+    .float 2792.0
+
+glabel D_8087A7E8
+    .float 3032.0
+
+.text
 glabel BgGndIceblock_Init
 /* 00000 80879AA0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80879AA4 AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -13,8 +38,8 @@ glabel BgGndIceblock_Init
 /* 00028 80879AC8 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0002C 80879ACC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00030 80879AD0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00034 80879AD4 24844618 */  addiu   $a0, $a0, 0x4618           ## $a0 = 06004618
+/* 00030 80879AD0 3C040600 */  lui     $a0, %hi(D_06004618)                ## $a0 = 06000000
+/* 00034 80879AD4 24844618 */  addiu   $a0, $a0, %lo(D_06004618)           ## $a0 = 06004618
 /* 00038 80879AD8 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0003C 80879ADC 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4

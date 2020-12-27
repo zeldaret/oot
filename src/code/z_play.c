@@ -339,7 +339,7 @@ void Gameplay_Init(GameState* thisx) {
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
-    Math_Rand_Seed((u32)osGetTime());
+    Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;

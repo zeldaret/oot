@@ -60,7 +60,7 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->waterHeight, 1.0f, 2.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->waterHeight, 1.0f, 2.0f);
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {

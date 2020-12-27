@@ -166,7 +166,7 @@ void func_8089B80C(BgJyaZurerukabe* this) {
 }
 
 void func_8089B870(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (this->unk_16C * 75),
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (this->unk_16C * 75),
                      D_8089BA08[this->unk_168])) {
         func_8089B7B4(this);
     }

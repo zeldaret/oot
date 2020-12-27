@@ -272,7 +272,7 @@ s32 EnSsh_Damaged(EnSsh* this) {
         func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
     }
     if (DECR(this->stunTimer) != 0) {
-        Math_SmoothScaleMaxMinS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
+        Math_SmoothStepToS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
         return false;
     } else {
         this->stunTimer = 0;
@@ -294,14 +294,14 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.posRot.rot.y += 10000.0f * (this->spinTimer / 30.0f);
     } else if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
                                 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -328,7 +328,7 @@ void EnSsh_Bob(EnSsh* this, GlobalContext* globalCtx) {
     if ((globalCtx->state.frames & 8) != 0) {
         bobVel *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
 }
 
 s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
@@ -396,10 +396,10 @@ void EnSsh_Sway(EnSsh* this) {
             this->swayAngle = 0;
         }
         temp = this->swayTimer * (1.0f / 6);
-        swayAngle = temp * (0x10000 / 360.0f) * Math_Sins(this->swayAngle);
+        swayAngle = temp * (0x10000 / 360.0f) * Math_SinS(this->swayAngle);
         temp = this->actor.posRot.pos.y - this->ceilingPos.y;
-        swayVecBase.x = Math_Sins(swayAngle) * temp;
-        swayVecBase.y = Math_Coss(swayAngle) * temp;
+        swayVecBase.x = Math_SinS(swayAngle) * temp;
+        swayVecBase.y = Math_CosS(swayAngle) * temp;
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
@@ -711,7 +711,7 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->actor.groundY + this->groundYoffset) <= this->actor.posRot.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
     }
 }
 
@@ -801,7 +801,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     EnSsh_UpdateYaw(this, globalCtx);
     if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Math_Rand_S16Offset(60, 60);
+        this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->blinkState = this->blinkTimer;
     if (this->blinkState >= 3) {

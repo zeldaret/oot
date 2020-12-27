@@ -5,6 +5,7 @@
  */
 
 #include "z_en_pu_box.h"
+#include "objects/object_pu_box/object_pu_box.h"
 
 #define FLAGS 0x00000010
 
@@ -26,9 +27,6 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Update,
     (ActorFunc)EnPubox_Draw,
 };
-
-extern Gfx D_06000380[];
-extern CollisionHeader D_060006D0;
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
@@ -59,7 +57,7 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = DPM_UNK;
     thisx->unk_1F = 1;
     thisx->gravity = -2.0f;
-    CollisionHeader_GetVirtual(&D_060006D0, &colHeader);
+    CollisionHeader_GetVirtual(&gPuBoxCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
@@ -75,7 +73,7 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->speedXZ += this->dyna.unk_150;
     thisx->posRot.rot.y = this->dyna.unk_158;
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
-    Math_SmoothScaleMaxMinF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
         Audio_PlaySoundGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -88,5 +86,5 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_06000380);
+    Gfx_DrawDListOpa(globalCtx, gPuBoxDL2);
 }

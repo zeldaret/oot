@@ -146,7 +146,7 @@ glabel func_80A62ACC
 /* 079CC 80A62CBC C6120248 */  lwc1    $f18, 0x0248($s0)          ## 00000248
 /* 079D0 80A62CC0 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 079D4 80A62CC4 44817000 */  mtc1    $at, $f14                  ## $f14 = 60.00
-/* 079D8 80A62CC8 0C03F494 */  jal     Math_atan2f
+/* 079D8 80A62CC8 0C03F494 */  jal     Math_FAtan2F
 /* 079DC 80A62CCC 46128301 */  sub.s   $f12, $f16, $f18
 /* 079E0 80A62CD0 3C0180A6 */  lui     $at, %hi(D_80A6695C)       ## $at = 80A60000
 /* 079E4 80A62CD4 C424695C */  lwc1    $f4, %lo(D_80A6695C)($at)

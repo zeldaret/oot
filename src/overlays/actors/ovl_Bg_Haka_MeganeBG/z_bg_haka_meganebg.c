@@ -157,7 +157,7 @@ void func_8087E10C(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
         this->unk_16A--;
     }
 
-    if (!Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 640.0f,
+    if (!Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 640.0f,
                       this->dyna.actor.velocity.y)) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
@@ -170,7 +170,7 @@ void func_8087E10C(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
 }
 
 void func_8087E1E0(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 16.0f / 3.0f);
+    Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 16.0f / 3.0f);
     func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
 
     if (this->unk_16A != 0) {
@@ -196,9 +196,9 @@ void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
 }
 
 void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
 
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.speedXZ)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.speedXZ)) {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
         this->actionFunc = func_8087E34C;
     } else {

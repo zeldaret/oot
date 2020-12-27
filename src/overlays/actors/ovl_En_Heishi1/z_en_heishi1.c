@@ -146,7 +146,7 @@ void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
                          this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
-    this->headDirection = Math_Rand_ZeroFloat(1.99f);
+    this->headDirection = Rand_ZeroFloat(1.99f);
     this->actionFunc = EnHeishi1_Walk;
 }
 
@@ -168,17 +168,17 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
 
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, pointPos->x, 1.0f, this->moveSpeed);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, pointPos->z, 1.0f, this->moveSpeed);
+        Math_ApproachF(&this->actor.posRot.pos.x, pointPos->x, 1.0f, this->moveSpeed);
+        Math_ApproachF(&this->actor.posRot.pos.z, pointPos->z, 1.0f, this->moveSpeed);
 
-        Math_SmoothScaleMaxF(&this->moveSpeed, this->moveSpeedTarget, 1.0f, this->moveSpeedMax);
+        Math_ApproachF(&this->moveSpeed, this->moveSpeedTarget, 1.0f, this->moveSpeedMax);
 
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(pathDiffX, pathDiffZ) * 10430.378f), 3,
+        Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.378f), 3,
                                 this->bodyTurnSpeed, 0);
 
-        Math_SmoothScaleMaxF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
+        Math_ApproachF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
 
         if (this->headTimer == 0) {
             this->headDirection++;
@@ -187,11 +187,11 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
             if ((this->headDirection & 1) != 0) {
                 this->headAngleTarget *= -1;
             }
-            randOffset = Math_Rand_ZeroFloat(30.0f);
+            randOffset = Rand_ZeroFloat(30.0f);
             this->headTimer = sBaseHeadTimers[this->type] + randOffset;
         }
 
-        Math_SmoothScaleMaxF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
+        Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
         if ((this->path == BREG(1)) && (BREG(0) != 0)) {
             osSyncPrintf(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
@@ -206,7 +206,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
         if ((fabsf(pathDiffX) < 20.0f) && (fabsf(pathDiffZ) < 20.0f)) {
             if (this->waypointTimer == 0) {
                 if (this->type >= 2) {
-                    if ((this->waypoint >= 4) && (Math_Rand_ZeroFloat(1.99f) > 1.0f)) {
+                    if ((this->waypoint >= 4) && (Rand_ZeroFloat(1.99f) > 1.0f)) {
                         if (this->waypoint == 7) {
                             this->waypoint = 0;
                         }
@@ -238,12 +238,12 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 1.0f, this->moveSpeed);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 1.0f, this->moveSpeed);
-    Math_SmoothScaleMaxF(&this->moveSpeed, 6.0f, 1.0f, 0.4f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
-    Math_SmoothScaleMaxF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
-    Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
+    Math_ApproachF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 1.0f, this->moveSpeed);
+    Math_ApproachF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 1.0f, this->moveSpeed);
+    Math_ApproachF(&this->moveSpeed, 6.0f, 1.0f, 0.4f);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
+    Math_ApproachF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
+    Math_ApproachZeroF(&this->headAngle, 0.5f, 2000.0f);
 
     if (this->actor.xzDistFromLink < 70.0f) {
         this->actionFunc = EnHeishi1_SetupTurnTowardLink;
@@ -257,8 +257,8 @@ void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0,
                          this->transitionRate);
     this->headBehaviorDecided = false;
-    this->headDirection = Math_Rand_ZeroFloat(1.99f);
-    rand = Math_Rand_ZeroFloat(50.0f);
+    this->headDirection = Rand_ZeroFloat(1.99f);
+    rand = Rand_ZeroFloat(50.0f);
     this->waitTimer = rand + 50;
     this->actionFunc = EnHeishi1_Wait;
 }
@@ -274,7 +274,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                 this->headDirection++;
                 // if headDirection is odd, face 52 degrees left
                 this->headAngleTarget = (this->headDirection & 1) ? 0x2500 : -0x2500;
-                randOffset = Math_Rand_ZeroFloat(30.0f);
+                randOffset = Rand_ZeroFloat(30.0f);
                 this->headTimer = sBaseHeadTimers[this->type] + randOffset;
                 this->headBehaviorDecided = true;
                 break;
@@ -308,7 +308,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                 }
                 break;
         }
-        Math_SmoothScaleMaxF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
+        Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
                              this->headTurnSpeedMax + this->headTurnSpeedMax);
 
         if ((this->path == BREG(1)) && (BREG(0) != 0)) {
@@ -333,9 +333,9 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->type != 5) {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
-        Math_SmoothScaleMaxF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
-        Math_SmoothDownscaleMaxF(&this->headAngle, 0.5f, 2000.0f);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
+        Math_ApproachF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
+        Math_ApproachZeroF(&this->headAngle, 0.5f, 2000.0f);
     }
 
     if (this->kickTimer == 0) {

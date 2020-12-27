@@ -88,7 +88,7 @@ void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
         if (csFrames > 0x4000) {
             csFrames = 0x4000;
         }
-        csFrames = (Math_Sins(csFrames) * 16384.0f);
+        csFrames = (Math_SinS(csFrames) * 16384.0f);
         phi1 = csFrames;
         if ((this->dyna.actor.params & 2) == 0) {
             phi1 = -phi1;

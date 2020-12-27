@@ -88,8 +88,8 @@ s32 func_800435D8(GlobalContext* globalCtx, DynaPolyActor* actor, s16 arg2, s16 
     f32 a3;
     f32 sign;
 
-    sin = Math_Sins(actor->unk_158);
-    cos = Math_Coss(actor->unk_158);
+    sin = Math_SinS(actor->unk_158);
+    cos = Math_CosS(actor->unk_158);
     sign = (0.0f <= actor->unk_150) ? 1.0f : -1.0f;
 
     a2 = (f32)arg2 - 0.1f;

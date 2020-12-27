@@ -101,7 +101,7 @@ glabel func_80B761B8
 /* 0C978 80B76318 4405B000 */  mfc1    $a1, $f22                  
 .L80B7631C:
 /* 0C97C 80B7631C 4406B000 */  mfc1    $a2, $f22                  
-/* 0C980 80B76320 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0C980 80B76320 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0C984 80B76324 2624000C */  addiu   $a0, $s1, 0x000C           ## $a0 = 80B7FF04
 /* 0C988 80B76328 10000037 */  beq     $zero, $zero, .L80B76408   
@@ -140,13 +140,13 @@ glabel func_80B761B8
 .L80B76398:
 /* 0C9F8 80B76398 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0C9FC 80B7639C 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
-/* 0CA00 80B763A0 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 0CA00 80B763A0 0C01E1EF */  jal     Math_ApproachS
               
 /* 0CA04 80B763A4 24070050 */  addiu   $a3, $zero, 0x0050         ## $a3 = 00000050
 /* 0CA08 80B763A8 86240032 */  lh      $a0, 0x0032($s1)           ## 80B7FF2A
 /* 0CA0C 80B763AC 00042300 */  sll     $a0, $a0, 12               
 /* 0CA10 80B763B0 00042400 */  sll     $a0, $a0, 16               
-/* 0CA14 80B763B4 0C01DE1C */  jal     Math_Sins
+/* 0CA14 80B763B4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0CA18 80B763B8 00042403 */  sra     $a0, $a0, 16               
 /* 0CA1C 80B763BC 8E6C07C0 */  lw      $t4, 0x07C0($s3)           ## 000007C0
@@ -165,7 +165,7 @@ glabel func_80B761B8
 /* 0CA50 80B763F0 2624002C */  addiu   $a0, $s1, 0x002C           ## $a0 = 80B7FF24
 /* 0CA54 80B763F4 46049180 */  add.s   $f6, $f18, $f4             
 /* 0CA58 80B763F8 46065400 */  add.s   $f16, $f10, $f6            
-/* 0CA5C 80B763FC 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0CA5C 80B763FC 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0CA60 80B76400 E6300004 */  swc1    $f16, 0x0004($s1)          ## 80B7FEFC
 .L80B76404:

@@ -99,11 +99,11 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.speedXZ += 0.05f;
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
-    sp38 = Math_ApproxF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
+    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
     this->dyna.actor.posRot.pos.x =
-        Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
+        Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
+        Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;

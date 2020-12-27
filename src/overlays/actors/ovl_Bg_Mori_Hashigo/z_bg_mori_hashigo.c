@@ -106,8 +106,8 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Actor* ladder;
 
-    cs = Math_Coss(this->dyna.actor.shape.rot.y);
-    sn = Math_Sins(this->dyna.actor.shape.rot.y);
+    cs = Math_CosS(this->dyna.actor.shape.rot.y);
+    sn = Math_SinS(this->dyna.actor.shape.rot.y);
 
     pos.x = 6.0f * sn + this->dyna.actor.posRot.pos.x;
     pos.y = -210.0f + this->dyna.actor.posRot.pos.y;

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot09_obj.h"
+#include "objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -31,9 +32,7 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-extern CollisionHeader D_06005520, D_0600283C, D_06008458, D_06007580;
-
-static CollisionHeader* D_808B1F90[] = { NULL, &D_06005520, &D_0600283C, &D_06008458, &D_06007580 };
+static CollisionHeader* D_808B1F90[] = { NULL, gBgSpot09Col1, gBgSpot09Col2, gBgSpot09Col3, gBgSpot09Col4 };
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -53,9 +52,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-static Gfx* sDLists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };
-
-extern Gfx D_06008010[];
+static Gfx* sDLists[] = { gBgSpot09DL1, gBgSpot09DL2, gBgSpot09DL3, gBgSpot09DL4, gBgSpot09DL5 };
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 carpentersRescued;
@@ -178,7 +175,7 @@ void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06008010);
+        gSPDisplayList(POLY_XLU_DISP++, gBgSpot09DL6);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }

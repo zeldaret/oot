@@ -94,7 +94,7 @@ void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, GlobalContext* globalCtx) {
         func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
 
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f) != 0) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f) != 0) {
         this->actionFunc = BgHakaWater_Wait;
         if (this->isLowered) {
             this->actor.draw = NULL;

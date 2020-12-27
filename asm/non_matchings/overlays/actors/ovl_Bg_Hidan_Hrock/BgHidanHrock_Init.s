@@ -49,11 +49,11 @@ glabel BgHidanHrock_Init
 /* 0009C 808891CC 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 000A0 808891D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 000A4 808891D4 0C01DE1C */  jal     Math_Sins
+/* 000A4 808891D4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 000A8 808891D8 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 000AC 808891DC 46000586 */  mov.s   $f22, $f0                  
-/* 000B0 808891E0 0C01DE0D */  jal     Math_Coss
+/* 000B0 808891E0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 000B4 808891E4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 000B8 808891E8 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
@@ -194,8 +194,8 @@ glabel BgHidanHrock_Init
 .L808893E0:
 /* 002B0 808893E0 14400007 */  bne     $v0, $zero, .L80889400     
 /* 002B4 808893E4 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 002B8 808893E8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 002BC 808893EC 2484D054 */  addiu   $a0, $a0, 0xD054           ## $a0 = 0600D054
+/* 002B8 808893E8 3C040601 */  lui     $a0, %hi(D_0600D054)                ## $a0 = 06010000
+/* 002BC 808893EC 2484D054 */  addiu   $a0, $a0, %lo(D_0600D054)           ## $a0 = 0600D054
 /* 002C0 808893F0 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 002C4 808893F4 27A50070 */  addiu   $a1, $sp, 0x0070           ## $a1 = FFFFFFC0

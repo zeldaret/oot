@@ -91,7 +91,7 @@ void func_80893428(BgJyaAmishutter* this) {
 }
 
 void func_80893438(BgJyaAmishutter* this) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 100.0f, 3.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
@@ -114,7 +114,7 @@ void func_808934FC(BgJyaAmishutter* this) {
 }
 
 void func_8089350C(BgJyaAmishutter* this) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 3.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 3.0f)) {
         func_808933BC(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {

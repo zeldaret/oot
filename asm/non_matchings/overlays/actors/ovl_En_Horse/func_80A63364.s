@@ -29,7 +29,7 @@ glabel func_80A63364
 /* 080D4 80A633C4 0C01DF90 */  jal     Math_Vec3f_Copy
               ## Vec3f_Copy
 /* 080D8 80A633C8 E7A60064 */  swc1    $f6, 0x0064($sp)           
-/* 080DC 80A633CC 0C01DE1C */  jal     Math_Sins
+/* 080DC 80A633CC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 080E0 80A633D0 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 080E4 80A633D4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
@@ -41,7 +41,7 @@ glabel func_80A63364
 /* 080FC 80A633EC 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 08100 80A633F0 00042023 */  subu    $a0, $zero, $a0            
 /* 08104 80A633F4 00042400 */  sll     $a0, $a0, 16               
-/* 08108 80A633F8 0C01DE1C */  jal     Math_Sins
+/* 08108 80A633F8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0810C 80A633FC 00042403 */  sra     $a0, $a0, 16               
 /* 08110 80A63400 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
@@ -50,7 +50,7 @@ glabel func_80A63364
 /* 0811C 80A6340C 46003282 */  mul.s   $f10, $f6, $f0             
 /* 08120 80A63410 460A2200 */  add.s   $f8, $f4, $f10             
 /* 08124 80A63414 E7A80058 */  swc1    $f8, 0x0058($sp)           
-/* 08128 80A63418 0C01DE0D */  jal     Math_Coss
+/* 08128 80A63418 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0812C 80A6341C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 08130 80A63420 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

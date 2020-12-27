@@ -196,11 +196,11 @@ void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s32 bgId;
 
-    pos.x = (Math_Sins(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+    pos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 60.0f;
-    pos.z = (Math_Coss(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+    pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
     this->unk_1F4 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &pos);
-    this->actor.shape.rot.x = Math_atan2f(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
 }
 
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -132,11 +132,11 @@ void func_8089A1DC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 nu
     s32 i;
 
     for (i = 0; i < num; i++) {
-        s32 idx = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
-        s16 arg5 = ((idx < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
+        s32 idx = ((s16)(Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
+        s16 arg5 = ((idx < 5) && (Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, pos, velocity, pos, -90, arg5, D_8089B16C[idx], 4, 0, D_8089B14C[idx], 0, 5,
                              D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600B9F8);
-        if (Math_Rand_ZeroOne() < 0.45f) {
+        if (Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, pos);
             spB4.z += 25.0f;
             func_80033480(globalCtx, &spB4, 60.0f, 0, D_8089B14C[idx] * 4 + 50, D_8089B14C[idx] * 4 + 70, 1);
@@ -149,7 +149,7 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalCtx, f32 arg2) {
     Vec3f sp50;
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
-        if (Math_Rand_ZeroOne() < arg2) {
+        if (Rand_ZeroOne() < arg2) {
             Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &sPiecesInit[i].unk_00, &sp50);
             sp50.z += 15.0f;
             func_8089A1DC(globalCtx, &sp50, &D_8089B184, 1, 0);
@@ -252,7 +252,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
             temp->pos.y += temp->vel.y;
             temp->rotVelX += temp2->rotVelX;
             temp->rotVelY += temp2->rotVelY;
-            if (Math_Rand_ZeroOne() < 0.067f) {
+            if (Rand_ZeroOne() < 0.067f) {
                 Math_Vec3f_Sum(&temp->pos, &temp2->unk_00, &sp8C);
                 sp8C.z += 10.0f;
                 func_8089A1DC(globalCtx, &sp8C, &temp->vel, 3, 2);
@@ -266,9 +266,9 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 
     if ((this->explosionTimer % 4 == 0) && (this->explosionTimer > 30) && (this->explosionTimer < 80) &&
         (this->explosionTimer > 40)) {
-        sp8C.x = ((Math_Rand_ZeroOne() - 0.5f) * 90.0f) + this->dyna.actor.posRot.pos.x;
-        sp8C.y = (this->dyna.actor.posRot.pos.y - (Math_Rand_ZeroOne() * 80.0f)) - 20.0f;
-        sp8C.z = this->dyna.actor.posRot.pos.z - ((Math_Rand_ZeroOne() - 0.5f) * 50.0f);
+        sp8C.x = ((Rand_ZeroOne() - 0.5f) * 90.0f) + this->dyna.actor.posRot.pos.x;
+        sp8C.y = (this->dyna.actor.posRot.pos.y - (Rand_ZeroOne() * 80.0f)) - 20.0f;
+        sp8C.z = this->dyna.actor.posRot.pos.z - ((Rand_ZeroOne() - 0.5f) * 50.0f);
         func_8089A1DC(globalCtx, &sp8C, &sVec, 1, 0);
     }
     if (this->explosionTimer < ARRAY_COUNT(this->pieces)) {

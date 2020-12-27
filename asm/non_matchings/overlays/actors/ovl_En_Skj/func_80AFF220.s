@@ -4,8 +4,8 @@ glabel func_80AFF220
 /* 00F78 80AFF228 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000
 /* 00F7C 80AFF22C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00F80 80AFF230 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 00F84 80AFF234 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00F88 80AFF238 24846D84 */  addiu   $a0, $a0, 0x6D84           ## $a0 = 06006D84
+/* 00F84 80AFF234 3C040600 */  lui     $a0, %hi(D_06006D84)                ## $a0 = 06000000
+/* 00F88 80AFF238 24846D84 */  addiu   $a0, $a0, %lo(D_06006D84)           ## $a0 = 06006D84
 /* 00F8C 80AFF23C 0C028800 */  jal     SkelAnime_GetFrameCount
               
 /* 00F90 80AFF240 AFA50018 */  sw      $a1, 0x0018($sp)           

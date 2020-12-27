@@ -11,7 +11,7 @@ glabel func_808ACB58
 /* 0051C 808ACB7C 46062200 */  add.s   $f8, $f4, $f6              
 /* 00520 808ACB80 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00524 808ACB84 44054000 */  mfc1    $a1, $f8                   
-/* 00528 808ACB88 0C01DE80 */  jal     Math_ApproxF
+/* 00528 808ACB88 0C01DE80 */  jal     Math_StepToF
               
 /* 0052C 808ACB8C 00000000 */  nop
 /* 00530 808ACB90 1040000A */  beq     $v0, $zero, .L808ACBBC     

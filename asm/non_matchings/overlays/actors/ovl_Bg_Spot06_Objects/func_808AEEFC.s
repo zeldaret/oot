@@ -29,11 +29,11 @@ glabel func_808AEEFC
 /* 007C8 808AEF48 A498016A */  sh      $t8, 0x016A($a0)           ## 0000016A
 /* 007CC 808AEF4C 37280010 */  ori     $t0, $t9, 0x0010           ## $t0 = 00000010
 /* 007D0 808AEF50 AC880004 */  sw      $t0, 0x0004($a0)           ## 00000004
-/* 007D4 808AEF54 0C01DE1C */  jal     Math_Sins
+/* 007D4 808AEF54 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 007D8 808AEF58 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 007DC 808AEF5C 46000506 */  mov.s   $f20, $f0                  
-/* 007E0 808AEF60 0C01DE0D */  jal     Math_Coss
+/* 007E0 808AEF60 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007E4 808AEF64 86240032 */  lh      $a0, 0x0032($s1)           ## 00000032
 /* 007E8 808AEF68 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
@@ -80,7 +80,7 @@ glabel func_808AEEFC
 /* 00888 808AF008 46128100 */  add.s   $f4, $f16, $f18            
 /* 0088C 808AF00C E7A40070 */  swc1    $f4, 0x0070($sp)           
 .L808AF010:
-/* 00890 808AF010 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00890 808AF010 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00894 808AF014 00000000 */  nop
 /* 00898 808AF018 46180182 */  mul.s   $f6, $f0, $f24             

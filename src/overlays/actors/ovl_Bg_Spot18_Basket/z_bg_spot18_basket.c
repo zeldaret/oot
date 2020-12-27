@@ -78,13 +78,13 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
 
     for (i = 0, count = 2; i != count; i++) {
         if (globalCtx) {}
-        if (!(arg2 < Math_Rand_ZeroOne())) {
+        if (!(arg2 < Rand_ZeroOne())) {
             D_808B85D0 += 0x7530;
 
-            sinValue = Math_Sins(D_808B85D0);
-            cosValue = Math_Coss(D_808B85D0);
+            sinValue = Math_SinS(D_808B85D0);
+            cosValue = Math_CosS(D_808B85D0);
 
-            randomValue = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
+            randomValue = (Rand_ZeroOne() * 35.0f) + 35.0f;
 
             position.x = (randomValue * sinValue) + this->dyna.actor.posRot.pos.x;
             position.y = this->dyna.actor.posRot.pos.y + 10.0f;
@@ -98,8 +98,8 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
             acceleration.y = 0.5f;
             acceleration.z = 0.0f;
 
-            func_800286CC(globalCtx, &position, &velocity, &acceleration, ((Math_Rand_ZeroOne() * 16) + 80),
-                          ((Math_Rand_ZeroOne() * 30) + 80));
+            func_800286CC(globalCtx, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
+                          ((Rand_ZeroOne() * 30) + 80));
         }
     }
 }
@@ -185,17 +185,17 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 positionDiff;
     Actor* colliderBaseAc;
 
-    Math_ApproxS(&this->unk_210, 0x1F4, 0x1E);
+    Math_StepToS(&this->unk_210, 0x1F4, 0x1E);
 
     this->dyna.actor.shape.rot.y += this->unk_210;
 
-    Math_ApproxF(&this->unk_208, 50.0f, 1.5f);
-    Math_ApproxS(&this->unk_20C, 400, 15);
+    Math_StepToF(&this->unk_208, 50.0f, 1.5f);
+    Math_StepToS(&this->unk_20C, 400, 15);
 
     this->unk_20E += this->unk_20C;
 
-    this->dyna.actor.posRot.pos.x = (Math_Sins(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z = (Math_Coss(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.posRot.pos.x = (Math_SinS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
+    this->dyna.actor.posRot.pos.z = (Math_CosS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
 
     if (this->colliderJntSph.base.acFlags & 2) {
         colliderBaseAc = this->colliderJntSph.base.ac;
@@ -227,32 +227,32 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 tempValue;
 
     if (this->unk_216 > 120) {
-        Math_ApproxS(&this->unk_210, 0x3E8, 0x32);
+        Math_StepToS(&this->unk_210, 0x3E8, 0x32);
     } else {
-        Math_ApproxS(&this->unk_210, 0xBB8, 0x64);
+        Math_StepToS(&this->unk_210, 0xBB8, 0x64);
     }
 
     this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_210;
 
     if (this->unk_216 < 70) {
-        Math_ApproxF(&this->unk_208, 100.0f, 2.0f);
+        Math_StepToF(&this->unk_208, 100.0f, 2.0f);
     } else {
-        Math_ApproxF(&this->unk_208, 0.0f, 2.0f);
+        Math_StepToF(&this->unk_208, 0.0f, 2.0f);
     }
 
-    Math_ApproxS(&this->unk_20C, 1000, 20);
+    Math_StepToS(&this->unk_20C, 1000, 20);
 
     this->unk_20E += this->unk_20C;
 
-    this->dyna.actor.posRot.pos.x = (Math_Sins(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z = (Math_Coss(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.posRot.pos.x = (Math_SinS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
+    this->dyna.actor.posRot.pos.z = (Math_CosS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
 
     this->unk_212 += 0xBB8;
 
-    Math_ApproxS(&this->unk_214, 0x5DC, 0x1E);
+    Math_StepToS(&this->unk_214, 0x5DC, 0x1E);
 
-    this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
-    this->dyna.actor.shape.rot.z = -Math_Sins(this->unk_212) * this->unk_214;
+    this->dyna.actor.shape.rot.x = Math_CosS(this->unk_212) * this->unk_214;
+    this->dyna.actor.shape.rot.z = -Math_SinS(this->unk_212) * this->unk_214;
 
     if (this->unk_216 > 140) {
         func_808B7F74(this);
@@ -298,15 +298,15 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     this->unk_212 += 0xBB8;
 
     if (this->unk_216 >= 13) {
-        tempUnk214 = Math_ApproxS(&this->unk_214, 0, 55);
+        tempUnk214 = Math_StepToS(&this->unk_214, 0, 55);
     } else {
         tempUnk214 = 0;
     }
 
-    this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
-    this->dyna.actor.shape.rot.z = -Math_Sins(this->unk_212) * this->unk_214;
+    this->dyna.actor.shape.rot.x = Math_CosS(this->unk_212) * this->unk_214;
+    this->dyna.actor.shape.rot.z = -Math_SinS(this->unk_212) * this->unk_214;
 
-    Math_ApproxS(&this->unk_210, 0x1F4, 0xA);
+    Math_StepToS(&this->unk_210, 0x1F4, 0xA);
     this->dyna.actor.shape.rot.y += this->unk_210;
 
     if (tempUnk214 != 0) {

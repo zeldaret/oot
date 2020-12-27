@@ -1,3 +1,54 @@
+.rdata
+
+glabel D_808B176C
+    .asciz "Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B17A8
+    .asciz "../z_bg_spot08_iceblock.c"
+    .balign 4
+
+.late_rodata
+
+glabel jtbl_808B17E4
+    .word L808B0A74
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A74
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A74
+    .word L808B0A74
+    .word L808B0A74
+    .word L808B0A50
+    .word L808B0A74
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A74
+    .word L808B0A50
+    .word L808B0A50
+    .word L808B0A74
+    .word L808B0A74
+
+.text
 glabel func_808B09F0
 /* 00090 808B09F0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00094 808B09F4 AFBF0014 */  sw      $ra, 0x0014($sp)           

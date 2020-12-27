@@ -63,7 +63,7 @@ glabel EnPeehat_Update
 /* 029F4 80AD1E94 3109007F */  andi    $t1, $t0, 0x007F           ## $t1 = 00000000
 /* 029F8 80AD1E98 5520000B */  bnel    $t1, $zero, .L80AD1EC8     
 /* 029FC 80AD1E9C C66402E4 */  lwc1    $f4, 0x02E4($s3)           ## 000002E4
-/* 02A00 80AD1EA0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02A00 80AD1EA0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02A04 80AD1EA4 00000000 */  nop
 /* 02A08 80AD1EA8 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
@@ -111,13 +111,13 @@ glabel EnPeehat_Update
 /* 02AA8 80AD1F48 24051770 */  addiu   $a1, $zero, 0x1770         ## $a1 = 00001770
 /* 02AAC 80AD1F4C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 02AB0 80AD1F50 2407012C */  addiu   $a3, $zero, 0x012C         ## $a3 = 0000012C
-/* 02AB4 80AD1F54 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02AB4 80AD1F54 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02AB8 80AD1F58 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02ABC 80AD1F5C 1000000C */  beq     $zero, $zero, .L80AD1F90   
 /* 02AC0 80AD1F60 26720300 */  addiu   $s2, $s3, 0x0300           ## $s2 = 00000300
 .L80AD1F64:
-/* 02AC4 80AD1F64 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02AC4 80AD1F64 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02AC8 80AD1F68 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02ACC 80AD1F6C 10000008 */  beq     $zero, $zero, .L80AD1F90   
@@ -306,7 +306,7 @@ glabel EnPeehat_Update
 /* 02D4C 80AD21EC 34E7126F */  ori     $a3, $a3, 0x126F           ## $a3 = 3A83126F
 /* 02D50 80AD21F0 266402EC */  addiu   $a0, $s3, 0x02EC           ## $a0 = 000002EC
 /* 02D54 80AD21F4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 02D58 80AD21F8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02D58 80AD21F8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02D5C 80AD21FC E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 02D60 80AD2200 8FBF004C */  lw      $ra, 0x004C($sp)           

@@ -97,7 +97,7 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ *= 1.5f;
-    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 120.0f, thisx->speedXZ) != 0) {
+    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 120.0f, thisx->speedXZ) != 0) {
         Actor_Kill(thisx);
     }
 }

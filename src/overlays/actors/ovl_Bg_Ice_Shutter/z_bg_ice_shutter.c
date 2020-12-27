@@ -41,13 +41,13 @@ static InitChainEntry sInitChain[] = {
 void func_80891AC0(BgIceShutter* this) {
     f32 sp24;
 
-    sp24 = Math_Sins(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
+    sp24 = Math_SinS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
     this->dyna.actor.posRot.pos.y =
-        (Math_Coss(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.initPosRot.pos.y;
+        (Math_CosS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.initPosRot.pos.y;
     this->dyna.actor.posRot.pos.x =
-        (Math_Sins(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.x;
+        (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        (Math_Coss(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.z;
+        (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.z;
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -84,12 +84,12 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (sp28 == 2) {
-        temp_f6 = Math_Sins(this->dyna.actor.shape.rot.x) * 50.0f;
+        temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
         this->dyna.actor.posRot2.pos.x =
-            (Math_Sins(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.initPosRot.pos.x;
+            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.initPosRot.pos.x;
         this->dyna.actor.posRot2.pos.y = this->dyna.actor.initPosRot.pos.y;
         this->dyna.actor.posRot2.pos.z =
-            this->dyna.actor.initPosRot.pos.z + (Math_Coss(this->dyna.actor.shape.rot.y) * temp_f6);
+            this->dyna.actor.initPosRot.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
     }
@@ -120,8 +120,8 @@ void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80891DD4(BgIceShutter* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_ApproxF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

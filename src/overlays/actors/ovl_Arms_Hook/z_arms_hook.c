@@ -236,7 +236,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         } else {
             Math_Vec3f_Diff(&bodyDistDiffVec, &newPos, &player->actor.velocity);
             player->actor.posRot.rot.x =
-                atan2s(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
+                Math_Atan2S(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
         }
 
         if (phi_f16 < 50.0f) {
@@ -254,7 +254,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         Math_Vec3f_Diff(&this->actor.posRot.pos, &this->actor.pos4, &prevFrameDiff);
         Math_Vec3f_Sum(&this->unk_1E8, &prevFrameDiff, &this->unk_1E8);
-        this->actor.shape.rot.x = atan2s(this->actor.speedXZ, -this->actor.velocity.y);
+        this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
@@ -332,8 +332,8 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Math_Vec3f_Diff(&player->unk_3C8, &this->actor.posRot.pos, &sp78);
             sp58 = SQ(sp78.x) + SQ(sp78.z);
             sp5C = sqrtf(sp58);
-            Matrix_RotateY(Math_atan2f(sp78.x, sp78.z), MTXMODE_APPLY);
-            Matrix_RotateX(Math_atan2f(-sp78.y, sp5C), MTXMODE_APPLY);
+            Matrix_RotateY(Math_FAtan2F(sp78.x, sp78.z), MTXMODE_APPLY);
+            Matrix_RotateX(Math_FAtan2F(-sp78.y, sp5C), MTXMODE_APPLY);
             Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

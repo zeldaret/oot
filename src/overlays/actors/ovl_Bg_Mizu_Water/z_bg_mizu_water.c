@@ -236,7 +236,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 Flags_UnsetSwitch(globalCtx, prevSwitchFlag);
             }
 
-            if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 5.0f)) {
+            if (Math_StepToF(&this->actor.posRot.pos.y, this->targetY, 5.0f)) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
                 func_80106CCC(globalCtx);
@@ -251,7 +251,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             } else {
                 this->targetY = this->baseY;
             }
-            if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
+            if (Math_StepToF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
@@ -263,7 +263,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             } else {
                 this->targetY = this->baseY;
             }
-            if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
+            if (Math_StepToF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
@@ -275,7 +275,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             } else {
                 this->targetY = this->baseY;
             }
-            if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
+            if (Math_StepToF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }

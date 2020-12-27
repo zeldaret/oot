@@ -143,7 +143,7 @@ void func_80B4E9B0(EnZl2* this) {
     s16* unk_190 = &this->unk_190;
 
     if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_192 = Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_190 = *unk_192;
     if (*unk_190 >= 3) {
@@ -784,7 +784,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     actorShape->unk_14 = 0xFF;
-    this->actor.posRot.rot.y = actorShape->rot.y = Math_atan2f(actionXDelta, actionZDelta) * 10430.3779296875f;
+    this->actor.posRot.rot.y = actorShape->rot.y = Math_FAtan2F(actionXDelta, actionZDelta) * 10430.3779296875f;
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
