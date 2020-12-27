@@ -113,7 +113,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
-    s32 phi_v0;
+    s32 onCounter;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
         // End of transfer
@@ -125,17 +125,17 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->objectIdx;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
-        phi_v0 = false;
+        onCounter = false;
         switch (this->type) {
             case ENEXITEM_BOMB_BAG_COUNTER:
-                phi_v0 = true;
+                onCounter = true;
             case ENEXITEM_BOMB_BAG_BOWL:
                 this->unk_17C = func_8002EBCC;
                 this->drawItemId = 0x18;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
-                if (phi_v0 == 0) {
+                if (onCounter == 0) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
@@ -143,13 +143,13 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 }
                 break;
             case ENEXITEM_HEART_PIECE_COUNTER:
-                phi_v0 = true;
+                onCounter = true;
             case ENEXITEM_HEART_PIECE_BOWL:
                 this->unk_17C = func_8002ED80;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
-                if (!phi_v0) {
+                if (!onCounter) {
                     func_80078884(NA_SE_SY_PIECE_OF_HEART);
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
@@ -158,14 +158,14 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 }
                 break;
             case ENEXITEM_BOMBCHUS_COUNTER:
-                phi_v0 = true;
+                onCounter = true;
             case ENEXITEM_BOMBCHUS_BOWL:
                 this->unk_17C = func_8002EBCC;
                 this->drawItemId = 39;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
-                if (!phi_v0) {
+                if (!onCounter) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
@@ -337,13 +337,13 @@ void EnExItem_FairyMagic(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
-    f32 dxAtEye;
-    f32 dyAtEye;
-    f32 dzAtEye;
-    f32 distAtEye;
-    f32 nxAtEye5;
-    f32 nyAtEye5;
-    f32 nzAtEye5;
+    f32 tmpf1;
+    f32 tmpf2;
+    f32 tmpf3;
+    f32 tmpf4;
+    f32 tmpf5;
+    f32 tmpf6;
+    f32 tmpf7;
 
     Math_ApproachF(&this->scale, 0.8f, 0.1f, 0.02f);
     if (!this->stopRotate) {
@@ -357,22 +357,22 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
-            dxAtEye = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            dyAtEye = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
-            dzAtEye = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
-            distAtEye = sqrtf(SQ(dxAtEye) + SQ(dyAtEye) + SQ(dzAtEye));
+            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
+            tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
-            nxAtEye5 = (dxAtEye / distAtEye) * 5.0f;
-            nyAtEye5 = (dyAtEye / distAtEye) * 5.0f;
-            nzAtEye5 = (dzAtEye / distAtEye) * 5.0f;
+            tmpf5 = (tmpf1 / tmpf4) * 5.0f;
+            tmpf6 = (tmpf2 / tmpf4) * 5.0f;
+            tmpf7 = (tmpf3 / tmpf4) * 5.0f;
 
-            dxAtEye = globalCtx->view.eye.x + nxAtEye5 - this->actor.posRot.pos.x;
-            dyAtEye = globalCtx->view.eye.y - 10.0f + nyAtEye5 - this->actor.posRot.pos.y;
-            dzAtEye = globalCtx->view.eye.z + 10.0f + nzAtEye5 - this->actor.posRot.pos.z;
+            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.posRot.pos.x;
+            tmpf2 = globalCtx->view.eye.y - 10.0f + tmpf6 - this->actor.posRot.pos.y;
+            tmpf3 = globalCtx->view.eye.z + 10.0f + tmpf7 - this->actor.posRot.pos.z;
 
-            this->actor.posRot.pos.x += (dxAtEye / distAtEye) * 5.0f;
-            this->actor.posRot.pos.y += (dyAtEye / distAtEye) * 5.0f;
-            this->actor.posRot.pos.z += (dzAtEye / distAtEye) * 5.0f;
+            this->actor.posRot.pos.x += (tmpf1 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.y += (tmpf2 / tmpf4) * 5.0f;
+            this->actor.posRot.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
         s32 itemId;
@@ -430,7 +430,7 @@ void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnExItem* this = THIS;
-    s32 temp;
+    s32 magicType;
 
     Actor_SetScale(&this->actor, this->scale);
     switch (this->type) {
@@ -462,8 +462,8 @@ void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case ENEXITEM_MAGIC_FIRE:
         case ENEXITEM_MAGIC_WIND:
         case ENEXITEM_MAGIC_DARK:
-            temp = this->type - ENEXITEM_MAGIC_FIRE;
-            EnExItem_DrawMagic(this, globalCtx, temp);
+            magicType = this->type - ENEXITEM_MAGIC_FIRE;
+            EnExItem_DrawMagic(this, globalCtx, magicType);
             break;
     }
 }
@@ -490,14 +490,14 @@ void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
-    static s32 D_80A09E08[] = { 0x0403F140 };
+    static s32 keySegment[] = { 0x0403F140 };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 
     func_8009460C(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A09E08[index]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegment[index]));
     gSPDisplayList(POLY_OPA_DISP++, D_0403F070);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 893);
