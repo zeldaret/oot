@@ -67,18 +67,27 @@ typedef struct {
 } FlexSkeletonHeader; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ s16 frameCount;
-    /* 0x04 */ u32 segment;
-} LinkAnimationHeader; // size = 0x8
-
-typedef struct {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
     /* 0x04 */ u16 z;
 } JointIndex; // size = 0x06
 
+// This is for ZAP compatibility. They will be removed later.
 typedef struct {
     /* 0x00 */ s16 frameCount;
+    /* 0x02 */ s16 pad;
+} GenericAnimationHeader;
+
+typedef s16 AnimationRotationValue;
+typedef JointIndex AnimationRotationIndex;
+
+typedef struct {
+    /* 0x00 */ GenericAnimationHeader header;
+    /* 0x04 */ u32 segment;
+} LinkAnimationHeader; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ GenericAnimationHeader header;
     /* 0x04 */ s16* frameDataSeg;         // "tbl"
     /* 0x08 */ JointIndex* jointIndexSeg; // "ref_tbl"
     /* 0x0C */ u16 staticEntries;
