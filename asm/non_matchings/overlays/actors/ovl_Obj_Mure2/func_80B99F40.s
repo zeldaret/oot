@@ -37,7 +37,7 @@ glabel func_80B99F40
 /* 00080 80B99FC0 00119400 */  sll     $s2, $s1, 16               
 /* 00084 80B99FC4 00129403 */  sra     $s2, $s2, 16               
 /* 00088 80B99FC8 00122400 */  sll     $a0, $s2, 16               
-/* 0008C 80B99FCC 0C01DE1C */  jal     Math_Sins
+/* 0008C 80B99FCC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00090 80B99FD0 00042403 */  sra     $a0, $a0, 16               
 /* 00094 80B99FD4 4600A182 */  mul.s   $f6, $f20, $f0             
@@ -45,7 +45,7 @@ glabel func_80B99F40
 /* 0009C 80B99FDC 00122400 */  sll     $a0, $s2, 16               
 /* 000A0 80B99FE0 00042403 */  sra     $a0, $a0, 16               
 /* 000A4 80B99FE4 46062200 */  add.s   $f8, $f4, $f6              
-/* 000A8 80B99FE8 0C01DE0D */  jal     Math_Coss
+/* 000A8 80B99FE8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 000AC 80B99FEC E6080000 */  swc1    $f8, 0x0000($s0)           ## 0000000C
 /* 000B0 80B99FF0 4600A402 */  mul.s   $f16, $f20, $f0            

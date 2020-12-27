@@ -35,16 +35,16 @@ glabel func_80A15F84
 /* 00D28 80A15FA8 44071000 */  mfc1    $a3, $f2                   
 /* 00D2C 80A15FAC 44050000 */  mfc1    $a1, $f0                   
 /* 00D30 80A15FB0 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
-/* 00D34 80A15FB4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00D34 80A15FB4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00D38 80A15FB8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00D3C 80A15FBC 26040030 */  addiu   $a0, $s0, 0x0030           ## $a0 = 00000030
 /* 00D40 80A15FC0 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
-/* 00D44 80A15FC4 0C01DED6 */  jal     func_80077B58              
+/* 00D44 80A15FC4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 00D48 80A15FC8 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00D4C 80A15FCC 26040034 */  addiu   $a0, $s0, 0x0034           ## $a0 = 00000034
 /* 00D50 80A15FD0 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 00D54 80A15FD4 0C01DED6 */  jal     func_80077B58              
+/* 00D54 80A15FD4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 00D58 80A15FD8 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00D5C 80A15FDC 860E0030 */  lh      $t6, 0x0030($s0)           ## 00000030
 /* 00D60 80A15FE0 860F0032 */  lh      $t7, 0x0032($s0)           ## 00000032

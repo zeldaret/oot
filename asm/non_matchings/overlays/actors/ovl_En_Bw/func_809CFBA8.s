@@ -17,7 +17,7 @@ glabel func_809CFBA8
 /* 01504 809CFBE4 A60F0222 */  sh      $t7, 0x0222($s0)           ## 00000222
 /* 01508 809CFBE8 E6000260 */  swc1    $f0, 0x0260($s0)           ## 00000260
 /* 0150C 809CFBEC E6000068 */  swc1    $f0, 0x0068($s0)           ## 00000068
-/* 01510 809CFBF0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01510 809CFBF0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01514 809CFBF4 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 01518 809CFBF8 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000

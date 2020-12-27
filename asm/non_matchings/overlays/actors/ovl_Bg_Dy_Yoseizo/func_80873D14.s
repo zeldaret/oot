@@ -31,13 +31,13 @@ glabel func_80873D14
 /* 01540 80873D70 AE18014C */  sw      $t8, 0x014C($s0)           ## 0000014C
 /* 01544 80873D74 8E050310 */  lw      $a1, 0x0310($s0)           ## 00000310
 .L80873D78:
-/* 01548 80873D78 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 01548 80873D78 0C01E107 */  jal     Math_ApproachF
               
 /* 0154C 80873D7C 8E060314 */  lw      $a2, 0x0314($s0)           ## 00000314
 /* 01550 80873D80 3C063BA3 */  lui     $a2, 0x3BA3                ## $a2 = 3BA30000
 /* 01554 80873D84 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3BA3D70A
 /* 01558 80873D88 26040308 */  addiu   $a0, $s0, 0x0308           ## $a0 = 00000308
-/* 0155C 80873D8C 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0155C 80873D8C 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01560 80873D90 8E050318 */  lw      $a1, 0x0318($s0)           ## 00000318
 /* 01564 80873D94 3C053F4C */  lui     $a1, 0x3F4C                ## $a1 = 3F4C0000
@@ -46,7 +46,7 @@ glabel func_80873D14
 /* 01570 80873DA0 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3CA3D70A
 /* 01574 80873DA4 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 01578 80873DA8 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3F4CCCCD
-/* 0157C 80873DAC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0157C 80873DAC 0C01E107 */  jal     Math_ApproachF
               
 /* 01580 80873DB0 26040314 */  addiu   $a0, $s0, 0x0314           ## $a0 = 00000314
 /* 01584 80873DB4 3C053E4C */  lui     $a1, 0x3E4C                ## $a1 = 3E4C0000
@@ -55,7 +55,7 @@ glabel func_80873D14
 /* 01590 80873DC0 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3D4CCCCD
 /* 01594 80873DC4 34C6C28F */  ori     $a2, $a2, 0xC28F           ## $a2 = 3CF5C28F
 /* 01598 80873DC8 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3E4CCCCD
-/* 0159C 80873DCC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0159C 80873DCC 0C01E107 */  jal     Math_ApproachF
               
 /* 015A0 80873DD0 26040318 */  addiu   $a0, $s0, 0x0318           ## $a0 = 00000318
 /* 015A4 80873DD4 861900B6 */  lh      $t9, 0x00B6($s0)           ## 000000B6

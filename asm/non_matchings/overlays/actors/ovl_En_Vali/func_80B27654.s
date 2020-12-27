@@ -20,7 +20,7 @@ glabel func_80B27654
 /* 00FE4 80B27694 45030013 */  bc1tl   .L80B276E4                 
 /* 00FE8 80B27698 860F0196 */  lh      $t7, 0x0196($s0)           ## 00000196
 /* 00FEC 80B2769C 44060000 */  mfc1    $a2, $f0                   
-/* 00FF0 80B276A0 0C01DE80 */  jal     Math_ApproxF
+/* 00FF0 80B276A0 0C01DE80 */  jal     Math_StepToF
               
 /* 00FF4 80B276A4 8E050080 */  lw      $a1, 0x0080($s0)           ## 00000080
 /* 00FF8 80B276A8 10400008 */  beq     $v0, $zero, .L80B276CC     

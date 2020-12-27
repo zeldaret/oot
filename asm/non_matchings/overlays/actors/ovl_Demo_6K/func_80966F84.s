@@ -36,7 +36,7 @@ glabel func_80966F84
 /* 006A0 80966FF0 3C063D4C */  lui     $a2, 0x3D4C                ## $a2 = 3D4C0000
 /* 006A4 80966FF4 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 006A8 80966FF8 34A5999A */  ori     $a1, $a1, 0x999A           ## $a1 = 3F19999A
-/* 006AC 80966FFC 0C01DE80 */  jal     Math_ApproxF
+/* 006AC 80966FFC 0C01DE80 */  jal     Math_StepToF
               
 /* 006B0 80967000 26040170 */  addiu   $a0, $s0, 0x0170           ## $a0 = 00000170
 /* 006B4 80967004 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -68,7 +68,7 @@ glabel func_80966F84
 .L80967064:
 /* 00714 80967064 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3CA3D70A
 /* 00718 80967068 2604016C */  addiu   $a0, $s0, 0x016C           ## $a0 = 0000016C
-/* 0071C 8096706C 0C01DE80 */  jal     Math_ApproxF
+/* 0071C 8096706C 0C01DE80 */  jal     Math_StepToF
               
 /* 00720 80967070 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 00724 80967074 9602028E */  lhu     $v0, 0x028E($s0)           ## 0000028E

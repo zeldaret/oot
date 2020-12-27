@@ -54,7 +54,7 @@ glabel func_80AD17E8
 /* 023F0 80AD1890 260402EC */  addiu   $a0, $s0, 0x02EC           ## $a0 = 000002EC
 /* 023F4 80AD1894 34A5EB85 */  ori     $a1, $a1, 0xEB85           ## $a1 = 3E51EB85
 /* 023F8 80AD1898 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 023FC 80AD189C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 023FC 80AD189C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 02400 80AD18A0 E7A20010 */  swc1    $f2, 0x0010($sp)
 /* 02404 80AD18A4 1000007C */  beq     $zero, $zero, .L80AD1A98
@@ -64,7 +64,7 @@ glabel func_80AD17E8
 /* 02410 80AD18B0 3C073BA3 */  lui     $a3, 0x3BA3                ## $a3 = 3BA30000
 /* 02414 80AD18B4 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3BA3D70A
 /* 02418 80AD18B8 44051000 */  mfc1    $a1, $f2
-/* 0241C 80AD18BC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0241C 80AD18BC 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 02420 80AD18C0 E7A20010 */  swc1    $f2, 0x0010($sp)
 /* 02424 80AD18C4 10000074 */  beq     $zero, $zero, .L80AD1A98
@@ -81,7 +81,7 @@ glabel func_80AD17E8
 /* 02448 80AD18E8 A61802F2 */  sh      $t8, 0x02F2($s0)           ## 000002F2
 /* 0244C 80AD18EC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 02450 80AD18F0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 02454 80AD18F4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02454 80AD18F4 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 02458 80AD18F8 240700FA */  addiu   $a3, $zero, 0x00FA         ## $a3 = 000000FA
 /* 0245C 80AD18FC 921900AF */  lbu     $t9, 0x00AF($s0)           ## 000000AF
@@ -107,7 +107,7 @@ glabel func_80AD17E8
 /* 024A4 80AD1944 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
 /* 024A8 80AD1948 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 024AC 80AD194C 44052000 */  mfc1    $a1, $f4
-/* 024B0 80AD1950 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 024B0 80AD1950 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 024B4 80AD1954 00000000 */  nop
 /* 024B8 80AD1958 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

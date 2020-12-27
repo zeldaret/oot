@@ -25,7 +25,7 @@ glabel func_809F51B8
 /* 01F28 809F51E8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01F2C 809F51EC 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 01F30 809F51F0 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 01F34 809F51F4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01F34 809F51F4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01F38 809F51F8 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 /* 01F3C 809F51FC 8FA3007C */  lw      $v1, 0x007C($sp)           
@@ -44,7 +44,7 @@ glabel func_809F51B8
 /* 01F70 809F5230 46062301 */  sub.s   $f12, $f4, $f6             
 /* 01F74 809F5234 46108102 */  mul.s   $f4, $f16, $f16            
 /* 01F78 809F5238 46049000 */  add.s   $f0, $f18, $f4             
-/* 01F7C 809F523C 0C03F494 */  jal     Math_atan2f              
+/* 01F7C 809F523C 0C03F494 */  jal     Math_FAtan2F              
 /* 01F80 809F5240 46000384 */  sqrt.s  $f14, $f0                  
 /* 01F84 809F5244 3C01809F */  lui     $at, %hi(D_809F605C)       ## $at = 809F0000
 /* 01F88 809F5248 C426605C */  lwc1    $f6, %lo(D_809F605C)($at)  
@@ -60,7 +60,7 @@ glabel func_809F51B8
 /* 01FB0 809F5270 00052C03 */  sra     $a1, $a1, 16               
 /* 01FB4 809F5274 00052823 */  subu    $a1, $zero, $a1            
 /* 01FB8 809F5278 00052C00 */  sll     $a1, $a1, 16               
-/* 01FBC 809F527C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01FBC 809F527C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01FC0 809F5280 00052C03 */  sra     $a1, $a1, 16               
 /* 01FC4 809F5284 8618026E */  lh      $t8, 0x026E($s0)           ## 0000026E
@@ -77,7 +77,7 @@ glabel func_809F51B8
 /* 01FF0 809F52B0 5720000A */  bnel    $t9, $zero, .L809F52DC     
 /* 01FF4 809F52B4 860D025A */  lh      $t5, 0x025A($s0)           ## 0000025A
 /* 01FF8 809F52B8 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
-/* 01FFC 809F52BC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01FFC 809F52BC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02000 809F52C0 00000000 */  nop
 /* 02004 809F52C4 4600020D */  trunc.w.s $f8, $f0                   

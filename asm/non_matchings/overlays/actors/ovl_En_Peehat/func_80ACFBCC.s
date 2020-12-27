@@ -28,7 +28,7 @@ glabel func_80ACFBCC
 /* 00790 80ACFC30 260400BC */  addiu   $a0, $s0, 0x00BC           ## $a0 = 000000BC
 /* 00794 80ACFC34 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00798 80ACFC38 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
-/* 0079C 80ACFC3C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0079C 80ACFC3C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 007A0 80ACFC40 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 007A4 80ACFC44 860802F6 */  lh      $t0, 0x02F6($s0)           ## 000002F6
@@ -45,7 +45,7 @@ glabel func_80ACFBCC
 /* 007CC 80ACFC6C 3C05C47A */  lui     $a1, 0xC47A                ## $a1 = C47A0000
 /* 007D0 80ACFC70 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 007D4 80ACFC74 3C074248 */  lui     $a3, 0x4248                ## $a3 = 42480000
-/* 007D8 80ACFC78 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 007D8 80ACFC78 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 007DC 80ACFC7C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 007E0 80ACFC80 8E0202D4 */  lw      $v0, 0x02D4($s0)           ## 000002D4
@@ -63,7 +63,7 @@ glabel func_80ACFBCC
 /* 00810 80ACFCB0 34E7A3D7 */  ori     $a3, $a3, 0xA3D7           ## $a3 = 3E70A3D7
 /* 00814 80ACFCB4 34A5EB85 */  ori     $a1, $a1, 0xEB85           ## $a1 = 3E51EB85
 /* 00818 80ACFCB8 260402EC */  addiu   $a0, $s0, 0x02EC           ## $a0 = 000002EC
-/* 0081C 80ACFCBC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0081C 80ACFCBC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00820 80ACFCC0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00824 80ACFCC4 10000012 */  beq     $zero, $zero, .L80ACFD10   
@@ -74,7 +74,7 @@ glabel func_80ACFBCC
 /* 00834 80ACFCD4 3C073BA3 */  lui     $a3, 0x3BA3                ## $a3 = 3BA30000
 /* 00838 80ACFCD8 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3BA3D70A
 /* 0083C 80ACFCDC 260402EC */  addiu   $a0, $s0, 0x02EC           ## $a0 = 000002EC
-/* 00840 80ACFCE0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00840 80ACFCE0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00844 80ACFCE4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00848 80ACFCE8 10000009 */  beq     $zero, $zero, .L80ACFD10   

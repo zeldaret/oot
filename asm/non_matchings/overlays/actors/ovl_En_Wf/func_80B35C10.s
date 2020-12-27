@@ -31,7 +31,7 @@ glabel func_80B35C10
 /* 01FBC 80B35C6C 00000000 */  nop
 /* 01FC0 80B35C70 4502000F */  bc1fl   .L80B35CB0                 
 /* 01FC4 80B35C74 8FAE0024 */  lw      $t6, 0x0024($sp)           
-/* 01FC8 80B35C78 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01FC8 80B35C78 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01FCC 80B35C7C 00000000 */  nop
 /* 01FD0 80B35C80 3C0180B3 */  lui     $at, %hi(D_80B37BB4)       ## $at = 80B30000

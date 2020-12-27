@@ -53,7 +53,7 @@ glabel func_80A16670
 /* 01490 80A16710 8C450000 */  lw      $a1, 0x0000($v0)           ## 00000000
 /* 01494 80A16714 8C460004 */  lw      $a2, 0x0004($v0)           ## 00000004
 /* 01498 80A16718 8C470008 */  lw      $a3, 0x0008($v0)           ## 00000008
-/* 0149C 80A1671C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0149C 80A1671C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 014A0 80A16720 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 014A4 80A16724 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
@@ -77,7 +77,7 @@ glabel func_80A16670
 /* 014E8 80A16768 00022C00 */  sll     $a1, $v0, 16               
 /* 014EC 80A1676C 00052C03 */  sra     $a1, $a1, 16               
 /* 014F0 80A16770 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
-/* 014F4 80A16774 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 014F4 80A16774 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 014F8 80A16778 240600C8 */  addiu   $a2, $zero, 0x00C8         ## $a2 = 000000C8
 /* 014FC 80A1677C 14400013 */  bne     $v0, $zero, .L80A167CC     
@@ -94,7 +94,7 @@ glabel func_80A16670
 /* 01524 80A167A4 000529C0 */  sll     $a1, $a1,  7               
 /* 01528 80A167A8 00052C00 */  sll     $a1, $a1, 16               
 /* 0152C 80A167AC 00052C03 */  sra     $a1, $a1, 16               
-/* 01530 80A167B0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01530 80A167B0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01534 80A167B4 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 01538 80A167B8 14400004 */  bne     $v0, $zero, .L80A167CC     
@@ -150,7 +150,7 @@ glabel func_80A16670
 /* 015EC 80A1686C 24040005 */  addiu   $a0, $zero, 0x0005         ## $a0 = 00000005
 /* 015F0 80A16870 5D200005 */  bgtzl   $t1, .L80A16888            
 /* 015F4 80A16874 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 015F8 80A16878 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 015F8 80A16878 0C01DF64 */  jal     Rand_S16Offset
               
 /* 015FC 80A1687C 24050050 */  addiu   $a1, $zero, 0x0050         ## $a1 = 00000050
 /* 01600 80A16880 A6020248 */  sh      $v0, 0x0248($s0)           ## 00000248

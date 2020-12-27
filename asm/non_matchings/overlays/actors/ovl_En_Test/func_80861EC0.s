@@ -25,7 +25,7 @@ glabel func_80861EC0
 /* 028C4 80861F14 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 028C8 80861F18 240F0015 */  addiu   $t7, $zero, 0x0015         ## $t7 = 00000015
 /* 028CC 80861F1C A20F07C8 */  sb      $t7, 0x07C8($s0)           ## 000007C8
-/* 028D0 80861F20 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 028D0 80861F20 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 028D4 80861F24 E6080068 */  swc1    $f8, 0x0068($s0)           ## 00000068
 /* 028D8 80861F28 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

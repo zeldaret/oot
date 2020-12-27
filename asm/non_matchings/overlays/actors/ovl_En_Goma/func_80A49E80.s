@@ -10,7 +10,7 @@ glabel func_80A49E80
 /* 00FDC 80A49E9C 2404000A */  addiu   $a0, $zero, 0x000A         ## $a0 = 0000000A
 /* 00FE0 80A49EA0 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
 /* 00FE4 80A49EA4 468021A0 */  cvt.s.w $f6, $f4
-/* 00FE8 80A49EA8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00FE8 80A49EA8 0C01DF64 */  jal     Rand_S16Offset
 
 /* 00FEC 80A49EAC E7A6002C */  swc1    $f6, 0x002C($sp)
 /* 00FF0 80A49EB0 8FA30030 */  lw      $v1, 0x0030($sp)

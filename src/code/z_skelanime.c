@@ -1469,11 +1469,11 @@ s32 SkelAnime_MorphTaper(SkelAnime* skelAnime) {
     }
     curPhase = skelAnime->morphWeight * 0x4000;
     if (skelAnime->taper <= ANIMTAPER_DECEL) {
-        prevWeight = 1.0f - Math_Coss(prevPhase);
-        curWeight = 1.0f - Math_Coss(curPhase);
+        prevWeight = 1.0f - Math_CosS(prevPhase);
+        curWeight = 1.0f - Math_CosS(curPhase);
     } else {
-        prevWeight = Math_Sins(prevPhase);
-        curWeight = Math_Sins(curPhase);
+        prevWeight = Math_SinS(prevPhase);
+        curWeight = Math_SinS(curPhase);
     }
     if (curWeight != 0.0f) {
         curWeight /= prevWeight;
@@ -1686,15 +1686,15 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         // `angle` rotation around y axis.
         x = skelAnime->jointTbl[0].x;
         z = skelAnime->jointTbl[0].z;
-        sin = Math_Sins(angle);
-        cos = Math_Coss(angle);
+        sin = Math_SinS(angle);
+        cos = Math_CosS(angle);
         diff->x = x * cos + z * sin;
         diff->z = z * cos - x * sin;
         x = skelAnime->prevTrans.x;
         z = skelAnime->prevTrans.z;
         // `prevRot` rotation around y axis.
-        sin = Math_Sins(skelAnime->prevRot);
-        cos = Math_Coss(skelAnime->prevRot);
+        sin = Math_SinS(skelAnime->prevRot);
+        cos = Math_CosS(skelAnime->prevRot);
         diff->x -= x * cos + z * sin;
         diff->z -= z * cos - x * sin;
     }

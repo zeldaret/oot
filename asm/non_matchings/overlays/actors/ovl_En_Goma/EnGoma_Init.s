@@ -33,7 +33,7 @@ glabel EnGoma_Init
 /* 00004 80A48EC4 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00008 80A48EC8 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 0000C 80A48ECC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00010 80A48ED0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00010 80A48ED0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00014 80A48ED4 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 00018 80A48ED8 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -99,7 +99,7 @@ glabel EnGoma_Init
 /* 000F4 80A48FB4 A60E02CC */  sh      $t6, 0x02CC($s0)           ## 000002CC
 /* 000F8 80A48FB8 A60F02B8 */  sh      $t7, 0x02B8($s0)           ## 000002B8
 /* 000FC 80A48FBC E60A006C */  swc1    $f10, 0x006C($s0)          ## 0000006C
-/* 00100 80A48FC0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00100 80A48FC0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00104 80A48FC4 E61002D0 */  swc1    $f16, 0x02D0($s0)          ## 000002D0
 /* 00108 80A48FC8 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -109,7 +109,7 @@ glabel EnGoma_Init
 /* 00118 80A48FD8 46020482 */  mul.s   $f18, $f0, $f2
 /* 0011C 80A48FDC AE1802B0 */  sw      $t8, 0x02B0($s0)           ## 000002B0
 /* 00120 80A48FE0 46029100 */  add.s   $f4, $f18, $f2
-/* 00124 80A48FE4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00124 80A48FE4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00128 80A48FE8 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 0012C 80A48FEC 3C0180A5 */  lui     $at, %hi(D_80A4B8F4)       ## $at = 80A50000
@@ -120,7 +120,7 @@ glabel EnGoma_Init
 /* 00140 80A49000 2419001E */  addiu   $t9, $zero, 0x001E         ## $t9 = 0000001E
 /* 00144 80A49004 A61902CC */  sh      $t9, 0x02CC($s0)           ## 000002CC
 /* 00148 80A49008 460A4400 */  add.s   $f16, $f8, $f10
-/* 0014C 80A4900C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0014C 80A4900C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00150 80A49010 E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 /* 00154 80A49014 3C0180A5 */  lui     $at, %hi(D_80A4B8F8)       ## $at = 80A50000
@@ -129,7 +129,7 @@ glabel EnGoma_Init
 /* 00160 80A49020 C426B8FC */  lwc1    $f6, %lo(D_80A4B8FC)($at)
 /* 00164 80A49024 46120102 */  mul.s   $f4, $f0, $f18
 /* 00168 80A49028 46062200 */  add.s   $f8, $f4, $f6
-/* 0016C 80A4902C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0016C 80A4902C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00170 80A49030 E6080050 */  swc1    $f8, 0x0050($s0)           ## 00000050
 /* 00174 80A49034 3C0180A5 */  lui     $at, %hi(D_80A4B900)       ## $at = 80A50000
@@ -138,7 +138,7 @@ glabel EnGoma_Init
 /* 00180 80A49040 C432B904 */  lwc1    $f18, %lo(D_80A4B904)($at)
 /* 00184 80A49044 460A0402 */  mul.s   $f16, $f0, $f10
 /* 00188 80A49048 46128100 */  add.s   $f4, $f16, $f18
-/* 0018C 80A4904C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0018C 80A4904C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00190 80A49050 E6040054 */  swc1    $f4, 0x0054($s0)           ## 00000054
 /* 00194 80A49054 3C0180A5 */  lui     $at, %hi(D_80A4B908)       ## $at = 80A50000
@@ -244,7 +244,7 @@ glabel EnGoma_Init
 /* 002F8 80A491B8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 002FC 80A491BC 44814000 */  mtc1    $at, $f8                   ## $f8 = 1.00
 /* 00300 80A491C0 A60902B8 */  sh      $t1, 0x02B8($s0)           ## 000002B8
-/* 00304 80A491C4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00304 80A491C4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00308 80A491C8 E60802D0 */  swc1    $f8, 0x02D0($s0)           ## 000002D0
 /* 0030C 80A491CC 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

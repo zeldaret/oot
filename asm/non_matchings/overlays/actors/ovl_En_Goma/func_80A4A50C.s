@@ -27,7 +27,7 @@ glabel func_80A4A50C
 /* 016A8 80A4A568 860202F8 */  lh      $v0, 0x02F8($s0)           ## 000002F8
 /* 016AC 80A4A56C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 016B0 80A4A570 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
-/* 016B4 80A4A574 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 016B4 80A4A574 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 016B8 80A4A578 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 016BC 80A4A57C 860202F8 */  lh      $v0, 0x02F8($s0)           ## 000002F8

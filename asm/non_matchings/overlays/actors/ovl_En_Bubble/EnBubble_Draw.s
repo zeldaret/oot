@@ -48,7 +48,7 @@ glabel EnBubble_Draw
 /* 01030 809CCC30 26040210 */  addiu   $a0, $s0, 0x0210           ## $a0 = 00000210
 /* 01034 809CCC34 3C054180 */  lui     $a1, 0x4180                ## $a1 = 41800000
 /* 01038 809CCC38 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
-/* 0103C 809CCC3C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0103C 809CCC3C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01040 809CCC40 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01044 809CCC44 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -58,7 +58,7 @@ glabel EnBubble_Draw
 /* 01054 809CCC54 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3DA3D70A
 /* 01058 809CCC58 26040214 */  addiu   $a0, $s0, 0x0214           ## $a0 = 00000214
 /* 0105C 809CCC5C 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
-/* 01060 809CCC60 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01060 809CCC60 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01064 809CCC64 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01068 809CCC68 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

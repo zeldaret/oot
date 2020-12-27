@@ -13,7 +13,7 @@ glabel func_80B18CC4
 /* 0026C 80B18CEC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00270 80B18CF0 4405A000 */  mfc1    $a1, $f20                  
 /* 00274 80B18CF4 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 00278 80B18CF8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00278 80B18CF8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0027C 80B18CFC E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 00280 80B18D00 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -29,7 +29,7 @@ glabel func_80B18CC4
 /* 002A8 80B18D28 E614006C */  swc1    $f20, 0x006C($s0)          ## 0000006C
 /* 002AC 80B18D2C 4405A000 */  mfc1    $a1, $f20                  
 /* 002B0 80B18D30 E7B40010 */  swc1    $f20, 0x0010($sp)          
-/* 002B4 80B18D34 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 002B4 80B18D34 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 002B8 80B18D38 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 002BC 80B18D3C C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028
@@ -40,7 +40,7 @@ glabel func_80B18CC4
 /* 002D0 80B18D50 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 002D4 80B18D54 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 002D8 80B18D58 44054000 */  mfc1    $a1, $f8                   
-/* 002DC 80B18D5C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 002DC 80B18D5C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 002E0 80B18D60 00000000 */  nop
 /* 002E4 80B18D64 10000005 */  beq     $zero, $zero, .L80B18D7C   

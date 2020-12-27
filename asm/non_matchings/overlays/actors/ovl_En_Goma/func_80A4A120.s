@@ -15,7 +15,7 @@ glabel func_80A4A120
 /* 01290 80A4A150 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000
 /* 01294 80A4A154 51E00005 */  beql    $t7, $zero, .L80A4A16C     
 /* 01298 80A4A158 84F802CC */  lh      $t8, 0x02CC($a3)           ## 000002CC
-/* 0129C 80A4A15C 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 0129C 80A4A15C 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 012A0 80A4A160 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 012A4 80A4A164 8FA70018 */  lw      $a3, 0x0018($sp)           

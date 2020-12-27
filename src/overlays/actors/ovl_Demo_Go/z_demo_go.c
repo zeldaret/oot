@@ -98,7 +98,7 @@ void func_8097C930(DemoGo* this) {
     s32 pad[3];
 
     if (DECR(*something) == 0) {
-        *something = Math_Rand_S16Offset(0x3C, 0x3C);
+        *something = Rand_S16Offset(0x3C, 0x3C);
     }
     *other = *something;
     if (*other >= 3) {

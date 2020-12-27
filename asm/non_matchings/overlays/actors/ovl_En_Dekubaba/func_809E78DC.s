@@ -10,25 +10,25 @@ glabel func_809E78DC
 /* 02128 809E78F8 2484017C */  addiu   $a0, $a0, 0x017C           ## $a0 = 0000017C
 /* 0212C 809E78FC 262400B4 */  addiu   $a0, $s1, 0x00B4           ## $a0 = 000000B4
 /* 02130 809E7900 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 02134 809E7904 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 02134 809E7904 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 02138 809E7908 24060E38 */  addiu   $a2, $zero, 0x0E38         ## $a2 = 00000E38
 /* 0213C 809E790C 30500001 */  andi    $s0, $v0, 0x0001           ## $s0 = 00000000
 /* 02140 809E7910 262401CA */  addiu   $a0, $s1, 0x01CA           ## $a0 = 000001CA
 /* 02144 809E7914 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 02148 809E7918 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 02148 809E7918 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0214C 809E791C 24060E38 */  addiu   $a2, $zero, 0x0E38         ## $a2 = 00000E38
 /* 02150 809E7920 02028024 */  and     $s0, $s0, $v0              
 /* 02154 809E7924 262401CC */  addiu   $a0, $s1, 0x01CC           ## $a0 = 000001CC
 /* 02158 809E7928 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 0215C 809E792C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 0215C 809E792C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 02160 809E7930 24060E38 */  addiu   $a2, $zero, 0x0E38         ## $a2 = 00000E38
 /* 02164 809E7934 02028024 */  and     $s0, $s0, $v0              
 /* 02168 809E7938 262401CE */  addiu   $a0, $s1, 0x01CE           ## $a0 = 000001CE
 /* 0216C 809E793C 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 02170 809E7940 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 02170 809E7940 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 02174 809E7944 24060E38 */  addiu   $a2, $zero, 0x0E38         ## $a2 = 00000E38
 /* 02178 809E7948 02028024 */  and     $s0, $s0, $v0              

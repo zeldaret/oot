@@ -22,7 +22,7 @@ glabel func_80A15B2C
 /* 008E8 80A15B68 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3DA3D70A
 /* 008EC 80A15B6C 34A56666 */  ori     $a1, $a1, 0x6666           ## $a1 = 40866666
 /* 008F0 80A15B70 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 008F4 80A15B74 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 008F4 80A15B74 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 008F8 80A15B78 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 008FC 80A15B7C 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
@@ -44,7 +44,7 @@ glabel func_80A15B2C
 /* 00938 80A15BB8 00022C00 */  sll     $a1, $v0, 16               
 /* 0093C 80A15BBC 00052C03 */  sra     $a1, $a1, 16               
 /* 00940 80A15BC0 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
-/* 00944 80A15BC4 0C01DED6 */  jal     func_80077B58              
+/* 00944 80A15BC4 0C01DED6 */  jal     Math_StepToAngleS              
 /* 00948 80A15BC8 24060BB8 */  addiu   $a2, $zero, 0x0BB8         ## $a2 = 00000BB8
 /* 0094C 80A15BCC 1000002B */  beq     $zero, $zero, .L80A15C7C   
 /* 00950 80A15BD0 3C014080 */  lui     $at, 0x4080                ## $at = 40800000
@@ -61,7 +61,7 @@ glabel func_80A15B2C
 /* 00974 80A15BF4 00022C00 */  sll     $a1, $v0, 16               
 /* 00978 80A15BF8 00052C03 */  sra     $a1, $a1, 16               
 /* 0097C 80A15BFC 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
-/* 00980 80A15C00 0C01DED6 */  jal     func_80077B58              
+/* 00980 80A15C00 0C01DED6 */  jal     Math_StepToAngleS              
 /* 00984 80A15C04 240607D0 */  addiu   $a2, $zero, 0x07D0         ## $a2 = 000007D0
 /* 00988 80A15C08 1000001C */  beq     $zero, $zero, .L80A15C7C   
 /* 0098C 80A15C0C 3C014080 */  lui     $at, 0x4080                ## $at = 40800000
@@ -93,7 +93,7 @@ glabel func_80A15B2C
 .L80A15C6C:
 /* 009EC 80A15C6C 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 .L80A15C70:
-/* 009F0 80A15C70 0C01DED6 */  jal     func_80077B58              
+/* 009F0 80A15C70 0C01DED6 */  jal     Math_StepToAngleS              
 /* 009F4 80A15C74 240607D0 */  addiu   $a2, $zero, 0x07D0         ## $a2 = 000007D0
 .L80A15C78:
 /* 009F8 80A15C78 3C014080 */  lui     $at, 0x4080                ## $at = 40800000

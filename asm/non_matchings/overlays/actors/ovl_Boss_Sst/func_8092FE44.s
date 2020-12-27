@@ -36,7 +36,7 @@ glabel func_8092FE44
 /* 038F0 8092FEC0 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 038F4 8092FEC4 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 038F8 8092FEC8 252AFF00 */  addiu   $t2, $t1, 0xFF00           ## $t2 = FFFFFF00
-/* 038FC 8092FECC 0C01DE80 */  jal     Math_ApproxF
+/* 038FC 8092FECC 0C01DE80 */  jal     Math_StepToF
               
 /* 03900 8092FED0 A60A00B4 */  sh      $t2, 0x00B4($s0)           ## 000000B4
 /* 03904 8092FED4 10000008 */  beq     $zero, $zero, .L8092FEF8   
@@ -46,7 +46,7 @@ glabel func_8092FE44
 /* 03910 8092FEE0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 03914 8092FEE4 3C064270 */  lui     $a2, 0x4270                ## $a2 = 42700000
 /* 03918 8092FEE8 256C0300 */  addiu   $t4, $t3, 0x0300           ## $t4 = 00000300
-/* 0391C 8092FEEC 0C01DE80 */  jal     Math_ApproxF
+/* 0391C 8092FEEC 0C01DE80 */  jal     Math_StepToF
               
 /* 03920 8092FEF0 A60C00B4 */  sh      $t4, 0x00B4($s0)           ## 000000B4
 /* 03924 8092FEF4 860D0198 */  lh      $t5, 0x0198($s0)           ## 00000198

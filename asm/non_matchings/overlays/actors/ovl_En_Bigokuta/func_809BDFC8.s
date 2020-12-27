@@ -25,7 +25,7 @@ glabel func_809BDFC8
 /* 013B4 809BE014 1460000B */  bne     $v1, $zero, .L809BE044     
 /* 013B8 809BE018 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 013BC 809BE01C 86050030 */  lh      $a1, 0x0030($s0)           ## 00000030
-/* 013C0 809BE020 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 013C0 809BE020 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 013C4 809BE024 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 013C8 809BE028 50400007 */  beql    $v0, $zero, .L809BE048     

@@ -203,7 +203,7 @@ void DemoEc_UpdateEyes(DemoEc* this) {
     s16* eyeTexIndex = &this->eyeTexIndex;
 
     if (DECR(*blinkTimer) == 0) {
-        *blinkTimer = Math_Rand_S16Offset(60, 60);
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
     *eyeTexIndex = *blinkTimer;

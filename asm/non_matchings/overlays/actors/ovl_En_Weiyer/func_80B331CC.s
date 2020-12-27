@@ -32,12 +32,12 @@ glabel func_80B331CC
 /* 00F94 80B33224 01014821 */  addu    $t1, $t0, $at              
 /* 00F98 80B33228 A6090196 */  sh      $t1, 0x0196($s0)           ## 00000196
 .L80B3322C:
-/* 00F9C 80B3322C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00F9C 80B3322C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00FA0 80B33230 86050196 */  lh      $a1, 0x0196($s0)           ## 00000196
 /* 00FA4 80B33234 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00FA8 80B33238 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00FAC 80B3323C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00FAC 80B3323C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00FB0 80B33240 24060200 */  addiu   $a2, $zero, 0x0200         ## $a2 = 00000200
 /* 00FB4 80B33244 860A0194 */  lh      $t2, 0x0194($s0)           ## 00000194

@@ -56,7 +56,7 @@ glabel func_80B34428
 /* 00838 80B344E8 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 0083C 80B344EC E6040028 */  swc1    $f4, 0x0028($s0)           ## 00000028
 /* 00840 80B344F0 E60A0054 */  swc1    $f10, 0x0054($s0)          ## 00000054
-/* 00844 80B344F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00844 80B344F4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00848 80B344F8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0084C 80B344FC 8E0902E8 */  lw      $t1, 0x02E8($s0)           ## 000002E8

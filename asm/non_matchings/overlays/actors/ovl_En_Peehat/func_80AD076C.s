@@ -56,7 +56,7 @@ glabel func_80AD076C
 /* 0137C 80AD081C 34A56666 */  ori     $a1, $a1, 0x6666           ## $a1 = BFA66666
 /* 01380 80AD0820 26440060 */  addiu   $a0, $s2, 0x0060           ## $a0 = 00000060
 /* 01384 80AD0824 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 01388 80AD0828 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01388 80AD0828 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0138C 80AD082C E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01390 80AD0830 10000008 */  beq     $zero, $zero, .L80AD0854   
@@ -66,7 +66,7 @@ glabel func_80AD076C
 /* 0139C 80AD083C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 013A0 80AD0840 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 0000CCCD
 /* 013A4 80AD0844 4406A000 */  mfc1    $a2, $f20                  
-/* 013A8 80AD0848 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 013A8 80AD0848 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 013AC 80AD084C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 013B0 80AD0850 8E4202D4 */  lw      $v0, 0x02D4($s2)           ## 000002D4
@@ -77,7 +77,7 @@ glabel func_80AD076C
 /* 013C0 80AD0860 244FFFFF */  addiu   $t7, $v0, 0xFFFF           ## $t7 = FFFFFFFF
 /* 013C4 80AD0864 8645008A */  lh      $a1, 0x008A($s2)           ## 0000008A
 /* 013C8 80AD0868 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 013CC 80AD086C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 013CC 80AD086C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 013D0 80AD0870 2407033E */  addiu   $a3, $zero, 0x033E         ## $a3 = 0000033E
 /* 013D4 80AD0874 10000003 */  beq     $zero, $zero, .L80AD0884   
@@ -95,7 +95,7 @@ glabel func_80AD076C
 /* 013F8 80AD0898 24050FA0 */  addiu   $a1, $zero, 0x0FA0         ## $a1 = 00000FA0
 /* 013FC 80AD089C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01400 80AD08A0 240701F4 */  addiu   $a3, $zero, 0x01F4         ## $a3 = 000001F4
-/* 01404 80AD08A4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01404 80AD08A4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01408 80AD08A8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0140C 80AD08AC 864802F2 */  lh      $t0, 0x02F2($s2)           ## 000002F2
@@ -109,7 +109,7 @@ glabel func_80AD076C
 /* 0142C 80AD08CC 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3BA3D70A
 /* 01430 80AD08D0 34A5999A */  ori     $a1, $a1, 0x999A           ## $a1 = 3D99999A
 /* 01434 80AD08D4 264402EC */  addiu   $a0, $s2, 0x02EC           ## $a0 = 000002EC
-/* 01438 80AD08D8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01438 80AD08D8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0143C 80AD08DC E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01440 80AD08E0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
@@ -153,7 +153,7 @@ glabel func_80AD076C
 /* 014C8 80AD0968 8E4D03B0 */  lw      $t5, 0x03B0($s2)           ## 000003B0
 /* 014CC 80AD096C 158D0013 */  bne     $t4, $t5, .L80AD09BC       
 /* 014D0 80AD0970 00000000 */  nop
-/* 014D4 80AD0974 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 014D4 80AD0974 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 014D8 80AD0978 00000000 */  nop
 /* 014DC 80AD097C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -193,20 +193,20 @@ glabel func_80AD076C
 /* 01554 80AD09F4 8D6D0008 */  lw      $t5, 0x0008($t3)           ## 80AD2834
 /* 01558 80AD09F8 AE2D0008 */  sw      $t5, 0x0008($s1)           ## FFFFFFF4
 .L80AD09FC:
-/* 0155C 80AD09FC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0155C 80AD09FC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01560 80AD0A00 4600A306 */  mov.s   $f12, $f20                 
 /* 01564 80AD0A04 C64A0024 */  lwc1    $f10, 0x0024($s2)          ## 00000024
 /* 01568 80AD0A08 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 0156C 80AD0A0C 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
 /* 01570 80AD0A10 460A0400 */  add.s   $f16, $f0, $f10            
-/* 01574 80AD0A14 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01574 80AD0A14 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01578 80AD0A18 E7B0006C */  swc1    $f16, 0x006C($sp)          
 /* 0157C 80AD0A1C C6520028 */  lwc1    $f18, 0x0028($s2)          ## 00000028
 /* 01580 80AD0A20 4600A306 */  mov.s   $f12, $f20                 
 /* 01584 80AD0A24 46120100 */  add.s   $f4, $f0, $f18             
-/* 01588 80AD0A28 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01588 80AD0A28 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0158C 80AD0A2C E7A40070 */  swc1    $f4, 0x0070($sp)           
 /* 01590 80AD0A30 C646002C */  lwc1    $f6, 0x002C($s2)           ## 0000002C

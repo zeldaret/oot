@@ -14,7 +14,7 @@ glabel func_80863294
 /* 03C5C 808632AC 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 03C60 808632B0 50400027 */  beql    $v0, $zero, .L80863350     
 /* 03C64 808632B4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 03C68 808632B8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03C68 808632B8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03C6C 808632BC 00000000 */  nop
 /* 03C70 808632C0 3C018086 */  lui     $at, %hi(D_808647D8)       ## $at = 80860000
@@ -27,7 +27,7 @@ glabel func_80863294
 /* 03C8C 808632DC 8F181DE4 */  lw      $t8, 0x1DE4($t8)           ## 00011DE4
 /* 03C90 808632E0 0C21801A */  jal     func_80860068              
 /* 03C94 808632E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 03C98 808632E8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03C98 808632E8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03C9C 808632EC 00000000 */  nop
 /* 03CA0 808632F0 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

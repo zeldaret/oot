@@ -16,13 +16,13 @@ glabel func_80A01240
 /* 012D4 80A01274 45000006 */  bc1f    .L80A01290                 
 /* 012D8 80A01278 00000000 */  nop
 /* 012DC 80A0127C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
-/* 012E0 80A01280 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 012E0 80A01280 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 012E4 80A01284 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
 /* 012E8 80A01288 10000004 */  beq     $zero, $zero, .L80A0129C   
 /* 012EC 80A0128C 860E00B8 */  lh      $t6, 0x00B8($s0)           ## 000000B8
 .L80A01290:
-/* 012F0 80A01290 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 012F0 80A01290 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 012F4 80A01294 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 012F8 80A01298 860E00B8 */  lh      $t6, 0x00B8($s0)           ## 000000B8

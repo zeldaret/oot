@@ -9,12 +9,12 @@ glabel func_80932FF0
 /* 06A38 80933008 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 06A3C 8093300C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 06A40 80933010 2405F800 */  addiu   $a1, $zero, 0xF800         ## $a1 = FFFFF800
-/* 06A44 80933014 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 06A44 80933014 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 06A48 80933018 8606019A */  lh      $a2, 0x019A($s0)           ## 0000019A
 /* 06A4C 8093301C 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 06A50 80933020 3C0542B4 */  lui     $a1, 0x42B4                ## $a1 = 42B40000
-/* 06A54 80933024 0C01DE80 */  jal     Math_ApproxF
+/* 06A54 80933024 0C01DE80 */  jal     Math_StepToF
               
 /* 06A58 80933028 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 06A5C 8093302C 3C0F8094 */  lui     $t7, %hi(D_80938C90)       ## $t7 = 80940000

@@ -31,7 +31,7 @@ glabel func_80918FBC
 /* 03614 80919024 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3E4CCCCD
 /* 03618 80919028 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3ECCCCCD
 /* 0361C 8091902C 260401F8 */  addiu   $a0, $s0, 0x01F8           ## $a0 = 000001F8
-/* 03620 80919030 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 03620 80919030 0C01E107 */  jal     Math_ApproachF
               
 /* 03624 80919034 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 03628 80919038 240F0005 */  addiu   $t7, $zero, 0x0005         ## $t7 = 00000005

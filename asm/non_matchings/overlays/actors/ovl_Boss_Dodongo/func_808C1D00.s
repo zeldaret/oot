@@ -234,7 +234,7 @@ glabel L808C1E60
 /* 00E38 808C1FC8 44054000 */  mfc1    $a1, $f8
 /* 00E3C 808C1FCC E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 00E40 808C1FD0 44079000 */  mfc1    $a3, $f18
-/* 00E44 808C1FD4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00E44 808C1FD4 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 00E48 808C1FD8 00000000 */  nop
 /* 00E4C 808C1FDC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -248,7 +248,7 @@ glabel L808C1E60
 /* 00E6C 808C1FFC 2604042C */  addiu   $a0, $s0, 0x042C           ## $a0 = 0000042C
 /* 00E70 808C2000 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 00E74 808C2004 44075000 */  mfc1    $a3, $f10
-/* 00E78 808C2008 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00E78 808C2008 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 00E7C 808C200C 00000000 */  nop
 /* 00E80 808C2010 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -266,7 +266,7 @@ glabel L808C1E60
 /* 00EB0 808C2040 44053000 */  mfc1    $a1, $f6
 /* 00EB4 808C2044 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 00EB8 808C2048 44078000 */  mfc1    $a3, $f16
-/* 00EBC 808C204C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00EBC 808C204C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 00EC0 808C2050 00000000 */  nop
 /* 00EC4 808C2054 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
@@ -275,7 +275,7 @@ glabel L808C1E60
 /* 00ED0 808C2060 26040204 */  addiu   $a0, $s0, 0x0204           ## $a0 = 00000204
 /* 00ED4 808C2064 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 00ED8 808C2068 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 00EDC 808C206C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00EDC 808C206C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 00EE0 808C2070 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 00EE4 808C2074 1000000C */  beq     $zero, $zero, .L808C20A8
@@ -379,7 +379,7 @@ glabel L808C2190
 /* 0104C 808C21DC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01050 808C21E0 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 01054 808C21E4 44059000 */  mfc1    $a1, $f18
-/* 01058 808C21E8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01058 808C21E8 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 0105C 808C21EC 00000000 */  nop
 /* 01060 808C21F0 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
@@ -397,7 +397,7 @@ glabel L808C2190
 /* 01090 808C2220 44055000 */  mfc1    $a1, $f10
 /* 01094 808C2224 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 01098 808C2228 44072000 */  mfc1    $a3, $f4
-/* 0109C 808C222C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0109C 808C222C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 010A0 808C2230 00000000 */  nop
 /* 010A4 808C2234 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
@@ -415,7 +415,7 @@ glabel L808C2190
 /* 010D4 808C2264 44058000 */  mfc1    $a1, $f16
 /* 010D8 808C2268 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 010DC 808C226C 44073000 */  mfc1    $a3, $f6
-/* 010E0 808C2270 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 010E0 808C2270 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 010E4 808C2274 00000000 */  nop
 /* 010E8 808C2278 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -429,7 +429,7 @@ glabel L808C2190
 /* 01108 808C2298 26040430 */  addiu   $a0, $s0, 0x0430           ## $a0 = 00000430
 /* 0110C 808C229C E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 01110 808C22A0 44079000 */  mfc1    $a3, $f18
-/* 01114 808C22A4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01114 808C22A4 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01118 808C22A8 00000000 */  nop
 /* 0111C 808C22AC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -447,7 +447,7 @@ glabel L808C2190
 /* 0114C 808C22DC 44055000 */  mfc1    $a1, $f10
 /* 01150 808C22E0 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 01154 808C22E4 44072000 */  mfc1    $a3, $f4
-/* 01158 808C22E8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01158 808C22E8 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 0115C 808C22EC 00000000 */  nop
 /* 01160 808C22F0 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
@@ -456,7 +456,7 @@ glabel L808C2190
 /* 0116C 808C22FC 26040204 */  addiu   $a0, $s0, 0x0204           ## $a0 = 00000204
 /* 01170 808C2300 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 01174 808C2304 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01178 808C2308 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01178 808C2308 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 0117C 808C230C E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 01180 808C2310 8FA8006C */  lw      $t0, 0x006C($sp)
@@ -506,7 +506,7 @@ glabel L808C23A8
 /* 01224 808C23B4 44050000 */  mfc1    $a1, $f0
 /* 01228 808C23B8 2604020C */  addiu   $a0, $s0, 0x020C           ## $a0 = 0000020C
 /* 0122C 808C23BC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01230 808C23C0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01230 808C23C0 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01234 808C23C4 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 01238 808C23C8 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xee2)
@@ -538,7 +538,7 @@ glabel L808C23A8
 /* 01298 808C2428 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 0129C 808C242C 44053000 */  mfc1    $a1, $f6
 /* 012A0 808C2430 44078000 */  mfc1    $a3, $f16
-/* 012A4 808C2434 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 012A4 808C2434 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 012A8 808C2438 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 012AC 808C243C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -556,7 +556,7 @@ glabel L808C23A8
 /* 012DC 808C246C 2604042C */  addiu   $a0, $s0, 0x042C           ## $a0 = 0000042C
 /* 012E0 808C2470 44054000 */  mfc1    $a1, $f8
 /* 012E4 808C2474 44079000 */  mfc1    $a3, $f18
-/* 012E8 808C2478 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 012E8 808C2478 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 012EC 808C247C E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 012F0 808C2480 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -574,7 +574,7 @@ glabel L808C23A8
 /* 01320 808C24B0 26040430 */  addiu   $a0, $s0, 0x0430           ## $a0 = 00000430
 /* 01324 808C24B4 44055000 */  mfc1    $a1, $f10
 /* 01328 808C24B8 44072000 */  mfc1    $a3, $f4
-/* 0132C 808C24BC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0132C 808C24BC 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01330 808C24C0 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 01334 808C24C4 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -589,7 +589,7 @@ glabel L808C23A8
 /* 01358 808C24E8 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 0135C 808C24EC E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 01360 808C24F0 44078000 */  mfc1    $a3, $f16
-/* 01364 808C24F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01364 808C24F4 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01368 808C24F8 00000000 */  nop
 /* 0136C 808C24FC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -603,7 +603,7 @@ glabel L808C23A8
 /* 0138C 808C251C 26040438 */  addiu   $a0, $s0, 0x0438           ## $a0 = 00000438
 /* 01390 808C2520 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 01394 808C2524 44074000 */  mfc1    $a3, $f8
-/* 01398 808C2528 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01398 808C2528 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 0139C 808C252C 00000000 */  nop
 /* 013A0 808C2530 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -617,7 +617,7 @@ glabel L808C23A8
 /* 013C0 808C2550 2604043C */  addiu   $a0, $s0, 0x043C           ## $a0 = 0000043C
 /* 013C4 808C2554 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 013C8 808C2558 44072000 */  mfc1    $a3, $f4
-/* 013CC 808C255C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 013CC 808C255C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 013D0 808C2560 00000000 */  nop
 /* 013D4 808C2564 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -628,7 +628,7 @@ glabel L808C23A8
 /* 013E8 808C2578 44061000 */  mfc1    $a2, $f2
 /* 013EC 808C257C 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3CA3D70A
 /* 013F0 808C2580 26040204 */  addiu   $a0, $s0, 0x0204           ## $a0 = 00000204
-/* 013F4 808C2584 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 013F4 808C2584 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 013F8 808C2588 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 013FC 808C258C 86080196 */  lh      $t0, 0x0196($s0)           ## 00000196
@@ -644,7 +644,7 @@ glabel L808C23A8
 /* 01420 808C25B0 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3D4CCCCD
 /* 01424 808C25B4 26040208 */  addiu   $a0, $s0, 0x0208           ## $a0 = 00000208
 /* 01428 808C25B8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 0142C 808C25BC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0142C 808C25BC 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01430 808C25C0 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 01434 808C25C4 86030198 */  lh      $v1, 0x0198($s0)           ## 00000198

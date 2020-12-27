@@ -9,7 +9,7 @@ glabel func_80861DC8
 /* 02794 80861DE4 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 02798 80861DE8 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 0279C 80861DEC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 027A0 80861DF0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 027A0 80861DF0 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 027A4 80861DF4 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 027A8 80861DF8 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188

@@ -130,13 +130,13 @@ glabel func_809352DC
 /* 08E98 80935468 2529F374 */  addiu   $t1, $t1, %lo(func_8092F374) ## $t1 = 8092F374
 /* 08E9C 8093546C 552B002A */  bnel    $t1, $t3, .L80935518
 /* 08EA0 80935470 8E2A0004 */  lw      $t2, 0x0004($s1)           ## 00000004
-/* 08EA4 80935474 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 08EA4 80935474 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08EA8 80935478 00000000 */  nop
 /* 08EAC 8093547C 3C018093 */  lui     $at, %hi(D_80937A4C)       ## $at = 80930000
 /* 08EB0 80935480 C4247A4C */  lwc1    $f4, %lo(D_80937A4C)($at)
 /* 08EB4 80935484 46040182 */  mul.s   $f6, $f0, $f4
-/* 08EB8 80935488 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 08EB8 80935488 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08EBC 8093548C E7A60068 */  swc1    $f6, 0x0068($sp)
 /* 08EC0 80935490 3C018093 */  lui     $at, %hi(D_80937A50)       ## $at = 80930000

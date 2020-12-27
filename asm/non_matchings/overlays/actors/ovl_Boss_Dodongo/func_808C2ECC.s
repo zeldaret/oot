@@ -19,7 +19,7 @@ glabel func_808C2ECC
 /* 01D6C 808C2EFC 34A56666 */  ori     $a1, $a1, 0x6666           ## $a1 = 3FA66666
 /* 01D70 808C2F00 248401F8 */  addiu   $a0, $a0, 0x01F8           ## $a0 = 000001F8
 /* 01D74 808C2F04 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01D78 808C2F08 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01D78 808C2F08 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 01D7C 808C2F0C E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 01D80 808C2F10 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C

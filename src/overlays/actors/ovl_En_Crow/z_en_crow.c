@@ -102,7 +102,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_Coss(this->actor.posRot.rot.x);
+    this->actor.speedXZ *= Math_CosS(this->actor.posRot.rot.x);
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
     scale = this->actor.scale.x * 100.0f;
@@ -119,7 +119,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.y;
             iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.z;
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
-                                           ((Math_Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
+                                           ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
     } else if (this->actor.colChkInfo.damageEffect == 2) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
@@ -185,7 +185,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 3.0f;
+    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallPolyRot;
@@ -193,13 +193,13 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
     }
 
-    if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
-        (Math_Rand_ZeroOne() < 0.1f)) {
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
+        (Rand_ZeroOne() < 0.1f)) {
         var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
         if (var > 0) {
-            this->aimRotY += 0x1000 + (0x1000 * Math_Rand_ZeroOne());
+            this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
         } else {
-            this->aimRotY -= 0x1000 + (0x1000 * Math_Rand_ZeroOne());
+            this->aimRotY -= 0x1000 + (0x1000 * Rand_ZeroOne());
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
@@ -207,23 +207,23 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->actor.waterY > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
-        this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
+        this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
     } else if (this->actor.posRot.pos.y > (this->actor.initPosRot.pos.y + 50.0f)) {
-        this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
+        this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
-    if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
-        (Math_Rand_ZeroOne() < 0.1f)) {
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
+        (Rand_ZeroOne() < 0.1f)) {
         if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
-            this->aimRotX -= (0x400 * Math_Rand_ZeroOne()) + 0x400;
+            this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;
         } else {
-            this->aimRotX += (0x400 * Math_Rand_ZeroOne()) + 0x400;
+            this->aimRotX += (0x400 * Rand_ZeroOne()) + 0x400;
         }
         this->aimRotX = CLAMP(this->aimRotX, -0x1000, 0x1000);
     }
 
     if (this->actor.bgCheckFlags & 1) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x100, 0x400);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
     if (this->timer != 0) {
@@ -256,13 +256,13 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         if (target > 0x3000) {
             target = 0x3000;
         }
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.x, target, 2, 0x400);
+        Math_ApproachS(&this->actor.shape.rot.x, target, 2, 0x400);
     } else {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
+        Math_ApproachS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
     if ((yaw != 0) || (this->actor.xzDistFromLink > 80.0f)) {
-        Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
+        Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
@@ -277,12 +277,12 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.dmgEffectTimer = 40;
 
     if (!(this->actor.flags & 0x8000)) {
         if (this->actor.dmgEffectParams & 0x4000) {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4000, 0x200);
+            Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
         if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
@@ -302,7 +302,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
         step = 0.002f;
     }
 
-    if (Math_ApproxF(&this->actor.scale, 0.0f, step)) {
+    if (Math_StepToF(&this->actor.scale, 0.0f, step)) {
         if (this->actor.params == 0) {
             sDeathCount++;
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0);
@@ -324,8 +324,8 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotY = this->actor.yawTowardsLink + 0x8000;
     }
 
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->aimRotY, 3, 0xC00);
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->aimRotX, 5, 0x100);
+    Math_ApproachS(&this->actor.shape.rot.y, this->aimRotY, 3, 0xC00);
+    Math_ApproachS(&this->actor.shape.rot.x, this->aimRotX, 5, 0x100);
 
     if (this->timer != 0) {
         this->timer--;
@@ -350,7 +350,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
         } else {
             target = 0.01f;
         }
-        if (Math_ApproxF(&this->actor.scale, target, target * 0.1f)) {
+        if (Math_StepToF(&this->actor.scale, target, target * 0.1f)) {
             this->actor.flags |= 1;
             this->actor.flags &= ~0x10;
             this->actor.colChkInfo.health = 1;

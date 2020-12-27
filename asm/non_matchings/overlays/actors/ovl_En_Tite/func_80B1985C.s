@@ -19,7 +19,7 @@ glabel func_80B1985C
 /* 00E20 80B198A0 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 00E24 80B198A4 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 00E28 80B198A8 E606006C */  swc1    $f6, 0x006C($s0)           ## 0000006C
-/* 00E2C 80B198AC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00E2C 80B198AC 0C01DF64 */  jal     Rand_S16Offset
 
 /* 00E30 80B198B0 E6080068 */  swc1    $f8, 0x0068($s0)           ## 00000068
 /* 00E34 80B198B4 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

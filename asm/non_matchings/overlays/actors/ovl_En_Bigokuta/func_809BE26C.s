@@ -67,7 +67,7 @@ glabel func_809BE26C
 /* 016F8 809BE358 26040054 */  addiu   $a0, $s0, 0x0054           ## $a0 = 00000054
 /* 016FC 809BE35C 3C063A83 */  lui     $a2, 0x3A83                ## $a2 = 3A830000
 /* 01700 809BE360 34C6126F */  ori     $a2, $a2, 0x126F           ## $a2 = 3A83126F
-/* 01704 809BE364 0C01DE80 */  jal     Math_ApproxF
+/* 01704 809BE364 0C01DE80 */  jal     Math_StepToF
 
 /* 01708 809BE368 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0170C 809BE36C 10400018 */  beq     $v0, $zero, .L809BE3D0

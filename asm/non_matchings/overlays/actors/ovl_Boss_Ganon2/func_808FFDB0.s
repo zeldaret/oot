@@ -43,7 +43,7 @@ glabel func_808FFDB0
 /* 02F0C 808FFE4C AE0A0190 */  sw      $t2, 0x0190($s0)           ## 00000190
 /* 02F10 808FFE50 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 02F14 808FFE54 44816000 */  mtc1    $at, $f12                  ## $f12 = 30.00
-/* 02F18 808FFE58 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02F18 808FFE58 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 02F1C 808FFE5C 00000000 */  nop
 /* 02F20 808FFE60 4600010D */  trunc.w.s $f4, $f0

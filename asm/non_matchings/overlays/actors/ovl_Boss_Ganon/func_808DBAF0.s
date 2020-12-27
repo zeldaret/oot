@@ -16,7 +16,7 @@ glabel func_808DBAF0
 /* 052B8 808DBB28 25CEBB78 */  addiu   $t6, $t6, %lo(func_808DBB78) ## $t6 = 808DBB78
 /* 052BC 808DBB2C 44816000 */  mtc1    $at, $f12                  ## $f12 = 64.00
 /* 052C0 808DBB30 AE0E0194 */  sw      $t6, 0x0194($s0)           ## 00000194
-/* 052C4 808DBB34 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 052C4 808DBB34 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 052C8 808DBB38 E60401C8 */  swc1    $f4, 0x01C8($s0)           ## 000001C8
 /* 052CC 808DBB3C 4600018D */  trunc.w.s $f6, $f0

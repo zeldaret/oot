@@ -23,7 +23,7 @@ glabel func_80B45384
 
 /* 01384 80B453D4 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 01388 80B453D8 240F0003 */  addiu   $t7, $zero, 0x0003         ## $t7 = 00000003
-/* 0138C 80B453DC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0138C 80B453DC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01390 80B453E0 AE0F03DC */  sw      $t7, 0x03DC($s0)           ## 000003DC
 /* 01394 80B453E4 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

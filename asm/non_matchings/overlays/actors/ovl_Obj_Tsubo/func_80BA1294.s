@@ -65,17 +65,17 @@ glabel func_80BA1294
 /* 00610 80BA1370 27B500BC */  addiu   $s5, $sp, 0x00BC           ## $s5 = FFFFFFDC
 .L80BA1374:
 /* 00614 80BA1374 00112400 */  sll     $a0, $s1, 16               
-/* 00618 80BA1378 0C01DE1C */  jal     Math_Sins
+/* 00618 80BA1378 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0061C 80BA137C 00042403 */  sra     $a0, $a0, 16               
 /* 00620 80BA1380 00112400 */  sll     $a0, $s1, 16               
 /* 00624 80BA1384 46000506 */  mov.s   $f20, $f0                  
-/* 00628 80BA1388 0C01DE0D */  jal     Math_Coss
+/* 00628 80BA1388 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0062C 80BA138C 00042403 */  sra     $a0, $a0, 16               
 /* 00630 80BA1390 4618A282 */  mul.s   $f10, $f20, $f24           
 /* 00634 80BA1394 46000586 */  mov.s   $f22, $f0                  
-/* 00638 80BA1398 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00638 80BA1398 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0063C 80BA139C E7AA00C8 */  swc1    $f10, 0x00C8($sp)          
 /* 00640 80BA13A0 461E0402 */  mul.s   $f16, $f0, $f30            
@@ -86,7 +86,7 @@ glabel func_80BA1294
 /* 00654 80BA13B4 461A8480 */  add.s   $f18, $f16, $f26           
 /* 00658 80BA13B8 E7A400D0 */  swc1    $f4, 0x00D0($sp)           
 /* 0065C 80BA13BC E7B200CC */  swc1    $f18, 0x00CC($sp)          
-/* 00660 80BA13C0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00660 80BA13C0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00664 80BA13C4 E7A800BC */  swc1    $f8, 0x00BC($sp)           
 /* 00668 80BA13C8 3C014080 */  lui     $at, 0x4080                ## $at = 40800000
@@ -102,7 +102,7 @@ glabel func_80BA1294
 /* 00690 80BA13F0 0C01DFA7 */  jal     Math_Vec3f_Sum
               ## Vec3f_Add
 /* 00694 80BA13F4 E7B200C0 */  swc1    $f18, 0x00C0($sp)          
-/* 00698 80BA13F8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00698 80BA13F8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0069C 80BA13FC 00000000 */  nop
 /* 006A0 80BA1400 3C0180BA */  lui     $at, %hi(D_80BA1C68)       ## $at = 80BA0000
@@ -115,7 +115,7 @@ glabel func_80BA1294
 /* 006BC 80BA141C 10000001 */  beq     $zero, $zero, .L80BA1424   
 /* 006C0 80BA1420 24100040 */  addiu   $s0, $zero, 0x0040         ## $s0 = 00000040
 .L80BA1424:
-/* 006C4 80BA1424 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 006C4 80BA1424 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 006C8 80BA1428 00000000 */  nop
 /* 006CC 80BA142C 3C0142BE */  lui     $at, 0x42BE                ## $at = 42BE0000

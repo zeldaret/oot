@@ -19,12 +19,12 @@ glabel func_80B32D30
 .L80B32D6C:
 /* 00ADC 80B32D6C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00AE0 80B32D70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00AE4 80B32D74 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00AE4 80B32D74 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00AE8 80B32D78 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00AEC 80B32D7C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00AF0 80B32D80 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00AF4 80B32D84 0C01DE80 */  jal     Math_ApproxF
+/* 00AF4 80B32D84 0C01DE80 */  jal     Math_StepToF
               
 /* 00AF8 80B32D88 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00AFC 80B32D8C 86030194 */  lh      $v1, 0x0194($s0)           ## 00000194

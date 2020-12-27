@@ -35,7 +35,7 @@ glabel func_80AFB028
 /* 0097C 80AFB09C 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 00980 80AFB0A0 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00984 80AFB0A4 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 00988 80AFB0A8 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 00988 80AFB0A8 0C01E1EF */  jal     Math_ApproachS
               
 /* 0098C 80AFB0AC 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 00990 80AFB0B0 8FBF0034 */  lw      $ra, 0x0034($sp)           

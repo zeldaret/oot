@@ -13,7 +13,7 @@ glabel func_80B32C2C
 /* 009C4 80B32C54 15C00011 */  bne     $t6, $zero, .L80B32C9C     
 /* 009C8 80B32C58 24051800 */  addiu   $a1, $zero, 0x1800         ## $a1 = 00001800
 /* 009CC 80B32C5C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
-/* 009D0 80B32C60 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 009D0 80B32C60 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 009D4 80B32C64 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
 /* 009D8 80B32C68 10400008 */  beq     $v0, $zero, .L80B32C8C     
@@ -31,7 +31,7 @@ glabel func_80B32C2C
 /* 00A04 80B32C94 10000021 */  beq     $zero, $zero, .L80B32D1C   
 /* 00A08 80B32C98 A60900B8 */  sh      $t1, 0x00B8($s0)           ## 000000B8
 .L80B32C9C:
-/* 00A0C 80B32C9C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00A0C 80B32C9C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00A10 80B32CA0 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00A14 80B32CA4 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028

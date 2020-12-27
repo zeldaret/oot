@@ -66,7 +66,7 @@ glabel func_808D3D98
 .L808D3E80:
 /* 01810 808D3E80 3C05C2C8 */  lui     $a1, 0xC2C8                ## $a1 = C2C80000
 /* 01814 808D3E84 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01818 808D3E88 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 01818 808D3E88 0C01E107 */  jal     Math_ApproachF
 
 /* 0181C 808D3E8C 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 01820 808D3E90 860B01BC */  lh      $t3, 0x01BC($s0)           ## 000001BC

@@ -27,7 +27,7 @@ glabel func_809F4824
 /* 015C4 809F4884 3C08809F */  lui     $t0, %hi(func_809F4BA4)    ## $t0 = 809F0000
 /* 015C8 809F4888 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 015CC 809F488C 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
-/* 015D0 809F4890 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 015D0 809F4890 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 015D4 809F4894 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 015D8 809F4898 8FA50020 */  lw      $a1, 0x0020($sp)           

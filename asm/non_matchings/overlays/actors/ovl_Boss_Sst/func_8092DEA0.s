@@ -36,7 +36,7 @@ glabel func_8092DEA0
 /* 01950 8092DF20 8505008A */  lh      $a1, 0x008A($t0)           ## 0000008A
 .L8092DF24:
 /* 01954 8092DF24 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 01958 8092DF28 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01958 8092DF28 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0195C 8092DF2C 250400B6 */  addiu   $a0, $t0, 0x00B6           ## $a0 = 000000B6
 /* 01960 8092DF30 8FBF001C */  lw      $ra, 0x001C($sp)           

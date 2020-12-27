@@ -395,7 +395,7 @@ glabel func_808D08F8
 /* 06014 808D0DD4 44044000 */  mfc1    $a0, $f8                   
 /* 06018 808D0DD8 00000000 */  nop
 /* 0601C 808D0DDC 00042400 */  sll     $a0, $a0, 16               
-/* 06020 808D0DE0 0C01DE1C */  jal     Math_Sins
+/* 06020 808D0DE0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 06024 808D0DE4 00042403 */  sra     $a0, $a0, 16               
 /* 06028 808D0DE8 E7A0008C */  swc1    $f0, 0x008C($sp)           
@@ -411,7 +411,7 @@ glabel func_808D08F8
 /* 06050 808D0E10 44044000 */  mfc1    $a0, $f8                   
 /* 06054 808D0E14 00000000 */  nop
 /* 06058 808D0E18 00042400 */  sll     $a0, $a0, 16               
-/* 0605C 808D0E1C 0C01DE1C */  jal     Math_Sins
+/* 0605C 808D0E1C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 06060 808D0E20 00042403 */  sra     $a0, $a0, 16               
 /* 06064 808D0E24 C6620280 */  lwc1    $f2, 0x0280($s3)           ## 00000280

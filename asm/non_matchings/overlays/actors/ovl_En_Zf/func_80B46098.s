@@ -128,7 +128,7 @@ glabel func_80B46098
 /* 0220C 80B4625C 24051555 */  addiu   $a1, $zero, 0x1555         ## $a1 = 00001555
 /* 02210 80B46260 50400012 */  beql    $v0, $zero, .L80B462AC     
 /* 02214 80B46264 8FAD0034 */  lw      $t5, 0x0034($sp)           
-/* 02218 80B46268 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02218 80B46268 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0221C 80B4626C 00000000 */  nop
 /* 02220 80B46270 3C0180B5 */  lui     $at, %hi(D_80B4A364)       ## $at = 80B50000

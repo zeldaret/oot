@@ -10,7 +10,7 @@ glabel func_80919278
 /* 03884 80919294 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 03888 80919298 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0388C 8091929C 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 03890 809192A0 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 03890 809192A0 0C01E1EF */  jal     Math_ApproachS
               
 /* 03894 809192A4 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 03898 809192A8 8FAE0024 */  lw      $t6, 0x0024($sp)           
@@ -21,7 +21,7 @@ glabel func_80919278
 /* 038AC 809192BC 00052C03 */  sra     $a1, $a1, 16               
 /* 038B0 809192C0 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 038B4 809192C4 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 038B8 809192C8 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 038B8 809192C8 0C01E1EF */  jal     Math_ApproachS
               
 /* 038BC 809192CC 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
 /* 038C0 809192D0 960F0088 */  lhu     $t7, 0x0088($s0)           ## 00000088

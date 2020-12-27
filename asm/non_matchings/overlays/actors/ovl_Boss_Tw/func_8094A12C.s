@@ -12,7 +12,7 @@ glabel func_8094A12C
 /* 11480 8094A150 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 11484 8094A154 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 11488 8094A158 8E0504B4 */  lw      $a1, 0x04B4($s0)           ## 000004B4
-/* 1148C 8094A15C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 1148C 8094A15C 0C01E107 */  jal     Math_ApproachF
 
 /* 11490 8094A160 3C0740A0 */  lui     $a3, 0x40A0                ## $a3 = 40A00000
 /* 11494 8094A164 8FA40024 */  lw      $a0, 0x0024($sp)

@@ -76,7 +76,7 @@ glabel func_80A5E12C
 /* 02F50 80A5E240 10000015 */  beq     $zero, $zero, .L80A5E298   
 /* 02F54 80A5E244 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A5E248:
-/* 02F58 80A5E248 0C01DE0D */  jal     Math_Coss
+/* 02F58 80A5E248 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02F5C 80A5E24C 87A40032 */  lh      $a0, 0x0032($sp)           
 /* 02F60 80A5E250 3C01BF00 */  lui     $at, 0xBF00                ## $at = BF000000

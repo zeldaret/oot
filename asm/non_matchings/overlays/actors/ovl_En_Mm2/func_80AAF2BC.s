@@ -24,7 +24,7 @@ glabel func_80AAF2BC
 /* 004B8 80AAF308 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 004BC 80AAF30C 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 004C0 80AAF310 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 004C4 80AAF314 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 004C4 80AAF314 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 004C8 80AAF318 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 004CC 80AAF31C 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -27,7 +27,7 @@ glabel func_80A00218
 /* 002DC 80A0027C E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
 /* 002E0 80A00280 5440000C */  bnel    $v0, $zero, .L80A002B4
 /* 002E4 80A00284 8E190118 */  lw      $t9, 0x0118($s0)           ## 00000118
-/* 002E8 80A00288 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002E8 80A00288 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002EC 80A0028C 00000000 */  nop
 /* 002F0 80A00290 3C014780 */  lui     $at, 0x4780                ## $at = 47800000
@@ -50,7 +50,7 @@ glabel func_80A00218
 /* 0032C 80A002CC 1000000D */  beq     $zero, $zero, .L80A00304
 /* 00330 80A002D0 920C0298 */  lbu     $t4, 0x0298($s0)           ## 00000298
 .L80A002D4:
-/* 00334 80A002D4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00334 80A002D4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00338 80A002D8 00000000 */  nop
 /* 0033C 80A002DC 3C014780 */  lui     $at, 0x4780                ## $at = 47800000

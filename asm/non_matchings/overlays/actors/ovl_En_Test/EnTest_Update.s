@@ -201,7 +201,7 @@ glabel L808638F4
 /* 042F0 80863940 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 .L80863944:
 /* 042F4 80863944 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 042F8 80863948 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 042F8 80863948 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 042FC 8086394C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 04300 80863950 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810

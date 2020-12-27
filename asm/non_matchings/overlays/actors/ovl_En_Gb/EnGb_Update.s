@@ -44,7 +44,7 @@ glabel EnGb_Update
 /* 00C8C 80A2FE0C 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C
 /* 00C90 80A2FE10 1615FFFA */  bne     $s0, $s5, .L80A2FDFC       
 /* 00C94 80A2FE14 2631004C */  addiu   $s1, $s1, 0x004C           ## $s1 = 000002D4
-/* 00C98 80A2FE18 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00C98 80A2FE18 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00C9C 80A2FE1C 00000000 */  nop
 /* 00CA0 80A2FE20 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

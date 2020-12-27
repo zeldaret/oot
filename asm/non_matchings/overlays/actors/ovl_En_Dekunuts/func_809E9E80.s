@@ -24,7 +24,7 @@ glabel func_809E9E80
 /* 00970 809E9ED0 304F1000 */  andi    $t7, $v0, 0x1000           ## $t7 = 00000000
 /* 00974 809E9ED4 55E00005 */  bnel    $t7, $zero, .L809E9EEC     
 /* 00978 809E9ED8 24011000 */  addiu   $at, $zero, 0x1000         ## $at = 00001000
-/* 0097C 809E9EDC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 0097C 809E9EDC 0C01E1EF */  jal     Math_ApproachS
               
 /* 00980 809E9EE0 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00984 809E9EE4 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196

@@ -24,7 +24,7 @@ glabel func_80AFCE5C
 /* 00510 80AFCEB0 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 .L80AFCEB4:
 /* 00514 80AFCEB4 260400BC */  addiu   $a0, $s0, 0x00BC           ## $a0 = 000000BC
-/* 00518 80AFCEB8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00518 80AFCEB8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 0051C 80AFCEBC E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00520 80AFCEC0 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
@@ -32,7 +32,7 @@ glabel func_80AFCE5C
 /* 00528 80AFCEC8 3C0541C8 */  lui     $a1, 0x41C8                ## $a1 = 41C80000
 /* 0052C 80AFCECC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00530 80AFCED0 3C074020 */  lui     $a3, 0x4020                ## $a3 = 40200000
-/* 00534 80AFCED4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00534 80AFCED4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00538 80AFCED8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0053C 80AFCEDC 8FA4002C */  lw      $a0, 0x002C($sp)           

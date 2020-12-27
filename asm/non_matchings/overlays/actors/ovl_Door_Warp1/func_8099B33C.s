@@ -21,7 +21,7 @@ glabel func_8099B33C
 /* 02BE0 8099B360 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 02BE4 8099B364 00002012 */  mflo    $a0
 /* 02BE8 8099B368 00042400 */  sll     $a0, $a0, 16
-/* 02BEC 8099B36C 0C01DE1C */  jal     Math_Sins
+/* 02BEC 8099B36C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02BF0 8099B370 00042403 */  sra     $a0, $a0, 16
 /* 02BF4 8099B374 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
@@ -36,7 +36,7 @@ glabel func_8099B33C
 /* 02C18 8099B398 01F00019 */  multu   $t7, $s0
 /* 02C1C 8099B39C 00002012 */  mflo    $a0
 /* 02C20 8099B3A0 00042400 */  sll     $a0, $a0, 16
-/* 02C24 8099B3A4 0C01DE0D */  jal     Math_Coss
+/* 02C24 8099B3A4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02C28 8099B3A8 00042403 */  sra     $a0, $a0, 16
 /* 02C2C 8099B3AC 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
@@ -51,7 +51,7 @@ glabel func_8099B33C
 /* 02C50 8099B3D0 03100019 */  multu   $t8, $s0
 /* 02C54 8099B3D4 00002012 */  mflo    $a0
 /* 02C58 8099B3D8 00042400 */  sll     $a0, $a0, 16
-/* 02C5C 8099B3DC 0C01DE0D */  jal     Math_Coss
+/* 02C5C 8099B3DC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02C60 8099B3E0 00042403 */  sra     $a0, $a0, 16
 /* 02C64 8099B3E4 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000

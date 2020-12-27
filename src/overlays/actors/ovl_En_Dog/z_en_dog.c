@@ -211,7 +211,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     f32 waypointDistSq;
 
     waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
 
     if ((waypointDistSq > 0.0f) && (waypointDistSq < 1000.0f)) {
         return EnDog_UpdateWaypoint(this, globalCtx);
@@ -298,7 +298,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         } else {
             speed = 4.0f;
         }
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
         EnDog_Orient(this, globalCtx);
         this->actor.shape.rot = this->actor.posRot.rot;
 
@@ -315,7 +315,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         frame = globalCtx->state.frames % 3;
         this->nextBehavior = behaviors[frame];
         // no clue why they're using the behavior id to calculate timer. possibly meant to use the unused array?
-        this->behaviorTimer = Math_Rand_S16Offset(60, behaviors[frame]);
+        this->behaviorTimer = Rand_S16Offset(60, behaviors[frame]);
         this->actionFunc = EnDog_ChooseMovement;
     }
 }
@@ -326,7 +326,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->behaviorTimer) == 0) {
-        this->behaviorTimer = Math_Rand_S16Offset(200, 100);
+        this->behaviorTimer = Rand_S16Offset(200, 100);
         if (globalCtx->state.frames % 2) {
             this->nextBehavior = DOG_WALK;
         } else {
@@ -338,7 +338,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnDog_FollowPath;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
 void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
@@ -370,18 +370,18 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
         speed = 1.0f;
     }
 
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
+    Math_ApproachF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
 
     if (!(this->actor.xzDistFromLink > 400.0f)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
         this->actor.shape.rot = this->actor.posRot.rot;
     }
 }
 
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 200.0f) {
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
+        Math_ApproachF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
     }
@@ -397,11 +397,11 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     if (200.0f <= this->actor.xzDistFromLink) {
         this->nextBehavior = DOG_WALK;
 
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
+        Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
 
         rotTowardLink = this->actor.yawTowardsLink;
         prevRotY = this->actor.posRot.rot.y;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
 
         absAngleDiff = this->actor.posRot.rot.y;
         absAngleDiff -= prevRotY;

@@ -121,7 +121,7 @@ void func_80AF2608(EnRu2* this) {
     s16* unk_2A4 = &this->unk_2A4;
 
     if (!DECR(*unk_2A6)) {
-        *unk_2A6 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_2A6 = Rand_S16Offset(0x3C, 0x3C);
     }
 
     *unk_2A4 = *unk_2A6;

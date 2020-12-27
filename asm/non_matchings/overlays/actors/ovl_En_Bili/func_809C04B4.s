@@ -37,7 +37,7 @@ glabel func_809C04B4
 /* 00C94 809C0534 3C0740A0 */  lui     $a3, 0x40A0                ## $a3 = 40A00000
 /* 00C98 809C0538 46049180 */  add.s   $f6, $f18, $f4             
 /* 00C9C 809C053C 44053000 */  mfc1    $a1, $f6                   
-/* 00CA0 809C0540 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00CA0 809C0540 0C01E107 */  jal     Math_ApproachF
               
 /* 00CA4 809C0544 00000000 */  nop
 /* 00CA8 809C0548 8FAE002C */  lw      $t6, 0x002C($sp)           

@@ -111,7 +111,7 @@ glabel EnTr_Update
 .L80B23D30:
 /* 01040 80B23D30 54400006 */  bnel    $v0, $zero, .L80B23D4C
 /* 01044 80B23D34 A60302E0 */  sh      $v1, 0x02E0($s0)           ## 000002E0
-/* 01048 80B23D38 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 01048 80B23D38 0C01DF64 */  jal     Rand_S16Offset
 
 /* 0104C 80B23D3C 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 01050 80B23D40 A60202E2 */  sh      $v0, 0x02E2($s0)           ## 000002E2

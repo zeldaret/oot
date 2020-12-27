@@ -16,7 +16,7 @@ glabel func_8086149C
 /* 01E84 808614D4 50200009 */  beql    $at, $zero, .L808614FC     
 /* 01E88 808614D8 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 /* 01E8C 808614DC 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 01E90 808614E0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01E90 808614E0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01E94 808614E4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01E98 808614E8 C60001A0 */  lwc1    $f0, 0x01A0($s0)           ## 000001A0

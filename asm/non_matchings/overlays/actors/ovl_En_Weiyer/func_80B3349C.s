@@ -93,7 +93,7 @@ glabel func_80B3349C
 /* 0134C 80B335DC 01E5082A */  slt     $at, $t7, $a1              
 /* 01350 80B335E0 50200004 */  beql    $at, $zero, .L80B335F4     
 /* 01354 80B335E4 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
-/* 01358 80B335E8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01358 80B335E8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 0135C 80B335EC 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 01360 80B335F0 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
@@ -132,7 +132,7 @@ glabel func_80B3349C
 /* 013D4 80B33664 240B0080 */  addiu   $t3, $zero, 0x0080         ## $t3 = 00000080
 /* 013D8 80B33668 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 013DC 80B3366C 24060008 */  addiu   $a2, $zero, 0x0008         ## $a2 = 00000008
-/* 013E0 80B33670 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 013E0 80B33670 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 013E4 80B33674 24070100 */  addiu   $a3, $zero, 0x0100         ## $a3 = 00000100
 .L80B33678:

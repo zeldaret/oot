@@ -23,7 +23,7 @@ glabel func_80911CB0
 /* 016AC 80911CEC E60601D0 */  swc1    $f6, 0x01D0($s0)           ## 000001D0
 /* 016B0 80911CF0 3C0E8091 */  lui     $t6, %hi(func_80911DD8)    ## $t6 = 80910000
 /* 016B4 80911CF4 25CE1DD8 */  addiu   $t6, $t6, %lo(func_80911DD8) ## $t6 = 80911DD8
-/* 016B8 80911CF8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 016B8 80911CF8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 016BC 80911CFC AE0E0190 */  sw      $t6, 0x0190($s0)           ## 00000190
 /* 016C0 80911D00 3C018091 */  lui     $at, %hi(D_80915438)       ## $at = 80910000

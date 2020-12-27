@@ -5,7 +5,7 @@ glabel func_809EA4E8
 /* 00F94 809EA4F4 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00F98 809EA4F8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F9C 809EA4FC 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
-/* 00FA0 809EA500 0C01DE80 */  jal     Math_ApproxF
+/* 00FA0 809EA500 0C01DE80 */  jal     Math_StepToF
               
 /* 00FA4 809EA504 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00FA8 809EA508 8FA40018 */  lw      $a0, 0x0018($sp)           
