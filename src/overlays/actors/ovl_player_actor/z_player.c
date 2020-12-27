@@ -2955,7 +2955,7 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
         if ((this->unk_664 != NULL) &&
             ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.type != ACTORTYPE_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                     Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_664->posRot2.pos), 4000);
+                               Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_664->posRot2.pos), 4000);
         } else if ((this->stateFlags1 & 0x20000) && !(this->stateFlags2 & 0x60)) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000);
         }
@@ -5773,7 +5773,7 @@ void func_8083DDC8(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_8083DF68(Player* this, f32 arg1, s16 arg2) {
-    Math_AymStepToF(&this->linearVelocity, arg1, REG(19) / 100.0f, 1.5f);
+    Math_AsymStepToF(&this->linearVelocity, arg1, REG(19) / 100.0f, 1.5f);
     Math_ScaledStepToS(&this->currentYaw, arg2, REG(27));
 }
 
@@ -5789,7 +5789,7 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
             this->currentYaw = *arg2;
         }
     } else {
-        Math_AymStepToF(&this->linearVelocity, *arg1, 0.05f, 0.1f);
+        Math_AsymStepToF(&this->linearVelocity, *arg1, 0.05f, 0.1f);
         Math_ScaledStepToS(&this->currentYaw, *arg2, 200);
     }
 }
@@ -6668,7 +6668,7 @@ void func_80840450(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_AymStepToF(&this->linearVelocity, sp44 * 0.3f, 2.0f, 1.5f);
+        Math_AsymStepToF(&this->linearVelocity, sp44 * 0.3f, 2.0f, 1.5f);
 
         if (!(this->stateFlags3 & 8)) {
             Math_ScaledStepToS(&this->currentYaw, sp42, temp4 * 0.1f);
@@ -6935,7 +6935,7 @@ void func_80840DE4(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_AymStepToF(&this->linearVelocity, sp44 * 0.4f, 1.5f, 1.5f);
+        Math_AsymStepToF(&this->linearVelocity, sp44 * 0.4f, 1.5f, 1.5f);
         Math_ScaledStepToS(&this->currentYaw, sp42, temp3 * 0.1f);
     }
 }
@@ -7032,7 +7032,7 @@ void func_808414F8(Player* this, GlobalContext* globalCtx) {
         } else {
             sp2A = sp32 - this->currentYaw;
 
-            Math_AymStepToF(&this->linearVelocity, sp34 * 1.5f, 1.5f, 2.0f);
+            Math_AsymStepToF(&this->linearVelocity, sp34 * 1.5f, 1.5f, 2.0f);
             Math_ScaledStepToS(&this->currentYaw, sp32, sp2A * 0.1f);
 
             if ((sp34 == 0.0f) && (this->linearVelocity == 0.0f)) {
@@ -7158,7 +7158,7 @@ void func_8084193C(Player* this, GlobalContext* globalCtx) {
         }
 
         sp3C *= 0.9f;
-        Math_AymStepToF(&this->linearVelocity, sp3C, 2.0f, 3.0f);
+        Math_AsymStepToF(&this->linearVelocity, sp3C, 2.0f, 3.0f);
         Math_ScaledStepToS(&this->currentYaw, sp3A, temp3 * 0.1f);
     }
 }
@@ -8402,7 +8402,7 @@ void func_80845000(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_AymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
+        Math_AsymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
         Math_ScaledStepToS(&this->currentYaw, sp52, sp44 * 0.1f);
 
         if ((sp54 == 0.0f) && (this->linearVelocity == 0.0f)) {
@@ -8470,7 +8470,7 @@ void func_80845308(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_AymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
+        Math_AsymStepToF(&this->linearVelocity, sp54 * 0.2f, 1.0f, 0.5f);
         Math_ScaledStepToS(&this->currentYaw, sp52, sp44 * 0.1f);
 
         if ((sp54 == 0.0f) && (this->linearVelocity == 0.0f) && (sp5C == 0.0f)) {
@@ -10081,7 +10081,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f);
 
             Math_ScaledStepToS(&this->windDirection, D_808535FC,
-                                     ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * sp48);
+                               ((this->stateFlags1 & 0x8000000) ? 400.0f : 800.0f) * sp48);
         } else if (this->windSpeed != 0.0f) {
             Math_StepToF(&this->windSpeed, 0.0f, (this->stateFlags1 & 0x8000000) ? 0.5f : 1.0f);
         }
@@ -10557,7 +10557,7 @@ void func_8084AEEC(Player* this, f32* arg1, f32 arg2, s16 arg3) {
         arg2 = 0.0f;
     }
 
-    Math_AymStepToF(arg1, arg2 * 0.8f, temp1, (fabsf(*arg1) * 0.02f) + 0.05f);
+    Math_AsymStepToF(arg1, arg2 * 0.8f, temp1, (fabsf(*arg1) * 0.02f) + 0.05f);
     Math_ScaledStepToS(&this->currentYaw, arg3, 1600);
 }
 
@@ -12342,7 +12342,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             sp4C = 1.0f;
         }
 
-        if (Math_AymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
+        if (Math_AsymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
             LinkAnimationHeader* anim;
             if (this->unk_84F == 0) {
                 anim = D_80853D04[this->modelAnimType];

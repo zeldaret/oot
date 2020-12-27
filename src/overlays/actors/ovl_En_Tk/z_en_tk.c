@@ -585,11 +585,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     Vec3f rewardOrigin;
     Vec3f rewardPos;
     s32 rewardParams[] = {
-        ITEM00_RUPEE_GREEN,
-        ITEM00_RUPEE_BLUE,
-        ITEM00_RUPEE_RED,
-        ITEM00_RUPEE_PURPLE,
-        ITEM00_HEART_PIECE,
+        ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_PURPLE, ITEM00_HEART_PIECE,
     };
 
     EnTk_DigEff(this);

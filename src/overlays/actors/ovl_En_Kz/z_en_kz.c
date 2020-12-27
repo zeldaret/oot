@@ -268,8 +268,8 @@ s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA,
-                            0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA, 0x3E8,
+                       1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 10.0f) {
         this->waypoint++;

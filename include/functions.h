@@ -972,7 +972,7 @@ s32 Math_StepUntilAngleS(s16* pValue, s16 limit, s16 step);
 s32 Math_StepUntilS(s16* pValue, s16 limit, s16 step);
 s32 Math_StepToAngleS(s16* pValue, s16 target, s16 step);
 s32 Math_StepUntilF(f32* pValue, f32 limit, f32 step);
-s32 Math_AymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep);
+s32 Math_AsymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep);
 void func_80077D10(f32* arg0, s16* arg1, Input* input);
 s16 Rand_S16Offset(s16 base, s16 range);
 void Math_Vec3f_Copy(Vec3f* dest, Vec3f* src);

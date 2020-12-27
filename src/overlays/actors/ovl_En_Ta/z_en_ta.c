@@ -112,8 +112,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTbl,
-                       this->morphTbl, 17);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTbl, this->morphTbl, 17);
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
 
@@ -206,8 +205,8 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                         if (gSaveContext.eventInf[0] & 0x400) {
                             func_80B13AA0(this, func_80B16608, func_80B16938);
                             Animation_Change(&this->skelAnime, &D_0600C48C, 1.0f,
-                                                 Animation_LastFrame(&D_0600C48C) - 1.0f,
-                                                 Animation_LastFrame(&D_0600C48C), 2, 0.0f);
+                                             Animation_LastFrame(&D_0600C48C) - 1.0f, Animation_LastFrame(&D_0600C48C),
+                                             2, 0.0f);
                             gSaveContext.eventInf[0] &= ~0x400;
                         } else {
                             func_80B13AA0(this, func_80B16504, func_80B16854);
@@ -597,7 +596,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
         s32 unk_2CA;
 
         Animation_Change(&this->skelAnime, &D_0600C48C, 1.0f, Animation_LastFrame(&D_0600C48C) - 1.0f,
-                             Animation_LastFrame(&D_0600C48C), 2, 10.0f);
+                         Animation_LastFrame(&D_0600C48C), 2, 10.0f);
         this->unk_2E0 &= ~0x10;
         func_80106CCC(globalCtx);
         unk_2CA = this->unk_2CA;
@@ -796,7 +795,7 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
         func_80B13AA0(this, func_80B154FC, func_80B16938);
         this->unk_2E0 &= ~0x10;
         Animation_Change(&this->skelAnime, &D_0600C48C, 1.0f, Animation_LastFrame(&D_0600C48C) - 1.0f,
-                             Animation_LastFrame(&D_0600C48C), 2, 10.0f);
+                         Animation_LastFrame(&D_0600C48C), 2, 10.0f);
         func_8002DF54(globalCtx, &this->actor, 7);
     }
 }

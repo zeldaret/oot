@@ -573,11 +573,9 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & 8) {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x71C);
     } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) > 300.0f) {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x71C);
     }
 }
 
@@ -669,7 +667,7 @@ void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
     }
     if (this->unk_195 != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
-                                 (this->unk_195 == 2) ? 0x800 : 0x400);
+                           (this->unk_195 == 2) ? 0x800 : 0x400);
         this->unk_22E.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.posRot.pos.y = this->actor.parent->posRot.pos.y;
         func_80AD97C8(this, globalCtx);
@@ -878,7 +876,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
                 phi_a2 *= 2;
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                     this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
+                               this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
         } else if (this->unk_19A == 70 || this->unk_19A == 40) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
         }
@@ -973,8 +971,7 @@ void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) < 10.0f) {
         func_80ADA028(this);
     } else {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 1820);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 1820);
     }
 }
 

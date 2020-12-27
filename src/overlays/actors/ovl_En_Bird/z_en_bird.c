@@ -106,8 +106,8 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1A8, 0.1f, this->unk_1AC, 0.0f);
 
     if (this->unk_1B0 < Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_198 < 4) {
-        Math_StepToAngleS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos),
-                      this->unk_1C0);
+        Math_StepToAngleS(&this->actor.posRot.rot.y,
+                          Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), this->unk_1C0);
     } else {
         fVar4 = sinf(this->unk_1B4);
         this->actor.posRot.rot.y += (s16)(fVar4 * this->unk_1A4);
