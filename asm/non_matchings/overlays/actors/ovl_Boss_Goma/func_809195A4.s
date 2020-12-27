@@ -9,13 +9,13 @@ glabel func_809195A4
 /* 03BAC 809195BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 03BB0 809195C0 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 03BB4 809195C4 3C053F00 */  lui     $a1, 0x3F00                ## $a1 = 3F000000
-/* 03BB8 809195C8 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 03BB8 809195C8 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 03BBC 809195CC 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 03BC0 809195D0 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 03BC4 809195D4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03BC8 809195D8 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 03BCC 809195DC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 03BCC 809195DC 0C01E1EF */  jal     Math_ApproachS
               
 /* 03BD0 809195E0 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 03BD4 809195E4 860E01D2 */  lh      $t6, 0x01D2($s0)           ## 000001D2

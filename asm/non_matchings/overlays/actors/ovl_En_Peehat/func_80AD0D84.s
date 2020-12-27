@@ -14,7 +14,7 @@ glabel func_80AD0D84
 /* 01900 80AD0DA0 248400BC */  addiu   $a0, $a0, 0x00BC           ## $a0 = 000000BC
 /* 01904 80AD0DA4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01908 80AD0DA8 3C074248 */  lui     $a3, 0x4248                ## $a3 = 42480000
-/* 0190C 80AD0DAC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0190C 80AD0DAC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01910 80AD0DB0 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01914 80AD0DB4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -24,14 +24,14 @@ glabel func_80AD0D84
 /* 01924 80AD0DC4 44060000 */  mfc1    $a2, $f0                   
 /* 01928 80AD0DC8 44070000 */  mfc1    $a3, $f0                   
 /* 0192C 80AD0DCC 44051000 */  mfc1    $a1, $f2                   
-/* 01930 80AD0DD0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01930 80AD0DD0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01934 80AD0DD4 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 01938 80AD0DD8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0193C 80AD0DDC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01940 80AD0DE0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01944 80AD0DE4 24070032 */  addiu   $a3, $zero, 0x0032         ## $a3 = 00000032
-/* 01948 80AD0DE8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01948 80AD0DE8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0194C 80AD0DEC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01950 80AD0DF0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
@@ -61,7 +61,7 @@ glabel func_80AD0D84
 /* 019A4 80AD0E44 260402F0 */  addiu   $a0, $s0, 0x02F0           ## $a0 = 000002F0
 /* 019A8 80AD0E48 44815000 */  mtc1    $at, $f10                  ## $f10 = 0.25
 /* 019AC 80AD0E4C 44050000 */  mfc1    $a1, $f0                   
-/* 019B0 80AD0E50 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 019B0 80AD0E50 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 019B4 80AD0E54 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 019B8 80AD0E58 C6100028 */  lwc1    $f16, 0x0028($s0)          ## 00000028
@@ -111,7 +111,7 @@ glabel func_80AD0D84
 /* 01A60 80AD0F00 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01A64 80AD0F04 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01A68 80AD0F08 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
-/* 01A6C 80AD0F0C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01A6C 80AD0F0C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01A70 80AD0F10 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01A74 80AD0F14 860A02F2 */  lh      $t2, 0x02F2($s0)           ## 000002F2

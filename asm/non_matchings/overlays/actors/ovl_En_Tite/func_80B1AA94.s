@@ -8,7 +8,7 @@ glabel func_80B1AA94
 /* 0202C 80B1AAAC 248400B8 */  addiu   $a0, $a0, 0x00B8           ## $a0 = 000000B8
 /* 02030 80B1AAB0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02034 80B1AAB4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 02038 80B1AAB8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02038 80B1AAB8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0203C 80B1AABC 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 02040 80B1AAC0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

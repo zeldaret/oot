@@ -80,7 +80,7 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    Math_ApproxS(&this->rPrimColorA, 0, this->rAlphaTarget);
+    Math_StepToS(&this->rPrimColorA, 0, this->rAlphaTarget);
     this->rScale += this->rScaleStep;
 
     if (this->rScaleStep != 0) {

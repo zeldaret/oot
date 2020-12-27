@@ -199,7 +199,7 @@ void func_80AA0A0C(EnMa1* this) {
     if (DECR(this->unk_1E2) == 0) {
         this->unk_1E4 += 1;
         if (this->unk_1E4 >= 3) {
-            this->unk_1E2 = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_1E2 = Rand_S16Offset(0x1E, 0x1E);
             this->unk_1E4 = 0;
         }
     }

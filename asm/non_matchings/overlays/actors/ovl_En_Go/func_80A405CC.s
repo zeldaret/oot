@@ -30,7 +30,7 @@ glabel func_80A405CC
 /* 020C0 80A40630 44066000 */  mfc1    $a2, $f12                  
 /* 020C4 80A40634 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
 /* 020C8 80A40638 E7A2002C */  swc1    $f2, 0x002C($sp)           
-/* 020CC 80A4063C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 020CC 80A4063C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 020D0 80A40640 E7AC0010 */  swc1    $f12, 0x0010($sp)          
 /* 020D4 80A40644 C6000164 */  lwc1    $f0, 0x0164($s0)           ## 00000164
@@ -45,7 +45,7 @@ glabel func_80A405CC
 /* 020F8 80A40668 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 020FC 80A4066C 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 02100 80A40670 E6020164 */  swc1    $f2, 0x0164($s0)           ## 00000164
-/* 02104 80A40674 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 02104 80A40674 0C01DF64 */  jal     Rand_S16Offset
               
 /* 02108 80A40678 E6080168 */  swc1    $f8, 0x0168($s0)           ## 00000168
 /* 0210C 80A4067C 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C

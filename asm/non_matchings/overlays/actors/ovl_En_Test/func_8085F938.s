@@ -17,7 +17,7 @@ glabel func_8085F938
 /* 002E8 8085F938 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 002EC 8085F93C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 002F0 8085F940 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 002F4 8085F944 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002F4 8085F944 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002F8 8085F948 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 002FC 8085F94C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

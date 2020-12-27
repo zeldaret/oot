@@ -5,6 +5,7 @@
  */
 
 #include "z_magic_dark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000010
 
@@ -172,11 +173,11 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->timer < 35) {
         MagicDark_DimLighting(globalCtx, this->timer * (1 / 45.0f));
-        Math_SmoothScaleMaxMinF(&thisx->scale.x, this->scale * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
+        Math_SmoothStepToF(&thisx->scale.x, this->scale * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->timer < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
-        Math_SmoothScaleMaxMinF(&this->orbOffset.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
+        Math_SmoothStepToF(&this->orbOffset.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
         if (this->timer > 48) {
             MagicDark_DimLighting(globalCtx, (54 - this->timer) * 0.2f);
         }
@@ -251,11 +252,11 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    pos.x -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM)) *
-              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
-    pos.y -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirPitch(ACTIVE_CAM)));
-    pos.z -= (this->actor.scale.x * 300.0f * Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM)) *
-              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.x -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_CosS(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.y -= (this->actor.scale.x * 300.0f * Math_SinS(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.z -= (this->actor.scale.x * 300.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_CosS(Camera_GetCamDirPitch(ACTIVE_CAM)));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 619);
 
@@ -269,12 +270,12 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 632),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_RotateZ(sp6C * (M_PI / 32), MTXMODE_APPLY);
-    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
     Matrix_Pull();
     Matrix_RotateZ(-sp6C * (M_PI / 32), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 639),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 643);
 }

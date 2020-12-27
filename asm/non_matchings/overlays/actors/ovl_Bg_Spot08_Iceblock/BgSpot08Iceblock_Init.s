@@ -120,7 +120,7 @@ glabel BgSpot08Iceblock_Init
               
 /* 00930 808B1290 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3D4CCCCD
 .L808B1294:
-/* 00934 808B1294 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00934 808B1294 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00938 808B1298 00000000 */  nop
 /* 0093C 808B129C 3C01808B */  lui     $at, %hi(D_808B1890)       ## $at = 808B0000
@@ -128,7 +128,7 @@ glabel BgSpot08Iceblock_Init
 /* 00944 808B12A4 46040182 */  mul.s   $f6, $f0, $f4              
 /* 00948 808B12A8 4600320D */  trunc.w.s $f8, $f6                   
 /* 0094C 808B12AC 44184000 */  mfc1    $t8, $f8                   
-/* 00950 808B12B0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00950 808B12B0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00954 808B12B4 A618018C */  sh      $t8, 0x018C($s0)           ## 0000018C
 /* 00958 808B12B8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

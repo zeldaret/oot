@@ -10,7 +10,7 @@ glabel func_809160A4
 /* 006B0 809160C0 24040014 */  addiu   $a0, $zero, 0x0014         ## $a0 = 00000014
 /* 006B4 809160C4 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
 /* 006B8 809160C8 468021A0 */  cvt.s.w $f6, $f4
-/* 006BC 809160CC 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 006BC 809160CC 0C01DF64 */  jal     Rand_S16Offset
 
 /* 006C0 809160D0 E7A6002C */  swc1    $f6, 0x002C($sp)
 /* 006C4 809160D4 8FA30030 */  lw      $v1, 0x0030($sp)

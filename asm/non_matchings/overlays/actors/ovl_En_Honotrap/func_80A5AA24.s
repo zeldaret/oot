@@ -8,7 +8,7 @@ glabel func_80A5AA24
 /* 00E0C 80A5AA3C 3C06391D */  lui     $a2, 0x391D                ## $a2 = 391D0000
 /* 00E10 80A5AA40 34C64952 */  ori     $a2, $a2, 0x4952           ## $a2 = 391D4952
 /* 00E14 80A5AA44 34A5B717 */  ori     $a1, $a1, 0xB717           ## $a1 = 38D1B717
-/* 00E18 80A5AA48 0C01DE80 */  jal     Math_ApproxF
+/* 00E18 80A5AA48 0C01DE80 */  jal     Math_StepToF
               
 /* 00E1C 80A5AA4C 24840050 */  addiu   $a0, $a0, 0x0050           ## $a0 = 00000050
 /* 00E20 80A5AA50 AFA20028 */  sw      $v0, 0x0028($sp)           

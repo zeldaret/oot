@@ -223,7 +223,7 @@ void func_80AA2F80(EnMa3* this) {
     if ((!func_80AA2F28(this)) && (DECR(this->unk_20C) == 0)) {
         this->unk_20E += 1;
         if (this->unk_20E >= 3) {
-            this->unk_20C = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_20C = Rand_S16Offset(0x1E, 0x1E);
             this->unk_20E = 0;
         }
     }
@@ -322,8 +322,8 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
-        rot->y += Math_Sins(this->unk_212[limbIndex].y) * 200.0f;
-        rot->z += Math_Coss(this->unk_212[limbIndex].z) * 200.0f;
+        rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
+        rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }
     return 0;
 }
