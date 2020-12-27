@@ -301,8 +301,7 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
-                                1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->stunTimer < 30) {

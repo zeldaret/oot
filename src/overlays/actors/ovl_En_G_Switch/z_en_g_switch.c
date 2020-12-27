@@ -305,10 +305,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                         if (this->waitTimer == 0) {
                             if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
                                 (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
-                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
-                                                     30.0f);
-                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
-                                                     30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, 30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 30.0f);
                             } else {
                                 gallery = ((EnSyatekiItm*)this->actor.parent);
                                 if (gallery->actor.update != NULL) {
