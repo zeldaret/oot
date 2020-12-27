@@ -223,8 +223,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        f32 diffsSum =
-            Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
+        f32 diffsSum = Math_SmoothStepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
