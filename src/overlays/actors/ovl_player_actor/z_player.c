@@ -6070,14 +6070,12 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
             if ((sp8C != 0) || (arg2 & 2) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
-                s32 i;
+                f32 phi_f20;
                 CollisionPoly* sp84 = this->actor.wallPoly;
                 f32 sp80;
                 f32 sp7C;
                 f32 phi_f12;
                 f32 phi_f14;
-                Vec3f sp50[3];
-                f32 phi_f20;
 
                 phi_f20 = phi_f12 = 0.0f;
 
@@ -6085,6 +6083,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     sp80 = this->actor.posRot.pos.x;
                     sp7C = this->actor.posRot.pos.z;
                 } else {
+                    Vec3f sp50[3];
+                    s32 i;
                     f32 sp48;
                     Vec3f* sp44 = &sp50[0];
                     s32 pad;
@@ -9468,7 +9468,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         CollisionPoly* spA0;
         u32 sp9C;
         s16 sp9A;
-        u32 pad;
+        s32 pad;
 
         D_80854798.y = 18.0f;
         D_80854798.z = this->ageProperties->unk_38 + 10.0f;
@@ -9582,9 +9582,9 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             f32 sp54;
             f32 sp50;
             f32 sp4C;
-            u32 pad2;
+            s32 pad2;
             f32 sp44;
-            u32 pad3;
+            s32 pad3;
 
             if (this->actor.floorPolySource != 50) {
                 func_800434C8(&globalCtx->colCtx, this->actor.floorPolySource);
@@ -9931,7 +9931,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
         s16 sp6E;
         s16 yawDiff;
         s32 phi_v0;
-        u32 pad2;
+        s32 pad2;
 
         if (this->currentBoots != this->prevBoots) {
             if (this->currentBoots == PLAYER_BOOTS_IRON) {
@@ -10030,16 +10030,16 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
             this->unk_A7A = 0;
 
             if (!(this->stateFlags1 & 1) && (this->stateFlags1 & 0x800000)) {
-                Actor* rideActor = this->rideActor;
+                EnHorse* rideActor = (EnHorse*)this->rideActor;
                 CollisionPoly* sp5C;
                 s32 sp58;
                 Vec3f sp4C;
 
-                if (!(rideActor->bgCheckFlags & 1)) {
+                if (!(rideActor->actor.bgCheckFlags & 1)) {
                     func_808396F4(globalCtx, this, &D_80854814, &sp4C, &sp5C, &sp58);
                 } else {
-                    sp5C = rideActor->floorPoly;
-                    sp58 = rideActor->floorPolySource;
+                    sp5C = rideActor->actor.floorPoly;
+                    sp58 = rideActor->actor.floorPolySource;
                 }
 
                 if ((sp5C != NULL) && func_80839034(globalCtx, this, sp5C, sp58)) {
@@ -10103,9 +10103,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
 
         if ((globalCtx->csCtx.state != 0) && (this->csMode != 6) && !(this->stateFlags1 & 0x800000) &&
             !(this->stateFlags2 & 0x80) && (this->actor.type == ACTORTYPE_PLAYER)) {
-            CsCmdActorAction *linkAction = globalCtx->csCtx.linkAction;
+            CsCmdActorAction* linkActionCsCmd = globalCtx->csCtx.linkAction;
 
-            if ((linkAction != NULL) && (D_808547C4[linkAction->action] != 0)) {
+            if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != 0)) {
                 func_8002DF54(globalCtx, NULL, 6);
                 func_80832210(this);
             } else if ((this->csMode == 0) && !(this->stateFlags2 & 0x400) && (globalCtx->csCtx.state != 3)) {
@@ -10155,7 +10155,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
 
         if (this->skelAnime.flags & 8) {
             SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime,
-                    (this->skelAnime.flags & 4) ? 1.0f : this->ageProperties->unk_08);
+                                         (this->skelAnime.flags & 4) ? 1.0f : this->ageProperties->unk_08);
         }
 
         func_808368EC(this, globalCtx);
@@ -12581,41 +12581,38 @@ void func_8084FF7C(Player* this) {
 }
 
 void func_8085002C(Player* this) {
-    s16 v0 = D_80858AC8.unk_08;
-    s16 v1 = D_80858AC8.unk_06;
+    s32 pad;
     s16 sp2A;
     s16 sp28;
     s16 sp26;
 
-    D_80858AC8.unk_06 -= v1 >> 3;
-    D_80858AC8.unk_08 -= v0 >> 3;
+    D_80858AC8.unk_06 -= D_80858AC8.unk_06 >> 3;
+    D_80858AC8.unk_08 -= D_80858AC8.unk_08 >> 3;
     D_80858AC8.unk_06 += -D_80858AC8.unk_00 >> 2;
     D_80858AC8.unk_08 += -D_80858AC8.unk_02 >> 2;
 
     sp26 = this->actor.posRot.rot.y - this->actor.shape.rot.y;
 
-    sp28 = (s32)(this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0XFFFF;
-    sp2A = (s32)(this->actor.speedXZ *  100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0XFFFF;
+    sp28 = (s32)(this->actor.speedXZ * -200.0f * Math_Coss(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    sp2A = (s32)(this->actor.speedXZ * 100.0f * Math_Sins(sp26) * (Math_Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
 
     D_80858AC8.unk_06 += sp28 >> 2;
     D_80858AC8.unk_08 += sp2A >> 2;
 
-    v1 = D_80858AC8.unk_06;
-    if (v1 > 6000) {
-        v1 = D_80858AC8.unk_06 = 6000;
-    } else if (v1 < -6000) {
-        v1 = D_80858AC8.unk_06 = -6000;
+    if (D_80858AC8.unk_06 > 6000) {
+        D_80858AC8.unk_06 = 6000;
+    } else if (D_80858AC8.unk_06 < -6000) {
+        D_80858AC8.unk_06 = -6000;
     }
 
-    v0 = D_80858AC8.unk_08;
-    if (v0 > 6000) {
-        v0 = D_80858AC8.unk_08 = 6000;
-    } else if (v0 < -6000) {
-        v0 = D_80858AC8.unk_08 = -6000;
+    if (D_80858AC8.unk_08 > 6000) {
+        D_80858AC8.unk_08 = 6000;
+    } else if (D_80858AC8.unk_08 < -6000) {
+        D_80858AC8.unk_08 = -6000;
     }
 
-    D_80858AC8.unk_00 += v1;
-    D_80858AC8.unk_02 += v0;
+    D_80858AC8.unk_00 += D_80858AC8.unk_06;
+    D_80858AC8.unk_02 += D_80858AC8.unk_08;
 
     if (D_80858AC8.unk_00 < 0) {
         D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
