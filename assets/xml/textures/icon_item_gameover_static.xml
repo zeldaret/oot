@@ -1,9 +1,9 @@
 <Root>
     <File Name="icon_item_gameover_static">
         <Texture Name="gGameOverTex" OutName="game_over" Format="ia8" Width="64" Height="96"/>
-		<Texture Name="gGameOverMaskTex" OutName="game_over_mask" Format="ia8" Width="64" Height="32"/>
-		<Texture Name="gENGContinuePlayingTex" OutName="eng_continue_playing" Format="ia8" Width="152" Height="16"/>
-		<Texture Name="gDEContinuePlayingTex" OutName="de_continue_playing" Format="ia8" Width="152" Height="16"/>
-		<Texture Name="gESPContinuePlayingTex" OutName="esp_continue_playing" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gGameOverMaskTex" OutName="game_over_mask" Format="ia8" Width="64" Height="32"/>
+        <Texture Name="gENGContinuePlayingTex" OutName="eng_continue_playing" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gDEContinuePlayingTex" OutName="de_continue_playing" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gESPContinuePlayingTex" OutName="esp_continue_playing" Format="ia8" Width="152" Height="16"/>
     </File>
 </Root>
