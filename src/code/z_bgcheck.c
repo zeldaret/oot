@@ -723,7 +723,7 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
         }
 
         // compute curPoly zMin/zMax
-        zMax = zMin = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].z;
+        zMin = zMax = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].z;
         temp_f0_3 = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].z;
 
         if (temp_f0_3 < zMin) {
