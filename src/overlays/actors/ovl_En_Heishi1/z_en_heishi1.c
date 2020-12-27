@@ -176,7 +176,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
         Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.378f), 3,
-                                this->bodyTurnSpeed, 0);
+                           this->bodyTurnSpeed, 0);
 
         Math_ApproachF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
 
@@ -309,7 +309,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
                 break;
         }
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
-                             this->headTurnSpeedMax + this->headTurnSpeedMax);
+                       this->headTurnSpeedMax + this->headTurnSpeedMax);
 
         if ((this->path == BREG(1)) && (BREG(0) != 0)) {
             osSyncPrintf(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);

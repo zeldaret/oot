@@ -417,8 +417,7 @@ void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
             this->actionFunc = func_808809B0;
         }
     } else {
-        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0x3A00,
-                                     this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
+        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0x3A00, this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
             this->actionFunc = func_80880C0C;
         }

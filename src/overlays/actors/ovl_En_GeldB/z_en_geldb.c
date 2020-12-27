@@ -1258,8 +1258,7 @@ void func_80A391D8(EnGeldB* this, GlobalContext* globalCtx) {
         this->headRot.y = Math_SinS(this->lookTimer * 0x1068) * 8920.0f;
     } else if (this->actionState != GELDB_STUNNED) {
         if ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK)) {
-            Math_SmoothStepToS(&this->headRot.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F4,
-                                    0);
+            Math_SmoothStepToS(&this->headRot.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F4, 0);
             this->headRot.y = CLAMP(this->headRot.y, -0x256F, 0x256F);
         } else {
             this->headRot.y = 0;
