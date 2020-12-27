@@ -175,7 +175,7 @@ s32 Math_StepUntilF(f32* pValue, f32 limit, f32 step) {
  * Changes pValue toward target by incrStep if pValue is smaller and by decrStep if it is greater, setting it equal when
  * target is reached. Returns true when target is reached, false otherwise.
  */
-s32 Math_AymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
+s32 Math_AsymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     f32 step = (target >= *pValue) ? incrStep : decrStep;
 
     if (step != 0.0f) {
