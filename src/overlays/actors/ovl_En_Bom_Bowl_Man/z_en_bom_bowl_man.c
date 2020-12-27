@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_man.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x08000039
 
@@ -250,8 +251,8 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x1A;
         this->dialogState = 4;
         this->minigamePlayStatus = 0;
-        if ((this->exItem != NULL) && (this->exItem->actor.update != 0)) {
-            this->exItem->unk_160 = 1;
+        if ((this->exItem != NULL) && (this->exItem->actor.update != NULL)) {
+            this->exItem->killItem = true;
             this->exItem = NULL;
         }
         globalCtx->bombchuBowlingStatus = 0;
@@ -380,25 +381,25 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     if (this->prizeRevealTimer == 0) {
         switch (this->prizeSelect) {
             case 0:
-                prizeTemp = 0;
+                prizeTemp = ENEXITEM_BOMB_BAG_BOWL;
                 if (gSaveContext.itemGetInf[1] & 2) {
-                    prizeTemp = 4;
+                    prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
                 }
                 break;
             case 1:
-                prizeTemp = 4;
+                prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
                 break;
             case 2:
-                prizeTemp = 2;
+                prizeTemp = ENEXITEM_BOMBCHUS_BOWL;
                 break;
             case 3:
-                prizeTemp = 1;
+                prizeTemp = ENEXITEM_HEART_PIECE_BOWL;
                 if (gSaveContext.itemGetInf[1] & 4) {
-                    prizeTemp = 4;
+                    prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
                 }
                 break;
             case 4:
-                prizeTemp = 3;
+                prizeTemp = ENEXITEM_BOMBS_BOWL;
                 break;
         }
         this->prizeIndex = prizeTemp;
@@ -408,7 +409,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->exItem = (EnExItem*)Actor_SpawnAsChild(
             &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
             sPrizePosOffset[this->prizeIndex].x + 148.0f, sPrizePosOffset[this->prizeIndex].y + 40.0f,
-            sPrizePosOffset[this->prizeIndex].z + 300.0f, 0, sPrizeRot[this->prizeIndex], 0, this->prizeIndex + 5);
+            sPrizePosOffset[this->prizeIndex].z + 300.0f, 0, sPrizeRot[this->prizeIndex], 0, this->prizeIndex + ENEXITEM_COUNTER);
         if (!this->startedPlaying) {
             this->bowlPit = (EnBomBowlPit*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                               ACTOR_EN_BOM_BOWL_PIT, 0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
