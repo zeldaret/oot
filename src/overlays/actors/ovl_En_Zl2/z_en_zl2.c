@@ -143,7 +143,7 @@ void func_80B4E9B0(EnZl2* this) {
     s16* unk_190 = &this->unk_190;
 
     if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_192 = Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_190 = *unk_192;
     if (*unk_190 >= 3) {
@@ -306,7 +306,6 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     s32 phi_t1;
     s32 phi_v0;
     s32 phi_a0;
-    u32 zero;
     f32 animCurrentFrame;
     f32 unk_278;
 
@@ -366,34 +365,24 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 = 0;
         }
 
-        zero = 0;
         if (arg2 == 2) {
             if ((this->action == 5) || (this->action == 30)) {
                 animCurrentFrame = this->skelAnime.animCurrentFrame;
                 unk_278 = this->unk_278;
                 temp_t0 = (s32)((3500.0f * animCurrentFrame) / unk_278) + phi_a0;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if ((this->action == 6) || (this->action == 31)) {
                 temp_t0 = phi_a0 + 0xDAC;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if (this->action == 20) {
                 temp_t0 = phi_a0 - 0x3E8;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
@@ -749,7 +738,7 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B501C4(EnZl2* this, s32 alpha) {
     if (this->actor.child != NULL) {
-        ((DoorWarp1*)this->actor.child)->unk_1A8 = alpha;
+        ((DoorWarp1*)this->actor.child)->alpha = alpha;
     }
 }
 
@@ -795,7 +784,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     actorShape->unk_14 = 0xFF;
-    this->actor.posRot.rot.y = actorShape->rot.y = Math_atan2f(actionXDelta, actionZDelta) * 10430.3779296875f;
+    this->actor.posRot.rot.y = actorShape->rot.y = Math_FAtan2F(actionXDelta, actionZDelta) * 10430.3779296875f;
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {

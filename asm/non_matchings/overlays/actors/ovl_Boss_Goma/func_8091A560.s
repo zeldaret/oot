@@ -138,13 +138,13 @@ glabel L8091A660
 /* 04C84 8091A694 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 04C88 8091A698 AD2D02C0 */  sw      $t5, 0x02C0($t1)           ## 000002C0
 /* 04C8C 8091A69C AC440000 */  sw      $a0, 0x0000($v0)           ## 00000000
-/* 04C90 8091A6A0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04C90 8091A6A0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04C94 8091A6A4 AFA20040 */  sw      $v0, 0x0040($sp)
-/* 04C98 8091A6A8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04C98 8091A6A8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04C9C 8091A6AC E7A0001C */  swc1    $f0, 0x001C($sp)
-/* 04CA0 8091A6B0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04CA0 8091A6B0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04CA4 8091A6B4 E7A00020 */  swc1    $f0, 0x0020($sp)
 /* 04CA8 8091A6B8 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000

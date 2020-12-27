@@ -4,8 +4,8 @@ glabel func_80B19E28
 /* 013B0 80B19E30 240E0003 */  addiu   $t6, $zero, 0x0003         ## $t6 = 00000003
 /* 013B4 80B19E34 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 013B8 80B19E38 A08E02BC */  sb      $t6, 0x02BC($a0)           ## 000002BC
-/* 013BC 80B19E3C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 013C0 80B19E40 24A512E4 */  addiu   $a1, $a1, 0x12E4           ## $a1 = 060012E4
+/* 013BC 80B19E3C 3C050600 */  lui     $a1, %hi(D_060012E4)                ## $a1 = 06000000
+/* 013C0 80B19E40 24A512E4 */  addiu   $a1, $a1, %lo(D_060012E4)           ## $a1 = 060012E4
 /* 013C4 80B19E44 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 013C8 80B19E48 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 013CC 80B19E4C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat

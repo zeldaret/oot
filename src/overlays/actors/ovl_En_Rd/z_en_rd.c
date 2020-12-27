@@ -173,7 +173,7 @@ void func_80AE269C(EnRd* this) {
     }
 
     this->unk_31B = 0;
-    this->unk_30C = (Math_Rand_ZeroOne() * 10.0f) + 5.0f;
+    this->unk_30C = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     EnRd_SetupAction(this, func_80AE2744);
@@ -181,11 +181,11 @@ void func_80AE269C(EnRd* this) {
 
 void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x64, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->unk_310, 0, 1, 0x64, 0);
 
     if ((this->actor.params == 2) && (0.0f == this->skelAnime.animCurrentFrame)) {
-        if (Math_Rand_ZeroOne() >= 0.5f) {
+        if (Rand_ZeroOne() >= 0.5f) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06005D98);
         } else {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060057AC);
@@ -193,7 +193,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
     } else {
         this->unk_30C--;
         if (this->unk_30C == 0) {
-            this->unk_30C = (Math_Rand_ZeroOne() * 10.0f) + 10.0f;
+            this->unk_30C = (Rand_ZeroOne() * 10.0f) + 10.0f;
             this->skelAnime.animCurrentFrame = 0.0f;
         }
     }
@@ -244,9 +244,8 @@ void func_80AE2970(EnRd* this) {
 // Rising out of coffin
 void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
     if (this->actor.shape.rot.x != -0x4000) {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
-        if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 2.0f, 0.3f) ==
-            0.0f) {
+        Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
+        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 2.0f, 0.3f) == 0.0f) {
             this->actor.gravity = -3.5f;
             func_80AE269C(this);
         }
@@ -254,13 +253,13 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
         if (this->actor.posRot.pos.y == this->actor.initPosRot.pos.y) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
         }
-        if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 50.0f, 0.3f, 2.0f,
-                                    0.3f) == 0.0f) {
+        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) ==
+            0.0f) {
             if (this->unk_30C != 0) {
                 this->unk_30C--;
-                Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.3f, 1.0f, 0.3f);
-            } else if (Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.3f, 1.0f, 0.3f) == 0.0f) {
-                Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
+                Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.3f, 1.0f, 0.3f);
+            } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.3f, 1.0f, 0.3f) == 0.0f) {
+                Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
             }
         }
     }
@@ -282,9 +281,9 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x64, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
+    Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->unk_310, 0, 1, 0x64, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
@@ -314,7 +313,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     if ((this->unk_307 == 0) && (func_8002DB48(&this->actor, &player->actor) <= 45.0f) &&
         (func_8002E084(&this->actor, 0x38E3))) {
         player->actor.freezeTimer = 0;
-        if (globalCtx->grabPlayer(globalCtx, &player->actor) != 0) {
+        if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
             func_80AE33F0(this);
         }
@@ -345,10 +344,10 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     s16 targetY = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
 
     if (func_8002DB6C(&this->actor, &this->actor.initPosRot.pos) >= 5.0f) {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, targetY, 1, 0x1C2, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, targetY, 1, 0x1C2, 0);
     } else {
         this->actor.speedXZ = 0.0f;
-        if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x1C2, 0) == 0) {
+        if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x1C2, 0) == 0) {
             if (this->actor.params != 2) {
                 func_80AE269C(this);
             } else {
@@ -357,8 +356,8 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x64, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x64, 0);
+    Math_SmoothStepToS(&this->unk_310, 0, 1, 0x64, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
@@ -396,7 +395,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 
         targetY = func_8002DAC0(&this->actor, &thisPos);
 
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
 
         if (func_8002DB6C(&this->actor, &thisPos) >= 45.0f) {
             this->actor.speedXZ = 0.4f;
@@ -410,8 +409,8 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
             }
         }
 
-        Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x64, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x64, 0);
+        Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x64, 0);
+        Math_SmoothStepToS(&this->unk_310, 0, 1, 0x64, 0);
     } else {
         func_80AE2B90(this, globalCtx);
     }
@@ -451,8 +450,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             func_800AA000(this->actor.xzDistFromLink, 0xFF, 1, 0xC);
             this->unk_319 = 0x14;
         case 0:
-            Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x5DC, 0);
-            Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x5DC, 0);
+            Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
             if (!(player->stateFlags2 & 0x80)) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_060046F8), 3,
@@ -463,17 +462,17 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
 
             if (LINK_IS_CHILD) {
-                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1500.0f, 1.0f, 150.0f, 0.0f);
+                Math_SmoothStepToF(&this->actor.shape.unk_08, -1500.0f, 1.0f, 150.0f, 0.0f);
             }
 
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x,
-                                    (Math_Sins(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
-                                    10.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z,
-                                    (Math_Coss(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
-                                    10.0f, 0.0f);
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
+            Math_SmoothStepToF(&this->actor.posRot.pos.x,
+                               (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
+                               10.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.z,
+                               (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
+                               10.0f, 0.0f);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
 
             if (this->skelAnime.animCurrentFrame == 0.0f) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_ATTACK);
@@ -489,12 +488,12 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if (LINK_IS_CHILD) {
-                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
+                Math_SmoothStepToF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
             }
             break;
         case 4:
             if (LINK_IS_CHILD) {
-                Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
+                Math_SmoothStepToF(&this->actor.shape.unk_08, 0, 1.0f, 400.0f, 0.0f);
             }
             this->actor.unk_1F = 0;
             this->actor.flags |= 1;
@@ -578,8 +577,8 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
     }
 
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x12C, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x12C, 0);
+    Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x12C, 0);
+    Math_SmoothStepToS(&this->unk_310, 0, 1, 0x12C, 0);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
@@ -610,8 +609,8 @@ void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
     }
 
-    Math_SmoothScaleMaxMinS(&this->unk_30E, 0, 1, 0x7D0, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x7D0, 0);
+    Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x7D0, 0);
+    Math_SmoothStepToS(&this->unk_310, 0, 1, 0x7D0, 0);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->unk_30C == 0) {
@@ -854,25 +853,25 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
     s32 pad;
-    Vec3f thisPos = this->actor.posRot.pos;
+    EnRd* this = THIS;
+    Vec3f thisPos = thisx->posRot.pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1679);
 
     if (this->unk_314 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
-        gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x8, &D_80116280[2]);
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                            this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
                                            POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
-            this->actor.dmgEffectTimer++;
-            THIS->unk_31A--;
+            thisx->dmgEffectTimer++;
+            this->unk_31A--;
             if (this->unk_31A % 4 == 0) {
-                EffectSsEnFire_SpawnVec3s(globalCtx, &this->actor, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
+                EffectSsEnFire_SpawnVec3s(globalCtx, thisx, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
                                           (this->unk_31A >> 2));
             }
         }

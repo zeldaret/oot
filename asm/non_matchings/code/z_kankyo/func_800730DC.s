@@ -48,7 +48,7 @@ glabel func_800730DC
 /* AEA2C4 80073124 24018000 */  li    $at, -32768
 /* AEA2C8 80073128 00412021 */  addu  $a0, $v0, $at
 /* AEA2CC 8007312C 00042400 */  sll   $a0, $a0, 0x10
-/* AEA2D0 80073130 0C01DE1C */  jal   Math_Sins
+/* AEA2D0 80073130 0C01DE1C */  jal   Math_SinS
 /* AEA2D4 80073134 00042403 */   sra   $a0, $a0, 0x10
 /* AEA2D8 80073138 3C018014 */  lui   $at, %hi(D_8013C7AC)
 /* AEA2DC 8007313C C422C7AC */  lwc1  $f2, %lo(D_8013C7AC)($at)
@@ -66,14 +66,14 @@ glabel func_800730DC
 /* AEA30C 8007316C 46003207 */  neg.s $f8, $f6
 /* AEA310 80073170 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA314 80073174 44052000 */  mfc1  $a1, $f4
-/* AEA318 80073178 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA318 80073178 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA31C 8007317C 00000000 */   nop   
 /* AEA320 80073180 3C028016 */  lui   $v0, %hi(gSaveContext+0xc) # $v0, 0x8016
 /* AEA324 80073184 9442E66C */  lhu   $v0, %lo(gSaveContext+0xc)($v0)
 /* AEA328 80073188 24018000 */  li    $at, -32768
 /* AEA32C 8007318C 00412021 */  addu  $a0, $v0, $at
 /* AEA330 80073190 00042400 */  sll   $a0, $a0, 0x10
-/* AEA334 80073194 0C01DE0D */  jal   Math_Coss
+/* AEA334 80073194 0C01DE0D */  jal   Math_CosS
 /* AEA338 80073198 00042403 */   sra   $a0, $a0, 0x10
 /* AEA33C 8007319C 3C018014 */  lui   $at, %hi(D_8013C7B0)
 /* AEA340 800731A0 C422C7B0 */  lwc1  $f2, %lo(D_8013C7B0)($at)
@@ -91,14 +91,14 @@ glabel func_800730DC
 /* AEA370 800731D0 E7A20010 */  swc1  $f2, 0x10($sp)
 /* AEA374 800731D4 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA378 800731D8 44052000 */  mfc1  $a1, $f4
-/* AEA37C 800731DC 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA37C 800731DC 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA380 800731E0 00000000 */   nop   
 /* AEA384 800731E4 3C028016 */  lui   $v0, %hi(gSaveContext+0xc) # $v0, 0x8016
 /* AEA388 800731E8 9442E66C */  lhu   $v0, %lo(gSaveContext+0xc)($v0)
 /* AEA38C 800731EC 24018000 */  li    $at, -32768
 /* AEA390 800731F0 00412021 */  addu  $a0, $v0, $at
 /* AEA394 800731F4 00042400 */  sll   $a0, $a0, 0x10
-/* AEA398 800731F8 0C01DE0D */  jal   Math_Coss
+/* AEA398 800731F8 0C01DE0D */  jal   Math_CosS
 /* AEA39C 800731FC 00042403 */   sra   $a0, $a0, 0x10
 /* AEA3A0 80073200 3C0141A0 */  li    $at, 0x41A00000 # 0.000000
 /* AEA3A4 80073204 44813000 */  mtc1  $at, $f6
@@ -114,7 +114,7 @@ glabel func_800730DC
 /* AEA3CC 8007322C 460A4102 */  mul.s $f4, $f8, $f10
 /* AEA3D0 80073230 E7A60010 */  swc1  $f6, 0x10($sp)
 /* AEA3D4 80073234 44052000 */  mfc1  $a1, $f4
-/* AEA3D8 80073238 0C01E0C4 */  jal   Math_SmoothScaleMaxMinF
+/* AEA3D8 80073238 0C01E0C4 */  jal   Math_SmoothStepToF
 /* AEA3DC 8007323C 00000000 */   nop   
 /* AEA3E0 80073240 10000031 */  b     .L80073308
 /* AEA3E4 80073244 00000000 */   nop   
@@ -123,7 +123,7 @@ glabel func_800730DC
 /* AEA3EC 8007324C 24018000 */  li    $at, -32768
 /* AEA3F0 80073250 00412021 */  addu  $a0, $v0, $at
 /* AEA3F4 80073254 00042400 */  sll   $a0, $a0, 0x10
-/* AEA3F8 80073258 0C01DE1C */  jal   Math_Sins
+/* AEA3F8 80073258 0C01DE1C */  jal   Math_SinS
 /* AEA3FC 8007325C 00042403 */   sra   $a0, $a0, 0x10
 /* AEA400 80073260 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AEA404 80073264 44814000 */  mtc1  $at, $f8
@@ -140,7 +140,7 @@ glabel func_800730DC
 /* AEA430 80073290 24018000 */  li    $at, -32768
 /* AEA434 80073294 00412021 */  addu  $a0, $v0, $at
 /* AEA438 80073298 00042400 */  sll   $a0, $a0, 0x10
-/* AEA43C 8007329C 0C01DE0D */  jal   Math_Coss
+/* AEA43C 8007329C 0C01DE0D */  jal   Math_CosS
 /* AEA440 800732A0 00042403 */   sra   $a0, $a0, 0x10
 /* AEA444 800732A4 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AEA448 800732A8 44815000 */  mtc1  $at, $f10
@@ -156,7 +156,7 @@ glabel func_800730DC
 /* AEA470 800732D0 24018000 */  li    $at, -32768
 /* AEA474 800732D4 00412021 */  addu  $a0, $v0, $at
 /* AEA478 800732D8 00042400 */  sll   $a0, $a0, 0x10
-/* AEA47C 800732DC 0C01DE0D */  jal   Math_Coss
+/* AEA47C 800732DC 0C01DE0D */  jal   Math_CosS
 /* AEA480 800732E0 00042403 */   sra   $a0, $a0, 0x10
 /* AEA484 800732E4 3C0141A0 */  li    $at, 0x41A00000 # 0.000000
 /* AEA488 800732E8 44815000 */  mtc1  $at, $f10

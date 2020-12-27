@@ -20,7 +20,7 @@ glabel func_808CDE30
 /* 030A4 808CDE64 3C01808D */  lui     $at, %hi(D_808D1F48)       ## $at = 808D0000
 /* 030A8 808CDE68 C4341F48 */  lwc1    $f20, %lo(D_808D1F48)($at) 
 .L808CDE6C:
-/* 030AC 808CDE6C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 030AC 808CDE6C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 030B0 808CDE70 4600A306 */  mov.s   $f12, $f20                 
 /* 030B4 808CDE74 444EF800 */  cfc1    $t6, $31

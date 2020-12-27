@@ -8,7 +8,7 @@ glabel func_809CFF98
 /* 018D0 809CFFB0 248400B8 */  addiu   $a0, $a0, 0x00B8           ## $a0 = 000000B8
 /* 018D4 809CFFB4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 018D8 809CFFB8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 018DC 809CFFBC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 018DC 809CFFBC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 018E0 809CFFC0 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 018E4 809CFFC4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
@@ -18,7 +18,7 @@ glabel func_809CFF98
 /* 018F4 809CFFD4 34A5999A */  ori     $a1, $a1, 0x999A           ## $a1 = 3F19999A
 /* 018F8 809CFFD8 26040248 */  addiu   $a0, $s0, 0x0248           ## $a0 = 00000248
 /* 018FC 809CFFDC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01900 809CFFE0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01900 809CFFE0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01904 809CFFE4 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01908 809CFFE8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

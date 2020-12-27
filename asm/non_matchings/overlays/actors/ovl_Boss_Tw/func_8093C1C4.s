@@ -11,7 +11,7 @@ glabel func_8093C1C4
 /* 03514 8093C1E4 260404D0 */  addiu   $a0, $s0, 0x04D0           ## $a0 = 000004D0
 /* 03518 8093C1E8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0351C 8093C1EC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 03520 8093C1F0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 03520 8093C1F0 0C01E107 */  jal     Math_ApproachF
               
 /* 03524 8093C1F4 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 03528 8093C1F8 8FA40024 */  lw      $a0, 0x0024($sp)           

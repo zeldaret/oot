@@ -135,8 +135,8 @@ void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx) {
 }
 
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
+    Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
+    Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
                  this->dyna.actor.velocity.y);
 }
 
@@ -159,7 +159,7 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
-        func_80033F54(globalCtx, this->unk_166, 0);
+        Actor_DrawDoorLock(globalCtx, this->unk_166, 0);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 377);

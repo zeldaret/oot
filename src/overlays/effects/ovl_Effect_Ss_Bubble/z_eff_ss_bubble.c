@@ -24,17 +24,16 @@ extern Gfx D_0401A160[];
 u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBubbleInitParams* initParams = (EffectSsBubbleInitParams*)initParamsx;
 
-    // @bug Math_Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
+    // @bug Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
     // In the base game this works out because both addresses are segment 4, but it may break if
     // the addresses were changed to refer to different segments
-    this->gfx = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
-    this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.x;
-    this->pos.y =
-        (((Math_Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;
-    this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.z;
+    this->gfx = SEGMENTED_TO_VIRTUAL(Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
+    this->pos.x = ((Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.x;
+    this->pos.y = (((Rand_ZeroOne() - 0.5f) * initParams->yPosRandScale) + initParams->yPosOffset) + initParams->pos.y;
+    this->pos.z = ((Rand_ZeroOne() - 0.5f) * initParams->xzPosRandScale) + initParams->pos.z;
     Math_Vec3f_Copy(&this->vec, &this->pos);
     this->life = 1;
-    this->rScale = (((Math_Rand_ZeroOne() * 0.5f) + 1.0f) * initParams->scale) * 100;
+    this->rScale = (((Rand_ZeroOne() * 0.5f) + 1.0f) * initParams->scale) * 100;
     this->draw = EffectSsBubble_Draw;
     this->update = EffectSsBubble_Update;
 
@@ -81,8 +80,8 @@ void EffectSsBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->life = -1;
     } else {
         this->life++;
-        this->pos.x = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.x;
-        this->accel.y = (Math_Rand_ZeroOne() - 0.3f) * 0.2f;
-        this->pos.z = ((Math_Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.z;
+        this->pos.x = ((Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.x;
+        this->accel.y = (Rand_ZeroOne() - 0.3f) * 0.2f;
+        this->pos.z = ((Rand_ZeroOne() * 0.5f) - 0.25f) + this->vec.z;
     }
 }

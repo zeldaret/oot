@@ -37,10 +37,10 @@ extern Gfx D_0401A160[];
 u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDtBubbleInitParams* initParams = (EffectSsDtBubbleInitParams*)initParamsx;
 
-    // @bug Math_Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
+    // @bug Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
     // In the base game this works out because both addresses are segment 4, but it may break if
     // the addresses were changed to refer to different segments
-    this->gfx = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
@@ -101,10 +101,10 @@ void EffectSsDtBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this
     f32 rand;
 
     if (this->rRandXZ == 1) {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->pos.x += (rand * 2.0f) - 1.0f;
 
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->pos.z += (rand * 2.0f) - 1.0f;
     }
 }

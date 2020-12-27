@@ -175,8 +175,8 @@ glabel EnMm_Draw
 /* 01178 80AAE8E8 0C034695 */  jal     Matrix_ToMtx
 /* 0117C 80AAE8EC 2406046B */  addiu   $a2, $zero, 0x046B         ## $a2 = 0000046B
 /* 01180 80AAE8F0 8E0302C0 */  lw      $v1, 0x02C0($s0)           ## 000002C0
-/* 01184 80AAE8F4 3C0D0603 */  lui     $t5, 0x0603                ## $t5 = 06030000
-/* 01188 80AAE8F8 25ADCA38 */  addiu   $t5, $t5, 0xCA38           ## $t5 = 0602CA38
+/* 01184 80AAE8F4 3C0D0603 */  lui     $t5, %hi(D_0602CA38)                ## $t5 = 06030000
+/* 01188 80AAE8F8 25ADCA38 */  addiu   $t5, $t5, %lo(D_0602CA38)           ## $t5 = 0602CA38
 /* 0118C 80AAE8FC 246C0008 */  addiu   $t4, $v1, 0x0008           ## $t4 = 00000008
 /* 01190 80AAE900 AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
 /* 01194 80AAE904 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000

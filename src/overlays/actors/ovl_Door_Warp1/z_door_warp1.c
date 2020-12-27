@@ -314,7 +314,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     s16 phi_v1;
 
-    Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
+    Math_SmoothStepToF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
     phi_f0 = (f32)(0x28 - this->unk_192) / 40.0f;
     phi_f0 = CLAMP_MIN(phi_f0, 0);
 
@@ -339,7 +339,7 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
 
     func_80999194(this, globalCtx);
     if (this->unk_192 == 0) {
-        Math_SmoothScaleMaxMinF(&this->alpha, 0.0f, 0.1f, 4.0f, 1.0f);
+        Math_SmoothStepToF(&this->alpha, 0.0f, 0.1f, 4.0f, 1.0f);
         if (this->alpha <= 150.0f) {
             player->actor.gravity = -0.1f;
         }
@@ -360,10 +360,10 @@ void func_80999410(DoorWarp1* this, GlobalContext* globalCtx) {
 void func_80999428(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_192 != 0) {
         this->unk_192--;
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0499f, 0.2f, 0.05f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.077f, 0.2f, 0.05f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->actor.scale.z, 0.09f, 0.2f, 0.05f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
+        Math_SmoothStepToF(&this->actor.scale.x, 0.0499f, 0.2f, 0.05f, 0.001f);
+        Math_SmoothStepToF(&this->actor.scale.y, 0.077f, 0.2f, 0.05f, 0.001f);
+        Math_SmoothStepToF(&this->actor.scale.z, 0.09f, 0.2f, 0.05f, 0.001f);
+        Math_SmoothStepToF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
     }
 }
 
@@ -425,8 +425,8 @@ void func_809995D4(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80999724(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 255.0f, 0.4f, 10.0f, 0.01f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A4, 255.0f, 0.4f, 10.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A0, 255.0f, 0.4f, 10.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A4, 255.0f, 0.4f, 10.0f, 0.01f);
 
     if (this->actor.params != 4 && this->actor.params != 8 && this->actor.params != 9 && this->actor.params != 10) {
         if (this->unk_1AC < 0x64) {
@@ -462,8 +462,8 @@ void func_809998A4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_1A0 != 0.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     }
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.1f, 2.0f, 0.01f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A4, 0.0f, 0.1f, 2.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A0, 0.0f, 0.1f, 2.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A4, 0.0f, 0.1f, 2.0f, 0.01f);
 }
 
 s32 func_80999938(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -508,7 +508,7 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
     } else {
         this->unk_1B2++;
     }
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.2f, 6.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A0, 0.0f, 0.2f, 6.0f, 0.01f);
     this->unk_192++;
     if (D_8099CCA0 < this->unk_192 && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->sceneLoadFlag, 0x14);
@@ -542,8 +542,8 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
         globalCtx->fadeTransition = 7;
         gSaveContext.nextTransition = 3;
     }
-    Math_ApproxF(&this->unk_194, 2.0f, 0.01f);
-    Math_ApproxF(&this->unk_198, 10.0f, 0.02f);
+    Math_StepToF(&this->unk_194, 2.0f, 0.01f);
+    Math_StepToF(&this->unk_198, 10.0f, 0.02f);
     Lights_PointNoGlowSetInfo(&this->unk_1C8, 
             (s16)player->actor.posRot.pos.x + 10.0f, 
             (s16)player->actor.posRot.pos.y + 10.0f, 
@@ -554,7 +554,7 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
             (s16)player->actor.posRot.pos.y - 10.0f, 
             (s16)player->actor.posRot.pos.z - 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
 void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -583,8 +583,8 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         sp28.x = player->actor.posRot.pos.x;
         sp28.y = 43.0f;
         sp28.z = player->actor.posRot.pos.z;
-        func_800C04D8(globalCtx, D_8099CCA2, &sp34, &sp28);
-        func_800C0704(globalCtx, D_8099CCA2, 90.0f);
+        Gameplay_CameraSetAtEye(globalCtx, D_8099CCA2, &sp34, &sp28);
+        Gameplay_CameraSetFov(globalCtx, D_8099CCA2, 90.0f);
         this->unk_1EC = 4;
         func_8010B680(globalCtx, 0x4022, NULL);
         func_80998780(this, func_80999FE4);
@@ -595,7 +595,7 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         func_800800F8(globalCtx, 0x25E9, 0x3E7, &this->actor, 0);
-        func_800C078C(globalCtx, -1, D_8099CCA2);
+        Gameplay_CopyCamera(globalCtx, -1, D_8099CCA2);
         Gameplay_ChangeCameraStatus(globalCtx, D_8099CCA2, 1);
         this->unk_1EC = 5;
         func_80998780(this, func_8099A098);
@@ -614,7 +614,7 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     } else {
         this->unk_1B2++;
     }
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.2f, 6.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A0, 0.0f, 0.2f, 6.0f, 0.01f);
     this->unk_192++;
     if (this->unk_192 > D_8099CCA0 && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         gSaveContext.eventChkInf[3] |= 0x80;
@@ -624,8 +624,8 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
         globalCtx->sceneLoadFlag = 0x14;
         globalCtx->fadeTransition = 7;
     }
-    Math_ApproxF(&this->unk_194, 2.0f, 0.01f);
-    Math_ApproxF(&this->unk_198, 10.f, 0.02f);
+    Math_StepToF(&this->unk_194, 2.0f, 0.01f);
+    Math_StepToF(&this->unk_198, 10.f, 0.02f);
     Lights_PointNoGlowSetInfo(&this->unk_1C8, 
             (s16)player->actor.posRot.pos.x + 10.0f, 
             (s16)player->actor.posRot.pos.y + 10.0f, 
@@ -636,13 +636,13 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
             (s16)player->actor.posRot.pos.y - 10.0f, 
             (s16)player->actor.posRot.pos.z - 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
 void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 255.0f, 0.2f, 2.0f, 0.1f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A4, 255.0f, 0.2f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->unk_1A0, 255.0f, 0.2f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->unk_1A4, 255.0f, 0.2f, 2.0f, 0.1f);
     if (this->unk_1AC < 0xA) {
         this->unk_1AC += 2;
     }
@@ -714,8 +714,8 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
             player->actor.posRot.rot.y -= this->unk_1B8;
             player->actor.shape.rot.y -= this->unk_1B8;
         }
-        Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 0.1f, 0.01f);
-        Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 0.1f, 0.01f);
+        Math_SmoothStepToF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 0.1f, 0.01f);
+        Math_SmoothStepToF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 0.1f, 0.01f);
     }
     this->unk_192++;
     if (this->unk_192 > D_8099CCA0 && gSaveContext.nextCutsceneIndex == 0xFFEF) {
@@ -818,14 +818,14 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 (s16)player->actor.posRot.pos.y - 10.0f, 
                 (s16)player->actor.posRot.pos.z - 10.0f, 
                 0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 800.0f, 0.5f, 15.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.unk_08, 800.0f, 0.5f, 15.0f, 0.1f);
     this->actor.shape.rot.y += 0x320;
-    Math_SmoothScaleMaxMinF(&this->unk_1BC, 1.13f, 0.2f, 0.1f, 0.01f);
-    Math_ApproxF(&this->unk_194, 2.0f, 0.003f);
-    Math_ApproxF(&this->unk_198, 10.0f, 0.006f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.2f, 3.0f, 0.01f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A4, 0.0f, 0.2f, 2.0f, 0.01f);
-    Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.1f, 1.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1BC, 1.13f, 0.2f, 0.1f, 0.01f);
+    Math_StepToF(&this->unk_194, 2.0f, 0.003f);
+    Math_StepToF(&this->unk_198, 10.0f, 0.006f);
+    Math_SmoothStepToF(&this->unk_1A0, 0.0f, 0.2f, 3.0f, 0.01f);
+    Math_SmoothStepToF(&this->unk_1A4, 0.0f, 0.2f, 2.0f, 0.01f);
+    Math_SmoothStepToF(&this->alpha, 255.0f, 0.1f, 1.0f, 0.01f);
 
     temp_f0_2 = 1.0f - (f32)(D_8099CCA0 - this->unk_192) / (D_8099CCA0 - (D_8099CCA0 - 100));
     if (temp_f0_2 > 0.0f) {
@@ -873,11 +873,11 @@ void func_8099B014(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->unk_1A0, 128.0f, 0.2f, 2.0f, 0.1f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A4, 128.0f, 0.2f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->unk_1A0, 128.0f, 0.2f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->unk_1A4, 128.0f, 0.2f, 2.0f, 0.1f);
     if (this->unk_1A0 >= 128.0f) {
-        Math_ApproxF(&this->unk_194, 2.0f, 0.01f);
-        Math_ApproxF(&this->unk_198, 10.0f, 0.02f);
+        Math_StepToF(&this->unk_194, 2.0f, 0.01f);
+        Math_StepToF(&this->unk_198, 10.0f, 0.02f);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
@@ -910,9 +910,9 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Vec3f eye;
 
-    eye.x = -(Math_Sins((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
-    eye.y =  (Math_Coss((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
-    eye.z =  (Math_Coss((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
+    eye.x = -(Math_SinS((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
+    eye.y =  (Math_CosS((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
+    eye.z =  (Math_CosS((globalCtx->state.frames * 200)) * 120.0f) * 80.0f;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2122);
 
     func_80093D84(globalCtx->state.gfxCtx);

@@ -87,7 +87,7 @@ void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetHeight(thisx, 50.0f);
-        func_80080480(globalCtx, thisx);
+        func_80080480(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808AE630;
         thisx->speedXZ = 0.5f;
     }
@@ -97,7 +97,7 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ *= 1.5f;
-    if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 120.0f, thisx->speedXZ) != 0) {
+    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y - 120.0f, thisx->speedXZ) != 0) {
         Actor_Kill(thisx);
     }
 }

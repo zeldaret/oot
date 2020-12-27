@@ -330,8 +330,8 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     f32 yy;
     f32 zy;
 
-    sin = Math_Sins(yaw);
-    cos = Math_Coss(yaw);
+    sin = Math_SinS(yaw);
+    cos = Math_CosS(yaw);
     mf->yy = cos;
     mf->yx = -sin;
     mf->xw = mf->yw = mf->zw = 0;
@@ -339,8 +339,8 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     mf->ww = 1;
 
     if (pitch != 0) {
-        sin2 = Math_Sins(pitch);
-        cos2 = Math_Coss(pitch);
+        sin2 = Math_SinS(pitch);
+        cos2 = Math_CosS(pitch);
 
         mf->xx = cos * cos2;
         mf->zx = cos * sin2;
@@ -361,8 +361,8 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     }
 
     if (roll != 0) {
-        sin2 = Math_Sins(roll);
-        cos2 = Math_Coss(roll);
+        sin2 = Math_SinS(roll);
+        cos2 = Math_CosS(roll);
 
         yx = mf->yx;
         zx = mf->zx;
@@ -395,8 +395,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     f32 yz;
     f32 xx;
     f32 yx;
-    sin = Math_Sins(roll);
-    cos = Math_Coss(roll);
+    sin = Math_SinS(roll);
+    cos = Math_CosS(roll);
     mf->xx = cos;
     mf->xz = -sin;
     mf->zw = 0;
@@ -408,8 +408,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     mf->ww = 1;
 
     if (yaw != 0) {
-        sin2 = Math_Sins(yaw);
-        cos2 = Math_Coss(yaw);
+        sin2 = Math_SinS(yaw);
+        cos2 = Math_CosS(yaw);
 
         mf->zz = cos * cos2;
         mf->yz = cos * sin2;
@@ -430,8 +430,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     }
 
     if (pitch != 0) {
-        sin2 = Math_Sins(pitch);
-        cos2 = Math_Coss(pitch);
+        sin2 = Math_SinS(pitch);
+        cos2 = Math_CosS(pitch);
         xx = mf->xx;
         yx = mf->yx;
         mf->xx = (xx * cos2) + (yx * sin2);
@@ -620,8 +620,8 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
     f32 xz;
     f32 pad;
 
-    sinA = Math_Sins(a);
-    cosA = Math_Coss(a);
+    sinA = Math_SinS(a);
+    cosA = Math_CosS(a);
 
     xx = x * x;
     yy = y * y;
