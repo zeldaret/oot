@@ -293,15 +293,15 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->unk_BD = 0;
     envCtx->unk_BE = 0;
     envCtx->unk_DC = 0;
-    envCtx->gloomySkyEvent = 0;
+    envCtx->gloomySkyMode = 0;
     envCtx->unk_DE = 0;
     envCtx->lightningMode = LIGHTNING_MODE_OFF;
     envCtx->unk_E0 = 0;
-    envCtx->unk_E1 = 0;
-    envCtx->unk_E2[0] = 0;
-    envCtx->unk_E2[1] = 0;
-    envCtx->unk_E2[2] = 0;
-    envCtx->unk_E2[3] = 0;
+    envCtx->fillScreen = false;
+    envCtx->screenFillColor[0] = 0;
+    envCtx->screenFillColor[1] = 0;
+    envCtx->screenFillColor[2] = 0;
+    envCtx->screenFillColor[3] = 0;
     envCtx->customSkyboxFilter = false;
     envCtx->skyboxFilterColor[0] = 0;
     envCtx->skyboxFilterColor[1] = 0;
@@ -319,6 +319,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     gLightningStrike.flashGreen = 0;
     gLightningStrike.flashBlue = 0;
     sLightningFlashAlpha = 0;
+
     gSaveContext.unk_1410 = 0;
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
@@ -442,8 +443,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F140.s")
 #endif
 
-// func_8006F93C
-f32 Kankyo_InvLerp(u16 max, u16 min, u16 val) {
+f32 Kankyo_LerpWeight(u16 max, u16 min, u16 val) {
     f32 ret = max - min;
 
     if (ret != 0.0f) {
@@ -457,18 +457,18 @@ f32 Kankyo_InvLerp(u16 max, u16 min, u16 val) {
     return 1.0f;
 }
 
-f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 curFrame, u16 arg3, u16 arg4) {
+f32 Kankyo_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration) {
     f32 endFrameF;
     f32 startFrameF;
     f32 curFrameF;
-    f32 arg3f;
-    f32 arg4f;
+    f32 accelDurationF;
+    f32 decelDurationF;
     f32 totalFrames;
     f32 temp;
     f32 framesElapsed;
     f32 ret;
 
-    if (startFrame >= curFrame) {
+    if (curFrame <= startFrame) {
         return 0.0f;
     }
 
@@ -481,49 +481,50 @@ f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 curFrame, u16 arg3, u16 arg4
     curFrameF = (s32)curFrame;
     totalFrames = endFrameF - startFrameF;
     framesElapsed = curFrameF - startFrameF;
-    arg3f = (s32)arg3;
-    arg4f = (s32)arg4;
+    accelDurationF = (s32)accelDuration;
+    decelDurationF = (s32)decelDuration;
 
-    if (endFrameF <= startFrameF || totalFrames < arg3f + arg4f) {
+    if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
         // The frame relation between end_frame and start_frame is wrong
         osSyncPrintf(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
         osSyncPrintf(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
+
         return 0.0f;
     }
 
-    temp = 1.0f / (totalFrames + totalFrames - arg3f - arg4f);
+    temp = 1.0f / ((totalFrames * 2.0f) - accelDurationF - decelDurationF);
 
-    if (arg3f != 0.0f) {
-        if (framesElapsed <= arg3f) {
-            return temp * framesElapsed * framesElapsed / arg3f;
+    if (accelDurationF != 0.0f) {
+        if (framesElapsed <= accelDurationF) {
+            return temp * framesElapsed * framesElapsed / accelDurationF;
         }
-        ret = temp * arg3f;
+        ret = temp * accelDurationF;
     } else {
         ret = 0.0f;
     }
 
-    if (framesElapsed <= totalFrames - arg4f) {
-        ret += (temp + temp) * (framesElapsed - arg3f);
+    if (framesElapsed <= totalFrames - decelDurationF) {
+        ret += (temp * 2.0f) * (framesElapsed - accelDurationF);
         return ret;
     }
 
-    ret += (temp + temp) * (totalFrames - arg3f - arg4f);
+    ret += (temp + temp) * (totalFrames - accelDurationF - decelDurationF);
 
-    if (arg4f != 0.0f) {
-        ret += temp * arg4f;
+    if (decelDurationF != 0.0f) {
+        ret += temp * decelDurationF;
         if (framesElapsed < totalFrames) {
-            ret -= temp * (totalFrames - framesElapsed) * (totalFrames - framesElapsed) / arg4f;
+            ret -= temp * (totalFrames - framesElapsed) * (totalFrames - framesElapsed) / decelDurationF;
         }
     }
 
     return ret;
 }
 
-void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
-    if (envCtx->gloomySkyEvent != 0) {
+void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
+    if (envCtx->gloomySkyMode != 0) {
         switch (envCtx->unk_DE) {
             case 0:
-                if (envCtx->gloomySkyEvent == 1 && gSkyboxBlendingEnabled == 0) {
+                if ((envCtx->gloomySkyMode == 1) && (gSkyboxBlendingEnabled == 0)) {
                     envCtx->unk_19 = 1;
                     envCtx->unk_17 = 0;
                     envCtx->unk_18 = 1;
@@ -537,7 +538,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
                 }
                 break;
             case 1:
-                if (gSkyboxBlendingEnabled == 0 && envCtx->gloomySkyEvent == 2) {
+                if ((gSkyboxBlendingEnabled == 0) && (envCtx->gloomySkyMode == 2)) {
                     gWeatherMode = 0;
                     envCtx->unk_19 = 1;
                     envCtx->unk_17 = 1;
@@ -549,7 +550,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 arg1) {
                     D_8011FB34 = 0;
                     envCtx->unk_22 = envCtx->unk_24 = 100;
                     envCtx->unk_EE[0] = 0;
-                    envCtx->gloomySkyEvent = 0;
+                    envCtx->gloomySkyMode = 0;
                     envCtx->unk_DE = 0;
                 }
                 break;
@@ -576,7 +577,7 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
                 (((void)0, gSaveContext.skyboxTime) < entry->endTime || entry->endTime == 0xFFFF)) {
                 if (entry->blend) {
                     envCtx->skyboxBlend =
-                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     envCtx->skyboxBlend = 0;
                 }
@@ -597,11 +598,11 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
                     entry = &D_8011FC1C[envCtx->unk_17][i];
 
                     skyboxBlend =
-                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     entry = &D_8011FC1C[envCtx->unk_17][i];
                     skyboxBlend =
-                        Kankyo_InvLerp(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
+                        Kankyo_LerpWeight(entry->endTime, entry->startTime, ((void)0, gSaveContext.skyboxTime)) * 255;
 
                     skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
 
@@ -711,7 +712,7 @@ void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext*
 void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsIndex) {
     if (waterLightsIndex == 0x1F) {
         waterLightsIndex = 0;
-        // "Underwater color is not set in the water poly data"
+        // "Underwater color is not set in the water poly data!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
 
@@ -723,7 +724,7 @@ void Kankyo_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLightsInde
             globalCtx->envCtx.unk_20 = waterLightsIndex;
         }
     } else {
-        globalCtx->envCtx.blendIndoorLights = false;
+        globalCtx->envCtx.blendIndoorLights = false; // instantly switch to water lights
         globalCtx->envCtx.unk_BF = waterLightsIndex;
     }
 }
@@ -733,7 +734,7 @@ void Kankyo_DisableUnderwaterLights(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_1F = D_8011FB34;
         globalCtx->envCtx.unk_20 = D_8011FB34;
     } else {
-        globalCtx->envCtx.blendIndoorLights = false;
+        globalCtx->envCtx.blendIndoorLights = false; // instantly switch to previous lights
         globalCtx->envCtx.unk_BF = 0xFF;
         globalCtx->envCtx.unk_D8 = 1.0f;
     }
@@ -909,9 +910,9 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         ((((void)0, gSaveContext.skyboxTime) < D_8011FB48[envCtx->unk_1F][i].endTime) ||
                          D_8011FB48[envCtx->unk_1F][i].endTime == 0xFFFF)) {
 
-                        sp8C =
-                            Kankyo_InvLerp(D_8011FB48[envCtx->unk_1F][i].endTime,
-                                           D_8011FB48[envCtx->unk_1F][i].startTime, ((void)0, gSaveContext.skyboxTime));
+                        sp8C = Kankyo_LerpWeight(D_8011FB48[envCtx->unk_1F][i].endTime,
+                                                 D_8011FB48[envCtx->unk_1F][i].startTime,
+                                                 ((void)0, gSaveContext.skyboxTime));
 
                         D_8011FDCC = D_8011FB48[envCtx->unk_1F][i].unk_04 & 3;
                         D_8011FDD0 = D_8011FB48[envCtx->unk_1F][i].unk_05 & 3;
@@ -1038,13 +1039,13 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 
                         envCtx->lightSettings.fogFar = temp1 + ((temp2 - temp1) * sp88);
 
-                        if (D_8011FB48[envCtx->unk_20][i].unk_05 >= envCtx->nbLightSettings) {
+                        if (D_8011FB48[envCtx->unk_20][i].unk_05 >= envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong"
                             osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Pallete setting: [] Last pallete number = []"
                             osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         D_8011FB48[envCtx->unk_20][i].unk_05, envCtx->nbLightSettings - 1);
+                                         D_8011FB48[envCtx->unk_20][i].unk_05, envCtx->numLightSettings - 1);
                         }
                     }
                 }
@@ -1132,13 +1133,13 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         color1 + ((lightSettingsList[envCtx->unk_BD].fogFar - color1) * envCtx->unk_D8);
                 }
 
-                if (envCtx->unk_BD >= envCtx->nbLightSettings) {
+                if (envCtx->unk_BD >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
                     osSyncPrintf(VT_FGCOL(RED) "\nカラーパレットがおかしいようです！");
 
                     // "Pallete setting: [] Last pallete number = []"
                     osSyncPrintf(VT_FGCOL(YELLOW) "\n設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->unk_BD,
-                                 envCtx->nbLightSettings);
+                                 envCtx->numLightSettings);
                 }
             }
         }
@@ -1511,7 +1512,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
             Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
 
             if (arg9) {
-                temp = Kankyo_InvLerp(60, 15, globalCtx->view.fovy);
+                temp = Kankyo_LerpWeight(60, 15, globalCtx->view.fovy);
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
@@ -2184,11 +2185,11 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
             globalCtx->envCtx.adjFogNear -= 10;
         }
     } else {
-        globalCtx->envCtx.unk_E1 = 1;
-        globalCtx->envCtx.unk_E2[0] = 0;
-        globalCtx->envCtx.unk_E2[1] = 0;
-        globalCtx->envCtx.unk_E2[2] = 0;
-        globalCtx->envCtx.unk_E2[3] = sGameOverLightsRGB;
+        globalCtx->envCtx.fillScreen = true;
+        globalCtx->envCtx.screenFillColor[0] = 0;
+        globalCtx->envCtx.screenFillColor[1] = 0;
+        globalCtx->envCtx.screenFillColor[2] = 0;
+        globalCtx->envCtx.screenFillColor[3] = sGameOverLightsRGB;
     }
 }
 
@@ -2223,13 +2224,13 @@ void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
         globalCtx->envCtx.adjFogFar = 0;
         globalCtx->envCtx.adjFogNear = 0;
     } else {
-        globalCtx->envCtx.unk_E1 = 1;
-        globalCtx->envCtx.unk_E2[0] = 0;
-        globalCtx->envCtx.unk_E2[1] = 0;
-        globalCtx->envCtx.unk_E2[2] = 0;
-        globalCtx->envCtx.unk_E2[3] = sGameOverLightsRGB;
+        globalCtx->envCtx.fillScreen = true;
+        globalCtx->envCtx.screenFillColor[0] = 0;
+        globalCtx->envCtx.screenFillColor[1] = 0;
+        globalCtx->envCtx.screenFillColor[2] = 0;
+        globalCtx->envCtx.screenFillColor[3] = sGameOverLightsRGB;
         if (sGameOverLightsRGB == 0) {
-            globalCtx->envCtx.unk_E1 = 0;
+            globalCtx->envCtx.fillScreen = false;
         }
     }
 }
@@ -2250,7 +2251,7 @@ void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 al
     if (alpha != 0) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 3835);
 
-        if (drawFlags & 1) {
+        if (drawFlags & FILL_SCREEN_OPA) {
             POLY_OPA_DISP = func_800937C0(POLY_OPA_DISP);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, red, green, blue, alpha);
             gDPSetAlphaDither(POLY_OPA_DISP++, G_AD_DISABLE);
@@ -2258,7 +2259,7 @@ void Kankyo_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, u8 al
             gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         }
 
-        if (drawFlags & 2) {
+        if (drawFlags & FILL_SCREEN_XLU) {
             POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, red, green, blue, alpha);
 

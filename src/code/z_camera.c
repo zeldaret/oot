@@ -7603,7 +7603,7 @@ void Camera_Finish(Camera* camera) {
         camera->parentCamIdx = 0;
         camera->childCamIdx = camera->parentCamIdx;
         camera->timer = -1;
-        camera->globalCtx->envCtx.unk_E1 = 0;
+        camera->globalCtx->envCtx.fillScreen = false;
 
         Gameplay_ClearCamera(camera->globalCtx, camera->thisIdx);
     }

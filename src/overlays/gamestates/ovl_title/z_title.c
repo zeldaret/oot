@@ -115,7 +115,7 @@ void Title_Draw(TitleContext* this) {
         gSPTextureRectangle(POLY_OPA_DISP++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
     }
 
-    Kankyo_FillScreen(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, 2);
+    Kankyo_FillScreen(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, FILL_SCREEN_XLU);
 
     sTitleRotY += 300;
 

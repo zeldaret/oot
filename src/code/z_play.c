@@ -620,21 +620,21 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             switch (globalCtx->transitionMode) {
                 case 4:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 160;
-                    globalCtx->envCtx.unk_E2[1] = 160;
-                    globalCtx->envCtx.unk_E2[2] = 160;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 160;
+                    globalCtx->envCtx.screenFillColor[1] = 160;
+                    globalCtx->envCtx.screenFillColor[2] = 160;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2[3] = 0;
+                        globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2[3] = 255;
+                        globalCtx->envCtx.screenFillColor[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
 
                 case 5:
-                    globalCtx->envCtx.unk_E2[3] = (D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         globalCtx->state.running = 0;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -647,13 +647,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 6:
-                    globalCtx->envCtx.unk_E2[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.screenFillColor[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
                         globalCtx->transitionMode = 0;
-                        globalCtx->envCtx.unk_E1 = 0;
+                        globalCtx->envCtx.fillScreen = false;
                     } else {
                         D_801614C8++;
                     }
@@ -661,15 +661,15 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 7:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 170;
-                    globalCtx->envCtx.unk_E2[1] = 160;
-                    globalCtx->envCtx.unk_E2[2] = 150;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 170;
+                    globalCtx->envCtx.screenFillColor[1] = 160;
+                    globalCtx->envCtx.screenFillColor[2] = 150;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2[3] = 0;
+                        globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2[3] = 255;
+                        globalCtx->envCtx.screenFillColor[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
@@ -757,17 +757,17 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 16:
                     D_801614C8 = 0;
-                    globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[0] = 0;
-                    globalCtx->envCtx.unk_E2[1] = 0;
-                    globalCtx->envCtx.unk_E2[2] = 0;
-                    globalCtx->envCtx.unk_E2[3] = 255;
+                    globalCtx->envCtx.fillScreen = true;
+                    globalCtx->envCtx.screenFillColor[0] = 0;
+                    globalCtx->envCtx.screenFillColor[1] = 0;
+                    globalCtx->envCtx.screenFillColor[2] = 0;
+                    globalCtx->envCtx.screenFillColor[3] = 255;
                     globalCtx->transitionMode = 17;
                     break;
 
                 case 17:
                     if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->envCtx.unk_E2[3] = gSaveContext.unk_1410;
+                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.unk_1410;
                         if (gSaveContext.unk_1410 < 0x65) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -828,11 +828,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 if ((globalCtx->actorCtx.unk_00 != 0) && (globalCtx->actorCtx.unk_00-- < 5)) {
                     osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.unk_00);
                     if ((globalCtx->actorCtx.unk_00 > 0) && ((globalCtx->actorCtx.unk_00 % 2) != 0)) {
-                        globalCtx->envCtx.unk_E1 = 1;
-                        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 150;
-                        globalCtx->envCtx.unk_E2[3] = 80;
+                        globalCtx->envCtx.fillScreen = true;
+                        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+                            globalCtx->envCtx.screenFillColor[2] = 150;
+                        globalCtx->envCtx.screenFillColor[3] = 80;
                     } else {
-                        globalCtx->envCtx.unk_E1 = 0;
+                        globalCtx->envCtx.fillScreen = false;
                     }
                 } else {
                     if (1 && HREG(63)) {
@@ -1245,7 +1246,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, 1);
+                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
@@ -1264,14 +1265,15 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
                     if (MREG(64) != 0) {
-                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), 3);
+                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     }
 
-                    if (globalCtx->envCtx.unk_E1) {} // Necessary to match
+                    if (globalCtx->envCtx.fillScreen) {} // Necessary to match
 
-                    if (globalCtx->envCtx.unk_E1 == 1) {
-                        Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.unk_E2[0], globalCtx->envCtx.unk_E2[1],
-                                          globalCtx->envCtx.unk_E2[2], globalCtx->envCtx.unk_E2[3], 3);
+                    if (globalCtx->envCtx.fillScreen == true) {
+                        Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.screenFillColor[0],
+                                          globalCtx->envCtx.screenFillColor[1], globalCtx->envCtx.screenFillColor[2],
+                                          globalCtx->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
                     } else {
                         // Also necessary to match
                     }

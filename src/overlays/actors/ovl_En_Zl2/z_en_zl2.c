@@ -723,7 +723,8 @@ void func_80B500E0(EnZl2* this, GlobalContext* globalCtx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 8);
+        someFloat =
+            Kankyo_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 8);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -747,7 +748,7 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         this->actor.shape.unk_14 = this->alpha =
-            (1.0f - Kankyo_InvLerp(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - Kankyo_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         func_80B501C4(this, this->alpha);
     }
 }
@@ -1488,7 +1489,8 @@ void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
     f32 someFloat;
 
     if (npcAction != NULL) {
-        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 8);
+        someFloat =
+            Kankyo_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 8);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;

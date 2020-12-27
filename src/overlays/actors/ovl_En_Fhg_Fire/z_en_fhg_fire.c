@@ -303,7 +303,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
 void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    globalCtx->envCtx.unk_E1 = 0x01;
+    globalCtx->envCtx.fillScreen = true;
     this->actor.shape.rot.y += 0x1000;
 
     if (this->effectsTimer == 0x31) {
@@ -315,15 +315,16 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->effectsTimer >= 0x30) {
-        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
+        globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
+            globalCtx->envCtx.screenFillColor[2] = 255;
 
         if ((this->timer % 2) != 0) {
-            globalCtx->envCtx.unk_E2[3] = 70;
+            globalCtx->envCtx.screenFillColor[3] = 70;
         } else {
-            globalCtx->envCtx.unk_E2[3] = 0;
+            globalCtx->envCtx.screenFillColor[3] = 0;
         }
     } else {
-        globalCtx->envCtx.unk_E2[3] = 0;
+        globalCtx->envCtx.screenFillColor[3] = 0;
     }
 
     if (this->timer < 0x15) {
@@ -343,7 +344,7 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         Actor_Kill(&this->actor);
-        globalCtx->envCtx.unk_E1 = 0;
+        globalCtx->envCtx.fillScreen = false;
     }
     if (this->unk_1FE != 0) {
         this->unk_1FE--;

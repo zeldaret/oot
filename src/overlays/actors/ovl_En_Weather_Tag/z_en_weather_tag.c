@@ -139,12 +139,12 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
             (!gSkyboxBlendingEnabled ||
              !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
-            if (globalCtx->envCtx.gloomySkyEvent == 0 &&
+            if (globalCtx->envCtx.gloomySkyMode == 0 &&
                 ((globalCtx->envCtx.indoors) || (!(globalCtx->envCtx.unk_1F == 1 || globalCtx->envCtx.unk_21 != 0)))) {
                 D_8011FB38 = 0;
                 if (gWeatherMode != arg7) {
                     gWeatherMode = arg7;
-                    if (globalCtx->envCtx.gloomySkyEvent == 0) {
+                    if (globalCtx->envCtx.gloomySkyMode == 0) {
                         globalCtx->envCtx.unk_19 = 1;
                         globalCtx->envCtx.unk_17 = arg2;
                         globalCtx->envCtx.unk_18 = arg3;
@@ -180,7 +180,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
             (!gSkyboxBlendingEnabled ||
              !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
-            if ((globalCtx->envCtx.gloomySkyEvent == 0) &&
+            if ((globalCtx->envCtx.gloomySkyMode == 0) &&
                 ((globalCtx->envCtx.indoors) || (!(globalCtx->envCtx.unk_1F == 1 || globalCtx->envCtx.unk_21 != 0)))) {
                 D_8011FB38 = 0;
                 gWeatherMode = 0;

@@ -6,6 +6,11 @@
 #include "z64dma.h"
 
 typedef enum {
+    FILL_SCREEN_OPA = 1,
+    FILL_SCREEN_XLU
+} FillScreenDrawFlags;
+
+typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
     /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals
     /* 2 */ LIGHTNING_MODE_LAST // request one lightning strike before turning off
@@ -75,8 +80,8 @@ typedef struct {
     /* 0x1A */ u16 unk_1A;
     /* 0x1C */ char unk_1C[0x02];
     /* 0x1E */ u8 indoors; // when set, day time has no effect on lighting
-    /* 0x1F */ u8 unk_1F; // outdoor lighting group, used to index array of outdoor light settings
-    /* 0x20 */ u8 unk_20;
+    /* 0x1F */ u8 unk_1F; // outdoor light index
+    /* 0x20 */ u8 unk_20; // prev outdoor light index?
     /* 0x21 */ u8 unk_21;
     /* 0x22 */ u16 unk_22;
     /* 0x24 */ u16 unk_24;
@@ -84,7 +89,6 @@ typedef struct {
     /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
     /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors
     /* 0x44 */ s8 skyboxDmaState;
-    /* 0x45 */ char unk_45[0x3];
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
     /* 0x80 */ OSMesg loadMsg;
@@ -95,30 +99,30 @@ typedef struct {
     /* 0x98 */ s16 adjFogColor[3];
     /* 0x9E */ s16 adjFogNear;
     /* 0xA0 */ s16 adjFogFar;
-    /* 0xA2 */ u8 unk_A2[0x06];
+    /* 0xA2 */ char unk_A2[0x06];
     /* 0xA8 */ Vec3s windDirection;
     /* 0xB0 */ f32 windSpeed;
-    /* 0xB4 */ u8 nbLightSettings;
+    /* 0xB4 */ u8 numLightSettings;
     /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
-    /* 0xBC */ u8 blendIndoorLights; // when set, blend between indoor light settings when switching
-    /* 0xBD */ u8 unk_BD;
-    /* 0xBE */ u8 unk_BE;
+    /* 0xBC */ u8 blendIndoorLights; // when true, blend between indoor light settings when switching
+    /* 0xBD */ u8 unk_BD; // indoor light index
+    /* 0xBE */ u8 unk_BE; // prev indoor light index?
     /* 0xBF */ u8 unk_BF;
     /* 0xC0 */ EnvLightSettings lightSettings;
     /* 0xD6 */ u16 unk_D6;
-    /* 0xD8 */ f32 unk_D8;
+    /* 0xD8 */ f32 unk_D8; // indoor light blend weight?
     /* 0xDC */ u8 unk_DC;
-    /* 0xDD */ u8 gloomySkyEvent;
-    /* 0xDE */ u8 unk_DE;
+    /* 0xDD */ u8 gloomySkyMode;
+    /* 0xDE */ u8 unk_DE; // gloomy sky state
     /* 0xDF */ u8 lightningMode;
-    /* 0xE0 */ u8 unk_E0;
-    /* 0xE1 */ u8 unk_E1;
-    /* 0xE2 */ u8 unk_E2[4]; // color
+    /* 0xE0 */ u8 unk_E0; // env sounds state
+    /* 0xE1 */ u8 fillScreen;
+    /* 0xE2 */ u8 screenFillColor[4];
     /* 0xE6 */ u8 sandstormState;
     /* 0xE7 */ u8 sandstormPrimA;
     /* 0xE8 */ u8 sandstormEnvA;
     /* 0xE9 */ u8 customSkyboxFilter;
-    /* 0xEA */ u8 skyboxFilterColor[4]; // color
+    /* 0xEA */ u8 skyboxFilterColor[4];
     /* 0xEE */ u8 unk_EE[4];
     /* 0xF2 */ u8 unk_F2[4];
     /* 0xF6 */ char unk_F6[0x06];

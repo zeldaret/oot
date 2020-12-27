@@ -347,7 +347,7 @@ void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors) {
 
 // Scene Command 0x0F: Light Setting List
 void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->envCtx.nbLightSettings = cmd->lightSettingList.num;
+    globalCtx->envCtx.numLightSettings = cmd->lightSettingList.num;
     globalCtx->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
 }
 

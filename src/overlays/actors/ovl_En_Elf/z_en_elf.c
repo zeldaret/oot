@@ -1433,7 +1433,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_2A4 > 0.0f) {
         Math_ApproxF(&this->unk_2A4, 0.0f, 0.05f);
-        Kankyo_AdjustLights(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
+        Kankyo_AdjustLights(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f,
+                            0.5f);
     }
 
     // temp probably fake match
@@ -1551,7 +1552,7 @@ void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action) 
     endPos.y = npcAction->endPos.y;
     endPos.z = npcAction->endPos.z;
 
-    lerp = Kankyo_InvLerp(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
+    lerp = Kankyo_LerpWeight(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
 
     vec->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
     vec->y = ((endPos.y - startPos.y) * lerp) + startPos.y;

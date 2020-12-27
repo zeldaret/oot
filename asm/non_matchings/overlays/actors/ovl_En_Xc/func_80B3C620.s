@@ -13,7 +13,7 @@ glabel func_80B3C620
 /* 0046C 80B3C64C 95C61D74 */  lhu     $a2, 0x1D74($t6)           ## 00001D74
 /* 00470 80B3C650 AFA2003C */  sw      $v0, 0x003C($sp)           
 /* 00474 80B3C654 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 00478 80B3C658 0C01BE6F */  jal     func_8006F9BC              
+/* 00478 80B3C658 0C01BE6F */  jal     Kankyo_LerpWeightAccelDecel              
 /* 0047C 80B3C65C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00480 80B3C660 8FA3003C */  lw      $v1, 0x003C($sp)           
 /* 00484 80B3C664 8FA20040 */  lw      $v0, 0x0040($sp)           
