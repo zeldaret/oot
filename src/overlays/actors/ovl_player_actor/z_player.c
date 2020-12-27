@@ -9857,8 +9857,7 @@ Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
 f32 D_80854820[] = { 2.0f, 4.0f, 7.0f };
 f32 D_8085482C[] = { 0.5f, 1.0f, 3.0f };
 
-void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) {
-    GlobalContext* globalCtx = globalCtx2;
+void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     s32 pad;
 
     sControlInput = input;
@@ -9926,12 +9925,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
 
         func_80847BA0(globalCtx, this);
     } else {
-        f32 sp74;
-        f32 sp70;
-        s16 sp6E;
-        s16 yawDiff;
-        s32 phi_v0;
-        s32 pad2;
+        f32 temp_f0;
+        f32 phi_f12;
 
         if (this->currentBoots != this->prevBoots) {
             if (this->currentBoots == PLAYER_BOOTS_IRON) {
@@ -9973,7 +9968,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
         Math_ApproxUpdateScaledS(&this->unk_6C2, 0, 400);
         func_80032CB4(this->unk_3A8, 20, 80, 6);
 
-        this->actor.shape.unk_06 = this->unk_3A8[0] + ((globalCtx2->gameplayFrames & 32) ? 0 : 3);
+        this->actor.shape.unk_06 = this->unk_3A8[0] + ((globalCtx->gameplayFrames & 32) ? 0 : 3);
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             func_8085002C(this);
@@ -9986,9 +9981,10 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
         if (!(this->skelAnime.flags & 0x80)) {
             if (((this->actor.bgCheckFlags & 1) && (D_808535E4 == 5) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->stateFlags1 & 0x28000000))) {
-                sp70 = this->linearVelocity;
-                sp6E = this->currentYaw;
-                yawDiff = this->actor.posRot.rot.y - sp6E;
+                f32 sp70 = this->linearVelocity;
+                s16 sp6E = this->currentYaw;
+                s16 yawDiff = this->actor.posRot.rot.y - sp6E;
+                s32 pad;
 
                 if ((ABS(yawDiff) > 0x6000) && (this->actor.speedXZ != 0.0f)) {
                     sp70 = 0.0f;
@@ -10000,6 +9996,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
                 }
 
                 if (this->linearVelocity != 0.0f) {
+                    s32 phi_v0;
 
                     phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speedXZ) * 100.0f);
                     phi_v0 = CLAMP(phi_v0, 0, 1350);
@@ -10186,23 +10183,23 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx2, Input* input) 
         this->stateFlags2 &= ~0x800000;
         this->unk_6A4 = FLT_MAX;
 
-        sp70 = this->actor.posRot.pos.y - this->actor.pos4.y;
+        temp_f0 = this->actor.posRot.pos.y - this->actor.pos4.y;
 
         this->doorType = 0;
         this->unk_8A1 = 0;
         this->unk_684 = NULL;
 
-        sp74 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + sp70;
-        sp70 += this->bodyPartsPos[7].y + 10.0f;
+        phi_f12 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + temp_f0;
+        temp_f0 += this->bodyPartsPos[7].y + 10.0f;
 
-        this->cylinder.dim.height = sp70 - sp74;
+        this->cylinder.dim.height = temp_f0 - phi_f12;
 
         if (this->cylinder.dim.height < 0) {
-            sp74 = sp70;
+            phi_f12 = temp_f0;
             this->cylinder.dim.height = -this->cylinder.dim.height;
         }
 
-        this->cylinder.dim.yShift = sp74 - this->actor.posRot.pos.y;
+        this->cylinder.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
 
         if (this->stateFlags1 & 0x400000) {
             this->cylinder.dim.height = this->cylinder.dim.height * 0.8f;
