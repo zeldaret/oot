@@ -169,7 +169,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -3556,7 +3556,6 @@ endseg
 beginseg
     name "gameplay_keep"
     romalign 0x1000
-    //include "build/baserom/gameplay_keep.o"
     include "build/assets/objects/gameplay_keep/gameplay_keep.o"
     number 04
 endseg
@@ -3828,7 +3827,6 @@ endseg
 beginseg
     name "object_sk2"
     romalign 0x1000
-    //include "build/baserom/object_sk2.o"
     include "build/assets/objects/object_sk2/object_sk2.o"
     number 06
 endseg
@@ -4244,7 +4242,6 @@ endseg
 beginseg
     name "object_pu_box"
     romalign 0x1000
-    //include "build/baserom/object_pu_box.o"
     include "build/assets/objects/object_pu_box/object_pu_box.o"
     number 06
 endseg
@@ -4499,7 +4496,6 @@ endseg
 beginseg
     name "object_spot09_obj"
     romalign 0x1000
-    //include "build/baserom/object_spot09_obj.o"
     include "build/assets/objects/object_spot09_obj/object_spot09_obj.o"
     number 06
 endseg
@@ -4519,7 +4515,6 @@ endseg
 beginseg
     name "object_spot17_obj"
     romalign 0x1000
-    //include "build/baserom/object_spot17_obj.o"
     include "build/assets/objects/object_spot17_obj/object_spot17_obj.o"
     number 06
 endseg
@@ -5631,7 +5626,6 @@ endseg
 beginseg
     name "object_spot11_obj"
     romalign 0x1000
-    //include "build/baserom/object_spot11_obj.o"
     include "build/assets/objects/object_spot11_obj/object_spot11_obj.o"
     number 06
 endseg
@@ -6221,7 +6215,8 @@ endseg
 beginseg
     name "parameter_static"
     romalign 0x1000
-    include "build/baserom/parameter_static.o"
+    include "build/assets/textures/parameter_static/parameter_static.o"
+    number 02
 endseg
 
 beginseg
