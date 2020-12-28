@@ -103,7 +103,7 @@ void EnBubble_DamagePlayer(EnBubble* this, GlobalContext* globalCtx) {
 }
 
 s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
-    u32 loopCounter;
+    u32 i;
     Vec3f effectAccel;
     Vec3f effectVel;
     Vec3f effectPos;
@@ -121,7 +121,7 @@ s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
     effectPos.x = this->actor.posRot.pos.x;
     effectPos.y = this->actor.posRot.pos.y + this->actor.shape.unk_08;
     effectPos.z = this->actor.posRot.pos.z;
-    for (loopCounter = 0; loopCounter < 20; loopCounter++) {
+    for (i = 0; i < 20; i++) {
         effectVel.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
         effectVel.y = Rand_ZeroOne() * 7.0f;
         effectVel.z = (Rand_ZeroOne() - 0.5f) * 7.0f;
@@ -266,7 +266,7 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
 
 u32 func_809CC648(EnBubble* this) {
     if (((this->colliderSphere.base.acFlags & 0x2) != 0) == false) {
-        return 0;
+        return false;
     }
     this->colliderSphere.base.acFlags &= ~0x2;
     if ((this->colliderSphere.list[1].body.bumperFlags & 0x2)) {
@@ -275,21 +275,21 @@ u32 func_809CC648(EnBubble* this) {
         this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
-        return 0;
+        return false;
     }
     this->unk_208 = 8;
-    return 1;
+    return true;
 }
 
 u32 EnBubble_DetectPop(EnBubble* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_208) != 0 || this->actionFunc == EnBubble_Pop) {
-        return 0;
+        return false;
     }
     if (this->colliderSphere.base.maskB & 0x1) {
         this->colliderSphere.base.maskB &= ~0x1;
         EnBubble_DamagePlayer(this, globalCtx);
         this->unk_208 = 8;
-        return 1;
+        return true;
     }
     return func_809CC648(this);
 }
@@ -339,7 +339,7 @@ void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx) {
-    if (EnBubble_DetectPop(this, globalCtx) != 0) {
+    if (EnBubble_DetectPop(this, globalCtx)) {
         this->explosionCountdown = func_809CBCBC(this);
         this->actionFunc = EnBubble_Pop;
     } else {
@@ -390,11 +390,9 @@ void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBubble* this = THIS;
     u32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bubble.c", 1175);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1175);
+
     if (this->actionFunc != EnBubble_Disappear) {
         func_80093D84(globalCtx->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
@@ -406,11 +404,13 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ((-(f32)globalCtx->state.frames * 0.017453292f) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1220),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1220),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06001000);
+        gSPDisplayList(POLY_XLU_DISP++, D_06001000);
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bubble.c", 1226);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1226);
+
     if (this->actionFunc != EnBubble_Disappear) {
         this->actor.shape.unk_10 = (f32)((this->expansionWidth + 1.0f) * 0.2f);
         func_809CC774(this);
