@@ -10388,7 +10388,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, D_8085486C);
             gDPSetEnvColor(POLY_XLU_DISP++, 120, 90, 30, 128);
-            gSPDisplayList(POLY_XLU_DISP++, gPlayerDL);
+            gSPDisplayList(POLY_XLU_DISP++, gUnkPlayerDL);
         }
     }
 

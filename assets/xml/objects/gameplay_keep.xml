@@ -10,8 +10,7 @@
         <Texture Name="gLinkTunic1Tex" OutName="link_tunic_1" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
         <Texture Name="gCandleFlameTex" OutName="candle_flame" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
-        <Blob Name="blob_04002040" Offset="0x2040" Size="0x2D0"/>        
-        <Blob Name="gLinkAnimationList" Offset="0x2310" Size="0x11F0"/>
+        <Blob Name="blob_04002040" Offset="0x2040" Size="0x14C0"/>        
         <DList Name="gDebugTriangleDL" Offset="0x000035C0"/>
         <Texture Name="gCircle1Tex" OutName="circle_1" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
         <Texture Name="gReflection3Tex" OutName="reflection_3" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
@@ -22,8 +21,7 @@
         <DList Name="gCheckeredFloorDL" Offset="0x00003FC8"/>
         <Texture Name="gCheckeredFloorTex" OutName="checkered_floor" Format="ia4" Width="32" Height="32" Offset="0x00004058"/>
         <DList Name="gBlankSquareDL" Offset="0x00004298"/>
-        <Blob Name="blob_040042B0" Offset="0x42B0" Size="0x70"/>
-        <Blob Name="G_04004320" Offset="0x4320" Size="0x60"/>
+        <Blob Name="blob_040042B0" Offset="0x42B0" Size="0xD0"/>
         <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgb5a1" Width="16" Height="128" Offset="0x00004380"/>
         <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgb5a1" Width="32" Height="16" Offset="0x00005380"/>
         <DList Name="gArrowHQDL" Offset="0x00005AA0"/>
@@ -87,15 +85,15 @@
         <DList Name="gEnMThunder5DL" Offset="0x00013610"/>
         <Texture Name="tex_04013700" Format="i8" Width="32" Height="64" Offset="0x00013700"/>
         <Texture Name="tex_04013F00" Format="i8" Width="32" Height="64" Offset="0x00013F00"/>
-        <DList Name="D_040149C0" Offset="0x000149C0"/>
+        <DList Name="dl_040149C0" Offset="0x000149C0"/>
         <Blob Name="blob_04014AF0" Offset="0x00014AF0" Size="0xC8"/>
         <Texture Name="gFairyWingTex" OutName="fairy_wing" Format="i8" Width="32" Height="64" Offset="0x00014BC0"/>
         <DList Name="gFairyWing1DL" Offset="0x00015400"/>
         <DList Name="gFairyWing2DL" Offset="0x000154C8"/>
         <DList Name="gFairyWing3DL" Offset="0x00015590"/>
         <DList Name="gFairyWing4DL" Offset="0x00015658"/>
-        <DList Name="gFairyBodyMaterialDL" Offset="0x00015720"/>
-        <DList Name="gFairyBodyVerticesDL" Offset="0x00015760"/>
+        <DList Name="gLightHalo1DL" Offset="0x00015720"/>
+        <DList Name="gLightHalo2DL" Offset="0x00015760"/>
         <DList Name="gFairyBodyDL" Offset="0x00015780"/>
         <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x00015968"/>
         <Blob Name="blob_04016968" Offset="0x00016968" Size="0xE8"/>
@@ -250,7 +248,7 @@
         <DList Name="gBugBodyRefRefDL" Offset="0x00034A50"/>
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgb5a1" Width="16" Height="64" Offset="0x00034B20"/>
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgb5a1" Width="32" Height="4" Offset="0x00035320"/>
-        <Blob Name="BugIK" Offset="0x00035420" Size="0x178"/> <!-- looks like a hierarchy -->
+        <Blob Name="blob_04035420" Offset="0x00035420" Size="0x178"/>
         <DList Name="gShrubStalkDL" Offset="0x000355E0"/>
         <DList Name="gShrubTipDL" Offset="0x000356A0"/>
         <Texture Name="gLeafTex" OutName="leaf" Format="rgb5a1" Width="32" Height="32" Offset="0x00035730"/>
@@ -263,7 +261,7 @@
         <Texture Name="gEffectSsKiraKiraTex" OutName="effect_ss_kira_kira" Format="i4" Width="16" Height="16" Offset="0x000378E0"/>
         <Texture Name="gGlowTex" OutName="glow" Format="i8" Width="16" Height="32" Offset="0x00037960"/>
         <Texture Name="tex_04037B60" Format="i8" Width="16" Height="32" Offset="0x00037B60"/>
-        <DList Name="gPlayerDL" Offset="0x00037E30"/>
+        <DList Name="gUnkPlayerDL" Offset="0x00037E30"/>
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x00037F00"/>
         <DList Name="gMoonDL" Offset="0x00038F00"/>
         <Texture Name="gCircle3Tex" OutName="circle_3" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
@@ -292,7 +290,7 @@
         <Texture Name="gDropArrows3Tex" OutName="drop_arrows_3" Format="rgb5a1" Width="32" Height="32" Offset="0x0003D870"/>
         <Texture Name="gDropBombTex" OutName="drop_bomb" Format="rgb5a1" Width="32" Height="32" Offset="0x0003E070"/>
         <Texture Name="gDropRecoveryHeartTex" OutName="drop_recovery_heart" Format="rgb5a1" Width="32" Height="32" Offset="0x0003E870"/>
-        <DList Name="gHintNutsDL" Offset="0x0003F070"/>
+        <DList Name="gItemDropDL" Offset="0x0003F070"/>
         <Texture Name="gDropKeySmallTex" OutName="drop_key_small" Format="rgb5a1" Width="32" Height="32" Offset="0x0003F140"/>
         <Texture Name="gDropMagicSmallTex" OutName="drop_magic_small" Format="rgb5a1" Width="32" Height="32" Offset="0x0003F940"/>
         <Texture Name="gDropDekuNutTex" OutName="drop_deku_nut" Format="rgb5a1" Width="32" Height="32" Offset="0x00040140"/>
@@ -306,14 +304,14 @@
         <Texture Name="gRupeeOrangeTex" OutName="rupee_orange" Format="rgb5a1" Width="4" Height="4" Offset="0x000421A0"/>
         <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgb5a1" Width="4" Height="4" Offset="0x000421E0"/>
         <DList Name="gRupeeDL" Offset="0x00042440"/>
-        <Texture Name="gDropRupeeRedTex" OutName="drop_rupee_red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042510"/>
+        <Texture Name="gRupeeLightRedTex" OutName="rupee_light_red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042510"/>
         <Texture Name="gStone1Tex" OutName="stone_1" Format="rgb5a1" Width="32" Height="32" Offset="0x00042530"/>
-        <Texture Name="gStoneEdgeTex" OutName="stone_edge" Format="rgb5a1" Width="32" Height="32" Offset="0x00042D30"/>
+        <Texture Name="gStone2Tex" OutName="stone_2" Format="rgb5a1" Width="32" Height="32" Offset="0x00042D30"/>
         <Texture Name="gStumpTopTex" OutName="stump_top" Format="rgb5a1" Width="32" Height="32" Offset="0x00043530"/>
         <Texture Name="gStumpBarkTex" OutName="stump_bark" Format="rgb5a1" Width="32" Height="32" Offset="0x00043D30"/>
         <Texture Name="gGrassTex" OutName="grass" Format="rgb5a1" Width="64" Height="32" Offset="0x00044530"/>
         <Texture Name="gStoneTargetTex" OutName="stone_target" Format="rgb5a1" Width="32" Height="32" Offset="0x00045530"/>
-        <Texture Name="gStone2Tex" OutName="stone_2" Format="rgb5a1" Width="32" Height="32" Offset="0x00045D30"/>
+        <Texture Name="gStone3Tex" OutName="stone_3" Format="rgb5a1" Width="32" Height="32" Offset="0x00045D30"/>
         <Texture Name="gSignSquareSideTex" OutName="sign_square_side" Format="rgb5a1" Width="32" Height="16" Offset="0x00046530"/>
         <Texture Name="gSignSquareFrontTex" OutName="sign_square_front" Format="rgb5a1" Width="32" Height="16" Offset="0x00046930"/>
         <Texture Name="gSignPostTex" OutName="sign_post" Format="rgb5a1" Width="64" Height="8" Offset="0x00046D30"/>
@@ -338,7 +336,7 @@
         <DList Name="gKankyoDL" Offset="0x0004D160"/>
         <DList Name="gUnknownSquareDL" Offset="0x0004D1A8"/>
         <DList Name="gSunDL" Offset="0x0004D1C0"/>
-        <DList Name="gUnknownTri2DL" Offset="0x0004D450"/>
+        <DList Name="gZTargetReticleDL" Offset="0x0004D450"/>
         <DList Name="gEffectSsFireTailDL" Offset="0x0004D4E0"/>
         <DList Name="gEffectSsKFireDL" Offset="0x0004D5A0"/>
         <Texture Name="gEffectSsFireTailTex" OutName="effect_ss_fire_tail" Format="i8" Width="32" Height="64" Offset="0x0004D660"/>
@@ -349,7 +347,7 @@
         <DList Name="gCloudShapeRefDL" Offset="0x00050600"/>
         <DList Name="gRoundShapeDL" Offset="0x00051280"/>
         <DList Name="gRoundShapeRefDL" Offset="0x00051598"/>
-        <Texture Name="gZELDATex" OutName="zelda" Format="i8" Width="64" Height="32" Offset="0x000515B0"/>
+        <Texture Name="gZeldaTex" OutName="zelda" Format="i8" Width="64" Height="32" Offset="0x000515B0"/>
         <Texture Name="gDust1Tex" OutName="dust_1" Format="i8" Width="32" Height="32" Offset="0x00051DB0"/>
         <Texture Name="gDust2Tex" OutName="dust_2" Format="i8" Width="32" Height="32" Offset="0x000521B0"/>
         <Texture Name="gDust3Tex" OutName="dust_3" Format="i8" Width="32" Height="32" Offset="0x000525B0"/>
@@ -364,9 +362,9 @@
         <Texture Name="gCircleGlowSRTex" OutName="circle_glow_sr" Format="i8" Width="32" Height="64" Offset="0x000555B0"/>
         <Texture Name="gEffectSsBubble1Tex" OutName="effect_ss_bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
         <Texture Name="gEffectSsBubble2Tex" OutName="effect_ss_bubble_2" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
-        <Texture Name="gEffectSsGSpk0Tex" OutName="effect_ss_g_spk_0" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
-        <Texture Name="gEffectSsGSpk1Tex" OutName="effect_ss_g_spk_1" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
-        <Texture Name="gEffectSsGSpk2Tex" OutName="effect_ss_g_spk_2" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
-        <Texture Name="gEffectSsGSpk3Tex" OutName="effect_ss_g_spk_3" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
+        <Texture Name="gEffectSsGSpk1Tex" OutName="effect_ss_g_spk_1" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
+        <Texture Name="gEffectSsGSpk2Tex" OutName="effect_ss_g_spk_2" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
+        <Texture Name="gEffectSsGSpk3Tex" OutName="effect_ss_g_spk_3" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
+        <Texture Name="gEffectSsGSpk4Tex" OutName="effect_ss_g_spk_4" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
     </File>
 </Root>

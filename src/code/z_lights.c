@@ -367,7 +367,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
     POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
     gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_MAGICSQ);
-    gSPDisplayList(POLY_XLU_DISP++, gFairyBodyMaterialDL);
+    gSPDisplayList(POLY_XLU_DISP++, gLightHalo1DL);
 
     while (node != NULL) {
         LightInfo* info;
@@ -386,7 +386,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gFairyBodyVerticesDL);
+            gSPDisplayList(POLY_XLU_DISP++, gLightHalo2DL);
         }
 
         node = node->next;
