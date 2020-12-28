@@ -10,8 +10,8 @@ typedef void (*EnFzActionFunc)(struct EnFz*, struct GlobalContext*);
 typedef void (*EnFzSpawnIceSmokeFunc)(struct EnFz*);
 
 typedef struct {
-    /* 0x0000 */ u8 freezingState; // 0,1,2: State of freezard (1 not freezing, 2 freezing)
-    /* 0x0001 */ u8 numFramesActive; // increments primAlphaState after reaching 7 (freezing), used in Gfx_TwoTexScroll
+    /* 0x0000 */ u8 type; // 0,1,2: State of freezard (1 not freezing, 2 freezing)
+    /* 0x0001 */ u8 timer; // increments primAlphaState after reaching 7 (freezing), used in Gfx_TwoTexScroll
     /* 0x0004 */ Vec3f pos; // Random position within 20.0f of actor
     /* 0x0010 */ Vec3f velocity; 
     /* 0x001C */ Vec3f accel;
@@ -40,7 +40,7 @@ typedef struct EnFz {
     /* 0x024A */ s16 padding;
     /* 0x024C */ f32 IceSmokeFreezingSpawnHeight; // Height for Ice Smoke Spawn, only when freezing
     /* 0x0250 */ f32 unusedFloat; // Set to 135.0f
-    /* 0x0254 */ f32 xzSpeed; // Set to 4.0f when moving
+    /* 0x0254 */ f32 speedXZ; // Set to 4.0f when moving
     /* 0x0258 */ u32 envAlpha; // transparency in RGBA colour system
     /* 0x025C */ u16 unusedNum1; // Only set to 0
     /* 0x025E */ u16 unusedNum2; // Set to either 0 when hidden or 4000 when growing
