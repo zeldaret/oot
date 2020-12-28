@@ -1,5 +1,6 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -378,8 +379,6 @@ extern Gfx D_06000DE0[];
 extern Gfx D_06007440[];
 extern Gfx D_06007578[];
 extern Gfx D_06008390[];
-
-extern Gfx gGameKeepMoteDL0[];
 
 // setupaction
 void func_80988E80(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
@@ -968,22 +967,20 @@ void func_8098AB68(PosRot *arg0, Vec3f* arg1, Vec3f* arg2) {
 }
 
 // draw warp sparkles
-#ifdef NON_MATCHING
-// Single register swap and stack diffs in the last block in the loop
 void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
     static Vec3f D_8098CF98;
 
-    s16 i;                              // s1
-    DemoKankyo* this2 = this;           // s1
-    f32 temp_f22;                       // f22
-    s32 pad;                            // spE8 - spEC
-    Player* player = PLAYER;            // spE4 - spE8
-    Vec3f spD8;                         // spD8 - spE4
-    f32 translateX;                     // spD4 - spD8
-    f32 translateY;                     // spD0 - spD4
-    f32 translateZ;                     // spCC - spD0
-    PosRot spB8;                        // spB8 - spCA
-    u8 linkAge = gSaveContext.linkAge;  // spB7 - spB8
+    s16 i;
+    f32 temp_f22;
+    DemoKankyo* this2 = this;
+    Gfx* disp;
+    Player* player = PLAYER;
+    Vec3f spD8;
+    f32 translateX;
+    f32 translateY;
+    f32 translateZ;
+    PosRot spB8;
+    u8 linkAge = gSaveContext.linkAge;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1824);    // spA0
 
@@ -1066,6 +1063,7 @@ void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
         translateZ = this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_8;
 
         if (this2->unk_150[i].unk_22 < 2) {
+            disp = (u32)gGameKeepMoteDL0;
             if (linkAge != 0) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
@@ -1088,19 +1086,13 @@ void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this2->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2011), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
+            gSPDisplayList(POLY_XLU_DISP++, disp);
             this2->unk_150[i].unk_24 += 0x190;
         }
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2019);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kankyo/func_8098ABC0.s")
-f32 D_8098CF98;
-f32 D_8098CF9C;
-f32 D_8098CFA0;
-#endif
 
 f32 D_8098CFA4;
 f32 D_8098CFA8;
