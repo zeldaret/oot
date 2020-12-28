@@ -676,8 +676,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     s16 sp54[] = { 20, 40, 0 };
     s16 sp4C[] = { -2500, 0, 3500 };
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
-                            0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE, 0);
 
     if (this->collider2.base.atFlags & 2) {
         this->collider2.base.atFlags &= ~2;

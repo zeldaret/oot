@@ -763,15 +763,13 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
-                                    this->segMoveRate * 1000.0f, 0);
-            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
-                                    this->segMoveRate * 1000.0f, 0);
-            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
-                                 this->segMoveRate * 0.2f);
+            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
+                               0);
+            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
+                               0);
+            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f, this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
-            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
-                                 this->segMoveRate * 300.0f);
+            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f, this->segMoveRate * 300.0f);
         }
         Math_ApproachF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
     }

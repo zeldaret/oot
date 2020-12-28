@@ -381,35 +381,36 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     if (this->prizeRevealTimer == 0) {
         switch (this->prizeSelect) {
             case 0:
-                prizeTemp = ENEXITEM_BOMB_BAG_BOWL;
+                prizeTemp = EXITEM_BOMB_BAG_BOWL;
                 if (gSaveContext.itemGetInf[1] & 2) {
-                    prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
+                    prizeTemp = EXITEM_PURPLE_RUPEE_BOWL;
                 }
                 break;
             case 1:
-                prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
+                prizeTemp = EXITEM_PURPLE_RUPEE_BOWL;
                 break;
             case 2:
-                prizeTemp = ENEXITEM_BOMBCHUS_BOWL;
+                prizeTemp = EXITEM_BOMBCHUS_BOWL;
                 break;
             case 3:
-                prizeTemp = ENEXITEM_HEART_PIECE_BOWL;
+                prizeTemp = EXITEM_HEART_PIECE_BOWL;
                 if (gSaveContext.itemGetInf[1] & 4) {
-                    prizeTemp = ENEXITEM_PURPLE_RUPEE_BOWL;
+                    prizeTemp = EXITEM_PURPLE_RUPEE_BOWL;
                 }
                 break;
             case 4:
-                prizeTemp = ENEXITEM_BOMBS_BOWL;
+                prizeTemp = EXITEM_BOMBS_BOWL;
                 break;
         }
         this->prizeIndex = prizeTemp;
         if (BREG(7)) {
             this->prizeIndex = BREG(7) - 1;
         }
-        this->exItem = (EnExItem*)Actor_SpawnAsChild(
-            &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
-            sPrizePosOffset[this->prizeIndex].x + 148.0f, sPrizePosOffset[this->prizeIndex].y + 40.0f,
-            sPrizePosOffset[this->prizeIndex].z + 300.0f, 0, sPrizeRot[this->prizeIndex], 0, this->prizeIndex + ENEXITEM_COUNTER);
+        this->exItem = (EnExItem*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
+                                                     sPrizePosOffset[this->prizeIndex].x + 148.0f,
+                                                     sPrizePosOffset[this->prizeIndex].y + 40.0f,
+                                                     sPrizePosOffset[this->prizeIndex].z + 300.0f, 0,
+                                                     sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_COUNTER);
         if (!this->startedPlaying) {
             this->bowlPit = (EnBomBowlPit*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                               ACTOR_EN_BOM_BOWL_PIT, 0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
