@@ -45,9 +45,8 @@ typedef struct {
 typedef struct DemoKankyo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u8 requiredObject;
-    /* 0x014D */ u8 unk_14D;
-    /* 0x014E */ u8 unk_14E;
-    /* 0x014F */ char unk_14F[0x1];
+    /* 0x014D */ u8 sparkleCounter;
+    /* 0x014E */ u8 warpTimer;
     /* 0x0150 */ Struct_Unk_150 unk_150[30];
     /* 0x0600 */ DemoKankyoActionFunc actionFunc;
 } DemoKankyo; // size = 0x0604
