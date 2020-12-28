@@ -51,7 +51,7 @@ glabel ObjLift_Init
 /* 00390 80B96460 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00394 80B96464 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00398 80B96468 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00398 80B96468 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0039C 80B9646C 00000000 */  nop
 /* 003A0 80B96470 3C0180B9 */  lui     $at, %hi(D_80B96A98)       ## $at = 80B90000
@@ -59,7 +59,7 @@ glabel ObjLift_Init
 /* 003A8 80B96478 46040182 */  mul.s   $f6, $f0, $f4              
 /* 003AC 80B9647C 4600320D */  trunc.w.s $f8, $f6                   
 /* 003B0 80B96480 44094000 */  mfc1    $t1, $f8                   
-/* 003B4 80B96484 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003B4 80B96484 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003B8 80B96488 A6090168 */  sh      $t1, 0x0168($s0)           ## 00000168
 /* 003BC 80B9648C 3C0180B9 */  lui     $at, %hi(D_80B96A9C)       ## $at = 80B90000
@@ -67,7 +67,7 @@ glabel ObjLift_Init
 /* 003C4 80B96494 460A0402 */  mul.s   $f16, $f0, $f10            
 /* 003C8 80B96498 4600848D */  trunc.w.s $f18, $f16                 
 /* 003CC 80B9649C 440B9000 */  mfc1    $t3, $f18                  
-/* 003D0 80B964A0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003D0 80B964A0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003D4 80B964A4 A60B016A */  sh      $t3, 0x016A($s0)           ## 0000016A
 /* 003D8 80B964A8 3C0180B9 */  lui     $at, %hi(D_80B96AA0)       ## $at = 80B90000

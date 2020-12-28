@@ -17,7 +17,7 @@ glabel func_809D36A8
 /* 0011C 809D36CC 15C00028 */  bne     $t6, $zero, .L809D3770     
 /* 00120 809D36D0 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 00124 809D36D4 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
-/* 00128 809D36D8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00128 809D36D8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0012C 809D36DC AFA20018 */  sw      $v0, 0x0018($sp)           
 /* 00130 809D36E0 4600010D */  trunc.w.s $f4, $f0                   

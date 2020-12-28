@@ -35,13 +35,13 @@ glabel func_808CAE8C
 /* 0014C 808CAF0C C7A40028 */  lwc1    $f4, 0x0028($sp)           
 /* 00150 808CAF10 46062203 */  div.s   $f8, $f4, $f6              
 /* 00154 808CAF14 E4880030 */  swc1    $f8, 0x0030($a0)           ## 00000030
-/* 00158 808CAF18 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00158 808CAF18 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0015C 808CAF1C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00160 808CAF20 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00164 808CAF24 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 00168 808CAF28 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
-/* 0016C 808CAF2C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0016C 808CAF2C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00170 808CAF30 E4800034 */  swc1    $f0, 0x0034($a0)           ## 00000034
 /* 00174 808CAF34 8FA40018 */  lw      $a0, 0x0018($sp)           

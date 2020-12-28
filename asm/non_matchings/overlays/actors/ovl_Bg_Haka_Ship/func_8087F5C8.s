@@ -18,7 +18,7 @@ glabel func_8087F5C8
 /* 00504 8087F604 A0EF0168 */  sb      $t7, 0x0168($a3)           ## 00000168
 /* 00508 8087F608 ACF80164 */  sw      $t8, 0x0164($a3)           ## 00000164
 .L8087F60C:
-/* 0050C 8087F60C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 0050C 8087F60C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00510 8087F610 24E4016A */  addiu   $a0, $a3, 0x016A           ## $a0 = 0000016A
 /* 00514 8087F614 8FBF0014 */  lw      $ra, 0x0014($sp)           

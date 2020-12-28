@@ -143,7 +143,10 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, THIS->dyna.dynaPolyId);
+    s32 pad;
+    ObjTimeblock* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
@@ -330,8 +333,8 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    if (THIS->isVisible) {
-        Color_RGB8* primColor = &sPrimColors[THIS->dyna.actor.initPosRot.rot.z & 7];
+    if (((ObjTimeblock*)thisx)->isVisible) {
+        Color_RGB8* primColor = &sPrimColors[thisx->initPosRot.rot.z & 7];
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 762);
 

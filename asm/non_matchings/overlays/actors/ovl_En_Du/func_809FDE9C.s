@@ -32,7 +32,7 @@ glabel func_809FDE9C
 /* 002D4 809FDF04 14600006 */  bne     $v1, $zero, .L809FDF20     
 /* 002D8 809FDF08 2404001E */  addiu   $a0, $zero, 0x001E         ## $a0 = 0000001E
 /* 002DC 809FDF0C 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
-/* 002E0 809FDF10 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 002E0 809FDF10 0C01DF64 */  jal     Rand_S16Offset
               
 /* 002E4 809FDF14 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 002E8 809FDF18 8FA60018 */  lw      $a2, 0x0018($sp)           
