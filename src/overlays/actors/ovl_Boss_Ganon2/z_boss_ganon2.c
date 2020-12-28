@@ -561,7 +561,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.z = (player->actor.posRot.pos.z - 15.0f) + 5.0f;
             if (this->unk_398 >= 0x69) {
                 Math_ApproachF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f + 15.0f, 0.1f,
-                                     this->unk_410.x);
+                               this->unk_410.x);
                 Math_ApproachF(&this->unk_410.x, 2.0f, 1.0f, 0.1f);
             } else {
                 this->unk_3B0.y = player->actor.posRot.pos.y + 47.0f + 7.0f;
