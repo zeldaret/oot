@@ -492,13 +492,13 @@ void SkelAnime_GetFrameData(AnimationHeader* animation, s32 frame, s32 limbCount
 }
 
 s16 Animation_GetLength(void* animation) {
-    GenericAnimationHeader* common = SEGMENTED_TO_VIRTUAL(animation);
+    AnimationHeaderCommon* common = SEGMENTED_TO_VIRTUAL(animation);
 
     return common->frameCount;
 }
 
 s16 Animation_GetLastFrame(void* animation) {
-    GenericAnimationHeader* common = SEGMENTED_TO_VIRTUAL(animation);
+    AnimationHeaderCommon* common = SEGMENTED_TO_VIRTUAL(animation);
     // Loads an unsigned half for some reason.
     return (u16)common->frameCount - 1;
 }
@@ -1289,14 +1289,14 @@ void LinkAnimation_InterpJointMorph(GlobalContext* globalCtx, SkelAnime* skelAni
 void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
                                 f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 blendWeight,
                                 Vec3s* blendTable) {
-    Vec3s* alignedBlendTbl;
+    Vec3s* alignedBlendTable;
 
     AnimationContext_SetLoadFrame(globalCtx, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->jointTable);
 
-    alignedBlendTbl = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
 
-    AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTbl);
-    AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->jointTable, alignedBlendTbl, blendWeight);
+    AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
+    AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->jointTable, alignedBlendTable, blendWeight);
 }
 
 /*
@@ -1305,14 +1305,14 @@ void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, 
 void LinkAnimation_BlendToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
                                 f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 blendWeight,
                                 Vec3s* blendTable) {
-    Vec3s* alignedBlendTbl;
+    Vec3s* alignedBlendTable;
 
     AnimationContext_SetLoadFrame(globalCtx, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->morphTable);
 
-    alignedBlendTbl = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
 
-    AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTbl);
-    AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->morphTable, alignedBlendTbl, blendWeight);
+    AnimationContext_SetLoadFrame(globalCtx, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
+    AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->morphTable, alignedBlendTable, blendWeight);
 }
 
 // unused
@@ -1687,7 +1687,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 sin;
     f32 cos;
 
-    if (skelAnime->flags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
         diff->x = diff->z = 0.0f;
     } else {
         // `angle` rotation around y axis.
@@ -1711,8 +1711,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     skelAnime->jointTable[0].x = skelAnime->baseTransl.x;
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
-    if (skelAnime->flags & ANIM_FLAG_UPDATEY) {
-        if (skelAnime->flags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_UPDATEY) {
+        if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
@@ -1723,7 +1723,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         diff->y = 0.0f;
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
-    skelAnime->flags &= ~ANIM_FLAG_NOMOVE;
+    skelAnime->moveFlags &= ~ANIM_FLAG_NOMOVE;
 }
 
 s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame) {

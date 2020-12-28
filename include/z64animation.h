@@ -44,7 +44,7 @@ typedef struct {
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dLists[2]; // Near and far
-} LodLimb;                     // size = 0x10
+} LodLimb; // size = 0x10
 
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
@@ -52,7 +52,7 @@ typedef struct {
     /* 0x07 */ u8 sibling;
     /* 0x08 */ s32 unk_08;      // Type of data contained in segment
     /* 0x0C */ UNK_PTR segment; // Segment address of data. Currently unclear what.
-} SkinLimb;                     // size = 0x10
+} SkinLimb; // size = 0x10
 
 // Model has limbs with only rigid meshes
 typedef struct {
@@ -73,23 +73,17 @@ typedef struct {
     /* 0x04 */ u16 z;
 } JointIndex; // size = 0x06
 
-// Has two elements for ZAP compatibility.
 typedef struct {
     /* 0x00 */ s16 frameCount;
-    /* 0x02 */ s16 pad;
-} GenericAnimationHeader;
-
-// This is for ZAP compatibility. They will be removed later.
-typedef s16 AnimationRotationValue;
-typedef JointIndex AnimationRotationIndex;
+} AnimationHeaderCommon;
 
 typedef struct {
-    /* 0x00 */ GenericAnimationHeader header;
+    /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ u32 segment;
 } LinkAnimationHeader; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ GenericAnimationHeader header;
+    /* 0x00 */ AnimationHeaderCommon common;
     /* 0x04 */ s16* frameData;         // "tbl"
     /* 0x08 */ JointIndex* jointIndices; // "ref_tbl"
     /* 0x0C */ u16 staticIndexMax;
@@ -264,7 +258,7 @@ typedef struct SkelAnime {
     /* 0x2C */ f32 morphRate;     // Reciprocal of the number of frames in the morph
     /* 0x30 */ s32 (*update)();   // Can be Loop, Partial loop, Play once, Morph, or Tapered morph. Link only has Loop, Play once, and Morph
     /* 0x34 */ s8 initFlags;      // Flags used when initializing Link's skeleton
-    /* 0x35 */ u8 flags;          // Flags used for animations that move the actor in worldspace.
+    /* 0x35 */ u8 moveFlags;          // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot;       // Previous rotation in worldspace.
     /* 0x38 */ Vec3s prevTransl;  // Previous modelspace translation.
     /* 0x3E */ Vec3s baseTransl;  // Base modelspace translation.
