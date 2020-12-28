@@ -48,6 +48,8 @@ static f32 sDistSquared2[] = { SQ(1705.0f), SQ(1705.0f), SQ(1705.0f) };
 
 /*static*/ s16 D_80B9A818[] = { 9, 12, 8 };
 
+static s16 sActorSpawnIDs[] = { ACTOR_EN_KUSA, ACTOR_EN_KUSA, ACTOR_EN_ISHI };
+
 #ifdef NON_MATCHING
 // Very close to matching, just regalloc and a stack diff
 void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
@@ -65,13 +67,13 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
 #endif
 
-static s16 sActorSpawnIDs[] = { ACTOR_EN_KUSA, ACTOR_EN_KUSA, ACTOR_EN_ISHI };
+static Mure2ScatteredShrubInfo scatteredShrubInfo[] = {
+    { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
+    { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
+};
 
 void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
-    static Mure2ScatteredShrubInfo scatteredShrubInfo[] = {
-        { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
-        { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
-    };
+
     Vec3f* vecPtr;
     s32 i;
     Vec3f* actorPos = &this->actor.posRot.pos; // Required to match
