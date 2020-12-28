@@ -1180,7 +1180,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     prevKeyFrame = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
 
-    playSpeed = (0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
+    playSpeed = ((void) 0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
@@ -1532,12 +1532,12 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
         f32 dist;
 
         angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
-        this->actor.posRot.rot.y = (u16) this->actor.shape.rot.y & 0xFFFF;
+        this->actor.posRot.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
         dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
         //! @bug
         // func_8002DB6C already sqrtfs the distance, so this actually checks for a
         // distance of 360000. Also it's a double calculation because no f on sqrt.
-        if ((ABS(angleToFacing) < 12000) && (sqrt(dist) < 600.0)) {
+        if ((ABS(angleToFacing) < 0x2EE0) && (sqrt(dist) < 600.0)) {
             if (actor->id == ACTOR_ARMS_HOOK) {
                 EnGeldB_SetupJump(this);
             } else {
