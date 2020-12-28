@@ -92,7 +92,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->drawTbl2, this->transitionTbl2,
-                     0x10);
+                       0x10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -1048,9 +1048,10 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
+// Minor regalloc surrounding the unk_3EE at the end of the function.
+void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnOwl *this = THIS;
+    EnOwl* this = THIS;
     s16 phi_a1;
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -1060,14 +1061,16 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);
     if (this->actor.update == NULL) {
+        //Owl disappears
         osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }
 
     if (!(this->actionFlags & 0x80) && func_80ACC624(this, globalCtx)) {
-        if ((this->skelAnime.animation == &D_06001168 && (this->skelAnime.animCurrentFrame == 2.0f ||
-             this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f ||
-              this->skelAnime.animCurrentFrame == 40.0f || this->skelAnime.animCurrentFrame == 58.0f)) ||
+        if ((this->skelAnime.animation == &D_06001168 &&
+             (this->skelAnime.animCurrentFrame == 2.0f || this->skelAnime.animCurrentFrame == 9.0f ||
+              this->skelAnime.animCurrentFrame == 23.0f || this->skelAnime.animCurrentFrame == 40.0f ||
+              this->skelAnime.animCurrentFrame == 58.0f)) ||
             (this->skelAnime.animation == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
@@ -1094,7 +1097,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
     if (!(this->actionFlags & 8)) {
         phi_a1 = 0;
         if (this->actionFlags & 0x10) {
-            switch(this->unk_404) {
+            switch (this->unk_404) {
                 case 0:
                     this->unk_404 = 1;
                     this->unk_405 = 6;
@@ -1133,7 +1136,6 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                     break;
                 default:
                     break;
-
             }
         } else {
             if (this->unk_406 > 0) {
@@ -1151,7 +1153,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
 
                 this->unk_405--;
 
-                switch(this->unk_404) {
+                switch (this->unk_404) {
                     case 1:
                         phi_a1 = Math_SinS((-this->unk_405 * 4096) + 0x4000) * 5000.0f;
                         if (this->unk_405 <= 0) {
@@ -1185,7 +1187,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                     default:
                         break;
                 }
-                
+
                 if (this->actionFlags & 0x20) {
                     phi_a1 = -phi_a1;
                 }
@@ -1195,7 +1197,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                 this->unk_409--;
             } else {
                 this->unk_408--;
-                switch(this->unk_407) {
+                switch (this->unk_407) {
                     case 0:
                         this->unk_3F2 = (-this->unk_408 * 0x5DC) + 0x1770;
                         if (this->unk_408 <= 0) {
@@ -1221,9 +1223,9 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                     default:
                         break;
                 }
-            }   
+            }
         }
-        if(phi_a1){}
+        if (phi_a1) {}
         this->unk_3F0 = (s16)(this->unk_3EE * 1024) + phi_a1;
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     } else {

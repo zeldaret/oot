@@ -1180,7 +1180,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     prevKeyFrame = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
 
-    playSpeed = ((void) 0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
+    playSpeed = ((void)0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
