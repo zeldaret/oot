@@ -15,7 +15,7 @@ typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);
 typedef struct {
     s16 radius;
     s16 angle;
-} Mure2ScatteredShrubInfo;
+} Mure2sScatteredShrubInfo;
 
 void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +67,7 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
 #endif
 
-static Mure2ScatteredShrubInfo scatteredShrubInfo[] = {
+static Mure2sScatteredShrubInfo sScatteredShrubInfo[] = {
     { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
     { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
 };
@@ -82,8 +82,8 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, actorPos);
         if (1) {}
-        vecPtr->x += (scatteredShrubInfo[i].radius * Math_CosS(scatteredShrubInfo[i].angle));
-        vecPtr->z -= (scatteredShrubInfo[i].radius * Math_SinS(scatteredShrubInfo[i].angle));
+        vecPtr->x += (sScatteredShrubInfo[i].radius * Math_CosS(sScatteredShrubInfo[i].angle));
+        vecPtr->z -= (sScatteredShrubInfo[i].radius * Math_SinS(sScatteredShrubInfo[i].angle));
     }
 }
 
