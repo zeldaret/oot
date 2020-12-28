@@ -291,7 +291,6 @@ SAFE_C_FILES :=    \
     build/src/overlays/actors/ovl_Bg_Spot03_Taki/z_bg_spot03_taki.o    \
     build/src/overlays/actors/ovl_Door_Toki/z_door_toki.o    \
     build/src/overlays/actors/ovl_En_OE2/z_en_oe2.o    \
-    build/src/overlays/actors/ovl_En_Ishi/z_en_ishi.o    \
     build/src/overlays/actors/ovl_Obj_Makeoshihiki/z_obj_makeoshihiki.o    \
     build/src/overlays/actors/ovl_Item_Etcetera/z_item_etcetera.o    \
     build/src/overlays/actors/ovl_En_Po_Desert/z_en_po_desert.o    \
