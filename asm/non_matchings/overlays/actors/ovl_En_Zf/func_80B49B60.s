@@ -9,7 +9,7 @@ glabel func_80B49B60
 /* 05B2C 80B49B7C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 05B30 80B49B80 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 05B34 80B49B84 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
-/* 05B38 80B49B88 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 05B38 80B49B88 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 05B3C 80B49B8C 00000000 */  nop
 /* 05B40 80B49B90 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

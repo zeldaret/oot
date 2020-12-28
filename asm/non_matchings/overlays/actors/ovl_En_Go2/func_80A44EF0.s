@@ -88,7 +88,7 @@ glabel func_80A44EF0
 /* 022E8 80A45018 87AB001E */  lh      $t3, 0x001E($sp)           
 /* 022EC 80A4501C 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C
 /* 022F0 80A45020 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
-/* 022F4 80A45024 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 022F4 80A45024 0C01DF64 */  jal     Rand_S16Offset
               
 /* 022F8 80A45028 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 022FC 80A4502C 8FA60018 */  lw      $a2, 0x0018($sp)           

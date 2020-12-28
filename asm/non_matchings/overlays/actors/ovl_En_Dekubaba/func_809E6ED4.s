@@ -61,7 +61,7 @@ glabel func_809E6ED4
 /* 017D0 809E6FA0 00073C03 */  sra     $a3, $a3, 16               
 /* 017D4 809E6FA4 00052C03 */  sra     $a1, $a1, 16               
 /* 017D8 809E6FA8 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
-/* 017DC 809E6FAC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 017DC 809E6FAC 0C01E1EF */  jal     Math_ApproachS
               
 /* 017E0 809E6FB0 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
 /* 017E4 809E6FB4 860201C6 */  lh      $v0, 0x01C6($s0)           ## 000001C6

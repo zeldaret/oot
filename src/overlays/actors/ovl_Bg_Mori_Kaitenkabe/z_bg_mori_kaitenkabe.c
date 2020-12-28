@@ -102,9 +102,9 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
             BgMoriKaitenkabe_SetupRotate(this);
             func_8002DF54(globalCtx, &this->dyna.actor, 8);
             Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.posRot.pos);
-            push.x = Math_Sins(this->dyna.unk_158);
+            push.x = Math_SinS(this->dyna.unk_158);
             push.y = 0.0f;
-            push.z = Math_Coss(this->dyna.unk_158);
+            push.z = Math_CosS(this->dyna.unk_158);
             leverArm.x = this->dyna.actor.posRot.pos.x - player->actor.posRot.pos.x;
             leverArm.y = 0.0f;
             leverArm.z = this->dyna.actor.posRot.pos.z - player->actor.posRot.pos.z;
@@ -131,8 +131,8 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s16 rotY;
 
-    Math_ApproxF(&this->rotSpeed, 0.6f, 0.02f);
-    if (Math_ApproxF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
+    Math_StepToF(&this->rotSpeed, 0.6f, 0.02f);
+    if (Math_StepToF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
         BgMoriKaitenkabe_SetupWait(this);
         func_8002DF54(globalCtx, thisx, 7);
         if (this->rotDirection > 0.0f) {

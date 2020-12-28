@@ -40,7 +40,7 @@ glabel func_80A98C18
 /* 01EF8 80A98CA8 8DAE0000 */  lw      $t6, 0x0000($t5)           ## 00000000
 /* 01EFC 80A98CAC 55C00007 */  bnel    $t6, $zero, .L80A98CCC     
 /* 01F00 80A98CB0 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01F04 80A98CB4 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 01F04 80A98CB4 0C01DF64 */  jal     Rand_S16Offset
               
 /* 01F08 80A98CB8 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 01F0C 80A98CBC 8FA60018 */  lw      $a2, 0x0018($sp)           
