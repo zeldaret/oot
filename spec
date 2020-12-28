@@ -3138,8 +3138,6 @@ endseg
 beginseg
     name "ovl_En_Viewer"
     include "build/src/overlays/actors/ovl_En_Viewer/z_en_viewer.o"
-    // include "build/data/overlays/actors/z_en_viewer.data.o"
-    // include "build/data/overlays/actors/z_en_viewer.bss.o"
     include "build/data/overlays/actors/z_en_viewer.reloc.o"
 endseg
 

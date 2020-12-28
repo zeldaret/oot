@@ -16,6 +16,7 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+// EnView_AnimFunc x3
 void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg);
 void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
@@ -30,17 +31,17 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
-// EnViewer_OverrideLimbDraw
+// EnViewer_OverrideLimbDraw x3
 s32 func_80B2B2F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 s32 func_80B2B928(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 s32 func_80B2C10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 
-// EnViewer_PostLimbDraw
+// EnViewer_PostLimbDraw x3
 void func_80B2B364(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 void func_80B2B468(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-void func_80B2C398(EnViewer* this, GlobalContext* globalCtx);
+void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2);
 void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx);
 void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this);
@@ -68,6 +69,7 @@ extern AnimationHeader D_06003858;
 extern AnimationHeader D_06003D84;
 extern UNK_TYPE D_06003EF0;
 extern AnimationHeader D_0600420C;
+extern AnimationHeader D_06004260;
 extern UNK_TYPE D_060042F0;
 extern AnimationHeader D_06004534;
 extern AnimationHeader D_060048B0;
@@ -77,31 +79,27 @@ extern UNK_TYPE D_06004EF0;
 extern AnimationHeader D_0600504C;
 extern AnimationHeader D_060050A8;
 extern UNK_TYPE D_060052F0;
+extern FlexSkeletonHeader D_06006B2C;
+extern AnimationHeader D_06007148;
 extern UNK_TYPE D_06007210;
+extern FlexSkeletonHeader D_06008668;
 extern UNK_TYPE D_0600A4E0;
 extern Gfx* D_0600BE90;
 extern Gfx* D_0600C410;
 extern Gfx* D_0600D0D8;
 extern Gfx* D_0600DE08;
-extern Gfx D_0600E1A8[];
+extern SkeletonHeader D_0600E038;
+extern Gfx* D_0600E1A8;
 extern UNK_TYPE D_0600F178;
 extern UNK_TYPE D_0600F378;
 extern UNK_TYPE D_0600F578;
 extern UNK_TYPE D_0600F778;
+extern FlexSkeletonHeader D_0600F788;
+extern AnimationHeader D_06011348;
+extern FlexSkeletonHeader D_060114E8;
+extern FlexSkeletonHeader D_060119E8;
 
-typedef struct {
-    s16 objId1;
-    s16 objId2;
-    u8 unk_4;
-    s8 unk_5;
-    u8 unk_6;
-    u8 unk_7;
-    u8 unk_8;
-    AnimationHeader* unk_C;
-    AnimationHeader** unk_10;
-} struct_80B2CEE8;
-
-u8 D_80B2CEC0[] = { 0x00, 0x00, 0x00, 0x00 };
+u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
@@ -115,32 +113,53 @@ const ActorInit En_Viewer_InitVars = {
     (ActorFunc)EnViewer_Draw,
 };
 
-// static InitChainEntry sInitChain
-InitChainEntry D_80B2CEE4[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_STOP),
 };
 
 struct_80B2CEE8 D_80B2CEE8[] = {
-    { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 0x01, 0x00, 0x02, 0x14, 0x01, 0x06006B2C, 0x06007148 },
-    { OBJECT_IM, OBJECT_OPENING_DEMO1, 0x01, 0x00, 0x00, 0x0A, 0x03, 0x0600F788, 0x060029CC },
-    { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 0x01, 0x00, 0x00, 0x0A, 0x02, 0x0600E038, 0x06000450 },
-    { OBJECT_GNDD, OBJECT_GNDD, 0x01, 0xFA, 0x00, 0x0A, 0x00, 0x060119E8, 0x06002928 },
-    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 0x01, 0x00, 0x02, 0x14, 0x01, 0x06008668, 0x06003858 },
-    { OBJECT_GNDD, OBJECT_GNDD, 0x01, 0xFA, 0x00, 0x0A, 0x00, 0x060119E8, 0x060005B4 },
-    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 0x01, 0x00, 0x02, 0x14, 0x01, 0x06008668, 0x06002650 },
-    { OBJECT_GNDD, OBJECT_GNDD, 0x01, 0xFA, 0x00, 0x0A, 0x00, 0x060119E8, 0x06004260 },
-    { OBJECT_GNDD, OBJECT_GNDD, 0x01, 0xFA, 0x00, 0x0A, 0x00, 0x060119E8, 0x060050A8 },
-    { OBJECT_GANON, OBJECT_GANON, 0x01, 0xFA, 0x00, 0x0A, 0x00, 0x060114E8, 0x06011348 }
+    { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, 2, 20, 1, &D_06006B2C, &D_06007148 },
+    { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &D_0600F788, &D_060029CC },
+    { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &D_0600E038, &D_06000450 }, 
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &D_06008668, &D_06003858 },
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060005B4 },
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &D_06008668, &D_06002650 },
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06004260 },
+    { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060050A8 },
+    { OBJECT_GANON, OBJECT_GANON, 1, -6, 0, 10, 0, &D_060114E8, &D_06011348 },
 };
 
-EnViewerAnimFunc D_80B2CFB0[] = { func_80B2A300, func_80B2A4D8, func_80B2A300, func_80B2A448 };
-void* D_80B2CFC0[] = { NULL, ActorShadow_DrawFunc_Circle, ActorShadow_DrawFunc_Squiggly };
+EnViewerAnimFunc sAnimFuncs[] = {
+    func_80B2A300,
+    func_80B2A4D8,
+    func_80B2A300,
+    func_80B2A448,
+};
+
+static void* ActorShadowDrawFunc[] = {
+    NULL,
+    ActorShadow_DrawFunc_Circle,
+    ActorShadow_DrawFunc_Squiggly,
+};
+
+// timer
 s16 D_80B2CFCC = 0;
+
 Vec3f D_80B2CFD0 = { 0.0f, 0.0f, 0.0f };
-EnViewerDrawFunc D_80B2CFDC[] = { func_80B2B4A8, func_80B2B8FC, func_80B2BA38, func_80B2C130 };
+
+static EnViewerDrawFunc sDrawFuncs[] = {
+    func_80B2B4A8,
+    func_80B2B8FC,
+    func_80B2BA38,
+    func_80B2C130,
+};
+
+// angle
 s16 D_80B2CFEC = 0;
 
-EnGanonMant* D_80B2D440[2];
+EnGanonMant* ganonCape;
+
 Vec3f D_80B2D448;
 
 void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
@@ -151,16 +170,16 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = THIS;
     u8 params;
 
-    Actor_ProcessInitChain(&this->actor, D_80B2CEE4);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     EnViewer_SetupAction(this, func_80B2A570);
-    D_80B2CEC0[0] = 0;
+    D_80B2CEC0 = false;
     params = this->actor.params >> 8;
-    this->unk_1E4 = 0;
+    this->unused = 0;
     this->unk_1E5 = 0;
-    this->unk_1E6 = 0;
+    this->unk_1E6 = false;
     if (params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        D_80B2D440[0] = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f,
-                                           0.0f, 0.0f, 0, 0, 0, 35);
+        ganonCape = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
+                                       0.0f, 0, 0, 0, 35);
     }
 }
 
@@ -227,13 +246,14 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x40;
         return;
     }
-    this->unk_1E6 = 1;
+    this->unk_1E6 = true;
     this->actor.objBankIndex = objIndex;
     Actor_SetObjectDependency(globalCtx, &this->actor);
-    Actor_SetScale(&this->actor, unkStruct->unk_4 / 100.0f);
-    ActorShape_Init(&this->actor.shape, unkStruct->unk_5 * 100, D_80B2CFC0[unkStruct->unk_6], unkStruct->unk_7);
-    this->unk_1DD = unkStruct->unk_8;
-    D_80B2CFB0[this->unk_1DD](this, globalCtx, unkStruct->unk_C, unkStruct->unk_10);
+    Actor_SetScale(&this->actor, unkStruct->scale / 100.0f);
+    ActorShape_Init(&this->actor.shape, unkStruct->unk_5 * 100,
+                    ActorShadowDrawFunc[unkStruct->actorShadowDrawFuncIndex], unkStruct->unk_7);
+    this->drawFuncIndex = unkStruct->drawFuncIndex;
+    sAnimFuncs[this->drawFuncIndex](this, globalCtx, unkStruct->unk_C, unkStruct->unk_10);
     EnViewer_SetupAction(this, func_80B2A75C);
 }
 
@@ -292,7 +312,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
-    } else if (params == 6) { // funky
+    } else if (params == 6) { 
         if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 10) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
@@ -318,7 +338,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         D_80B2CFCC--;
     }
 
-    func_80B2C398(this, globalCtx);
+    EnViewer_GetCutsceneNextPos(this, globalCtx);
     Actor_MoveForward(&this->actor);
 
     frameUpdate = SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
@@ -424,7 +444,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                 break;
         }
     } else if (params == 2) {
-        if (globalCtx->sceneNum == SCENE_SPOT00) {
+        if (globalCtx->sceneNum == SCENE_SPOT00) { // Hyrule Field
             switch (this->unk_1E5) {
                 case 0:
                     if (globalCtx->csCtx.state != 0) {
@@ -529,11 +549,11 @@ void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80B2B2F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         if (globalCtx->csCtx.frames >= 400 && limbIndex == 5) {
-            *dList = D_0600E1A8;
+            *dList = &D_0600E1A8;
         }
     } else {
         if (globalCtx->csCtx.frames >= 1510 && globalCtx->csCtx.frames < 1651 && limbIndex == 5) {
-            *dList = D_0600E1A8;
+            *dList = &D_0600E1A8;
         }
     }
     return 0;
@@ -612,7 +632,7 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B2B928(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if (globalCtx->sceneNum == SCENE_SPOT00) {
+    if (globalCtx->sceneNum == SCENE_SPOT00) { // Hyrule Field
         if (limbIndex == 2) {
             *dList = &D_0600C410;
         }
@@ -646,7 +666,7 @@ void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1583);
-    if (globalCtx->sceneNum == SCENE_SPOT00) {
+    if (globalCtx->sceneNum == SCENE_SPOT00) { // Hyrule Field
         if (globalCtx->csCtx.frames < 771) {
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_060042F0));
             gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06003EF0));
@@ -716,24 +736,23 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1760);
 
-    if (this->unk_1E6 != 0) {
+    if (this->unk_1E6) {
         params = this->actor.params >> 8;
         if (params < 3) {
             if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
                 func_80093D18(globalCtx->state.gfxCtx);
-                D_80B2CFDC[this->unk_1DD](this, globalCtx);
+                sDrawFuncs[this->drawFuncIndex](this, globalCtx);
             }
         } else if (((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[1] != NULL)) || params == 9) {
             func_80093D18(globalCtx->state.gfxCtx);
-            D_80B2CFDC[this->unk_1DD](this, globalCtx);
+            sDrawFuncs[this->drawFuncIndex](this, globalCtx);
         }
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1784);
 }
 
-// EnElf_GetCutsceneNextPos
-void func_80B2C398(EnViewer* this, GlobalContext* globalCtx) {
+void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
     f32 interpolated;
@@ -745,8 +764,8 @@ void func_80B2C398(EnViewer* this, GlobalContext* globalCtx) {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
             globalCtx->csCtx.frames < globalCtx->csCtx.npcActions[0]->endFrame) {
             if (params == 0) {
-                if (D_80B2CEC0[0] == 0) {
-                    D_80B2CEC0[0] = 1;
+                if (D_80B2CEC0 == false) {
+                    D_80B2CEC0 = true;
                     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
@@ -807,7 +826,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
     EnViewerUnkStruct* unkStruct;
 
     if ((arg2 % 2) == 0) {
-        unkStruct = &(this->unk_1E8[arg2]);
+        unkStruct = &this->unk_1E8[arg2];
         unkStruct->unk_0.x = 100.0f;
         unkStruct->unk_0.y = -420.0f;
         unkStruct->unk_0.z = 400.0f;
@@ -816,7 +835,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
         unkStruct->unk_C.z = -400.0f;
         unkStruct->unk_24.y = (((Math_Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
     } else {
-        unkStruct = &(this->unk_1E8[arg2]);
+        unkStruct = &this->unk_1E8[arg2];
         unkStruct->unk_0.x = -100.0f;
         unkStruct->unk_0.y = -420.0f;
         unkStruct->unk_0.z = 400.0f;
@@ -833,13 +852,13 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1941);
-    for (i = 0; i < 20; i++) {
-        switch (this->unk_1E8[i].unk_30) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_1E8); i++) {
+        switch (this->unk_1E8[i].state) {
             case 0:
                 func_80B2C768(this, globalCtx, i);
                 this->unk_1E8[i].unk_24.z = (i >> 1) * 0.1f;
                 this->unk_1E8[i].unk_24.x = 0.01f;
-                this->unk_1E8[i].unk_30++;
+                this->unk_1E8[i].state++;
                 break;
             case 1:
                 Math_SmoothScaleMaxMinF(&this->unk_1E8[i].unk_24.z, 1.0f, 1.0f, this->unk_1E8[i].unk_24.x,
@@ -854,14 +873,14 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
                     this->unk_1E8[i].unk_0.z +
                     (this->unk_1E8[i].unk_C.z - this->unk_1E8[i].unk_0.z) * this->unk_1E8[i].unk_24.z;
                 if (this->unk_1E8[i].unk_24.z >= 1.0f) {
-                    this->unk_1E8[i].unk_30++;
+                    this->unk_1E8[i].state++;
                 }
                 break;
             case 2:
                 func_80B2C768(this, globalCtx, i);
                 this->unk_1E8[i].unk_24.z = 0.0f;
                 this->unk_1E8[i].unk_24.x = 0.01f;
-                this->unk_1E8[i].unk_30--;
+                this->unk_1E8[i].state--;
                 break;
         }
 
@@ -883,37 +902,47 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
 
+// regalloc
+// Using any of the three temps in the comments results in equivalency with only the stack pointer being too large.
+// Can't find an equivalent without a temp
 #ifdef NON_MATCHING
 void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
     Vec3f vec1;
     Vec3f vec2;
-    s16 angle;
+    // u8 index = 19;
+    // s16 angle_1 = 0x1000;
+    // s16 angle_2 = 0x2000;
 
     if (this->actor.params >> 8 == 5) {
         if (1) {}
-        D_80B2D440[0]->unk_16B0 = BREG(54) / 10.0f;
-        D_80B2D440[0]->unk_16B4 = (BREG(60) + 25) / 100.0f;
-        D_80B2D440[0]->unk_16B8 = (BREG(55) - 45) / 10.0f;
-        D_80B2D440[0]->unk_16AC = -10000.0f;
-        D_80B2D440[0]->unk_16D0 = 0.0f;
-        D_80B2D440[0]->unk_16C8 = (BREG(67) - 10) / 10.0f;
-        angle = 0x2000;
+        ganonCape->unk_16B0 = BREG(54) / 10.0f;
+        ganonCape->unk_16B4 = (BREG(60) + 25) / 100.0f;
+        ganonCape->unk_16B8 = (BREG(55) - 45) / 10.0f;
+        ganonCape->unk_16AC = -10000.0f;
+        ganonCape->unk_16D0 = 0.0f;
+        ganonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
         vec1.x = KREG(16) - 13.0f;
+
+        // Any of the temps defined above vec1.y results in a near match
+        // with only the stack pointer being too large
         vec1.y = KREG(17) + 3.0f + Math_Sins(D_80B2CFEC) * KREG(20);
-        vec1.z = KREG(18) - 10.0f;  
-        D_80B2CFEC += KREG(19) * 0x1000 + angle;
-        // D_80B2CFEC += KREG(19) * 0x1000 + 0x2000;
-        Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+        vec1.z = KREG(18) - 10.0f;
+        D_80B2CFEC += KREG(19) * 0x1000 + 0x2000;
+        // D_80B2CFEC += KREG(index) * 0x1000 + 0x2000;
+        // D_80B2CFEC += KREG(19) * angle_1 + 0x2000;
+        // D_80B2CFEC += KREG(19) * 0x1000 + angle_2;
+
+        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
-        D_80B2D440[0]->unk_16D4.x = D_80B2D448.x + vec2.x;
-        D_80B2D440[0]->unk_16D4.y = D_80B2D448.y + vec2.y;
-        D_80B2D440[0]->unk_16D4.z = D_80B2D448.z + vec2.z;
+        ganonCape->unk_16D4.x = D_80B2D448.x + vec2.x;
+        ganonCape->unk_16D4.y = D_80B2D448.y + vec2.y;
+        ganonCape->unk_16D4.z = D_80B2D448.z + vec2.z;
 
         vec1.x = -(KREG(16) - 13.0f);
         Matrix_MultVec3f(&vec1, &vec2);
-        D_80B2D440[0]->unk_16E0.x = D_80B2D448.x + vec2.x;
-        D_80B2D440[0]->unk_16E0.y = D_80B2D448.y + vec2.y;
-        D_80B2D440[0]->unk_16E0.z = D_80B2D448.z + vec2.z;
+        ganonCape->unk_16E0.x = D_80B2D448.x + vec2.x;
+        ganonCape->unk_16E0.y = D_80B2D448.y + vec2.y;
+        ganonCape->unk_16E0.z = D_80B2D448.z + vec2.z;
     }
 }
 #else
