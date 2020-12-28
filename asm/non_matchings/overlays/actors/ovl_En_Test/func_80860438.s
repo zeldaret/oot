@@ -26,7 +26,7 @@ glabel func_80860438
 /* 00E40 80860490 24A581B4 */  addiu   $a1, $a1, %lo(D_060081B4)           ## $a1 = 060081B4
 /* 00E44 80860494 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00E48 80860498 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
-/* 00E4C 8086049C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00E4C 8086049C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00E50 808604A0 00000000 */  nop
 /* 00E54 808604A4 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

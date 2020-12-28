@@ -144,14 +144,14 @@ glabel EnKanban_Draw
 /* 01D24 80A93CC4 46125302 */  mul.s   $f12, $f10, $f18           
 /* 01D28 80A93CC8 0C0342DC */  jal     Matrix_RotateX              
 /* 01D2C 80A93CCC 00000000 */  nop
-/* 01D30 80A93CD0 0C01DE1C */  jal     Math_Sins
+/* 01D30 80A93CD0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01D34 80A93CD4 86040168 */  lh      $a0, 0x0168($s0)           ## 00000168
 /* 01D38 80A93CD8 C6040180 */  lwc1    $f4, 0x0180($s0)           ## 00000180
 /* 01D3C 80A93CDC 8604016C */  lh      $a0, 0x016C($s0)           ## 0000016C
 /* 01D40 80A93CE0 46040002 */  mul.s   $f0, $f0, $f4              
 /* 01D44 80A93CE4 46000085 */  abs.s   $f2, $f0                   
-/* 01D48 80A93CE8 0C01DE1C */  jal     Math_Sins
+/* 01D48 80A93CE8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01D4C 80A93CEC E7A20098 */  swc1    $f2, 0x0098($sp)           
 /* 01D50 80A93CF0 C606017C */  lwc1    $f6, 0x017C($s0)           ## 0000017C

@@ -44,7 +44,7 @@ glabel L80B5D650
 /* 01EC0 80B5D670 2484C004 */  addiu   $a0, $a0, 0xC004           ## $a0 = FFFFC004
 /* 01EC4 80B5D674 00042400 */  sll     $a0, $a0, 16               
 /* 01EC8 80B5D678 00042403 */  sra     $a0, $a0, 16               
-/* 01ECC 80B5D67C 0C01DE1C */  jal     Math_Sins
+/* 01ECC 80B5D67C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01ED0 80B5D680 A7A40022 */  sh      $a0, 0x0022($sp)           
 /* 01ED4 80B5D684 3C014208 */  lui     $at, 0x4208                ## $at = 42080000
@@ -54,7 +54,7 @@ glabel L80B5D650
 /* 01EE4 80B5D694 46003202 */  mul.s   $f8, $f6, $f0              
 /* 01EE8 80B5D698 C4440024 */  lwc1    $f4, 0x0024($v0)           ## 00000024
 /* 01EEC 80B5D69C 46082280 */  add.s   $f10, $f4, $f8             
-/* 01EF0 80B5D6A0 0C01DE0D */  jal     Math_Coss
+/* 01EF0 80B5D6A0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01EF4 80B5D6A4 E44A0024 */  swc1    $f10, 0x0024($v0)          ## 00000024
 /* 01EF8 80B5D6A8 3C014208 */  lui     $at, 0x4208                ## $at = 42080000

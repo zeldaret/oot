@@ -72,7 +72,7 @@ glabel EnArrow_Draw
 /* 01108 809B4A28 00812021 */  addu    $a0, $a0, $at
 /* 0110C 809B4A2C 000420C0 */  sll     $a0, $a0,  3
 /* 01110 809B4A30 00042400 */  sll     $a0, $a0, 16
-/* 01114 809B4A34 0C01DE0D */  jal     Math_Coss
+/* 01114 809B4A34 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01118 809B4A38 00042403 */  sra     $a0, $a0, 16
 /* 0111C 809B4A3C 3C0142FF */  lui     $at, 0x42FF                ## $at = 42FF0000

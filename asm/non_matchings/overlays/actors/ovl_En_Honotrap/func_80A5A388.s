@@ -24,7 +24,7 @@ glabel func_80A5A388
 /* 0078C 80A5A3BC 44050000 */  mfc1    $a1, $f0                   
 /* 00790 80A5A3C0 3C063A1D */  lui     $a2, 0x3A1D                ## $a2 = 3A1D0000
 /* 00794 80A5A3C4 34C64952 */  ori     $a2, $a2, 0x4952           ## $a2 = 3A1D4952
-/* 00798 80A5A3C8 0C01DE80 */  jal     Math_ApproxF
+/* 00798 80A5A3C8 0C01DE80 */  jal     Math_StepToF
               
 /* 0079C 80A5A3CC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 007A0 80A5A3D0 8FA70018 */  lw      $a3, 0x0018($sp)           

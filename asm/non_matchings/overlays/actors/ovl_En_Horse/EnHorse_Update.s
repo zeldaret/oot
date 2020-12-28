@@ -215,7 +215,7 @@ glabel EnHorse_Update
 /* 096C0 80A649B0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 096C4 80A649B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 096C8 80A649B8 0C01DE1C */  jal     Math_Sins
+/* 096C8 80A649B8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 096CC 80A649BC 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 096D0 80A649C0 3C014130 */  lui     $at, 0x4130                ## $at = 41300000
@@ -227,7 +227,7 @@ glabel EnHorse_Update
 /* 096E8 80A649D8 440E9000 */  mfc1    $t6, $f18                  
 /* 096EC 80A649DC 00000000 */  nop
 /* 096F0 80A649E0 01CFC021 */  addu    $t8, $t6, $t7              
-/* 096F4 80A649E4 0C01DE0D */  jal     Math_Coss
+/* 096F4 80A649E4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 096F8 80A649E8 A61802BE */  sh      $t8, 0x02BE($s0)           ## 000002BE
 /* 096FC 80A649EC 3C014130 */  lui     $at, 0x4130                ## $at = 41300000
@@ -239,7 +239,7 @@ glabel EnHorse_Update
 /* 09714 80A64A04 440B4000 */  mfc1    $t3, $f8                   
 /* 09718 80A64A08 00000000 */  nop
 /* 0971C 80A64A0C 016C6821 */  addu    $t5, $t3, $t4              
-/* 09720 80A64A10 0C01DE1C */  jal     Math_Sins
+/* 09720 80A64A10 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 09724 80A64A14 A60D02C2 */  sh      $t5, 0x02C2($s0)           ## 000002C2
 /* 09728 80A64A18 3C01C190 */  lui     $at, 0xC190                ## $at = C1900000
@@ -251,7 +251,7 @@ glabel EnHorse_Update
 /* 09740 80A64A30 44189000 */  mfc1    $t8, $f18                  
 /* 09744 80A64A34 00000000 */  nop
 /* 09748 80A64A38 03084821 */  addu    $t1, $t8, $t0              
-/* 0974C 80A64A3C 0C01DE0D */  jal     Math_Coss
+/* 0974C 80A64A3C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 09750 80A64A40 A609030A */  sh      $t1, 0x030A($s0)           ## 0000030A
 /* 09754 80A64A44 3C01C190 */  lui     $at, 0xC190                ## $at = C1900000
@@ -368,7 +368,7 @@ glabel EnHorse_Update
 /* 098E8 80A64BD8 8F2F0008 */  lw      $t7, 0x0008($t9)           ## 00000008
 /* 098EC 80A64BDC 46049180 */  add.s   $f6, $f18, $f4             
 /* 098F0 80A64BE0 AE0F0040 */  sw      $t7, 0x0040($s0)           ## 00000040
-/* 098F4 80A64BE4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 098F4 80A64BE4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 098F8 80A64BE8 E606003C */  swc1    $f6, 0x003C($s0)           ## 0000003C
 /* 098FC 80A64BEC 3C0180A6 */  lui     $at, %hi(D_80A669BC)       ## $at = 80A60000

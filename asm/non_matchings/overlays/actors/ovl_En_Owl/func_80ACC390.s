@@ -18,7 +18,7 @@ glabel func_80ACC390
 /* 024AC 80ACC3CC A60E03FE */  sh      $t6, 0x03FE($s0)           ## 000003FE
 /* 024B0 80ACC3D0 00002012 */  mflo    $a0
 /* 024B4 80ACC3D4 00042400 */  sll     $a0, $a0, 16
-/* 024B8 80ACC3D8 0C01DE1C */  jal     Math_Sins
+/* 024B8 80ACC3D8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 024BC 80ACC3DC 00042403 */  sra     $a0, $a0, 16
 /* 024C0 80ACC3E0 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
