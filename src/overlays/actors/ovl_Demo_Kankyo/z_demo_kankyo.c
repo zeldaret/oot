@@ -379,6 +379,8 @@ extern Gfx D_06007440[];
 extern Gfx D_06007578[];
 extern Gfx D_06008390[];
 
+extern Gfx gGameKeepMoteDL0[];
+
 // setupaction
 void func_80988E80(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -424,15 +426,15 @@ void DemoKankyo_Init(Actor *thisx, GlobalContext *globalCtx) {
         case DEMOKANKYO_ROCK_4:
         case DEMOKANKYO_ROCK_5:
             globalCtx->roomCtx.curRoom.segment = NULL;
-            this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
-            this->unk_150[0].unk_0 = (Math_Rand_ZeroOne() * 3.0f) + 1.0f;
-            this->unk_150[0].unk_4 = (Math_Rand_ZeroOne() * 3.0f) + 1.0f;
-            this->unk_150[0].unk_8 = (Math_Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = (Rand_ZeroOne() * 0.5f) + 0.5f;
+            this->unk_150[0].unk_0 = (Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->unk_150[0].unk_4 = (Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->unk_150[0].unk_8 = (Rand_ZeroOne() * 3.0f) + 1.0f;
             break;
         case DEMOKANKYO_CLOUDS:
             for (i = 0; i < 30; i++) {
-                this->unk_150[i].unk_20 = Math_Rand_ZeroOne() * 65535.0f;
-                this->unk_150[i].unk_18 = Math_Rand_ZeroOne() * 100.0f + 60.0f;
+                this->unk_150[i].unk_20 = Rand_ZeroOne() * 65535.0f;
+                this->unk_150[i].unk_18 = Rand_ZeroOne() * 100.0f + 60.0f;
             }
             break;
         case DEMOKANKYO_DOOR_OF_TIME:
@@ -703,25 +705,25 @@ void func_80989B54(DemoKankyo* this, GlobalContext *globalCtx, s16 arg2) {
 
     switch (globalCtx->sceneNum) {
         case SCENE_HIRAL_DEMO:
-            this2->unk_150[arg2].unk_0 = (Math_Rand_ZeroOne() - 0.5f) * 500.0f;
+            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 500.0f;
             this2->unk_150[arg2].unk_4 = 500.0f;
-            this2->unk_150[arg2].unk_8 = (Math_Rand_ZeroOne() - 0.5f) * 500.0f;
+            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 500.0f;
             break;
         case SCENE_TOKINOMA:
             this2->unk_150[arg2].unk_C.x = 0.0f;
             this2->unk_150[arg2].unk_C.y = 0.0f;
             this2->unk_150[arg2].unk_C.z = 0.0f;
-            this2->unk_150[arg2].unk_0 = (Math_Rand_ZeroOne() - 0.5f) * 180.0f;
+            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 180.0f;
             this2->unk_150[arg2].unk_4 = 10.0f;
-            this2->unk_150[arg2].unk_8 = (Math_Rand_ZeroOne() - 0.5f) * 180.0f;
+            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 180.0f;
             break;
         case SCENE_SPOT00:
-            this2->unk_150[arg2].unk_0 = (Math_Rand_ZeroOne() - 0.5f) * 600.0f;
+            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 600.0f;
             this2->unk_150[arg2].unk_4 = -500.0f;
-            this2->unk_150[arg2].unk_8 = (Math_Rand_ZeroOne() - 0.5f) * 600.0f;
+            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 600.0f;
             break;
     }
-    this2->unk_150[arg2].unk_18 = (Math_Rand_ZeroOne() * (D_8098CF80 * 4.0f)) + D_8098CF80;
+    this2->unk_150[arg2].unk_18 = (Rand_ZeroOne() * (D_8098CF80 * 4.0f)) + D_8098CF80;
 }
 
 // blue rain draw
@@ -758,9 +760,9 @@ void func_80989D24(DemoKankyo *this, GlobalContext *globalCtx) {
             case 0:
                 func_80989B54(this2, globalCtx, i);
                 if (gSaveContext.entranceIndex == 0x00A0) {
-                    this2->unk_150[i].unk_4 = Math_Rand_ZeroOne() * 500.0f;
+                    this2->unk_150[i].unk_4 = Rand_ZeroOne() * 500.0f;
                 } else {
-                    this2->unk_150[i].unk_4 = Math_Rand_ZeroOne() * -500.0f;
+                    this2->unk_150[i].unk_4 = Rand_ZeroOne() * -500.0f;
                 }
                 this2->unk_150[i].unk_22++;
                 break;
@@ -875,9 +877,9 @@ void func_8098A4F0(DemoKankyo *this, GlobalContext *globalCtx) {
 
     for (i = 0; i < 30; i++) {
 
-        ds.x = -(Math_Sins(this2->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + ((i / 30.0f) * 10.0f));
-        ds.y =  (Math_Coss(this2->unk_150[i].unk_20 - 0x8000) * 5.0f) + 1200.0f;
-        ds.z =  (Math_Coss(this2->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + ((i / 30.0f) * 10.0f));
+        ds.x = -(Math_SinS(this2->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + ((i / 30.0f) * 10.0f));
+        ds.y =  (Math_CosS(this2->unk_150[i].unk_20 - 0x8000) * 5.0f) + 1200.0f;
+        ds.z =  (Math_CosS(this2->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + ((i / 30.0f) * 10.0f));
         Matrix_Translate(globalCtx->view.eye.x + ds.x, 
                          globalCtx->view.eye.y + ds.y + ((i - 12.0f) * 300.0f), 
                          globalCtx->view.eye.z + ds.z, MTXMODE_NEW);
@@ -995,9 +997,9 @@ void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
             case 0:
                 this2->unk_150[i].unk_20 = 0;
                 this2->unk_150[i].unk_1C = 0;
-                this2->unk_150[i].unk_0 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                this2->unk_150[i].unk_4 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                this2->unk_150[i].unk_8 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                 this2->unk_150[i].unk_23 = 0;
                 this2->unk_150[i].unk_22++;
             case 1:
@@ -1039,20 +1041,20 @@ void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
 
         switch (this2->unk_150[i].unk_23) {
             case 0:
-                this2->unk_150[i].unk_18 = Math_Rand_ZeroOne();
+                this2->unk_150[i].unk_18 = Rand_ZeroOne();
                 this2->unk_150[i].unk_23++;
             case 1:
-                Math_SmoothScaleMaxMinF(&this2->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
+                Math_SmoothStepToF(&this2->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
                 if (this2->unk_150[i].unk_18 >= 1.0f) {
                     this2->unk_150[i].unk_23 = 2;
                 }
                 break;
             case 2:
-                Math_SmoothScaleMaxMinF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
+                Math_SmoothStepToF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
                 if (this2->unk_150[i].unk_18 <= 0.0f) {
-                    this2->unk_150[i].unk_0 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                    this2->unk_150[i].unk_4 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                    this2->unk_150[i].unk_8 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                     this2->unk_150[i].unk_18 = 0.0f;
                     this2->unk_150[i].unk_23 = 1;
                 }
@@ -1086,7 +1088,7 @@ void func_8098ABC0(DemoKankyo* this, GlobalContext *globalCtx) {
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this2->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2011), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+            gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
             this2->unk_150[i].unk_24 += 0x190;
         }
     }
@@ -1132,9 +1134,9 @@ void func_8098B354(DemoKankyo *this, GlobalContext *globalCtx) {
             case 0:
                 this2->unk_150[i].unk_20 = 0;
                 this2->unk_150[i].unk_1C = 0;
-                this2->unk_150[i].unk_0 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                this2->unk_150[i].unk_4 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                this2->unk_150[i].unk_8 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
                 this2->unk_150[i].unk_23 = 0;
                 this2->unk_150[i].unk_22++;
             case 1:
@@ -1157,20 +1159,20 @@ void func_8098B354(DemoKankyo *this, GlobalContext *globalCtx) {
 
         switch (this2->unk_150[i].unk_23) {
             case 0:
-                this2->unk_150[i].unk_18 = Math_Rand_ZeroOne();
+                this2->unk_150[i].unk_18 = Rand_ZeroOne();
                 this2->unk_150[i].unk_23++;
             case 1:
-                Math_SmoothScaleMaxMinF(&this2->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
+                Math_SmoothStepToF(&this2->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
                 if (1.0f <= this2->unk_150[i].unk_18) {
                     this2->unk_150[i].unk_23 = 2;
                 }
                 break;
             case 2:
-                Math_SmoothScaleMaxMinF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
+                Math_SmoothStepToF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
                 if (this2->unk_150[i].unk_18 <= 0.0f) {
-                    this2->unk_150[i].unk_0 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                    this2->unk_150[i].unk_4 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                    this2->unk_150[i].unk_8 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
                     this2->unk_150[i].unk_18 = 0.0f;
                     this2->unk_150[i].unk_23 = 1;
                 }
@@ -1191,7 +1193,7 @@ void func_8098B354(DemoKankyo *this, GlobalContext *globalCtx) {
             Matrix_Mult(&globalCtx->mf_11DA0, 1);
             Matrix_RotateZ(DEG_TO_RAD(this2->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2572), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+            gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
             this2->unk_150[i].unk_24 += 0x190;
         }
     }
