@@ -16,7 +16,7 @@ glabel func_808C50A8
 /* 03F50 808C50E0 848E0032 */  lh      $t6, 0x0032($a0)           ## 00000032
 /* 03F54 808C50E4 01EE2023 */  subu    $a0, $t7, $t6              
 /* 03F58 808C50E8 00042400 */  sll     $a0, $a0, 16               
-/* 03F5C 808C50EC 0C01DE0D */  jal     Math_Coss
+/* 03F5C 808C50EC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03F60 808C50F0 00042403 */  sra     $a0, $a0, 16               
 /* 03F64 808C50F4 E7A00020 */  swc1    $f0, 0x0020($sp)           
@@ -24,7 +24,7 @@ glabel func_808C50A8
 /* 03F6C 808C50FC 24198000 */  addiu   $t9, $zero, 0x8000         ## $t9 = FFFF8000
 /* 03F70 808C5100 03382023 */  subu    $a0, $t9, $t8              
 /* 03F74 808C5104 00042400 */  sll     $a0, $a0, 16               
-/* 03F78 808C5108 0C01DE1C */  jal     Math_Sins
+/* 03F78 808C5108 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03F7C 808C510C 00042403 */  sra     $a0, $a0, 16               
 /* 03F80 808C5110 C7A40020 */  lwc1    $f4, 0x0020($sp)           
@@ -39,7 +39,7 @@ glabel func_808C50A8
 /* 03FA4 808C5134 86080032 */  lh      $t0, 0x0032($s0)           ## 00000032
 /* 03FA8 808C5138 01282023 */  subu    $a0, $t1, $t0              
 /* 03FAC 808C513C 00042400 */  sll     $a0, $a0, 16               
-/* 03FB0 808C5140 0C01DE1C */  jal     Math_Sins
+/* 03FB0 808C5140 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03FB4 808C5144 00042403 */  sra     $a0, $a0, 16               
 /* 03FB8 808C5148 E7A00020 */  swc1    $f0, 0x0020($sp)           
@@ -47,7 +47,7 @@ glabel func_808C50A8
 /* 03FC0 808C5150 240B8000 */  addiu   $t3, $zero, 0x8000         ## $t3 = FFFF8000
 /* 03FC4 808C5154 016A2023 */  subu    $a0, $t3, $t2              
 /* 03FC8 808C5158 00042400 */  sll     $a0, $a0, 16               
-/* 03FCC 808C515C 0C01DE0D */  jal     Math_Coss
+/* 03FCC 808C515C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03FD0 808C5160 00042403 */  sra     $a0, $a0, 16               
 /* 03FD4 808C5164 C7A40020 */  lwc1    $f4, 0x0020($sp)           

@@ -80,14 +80,14 @@ glabel EnDaikuKakariko_Init
 
 /* 001C4 809E44E4 3C074220 */  lui     $a3, 0x4220                ## $a3 = 42200000
 /* 001C8 809E44E8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 001CC 809E44EC 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
+/* 001CC 809E44EC 3C060600 */  lui     $a2, %hi(D_06007958)                ## $a2 = 06000000
 /* 001D0 809E44F0 260F022C */  addiu   $t7, $s0, 0x022C           ## $t7 = 0000022C
 /* 001D4 809E44F4 26180292 */  addiu   $t8, $s0, 0x0292           ## $t8 = 00000292
 /* 001D8 809E44F8 24190011 */  addiu   $t9, $zero, 0x0011         ## $t9 = 00000011
 /* 001DC 809E44FC AFB90018 */  sw      $t9, 0x0018($sp)
 /* 001E0 809E4500 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 001E4 809E4504 AFAF0010 */  sw      $t7, 0x0010($sp)
-/* 001E8 809E4508 24C67958 */  addiu   $a2, $a2, 0x7958           ## $a2 = 06007958
+/* 001E8 809E4508 24C67958 */  addiu   $a2, $a2, %lo(D_06007958)           ## $a2 = 06007958
 /* 001EC 809E450C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 001F0 809E4510 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001F4 809E4514 0C0291BE */  jal     SkelAnime_InitFlex
@@ -194,7 +194,7 @@ glabel EnDaikuKakariko_Init
 /* 00368 809E4688 0C2790C8 */  jal     func_809E4320
 /* 0036C 809E468C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L809E4690:
-/* 00370 809E4690 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00370 809E4690 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00374 809E4694 00000000 */  nop
 /* 00378 809E4698 C606015C */  lwc1    $f6, 0x015C($s0)           ## 0000015C
@@ -211,7 +211,7 @@ glabel EnDaikuKakariko_Init
 /* 003A0 809E46C0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003A4 809E46C4 0C2790C8 */  jal     func_809E4320
 /* 003A8 809E46C8 260601EC */  addiu   $a2, $s0, 0x01EC           ## $a2 = 000001EC
-/* 003AC 809E46CC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003AC 809E46CC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003B0 809E46D0 00000000 */  nop
 /* 003B4 809E46D4 C604015C */  lwc1    $f4, 0x015C($s0)           ## 0000015C

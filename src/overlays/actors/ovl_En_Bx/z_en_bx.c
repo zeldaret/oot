@@ -148,11 +148,11 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Vec3f pos;
                 s16 yaw;
 
-                yaw = (s32)Math_Rand_CenteredFloat(12288.0f);
+                yaw = (s32)Rand_CenteredFloat(12288.0f);
                 yaw = (yaw + (i * 0x4000)) + 0x2000;
-                pos.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
-                pos.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
-                pos.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
+                pos.x = Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
+                pos.y = Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
+                pos.z = Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
                 EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, 230, yaw, 6, 0);
             }
         }
@@ -192,11 +192,11 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_14E -= 0xBB8;
-    thisx->scale.z = thisx->scale.x = (Math_Coss(this->unk_14E) * 0.0075f) + 0.015f;
+    thisx->scale.z = thisx->scale.x = (Math_CosS(this->unk_14E) * 0.0075f) + 0.015f;
 
     for (i = 3; i >= 0; i--) {
         s16 off = (0x2000 * i);
-        this->unk_184[i].z = this->unk_184[i].x = (Math_Coss(this->unk_14E + off) * 0.0075f) + 0.015f;
+        this->unk_184[i].z = this->unk_184[i].x = (Math_CosS(this->unk_14E + off) * 0.0075f) + 0.015f;
         this->unk_1B4[i].x = thisx->shape.rot.x;
         this->unk_1B4[i].y = thisx->shape.rot.y;
         this->unk_1B4[i].z = thisx->shape.rot.z;

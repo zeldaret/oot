@@ -38,14 +38,14 @@ glabel func_8088EB54
 /* 007DC 8088EBAC 34108000 */  ori     $s0, $zero, 0x8000         ## $s0 = 00008000
 /* 007E0 8088EBB0 01D02021 */  addu    $a0, $t6, $s0              
 /* 007E4 8088EBB4 00042400 */  sll     $a0, $a0, 16               
-/* 007E8 8088EBB8 0C01DE0D */  jal     Math_Coss
+/* 007E8 8088EBB8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007EC 8088EBBC 00042403 */  sra     $a0, $a0, 16               
 /* 007F0 8088EBC0 E7A00098 */  swc1    $f0, 0x0098($sp)           
 /* 007F4 8088EBC4 868F0032 */  lh      $t7, 0x0032($s4)           ## 00000032
 /* 007F8 8088EBC8 01F02021 */  addu    $a0, $t7, $s0              
 /* 007FC 8088EBCC 00042400 */  sll     $a0, $a0, 16               
-/* 00800 8088EBD0 0C01DE1C */  jal     Math_Sins
+/* 00800 8088EBD0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00804 8088EBD4 00042403 */  sra     $a0, $a0, 16               
 /* 00808 8088EBD8 E7A00094 */  swc1    $f0, 0x0094($sp)           
@@ -92,8 +92,8 @@ glabel func_8088EB54
 /* 008A0 8088EC70 0006000D */  break 6
 .L8088EC74:
 /* 008A4 8088EC74 46004282 */  mul.s   $f10, $f8, $f0             
-/* 008A8 8088EC78 3C190601 */  lui     $t9, 0x0601                ## $t9 = 06010000
-/* 008AC 8088EC7C 2739DC30 */  addiu   $t9, $t9, 0xDC30           ## $t9 = 0600DC30
+/* 008A8 8088EC78 3C190601 */  lui     $t9, %hi(D_0600DC30)                ## $t9 = 06010000
+/* 008AC 8088EC7C 2739DC30 */  addiu   $t9, $t9, %lo(D_0600DC30)           ## $t9 = 0600DC30
 /* 008B0 8088EC80 00409825 */  or      $s3, $v0, $zero            ## $s3 = 00000000
 /* 008B4 8088EC84 241E0007 */  addiu   $s8, $zero, 0x0007         ## $s8 = 00000007
 /* 008B8 8088EC88 3C178089 */  lui     $s7, %hi(D_8088F1FC)       ## $s7 = 80890000
@@ -239,9 +239,9 @@ glabel func_8088EB54
 /* 00ACC 8088EE9C C7A40094 */  lwc1    $f4, 0x0094($sp)           
 /* 00AD0 8088EEA0 C6920024 */  lwc1    $f18, 0x0024($s4)          ## 00000024
 /* 00AD4 8088EEA4 46804020 */  cvt.s.w $f0, $f8                   
-/* 00AD8 8088EEA8 3C0E0601 */  lui     $t6, 0x0601                ## $t6 = 06010000
+/* 00AD8 8088EEA8 3C0E0601 */  lui     $t6, %hi(D_0600DC30)                ## $t6 = 06010000
 /* 00ADC 8088EEAC 3C16DB06 */  lui     $s6, 0xDB06                ## $s6 = DB060000
-/* 00AE0 8088EEB0 25CEDC30 */  addiu   $t6, $t6, 0xDC30           ## $t6 = 0600DC30
+/* 00AE0 8088EEB0 25CEDC30 */  addiu   $t6, $t6, %lo(D_0600DC30)           ## $t6 = 0600DC30
 /* 00AE4 8088EEB4 36D60024 */  ori     $s6, $s6, 0x0024           ## $s6 = DB060024
 /* 00AE8 8088EEB8 02201025 */  or      $v0, $s1, $zero            ## $v0 = 00000018
 /* 00AEC 8088EEBC 46040282 */  mul.s   $f10, $f0, $f4             

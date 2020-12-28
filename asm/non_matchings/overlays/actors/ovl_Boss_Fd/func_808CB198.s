@@ -15,7 +15,7 @@ glabel func_808CB198
 /* 0040C 808CB1CC 8E06145C */  lw      $a2, 0x145C($s0)           ## 0000145C
 /* 00410 808CB1D0 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 00414 808CB1D4 44074000 */  mfc1    $a3, $f8                   
-/* 00418 808CB1D8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00418 808CB1D8 0C01E107 */  jal     Math_ApproachF
               
 /* 0041C 808CB1DC 00000000 */  nop
 /* 00420 808CB1E0 C60A143C */  lwc1    $f10, 0x143C($s0)          ## 0000143C
@@ -25,7 +25,7 @@ glabel func_808CB198
 /* 00430 808CB1F0 46105482 */  mul.s   $f18, $f10, $f16           
 /* 00434 808CB1F4 8E061460 */  lw      $a2, 0x1460($s0)           ## 00001460
 /* 00438 808CB1F8 44079000 */  mfc1    $a3, $f18                  
-/* 0043C 808CB1FC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0043C 808CB1FC 0C01E107 */  jal     Math_ApproachF
               
 /* 00440 808CB200 00000000 */  nop
 /* 00444 808CB204 C6041440 */  lwc1    $f4, 0x1440($s0)           ## 00001440
@@ -35,7 +35,7 @@ glabel func_808CB198
 /* 00454 808CB214 46062202 */  mul.s   $f8, $f4, $f6              
 /* 00458 808CB218 8E061464 */  lw      $a2, 0x1464($s0)           ## 00001464
 /* 0045C 808CB21C 44074000 */  mfc1    $a3, $f8                   
-/* 00460 808CB220 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00460 808CB220 0C01E107 */  jal     Math_ApproachF
               
 /* 00464 808CB224 00000000 */  nop
 /* 00468 808CB228 C60A1444 */  lwc1    $f10, 0x1444($s0)          ## 00001444
@@ -46,7 +46,7 @@ glabel func_808CB198
 /* 0047C 808CB23C 8E061474 */  lw      $a2, 0x1474($s0)           ## 00001474
 /* 00480 808CB240 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 00484 808CB244 44079000 */  mfc1    $a3, $f18                  
-/* 00488 808CB248 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00488 808CB248 0C01E107 */  jal     Math_ApproachF
               
 /* 0048C 808CB24C 00000000 */  nop
 /* 00490 808CB250 C6041448 */  lwc1    $f4, 0x1448($s0)           ## 00001448
@@ -56,7 +56,7 @@ glabel func_808CB198
 /* 004A0 808CB260 46062202 */  mul.s   $f8, $f4, $f6              
 /* 004A4 808CB264 8E061478 */  lw      $a2, 0x1478($s0)           ## 00001478
 /* 004A8 808CB268 44074000 */  mfc1    $a3, $f8                   
-/* 004AC 808CB26C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 004AC 808CB26C 0C01E107 */  jal     Math_ApproachF
               
 /* 004B0 808CB270 00000000 */  nop
 /* 004B4 808CB274 C60A144C */  lwc1    $f10, 0x144C($s0)          ## 0000144C
@@ -66,7 +66,7 @@ glabel func_808CB198
 /* 004C4 808CB284 46105482 */  mul.s   $f18, $f10, $f16           
 /* 004C8 808CB288 8E06147C */  lw      $a2, 0x147C($s0)           ## 0000147C
 /* 004CC 808CB28C 44079000 */  mfc1    $a3, $f18                  
-/* 004D0 808CB290 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 004D0 808CB290 0C01E107 */  jal     Math_ApproachF
               
 /* 004D4 808CB294 00000000 */  nop
 /* 004D8 808CB298 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -75,7 +75,7 @@ glabel func_808CB198
 /* 004E4 808CB2A4 8E071484 */  lw      $a3, 0x1484($s0)           ## 00001484
 /* 004E8 808CB2A8 44050000 */  mfc1    $a1, $f0                   
 /* 004EC 808CB2AC 44060000 */  mfc1    $a2, $f0                   
-/* 004F0 808CB2B0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 004F0 808CB2B0 0C01E107 */  jal     Math_ApproachF
               
 /* 004F4 808CB2B4 00000000 */  nop
 /* 004F8 808CB2B8 C6041418 */  lwc1    $f4, 0x1418($s0)           ## 00001418
@@ -90,7 +90,7 @@ glabel func_808CB198
 /* 0051C 808CB2DC 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 00520 808CB2E0 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 00524 808CB2E4 26041488 */  addiu   $a0, $s0, 0x1488           ## $a0 = 00001488
-/* 00528 808CB2E8 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 00528 808CB2E8 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 0052C 808CB2EC 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 00530 808CB2F0 8FBF001C */  lw      $ra, 0x001C($sp)           

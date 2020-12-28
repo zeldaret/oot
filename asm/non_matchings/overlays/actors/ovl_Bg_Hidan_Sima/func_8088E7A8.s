@@ -75,7 +75,7 @@ glabel func_8088E7A8
 /* 004C0 8088E890 00000000 */  nop
 /* 004C4 8088E894 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 .L8088E898:
-/* 004C8 8088E898 0C01DE1C */  jal     Math_Sins
+/* 004C8 8088E898 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 004CC 8088E89C E7A20024 */  swc1    $f2, 0x0024($sp)           
 /* 004D0 8088E8A0 C7A20024 */  lwc1    $f2, 0x0024($sp)           
@@ -83,7 +83,7 @@ glabel func_8088E7A8
 /* 004D8 8088E8A8 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 004DC 8088E8AC 46020402 */  mul.s   $f16, $f0, $f2             
 /* 004E0 8088E8B0 46128100 */  add.s   $f4, $f16, $f18            
-/* 004E4 8088E8B4 0C01DE0D */  jal     Math_Coss
+/* 004E4 8088E8B4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 004E8 8088E8B8 E6040024 */  swc1    $f4, 0x0024($s0)           ## 00000024
 /* 004EC 8088E8BC C7A20024 */  lwc1    $f2, 0x0024($sp)           

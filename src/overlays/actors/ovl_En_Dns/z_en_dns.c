@@ -312,7 +312,7 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 2000, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 2000, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;

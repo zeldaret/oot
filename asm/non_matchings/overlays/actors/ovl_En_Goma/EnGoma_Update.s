@@ -46,12 +46,12 @@ glabel EnGoma_Update
 /* 01C2C 80A4AAEC 46105480 */  add.s   $f18, $f10, $f16           
 /* 01C30 80A4AAF0 E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 01C34 80A4AAF4 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
-/* 01C38 80A4AAF8 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01C38 80A4AAF8 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01C3C 80A4AAFC E612002C */  swc1    $f18, 0x002C($s0)          ## 0000002C
 /* 01C40 80A4AB00 26040304 */  addiu   $a0, $s0, 0x0304           ## $a0 = 00000304
 /* 01C44 80A4AB04 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 01C48 80A4AB08 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01C48 80A4AB08 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01C4C 80A4AB0C 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
 /* 01C50 80A4AB10 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
@@ -68,7 +68,7 @@ glabel EnGoma_Update
 /* 01C7C 80A4AB3C C424B940 */  lwc1    $f4, %lo(D_80A4B940)($at)  
 /* 01C80 80A4AB40 34E79BA6 */  ori     $a3, $a3, 0x9BA6           ## $a3 = 3A449BA6
 /* 01C84 80A4AB44 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01C88 80A4AB48 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01C88 80A4AB48 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01C8C 80A4AB4C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01C90 80A4AB50 3C0180A5 */  lui     $at, %hi(D_80A4B944)       ## $at = 80A50000
@@ -79,7 +79,7 @@ glabel EnGoma_Update
 /* 01CA4 80A4AB64 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A
 /* 01CA8 80A4AB68 26040054 */  addiu   $a0, $s0, 0x0054           ## $a0 = 00000054
 /* 01CAC 80A4AB6C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01CB0 80A4AB70 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01CB0 80A4AB70 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01CB4 80A4AB74 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01CB8 80A4AB78 3C0180A5 */  lui     $at, %hi(D_80A4B948)       ## $at = 80A50000
@@ -90,7 +90,7 @@ glabel EnGoma_Update
 /* 01CCC 80A4AB8C 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A
 /* 01CD0 80A4AB90 26040058 */  addiu   $a0, $s0, 0x0058           ## $a0 = 00000058
 /* 01CD4 80A4AB94 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01CD8 80A4AB98 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01CD8 80A4AB98 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01CDC 80A4AB9C E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 01CE0 80A4ABA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

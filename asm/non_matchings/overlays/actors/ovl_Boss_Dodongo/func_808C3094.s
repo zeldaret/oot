@@ -7,10 +7,10 @@ glabel func_808C3094
 /* 01F18 808C30A8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 01F1C 808C30AC AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 01F20 808C30B0 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
+/* 01F20 808C30B0 3C040601 */  lui     $a0, %hi(D_06009D10)                ## $a0 = 06010000
 /* 01F24 808C30B4 0C028800 */  jal     SkelAnime_GetFrameCount
               
-/* 01F28 808C30B8 24849D10 */  addiu   $a0, $a0, 0x9D10           ## $a0 = 06009D10
+/* 01F28 808C30B8 24849D10 */  addiu   $a0, $a0, %lo(D_06009D10)           ## $a0 = 06009D10
 /* 01F2C 808C30BC 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 01F30 808C30C0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 01F34 808C30C4 46802120 */  cvt.s.w $f4, $f4                   

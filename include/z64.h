@@ -173,7 +173,7 @@ typedef struct {
     /* 0x0104 */ Vec3f  unk_104;
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ u32    flags;
+    /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
@@ -189,10 +189,17 @@ typedef struct {
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0x8];
-    /* 0x0C */ u32 unk_0C;
+    /* 0x00 */ s16 xMin;
+    /* 0x02 */ s16 ySurface;
+    /* 0x04 */ s16 zMin;
+    /* 0x06 */ s16 xLength;
+    /* 0x08 */ s16 zLength;
+    /* 0x0C */ u32 properties;
+
+    // 0x0008_0000 = ?
+    // 0x0007_E000 = Room Index, 0x3F = all rooms
+    // 0x0000_1F00 = Lighting Settings Index
+    // 0x0000_00FF = CamData index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -914,7 +921,7 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
@@ -947,8 +954,8 @@ typedef struct GlobalContext {
     /* 0x11E18 */ s16 unk_11E18;
     /* 0x11E1A */ s16 nextEntranceIndex;
     /* 0x11E1C */ char unk_11E1C[0x40];
-    /* 0x11E5C */ s8 unk_11E5C;
-    /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
+    /* 0x11E5C */ s8 shootingGalleryStatus;
+    /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];

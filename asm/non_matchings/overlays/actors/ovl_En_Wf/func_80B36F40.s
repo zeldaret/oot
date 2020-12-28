@@ -23,7 +23,7 @@ glabel func_80B36F40
 /* 032D0 80B36F80 00832021 */  addu    $a0, $a0, $v1              
 /* 032D4 80B36F84 000420C0 */  sll     $a0, $a0,  3               
 /* 032D8 80B36F88 00042400 */  sll     $a0, $a0, 16               
-/* 032DC 80B36F8C 0C01DE1C */  jal     Math_Sins
+/* 032DC 80B36F8C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 032E0 80B36F90 00042403 */  sra     $a0, $a0, 16               
 /* 032E4 80B36F94 3C0180B3 */  lui     $at, %hi(D_80B37BCC)       ## $at = 80B30000
@@ -47,7 +47,7 @@ glabel func_80B36F40
 /* 03324 80B36FD4 03192823 */  subu    $a1, $t8, $t9              
 /* 03328 80B36FD8 00052C00 */  sll     $a1, $a1, 16               
 /* 0332C 80B36FDC 00052C03 */  sra     $a1, $a1, 16               
-/* 03330 80B36FE0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03330 80B36FE0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03334 80B36FE4 240705DC */  addiu   $a3, $zero, 0x05DC         ## $a3 = 000005DC
 /* 03338 80B36FE8 860204D6 */  lh      $v0, 0x04D6($s0)           ## 000004D6
