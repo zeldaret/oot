@@ -20,8 +20,8 @@
 // gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
 // gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 // gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door, before getting goron bracelet) 
-// gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
+// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening
+// door, before getting goron bracelet) gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
 // gSaveContext.infTable[16] & 0x400 - (not on cloud modding)
 // gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
 // gSaveContext.infTable[16] & 0x1000 - Stopped Goron Link's Rolling
@@ -184,7 +184,6 @@ extern Gfx* D_0600E680;
 extern Gfx* D_0600FD40;
 extern Gfx* D_0600FD50;
 
-
 extern FlexSkeletonHeader D_0600FEF0;
 
 static Gfx* sDLists[] = {
@@ -223,13 +222,12 @@ static EnGo2DataStruct1 D_80A4816C[14] = { { 0, 0, 0, 68, 148 }, { 0, 0, 0, 24, 
                                            { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 }, { 0, 0, 0, 30, 68 },
                                            { 0, 0, 0, 30, 68 },  { 0, 0, 0, 30, 68 } };
 
-static EnGo2DataStruct2 D_80A481F8[14] = { { 30.0f, 0.026f, 6, 60.0f }, { 24.0f, 0.008f, 6, 30.0f },
-                                           { 28.0f, 0.16f, 5, 380.0f }, { 28.0f, 0.01f, 7, 40.0f },
-                                           { 30.0f, 0.015f, 6, 30.0f }, { 28.0f, 0.01f, 6, 30.0f },
-                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
-                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
-                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
-                                           { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f } };
+static EnGo2DataStruct2 D_80A481F8[14] = {
+    { 30.0f, 0.026f, 6, 60.0f }, { 24.0f, 0.008f, 6, 30.0f }, { 28.0f, 0.16f, 5, 380.0f }, { 28.0f, 0.01f, 7, 40.0f },
+    { 30.0f, 0.015f, 6, 30.0f }, { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
+    { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
+    { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f }
+};
 
 static f32 D_80A482D8[14][2] = { { 80.0f, 80.0f }, { -10.0f, -10.0f }, { 800.0f, 800.0f }, { 0.0f, 0.0f },
                                  { 20.0f, 40.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
@@ -413,7 +411,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
         case 1:
             return 0x3070;
         default:
-             return 0x3052;
+            return 0x3052;
     }
 }
 
@@ -570,8 +568,7 @@ u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         return CUR_UPG_VALUE(UPG_STRENGTH)
                    ? 0x302C
-                   : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
-                                                           : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
+                   : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017 : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
     }
 }
 
@@ -1005,7 +1002,7 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
 
     if (this->path == NULL) {
         return 0;
-    } 
+    }
 
     change = (u8)(this->path->count - 1);
     if (this->reverse) {
@@ -1019,7 +1016,7 @@ s32 EnGo2_UpdateWaypoint(EnGo2* this, GlobalContext* globalCtx) {
             this->waypoint = 0;
         }
     }
-    
+
     return 1;
 }
 
@@ -1077,51 +1074,42 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 }
 
 s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
-    s32 sound;
 
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return false;
-    } else {
-        if (DECR(this->unk_590)) {
-            if (!arg3) {
-                return true;
-            } else {
-                if (this->unk_590 & 1) {
-                    this->actor.posRot.pos.y += 1.5f;
-                } else {
-                    this->actor.posRot.pos.y -= 1.5f;
-                }
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
-            }
+    }
+
+    if (DECR(this->unk_590)) {
+        if (!arg3) {
             return true;
         } else {
-            if (this->unk_59C >= 2) {
-                if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG) {
-                    sound = NA_SE_EN_GOLON_LAND_BIG;
-                } else {
-                    sound = NA_SE_EN_DODO_M_GND;
-                }
-                if (this->unk_590) {}
-                Audio_PlayActorSound2(&this->actor, sound);
-            }
-
-            this->unk_59C--;
-
-            if (this->unk_59C <= 0) {
-                if (this->unk_59C == 0) {
-                    this->unk_590 = Math_Rand_S16Offset(60, 30);
-                    this->unk_59C = 0;
-                    this->actor.velocity.y = 0.0f;
-                    return true;
-                } else {
-                    this->unk_59C = arg1;
-                }
-            }
-
-            this->actor.velocity.y = ((f32)this->unk_59C / (f32)arg1) * arg2;
+            this->actor.posRot.pos.y =
+                (this->unk_590 & 1) ? this->actor.posRot.pos.y + 1.5f : this->actor.posRot.pos.y - 1.5f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
             return true;
         }
     }
+
+    if (this->unk_59C >= 2) {
+        Audio_PlayActorSound2(&this->actor, (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG
+                                                ? NA_SE_EN_GOLON_LAND_BIG
+                                                : NA_SE_EN_DODO_M_GND);
+    }
+
+    this->unk_59C--;
+    if (this->unk_59C <= 0) {
+        if (this->unk_59C == 0) {
+            this->unk_590 = Math_Rand_S16Offset(60, 30);
+            this->unk_59C = 0;
+            this->actor.velocity.y = 0.0f;
+            return true;
+        } else {
+            this->unk_59C = arg1;
+        }
+    }
+
+    this->actor.velocity.y = ((f32)this->unk_59C / (f32)arg1) * arg2;
+    return true;
 }
 
 void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* player) {
@@ -1282,7 +1270,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ||
         (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if ((!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
         return true;
     } else {
         return false;
@@ -1348,7 +1336,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
             EnGo2_BiggoronWakingUp(this);
             break;
         case GORON_CITY_LINK:
-            if (!(CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                 EnGo2_WakingUp(this);
                 break;
             }
@@ -1509,7 +1497,7 @@ void EnGo2_StopRolling(EnGo2* this, GlobalContext* globalCtx) {
 s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC) {
         return false;
-    } 
+    }
 
     // shaking curled up
     this->actor.posRot.pos.x += (globalCtx->state.frames & 1) ? 1.0f : -1.0f;
@@ -1518,13 +1506,12 @@ s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         return false;
     }
-    
 }
 
 s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.unk_00 != 2) {
         return false;
-    } 
+    }
 
     func_80034EC0(&this->skelAnime, sAnimations, 3);
     this->unk_194.unk_00 = 0;
@@ -1537,7 +1524,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.unk_00 != 2)) {
         return false;
-    } 
+    }
     this->unk_194.unk_00 = 0;
     EnGo2_RollingAnimation(this, globalCtx);
     this->actionFunc = EnGo2_GoronRollingBigContinueRolling;
@@ -1547,7 +1534,7 @@ s32 EnGo2_IsGoronRollingBig(EnGo2* this, GlobalContext* globalCtx) {
 s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
     if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.unk_00 == 0) {
         return false;
-    } 
+    }
     this->actionFunc = EnGo2_GoronFireGenericAction;
     return true;
 }
@@ -1572,7 +1559,6 @@ s32 EnGo2_IsRolling(EnGo2* this) {
         EnGo2_GetDustData(this, 0);
     }
     return true;
-    
 }
 
 void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
