@@ -46,8 +46,9 @@ static f32 sDistSquared1[] = { SQ(1600.0f), SQ(1600.0f), SQ(1600.0f) };
 
 static f32 sDistSquared2[] = { SQ(1705.0f), SQ(1705.0f), SQ(1705.0f) };
 
+/*static*/ s16 D_80B9A818[] = { 9, 12, 8 };
+
 #ifdef NON_MATCHING
-static s16 D_80B9A818[] = { 9, 12, 8 };
 // Very close to matching, just regalloc and a stack diff
 void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr = vec;
@@ -61,7 +62,6 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     }
 }
 #else
-s16 D_80B9A818[] = { 9, 12, 8 };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
 #endif
 
