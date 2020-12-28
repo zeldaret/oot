@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dust.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -35,8 +36,6 @@ static EffectSsUpdateFunc sUpdateFuncs[] = {
     EffectSsBlast_UpdateFire,
 };
 
-extern Gfx D_04010050[];
-
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
@@ -44,7 +43,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04010050);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsDustDL);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;

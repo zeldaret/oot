@@ -1,4 +1,5 @@
 #include "z_en_honotrap.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -9,7 +10,6 @@ void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0404D4E0;
 extern UNK_TYPE D_05006810;
 
 /*

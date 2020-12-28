@@ -1,6 +1,5 @@
 #include "z_oceff_wipe4.h"
-
-extern u8 D_04032C90[];
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static u32 tex0[] = {
     0x00061507, 0x00000000, 0x295a2b08, 0x10030f03, 0x0d070006, 0x00031625, 0x3f230012, 0x79590000, 0x00102c2a,
@@ -80,7 +79,7 @@ static Gfx sTextureDL0[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(D_04032C90, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffectSsKakeraTex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 15),
     gsDPSetPrimColor(0x00, 0x00, 170, 255, 255, 255),
     gsDPSetEnvColor(0, 150, 0, 128),
@@ -91,7 +90,7 @@ static Gfx sTextureDL1[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(D_04032C90, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffectSsKakeraTex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 0),
     gsDPSetPrimColor(0x00, 0x00, 255, 170, 255, 255),
     gsDPSetEnvColor(120, 0, 100, 128),

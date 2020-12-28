@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_bomb.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTexIdx regs[1]
@@ -18,15 +19,13 @@ EffectSsInit Effect_Ss_Bomb_InitVars = {
     EffectSsBomb_Init,
 };
 
-extern Gfx D_0400BF80[];
-
 u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBombInitParams* initParams = (EffectSsBombInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0400BF80);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsBomb1DL);
     this->life = 20;
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;

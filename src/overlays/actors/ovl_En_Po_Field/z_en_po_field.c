@@ -5,6 +5,7 @@
  */
 
 #include "z_en_po_field.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00001035
 
@@ -93,7 +94,6 @@ extern AnimationHeader D_06000F9C;
 extern AnimationHeader D_06000608;
 extern AnimationHeader D_06000454;
 extern AnimationHeader D_06001360;
-extern Gfx D_0404D4E0[];
 extern Gfx D_060059F0[];
 extern Gfx D_06005900[];
 extern Gfx D_06005620[];
@@ -756,7 +756,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         }
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1709),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectSsFireTailDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1712);
     }
 }

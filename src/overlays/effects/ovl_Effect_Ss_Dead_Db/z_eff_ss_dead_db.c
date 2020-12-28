@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dead_db.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTextIdx regs[1]
@@ -28,15 +29,13 @@ EffectSsInit Effect_Ss_Dead_Db_InitVars = {
     EffectSsDeadDb_Init,
 };
 
-extern Gfx D_04031FE0[];
-
 u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDeadDbInitParams* initParams = (EffectSsDeadDbInitParams*)initParamsx;
 
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04031FE0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsDeadDbDL);
     this->life = initParams->unk_34;
     this->flags = 4;
     this->rScaleStep = initParams->scaleStep;

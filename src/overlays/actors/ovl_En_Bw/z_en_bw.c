@@ -1,4 +1,5 @@
 #include "z_en_bw.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
 
@@ -9,7 +10,6 @@ void EnBw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0404D4E0;
 extern UNK_TYPE D_06000228;
 extern UNK_TYPE D_060020F0;
 extern UNK_TYPE D_060021A0;

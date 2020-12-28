@@ -5,6 +5,7 @@
  */
 
 #include "z_en_door.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -69,9 +70,6 @@ static Gfx* D_809FCEE4[5][2] = {
     { 0x0400ECB8, 0x0400EE00 }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
     { 0x060013B8, 0x06001420 }, { 0x050047A0, 0x05004978 },
 };
-
-extern Gfx D_0400ECB8[];
-extern Gfx D_0400EE00[];
 
 extern AnimationHeader D_0400E758;
 extern SkeletonHeader D_0400FF78;
@@ -336,9 +334,9 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.posRot.rot.y != 0) {
             if (1) {}
             if (this->actor.posRot.rot.y > 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_0400EE00);
+                gSPDisplayList(POLY_OPA_DISP++, gDoorRightDL);
             } else {
-                gSPDisplayList(POLY_OPA_DISP++, D_0400ECB8);
+                gSPDisplayList(POLY_OPA_DISP++, gDoorLeftDL);
             }
         }
         if (this->lockTimer != 0) {

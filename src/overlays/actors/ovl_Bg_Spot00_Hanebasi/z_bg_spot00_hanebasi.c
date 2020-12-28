@@ -1,4 +1,5 @@
 #include "z_bg_spot00_hanebasi.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -9,7 +10,6 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0404D4E0;
 extern UNK_TYPE D_060000C0;
 extern UNK_TYPE D_06000280;
 extern UNK_TYPE D_06000430;

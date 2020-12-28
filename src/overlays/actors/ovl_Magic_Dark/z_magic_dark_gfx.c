@@ -1,10 +1,10 @@
 #include "z_magic_dark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static u64 sDiamondTexture[] = {
     #include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
 };
 
-extern UNK_TYPE D_04032490[];
 
 static Vtx sDiamondVerts[] = {
     VTX(0, 0, 64, 1024, 512, 0x00, 0x00, 0x78, 0xFF),    VTX(55, 0, 32, 1707, 512, 0x67, 0x00, 0x3C, 0xFF),
@@ -23,7 +23,7 @@ static Gfx sDiamondTextureDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(D_04032490, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(tex_04032490, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, 1),
     gsDPLoadMultiBlock(sDiamondTexture, 0x0100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                        G_TX_MIRROR | G_TX_WRAP, 5, 6, 13, 13),

@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_magma.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -15,8 +16,6 @@ EffectSsInit Effect_Ss_G_Magma_InitVars = {
     EffectSsGMagma_Init,
 };
 
-extern Gfx D_04024410[];
-
 u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGMagmaInitParams* initParams = (EffectSsGMagmaInitParams*)initParamsx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -25,7 +24,7 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = initParams->pos;
     this->draw = EffectSsGMagma_Draw;
     this->update = EffectSsGMagma_Update;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04024410);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsGMagmaDL);
     this->life = 16;
     this->rgScale = (s16)(Rand_ZeroOne() * 100.0f) + 200;
     this->rgTexIdx = 0;

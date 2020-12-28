@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_gate.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -27,7 +28,6 @@ void func_8087C73C(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C794(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C85C(BgHakaGate* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0404D4E0;
 extern UNK_TYPE D_0600F1B0;
 extern UNK_TYPE D_06010A10;
 extern UNK_TYPE D_06010C10;

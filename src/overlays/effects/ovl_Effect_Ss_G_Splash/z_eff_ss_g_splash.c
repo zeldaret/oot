@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_splash.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 //! @bug the reuse of regs[11] means that EffectSs_DrawGEffect will treat the type as an object bank index
 // this ends up having no effect because the texture provided does not use segment 6
@@ -19,8 +20,6 @@ EffectSsInit Effect_Ss_G_Splash_InitVars = {
     EffectSsGSplash_Init,
 };
 
-extern Gfx D_04027DF0[];
-
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGSplashInitParams* initParams = (EffectSsGSplashInitParams*)initParamsx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -34,7 +33,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         initParams->scale = 600;
     }
 
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04027DF0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsGSplashDL);
     this->life = 8;
     this->rgScale = initParams->scale;
     this->rgTexIdx = 0;

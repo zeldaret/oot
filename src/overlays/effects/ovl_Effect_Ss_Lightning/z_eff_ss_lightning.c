@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_lightning.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,13 +29,11 @@ EffectSsInit Effect_Ss_Lightning_InitVars = {
     EffectSsLightning_Init,
 };
 
-extern Gfx D_0402CF30[];
-
 u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsLightningInitParams* initParams = (EffectSsLightningInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0402CF30);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsLightningDL);
     this->life = initParams->life;
     this->draw = EffectSsLightning_Draw;
     this->update = EffectSsLightning_Update;

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_viewer.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -16,7 +17,6 @@ void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_01000000;
-extern UNK_TYPE D_0404D4E0;
 extern UNK_TYPE D_06000450;
 extern UNK_TYPE D_060005B4;
 extern UNK_TYPE D_060008A0;

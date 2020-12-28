@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_po_syokudai.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -61,7 +62,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060003A0[];
-extern Gfx D_0404D4E0[];
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
@@ -172,7 +172,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectSsFireTailDL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
 }

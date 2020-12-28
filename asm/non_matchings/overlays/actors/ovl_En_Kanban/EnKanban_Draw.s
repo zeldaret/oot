@@ -283,8 +283,8 @@ glabel EnKanban_Draw
 /* 01F38 80A93ED8 15E1000A */  bne     $t7, $at, .L80A93F04       
 /* 01F3C 80A93EDC 3C06DE00 */  lui     $a2, 0xDE00                ## $a2 = DE000000
 /* 01F40 80A93EE0 8E2702C0 */  lw      $a3, 0x02C0($s1)           ## 000002C0
-/* 01F44 80A93EE4 3C090404 */  lui     $t1, %hi(D_0403C050)                ## $t1 = 04040000
-/* 01F48 80A93EE8 2529C050 */  addiu   $t1, $t1, %lo(D_0403C050)           ## $t1 = 0403C050
+/* 01F44 80A93EE4 3C090404 */  lui     $t1, %hi(gSignSquareDL)                ## $t1 = 04040000
+/* 01F48 80A93EE8 2529C050 */  addiu   $t1, $t1, %lo(gSignSquareDL)           ## $t1 = 0403C050
 /* 01F4C 80A93EEC 24F80008 */  addiu   $t8, $a3, 0x0008           ## $t8 = 00000008
 /* 01F50 80A93EF0 AE3802C0 */  sw      $t8, 0x02C0($s1)           ## 000002C0
 /* 01F54 80A93EF4 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000

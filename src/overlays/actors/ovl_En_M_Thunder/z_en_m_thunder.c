@@ -1,4 +1,5 @@
 #include "z_en_m_thunder.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -8,12 +9,6 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_04012570;
-extern UNK_TYPE D_04012690;
-extern UNK_TYPE D_04012AF0;
-extern UNK_TYPE D_04012C10;
-extern UNK_TYPE D_04013610;
 
 /*
 const ActorInit En_M_Thunder_InitVars = {

@@ -1,5 +1,5 @@
 <Root>
-    <File Name="gameplay_keep">
+    <File Name="gameplay_keep"  Segment="4">
         <Texture Name="gReflection1Tex" OutName="reflection_1" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
         <Texture Name="gReflection2Tex" OutName="reflection_2" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
         <Texture Name="gHylianShieldFrontTex" OutName="hylian_shield_front" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
@@ -44,10 +44,10 @@
         <Texture Name="gEffectSsBomb6Tex" OutName="effect_ss_bomb_6" Format="ia16" Width="32" Height="32" Offset="0x0000A780"/>
         <Texture Name="gEffectSsBomb7Tex" OutName="effect_ss_bomb_7" Format="ia16" Width="32" Height="32" Offset="0x0000AF80"/>
         <Texture Name="gEffectSsBomb8Tex" OutName="effect_ss_bomb_8" Format="ia16" Width="32" Height="32" Offset="0x0000B780"/>
-        <DList Name="gEffectSsBombDL" Offset="0x0000BF80"/>
+        <DList Name="gEffectSsBomb1DL" Offset="0x0000BF80"/>
         <DList Name="gEffectSsBomb2DL" Offset="0x0000BFE8"/>
         <DList Name="gEffectSsBomb3DL" Offset="0x0000C040"/>
-        <DList Name="gEffectSsHahenDL" Offset="0x0000C0D0"/>
+        <DList Name="gEffectSsHahen1DL" Offset="0x0000C0D0"/>
         <Texture Name="gEffectSsHahenTex" OutName="effect_ss_hahen" Format="rgb5a1" Width="16" Height="16" Offset="0x0000C160"/>
         <DList Name="gEndDL" Offset="0x0000C690"/>
         <DList Name="gBoomerangDL" Offset="0x0000C698"/>
@@ -357,8 +357,8 @@
         <Texture Name="gCircleGlowRTex" OutName="circle_glow_r" Format="i8" Width="32" Height="64" Offset="0x000545B0"/>
         <Texture Name="gCircleGlowSLTex" OutName="circle_glow_sl" Format="i8" Width="32" Height="64" Offset="0x00054DB0"/>
         <Texture Name="gCircleGlowSRTex" OutName="circle_glow_sr" Format="i8" Width="32" Height="64" Offset="0x000555B0"/>
-        <Texture Name="gEffectSsBubble0Tex" OutName="effect_ss_bubble_0" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
-        <Texture Name="gEffectSsBubble1Tex" OutName="effect_ss_bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
+        <Texture Name="gEffectSsBubble1Tex" OutName="effect_ss_bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
+        <Texture Name="gEffectSsBubble2Tex" OutName="effect_ss_bubble_2" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
         <Texture Name="gEffectSsGSpk0Tex" OutName="effect_ss_g_spk_0" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
         <Texture Name="gEffectSsGSpk1Tex" OutName="effect_ss_g_spk_1" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
         <Texture Name="gEffectSsGSpk2Tex" OutName="effect_ss_g_spk_2" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
