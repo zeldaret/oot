@@ -427,7 +427,7 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->actor.xzDistFromLink < 30.0f && fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
+    if (this->actor.xzDistToLink < 30.0f && fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
         this->timer6 = 100;
         this->actor.gravity = -2.0f;
         this->actionFunc = func_80AB7290;
@@ -1028,7 +1028,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         this->timer6 = 100;
 
-        if (thisx->xzDistFromLink > 10.0f) {
+        if (thisx->xzDistToLink > 10.0f) {
             D_80AB85E0 = 1;
             this->timer5 = this->timer4 = this->unk_29E = 0;
             thisx->speedXZ = 0.0f;
@@ -1050,7 +1050,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     dist = 20.0f;
 
-    if (this->unk_2A8 != 0 && thisx->xyzDistFromLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
+    if (this->unk_2A8 != 0 && thisx->xyzDistToLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, thisx->posRot.rot.y, 0.0f, 0x10);
     }
 

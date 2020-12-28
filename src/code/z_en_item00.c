@@ -517,8 +517,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!((this->actor.xzDistFromLink <= 30.0f) && (this->actor.yDistFromLink >= -50.0f) &&
-          (this->actor.yDistFromLink <= 50.0f))) {
+    if (!((this->actor.xzDistToLink <= 30.0f) && (this->actor.yDistToLink >= -50.0f) &&
+          (this->actor.yDistToLink <= 50.0f))) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
             return;
         }

@@ -132,9 +132,9 @@ typedef struct Actor {
     /* 0x084 */ f32     yDistToWater;
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     yawTowardsLink;
-    /* 0x08C */ f32     xyzDistFromLinkSq;
-    /* 0x090 */ f32     xzDistFromLink;
-    /* 0x094 */ f32     yDistFromLink;
+    /* 0x08C */ f32     xyzDistToLinkSq;
+    /* 0x090 */ f32     xzDistToLink;
+    /* 0x094 */ f32     yDistToLink;
     /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];

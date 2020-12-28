@@ -340,13 +340,13 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
-    } else if (this->actor.xzDistFromLink < 600.0f) {
+    } else if (this->actor.xzDistToLink < 600.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         this->collider.base.acFlags &= ~2;
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if (this->actor.xzDistFromLink < 400.0f) {
+        if (this->actor.xzDistToLink < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            if (this->actor.xzDistFromLink < 90.0f) {
+            if (this->actor.xzDistToLink < 90.0f) {
                 if (type == ROCK_LARGE) {
                     func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
                 } else {
@@ -411,7 +411,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
             Quake_SetCountdown(quakeIdx, 7);
-            func_800AA000(this->actor.xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
+            func_800AA000(this->actor.xyzDistToLinkSq, 0xFF, 0x14, 0x96);
         }
         Actor_Kill(&this->actor);
         return;

@@ -219,7 +219,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
     }
 
-    if (this->actor.xzDistFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
+    if (this->actor.xzDistToLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;

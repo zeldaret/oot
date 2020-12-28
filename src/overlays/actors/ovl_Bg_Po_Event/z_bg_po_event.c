@@ -228,7 +228,7 @@ void BgPoEvent_BlockWait(BgPoEvent* this, GlobalContext* globalCtx) {
         }
         this->timer = 45;
         this->actionFunc = BgPoEvent_BlockShake;
-    } else if (this->dyna.actor.xzDistFromLink > 50.0f) {
+    } else if (this->dyna.actor.xzDistToLink > 50.0f) {
         if (this->type != 1) {
             sPuzzleState |= (1 << this->index);
         } else {
@@ -505,9 +505,9 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
 
     DECR(this->timer);
 
-    if (((this->timer == 0) || ((thisx->xzDistFromLink < 150.0f) && (thisx->yDistFromLink < 50.0f)) ||
-         (func_8002DD78(player) && (thisx->xzDistFromLink < 320.0f) &&
-          ((this->index != 2) ? (thisx->yDistFromLink < 100.0f) : (thisx->yDistFromLink < 0.0f)) &&
+    if (((this->timer == 0) || ((thisx->xzDistToLink < 150.0f) && (thisx->yDistToLink < 50.0f)) ||
+         (func_8002DD78(player) && (thisx->xzDistToLink < 320.0f) &&
+          ((this->index != 2) ? (thisx->yDistToLink < 100.0f) : (thisx->yDistToLink < 0.0f)) &&
           func_8002DFC8(thisx, 0x2000, globalCtx))) &&
         ((thisx->parent != NULL) || (thisx->child != NULL))) {
         /*The third condition in the || is checking if

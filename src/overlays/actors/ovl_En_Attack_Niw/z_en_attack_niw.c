@@ -358,7 +358,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     tmpf1 = 20.0f;
-    if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
+    if (this->actor.xyzDistToLinkSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {

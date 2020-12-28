@@ -85,7 +85,7 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_809C2148(EnBlkobj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->dyna.actor.xzDistFromLink < 120.0f) {
+    if (this->dyna.actor.xzDistToLink < 120.0f) {
         func_809C2060(this, func_809C21A0);
     }
     player->stateFlags2 |= 0x4000000;

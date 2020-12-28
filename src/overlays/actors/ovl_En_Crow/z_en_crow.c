@@ -230,7 +230,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistFromLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+    if ((this->timer == 0) && (this->actor.xzDistToLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
         (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
@@ -262,7 +262,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
-    if ((yaw != 0) || (this->actor.xzDistFromLink > 80.0f)) {
+    if ((yaw != 0) || (this->actor.xzDistToLink > 80.0f)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 

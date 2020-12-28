@@ -191,19 +191,19 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistFromLink > 28.0f)) {
+        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistToLink > 28.0f)) {
             this->collider.base.maskA |= 8;
         }
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             ColliderCylinder* collider = &this->collider;
 
             Collider_CylinderUpdate(&this->actor, collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
-            if (this->actor.xzDistFromLink < 180.0f) {
+            if (this->actor.xzDistToLink < 180.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
             }
         }
-        if (this->actor.xzDistFromLink < 100.0f) {
+        if (this->actor.xzDistToLink < 100.0f) {
             func_8002F580(&this->actor, globalCtx);
         }
     }

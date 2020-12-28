@@ -177,7 +177,7 @@ void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistFromLink <= 160.0f) && (this->actor.xzDistFromLink > 40.0f)) {
+    if ((this->actor.xzDistToLink <= 160.0f) && (this->actor.xzDistToLink > 40.0f)) {
         EnSb_SetupOpen(this);
     }
 }
@@ -190,7 +190,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         EnSb_SetupWaitOpen(this);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
-        if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
+        if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
     }
@@ -201,7 +201,7 @@ void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
+    if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
     }
 

@@ -9697,7 +9697,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
 
         if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
             sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistFromLinkSq));
+            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToLinkSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
@@ -13938,7 +13938,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 func_8083A2F8(globalCtx, this);
 
                 if (!func_8008E9C4(this)) {
-                    if ((actor != this->naviActor) && (actor->xzDistFromLink < 40.0f)) {
+                    if ((actor != this->naviActor) && (actor->xzDistToLink < 40.0f)) {
                         func_808322D0(globalCtx, this, &D_04002DF0);
                     } else {
                         func_80832284(globalCtx, this, func_80833338(this));
@@ -13946,7 +13946,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 }
             } else {
                 func_80836898(globalCtx, this, func_8083A2F8);
-                func_808322D0(globalCtx, this, (actor->xzDistFromLink < 40.0f) ? &D_04002DF0 : &D_040031A0);
+                func_808322D0(globalCtx, this, (actor->xzDistToLink < 40.0f) ? &D_04002DF0 : &D_040031A0);
             }
 
             if (this->skelAnime.animation == &D_04002DF0) {

@@ -80,7 +80,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->actor.xzDistFromLink < 32.0f) {
+    if (this->actor.xzDistToLink < 32.0f) {
         pos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
@@ -249,7 +249,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
-    } else if (this->actor.xzDistFromLink < 40.0f) {
+    } else if (this->actor.xzDistToLink < 40.0f) {
         func_80A7C818(this);
     }
 }
@@ -292,7 +292,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
-    } else if (this->actor.xzDistFromLink < 40.0f) {
+    } else if (this->actor.xzDistToLink < 40.0f) {
         func_80A7C818(this);
     }
 }
@@ -310,7 +310,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
     s16 pad3;
     s16 frames;
     s16 yaw;
-    s16 sp38 = this->actor.xzDistFromLink < 40.0f;
+    s16 sp38 = this->actor.xzDistToLink < 40.0f;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
@@ -760,7 +760,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 func_80A7CA64(this);
             }
-        } else if (this->actor.xzDistFromLink < 50.0f && this->actionFunc != func_80A7CAD0) {
+        } else if (this->actor.xzDistToLink < 50.0f && this->actionFunc != func_80A7CAD0) {
             if (!(this->unk_314 & 0x20) && this->unk_31C < 180) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }

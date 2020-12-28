@@ -171,7 +171,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistFromLink > 32.0f) {
+    } else if (thisx->xzDistToLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
@@ -1149,7 +1149,7 @@ void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
     } else if (func_80AED084(this, 5)) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06002990, 1.0f, 0, SkelAnime_GetFrameCount(&D_06002990), 2, -8.0f);
         this->action = 21;
-        this->unk_27C = this->actor.xzDistFromLink;
+        this->unk_27C = this->actor.xzDistToLink;
     }
 }
 
