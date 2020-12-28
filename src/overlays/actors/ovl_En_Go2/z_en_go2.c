@@ -20,8 +20,8 @@
 // gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
 // gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
 // gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening
-// door, before getting goron bracelet) gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
+// gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door, before getting goron bracelet) 
+// gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
 // gSaveContext.infTable[16] & 0x400 - (not on cloud modding)
 // gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
 // gSaveContext.infTable[16] & 0x1000 - Stopped Goron Link's Rolling
