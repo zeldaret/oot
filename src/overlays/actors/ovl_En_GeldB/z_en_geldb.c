@@ -161,7 +161,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->jointTbl, this->morphTbl, 24);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->jointTable, this->morphTable, 24);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
     Collider_InitTris(globalCtx, &this->blockCollider);
@@ -1492,7 +1492,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actionState != GELDB_WAIT) || !this->invisible) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeDLists[this->blinkState]));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
         if (this->actionState == GELDB_BLOCK) {
             s32 i;

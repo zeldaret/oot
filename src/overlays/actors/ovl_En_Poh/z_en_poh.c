@@ -866,10 +866,10 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(globalCtx, &this->actor);
         if (this->infoIdx == EN_POH_INFO_NORMAL) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, this->jointTbl, this->morphTbl, 21);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, this->jointTable, this->morphTable, 21);
             this->actor.draw = EnPoh_DrawRegular;
         } else {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, this->jointTbl, this->morphTbl,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, this->jointTable, this->morphTable,
                                12);
             this->actor.draw = EnPoh_DrawComposer;
             this->colliderSph.list[0].dim.joint = 9;
@@ -1030,12 +1030,12 @@ void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
         gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
-        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->lightColor.a);
         gSPSegment(POLY_XLU_DISP++, 0x08, D_80116280);
-        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1071,7 +1071,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x0B,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
-        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw,
                                            &this->actor, POLY_OPA_DISP);
     } else {
@@ -1085,7 +1085,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 0x0B,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
-        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw,
                                            &this->actor, POLY_XLU_DISP);
     }

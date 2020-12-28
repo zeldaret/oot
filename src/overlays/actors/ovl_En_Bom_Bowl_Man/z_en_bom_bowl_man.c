@@ -61,7 +61,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->jointTbl, this->morphTbl, 11);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->jointTable, this->morphTable, 11);
     // ☆ Man, my shoulders hurt~ ☆
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
@@ -511,7 +511,7 @@ void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIndex]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);

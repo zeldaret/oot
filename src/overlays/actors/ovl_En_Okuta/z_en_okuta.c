@@ -76,7 +76,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->numShots = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTbl, this->morphTbl, 38);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTable, this->morphTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
         func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -567,7 +567,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Collider_CylinderUpdate(&this->actor, &this->collider);
         if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
-            this->collider.dim.pos.y = this->actor.posRot.pos.y + (this->skelAnime.jointTbl->y * this->actor.scale.y);
+            this->collider.dim.pos.y = this->actor.posRot.pos.y + (this->skelAnime.jointTable->y * this->actor.scale.y);
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
@@ -655,7 +655,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->actor.params == 0) {
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnOkuta_OverrideLimbDraw, NULL,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnOkuta_OverrideLimbDraw, NULL,
                           this);
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);

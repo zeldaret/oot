@@ -131,5 +131,5 @@ void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBird* this = THIS;
 
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
 }

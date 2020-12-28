@@ -186,8 +186,8 @@ void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096D5D4(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.baseTrans = this->skelAnime.jointTbl[0];
-    this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
+    this->skelAnime.baseTrans = this->skelAnime.jointTable[0];
+    this->skelAnime.prevTrans = this->skelAnime.jointTable[0];
     this->skelAnime.flags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
@@ -275,7 +275,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, GlobalContext* globalCtx, void* eyeTextur
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
 }
@@ -311,7 +311,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, GlobalContext* globalCtx, Gfx*
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 646);

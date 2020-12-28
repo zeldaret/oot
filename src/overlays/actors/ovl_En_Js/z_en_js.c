@@ -48,7 +48,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->jointTbl, this->morphTbl, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->jointTable, this->morphTable, 13);
     Animation_PlayOnce(&this->skelAnime, &D_0600045C);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -214,6 +214,6 @@ void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnJs_OverrideLimbDraw, EnJs_PostLimbDraw, this);
 }

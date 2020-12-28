@@ -206,7 +206,7 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->bodyScale.x = this->bodyScale.y = this->bodyScale.z = 1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 48.0f);
     Actor_SetScale(&this->actor, 0.01875f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06008318, &D_06004C20, this->jointTbl, this->morphTbl, 31);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06008318, &D_06004C20, this->jointTable, this->morphTable, 31);
     this->actor.colChkInfo.health = 4;
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -808,7 +808,7 @@ void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     s32 index;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnDodongo_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDodongo_OverrideLimbDraw,
                       EnDodongo_PostLimbDraw, this);
 
     if (this->iceTimer != 0) {

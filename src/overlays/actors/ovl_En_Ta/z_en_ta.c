@@ -112,7 +112,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
 
@@ -1208,7 +1208,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80B16E88[this->unk_2B4]));
     gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(&D_06006DC0));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTa_OverrideLimbDraw, EnTa_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ta.c", 2400);

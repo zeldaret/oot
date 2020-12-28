@@ -141,7 +141,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTbl, this->morphTbl, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 35.0f);
@@ -486,6 +486,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, &this->actor);
 }

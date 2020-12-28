@@ -76,7 +76,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16 time;
 
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
 
     this->type = (this->actor.params >> 8) & 0xFF;
     this->path = this->actor.params & 0xFF;
@@ -496,7 +496,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi1_OverrideLimbDraw, NULL,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
                       this);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
 

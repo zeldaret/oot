@@ -82,7 +82,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~5;
     } else {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawFunc_Circle, 35.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_060023B8, &D_06002F7C, this->jointTbl, this->morphTbl, 10);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_060023B8, &D_06002F7C, this->jointTable, this->morphTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -554,7 +554,7 @@ void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 0xA) {
         Gfx_DrawDListOpa(globalCtx, D_060014E0);
     } else {
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHintnuts_OverrideLimbDraw,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHintnuts_OverrideLimbDraw,
                           NULL, this);
     }
 }

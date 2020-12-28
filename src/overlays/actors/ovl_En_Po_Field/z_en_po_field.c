@@ -119,7 +119,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->jointTbl, this->morphTbl, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->jointTable, this->morphTable, 10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD7080);
     Collider_InitCylinder(globalCtx, &this->flameCollider);
@@ -893,7 +893,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
             POLY_OPA_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_OPA_DISP);
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -901,7 +901,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
             POLY_XLU_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_XLU_DISP);
         }
         gDPPipeSync(POLY_OPA_DISP++);

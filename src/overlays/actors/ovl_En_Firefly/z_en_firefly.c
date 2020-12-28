@@ -94,7 +94,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->jointTbl, this->morphTbl, 28);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->jointTable, this->morphTable, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -758,7 +758,7 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     }
 
-    POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+    POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                    EnFirefly_OverrideLimbDraw, EnFirefly_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1763);
 }
@@ -775,7 +775,7 @@ void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 255);
     }
 
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                    EnFirefly_OverrideLimbDraw, EnFirefly_PostLimbDraw, this, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1805);
 }

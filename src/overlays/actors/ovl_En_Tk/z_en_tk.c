@@ -487,7 +487,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTbl, this->morphTbl, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
     Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_LastFrame(&D_06002F84), 0, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -736,7 +736,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);

@@ -53,7 +53,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->jointTbl, &this->morphTbl, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->jointTable, &this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
@@ -244,7 +244,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiwGirlOverrideLimbDraw, 0, this);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
 

@@ -227,8 +227,8 @@ typedef struct Player {
     /* 0x01AC */ OSMesg     giObjectLoadMsg;
     /* 0x01B0 */ void*      giObjectSegment; // also used for title card textures
     /* 0x01B4 */ SkelAnime  skelAnime;
-    /* 0x01F8 */ Vec3s      jointTbl[PLAYER_LIMB_BUF_COUNT];
-    /* 0x0288 */ Vec3s      morphTbl[PLAYER_LIMB_BUF_COUNT];
+    /* 0x01F8 */ Vec3s      jointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x0288 */ Vec3s      morphTable[PLAYER_LIMB_BUF_COUNT];
     /* 0x0318 */ Vec3s      unk_318[PLAYER_LIMB_BUF_COUNT];
     /* 0x03A8 */ s16        unk_3A8[2];
     /* 0x03AC */ Actor*     heldActor;
@@ -296,8 +296,8 @@ typedef struct Player {
     /* 0x06C2 */ s16        unk_6C2;
     /* 0x06C4 */ f32        unk_6C4;
     /* 0x06C8 */ SkelAnime  skelAnime2;
-    /* 0x070C */ Vec3s      jointTbl2[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s      morphTbl2[PLAYER_LIMB_BUF_COUNT];
+    /* 0x070C */ Vec3s      jointTable2[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s      morphTable2[PLAYER_LIMB_BUF_COUNT];
     /* 0x082C */ PlayerFunc82C func_82C;
     /* 0x0830 */ f32        unk_830;
     /* 0x0834 */ s16        unk_834;

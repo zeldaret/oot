@@ -21,8 +21,8 @@ typedef struct {
 typedef struct EnDns {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTbl[18];
-    /* 0x01FC */ Vec3s morphTbl[18];
+    /* 0x0190 */ Vec3s jointTable[18];
+    /* 0x01FC */ Vec3s morphTable[18];
     /* 0x0268 */ EnDnsActionFunc actionFunc;
     /* 0x026C */ ColliderCylinder collider;
     /* 0x02B8 */ s16 dustTimer;

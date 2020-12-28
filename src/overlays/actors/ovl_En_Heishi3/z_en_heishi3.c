@@ -62,7 +62,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.unk_1F = 6;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -237,6 +237,6 @@ void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi3_OverrideLimbDraw, NULL,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi3_OverrideLimbDraw, NULL,
                       this);
 }

@@ -74,7 +74,7 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 22.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTbl, this->morphTbl, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTable, this->morphTable, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
@@ -457,7 +457,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
         func_80026230(globalCtx, &black, 1, 2);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
 
         if ((this->actionFunc == EnKarebaba_Regrow) || (this->actionFunc == EnKarebaba_Grow)) {

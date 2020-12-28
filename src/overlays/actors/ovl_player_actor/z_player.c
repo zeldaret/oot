@@ -1231,8 +1231,8 @@ void func_808322D0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
 }
 
 void func_808322FC(Player* this) {
-    this->actor.shape.rot.y += this->skelAnime.jointTbl[1].y;
-    this->skelAnime.jointTbl[1].y = 0;
+    this->actor.shape.rot.y += this->skelAnime.jointTable[1].y;
+    this->skelAnime.jointTable[1].y = 0;
 }
 
 void func_80832318(Player* this) {
@@ -1489,20 +1489,20 @@ void func_80832D20(Player* this) {
 }
 
 void func_80832DB0(Player* this) {
-    this->skelAnime.jointTbl[1].y = 0;
+    this->skelAnime.jointTable[1].y = 0;
 }
 
 void func_80832DBC(Player* this) {
     if (this->skelAnime.flags != 0) {
         func_808322FC(this);
-        this->skelAnime.jointTbl[0].x = this->skelAnime.baseTrans.x;
-        this->skelAnime.jointTbl[0].z = this->skelAnime.baseTrans.z;
+        this->skelAnime.jointTable[0].x = this->skelAnime.baseTrans.x;
+        this->skelAnime.jointTable[0].z = this->skelAnime.baseTrans.z;
         if (this->skelAnime.flags & 8) {
             if (this->skelAnime.flags & 2) {
-                this->skelAnime.jointTbl[0].y = this->skelAnime.prevTrans.y;
+                this->skelAnime.jointTable[0].y = this->skelAnime.prevTrans.y;
             }
         } else {
-            this->skelAnime.jointTbl[0].y = this->skelAnime.baseTrans.y;
+            this->skelAnime.jointTable[0].y = this->skelAnime.baseTrans.y;
         }
         func_80832CFC(this);
         this->skelAnime.flags = 0;
@@ -1541,7 +1541,7 @@ void func_80832F54(GlobalContext* globalCtx, Player* this, s32 flags) {
     } else if ((flags & 0x100) || (this->skelAnime.flags != 0)) {
         func_80832CFC(this);
     } else {
-        this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
+        this->skelAnime.prevTrans = this->skelAnime.jointTable[0];
         this->skelAnime.prevRot = this->actor.shape.rot.y;
     }
 
@@ -2594,8 +2594,8 @@ s32 func_808358F0(Player* this, GlobalContext* globalCtx) {
 
     if ((func_808334E4(this) == animSeg) || (func_80833528(this) == animSeg) || (func_808335B0(this) == animSeg) ||
         (func_808335F4(this) == animSeg)) {
-        AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime2.jointTbl,
-                                    this->skelAnime.jointTbl);
+        AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime2.jointTable,
+                                    this->skelAnime.jointTable);
     } else {
         LinkAnimation_Update(globalCtx, &this->skelAnime2);
     }
@@ -2924,18 +2924,18 @@ s32 func_80836670(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_830 != 0.0f) {
         if ((func_80833350(this) == 0) || (this->linearVelocity != 0.0f)) {
-            AnimationContext_SetCopyFalse(globalCtx, this->skelAnime.limbCount, this->skelAnime2.jointTbl,
-                                          this->skelAnime.jointTbl, D_80853410);
+            AnimationContext_SetCopyFalse(globalCtx, this->skelAnime.limbCount, this->skelAnime2.jointTable,
+                                          this->skelAnime.jointTable, D_80853410);
         }
         Math_StepToF(&this->unk_830, 0.0f, 0.25f);
-        AnimationContext_SetInterp(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                   this->skelAnime2.jointTbl, 1.0f - this->unk_830);
+        AnimationContext_SetInterp(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                   this->skelAnime2.jointTable, 1.0f - this->unk_830);
     } else if ((func_80833350(this) == 0) || (this->linearVelocity != 0.0f)) {
-        AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                     this->skelAnime2.jointTbl, D_80853410);
+        AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                     this->skelAnime2.jointTable, D_80853410);
     } else {
-        AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                    this->skelAnime2.jointTbl);
+        AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                    this->skelAnime2.jointTable);
     }
 
     return 1;
@@ -3450,7 +3450,7 @@ s32 func_80837B18(GlobalContext* globalCtx, Player* this, s32 damage) {
 }
 
 void func_80837B60(Player* this) {
-    this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
+    this->skelAnime.prevTrans = this->skelAnime.jointTable[0];
     func_80832E48(this, 3);
 }
 
@@ -6807,7 +6807,7 @@ void func_80840BC8(Player* this, GlobalContext* globalCtx) {
             if (DECR(this->unk_850) == 0) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
-            this->skelAnime.jointTbl[0].y = (this->skelAnime.jointTbl[0].y + ((this->unk_850 & 1) * 0x50)) - 0x28;
+            this->skelAnime.jointTable[0].y = (this->skelAnime.jointTable[0].y + ((this->unk_850 & 1) * 0x50)) - 0x28;
         } else {
             func_80832DBC(this);
             func_808409CC(globalCtx, this);
@@ -7171,9 +7171,9 @@ void func_80841BA8(Player* this, GlobalContext* globalCtx) {
 
     if (Player_HoldsTwoHandedWeapon(this)) {
         AnimationContext_SetLoadFrame(globalCtx, func_80833338(this), 0, this->skelAnime.limbCount,
-                                      this->skelAnime.morphTbl);
-        AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                     this->skelAnime.morphTbl, D_80853410);
+                                      this->skelAnime.morphTable);
+        AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                     this->skelAnime.morphTable, D_80853410);
     }
 
     func_80837268(this, &sp34, &sp32, 0.018f, globalCtx);
@@ -9015,11 +9015,11 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
     this->currentYaw = this->actor.posRot.rot.y;
     func_80834644(globalCtx, this);
 
-    SkelAnime_InitLink(globalCtx, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9, this->jointTbl,
-                       this->morphTbl, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(globalCtx, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9, this->jointTable,
+                       this->morphTable, PLAYER_LIMB_MAX);
     this->skelAnime.baseTrans = D_80854730;
-    SkelAnime_InitLink(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTbl2,
-                       this->morphTbl2, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTable2,
+                       this->morphTable2, PLAYER_LIMB_MAX);
     this->skelAnime2.baseTrans = D_80854730;
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
@@ -10329,7 +10329,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
-    func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount, lod,
+    func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
                   this->currentTunic, this->currentBoots, this->actor.shape.unk_06, overrideLimbDraw, func_80090D20,
                   this);
 
@@ -11383,8 +11383,8 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         LinkAnimation_AnimateFrame(globalCtx, &this->skelAnime);
     }
 
-    AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.morphTbl,
-                                this->skelAnime.jointTbl);
+    AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.morphTable,
+                                this->skelAnime.jointTable);
 
     if ((globalCtx->csCtx.state != 0) || (this->csMode != 0)) {
         if (this->csMode == 7) {
@@ -11421,16 +11421,16 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                         func_80832698(this, NA_SE_VO_LI_LASH);
                     }
 
-                    AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                                this->skelAnime2.jointTbl);
+                    AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                                this->skelAnime2.jointTable);
                 } else {
                     if (LinkAnimation_OnFrame(&this->skelAnime2, 10.0f)) {
                         func_8002F7DC(&this->actor, NA_SE_IT_LASH);
                         func_80832698(this, NA_SE_VO_LI_LASH);
                     }
 
-                    AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTbl,
-                                                 this->skelAnime2.jointTbl, D_80853410);
+                    AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                                 this->skelAnime2.jointTable, D_80853410);
                 }
             } else {
                 LinkAnimationHeader* anim = NULL;
@@ -13786,7 +13786,7 @@ void func_80852B4C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if ((D_80858AA0 & 4) && !(this->skelAnime.flags & 4)) {
-        this->skelAnime.morphTbl[0].y /= this->ageProperties->unk_08;
+        this->skelAnime.morphTable[0].y /= this->ageProperties->unk_08;
         D_80858AA0 = 0;
     }
 }

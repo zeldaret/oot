@@ -139,7 +139,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060065C8, &D_060014CC, this->jointTbl, this->morphTbl, 12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060065C8, &D_060014CC, this->jointTable, this->morphTable, 12);
     this->unk_22E.r = 255;
     this->unk_22E.g = 255;
     this->unk_22E.b = 210;
@@ -1305,13 +1305,13 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
-            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnPoSisters_OverrideLimbDraw,
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
         POLY_XLU_DISP =
-            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnPoSisters_OverrideLimbDraw,
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
     if (!(this->unk_199 & 0x80)) {

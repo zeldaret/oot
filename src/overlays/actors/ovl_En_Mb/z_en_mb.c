@@ -133,7 +133,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case -1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTable, this->morphTable,
                                28);
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = 0xFE;
@@ -142,7 +142,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6830(this);
             break;
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTbl, this->morphTbl,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTable, this->morphTable,
                                28);
             this->actor.colChkInfo.health = 6;
             this->actor.colChkInfo.mass = 0xFF;
@@ -168,7 +168,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6898(this);
             break;
         default:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTable, this->morphTable,
                                28);
             Actor_SetScale(&this->actor, 0.014f);
             this->path = (thisx->params & 0xFF00) >> 8;
@@ -1366,7 +1366,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnMb_PostLimbDraw, thisx);
     if (thisx->params != 0) {
         if (this->attackParams > 0) {

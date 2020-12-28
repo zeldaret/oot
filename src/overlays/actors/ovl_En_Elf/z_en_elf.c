@@ -323,7 +323,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->jointTbl, this->morphTbl, 15);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->jointTable, this->morphTable, 15);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.unk_14 = 0xFF;
 
@@ -1528,7 +1528,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);

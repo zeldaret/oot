@@ -154,7 +154,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     temp_s2 = this->actor.params & 3;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04035590, &D_040341FC, this->jointTbl, this->morphTbl, 24);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04035590, &D_040341FC, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
 
@@ -778,7 +778,7 @@ void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
     func_800628A4(0, &this->collider);
     D_80A7DEB4 = 0;
 }

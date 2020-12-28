@@ -134,7 +134,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
 
     if (!noKill) {
         Actor_Kill(&this->actor);
@@ -579,7 +579,7 @@ void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1255);

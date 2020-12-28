@@ -102,7 +102,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 72.0f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->jointTbl, this->morphTbl, 6);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->jointTable, this->morphTable, 6);
             Animation_PlayLoop(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
             Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
@@ -128,7 +128,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             DREG(53) = 0;
             break;
         case 1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->jointTbl, this->morphTbl, 6);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->jointTable, this->morphTable, 6);
             Animation_PlayLoop(&this->skelAnime, &D_06004348);
             this->actor.update = func_809DFE98;
             this->actor.draw = func_809E0070;
@@ -371,7 +371,7 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, this);
 }
 
@@ -379,6 +379,6 @@ void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

@@ -99,7 +99,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->jointTbl, &this->morphTbl, 25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->jointTable, &this->morphTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -1081,7 +1081,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     POLY_OPA_DISP =
-        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026608(globalCtx);
@@ -1100,7 +1100,7 @@ void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
     POLY_XLU_DISP =
-        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_XLU_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026A6C(globalCtx);

@@ -62,7 +62,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTbl, this->morphTbl, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -692,7 +692,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);

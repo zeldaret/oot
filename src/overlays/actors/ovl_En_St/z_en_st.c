@@ -741,7 +741,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTbl, this->morphTbl, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTable, this->morphTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnSt_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSt_OverrideLimbDraw,
                       EnSt_PostLimbDraw, this);
 }

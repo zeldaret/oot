@@ -146,7 +146,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTbl, this->morphTbl, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
@@ -566,7 +566,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnNiwLady_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1370);

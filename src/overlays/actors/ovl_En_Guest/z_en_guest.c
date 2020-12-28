@@ -84,7 +84,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTbl, this->morphTbl, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_LastFrame(&D_060042AC), 0, 0.0f);
 
@@ -227,7 +227,7 @@ void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGuest_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 421);

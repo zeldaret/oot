@@ -148,7 +148,7 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneScale = 200.0f;
     }
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_050036F0, &D_05002470, this->jointTbl, this->morphTbl, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_050036F0, &D_05002470, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
     this->actor.colChkInfo.mass = 0;
@@ -412,7 +412,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         func_800628A4(0, &this->collider);
     }
 

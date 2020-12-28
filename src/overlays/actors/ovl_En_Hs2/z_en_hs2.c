@@ -43,7 +43,7 @@ void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTbl, this->morphTbl, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
     Animation_PlayLoop(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -152,6 +152,6 @@ void EnHs2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHs2* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnHs2_OverrideLimbDraw, EnHs2_PostLimbDraw, this);
 }

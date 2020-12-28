@@ -557,7 +557,7 @@ void EnNb_DrawTransparency(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount, NULL,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL,
                                        NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inKenjyanomaDemo02.c", 290);
@@ -960,7 +960,7 @@ void func_80AB2E70(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600D8E8));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 593);
@@ -990,7 +990,7 @@ void func_80AB2FE4(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount, func_80AB2FC0,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80AB2FC0,
                           NULL, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nb_inConfrontion.c", 644);
@@ -1424,7 +1424,7 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     EnNb_SetupCollider(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060181C8, NULL, this->jointTbl, this->morphTbl, 19);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060181C8, NULL, this->jointTable, this->morphTable, 19);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:
@@ -1502,7 +1502,7 @@ void EnNb_DrawDefault(EnNb* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           EnNb_OverrideLimbDraw, EnNb_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nb.c", 1013);

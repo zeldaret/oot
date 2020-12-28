@@ -113,10 +113,10 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params >= -1) {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->jointTbl, this->morphTbl, 26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->jointTable, this->morphTable, 26);
         thisx->naviEnemyId = 42;
     } else {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->jointTbl, this->morphTbl, 26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->jointTable, this->morphTable, 26);
         thisx->naviEnemyId = 45;
     }
 
@@ -860,7 +860,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
         gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
-        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
                                            POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
@@ -877,7 +877,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_314);
         gSPSegment(POLY_XLU_DISP++, 8, &D_80116280[0]);
         POLY_XLU_DISP =
-            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
         func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);

@@ -180,7 +180,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.rot.y += 0x8000;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->jointTbl, this->morphTbl, 5);
+    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->jointTable, this->morphTable, 5);
     Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, 2, 0.0f);
 
     switch (this->type) {
@@ -477,8 +477,8 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
 
-        if (this->skelanime.jointTbl[3].z > 0) {
-            this->unk_1B0 = (0x7D00 - this->skelanime.jointTbl[3].z) * 0.00006f;
+        if (this->skelanime.jointTable[3].z > 0) {
+            this->unk_1B0 = (0x7D00 - this->skelanime.jointTable[3].z) * 0.00006f;
             if (this->unk_1B0 < 0.0f) {
                 this->unk_1B0 = 0.0f;
             } else if (this->unk_1B0 > 1.0f) {
@@ -644,7 +644,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
         func_80093D18(globalCtx->state.gfxCtx);
-        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, NULL,
+        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_OPA_DISP);
     } else if (this->alpha != 0) {
         gDPPipeSync(POLY_XLU_DISP++);
@@ -655,7 +655,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
         }
-        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, NULL,
+        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_XLU_DISP);
     }
 

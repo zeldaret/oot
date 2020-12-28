@@ -87,7 +87,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->jointTbl, this->morphTbl, 5);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->jointTable, this->morphTable, 5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;
@@ -309,7 +309,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         rot->z += this->actor.posRot.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
             (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
-            phi_v0_2 = ((this->actor.shape.rot.y + this->skelAnime.jointTbl[3].z) + rot->z) -
+            phi_v0_2 = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
                        Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.posRot.pos);
             *dList = (ABS(phi_v0_2) < 0x4000) ? temp_a2[0] : temp_a2[1];
         } else {
@@ -330,7 +330,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnDoor_OverrideLimbDraw, NULL,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw, NULL,
                           &this->actor);
         if (this->actor.posRot.rot.y != 0) {
             if (1) {}

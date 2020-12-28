@@ -110,7 +110,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->unk_2E0 = 60.0f;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
         Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
@@ -847,7 +847,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi2_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);

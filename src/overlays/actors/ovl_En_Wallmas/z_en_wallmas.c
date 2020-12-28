@@ -614,7 +614,7 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 

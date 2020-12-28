@@ -94,7 +94,7 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVm* this = THIS;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->jointTbl, this->morphTbl, 11);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->jointTable, this->morphTable, 11);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, thisx, &sCylinderInit);
@@ -479,7 +479,7 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnVm_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnVm_OverrideLimbDraw,
                       EnVm_PostLimbDraw, this);
     actorPos = this->actor.posRot.pos;
     func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);

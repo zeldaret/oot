@@ -59,11 +59,11 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->jointTbl, &this->morphTbl, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->jointTable, &this->morphTable, 17);
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->jointTbl, &this->morphTbl, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->jointTable, &this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -372,6 +372,6 @@ void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi_OverrideLimbDraw, NULL,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,
                       this);
 }

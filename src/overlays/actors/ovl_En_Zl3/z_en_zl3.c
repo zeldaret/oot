@@ -2686,7 +2686,7 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     shape->unk_14 = 0;
     func_80B533B0(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->jointTbl, this->morphTbl, 15);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->jointTable, this->morphTable, 15);
 
     switch (func_80B54DD4(this)) {
         case 1:
@@ -2739,7 +2739,7 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0xB, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
@@ -2764,7 +2764,7 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_258);
     gSPSegment(POLY_XLU_DISP++, 11, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);

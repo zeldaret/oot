@@ -77,7 +77,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTbl, this->morphTbl, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTable, this->morphTable, 16);
     Animation_PlayLoop(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -301,7 +301,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
                           EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
