@@ -412,7 +412,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, &D_0400CB70);
+        gSPDisplayList(POLY_XLU_DISP++, &gIndicatorArrowDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2158);
@@ -2236,7 +2236,7 @@ void func_80030ED8(Actor* actor) {
 void func_80030FA8(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, &D_0401E370, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_MIRROR | G_TX_CLAMP,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, &gMirrorCircleTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_MIRROR | G_TX_CLAMP,
                         G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
 
     gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);

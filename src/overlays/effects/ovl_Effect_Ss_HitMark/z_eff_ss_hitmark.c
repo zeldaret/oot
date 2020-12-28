@@ -46,7 +46,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04021770);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsHitmarkDL);
 
     if (initParams->type == 1) {
         this->life = 16;
