@@ -4,27 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
-    OWL_DEFAULT,
-    OWL_OUTSIDE_KOKIRI,
-    OWL_HYRULE_CASTLE,
-    OWL_KAKARIKO,
-    OWL_HYLIA_GERUDO,
-    OWL_LAKE_HYLIA,
-    OWL_ZORA_RIVER,
-    OWL_HYLIA_SHORTCUT,
-    OWL_DEATH_MOUNTAIN,
-    OWL_DEATH_MOUNTAIN2,
-    OWL_DESSERT_COLOSSUS,
-    OWL_LOST_WOODS_PRESARIA,
-    OWL_LOST_WOODS_POSTSARIA
-} EnOwlType;
-
-typedef enum {
-    OWL_REPEAT,
-    OWL_OK,
-} EnOwlMessageChoice;
-
 typedef struct EnOwl EnOwl;
 
 typedef void (*EnOwlActionFunc)(EnOwl* this, GlobalContext* globalCtx);
@@ -34,11 +13,11 @@ typedef struct EnOwl{
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s drawTbl[0x15];
-    /* 0x025A */ Vec3s transitionTbl[0x15];
+    /* 0x01DC */ Vec3s limbDrawTable[0x15];
+    /* 0x025A */ Vec3s transitionDrawTable[0x15];
     /* 0x02D8 */ SkelAnime skelAnime2;
-    /* 0x031C */ Vec3s drawTbl2[0x10];
-    /* 0x037C */ Vec3s transitionTbl2[0x10];
+    /* 0x031C */ Vec3s limbDrawTable2[0x10];
+    /* 0x037C */ Vec3s transitionDrawTable2[0x10];
     /* 0x03DC */ SkelAnime* curSkelAnime;
     /* 0x03E0 */ Vec3f eye;
     /* 0x03EC */ s16 unk_3EC;

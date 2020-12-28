@@ -19,41 +19,6 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-const ActorInit En_Owl_InitVars = {
-    ACTOR_EN_OWL,
-    ACTORTYPE_NPC,
-    FLAGS,
-    OBJECT_OWL,
-    sizeof(EnOwl),
-    (ActorFunc)EnOwl_Init,
-    (ActorFunc)EnOwl_Destroy,
-    (ActorFunc)EnOwl_Update,
-    (ActorFunc)EnOwl_Draw,
-};
-
-ColliderCylinderInit sOwlCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-    { 30, 40, 0, { 0, 0, 0 } },
-};
-
-InitChainEntry sOwlInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2400, ICHAIN_STOP),
-};
-
-Vec3s D_80ACD62C = { 0.0f, 0.0f, 0.0f };
-
-Gfx* dLists[] = {
-    NULL,
-    0x060089A8,
-    0x06008DA8,
-    0x060091A8,
-};
-
 void EnOwl_ChangeMode(EnOwl* this, EnOwlActionFunc, OwlFunc, SkelAnime*, AnimationHeader*, f32);
 void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC540(EnOwl* this);
@@ -82,17 +47,64 @@ void func_80ACB680(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC460(EnOwl* this);
 void func_80ACBEA0(EnOwl*, GlobalContext*);
 
+typedef enum {
+    /* 0x00 */ OWL_DEFAULT,
+    /* 0x01 */ OWL_OUTSIDE_KOKIRI,
+    /* 0x02 */ OWL_HYRULE_CASTLE,
+    /* 0x03 */ OWL_KAKARIKO,
+    /* 0x04 */ OWL_HYLIA_GERUDO,
+    /* 0x05 */ OWL_LAKE_HYLIA,
+    /* 0x06 */ OWL_ZORA_RIVER,
+    /* 0x07 */ OWL_HYLIA_SHORTCUT,
+    /* 0x08 */ OWL_DEATH_MOUNTAIN,
+    /* 0x09 */ OWL_DEATH_MOUNTAIN2,
+    /* 0x0A */ OWL_DESSERT_COLOSSUS,
+    /* 0x0B */ OWL_LOST_WOODS_PRESARIA,
+    /* 0x0C */ OWL_LOST_WOODS_POSTSARIA
+} EnOwlType;
+
+typedef enum {
+    /* 0x00 */ OWL_REPEAT,
+    /* 0x01 */ OWL_OK,
+} EnOwlMessageChoice;
+
+const ActorInit En_Owl_InitVars = {
+    ACTOR_EN_OWL,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_OWL,
+    sizeof(EnOwl),
+    (ActorFunc)EnOwl_Init,
+    (ActorFunc)EnOwl_Destroy,
+    (ActorFunc)EnOwl_Update,
+    (ActorFunc)EnOwl_Draw,
+};
+
+ColliderCylinderInit sOwlCylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 30, 40, 0, { 0, 0, 0 } },
+};
+
+InitChainEntry sOwlInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2400, ICHAIN_STOP),
+};
+
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOwl* this = THIS;
     ColliderCylinder* collider;
-    s32 whichOwl;
+    s32 owlType;
     s32 switchFlag;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
     ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->drawTbl2, this->transitionTbl2,
-                       0x10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->limbDrawTable,
+                       this->transitionDrawTable, 0x15);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->limbDrawTable2,
+                       this->transitionDrawTable2, 0x10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -103,16 +115,16 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_405 = 4;
     this->unk_404 = this->unk_407 = 0;
     this->unk_408 = 4;
-    whichOwl = (this->actor.params & 0xFC0) >> 6;
+    owlType = (this->actor.params & 0xFC0) >> 6;
     switchFlag = (this->actor.params & 0x3F);
     if (this->actor.params == 0xFFF) {
-        whichOwl = 1;
+        owlType = 1;
         switchFlag = 0x20;
     }
-    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, whichOwl,
+    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType,
                  switchFlag); // conversation owl %4x no = %d, sv = %d
 
-    if ((whichOwl != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(globalCtx, switchFlag)) {
+    if ((owlType != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(globalCtx, switchFlag)) {
         osSyncPrintf("savebitでフクロウ退避\n"); // Save owl with savebit
         Actor_Kill(&this->actor);
         return;
@@ -121,7 +133,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_3EE = 0;
     this->unk_400 = this->actor.posRot.rot.y;
 
-    switch (whichOwl) {
+    switch (owlType) {
         case OWL_DEFAULT:
             this->actionFunc = EnOwl_WaitDefault;
             this->actor.uncullZoneForward = 4000.0f;
@@ -181,7 +193,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80ACB3E0;
             break;
         case OWL_LOST_WOODS_PRESARIA:
-            if (!CHECK_QUEST_ITEM(0xC)) {
+            if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -189,7 +201,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnOwl_WaitLWPreSaria;
             break;
         case OWL_LOST_WOODS_POSTSARIA:
-            if (!CHECK_QUEST_ITEM(0xE)) {
+            if (!CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -199,7 +211,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
         default:
             // Outside kokiri forest
             osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("no = %d  \n", whichOwl);
+            osSyncPrintf("no = %d  \n", owlType);
             osSyncPrintf(
                 "未完成のフクロウ未完成のフクロウ未完成のフクロウ\n"); // Unfinished owl unfinished owl unfinished owl
             osSyncPrintf(VT_RST);
@@ -700,11 +712,12 @@ void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB748(EnOwl* this, GlobalContext* globalCtx) {
+    static Vec3s D_80ACD62C = { 0.0f, 0.0f, 0.0f };
     f32 unkf2;
     f32 xyzDist;
-    u32 whichOwl;
+    u32 owlType;
 
-    whichOwl = (this->actor.params & 0xFC0) >> 6;
+    owlType = (this->actor.params & 0xFC0) >> 6;
     xyzDist = Math3D_Vec3f_DistXYZ(&this->eye, &globalCtx->view.eye) / 45.0f;
     this->eye.x = globalCtx->view.eye.x;
     this->eye.y = globalCtx->view.eye.y;
@@ -714,7 +727,7 @@ void func_80ACB748(EnOwl* this, GlobalContext* globalCtx) {
         xyzDist = 1.0f;
     }
 
-    switch (whichOwl) {
+    switch (owlType) {
         case 7:
             unkf2 = xyzDist * 2.f;
             func_800F436C(&D_80ACD62C, 0x20BD, unkf2);
@@ -892,7 +905,7 @@ void func_80ACBF50(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
-    s32 whichOwl;
+    s32 owlType;
     s32 temp_v0;
     s32 temp_v0_2;
 
@@ -900,11 +913,11 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actor.xzDistFromLink < 50.0f) {
         if (!Gameplay_InCsMode(globalCtx)) {
-            whichOwl = (this->actor.params & 0xFC0) >> 6;
+            owlType = (this->actor.params & 0xFC0) >> 6;
             osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("%dのフクロウ\n", whichOwl); // "%d owl"
+            osSyncPrintf("%dのフクロウ\n", owlType); // "%d owl"
             osSyncPrintf(VT_RST);
-            switch (whichOwl) {
+            switch (owlType) {
                 case 7:
                     osSyncPrintf(VT_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // Demo of SPOT 06
@@ -1061,7 +1074,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);
     if (this->actor.update == NULL) {
-        //Owl disappears
+        // Owl disappears
         osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }
@@ -1243,8 +1256,8 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Update.s")
 #endif
 
-s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnOwl* this = (EnOwl*)actor;
+s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnOwl* this = THIS;
     switch (limbIndex) {
         case 3:
             rot->x += this->unk_3F0;
@@ -1270,7 +1283,7 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
     return 0;
 }
 
-void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* thisx) {
+void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, void* thisx) {
     EnOwl* this = THIS;
     Vec3f vec;
 
@@ -1288,6 +1301,12 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 }
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* dLists[] = {
+        NULL,
+        0x060089A8,
+        0x06008DA8,
+        0x060091A8,
+    };
     EnOwl* this = THIS;
     s32 pad;
 
@@ -1295,7 +1314,7 @@ void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
     SkelAnime_DrawFlexOpa(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl,
-                          this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
+                          this->curSkelAnime->dListCount, EnOwl_OverrideLimbDraw, EnOwl_PostLimbUpdate, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
 }
 
