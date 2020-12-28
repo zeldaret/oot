@@ -35,6 +35,8 @@ void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900344(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900650(BossGanon2* this, GlobalContext* globalCtx);
+void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
+void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
@@ -69,7 +71,7 @@ extern FlexSkeletonHeader D_06025970;
 extern AnimationHeader D_06026510;
 extern AnimationHeader D_06026AF4;
 extern AnimationHeader D_06027824;
-extern UNK_TYPE D_0602A848;
+extern AnimationHeader D_0602A848;
 extern UNK_TYPE D_060334F8;
 extern UNK_TYPE D_06034278;
 extern AnimationHeader D_060353C0;
@@ -1534,15 +1536,50 @@ void func_80900650(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900818.s")
+void func_80900818(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0602A848, -5.0f);
+    this->unk_194 = SkelAnime_GetFrameCount(&D_0602A848);
+    this->actionFunc = func_80900890;
+    this->unk_1AC = 0;
+    this->unk_39C = 0;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DEAD1);
+    this->unk_336 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900890.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80901020.s")
+void func_80901020(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0602A848, -5.0f);
+    this->unk_194 = SkelAnime_GetFrameCount(&D_0602A848);
+    this->actionFunc = func_8090120C;
+    this->unk_1AC = 0;
+    this->unk_39C = 0;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DEAD1);
+    this->unk_314 = 4;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090109C.s")
+void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
+    u8 i;
 
-void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
+    for (i = 0; i < 70; i++) {
+        Vec3f velocity;
+        Vec3f accel;
+        Vec3f pos;
+
+        velocity.x = Rand_CenteredFloat(50.0f);
+        velocity.y = Rand_CenteredFloat(10.0f) + 5.0f;
+        velocity.z = Rand_CenteredFloat(50.0f);
+        accel.x = 0.0f;
+        accel.y = -1.0f;
+        accel.z = 0.0f;
+        pos.x = this->unk_1B8.x;
+        pos.y = this->unk_1B8.y;
+        pos.z = this->unk_1B8.z;
+        func_8002836C(globalCtx, &pos, &velocity, &accel, &D_80907024, &D_80907028, (s16)Rand_ZeroFloat(50.0f) + 50, 0,
+                      17);
+    }
+}
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
 
 void func_80902348(BossGanon2* this, GlobalContext* globalCtx);
