@@ -1593,7 +1593,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
     f32 phi_f2;
-    s32 i2;
+    u16 i2;
     Vec3f sp58;
     Vec3f sp4C;
     f32 angle;
@@ -1808,7 +1808,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i2 = 0; i2 < 100; i2 = (i2 + 1) & 0xFFFF) {
+        for (i2 = 0; i2 < 100; i2++) {
             angle = Rand_ZeroFloat(2 * M_PI);
             sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.posRot.pos;
