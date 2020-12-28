@@ -250,14 +250,9 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80998780(this, func_809991C8);
 }
 
-#ifdef NON_MATCHING
-// Single stack difference
 void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
-    s32 pad;
-
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
     SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 0, 
-        // this arg is saved and loaded from the stack when the second GetFrameCount is called, offset off by 4
             SkelAnime_GetFrameCount(&D_06001374.genericHeader),
             SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 0.0f, 1);
     this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374.genericHeader);
@@ -265,9 +260,7 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_1B0 = 0xE6;
     this->unk_192 = 0xC8;
     this->unk_1B8 = 0xFA0;
-    this->actor.scale.x = 1.0f;
-    this->actor.scale.y = 1.0f;
-    this->actor.scale.z = 1.0f;
+    this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
     this->unk_194 = 0.3f;
     this->unk_198 = 0.3f;
     this->unk_1A0 = 0.0f;
@@ -286,10 +279,6 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     func_80998780(this, func_80999428);
 }
-#else
-void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998FF4.s")
-#endif
 
 void func_80999194(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -686,21 +675,15 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80998780(this, func_8099A5EC);
 }
 
-#ifdef NON_MATCHING
-// Stack only
 void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
-    f32 temp_f0_2;
-    u32 phi_v0;
-    f32 phi_f0;
-    s16 phi_v1;
-
     Player* player = PLAYER;
+    f32 temp_f0_2;
     
     if (this->unk_1B2 != 0) {
         this->unk_1B2--;
     }
     if (this->unk_1B2 < 0x1F) {
-        phi_v0 = (gSaveContext.linkAge == 0) ? 35 : 45;
+        u32 phi_v0 = (gSaveContext.linkAge == 0) ? 35 : 45;
         if ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) <= phi_v0) {
             player->actor.gravity = 0.0139999995f;
         } else {
@@ -754,7 +737,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 Item_Give(globalCtx, ITEM_MEDALLION_WATER);
                 globalCtx->nextEntranceIndex = 0x6B;
                 gSaveContext.nextCutsceneIndex = 0;
-                gSaveContext.chamberCutsceneNum = ITEM_MEDALLION_WATER;
+                gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
             } else {
                 if (gSaveContext.linkAge != 0) {
                     globalCtx->nextEntranceIndex = 0x604;
@@ -797,6 +780,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
         gSaveContext.nextTransition = 7;
     }
     if (this->unk_192 >= 0x8D) {
+        f32 phi_f0;
         globalCtx->envCtx.unk_E1 = 1;
         phi_f0 = (f32)(this->unk_192 - 0x8C) / 20.0f;
         if (phi_f0 > 1.0f) {
@@ -829,6 +813,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
 
     temp_f0_2 = 1.0f - (f32)(D_8099CCA0 - this->unk_192) / (D_8099CCA0 - (D_8099CCA0 - 100));
     if (temp_f0_2 > 0.0f) {
+        s16 phi_v1;
 
         for (phi_v1 = 0; phi_v1 < 3; phi_v1++) {
             globalCtx->envCtx.unk_8C[0][phi_v1] = 
@@ -842,9 +827,6 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A5EC.s")
-#endif
 
 void func_8099AEE4(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 phi_f0;
@@ -953,24 +935,24 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     func_80093D84(globalCtx->state.gfxCtx);
     switch (this->actor.params) {
-        case 4:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+        case 4:  
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4); 
             gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 255);
-            break;
-        case 8:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            break; 
+        case 8:  
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4); 
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 150, 0, 255);
             break;
-        case 9:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+        case 9:  
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4); 
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 200, 0, 255);
             break;
-        case 10:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+        case 10: 
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4); 
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 255);
             break;
-        default:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A4);
+        default: 
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A4); 
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255 * temp_f0, 255, 255);
             break;
     }
