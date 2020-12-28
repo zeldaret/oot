@@ -168,8 +168,8 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (!Player_InCsMode(globalCtx)) {
-        if (Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                     this->actor.initPosRot.rot.y + (this->direction * 0x6390), 0x20)) {
+        if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y + (this->direction * 0x6390),
+                               0x20)) {
             this->moveState = FWBIG_RESET;
             this->actionFunc = BgHidanFwbig_Lower;
         } else {
