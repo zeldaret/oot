@@ -7,7 +7,7 @@ glabel func_80912020
 /* 019E0 80912020 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 019E4 80912024 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 019E8 80912028 AFA40020 */  sw      $a0, 0x0020($sp)
-/* 019EC 8091202C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 019EC 8091202C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 019F0 80912030 AFA50024 */  sw      $a1, 0x0024($sp)
 /* 019F4 80912034 3C018091 */  lui     $at, %hi(D_8091543C)       ## $at = 80910000

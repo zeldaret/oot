@@ -76,7 +76,7 @@ glabel func_808BFC90
 /* 00988 808BFD98 27B40068 */  addiu   $s4, $sp, 0x0068           ## $s4 = FFFFFFF0
 .L808BFD9C:
 /* 0098C 808BFD9C 00102400 */  sll     $a0, $s0, 16               
-/* 00990 808BFDA0 0C01DE1C */  jal     Math_Sins
+/* 00990 808BFDA0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00994 808BFDA4 00042403 */  sra     $a0, $a0, 16               
 /* 00998 808BFDA8 46140282 */  mul.s   $f10, $f0, $f20            
@@ -84,7 +84,7 @@ glabel func_808BFC90
 /* 009A0 808BFDB0 00102400 */  sll     $a0, $s0, 16               
 /* 009A4 808BFDB4 00042403 */  sra     $a0, $a0, 16               
 /* 009A8 808BFDB8 46105480 */  add.s   $f18, $f10, $f16           
-/* 009AC 808BFDBC 0C01DE0D */  jal     Math_Coss
+/* 009AC 808BFDBC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 009B0 808BFDC0 E7B20068 */  swc1    $f18, 0x0068($sp)          
 /* 009B4 808BFDC4 46140102 */  mul.s   $f4, $f0, $f20             

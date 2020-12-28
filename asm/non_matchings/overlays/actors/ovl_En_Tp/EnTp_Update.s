@@ -178,7 +178,7 @@ glabel EnTp_Update
 /* 018DC 80B226BC C60A0064 */  lwc1    $f10, 0x0064($s0)          ## 00000064
 /* 018E0 80B226C0 46005407 */  neg.s   $f16, $f10                 
 /* 018E4 80B226C4 46008482 */  mul.s   $f18, $f16, $f0            
-/* 018E8 80B226C8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 018E8 80B226C8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 018EC 80B226CC E7B20058 */  swc1    $f18, 0x0058($sp)          
 /* 018F0 80B226D0 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -189,7 +189,7 @@ glabel EnTp_Update
 /* 01904 80B226E4 C6100024 */  lwc1    $f16, 0x0024($s0)          ## 00000024
 /* 01908 80B226E8 46083282 */  mul.s   $f10, $f6, $f8             
 /* 0190C 80B226EC 46105480 */  add.s   $f18, $f10, $f16           
-/* 01910 80B226F0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01910 80B226F0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01914 80B226F4 E7B20044 */  swc1    $f18, 0x0044($sp)          
 /* 01918 80B226F8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -200,7 +200,7 @@ glabel EnTp_Update
 /* 0192C 80B2270C C6100028 */  lwc1    $f16, 0x0028($s0)          ## 00000028
 /* 01930 80B22710 46083282 */  mul.s   $f10, $f6, $f8             
 /* 01934 80B22714 46105480 */  add.s   $f18, $f10, $f16           
-/* 01938 80B22718 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01938 80B22718 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0193C 80B2271C E7B20048 */  swc1    $f18, 0x0048($sp)          
 /* 01940 80B22720 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

@@ -75,12 +75,12 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->update = EffectSsDeadDd_Update;
 
         for (i = initParams->randIter; i > 0; i--) {
-            this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
-            this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
-            this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
-            this->accel.x = this->velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            this->accel.y = this->velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            this->accel.z = this->velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->pos.x = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
+            this->pos.y = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
+            this->pos.z = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
+            this->accel.x = this->velocity.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.y = this->velocity.y = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.z = this->velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
     } else {
         osSyncPrintf("Effect_SS_Dd_disp_mode():mode_swが変です。\n");

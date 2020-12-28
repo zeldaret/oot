@@ -154,7 +154,7 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = 0;
     this->unk_195 = 32;
-    this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+    this->visibilityTimer = Rand_S16Offset(700, 300);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                             this->actor.initPosRot.pos.z, 255, 255, 255, 0);
@@ -212,14 +212,14 @@ void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80ADE114(EnPoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, this->info->unk_C);
-    this->unk_198 = Math_Rand_S16Offset(2, 3);
+    this->unk_198 = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADEAC4;
     this->actor.speedXZ = 0.0f;
 }
 
 void EnPoh_SetupIdle(EnPoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, this->info->unk_10);
-    this->unk_198 = Math_Rand_S16Offset(15, 3);
+    this->unk_198 = Rand_S16Offset(15, 3);
     this->actionFunc = EnPoh_Idle;
 }
 
@@ -414,8 +414,8 @@ void func_80ADE9BC(EnPoh* this) {
 void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Math_ApproxF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f);
-    this->actor.posRot.pos.y += 2.5f * Math_Sins(this->unk_195 * 0x800);
+    Math_StepToF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f);
+    this->actor.posRot.pos.y += 2.5f * Math_SinS(this->unk_195 * 0x800);
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }
@@ -428,7 +428,7 @@ void func_80ADEA5C(EnPoh* this) {
     if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) > 400.0f) {
         this->unk_19C = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     }
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_19C, 0x71C);
+    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_19C, 0x71C);
 }
 
 void func_80ADEAC4(EnPoh* this, GlobalContext* globalCtx) {
@@ -449,7 +449,7 @@ void func_80ADEAC4(EnPoh* this, GlobalContext* globalCtx) {
 
 void EnPoh_Idle(EnPoh* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.speedXZ, 1.0f, 0.2f);
+    Math_StepToF(&this->actor.speedXZ, 1.0f, 0.2f);
     if (func_800A56C8(&this->skelAnime, 0.0f) && this->unk_198 != 0) {
         this->unk_198--;
     }
@@ -458,7 +458,7 @@ void EnPoh_Idle(EnPoh* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 200.0f && this->unk_198 < 19) {
         func_80ADE1BC(this);
     } else if (this->unk_198 == 0) {
-        if (Math_Rand_ZeroOne() < 0.1f) {
+        if (Rand_ZeroOne() < 0.1f) {
             func_80ADE514(this);
         } else {
             func_80ADE114(this);
@@ -480,11 +480,11 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
     }
     facingDiff = this->actor.yawTowardsLink - player->actor.shape.rot.y;
     if (facingDiff >= 0x3001) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x3000, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x3000, 0x71C);
     } else if (facingDiff < -0x3000) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x3000, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x3000, 0x71C);
     } else {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->actor.xzDistFromLink > 280.0f) {
@@ -508,7 +508,7 @@ void EnPoh_Attack(EnPoh* this, GlobalContext* globalCtx) {
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->unk_198 >= 10) {
-        Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xE38);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xE38);
     } else if (this->unk_198 == 9) {
         this->actor.speedXZ = 5.0f;
         this->skelAnime.animPlaybackSpeed = 2.0f;
@@ -519,7 +519,7 @@ void EnPoh_Attack(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADEECC(EnPoh* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             func_80ADE368(this);
@@ -532,7 +532,7 @@ void func_80ADEECC(EnPoh* this, GlobalContext* globalCtx) {
 void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->lightColor.a = 255;
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->actor.flags |= 1;
         EnPoh_SetupIdle(this);
     } else if (this->skelAnime.animCurrentFrame > 10.0f) {
@@ -547,7 +547,7 @@ void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
 void EnPoh_ComposerAppear(EnPoh* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->lightColor.a = 255;
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->actor.flags |= 1;
         EnPoh_SetupIdle(this);
     } else {
@@ -565,14 +565,14 @@ void func_80ADF15C(EnPoh* this, GlobalContext* globalCtx) {
     this->unk_198++;
     if (this->unk_198 < 8) {
         if (this->unk_198 < 5) {
-            vec.y = Math_Sins((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
-            multiplier = Math_Coss((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
-            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
+            vec.y = Math_SinS((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
+            multiplier = Math_CosS((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
+            vec.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
+            vec.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
         } else {
             vec.y = (this->actor.posRot.pos.y + 40.0f) + (15.0f * (this->unk_198 - 5));
-            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
+            vec.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
+            vec.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, 1);
@@ -607,14 +607,14 @@ void func_80ADF574(EnPoh* this, GlobalContext* globalCtx) {
         EnPoh_SetupIdle(this);
         this->unk_198 = 23;
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
         this->actor.shape.rot.y += 0x1000;
     }
 }
 
 void func_80ADF5E0(EnPoh* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->unk_19C, 1820) != 0) {
+    if (Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_19C, 1820) != 0) {
         EnPoh_SetupIdle(this);
     }
     if (this->actor.xzDistFromLink < 200.0f) {
@@ -631,7 +631,7 @@ void EnPoh_Disappear(EnPoh* this, GlobalContext* globalCtx) {
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     this->lightColor.a = this->unk_194 * 7.96875f;
     if (this->unk_194 == 0) {
-        this->visibilityTimer = Math_Rand_S16Offset(100, 50);
+        this->visibilityTimer = Rand_S16Offset(100, 50);
         EnPoh_SetupIdle(this);
     }
 }
@@ -642,7 +642,7 @@ void EnPoh_Appear(EnPoh* this, GlobalContext* globalCtx) {
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     this->lightColor.a = this->unk_194 * 7.96875f;
     if (this->unk_194 == 32) {
-        this->visibilityTimer = Math_Rand_S16Offset(700, 300);
+        this->visibilityTimer = Rand_S16Offset(700, 300);
         this->unk_194 = 0;
         EnPoh_SetupIdle(this);
     }
@@ -652,10 +652,10 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
     f32 multiplier;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    multiplier = Math_Sins(this->unk_195 * 0x800) * 3.0f;
-    this->actor.posRot.pos.x -= multiplier * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += multiplier * Math_Sins(this->actor.shape.rot.y);
-    Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
+    multiplier = Math_SinS(this->unk_195 * 0x800) * 3.0f;
+    this->actor.posRot.pos.x -= multiplier * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += multiplier * Math_SinS(this->actor.shape.rot.y);
+    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
     if (this->unk_198 == 0 || this->actor.xzDistFromLink > 250.0f) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -738,7 +738,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
-    this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }
@@ -929,7 +929,7 @@ void func_80AE089C(EnPoh* this) {
         this->envColor.r = this->envColor.g = this->envColor.b = (s16)(this->skelAnime.animCurrentFrame * 16.66f) + 55;
         this->envColor.a = this->skelAnime.animCurrentFrame * 16.666666f;
     } else {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->envColor.r = (s16)(rand * 30.0f) + 225;
         this->envColor.g = (s16)(rand * 100.0f) + 155;
         this->envColor.b = (s16)(rand * 160.0f) + 95;

@@ -22,7 +22,7 @@ glabel func_808AEE6C
 /* 0071C 808AEE9C 50C00014 */  beql    $a2, $zero, .L808AEEF0     
 /* 00720 808AEEA0 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808AEEA4:
-/* 00724 808AEEA4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00724 808AEEA4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00728 808AEEA8 00000000 */  nop
 /* 0072C 808AEEAC 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

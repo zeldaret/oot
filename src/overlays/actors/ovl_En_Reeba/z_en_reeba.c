@@ -161,10 +161,10 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_278 == 0) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
         if (this->actor.shape.unk_08 < 0.0f) {
-            Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
-            Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+            Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
+            Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
         } else {
             this->unk_288 = 0.0f;
             this->actor.shape.unk_08 = 0.0f;
@@ -192,7 +192,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
                 this->actionfunc = func_80AE538C;
             } else {
                 this->unk_272 = 130;
-                this->actor.speedXZ = Math_Rand_ZeroFloat(4.0f) + 6.0f;
+                this->actor.speedXZ = Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = func_80AE5270;
             }
         }
@@ -205,7 +205,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -236,7 +236,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -249,7 +249,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
             this->unk_270 = 30;
         }
 
-        speed = (this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f);
+        speed = (this->actor.xzDistFromLink - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
         this->actor.speedXZ += speed * 1.8f;
         if (this->actor.speedXZ >= 3.0f) {
             this->actor.speedXZ = 3.0f;
@@ -271,7 +271,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
     if (this->unk_272 == 0) {
         if (this->isBig) {
@@ -291,8 +291,8 @@ void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.shape.unk_10, 1.0f, 0.3f);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.1f, 0.3f);
+    Math_ApproachZeroF(&this->actor.shape.unk_10, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.1f, 0.3f);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.unk_08) {
@@ -301,8 +301,8 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
                           1);
         }
 
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
-        Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
+        Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -355,9 +355,9 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
 
         if ((this->unk_27E == 4) || (this->actor.colChkInfo.health != 0)) {
             if (this->unk_27E == 2) {
-                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-                pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+                pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+                pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+                pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
                 scale = 3.0f;
 
                 if (this->isBig) {
@@ -382,9 +382,9 @@ void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
 
     if (this->unk_278 != 0) {
         if ((this->unk_27E == 2) && ((this->unk_278 & 0xF) == 0)) {
-            pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-            pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-            pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+            pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+            pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+            pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
 
             scale = 3.0f;
             if (this->isBig) {
@@ -420,7 +420,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.speedXZ = 0.0f;
-        Math_SmoothDownscaleMaxF(&this->scale, 0.1f, 0.01f);
+        Math_ApproachZeroF(&this->scale, 0.1f, 0.01f);
 
         if (this->scale < 0.01f) {
             pos.x = this->actor.posRot.pos.x;
@@ -458,8 +458,8 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 
 void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
     if (this->unk_278 < 37) {
-        this->actor.shape.rot.x = Math_Rand_CenteredFloat(3000.0f);
-        this->actor.shape.rot.z = Math_Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.x = Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.z = Rand_CenteredFloat(3000.0f);
 
         if (this->unk_278 == 0) {
             if (this->isBig) {
@@ -627,9 +627,9 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0)) {
         Vec3f debugPos;
 
-        debugPos.x = (Math_Sins(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+        debugPos.x = (Math_SinS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
         debugPos.y = this->actor.posRot.pos.y + 20.0f;
-        debugPos.z = (Math_Coss(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+        debugPos.z = (Math_CosS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
         DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.posRot.rot.x, this->actor.posRot.rot.y,
                                this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }

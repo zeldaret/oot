@@ -97,8 +97,8 @@ void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80889ACC(BgHidanKousi* this) {
     s32 pad[2];
     Vec3s* rot = &this->dyna.actor.posRot.rot;
-    f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_Sins(rot->y);
-    f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_Coss(rot->y);
+    f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
+    f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
     Vec3f* initPos = &this->dyna.actor.initPosRot.pos;
 
     this->dyna.actor.posRot.pos.x = initPos->x + temp1;

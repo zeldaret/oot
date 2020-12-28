@@ -22,12 +22,12 @@ glabel func_80A416A8
 /* 03184 80A416F4 A2180001 */  sb      $t8, 0x0001($s0)           ## 00000269
 /* 03188 80A416F8 A2000000 */  sb      $zero, 0x0000($s0)         ## 00000268
 .L80A416FC:
-/* 0318C 80A416FC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0318C 80A416FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03190 80A41700 00000000 */  nop
 /* 03194 80A41704 46140102 */  mul.s   $f4, $f0, $f20             
 /* 03198 80A41708 46162181 */  sub.s   $f6, $f4, $f22             
-/* 0319C 80A4170C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0319C 80A4170C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 031A0 80A41710 E606002C */  swc1    $f6, 0x002C($s0)           ## 00000294
 /* 031A4 80A41714 C60C0020 */  lwc1    $f12, 0x0020($s0)          ## 00000288

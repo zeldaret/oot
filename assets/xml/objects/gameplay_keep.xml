@@ -1,0 +1,369 @@
+<Root>
+    <File Name="gameplay_keep">
+        <Texture Name="Tex_Gel_Reflection" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
+        <Texture Name="Tex_Projectile" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
+        <Texture Name="Tex_Hylian_Shield" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
+        <Texture Name="Tex_Ocarina_of_Time" Format="rgb5a1" Width="32" Height="16" Offset="0x00001400"/>
+        <Texture Name="Tex_Water" Format="rgb5a1" Width="16" Height="16" Offset="0x00001800"/>
+        <Texture Name="Tex_Unknown" Format="i8" Width="8" Height="8" Offset="0x00001A00"/>
+        <Texture Name="Tex_Hair" Format="rgb5a1" Width="16" Height="16" Offset="0x00001A40"/>
+        <Texture Name="Tex_Cloth" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
+        <Texture Name="Tex_Coif" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
+        <Texture Name="Tex_Small_Flame" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
+        <Blob Name="Unknown_Array" Offset="0x2040" Size="0x2D0"/>
+        <Blob Name="Link_Animations" Offset="0x2310" Size="0x11F0"/>
+        <DList Name="Gfx_Debug_Triangle" Offset="0x000035C0"/>
+        <Texture Name="Tex_Circle0" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
+        <Texture Name="Tex_Ball" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
+        <Texture Name="Tex_Target_Reticle" Format="i8" Width="16" Height="16" Offset="0x000037F0"/>
+        <Texture Name="Tex_Cross" Format="i8" Width="16" Height="16" Offset="0x000038F0"/>
+        <DList Name="Gfx_Debug_Arrow" Offset="0x000039F0"/>
+        <DList Name="Gfx_Debug_Camera" Offset="0x00003C90"/>
+        <DList Name="Gfx_Checkered_Floor" Offset="0x00003FC8"/>
+        <Texture Name="Tex_Checkered_Floor" Format="ia4" Width="32" Height="32" Offset="0x00004058"/>
+        <DList Name="Gfx_Blank_Square" Offset="0x00004298"/>
+        <Blob Name="Unknown2" Offset="0x42B0" Size="0x70"/>
+        <Blob Name="Unknown3" Offset="0x4320" Size="0x60"/>
+        <Texture Name="Tex_Arrow_Shaft" Format="rgb5a1" Width="16" Height="128" Offset="0x00004380"/>
+        <Texture Name="Tex_Arrow_Fletching" Format="rgb5a1" Width="32" Height="16" Offset="0x00005380"/>
+        <DList Name="Gfx_Arrow_HQ" Offset="0x00005AA0"/>
+        <DList Name="Gfx_Arrow_LQ" Offset="0x00005E20"/>
+        <Blob Name="Unknown3_0" Offset="0x00005FC0" Size="0x60"/>
+        <Texture Name="Tex_Flame_Glow" Format="i8" Width="64" Height="32" Offset="0x00006020"/>
+        <Texture Name="Tex_Bomb_Body" Format="ia8" Width="64" Height="64" Offset="0x00006820"/>
+        <DList Name="Gfx_Bomb_Body" Offset="0x00007860"/>
+        <Texture Name="Tex_Bomb_Cap" Format="rgb5a1" Width="8" Height="8" Offset="0x000078F0"/>
+        <DList Name="Gfx_Bomb_Cap" Offset="0x00007A50"/>
+        <Texture Name="Tex_Bombchu" Format="rgb5a1" Width="8" Height="8" Offset="0x00007B10"/>
+        <DList Name="Gfx_Bombchu" Offset="0x00007E10"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_0" Format="ia16" Width="32" Height="32" Offset="0x00007F80"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_1" Format="ia16" Width="32" Height="32" Offset="0x00008780"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_2" Format="ia16" Width="32" Height="32" Offset="0x00008F80"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_3" Format="ia16" Width="32" Height="32" Offset="0x00009780"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_4" Format="ia16" Width="32" Height="32" Offset="0x00009F80"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_5" Format="ia16" Width="32" Height="32" Offset="0x0000A780"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_6" Format="ia16" Width="32" Height="32" Offset="0x0000AF80"/>
+        <Texture Name="Tex_Effect_Ss_Bomb_7" Format="ia16" Width="32" Height="32" Offset="0x0000B780"/>
+        <DList Name="Gfx_Effect_Ss_Bomb" Offset="0x0000BF80"/>
+        <DList Name="Gfx_Effect_Ss_Bomb2" Offset="0x0000BFE8"/>
+        <DList Name="Gfx_Effect_Ss_Bomb3" Offset="0x0000C040"/>
+        <DList Name="Gfx_Effect_Ss_Hahen" Offset="0x0000C0D0"/>
+        <Texture Name="Tex_Effect_Ss_Hahen" Format="rgb5a1" Width="16" Height="16" Offset="0x0000C160"/>
+        <DList Name="Gfx_End_Dlist" Offset="0x0000C690"/>
+        <DList Name="Gfx_Boomerang" Offset="0x0000C698"/>
+        <DList Name="Gfx_Boomerang_Ref" Offset="0x0000C808"/>
+        <DList Name="Gfx_Unknown_Triangle" Offset="0x0000C820"/>
+        <DList Name="Gfx_Indicator_Arrow" Offset="0x0000CB70"/>
+        <Texture Name="Tex_Fabric_Wave" Format="i8" Width="8" Height="8" Offset="0x0000CC80"/>
+        <DList Name="Gfx_Effect_Ss_Hahen2" Offset="0x0000CD80"/>
+        <Texture Name="Tex_Shop_Selection_Indicator" Format="ia4" Width="16" Height="16" Offset="0x0000CDC0"/>
+        <Texture Name="Tex_Shop_Control_Stick_Icon" Format="ia8" Width="16" Height="16" Offset="0x0000CE40"/>
+        <Texture Name="Tex_Shop_Arrow_Icon" Format="ia8" Width="16" Height="24" Offset="0x0000CF40"/>
+        <DList Name="Gfx_Goron_Rock_0" Offset="0x0000D240"/>
+        <DList Name="Gfx_Goron_Rock_1" Offset="0x0000D340"/>
+        <Texture Name="Tex_Goron_Rock_0" Format="rgb5a1" Width="32" Height="32" Offset="0x0000D4E0"/>
+        <Texture Name="Tex_Goron_Rock_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0000DCE0"/>
+        <Blob Name="Unknown3_1" Offset="0x0000E4E0" Size="0xF0"/>
+        <Blob Name="Unknown3_2" Offset="0x0000E5D0" Size="0xE0"/>
+        <Blob Name="Unknown3_3" Offset="0x0000E6B0" Size="0xC0"/>
+        <DList Name="Gfx_Door_Frame" Offset="0x0000EC30"/>
+        <DList Name="Gfx_Door_Left" Offset="0x0000ECB8"/>
+        <DList Name="Gfx_Door_Right" Offset="0x0000EE00"/>
+        <Texture Name="Tex_Wooden_Door" Format="rgb5a1" Width="32" Height="64" Offset="0x0000EF38"/>
+        <Blob Name="Unknown4" Offset="0x0000FF38" Size="0x48"/>
+        <Blob Name="Unknown5" Offset="0x0000FF80" Size="0xD0"/>
+        <DList Name="Gfx_Effect_Ss_Dust" Offset="0x00010050"/>
+        <DList Name="gGameKeepMoteDL0" Offset="0x00010130"/>
+        <DList Name="gGameKeepMoteDL1" Offset="0x000101A8"/>
+        <Texture Name="Tex_Flash" Format="i8" Width="64" Height="64" Offset="0x00010228"/>
+        <Texture Name="Tex_Flame" Format="i8" Width="64" Height="32" Offset="0x00011230"/>
+        <Texture Name="Tex_Reflection" Format="i8" Width="64" Height="32" Offset="0x00011A30"/>
+        <DList Name="Gfx_En_M_Thunder0" Offset="0x00012570"/>
+        <DList Name="Gfx_En_M_Thunder1" Offset="0x00012690"/>
+        <DList Name="Gfx_En_M_Thunder2" Offset="0x00012AF0"/>
+        <DList Name="Gfx_En_M_Thunder3" Offset="0x00012C10"/>
+        <Texture Name="Tex_Flame_Wall" Format="i8" Width="32" Height="32" Offset="0x00012D30"/>
+        <Texture Name="Tex_Flame_Wall2" Format="i8" Width="32" Height="32" Offset="0x00013130"/>
+        <DList Name="Gfx_En_M_Thunder4" Offset="0x00013610"/>
+        <Texture Name="Tex_Effect_Unknown" Format="i8" Width="32" Height="64" Offset="0x00013700"/>
+        <Texture Name="Tex_Effect_Unknown2" Format="i8" Width="32" Height="64" Offset="0x00013F00"/>
+        <DList Name="Gfx_Unknown6" Offset="0x000149C0"/>
+        <Blob Name="Unknown7" Offset="0x00014AF0" Size="0xC8"/>
+        <Texture Name="Tex_Fairy_Wing" Format="i8" Width="32" Height="64" Offset="0x00014BC0"/>
+        <DList Name="Gfx_Fairy_Wing_0" Offset="0x00015400"/>
+        <DList Name="Gfx_Fairy_Wing_1" Offset="0x000154C8"/>
+        <DList Name="Gfx_Fairy_Wing_2" Offset="0x00015590"/>
+        <DList Name="Gfx_Fairy_Wing_3" Offset="0x00015658"/>
+        <DList Name="Gfx_Fairy_Body_Texture" Offset="0x00015720"/>
+        <DList Name="Gfx_Fairy_Body_Poly" Offset="0x00015760"/>
+        <DList Name="Gfx_Fairy_Body" Offset="0x00015780"/>
+        <Texture Name="Tex_Fairy_Wing_Early" Format="rgb5a1" Width="32" Height="64" Offset="0x00015968"/>
+        <Blob Name="Fairy_Data" Offset="0x00016968" Size="0xE8"/>
+        <Texture Name="Tex_Fairy_Body" Format="i4" Width="16" Height="16" Offset="0x00016A50"/>
+        <Texture Name="Tex_Fairy_Body_Large" Format="i8" Width="16" Height="16" Offset="0x00016AD0"/>
+        <Texture Name="Tex_Bell" Format="rgb5a1" Width="32" Height="32" Offset="0x00016BD0"/>
+        <Texture Name="Tex_Unknown8" Format="i8" Width="32" Height="64" Offset="0x000173D0"/>
+        <Texture Name="Tex_Unknown9" Format="i8" Width="32" Height="64" Offset="0x00017BD0"/>
+        <DList Name="Gfx_Effect_Ss_Fcircle" Offset="0x000184B0"/>
+        <Blob Name="Unknown7_0" Offset="0x000185A0" Size="0x70"/>
+        <DList Name="Gfx_Fish_Tail" Offset="0x000188B0"/>
+        <DList Name="Gfx_Fish_Body" Offset="0x00018950"/>
+        <DList Name="Gfx_Fish_Back" Offset="0x00018A68"/>
+        <Texture Name="Tex_Fish_Tail" Format="rgb5a1" Width="16" Height="16" Offset="0x00018B80"/>
+        <Texture Name="Tex_Fish_Body" Format="rgb5a1" Width="32" Height="8" Offset="0x00018D80"/>
+        <Blob Name="Unknown7_1" Offset="0x00018F80" Size="0x130"/>
+        <Texture Name="Tex_Effect_Ss_Blast" Format="i8" Width="64" Height="64" Offset="0x000190B0"/>
+        <DList Name="Gfx_Effect_Ss_Blast" Offset="0x0001A0B0"/>
+        <DList Name="Gfx_Effect_Ss_Bubble" Offset="0x0001A160"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_0" Format="ia8" Width="32" Height="32" Offset="0x0001A220"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_1" Format="ia8" Width="32" Height="32" Offset="0x0001A620"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_2" Format="ia8" Width="32" Height="32" Offset="0x0001AA20"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_3" Format="ia8" Width="32" Height="32" Offset="0x0001AE20"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_4" Format="ia8" Width="32" Height="32" Offset="0x0001B220"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_5" Format="ia8" Width="32" Height="32" Offset="0x0001B620"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_6" Format="ia8" Width="32" Height="32" Offset="0x0001BA20"/>
+        <Texture Name="Tex_Effect_Ss_G_Fire_7" Format="ia8" Width="32" Height="32" Offset="0x0001BE20"/>
+        <DList Name="Gfx_Effect_Ss_G_Fire" Offset="0x0001C220"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_0" Format="ia8" Width="32" Height="32" Offset="0x0001C2C0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_1" Format="ia8" Width="32" Height="32" Offset="0x0001C6C0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_2" Format="ia8" Width="32" Height="32" Offset="0x0001CAC0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_3" Format="ia8" Width="32" Height="32" Offset="0x0001CEC0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_4" Format="ia8" Width="32" Height="32" Offset="0x0001D2C0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_5" Format="ia8" Width="32" Height="32" Offset="0x0001D6C0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_6" Format="ia8" Width="32" Height="32" Offset="0x0001DAC0"/>
+        <Texture Name="Tex_Effect_Ss_Sibuki2_7" Format="ia8" Width="32" Height="32" Offset="0x0001DEC0"/>
+        <DList Name="Gfx_Effect_Ss_Sibuki2" Offset="0x0001E2C0"/>
+        <Texture Name="Tex_Reverse_Circle" Format="i8" Width="64" Height="64" Offset="0x0001E370"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_0" Format="i4" Width="32" Height="24" Offset="0x0001F370"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_1" Format="i4" Width="32" Height="24" Offset="0x0001F4F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_2" Format="i4" Width="32" Height="24" Offset="0x0001F670"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_3" Format="i4" Width="32" Height="24" Offset="0x0001F7F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_4" Format="i4" Width="32" Height="24" Offset="0x0001F970"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_5" Format="i4" Width="32" Height="24" Offset="0x0001FAF0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_6" Format="i4" Width="32" Height="24" Offset="0x0001FC70"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_7" Format="i4" Width="32" Height="24" Offset="0x0001FDF0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_8" Format="i4" Width="32" Height="24" Offset="0x0001FF70"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_9" Format="i4" Width="32" Height="24" Offset="0x000200F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_10" Format="i4" Width="32" Height="24" Offset="0x00020270"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_11" Format="i4" Width="32" Height="24" Offset="0x000203F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_12" Format="i4" Width="32" Height="24" Offset="0x00020570"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_13" Format="i4" Width="32" Height="24" Offset="0x000206F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_14" Format="i4" Width="32" Height="24" Offset="0x00020870"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_15" Format="i4" Width="32" Height="24" Offset="0x000209F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_16" Format="i4" Width="32" Height="24" Offset="0x00020B70"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_17" Format="i4" Width="32" Height="24" Offset="0x00020CF0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_18" Format="i4" Width="32" Height="24" Offset="0x00020E70"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_19" Format="i4" Width="32" Height="24" Offset="0x00020FF0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_20" Format="i4" Width="32" Height="24" Offset="0x00021170"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_21" Format="i4" Width="32" Height="24" Offset="0x000212F0"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_22" Format="i4" Width="32" Height="24" Offset="0x00021470"/>
+        <Texture Name="Tex_Effect_Ss_Hitmark_23" Format="i4" Width="32" Height="24" Offset="0x000215F0"/>
+        <DList Name="Gfx_Effect_Ss_Hitmark" Offset="0x00021770"/>
+        <Texture Name="Tex_Unknown10" Format="i8" Width="32" Height="64" Offset="0x00021810"/>
+        <Texture Name="Tex_Unknown11" Format="i8" Width="32" Height="64" Offset="0x00022010"/>
+        <Texture Name="Tex_Unknown12" Format="i8" Width="64" Height="64" Offset="0x00022810"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_0" Format="ia8" Width="16" Height="24" Offset="0x00023810"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_1" Format="ia8" Width="16" Height="24" Offset="0x00023990"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_2" Format="ia8" Width="16" Height="24" Offset="0x00023B10"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_3" Format="ia8" Width="16" Height="24" Offset="0x00023C90"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_4" Format="ia8" Width="16" Height="24" Offset="0x00023E10"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_5" Format="ia8" Width="16" Height="24" Offset="0x00023F90"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_6" Format="ia8" Width="16" Height="24" Offset="0x00024110"/>
+        <Texture Name="Tex_Effect_Ss_G_Magma_7" Format="ia8" Width="16" Height="24" Offset="0x00024290"/>
+        <DList Name="Gfx_Effect_Ss_G_Magma" Offset="0x00024410"/>
+        <Texture Name="Tex_Effect_Ss_G_Ripple" Format="i8" Width="64" Height="64" Offset="0x000244B0"/>
+        <DList Name="Gfx_Effect_Ss_G_Ripple" Offset="0x000254B0"/>
+        <DList Name="Gfx_Effect_Ss_G_Spk" Offset="0x00025550"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_0" Format="i8" Width="32" Height="40" Offset="0x000255F0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_1" Format="i8" Width="32" Height="40" Offset="0x00025AF0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_2" Format="i8" Width="32" Height="40" Offset="0x00025FF0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_3" Format="i8" Width="32" Height="40" Offset="0x000264F0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_4" Format="i8" Width="32" Height="40" Offset="0x000269F0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_5" Format="i8" Width="32" Height="40" Offset="0x00026EF0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_6" Format="i8" Width="32" Height="40" Offset="0x000273F0"/>
+        <Texture Name="Tex_Effect_Ss_G_Splash_7" Format="i8" Width="32" Height="40" Offset="0x000278F0"/>
+        <DList Name="Gfx_Effect_Ss_G_Splash" Offset="0x00027DF0"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_0" Format="ia8" Width="32" Height="32" Offset="0x00027E90"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_1" Format="ia8" Width="32" Height="32" Offset="0x00028290"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_2" Format="ia8" Width="32" Height="32" Offset="0x00028690"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_3" Format="ia8" Width="32" Height="32" Offset="0x00028A90"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_4" Format="ia8" Width="32" Height="32" Offset="0x00028E90"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_5" Format="ia8" Width="32" Height="32" Offset="0x00029290"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_6" Format="ia8" Width="32" Height="32" Offset="0x00029690"/>
+        <Texture Name="Tex_Effect_Ss_Stone1_7" Format="ia8" Width="32" Height="32" Offset="0x00029A90"/>
+        <DList Name="Gfx_Effect_Ss_Stone1" Offset="0x00029E90"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_0" Format="i8" Width="16" Height="96" Offset="0x00029F30"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_1" Format="i8" Width="16" Height="96" Offset="0x0002A530"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_2" Format="i8" Width="16" Height="96" Offset="0x0002AB30"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_3" Format="i8" Width="16" Height="96" Offset="0x0002B130"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_4" Format="i8" Width="16" Height="96" Offset="0x0002B730"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_5" Format="i8" Width="16" Height="96" Offset="0x0002BD30"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_6" Format="i8" Width="16" Height="96" Offset="0x0002C330"/>
+        <Texture Name="Tex_Effect_Ss_Lightning_7" Format="i8" Width="16" Height="96" Offset="0x0002C930"/>
+        <DList Name="Gfx_Effect_Ss_Lightning" Offset="0x0002CF30"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_0" Format="i8" Width="32" Height="64" Offset="0x0002CFE0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_1" Format="i8" Width="32" Height="64" Offset="0x0002D7E0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_2" Format="i8" Width="32" Height="64" Offset="0x0002DFE0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_3" Format="i8" Width="32" Height="64" Offset="0x0002E7E0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_4" Format="i8" Width="32" Height="64" Offset="0x0002EFE0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_5" Format="i8" Width="32" Height="64" Offset="0x0002F7E0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_6" Format="i8" Width="32" Height="64" Offset="0x0002FFE0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_7" Format="i8" Width="32" Height="64" Offset="0x000307E0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_8" Format="i8" Width="32" Height="64" Offset="0x00030FE0"/>
+        <Texture Name="Tex_Effect_Ss_Dead_Db_9" Format="i8" Width="32" Height="64" Offset="0x000317E0"/>
+        <DList Name="Gfx_Effect_Ss_Dead_Db" Offset="0x00031FE0"/>
+        <Texture Name="Tex_Unknown13" Format="i8" Width="32" Height="32" Offset="0x00032090"/>
+        <Texture Name="Tex_Unknown14" Format="i8" Width="32" Height="32" Offset="0x00032490"/>
+        <Texture Name="Tex_Unknown15" Format="i8" Width="32" Height="32" Offset="0x00032890"/>
+        <Texture Name="Tex_Effect_Ss_Kakera" Format="i8" Width="32" Height="32" Offset="0x00032C90"/>
+        <Texture Name="Tex_Wood" Format="i8" Width="32" Height="32" Offset="0x00033090"/>
+        <DList Name="Gfx_Effect_Ss_Kakera" Offset="0x00033720"/>
+        <DList Name="Gfx_Effect_Ss_En_Ice" Offset="0x00033818"/>
+        <DList Name="Gfx_Effect_Ss_Shard" Offset="0x00033EE0"/>
+        <Blob Name="Unknown16" Offset="0x00034050" Size="0x1C0"/>
+        <DList Name="Gfx_Insect_Leg" Offset="0x00034210"/>
+        <DList Name="Gfx_Insect_Leg_Ref" Offset="0x000342B0"/>
+        <DList Name="Gfx_Insect_Leg_Ref_Ref" Offset="0x000342C0"/>
+        <DList Name="Gfx_Insect_Leg2" Offset="0x00034300"/>
+        <DList Name="Gfx_Insect_Leg2_Ref" Offset="0x000343A0"/>
+        <DList Name="Gfx_Insect_Leg2_Ref_Ref" Offset="0x000343B0"/>
+        <DList Name="Gfx_Insect_Leg3" Offset="0x000343F0"/>
+        <DList Name="Gfx_Insect_Leg3_Ref" Offset="0x00034490"/>
+        <DList Name="Gfx_Insect_Leg3_Ref_Ref" Offset="0x000344A0"/>
+        <DList Name="Gfx_Insect_Leg4" Offset="0x000344E0"/>
+        <DList Name="Gfx_Insect_Leg4_Ref" Offset="0x00034580"/>
+        <DList Name="Gfx_Insect_Leg4_Ref_Ref" Offset="0x00034590"/>
+        <DList Name="Gfx_Insect_Leg5" Offset="0x000345D0"/>
+        <DList Name="Gfx_Insect_Leg5_Ref" Offset="0x00034670"/>
+        <DList Name="Gfx_Insect_Leg5_Ref_Ref" Offset="0x00034680"/>
+        <DList Name="Gfx_Insect_Leg6" Offset="0x000346C0"/>
+        <DList Name="Gfx_Insect_Leg6_Ref" Offset="0x00034760"/>
+        <DList Name="Gfx_Insect_Leg6_Ref_Ref" Offset="0x00034770"/>
+        <DList Name="Gfx_Insect_Leg7" Offset="0x000347B0"/>
+        <DList Name="Gfx_Insect_Leg7_Ref" Offset="0x00034850"/>
+        <DList Name="Gfx_Insect_Leg7_Ref_Ref" Offset="0x00034860"/>
+        <DList Name="Gfx_Insect_Leg8" Offset="0x000348A0"/>
+        <DList Name="Gfx_Insect_Leg8_Ref" Offset="0x00034940"/>
+        <DList Name="Gfx_Insect_Leg8_Ref_Ref" Offset="0x00034950"/>
+        <DList Name="Gfx_Insect_Body" Offset="0x00034990"/>
+        <DList Name="Gfx_Insect_Body_Ref" Offset="0x00034A40"/>
+        <DList Name="Gfx_Insect_Body_Ref_Ref" Offset="0x00034A50"/>
+        <Texture Name="Tex_Insect_Body" Format="rgb5a1" Width="16" Height="64" Offset="0x00034B20"/>
+        <Texture Name="Tex_Insect_Leg" Format="rgb5a1" Width="32" Height="4" Offset="0x00035320"/>
+        <Blob Name="Insect_IK" Offset="0x00035420" Size="0x178"/>
+        <DList Name="Gfx_Grass_Stalk" Offset="0x000355E0"/>
+        <DList Name="Gfx_Grass_Tip" Offset="0x000356A0"/>
+        <Texture Name="Tex_Leaf" Format="rgb5a1" Width="32" Height="32" Offset="0x00035730"/>
+        <Texture Name="Tex_Grass0" Format="rgb5a1" Width="32" Height="32" Offset="0x00035F30"/>
+        <Texture Name="Tex_Circle1" Format="i4" Width="64" Height="64" Offset="0x00036730"/>
+        <Texture Name="Tex_Ring" Format="i4" Width="64" Height="64" Offset="0x00036F30"/>
+        <DList Name="Gfx_Effect_Ss_Dead_Dd" Offset="0x00037730"/>
+        <DList Name="Gfx_Ring" Offset="0x00037798"/>
+        <DList Name="Gfx_Effect_Ss_KiraKira" Offset="0x00037880"/>
+        <Texture Name="Tex_Effect_Ss_KiraKira" Format="i4" Width="16" Height="16" Offset="0x000378E0"/>
+        <Texture Name="Tex_Glow" Format="i8" Width="16" Height="32" Offset="0x00037960"/>
+        <Texture Name="Tex_Unknown17" Format="i8" Width="16" Height="32" Offset="0x00037B60"/>
+        <DList Name="Gfx_Player_Dlist" Offset="0x00037E30"/>
+        <Texture Name="Tex_Moon" Format="ia8" Width="64" Height="64" Offset="0x00037F00"/>
+        <DList Name="Gfx_Moon" Offset="0x00038F00"/>
+        <Texture Name="Tex_Circle2" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
+        <Blob Name="Unknown18" Offset="0x00393B0" Size="0x128"/>
+        <DList Name="Gfx_Rock_Medium" Offset="0x00039660"/>
+        <DList Name="Gfx_Rock_V_Large" Offset="0x00039890"/>
+        <Blob Name="Unknown19" Offset="0x0039940" Size="0x138"/>
+        <DList Name="Gfx_Rock_V_Small" Offset="0x00039C00"/>
+        <Blob Name="Unknown20" Offset="0x0039CC0" Size="0x128"/>
+        <DList Name="Gfx_Rock_H_Small" Offset="0x00039F70"/>
+        <Blob Name="Unknown21" Offset="0x003A020" Size="0x128"/>
+        <DList Name="Gfx_Rock_H_Large" Offset="0x0003A2D0"/>
+        <Blob Name="Unknown22" Offset="0x003A380" Size="0x128"/>
+        <DList Name="Gfx_Rock_S_Cube" Offset="0x0003A630"/>
+        <Blob Name="Unknown23" Offset="0x003A6F0" Size="0x128"/>
+        <DList Name="Gfx_Stump" Offset="0x0003A9B0"/>
+        <DList Name="Gfx_Grass" Offset="0x0003AB80"/>
+        <Texture Name="Tex_Heart" Format="i8" Width="16" Height="16" Offset="0x0003AC30"/>
+        <DList Name="Gfx_Heart_Piece_Interior" Offset="0x0003B030"/>
+        <DList Name="Gfx_Heart_Piece_Exterior" Offset="0x0003BBA0"/>
+        <DList Name="Gfx_Heart_Container_Interior" Offset="0x0003BCD8"/>
+        <DList Name="Gfx_Sign_Square" Offset="0x0003C050"/>
+        <DList Name="Gfx_Sign_Directional" Offset="0x0003C5B0"/>
+        <Texture Name="Tex_Drop_Arrows_2" Format="rgb5a1" Width="32" Height="32" Offset="0x0003C870"/>
+        <Texture Name="Tex_Drop_Arrows_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0003D070"/>
+        <Texture Name="Tex_Drop_Arrows_3" Format="rgb5a1" Width="32" Height="32" Offset="0x0003D870"/>
+        <Texture Name="Tex_Drop_Bomb" Format="rgb5a1" Width="32" Height="32" Offset="0x0003E070"/>
+        <Texture Name="Tex_Drop_Recovery_Heart" Format="rgb5a1" Width="32" Height="32" Offset="0x0003E870"/>
+        <DList Name="Gfx_HintNuts_DL" Offset="0x0003F070"/>
+        <Texture Name="Tex_Drop_Key_Small" Format="rgb5a1" Width="32" Height="32" Offset="0x0003F140"/>
+        <Texture Name="Tex_Drop_Magic_Small" Format="rgb5a1" Width="32" Height="32" Offset="0x0003F940"/>
+        <Texture Name="Tex_Drop_Deku_Nut" Format="rgb5a1" Width="32" Height="32" Offset="0x00040140"/>
+        <Texture Name="Tex_Drop_Deku_Seeds" Format="rgb5a1" Width="32" Height="32" Offset="0x00040940"/>
+        <Texture Name="Tex_Drop_Deku_Stick" Format="rgb5a1" Width="32" Height="32" Offset="0x00041140"/>
+        <Texture Name="Tex_Drop_Magic_Large" Format="rgb5a1" Width="32" Height="32" Offset="0x00041940"/>
+        <Texture Name="Tex_Rupee_Colors" Format="rgb5a1" Width="4" Height="24" Offset="0x00042140"/>
+        <DList Name="Gfx_Rupee" Offset="0x00042440"/>
+        <Texture Name="Tex_Drop_Rupee_Red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042510"/>
+        <Texture Name="Tex_Stone0" Format="rgb5a1" Width="32" Height="32" Offset="0x00042530"/>
+        <Texture Name="Tex_Stone_Edge" Format="rgb5a1" Width="32" Height="32" Offset="0x00042D30"/>
+        <Texture Name="Tex_Stump_Top" Format="rgb5a1" Width="32" Height="32" Offset="0x00043530"/>
+        <Texture Name="Tex_Stump_Bark" Format="rgb5a1" Width="32" Height="32" Offset="0x00043D30"/>
+        <Texture Name="Tex_Grass1" Format="rgb5a1" Width="64" Height="32" Offset="0x00044530"/>
+        <Texture Name="Tex_Stone_Target" Format="rgb5a1" Width="32" Height="32" Offset="0x00045530"/>
+        <Texture Name="Tex_Stone1" Format="rgb5a1" Width="32" Height="32" Offset="0x00045D30"/>
+        <Texture Name="Tex_Sign_Square_Side" Format="rgb5a1" Width="32" Height="16" Offset="0x00046530"/>
+        <Texture Name="Tex_Sign_Square_Front" Format="rgb5a1" Width="32" Height="16" Offset="0x00046930"/>
+        <Texture Name="Tex_Sign_Post" Format="rgb5a1" Width="64" Height="8" Offset="0x00046D30"/>
+        <Texture Name="Tex_Sign_Directional_Front" Format="rgb5a1" Width="64" Height="32" Offset="0x00047130"/>
+        <DList Name="Gfx_Unknown_Tri" Offset="0x00048160"/>
+        <DList Name="Gfx_Shadow_Teardrop" Offset="0x00048180"/>
+        <Texture Name="Tex_Shadow_Teardrop" Format="ia16" Width="32" Height="64" Offset="0x00048210"/>
+        <DList Name="Gfx_Shadow_Circle" Offset="0x00049210"/>
+        <Texture Name="Tex_Shadow_Circle" Format="ia16" Width="32" Height="32" Offset="0x00049290"/>
+        <DList Name="Gfx_Shadow_Horse" Offset="0x00049AD0"/>
+        <Texture Name="Tex_Shadow_Horse" Format="i8" Width="16" Height="64" Offset="0x00049B20"/>
+        <DList Name="Gfx_Door_Barricade" Offset="0x00049FE0"/>
+        <Texture Name="Tex_Door_Barricade" Format="ia8" Width="32" Height="128" Offset="0x0004A090"/>
+        <DList Name="Gfx_Door_Shutter" Offset="0x0004B0D0"/>
+        <Texture Name="Tex_Door_Sliding" Format="rgb5a1" Width="32" Height="64" Offset="0x0004B160"/>
+        <!-- <Texture Name="Tex_Sun" Format="i4" Width="64" Height="64" Offset="0x0004C160"/> -->
+        <Texture Name="Tex_SunA" Format="i4" Width="64" Height="31" Offset="0x0004C160"/>
+        <Texture Name="Tex_SunB" Format="i4" Width="64" Height="16" Offset="0x0004C540"/>
+        <Texture Name="Tex_SunC" Format="i4" Width="64" Height="16" Offset="0x0004C740"/>
+        <!-- <Texture Name="Tex_Sun_Obscured" Format="i4" Width="64" Height="64" Offset="0x0004C960"/> -->
+        <Texture Name="Tex_Sun_ObscuredA" Format="i4" Width="64" Height="31" Offset="0x0004C960"/>
+        <Texture Name="Tex_Sun_ObscuredB" Format="i4" Width="64" Height="16" Offset="0x0004CD40"/>
+        <Texture Name="Tex_Sun_ObscuredC" Format="i4" Width="64" Height="16" Offset="0x0004CF40"/>
+        <DList Name="Gfx_Kankyo" Offset="0x0004D160"/>
+        <DList Name="Gfx_Unknown_Square" Offset="0x0004D1A8"/>
+        <DList Name="Gfx_Sun" Offset="0x0004D1C0"/>
+        <DList Name="Gfx_Unknown_Tri2" Offset="0x0004D450"/>
+        <DList Name="Gfx_Effect_Ss_Fire_Tail" Offset="0x0004D4E0"/>
+        <DList Name="Gfx_Effect_Ss_K_Fire" Offset="0x0004D5A0"/>
+        <Texture Name="Tex_Effect_Ss_Fire_Tail" Format="i8" Width="32" Height="64" Offset="0x0004D660"/>
+        <Texture Name="Tex_Effect_Ss_K_Fire" Format="i8" Width="32" Height="64" Offset="0x0004DE60"/>
+        <DList Name="Gfx_Bang_Shape" Offset="0x0004F2B0"/>
+        <DList Name="Gfx_Bang_Shape_Ref" Offset="0x0004F630"/>
+        <DList Name="Gfx_Cloud_Shape" Offset="0x000502E0"/>
+        <DList Name="Gfx_Cloud_Shape_Ref" Offset="0x00050600"/>
+        <DList Name="Gfx_Round_Shape" Offset="0x00051280"/>
+        <DList Name="Gfx_Round_Shape_Ref" Offset="0x00051598"/>
+        <Texture Name="Tex_ZELDA" Format="i8" Width="64" Height="32" Offset="0x000515B0"/>
+        <Texture Name="Tex_Dust_0" Format="i8" Width="32" Height="32" Offset="0x00051DB0"/>
+        <Texture Name="Tex_Dust_1" Format="i8" Width="32" Height="32" Offset="0x000521B0"/>
+        <Texture Name="Tex_Dust_2" Format="i8" Width="32" Height="32" Offset="0x000525B0"/>
+        <Texture Name="Tex_Dust_3" Format="i8" Width="32" Height="32" Offset="0x000529B0"/>
+        <Texture Name="Tex_Dust_4" Format="i8" Width="32" Height="32" Offset="0x00052DB0"/>
+        <Texture Name="Tex_Dust_5" Format="i8" Width="32" Height="32" Offset="0x000531B0"/>
+        <Texture Name="Tex_Dust_6" Format="i8" Width="32" Height="32" Offset="0x000535B0"/>
+        <Texture Name="Tex_Dust_7" Format="i8" Width="32" Height="32" Offset="0x000539B0"/>
+        <Texture Name="Tex_Circle_Glow_L" Format="i8" Width="32" Height="64" Offset="0x00053DB0"/>
+        <Texture Name="Tex_Circle_Glow_R" Format="i8" Width="32" Height="64" Offset="0x000545B0"/>
+        <Texture Name="Tex_Circle_Glow_S_L" Format="i8" Width="32" Height="64" Offset="0x00054DB0"/>
+        <Texture Name="Tex_Circle_Glow_S_R" Format="i8" Width="32" Height="64" Offset="0x000555B0"/>
+        <Texture Name="Tex_Effect_Ss_Bubble_0" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
+        <Texture Name="Tex_Effect_Ss_Bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
+        <Texture Name="Tex_Effect_Ss_G_Spk_0" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
+        <Texture Name="Tex_Effect_Ss_G_Spk_1" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
+        <Texture Name="Tex_Effect_Ss_G_Spk_2" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
+        <Texture Name="Tex_Effect_Ss_G_Spk_3" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
+    </File>
+</Root>

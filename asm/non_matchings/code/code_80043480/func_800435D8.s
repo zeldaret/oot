@@ -14,10 +14,10 @@ glabel func_800435D8
 /* ABA788 800435E8 AFA60098 */  sw    $a2, 0x98($sp)
 /* ABA78C 800435EC AFA7009C */  sw    $a3, 0x9c($sp)
 /* ABA790 800435F0 00A08025 */  move  $s0, $a1
-/* ABA794 800435F4 0C01DE1C */  jal   Math_Sins
+/* ABA794 800435F4 0C01DE1C */  jal   Math_SinS
 /* ABA798 800435F8 84A40158 */   lh    $a0, 0x158($a1)
 /* ABA79C 800435FC 86040158 */  lh    $a0, 0x158($s0)
-/* ABA7A0 80043600 0C01DE0D */  jal   Math_Coss
+/* ABA7A0 80043600 0C01DE0D */  jal   Math_CosS
 /* ABA7A4 80043604 E7A00068 */   swc1  $f0, 0x68($sp)
 /* ABA7A8 80043608 C6040150 */  lwc1  $f4, 0x150($s0)
 /* ABA7AC 8004360C 44803000 */  mtc1  $zero, $f6
