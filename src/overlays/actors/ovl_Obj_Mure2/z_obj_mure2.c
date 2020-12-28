@@ -48,7 +48,6 @@ static f32 sDistSquared2[] = { SQ(1705.0f), SQ(1705.0f), SQ(1705.0f) };
 
 #ifdef NON_MATCHING
 static s16 D_80B9A818[] = { 9, 12, 8 };
-
 // Very close to matching, just regalloc and a stack diff
 void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr = vec;
@@ -57,8 +56,8 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
     for (i = 1, vecPtr++; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
-        vecPtr->x += (80.0f * Math_Sins((i - 1) * 0x2000));
-        vecPtr->z += (80.0f * Math_Coss((i - 1) * 0x2000));
+        vecPtr->x += (80.0f * Math_SinS((i - 1) * 0x2000));
+        vecPtr->z += (80.0f * Math_CosS((i - 1) * 0x2000));
     }
 }
 #else
@@ -68,26 +67,11 @@ s16 D_80B9A818[] = { 9, 12, 8 };
 
 static s16 sActorSpawnIDs[] = { ACTOR_EN_KUSA, ACTOR_EN_KUSA, ACTOR_EN_ISHI };
 
-static Mure2ScatteredShrubInfo sScatteredShrubInfo[] = {
-    { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
-    { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
-};
-
-static s16 sActorSpawnParams[] = { 0, 0, 0 };
-
-static ObjMure2SetPosFunc sSetPosFunc[] = {
-    ObjMure2_SetPosShrubCircle,
-    ObjMure2_SetPosShrubScattered,
-    ObjMure2_SetPosRockCircle
-};
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
-};
-
 void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
+    static Mure2ScatteredShrubInfo scatteredShrubInfo[] = {
+        { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
+        { 80, 0x4000 }, { 80, 0x6CCC }, { 80, 0x9333 }, { 80, 0xACCC }, { 80, 0xC666 }, { 60, 0xE000 },
+    };
     Vec3f* vecPtr;
     s32 i;
     Vec3f* actorPos = &this->actor.posRot.pos; // Required to match
@@ -96,8 +80,8 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, actorPos);
         if (1) {}
-        vecPtr->x += (sScatteredShrubInfo[i].radius * Math_Coss(sScatteredShrubInfo[i].angle));
-        vecPtr->z -= (sScatteredShrubInfo[i].radius * Math_Sins(sScatteredShrubInfo[i].angle));
+        vecPtr->x += (scatteredShrubInfo[i].radius * Math_CosS(scatteredShrubInfo[i].angle));
+        vecPtr->z -= (scatteredShrubInfo[i].radius * Math_SinS(scatteredShrubInfo[i].angle));
     }
 }
 
@@ -107,28 +91,34 @@ void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
 
     for (i = 0; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
-        vecPtr->x += (80.0f * Math_Sins(i * 0x2000));
-        vecPtr->z += (80.0f * Math_Coss(i * 0x2000));
+        vecPtr->x += (80.0f * Math_SinS(i * 0x2000));
+        vecPtr->z += (80.0f * Math_CosS(i * 0x2000));
     }
 }
 
 void ObjMure2_SetActorSpawnParams(s16* params, ObjMure2* this) {
+    static s16 actorSpawnParams[] = { 0, 0, 0 };
     s16 dropTable = (this->actor.params >> 8) & 0xF;
 
     if (dropTable >= 13) {
         dropTable = 0;
     }
-    *params = sActorSpawnParams[this->actor.params & 3] & 0xF0FF;
+    *params = actorSpawnParams[this->actor.params & 3] & 0xF0FF;
     *params |= (dropTable << 8);
 }
 
 void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
+    static ObjMure2SetPosFunc setPosFunc[] = {
+        ObjMure2_SetPosShrubCircle,
+        ObjMure2_SetPosShrubScattered,
+        ObjMure2_SetPosRockCircle,
+    };
     s32 actorNum = this->actor.params & 3;
     s32 i;
     Vec3f spawnPos[12];
     s16 params;
 
-    sSetPosFunc[actorNum](&spawnPos, this);
+    setPosFunc[actorNum](&spawnPos, this);
     ObjMure2_SetActorSpawnParams(&params, this);
 
     for (i = 0; i < D_80B9A818[actorNum]; i++) {
@@ -136,16 +126,16 @@ void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
             // Translation: Warning : I already have a child (%s %d)(arg_data 0x%04x)
             osSyncPrintf("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269,
                          this->actor.params);
-        } else {
-            if (((this->currentActorNum >> i) & 1) == 0) {
-                this->actorSpawnPtrList[i] =
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, sActorSpawnIDs[actorNum], spawnPos[i].x, spawnPos[i].y,
-                                spawnPos[i].z, this->actor.posRot.rot.x, 0, this->actor.posRot.rot.z, params);
-                if (this->actorSpawnPtrList[i] != NULL) {
-                    this->actorSpawnPtrList[i]->room = this->actor.room;
-                }
+            continue;
+        }
+
+        if (((this->currentActorNum >> i) & 1) == 0) {
+            this->actorSpawnPtrList[i] =
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, sActorSpawnIDs[actorNum], spawnPos[i].x, spawnPos[i].y,
+                            spawnPos[i].z, this->actor.posRot.rot.x, 0, this->actor.posRot.rot.z, params);
+            if (this->actorSpawnPtrList[i] != NULL) {
+                this->actorSpawnPtrList[i]->room = this->actor.room;
             }
-            params = params; // Required to match
         }
     }
 }
@@ -180,6 +170,12 @@ void func_80B9A534(ObjMure2* this) {
         }
     }
 }
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 2100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
+};
 
 void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure2* this = THIS;
