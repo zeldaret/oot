@@ -57,10 +57,10 @@ void func_809DEE00(Vec3f* vec, s16 rotY) {
     f32 xCalc;
     f32 rotCalcTemp;
 
-    rotCalcTemp = Math_Coss(rotY);
-    xCalc = (Math_Sins(rotY) * vec->z) + (rotCalcTemp * vec->x);
-    rotCalcTemp = Math_Sins(rotY);
-    vec->z = (Math_Coss(rotY) * vec->z) + (-rotCalcTemp * vec->x);
+    rotCalcTemp = Math_CosS(rotY);
+    xCalc = (Math_SinS(rotY) * vec->z) + (rotCalcTemp * vec->x);
+    rotCalcTemp = Math_SinS(rotY);
+    vec->z = (Math_CosS(rotY) * vec->z) + (-rotCalcTemp * vec->x);
     vec->x = xCalc;
 }
 
@@ -123,7 +123,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
                                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
-            this->unk_278 = Math_Rand_ZeroFloat(1000.0f) + 40.0f;
+            this->unk_278 = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;
             this->actor.unk_1F = 6;
             DREG(53) = 0;
@@ -137,7 +137,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_809DFA84;
             func_809DEF94(this);
             this->actor.flags &= ~0x1;
-            this->unk_278 = ((u32)(Math_Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
+            this->unk_278 = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
             break;
     }
     this->actor.colChkInfo.mass = 0xFF;
@@ -158,7 +158,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     if (this->unk_278 > 0) {
         this->unk_278 -= 1;
     } else {
-        this->unk_278 = Math_Rand_ZeroFloat(500.0f) + 40.0f;
+        this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.animCurrentFrame,
                              SkelAnime_GetFrameCount(&D_060001CC), 2, 1.0f);
     }
@@ -177,13 +177,13 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
 
     // (1.0f / 100.0f) instead of 0.01f below is necessary so 0.01f doesn't get reused mistakenly
     if (this->unk_27A < 0x20) {
-        this->actor.scale.x = ((Math_Sins(this->unk_27A << 0xA) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+        this->actor.scale.x = ((Math_SinS(this->unk_27A << 0xA) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.x = 0.01f;
     }
 
     if (this->unk_27A >= 0x11) {
-        this->actor.scale.y = ((Math_Sins((this->unk_27A << 0xA) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+        this->actor.scale.y = ((Math_SinS((this->unk_27A << 0xA) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.y = 0.01f;
     }
@@ -274,7 +274,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     if (this->unk_278 > 0) {
         this->unk_278--;
     } else {
-        this->unk_278 = Math_Rand_ZeroFloat(200.0f) + 40.0f;
+        this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.animCurrentFrame,
                              SkelAnime_GetFrameCount(&D_06004348), 2, 1.0f);
     }
@@ -332,8 +332,8 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         targetY = 0;
         targetX = 0;
     }
-    Math_SmoothScaleMaxMinS(&this->someRot.x, targetX, 0xA, 0xC8, 0xA);
-    Math_SmoothScaleMaxMinS(&this->someRot.y, targetY, 0xA, 0xC8, 0xA);
+    Math_SmoothStepToS(&this->someRot.x, targetX, 0xA, 0xC8, 0xA);
+    Math_SmoothStepToS(&this->someRot.y, targetY, 0xA, 0xC8, 0xA);
 }
 
 void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {

@@ -71,7 +71,7 @@ glabel func_8098A4F0
 /* 01748 8098A5C8 24018000 */  addiu   $at, $zero, 0x8000         ## $at = FFFF8000
 /* 0174C 8098A5CC 00812021 */  addu    $a0, $a0, $at              
 /* 01750 8098A5D0 00042400 */  sll     $a0, $a0, 16               
-/* 01754 8098A5D4 0C01DE1C */  jal     Math_Sins
+/* 01754 8098A5D4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01758 8098A5D8 00042403 */  sra     $a0, $a0, 16               
 /* 0175C 8098A5DC 44922000 */  mtc1    $s2, $f4                   ## $f4 = 0.00
@@ -90,7 +90,7 @@ glabel func_8098A4F0
 /* 01790 8098A610 460AF580 */  add.s   $f22, $f30, $f10           
 /* 01794 8098A614 46008487 */  neg.s   $f18, $f16                 
 /* 01798 8098A618 46169602 */  mul.s   $f24, $f18, $f22           
-/* 0179C 8098A61C 0C01DE0D */  jal     Math_Coss
+/* 0179C 8098A61C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 017A0 8098A620 00000000 */  nop
 /* 017A4 8098A624 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
@@ -103,7 +103,7 @@ glabel func_8098A4F0
 /* 017C0 8098A640 00812021 */  addu    $a0, $a0, $at              
 /* 017C4 8098A644 00042400 */  sll     $a0, $a0, 16               
 /* 017C8 8098A648 00042403 */  sra     $a0, $a0, 16               
-/* 017CC 8098A64C 0C01DE0D */  jal     Math_Coss
+/* 017CC 8098A64C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 017D0 8098A650 46083680 */  add.s   $f26, $f6, $f8             
 /* 017D4 8098A654 3C014140 */  lui     $at, 0x4140                ## $at = 41400000

@@ -104,8 +104,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;
         }
-        this->dyna.actor.posRot.pos.x += 32.5f * Math_Sins(this->dyna.actor.posRot.rot.y);
-        this->dyna.actor.posRot.pos.z += 32.5f * Math_Coss(this->dyna.actor.posRot.rot.y);
+        this->dyna.actor.posRot.pos.x += 32.5f * Math_SinS(this->dyna.actor.posRot.rot.y);
+        this->dyna.actor.posRot.pos.z += 32.5f * Math_CosS(this->dyna.actor.posRot.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
         this->dyna.actor.flags |= 0x10;
@@ -127,7 +127,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
     Vec3f velocity;
     Vec3f pos;
 
-    if (Math_ApproxF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
+    if (Math_StepToF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
         func_8002DF54(globalCtx, &this->dyna.actor, 7);
         Actor_Kill(&this->dyna.actor);
     }
@@ -139,9 +139,9 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
     pos.z = this->dyna.actor.posRot.pos.z;
 
     for (i = 0; i < 4; i++) {
-        velocity.x = 5.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.z = 5.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.x = 5.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
         EffectSsKiraKira_SpawnSmallYellow(globalCtx, &pos, &velocity, &accel);
     }
 }

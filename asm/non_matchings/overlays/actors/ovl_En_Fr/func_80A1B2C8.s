@@ -78,7 +78,7 @@ glabel func_80A1B2C8
 /* 00A3C 80A1B3DC 4405A000 */  mfc1    $a1, $f20                  
 /* 00A40 80A1B3E0 26040398 */  addiu   $a0, $s0, 0x0398           ## $a0 = 00000398
 /* 00A44 80A1B3E4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 00A48 80A1B3E8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00A48 80A1B3E8 0C01E107 */  jal     Math_ApproachF
               
 /* 00A4C 80A1B3EC 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 .L80A1B3F0:

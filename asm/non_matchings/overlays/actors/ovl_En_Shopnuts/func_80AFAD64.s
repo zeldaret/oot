@@ -24,7 +24,7 @@ glabel func_80AFAD64
 /* 00694 80AFADB4 31F81000 */  andi    $t8, $t7, 0x1000           ## $t8 = 00000000
 /* 00698 80AFADB8 57000004 */  bnel    $t8, $zero, .L80AFADCC     
 /* 0069C 80AFADBC 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
-/* 006A0 80AFADC0 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 006A0 80AFADC0 0C01E1EF */  jal     Math_ApproachS
               
 /* 006A4 80AFADC4 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 006A8 80AFADC8 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000

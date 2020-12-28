@@ -35,7 +35,7 @@ glabel func_80AADEF0
 /* 007D8 80AADF48 46062501 */  sub.s   $f20, $f4, $f6             
 /* 007DC 80AADF4C 460A4581 */  sub.s   $f22, $f8, $f10            
 /* 007E0 80AADF50 4600A306 */  mov.s   $f12, $f20                 
-/* 007E4 80AADF54 0C03F494 */  jal     Math_atan2f              
+/* 007E4 80AADF54 0C03F494 */  jal     Math_FAtan2F              
 /* 007E8 80AADF58 4600B386 */  mov.s   $f14, $f22                 
 /* 007EC 80AADF5C 3C0180AB */  lui     $at, %hi(D_80AAEC6C)       ## $at = 80AB0000
 /* 007F0 80AADF60 C430EC6C */  lwc1    $f16, %lo(D_80AAEC6C)($at) 
@@ -160,7 +160,7 @@ glabel func_80AADEF0
 /* 00994 80AAE104 46062501 */  sub.s   $f20, $f4, $f6             
 /* 00998 80AAE108 460A4581 */  sub.s   $f22, $f8, $f10            
 /* 0099C 80AAE10C 4600A306 */  mov.s   $f12, $f20                 
-/* 009A0 80AAE110 0C03F494 */  jal     Math_atan2f              
+/* 009A0 80AAE110 0C03F494 */  jal     Math_FAtan2F              
 /* 009A4 80AAE114 4600B386 */  mov.s   $f14, $f22                 
 /* 009A8 80AAE118 3C0180AB */  lui     $at, %hi(D_80AAEC74)       ## $at = 80AB0000
 /* 009AC 80AAE11C C430EC74 */  lwc1    $f16, %lo(D_80AAEC74)($at) 
@@ -197,7 +197,7 @@ glabel func_80AADEF0
 /* 00A24 80AAE194 44053000 */  mfc1    $a1, $f6                   
 /* 00A28 80AAE198 00000000 */  nop
 /* 00A2C 80AAE19C 00052C00 */  sll     $a1, $a1, 16               
-/* 00A30 80AAE1A0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00A30 80AAE1A0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00A34 80AAE1A4 00052C03 */  sra     $a1, $a1, 16               
 /* 00A38 80AAE1A8 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6
@@ -208,7 +208,7 @@ glabel func_80AADEF0
 /* 00A4C 80AAE1BC A60C0032 */  sh      $t4, 0x0032($s0)           ## 00000032
 /* 00A50 80AAE1C0 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3F19999A
 /* 00A54 80AAE1C4 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 00A58 80AAE1C8 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00A58 80AAE1C8 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00A5C 80AAE1CC E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 00A60 80AAE1D0 0C00B638 */  jal     Actor_MoveForward

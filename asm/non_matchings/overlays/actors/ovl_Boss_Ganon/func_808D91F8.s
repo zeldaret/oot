@@ -54,7 +54,7 @@ glabel func_808D91F8
 /* 02A40 808D92B0 92280000 */  lbu     $t0, 0x0000($s1)           ## 00000000
 /* 02A44 808D92B4 51000010 */  beql    $t0, $zero, .L808D92F8     
 /* 02A48 808D92B8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
-/* 02A4C 808D92BC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02A4C 808D92BC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02A50 808D92C0 00000000 */  nop
 /* 02A54 808D92C4 4614003C */  c.lt.s  $f0, $f20                  

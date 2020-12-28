@@ -88,11 +88,11 @@ glabel func_8092F8F0
 /* 03460 8092FA30 0C00C7D4 */  jal     Actor_Spawn
               ## ActorSpawn
 /* 03464 8092FA34 E7B60014 */  swc1    $f22, 0x0014($sp)          
-/* 03468 8092FA38 0C01DE1C */  jal     Math_Sins
+/* 03468 8092FA38 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0346C 8092FA3C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 03470 8092FA40 46000506 */  mov.s   $f20, $f0                  
-/* 03474 8092FA44 0C01DE0D */  jal     Math_Coss
+/* 03474 8092FA44 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 03478 8092FA48 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0347C 8092FA4C 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -162,12 +162,12 @@ glabel func_8092F8F0
 /* 0356C 8092FB3C 24150005 */  addiu   $s5, $zero, 0x0005         ## $s5 = 00000005
 /* 03570 8092FB40 27B2007C */  addiu   $s2, $sp, 0x007C           ## $s2 = FFFFFFF4
 .L8092FB44:
-/* 03574 8092FB44 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 03574 8092FB44 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 03578 8092FB48 4600A306 */  mov.s   $f12, $f20                 
 /* 0357C 8092FB4C C60A0000 */  lwc1    $f10, 0x0000($s0)          ## 80937340
 /* 03580 8092FB50 460A0400 */  add.s   $f16, $f0, $f10            
-/* 03584 8092FB54 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03584 8092FB54 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03588 8092FB58 E7B0007C */  swc1    $f16, 0x007C($sp)          
 /* 0358C 8092FB5C 46160482 */  mul.s   $f18, $f0, $f22            
@@ -175,7 +175,7 @@ glabel func_8092F8F0
 /* 03594 8092FB64 4600A306 */  mov.s   $f12, $f20                 
 /* 03598 8092FB68 46182180 */  add.s   $f6, $f4, $f24             
 /* 0359C 8092FB6C 46069200 */  add.s   $f8, $f18, $f6             
-/* 035A0 8092FB70 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 035A0 8092FB70 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 035A4 8092FB74 E7A80080 */  swc1    $f8, 0x0080($sp)           
 /* 035A8 8092FB78 C60A0008 */  lwc1    $f10, 0x0008($s0)          ## 80937348

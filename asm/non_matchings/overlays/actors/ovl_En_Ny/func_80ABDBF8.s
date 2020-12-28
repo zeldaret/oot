@@ -72,7 +72,7 @@ glabel func_80ABDBF8
 /* 0114C 80ABDCFC 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 01150 80ABDD00 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 01154 80ABDD04 260401E4 */  addiu   $a0, $s0, 0x01E4           ## $a0 = 000001E4
-/* 01158 80ABDD08 0C01DE80 */  jal     Math_ApproxF
+/* 01158 80ABDD08 0C01DE80 */  jal     Math_StepToF
               
 /* 0115C 80ABDD0C 8E0501E8 */  lw      $a1, 0x01E8($s0)           ## 000001E8
 /* 01160 80ABDD10 8FBF0024 */  lw      $ra, 0x0024($sp)           

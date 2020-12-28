@@ -25,7 +25,7 @@ glabel EnHonotrap_Update
 /* 00ED8 80A5AB08 A2000240 */  sb      $zero, 0x0240($s0)         ## 00000240
 /* 00EDC 80A5AB0C 27280640 */  addiu   $t0, $t9, 0x0640           ## $t0 = 00000640
 /* 00EE0 80A5AB10 A608023C */  sh      $t0, 0x023C($s0)           ## 0000023C
-/* 00EE4 80A5AB14 0C01DE1C */  jal     Math_Sins
+/* 00EE4 80A5AB14 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00EE8 80A5AB18 8604023C */  lh      $a0, 0x023C($s0)           ## 0000023C
 /* 00EEC 80A5AB1C 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

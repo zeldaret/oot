@@ -9,7 +9,7 @@ glabel func_80B19E94
 /* 01430 80B19EB0 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
 /* 01434 80B19EB4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01438 80B19EB8 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 0143C 80B19EBC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0143C 80B19EBC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01440 80B19EC0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 01444 80B19EC4 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088

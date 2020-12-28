@@ -131,8 +131,8 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             //      the moveTo pointer is nulled and it flies off in a seemingly random direction.
             this->moveTo = NULL;
         } else {
-            Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yawTarget, (s16)(ABS(yawDiff) * distXYZScale));
-            Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, pitchTarget, (s16)(ABS(pitchDiff) * distXYZScale));
+            Math_ScaledStepToS(&this->actor.posRot.rot.y, yawTarget, (s16)(ABS(yawDiff) * distXYZScale));
+            Math_ScaledStepToS(&this->actor.posRot.rot.x, pitchTarget, (s16)(ABS(pitchDiff) * distXYZScale));
         }
     }
 

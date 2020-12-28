@@ -132,7 +132,7 @@ void func_80064720(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
 
 u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) {
-    return Math_ApproxF(&csCtx->unk_0C, target, 0.1f);
+    return Math_StepToF(&csCtx->unk_0C, target, 0.1f);
 }
 
 void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
