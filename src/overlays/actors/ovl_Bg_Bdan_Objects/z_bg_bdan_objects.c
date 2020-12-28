@@ -196,7 +196,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 500.0f, 0.5f, 7.5f,
-                                1.0f) < 0.1f) {
+                           1.0f) < 0.1f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = func_8086C29C;
         this->unk_16A = 0x1E;
@@ -331,7 +331,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 965.0f, 0.5f, 15.0f,
-                                0.2f) < 0.01f) {
+                           0.2f) < 0.01f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_DoNothing;
     } else {

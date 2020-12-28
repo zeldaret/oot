@@ -91,8 +91,7 @@ void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame)
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
     SkelCurve_SetAnim(skelCurve, sTransformUpdIdx[gSaveContext.linkAge], 1.0f,
-                      sDemoTreLgtInfo[gSaveContext.linkAge].endFrame +
-                          sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
+                      sDemoTreLgtInfo[gSaveContext.linkAge].endFrame + sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(globalCtx, skelCurve);
 }
@@ -103,8 +102,8 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
     if (currentFrame < sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <= (sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame +
-                             sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_08)) {
+        if (currentFrame <=
+            (sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame + sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_08)) {
             this->unk_170 = ((((sDemoTreLgtInfo[(0, gSaveContext.linkAge)].endFrame - currentFrame) /
                                sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_08) *
                               255.0f) +
@@ -117,8 +116,7 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
         this->unk_174 = 255;
     } else if (currentFrame < (sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C + 10.0f)) {
         this->unk_174 =
-            ((((sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
-             255.0f);
+            ((((sDemoTreLgtInfo[(0, gSaveContext.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) + 255.0f);
     } else {
         this->unk_174 = 0;
     }
@@ -135,7 +133,7 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = THIS;
 
-    sActionFuncs[this->action](this, globalCtx);    
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
