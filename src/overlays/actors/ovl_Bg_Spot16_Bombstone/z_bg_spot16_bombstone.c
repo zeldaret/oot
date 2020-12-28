@@ -154,8 +154,8 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     func_808B4C4C(this, globalCtx);
     func_808B4D04(this, globalCtx);
-    this->sinRotation = Math_Sins(this->actor.shape.rot.y);
-    this->cosRotation = Math_Coss(this->actor.shape.rot.y);
+    this->sinRotation = Math_SinS(this->actor.shape.rot.y);
+    this->cosRotation = Math_CosS(this->actor.shape.rot.y);
     this->unk_150 = D_06000C20;
 
     func_808B5934(this);
@@ -181,8 +181,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
     actor->posRot.rot.y = D_808B5DD8[actor->params][5];
 
-    sinValue = Math_Sins(this->actor.posRot.rot.y);
-    cosValue = Math_Coss(this->actor.posRot.rot.y);
+    sinValue = Math_SinS(this->actor.posRot.rot.y);
+    cosValue = Math_CosS(this->actor.posRot.rot.y);
 
     actor->posRot.pos.x = (sinValue * sinCosPosFactor) + actor->initPosRot.pos.x;
     actor->posRot.pos.y = D_808B5DD8[actor->params][6] + actor->initPosRot.pos.y;
@@ -308,13 +308,13 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* gl
 
     if (index < ARRAY_COUNT(D_808B6074)) {
         do {
-            pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
-            pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
-            pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
+            pos.x = ((Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
+            pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
+            pos.z = ((Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
 
-            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
-            velocity.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
-            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.x = (Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.y = (Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
+            velocity.z = (Rand_ZeroOne() - 0.5f) * 16.0f;
 
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
@@ -353,7 +353,7 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         adjustedYawDiff = absYawDiff - 0x3FFF;
 
         if (adjustedYawDiff > 0) {
-            sinValue = Math_Sins(adjustedYawDiff) * this->actor.xzDistFromLink;
+            sinValue = Math_SinS(adjustedYawDiff) * this->actor.xzDistFromLink;
 
             if (sinValue >= 0.0f) {
                 player->actor.posRot.pos.x += sinValue * this->sinRotation;

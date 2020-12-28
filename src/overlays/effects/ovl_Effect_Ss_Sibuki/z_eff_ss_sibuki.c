@@ -44,7 +44,7 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->gfx = SEGMENTED_TO_VIRTUAL(&D_04055DB0);
     }
 
-    this->life = ((s16)((Math_Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
+    this->life = ((s16)((Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
     this->rMoveDelay = initParams->moveDelay + 1;
     this->draw = EffectSsSibuki_Draw;
     this->update = EffectSsSibuki_Update;
@@ -96,17 +96,17 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 
         if (this->rMoveDelay == 0) {
             yaw = Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, 0));
-            xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(23) + 20.0f));
+            xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->rDirection != 0) {
                 xzVelScale *= -1.0f;
             }
 
-            this->velocity.x = Math_Coss(yaw) * xzVelScale;
-            this->velocity.z = -Math_Sins(yaw) * xzVelScale;
+            this->velocity.x = Math_CosS(yaw) * xzVelScale;
+            this->velocity.z = -Math_SinS(yaw) * xzVelScale;
 
-            this->velocity.y = ((700.0f + KREG(21)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * (KREG(24) + 20.0f));
-            this->accel.y = ((-100.0f + KREG(22)) * 0.01f) + ((0.1f * Math_Rand_ZeroOne()) * KREG(25));
+            this->velocity.y = ((700.0f + KREG(21)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * (KREG(24) + 20.0f));
+            this->accel.y = ((-100.0f + KREG(22)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * KREG(25));
 
             if (KREG(3) != 0) {
                 this->velocity.x *= (KREG(3) * 0.01f);

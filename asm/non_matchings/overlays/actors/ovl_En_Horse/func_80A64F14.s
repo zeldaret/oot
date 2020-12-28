@@ -40,7 +40,7 @@ glabel func_80A64F14
 /* 09CA0 80A64F90 860E0032 */  lh      $t6, 0x0032($s0)           ## 00000032
 /* 09CA4 80A64F94 004E2023 */  subu    $a0, $v0, $t6              
 /* 09CA8 80A64F98 00042400 */  sll     $a0, $a0, 16               
-/* 09CAC 80A64F9C 0C01DE0D */  jal     Math_Coss
+/* 09CAC 80A64F9C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 09CB0 80A64FA0 00042403 */  sra     $a0, $a0, 16               
 /* 09CB4 80A64FA4 3C0180A6 */  lui     $at, %hi(D_80A669C0)       ## $at = 80A60000

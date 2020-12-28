@@ -242,7 +242,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
             this->actionFlags |= 0x40;
             cameraFlags = -0x64;
         } else {
-            if (Math_Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 cameraFlags = (flags & 1) != 0 ? -0x61 : -0x63;
                 this->actionFlags |= 0x40;
             } else {
@@ -280,7 +280,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
 void func_80ACA5C8(EnOwl* this) {
     EnOwl_ChangeMode(this, func_80ACBEA0, func_80ACC540, &this->skelAnime, &D_0600C684, 0.0f);
     this->curDlistIdx = 0;
-    this->nextDlistIdx = Math_Rand_S16Offset(60, 60);
+    this->nextDlistIdx = Rand_S16Offset(60, 60);
 }
 
 void func_80ACA62C(EnOwl* this, GlobalContext* globalCtx) {
@@ -301,7 +301,7 @@ void func_80ACA690(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACA6C0(EnOwl* this) {
-    if (Math_Rand_CenteredFloat(1.0f) < 0.0f) {
+    if (Rand_CenteredFloat(1.0f) < 0.0f) {
         this->actionFlags |= 0x20;
     } else {
         this->actionFlags &= ~0x20;
@@ -817,7 +817,7 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x80, 0x40);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x80, 0x40);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actor.speedXZ < 16.0f) {
         this->actor.speedXZ += 0.5f;
@@ -835,7 +835,7 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACBD4C(EnOwl* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame > 10.0f) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
@@ -879,7 +879,7 @@ void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext) {
 }
 
 void func_80ACBF50(EnOwl* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actionFlags & 1) {
         EnOwl_ChangeMode(this, func_80ACBC0C, func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
@@ -896,7 +896,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
     s32 temp_v0;
     s32 temp_v0_2;
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actor.xzDistFromLink < 50.0f) {
         if (!Gameplay_InCsMode(globalCtx)) {
@@ -949,7 +949,7 @@ void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 1.5f;
     } else {
         this->actor.speedXZ = 0.0f;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
@@ -980,7 +980,7 @@ void func_80ACC390(EnOwl* this) {
     SkelAnime_FrameUpdateMatrix(this->curSkelAnime);
     if (this->unk_3FE > 0) {
         this->unk_3FE--;
-        this->actor.shape.rot.z = Math_Sins(this->unk_3FE * 0x333) * 1000.0f;
+        this->actor.shape.rot.z = Math_SinS(this->unk_3FE * 0x333) * 1000.0f;
     } else {
         this->unk_410 = &func_80ACC460;
         this->unk_3FE = 6;
@@ -1081,7 +1081,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
         this->curDlistIdx = 2;
     } else {
         if (DECR(this->nextDlistIdx) == 0) {
-            this->nextDlistIdx = Math_Rand_S16Offset(0x3C, 0x3C);
+            this->nextDlistIdx = Rand_S16Offset(0x3C, 0x3C);
         }
 
         this->curDlistIdx = this->nextDlistIdx;
@@ -1103,7 +1103,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                     this->unk_405--;
 
                     if (this->unk_405 != 0) {
-                        phi_a1 = Math_Coss(this->unk_405 * 8192) * 4096.0f;
+                        phi_a1 = Math_CosS(this->unk_405 * 8192) * 4096.0f;
                     } else {
                         if (this->actionFlags & 2) {
                             this->unk_3EE = 0;
@@ -1140,7 +1140,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                 this->unk_406--;
             } else {
                 if (this->unk_404 == 0) {
-                    if (Math_Rand_ZeroOne() < 0.3f) {
+                    if (Rand_ZeroOne() < 0.3f) {
                         this->unk_404 = 4;
                         this->unk_405 = 0xC;
                     } else {
@@ -1153,7 +1153,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
 
                 switch(this->unk_404) {
                     case 1:
-                        phi_a1 = Math_Sins((-this->unk_405 * 4096) + 0x4000) * 5000.0f;
+                        phi_a1 = Math_SinS((-this->unk_405 * 4096) + 0x4000) * 5000.0f;
                         if (this->unk_405 <= 0) {
                             this->unk_405 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
                             this->unk_404 = 2;
@@ -1167,7 +1167,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                         }
                         break;
                     case 3:
-                        phi_a1 = Math_Sins(this->unk_405 * 4096) * 5000.0f;
+                        phi_a1 = Math_SinS(this->unk_405 * 4096) * 5000.0f;
                         if (this->unk_405 <= 0) {
                             this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
                             this->unk_404 = 0;
@@ -1175,7 +1175,7 @@ void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
                         }
                         break;
                     case 4:
-                        phi_a1 = Math_Sins(this->unk_405 * 8192) * 5000.0f;
+                        phi_a1 = Math_SinS(this->unk_405 * 8192) * 5000.0f;
                         if (this->unk_405 <= 0) {
                             this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
                             this->unk_404 = 0;
@@ -1335,7 +1335,7 @@ void func_80ACD220(EnOwl* this, Vec3f* arg1, f32 arg2) {
     rpy.y = (arg1->y - this->actor.posRot.pos.y) * arg2;
     rpy.z = (arg1->z - this->actor.posRot.pos.z) * arg2;
 
-    Math_ApproxF(&this->actor.velocity.y, rpy.y, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, rpy.y, 1.0f);
     this->actor.speedXZ = sqrtf(SQ(rpy.x) + SQ(rpy.z));
     this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, arg1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -1363,8 +1363,8 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         if (phi_f2 < 0.0f) {
             phi_f2 += 360.0f;
         }
-        pos.x -= Math_Sins(angle) * phi_f2;
-        pos.z += Math_Coss(angle) * phi_f2;
+        pos.x -= Math_SinS(angle) * phi_f2;
+        pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
         this->actor.posRot.pos = pos;
         this->actor.draw = &EnOwl_Draw;
@@ -1372,8 +1372,8 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         return;
     }
-    pos.x -= Math_Sins(angle) * this->unk_3F8;
-    pos.z += Math_Coss(angle) * this->unk_3F8;
+    pos.x -= Math_SinS(angle) * this->unk_3F8;
+    pos.z += Math_CosS(angle) * this->unk_3F8;
     func_80ACD220(this, &pos, 1.0f);
 }
 

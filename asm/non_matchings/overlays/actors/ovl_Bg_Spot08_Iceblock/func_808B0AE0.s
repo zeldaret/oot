@@ -54,7 +54,7 @@ glabel func_808B0AE0
 /* 0020C 808B0B6C 44050000 */  mfc1    $a1, $f0                   
 .L808B0B70:
 /* 00210 808B0B70 24E40194 */  addiu   $a0, $a3, 0x0194           ## $a0 = 00000194
-/* 00214 808B0B74 0C01DE80 */  jal     Math_ApproxF
+/* 00214 808B0B74 0C01DE80 */  jal     Math_StepToF
               
 /* 00218 808B0B78 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 0021C 808B0B7C 8FBF0014 */  lw      $ra, 0x0014($sp)           

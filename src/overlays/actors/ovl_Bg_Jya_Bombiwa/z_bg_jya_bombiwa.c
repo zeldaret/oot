@@ -107,19 +107,19 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
     s16 scale;
 
     for (i = 0; i < 16; i++) {
-        pos.x = ((Math_Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.x) - 40.0f;
-        pos.y = (Math_Rand_ZeroOne() * 140.0f) + this->dyna.actor.posRot.pos.y;
-        pos.z = ((Math_Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.z) - 40.0f;
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        velocity.y = Math_Rand_ZeroOne() * 12.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
+        pos.x = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.x) - 40.0f;
+        pos.y = (Rand_ZeroOne() * 140.0f) + this->dyna.actor.posRot.pos.y;
+        pos.z = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.z) - 40.0f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * 10.0f;
+        velocity.y = Rand_ZeroOne() * 12.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 10.0f;
         scale = (s32)(i * 1.8f) + 3;
         if (scale > 15) {
             arg5 = 5;
         } else {
             arg5 = 1;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             arg5 |= 0x40;
             arg6 = 0xC;
             arg7 = 8;

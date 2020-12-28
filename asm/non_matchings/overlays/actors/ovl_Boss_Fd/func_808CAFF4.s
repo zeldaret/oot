@@ -47,7 +47,7 @@ glabel func_808CAFF4
 /* 002E4 808CB0A4 E4880008 */  swc1    $f8, 0x0008($a0)           ## 00000008
 /* 002E8 808CB0A8 87AC002E */  lh      $t4, 0x002E($sp)           
 /* 002EC 808CB0AC A48C002A */  sh      $t4, 0x002A($a0)           ## 0000002A
-/* 002F0 808CB0B0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 002F0 808CB0B0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 002F4 808CB0B4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 002F8 808CB0B8 8FA40018 */  lw      $a0, 0x0018($sp)           
