@@ -28,7 +28,7 @@ typedef struct EnDntJiji {
     /* 0x0250 */ s16 unk_250;
     /* 0x0252 */ s16 unk_252;
     /* 0x0254 */ s32 unk_254;
-    /* 0x0258 */ struct EnDntDemo* unk_258;
+    /* 0x0258 */ struct EnDntDemo* stage;
     /* 0x025C */ ColliderCylinder collider;
 } EnDntJiji; // size = 0x02A8
 

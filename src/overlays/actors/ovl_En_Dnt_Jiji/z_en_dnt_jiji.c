@@ -55,7 +55,7 @@ const ActorInit En_Dnt_Jiji_InitVars = {
     (ActorFunc)EnDntJiji_Draw,
 };
 
-static ColliderCylinderInit D_809F2FA0 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 30, 80, 0, { 0, 0, 0 } },
@@ -68,11 +68,11 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060033E0, &D_06000560, this->limbDrawTbl, this->transitionDrawTbl,
                    13);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809F2FA0);
-    this->unk_258 = (EnDntDemo*)this->actor.parent;
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->stage = (EnDntDemo*)this->actor.parent;
     osSyncPrintf("\n\n");
     // Deku Scrub mask show judge
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->unk_258);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~1;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.unk_1F = 6;
@@ -285,12 +285,12 @@ void func_809F2720(EnDntJiji* this, GlobalContext* globalCtx) {
             gSaveContext.itemGetInf[1] |= 0x4000;
         }
         this->actor.textId = 0;
-        if ((this->unk_258 != 0) && (this->unk_258->actor.update != 0)) {
-            this->unk_258->unk_15A = 0;
+        if ((this->stage != 0) && (this->stage->actor.update != 0)) {
+            this->stage->action = 0;
             if (this->unk_25A == 0) {
-                this->unk_258->unk_158 = 4;
+                this->stage->unk_158 = 4;
             } else {
-                this->unk_258->unk_158 = 5;
+                this->stage->unk_158 = 5;
             }
         }
         this->actor.flags &= ~1;
@@ -347,9 +347,9 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.x = this->flowerPos.x;
         this->actor.posRot.pos.z = this->flowerPos.z;
         if (this->unk_252 != 0) {
-            if ((this->unk_258->actor.update != NULL) && (this->unk_258->unk_158 == 0)) {
-                this->unk_258->unk_158 = 4;
-                this->unk_258->unk_15A = 2;
+            if ((this->stage->actor.update != NULL) && (this->stage->unk_158 == 0)) {
+                this->stage->unk_158 = 4;
+                this->stage->action = 2;
                 Audio_SetBGM(0x81A);
             }
         }
@@ -418,13 +418,13 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_809F2FCC[] = { 0x060030A0, 0x06002EA0, 0x06003020 };
+    static void* blinkTex[] = { 0x060030A0, 0x06002EA0, 0x06003020 };
     EnDntJiji* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Push();
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809F2FCC[this->eyeState]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyeState]));
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, this);
     Matrix_Pull();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);

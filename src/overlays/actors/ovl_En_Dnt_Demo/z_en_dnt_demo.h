@@ -16,7 +16,7 @@ typedef struct EnDntDemo {
     /* 0x0154 */ s16 unkTimer2;
     /* 0x0156 */ s16 debugArrowTimer;
     /* 0x0158 */ s16 unk_158;
-    /* 0x015A */ s16 unk_15A;
+    /* 0x015A */ s16 action;
     /* 0x015C */ s16 prize;
     /* 0x015E */ s16 subCamera;
     /* 0x0160 */ Vec3f scrubPos[9];
