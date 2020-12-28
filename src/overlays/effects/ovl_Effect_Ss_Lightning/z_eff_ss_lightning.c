@@ -66,8 +66,9 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
-static void* sTextures[] = {
-    0x04029F30, 0x0402A530, 0x0402AB30, 0x0402B130, 0x0402B730, 0x0402BD30, 0x0402C330, 0x0402C930,
+static UNK_PTR sTextures[] = {
+    gEffectSsLightning1Tex, gEffectSsLightning2Tex, gEffectSsLightning3Tex, gEffectSsLightning4Tex,
+    gEffectSsLightning5Tex, gEffectSsLightning6Tex, gEffectSsLightning7Tex, gEffectSsLightning8Tex,
 };
 
 void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

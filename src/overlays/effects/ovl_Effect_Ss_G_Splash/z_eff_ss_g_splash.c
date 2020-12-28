@@ -89,8 +89,9 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-static void* sTextures[] = {
-    0x040255F0, 0x04025AF0, 0x04025FF0, 0x040264F0, 0x040269F0, 0x04026EF0, 0x040273F0, 0x040278F0,
+static UNK_PTR sTextures[] = {
+    gEffectSsGSplash1Tex, gEffectSsGSplash2Tex, gEffectSsGSplash3Tex, gEffectSsGSplash4Tex,
+    gEffectSsGSplash5Tex, gEffectSsGSplash6Tex, gEffectSsGSplash7Tex, gEffectSsGSplash8Tex,
 };
 
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

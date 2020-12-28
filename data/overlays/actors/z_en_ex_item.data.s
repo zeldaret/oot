@@ -18,5 +18,5 @@ glabel En_Ex_Item_InitVars
 glabel D_80A09E00
  .word 0x00630064, 0x00650000
 glabel D_80A09E08
- .word 0x0403F140, 0x00000000
+ .word gDropKeySmallTex, 0x00000000
 

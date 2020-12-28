@@ -50,8 +50,9 @@ u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-static void* sTextures[] = {
-    0x0401C2C0, 0x0401C2C0, 0x0401C6C0, 0x0401CAC0, 0x0401CEC0, 0x0401D2C0, 0x0401D6C0, 0x0401DAC0, 0x0401DEC0,
+static UNK_PTR sTextures[] = {
+    gEffectSsSibuki21Tex, gEffectSsSibuki21Tex, gEffectSsSibuki22Tex, gEffectSsSibuki23Tex, gEffectSsSibuki24Tex,
+    gEffectSsSibuki25Tex, gEffectSsSibuki26Tex, gEffectSsSibuki27Tex, gEffectSsSibuki28Tex,
 };
 
 void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

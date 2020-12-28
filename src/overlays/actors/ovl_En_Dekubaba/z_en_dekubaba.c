@@ -1,4 +1,5 @@
 #include "z_en_dekubaba.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000005
 

@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_hitmark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rTexIdx regs[0]
 #define rType regs[1]
@@ -26,11 +27,14 @@ static Color_RGB8 sColors[] = {
     { 255, 255, 255 }, { 0, 255, 200 }, { 255, 255, 255 }, { 150, 0, 255 },
 };
 
-static void* sTextures[] = {
-    0x0401F370, 0x0401F4F0, 0x0401F670, 0x0401F7F0, 0x0401F970, 0x0401FAF0, 0x0401FC70, 0x0401FDF0,
-    0x0401FF70, 0x040200F0, 0x04020270, 0x040203F0, 0x04020570, 0x040206F0, 0x04020870, 0x040209F0,
-    0x04020B70, 0x04020CF0, 0x04020E70, 0x04020FF0, 0x04021170, 0x040212F0, 0x04021470, 0x040215F0,
-    0x0401F370, 0x0401F4F0, 0x0401F670, 0x0401F7F0, 0x0401F970, 0x0401FAF0, 0x0401FC70, 0x0401FDF0,
+static UNK_PTR sTextures[] = {
+    gEffectSsHitmark1Tex,  gEffectSsHitmark2Tex,  gEffectSsHitmark3Tex,  gEffectSsHitmark4Tex,  gEffectSsHitmark5Tex,
+    gEffectSsHitmark6Tex,  gEffectSsHitmark7Tex,  gEffectSsHitmark8Tex,  gEffectSsHitmark9Tex,  gEffectSsHitmark10Tex,
+    gEffectSsHitmark11Tex, gEffectSsHitmark12Tex, gEffectSsHitmark13Tex, gEffectSsHitmark14Tex, gEffectSsHitmark15Tex,
+    gEffectSsHitmark16Tex, gEffectSsHitmark17Tex, gEffectSsHitmark18Tex, gEffectSsHitmark19Tex, gEffectSsHitmark20Tex,
+    gEffectSsHitmark21Tex, gEffectSsHitmark22Tex, gEffectSsHitmark23Tex, gEffectSsHitmark24Tex, gEffectSsHitmark1Tex,
+    gEffectSsHitmark2Tex,  gEffectSsHitmark3Tex,  gEffectSsHitmark4Tex,  gEffectSsHitmark5Tex,  gEffectSsHitmark6Tex,
+    gEffectSsHitmark7Tex,  gEffectSsHitmark8Tex,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {

@@ -35,11 +35,11 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static void* sTextures[] = {
-    0x04007F80,
-    0x04008780,
-    0x04008F80,
-    0x04009780,
+static UNK_PTR sTextures[] = {
+    gEffectSsBomb1Tex,
+    gEffectSsBomb2Tex,
+    gEffectSsBomb3Tex,
+    gEffectSsBomb4Tex,
 };
 
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

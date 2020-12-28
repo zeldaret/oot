@@ -15,6 +15,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define THIS ((Player*)thisx)
 
@@ -1193,8 +1194,7 @@ extern LinkAnimationHeader D_040033A0;
 extern LinkAnimationHeader D_040033B0;
 extern LinkAnimationHeader D_040033B8;
 extern LinkAnimationHeader D_040033C8;
-extern Gfx D_04037E30[];
-extern Gfx D_04033EE0[];
+extern Gfx gEffectSsShardDL[];
 
 // return type can't be void due to regalloc in func_8084FCAC
 s32 func_80832210(Player* this) {
@@ -10388,7 +10388,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, D_8085486C);
             gDPSetEnvColor(POLY_XLU_DISP++, 120, 90, 30, 128);
-            gSPDisplayList(POLY_XLU_DISP++, D_04037E30);
+            gSPDisplayList(POLY_XLU_DISP++, gPlayerDL);
         }
     }
 
@@ -10480,7 +10480,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, 255);
-            gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffectSsShardDL);
         }
 
         if (this->unk_862 > 0) {

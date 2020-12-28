@@ -60,8 +60,9 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
 // unused in the original game. looks like EffectSsBomb but with color
 void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    static void* textures[] = {
-        0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
+    static UNK_PTR textures[] = {
+        gEffectSsBomb1Tex, gEffectSsBomb2Tex, gEffectSsBomb3Tex, gEffectSsBomb4Tex,
+        gEffectSsBomb5Tex, gEffectSsBomb6Tex, gEffectSsBomb7Tex, gEffectSsBomb8Tex,
     };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;
@@ -99,8 +100,9 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
 }
 
 void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    static void* textures[] = {
-        0x04007F80, 0x04008780, 0x04008F80, 0x04009780, 0x04009F80, 0x0400A780, 0x0400AF80, 0x0400B780,
+    static UNK_PTR textures[] = {
+        gEffectSsBomb1Tex, gEffectSsBomb2Tex, gEffectSsBomb3Tex, gEffectSsBomb4Tex,
+        gEffectSsBomb5Tex, gEffectSsBomb6Tex, gEffectSsBomb7Tex, gEffectSsBomb8Tex,
     };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;

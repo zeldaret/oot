@@ -65,11 +65,11 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static void* sTextures[] = {
-    0x04055FB0,
-    0x040561B0,
-    0x040563B0,
-    0x040565B0,
+static UNK_PTR sTextures[] = {
+    gEffectSsGSpk0Tex,
+    gEffectSsGSpk1Tex,
+    gEffectSsGSpk2Tex,
+    gEffectSsGSpk3Tex,
 };
 
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

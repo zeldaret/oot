@@ -56,9 +56,9 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-static void* sTextures[] = {
-    0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
-    0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0,
+static UNK_PTR sTextures[] = {
+    gEffectSsDeadDb1Tex, gEffectSsDeadDb2Tex, gEffectSsDeadDb3Tex, gEffectSsDeadDb4Tex, gEffectSsDeadDb5Tex,
+    gEffectSsDeadDb6Tex, gEffectSsDeadDb7Tex, gEffectSsDeadDb8Tex, gEffectSsDeadDb9Tex, gEffectSsDeadDb10Tex,
 };
 
 void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

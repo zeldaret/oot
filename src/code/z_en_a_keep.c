@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -44,8 +45,8 @@ static UNK_PTR D_8011546C[] = {
 };
 
 static Gfx* D_80115484[] = {
-    0x04039C00, 0x04039C00, 0x04039C00, 0x0403A2D0, 0x0403A2D0, 0x0403A630,
-    0x06000210, 0x0403AB80, 0x0403A9B0, 0x0403C050, 0x0403C5B0, 0x0400D340,
+    gRockVSmallDL, gRockVSmallDL, gRockVSmallDL, gRockHLargeDL, gRockHLargeDL,      gRockSCubeDL,
+    0x06000210,    gGrassDL,      gStumpDL,      gSignSquareDL, gSignDirectionalDL, gGoronRock2DL,
 };
 
 void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {

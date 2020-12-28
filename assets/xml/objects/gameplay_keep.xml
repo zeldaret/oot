@@ -143,21 +143,21 @@
         <Texture Name="gEffectSsHitmark7Tex" OutName="effect_ss_hitmark_7" Format="i4" Width="32" Height="24" Offset="0x0001FC70"/>
         <Texture Name="gEffectSsHitmark8Tex" OutName="effect_ss_hitmark_8" Format="i4" Width="32" Height="24" Offset="0x0001FDF0"/>
         <Texture Name="gEffectSsHitmark9Tex" OutName="effect_ss_hitmark_9" Format="i4" Width="32" Height="24" Offset="0x0001FF70"/>
-        <Texture Name="gEffectSsHitmark11Tex" OutName="effect_ss_hitmark_1_1" Format="i4" Width="32" Height="24" Offset="0x000200F0"/>
-        <Texture Name="gEffectSsHitmark12Tex" OutName="effect_ss_hitmark_1_2" Format="i4" Width="32" Height="24" Offset="0x00020270"/>
-        <Texture Name="gEffectSsHitmark13Tex" OutName="effect_ss_hitmark_1_3" Format="i4" Width="32" Height="24" Offset="0x000203F0"/>
-        <Texture Name="gEffectSsHitmark14Tex" OutName="effect_ss_hitmark_1_4" Format="i4" Width="32" Height="24" Offset="0x00020570"/>
-        <Texture Name="gEffectSsHitmark15Tex" OutName="effect_ss_hitmark_1_5" Format="i4" Width="32" Height="24" Offset="0x000206F0"/>
-        <Texture Name="gEffectSsHitmark16Tex" OutName="effect_ss_hitmark_1_6" Format="i4" Width="32" Height="24" Offset="0x00020870"/>
-        <Texture Name="gEffectSsHitmark17Tex" OutName="effect_ss_hitmark_1_7" Format="i4" Width="32" Height="24" Offset="0x000209F0"/>
-        <Texture Name="gEffectSsHitmark18Tex" OutName="effect_ss_hitmark_1_8" Format="i4" Width="32" Height="24" Offset="0x00020B70"/>
-        <Texture Name="gEffectSsHitmark19Tex" OutName="effect_ss_hitmark_1_9" Format="i4" Width="32" Height="24" Offset="0x00020CF0"/>
-        <Texture Name="gEffectSsHitmark110Tex" OutName="effect_ss_hitmark_1_10" Format="i4" Width="32" Height="24" Offset="0x00020E70"/>
-        <Texture Name="gEffectSsHitmark21Tex" OutName="effect_ss_hitmark_2_1" Format="i4" Width="32" Height="24" Offset="0x00020FF0"/>
-        <Texture Name="gEffectSsHitmark22Tex" OutName="effect_ss_hitmark_2_2" Format="i4" Width="32" Height="24" Offset="0x00021170"/>
-        <Texture Name="gEffectSsHitmark23Tex" OutName="effect_ss_hitmark_2_3" Format="i4" Width="32" Height="24" Offset="0x000212F0"/>
-        <Texture Name="gEffectSsHitmark24Tex" OutName="effect_ss_hitmark_2_4" Format="i4" Width="32" Height="24" Offset="0x00021470"/>
-        <Texture Name="gEffectSsHitmark25Tex" OutName="effect_ss_hitmark_2_5" Format="i4" Width="32" Height="24" Offset="0x000215F0"/>
+        <Texture Name="gEffectSsHitmark10Tex" OutName="effect_ss_hitmark_10" Format="i4" Width="32" Height="24" Offset="0x000200F0"/>
+        <Texture Name="gEffectSsHitmark11Tex" OutName="effect_ss_hitmark_11" Format="i4" Width="32" Height="24" Offset="0x00020270"/>
+        <Texture Name="gEffectSsHitmark12Tex" OutName="effect_ss_hitmark_12" Format="i4" Width="32" Height="24" Offset="0x000203F0"/>
+        <Texture Name="gEffectSsHitmark13Tex" OutName="effect_ss_hitmark_13" Format="i4" Width="32" Height="24" Offset="0x00020570"/>
+        <Texture Name="gEffectSsHitmark14Tex" OutName="effect_ss_hitmark_14" Format="i4" Width="32" Height="24" Offset="0x000206F0"/>
+        <Texture Name="gEffectSsHitmark15Tex" OutName="effect_ss_hitmark_15" Format="i4" Width="32" Height="24" Offset="0x00020870"/>
+        <Texture Name="gEffectSsHitmark16Tex" OutName="effect_ss_hitmark_16" Format="i4" Width="32" Height="24" Offset="0x000209F0"/>
+        <Texture Name="gEffectSsHitmark17Tex" OutName="effect_ss_hitmark_17" Format="i4" Width="32" Height="24" Offset="0x00020B70"/>
+        <Texture Name="gEffectSsHitmark18Tex" OutName="effect_ss_hitmark_18" Format="i4" Width="32" Height="24" Offset="0x00020CF0"/>
+        <Texture Name="gEffectSsHitmark19Tex" OutName="effect_ss_hitmark_19" Format="i4" Width="32" Height="24" Offset="0x00020E70"/>
+        <Texture Name="gEffectSsHitmark20Tex" OutName="effect_ss_hitmark_20" Format="i4" Width="32" Height="24" Offset="0x00020FF0"/>
+        <Texture Name="gEffectSsHitmark21Tex" OutName="effect_ss_hitmark_21" Format="i4" Width="32" Height="24" Offset="0x00021170"/>
+        <Texture Name="gEffectSsHitmark22Tex" OutName="effect_ss_hitmark_22" Format="i4" Width="32" Height="24" Offset="0x000212F0"/>
+        <Texture Name="gEffectSsHitmark23Tex" OutName="effect_ss_hitmark_23" Format="i4" Width="32" Height="24" Offset="0x00021470"/>
+        <Texture Name="gEffectSsHitmark24Tex" OutName="effect_ss_hitmark_24" Format="i4" Width="32" Height="24" Offset="0x000215F0"/>
         <DList Name="gEffectSsHitmarkDL" Offset="0x00021770"/>
         <Texture Name="tex_04021810" Format="i8" Width="32" Height="64" Offset="0x00021810"/>
         <Texture Name="tex_04022010" Format="i8" Width="32" Height="64" Offset="0x00022010"/>
@@ -299,7 +299,12 @@
         <Texture Name="gDropDekuSeedsTex" OutName="drop_deku_seeds" Format="rgb5a1" Width="32" Height="32" Offset="0x00040940"/>
         <Texture Name="gDropDekuStickTex" OutName="drop_deku_stick" Format="rgb5a1" Width="32" Height="32" Offset="0x00041140"/>
         <Texture Name="gDropMagicLargeTex" OutName="drop_magic_large" Format="rgb5a1" Width="32" Height="32" Offset="0x00041940"/>
-        <Texture Name="gRupeeColorsTex" OutName="rupee_colors" Format="rgb5a1" Width="4" Height="24" Offset="0x00042140"/>
+        <Texture Name="gRupeeGreenTex" OutName="rupee_green" Format="rgb5a1" Width="4" Height="4" Offset="0x00042140"/>
+        <Texture Name="gRupeeBlueTex" OutName="rupee_blue" Format="rgb5a1" Width="4" Height="4" Offset="0x00042160"/>
+        <Texture Name="gRupeeRedTex" OutName="rupee_red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042180"/>
+        <Texture Name="gRupeePinkTex" OutName="rupee_pink" Format="rgb5a1" Width="4" Height="4" Offset="0x000421C0"/>
+        <Texture Name="gRupeeOrangeTex" OutName="rupee_orange" Format="rgb5a1" Width="4" Height="4" Offset="0x000421A0"/>
+        <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgb5a1" Width="4" Height="4" Offset="0x000421E0"/>
         <DList Name="gRupeeDL" Offset="0x00042440"/>
         <Texture Name="gDropRupeeRedTex" OutName="drop_rupee_red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042510"/>
         <Texture Name="gStone1Tex" OutName="stone_1" Format="rgb5a1" Width="32" Height="32" Offset="0x00042530"/>

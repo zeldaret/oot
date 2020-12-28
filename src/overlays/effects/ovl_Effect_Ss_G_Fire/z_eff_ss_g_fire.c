@@ -43,8 +43,9 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 }
 
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    void* textures[] = {
-        0x0401A220, 0x0401A620, 0x0401AA20, 0x0401AE20, 0x0401B220, 0x0401B620, 0x0401BA20, 0x0401BE20,
+    UNK_PTR textures[] = {
+        gEffectSsGFire1Tex, gEffectSsGFire2Tex, gEffectSsGFire3Tex, gEffectSsGFire4Tex,
+        gEffectSsGFire5Tex, gEffectSsGFire6Tex, gEffectSsGFire7Tex, gEffectSsGFire8Tex,
     };
     s16 texIdx = (this->rgTexIdx / 100) % 7;
 

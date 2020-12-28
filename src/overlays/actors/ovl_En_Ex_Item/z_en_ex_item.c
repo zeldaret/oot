@@ -1,4 +1,5 @@
 #include "z_en_ex_item.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 

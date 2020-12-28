@@ -41,8 +41,10 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-static void* sTextures[] = { 0x04023810, 0x04023990, 0x04023B10, 0x04023C90,
-                             0x04023E10, 0x04023F90, 0x04024110, 0x04024290 };
+static void* sTextures[] = {
+    gEffectSsGMagma1Tex, gEffectSsGMagma2Tex, gEffectSsGMagma3Tex, gEffectSsGMagma4Tex,
+    gEffectSsGMagma5Tex, gEffectSsGMagma6Tex, gEffectSsGMagma7Tex, gEffectSsGMagma8Tex,
+};
 
 void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s16 texIdx = this->rgTexIdx / 100;
