@@ -1,4 +1,5 @@
 #include "z_en_kanban.h"
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -428,7 +429,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.bgCheckFlags = tempBgFlags;
             this->actor.waterY = tempWaterY;
 
-            osSyncPrintf("\x1b[m");
+            osSyncPrintf(VT_RST);
             onGround = (this->actor.bgCheckFlags & 1);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
@@ -685,9 +686,9 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     bomb = bomb->next;
                 }
             }
-            osSyncPrintf("\x1b[32m");
+            osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OCARINA_MODE %d\n", globalCtx->msgCtx.unk_E3EE);
-            osSyncPrintf("\x1b[m");
+            osSyncPrintf(VT_RST);
             switch (this->ocarinaFlag) {
                 case 0:
                     if (globalCtx->msgCtx.unk_E3EE == 1) {
