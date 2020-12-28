@@ -9,7 +9,7 @@ extern AnimationHeader D_0600C1C4;
 extern CsCmdActorAction D_0201E6A0;
 extern CsCmdActorAction D_0201B0C0;
 extern AnimationHeader D_06001168;
-extern SkeletonHeader D_06003F18;
+extern SkeletonHeader D_0600C0E8;
 extern SkeletonHeader D_060100B0;
 extern AnimationHeader D_060015CC;
 extern AnimationHeader D_0600C8A0;
@@ -82,17 +82,16 @@ void func_80ACB680(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC460(EnOwl* this);
 void func_80ACBEA0(EnOwl*, GlobalContext*);
 
-#ifdef NON_MATCHING
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOwl* this = THIS;
     ColliderCylinder* collider;
-    u32 whichOwl;
+    s32 whichOwl;
     s32 switchFlag;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
     ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003F18, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->drawTbl2, this->transitionTbl2,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->drawTbl2, this->transitionTbl2,
                      0x10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
@@ -102,8 +101,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime2, &D_0600C8A0, 0.0f);
     this->actionFlags = this->unk_406 = this->unk_409 = 0;
     this->unk_405 = 4;
-    this->unk_407 = 0;
-    this->unk_404 = 0;
+    this->unk_404 = this->unk_407 = 0;
     this->unk_408 = 4;
     whichOwl = (this->actor.params & 0xFC0) >> 6;
     switchFlag = (this->actor.params & 0x3F);
@@ -191,7 +189,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnOwl_WaitLWPreSaria;
             break;
         case OWL_LOST_WOODS_POSTSARIA:
-            if (!CHECK_QUEST_ITEM(0xC)) {
+            if (!CHECK_QUEST_ITEM(0xE)) {
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -211,9 +209,6 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Init.s")
-#endif
 
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnOwl* this = THIS;
@@ -1053,13 +1048,10 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnOwl* this = THIS;
-    u32 phi_v0;
+void EnOwl_Update(Actor *thisx, GlobalContext *globalCtx) {
+    s32 pad;
+    EnOwl *this = THIS;
     s16 phi_a1;
-    s16 phi_return;
-    AnimationHeader* curAnim;
-    f32 curAnimFrame;
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -1068,15 +1060,13 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);
     if (this->actor.update == NULL) {
-        osSyncPrintf(
-            "フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"); // Owl disappears !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }
+
     if (!(this->actionFlags & 0x80) && func_80ACC624(this, globalCtx)) {
-        curAnim = this->skelAnime.animation;
-        curAnimFrame = this->skelAnime.animCurrentFrame;
-        if ((this->skelAnime.animation == &D_06001168 && this->skelAnime.animCurrentFrame != 2.0f &&
-             (this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f ||
+        if ((this->skelAnime.animation == &D_06001168 && (this->skelAnime.animCurrentFrame == 2.0f ||
+             this->skelAnime.animCurrentFrame == 9.0f || this->skelAnime.animCurrentFrame == 23.0f ||
               this->skelAnime.animCurrentFrame == 40.0f || this->skelAnime.animCurrentFrame == 58.0f)) ||
             (this->skelAnime.animation == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
@@ -1101,16 +1091,17 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actionFlags & 8) == 0) {
+    if (!(this->actionFlags & 8)) {
         phi_a1 = 0;
         if (this->actionFlags & 0x10) {
-            switch (this->unk_404) {
+            switch(this->unk_404) {
                 case 0:
                     this->unk_404 = 1;
                     this->unk_405 = 6;
                     break;
                 case 1:
                     this->unk_405--;
+
                     if (this->unk_405 != 0) {
                         phi_a1 = Math_Coss(this->unk_405 * 8192) * 4096.0f;
                     } else {
@@ -1119,6 +1110,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                         } else {
                             this->unk_3EE = 0x20;
                         }
+
                         if (this->actionFlags & 0x20) {
                             this->unk_3EE -= 4;
                         } else {
@@ -1126,7 +1118,10 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         this->unk_404++;
                     }
-                    phi_a1 = this->actionFlags & 0x20 ? -phi_a1 : phi_a1;
+
+                    if (this->actionFlags & 0x20) {
+                        phi_a1 = -phi_a1;
+                    }
                     break;
                 case 2:
                     if (func_80ACC5CC(this)) {
@@ -1136,11 +1131,13 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                         func_80ACA6C0(this);
                     }
                     break;
+                default:
+                    break;
+
             }
         } else {
             if (this->unk_406 > 0) {
                 this->unk_406--;
-                phi_a1 = 0;
             } else {
                 if (this->unk_404 == 0) {
                     if (Math_Rand_ZeroOne() < 0.3f) {
@@ -1154,48 +1151,51 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 this->unk_405--;
 
-                switch (this->unk_404) {
+                switch(this->unk_404) {
                     case 1:
-                        phi_a1 = (s32)(Math_Sins((-this->unk_405 * 4096 + 0x4000)) * 5000.0f);
+                        phi_a1 = Math_Sins((-this->unk_405 * 4096) + 0x4000) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_404 = 2;
                             this->unk_405 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
+                            this->unk_404 = 2;
                         }
                         break;
                     case 2:
+                        phi_a1 = 0x1388;
                         if (this->unk_405 <= 0) {
                             this->unk_404 = 3;
                             this->unk_405 = 4;
                         }
-                        phi_a1 = 0x1388;
                         break;
                     case 3:
                         phi_a1 = Math_Sins(this->unk_405 * 4096) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_404 = 0;
                             this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            this->unk_404 = 0;
                             func_80ACA6C0(this);
                         }
                         break;
                     case 4:
                         phi_a1 = Math_Sins(this->unk_405 * 8192) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_404 = 0;
                             this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            this->unk_404 = 0;
                             func_80ACA6C0(this);
                         }
                         break;
+                    default:
+                        break;
                 }
-
+                
                 if (this->actionFlags & 0x20) {
                     phi_a1 = -phi_a1;
                 }
             }
+
             if (this->unk_409 > 0) {
                 this->unk_409--;
             } else {
                 this->unk_408--;
-                switch (this->unk_407) {
+                switch(this->unk_407) {
                     case 0:
                         this->unk_3F2 = (-this->unk_408 * 0x5DC) + 0x1770;
                         if (this->unk_408 <= 0) {
@@ -1218,10 +1218,13 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                             this->unk_409 = (s32)Math_Rand_ZeroFloat(40.0f) + 0xA0;
                         }
                         break;
+                    default:
+                        break;
                 }
-            }
+            }   
         }
-        this->unk_3F0 = (this->unk_3EE * 1024) + phi_a1;
+        if(phi_a1){}
+        this->unk_3F0 = (s16)(this->unk_3EE * 1024) + phi_a1;
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     } else {
         this->unk_3F2 = 0;
@@ -1230,6 +1233,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->unk_3F0 = 0;
         }
+
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     }
 }
