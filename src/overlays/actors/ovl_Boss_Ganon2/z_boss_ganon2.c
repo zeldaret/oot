@@ -407,9 +407,9 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
             effect->accel.x = 0.0;
             effect->accel.y = -1.0f;
             effect->accel.z = 0.0;
-            effect->unk_38.z = Math_Rand_ZeroFloat(2 * M_PI);
-            effect->unk_38.y = Math_Rand_ZeroFloat(2 * M_PI);
-            effect->unk_38.x = Math_Rand_ZeroFloat(2 * M_PI);
+            effect->unk_38.z = Rand_ZeroFloat(2 * M_PI);
+            effect->unk_38.y = Rand_ZeroFloat(2 * M_PI);
+            effect->unk_38.x = Rand_ZeroFloat(2 * M_PI);
             effect->unk_34 = arg3;
             break;
         }
@@ -516,9 +516,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D8 = 0.0f;
             }
             this->unk_339 = 3;
-            Math_SmoothScaleMaxF(&this->unk_3A4.x, 1500.0f, 0.1f, this->unk_410.x * 1500.0f);
-            Math_SmoothScaleMaxF(&this->unk_3A4.z, -160.0f, 0.1f, this->unk_410.x * 1760.0f);
-            Math_SmoothScaleMaxF(&this->unk_410.x, 0.0075f, 1.0f, 0.0001f);
+            Math_ApproachF(&this->unk_3A4.x, 1500.0f, 0.1f, this->unk_410.x * 1500.0f);
+            Math_ApproachF(&this->unk_3A4.z, -160.0f, 0.1f, this->unk_410.x * 1760.0f);
+            Math_ApproachF(&this->unk_410.x, 0.0075f, 1.0f, 0.0001f);
             this->unk_3B0.x = -200.0f;
             this->unk_3B0.y = 1086.0f;
             this->unk_3B0.z = -200.0f;
@@ -560,9 +560,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.x = player->actor.posRot.pos.x;
             this->unk_3B0.z = (player->actor.posRot.pos.z - 15.0f) + 5.0f;
             if (this->unk_398 >= 0x69) {
-                Math_SmoothScaleMaxF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f + 15.0f, 0.1f,
+                Math_ApproachF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f + 15.0f, 0.1f,
                                      this->unk_410.x);
-                Math_SmoothScaleMaxF(&this->unk_410.x, 2.0f, 1.0f, 0.1f);
+                Math_ApproachF(&this->unk_410.x, 2.0f, 1.0f, 0.1f);
             } else {
                 this->unk_3B0.y = player->actor.posRot.pos.y + 47.0f + 7.0f;
             }
@@ -573,7 +573,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            Math_SmoothScaleMaxF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f, 0.1f, 2.0f);
+            Math_ApproachF(&this->unk_3B0.y, player->actor.posRot.pos.y + 47.0f + 7.0f, 0.1f, 2.0f);
             this->unk_339 = 4;
             if (this->unk_398 == 0xA) {
                 func_80078914(&D_80906D6C, 0x281D);
@@ -593,9 +593,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 4:
             this->unk_339 = 4;
-            Math_SmoothScaleMaxF(&this->unk_3A4.x, -360.0f, 0.1f, this->unk_410.x * 1290.0f);
-            Math_SmoothScaleMaxF(&this->unk_3A4.z, -20.0f, 0.1f, this->unk_410.x * 170.0f);
-            Math_SmoothScaleMaxF(&this->unk_410.x, 0.04f, 1.0f, 0.0005f);
+            Math_ApproachF(&this->unk_3A4.x, -360.0f, 0.1f, this->unk_410.x * 1290.0f);
+            Math_ApproachF(&this->unk_3A4.z, -20.0f, 0.1f, this->unk_410.x * 170.0f);
+            Math_ApproachF(&this->unk_410.x, 0.04f, 1.0f, 0.0005f);
             if (this->unk_398 == 0x64) {
                 temp_v0 = Gameplay_GetCamera(globalCtx, 0);
                 temp_v0->eye = this->unk_3A4;
@@ -639,7 +639,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.z = player->actor.posRot.pos.z;
             if (this->unk_398 >= 0x14) {
                 func_80078884(0x301C);
-                Math_SmoothScaleMaxF(&this->unk_324, 255.0f, 1.0f, 10.0f);
+                Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
                 this->unk_339 = 5;
                 if (this->unk_398 == 0x14) {
                     this->unk_33C = 0.0f;
@@ -715,7 +715,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_80078884(0x28C2);
             }
             if (this->unk_398 >= 0x1E) {
-                Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 1289.0f, 0.1f, 10.0f);
+                Math_ApproachF(&this->actor.posRot.pos.y, 1289.0f, 0.1f, 10.0f);
                 this->unk_3B0.y = this->actor.posRot.pos.y + 70.0f;
             }
             if (func_800A56C8(&this->skelAnime, this->unk_194) != 0) {
@@ -731,7 +731,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
         case 14:
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 1289.0f, 0.05f, 1.0f);
+            Math_ApproachF(&this->actor.posRot.pos.y, 1289.0f, 0.05f, 1.0f);
             player->actor.posRot.pos.x = 250.0f;
             player->actor.posRot.pos.y = 1086.0f;
             player->actor.posRot.pos.z = -266.0f;
@@ -768,7 +768,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BREATH);
             }
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-            Math_SmoothScaleMaxF(&this->unk_3B0.y, this->actor.posRot.pos.y + 77.0f, 0.05f, 5.0f);
+            Math_ApproachF(&this->unk_3B0.y, this->actor.posRot.pos.y + 77.0f, 0.05f, 5.0f);
             if (this->unk_398 >= 0x32) {
                 if (this->unk_398 == 0x32) {
                     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000BFC, 0.0f);
@@ -781,7 +781,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 }
             }
             if (this->unk_398 >= 0x47) {
-                Math_SmoothScaleMaxF(&this->unk_1B4, 255.0f, 1.0f, 10.0f);
+                Math_ApproachF(&this->unk_1B4, 255.0f, 1.0f, 10.0f);
             }
             if (this->unk_398 == 0x8C) {
                 this->unk_39C = 0x10;
@@ -800,9 +800,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_339 = 6;
                 if (this->unk_194 > 100.0f) {
-                    Math_SmoothScaleMaxF(&this->unk_30C, 15.0f, 1.0f, 2.0f);
+                    Math_ApproachF(&this->unk_30C, 15.0f, 1.0f, 2.0f);
                 } else {
-                    Math_SmoothScaleMaxF(&this->unk_30C, 7.0f, 1.0f, 0.2f);
+                    Math_ApproachF(&this->unk_30C, 7.0f, 1.0f, 0.2f);
                 }
             }
             this->unk_1B4 = 0.0f;
@@ -811,9 +811,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060028A8, 0.0f);
                 this->unk_194 = 1000.0f;
             }
-            Math_SmoothScaleMaxF(&this->unk_3A4.x, (this->actor.posRot.pos.x + 200.0f) - 90.0f, 0.1f, 6.3999996f);
-            Math_SmoothScaleMaxF(&this->unk_3A4.y, ((this->actor.posRot.pos.y + 60.0f) - 60.0f) - 70.0f, 0.1f, 13.0f);
-            Math_SmoothScaleMaxF(&this->unk_3B0.y, this->actor.posRot.pos.y + 40.0f, 0.1f, 3.6999998f);
+            Math_ApproachF(&this->unk_3A4.x, (this->actor.posRot.pos.x + 200.0f) - 90.0f, 0.1f, 6.3999996f);
+            Math_ApproachF(&this->unk_3A4.y, ((this->actor.posRot.pos.y + 60.0f) - 60.0f) - 70.0f, 0.1f, 13.0f);
+            Math_ApproachF(&this->unk_3B0.y, this->actor.posRot.pos.y + 40.0f, 0.1f, 3.6999998f);
             if (this->unk_398 == 0x1E) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BIGMASIC);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_BIG);
@@ -865,10 +865,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x1E) {
                 Audio_SetBGM(0x65);
             }
-            Math_SmoothScaleMaxF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
-            Math_SmoothScaleMaxF(&this->unk_3A4.x, (this->actor.posRot.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_3B0.x, this->actor.posRot.pos.x, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_228, 1.0f, 0.1f, 0.02f);
+            Math_ApproachF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
+            Math_ApproachF(&this->unk_3A4.x, (this->actor.posRot.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
+            Math_ApproachF(&this->unk_3B0.x, this->actor.posRot.pos.x, 0.1f, 1.0f);
+            Math_ApproachF(&this->unk_228, 1.0f, 0.1f, 0.02f);
             if (this->unk_398 == 0x41) {
                 this->unk_39C = 0x13;
                 this->unk_398 = 0;
@@ -920,8 +920,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 21:
             this->unk_339 = 6;
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-            this->unk_41C = Math_Coss(globalCtx->gameplayFrames << 0xF) * this->unk_420;
-            Math_SmoothDownscaleMaxF(&this->unk_420, 1.0f, 0.75f);
+            this->unk_41C = Math_CosS(globalCtx->gameplayFrames << 0xF) * this->unk_420;
+            Math_ApproachZeroF(&this->unk_420, 1.0f, 0.75f);
             if (this->unk_398 == 0x1E) {
                 this->unk_39C = 0x16;
                 this->unk_30C = 10.0f;
@@ -935,9 +935,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3BC.x = 0.0f;
             this->actor.posRot.pos.y = 1099.0f;
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-            Math_SmoothDownscaleMaxF(&this->unk_30C, 1.0f, 0.1f);
+            Math_ApproachZeroF(&this->unk_30C, 1.0f, 0.1f);
             if (this->unk_398 >= 0x33) {
-                Math_SmoothScaleMaxF(&this->unk_224, 1.0f, 1.0f, 0.025f);
+                Math_ApproachF(&this->unk_224, 1.0f, 1.0f, 0.025f);
             }
             if (this->unk_398 == 0x3C) {
                 this->unk_336 = 2;
@@ -1110,9 +1110,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3A4.x = D_8090EB30->posRot.pos.x - 20.0f;
                 this->unk_3A4.y = D_8090EB30->posRot.pos.y;
                 this->unk_3A4.z = D_8090EB30->posRot.pos.z;
-                Math_SmoothScaleMaxF(&this->unk_3B0.x, D_8090EB30->posRot.pos.x, 0.2f, 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_3B0.y, D_8090EB30->posRot.pos.y, 0.2f, 50.0f);
-                Math_SmoothScaleMaxF(&this->unk_3B0.z, D_8090EB30->posRot.pos.z, 0.2f, 50.0f);
+                Math_ApproachF(&this->unk_3B0.x, D_8090EB30->posRot.pos.x, 0.2f, 50.0f);
+                Math_ApproachF(&this->unk_3B0.y, D_8090EB30->posRot.pos.y, 0.2f, 50.0f);
+                Math_ApproachF(&this->unk_3B0.z, D_8090EB30->posRot.pos.z, 0.2f, 50.0f);
                 if ((this->unk_398 >= 0x29) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                     this->unk_39C = 0x1D;
                     this->unk_398 = 0;
@@ -1253,13 +1253,13 @@ void func_808FFAC8(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
         phi_a1 = -0x3000;
     }
 
-    Math_SmoothScaleMaxS(&this->unk_31A, phi_a1, 5, 0x7D0);
+    Math_ApproachS(&this->unk_31A, phi_a1, 5, 0x7D0);
 
-    temp_v1 = atan2s(this->actor.xzDistFromLink, 150.0f) - 3000;
+    temp_v1 = Math_Atan2S(this->actor.xzDistFromLink, 150.0f) - 3000;
     temp_v1 = CLAMP_MAX(temp_v1, 7000);
     temp_v1 = CLAMP_MIN(temp_v1, -7000);
 
-    Math_SmoothScaleMaxS(&this->unk_31C, temp_v1, 5, 0x7D0);
+    Math_ApproachS(&this->unk_31C, temp_v1, 5, 0x7D0);
 }
 
 void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
@@ -1267,7 +1267,7 @@ void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
         f32 phi_f0;
         f32 phi_f2;
 
-        Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, this->unk_320);
+        Math_ApproachS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 5, this->unk_320);
 
         if (this->unk_334 != 0) {
             phi_f0 = 5000.0f;
@@ -1277,7 +1277,7 @@ void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
             phi_f2 = 30.0f;
         }
 
-        Math_SmoothScaleMaxF(&this->unk_320, phi_f0, 1.0f, phi_f2);
+        Math_ApproachF(&this->unk_320, phi_f0, 1.0f, phi_f2);
     } else {
         this->unk_320 = 0.0f;
     }
@@ -1316,7 +1316,7 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808FFEBC;
 
         if (this->unk_334 != 0) {
-            this->unk_1A2[0] = Math_Rand_ZeroFloat(30.0f);
+            this->unk_1A2[0] = Rand_ZeroFloat(30.0f);
         } else {
             this->unk_1A2[0] = 40;
         }
@@ -1332,12 +1332,12 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx) {
     if (this->unk_390 == 0) {
-        this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 30;
+        this->unk_390 = (s16)Rand_ZeroFloat(50.0f) + 30;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_UNARI);
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, globalCtx);
@@ -1359,19 +1359,19 @@ void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
     s16 target;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, globalCtx);
     }
 
     if (this->unk_1A2[0] < 30 && this->unk_1A2[0] >= 10) {
-        target = Math_Sins(this->unk_1A2[0] * 0x3000) * (f32)0x2000;
+        target = Math_SinS(this->unk_1A2[0] * 0x3000) * (f32)0x2000;
     } else {
         target = 0;
     }
 
-    Math_SmoothScaleMaxS(&this->unk_31A, target, 2, 0x4000);
+    Math_ApproachS(&this->unk_31A, target, 2, 0x4000);
 }
 
 void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
@@ -1383,7 +1383,7 @@ void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
 
     switch (this->unk_1AC) {
         case 0:
@@ -1416,7 +1416,7 @@ void func_80900210(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_8090026C(BossGanon2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
     if (func_800A56C8(&this->skelAnime, this->unk_194)) {
         func_809002CC(this, globalCtx);
@@ -1428,18 +1428,18 @@ void func_809002CC(BossGanon2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80900344;
     this->unk_338 = 0;
     this->unk_1A2[0] = 100;
-    this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 50;
+    this->unk_390 = (s16)Rand_ZeroFloat(50.0f) + 50;
 }
 
 void func_80900344(BossGanon2* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
     if (this->unk_390 == 0) {
-        this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 30;
+        this->unk_390 = (s16)Rand_ZeroFloat(50.0f) + 30;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_UNARI);
     }
 
-    Math_SmoothScaleMaxF(&this->unk_324, 255.0f, 1.0f, 10.0f);
+    Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
 
     if (this->unk_338 != 0) {
         if (func_800A56C8(&this->skelAnime, 13.0f) != 0) {
@@ -1469,7 +1469,7 @@ void func_80900344(BossGanon2* this, GlobalContext* globalCtx) {
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, phi_f0, 0.5f, 1.0f);
+    Math_ApproachF(&this->actor.speedXZ, phi_f0, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_808FFDB0(this, globalCtx);
@@ -1513,7 +1513,7 @@ void func_80900650(BossGanon2* this, GlobalContext* globalCtx) {
         this->unk_312 = 2;
     }
 
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
 
     if (func_800A56C8(&this->skelAnime, this->unk_194)) {
         this->unk_311 = 1 - this->unk_311;
@@ -1566,7 +1566,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_808FD108(this, globalCtx, OBJECT_GANON_ANIME3, 0);
     } else {
         func_808FD108(this, globalCtx, OBJECT_GANON2, 0);
-        Math_SmoothDownscaleMaxF(&this->unk_30C, 1.0f, 0.5f);
+        Math_ApproachZeroF(&this->unk_30C, 1.0f, 0.5f);
     }
     func_808FFC84(this);
     this->unk_312 = 0;
@@ -1602,35 +1602,35 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
         }
     }
-    if (((this->unk_19C & 0x1F) == 0) && (Math_Rand_ZeroOne() < 0.3f)) {
+    if (((this->unk_19C & 0x1F) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->unk_318 = 4;
     }
     this->unk_310 = D_80907074[this->unk_318];
     if (this->unk_318 != 0) {
         this->unk_318--;
     }
-    this->unk_1B0 = (Math_Sins(this->unk_19C * 0x2AAA) * 64.0f) + 191.0f;
+    this->unk_1B0 = (Math_SinS(this->unk_19C * 0x2AAA) * 64.0f) + 191.0f;
     if (this->unk_344 != 0) {
         this->unk_344--;
-        Math_SmoothScaleMaxF(&this->unk_360.x, 5000.0f, 0.5f, 3000.0f);
-        Math_SmoothScaleMaxF(&this->unk_370.x, 5500.0f, 0.5f, 3000.0f);
-        Math_SmoothScaleMaxF(&this->unk_360.z, 8000.0f, 0.1f, 4000.0f);
-        Math_SmoothScaleMaxF(&this->unk_370.z, 8000.0f, 0.1f, 4000.0f);
-        Math_SmoothScaleMaxS(&this->unk_346, 0xFA0, 0xA, 0x7D0);
+        Math_ApproachF(&this->unk_360.x, 5000.0f, 0.5f, 3000.0f);
+        Math_ApproachF(&this->unk_370.x, 5500.0f, 0.5f, 3000.0f);
+        Math_ApproachF(&this->unk_360.z, 8000.0f, 0.1f, 4000.0f);
+        Math_ApproachF(&this->unk_370.z, 8000.0f, 0.1f, 4000.0f);
+        Math_ApproachS(&this->unk_346, 0xFA0, 0xA, 0x7D0);
     } else {
         this->unk_360.y = 14000.0f;
-        Math_SmoothScaleMaxF(&this->unk_360.x, 2000.0f, 0.1f, 100.0f);
+        Math_ApproachF(&this->unk_360.x, 2000.0f, 0.1f, 100.0f);
         this->unk_370.y = 12000.0f;
-        Math_SmoothScaleMaxF(&this->unk_370.x, 1500.0f, 0.1f, 100.0f);
+        Math_ApproachF(&this->unk_370.x, 1500.0f, 0.1f, 100.0f);
         if ((this->actionFunc == func_808FFEBC) || (this->actionFunc == func_808FFFE0) ||
             (this->actionFunc == func_80900104)) {
-            Math_SmoothScaleMaxF(&this->unk_360.z, 1000.0f, 0.1f, 100.0f);
-            Math_SmoothScaleMaxF(&this->unk_370.z, 1000.0f, 0.1f, 100.0f);
-            Math_SmoothScaleMaxS(&this->unk_346, -0xFA0, 0xA, 0x64);
+            Math_ApproachF(&this->unk_360.z, 1000.0f, 0.1f, 100.0f);
+            Math_ApproachF(&this->unk_370.z, 1000.0f, 0.1f, 100.0f);
+            Math_ApproachS(&this->unk_346, -0xFA0, 0xA, 0x64);
         } else {
-            Math_SmoothScaleMaxF(&this->unk_360.z, 5000.0f, 0.1f, 200.0f);
-            Math_SmoothScaleMaxF(&this->unk_370.z, 5000.0f, 0.1f, 200.0f);
-            Math_SmoothScaleMaxS(&this->unk_346, 0, 0xA, 0x64);
+            Math_ApproachF(&this->unk_360.z, 5000.0f, 0.1f, 200.0f);
+            Math_ApproachF(&this->unk_370.z, 5000.0f, 0.1f, 200.0f);
+            Math_ApproachS(&this->unk_346, 0, 0xA, 0x64);
         }
     }
     if (this->unk_39C != 0x4B) {
@@ -1651,8 +1651,8 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             phi_f2 = 1.0f;
         }
 
-        this->unk_348[i] = Math_Sins(((s16)this->unk_35C + (i * (s16)this->unk_360.y))) * phi_f2 * this->unk_360.z;
-        this->unk_352[i] = Math_Sins(((s16)this->unk_36C + (i * (s16)this->unk_370.y))) * phi_f2 * this->unk_370.z;
+        this->unk_348[i] = Math_SinS(((s16)this->unk_35C + (i * (s16)this->unk_360.y))) * phi_f2 * this->unk_360.z;
+        this->unk_352[i] = Math_SinS(((s16)this->unk_36C + (i * (s16)this->unk_370.y))) * phi_f2 * this->unk_370.z;
     }
 
     func_808FF898(this, globalCtx);
@@ -1669,25 +1669,25 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if ((this->unk_332 == 0) && (this->unk_336 != 0)) {
         if (this->unk_336 == 2) {
-            this->unk_332 = (s16)Math_Rand_ZeroFloat(30.0f) + 8;
+            this->unk_332 = (s16)Rand_ZeroFloat(30.0f) + 8;
         } else {
-            this->unk_332 = (s16)Math_Rand_ZeroFloat(60.0f) + 0xA;
+            this->unk_332 = (s16)Rand_ZeroFloat(60.0f) + 0xA;
         }
         this->unk_339 = 0;
         globalCtx->envCtx.unk_BE = 0;
-        globalCtx->envCtx.unk_BD = (s8)Math_Rand_ZeroFloat(1.9f) + 1;
+        globalCtx->envCtx.unk_BD = (s8)Rand_ZeroFloat(1.9f) + 1;
         globalCtx->envCtx.unk_D8 = 1.0f;
         D_8090EB20.y = 0.0f;
         D_8090EB20.x = D_8090EB20.y;
         D_8090EB20.z = D_8090EB20.x;
-        if (Math_Rand_ZeroOne() < 0.5f) {
-            D_8090EB20.z = Math_Rand_ZeroFloat(1000.0f);
+        if (Rand_ZeroOne() < 0.5f) {
+            D_8090EB20.z = Rand_ZeroFloat(1000.0f);
         }
         func_80078914(&D_8090EB20, NA_SE_EV_LIGHTNING);
         this->unk_328 = 0xFF;
         this->unk_330 = 5;
         this->unk_32C = 0.0f;
-        this->unk_340 = (s16)Math_Rand_ZeroFloat(10000.0f);
+        this->unk_340 = (s16)Rand_ZeroFloat(10000.0f);
     } else if (this->unk_332 != 0) {
         this->unk_332--;
     }
@@ -1705,41 +1705,41 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->unk_339) {
         case 0:
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
             break;
         case 3:
             globalCtx->envCtx.unk_BE = 3;
             globalCtx->envCtx.unk_BD = 4;
-            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
+            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
         case 4:
             globalCtx->envCtx.unk_BE = 5;
             globalCtx->envCtx.unk_BD = 6;
-            Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
+            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
         case 5:
             globalCtx->envCtx.unk_BE = 6;
             globalCtx->envCtx.unk_BD = 7;
-            Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
+            Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
             globalCtx->envCtx.unk_D8 =
-                (Math_Sins(globalCtx->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
+                (Math_SinS(globalCtx->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 55:
             globalCtx->envCtx.unk_BE = 2;
             globalCtx->envCtx.unk_BD = 0;
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
             break;
         case 6:
             globalCtx->envCtx.unk_BE = 2;
             globalCtx->envCtx.unk_BD = 8;
-            Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
+            Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
             globalCtx->envCtx.unk_D8 =
-                (Math_Sins(globalCtx->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
+                (Math_SinS(globalCtx->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 7:
             globalCtx->envCtx.unk_BE = 0;
             globalCtx->envCtx.unk_BD = 8;
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
             break;
         case 20:
             globalCtx->envCtx.unk_BE = 0;
@@ -1772,16 +1772,16 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         D_80906D78 = 0;
 
         for (i2 = 0; i2 < 100; i2 = (i2 + 1) & 0xFFFF) {
-            angle = Math_Rand_ZeroFloat(2 * M_PI);
-            sp44 = Math_Rand_ZeroFloat(40.0f) + 10.0f;
+            angle = Rand_ZeroFloat(2 * M_PI);
+            sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.posRot.pos;
             sp58.y = 1200.0f;
             sp4C.x = cosf(angle) * sp44;
             sp4C.z = sinf(angle) * sp44;
-            sp4C.y = Math_Rand_ZeroFloat(15.0f) + 15.0f;
+            sp4C.y = Rand_ZeroFloat(15.0f) + 15.0f;
             sp58.x += sp4C.x * 10.0f * 0.1f;
             sp58.z += sp4C.z * 10.0f * 0.1f;
-            func_808FD27C(globalCtx, &sp58, &sp4C, Math_Rand_ZeroFloat(0.3f) + 0.2f);
+            func_808FD27C(globalCtx, &sp58, &sp4C, Rand_ZeroFloat(0.3f) + 0.2f);
         }
     }
     this->unk_388 += 0.15f;
