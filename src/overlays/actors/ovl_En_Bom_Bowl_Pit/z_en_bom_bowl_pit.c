@@ -158,10 +158,10 @@ void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
-            case EXITEM_BOMB_BAG_BOWL:
+            case EXITEM_BOMB_BAG_BOWLING:
                 gSaveContext.itemGetInf[1] |= 2;
                 break;
-            case EXITEM_HEART_PIECE_BOWL:
+            case EXITEM_HEART_PIECE_BOWLING:
                 gSaveContext.itemGetInf[1] |= 4;
                 break;
         }

@@ -32,11 +32,11 @@ typedef struct EnExItem {
 extern const ActorInit En_Ex_Item_InitVars;
 
 typedef enum {
-    /*  0 */ EXITEM_BOMB_BAG_BOWL,
-    /*  1 */ EXITEM_HEART_PIECE_BOWL,
-    /*  2 */ EXITEM_BOMBCHUS_BOWL,
-    /*  3 */ EXITEM_BOMBS_BOWL,
-    /*  4 */ EXITEM_PURPLE_RUPEE_BOWL,
+    /*  0 */ EXITEM_BOMB_BAG_BOWLING,
+    /*  1 */ EXITEM_HEART_PIECE_BOWLING,
+    /*  2 */ EXITEM_BOMBCHUS_BOWLING,
+    /*  3 */ EXITEM_BOMBS_BOWLING,
+    /*  4 */ EXITEM_PURPLE_RUPEE_BOWLING,
     /*  5 */ EXITEM_BOMB_BAG_COUNTER,
     /*  6 */ EXITEM_HEART_PIECE_COUNTER,
     /*  7 */ EXITEM_BOMBCHUS_COUNTER,

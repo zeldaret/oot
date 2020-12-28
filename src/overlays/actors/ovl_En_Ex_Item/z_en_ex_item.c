@@ -57,23 +57,23 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->initPos = this->actor.posRot.pos;
     this->getItemObjId = -1;
     switch (this->type) {
-        case EXITEM_BOMB_BAG_BOWL:
+        case EXITEM_BOMB_BAG_BOWLING:
         case EXITEM_BOMB_BAG_COUNTER:
             this->getItemObjId = OBJECT_GI_BOMBPOUCH;
             break;
-        case EXITEM_HEART_PIECE_BOWL:
+        case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
             this->getItemObjId = OBJECT_GI_HEARTS;
             break;
-        case EXITEM_BOMBCHUS_BOWL:
+        case EXITEM_BOMBCHUS_BOWLING:
         case EXITEM_BOMBCHUS_COUNTER:
             this->getItemObjId = OBJECT_GI_BOMB_2;
             break;
-        case EXITEM_BOMBS_BOWL:
+        case EXITEM_BOMBS_BOWLING:
         case EXITEM_BOMBS_COUNTER:
             this->getItemObjId = OBJECT_GI_BOMB_1;
             break;
-        case EXITEM_PURPLE_RUPEE_BOWL:
+        case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
         case EXITEM_GREEN_RUPEE_CHEST:
         case EXITEM_BLUE_RUPEE_CHEST:
@@ -129,7 +129,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
         switch (this->type) {
             case EXITEM_BOMB_BAG_COUNTER:
                 onCounter = true;
-            case EXITEM_BOMB_BAG_BOWL:
+            case EXITEM_BOMB_BAG_BOWLING:
                 this->unk_17C = func_8002EBCC;
                 this->drawItemId = 0x18;
                 this->timer = 65;
@@ -144,7 +144,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 break;
             case EXITEM_HEART_PIECE_COUNTER:
                 onCounter = true;
-            case EXITEM_HEART_PIECE_BOWL:
+            case EXITEM_HEART_PIECE_BOWLING:
                 this->unk_17C = func_8002ED80;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
@@ -159,7 +159,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 break;
             case EXITEM_BOMBCHUS_COUNTER:
                 onCounter = true;
-            case EXITEM_BOMBCHUS_BOWL:
+            case EXITEM_BOMBCHUS_BOWLING:
                 this->unk_17C = func_8002EBCC;
                 this->drawItemId = 39;
                 this->timer = 65;
@@ -171,7 +171,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnExItem_SetupBowlCounter;
                 }
                 break;
-            case EXITEM_BOMBS_BOWL:
+            case EXITEM_BOMBS_BOWLING:
             case EXITEM_BOMBS_COUNTER:
                 this->unk_17C = func_8002EBCC;
                 this->drawItemId = 0x1F;
@@ -179,14 +179,14 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
                 this->unkFloat = 0.5f;
-                if (this->type == EXITEM_BOMBS_BOWL) {
+                if (this->type == EXITEM_BOMBS_BOWLING) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
                     this->actor.shape.unk_08 = 10.0f;
                 }
                 break;
-            case EXITEM_PURPLE_RUPEE_BOWL:
+            case EXITEM_PURPLE_RUPEE_BOWLING:
             case EXITEM_PURPLE_RUPEE_COUNTER:
                 this->unk_17C = func_8002EBCC;
                 this->unk_180 = func_8002ED80;
@@ -195,7 +195,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
                 this->unkFloat = 0.5f;
-                if (this->type == EXITEM_PURPLE_RUPEE_BOWL) {
+                if (this->type == EXITEM_PURPLE_RUPEE_BOWLING) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
@@ -271,7 +271,7 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
             sp3C = 250.0f;
-            if (this->type == EXITEM_BOMBCHUS_BOWL) {
+            if (this->type == EXITEM_BOMBCHUS_BOWLING) {
                 sp3C = 220.0f;
             }
             tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
@@ -434,20 +434,20 @@ void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, this->scale);
     switch (this->type) {
-        case EXITEM_BOMB_BAG_BOWL:
-        case EXITEM_BOMBCHUS_BOWL:
-        case EXITEM_BOMBS_BOWL:
+        case EXITEM_BOMB_BAG_BOWLING:
+        case EXITEM_BOMBCHUS_BOWLING:
+        case EXITEM_BOMBS_BOWLING:
         case EXITEM_BOMB_BAG_COUNTER:
         case EXITEM_BOMBCHUS_COUNTER:
         case EXITEM_BOMBS_COUNTER:
         case EXITEM_BULLET_BAG:
             EnExItem_DrawItems(this, globalCtx);
             break;
-        case EXITEM_HEART_PIECE_BOWL:
+        case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
             EnExItem_DrawHeartPiece(this, globalCtx);
             break;
-        case EXITEM_PURPLE_RUPEE_BOWL:
+        case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
         case EXITEM_GREEN_RUPEE_CHEST:
         case EXITEM_BLUE_RUPEE_CHEST:
