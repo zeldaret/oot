@@ -273,7 +273,7 @@ glabel L80912FB4
 /* 029AC 80912FEC 10400026 */  beq     $v0, $zero, .L80913088
 /* 029B0 80912FF0 3C100601 */  lui     $s0, 0x0601                ## $s0 = 06010000
 /* 029B4 80912FF4 261008D8 */  addiu   $s0, $s0, 0x08D8           ## $s0 = 060108D8
-/* 029B8 80912FF8 0C028800 */  jal     Animation_LastFrame
+/* 029B8 80912FF8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 029BC 80912FFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 060108D8
 /* 029C0 80913000 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -299,7 +299,7 @@ glabel L80912FB4
 /* 02A08 80913048 1040000D */  beq     $v0, $zero, .L80913080
 /* 02A0C 8091304C 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
 /* 02A10 80913050 26100D84 */  addiu   $s0, $s0, 0x0D84           ## $s0 = 06000D84
-/* 02A14 80913054 0C028800 */  jal     Animation_LastFrame
+/* 02A14 80913054 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02A18 80913058 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000D84
 /* 02A1C 8091305C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

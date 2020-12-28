@@ -29,7 +29,7 @@ glabel func_80AC6C54
 /* 04020 80AC6CC0 248400FC */  addiu   $a0, $a0, %lo(D_060000FC)           ## $a0 = 060000FC
 /* 04024 80AC6CC4 01215021 */  addu    $t2, $t1, $at
 /* 04028 80AC6CC8 3C018016 */  lui     $at, %hi(gSegments+0x18)
-/* 0402C 80AC6CCC 0C028800 */  jal     Animation_LastFrame
+/* 0402C 80AC6CCC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04030 80AC6CD0 AC2A6FC0 */  sw      $t2, %lo(gSegments+0x18)($at)
 /* 04034 80AC6CD4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

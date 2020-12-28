@@ -107,7 +107,7 @@ glabel func_808C2C78
 /* 01C60 808C2DF0 00000000 */  nop
 /* 01C64 808C2DF4 3C100600 */  lui     $s0, %hi(D_06004E0C)                ## $s0 = 06000000
 /* 01C68 808C2DF8 26104E0C */  addiu   $s0, $s0, %lo(D_06004E0C)           ## $s0 = 06004E0C
-/* 01C6C 808C2DFC 0C028800 */  jal     Animation_LastFrame
+/* 01C6C 808C2DFC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01C70 808C2E00 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06004E0C
 /* 01C74 808C2E04 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

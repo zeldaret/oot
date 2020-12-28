@@ -99,7 +99,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->jointTable, &this->morphTable, 25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, this->jointTable, this->morphTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -205,7 +205,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (rotDelta > 0) {
         Animation_MorphToPlayOnce(&this->skelAnime, &D_06002158, -3.0f);
     } else {
-        Animation_Change(&this->skelAnime, &D_06002158, -1.0f, Animation_LastFrame(&D_06002158), 0.0f, 2, -3.0f);
+        Animation_Change(&this->skelAnime, &D_06002158, -1.0f, Animation_GetLastFrame(&D_06002158), 0.0f, 2, -3.0f);
     }
 
     if (this->actor.scale.x > 0.004f) {
@@ -218,7 +218,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
 }
 
 void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009520, 3.0f, 0, Animation_LastFrame(&D_06009520), 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06009520, 3.0f, 0, Animation_GetLastFrame(&D_06009520), 2, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -257,7 +257,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
     this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, Animation_LastFrame(&D_060019CC), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, Animation_GetLastFrame(&D_060019CC), 2, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.body.bumperFlags &= ~4;
@@ -613,7 +613,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
 
         if (this->actionTimer == 0 && isOnGround) {
             if (this->skelAnime.endFrame < 45.0f) {
-                this->skelAnime.endFrame = Animation_LastFrame(&D_060019CC);
+                this->skelAnime.endFrame = Animation_GetLastFrame(&D_060019CC);
             } else if (this->actor.params == MERGE_MASTER) {
                 EnFloormas_SetupMerge(this);
             } else {

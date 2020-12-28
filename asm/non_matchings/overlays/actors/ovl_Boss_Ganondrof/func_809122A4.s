@@ -40,7 +40,7 @@ glabel func_809122A4
 /* 01CBC 809122FC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 01CC0 80912300 55C0000E */  bnel    $t6, $zero, .L8091233C
 /* 01CC4 80912304 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 01CC8 80912308 0C028800 */  jal     Animation_LastFrame
+/* 01CC8 80912308 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01CCC 8091230C 24841BCC */  addiu   $a0, $a0, 0x1BCC           ## $a0 = 06011BCC
 /* 01CD0 80912310 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

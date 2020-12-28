@@ -772,7 +772,7 @@ void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = Animation_LastFrame(animation);
+    f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -1070,7 +1070,7 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.posRot.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 = func_8006F9BC(Animation_LastFrame(&D_06005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = func_8006F9BC(Animation_GetLastFrame(&D_06005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -2616,13 +2616,13 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59B6C(EnZl3* this, GlobalContext* globalCtx) {
     s32 sp2C = func_80B54DD4(this);
 
-    this->unk_3DC = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_060091D8));
-    this->unk_3E0 = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A598));
-    this->unk_3E4 = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A334));
-    this->unk_3F4 = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_06001110));
-    this->unk_3EC = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_06002348));
-    this->unk_3F0 = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_06002E54));
-    this->unk_3E8 = Animation_LastFrame(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
+    this->unk_3DC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_060091D8));
+    this->unk_3E0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A598));
+    this->unk_3E4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A334));
+    this->unk_3F4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001110));
+    this->unk_3EC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002348));
+    this->unk_3F0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002E54));
+    this->unk_3E8 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
 
     switch (sp2C) {
         case 0:

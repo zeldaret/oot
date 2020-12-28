@@ -48,7 +48,7 @@ void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, NULL, NULL, 0);
     ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawFunc_Circle, 4);
     this->unk_194 = 0;
     this->unk_198 = 0;
@@ -68,7 +68,7 @@ void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
-    f32 frameCount = Animation_LastFrame(&D_0600006C);
+    f32 frameCount = Animation_GetLastFrame(&D_0600006C);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
     AnimationHeader* anim = &D_0600006C;
 

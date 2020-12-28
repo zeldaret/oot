@@ -12,7 +12,7 @@ glabel func_80A32BD0
 /* 00028 80A32BF8 00581821 */  addu    $v1, $v0, $t8
 /* 0002C 80A32BFC AC8E0308 */  sw      $t6, 0x0308($a0)           ## 00000308
 /* 00030 80A32C00 AFA30028 */  sw      $v1, 0x0028($sp)
-/* 00034 80A32C04 0C028800 */  jal     Animation_LastFrame
+/* 00034 80A32C04 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00038 80A32C08 8C640000 */  lw      $a0, 0x0000($v1)           ## 00000000
 /* 0003C 80A32C0C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

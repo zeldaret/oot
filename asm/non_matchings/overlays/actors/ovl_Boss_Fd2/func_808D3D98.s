@@ -25,7 +25,7 @@ glabel func_808D3D98
 /* 01780 808D3DF0 0C02947A */  jal     Animation_PlayOnce
 /* 01784 808D3DF4 24A589DC */  addiu   $a1, $a1, 0x89DC           ## $a1 = 060089DC
 /* 01788 808D3DF8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 0178C 808D3DFC 0C028800 */  jal     Animation_LastFrame
+/* 0178C 808D3DFC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01790 808D3E00 248489DC */  addiu   $a0, $a0, 0x89DC           ## $a0 = 060089DC
 /* 01794 808D3E04 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

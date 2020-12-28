@@ -307,7 +307,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupFlee(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_0600ADF8, -2.0f, Animation_LastFrame(&D_0600ADF8), 0.0f, 3, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600ADF8, -2.0f, Animation_GetLastFrame(&D_0600ADF8), 0.0f, 3, -4.0f);
     this->timer = 20;
     this->invisible = false;
     this->actionState = GELDB_WAIT;
@@ -398,7 +398,7 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060024E8, 1.0f, 0.0f, Animation_LastFrame(&D_060024E8), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060024E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060024E8), 1, -4.0f);
     this->actionState = GELDB_ADVANCE;
     EnGeldB_SetupAction(this, EnGeldB_Advance);
 }
@@ -481,7 +481,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupRollForward(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_LastFrame(&D_06001390), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, 2, -3.0f);
     this->timer = 0;
     this->invisible = true;
     this->actionState = GELDB_ROLL_FORWARD;
@@ -554,7 +554,7 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupCircle(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_LastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
     this->actor.speedXZ = Rand_CenteredFloat(12.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
@@ -657,7 +657,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
     Player* player = PLAYER;
 
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_LastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
     sp3E = player->actor.shape.rot.y;
     if (Math_SinS(sp3E - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -10.0f;
@@ -809,7 +809,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupSpinAttack(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_LastFrame(&D_06000F5C), 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000F5C), 3, 0.0f);
     this->swordCollider.base.atFlags &= ~6;
     this->actionState = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
@@ -994,7 +994,7 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupJump(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_LastFrame(&D_06001390), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, 2, -3.0f);
     this->timer = 0;
     this->invisible = false;
     this->actionState = GELDB_JUMP;
@@ -1028,7 +1028,7 @@ void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_SetupBlock(EnGeldB* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_LastFrame(&D_06001578);
+    lastFrame = Animation_GetLastFrame(&D_06001578);
     if (this->swordState != 0) {
         this->swordState = -1;
     }
@@ -1096,7 +1096,7 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 linkAngle;
     Player* player;
 
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_LastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
     player = PLAYER;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     linkAngle = player->actor.shape.rot.y;
@@ -1179,7 +1179,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
 
-    playSpeed = (0, ABS(this->skelAnime.playSpeed)); // Needed to match for some reason
+    playSpeed = ((void)0, ABS(this->skelAnime.playSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
@@ -1492,8 +1492,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actionState != GELDB_WAIT) || !this->invisible) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeDLists[this->blinkState]));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                              EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
         if (this->actionState == GELDB_BLOCK) {
             s32 i;
             Vec3f blockTrisVtx0[3];
@@ -1521,8 +1521,6 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2744);
 }
 
-#ifdef NON_MATCHING
-// regalloc
 s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
     Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
 
@@ -1532,7 +1530,7 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
         f32 dist;
 
         angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.posRot.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
         dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
         //! @bug
         // func_8002DB6C already sqrtfs the distance, so this actually checks for a
@@ -1556,6 +1554,3 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
     }
     return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/EnGeldB_DodgeRanged.s")
-#endif

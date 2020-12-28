@@ -866,11 +866,12 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(globalCtx, &this->actor);
         if (this->infoIdx == EN_POH_INFO_NORMAL) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, this->jointTable, this->morphTable, 21);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, this->jointTable, this->morphTable,
+                           21);
             this->actor.draw = EnPoh_DrawRegular;
         } else {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, this->jointTable, this->morphTable,
-                               12);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, this->jointTable,
+                               this->morphTable, 12);
             this->actor.draw = EnPoh_DrawComposer;
             this->colliderSph.list[0].dim.joint = 9;
             this->colliderSph.list->dim.modelSphere.center.y *= -1;

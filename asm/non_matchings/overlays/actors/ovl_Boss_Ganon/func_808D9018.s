@@ -45,7 +45,7 @@ glabel func_808D9018
 /* 0284C 808D90BC 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 02850 808D90C0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 02854 808D90C4 3C040601 */  lui     $a0, %hi(D_0600EA00)                ## $a0 = 06010000
-/* 02858 808D90C8 0C028800 */  jal     Animation_LastFrame
+/* 02858 808D90C8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0285C 808D90CC 2484EA00 */  addiu   $a0, $a0, %lo(D_0600EA00)           ## $a0 = 0600EA00
 /* 02860 808D90D0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

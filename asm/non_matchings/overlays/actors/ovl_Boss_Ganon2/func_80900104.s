@@ -52,7 +52,7 @@ glabel func_80900104
 /* 0327C 809001BC 0C0294D3 */  jal     Animation_MorphToLoop
 /* 03280 809001C0 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 03284 809001C4 3C040602 */  lui     $a0, %hi(D_06027824)                ## $a0 = 06020000
-/* 03288 809001C8 0C028800 */  jal     Animation_LastFrame
+/* 03288 809001C8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0328C 809001CC 24847824 */  addiu   $a0, $a0, %lo(D_06027824)           ## $a0 = 06027824
 /* 03290 809001D0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -124,7 +124,7 @@ void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupWait(EnVm* this) {
-    f32 frameCount = Animation_LastFrame(&D_06000068);
+    f32 frameCount = Animation_GetLastFrame(&D_06000068);
 
     Animation_Change(&this->skelAnime, &D_06000068, 1.0f, frameCount, frameCount, 2, 0.0f);
     this->unk_25E = this->unk_260 = 0;
@@ -277,7 +277,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupStun(EnVm* this) {
-    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_LastFrame(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->unk_260 = 0;
     this->timer = 180;
     this->unk_25E = this->unk_260;
@@ -295,7 +295,8 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
             if (this->unk_25E == 3) {
                 EnVm_SetupWait(this);
             } else if (this->unk_25E == 1) {
-                Animation_Change(&this->skelAnime, &D_06000068, 1.0f, 0.0f, Animation_LastFrame(&D_06000068), 2, 0.0f);
+                Animation_Change(&this->skelAnime, &D_06000068, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000068), 2,
+                                 0.0f);
             } else {
                 this->timer = 10;
                 this->skelAnime.curFrame = 0.0f;
@@ -310,7 +311,7 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupDie(EnVm* this) {
-    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_LastFrame(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->timer = 33;
     this->unk_25E = this->unk_260 = 0;
     this->unk_21C = 3;

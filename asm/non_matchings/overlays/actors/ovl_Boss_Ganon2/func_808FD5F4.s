@@ -844,7 +844,7 @@ glabel L808FDF70
 /* 011C0 808FE100 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 011C4 808FE104 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 011C8 808FE108 3C040600 */  lui     $a0, %hi(D_06002168)                ## $a0 = 06000000
-/* 011CC 808FE10C 0C028800 */  jal     Animation_LastFrame
+/* 011CC 808FE10C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 011D0 808FE110 24842168 */  addiu   $a0, $a0, %lo(D_06002168)           ## $a0 = 06002168
 /* 011D4 808FE114 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -1138,7 +1138,7 @@ glabel L808FE4C0
 /* 0160C 808FE54C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01610 808FE550 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01614 808FE554 3C040600 */  lui     $a0, %hi(D_06000BFC)                ## $a0 = 06000000
-/* 01618 808FE558 0C028800 */  jal     Animation_LastFrame
+/* 01618 808FE558 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0161C 808FE55C 24840BFC */  addiu   $a0, $a0, %lo(D_06000BFC)           ## $a0 = 06000BFC
 /* 01620 808FE560 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -1185,7 +1185,7 @@ glabel L808FE4C0
 /* 016B4 808FE5F4 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 016B8 808FE5F8 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 016BC 808FE5FC 3C040600 */  lui     $a0, %hi(D_06003754)                ## $a0 = 06000000
-/* 016C0 808FE600 0C028800 */  jal     Animation_LastFrame
+/* 016C0 808FE600 0C028800 */  jal     Animation_GetLastFrame
 
 /* 016C4 808FE604 24843754 */  addiu   $a0, $a0, %lo(D_06003754)           ## $a0 = 06003754
 /* 016C8 808FE608 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -2290,7 +2290,7 @@ glabel L808FF51C
 /* 026E0 808FF620 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 026E4 808FF624 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 026E8 808FF628 3C040601 */  lui     $a0, %hi(D_060147E0)                ## $a0 = 06010000
-/* 026EC 808FF62C 0C028800 */  jal     Animation_LastFrame
+/* 026EC 808FF62C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 026F0 808FF630 248447E0 */  addiu   $a0, $a0, %lo(D_060147E0)           ## $a0 = 060147E0
 /* 026F4 808FF634 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

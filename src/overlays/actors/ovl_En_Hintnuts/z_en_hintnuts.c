@@ -513,7 +513,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetHeight(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetHeight(&this->actor,
-                            20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_LastFrame(&D_060024CC)));
+                            20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_060024CC)));
         } else {
             Actor_SetHeight(&this->actor, 20.0f);
         }

@@ -29,7 +29,7 @@ glabel func_809E18B0
 /* 00060 809E1910 8C640000 */  lw      $a0, 0x0000($v1)           ## 00000000
 /* 00064 809E1914 AFA3002C */  sw      $v1, 0x002C($sp)
 /* 00068 809E1918 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 0006C 809E191C 0C028800 */  jal     Animation_LastFrame
+/* 0006C 809E191C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00070 809E1920 E7A00034 */  swc1    $f0, 0x0034($sp)
 /* 00074 809E1924 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -53,7 +53,7 @@ glabel func_809E18B0
 .L809E1968:
 /* 000B8 809E1968 AFA3002C */  sw      $v1, 0x002C($sp)
 /* 000BC 809E196C AFA5003C */  sw      $a1, 0x003C($sp)
-/* 000C0 809E1970 0C028800 */  jal     Animation_LastFrame
+/* 000C0 809E1970 0C028800 */  jal     Animation_GetLastFrame
 
 /* 000C4 809E1974 E7A00034 */  swc1    $f0, 0x0034($sp)
 /* 000C8 809E1978 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

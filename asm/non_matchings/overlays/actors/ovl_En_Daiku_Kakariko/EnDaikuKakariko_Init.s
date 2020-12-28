@@ -112,7 +112,7 @@ glabel EnDaikuKakariko_Init
 /* 00238 809E4558 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0023C 809E455C 3C03809E */  lui     $v1, %hi(D_809E5508)       ## $v1 = 809E0000
 /* 00240 809E4560 24635508 */  addiu   $v1, $v1, %lo(D_809E5508)  ## $v1 = 809E5508
-/* 00244 809E4564 0C028800 */  jal     Animation_LastFrame
+/* 00244 809E4564 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00248 809E4568 8C640000 */  lw      $a0, 0x0000($v1)           ## 809E5508
 /* 0024C 809E456C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

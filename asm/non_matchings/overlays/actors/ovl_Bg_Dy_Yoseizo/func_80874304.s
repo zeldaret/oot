@@ -51,7 +51,7 @@ glabel func_80874304
 /* 01B7C 808743AC 17210014 */  bne     $t9, $at, .L80874400
 /* 01B80 808743B0 00000000 */  nop
 /* 01B84 808743B4 3C040600 */  lui     $a0, %hi(D_06007CA8)                ## $a0 = 06000000
-/* 01B88 808743B8 0C028800 */  jal     Animation_LastFrame
+/* 01B88 808743B8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01B8C 808743BC 24847CA8 */  addiu   $a0, $a0, %lo(D_06007CA8)           ## $a0 = 06007CA8
 /* 01B90 808743C0 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -72,7 +72,7 @@ glabel func_80874304
 /* 01BC8 808743F8 10000012 */  beq     $zero, $zero, .L80874444
 /* 01BCC 808743FC 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 .L80874400:
-/* 01BD0 80874400 0C028800 */  jal     Animation_LastFrame
+/* 01BD0 80874400 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01BD4 80874404 24844344 */  addiu   $a0, $a0, 0x4344           ## $a0 = 00004344
 /* 01BD8 80874408 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

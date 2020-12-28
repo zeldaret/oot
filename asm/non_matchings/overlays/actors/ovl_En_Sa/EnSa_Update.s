@@ -25,7 +25,7 @@ glabel EnSa_Update
 /* 016D0 80AF6C30 24841D50 */  addiu   $a0, $a0, %lo(D_06001D50)           ## $a0 = 06001D50
 /* 016D4 80AF6C34 548E000E */  bnel    $a0, $t6, .L80AF6C70       
 /* 016D8 80AF6C38 8E0F0190 */  lw      $t7, 0x0190($s0)           ## 00000190
-/* 016DC 80AF6C3C 0C028800 */  jal     Animation_LastFrame
+/* 016DC 80AF6C3C 0C028800 */  jal     Animation_GetLastFrame
               
 /* 016E0 80AF6C40 00000000 */  nop
 /* 016E4 80AF6C44 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

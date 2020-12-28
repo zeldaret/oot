@@ -62,7 +62,7 @@ glabel func_80918D6C
 /* 03438 80918E48 2407000F */  addiu   $a3, $zero, 0x000F         ## $a3 = 0000000F
 .L80918E4C:
 /* 0343C 80918E4C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 03440 80918E50 0C028800 */  jal     Animation_LastFrame
+/* 03440 80918E50 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03444 80918E54 24844318 */  addiu   $a0, $a0, 0x4318           ## $a0 = 06004318
 /* 03448 80918E58 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -75,7 +75,7 @@ glabel func_80918D6C
 /* 03464 80918E74 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 03468 80918E78 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0346C 80918E7C A60B01D0 */  sh      $t3, 0x01D0($s0)           ## 000001D0
-/* 03470 80918E80 0C028800 */  jal     Animation_LastFrame
+/* 03470 80918E80 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03474 80918E84 24844A20 */  addiu   $a0, $a0, 0x4A20           ## $a0 = 06004A20
 /* 03478 80918E88 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -122,7 +122,7 @@ glabel func_80918D6C
 /* 03508 80918F18 24090002 */  addiu   $t1, $zero, 0x0002         ## $t1 = 00000002
 /* 0350C 80918F1C 1500001F */  bne     $t0, $zero, .L80918F9C
 /* 03510 80918F20 24845330 */  addiu   $a0, $a0, 0x5330           ## $a0 = 06005330
-/* 03514 80918F24 0C028800 */  jal     Animation_LastFrame
+/* 03514 80918F24 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03518 80918F28 A60901D0 */  sh      $t1, 0x01D0($s0)           ## 000001D0
 /* 0351C 80918F2C 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -143,7 +143,7 @@ glabel func_80918D6C
 /* 03554 80918F64 1000000E */  beq     $zero, $zero, .L80918FA0
 /* 03558 80918F68 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002
 .L80918F6C:
-/* 0355C 80918F6C 0C028800 */  jal     Animation_LastFrame
+/* 0355C 80918F6C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03560 80918F70 24845330 */  addiu   $a0, $a0, 0x5330           ## $a0 = 00005330
 /* 03564 80918F74 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

@@ -6,7 +6,7 @@ glabel func_808DC66C
 /* 05E0C 808DC67C 0C235C4B */  jal     func_808D712C
 /* 05E10 808DC680 2406017C */  addiu   $a2, $zero, 0x017C         ## $a2 = 0000017C
 /* 05E14 808DC684 3C040601 */  lui     $a0, %hi(D_06008128)                ## $a0 = 06010000
-/* 05E18 808DC688 0C028800 */  jal     Animation_LastFrame
+/* 05E18 808DC688 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05E1C 808DC68C 24848128 */  addiu   $a0, $a0, %lo(D_06008128)           ## $a0 = 06008128
 /* 05E20 808DC690 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

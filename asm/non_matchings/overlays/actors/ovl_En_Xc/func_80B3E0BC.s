@@ -16,7 +16,7 @@ glabel func_80B3E0BC
 /* 01F14 80B3E0F4 00000000 */  nop
 /* 01F18 80B3E0F8 45020016 */  bc1fl   .L80B3E154
 /* 01F1C 80B3E0FC 8FBF002C */  lw      $ra, 0x002C($sp)
-/* 01F20 80B3E100 0C028800 */  jal     Animation_LastFrame
+/* 01F20 80B3E100 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01F24 80B3E104 24849598 */  addiu   $a0, $a0, %lo(D_06019598)           ## $a0 = 06019598
 /* 01F28 80B3E108 44829000 */  mtc1    $v0, $f18                  ## $f18 = 0.00

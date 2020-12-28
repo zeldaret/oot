@@ -230,7 +230,7 @@ void func_80AA2F80(EnMa3* this) {
 }
 
 void func_80AA3004(EnMa3* this, s32 idx) {
-    f32 frameCount = Animation_LastFrame(D_80AA3848[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(D_80AA3848[idx].animation);
 
     Animation_Change(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
                      D_80AA3848[idx].transitionRate);
@@ -241,7 +241,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);

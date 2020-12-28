@@ -97,7 +97,7 @@ glabel L808DB404
 /* 04B9C 808DB40C 26101B0C */  addiu   $s0, $s0, %lo(D_06001B0C)           ## $s0 = 06001B0C
 /* 04BA0 808DB410 55E001B1 */  bnel    $t7, $zero, .L808DBAD8
 /* 04BA4 808DB414 8FBF004C */  lw      $ra, 0x004C($sp)
-/* 04BA8 808DB418 0C028800 */  jal     Animation_LastFrame
+/* 04BA8 808DB418 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04BAC 808DB41C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06001B0C
 /* 04BB0 808DB420 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -117,7 +117,7 @@ glabel L808DB448
 /* 04BE4 808DB454 1040019F */  beq     $v0, $zero, .L808DBAD4
 /* 04BE8 808DB458 3C100600 */  lui     $s0, %hi(D_06001FF8)                ## $s0 = 06000000
 /* 04BEC 808DB45C 26101FF8 */  addiu   $s0, $s0, %lo(D_06001FF8)           ## $s0 = 06001FF8
-/* 04BF0 808DB460 0C028800 */  jal     Animation_LastFrame
+/* 04BF0 808DB460 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04BF4 808DB464 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06001FF8
 /* 04BF8 808DB468 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -194,7 +194,7 @@ glabel L808DB498
 /* 04CF8 808DB568 262400B6 */  addiu   $a0, $s1, 0x00B6           ## $a0 = 000000B6
 /* 04CFC 808DB56C 3C100600 */  lui     $s0, %hi(D_06000540)                ## $s0 = 06000000
 /* 04D00 808DB570 26100540 */  addiu   $s0, $s0, %lo(D_06000540)           ## $s0 = 06000540
-/* 04D04 808DB574 0C028800 */  jal     Animation_LastFrame
+/* 04D04 808DB574 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04D08 808DB578 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000540
 /* 04D0C 808DB57C 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -479,7 +479,7 @@ glabel L808DB864
 /* 050E0 808DB950 26100FE8 */  addiu   $s0, $s0, %lo(D_06000FE8)           ## $s0 = 06000FE8
 /* 050E4 808DB954 55800060 */  bnel    $t4, $zero, .L808DBAD8
 /* 050E8 808DB958 8FBF004C */  lw      $ra, 0x004C($sp)
-/* 050EC 808DB95C 0C028800 */  jal     Animation_LastFrame
+/* 050EC 808DB95C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 050F0 808DB960 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000FE8
 /* 050F4 808DB964 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -561,7 +561,7 @@ glabel L808DB99C
 /* 05204 808DBA74 10400017 */  beq     $v0, $zero, .L808DBAD4
 /* 05208 808DBA78 3C100600 */  lui     $s0, %hi(D_06001440)                ## $s0 = 06000000
 /* 0520C 808DBA7C 26101440 */  addiu   $s0, $s0, %lo(D_06001440)           ## $s0 = 06001440
-/* 05210 808DBA80 0C028800 */  jal     Animation_LastFrame
+/* 05210 808DBA80 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05214 808DBA84 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06001440
 /* 05218 808DBA88 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

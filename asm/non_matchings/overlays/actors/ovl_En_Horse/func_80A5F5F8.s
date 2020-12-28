@@ -33,7 +33,7 @@ glabel func_80A5F5F8
 /* 0437C 80A5F66C 8D295E58 */  lw      $t1, %lo(D_80A65E58)($t1)
 /* 04380 80A5F670 00055080 */  sll     $t2, $a1,  2
 /* 04384 80A5F674 012A5821 */  addu    $t3, $t1, $t2
-/* 04388 80A5F678 0C028800 */  jal     Animation_LastFrame
+/* 04388 80A5F678 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0438C 80A5F67C 8D640000 */  lw      $a0, 0x0000($t3)           ## 00000000
 /* 04390 80A5F680 8E0C0158 */  lw      $t4, 0x0158($s0)           ## 00000158
@@ -67,7 +67,7 @@ glabel func_80A5F5F8
 /* 043F8 80A5F6E8 016A5821 */  addu    $t3, $t3, $t2
 /* 043FC 80A5F6EC 8D6B5E58 */  lw      $t3, %lo(D_80A65E58)($t3)
 /* 04400 80A5F6F0 016C6821 */  addu    $t5, $t3, $t4
-/* 04404 80A5F6F4 0C028800 */  jal     Animation_LastFrame
+/* 04404 80A5F6F4 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04408 80A5F6F8 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 0440C 80A5F6FC 8E0F0158 */  lw      $t7, 0x0158($s0)           ## 00000158

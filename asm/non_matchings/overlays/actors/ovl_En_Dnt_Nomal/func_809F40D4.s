@@ -91,7 +91,7 @@ glabel func_809F40D4
 /* 00F44 809F4204 A60B0032 */  sh      $t3, 0x0032($s0)           ## 00000032
 /* 00F48 809F4208 45020022 */  bc1fl   .L809F4294
 /* 00F4C 809F420C 8FBF002C */  lw      $ra, 0x002C($sp)
-/* 00F50 809F4210 0C028800 */  jal     Animation_LastFrame
+/* 00F50 809F4210 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00F54 809F4214 248424CC */  addiu   $a0, $a0, %lo(D_060024CC)           ## $a0 = 060024CC
 /* 00F58 809F4218 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

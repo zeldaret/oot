@@ -29,7 +29,7 @@ glabel func_80A1B464
 /* 00B2C 80A1B4CC 24841534 */  addiu   $a0, $a0, %lo(D_06001534)           ## $a0 = 06001534
 /* 00B30 80A1B4D0 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 00B34 80A1B4D4 A0590000 */  sb      $t9, 0x0000($v0)           ## 80A1CFF0
-/* 00B38 80A1B4D8 0C028800 */  jal     Animation_LastFrame
+/* 00B38 80A1B4D8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00B3C 80A1B4DC AE080354 */  sw      $t0, 0x0354($s0)           ## 00000354
 /* 00B40 80A1B4E0 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

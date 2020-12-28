@@ -109,7 +109,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     animFrameStart = 0.0f;
     anim = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
-    endFrame = Animation_LastFrame(anim);
+    endFrame = Animation_GetLastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -409,7 +409,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
         linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
-        frameCount = Animation_LastFrame(anim);
+        frameCount = Animation_GetLastFrame(anim);
         Animation_Change(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
         EnBox_SetupAction(this, EnBox_Open);
         if (this->unk_1F4 > 0) {

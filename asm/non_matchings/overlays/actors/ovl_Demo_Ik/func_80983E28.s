@@ -48,7 +48,7 @@ glabel func_80983E28
 /* 00BCC 80983ECC AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00BD0 80983ED0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00BD4 80983ED4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00BD8 80983ED8 0C028800 */  jal     Animation_LastFrame
+/* 00BD8 80983ED8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00BDC 80983EDC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 060008DC
 /* 00BE0 80983EE0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

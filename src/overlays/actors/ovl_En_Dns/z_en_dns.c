@@ -167,7 +167,7 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_Change(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = Animation_LastFrame(D_809F0538[arg1].anim);
+    frameCount = Animation_GetLastFrame(D_809F0538[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
     Animation_Change(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
                      D_809F0538[arg1].transitionRate);
@@ -425,7 +425,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_LastFrame(&D_06004404);
+    f32 frameCount = Animation_GetLastFrame(&D_06004404);
 
     if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);

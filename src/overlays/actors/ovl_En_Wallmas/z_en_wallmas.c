@@ -93,8 +93,7 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
-                       25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, this->jointTable, this->morphTable, 25);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -139,9 +138,9 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangee = &D_0600299C;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_LastFrame(&D_0600299C), 2, 0.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), 2, 0.0f);
 
-    this->unk_2c4 = player->actor.posRot.pos.y;
+    this->yTarget = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
     this->actor.posRot.rot.y = player->actor.shape.rot.y + 0x8000;
     this->actor.groundY = player->actor.groundY;
@@ -154,7 +153,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegFrameCount = &D_060019CC;
     AnimationHeader* objSegChangee = &D_060019CC;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_LastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
 
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
@@ -184,7 +183,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_LastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
 }
@@ -230,7 +229,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    this->unk_2c4 = this->actor.yDistFromLink;
+    this->yTarget = this->actor.yDistFromLink;
     func_8002DF38(globalCtx, &this->actor, 0x25);
     func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
 }
@@ -238,7 +237,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
     this->timer = 0;
     this->actor.draw = NULL;
-    this->actor.flags = this->actor.flags & ~1;
+    this->actor.flags &= ~1;
     if (this->actor.params == WMT_PROXIMITY) {
         this->actionFunc = EnWallmas_WaitForProximity;
     } else {
@@ -520,8 +519,8 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_Drop) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
-    } else if (this->actor.posRot.pos.y <= this->unk_2c4) {
-        this->actor.posRot.pos.y = this->unk_2c4;
+    } else if (this->actor.posRot.pos.y <= this->yTarget) {
+        this->actor.posRot.pos.y = this->yTarget;
         this->actor.velocity.y = 0.0f;
         EnWallmas_SetupLand(this, globalCtx);
     }
@@ -614,8 +613,8 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                              EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

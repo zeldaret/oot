@@ -9,7 +9,7 @@ glabel func_80ACC540
 /* 02638 80ACC558 50400015 */  beql    $v0, $zero, .L80ACC5B0
 /* 0263C 80ACC55C 960803FC */  lhu     $t0, 0x03FC($s0)           ## 000003FC
 /* 02640 80ACC560 8E0E03DC */  lw      $t6, 0x03DC($s0)           ## 000003DC
-/* 02644 80ACC564 0C028800 */  jal     Animation_LastFrame
+/* 02644 80ACC564 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02648 80ACC568 8DC40008 */  lw      $a0, 0x0008($t6)           ## 00000008
 /* 0264C 80ACC56C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

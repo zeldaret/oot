@@ -508,7 +508,7 @@ glabel L8093DAB8
 /* 04F54 8093DC24 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 04F58 8093DC28 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04F5C 8093DC2C 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 04F60 8093DC30 0C028800 */  jal     Animation_LastFrame
+/* 04F60 8093DC30 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04F64 8093DC34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000AAC
 /* 04F68 8093DC38 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -708,7 +708,7 @@ glabel L8093DC4C
 /* 0521C 8093DEEC 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 05220 8093DEF0 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 05224 8093DEF4 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 05228 8093DEF8 0C028800 */  jal     Animation_LastFrame
+/* 05228 8093DEF8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0522C 8093DEFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 060088C8
 /* 05230 8093DF00 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -1039,7 +1039,7 @@ glabel L8093E258
 /* 056F0 8093E3C0 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 056F4 8093E3C4 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 056F8 8093E3C8 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 056FC 8093E3CC 0C028800 */  jal     Animation_LastFrame
+/* 056FC 8093E3CC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05700 8093E3D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000AAC
 /* 05704 8093E3D4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -1236,7 +1236,7 @@ glabel L8093E3E8
 /* 059AC 8093E67C 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 059B0 8093E680 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 059B4 8093E684 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 059B8 8093E688 0C028800 */  jal     Animation_LastFrame
+/* 059B8 8093E688 0C028800 */  jal     Animation_GetLastFrame
 
 /* 059BC 8093E68C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 060088C8
 /* 059C0 8093E690 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

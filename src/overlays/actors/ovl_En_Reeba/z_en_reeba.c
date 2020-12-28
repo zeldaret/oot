@@ -122,7 +122,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_LastFrame(&D_060001E4);
+    f32 frames = Animation_GetLastFrame(&D_060001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 

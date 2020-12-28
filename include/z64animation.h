@@ -66,18 +66,20 @@ typedef struct {
     /* 0x08 */ u8 dListCount;
 } FlexSkeletonHeader; // size = 0xC
 
+// Index into the frame data table. 
 typedef struct {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
     /* 0x04 */ u16 z;
 } JointIndex; // size = 0x06
 
-// This is for ZAP compatibility. They will be removed later.
+// Has two elements for ZAP compatibility.
 typedef struct {
     /* 0x00 */ s16 frameCount;
     /* 0x02 */ s16 pad;
 } GenericAnimationHeader;
 
+// This is for ZAP compatibility. They will be removed later.
 typedef s16 AnimationRotationValue;
 typedef JointIndex AnimationRotationIndex;
 
@@ -88,9 +90,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ GenericAnimationHeader header;
-    /* 0x04 */ s16* frameDataSeg;         // "tbl"
-    /* 0x08 */ JointIndex* jointIndexSeg; // "ref_tbl"
-    /* 0x0C */ u16 staticEntries;
+    /* 0x04 */ s16* frameData;         // "tbl"
+    /* 0x08 */ JointIndex* jointIndices; // "ref_tbl"
+    /* 0x0C */ u16 staticIndexMax;
 } AnimationHeader; // size = 0x10
 
 // Unused
@@ -107,8 +109,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s16 frameCount;
     /* 0x02 */ s16 limbCount;
-    /* 0x04 */ s16* frameDataSeg;
-    /* 0x08 */ JointKey* jointKeySeg;
+    /* 0x04 */ s16* frameData;
+    /* 0x08 */ JointKey* jointKey;
 } AnimationHeader2; // size = 0xC
 
 typedef s32 (*OverrideLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -264,8 +266,8 @@ typedef struct SkelAnime {
     /* 0x34 */ s8 initFlags;      // Flags used when initializing Link's skeleton
     /* 0x35 */ u8 flags;          // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot;       // Previous rotation in worldspace.
-    /* 0x38 */ Vec3s prevTrans;   // Previous modelspace translation.
-    /* 0x3E */ Vec3s baseTrans;   // Base modelspace translation.
+    /* 0x38 */ Vec3s prevTransl;  // Previous modelspace translation.
+    /* 0x3E */ Vec3s baseTransl;  // Base modelspace translation.
 } SkelAnime; // size = 0x44
 
 #endif

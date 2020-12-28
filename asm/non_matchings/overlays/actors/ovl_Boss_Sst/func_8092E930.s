@@ -9,7 +9,7 @@ glabel func_8092E930
 /* 0237C 8092E94C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 02380 8092E950 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 02384 8092E954 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 02388 8092E958 0C028800 */  jal     Animation_LastFrame
+/* 02388 8092E958 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0238C 8092E95C 2484CC6C */  addiu   $a0, $a0, 0xCC6C           ## $a0 = 0600CC6C
 /* 02390 8092E960 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -19,7 +19,7 @@ glabel func_8092E930
 /* 023A0 8092E970 0C00D09B */  jal     func_8003426C
 /* 023A4 8092E974 AFA20010 */  sw      $v0, 0x0010($sp)
 /* 023A8 8092E978 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 023AC 8092E97C 0C028800 */  jal     Animation_LastFrame
+/* 023AC 8092E97C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 023B0 8092E980 2484CC6C */  addiu   $a0, $a0, 0xCC6C           ## $a0 = 0600CC6C
 /* 023B4 8092E984 3C048094 */  lui     $a0, %hi(D_80938C98)       ## $a0 = 80940000
@@ -30,7 +30,7 @@ glabel func_8092E930
 /* 023C8 8092E998 0C00D09B */  jal     func_8003426C
 /* 023CC 8092E99C AFA20010 */  sw      $v0, 0x0010($sp)
 /* 023D0 8092E9A0 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 023D4 8092E9A4 0C028800 */  jal     Animation_LastFrame
+/* 023D4 8092E9A4 0C028800 */  jal     Animation_GetLastFrame
 
 /* 023D8 8092E9A8 2484CC6C */  addiu   $a0, $a0, 0xCC6C           ## $a0 = 0600CC6C
 /* 023DC 8092E9AC 3C048094 */  lui     $a0, %hi(D_80938C9C)       ## $a0 = 80940000

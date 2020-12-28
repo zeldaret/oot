@@ -97,7 +97,7 @@ glabel EnTest_Update
 /* 04180 808637D0 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L808637D4
 /* 04184 808637D4 3C040600 */  lui     $a0, %hi(D_06001C20)                ## $a0 = 06000000
-/* 04188 808637D8 0C028800 */  jal     Animation_LastFrame
+/* 04188 808637D8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0418C 808637DC 24841C20 */  addiu   $a0, $a0, %lo(D_06001C20)           ## $a0 = 06001C20
 /* 04190 808637E0 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

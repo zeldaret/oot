@@ -186,8 +186,8 @@ void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096D5D4(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.baseTrans = this->skelAnime.jointTable[0];
-    this->skelAnime.prevTrans = this->skelAnime.jointTable[0];
+    this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
+    this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
     this->skelAnime.flags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
@@ -229,7 +229,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
     s16 frameCountS;
 
     anim = SEGMENTED_TO_VIRTUAL(animation);
-    frameCountS = Animation_LastFrame(anim);
+    frameCountS = Animation_GetLastFrame(anim);
 
     if (!reverse) {
         startFrame = 0.0f;

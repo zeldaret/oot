@@ -9,7 +9,7 @@ glabel func_80912C94
 /* 02670 80912CB0 0C02947A */  jal     Animation_PlayOnce
 /* 02674 80912CB4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02678 80912CB8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0267C 80912CBC 0C028800 */  jal     Animation_LastFrame
+/* 0267C 80912CBC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02680 80912CC0 2484090C */  addiu   $a0, $a0, 0x090C           ## $a0 = 0600090C
 /* 02684 80912CC4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -36,7 +36,7 @@ glabel EnMm2_Init
 /* 00254 80AAF0A4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00258 80AAF0A8 3C0380AB */  lui     $v1, %hi(D_80AAFAEC)       ## $v1 = 80AB0000
 /* 0025C 80AAF0AC 2463FAEC */  addiu   $v1, $v1, %lo(D_80AAFAEC)  ## $v1 = 80AAFAEC
-/* 00260 80AAF0B0 0C028800 */  jal     Animation_LastFrame
+/* 00260 80AAF0B0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00264 80AAF0B4 8C640020 */  lw      $a0, 0x0020($v1)           ## 80AAFB0C
 /* 00268 80AAF0B8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

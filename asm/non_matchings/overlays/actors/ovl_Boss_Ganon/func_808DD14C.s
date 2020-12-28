@@ -35,7 +35,7 @@ glabel func_808DD14C
 /* 06954 808DD1C4 3C040600 */  lui     $a0, %hi(D_060069A0)                ## $a0 = 06000000
 /* 06958 808DD1C8 AE080194 */  sw      $t0, 0x0194($s0)           ## 00000194
 /* 0695C 808DD1CC A60901C2 */  sh      $t1, 0x01C2($s0)           ## 000001C2
-/* 06960 808DD1D0 0C028800 */  jal     Animation_LastFrame
+/* 06960 808DD1D0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06964 808DD1D4 248469A0 */  addiu   $a0, $a0, %lo(D_060069A0)           ## $a0 = 060069A0
 /* 06968 808DD1D8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

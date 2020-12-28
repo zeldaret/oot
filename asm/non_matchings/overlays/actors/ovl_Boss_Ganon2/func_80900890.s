@@ -479,7 +479,7 @@ glabel L80900E4C
 /* 0400C 80900F4C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 04010 80900F50 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04014 80900F54 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04018 80900F58 0C028800 */  jal     Animation_LastFrame
+/* 04018 80900F58 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0401C 80900F5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 060334F8
 /* 04020 80900F60 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

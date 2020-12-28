@@ -305,7 +305,7 @@ glabel func_80A61A28
 /* 06B40 80A61E30 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
 /* 06B44 80A61E34 00064880 */  sll     $t1, $a2,  2
 /* 06B48 80A61E38 01095021 */  addu    $t2, $t0, $t1
-/* 06B4C 80A61E3C 0C028800 */  jal     Animation_LastFrame
+/* 06B4C 80A61E3C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06B50 80A61E40 8D440000 */  lw      $a0, 0x0000($t2)           ## 00000000
 /* 06B54 80A61E44 8E0B0158 */  lw      $t3, 0x0158($s0)           ## 00000158
@@ -381,7 +381,7 @@ glabel func_80A61A28
 /* 06C54 80A61F44 8D4A5E58 */  lw      $t2, %lo(D_80A65E58)($t2)
 /* 06C58 80A61F48 00065880 */  sll     $t3, $a2,  2
 /* 06C5C 80A61F4C 014B6021 */  addu    $t4, $t2, $t3
-/* 06C60 80A61F50 0C028800 */  jal     Animation_LastFrame
+/* 06C60 80A61F50 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06C64 80A61F54 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 06C68 80A61F58 8E0E0158 */  lw      $t6, 0x0158($s0)           ## 00000158
@@ -458,7 +458,7 @@ glabel func_80A61A28
 /* 06D68 80A62058 8D6B5E58 */  lw      $t3, %lo(D_80A65E58)($t3)
 /* 06D6C 80A6205C 000C7080 */  sll     $t6, $t4,  2
 /* 06D70 80A62060 016E6821 */  addu    $t5, $t3, $t6
-/* 06D74 80A62064 0C028800 */  jal     Animation_LastFrame
+/* 06D74 80A62064 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06D78 80A62068 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 06D7C 80A6206C 8E180158 */  lw      $t8, 0x0158($s0)           ## 00000158
@@ -496,7 +496,7 @@ glabel func_80A61A28
 /* 06DF4 80A620E4 8DAD5E58 */  lw      $t5, %lo(D_80A65E58)($t5)
 /* 06DF8 80A620E8 0006C080 */  sll     $t8, $a2,  2
 /* 06DFC 80A620EC 01B87821 */  addu    $t7, $t5, $t8
-/* 06E00 80A620F0 0C028800 */  jal     Animation_LastFrame
+/* 06E00 80A620F0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06E04 80A620F4 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
 /* 06E08 80A620F8 8E080158 */  lw      $t0, 0x0158($s0)           ## 00000158
@@ -531,7 +531,7 @@ glabel func_80A61A28
 /* 06E74 80A62164 01F87821 */  addu    $t7, $t7, $t8
 /* 06E78 80A62168 8DEF5E58 */  lw      $t7, %lo(D_80A65E58)($t7)
 /* 06E7C 80A6216C 01E8C821 */  addu    $t9, $t7, $t0
-/* 06E80 80A62170 0C028800 */  jal     Animation_LastFrame
+/* 06E80 80A62170 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06E84 80A62174 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 06E88 80A62178 8E0A0158 */  lw      $t2, 0x0158($s0)           ## 00000158
@@ -573,7 +573,7 @@ glabel func_80A61A28
 /* 06F0C 80A621FC 8F395E58 */  lw      $t9, %lo(D_80A65E58)($t9)
 /* 06F10 80A62200 00065080 */  sll     $t2, $a2,  2
 /* 06F14 80A62204 032A4821 */  addu    $t1, $t9, $t2
-/* 06F18 80A62208 0C028800 */  jal     Animation_LastFrame
+/* 06F18 80A62208 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06F1C 80A6220C 8D240000 */  lw      $a0, 0x0000($t1)           ## 00000000
 /* 06F20 80A62210 8E0B0158 */  lw      $t3, 0x0158($s0)           ## 00000158

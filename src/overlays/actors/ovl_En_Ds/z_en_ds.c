@@ -36,7 +36,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->jointTable, &this->unk_1B4, 6);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
     Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;

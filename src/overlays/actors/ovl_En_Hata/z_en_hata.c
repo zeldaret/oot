@@ -45,7 +45,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
 
     temp = 0;
-    frameCount = Animation_LastFrame(&D_06000444);
+    frameCount = Animation_GetLastFrame(&D_06000444);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);

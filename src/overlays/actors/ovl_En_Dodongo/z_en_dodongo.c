@@ -252,7 +252,7 @@ void EnDodongo_SetupIdle(EnDodongo* this) {
 }
 
 void EnDodongo_SetupWalk(EnDodongo* this) {
-    f32 frames = Animation_LastFrame(&D_06008B1C);
+    f32 frames = Animation_GetLastFrame(&D_06008B1C);
 
     Animation_Change(&this->skelAnime, &D_06008B1C, 0.0f, 0.0f, frames, 0, -4.0f);
     this->actor.speedXZ = 1.5f;

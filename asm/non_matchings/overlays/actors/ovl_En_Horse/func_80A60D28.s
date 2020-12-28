@@ -71,7 +71,7 @@ glabel func_80A60D28
 /* 05B44 80A60E34 8DEF5E58 */  lw      $t7, %lo(D_80A65E58)($t7)
 /* 05B48 80A60E38 0018C880 */  sll     $t9, $t8,  2
 /* 05B4C 80A60E3C 01F94021 */  addu    $t0, $t7, $t9
-/* 05B50 80A60E40 0C028800 */  jal     Animation_LastFrame
+/* 05B50 80A60E40 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05B54 80A60E44 8D040000 */  lw      $a0, 0x0000($t0)           ## 00000000
 /* 05B58 80A60E48 8E090158 */  lw      $t1, 0x0158($s0)           ## 00000158

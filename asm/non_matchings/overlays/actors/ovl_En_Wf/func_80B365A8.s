@@ -10,7 +10,7 @@ glabel func_80B365A8
 /* 02904 80B365B4 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 02908 80B365B8 3C040600 */  lui     $a0, %hi(D_060057A0)                ## $a0 = 06000000
 /* 0290C 80B365BC AFA5003C */  sw      $a1, 0x003C($sp)
-/* 02910 80B365C0 0C028800 */  jal     Animation_LastFrame
+/* 02910 80B365C0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02914 80B365C4 248457A0 */  addiu   $a0, $a0, %lo(D_060057A0)           ## $a0 = 060057A0
 /* 02918 80B365C8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

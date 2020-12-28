@@ -246,7 +246,7 @@ glabel func_80B6424C
 /* 01B8C 80B6454C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 01B90 80B64550 AE0B01FC */  sw      $t3, 0x01FC($s0)           ## 000001FC
 /* 01B94 80B64554 A60001C8 */  sh      $zero, 0x01C8($s0)         ## 000001C8
-/* 01B98 80B64558 0C028800 */  jal     Animation_LastFrame
+/* 01B98 80B64558 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01B9C 80B6455C 2484CB1C */  addiu   $a0, $a0, 0xCB1C           ## $a0 = 0600CB1C
 /* 01BA0 80B64560 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

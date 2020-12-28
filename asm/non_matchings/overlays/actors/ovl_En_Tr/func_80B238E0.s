@@ -8,7 +8,7 @@ glabel func_80B238E0
 /* 00C08 80B238F8 3C0480B2 */  lui     $a0, %hi(D_80B24378)       ## $a0 = 80B20000
 /* 00C0C 80B238FC 000E7880 */  sll     $t7, $t6,  2
 /* 00C10 80B23900 008F2021 */  addu    $a0, $a0, $t7
-/* 00C14 80B23904 0C028800 */  jal     Animation_LastFrame
+/* 00C14 80B23904 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00C18 80B23908 8C844378 */  lw      $a0, %lo(D_80B24378)($a0)
 /* 00C1C 80B2390C 8FA30034 */  lw      $v1, 0x0034($sp)

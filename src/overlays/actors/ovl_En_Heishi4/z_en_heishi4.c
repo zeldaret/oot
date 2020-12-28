@@ -59,11 +59,11 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->jointTable, &this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, this->jointTable, this->morphTable, 17);
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->jointTable, &this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -99,7 +99,7 @@ void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_LastFrame(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
     this->actionFunc = func_80A563BC;
@@ -154,7 +154,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_LastFrame(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
@@ -210,7 +210,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     this->unk_284 = 0;
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
-            f32 frames = Animation_LastFrame(&D_0600C444);
+            f32 frames = Animation_GetLastFrame(&D_0600C444);
             Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
@@ -244,7 +244,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_LastFrame(&D_0600C6C8);
+    f32 frames = Animation_GetLastFrame(&D_0600C6C8);
 
     Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
     this->actionFunc = func_80A56994;
@@ -264,7 +264,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_LastFrame(&D_0600C374);
+    f32 frames = Animation_GetLastFrame(&D_0600C374);
     this->unk_288 = frames;
     Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, 2, -10.0f);
     this->actionFunc = func_80A56ACC;

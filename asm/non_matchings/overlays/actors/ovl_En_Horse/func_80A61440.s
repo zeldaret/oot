@@ -147,7 +147,7 @@ glabel func_80A61440
 /* 0634C 80A6163C 01AC6821 */  addu    $t5, $t5, $t4
 /* 06350 80A61640 8DAD5E58 */  lw      $t5, %lo(D_80A65E58)($t5)
 /* 06354 80A61644 01AE7821 */  addu    $t7, $t5, $t6
-/* 06358 80A61648 0C028800 */  jal     Animation_LastFrame
+/* 06358 80A61648 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0635C 80A6164C 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
 /* 06360 80A61650 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210
@@ -191,7 +191,7 @@ glabel func_80A61440
 /* 063F0 80A616E0 01AC6821 */  addu    $t5, $t5, $t4
 /* 063F4 80A616E4 8DAD5E58 */  lw      $t5, %lo(D_80A65E58)($t5)
 /* 063F8 80A616E8 01AE7821 */  addu    $t7, $t5, $t6
-/* 063FC 80A616EC 0C028800 */  jal     Animation_LastFrame
+/* 063FC 80A616EC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06400 80A616F0 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
 /* 06404 80A616F4 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210

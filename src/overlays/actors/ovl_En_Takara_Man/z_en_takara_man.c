@@ -74,7 +74,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_LastFrame(&D_06000498);
+    f32 frameCount = Animation_GetLastFrame(&D_06000498);
 
     Animation_Change(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (!this->unk_214) {

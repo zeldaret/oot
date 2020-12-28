@@ -524,7 +524,7 @@ glabel func_8093C910
 /* 04380 8093D050 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06038E2C
 /* 04384 8093D054 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04388 8093D058 26240568 */  addiu   $a0, $s1, 0x0568           ## $a0 = 00000568
-/* 0438C 8093D05C 0C028800 */  jal     Animation_LastFrame
+/* 0438C 8093D05C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04390 8093D060 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C
 /* 04394 8093D064 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

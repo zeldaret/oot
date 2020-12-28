@@ -49,7 +49,7 @@ glabel func_80911DD8
 /* 0181C 80911E5C 3C0541A8 */  lui     $a1, 0x41A8                ## $a1 = 41A80000
 /* 01820 80911E60 1040000D */  beq     $v0, $zero, .L80911E98
 /* 01824 80911E64 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 01828 80911E68 0C028800 */  jal     Animation_LastFrame
+/* 01828 80911E68 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0182C 80911E6C 2484F48C */  addiu   $a0, $a0, 0xF48C           ## $a0 = 0600F48C
 /* 01830 80911E70 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

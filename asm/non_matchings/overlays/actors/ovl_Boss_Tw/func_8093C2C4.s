@@ -179,7 +179,7 @@ glabel func_8093C2C4
 /* 03864 8093C534 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 03868 8093C538 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 0386C 8093C53C 3C040600 */  lui     $a0, %hi(D_06006530)                ## $a0 = 06000000
-/* 03870 8093C540 0C028800 */  jal     Animation_LastFrame
+/* 03870 8093C540 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03874 8093C544 24846530 */  addiu   $a0, $a0, %lo(D_06006530)           ## $a0 = 06006530
 /* 03878 8093C548 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

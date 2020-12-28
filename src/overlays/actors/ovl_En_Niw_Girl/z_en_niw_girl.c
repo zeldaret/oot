@@ -53,7 +53,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->jointTable, &this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
@@ -89,7 +89,7 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_LastFrame(&D_06000378);
+    f32 frameCount = Animation_GetLastFrame(&D_06000378);
     Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
@@ -130,7 +130,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_LastFrame(&D_06009C78), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), 0, -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {

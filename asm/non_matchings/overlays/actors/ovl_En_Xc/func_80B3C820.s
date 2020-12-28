@@ -3,7 +3,7 @@ glabel func_80B3C820
 /* 00644 80B3C824 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00648 80B3C828 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 0064C 80B3C82C 3C040600 */  lui     $a0, %hi(D_06004828)                ## $a0 = 06000000
-/* 00650 80B3C830 0C028800 */  jal     Animation_LastFrame
+/* 00650 80B3C830 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00654 80B3C834 24844828 */  addiu   $a0, $a0, %lo(D_06004828)           ## $a0 = 06004828
 /* 00658 80B3C838 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

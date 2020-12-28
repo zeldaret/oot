@@ -96,7 +96,7 @@ glabel func_80B47544
 /* 03648 80B47698 3C0480B5 */  lui     $a0, %hi(D_80B4A280)       ## $a0 = 80B50000
 /* 0364C 80B4769C 000B6080 */  sll     $t4, $t3,  2
 /* 03650 80B476A0 008C2021 */  addu    $a0, $a0, $t4
-/* 03654 80B476A4 0C028800 */  jal     Animation_LastFrame
+/* 03654 80B476A4 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03658 80B476A8 8C84A280 */  lw      $a0, %lo(D_80B4A280)($a0)
 /* 0365C 80B476AC 8E0303E4 */  lw      $v1, 0x03E4($s0)           ## 000003E4

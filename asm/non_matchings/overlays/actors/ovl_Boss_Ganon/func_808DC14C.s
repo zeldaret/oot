@@ -120,7 +120,7 @@ glabel func_808DC14C
 /* 05A74 808DC2E4 0018C880 */  sll     $t9, $t8,  2
 /* 05A78 808DC2E8 00992021 */  addu    $a0, $a0, $t9
 /* 05A7C 808DC2EC 8C844D38 */  lw      $a0, %lo(D_808E4D38)($a0)
-/* 05A80 808DC2F0 0C028800 */  jal     Animation_LastFrame
+/* 05A80 808DC2F0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05A84 808DC2F4 A7A2004E */  sh      $v0, 0x004E($sp)
 /* 05A88 808DC2F8 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

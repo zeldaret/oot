@@ -217,7 +217,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80A74714(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_0600CD70);
+    f32 frames = Animation_GetLastFrame(&D_0600CD70);
     f32 frame;
 
     if (this->actor.params >= 2) {
@@ -253,7 +253,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7489C(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_0600DD50);
+    f32 frames = Animation_GetLastFrame(&D_0600DD50);
 
     this->actor.flags |= 5;
     this->unk_2F8 = 4;
@@ -285,10 +285,10 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
-        Animation_Change(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f, Animation_LastFrame(&D_0600ED24), 0, -4.0f);
+        Animation_Change(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600ED24), 0, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
-        Animation_Change(&this->skelAnime, &D_06006734, 1.0f, 0.0f, Animation_LastFrame(&D_06006734), 0, -4.0f);
+        Animation_Change(&this->skelAnime, &D_06006734, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006734), 0, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
@@ -356,7 +356,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A74E2C(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_06001C28);
+    f32 frames = Animation_GetLastFrame(&D_06001C28);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
@@ -396,7 +396,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7506C(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_060029FC);
+    f32 frames = Animation_GetLastFrame(&D_060029FC);
 
     this->unk_2FE = 0;
     this->unk_2F9 = (s8)frames;
@@ -414,7 +414,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
         if (this->unk_2F8 == 8) {
             func_80A7489C(this);
         } else {
-            frames = Animation_LastFrame(&D_06002538);
+            frames = Animation_GetLastFrame(&D_06002538);
             this->unk_2F8 = 8;
             Animation_Change(&this->skelAnime, &D_06002538, 1.5f, 0.0f, frames, 3, -4.0f);
         }
@@ -422,7 +422,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A751C8(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_060033C4);
+    f32 frames = Animation_GetLastFrame(&D_060033C4);
 
     this->unk_2FF = 2;
     this->unk_300 = 0;
@@ -462,7 +462,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A753D0(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_06003DBC);
+    f32 frames = Animation_GetLastFrame(&D_06003DBC);
 
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
@@ -478,7 +478,7 @@ void func_80A7545C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A754A0(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_060033C4);
+    f32 frames = Animation_GetLastFrame(&D_060033C4);
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
@@ -505,7 +505,7 @@ void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A755F0(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_0600485C);
+    f32 frames = Animation_GetLastFrame(&D_0600485C);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
@@ -538,10 +538,10 @@ void func_80A75790(EnIk* this) {
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
-        Animation_Change(&this->skelAnime, &D_06006194, 1.0f, 0.0f, Animation_LastFrame(&D_06006194), 2, -4.0f);
+        Animation_Change(&this->skelAnime, &D_06006194, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006194), 2, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
-        Animation_Change(&this->skelAnime, &D_060045BC, 1.0f, 0.0f, Animation_LastFrame(&D_060045BC), 2, -4.0f);
+        Animation_Change(&this->skelAnime, &D_060045BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060045BC), 2, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -564,7 +564,7 @@ void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7598C(EnIk* this) {
-    f32 frames = Animation_LastFrame(&D_06005944);
+    f32 frames = Animation_GetLastFrame(&D_06005944);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
@@ -616,7 +616,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->shieldCollider.base.acFlags & 0x80) {
-        temp_f0 = Animation_LastFrame(&D_0600485C) - 2.0f;
+        temp_f0 = Animation_GetLastFrame(&D_0600485C) - 2.0f;
         if (this->skelAnime.curFrame < temp_f0) {
             this->skelAnime.curFrame = temp_f0;
         }
@@ -1014,7 +1014,7 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, Animation_LastFrame(&D_0600C114), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600C114), 2, 0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
     this->drawMode = 1;
@@ -1022,7 +1022,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    Animation_Change(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, Animation_LastFrame(&D_0600C114), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600C114), 2, 0.0f);
     this->action = 2;
     this->drawMode = 1;
     this->unk_4D4 = 0;
@@ -1051,7 +1051,7 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
 
 void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frames = Animation_LastFrame(&D_060203D8);
+    f32 frames = Animation_GetLastFrame(&D_060203D8);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->jointTable, this->morphTable, 30);
     Animation_Change(&this->skelAnime, &D_060203D8, 1.0f, 0.0f, frames, 2, 0.0f);
@@ -1384,7 +1384,8 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->jointTable, this->morphTable, 30);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->jointTable, this->morphTable,
+                           30);
         func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
     }

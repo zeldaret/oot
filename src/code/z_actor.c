@@ -3857,7 +3857,7 @@ void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2) 
     if (arg1->frameCount > 0.0f) {
         frameCount = arg1->frameCount;
     } else {
-        frameCount = Animation_LastFrame(arg1->animation);
+        frameCount = Animation_GetLastFrame(arg1->animation);
     }
 
     Animation_Change(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,

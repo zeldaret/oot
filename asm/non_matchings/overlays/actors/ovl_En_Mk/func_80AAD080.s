@@ -90,7 +90,7 @@ glabel func_80AAD080
 /* 008C4 80AAD1C4 25ADCEE8 */  addiu   $t5, $t5, %lo(func_80AACEE8) ## $t5 = 80AACEE8
 /* 008C8 80AAD1C8 3C040600 */  lui     $a0, %hi(D_06000368)                ## $a0 = 06000000
 /* 008CC 80AAD1CC AE0D0284 */  sw      $t5, 0x0284($s0)           ## 00000284
-/* 008D0 80AAD1D0 0C028800 */  jal     Animation_LastFrame
+/* 008D0 80AAD1D0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 008D4 80AAD1D4 24840368 */  addiu   $a0, $a0, %lo(D_06000368)           ## $a0 = 06000368
 /* 008D8 80AAD1D8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -27,7 +27,7 @@ glabel func_808C2ECC
 
 /* 01D88 808C2F18 AFA40030 */  sw      $a0, 0x0030($sp)
 /* 01D8C 808C2F1C 3C040600 */  lui     $a0, %hi(D_06004E0C)                ## $a0 = 06000000
-/* 01D90 808C2F20 0C028800 */  jal     Animation_LastFrame
+/* 01D90 808C2F20 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01D94 808C2F24 24844E0C */  addiu   $a0, $a0, %lo(D_06004E0C)           ## $a0 = 06004E0C
 /* 01D98 808C2F28 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -38,7 +38,7 @@ glabel func_808C2ECC
 /* 01DAC 808C2F3C 00000000 */  nop
 /* 01DB0 808C2F40 10400015 */  beq     $v0, $zero, .L808C2F98
 /* 01DB4 808C2F44 3C040600 */  lui     $a0, %hi(D_060042A8)                ## $a0 = 06000000
-/* 01DB8 808C2F48 0C028800 */  jal     Animation_LastFrame
+/* 01DB8 808C2F48 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01DBC 808C2F4C 248442A8 */  addiu   $a0, $a0, %lo(D_060042A8)           ## $a0 = 060042A8
 /* 01DC0 808C2F50 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

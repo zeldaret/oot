@@ -192,7 +192,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupWalk(EnDh* this) {
-    Animation_Change(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f, Animation_LastFrame(&D_06003A8C) - 3.0f, 0, -6.0f);
+    Animation_Change(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003A8C) - 3.0f, 0, -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -284,11 +284,11 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if ((this->actor.xzDistFromLink <= 100.0f) && (func_8002E084(&this->actor, 60 * 0x10000 / 360) != 0)) {
-                Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, Animation_LastFrame(&D_06004658), 2,
+                Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, Animation_GetLastFrame(&D_06004658), 2,
                                  -6.0f);
                 this->actionState = 0;
             } else {
-                Animation_Change(&this->skelAnime, &D_06004658, -1.0f, Animation_LastFrame(&D_06004658), 0.0f, 2,
+                Animation_Change(&this->skelAnime, &D_06004658, -1.0f, Animation_GetLastFrame(&D_06004658), 0.0f, 2,
                                  -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0;
@@ -365,7 +365,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistFromLink <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
-            f32 frames = Animation_LastFrame(&D_06004658);
+            f32 frames = Animation_GetLastFrame(&D_06004658);
 
             EnDh_SetupAttack(this);
             Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, frames, 2, -6.0f);

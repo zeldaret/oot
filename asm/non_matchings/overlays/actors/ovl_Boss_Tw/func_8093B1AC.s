@@ -347,7 +347,7 @@ glabel func_8093B1AC
 /* 02964 8093B634 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 02968 8093B638 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 0296C 8093B63C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06003614
-/* 02970 8093B640 0C028800 */  jal     Animation_LastFrame
+/* 02970 8093B640 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02974 8093B644 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06003614
 /* 02978 8093B648 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

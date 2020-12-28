@@ -206,7 +206,7 @@ void func_80AA0A0C(EnMa1* this) {
 }
 
 void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = Animation_LastFrame(D_80AA1678[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(D_80AA1678[idx].animation);
 
     Animation_Change(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08,
                      D_80AA1678[idx].transitionRate);

@@ -45,7 +45,7 @@ glabel func_80B22F28
 /* 002D4 80B22FC4 3C0480B2 */  lui     $a0, %hi(D_80B24380)       ## $a0 = 80B20000
 /* 002D8 80B22FC8 00084880 */  sll     $t1, $t0,  2
 /* 002DC 80B22FCC 00892021 */  addu    $a0, $a0, $t1
-/* 002E0 80B22FD0 0C028800 */  jal     Animation_LastFrame
+/* 002E0 80B22FD0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 002E4 80B22FD4 8C844380 */  lw      $a0, %lo(D_80B24380)($a0)
 /* 002E8 80B22FD8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

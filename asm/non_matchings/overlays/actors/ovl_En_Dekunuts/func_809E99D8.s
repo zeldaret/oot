@@ -45,7 +45,7 @@ glabel func_809E99D8
 
 /* 00518 809E9A78 2405393B */  addiu   $a1, $zero, 0x393B         ## $a1 = 0000393B
 /* 0051C 809E9A7C 3C040600 */  lui     $a0, %hi(D_06000368)                ## $a0 = 06000000
-/* 00520 809E9A80 0C028800 */  jal     Animation_LastFrame
+/* 00520 809E9A80 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00524 809E9A84 24840368 */  addiu   $a0, $a0, %lo(D_06000368)           ## $a0 = 06000368
 /* 00528 809E9A88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

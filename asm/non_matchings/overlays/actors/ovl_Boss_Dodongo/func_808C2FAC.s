@@ -42,7 +42,7 @@ glabel func_808C2FAC
 /* 01E98 808C3028 3C040601 */  lui     $a0, %hi(D_06009D10)                ## $a0 = 06010000
 /* 01E9C 808C302C 55E00015 */  bnel    $t7, $zero, .L808C3084
 /* 01EA0 808C3030 8FBF002C */  lw      $ra, 0x002C($sp)
-/* 01EA4 808C3034 0C028800 */  jal     Animation_LastFrame
+/* 01EA4 808C3034 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01EA8 808C3038 24849D10 */  addiu   $a0, $a0, %lo(D_06009D10)           ## $a0 = 06009D10
 /* 01EAC 808C303C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

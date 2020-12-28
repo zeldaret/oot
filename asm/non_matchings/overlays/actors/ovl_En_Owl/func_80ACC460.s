@@ -16,7 +16,7 @@ glabel func_80ACC460
 /* 02574 80ACC494 8E0F03DC */  lw      $t7, 0x03DC($s0)           ## 000003DC
 /* 02578 80ACC498 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 0257C 80ACC49C A60E03FE */  sh      $t6, 0x03FE($s0)           ## 000003FE
-/* 02580 80ACC4A0 0C028800 */  jal     Animation_LastFrame
+/* 02580 80ACC4A0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 02584 80ACC4A4 8DE40008 */  lw      $a0, 0x0008($t7)           ## 00000008
 /* 02588 80ACC4A8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -38,7 +38,7 @@ glabel func_80ACC460
 /* 025C0 80ACC4E0 3C040601 */  lui     $a0, %hi(D_0600C1C4)                ## $a0 = 06010000
 /* 025C4 80ACC4E4 A61903FE */  sh      $t9, 0x03FE($s0)           ## 000003FE
 /* 025C8 80ACC4E8 AE080410 */  sw      $t0, 0x0410($s0)           ## 00000410
-/* 025CC 80ACC4EC 0C028800 */  jal     Animation_LastFrame
+/* 025CC 80ACC4EC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 025D0 80ACC4F0 2484C1C4 */  addiu   $a0, $a0, %lo(D_0600C1C4)           ## $a0 = 0600C1C4
 /* 025D4 80ACC4F4 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

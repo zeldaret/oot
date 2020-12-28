@@ -598,7 +598,7 @@ void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = Animation_LastFrame(animation);
+    f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -1610,7 +1610,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(objectCtx, bankIndex)) {
         this->unk_274 = bankIndex;
         func_80B4FCCC(this, globalCtx);
-        this->unk_278 = Animation_LastFrame(&D_060022D0);
+        this->unk_278 = Animation_GetLastFrame(&D_060022D0);
         func_80B52114(this, globalCtx);
     }
 }
