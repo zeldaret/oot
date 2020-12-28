@@ -65,26 +65,26 @@ void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
+static s16 sXStarts[] = {
+    -1060, -1200, -1240, -1387, -1580, -1680, -1780,
+};
+static s16 sZStarts[] = {
+    -580, -660, -780, -820, -860, -900, -1087,
+};
+static s16 sZStops[7][2] = {
+    { -580, -1087 }, { -780, -1260 }, { -340, -820 }, { -260, -1260 }, { -340, -860 }, { -660, -1260 }, { -340, -740 },
+};
+static s16 sXStops[7][2] = {
+    { -860, -1580 },  { -1240, -1780 }, { -860, -1680 }, { -860, -1680 },
+    { -1387, -1680 }, { -860, -1200 },  { -860, -1800 },
+};
+
 /*
  * Checks which of the eight possible x and z positions the block is at,
  * defaulting to the maximum x wall or minimum z wall. Each x and z position
  * has only one possible wall or pit on each side of it.
  */
 void BgIceObjects_SetNextTarget(BgIceObjects* this, GlobalContext* globalCtx) {
-    static s16 sXStarts[] = {
-        -1060, -1200, -1240, -1387, -1580, -1680, -1780,
-    };
-    static s16 sZStarts[] = {
-        -580, -660, -780, -820, -860, -900, -1087,
-    };
-    static s16 sZStops[7][2] = {
-        { -580, -1087 }, { -780, -1260 }, { -340, -820 }, { -260, -1260 },
-        { -340, -860 },  { -660, -1260 }, { -340, -740 },
-    };
-    static s16 sXStops[7][2] = {
-        { -860, -1580 },  { -1240, -1780 }, { -860, -1680 }, { -860, -1680 },
-        { -1387, -1680 }, { -860, -1200 },  { -860, -1800 },
-    };
     s16 x16;
     s16 z16 = 0; // needed to match
     s32 i;

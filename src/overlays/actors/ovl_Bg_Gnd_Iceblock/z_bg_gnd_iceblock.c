@@ -10,7 +10,11 @@
 
 #define THIS ((BgGndIceblock*)thisx)
 
-typedef enum { GNDICE_IDLE, GNDICE_FALL, GNDICE_HOLE } BgGndIceblockAction;
+typedef enum {
+    /* 0 */ GNDICE_IDLE,
+    /* 1 */ GNDICE_FALL,
+    /* 2 */ GNDICE_HOLE
+} BgGndIceblockAction;
 
 void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Destroy(BgGndIceblock* this, GlobalContext* globalCtx);
