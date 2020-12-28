@@ -144,7 +144,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
         this->lightBeams[2] = NULL;
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
-    } else { // The "!= 0"s on these have to be here to match
+    } else {
         puzzleSolved = !!(this->puzzleState & 0x18); // In second room or puzzle progress made
 
         if (puzzleSolved) {
