@@ -134,9 +134,9 @@ void BgHidanKowarerukabe_SpawnDust(BgHidanKowarerukabe* this, GlobalContext* glo
 
     func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 1);
 
-    pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.x;
-    pos.y = (Math_Rand_ZeroOne() * 100.0f) + this->dyna.actor.posRot.pos.y;
-    pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.z;
+    pos.x = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.x;
+    pos.y = (Rand_ZeroOne() * 100.0f) + this->dyna.actor.posRot.pos.y;
+    pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.z;
 
     func_80033480(globalCtx, &pos, 100.0f, 4, 200, 250, 1);
 }
@@ -148,8 +148,8 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
     Vec3f pos;
     s16 arg5;
     Actor* thisx = &this->dyna.actor;
-    f32 sin = Math_Sins(thisx->shape.rot.y);
-    f32 cos = Math_Coss(thisx->shape.rot.y);
+    f32 sin = Math_SinS(thisx->shape.rot.y);
+    f32 cos = Math_CosS(thisx->shape.rot.y);
     f32 tmp1;
     f32 tmp2;
     s16 arg9;
@@ -164,14 +164,14 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
             pos.x = (tmp2 * sin) + (tmp1 * cos) + thisx->posRot.pos.x;
             pos.z = (tmp2 * cos) - (tmp1 * sin) + thisx->posRot.pos.z;
 
-            tmp1 = 8.0f * Math_Rand_ZeroOne() * (i - 2);
-            tmp2 = 8.0f * Math_Rand_ZeroOne() * (j - 2);
+            tmp1 = 8.0f * Rand_ZeroOne() * (i - 2);
+            tmp2 = 8.0f * Rand_ZeroOne() * (j - 2);
 
             velocity.x = (tmp2 * sin) + (tmp1 * cos);
-            velocity.y = 30.0f * Math_Rand_ZeroOne();
+            velocity.y = 30.0f * Rand_ZeroOne();
             velocity.z = (tmp2 * cos) - (tmp1 * sin);
 
-            arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
+            arg9 = ((Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
 
             arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
@@ -188,8 +188,8 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 arg5;
     Actor* thisx = &this->dyna.actor;
-    f32 sin = Math_Sins(thisx->shape.rot.y);
-    f32 cos = Math_Coss(thisx->shape.rot.y);
+    f32 sin = Math_SinS(thisx->shape.rot.y);
+    f32 cos = Math_CosS(thisx->shape.rot.y);
     f32 tmp1;
     f32 tmp2;
     s16 arg9;
@@ -202,17 +202,17 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
             pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
             pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
 
-            tmp1 = 3.0f * Math_Rand_ZeroOne() * (j - 2);
-            tmp2 = 6.0f * Math_Rand_ZeroOne();
+            tmp1 = 3.0f * Rand_ZeroOne() * (j - 2);
+            tmp2 = 6.0f * Rand_ZeroOne();
 
             velocity.x = (tmp2 * sin) + (tmp1 * cos);
-            velocity.y = 18.0f * Math_Rand_ZeroOne();
+            velocity.y = 18.0f * Rand_ZeroOne();
             velocity.z = (tmp2 * cos) - (tmp1 * sin);
 
-            arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
+            arg9 = ((Rand_ZeroOne() - 0.5f) * 11.0f * 1.4f) + 11.0f;
             arg5 = (arg9 >= 15) ? 32 : 64;
 
-            if (Math_Rand_ZeroOne() < 5.0f) {
+            if (Rand_ZeroOne() < 5.0f) {
                 arg5 |= 1;
             }
 
@@ -229,8 +229,8 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     Vec3f pos;
     s16 arg5;
     Actor* thisx = &this->dyna.actor;
-    f32 sin = Math_Sins(thisx->shape.rot.y);
-    f32 cos = Math_Coss(thisx->shape.rot.y);
+    f32 sin = Math_SinS(thisx->shape.rot.y);
+    f32 cos = Math_CosS(thisx->shape.rot.y);
     f32 tmp1;
     f32 tmp2;
     s16 arg9;
@@ -243,17 +243,17 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
             pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
             pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
 
-            tmp1 = 6.0f * Math_Rand_ZeroOne() * (j - 2);
-            tmp2 = 6.0f * Math_Rand_ZeroOne();
+            tmp1 = 6.0f * Rand_ZeroOne() * (j - 2);
+            tmp2 = 6.0f * Rand_ZeroOne();
 
             velocity.x = (tmp2 * sin) + (tmp1 * cos);
-            velocity.y = 34.0f * Math_Rand_ZeroOne();
+            velocity.y = 34.0f * Rand_ZeroOne();
             velocity.z = (tmp2 * cos) - (tmp1 * sin);
 
-            arg9 = ((Math_Rand_ZeroOne() - 0.5f) * 14.0f * 1.6f) + 14.0f;
+            arg9 = ((Rand_ZeroOne() - 0.5f) * 14.0f * 1.6f) + 14.0f;
             arg5 = (arg9 > 20) ? 32 : 64;
 
-            if (Math_Rand_ZeroOne() < 5.0f) {
+            if (Rand_ZeroOne() < 5.0f) {
                 arg5 |= 1;
             }
 
