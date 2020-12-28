@@ -323,10 +323,8 @@ void EnBb_FlameTrail(EnBb* this, GlobalContext* globalCtx) {
     } else {
         if (this->timer == 0) {
             if (((EnBb*)this->targetActor)->flameScaleY != 0.0f) {
-                Math_SmoothStepToF(&this->flameScaleY, this->actor.scale.y, 1.0f, this->actor.scale.y * 0.1f,
-                                        0.0f);
-                Math_SmoothStepToF(&this->flameScaleX, this->actor.scale.z, 1.0f, this->actor.scale.z * 0.1f,
-                                        0.0f);
+                Math_SmoothStepToF(&this->flameScaleY, this->actor.scale.y, 1.0f, this->actor.scale.y * 0.1f, 0.0f);
+                Math_SmoothStepToF(&this->flameScaleX, this->actor.scale.z, 1.0f, this->actor.scale.z * 0.1f, 0.0f);
                 if (this->flamePrimAlpha != this->vTrailMaxAlpha) {
                     this->flamePrimAlpha += 10;
                     if (this->vTrailMaxAlpha < this->flamePrimAlpha) {
@@ -448,7 +446,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
     if (this->actor.groundY > -32000.0f) {
         Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
-                                0.0f);
+                           0.0f);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (Math_CosF(this->bobPhase) == 0.0f) {
@@ -924,8 +922,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         }
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 0);
-        Math_SmoothStepToS(&this->actor.shape.rot.x, Math_Vec3f_Pitch(&this->actor.posRot.pos, &nextPos), 1, 0xFA0,
-                                0);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, Math_Vec3f_Pitch(&this->actor.posRot.pos, &nextPos), 1, 0xFA0, 0);
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (Math_CosF(this->bobPhase) <= 0.002f) {
@@ -1230,7 +1227,8 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                         ((globalCtx->gameplayFrames + (this->flameScrollMod * 10)) *
-                                         (-20 - (this->flameScrollMod * -2))) % 0x200,
+                                         (-20 - (this->flameScrollMod * -2))) %
+                                            0x200,
                                         0x20, 0x80));
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, this->flamePrimBlue, this->flamePrimAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->flameEnvColor.r, this->flameEnvColor.g, this->flameEnvColor.b, 0);
