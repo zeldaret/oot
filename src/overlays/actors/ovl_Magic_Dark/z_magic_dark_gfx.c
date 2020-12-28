@@ -2,7 +2,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 static u64 sDiamondTexture[] = {
-    #include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
+#include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
 };
 
 

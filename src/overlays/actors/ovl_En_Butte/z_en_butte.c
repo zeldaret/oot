@@ -216,7 +216,7 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
                                      this->actor.initPosRot.pos.z);
     func_809CD56C(this);
     Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
-                            flightParams->speedXZStep, 0.0f);
+                       flightParams->speedXZStep, 0.0f);
 
     if (this->unk_257 == 1) {
         maxDistSqFromHome = SQ(100.0f);
@@ -290,7 +290,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
     func_809CD634(this);
     Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
-                            flightParams->speedXZStep, 0.0f);
+                       flightParams->speedXZStep, 0.0f);
     minAnimSpeed = 0.0f;
 
     if ((this->flightParamsIdx != 0) && (this->timer < 12)) {
