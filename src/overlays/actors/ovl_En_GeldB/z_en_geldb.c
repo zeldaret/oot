@@ -1180,7 +1180,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     prevKeyFrame = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
 
-    playSpeed = (0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
+    playSpeed = ((void) 0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
@@ -1522,8 +1522,6 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2744);
 }
 
-#ifdef NON_MATCHING
-// regalloc
 s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
     Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
 
@@ -1533,7 +1531,7 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
         f32 dist;
 
         angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.posRot.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
         dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
         //! @bug
         // func_8002DB6C already sqrtfs the distance, so this actually checks for a
@@ -1557,6 +1555,3 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
     }
     return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/EnGeldB_DodgeRanged.s")
-#endif
