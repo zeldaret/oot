@@ -684,7 +684,7 @@ void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
             EnTite_SetupDeathCry(this);
         } else if (this->flipState == TEKTITE_FLIPPED) {
             EnTite_SetupFlipUpright(this);
-        } else if (((300.0f < this->actor.xzDistFromLink) && (80.0f < this->actor.yDistFromLink) &&
+        } else if (((this->actor.xzDistFromLink > 300.0f) && (this->actor.yDistFromLink > 80.0f) &&
                     (ABS(this->actor.shape.rot.x) < 4000) && (ABS(this->actor.shape.rot.z) < 4000)) &&
                    ((this->actor.bgCheckFlags & 1) || (TEKTITE_BLUE && (this->actor.bgCheckFlags & 0x20)))) {
             EnTite_SetupIdle(this);
