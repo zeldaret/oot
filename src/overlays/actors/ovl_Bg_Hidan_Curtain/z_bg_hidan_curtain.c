@@ -43,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 81, 144, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, 0xFF };
+static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, MASS_IMMOBILE };
 
 static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, { 46, 88, 0.055f, 88.0f, 3.0f } };
 

@@ -70,7 +70,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, MASS_IMMOBILE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

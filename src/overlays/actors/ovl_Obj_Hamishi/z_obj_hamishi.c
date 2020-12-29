@@ -36,7 +36,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 50, 70, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 0xC, 0x3C, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOBILE };
 
 static s16 sEffectScales[] = {
     145, 135, 115, 85, 75, 53, 45, 40, 35,

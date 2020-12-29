@@ -53,7 +53,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementInit,
 };
 
-static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, 0xFE };
+static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 extern AnimationHeader D_06002F98;
 extern SkeletonHeader D_06007B20;

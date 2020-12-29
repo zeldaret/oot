@@ -54,7 +54,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
     /* 0x0 */ Vec3s unk_0;

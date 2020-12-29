@@ -58,7 +58,7 @@ static ColliderCylinderInit sHeadColliderInit = {
     { 4, 25, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, 0xFE };
+static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 2500, ICHAIN_CONTINUE),

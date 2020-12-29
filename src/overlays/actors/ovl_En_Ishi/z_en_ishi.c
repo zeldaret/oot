@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInits[] = {
     }
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOBILE };
 
 void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;

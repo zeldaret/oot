@@ -62,7 +62,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };

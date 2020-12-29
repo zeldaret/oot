@@ -62,7 +62,7 @@ static ColliderCylinderInit D_80AD70AC = {
     { 10, 30, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80AD70D8 = { 0x04, 0x0019, 0x0032, 0x28 };
+static CollisionCheckInfoInit D_80AD70D8 = { 4, 25, 50, 40 };
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0 , 0x0),

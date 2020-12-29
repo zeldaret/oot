@@ -159,7 +159,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOBILE };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x060010B4, 1.0f, 0.0f, -1.0f, 0x03, 0.0f },   { 0x06005C64, 1.0f, 0.0f, -1.0f, 0x03, -10.0f },

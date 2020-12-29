@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 36, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOBILE };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -10.0f },
