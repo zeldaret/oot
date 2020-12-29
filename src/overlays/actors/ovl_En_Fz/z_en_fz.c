@@ -9,9 +9,7 @@ void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnFz_RotateTowardsLink(EnFz* this);
 void EnFz_GetCollision(EnFz* this, GlobalContext* globalCtx);
-s32 EnFz_IsCollision(EnFz* this, Vec3f* vec);
 
 // Stationary Freezard
 void EnFz_SetupFreezingStationary(EnFz* this);
@@ -33,10 +31,6 @@ void EnFz_BeingShrinking(EnFz* this);
 void EnFz_Shrinking(EnFz* this, GlobalContext* globalCtx);
 void EnFz_Hidden(EnFz* this);
 
-// Damaged
-void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffects, f32 unk_float);
-void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx);
-
 // Killed with fire source
 void EnFz_SetupMelt(EnFz* this);
 void EnFz_Melt(EnFz* this, GlobalContext* globalCtx);
@@ -46,9 +40,6 @@ void EnFz_SetupDespawn(EnFz* this, GlobalContext* globalCtx);
 void EnFz_Despawn(EnFz* this, GlobalContext* globalCtx);
 
 // Ice Smoke Effects
-void EnFz_SpawnIceSmokeHiddenState(EnFz* this);
-void EnFz_SpawnIceSmokeGrowingState(EnFz* this);
-void EnFz_SpawnIceSmokeActiveState(EnFz* this);
 void EnFz_SetIceSmokeNotFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale);
 void EnFz_SetIceSmokeFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale, f32 xyScaleTarget,
                               s16 primAlpha, u8 isTimerMod8);
@@ -56,8 +47,8 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx);
 void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx);
 
 // Same effects as "z_eff_ss_ice_smoke.h"
-extern Gfx D_060030A0[];
-extern Gfx D_06003158[];
+extern Gfx* D_060030A0[];
+extern Gfx* D_06003158[];
 
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
@@ -104,24 +95,17 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFz* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, &sInitChain);
-
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
-
     Collider_InitCylinder(globalCtx, &this->collider1);
     Collider_SetCylinder_Set3(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
-
     Collider_InitCylinder(globalCtx, &this->collider2);
     Collider_SetCylinder_Set3(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
-
     Collider_InitCylinder(globalCtx, &this->collider3);
     Collider_SetCylinder_Set3(globalCtx, &this->collider3, &this->actor, &sCylinderInit3);
     Actor_SetScale(&this->actor, 0.008f);
-
     this->actor.colChkInfo.mass = 0xFF;
-
     this->actor.flags &= ~1;
-
     this->unusedTimer1 = 0;
     this->unusedCounter = 0;
     this->isAlwaysTrue = true;
@@ -129,19 +113,14 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->isFreezing = false;
     this->isActive = true;
     this->isDespawning = false;
-
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
-
     this->posOrigin.y = this->actor.posRot.pos.y;
     this->IceSmokeFreezingSpawnHeight = this->actor.posRot.pos.y;
-
     this->posOrigin.x = this->actor.posRot.pos.x;
     this->posOrigin.z = this->actor.posRot.pos.z;
-
     this->unusedFloat = 135.0f;
-
     if (this->actor.params < 0) {
         this->envAlpha = 0;
         this->actor.scale.y = 0.0f;
@@ -173,11 +152,9 @@ void EnFz_GetCollision(EnFz* this, GlobalContext* globalCtx) {
     pos.z = this->actor.posRot.pos.z;
     Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
     Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
-
     vec1.x = vec1.y = 0.0f;
     vec1.z = 220.0f;
     Matrix_MultVec3f(&vec1, &this->collisionPos);
-
     // If Collided
     if (func_8003DE84(&globalCtx->colCtx, &pos, &this->collisionPos, &collisionPos, &poly, 1, 0, 0, 1, &bgId)) {
         Math_Vec3f_Copy(&this->collisionPos, &collisionPos);
@@ -189,20 +166,14 @@ void EnFz_GetCollision(EnFz* this, GlobalContext* globalCtx) {
 }
 
 s32 EnFz_IsCollision(EnFz* this, Vec3f* vec) {
-    f32 x_dist;
-    f32 z_dist;
-
-    x_dist = this->actor.posRot.pos.x - vec->x;
-    z_dist = this->actor.posRot.pos.z - vec->z;
-
-    if (this->xzDistSquare <= (SQ(x_dist) + SQ(z_dist))) {
+    if (this->xzDistSquare <= (SQ(this->actor.posRot.pos.x - vec->x) + SQ(this->actor.posRot.pos.z - vec->z))) {
         return true;
     } else {
         return false;
     }
 }
 
-void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffects, f32 unk_float) {
+void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffects, f32 unkFloat) {
     int i;
     Vec3f pos;
     Vec3f vel;
@@ -221,16 +192,15 @@ void EnFz_Damaged(EnFz* this, GlobalContext* globalCtx, Vec3f* vec, s32 numEffec
     envColor.b = 200;
     accel.x = accel.z = 0.0f;
     accel.y = -1.0f;
-
     for (i = 0; i < numEffects; i++) {
-        scale = Math_Rand_CenteredFloat(0.3f) + 0.6f;
-        life = (s32)Math_Rand_CenteredFloat(5.0f) + 12;
-        pos.x = Math_Rand_CenteredFloat(unk_float) + vec->x;
-        pos.y = Math_Rand_ZeroFloat(unk_float) + vec->y;
-        pos.z = Math_Rand_CenteredFloat(unk_float) + vec->z;
-        vel.x = Math_Rand_CenteredFloat(10.0f);
-        vel.y = Math_Rand_ZeroFloat(10.0f) + 2.0f;
-        vel.z = Math_Rand_CenteredFloat(10.0f);
+        scale = Rand_CenteredFloat(0.3f) + 0.6f;
+        life = (s32)Rand_CenteredFloat(5.0f) + 12;
+        pos.x = Rand_CenteredFloat(unkFloat) + vec->x;
+        pos.y = Rand_ZeroFloat(unkFloat) + vec->y;
+        pos.z = Rand_CenteredFloat(unkFloat) + vec->z;
+        vel.x = Rand_CenteredFloat(10.0f);
+        vel.y = Rand_ZeroFloat(10.0f) + 2.0f;
+        vel.z = Rand_CenteredFloat(10.0f);
         EffectSsEnIce_Spawn(globalCtx, &pos, scale, &vel, &accel, &primColor, &envColor, life);
     }
 
@@ -247,13 +217,13 @@ void EnFz_SpawnIceSmokeGrowingState(EnFz* this) {
     Vec3f accel;
 
     if ((this->counter % 16) == 0) {
-        pos.x = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
-        pos.y = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.y + 30.0f;
-        pos.z = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z;
+        pos.x = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
+        pos.y = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.y + 30.0f;
+        pos.z = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z;
         accel.x = accel.z = 0.0f;
         accel.y = 0.1f;
         velocity.x = velocity.y = velocity.z = 0.0f;
-        EnFz_SetIceSmokeNotFreezing(this, &pos, &velocity, &accel, Math_Rand_ZeroFloat(7.5f) + 15.0f);
+        EnFz_SetIceSmokeNotFreezing(this, &pos, &velocity, &accel, Rand_ZeroFloat(7.5f) + 15.0f);
     }
 }
 
@@ -264,13 +234,13 @@ void EnFz_SpawnIceSmokeActiveState(EnFz* this) {
     Vec3f accel;
 
     if ((this->counter % 4) == 0) {
-        pos.x = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
+        pos.x = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
         pos.y = this->IceSmokeFreezingSpawnHeight;
-        pos.z = Math_Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z;
+        pos.z = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z;
         accel.x = accel.z = 0.0f;
         accel.y = 0.1f;
         velocity.x = velocity.y = velocity.z = 0.0f;
-        EnFz_SetIceSmokeNotFreezing(this, &pos, &velocity, &accel, Math_Rand_ZeroFloat(7.5f) + 15.0f);
+        EnFz_SetIceSmokeNotFreezing(this, &pos, &velocity, &accel, Rand_ZeroFloat(7.5f) + 15.0f);
     }
 }
 
@@ -297,7 +267,6 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
             this->collider1.base.acFlags &= ~2;
         } else if (this->collider1.base.acFlags & 2) {
             this->collider1.base.acFlags &= ~2;
-
             if (this->actor.colChkInfo.damageEffect != 2) {
                 if (this->actor.colChkInfo.damageEffect == 0xF) {
                     Actor_ApplyDamage(&this->actor);
@@ -334,7 +303,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
 }
 
 void EnFz_RotateTowardsLink(EnFz* this) {
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 10, 2000, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 10, 2000, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 }
 
@@ -350,7 +319,8 @@ void EnFz_Shrinking(EnFz* this, GlobalContext* globalCtx) {
     if (this->envAlpha > 255) {
         this->envAlpha = 0;
     }
-    if (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.0f, 1.0f, 0.0005f, 0) == 0.0f) {
+
+    if (Math_SmoothStepToF(&this->actor.scale.y, 0.0f, 1.0f, 0.0005f, 0) == 0.0f) {
         EnFz_Hidden(this);
     }
 }
@@ -385,7 +355,8 @@ void EnFz_FinishGrowing(EnFz* this, GlobalContext* globalCtx) {
         if (this->envAlpha > 255) {
             this->envAlpha = 255;
         }
-        if (Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.008f, 1.0f, 0.0005f, 0.0f) == 0.0f) {
+
+        if (Math_SmoothStepToF(&this->actor.scale.y, 0.008f, 1.0f, 0.0005f, 0.0f) == 0.0f) {
             EnFz_SetupWaitingPreFreeze(this);
         }
     }
@@ -417,7 +388,7 @@ void EnFz_MoveTowardsLink(EnFz* this) {
 }
 
 void EnFz_Stop(EnFz* this, GlobalContext* globalCtx) {
-    if ((this->timer == 0) || (this->isMoving == 0)) {
+    if ((this->timer == 0) || !this->isMoving) {
         EnFz_SetupWaitingPostFreeze(this);
     }
 }
@@ -455,11 +426,9 @@ void EnFz_Freezing(EnFz* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         EnFz_BeingShrinking(this);
     } else if (this->timer >= 11) {
-
         isTimerMod8 = false;
         primAlpha = 150;
         func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
-
         if ((this->timer - 10) < 16) { // t < 26
             primAlpha = (this->timer * 10) - 100;
         }
@@ -469,14 +438,11 @@ void EnFz_Freezing(EnFz* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 20.0f;
         pos.z = this->actor.posRot.pos.z;
-
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-
         vec1.x = 0.0f;
         vec1.y = -2.0f;
         vec1.z = 20.0f; // xz velocity
         Matrix_MultVec3f(&vec1, &velocity);
-
         if ((this->timer % 8) == 0) {
             isTimerMod8 = true;
         }
@@ -523,8 +489,7 @@ void EnFz_SetupMelt(EnFz* this) {
 }
 
 void EnFz_Melt(EnFz* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.scale.y, 0.0006f, 0.0002f);
-
+    Math_StepToF(&this->actor.scale.y, 0.0006f, 0.0002f);
     if (this->actor.scale.y < 0.006f) {
         this->actor.scale.x += 0.0004f;
         this->actor.scale.z += 0.0004f;
@@ -559,36 +524,28 @@ void EnFz_FreezingStationary(EnFz* this, GlobalContext* globalCtx) {
     Vec3f accel;
     u8 isTimerMod8;
     s16 primAlpha;
-    s32 counterMod64;
 
     if (this->counter & 0xC0) {
         EnFz_RotateTowardsLink(this);
         EnFz_GetCollision(this, globalCtx);
     } else {
-
         isTimerMod8 = false;
         primAlpha = 150;
         func_8002F974(&this->actor, NA_SE_EN_FREEZAD_BREATH - SFX_FLAG);
-
-        counterMod64 = this->counter & 0x3F;
-        if (counterMod64 >= 48) {
-            primAlpha = 630 - (counterMod64 * 10);
+        if ((this->counter & 0x3F) >= 48) {
+            primAlpha = 630 - ((this->counter & 0x3F) * 10);
         }
 
         accel.x = accel.z = 0.0f;
         accel.y = 0.6f;
-
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 20.0f;
         pos.z = this->actor.posRot.pos.z;
-
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-
         vec1.x = 0.0f;
         vec1.y = -2.0f;
         vec1.z = 20.0f;
         Matrix_MultVec3f(&vec1, &velocity);
-
         if ((this->counter % 8) == 0) {
             isTimerMod8 = true;
         }
@@ -602,6 +559,8 @@ void EnFz_FreezingStationary(EnFz* this, GlobalContext* globalCtx) {
 }
 
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnFz* this = THIS;
+    s32 pad;
     static EnFzSpawnIceSmokeFunc SpawnIceSmoke[] = {
         EnFz_SpawnIceSmokeHiddenState,  // Hiding
         EnFz_SpawnIceSmokeGrowingState, // Fully grown
@@ -609,19 +568,13 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFz_SpawnIceSmokeActiveState,  // melting from fire attack
     };
 
-    EnFz* this = THIS;
-    CollisionCheckContext* colChkCtx;
-
     this->counter++;
-
     if (this->unusedTimer1) {
         this->unusedTimer1--;
     }
-
     if (this->timer) {
         this->timer--;
     }
-
     if (this->unusedTimer2) {
         this->unusedTimer2--;
     }
@@ -629,25 +582,20 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 50.0f);
     EnFz_ApplyDamage(this, globalCtx);
     this->actionFunc(this, globalCtx);
-
     if (this->isDespawning == false) {
         Collider_CylinderUpdate(&this->actor, &this->collider1);
         Collider_CylinderUpdate(&this->actor, &this->collider2);
-
         if (this->isFreezing) {
             if (this->actor.dmgEffectTimer == 0) {
-                colChkCtx = &globalCtx->colChkCtx;
-                CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider1);
-                CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider2);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2);
             }
-
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
         }
     }
 
-    Math_ApproxF(&this->actor.speedXZ, this->speedXZ, 0.2f);
+    Math_StepToF(&this->actor.speedXZ, this->speedXZ, 0.2f);
     Actor_MoveForward(&this->actor);
-
     if (this->isAlwaysTrue) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
     }
@@ -663,18 +611,10 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x06002CA0
     }; // Entire head chipped off     (1 or 2 health)
     EnFz* this = THIS;
-    u32 frames;
+    s32 pad;
     s32 index;
 
     index = (6 - this->actor.colChkInfo.health) >> 1;
-    // 6 - 0
-    // 5 - 0
-    // 4 - 1
-    // 3 - 1
-    // 2 - 2
-    // 1 - 2
-    // 0 - 3
-
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fz.c", 1167);
 
     if (1) {}
@@ -686,8 +626,8 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_8002ED80(&this->actor, globalCtx, 0);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->state.frames & 0x7F, 0x20, 0x20, 1, 0,
-                                    (globalCtx->state.frames * 2) & 0x7F, 0x20, 0x20));
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->state.frames & 0x7F, 32, 32, 1, 0,
+                                    (2 * globalCtx->state.frames) & 0x7F, 32, 32));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fz.c", 1183),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIMITIVE, TEXEL0,
@@ -698,15 +638,12 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fz.c", 1200);
-
     EnFz_DrawIceSmoke(this, globalCtx);
 }
 
 void EnFz_SetIceSmokeNotFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale) {
-    EnFzEffectSsIceSmoke* iceSmoke;
+    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
     s16 i;
-
-    iceSmoke = this->iceSmoke;
 
     for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
         if (iceSmoke->type == 0) {
@@ -726,10 +663,9 @@ void EnFz_SetIceSmokeNotFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f*
 
 void EnFz_SetIceSmokeFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale, f32 xyScaleTarget,
                               s16 primAlpha, u8 isTimerMod8) {
-    EnFzEffectSsIceSmoke* iceSmoke;
+    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
     s16 i;
 
-    iceSmoke = this->iceSmoke;
     for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
         if (iceSmoke->type == 0) {
             iceSmoke->type = 2;
@@ -749,11 +685,9 @@ void EnFz_SetIceSmokeFreezing(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 }
 
 void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
-    EnFzEffectSsIceSmoke* iceSmoke;
+    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
     s16 i;
     Vec3f pos;
-
-    iceSmoke = this->iceSmoke;
 
     for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
         if (iceSmoke->type) {
@@ -764,12 +698,8 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             iceSmoke->velocity.x += iceSmoke->accel.x;
             iceSmoke->velocity.y += iceSmoke->accel.y;
             iceSmoke->velocity.z += iceSmoke->accel.z;
-
-            // Not Freezing
-            if (iceSmoke->type == 1) {
-
-                // Becoming more opaque
-                if (iceSmoke->primAlphaState == 0) {
+            if (iceSmoke->type == 1) { 
+                if (iceSmoke->primAlphaState == 0) { // Becoming more opaque
                     iceSmoke->primAlpha += 10;
                     if (iceSmoke->primAlpha >= 100) {
                         iceSmoke->primAlphaState++;
@@ -782,11 +712,9 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                     }
                 }
             } else if (iceSmoke->type == 2) { // Freezing
-                Math_SmoothScaleMaxF(&iceSmoke->xyScale, iceSmoke->xyScaleTarget, 0.1f,
+                Math_ApproachF(&iceSmoke->xyScale, iceSmoke->xyScaleTarget, 0.1f,
                                      iceSmoke->xyScaleTarget / 10.0f);
-
-                // Becoming more opaque
-                if (iceSmoke->primAlphaState == 0) {
+                if (iceSmoke->primAlphaState == 0) { // Becoming more opaque
                     if (iceSmoke->timer >= 7) {
                         iceSmoke->primAlphaState++;
                     }
@@ -810,7 +738,6 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                 pos.x = iceSmoke->pos.x;
                 pos.y = iceSmoke->pos.y + 10.0f;
                 pos.z = iceSmoke->pos.z;
-
                 // Stop if collision
                 if ((iceSmoke->primAlphaState != 2) && (EnFz_IsCollision(this, &pos))) {
                     iceSmoke->primAlphaState = 2;
@@ -824,43 +751,31 @@ void EnFz_MoveIceSmoke(EnFz* this, GlobalContext* globalCtx) {
 }
 
 void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
-    EnFzEffectSsIceSmoke* iceSmoke;
+    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
     s16 i;
-    GraphicsContext* state;
-    u8 flag;
-
-    state = globalCtx->state.gfxCtx;
-    iceSmoke = this->iceSmoke;
-    flag = 0;
+    GraphicsContext* state = globalCtx->state.gfxCtx;
+    u8 flag = 0;
 
     OPEN_DISPS(state, "../z_en_fz.c", 1384);
-
     func_80093D84(globalCtx->state.gfxCtx);
-
     for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
         if (iceSmoke->type > 0) {
-
             gDPPipeSync(POLY_XLU_DISP++);
-
-            if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_060030A0));
+            if (!flag) {
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_060030A0));
                 flag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, iceSmoke->primAlpha);
-
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (iceSmoke->timer + (i * 3)) * 3,
-                                        (iceSmoke->timer + (i * 3)) * 0xF, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 3 * (iceSmoke->timer + (3 * i)),
+                                       15 * (iceSmoke->timer + (3 * i)), 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(iceSmoke->pos.x, iceSmoke->pos.y, iceSmoke->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
-
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(state, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06003158));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06003158));
         }
         iceSmoke++;
     }

@@ -51,7 +51,6 @@ typedef struct EnFz {
     /* 0x0264 */ Vec3f collisionPos; // Related to collision position
     /* 0x0270 */ f32 xzDistSquare; // xz distance squared, used for collision
     /* 0x0274 */ EnFzEffectSsIceSmoke iceSmoke[40];
-
 } EnFz; // size = 0x0BD4
 
 extern const ActorInit En_Fz_InitVars;
