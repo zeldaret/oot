@@ -10,8 +10,8 @@ typedef void (*EnBwActionFunc)(struct EnBw*, GlobalContext*);
 typedef struct EnBw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTbl[12];
-    /* 0x01D8 */ Vec3s transitionDrawTbl[12];
+    /* 0x0190 */ Vec3s jointTable[12];
+    /* 0x01D8 */ Vec3s morphTable[12];
     /* 0x0220 */ u8 unk_220;
     /* 0x0221 */ u8 unk_221;
     /* 0x0222 */ s16 unk_222;

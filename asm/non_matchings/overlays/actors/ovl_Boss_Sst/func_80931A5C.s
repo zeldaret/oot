@@ -60,7 +60,7 @@ glabel func_80931A5C
 /* 05550 80931B20 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 05554 80931B24 E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 05558 80931B28 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 05558 80931B28 0C02927F */  jal     SkelAnime_Update
               
 /* 0555C 80931B2C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 05560 80931B30 50400041 */  beql    $v0, $zero, .L80931C38     

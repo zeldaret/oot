@@ -101,9 +101,9 @@ void func_809F1C04(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F1C44(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000560);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000560, 0.0f, 0.0f, this->unk_248, 0, -10.0f);
-    this->skelAnime.animCurrentFrame = 8.0f;
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000560);
+    Animation_Change(&this->skelAnime, &D_06000560, 0.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->skelAnime.curFrame = 8.0f;
     this->isSolid = this->unk_23E = 0;
     this->actionFunc = func_809F1CF4;
 }
@@ -111,7 +111,7 @@ void func_809F1C44(EnDntJiji* this, GlobalContext* globalCtx) {
 void func_809F1CF4(EnDntJiji* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk_240 == 1) && (this->actor.xzDistFromLink < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & 0x800)) {
         func_800800F8(globalCtx, 0x8B6, -0x63, &this->actor, 0);
@@ -122,15 +122,15 @@ void func_809F1CF4(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F1DA8(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060012B0);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060012B0, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_060012B0);
+    Animation_Change(&this->skelAnime, &D_060012B0, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = func_809F1E8C;
 }
 
 void func_809F1E8C(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if (this->actor.xzDistFromLink < 150.0f) {
         this->actionFunc = func_809F236C;
@@ -138,17 +138,17 @@ void func_809F1E8C(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F1EFC(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000DF8);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000DF8, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000DF8);
+    Animation_Change(&this->skelAnime, &D_06000DF8, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = func_809F1FE0;
 }
 
 void func_809F1FE0(EnDntJiji* this, GlobalContext* globalCtx) {
-    f32 frame = this->skelAnime.animCurrentFrame;
+    f32 frame = this->skelAnime.curFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_248 <= frame) {
         if (this->unk_23E != 3) {
             this->actionFunc = func_809F2068;
@@ -159,8 +159,8 @@ void func_809F1FE0(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2068(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_060037C0);
+    Animation_Change(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->actor.speedXZ = 1.0f;
     this->isSolid = 1;
     this->unk_25A = 1;
@@ -168,7 +168,7 @@ void func_809F2068(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2118(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x3E8, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
@@ -195,8 +195,8 @@ void func_809F2118(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2254(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000560);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000560, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000560);
+    Animation_Change(&this->skelAnime, &D_06000560, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 0xF, 5, 0x14, -1, 0xA, 0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
@@ -204,12 +204,12 @@ void func_809F2254(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2344(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void func_809F236C(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000944);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000944, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000944);
+    Animation_Change(&this->skelAnime, &D_06000944, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 9, 3, 0xA, -1, 0xA, 0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
 
@@ -225,9 +225,9 @@ void func_809F236C(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F24AC(EnDntJiji* this, GlobalContext* globalCtx) {
-    f32 sp2C = this->skelAnime.animCurrentFrame;
+    f32 sp2C = this->skelAnime.curFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if (this->unk_248 <= sp2C) {
         if (func_8002F194(&this->actor, globalCtx)) {
@@ -239,13 +239,13 @@ void func_809F24AC(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2550(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000BD0);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000BD0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000BD0);
+    Animation_Change(&this->skelAnime, &D_06000BD0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->actionFunc = func_809F25E4;
 }
 
 void func_809F25E4(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8005B1A4(ACTIVE_CAM);
@@ -258,7 +258,7 @@ void func_809F25E4(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F26B0(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_809F2720;
     } else {
@@ -267,7 +267,7 @@ void func_809F26B0(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F2720(EnDntJiji* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         if ((this->unk_254 == 0x79) || (this->unk_254 == 0x7A)) {
             // nut
@@ -310,23 +310,23 @@ void func_809F2720(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void func_809F28DC(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_06000A70);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000A70, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_06000A70);
+    Animation_Change(&this->skelAnime, &D_06000A70, 1.0f, 0.0f, this->unk_248, 2, -10.0f);
     this->actionFunc = func_809F2974;
 }
 
 void func_809F2974(EnDntJiji* this, GlobalContext* globalCtx) {
-    f32 frame = this->skelAnime.animCurrentFrame;
+    f32 frame = this->skelAnime.curFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_248 <= frame) {
         this->actionFunc = func_809F1C44;
     }
 }
 
 void func_809F29E0(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->unk_248 = (f32)SkelAnime_GetFrameCount(&D_060037C0);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
+    this->unk_248 = (f32)Animation_GetLastFrame(&D_060037C0);
+    Animation_Change(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->unk_248, 0, -10.0f);
     this->actor.speedXZ = 2.0f;
     this->isSolid = this->unk_25A = 1;
     this->actionFunc = func_809F2A90;
@@ -336,7 +336,7 @@ void func_809F2A90(EnDntJiji* this, GlobalContext* globalCtx) {
     f32 sp2C;
     f32 sp28;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     sp2C = this->flowerPos.x - this->actor.posRot.pos.x;
     sp28 = this->flowerPos.z - this->actor.posRot.pos.z;
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
@@ -431,7 +431,7 @@ void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Push();
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->eyeState]));
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this);
     Matrix_Pull();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);

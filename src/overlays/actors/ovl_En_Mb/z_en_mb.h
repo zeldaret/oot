@@ -13,8 +13,8 @@ typedef struct EnMb {
     /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ u8 unk_188;
     /* 0x018C */ SkelAnime skelAnime;
-    /* 0x01D0 */ Vec3s limbDrawTable[28];
-    /* 0x0278 */ Vec3s transitionDrawTable[28];
+    /* 0x01D0 */ Vec3s jointTable[28];
+    /* 0x0278 */ Vec3s morphTable[28];
     /* 0x0320 */ s32 unk_320;
     /* 0x0324 */ EnMbActionFunc actionFunc; 
     /* 0x0328 */ s16 unk_328;

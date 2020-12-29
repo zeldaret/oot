@@ -50,7 +50,7 @@ glabel func_80953FC4
 /* 04DAC 8095406C 0C253E19 */  jal     func_8094F864              
 /* 04DB0 80954070 E7A60014 */  swc1    $f6, 0x0014($sp)           
 .L80954074:
-/* 04DB4 80954074 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04DB4 80954074 0C02927F */  jal     SkelAnime_Update
               
 /* 04DB8 80954078 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04DBC 8095407C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
