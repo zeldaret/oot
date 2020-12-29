@@ -713,9 +713,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.bss.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/ovl_Bg_Gnd_Iceblock_reloc.o"
 endseg
 
 beginseg
@@ -900,8 +898,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Objects"
     include "build/src/overlays/actors/ovl_Bg_Ice_Objects/z_bg_ice_objects.o"
-    include "build/data/overlays/actors/z_bg_ice_objects.data.o"
-    include "build/data/overlays/actors/z_bg_ice_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Objects/ovl_Bg_Ice_Objects_reloc.o"
 endseg
 
 beginseg
