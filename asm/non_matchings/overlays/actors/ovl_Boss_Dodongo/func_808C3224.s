@@ -23,7 +23,7 @@ glabel func_808C3224
 /* 020E0 808C3270 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 020E4 808C3274 E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 020E8 808C3278 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 020E8 808C3278 0C02927F */  jal     SkelAnime_Update
               
 /* 020EC 808C327C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 020F0 808C3280 861801DA */  lh      $t8, 0x01DA($s0)           ## 000001DA

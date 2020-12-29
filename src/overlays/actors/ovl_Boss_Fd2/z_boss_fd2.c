@@ -251,9 +251,9 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
 
     osSyncPrintf("UP INIT 1\n");
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600C1D0);
+    Animation_PlayOnce(&this->skelAnime, &D_0600C1D0);
     this->actionFunc = BossFd2_Emerge;
-    this->skelAnime.animPlaybackSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
     temp_rand = Rand_ZeroFloat(8.9f);
     this->actor.posRot.pos.x = sHoleLocations[temp_rand].x;
     this->actor.posRot.pos.z = sHoleLocations[temp_rand].z;
@@ -282,7 +282,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s16 holeTime;
 
     osSyncPrintf("UP 1    mode %d\n", this->actionState);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     osSyncPrintf("UP 1.5 \n");
     switch (this->actionState) {
         case 0:
@@ -325,8 +325,8 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->actionState = 0;
                     this->timers[0] = 10;
                 } else {
-                    this->skelAnime.animPlaybackSpeed = 1.0f;
-                    this->animationLength = SkelAnime_GetFrameCount(&D_0600C1D0.genericHeader);
+                    this->skelAnime.playSpeed = 1.0f;
+                    this->animationLength = Animation_GetLastFrame(&D_0600C1D0);
                     this->actionState = 2;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
                     this->actor.shape.rot.y = this->actor.yawTowardsLink;
@@ -348,7 +348,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                 func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsLink, 2.0f, 0x20);
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
-            if (func_800A56C8(&this->skelAnime, this->animationLength)) {
+            if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
                 BossFd2_SetupIdle(this, globalCtx);
             }
             break;
@@ -362,7 +362,7 @@ void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
     s16 idleTime;
 
     osSyncPrintf("UP INIT 1\n");
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600AE90);
+    Animation_PlayLoop(&this->skelAnime, &D_0600AE90);
     this->actionFunc = BossFd2_Idle;
     health = bossFd->actor.colChkInfo.health;
     if (health == 24) {
@@ -382,16 +382,16 @@ void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
     s16 prevToLink;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     prevToLink = this->turnToLink;
     this->turnToLink = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0, 0);
     osSyncPrintf("SW1 = %d\n", prevToLink);
     osSyncPrintf("SW2 = %d\n", this->turnToLink);
     if ((fabsf(prevToLink) <= 1000.0f) && (1000.0f < fabsf(this->turnToLink))) {
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600AE90, -5.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_0600AE90, -5.0f);
     }
     if ((1000.0f < fabsf(prevToLink)) && (fabsf(this->turnToLink) <= 1000.0f)) {
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600C8EC, -5.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_0600C8EC, -5.0f);
     }
     if (this->timers[0] == 0) {
         if (this->actor.xzDistFromLink < 200.0f) {
@@ -405,9 +405,9 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_SetupBurrow(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
 
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06009194, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06009194, -5.0f);
     this->actionFunc = BossFd2_Burrow;
-    this->animationLength = SkelAnime_GetFrameCount(&D_06009194.genericHeader);
+    this->animationLength = Animation_GetLastFrame(&D_06009194);
     bossFd->timers[4] = 30;
     this->actionState = 0;
 }
@@ -416,8 +416,8 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
 
     if (this->actionState == 0) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        if (func_800A56C8(&this->skelAnime, this->animationLength)) {
+        SkelAnime_Update(&this->skelAnime);
+        if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
             this->actionState = 1;
             this->timers[0] = 25;
         }
@@ -436,9 +436,9 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060073CC, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_060073CC, -5.0f);
     this->actionFunc = BossFd2_BreatheFire;
-    this->animationLength = SkelAnime_GetFrameCount(&D_060073CC.genericHeader);
+    this->animationLength = Animation_GetLastFrame(&D_060073CC);
     this->actionState = 0;
 }
 
@@ -455,17 +455,17 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     f32 temp_x;
     f32 temp_y;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800A56C8(&this->skelAnime, this->animationLength)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
         BossFd2_SetupBurrow(this, globalCtx);
     }
-    if ((25.0f <= this->skelAnime.animCurrentFrame) && (this->skelAnime.animCurrentFrame < 70.0f)) {
-        if (this->skelAnime.animCurrentFrame == 25.0f) {
+    if ((25.0f <= this->skelAnime.curFrame) && (this->skelAnime.curFrame < 70.0f)) {
+        if (this->skelAnime.curFrame == 25.0f) {
             globalCtx->envCtx.unk_D8 = 0.0f;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_FIRE - SFX_FLAG);
-        if (this->skelAnime.animCurrentFrame > 50) {
-            breathOpacity = (70.0f - this->skelAnime.animCurrentFrame) * 12.0f;
+        if (this->skelAnime.curFrame > 50) {
+            breathOpacity = (70.0f - this->skelAnime.curFrame) * 12.0f;
         } else {
             breathOpacity = 255;
         }
@@ -542,25 +542,25 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600B7A4, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_0600B7A4, -5.0f);
     this->actionFunc = BossFd2_ClawSwipe;
-    this->animationLength = SkelAnime_GetFrameCount(&D_0600B7A4.genericHeader);
+    this->animationLength = Animation_GetLastFrame(&D_0600B7A4);
 }
 
 void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800A56C8(&this->skelAnime, 5.0f)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_SW_NAIL);
     }
-    if (func_800A56C8(&this->skelAnime, this->animationLength)) {
+    if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
         BossFd2_SetupBurrow(this, globalCtx);
     }
 }
 
 void BossFd2_SetupVulnerable(BossFd2* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600A31C);
-    this->animationLength = SkelAnime_GetFrameCount(&D_0600A31C.genericHeader);
+    Animation_PlayOnce(&this->skelAnime, &D_0600A31C);
+    this->animationLength = Animation_GetLastFrame(&D_0600A31C);
     this->actionFunc = BossFd2_Vulnerable;
     this->actionState = 0;
 }
@@ -571,13 +571,13 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
 
     this->disableAT = true;
     this->actor.flags |= 0x400;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     switch (this->actionState) {
         case 0:
-            if (func_800A56C8(&this->skelAnime, 13.0f)) {
+            if (Animation_OnFrame(&this->skelAnime, 13.0f)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_MAHI2);
             }
-            if (func_800A56C8(&this->skelAnime, this->animationLength - 3.0f)) {
+            if (Animation_OnFrame(&this->skelAnime, this->animationLength - 3.0f)) {
                 for (i = 0; i < 25; i++) {
                     Vec3f spawnVel;
                     Vec3f spawnAccel = { 0.0f, 0.0f, 0.0f };
@@ -598,8 +598,8 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                 }
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_LAND);
             }
-            if (func_800A56C8(&this->skelAnime, this->animationLength)) {
-                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600A86C, -5.0f);
+            if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
+                Animation_MorphToLoop(&this->skelAnime, &D_0600A86C, -5.0f);
                 this->actionState = 1;
                 this->timers[0] = 60;
             }
@@ -616,8 +616,8 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupDamaged(BossFd2* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06007850);
-    this->animationLength = SkelAnime_GetFrameCount(&D_06007850.genericHeader);
+    Animation_PlayOnce(&this->skelAnime, &D_06007850);
+    this->animationLength = Animation_GetLastFrame(&D_06007850);
     this->actionFunc = BossFd2_Damaged;
     this->actionState = 0;
 }
@@ -625,22 +625,22 @@ void BossFd2_SetupDamaged(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->disableAT = true;
     if (this->actionState == 0) {
-        if (func_800A56C8(&this->skelAnime, this->animationLength)) {
-            SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060089DC);
-            this->animationLength = SkelAnime_GetFrameCount(&D_060089DC.genericHeader);
+        if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
+            Animation_PlayOnce(&this->skelAnime, &D_060089DC);
+            this->animationLength = Animation_GetLastFrame(&D_060089DC);
             this->actionState = 1;
         }
     } else if (this->actionState == 1) {
-        if (func_800A56C8(&this->skelAnime, 6.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
         }
-        if (func_800A56C8(&this->skelAnime, 20.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 20.0f)) {
             bossFd->timers[4] = 30;
         }
-        if (func_800A56C8(&this->skelAnime, this->animationLength)) {
+        if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
             this->actionState = 2;
             this->timers[0] = 25;
         }
@@ -654,8 +654,8 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
-    this->animationLength = SkelAnime_GetFrameCount(&D_060089DC.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
+    this->animationLength = Animation_GetLastFrame(&D_060089DC);
+    Animation_Change(&this->skelAnime, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
     this->actionFunc = BossFd2_Death;
     this->actor.flags &= ~1;
     this->deathState = DEATH_START;
@@ -694,7 +694,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     f32 cameraShake;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    SkelAnime_FrameUpdateMatrix(skelAnime);
+    SkelAnime_Update(skelAnime);
     switch (this->deathState) {
         case DEATH_START:
             this->deathState = DEATH_RETREAT;
@@ -737,7 +737,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
-            Math_ApproachF(&this->skelAnime.animPlaybackSpeed, retreatSpeed, 1.0f, 1.0f);
+            Math_ApproachF(&this->skelAnime.playSpeed, retreatSpeed, 1.0f, 1.0f);
             Matrix_RotateY(((this->actor.yawTowardsLink / (f32)0x8000) * M_PI) + 0.2f, MTXMODE_NEW);
             sp70.x = 0.0f;
             sp70.y = 0.0f;
@@ -752,15 +752,15 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->cameraNextAt.z = this->actor.posRot2.pos.z;
             }
             if (this->timers[0] == 0) {
-                if (func_800A56C8(skelAnime, 20.0f)) {
+                if (Animation_OnFrame(skelAnime, 20.0f)) {
                     bossFd->timers[4] = 60;
                 }
                 if (this->holeCounter >= 100) {
                     this->deathState = DEATH_HANDOFF;
                     this->timers[0] = 50;
                 }
-            } else if (func_800A56C8(skelAnime, 15.0f)) {
-                SkelAnime_ChangeAnimTransitionStop(skelAnime, &D_060089DC, -10.0f);
+            } else if (Animation_OnFrame(skelAnime, 15.0f)) {
+                Animation_MorphToPlayOnce(skelAnime, &D_060089DC, -10.0f);
             }
             break;
         case DEATH_HANDOFF:
@@ -1243,7 +1243,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                          BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
         POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);

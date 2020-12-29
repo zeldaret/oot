@@ -6,7 +6,7 @@ glabel func_80AFA880
 /* 00170 80AFA890 24A5139C */  addiu   $a1, $a1, %lo(D_0600139C)           ## $a1 = 0600139C
 /* 00174 80AFA894 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 00178 80AFA898 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 0017C 80AFA89C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 0017C 80AFA89C 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 00180 80AFA8A0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00184 80AFA8A4 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
 /* 00188 80AFA8A8 0C01DF64 */  jal     Rand_S16Offset

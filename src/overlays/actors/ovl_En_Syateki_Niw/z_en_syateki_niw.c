@@ -62,8 +62,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                       this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -200,7 +199,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
@@ -320,8 +319,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
-                                0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z, 0);
         Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -339,7 +337,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
     this->unk_2B0.z = 6000.0f;
@@ -466,11 +464,11 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.posRot.rot.y,
-                            (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
-                                              player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
-                                  10430.378f) +
-                                phi_f16,
-                            5, this->unk_2C8.y, 0);
+                       (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
+                                          player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
+                             10430.378f) +
+                           phi_f16,
+                       5, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
     if (this->unk_296 == 2) {
         this->unk_256 = 10;
@@ -681,7 +679,7 @@ s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         rot->z += (s16)this->unk_2A4.x;
     }
 
-    return 0;
+    return false;
 }
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -694,7 +692,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);

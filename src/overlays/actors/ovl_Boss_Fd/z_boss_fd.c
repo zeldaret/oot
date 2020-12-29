@@ -349,9 +349,9 @@ s32 BossFd_IsFacingLink(BossFd* this) {
 }
 
 void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeHead, &D_060115E4);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeRightArm, &D_06011524);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnimeLeftArm, &D_06011464);
+    Animation_PlayOnce(&this->skelAnimeHead, &D_060115E4);
+    Animation_PlayOnce(&this->skelAnimeRightArm, &D_06011524);
+    Animation_PlayOnce(&this->skelAnimeLeftArm, &D_06011464);
     this->actionFunc = BossFd_Fly;
     this->maxTurnRate = 1000.0f;
 }
@@ -388,9 +388,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 temp_z;
     s32 pad19C;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnimeHead);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnimeRightArm);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnimeLeftArm);
+    SkelAnime_Update(&this->skelAnimeHead);
+    SkelAnime_Update(&this->skelAnimeRightArm);
+    SkelAnime_Update(&this->skelAnimeLeftArm);
     dx = this->targetPosition.x - this->actor.posRot.pos.x;
     dy = this->targetPosition.y - this->actor.posRot.pos.y;
     dz = this->targetPosition.z - this->actor.posRot.pos.z;
@@ -1953,7 +1953,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(-13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnimeRightArm.skeleton, this->skelAnimeRightArm.limbDrawTbl,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeRightArm.skeleton, this->skelAnimeRightArm.jointTable,
                       BossFd_OverrideRightArmDraw, NULL, this);
     Matrix_Pull();
     osSyncPrintf("RH\n");
@@ -1965,7 +1965,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnimeLeftArm.skeleton, this->skelAnimeLeftArm.limbDrawTbl,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeLeftArm.skeleton, this->skelAnimeLeftArm.jointTable,
                       BossFd_OverrideLeftArmDraw, NULL, this);
     Matrix_Pull();
     osSyncPrintf("BD\n");
@@ -2052,7 +2052,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Pull();
     osSyncPrintf("BHCE\n");
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnimeHead.skeleton, this->skelAnimeHead.limbDrawTbl, BossFd_OverrideHeadDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnimeHead.skeleton, this->skelAnimeHead.jointTable, BossFd_OverrideHeadDraw,
                       BossFd_PostHeadDraw, &this->actor);
     osSyncPrintf("SK\n");
     {

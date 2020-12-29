@@ -3160,9 +3160,6 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
-#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
-
 /*
  * Determines if the line segment connecting itemPos and itemProjPos intersects the side of a cylinder with the given
  * radius, height, and offset at actorPos. Returns 3 if either endpoint is inside the cylinder, otherwise returns the
@@ -3174,18 +3171,18 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     Vec3f actorToItem;
     Vec3f actorToItemProj;
     Vec3f itemStep;
-    f32 sp50;
-    f32 sp4C;
-    u32 phi_v0;
-    u32 phi_v1;
-    u32 phi_a1;
-    u32 phi_a2;
-    f32 sp38;
-    f32 temp_f14;
-    f32 temp_f2;
+    f32 frac1;
+    f32 frac2;
+    u32 intersect2;
+    u32 intersect1;
+    u32 test1;
+    u32 test2;
+    f32 radSqDiff;
+    f32 actorDotItemXZ;
     f32 zero = 0.0f;
-    f32 temp_f0;
-    f32 pad;
+    f32 closeDist;
+    s32 pad1;
+    s32 pad2;
 
     actorToItem.x = itemPos->x - actorPos->x;
     actorToItem.y = itemPos->y - actorPos->y - offset;
@@ -3199,54 +3196,51 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     itemStep.y = actorToItemProj.y - actorToItem.y;
     itemStep.z = actorToItemProj.z - actorToItem.z;
 
-    if ((actorToItem.y > 0.0f) && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
+    if ((actorToItem.y > 0.0f) && (actorToItem.y < height) && (sqrtf(SQXZ(actorToItem)) < radius)) {
         return 3;
     }
 
-    if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) &&
-        (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)) {
+    if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) && (sqrtf(SQXZ(actorToItemProj)) < radius)) {
         return 3;
     }
-    sp38 = SQXZ(actorToItem) - SQ(radius);
-    temp_f2 = SQXZ(itemStep);
-    if (!IS_ZERO(temp_f2)) {
-        temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
-        if (SQ(temp_f14) < (4.0f * temp_f2) * sp38) {
+    radSqDiff = SQXZ(actorToItem) - SQ(radius);
+    if (!IS_ZERO(SQXZ(itemStep))) {
+        actorDotItemXZ = DOTXZ(2.0f * itemStep, actorToItem);
+        if (SQ(actorDotItemXZ) < (4.0f * SQXZ(itemStep) * radSqDiff)) {
             return 0;
         }
-        if (SQ(temp_f14) - ((4.0f * temp_f2) * sp38) > zero) {
-            phi_v1 = phi_v0 = 1;
+        if (SQ(actorDotItemXZ) - (4.0f * SQXZ(itemStep) * radSqDiff) > zero) {
+            intersect1 = intersect2 = 1;
         } else {
-            phi_v1 = 1;
-            phi_v0 = 0;
+            intersect1 = 1;
+            intersect2 = 0;
         }
-        temp_f0 = sqrtf(SQ(temp_f14) - (4.0f * temp_f2) * sp38);
-        if (phi_v1 == 1) {
-            sp50 = (temp_f0 - temp_f14) / (2.0f * temp_f2);
+        closeDist = sqrtf(SQ(actorDotItemXZ) - (4.0f * SQXZ(itemStep) * radSqDiff));
+        if (intersect1 == 1) {
+            frac1 = (closeDist - actorDotItemXZ) / (2.0f * SQXZ(itemStep));
         }
-        if (phi_v0 == 1) {
-            sp4C = (-temp_f14 - temp_f0) / (2.0f * temp_f2);
+        if (intersect2 == 1) {
+            frac2 = (-actorDotItemXZ - closeDist) / (2.0f * SQXZ(itemStep));
         }
-
     } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
-        phi_v1 = 1;
-        phi_v0 = 0;
-        sp50 = -sp38 / DOTXZ(2.0f * itemStep, actorToItem);
+        intersect1 = 1;
+        intersect2 = 0;
+        frac1 = -radSqDiff / DOTXZ(2.0f * itemStep, actorToItem);
     } else {
-        if (sp38 <= 0.0f) {
-            phi_a1 = (0.0f < actorToItem.y) && (actorToItem.y < height);
-            phi_a2 = (0.0f < actorToItemProj.y) && (actorToItemProj.y < height);
+        if (radSqDiff <= 0.0f) {
+            test1 = (0.0f < actorToItem.y) && (actorToItem.y < height);
+            test2 = (0.0f < actorToItemProj.y) && (actorToItemProj.y < height);
 
-            if (phi_a1 && phi_a2) {
+            if (test1 && test2) {
                 *out1 = actorToItem;
                 *out2 = actorToItemProj;
                 return 2;
             }
-            if (phi_a1) {
+            if (test1) {
                 *out1 = actorToItem;
                 return 1;
             }
-            if (phi_a2) {
+            if (test2) {
                 *out1 = actorToItemProj;
                 return 1;
             }
@@ -3254,57 +3248,56 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
         return 0;
     }
 
-    if (phi_v0 == 0) {
-        if (sp50 < 0.0f || 1.0f < sp50) {
+    if (intersect2 == 0) {
+        if (frac1 < 0.0f || 1.0f < frac1) {
             return 0;
         }
     } else {
-        phi_a1 = (sp50 < 0.0f || 1.0f < sp50);
-        phi_a2 = (sp4C < 0.0f || 1.0f < sp4C);
+        test1 = (frac1 < 0.0f || 1.0f < frac1);
+        test2 = (frac2 < 0.0f || 1.0f < frac2);
 
-        if (phi_a1 && phi_a2) {
+        if (test1 && test2) {
             return 0;
         }
-        if (phi_a1) {
-            phi_v1 = 0;
+        if (test1) {
+            intersect1 = 0;
         }
-        if (phi_a2) {
-            phi_v0 = 0;
+        if (test2) {
+            intersect2 = 0;
         }
     }
 
-    if ((phi_v1 == 1) && ((sp50 * itemStep.y + actorToItem.y < 0.0f) || (height < sp50 * itemStep.y + actorToItem.y))) {
-        phi_v1 = 0;
+    if ((intersect1 == 1) &&
+        ((frac1 * itemStep.y + actorToItem.y < 0.0f) || (height < frac1 * itemStep.y + actorToItem.y))) {
+        intersect1 = 0;
     }
-    if ((phi_v0 == 1) && ((sp4C * itemStep.y + actorToItem.y < 0.0f) || (height < sp4C * itemStep.y + actorToItem.y))) {
-        phi_v0 = 0;
+    if ((intersect2 == 1) &&
+        ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
+        intersect2 = 0;
     }
-    if (phi_v1 == 0 && phi_v0 == 0) {
+    if (intersect1 == 0 && intersect2 == 0) {
         return 0;
-    } else if ((phi_v1 == 1) && (phi_v0 == 1)) {
-        out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
-        out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
-        out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
-        out2->x = sp4C * itemStep.x + actorToItem.x + actorPos->x;
-        out2->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
-        out2->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
+    } else if ((intersect1 == 1) && (intersect2 == 1)) {
+        out1->x = frac1 * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = frac1 * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = frac1 * itemStep.z + actorToItem.z + actorPos->z;
+        out2->x = frac2 * itemStep.x + actorToItem.x + actorPos->x;
+        out2->y = frac2 * itemStep.y + actorToItem.y + actorPos->y;
+        out2->z = frac2 * itemStep.z + actorToItem.z + actorPos->z;
         return 2;
-    } else if (phi_v1 == 1) {
-        out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
-        out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
-        out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
+    } else if (intersect1 == 1) {
+        out1->x = frac1 * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = frac1 * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = frac1 * itemStep.z + actorToItem.z + actorPos->z;
         return 1;
-    } else if (phi_v0 == 1) {
-        out1->x = sp4C * itemStep.x + actorToItem.x + actorPos->x;
-        out1->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
-        out1->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
+    } else if (intersect2 == 1) {
+        out1->x = frac2 * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = frac2 * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = frac2 * itemStep.z + actorToItem.z + actorPos->z;
         return 1;
     }
     return 1;
 }
-
-#undef SQXZ
-#undef DOTXZ
 
 s32 func_800635D0(s32 arg0) {
     s32 result;
