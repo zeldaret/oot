@@ -29,13 +29,22 @@ const ActorInit Magic_Fire_InitVars = {
 };
 
 static ColliderCylinderInit D_80B8AF50 = {
-    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0,
-      { 0x00020000, 0x00, 0x01 },
-      { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NONE,
-      BUMP_OFF,
-      OCELEM_OFF, },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_PLAYER,
+        AC_OFF,
+        OC_OFF,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00020000, 0x00, 0x01 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_OFF,
+        OCELEM_OFF,
+    },
     { 9, 9, 0, { 0, 0, 0 } },
 };
 */

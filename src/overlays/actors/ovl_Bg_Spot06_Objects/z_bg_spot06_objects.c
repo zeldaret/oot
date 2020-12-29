@@ -32,18 +32,27 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
 
 static ColliderJntSphElementInit D_808AF930[1] = {
     {
-        { ELEMTYPE_UNK0,
-          { 0x00000000, 0x00, 0x00 },
-          { 0x00000080, 0x00, 0x00 },
-          TOUCH_OFF,
-          BUMP_ON | BUMP_HOOKABLE,
-          OCELEM_ON, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000080, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 1, { { 0, 0, -160 }, 18 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_808AF954 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_JNTSPH, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE2,
+        COLSHAPE_JNTSPH,
+    },
     1,
     D_808AF930,
 };

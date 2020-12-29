@@ -30,17 +30,38 @@ const ActorInit Bg_Ydan_Sp_InitVars = {
 
 static ColliderTrisElementInit D_808C0930[2] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00020800, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, -75.0f } } },
     },
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00020800, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 140.0f, 288.79998779296875f, 0.0f }, { -140.0f, 288.0f, 0.0f }, { -140.0f, 0.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit D_808C09A8 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_TRIS,
+    },
     2,
     D_808C0930,
 };

@@ -27,36 +27,68 @@ const ActorInit En_Horse_InitVars = {
 };
 
 static ColliderCylinderInit D_80A65EAC = {
-    { COLTYPE_NONE, AT_OFF | AT_PLAYER, AC_OFF, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0,
-      { 0x00000400, 0x00, 0x04 },
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NONE,
-      BUMP_OFF,
-      OCELEM_ON, },
+    {
+        COLTYPE_NONE,
+        AT_OFF | AT_PLAYER,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        OT_TYPE1 | OT_UNK1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000400, 0x00, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_80A65ED8 = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        OT_TYPE1 | OT_UNK1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
 static ColliderJntSphElementInit D_80A65F04[1] = {
     {
-        { ELEMTYPE_UNK0,
-          { 0x00000000, 0x00, 0x00 },
-          { 0x0001F824, 0x00, 0x00 },
-          TOUCH_OFF,
-          BUMP_ON |  BUMP_NO_AT_INFO  |  BUMP_NO_DAMAGE  |  BUMP_NO_SWORD_SFX  | BUMP_NO_HITMARK,
-          OCELEM_ON, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F824, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            OCELEM_ON,
+        },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80A65F28 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1 | OT_UNK1,
+        COLSHAPE_JNTSPH,
+    },
     1,
     D_80A65F04,
 };

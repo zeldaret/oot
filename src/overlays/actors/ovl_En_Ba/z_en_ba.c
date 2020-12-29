@@ -33,22 +33,38 @@ const ActorInit En_Ba_InitVars = {
 
 static ColliderJntSphElementInit D_809B808C[2] = {
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000010, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000010, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { 8, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0,
-          { 0x20000000, 0x00, 0x04 },
-          { 0x00000000, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_NORMAL,
-          BUMP_OFF,
-          OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 13, { { 0, 0, 0 }, 25 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_809B80D4 = {
-    { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_JNTSPH, },
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_JNTSPH,
+    },
     2,
     D_809B808C,
 };

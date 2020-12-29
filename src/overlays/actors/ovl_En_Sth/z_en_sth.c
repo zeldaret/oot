@@ -22,8 +22,22 @@ const ActorInit En_Sth_InitVars = {
 };
 
 static ColliderCylinderInit D_80B0B404 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_ENEMY, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_ENEMY,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 */

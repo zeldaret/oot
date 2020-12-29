@@ -23,24 +23,42 @@ const ActorInit En_Clear_Tag_InitVars = {
 };
 
 static ColliderCylinderInit D_809D5C6C = {
-    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x04 },
-      { 0xFFDFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_ON,
-      OCELEM_ON, },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFDFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 15, 30, 10, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_809D5C40 = {
-    { COLTYPE_HIT3, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x04 },
-      { 0xFFDFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_ON,
-      OCELEM_ON, },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFDFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 15, 30, 10, { 0, 0, 0 } },
 };
 */

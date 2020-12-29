@@ -33,8 +33,22 @@ const ActorInit Obj_Kibako2_InitVars = {
 };
 
 static ColliderCylinderInit D_80B95FD0 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x40000040, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 31, 48, 0, { 0, 0, 0 } },
 };
 */

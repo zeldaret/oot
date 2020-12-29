@@ -31,8 +31,22 @@ const ActorInit Item_Shield_InitVars = {
 };
 
 static ColliderCylinderInit D_80B871A0 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON, },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000004, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 15, 15, 0, { 0, 0, 0 } },
 };
 */

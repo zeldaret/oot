@@ -32,42 +32,93 @@ const ActorInit En_Dekubaba_InitVars = {
 
 static ColliderJntSphElementInit D_809E8ECC[7] = {
     {
-        { ELEMTYPE_UNK0,
-          { 0xFFCFFFFF, 0x00, 0x08 },
-          { 0xFFCFFFFF, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_HARD,
-          BUMP_ON,
-          OCELEM_ON, },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 1, { { 0, 100, 1000 }, 15 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_ON,
+        },
         { 51, { { 0, 0, 1500 }, 8 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 52, { { 0, 0, 500 }, 8 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 53, { { 0, 0, 1500 }, 8 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 54, { { 0, 0, 500 }, 8 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 55, { { 0, 0, 1500 }, 8 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_OFF, },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 56, { { 0, 0, 500 }, 8 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_809E8FC8 = {
-    { COLTYPE_HIT6, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH, },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_JNTSPH,
+    },
     7,
     D_809E8ECC,
 };
