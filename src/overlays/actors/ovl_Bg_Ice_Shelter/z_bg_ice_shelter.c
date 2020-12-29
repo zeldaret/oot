@@ -29,7 +29,7 @@ const ActorInit Bg_Ice_Shelter_InitVars = {
 };
 
 static ColliderCylinderInit D_8089170C = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_BOMB, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_OTHER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 0, 0, 0, { 0, 0, 0 } },
 };

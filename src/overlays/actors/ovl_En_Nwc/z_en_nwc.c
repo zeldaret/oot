@@ -54,7 +54,7 @@ static ColliderJntSphElementInit sJntSphElementInit = {
     { 0, { { 0, 0, 0 }, 10 }, 100 },
 };
 
-static ColliderJntSphInit_Set3 sJntSphInit = {
+static ColliderJntSphInitType1 sJntSphInit = {
     { COLTYPE_HIT3, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_JNTSPH },
     16,
     NULL,
@@ -208,7 +208,7 @@ void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSphAlloc_Set3(globalCtx, &this->collider, &this->actor, &sJntSphInit);
+    Collider_SetJntSphAllocType1(globalCtx, &this->collider, &this->actor, &sJntSphInit);
     this->count = 16;
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {

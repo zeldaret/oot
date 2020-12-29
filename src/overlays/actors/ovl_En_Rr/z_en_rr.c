@@ -83,7 +83,7 @@ static char* sDropNames[] = {
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit1 = {
+static ColliderCylinderInitType1 sCylinderInit1 = {
     { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
@@ -94,7 +94,7 @@ static ColliderCylinderInit_Set3 sCylinderInit1 = {
     { 30, 55, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit2 = {
+static ColliderCylinderInitType1 sCylinderInit2 = {
     { COLTYPE_NONE, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_NO_PUSH | OC_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
@@ -125,9 +125,9 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider1);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
+    Collider_SetCylinderType1(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
     Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
+    Collider_SetCylinderType1(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
     Actor_SetHeight(&this->actor, 30.0f);
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;

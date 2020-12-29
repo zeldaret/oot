@@ -33,7 +33,7 @@ const ActorInit En_Ms_InitVars = {
     (ActorFunc)EnMs_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 22, 37, 0, { 0 } },
@@ -78,7 +78,7 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
                        9);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, this, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, this, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 

@@ -78,7 +78,7 @@ extern AnimationHeader D_06005614; // crossed legs, looking behind to the right
 extern Gfx D_06013158[];
 extern UNK_TYPE D_0600D8E8;
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -138,7 +138,7 @@ void EnNb_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, thisx, &sCylinderInit);
 }
 
 void EnNb_UpdateCollider(EnNb* this, GlobalContext* globalCtx) {

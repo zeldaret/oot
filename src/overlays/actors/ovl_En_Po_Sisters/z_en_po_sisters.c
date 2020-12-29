@@ -173,7 +173,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.base.ocFlags = OC_ON | OC_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
-            this->actor.flags &= -0x4201;
+            this->actor.flags &= ~0x00004200;
             this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dmgFlags |= 1;
             this->collider.base.ocFlags = OC_OFF;
@@ -704,7 +704,7 @@ void func_80ADAD54(EnPoSisters* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->unk_22E.a = 0;
-        this->collider.info.bumper.dmgFlags = 0x60001;
+        this->collider.info.bumper.dmgFlags = 0x00060001;
         func_80AD93C4(this);
     } else {
         animFrameCount = this->skelAnime.animFrameCount;

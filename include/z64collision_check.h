@@ -31,13 +31,13 @@ typedef struct ColliderInit {
     /* 0x05 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInit; // size = 0x06
 
-typedef struct ColliderInit_Set3 {
+typedef struct ColliderInitType1 {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x03 */ u8 ocFlags; // Information flags for OC collisions.
     /* 0x04 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
-} ColliderInit_Set3; // size = 0x05
+} ColliderInitType1; // size = 0x05
 
 typedef struct ColliderInitToActor {
     /* 0x00 */ struct Actor* actor;
@@ -123,11 +123,11 @@ typedef struct ColliderJntSphInit {
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInit; // size = 0x10
 
-typedef struct ColliderJntSphInit_Set3 {
-    /* 0x00 */ ColliderInit_Set3 base;
+typedef struct ColliderJntSphInitType1 {
+    /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
-} ColliderJntSphInit_Set3; // size = 0x10
+} ColliderJntSphInitType1; // size = 0x10
 
 typedef struct ColliderJntSphInitToActor {
     /* 0x00 */ ColliderInitToActor base;
@@ -147,11 +147,11 @@ typedef struct ColliderCylinderInit {
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit; // size = 0x2C
 
-typedef struct ColliderCylinderInit_Set3 {
-    /* 0x00 */ ColliderInit_Set3 base;
+typedef struct ColliderCylinderInitType1 {
+    /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ Cylinder16 dim;
-} ColliderCylinderInit_Set3; // size = 0x2C
+} ColliderCylinderInitType1; // size = 0x2C
 
 typedef struct ColliderCylinderInitToActor {
     /* 0x00 */ ColliderInitToActor base;
@@ -185,11 +185,11 @@ typedef struct ColliderTrisInit {
     /* 0x0C */ ColliderTrisElementInit* elements;
 } ColliderTrisInit; // size = 0x10
 
-typedef struct ColliderTrisInit_Set3 {
-    /* 0x00 */ ColliderInit_Set3 base;
+typedef struct ColliderTrisInitType1 {
+    /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisElementInit* elements;
-} ColliderTrisInit_Set3; // size = 0x10
+} ColliderTrisInitType1; // size = 0x10
 
 typedef struct ColliderQuadDim {
     /* 0x00 */ Vec3f quad[4];
@@ -219,11 +219,11 @@ typedef struct ColliderQuadInit {
     /* 0x20 */ ColliderQuadDimInit dim;
 } ColliderQuadInit; // size = 0x50
 
-typedef struct ColliderQuadInit_Set3 {
-    /* 0x00 */ ColliderInit_Set3 base;
+typedef struct ColliderQuadInitType1 {
+    /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ ColliderQuadDimInit dim;
-} ColliderQuadInit_Set3; // size = 0x50
+} ColliderQuadInitType1; // size = 0x50
 
 typedef struct OcLine {
     /* 0x00 */ Linef line;
@@ -278,10 +278,10 @@ typedef enum ElementType {
 #define AT_BOUNCED (1 << 2) // Had an AT collision with an AC_HARD collider
 #define AT_PLAYER (1 << 3) // Has player-aligned damage
 #define AT_ENEMY (1 << 4) // Has enemy-aligned damage
-#define AT_BOMB (1 << 5) // Has bomb-aligned damage
+#define AT_OTHER (1 << 5) // Has non-aligned damage
 #define AT_SELF (1 << 6) // Can have AT collisions with colliders attached to the same actor
 #define AT_UNK7 (1 << 7) // Apparently unused
-#define AT_ALL (AT_PLAYER | AT_ENEMY | AT_BOMB) // Has all three damage alignments
+#define AT_ALL (AT_PLAYER | AT_ENEMY | AT_OTHER) // Has all three damage alignments
 
 #define AC_OFF 0 // Cannot have AC collisions when set as AC
 #define AC_ON (1 << 0) // Can have AC collisions when set as AC
@@ -289,10 +289,10 @@ typedef enum ElementType {
 #define AC_HARD (1 << 2) // Causes AT colliders to bounce off it
 #define AC_PLAYER (1 << 3) // Takes player-aligned damage
 #define AC_ENEMY (1 << 4) // Takes enemy-aligned damage
-#define AC_BOMB (1 << 5) // Takes bomb-aligned damage
+#define AC_OTHER (1 << 5) // Takes non-aligned damage
 #define AC_NO_DAMAGE (1 << 6) // Collider does not take damage
 #define AC_BOUNCED (1 << 7) // Caused an AT collider to bounce off it
-#define AC_ALL (AC_PLAYER | AC_ENEMY | AC_BOMB) // Takes damage from all three alignments
+#define AC_ALL (AC_PLAYER | AC_ENEMY | AC_OTHER) // Takes damage from all three alignments
 
 #define OC_OFF 0 // Cannot have OC collisions when set as OC
 #define OC_ON (1 << 0) // Can have OC collisions when set as OC
@@ -349,5 +349,51 @@ typedef enum ElementType {
 
 #define OCLINE_NONE 0 // Did not have an OcLine collision
 #define OCLINE_HIT (1 << 0) // Had an OcLine collision
+
+#define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
+
+// These flags are not to be used in code until we figure out how we want to format them. They are only here for reference 
+#define DAMAGE_DEKU_NUT     (1 << 0x00)
+#define DAMAGE_DEKU_STICK   (1 << 0x01)
+#define DAMAGE_SLINGSHOT    (1 << 0x02)
+#define DAMAGE_EXPLOSIVE    (1 << 0x03)
+#define DAMAGE_BOOMERANG    (1 << 0x04)
+#define DAMAGE_NORMAL_ARROW (1 << 0x05)
+#define DAMAGE_HAMMER_SWING (1 << 0x06)
+#define DAMAGE_HOOKSHOT     (1 << 0x07)
+#define DAMAGE_KOKIRI_SLASH (1 << 0x08)
+#define DAMAGE_MASTER_SLASH (1 << 0x09)
+#define DAMAGE_GIANT_SLASH  (1 << 0x0A)
+#define DAMAGE_FIRE_ARROW   (1 << 0x0B)
+#define DAMAGE_ICE_ARROW    (1 << 0x0C)
+#define DAMAGE_LIGHT_ARROW  (1 << 0x0D)
+#define DAMAGE_WIND_ARROW   (1 << 0x0E)
+#define DAMAGE_SHADOW_ARROW (1 << 0x0F)
+#define DAMAGE_SPIRIT_ARROW (1 << 0x10)
+#define DAMAGE_FIRE_MAGIC   (1 << 0x11)
+#define DAMAGE_ICE_MAGIC    (1 << 0x12)
+#define DAMAGE_LIGHT_MAGIC  (1 << 0x13)
+#define DAMAGE_SHIELD       (1 << 0x14)
+#define DAMAGE_MIR_RAY      (1 << 0x15)
+#define DAMAGE_KOKIRI_SPIN  (1 << 0x16)
+#define DAMAGE_GIANT_SPIN   (1 << 0x17)
+#define DAMAGE_MASTER_SPIN  (1 << 0x18)
+#define DAMAGE_KOKIRI_JUMP  (1 << 0x19)
+#define DAMAGE_GIANT_JUMP   (1 << 0x1A)
+#define DAMAGE_MASTER_JUMP  (1 << 0x1B)
+#define DAMAGE_UNKNOWN_1    (1 << 0x1C)
+#define DAMAGE_UNBLOCKABLE  (1 << 0x1D)
+#define DAMAGE_HAMMER_JUMP  (1 << 0x1E)
+#define DAMAGE_UNKNOWN_2    (1 << 0x1F)
+
+#define DAMAGE_SLASH (DAMAGE_KOKIRI_SLASH | DAMAGE_MASTER_SLASH | DAMAGE_GIANT_SLASH)
+#define DAMAGE_SPIN_ATTACK (DAMAGE_KOKIRI_SPIN | DAMAGE_MASTER_SPIN | DAMAGE_GIANT_SPIN)
+#define DAMAGE_JUMP_SLASH (DAMAGE_KOKIRI_JUMP | DAMAGE_MASTER_JUMP | DAMAGE_GIANT_JUMP)
+#define DAMAGE_SWORD (DAMAGE_SLASH | DAMAGE_SPIN_ATTACK | DAMAGE_JUMP_SLASH)
+#define DAMAGE_HAMMER (DAMAGE_HAMMER_SWING | DAMAGE_HAMMER_JUMP)
+#define DAMAGE_FIRE (DAMAGE_FIRE_ARROW | DAMAGE_FIRE_MAGIC)
+#define DAMAGE_ARROW (DAMAGE_NORMAL_ARROW | DAMAGE_FIRE_ARROW | DAMAGE_ICE_ARROW | DAMAGE_LIGHT_ARROW | DAMAGE_UNK_ARROW_1 | DAMAGE_UNK_ARROW_2 | DAMAGE_UNK_ARROW_3)
+#define DAMAGE_RANGED (DAMAGE_ARROW | DAMAGE_HOOKSHOT | DAMAGE_SLINGSHOT)
+#define DAMAGE_DEFAULT ~(DAMAGE_SHIELD | DAMAGE_MIR_RAY)
 
 #endif

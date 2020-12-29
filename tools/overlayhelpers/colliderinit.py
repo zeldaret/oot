@@ -6,7 +6,7 @@ import argparse
 from filemap import FileResult, GetFromVRam, GetFromRom
 
 T_DEFAULT = ''
-T_SET3 = '_Set3'
+TType1 = 'Type1'
 T_ACTOR = '_Actor'
 
 TYPE_ENUM = [
@@ -46,7 +46,7 @@ ATFLAGS_ENUM = [
     "AT_BOUNCED",
     "AT_PLAYER",
     "AT_ENEMY",
-    "AT_BOMB",
+    "AT_OTHER",
     "AT_SELF"]
 
 ACFLAGS_ENUM = [
@@ -55,7 +55,7 @@ ACFLAGS_ENUM = [
     "AC_HARD",
     "AC_PLAYER",
     "AC_ENEMY",
-    "AC_BOMB",
+    "AC_OTHER",
     "AC_NO_DAMAGE",
     "AC_BOUNCED"]
 
@@ -107,7 +107,7 @@ OCELEMFLAGS_ENUM = [
     "OCELEM_UNK7",]
 
 sf_ColliderInit = ">BBBBBB"
-sf_ColliderInit_Set3 = ">BBBBB"
+sf_ColliderInitType1 = ">BBBBB"
 sf_ColliderInitToActor = ">IBBBB"
 sf_ColliderBodyInit = ">B3xIBB2xIBB2xBBB"
 sf_JntSph = ">II"
@@ -118,7 +118,7 @@ sf_TrisElement = ">9f"
 sf_Quad = ">12f"
 
 f_ColliderInit = "{{ {0}, {1}, {2}, {3}, {4}, {5} }}"
-f_ColliderInit_Set3 = "{{ {0}, {1}, {2}, {3}, {4} }}"
+f_ColliderInitType1 = "{{ {0}, {1}, {2}, {3}, {4} }}"
 f_ColliderInitToActor = "{{ {0}, {1}, {2}, {3}, {4} }}"
 f_ColliderBodyInit = "{{ {0}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, {7}, {8}, {9} }}"
 f_JntSph = "{0}, D_{1:08X}"
@@ -137,7 +137,7 @@ def GetATflags(at):
                 output = "AT_OFF"
         elif(at & (1 << i)):
             output += " | " + flag
-    return output.replace("AT_PLAYER | AT_ENEMY | AT_BOMB","AT_ALL")
+    return output.replace("AT_PLAYER | AT_ENEMY | AT_OTHER","AT_ALL")
 
 def GetACflags(at):
     for i, flag in enumerate(ACFLAGS_ENUM):
@@ -148,7 +148,7 @@ def GetACflags(at):
                 output = "AC_OFF"
         elif(at & (1 << i)):
             output += " | " + flag
-    return output.replace("AC_BOMB | AC_ENEMY | AC_PLAYER","AC_ALL")
+    return output.replace("AC_OTHER | AC_ENEMY | AC_PLAYER","AC_ALL")
 
 def GetOCflags(at):
     for i, flag in enumerate(OCFLAGS_ENUM):
@@ -209,8 +209,8 @@ def GetOcElemFlags(at):
 def GetColliderFormat(type):
     if type == T_DEFAULT:
         return (sf_ColliderInit, f_ColliderInit)
-    if type == T_SET3:
-        return (sf_ColliderInit_Set3, f_ColliderInit_Set3)
+    if type == TType1:
+        return (sf_ColliderInitType1, f_ColliderInitType1)
     if type == T_ACTOR:
         return (sf_ColliderInitToActor, f_ColliderInitToActor)
     return None
@@ -363,7 +363,7 @@ def GetColliderInit(address, type, num, path):
 
     update = [(k, v[0]) for k,v in TYPE_DICT.items() if v[1] == 'Shape']
     for i in update:
-        for j in (T_SET3, T_ACTOR):
+        for j in (TType1, T_ACTOR):
             TYPE_DICT[i[0] + j] = (i[1], 'Shape', j)
 
     fileResult = None

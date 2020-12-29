@@ -35,7 +35,7 @@ static AnimationHeader* sAnimationHeaders[] = { 0x06007148 };
 
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 100, 0, { 0, 0, 0 } },
@@ -138,7 +138,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->animationIndex = 0;
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-    Collider_SetCylinder_Set3(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

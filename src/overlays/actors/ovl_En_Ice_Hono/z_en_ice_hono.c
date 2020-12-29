@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
 };
 
 static ColliderCylinderInit sCylinderInitDroppedFlame = {
-    { COLTYPE_NONE, AT_ON | AT_BOMB, AC_OFF, OC_ON | OC_TYPE2, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_OTHER, AC_OFF, OC_ON | OC_TYPE2, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x00 },
       { 0x00000000, 0x00, 0x00 },

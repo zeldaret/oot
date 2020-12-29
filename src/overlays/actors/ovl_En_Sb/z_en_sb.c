@@ -38,7 +38,7 @@ const ActorInit En_Sb_InitVars = {
     (ActorFunc)EnSb_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -85,7 +85,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.health = 2;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isDead = false;
     this->actor.colChkInfo.mass = 0;
     Actor_SetScale(&this->actor, 0.006f);

@@ -31,7 +31,7 @@ const ActorInit En_Skjneedle_InitVars = {
     (ActorFunc)EnSkjneedle_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_HIT1, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 10, 4, -2, { 0, 0, 0 } },
@@ -47,7 +47,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
     thisx->flags &= ~0x1;
     Actor_SetScale(&this->actor, 0.01f);

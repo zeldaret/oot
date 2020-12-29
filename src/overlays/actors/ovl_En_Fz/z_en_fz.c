@@ -27,7 +27,7 @@ const ActorInit En_Fz_InitVars = {
     (ActorFunc)EnFz_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x00 },
@@ -38,13 +38,13 @@ static ColliderCylinderInit_Set3 sCylinderInit = {
     { 30, 80, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_METAL, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_OFF, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x0001F024, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 35, 80, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_OFF, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x02, 0x08 },

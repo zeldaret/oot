@@ -34,7 +34,7 @@ const ActorInit En_Horse_Link_Child_InitVars = {
 
 static AnimationHeader* sAnimations[] = { 0x060043E4, 0x06004B08, 0x060053F0, 0x0600360C, 0x06002F98 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 20, 100, 0, { 0, 0, 0 } },
@@ -129,7 +129,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->animationIdx = 0;
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
-    Collider_SetCylinder_Set3(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->headCollider);
     Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);

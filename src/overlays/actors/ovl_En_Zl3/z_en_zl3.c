@@ -20,7 +20,7 @@ void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -93,7 +93,7 @@ void func_80B533B0(Actor* thisx, GlobalContext* globalCtx) {
     EnZl3* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80B533FC(EnZl3* this, GlobalContext* globalCtx) {

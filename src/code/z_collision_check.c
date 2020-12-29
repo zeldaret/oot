@@ -131,7 +131,7 @@ s32 Collider_SetBaseToActor(GlobalContext* globalCtx, Collider* collider, Collid
 /**
  * Uses default OT_TYPE1
  */
-s32 Collider_SetBase_Set3(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit_Set3* src) {
+s32 Collider_SetBaseType1(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInitType1* src) {
     collider->actor = actor;
     collider->colType = src->colType;
     collider->atFlags = src->atFlags;
@@ -392,12 +392,12 @@ s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, Co
  * Sets up the ColliderJntSph using the values in src and dynamically allocates the element array. Uses default
  * OT_TYPE1. Only used by En_Nwc, an unused and unfinished actor.
  */
-s32 Collider_SetJntSphAlloc_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
-                                 ColliderJntSphInit_Set3* src) {
+s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
+                                 ColliderJntSphInitType1* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
 
-    Collider_SetBase_Set3(globalCtx, &dest->base, actor, &src->base);
+    Collider_SetBaseType1(globalCtx, &dest->base, actor, &src->base);
     dest->count = src->count;
     dest->elements = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1490);
 
@@ -565,9 +565,9 @@ s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* coll
 /**
  * Sets up the ColliderCylinder using the values in src. Uses default OT_TYPE1
  */
-s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
-                              ColliderCylinderInit_Set3* src) {
-    Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
+s32 Collider_SetCylinderType1(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
+                              ColliderCylinderInitType1* src) {
+    Collider_SetBaseType1(globalCtx, &collider->base, actor, &src->base);
     Collider_SetInfo(globalCtx, &collider->info, &src->info);
     Collider_SetCylinderDim(globalCtx, &collider->dim, &src->dim);
     return 1;
@@ -735,11 +735,11 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
  * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OT_TYPE1
  * Unused.
  */
-s32 Collider_SetTrisAlloc_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src) {
+s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
 
-    Collider_SetBase_Set3(globalCtx, &dest->base, actor, &src->base);
+    Collider_SetBaseType1(globalCtx, &dest->base, actor, &src->base);
     dest->count = src->count;
     dest->elements = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
@@ -915,8 +915,8 @@ s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
 /**
  * Sets up the ColliderQuad using the values in src. Uses the default OT_TYPE1
  */
-s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src) {
-    Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
+s32 Collider_SetQuadType1(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInitType1* src) {
+    Collider_SetBaseType1(globalCtx, &collider->base, actor, &src->base);
     Collider_SetInfo(globalCtx, &collider->info, &src->info);
     Collider_SetQuadDim(globalCtx, &collider->dim, &src->dim);
     return 1;
@@ -2944,7 +2944,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 }
 
 /**
- * Resets ColisionCheckInfo fields other than DamageTable and mass.
+ * Resets ColisionCheckInfo fields other than DamageTable, mass, and dim.
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
@@ -2955,7 +2955,7 @@ void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
 }
 
 /**
- * Sets up CollisionCheckInfo using the values in init. Does not set a damage table or unk_14.
+ * Sets up CollisionCheckInfo using the values in init. Does not set a damage table or the unused unk_14.
  * Unused, as all actors that don't set a damage table set their CollisionCheckInfo manually
  */
 void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
@@ -2966,7 +2966,7 @@ void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionChec
 }
 
 /**
- * Sets up CollisionCheckInfo using the values in init. Does not set unk_14.
+ * Sets up CollisionCheckInfo using the values in init. Does not set the unused unk_14
  */
 void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
     info->health = init->health;
@@ -2977,7 +2977,7 @@ void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, 
 }
 
 /**
- * Sets up CollisionCheckInfo using the values in init.
+ * Sets up CollisionCheckInfo using the values in init. Sets the unused unk_14
  */
 void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
     info->health = init->health;
@@ -2989,7 +2989,7 @@ void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable,
 }
 
 /**
- * Sets up CollisionCheckInfo using the values in Init and a preset damage table.
+ * Sets up CollisionCheckInfo using the values in Init and a preset damage table. Sets the unused unk_14.
  * Unused, as all actors that use a preset damage table set their CollisionCheckInfo manually.
  */
 void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init) {

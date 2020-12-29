@@ -740,8 +740,8 @@ s32 Collider_InitJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_FreeJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInitToActor* src);
-s32 Collider_SetJntSphAlloc_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
-                                 ColliderJntSphInit_Set3* src);
+s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
+                                 ColliderJntSphInitType1* src);
 s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
 s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
                        ColliderJntSphElement* elements);
@@ -751,8 +751,8 @@ s32 Collider_ResetJntSphOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInitToActor* src);
-s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
-                              ColliderCylinderInit_Set3* src);
+s32 Collider_SetCylinderType1(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
+                              ColliderCylinderInitType1* src);
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit* src);
 s32 Collider_ResetCylinderAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetCylinderAC(GlobalContext* globalCtx, Collider* collider);
@@ -760,7 +760,7 @@ s32 Collider_ResetCylinderOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
-s32 Collider_SetTrisAlloc_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
+s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src);
 s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
                      ColliderTrisElement* elements);
@@ -769,7 +769,7 @@ s32 Collider_ResetTrisAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetTrisOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider);
 s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider);
-s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src);
+s32 Collider_SetQuadType1(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInitType1* src);
 s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit* src);
 s32 Collider_ResetQuadAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetQuadAC(GlobalContext* globalCtx, Collider* collider);

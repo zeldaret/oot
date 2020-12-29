@@ -59,7 +59,7 @@ static UNK_PTR D_80987830[] = {
 
 static u32 D_8098783C = 0;
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
+static ColliderCylinderInitType1 sCylinderInit = {
     { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -154,7 +154,7 @@ void func_80984D00(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80984D4C(Actor* thisx, GlobalContext* globalCtx) {
