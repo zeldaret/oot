@@ -338,7 +338,6 @@ beginseg
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
     include "build/src/code/z_skin.o"
-    include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
     include "build/src/code/z_sram.o"
@@ -945,8 +944,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bigmirror"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.o"
-    include "build/data/overlays/actors/z_bg_jya_bigmirror.data.o"
-    include "build/data/overlays/actors/z_bg_jya_bigmirror.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bigmirror/ovl_Bg_Jya_Bigmirror_reloc.o"
 endseg
 
 beginseg
@@ -3071,9 +3069,11 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-    include "build/data/overlays/actors/z_en_torch2.data.o"
-    include "build/data/overlays/actors/z_en_torch2.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_torch2.reloc.o"
+#endif
 endseg
 
 beginseg
