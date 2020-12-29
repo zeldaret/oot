@@ -4,7 +4,7 @@ glabel func_809F28DC
 /* 00E04 809F28E4 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00E08 809F28E8 3C040600 */  lui     $a0, %hi(D_06000A70)                ## $a0 = 06000000
 /* 00E0C 809F28EC AFA5002C */  sw      $a1, 0x002C($sp)
-/* 00E10 809F28F0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00E10 809F28F0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00E14 809F28F4 24840A70 */  addiu   $a0, $a0, %lo(D_06000A70)           ## $a0 = 06000A70
 /* 00E18 809F28F8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -28,7 +28,7 @@ glabel func_809F28DC
 /* 00E60 809F2940 44985000 */  mtc1    $t8, $f10                  ## $f10 = 0.00
 /* 00E64 809F2944 00000000 */  nop
 /* 00E68 809F2948 46805420 */  cvt.s.w $f16, $f10
-/* 00E6C 809F294C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00E6C 809F294C 0C029468 */  jal     Animation_Change
 
 /* 00E70 809F2950 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 00E74 809F2954 8FA30028 */  lw      $v1, 0x0028($sp)

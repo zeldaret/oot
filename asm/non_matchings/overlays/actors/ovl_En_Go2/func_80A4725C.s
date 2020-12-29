@@ -110,7 +110,7 @@ glabel func_80A4725C
 /* 046C4 80A473F4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A473F8:
 /* 046C8 80A473F8 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 046CC 80A473FC 0C0295B2 */  jal     func_800A56C8              
+/* 046CC 80A473FC 0C0295B2 */  jal     Animation_OnFrame              
 /* 046D0 80A47400 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 046D4 80A47404 50400003 */  beql    $v0, $zero, .L80A47414     
 /* 046D8 80A47408 8FA40034 */  lw      $a0, 0x0034($sp)           

@@ -15,10 +15,10 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809C2148(EnBlkobj* this, GlobalContext* globalCtx);
-void func_809C21A0(EnBlkobj* this, GlobalContext* globalCtx);
-void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx);
-void func_809C22F4(EnBlkobj* this, GlobalContext* globalCtx);
+void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx);
+void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx);
+void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx);
+void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
@@ -39,109 +39,109 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-static Gfx D_809C2590[] = {
+static Gfx sSetupOpaDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
-static Gfx D_809C25A0[] = {
+static Gfx sSetupXluDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2),
     gsSPEndDisplayList(),
 };
 
 extern Gfx D_060014E0[];
 extern Gfx D_060053D0[];
-extern UNK_TYPE D_06007564;
+extern ColHeader D_06007564;
 
-void func_809C2060(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
+void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
-    this->unk_166 = 0;
+    this->timer = 0;
 }
 
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
-    s32 localC = 0;
+    ColHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
-        this->unk_164 = 0xFF;
-        func_809C2060(this, func_809C22F4);
+        this->alpha = 255;
+        EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&D_06007564, &localC);
+        DynaPolyInfo_Alloc(&D_06007564, &colHeader);
         this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
-        func_809C2060(this, func_809C2148);
+            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        EnBlkobj_SetupAction(this, EnBlkobj_Wait);
     }
 }
 
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnBlkobj* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void func_809C2148(EnBlkobj* this, GlobalContext* globalCtx) {
+void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.actor.xzDistFromLink < 120.0f) {
-        func_809C2060(this, func_809C21A0);
+        EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
-    player->stateFlags2 |= 0x4000000;
+    player->stateFlags2 |= 0x04000000;
 }
 
-void func_809C21A0(EnBlkobj* this, GlobalContext* globalCtx) {
+void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {
     if (!(this->dyna.actor.flags & 0x40)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.posRot.pos.x,
                     this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.yawTowardsLink, 0,
                     0);
-        func_809C2060(this, func_809C2218);
+        EnBlkobj_SetupAction(this, EnBlkobj_DarkLinkFight);
     }
 }
 
-void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx) {
-    s32 temp;
+void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
+    s32 alphaMod;
 
-    if (this->unk_166 == 0) {
+    if (this->timer == 0) {
         if (Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TORCH2, ACTORTYPE_BOSS) == NULL) {
             Flags_SetClear(globalCtx, this->dyna.actor.room);
-            this->unk_166 += 1;
+            this->timer++;
         }
-    } else {
-        if (this->unk_166++ > 100) {
-            temp = (this->unk_166 - 100) >> 2;
-            if (temp > 5) {
-                temp = 5;
-            }
-            this->unk_164 += temp;
-            if (this->unk_164 > 255) {
-                this->unk_164 = 255;
-                func_809C2060(this, func_809C22F4);
-                DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-            }
+    } else if (this->timer++ > 100) {
+        alphaMod = (this->timer - 100) >> 2;
+        if (alphaMod > 5) {
+            alphaMod = 5;
+        }
+        this->alpha += alphaMod;
+        if (this->alpha > 255) {
+            this->alpha = 255;
+            EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
+            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         }
     }
 }
 
-void func_809C22F4(EnBlkobj* this, GlobalContext* globalCtx) {
+void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx) {
 }
 
 void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnBlkobj* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
+void EnBlkobj_DrawAlpha(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
     Gfx* segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 322);
 
     if (alpha == 255) {
-        segment = D_809C2590;
+        segment = sSetupOpaDL;
     } else {
-        segment = D_809C25A0;
+        segment = sSetupXluDL;
     }
 
     gSPSegment(POLY_XLU_DISP++, 0x08, segment);
@@ -152,9 +152,9 @@ void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
 }
 
 void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBlkobj* this = THIS;
     s32 pad;
-    s32 temp_a3;
+    EnBlkobj* this = THIS;
+    s32 illusionAlpha;
     u32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 349);
@@ -168,12 +168,12 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->unk_164 != 0) {
-        func_809C2324(globalCtx, D_060014E0, this->unk_164);
+    if (this->alpha != 0) {
+        EnBlkobj_DrawAlpha(globalCtx, D_060014E0, this->alpha);
     }
-    temp_a3 = 255 - this->unk_164;
-    if (temp_a3 != 0) {
-        func_809C2324(globalCtx, D_060053D0, temp_a3);
+    illusionAlpha = 255 - this->alpha;
+    if (illusionAlpha != 0) {
+        EnBlkobj_DrawAlpha(globalCtx, D_060053D0, illusionAlpha);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);

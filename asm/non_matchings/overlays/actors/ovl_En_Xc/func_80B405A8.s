@@ -6,7 +6,7 @@ glabel func_80B405A8
 /* 043D8 80B405B8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 043DC 80B405BC 2490014C */  addiu   $s0, $a0, 0x014C           ## $s0 = 0000014C
 /* 043E0 80B405C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000014C
-/* 043E4 80B405C4 0C0295B2 */  jal     func_800A56C8              
+/* 043E4 80B405C4 0C0295B2 */  jal     Animation_OnFrame              
 /* 043E8 80B405C8 3C054110 */  lui     $a1, 0x4110                ## $a1 = 41100000
 /* 043EC 80B405CC 1040000A */  beq     $v0, $zero, .L80B405F8     
 /* 043F0 80B405D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000014C
@@ -20,7 +20,7 @@ glabel func_80B405A8
 /* 04410 80B405F0 1000001A */  beq     $zero, $zero, .L80B4065C   
 /* 04414 80B405F4 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B405F8:
-/* 04418 80B405F8 0C0295B2 */  jal     func_800A56C8              
+/* 04418 80B405F8 0C0295B2 */  jal     Animation_OnFrame              
 /* 0441C 80B405FC 3C0541D0 */  lui     $a1, 0x41D0                ## $a1 = 41D00000
 /* 04420 80B40600 10400006 */  beq     $v0, $zero, .L80B4061C     
 /* 04424 80B40604 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000000E4
@@ -30,7 +30,7 @@ glabel func_80B405A8
 /* 04434 80B40614 10000011 */  beq     $zero, $zero, .L80B4065C   
 /* 04438 80B40618 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B4061C:
-/* 0443C 80B4061C 0C0295B2 */  jal     func_800A56C8              
+/* 0443C 80B4061C 0C0295B2 */  jal     Animation_OnFrame              
 /* 04440 80B40620 3C0541E0 */  lui     $a1, 0x41E0                ## $a1 = 41E00000
 /* 04444 80B40624 10400006 */  beq     $v0, $zero, .L80B40640     
 /* 04448 80B40628 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000000E4
@@ -40,7 +40,7 @@ glabel func_80B405A8
 /* 04458 80B40638 10000008 */  beq     $zero, $zero, .L80B4065C   
 /* 0445C 80B4063C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B40640:
-/* 04460 80B40640 0C0295B2 */  jal     func_800A56C8              
+/* 04460 80B40640 0C0295B2 */  jal     Animation_OnFrame              
 /* 04464 80B40644 3C054208 */  lui     $a1, 0x4208                ## $a1 = 42080000
 /* 04468 80B40648 10400003 */  beq     $v0, $zero, .L80B40658     
 /* 0446C 80B4064C 262400E4 */  addiu   $a0, $s1, 0x00E4           ## $a0 = 000000E4

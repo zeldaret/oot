@@ -101,8 +101,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 10:
                 this->unk_275 = 1;
             case 9:
-                frames = SkelAnime_GetFrameCount(&D_060007D0);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_060007D0);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
                 break;
             case 0:
             case 1:
@@ -116,8 +116,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 22:
             case 24:
             case 29:
-                frames = SkelAnime_GetFrameCount(&D_06009F94);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_06009F94);
+                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
                 break;
             case 7:
             case 20:
@@ -126,12 +126,12 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 26:
             case 27:
             case 28:
-                frames = SkelAnime_GetFrameCount(&D_06000718);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_06000718);
+                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
                 break;
             case 100:
-                frames = SkelAnime_GetFrameCount(&D_0600A630);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_0600A630);
+                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -146,8 +146,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable,
-                           this->transitionDrawTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
@@ -161,11 +160,11 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    frames = SkelAnime_GetFrameCount(&D_0600A630);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    frames = Animation_GetLastFrame(&D_0600A630);
+                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 } else {
-                    frames = SkelAnime_GetFrameCount(&D_060007D0);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    frames = Animation_GetLastFrame(&D_060007D0);
+                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -174,8 +173,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                frames = SkelAnime_GetFrameCount(&D_060007D0);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                frames = Animation_GetLastFrame(&D_060007D0);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -500,7 +499,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                 EnNiwLady_ChoseAnimation(this, globalCtx, this->unk_26E);
                 this->unk_26E = 0;
             }
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
         }
         this->objectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
         if (this->objectAneIndex >= 0) {
@@ -553,7 +552,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             rot->z += (Math_CosS((globalCtx->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
         }
     }
-    return 0;
+    return false;
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -567,7 +566,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1370);

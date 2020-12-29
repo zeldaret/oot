@@ -46,7 +46,7 @@ glabel func_80AFCE5C
 /* 0055C 80AFCEFC 0C2BF26A */  jal     func_80AFC9A8              
 /* 00560 80AFCF00 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 .L80AFCF04:
-/* 00564 80AFCF04 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00564 80AFCF04 0C02927F */  jal     SkelAnime_Update
               
 /* 00568 80AFCF08 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0056C 80AFCF0C 5040000A */  beql    $v0, $zero, .L80AFCF38     

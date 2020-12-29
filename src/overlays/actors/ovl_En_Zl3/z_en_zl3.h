@@ -14,8 +14,8 @@ typedef void (*EnZl3DrawFunc)(struct EnZl3*, GlobalContext*);
 typedef struct EnZl3 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[15];
-    /* 0x01EA */ Vec3s transitionDrawTable[15];
+    /* 0x0190 */ Vec3s jointTable[15];
+    /* 0x01EA */ Vec3s morphTable[15];
     /* 0x0244 */ s16 unk_244;
     /* 0x0246 */ s16 unk_246;
     /* 0x0248 */ s16 unk_248;

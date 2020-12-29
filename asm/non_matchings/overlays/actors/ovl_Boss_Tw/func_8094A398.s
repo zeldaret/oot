@@ -14,7 +14,7 @@ glabel func_8094A398
 /* 116DC 8094A3AC 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 116E0 8094A3B0 2405311F */  addiu   $a1, $zero, 0x311F         ## $a1 = 0000311F
-/* 116E4 8094A3B4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 116E4 8094A3B4 0C02927F */  jal     SkelAnime_Update
               
 /* 116E8 8094A3B8 26040568 */  addiu   $a0, $s0, 0x0568           ## $a0 = 00000568
 /* 116EC 8094A3BC C60804B4 */  lwc1    $f8, 0x04B4($s0)           ## 000004B4
