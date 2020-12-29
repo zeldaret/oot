@@ -114,7 +114,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
     s32 destinationIdx;
 
     player = PLAYER;
-    if (Math_ApproxF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
+    if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
@@ -147,8 +147,8 @@ void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
 
     if (this->actor.yDistFromLink <= 0.0f && 15.0f < this->actor.xzDistFromLink) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_Sins(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_Coss(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.posRot.pos.x = Math_SinS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
+        player->actor.posRot.pos.z = Math_CosS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
     }
 }
 

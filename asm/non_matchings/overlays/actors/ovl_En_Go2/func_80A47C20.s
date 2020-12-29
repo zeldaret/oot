@@ -113,7 +113,7 @@ glabel func_80A47C20
 /* 05068 80A47D98 0010C840 */  sll     $t9, $s0,  1               
 /* 0506C 80A47D9C 03191821 */  addu    $v1, $t8, $t9              
 /* 05070 80A47DA0 84640226 */  lh      $a0, 0x0226($v1)           ## 00000226
-/* 05074 80A47DA4 0C01DE1C */  jal     Math_Sins
+/* 05074 80A47DA4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05078 80A47DA8 AFA30024 */  sw      $v1, 0x0024($sp)           
 /* 0507C 80A47DAC 8FA20048 */  lw      $v0, 0x0048($sp)           
@@ -130,7 +130,7 @@ glabel func_80A47C20
 /* 050A8 80A47DD8 440A3000 */  mfc1    $t2, $f6                   
 /* 050AC 80A47DDC 00000000 */  nop
 /* 050B0 80A47DE0 A44A0002 */  sh      $t2, 0x0002($v0)           ## 00000002
-/* 050B4 80A47DE4 0C01DE0D */  jal     Math_Coss
+/* 050B4 80A47DE4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 050B8 80A47DE8 8464024A */  lh      $a0, 0x024A($v1)           ## 0000024A
 /* 050BC 80A47DEC 8FA20048 */  lw      $v0, 0x0048($sp)           

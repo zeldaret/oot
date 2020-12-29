@@ -263,7 +263,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.posRot.pos.x;
     dz = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
         this->waypoint++;
@@ -344,8 +344,8 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
             this->unk_218 = 0.0f;
             break;
         case 1:
-            if (Math_Rand_ZeroOne() < 0.1f) {
-                this->unk_218 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
+            if (Rand_ZeroOne() < 0.1f) {
+                this->unk_218 = 2.0f * Rand_ZeroOne() - 1.0f;
             }
             this->actor.speedXZ += this->unk_218;
             if (this->actor.speedXZ <= 0.0f) {
@@ -363,10 +363,10 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
                 phi_t0 = 6;
             }
-            if (Math_Rand_ZeroOne() < 0.1f ||
+            if (Rand_ZeroOne() < 0.1f ||
                 (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.maskA & 2 ||
                                         this->headCollider.base.maskA & 2))) {
-                this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
+                this->unk_21E += (Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
                 } else if (this->unk_21E < -50) {
@@ -378,7 +378,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->unk_21C = -300;
             } else if (this->unk_21C > 300) {
                 this->unk_21C = 300;
-            } else if (Math_Rand_ZeroOne() < 0.25f && fabsf(this->unk_21C) < 100.0f) {
+            } else if (Rand_ZeroOne() < 0.25f && fabsf(this->unk_21C) < 100.0f) {
                 this->unk_21C = 0;
                 this->unk_21E = 0;
             }
@@ -407,11 +407,11 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
         } else {
             switch (D_80A6D510[this->animationIdx]) {
                 case 0:
-                    if (Math_Rand_ZeroOne() < 0.25f) {
+                    if (Rand_ZeroOne() < 0.25f) {
                         this->unk_218 = 1.0f;
                         phi_t0 = 4;
                     } else {
-                        phi_t0 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2)];
+                        phi_t0 = D_80A6D4F4[(s32)(Rand_ZeroOne() * 2)];
                         this->actor.speedXZ = 0.0f;
                         this->unk_218 = 0.0f;
                     }
@@ -456,7 +456,7 @@ void func_80A6C4CC(EnHorseNormal* this) {
 
 void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-        f32 rand = Math_Rand_ZeroOne();
+        f32 rand = Rand_ZeroOne();
 
         if (rand < 0.4f) {
             this->animationIdx = 0;
@@ -489,7 +489,7 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
     func_80A6BD7C(this);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-        f32 rand = Math_Rand_ZeroOne();
+        f32 rand = Rand_ZeroOne();
 
         if (rand < 0.4f) {
             this->animationIdx = 0;
@@ -520,11 +520,11 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     Vec3f sp28;
     s32 sp24;
 
-    sp28.x = (Math_Sins(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
     sp28.y = this->actor.posRot.pos.y + 60.0f;
-    sp28.z = (Math_Coss(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
     this->unk_220 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = Math_atan2f(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
 static EnHorseNormalActionFunc sActionFuncs[] = {

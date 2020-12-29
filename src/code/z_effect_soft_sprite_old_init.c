@@ -182,17 +182,17 @@ void func_80028894(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity,
     s16 randAngle;
     f32 rand;
 
-    rand = Math_Rand_ZeroOne() * randScale;
-    randAngle = (Math_Rand_ZeroOne() * 65536.0f);
+    rand = Rand_ZeroOne() * randScale;
+    randAngle = (Rand_ZeroOne() * 65536.0f);
 
     *newPos = *srcPos;
 
-    newPos->x += Math_Sins(randAngle) * rand;
-    newPos->z += Math_Coss(randAngle) * rand;
+    newPos->x += Math_SinS(randAngle) * rand;
+    newPos->z += Math_CosS(randAngle) * rand;
 
     velocity->y = 1.0f;
-    velocity->x = Math_Sins(randAngle);
-    velocity->z = Math_Coss(randAngle);
+    velocity->x = Math_SinS(randAngle);
+    velocity->z = Math_CosS(randAngle);
 
     accel->x = 0.0f;
     accel->y = 0.0f;
@@ -243,13 +243,13 @@ void EffectSsKiraKira_SpawnDispersed(GlobalContext* globalCtx, Vec3f* pos, Vec3f
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
-    initParams.velocity.y = ((Math_Rand_ZeroOne() * initParams.velocity.y) + initParams.velocity.y) * 0.5f;
+    initParams.velocity.y = ((Rand_ZeroOne() * initParams.velocity.y) + initParams.velocity.y) * 0.5f;
     Math_Vec3f_Copy(&initParams.accel, accel);
-    initParams.accel.y = ((Math_Rand_ZeroOne() * initParams.accel.y) + initParams.accel.y) * 0.5f;
+    initParams.accel.y = ((Rand_ZeroOne() * initParams.accel.y) + initParams.accel.y) * 0.5f;
     initParams.life = life;
     initParams.updateMode = 0;
     initParams.rotSpeed = 0x1518;
-    initParams.yaw = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.yaw = Rand_ZeroOne() * 16384.0f;
     initParams.scale = scale;
     initParams.primColor = *primColor;
     initParams.envColor = *envColor;
@@ -268,7 +268,7 @@ void EffectSsKiraKira_SpawnFocused(GlobalContext* globalCtx, Vec3f* pos, Vec3f* 
     initParams.life = life;
     initParams.updateMode = 1;
     initParams.rotSpeed = 0x1518;
-    initParams.yaw = Math_Rand_ZeroOne() * 16384.0f;
+    initParams.yaw = Rand_ZeroOne() * 16384.0f;
     initParams.scale = scale;
     Color_RGBA8_Copy(&initParams.primColor, primColor);
     Color_RGBA8_Copy(&initParams.envColor, envColor);
@@ -410,7 +410,7 @@ void EffectSsGSpk_SpawnRandColor(GlobalContext* globalCtx, Actor* actor, Vec3f* 
     Color_RGBA8 envColor = { 255, 0, 0, 0 };
     s32 randOffset;
 
-    randOffset = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
+    randOffset = (Rand_ZeroOne() * 20.0f) - 10.0f;
 
     primColor.r += randOffset;
     primColor.g += randOffset;
@@ -619,12 +619,12 @@ void EffectSsHahen_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos, f32 burstSca
     accel.x = accel.z = 0.0f;
 
     for (i = 0; i < count; i++) {
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * burstScale;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * burstScale;
-        velocity.y = ((Math_Rand_ZeroOne() * 0.5f) + 0.5f) * burstScale;
+        velocity.x = (Rand_ZeroOne() - 0.5f) * burstScale;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * burstScale;
+        velocity.y = ((Rand_ZeroOne() * 0.5f) + 0.5f) * burstScale;
 
-        EffectSsHahen_Spawn(globalCtx, pos, &velocity, &accel, unused, Math_Rand_S16Offset(scale, randScaleRange),
-                            objId, life, dList);
+        EffectSsHahen_Spawn(globalCtx, pos, &velocity, &accel, unused, Rand_S16Offset(scale, randScaleRange), objId,
+                            life, dList);
     }
 }
 
@@ -664,7 +664,7 @@ void EffectSsSibuki_SpawnBurst(GlobalContext* globalCtx, Vec3f* pos) {
     Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    s16 randDirection = Math_Rand_ZeroOne() * 1.99f;
+    s16 randDirection = Rand_ZeroOne() * 1.99f;
 
     for (i = 0; i < KREG(19) + 30; i++) {
         EffectSsSibuki_Spawn(globalCtx, pos, &zeroVec, &zeroVec, i / (KREG(27) + 6), randDirection, KREG(18) + 40);
@@ -864,7 +864,7 @@ void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 sc
 
     for (i = 0; i < ARRAY_COUNT(vecScales); i++) {
         pos = *refPos;
-        velocityScale = Math_Rand_ZeroFloat(1.0f) + 0.5f;
+        velocityScale = Rand_ZeroFloat(1.0f) + 0.5f;
         velocity.x = (vecScales[i].x * 0.18f) * velocityScale;
         velocity.y = (vecScales[i].y * 0.18f) * velocityScale;
         velocity.z = (vecScales[i].z * 0.18f) * velocityScale;
@@ -872,8 +872,8 @@ void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 sc
         pos.y += vecScales[i].y;
         pos.z += vecScales[i].z;
 
-        EffectSsIcePiece_Spawn(globalCtx, &pos, (Math_Rand_ZeroFloat(1.0f) + 0.5f) * ((scale * 1.3f) * 100.0f),
-                               &velocity, &accel, 25);
+        EffectSsIcePiece_Spawn(globalCtx, &pos, (Rand_ZeroFloat(1.0f) + 0.5f) * ((scale * 1.3f) * 100.0f), &velocity,
+                               &accel, 25);
     }
 }
 

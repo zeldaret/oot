@@ -17,7 +17,7 @@ glabel func_8087A184
 /* 00720 8087A1C0 8CE5000C */  lw      $a1, 0x000C($a3)           ## 0000000C
 .L8087A1C4:
 /* 00724 8087A1C4 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 00728 8087A1C8 0C01DE80 */  jal     Math_ApproxF
+/* 00728 8087A1C8 0C01DE80 */  jal     Math_StepToF
               
 /* 0072C 8087A1CC 24E40028 */  addiu   $a0, $a3, 0x0028           ## $a0 = 00000028
 /* 00730 8087A1D0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

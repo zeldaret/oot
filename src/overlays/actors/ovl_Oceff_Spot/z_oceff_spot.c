@@ -140,9 +140,9 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
                               (s32)(200.0f * temp), (s16)(100.0f * temp));
 
     Lights_PointNoGlowSetInfo(&this->lightInfo2,
-                              (s16)this->actor.posRot.pos.x + Math_Sins(player->actor.shape.rot.y) * 20.0f,
+                              (s16)this->actor.posRot.pos.x + Math_SinS(player->actor.shape.rot.y) * 20.0f,
                               (s16)this->actor.posRot.pos.y + 20.0f,
-                              (s16)this->actor.posRot.pos.z + Math_Coss(player->actor.shape.rot.y) * 20.0f,
+                              (s16)this->actor.posRot.pos.z + Math_CosS(player->actor.shape.rot.y) * 20.0f,
                               (s32)(255.0f * temp), (s32)(255.0f * temp), (s32)(200.0f * temp), (s16)(100.0f * temp));
 }
 

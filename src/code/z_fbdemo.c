@@ -28,8 +28,12 @@ Gfx D_8012B000[] = {
 #ifdef NON_EQUIVALENT
 // The general control flow is correct and nothing is especially out of order but there are
 // many small reoderings and regalloc all over so functional equivalence cannot be verified
+// The first loop is down to regalloc. The second needs work.
 void TransitionUnk_InitGraphics(TransitionUnk* this) {
-    Vtx* vtx2;
+    s32 pad;
+    s32 pad2;
+    s32 pad3;
+    Vtx_t* vtx2;
     s32 frame;
     s32 rowTex;
     s32 row;
@@ -45,20 +49,21 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
     for (frame = 0; frame < 2; frame++) {
         this->frame = frame;
         vtx = (frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-        for (col = 0, colTex = 0; col < this->col + 1; col++, colTex += 0x20) {
-            for (row = 0, rowTex = 0; row < this->row + 1; row++, rowTex += 0x20) {
-                vtx2 = vtx;
-                vtx2->v.tc[0] = rowTex * 0x40;
-                vtx2->v.ob[0] = rowTex;
-                vtx2->v.ob[1] = col * 0x20;
-                vtx2->v.ob[2] = -5;
-                vtx2->v.flag = 0;
-                vtx2->v.tc[1] = colTex * 0x40;
-                vtx2->v.cn[0] = 0;
-                vtx2->v.cn[1] = 0;
-                vtx2->v.cn[2] = 120;
-                vtx2->v.cn[3] = 255;
+        for (colTex = 0, col = 0; col < this->col + 1; colTex += 0x20, col++) {
+            for (rowTex = 0, row = 0; row < this->row + 1; rowTex += 0x20, row++) {
+                vtx2 = &vtx->v;
                 vtx++;
+
+                vtx2->tc[0] = rowTex << 6;
+                vtx2->ob[0] = row * 0x20;
+                vtx2->ob[1] = col * 0x20;
+                vtx2->ob[2] = -5;
+                vtx2->flag = 0;
+                vtx2->tc[1] = colTex << 6;
+                vtx2->cn[0] = 0;
+                vtx2->cn[1] = 0;
+                vtx2->cn[2] = 120;
+                vtx2->cn[3] = 255;
             }
         }
     }

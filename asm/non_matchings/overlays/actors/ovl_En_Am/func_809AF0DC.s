@@ -57,7 +57,7 @@ glabel func_809AF0DC
 /* 0128C 809AF1AC E612017C */  swc1    $f18, 0x017C($s0)          ## 0000017C
 .L809AF1B0:
 /* 01290 809AF1B0 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 01294 809AF1B4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01294 809AF1B4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01298 809AF1B8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0129C 809AF1BC 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088

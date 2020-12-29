@@ -8,7 +8,7 @@ glabel func_809ED9E0
 /* 00174 809ED9E4 AFBF003C */  sw      $ra, 0x003C($sp)           
 /* 00178 809ED9E8 AFB00038 */  sw      $s0, 0x0038($sp)           
 /* 0017C 809ED9EC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00180 809ED9F0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00180 809ED9F0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00184 809ED9F4 AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 00188 809ED9F8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -19,7 +19,7 @@ glabel func_809ED9E0
 /* 0019C 809EDA0C C6100024 */  lwc1    $f16, 0x0024($s0)          ## 00000024
 /* 001A0 809EDA10 46083282 */  mul.s   $f10, $f6, $f8             
 /* 001A4 809EDA14 46105480 */  add.s   $f18, $f10, $f16           
-/* 001A8 809EDA18 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 001A8 809EDA18 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 001AC 809EDA1C E7B20040 */  swc1    $f18, 0x0040($sp)          
 /* 001B0 809EDA20 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -33,7 +33,7 @@ glabel func_809ED9E0
 /* 001D0 809EDA40 46083282 */  mul.s   $f10, $f6, $f8             
 /* 001D4 809EDA44 46128100 */  add.s   $f4, $f16, $f18            
 /* 001D8 809EDA48 46045180 */  add.s   $f6, $f10, $f4             
-/* 001DC 809EDA4C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 001DC 809EDA4C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 001E0 809EDA50 E7A60044 */  swc1    $f6, 0x0044($sp)           
 /* 001E4 809EDA54 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -46,7 +46,7 @@ glabel func_809ED9E0
 /* 00200 809EDA70 C42CF1B8 */  lwc1    $f12, %lo(D_809EF1B8)($at) 
 /* 00204 809EDA74 46128282 */  mul.s   $f10, $f16, $f18           
 /* 00208 809EDA78 46045180 */  add.s   $f6, $f10, $f4             
-/* 0020C 809EDA7C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0020C 809EDA7C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00210 809EDA80 E7A60048 */  swc1    $f6, 0x0048($sp)           
 /* 00214 809EDA84 4600028D */  trunc.w.s $f10, $f0                  

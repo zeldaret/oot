@@ -113,8 +113,8 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
-    yawSine = Math_Sins(this->dyna.actor.shape.rot.y);
-    yawCosine = Math_Coss(this->dyna.actor.shape.rot.y);
+    yawSine = Math_SinS(this->dyna.actor.shape.rot.y);
+    yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         sphere = &this->collider.list[i];
@@ -149,11 +149,11 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
-        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = -Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = -Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
     } else {
-        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
     }
 
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;

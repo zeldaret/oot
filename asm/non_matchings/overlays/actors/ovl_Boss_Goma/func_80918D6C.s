@@ -95,7 +95,7 @@ glabel func_80918D6C
 /* 034AC 80918EBC 860C01D2 */  lh      $t4, 0x01D2($s0)           ## 000001D2
 /* 034B0 80918EC0 55800037 */  bnel    $t4, $zero, .L80918FA0
 /* 034B4 80918EC4 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002
-/* 034B8 80918EC8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 034B8 80918EC8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 034BC 80918ECC 00000000 */  nop
 /* 034C0 80918ED0 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

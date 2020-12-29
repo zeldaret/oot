@@ -111,7 +111,7 @@ glabel func_80A64150
 /* 08FE4 80A642D4 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
 /* 08FE8 80A642D8 5701001F */  bnel    $t8, $at, .L80A64358       
 /* 08FEC 80A642DC 8FAE002C */  lw      $t6, 0x002C($sp)           
-/* 08FF0 80A642E0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 08FF0 80A642E0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 08FF4 80A642E4 00000000 */  nop
 /* 08FF8 80A642E8 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000

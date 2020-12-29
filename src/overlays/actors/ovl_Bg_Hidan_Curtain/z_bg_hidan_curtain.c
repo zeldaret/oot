@@ -102,7 +102,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
         (((this->type == 0) || (this->type == 6)) && Flags_GetClear(globalCtx, this->actor.room))) {
         Actor_Kill(&this->actor);
     }
-    this->texScroll = Math_Rand_ZeroOne() * 15.0f;
+    this->texScroll = Rand_ZeroOne() * 15.0f;
 }
 
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,7 +149,7 @@ void BgHidanCurtain_WaitForSwitchOff(BgHidanCurtain* this, GlobalContext* global
 void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx) {
     f32 riseSpeed = sHCParams[this->size].riseSpeed;
 
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, riseSpeed)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, riseSpeed)) {
         Flags_UnsetSwitch(globalCtx, this->actor.params);
         this->actionFunc = BgHidanCurtain_WaitForSwitchOn;
     }
@@ -158,7 +158,7 @@ void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx) {
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, GlobalContext* globalCtx) {
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
 
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - hcParams->riseDist,
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - hcParams->riseDist,
                      hcParams->riseSpeed)) {
         if ((this->type == 0) || (this->type == 6)) {
             Actor_Kill(&this->actor);

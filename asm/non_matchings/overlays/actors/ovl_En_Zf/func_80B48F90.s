@@ -28,7 +28,7 @@ glabel func_80B48F90
 /* 04F94 80B48FE4 000420C0 */  sll     $a0, $a0,  3               
 /* 04F98 80B48FE8 00042400 */  sll     $a0, $a0, 16               
 /* 04F9C 80B48FEC 00042403 */  sra     $a0, $a0, 16               
-/* 04FA0 80B48FF0 0C01DE1C */  jal     Math_Sins
+/* 04FA0 80B48FF0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04FA4 80B48FF4 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 04FA8 80B48FF8 3C0180B5 */  lui     $at, %hi(D_80B4A3A0)       ## $at = 80B50000

@@ -746,7 +746,7 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == 12) {
         if (gSaveContext.infTable[7] & 0x40) {
-            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
+            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }
     }
@@ -988,7 +988,7 @@ void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
         if (this->unk_1B4 != 0) {
             this->unk_1B8 += 0x1F4;
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_1B8, 0, 10, 0x7D0, 0);
+            Math_SmoothStepToS(&this->unk_1B8, 0, 10, 0x7D0, 0);
         }
     }
 }
