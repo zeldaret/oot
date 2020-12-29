@@ -437,8 +437,8 @@ s32 func_80042108(CollisionContext* a0, CollisionPoly* a1, u32 a2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042244.s")
 
 u32 func_80042538(CollisionContext* colCtx, WaterBox* arg1) {
-    u32 unk0C = arg1->unk_0C;
-    return unk0C & 0xFF;
+    u32 properties = arg1->properties;
+    return properties & 0xFF;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80042548.s")

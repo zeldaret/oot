@@ -375,7 +375,7 @@ void func_80A79A2C(EnIn* this) {
         if (phi_v1 == 0) {
             this->unk_1EE++;
             if (this->unk_1EE >= 3) {
-                this->unk_1EA = Math_Rand_S16Offset(30, 30);
+                this->unk_1EA = Rand_S16Offset(30, 30);
                 this->unk_1EE = 0;
             }
         }
@@ -434,8 +434,8 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     func_8010B680(globalCtx, 0x2025, NULL);
     this->unk_308.unk_00 = 1;
     player->actor.posRot.pos = this->actor.posRot.pos;
-    player->actor.posRot.pos.x += 100.0f * Math_Sins(this->actor.shape.rot.y);
-    player->actor.posRot.pos.z += 100.0f * Math_Coss(this->actor.shape.rot.y);
+    player->actor.posRot.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
+    player->actor.posRot.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
     if (player->rideActor != NULL) {
         player->rideActor->posRot.pos = player->actor.posRot.pos;
         player->rideActor->freezeTimer = 10;
@@ -834,8 +834,8 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     s32 yaw;
     Vec3f pos = this->actor.posRot.pos;
 
-    pos.x += 90.0f * Math_Sins(this->actor.shape.rot.y);
-    pos.z += 90.0f * Math_Coss(this->actor.shape.rot.y);
+    pos.x += 90.0f * Math_SinS(this->actor.shape.rot.y);
+    pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.posRot.pos);
     if (ABS(yaw) > 0x4000) {
         globalCtx->nextEntranceIndex = 0x0476;
@@ -933,8 +933,8 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
     }
     if (limbIndex == 9 || limbIndex == 10 || limbIndex == 13) {
-        rot->y += Math_Sins(this->unk_330[limbIndex].y) * 200.0f;
-        rot->z += Math_Coss(this->unk_330[limbIndex].z) * 200.0f;
+        rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
+        rot->z += Math_CosS(this->unk_330[limbIndex].z) * 200.0f;
     }
     return 0;
 }

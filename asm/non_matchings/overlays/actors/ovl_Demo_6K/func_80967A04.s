@@ -24,7 +24,7 @@ glabel func_80967A04
 /* 010EC 80967A3C 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
 /* 010F0 80967A40 46105481 */  sub.s   $f18, $f10, $f16           
 /* 010F4 80967A44 E6120174 */  swc1    $f18, 0x0174($s0)          ## 00000174
-/* 010F8 80967A48 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 010F8 80967A48 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 010FC 80967A4C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 01100 80967A50 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -32,7 +32,7 @@ glabel func_80967A04
 /* 01108 80967A58 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 0110C 80967A5C 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
 /* 01110 80967A60 46040180 */  add.s   $f6, $f0, $f4              
-/* 01114 80967A64 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01114 80967A64 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01118 80967A68 E60601B4 */  swc1    $f6, 0x01B4($s0)           ## 000001B4
 /* 0111C 80967A6C 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
@@ -40,7 +40,7 @@ glabel func_80967A04
 /* 01124 80967A74 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 01128 80967A78 44816000 */  mtc1    $at, $f12                  ## $f12 = 6.00
 /* 0112C 80967A7C 46004281 */  sub.s   $f10, $f8, $f0             
-/* 01130 80967A80 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01130 80967A80 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01134 80967A84 E60A01F4 */  swc1    $f10, 0x01F4($s0)          ## 000001F4
 /* 01138 80967A88 4600040D */  trunc.w.s $f16, $f0                  
@@ -50,7 +50,7 @@ glabel func_80967A04
 /* 01148 80967A98 44198000 */  mfc1    $t9, $f16                  
 /* 0114C 80967A9C 01095021 */  addu    $t2, $t0, $t1              
 /* 01150 80967AA0 A1590274 */  sb      $t9, 0x0274($t2)           ## 00000274
-/* 01154 80967AA4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01154 80967AA4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01158 80967AA8 C42C9628 */  lwc1    $f12, %lo(D_80969628)($at) 
 /* 0115C 80967AAC 3C018097 */  lui     $at, %hi(D_8096962C)       ## $at = 80970000

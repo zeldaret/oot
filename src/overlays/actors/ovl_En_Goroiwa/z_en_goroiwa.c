@@ -246,11 +246,11 @@ void EnGoroiwa_SpawnDust(GlobalContext* globalCtx, Vec3f* pos) {
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        randPos.x = pos->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
-        randPos.y = pos->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
-        randPos.z = pos->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
-        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100, 80);
-        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80, 80);
+        randPos.x = pos->x + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_SinS(angle));
+        randPos.y = pos->y + ((Rand_ZeroOne() - 0.5f) * 40.0f);
+        randPos.z = pos->z + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_CosS(angle);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 30.0f) + 100, 80);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 20.0f) + 80, 80);
     }
 }
 
@@ -261,9 +261,9 @@ void EnGoroiwa_SpawnWaterEffects(GlobalContext* globalCtx, Vec3f* contactPos) {
 
     for (i = 0; i < 11; i++) {
         angle += 0x1746;
-        splashPos.x = contactPos->x + (Math_Sins(angle) * 55.0f);
+        splashPos.x = contactPos->x + (Math_SinS(angle) * 55.0f);
         splashPos.y = contactPos->y;
-        splashPos.z = contactPos->z + (Math_Coss(angle) * 55.0f);
+        splashPos.z = contactPos->z + (Math_CosS(angle) * 55.0f);
         EffectSsGSplash_Spawn(globalCtx, &splashPos, 0, 0, 0, 350);
     }
 
@@ -278,12 +278,12 @@ s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
     return result;
 }
@@ -300,7 +300,7 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.posRot.pos) < 25.0f) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.posRot.pos, &posDiff);
     } else {
@@ -312,9 +312,9 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
     return result;
 }
 
@@ -323,10 +323,10 @@ s32 func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_ApproxF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
-    return Math_ApproxF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
+    return Math_StepToF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
 }
 
 s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -348,7 +348,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f sp30;
 
     nextPointY = nextPointPos->y;
-    Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, -14.0f, 1.0f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
     thisY = this->actor.posRot.pos.y;
@@ -474,19 +474,19 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
-        temp_f22 = Math_Sins(angle1);
-        temp_f24 = Math_Coss(angle1);
-        angle2 = Math_Rand_ZeroOne() * 0xFFFF;
-        effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
-        temp_f20_2 = Math_Sins(angle2);
-        effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
-        effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
+        temp_f22 = Math_SinS(angle1);
+        temp_f24 = Math_CosS(angle1);
+        angle2 = Rand_ZeroOne() * 0xFFFF;
+        effectPos.x = ((Rand_ZeroOne() * 50.0f) * temp_f22) * Math_SinS(angle2);
+        temp_f20_2 = Math_SinS(angle2);
+        effectPos.y = (((Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
+        effectPos.z = ((Rand_ZeroOne() * 50.0f) * temp_f24) * Math_SinS(angle2);
         fragmentVelocity.x = effectPos.x * 0.2f;
-        fragmentVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
+        fragmentVelocity.y = (Rand_ZeroOne() * 15.0f) + 2.0f;
         fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
         EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
-                             (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
+                             (Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
     }
 
     effectPos.x = thisPos->x;

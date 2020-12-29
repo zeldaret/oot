@@ -8,7 +8,7 @@ glabel func_809AF644
 /* 0173C 809AF65C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01740 809AF660 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 01744 809AF664 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 01748 809AF668 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01748 809AF668 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0174C 809AF66C 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 01750 809AF670 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

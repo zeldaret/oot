@@ -11,12 +11,12 @@ glabel func_80B8F788
 /* 00D2C 80B8F7AC 240400C8 */  addiu   $a0, $zero, 0x00C8         ## $a0 = 000000C8
 /* 00D30 80B8F7B0 1701000A */  bne     $t8, $at, .L80B8F7DC       
 /* 00D34 80B8F7B4 00000000 */  nop
-/* 00D38 80B8F7B8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00D38 80B8F7B8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00D3C 80B8F7BC 24050190 */  addiu   $a1, $zero, 0x0190         ## $a1 = 00000190
 /* 00D40 80B8F7C0 A60201C4 */  sh      $v0, 0x01C4($s0)           ## 000001C4
 /* 00D44 80B8F7C4 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
-/* 00D48 80B8F7C8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00D48 80B8F7C8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00D4C 80B8F7CC 240501F4 */  addiu   $a1, $zero, 0x01F4         ## $a1 = 000001F4
 /* 00D50 80B8F7D0 241907D0 */  addiu   $t9, $zero, 0x07D0         ## $t9 = 000007D0

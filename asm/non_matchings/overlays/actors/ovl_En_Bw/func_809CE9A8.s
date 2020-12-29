@@ -10,7 +10,7 @@ glabel func_809CE9A8
 /* 002E8 809CE9C8 3C06C000 */  lui     $a2, 0xC000                ## $a2 = C0000000
 /* 002EC 809CE9CC 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 002F0 809CE9D0 240E0002 */  addiu   $t6, $zero, 0x0002         ## $t6 = 00000002
-/* 002F4 809CE9D4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002F4 809CE9D4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002F8 809CE9D8 A0EE0220 */  sb      $t6, 0x0220($a3)           ## 00000220
 /* 002FC 809CE9DC 3C014348 */  lui     $at, 0x4348                ## $at = 43480000

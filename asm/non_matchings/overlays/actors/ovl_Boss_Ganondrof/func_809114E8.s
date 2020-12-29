@@ -17,7 +17,7 @@ glabel func_809114E8
 /* 00EE4 80911524 ACEE0190 */  sw      $t6, 0x0190($a3)           ## 00000190
 /* 00EE8 80911528 35F80001 */  ori     $t8, $t7, 0x0001           ## $t8 = 00000001
 /* 00EEC 8091152C ACF80004 */  sw      $t8, 0x0004($a3)           ## 00000004
-/* 00EF0 80911530 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00EF0 80911530 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00EF4 80911534 E4E401CC */  swc1    $f4, 0x01CC($a3)           ## 000001CC
 /* 00EF8 80911538 3C014280 */  lui     $at, 0x4280                ## $at = 42800000

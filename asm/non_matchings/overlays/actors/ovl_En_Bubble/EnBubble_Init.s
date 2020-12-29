@@ -33,13 +33,13 @@ glabel EnBubble_Init
 /* 00D00 809CC900 0C0187BF */  jal     func_80061EFC              
 /* 00D04 809CC904 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00D08 809CC908 240F0016 */  addiu   $t7, $zero, 0x0016         ## $t7 = 00000016
-/* 00D0C 809CC90C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00D0C 809CC90C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00D10 809CC910 A20F0117 */  sb      $t7, 0x0117($s0)           ## 00000117
-/* 00D14 809CC914 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00D14 809CC914 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00D18 809CC918 E600022C */  swc1    $f0, 0x022C($s0)           ## 0000022C
-/* 00D1C 809CC91C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00D1C 809CC91C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00D20 809CC920 E6000230 */  swc1    $f0, 0x0230($s0)           ## 00000230
 /* 00D24 809CC924 E6000234 */  swc1    $f0, 0x0234($s0)           ## 00000234

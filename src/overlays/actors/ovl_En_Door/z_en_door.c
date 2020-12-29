@@ -117,8 +117,8 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params & 0x40) {
         EnDoor* other;
 
-        xOffset = Math_Coss(this->actor.shape.rot.y) * 30.0f;
-        zOffset = Math_Sins(this->actor.shape.rot.y) * 30.0f;
+        xOffset = Math_CosS(this->actor.shape.rot.y) * 30.0f;
+        zOffset = Math_SinS(this->actor.shape.rot.y) * 30.0f;
         other = (EnDoor*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DOOR,
                                             this->actor.posRot.pos.x + xOffset, this->actor.posRot.pos.y,
                                             this->actor.posRot.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
@@ -249,13 +249,13 @@ void EnDoor_AjarWait(EnDoor* this, GlobalContext* globalCtx) {
 void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
         this->actionFunc = EnDoor_AjarClose;
-    } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
+    } else if (Math_ScaledStepToS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
         this->actionFunc = EnDoor_AjarWait;
     }
 }
 
 void EnDoor_AjarClose(EnDoor* this, GlobalContext* globalCtx) {
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, 0, 0x700)) {
+    if (Math_ScaledStepToS(&this->actor.posRot.rot.y, 0, 0x700)) {
         this->actionFunc = EnDoor_Idle;
     }
 }
@@ -275,7 +275,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
                                       ? NA_SE_EV_IRON_DOOR_OPEN
                                       : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.animPlaybackSpeed < 1.5f) {
-                numEffects = (s32)(Math_Rand_ZeroOne() * 30.0f) + 50;
+                numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
                     EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }

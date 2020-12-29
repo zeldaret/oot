@@ -83,7 +83,7 @@ glabel func_8088FD48
 /* 0063C 8088FE4C 46061200 */  add.s   $f8, $f2, $f6              
 /* 00640 8088FE50 E4E80060 */  swc1    $f8, 0x0060($a3)           ## 00000060
 /* 00644 8088FE54 8CE60060 */  lw      $a2, 0x0060($a3)           ## 00000060
-/* 00648 8088FE58 0C01DE80 */  jal     Math_ApproxF
+/* 00648 8088FE58 0C01DE80 */  jal     Math_StepToF
               
 /* 0064C 8088FE5C AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00650 8088FE60 10400017 */  beq     $v0, $zero, .L8088FEC0     

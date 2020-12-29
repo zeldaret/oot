@@ -67,7 +67,7 @@ glabel func_808C30F4
 /* 02058 808C31E8 44050000 */  mfc1    $a1, $f0                   
 /* 0205C 808C31EC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 02060 808C31F0 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
-/* 02064 808C31F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 02064 808C31F4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 02068 808C31F8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 0206C 808C31FC 860F01DA */  lh      $t7, 0x01DA($s0)           ## 000001DA
