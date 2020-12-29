@@ -18,7 +18,7 @@ typedef struct EnBb {
     /* 0x0258 */ EnBbActionFunc actionFunc;
     /* 0x025C */ s32 moveMode;
     /* 0x0260 */ s32 timer;
-    /* 0x0264 */ s32 unk_264; //unused
+    /* 0x0264 */ s32 unk_264; // unused
     /* 0x0268 */ s16 actionState;
     /* 0x026A */ s16 charge;
     /* 0x026C */ s16 actionVar1; // index for flame trail, phase of small hop when blue finds a bomb
