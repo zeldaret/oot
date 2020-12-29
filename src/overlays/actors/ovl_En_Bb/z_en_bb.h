@@ -14,7 +14,7 @@ typedef struct EnBb {
     /* 0x0190 */ Vec3s limbDrawTbl[16];
     /* 0x01F0 */ Vec3s transitionDrawTbl[16];
     /* 0x0250 */ s32 action;
-    /* 0x0254 */ s32 unk_254; //unused
+    /* 0x0254 */ s32 unk_254; // unused
     /* 0x0258 */ EnBbActionFunc actionFunc;
     /* 0x025C */ s32 moveMode;
     /* 0x0260 */ s32 timer;
