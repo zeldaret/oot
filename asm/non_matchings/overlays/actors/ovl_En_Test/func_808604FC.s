@@ -137,7 +137,7 @@ glabel func_808604FC
 /* 01060 808606B0 45000019 */  bc1f    .L80860718
 /* 01064 808606B4 00000000 */  nop
 /* 01068 808606B8 3C040601 */  lui     $a0, %hi(D_060081B4)                ## $a0 = 06010000
-/* 0106C 808606BC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0106C 808606BC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01070 808606C0 248481B4 */  addiu   $a0, $a0, %lo(D_060081B4)           ## $a0 = 060081B4
 /* 01074 808606C4 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -152,7 +152,7 @@ glabel func_808604FC
 /* 01098 808606E8 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 0109C 808606EC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 010A0 808606F0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 010A4 808606F4 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 010A4 808606F4 0C029468 */  jal     Animation_Change
 
 /* 010A8 808606F8 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 010AC 808606FC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -163,7 +163,7 @@ glabel func_808604FC
 /* 010C0 80860710 1000001B */  beq     $zero, $zero, .L80860780
 /* 010C4 80860714 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 .L80860718:
-/* 010C8 80860718 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 010C8 80860718 0C028800 */  jal     Animation_GetLastFrame
 
 /* 010CC 8086071C 248426D4 */  addiu   $a0, $a0, 0x26D4           ## $a0 = 000026D4
 /* 010D0 80860720 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -178,7 +178,7 @@ glabel func_808604FC
 /* 010F4 80860744 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 010F8 80860748 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 010FC 8086074C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01100 80860750 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01100 80860750 0C029468 */  jal     Animation_Change
 
 /* 01104 80860754 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 01108 80860758 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -274,7 +274,7 @@ glabel func_808604FC
 .L8086089C:
 /* 0124C 8086089C 4600910D */  trunc.w.s $f4, $f18
 /* 01250 808608A0 44032000 */  mfc1    $v1, $f4
-/* 01254 808608A4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01254 808608A4 0C02927F */  jal     SkelAnime_Update
 
 /* 01258 808608A8 AFA30060 */  sw      $v1, 0x0060($sp)
 /* 0125C 808608AC C60001A4 */  lwc1    $f0, 0x01A4($s0)           ## 000001A4

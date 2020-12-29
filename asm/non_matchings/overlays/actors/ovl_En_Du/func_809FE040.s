@@ -24,7 +24,7 @@ glabel func_809FE040
 /* 00468 809FE098 ADD90018 */  sw      $t9, 0x0018($t6)           ## FFFFFFF8
 /* 0046C 809FE09C 8CC5015C */  lw      $a1, 0x015C($a2)           ## 0000015C
 /* 00470 809FE0A0 AFA60040 */  sw      $a2, 0x0040($sp)           
-/* 00474 809FE0A4 0C0295B2 */  jal     func_800A56C8              
+/* 00474 809FE0A4 0C0295B2 */  jal     Animation_OnFrame              
 /* 00478 809FE0A8 AFA4001C */  sw      $a0, 0x001C($sp)           
 /* 0047C 809FE0AC 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00480 809FE0B0 10400010 */  beq     $v0, $zero, .L809FE0F4     

@@ -2,7 +2,7 @@ glabel func_80AFF5F0
 /* 01340 80AFF5F0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01344 80AFF5F4 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 01348 80AFF5F8 AFA40018 */  sw      $a0, 0x0018($sp)
-/* 0134C 80AFF5FC 0C029502 */  jal     SkelAnime_AnimReverse
+/* 0134C 80AFF5FC 0C029502 */  jal     Animation_Reverse
 /* 01350 80AFF600 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01354 80AFF604 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 01358 80AFF608 0C2BF8CE */  jal     func_80AFE338

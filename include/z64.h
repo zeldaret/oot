@@ -1720,12 +1720,6 @@ typedef struct {
 } UnkRumbleStruct; // size = 0x10E
 
 typedef struct {
-    char unk_00[0x48];
-    void* avbTbl;
-    SkelAnime skelAnime;
-} PSkinAwb; // size = 0x90
-
-typedef struct {
     /* 0x00 */ char unk_00[0x18];
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 y;

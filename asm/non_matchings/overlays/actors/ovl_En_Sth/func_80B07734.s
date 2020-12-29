@@ -38,7 +38,7 @@ glabel func_80B07734
 /* 00284 80B077C4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00288 80B077C8 000E7880 */  sll     $t7, $t6,  2
 /* 0028C 80B077CC 00AF2821 */  addu    $a1, $a1, $t7
-/* 00290 80B077D0 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00290 80B077D0 0C0294BE */  jal     Animation_PlayLoop
 /* 00294 80B077D4 8CA5B454 */  lw      $a1, %lo(D_80B0B454)($a1)
 /* 00298 80B077D8 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 0029C 80B077DC 3C0880B1 */  lui     $t0, %hi(D_80B0B484)       ## $t0 = 80B10000

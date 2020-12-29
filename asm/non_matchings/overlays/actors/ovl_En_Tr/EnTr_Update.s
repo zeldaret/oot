@@ -19,7 +19,7 @@ glabel EnTr_Update
 /* 00F10 80B23C00 0320F809 */  jalr    $ra, $t9
 /* 00F14 80B23C04 00000000 */  nop
 /* 00F18 80B23C08 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00F1C 80B23C0C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00F1C 80B23C0C 0C02927F */  jal     SkelAnime_Update
 
 /* 00F20 80B23C10 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 00F24 80B23C14 5040003B */  beql    $v0, $zero, .L80B23D04
@@ -51,7 +51,7 @@ glabel EnTr_Update
 /* 00F7C 80B23C6C 240539B0 */  addiu   $a1, $zero, 0x39B0         ## $a1 = 000039B0
 /* 00F80 80B23C70 8FA40034 */  lw      $a0, 0x0034($sp)
 .L80B23C74:
-/* 00F84 80B23C74 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00F84 80B23C74 0C0294BE */  jal     Animation_PlayLoop
 /* 00F88 80B23C78 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
 /* 00F8C 80B23C7C 1000001B */  beq     $zero, $zero, .L80B23CEC
 /* 00F90 80B23C80 00000000 */  nop
@@ -63,7 +63,7 @@ glabel EnTr_Update
 /* 00FA4 80B23C94 0C2C8B3C */  jal     func_80B22CF0
 /* 00FA8 80B23C98 24A52F28 */  addiu   $a1, $a1, %lo(func_80B22F28) ## $a1 = 80B22F28
 /* 00FAC 80B23C9C 3C040600 */  lui     $a0, %hi(D_060049C8)                ## $a0 = 06000000
-/* 00FB0 80B23CA0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00FB0 80B23CA0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00FB4 80B23CA4 248449C8 */  addiu   $a0, $a0, %lo(D_060049C8)           ## $a0 = 060049C8
 /* 00FB8 80B23CA8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -77,13 +77,13 @@ glabel EnTr_Update
 /* 00FD8 80B23CC8 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00FDC 80B23CCC E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00FE0 80B23CD0 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00FE4 80B23CD4 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00FE4 80B23CD4 0C029468 */  jal     Animation_Change
 
 /* 00FE8 80B23CD8 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00FEC 80B23CDC 10000003 */  beq     $zero, $zero, .L80B23CEC
 /* 00FF0 80B23CE0 00000000 */  nop
 .L80B23CE4:
-/* 00FF4 80B23CE4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00FF4 80B23CE4 0C0294BE */  jal     Animation_PlayLoop
 /* 00FF8 80B23CE8 8FA40034 */  lw      $a0, 0x0034($sp)
 .L80B23CEC:
 /* 00FFC 80B23CEC 10000004 */  beq     $zero, $zero, .L80B23D00

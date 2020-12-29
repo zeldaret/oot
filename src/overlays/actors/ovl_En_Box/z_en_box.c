@@ -104,12 +104,12 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     AnimationHeader* anim;
     s32 dynaUnk;
     f32 animFrameStart;
-    f32 animFrameCount;
+    f32 endFrame;
 
     animFrameStart = 0.0f;
     anim = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
-    animFrameCount = SkelAnime_GetFrameCount(anim);
+    endFrame = Animation_GetLastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -133,7 +133,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->iceSmokeTimer = 100;
         EnBox_SetupAction(this, EnBox_Open);
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
-        animFrameStart = animFrameCount;
+        animFrameStart = endFrame;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
                !Flags_GetSwitch(globalCtx2, this->switchFlag)) {
         func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
@@ -180,8 +180,8 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.rot.y += 0x8000;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->limbDrawTable, this->transitionDrawTable, 5);
-    SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, animFrameStart, animFrameCount, 2, 0.0f);
+    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->jointTable, this->morphTable, 5);
+    Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, 2, 0.0f);
 
     switch (this->type) {
         case ENBOX_TYPE_SMALL:
@@ -409,8 +409,8 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
         linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
-        frameCount = SkelAnime_GetFrameCount(anim);
-        SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
+        frameCount = Animation_GetLastFrame(anim);
+        Animation_Change(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
         EnBox_SetupAction(this, EnBox_Open);
         if (this->unk_1F4 > 0) {
             switch (this->type) {
@@ -450,7 +450,7 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.flags &= ~0x80;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelanime)) {
+    if (SkelAnime_Update(&this->skelanime)) {
         if (this->unk_1F4 > 0) {
             if (this->unk_1F4 < 120) {
                 this->unk_1F4++;
@@ -467,9 +467,9 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     } else {
         sfxId = 0;
 
-        if (func_800A56C8(&this->skelanime, 30.0f)) {
+        if (Animation_OnFrame(&this->skelanime, 30.0f)) {
             sfxId = NA_SE_EV_TBOX_UNLOCK;
-        } else if (func_800A56C8(&this->skelanime, 90.0f)) {
+        } else if (Animation_OnFrame(&this->skelanime, 90.0f)) {
             sfxId = NA_SE_EV_TBOX_OPEN;
         }
 
@@ -477,8 +477,8 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
 
-        if (this->skelanime.limbDrawTbl[3].z > 0) {
-            this->unk_1B0 = (0x7D00 - this->skelanime.limbDrawTbl[3].z) * 0.00006f;
+        if (this->skelanime.jointTable[3].z > 0) {
+            this->unk_1B0 = (0x7D00 - this->skelanime.jointTable[3].z) * 0.00006f;
             if (this->unk_1B0 < 0.0f) {
                 this->unk_1B0 = 0.0f;
             } else if (this->unk_1B0 > 1.0f) {
@@ -546,7 +546,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params >> 5 & 0x7F) == 0x7C && this->actionFunc == EnBox_Open &&
-        this->skelanime.animCurrentFrame > 45 && this->iceSmokeTimer < 100) {
+        this->skelanime.curFrame > 45 && this->iceSmokeTimer < 100) {
         EnBox_SpawnIceSmoke(this, globalCtx);
     }
 }
@@ -644,7 +644,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
         func_80093D18(globalCtx->state.gfxCtx);
-        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
+        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_OPA_DISP);
     } else if (this->alpha != 0) {
         gDPPipeSync(POLY_XLU_DISP++);
@@ -655,7 +655,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
         }
-        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
+        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_XLU_DISP);
     }
 

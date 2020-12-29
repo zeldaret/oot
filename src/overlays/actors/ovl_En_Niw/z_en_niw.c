@@ -130,8 +130,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= 1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                       this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
@@ -384,7 +383,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
 
     switch (this->actor.params) {
         case 4:
@@ -556,8 +555,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300,
-                                0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300, 0);
         Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -797,7 +795,7 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
     this->actionFunc = func_80AB7328;
@@ -819,7 +817,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         this->actionFunc = EnNiw_ResetAction;
     } else {
         this->unk_2E4 = Math_FAtan2F(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
-                                    this->actor.posRot.pos.z - player->actor.posRot.pos.z) *
+                                     this->actor.posRot.pos.z - player->actor.posRot.pos.z) *
                         (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
@@ -1105,7 +1103,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->z += (s16)this->unk_2C4;
     }
 
-    return 0;
+    return false;
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1114,7 +1112,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiw_OverrideLimbDraw, NULL, this);
 
     if (this->actionFunc == func_80AB6450) {

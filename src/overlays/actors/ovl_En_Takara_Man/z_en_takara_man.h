@@ -12,8 +12,8 @@ typedef struct EnTakaraMan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnTakaraManActionFunc actionFunc;
     /* 0x0150 */ SkelAnime skelAnime;
-    /* 0x0194 */ Vec3s limbDrawTbl[10];
-    /* 0x01D0 */ Vec3s transitionDrawTbl[10];
+    /* 0x0194 */ Vec3s jointTable[10];
+    /* 0x01D0 */ Vec3s morphTable[10];
     /* 0x020C */ s16 dialogState;
     /* 0x020E */ s16 eyeTextureIdx;
     /* 0x0210 */ s16 eyeTimer;

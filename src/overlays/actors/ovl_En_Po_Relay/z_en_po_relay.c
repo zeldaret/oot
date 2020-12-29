@@ -81,8 +81,7 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable,
-                       this->transitionDrawTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
@@ -340,7 +339,7 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this = THIS;
     s32 pad;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     EnPoRelay_CorrectY(this);
@@ -395,7 +394,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);
 }
