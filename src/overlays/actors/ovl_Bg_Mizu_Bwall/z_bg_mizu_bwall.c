@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_mizu_bwall.c
+ * Overlay: ovl_Bg_Mizu_Bwall
+ * Description: Water Temple bombable walls
+ */
+
 #include "z_bg_mizu_bwall.h"
 
 #define FLAGS 0x00000010
@@ -9,13 +15,9 @@ void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos);
-void BgMizuBwall_SetAlpha(BgMizuBwall* this, GlobalContext* globalCtx);
-void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx);
-
 void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx);
 void BgMizuBwall_Break(BgMizuBwall* this, GlobalContext* globalCtx);
-void BgMizuBwall_Destroyed(BgMizuBwall* this, GlobalContext* globalCtx);
+void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
@@ -42,7 +44,7 @@ static ColliderTrisItemInit sTrisElementInitFloor[2] = {
 
 static ColliderTrisInit sTrisInitFloor = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
-    ARRAY_COUNT(sTrisElementInitFloor),
+    2,
     sTrisElementInitFloor,
 };
 
@@ -55,7 +57,7 @@ static ColliderTrisItemInit sTrisElementInitRutoWall[1] = {
 
 static ColliderTrisInit sTrisInitRutoWall = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
-    ARRAY_COUNT(sTrisElementInitRutoWall),
+    1,
     sTrisElementInitRutoWall,
 };
 
@@ -72,13 +74,13 @@ static ColliderTrisItemInit sTrisElementInitWall[2] = {
 
 static ColliderTrisInit sTrisInitUnusedWall = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
-    ARRAY_COUNT(sTrisElementInitWall),
+    2,
     sTrisElementInitWall,
 };
 
 static ColliderTrisInit sTrisInitStingerWall = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
-    ARRAY_COUNT(sTrisElementInitWall),
+    2,
     sTrisElementInitWall,
 };
 
@@ -120,7 +122,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->dList = NULL;
-                this->actionFunc = BgMizuBwall_Destroyed;
+                this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(globalCtx, &this->collider);
                 if (!Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInitFloor, this->elements)) {
@@ -155,7 +157,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->dList = NULL;
-                this->actionFunc = BgMizuBwall_Destroyed;
+                this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(globalCtx, &this->collider);
                 if (!Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInitRutoWall,
@@ -191,7 +193,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->dList = NULL;
-                this->actionFunc = BgMizuBwall_Destroyed;
+                this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(globalCtx, &this->collider);
                 if (!Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall,
@@ -229,7 +231,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->dList = NULL;
-                this->actionFunc = BgMizuBwall_Destroyed;
+                this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(globalCtx, &this->collider);
                 if (!Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
@@ -267,7 +269,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->dList = NULL;
-                this->actionFunc = BgMizuBwall_Destroyed;
+                this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(globalCtx, &this->collider);
                 if (!Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
@@ -417,11 +419,11 @@ void BgMizuBwall_Break(BgMizuBwall* this, GlobalContext* globalCtx) {
     if (this->breakTimer > 0) {
         this->breakTimer--;
     } else {
-        this->actionFunc = BgMizuBwall_Destroyed;
+        this->actionFunc = BgMizuBwall_DoNothing;
     }
 }
 
-void BgMizuBwall_Destroyed(BgMizuBwall* this, GlobalContext* globalCtx) {
+void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx) {
 }
 
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx) {
