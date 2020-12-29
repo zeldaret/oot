@@ -270,7 +270,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 blureInit.unkFlag = 0;
                 blureInit.calcMode = 2;
 
-                Effect_Add(globalCtx, &this->blureIdx, 1, 0, 0, &blureInit);
+                Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
                 EnBb_SetupWhite(globalCtx, this);
                 EnBb_SetWaypoint(this, globalCtx);
                 EnBb_FaceWaypoint(this);
