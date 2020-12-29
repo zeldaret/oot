@@ -60,7 +60,7 @@ def replace_anim_all(repo):
                 replace_anim(file)
     for subdir, dirs, files in os.walk(repo + os.sep + 'asm' + os.sep + 'non_matchings'):
         for filename in files:
-            if(filename.endswith('.c')):
+            if(filename.endswith('.s')):
                 file = subdir + os.sep + filename
                 replace_anim(file)
     return 1
