@@ -30,9 +30,7 @@ typedef enum {
 } DemoKankyo_Type;
 
 typedef struct {
-    f32 unk_0;
-    f32 unk_4;
-    f32 unk_8;
+    Vec3f unk_0;
     Vec3f unk_C;
     f32 unk_18;
     f32 unk_1C;

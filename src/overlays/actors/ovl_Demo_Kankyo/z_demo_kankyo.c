@@ -246,9 +246,9 @@ void DemoKankyo_Init(Actor *thisx, GlobalContext *globalCtx) {
         case DEMOKANKYO_ROCK_5:
             globalCtx->roomCtx.curRoom.segment = NULL;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = (Rand_ZeroOne() * 0.5f) + 0.5f;
-            this->unk_150[0].unk_0 = (Rand_ZeroOne() * 3.0f) + 1.0f;
-            this->unk_150[0].unk_4 = (Rand_ZeroOne() * 3.0f) + 1.0f;
-            this->unk_150[0].unk_8 = (Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->unk_150[0].unk_0.x = (Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->unk_150[0].unk_0.y = (Rand_ZeroOne() * 3.0f) + 1.0f;
+            this->unk_150[0].unk_0.z = (Rand_ZeroOne() * 3.0f) + 1.0f;
             break;
         case DEMOKANKYO_CLOUDS:
             for (i = 0; i < 30; i++) {
@@ -279,7 +279,7 @@ void DemoKankyo_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->warpTimer = 0x23;
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
-            if (this->actor.params == 15) {
+            if (this->actor.params == DEMOKANKYO_WARP_IN) {
                 Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             break;
@@ -303,7 +303,7 @@ void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 temp_var;
+    f32 temp;
 
     if (this->actor.objBankIndex == this->requiredObject) {
         switch (this->actor.params) {
@@ -328,14 +328,14 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_E2[2] = 0xFF;
                 globalCtx->envCtx.unk_E1 = 0;
                 if (this->warpTimer < 21 && this->warpTimer >= 15) {
-                    temp_var = (this->warpTimer - 15.0f) / 5.0f;
+                    temp = (this->warpTimer - 15.0f) / 5.0f;
                     globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[3] = 255 - 255 * temp_var;
+                    globalCtx->envCtx.unk_E2[3] = 255 - 255 * temp;
                 }
                 if (this->warpTimer < 15 && this->warpTimer >= 4) {
-                    temp_var = (this->warpTimer - 4.0f) / 10.0f;
+                    temp = (this->warpTimer - 4.0f) / 10.0f;
                     globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2[3] = 255 * temp_var;
+                    globalCtx->envCtx.unk_E2[3] = 255 * temp;
                 }
                 if (this->warpTimer == 15) {
                     player->actor.draw = NULL;
@@ -346,17 +346,17 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 if (this->warpTimer == 1) {
                     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 0x19;
-                        if (gSaveContext.linkAge != 0) {
-                            globalCtx->csCtx.segment = &D_8098C080;
+                        if (LINK_IS_CHILD) {
+                            globalCtx->csCtx.segment = D_8098C080;
                         } else {
-                            globalCtx->csCtx.segment = &D_8098BBA0;
+                            globalCtx->csCtx.segment = D_8098BBA0;
                         }
                     } else {
                         D_8098CF84 = 0x20;
-                        if (gSaveContext.linkAge != 0) {
-                            globalCtx->csCtx.segment = &D_8098BDD0;
+                        if (LINK_IS_CHILD) {
+                            globalCtx->csCtx.segment = D_8098BDD0;
                         } else {
-                            globalCtx->csCtx.segment = &D_8098B910;
+                            globalCtx->csCtx.segment = D_8098B910;
                         }
                     }
                     if (func_800C0CB8(globalCtx) != 0) {
@@ -367,16 +367,16 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 break;
             case DEMOKANKYO_WARP_OUT:
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
-                    if (gSaveContext.linkAge != 0) {
-                        globalCtx->csCtx.segment = &D_8098C1B0;
+                    if (LINK_IS_CHILD) {
+                        globalCtx->csCtx.segment = D_8098C1B0;
                     } else {
-                        globalCtx->csCtx.segment = &D_8098BCB0;
+                        globalCtx->csCtx.segment = D_8098BCB0;
                     }
                 } else {
-                    if (gSaveContext.linkAge != 0) {
-                        globalCtx->csCtx.segment = &D_8098BF00;
+                    if (LINK_IS_CHILD) {
+                        globalCtx->csCtx.segment = D_8098BF00;
                     } else {
-                        globalCtx->csCtx.segment = &D_8098BA20;
+                        globalCtx->csCtx.segment = D_8098BA20;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;
@@ -421,9 +421,9 @@ void DemoKankyo_UpdateRock(DemoKankyo* this, GlobalContext* globalCtx) {
             DemoKankyo_SetRockPos(this, globalCtx, this->actor.params - 2);
         }
     }
-    this->unk_150[0].unk_C.x  += this->unk_150[0].unk_0;
-    this->unk_150[0].unk_C.y += this->unk_150[0].unk_4;
-    this->unk_150[0].unk_C.z += this->unk_150[0].unk_8;
+    this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
+    this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
+    this->unk_150[0].unk_C.z += this->unk_150[0].unk_0.z;
 }
 
 void DemoKankyo_UpdateClouds(DemoKankyo* this, GlobalContext* globalCtx) {
@@ -467,7 +467,7 @@ void DemoKankyo_Draw(Actor *thisx, GlobalContext *globalCtx) {
                     } else if (!func_8002E12C(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
-                        if (gSaveContext.linkAge != 0) {
+                        if (LINK_IS_CHILD) {
                             if (globalCtx->csCtx.frames < 170 || globalCtx->csCtx.state == 0) {
                                 break;
                             }
@@ -516,22 +516,22 @@ void func_80989B54(DemoKankyo* this, GlobalContext *globalCtx, s16 arg2) {
 
     switch (globalCtx->sceneNum) {
         case SCENE_HIRAL_DEMO:
-            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 500.0f;
-            this2->unk_150[arg2].unk_4 = 500.0f;
-            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 500.0f;
+            this2->unk_150[arg2].unk_0.x = (Rand_ZeroOne() - 0.5f) * 500.0f;
+            this2->unk_150[arg2].unk_0.y = 500.0f;
+            this2->unk_150[arg2].unk_0.z = (Rand_ZeroOne() - 0.5f) * 500.0f;
             break;
         case SCENE_TOKINOMA:
             this2->unk_150[arg2].unk_C.x = 0.0f;
             this2->unk_150[arg2].unk_C.y = 0.0f;
             this2->unk_150[arg2].unk_C.z = 0.0f;
-            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 180.0f;
-            this2->unk_150[arg2].unk_4 = 10.0f;
-            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 180.0f;
+            this2->unk_150[arg2].unk_0.x = (Rand_ZeroOne() - 0.5f) * 180.0f;
+            this2->unk_150[arg2].unk_0.y = 10.0f;
+            this2->unk_150[arg2].unk_0.z = (Rand_ZeroOne() - 0.5f) * 180.0f;
             break;
         case SCENE_SPOT00:
-            this2->unk_150[arg2].unk_0 = (Rand_ZeroOne() - 0.5f) * 600.0f;
-            this2->unk_150[arg2].unk_4 = -500.0f;
-            this2->unk_150[arg2].unk_8 = (Rand_ZeroOne() - 0.5f) * 600.0f;
+            this2->unk_150[arg2].unk_0.x = (Rand_ZeroOne() - 0.5f) * 600.0f;
+            this2->unk_150[arg2].unk_0.y = -500.0f;
+            this2->unk_150[arg2].unk_0.z = (Rand_ZeroOne() - 0.5f) * 600.0f;
             break;
     }
     this2->unk_150[arg2].unk_18 = Rand_ZeroOne() * (D_8098CF80 * 4.0f) + D_8098CF80;
@@ -570,29 +570,29 @@ void DemoKankyo_DrawRain(DemoKankyo *this, GlobalContext *globalCtx) {
             case 0:
                 func_80989B54(this2, globalCtx, i);
                 if (gSaveContext.entranceIndex == 0x00A0) {
-                    this2->unk_150[i].unk_4 = Rand_ZeroOne() * 500.0f;
+                    this2->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
-                    this2->unk_150[i].unk_4 = Rand_ZeroOne() * -500.0f;
+                    this2->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
                 }
                 this2->unk_150[i].unk_22++;
                 break;
             case 1:
                 temp_f12_2 = globalCtx->view.eye.y + ((dy / norm) * 150.0f);
                 if (gSaveContext.entranceIndex == 0x00A0) {
-                    this2->unk_150[i].unk_4 -= this2->unk_150[i].unk_18;
+                    this2->unk_150[i].unk_0.y -= this2->unk_150[i].unk_18;
                 } else {
-                    this2->unk_150[i].unk_4 += this2->unk_150[i].unk_18;
+                    this2->unk_150[i].unk_0.y += this2->unk_150[i].unk_18;
                 }
                 if (gSaveContext.entranceIndex == 0x00A0) {
-                    if (this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4 < (temp_f12_2 - 300.0f)) {
+                    if (this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y < (temp_f12_2 - 300.0f)) {
                         this2->unk_150[i].unk_22++;
                     }
                 } else if (gSaveContext.entranceIndex == 0x00CD) {
-                    if ((temp_f12_2 + 300.0f) < this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4) {
+                    if ((temp_f12_2 + 300.0f) < this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y) {
                         this2->unk_150[i].unk_22++;
                     }
                 } else {
-                    if (1000.0f < this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4) {
+                    if (1000.0f < this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y) {
                         this2->unk_150[i].unk_22++;
                     }
                 }
@@ -603,9 +603,9 @@ void DemoKankyo_DrawRain(DemoKankyo *this, GlobalContext *globalCtx) {
                 break;
         }
 
-        Matrix_Translate(this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0, 
-                        this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4, 
-                        this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_8, MTXMODE_NEW);
+        Matrix_Translate(this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0.x, 
+                         this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y, 
+                         this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_0.z, MTXMODE_NEW);
         if (gSaveContext.entranceIndex != 0x00A0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
@@ -625,12 +625,12 @@ void DemoKankyo_DrawRain(DemoKankyo *this, GlobalContext *globalCtx) {
             s32 pad1;
 
             if (globalCtx->sceneNum != SCENE_TOKINOMA) {
-                if (this2->unk_150[i].unk_0 >= 0.0f) {
+                if (this2->unk_150[i].unk_0.x >= 0.0f) {
                     translateX = -j * 1500.0f;
                 } else {
                     translateX = j * 1500.0f;
                 }
-                if (this2->unk_150[i].unk_8 >= 0.0f) {
+                if (this2->unk_150[i].unk_0.z >= 0.0f) {
                     translateZ = -j * 1500.0f;
                 } else {
                     translateZ = j * 1500.0f;
@@ -798,9 +798,9 @@ void DemoKankyo_DrawWarpSparkles(DemoKankyo* this, GlobalContext *globalCtx) {
             case 0:
                 this2->unk_150[i].unk_20 = 0;
                 this2->unk_150[i].unk_1C = 0;
-                this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_0.x = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_0.y = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                this2->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                 this2->unk_150[i].unk_23 = 0;
                 this2->unk_150[i].unk_22++;
             case 1:
@@ -853,18 +853,18 @@ void DemoKankyo_DrawWarpSparkles(DemoKankyo* this, GlobalContext *globalCtx) {
             case 2:
                 Math_SmoothStepToF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
                 if (this2->unk_150[i].unk_18 <= 0.0f) {
-                    this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                    this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
-                    this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_0.x = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_0.y = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
+                    this2->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                     this2->unk_150[i].unk_18 = 0.0f;
                     this2->unk_150[i].unk_23 = 1;
                 }
                 break;
         }
 
-        translateX = this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0;
-        translateY = this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4;
-        translateZ = this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_8;
+        translateX = this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0.x;
+        translateY = this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y;
+        translateZ = this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_0.z;
 
         if (this2->unk_150[i].unk_22 < 2) {
             disp = (u32)gGameKeepMoteDL0;
@@ -930,9 +930,9 @@ void DemoKankyo_DrawSparkles(DemoKankyo *this, GlobalContext *globalCtx) {
             case 0:
                 this2->unk_150[i].unk_20 = 0;
                 this2->unk_150[i].unk_1C = 0;
-                this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_0.x = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_0.y = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                this2->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
                 this2->unk_150[i].unk_23 = 0;
                 this2->unk_150[i].unk_22++;
             case 1:
@@ -966,18 +966,18 @@ void DemoKankyo_DrawSparkles(DemoKankyo *this, GlobalContext *globalCtx) {
             case 2:
                 Math_SmoothStepToF(&this2->unk_150[i].unk_18, 0.0f, 0.5f, 0.3f, 0.2f);
                 if (this2->unk_150[i].unk_18 <= 0.0f) {
-                    this2->unk_150[i].unk_0 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                    this2->unk_150[i].unk_4 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
-                    this2->unk_150[i].unk_8 = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_0.x = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_0.y = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
+                    this2->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
                     this2->unk_150[i].unk_18 = 0.0f;
                     this2->unk_150[i].unk_23 = 1;
                 }
                 break;
         }
 
-        translateX = this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0;
-        translateY = this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_4;
-        translateZ = this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_8;
+        translateX = this2->unk_150[i].unk_C.x + this2->unk_150[i].unk_0.x;
+        translateY = this2->unk_150[i].unk_C.y + this2->unk_150[i].unk_0.y;
+        translateZ = this2->unk_150[i].unk_C.z + this2->unk_150[i].unk_0.z;
 
         if (this2->unk_150[i].unk_22 < 2) {
             Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
