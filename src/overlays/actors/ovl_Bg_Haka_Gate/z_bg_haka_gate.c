@@ -336,7 +336,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
         Matrix_RotateY(Camera_GetCamDirYaw(ACTIVE_CAM) * (M_PI / 0x8000), MTXMODE_APPLY);
         scale = this->vFlameScale * 0.00001f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744), 2);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 749);
     }
@@ -356,14 +356,14 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Get(&currentMtxF);
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_Translate(0.0f, 0.0f, 2000.0f, 1);
+            Matrix_Translate(0.0f, 0.0f, 2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 788),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06010A10);
             Matrix_Put(&currentMtxF);
             Matrix_Translate(0.0f, 0.0f, 2000.0f, MTXMODE_APPLY);
             Matrix_RotateX(-this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_Translate(0.0f, 0.0f, -2000.0f, 1);
+            Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 796),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06010C10);
