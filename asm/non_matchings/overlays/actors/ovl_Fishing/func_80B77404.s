@@ -782,7 +782,7 @@ glabel L80B77C74
 /* 0E518 80B77EB8 346E0400 */  ori     $t6, $v1, 0x0400           ## $t6 = 00000400
 /* 0E51C 80B77EBC ACCE0EC0 */  sw      $t6, 0x0EC0($a2)           ## 8015DB80
 /* 0E520 80B77EC0 AFAF0034 */  sw      $t7, 0x0034($sp)           
-/* 0E524 80B77EC4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0E524 80B77EC4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0E528 80B77EC8 C42CB824 */  lwc1    $f12, %lo(D_80B7B824)($at) 
 /* 0E52C 80B77ECC 4458F800 */  cfc1    $t8, $31
@@ -837,7 +837,7 @@ glabel L80B77C74
 /* 0E5E0 80B77F80 346C0800 */  ori     $t4, $v1, 0x0800           ## $t4 = 00000800
 /* 0E5E4 80B77F84 ACCC0EC0 */  sw      $t4, 0x0EC0($a2)           ## 00000EC0
 /* 0E5E8 80B77F88 AFAD0034 */  sw      $t5, 0x0034($sp)           
-/* 0E5EC 80B77F8C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0E5EC 80B77F8C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 0E5F0 80B77F90 C42CB828 */  lwc1    $f12, %lo(D_80B7B828)($at) 
 /* 0E5F4 80B77F94 444EF800 */  cfc1    $t6, $31

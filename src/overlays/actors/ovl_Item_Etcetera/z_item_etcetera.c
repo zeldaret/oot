@@ -78,25 +78,25 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.25f);
     ItemEtcetera_SetupAction(this, func_80B857D0);
     switch (type) {
-        case ITEM_ETCETERA_LETTER:
+        case ITEM_ETC_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B858B4;
             if (gSaveContext.eventChkInf[3] & 2) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case ITEM_ETCETERA_ARROW_FIRE:
+        case ITEM_ETC_ARROW_FIRE:
             this->futureActionFunc = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
             this->actor.shape.unk_08 = 50.0f;
             break;
-        case ITEM_ETCETERA_RUPEE_GREEN_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_BLUE_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_RED_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_PURPLE_CHEST_GAME:
-        case ITEM_ETCETERA_HEART_PIECE_CHEST_GAME:
-        case ITEM_ETCETERA_KEY_SMALL_CHEST_GAME:
+        case ITEM_ETC_RUPEE_GREEN_CHEST_GAME:
+        case ITEM_ETC_RUPEE_BLUE_CHEST_GAME:
+        case ITEM_ETC_RUPEE_RED_CHEST_GAME:
+        case ITEM_ETC_RUPEE_PURPLE_CHEST_GAME:
+        case ITEM_ETC_HEART_PIECE_CHEST_GAME:
+        case ITEM_ETC_KEY_SMALL_CHEST_GAME:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B85B28;
             this->drawFunc = ItemEtcetera_DrawThroughLens;
@@ -151,13 +151,13 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
     static Color_RGB8 envColor = { 255, 50, 50 };
     Vec3f pos;
 
-    velocity.x = Math_Rand_CenteredFloat(3.0f);
-    velocity.z = Math_Rand_CenteredFloat(3.0f);
+    velocity.x = Rand_CenteredFloat(3.0f);
+    velocity.z = Rand_CenteredFloat(3.0f);
     velocity.y = -0.05f;
     accel.y = -0.025f;
-    pos.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
-    pos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    pos.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    pos.x = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
+    pos.y = (Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
+    pos.z = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
     EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 5000, 16);
 }
 

@@ -180,7 +180,7 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     f32 planeHalfWidth;
     s32 pad2;
     Player* player = PLAYER;
-    s32 useViewEye = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
+    s32 useViewEye = gDbgCamEnabled != 0 || globalCtx->csCtx.state != 0;
     s32 transitionActorIdx;
     f32 absZ;
     s32 side;
@@ -220,8 +220,8 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
         }
         if (absY < 95.0f) {
             this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[1].room;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 1.0f, 50.0f, 10.0f);
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 1.0f, 50.0f, 10.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 1.0f, 50.0f, 10.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);

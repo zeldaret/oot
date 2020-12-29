@@ -282,10 +282,18 @@ typedef struct {
 } ColHeader;
 
 typedef struct {
-    s16 cameraSType;            // 0x00
-    s16 numCameras;             // 0x02
-    s32 camPosDataSeg;  // 0x04
-} CamData;
+    /* 0x0000 */ Vec3s pos;
+    /* 0x0006 */ Vec3s rot;
+    /* 0x000C */ s16 fov;
+    /* 0x000E */ s16 jfifId;
+    /* 0x0010 */ s16 unk_10;
+} CamPosData; // size = 0x12
+
+typedef struct {
+    /* 0x0000 */ s16 cameraSType;
+    /* 0x0002 */ s16 numCameras;
+    /* 0x0004 */ CamPosData* camPosDataSeg;
+} CamData; // size = 0x08
 
 typedef struct {
     u32 unknown;
@@ -299,14 +307,6 @@ typedef union {
     long long int forceStructAlignment;
 } CamData;
 */
-
-typedef struct {
-    s16 posX, posY, posZ;
-    s16 rotX, rotY, rotZ;
-    s16 fov;
-    s16 jfifId;
-    s16 unk;
-} CamPosData;
 
 /*
 typedef union {

@@ -94,7 +94,7 @@ glabel EnDaikuKakariko_Update
 /* 00D6C 809E508C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00D70 809E5090 260402FC */  addiu   $a0, $s0, 0x02FC           ## $a0 = 000002FC
 /* 00D74 809E5094 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00D78 809E5098 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00D78 809E5098 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00D7C 809E509C 2407071C */  addiu   $a3, $zero, 0x071C         ## $a3 = 0000071C
 /* 00D80 809E50A0 8FBF0024 */  lw      $ra, 0x0024($sp)           

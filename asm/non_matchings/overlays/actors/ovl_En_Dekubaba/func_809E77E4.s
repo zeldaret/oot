@@ -16,7 +16,7 @@ glabel func_809E77E4
 /* 02048 809E7818 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0204C 809E781C 240E071C */  addiu   $t6, $zero, 0x071C         ## $t6 = 0000071C
 /* 02050 809E7820 AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 02054 809E7824 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02054 809E7824 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02058 809E7828 240711C6 */  addiu   $a3, $zero, 0x11C6         ## $a3 = 000011C6
 /* 0205C 809E782C 240F071C */  addiu   $t7, $zero, 0x071C         ## $t7 = 0000071C
@@ -25,7 +25,7 @@ glabel func_809E77E4
 /* 02068 809E7838 262401CA */  addiu   $a0, $s1, 0x01CA           ## $a0 = 000001CA
 /* 0206C 809E783C 2405EAAB */  addiu   $a1, $zero, 0xEAAB         ## $a1 = FFFFEAAB
 /* 02070 809E7840 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 02074 809E7844 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02074 809E7844 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02078 809E7848 24070AAA */  addiu   $a3, $zero, 0x0AAA         ## $a3 = 00000AAA
 /* 0207C 809E784C 2418071C */  addiu   $t8, $zero, 0x071C         ## $t8 = 0000071C
@@ -34,7 +34,7 @@ glabel func_809E77E4
 /* 02088 809E7858 262401CC */  addiu   $a0, $s1, 0x01CC           ## $a0 = 000001CC
 /* 0208C 809E785C 2405C71D */  addiu   $a1, $zero, 0xC71D         ## $a1 = FFFFC71D
 /* 02090 809E7860 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 02094 809E7864 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02094 809E7864 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02098 809E7868 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 0209C 809E786C 2419071C */  addiu   $t9, $zero, 0x071C         ## $t9 = 0000071C
@@ -43,7 +43,7 @@ glabel func_809E77E4
 /* 020A8 809E7878 262401CE */  addiu   $a0, $s1, 0x01CE           ## $a0 = 000001CE
 /* 020AC 809E787C 2405A38F */  addiu   $a1, $zero, 0xA38F         ## $a1 = FFFFA38F
 /* 020B0 809E7880 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 020B4 809E7884 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 020B4 809E7884 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 020B8 809E7888 240711C6 */  addiu   $a3, $zero, 0x11C6         ## $a3 = 000011C6
 /* 020BC 809E788C 02028025 */  or      $s0, $s0, $v0              ## $s0 = 00000000

@@ -50,8 +50,8 @@ glabel BgHidanSekizou_Draw
 /* 010B0 8088DF70 17000009 */  bne     $t8, $zero, .L8088DF98     
 /* 010B4 8088DF74 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 010B8 8088DF78 8E6202C0 */  lw      $v0, 0x02C0($s3)           ## 000002C0
-/* 010BC 8088DF7C 3C090601 */  lui     $t1, 0x0601                ## $t1 = 06010000
-/* 010C0 8088DF80 2529B0F8 */  addiu   $t1, $t1, 0xB0F8           ## $t1 = 0600B0F8
+/* 010BC 8088DF7C 3C090601 */  lui     $t1, %hi(D_0600B0F8)                ## $t1 = 06010000
+/* 010C0 8088DF80 2529B0F8 */  addiu   $t1, $t1, %lo(D_0600B0F8)           ## $t1 = 0600B0F8
 /* 010C4 8088DF84 24590008 */  addiu   $t9, $v0, 0x0008           ## $t9 = 00000008
 /* 010C8 8088DF88 AE7902C0 */  sw      $t9, 0x02C0($s3)           ## 000002C0
 /* 010CC 8088DF8C AC490004 */  sw      $t1, 0x0004($v0)           ## 00000004
@@ -59,8 +59,8 @@ glabel BgHidanSekizou_Draw
 /* 010D4 8088DF94 AC480000 */  sw      $t0, 0x0000($v0)           ## 00000000
 .L8088DF98:
 /* 010D8 8088DF98 8E6202C0 */  lw      $v0, 0x02C0($s3)           ## 000002C0
-/* 010DC 8088DF9C 3C0C0601 */  lui     $t4, 0x0601                ## $t4 = 06010000
-/* 010E0 8088DFA0 258CABC8 */  addiu   $t4, $t4, 0xABC8           ## $t4 = 0600ABC8
+/* 010DC 8088DF9C 3C0C0601 */  lui     $t4, %hi(D_0600ABC8)                ## $t4 = 06010000
+/* 010E0 8088DFA0 258CABC8 */  addiu   $t4, $t4, %lo(D_0600ABC8)           ## $t4 = 0600ABC8
 /* 010E4 8088DFA4 244A0008 */  addiu   $t2, $v0, 0x0008           ## $t2 = 00000008
 /* 010E8 8088DFA8 AE6A02C0 */  sw      $t2, 0x02C0($s3)           ## 000002C0
 /* 010EC 8088DFAC AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
@@ -78,7 +78,7 @@ glabel BgHidanSekizou_Draw
 /* 01118 8088DFD8 868F07A0 */  lh      $t7, 0x07A0($s4)           ## 000007A0
 /* 0111C 8088DFDC 000FC080 */  sll     $t8, $t7,  2               
 /* 01120 8088DFE0 0298C821 */  addu    $t9, $s4, $t8              
-/* 01124 8088DFE4 0C016A7D */  jal     func_8005A9F4              
+/* 01124 8088DFE4 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 01128 8088DFE8 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
 /* 0112C 8088DFEC 862300B6 */  lh      $v1, 0x00B6($s1)           ## 000000B6
 /* 01130 8088DFF0 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
@@ -132,7 +132,7 @@ glabel BgHidanSekizou_Draw
 .L8088E0AC:
 /* 011EC 8088E0AC 000D7080 */  sll     $t6, $t5,  2               
 /* 011F0 8088E0B0 028E7821 */  addu    $t7, $s4, $t6              
-/* 011F4 8088E0B4 0C016A7D */  jal     func_8005A9F4              
+/* 011F4 8088E0B4 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 011F8 8088E0B8 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 011FC 8088E0BC 00022400 */  sll     $a0, $v0, 16               
 /* 01200 8088E0C0 00042403 */  sra     $a0, $a0, 16               

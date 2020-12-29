@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import struct
 import argparse
 from filemap import FileResult, GetFromVRam, GetFromRom
@@ -223,7 +224,9 @@ else:
     print("ItemInit type must specify number of elements")
     exit()
 
-ovlFile = open("../../baserom/" + fileResult.name, "rb")
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+ovlFile = open(script_dir + "/../../baserom/" + fileResult.name, "rb")
 ovlData = bytearray(ovlFile.read())
 ovlFile.close()
 

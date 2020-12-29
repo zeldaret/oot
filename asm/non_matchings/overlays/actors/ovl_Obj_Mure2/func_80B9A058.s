@@ -26,7 +26,7 @@ glabel func_80B9A058
 /* 00174 80B9A0B4 0C01DF90 */  jal     Math_Vec3f_Copy
               ## Vec3f_Copy
 /* 00178 80B9A0B8 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000024
-/* 0017C 80B9A0BC 0C01DE0D */  jal     Math_Coss
+/* 0017C 80B9A0BC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00180 80B9A0C0 86240002 */  lh      $a0, 0x0002($s1)           ## 80B9A82A
 /* 00184 80B9A0C4 86290000 */  lh      $t1, 0x0000($s1)           ## 80B9A828
@@ -37,7 +37,7 @@ glabel func_80B9A058
 /* 00198 80B9A0D8 46004282 */  mul.s   $f10, $f8, $f0             
 /* 0019C 80B9A0DC 460A2400 */  add.s   $f16, $f4, $f10            
 /* 001A0 80B9A0E0 E6100000 */  swc1    $f16, 0x0000($s0)          ## 00000000
-/* 001A4 80B9A0E4 0C01DE1C */  jal     Math_Sins
+/* 001A4 80B9A0E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001A8 80B9A0E8 86240002 */  lh      $a0, 0x0002($s1)           ## 80B9A82A
 /* 001AC 80B9A0EC 862A0000 */  lh      $t2, 0x0000($s1)           ## 80B9A828

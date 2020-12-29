@@ -64,8 +64,8 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Math_SinS(req->speed * req->countdown);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -73,7 +73,7 @@ s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown);
+        f32 a = Math_SinS(req->speed * req->countdown);
         Quake_UpdateShakeInfo(req, shake, a, a);
         req->countdown--;
     }
@@ -85,14 +85,14 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
     f32 a;
 
     req->countdown--;
-    a = Math_Sins(req->speed * ((req->countdown & 0xF) + 500));
-    Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+    a = Math_SinS(req->speed * ((req->countdown & 0xF) + 500));
+    Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
     return 1;
 }
 
 s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
+        f32 a = Math_SinS(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
         Quake_UpdateShakeInfo(req, shake, a, a);
         req->countdown--;
     }
@@ -101,8 +101,8 @@ s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne();
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne();
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -110,8 +110,8 @@ s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -148,10 +148,10 @@ QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
 
     func_80106860(req, 0, sizeof(QuakeRequest)); // memset
     req->cam = cam;
-    req->camPtrIdx = cam->unk_164;
+    req->camPtrIdx = cam->thisIdx;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
-    req->randIdx = ((s16)(Math_Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
+    req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
     sQuakeRequestCount++;
 
     return req;
@@ -293,7 +293,7 @@ u32 Quake_RemoveFromIdx(s16 idx) {
     return false;
 }
 
-s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData) {
+s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     f32 max;
     f32 max2;
     QuakeRequest* req;
@@ -314,12 +314,12 @@ s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData) {
     camData->rotZ = 0;
     camData->unk_1A = 0;
     camData->zoom = 0;
-    camData->vec1.x = 0.0f;
-    camData->vec1.y = 0.0f;
-    camData->vec1.z = 0.0f;
-    camData->vec2.x = 0.0f;
-    camData->vec2.y = 0.0f;
-    camData->vec2.z = 0.0f;
+    camData->atOffset.x = 0.0f;
+    camData->atOffset.y = 0.0f;
+    camData->atOffset.z = 0.0f;
+    camData->eyeOffset.x = 0.0f;
+    camData->eyeOffset.y = 0.0f;
+    camData->eyeOffset.z = 0.0f;
     camData->unk_20 = 0.0f;
 
     if (sQuakeRequestCount == 0) {
@@ -335,29 +335,29 @@ s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData) {
                              req->camPtrIdx);
                 Quake_Remove(req);
             } else {
-                temp = &camera->unk_164;
-                eq = req->cam->unk_164 != *temp;
+                temp = &camera->thisIdx;
+                eq = req->cam->thisIdx != *temp;
                 absSpeedDiv = ABS(req->speed) / (f32)0x8000;
                 if (sQuakeCallbacks[req->callbackIdx](req, &shake) == 0) {
                     Quake_Remove(req);
                 } else if (eq == 0) {
-                    if (fabsf(camData->vec1.x) < fabsf(shake.vec1.x)) {
-                        camData->vec1.x = shake.vec1.x;
+                    if (fabsf(camData->atOffset.x) < fabsf(shake.vec1.x)) {
+                        camData->atOffset.x = shake.vec1.x;
                     }
-                    if (fabsf(camData->vec1.y) < fabsf(shake.vec1.y)) {
-                        camData->vec1.y = shake.vec1.y;
+                    if (fabsf(camData->atOffset.y) < fabsf(shake.vec1.y)) {
+                        camData->atOffset.y = shake.vec1.y;
                     }
-                    if (fabsf(camData->vec1.z) < fabsf(shake.vec1.z)) {
-                        camData->vec1.z = shake.vec1.z;
+                    if (fabsf(camData->atOffset.z) < fabsf(shake.vec1.z)) {
+                        camData->atOffset.z = shake.vec1.z;
                     }
-                    if (fabsf(camData->vec2.x) < fabsf(shake.vec2.x)) {
-                        camData->vec2.x = shake.vec2.x;
+                    if (fabsf(camData->eyeOffset.x) < fabsf(shake.vec2.x)) {
+                        camData->eyeOffset.x = shake.vec2.x;
                     }
-                    if (fabsf(camData->vec2.y) < fabsf(shake.vec2.y)) {
-                        camData->vec2.y = shake.vec2.y;
+                    if (fabsf(camData->eyeOffset.y) < fabsf(shake.vec2.y)) {
+                        camData->eyeOffset.y = shake.vec2.y;
                     }
-                    if (fabsf(camData->vec2.z) < fabsf(shake.vec2.z)) {
-                        camData->vec2.z = shake.vec2.z;
+                    if (fabsf(camData->eyeOffset.z) < fabsf(shake.vec2.z)) {
+                        camData->eyeOffset.z = shake.vec2.z;
                     }
                     if (camData->rotZ < shake.rotZ) {
                         camData->rotZ = shake.rotZ;

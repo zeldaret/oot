@@ -48,7 +48,7 @@ glabel EnBubble_Draw
 /* 01030 809CCC30 26040210 */  addiu   $a0, $s0, 0x0210           ## $a0 = 00000210
 /* 01034 809CCC34 3C054180 */  lui     $a1, 0x4180                ## $a1 = 41800000
 /* 01038 809CCC38 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
-/* 0103C 809CCC3C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0103C 809CCC3C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01040 809CCC40 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01044 809CCC44 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
@@ -58,7 +58,7 @@ glabel EnBubble_Draw
 /* 01054 809CCC54 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3DA3D70A
 /* 01058 809CCC58 26040214 */  addiu   $a0, $s0, 0x0214           ## $a0 = 00000214
 /* 0105C 809CCC5C 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
-/* 01060 809CCC60 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 01060 809CCC60 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01064 809CCC64 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 01068 809CCC68 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -131,8 +131,8 @@ glabel EnBubble_Draw
 /* 0116C 809CCD6C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 01170 809CCD70 AFA20038 */  sw      $v0, 0x0038($sp)           
 /* 01174 809CCD74 8FA30038 */  lw      $v1, 0x0038($sp)           
-/* 01178 809CCD78 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000
-/* 0117C 809CCD7C 25AD1000 */  addiu   $t5, $t5, 0x1000           ## $t5 = 06001000
+/* 01178 809CCD78 3C0D0600 */  lui     $t5, %hi(D_06001000)                ## $t5 = 06000000
+/* 0117C 809CCD7C 25AD1000 */  addiu   $t5, $t5, %lo(D_06001000)           ## $t5 = 06001000
 /* 01180 809CCD80 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 01184 809CCD84 8FAA004C */  lw      $t2, 0x004C($sp)           
 /* 01188 809CCD88 3C0CDE00 */  lui     $t4, 0xDE00                ## $t4 = DE000000

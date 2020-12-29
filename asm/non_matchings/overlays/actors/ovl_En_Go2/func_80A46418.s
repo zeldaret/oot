@@ -33,7 +33,7 @@ glabel func_80A46418
 .L80A46490:
 /* 03760 80A46490 5460000B */  bnel    $v1, $zero, .L80A464C0     
 /* 03764 80A46494 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 03768 80A46498 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 03768 80A46498 0C01DF64 */  jal     Rand_S16Offset
               
 /* 0376C 80A4649C AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 03770 80A464A0 8FA70018 */  lw      $a3, 0x0018($sp)           

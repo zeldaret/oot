@@ -11,7 +11,7 @@ glabel func_809C067C
 /* 00DFC 809C069C 3C063E99 */  lui     $a2, 0x3E99                ## $a2 = 3E990000
 /* 00E00 809C06A0 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3E99999A
 /* 00E04 809C06A4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00E08 809C06A8 0C01DE80 */  jal     Math_ApproxF
+/* 00E08 809C06A8 0C01DE80 */  jal     Math_StepToF
               
 /* 00E0C 809C06AC 24E40068 */  addiu   $a0, $a3, 0x0068           ## $a0 = 00000068
 /* 00E10 809C06B0 10400007 */  beq     $v0, $zero, .L809C06D0     

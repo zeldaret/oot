@@ -6,8 +6,8 @@ glabel func_80AC6B3C
 /* 03EAC 80AC6B4C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 03EB0 80AC6B50 AFBF003C */  sw      $ra, 0x003C($sp)
 /* 03EB4 80AC6B54 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 03EB8 80AC6B58 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 03EBC 80AC6B5C 24C600F0 */  addiu   $a2, $a2, 0x00F0           ## $a2 = 060000F0
+/* 03EB8 80AC6B58 3C060600 */  lui     $a2, %hi(D_060000F0)                ## $a2 = 06000000
+/* 03EBC 80AC6B5C 24C600F0 */  addiu   $a2, $a2, %lo(D_060000F0)           ## $a2 = 060000F0
 /* 03EC0 80AC6B60 AFA50040 */  sw      $a1, 0x0040($sp)
 /* 03EC4 80AC6B64 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03EC8 80AC6B68 AFA00014 */  sw      $zero, 0x0014($sp)
@@ -24,19 +24,19 @@ glabel func_80AC6B3C
 /* 03EF4 80AC6B94 01194021 */  addu    $t0, $t0, $t9
 /* 03EF8 80AC6B98 8D0817B4 */  lw      $t0, 0x17B4($t0)           ## 000117B4
 /* 03EFC 80AC6B9C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
-/* 03F00 80AC6BA0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 03F00 80AC6BA0 3C040600 */  lui     $a0, %hi(D_060004A8)                ## $a0 = 06000000
 /* 03F04 80AC6BA4 01014821 */  addu    $t1, $t0, $at
 /* 03F08 80AC6BA8 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 03F0C 80AC6BAC AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 03F10 80AC6BB0 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 03F14 80AC6BB4 248404A8 */  addiu   $a0, $a0, 0x04A8           ## $a0 = 060004A8
+/* 03F14 80AC6BB4 248404A8 */  addiu   $a0, $a0, %lo(D_060004A8)           ## $a0 = 060004A8
 /* 03F18 80AC6BB8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 03F1C 80AC6BBC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 03F20 80AC6BC0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 03F20 80AC6BC0 3C050600 */  lui     $a1, %hi(D_060004A8)                ## $a1 = 06000000
 /* 03F24 80AC6BC4 468021A0 */  cvt.s.w $f6, $f4
 /* 03F28 80AC6BC8 44070000 */  mfc1    $a3, $f0
-/* 03F2C 80AC6BCC 24A504A8 */  addiu   $a1, $a1, 0x04A8           ## $a1 = 060004A8
+/* 03F2C 80AC6BCC 24A504A8 */  addiu   $a1, $a1, %lo(D_060004A8)           ## $a1 = 060004A8
 /* 03F30 80AC6BD0 8FA40040 */  lw      $a0, 0x0040($sp)
 /* 03F34 80AC6BD4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 03F38 80AC6BD8 AFA00014 */  sw      $zero, 0x0014($sp)

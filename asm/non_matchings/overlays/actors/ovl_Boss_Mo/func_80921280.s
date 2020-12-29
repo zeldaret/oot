@@ -275,17 +275,17 @@ glabel func_80921280
 /* 05ADC 809215DC 27B10054 */  addiu   $s1, $sp, 0x0054           ## $s1 = FFFFFFE4
 /* 05AE0 809215E0 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
 .L809215E4:
-/* 05AE4 809215E4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 05AE4 809215E4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 05AE8 809215E8 4600B306 */  mov.s   $f12, $f22                 
 /* 05AEC 809215EC 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 05AF0 809215F0 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
-/* 05AF4 809215F4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 05AF4 809215F4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 05AF8 809215F8 E7A00048 */  swc1    $f0, 0x0048($sp)           
 /* 05AFC 809215FC 46140400 */  add.s   $f16, $f0, $f20            
 /* 05B00 80921600 4600B306 */  mov.s   $f12, $f22                 
-/* 05B04 80921604 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 05B04 80921604 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 05B08 80921608 E7B0004C */  swc1    $f16, 0x004C($sp)          
 /* 05B0C 8092160C 8FA90040 */  lw      $t1, 0x0040($sp)           
@@ -306,7 +306,7 @@ glabel func_80921280
 /* 05B48 80921648 46069200 */  add.s   $f8, $f18, $f6             
 /* 05B4C 8092164C 46105100 */  add.s   $f4, $f10, $f16            
 /* 05B50 80921650 E7A80054 */  swc1    $f8, 0x0054($sp)           
-/* 05B54 80921654 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 05B54 80921654 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 05B58 80921658 E7A4005C */  swc1    $f4, 0x005C($sp)           
 /* 05B5C 8092165C 3C018092 */  lui     $at, %hi(D_80926DA8)       ## $at = 80920000
