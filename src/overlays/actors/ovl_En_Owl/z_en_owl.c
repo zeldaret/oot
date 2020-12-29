@@ -547,8 +547,8 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
     u16 textId;
 
     EnOwl_LookAtLink(this, globalCtx);
-    if (CHECK_QUEST_ITEM(0xE)) {
-        if (CHECK_QUEST_ITEM(0xC)) {
+    if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
+        if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
             textId = 0x4031;
         } else {
             textId = 0x4017;
