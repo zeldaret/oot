@@ -434,7 +434,9 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         this->skelAnime.animPlaybackSpeed = turnVelocity * 0.01f;
     }
 
-    // Play sounds once every animation cycle
+    /**
+     * Play sounds once every animation cycle
+     */
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (((s16)this->skelAnime.animCurrentFrame & 7) == 0) {
         if (TEKTITE_BLUE && (this->actor.bgCheckFlags & 0x20)) {
@@ -472,7 +474,9 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
     EnTite_SetupAction(this, EnTite_MoveTowardPlayer);
 }
 
-// Jumping toward player as a method of travel (different from attacking, has no hitbox)
+/**
+ *  Jumping toward player as a method of travel (different from attacking, has no hitbox)
+ */
 void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -579,7 +583,9 @@ void EnTite_SetupRecoil(EnTite* this) {
     EnTite_SetupAction(this, EnTite_Recoil);
 }
 
-// After tektite hits or gets hit, recoils backwards and slides a bit upon landing
+/**
+ * After tektite hits or gets hit, recoils backwards and slides a bit upon landing
+ */
 void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
     s16 angleToPlayer;
 
@@ -645,7 +651,9 @@ void EnTite_SetupStunned(EnTite* this) {
     EnTite_SetupAction(this, EnTite_Stunned);
 }
 
-// stunned or frozen
+/**
+ * stunned or frozen
+ */
 void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
     s16 angleToPlayer;
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
@@ -705,7 +713,9 @@ void EnTite_SetupDeathCry(EnTite* this) {
     EnTite_SetupAction(this, EnTite_DeathCry);
 }
 
-// First frame of death. Scream in pain and allocate memory for EnPart data
+/**
+ * First frame of death. Scream in pain and allocate memory for EnPart data
+ */
 void EnTite_DeathCry(EnTite* this, GlobalContext* globalCtx) {
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_TEKU_DEAD, true,
                                       DEADSOUND_REPEAT_MODE_OFF, 40);
@@ -714,7 +724,9 @@ void EnTite_DeathCry(EnTite* this, GlobalContext* globalCtx) {
     func_80032E24(&this->unk_2C4, 0x18, globalCtx);
 }
 
-// Spawn EnPart and drop items
+/**
+ * Spawn EnPart and drop items
+ */
 void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx) {
     if (func_8003305C(&this->actor, &this->unk_2C4, globalCtx, (this->actor.params + 0xB))) {
         if (TEKTITE_BLUE) {
@@ -739,7 +751,9 @@ void EnTite_SetupFlipOnBack(EnTite* this) {
     EnTite_SetupAction(this, EnTite_FlipOnBack);
 }
 
-// During the flip animation and also while idling on back
+/**
+ * During the flip animation and also while idling on back
+ */
 void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.z, 0x7FFF, 1, 4000, 0);
     // randomly reset the leg wiggling animation whenever timer reaches 0 to give illusion of twitching legs
@@ -909,7 +923,9 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// Get the locations where the tektite feet are rendered
+/**
+ * Get the locations where the tektite feet are rendered
+ */
 void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDList, Vec3s* rot, void* thisx) {
     EnTite* this = THIS;
     switch (limbIndex) {
