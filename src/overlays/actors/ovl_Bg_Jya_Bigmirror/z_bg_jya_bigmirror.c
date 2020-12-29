@@ -10,6 +10,13 @@
 
 #define THIS ((BgJyaBigmirror*)thisx)
 
+#define BIGMIR_PUZZLE_COBRA1_SOLVED 1 << 0
+#define BIGMIR_PUZZLE_COBRA2_SOLVED 1 << 1
+#define BIGMIR_PUZZLE_BOMBIWA_DESTROYED 1 << 2
+#define BIGMIR_PUZZLE_IN_STATUE_ROOM 1 << 3
+#define BIGMIR_PUZZLE_IN_1ST_TOP_ROOM 1 << 4
+#define BIGMIR_PUZZLE_IN_2ND_TOP_ROOM 1 << 5
+
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,8 +44,8 @@ typedef struct {
 } BigMirrorDataEntry; // size = 0x14
 
 static BigMirrorDataEntry sCobraSpawnData[] = {
-    { { -560, 1743, -310 }, 0xFF01, 0x4000, 0x8000 },
-    { { 60, 1743, -310 }, 0xFF02, 0x8000, 0xA000 },
+    { { -560.0f, 1743.0f, -310.0f }, 0xFF01, 0x4000, 0x8000 },
+    { { 60.0f, 1743.0f, -310.0f }, 0xFF02, 0x8000, 0xA000 },
 };
 
 extern Gfx D_0600BC70[];
@@ -48,27 +55,25 @@ extern Gfx D_0600E2D0[];
 
 void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = THIS;
-    s8 roomNumber;
 
-    this->puzzleState &= ~0x38;
-    roomNumber = globalCtx->roomCtx.curRoom.num;
-    if (roomNumber == 5) { // Statue room
-        this->puzzleState |= 0x8;
-    } else if (roomNumber == 0x19) { // First top room
-        this->puzzleState |= 0x10;
-    } else if (roomNumber == 0x1A) { // Second top room
-        this->puzzleState |= 0x20;
+    this->puzzleFlags &= ~(BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
+    if (globalCtx->roomCtx.curRoom.num == 5) {
+        this->puzzleFlags |= BIGMIR_PUZZLE_IN_STATUE_ROOM;
+    } else if (globalCtx->roomCtx.curRoom.num == 0x19) {
+        this->puzzleFlags |= BIGMIR_PUZZLE_IN_1ST_TOP_ROOM;
+    } else if (globalCtx->roomCtx.curRoom.num == 0x1A) {
+        this->puzzleFlags |= BIGMIR_PUZZLE_IN_2ND_TOP_ROOM;
     }
 }
 
 void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
-    static u8 cobraPuzzleFlags[] = { 0x01, 0x02 };
+    static u8 cobraPuzzleFlags[] = { BIGMIR_PUZZLE_COBRA1_SOLVED, BIGMIR_PUZZLE_COBRA2_SOLVED };
     BgJyaBigmirror* this = THIS;
     BigMirrorDataEntry* curSpawnData;
     BigmirrorCobra* curCobraInfo;
     s32 i;
 
-    if (this->puzzleState & 0x30) { // In one of top rooms
+    if (this->puzzleFlags & (BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM)) {
 
         for (i = 0; i < 2; i++) {
             curSpawnData = &sCobraSpawnData[i];
@@ -78,9 +83,9 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
                 curCobraInfo->rotY = curCobraInfo->cobra->actor.shape.rot.y;
 
                 if (curCobraInfo->rotY == curSpawnData->solvedRotY) {
-                    this->puzzleState |= cobraPuzzleFlags[i];
+                    this->puzzleFlags |= cobraPuzzleFlags[i];
                 } else {
-                    this->puzzleState &= ~cobraPuzzleFlags[i];
+                    this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
                 if (curCobraInfo->cobra->actor.update == NULL) {
@@ -99,7 +104,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
         }
-    } else { // In statue room
+    } else {
 
         for (i = 0; i < 2; i++) {
             curCobraInfo = &this->cobraInfo[i];
@@ -119,18 +124,18 @@ void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = THIS;
 
     if (Flags_GetSwitch(globalCtx, 0x29)) {
-        this->puzzleState |= 4;
+        this->puzzleFlags |= BIGMIR_PUZZLE_BOMBIWA_DESTROYED;
     } else {
-        this->puzzleState &= ~4;
+        this->puzzleFlags &= ~(BIGMIR_PUZZLE_BOMBIWA_DESTROYED);
     }
 }
 
 void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
     static s16 sMirRayParamss[] = { 0x0005, 0x0007, 0x0008 };
     static Vec3f sMirRayPoss[] = {
-        { 60, 1802, -1102 },
-        { -560, 1800, -310 },
-        { 60, 1800, -310 },
+        { 60.0f, 1802.0f, -1102.0f },
+        { -560.0f, 1800.0f, -310.0f },
+        { 60.0f, 1800.0f, -310.0f },
     };
     BgJyaBigmirror* this = THIS;
     s32 puzzleSolved;
@@ -145,18 +150,19 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
     } else {
-        puzzleSolved = !!(this->puzzleState & 0x18); // In second room or puzzle progress made
+        puzzleSolved = !!(this->puzzleFlags & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM));
 
         if (puzzleSolved) {
-            puzzleSolved = !!(this->puzzleState & 2); // Second cobra solved
+            puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED);
 
             if (puzzleSolved) {
-                puzzleSolved = !!(this->puzzleState & 1); // First cobra solved
+                puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED);
             }
         }
         lightBeamToggles[0] = puzzleSolved; // Only spawn if puzzle solved
         if (1) {}
-        lightBeamToggles[1] = lightBeamToggles[2] = this->puzzleState & 0x30; // In one of top rooms
+        lightBeamToggles[1] = lightBeamToggles[2] =
+            this->puzzleFlags & (BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
@@ -222,14 +228,15 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
     func_80093D84(globalCtx->state.gfxCtx);
-    lift = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, 1);
+    lift = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORTYPE_BG);
     if (lift != NULL) {
         this->liftHeight = lift->posRot.pos.y;
     }
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z,
                   &this->actor.shape.rot);
     // Second float seems to be either this or 1613/1280 + 0.13: both numerators relate to the lift height
-    Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (973.0f / 1280.0f + 0.63f) /* 1.3901563f */, 0.1f, MTXMODE_APPLY);
+    Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (973.0f / 1280.0f + 0.63f) /* 1.3901563f */, 0.1f,
+                 MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_0600BC70);
@@ -237,7 +244,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
     if (lift != NULL) {
         if (1) {}
         func_800D1694(lift->posRot.pos.x, lift->posRot.pos.y, lift->posRot.pos.z, &D_80893F4C);
-        Matrix_Scale(0.1f, 0.1f, 0.1f, 1);
+        Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_0600BD80);
@@ -249,14 +256,14 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = THIS;
 
-    // In first top room
-    if (this->puzzleState & 0x10) {
+    if (this->puzzleFlags & BIGMIR_PUZZLE_IN_1ST_TOP_ROOM) {
         Gfx_DrawDListOpa(globalCtx, D_0600E1B0);
         Gfx_DrawDListXlu(globalCtx, D_0600E2D0);
     }
 
-    // In statue room or two top rooms AND second cobra is solved AND first cobra is solved
-    if ((this->puzzleState & 0x38) && (this->puzzleState & 2) && (this->puzzleState & 1)) {
+    if ((this->puzzleFlags &
+         (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM)) &&
+        (this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED) && (this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
         BgJyaBigmirror_DrawLightBeam(&this->actor, globalCtx);
     }
 }
