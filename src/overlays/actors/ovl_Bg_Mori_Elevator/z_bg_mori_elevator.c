@@ -18,7 +18,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx);
 
-static s16 sIsSpawned = 0;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
@@ -99,10 +99,10 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
     } else {
         switch (sIsSpawned) {
-            case 0:
+            case false:
                 // Forest Temple elevator CT
                 osSyncPrintf("森の神殿 elevator CT\n");
-                sIsSpawned = 1;
+                sIsSpawned = true;
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
@@ -111,7 +111,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                     DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
-            case 1:
+            case true:
                 Actor_Kill(thisx);
                 break;
         }
@@ -125,7 +125,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // Forest Temple elevator DT
         osSyncPrintf("森の神殿 elevator DT\n");
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        sIsSpawned = 0;
+        sIsSpawned = false;
     }
 }
 

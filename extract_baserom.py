@@ -1,15 +1,13 @@
 #!/usr/bin/python3
 
-import os;
-import sys;
-import struct;
-from multiprocessing import Pool
-from multiprocessing import cpu_count
+import os
+import sys
+import struct
+from multiprocessing import Pool, cpu_count
 
 
 ROM_FILE_NAME = 'baserom.z64'
 FILE_TABLE_OFFSET = 0x12F70
-FILE_COUNT = 1532
 
 FILE_NAMES = [
     'makerom',
@@ -1546,6 +1544,12 @@ FILE_NAMES = [
     'softsprite_matrix_static',
 ]
 
+romData = None
+
+
+def initialize_worker(rom_data):
+    global romData
+    romData = rom_data
 
 def read_uint32_be(offset):
     return struct.unpack('>I', romData[offset:offset+4])[0]
@@ -1580,21 +1584,25 @@ def ExtractFunc(i):
 
 #####################################################################
 
-try:
-    os.mkdir('baserom')
-except:
-    pass
+def main():
+    try:
+        os.mkdir('baserom')
+    except:
+        pass
 
-# read baserom data
-try:
-    with open(ROM_FILE_NAME, 'rb') as f:
-        romData = f.read()
-except IOError:
-    print('failed to read file' + ROM_FILE_NAME)
-    sys.exit(1)
+    # read baserom data
+    try:
+        with open(ROM_FILE_NAME, 'rb') as f:
+            rom_data = f.read()
+    except IOError:
+        print('failed to read file' + ROM_FILE_NAME)
+        sys.exit(1)
 
-# extract files
-numCores = cpu_count()
-print("Extracting baserom with " + str(numCores) + " CPU cores.")
-p = Pool(numCores)
-p.map(ExtractFunc, range(0, FILE_COUNT))
+    # extract files
+    num_cores = cpu_count()
+    print("Extracting baserom with " + str(num_cores) + " CPU cores.")
+    with Pool(num_cores, initialize_worker, (rom_data,)) as p:
+        p.map(ExtractFunc, range(len(FILE_NAMES)))
+
+if __name__ == "__main__":
+    main()

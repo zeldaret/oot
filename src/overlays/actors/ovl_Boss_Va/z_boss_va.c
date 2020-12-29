@@ -687,9 +687,9 @@ void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupIntro(BossVa* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005184.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06005184);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005184, 1.0f, frames, frames, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06005184, 1.0f, frames, frames, 2, 0.0f);
     this->actor.shape.unk_08 = -450.0f;
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_BodyIntro);
@@ -979,9 +979,9 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupBodyPhase1(BossVa* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005184.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06005184);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005184, 1.0f, frames, frames, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06005184, 1.0f, frames, frames, 2, 0.0f);
     this->actor.shape.unk_08 = -450.0f;
     this->actor.flags &= ~1;
     this->timer = 25;
@@ -1009,12 +1009,12 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (sBodyState & 0x7F) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+        this->skelAnime.curFrame = 0.0f;
         func_8003426C(&this->actor, 0, 0xFF, 0, 0xC);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (sFightProgress >= PHASE_2)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_2)) {
         BossVa_SetupBodyPhase2(this, globalCtx);
     }
 
@@ -1122,7 +1122,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (sFightProgress >= PHASE_3)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_3)) {
         BossVa_SetupBodyPhase3(this);
     }
 
@@ -1176,7 +1176,7 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (this->colliderBody.base.acFlags & 2) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+        this->skelAnime.curFrame = 0.0f;
         func_8003426C(&this->actor, 0, 0xFF, 0, 0xC);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
         sBodyState = 1;
@@ -1218,7 +1218,7 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(&this->actor);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (sFightProgress >= PHASE_4)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_4)) {
         BossVa_SetupBodyPhase4(this, globalCtx);
     }
 
@@ -1300,7 +1300,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 
     if (this->colliderBody.base.acFlags & 2) {
         this->colliderBody.base.acFlags &= ~2;
-        this->skelAnime.animCurrentFrame = 0.0f;
+        this->skelAnime.curFrame = 0.0f;
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
@@ -1342,7 +1342,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         this->timer2--;
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer == 0) {
         Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 1.0f, ((sFightProgress - PHASE_4 + 1) * 5.0f) + 10.0f,
                                 0.0f);
@@ -1599,7 +1599,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToF(&this->actor.shape.unk_08, -480.0f, 1.0f, 30.0f, 0.0f);
     Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->vaCamRotMod, 0, 1, 0xC8, 0);
@@ -1617,7 +1617,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupSupportIntro(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060166A8, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_060166A8.genericHeader),
+    Animation_Change(&this->skelAnime, &D_060166A8, 0.0f, 0.0f, Animation_GetLastFrame(&D_060166A8),
                          1, 0.0f);
     this->timer = 0;
     BossVa_SetupAction(this, BossVa_SupportIntro);
@@ -1633,8 +1633,8 @@ void BossVa_SupportIntro(BossVa* this, GlobalContext* globalCtx) {
             BossVa_Spark(globalCtx, this, 2, 90, 5.0f, 0.0f, SPARK_BODY, ((this->timer & 0x20) >> 5) + 1, true);
         }
 
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
+        SkelAnime_Update(&this->skelAnime);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
         if (Rand_ZeroOne() < 0.1f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
         }
@@ -1642,7 +1642,7 @@ void BossVa_SupportIntro(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupSupportAttached(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060166A8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060166A8.genericHeader),
+    Animation_Change(&this->skelAnime, &D_060166A8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060166A8),
                          0, 0.0f);
     this->timer = this->actor.params * 10;
     BossVa_SetupAction(this, BossVa_SupportAttached);
@@ -1653,17 +1653,17 @@ void BossVa_SupportAttached(BossVa* this, GlobalContext* globalCtx) {
     if (sBodyState & 0x7F) {
         func_8003426C(&this->actor, 0, 0xFF, 0, 0xC);
         if (Rand_ZeroOne() > 0.5f) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060162AC, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_060162AC.genericHeader), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &D_060162AC, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&D_060162AC), 2, 0.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060164B0, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_060164B0.genericHeader), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &D_060164B0, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&D_060164B0), 2, 0.0f);
         }
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060166A8, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060166A8.genericHeader), 0, 0.0f);
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        Animation_Change(&this->skelAnime, &D_060166A8, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&D_060166A8), 0, 0.0f);
     }
 
     BossVa_AttachToBody(this);
@@ -1704,12 +1704,12 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
     BossVa_AttachToBody(this);
 
     if (this->onCeiling) {
-        frames = SkelAnime_GetFrameCount(&D_06017694.genericHeader);
+        frames = Animation_GetLastFrame(&D_06017694);
         this->onCeiling = false;
         this->timer = (s32)(Rand_ZeroOne() * 10.0f) + 5;
         SkelAnime_Free(&this->skelAnime, globalCtx);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06017FC8, &D_06017694, 0, 0, 0);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06017694, 1.0f, 0.0f, frames, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06017694, 1.0f, 0.0f, frames, 2, 0.0f);
         sBodyState = 0;
         BODY->actor.shape.unk_08 -= 60.0f;
 
@@ -1729,9 +1729,9 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->headRot.x, vaBody->vaBodySpinRate * -3, 1, 0x4B0, 0);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        frames = SkelAnime_GetFrameCount(&D_060177F4.genericHeader);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060177F4, 1.0f, 0.0f, frames, 1, 0.0f);
+    if (SkelAnime_Update(&this->skelAnime)) {
+        frames = Animation_GetLastFrame(&D_060177F4);
+        Animation_Change(&this->skelAnime, &D_060177F4, 1.0f, 0.0f, frames, 1, 0.0f);
         this->actor.flags &= ~1;
     }
 
@@ -1741,7 +1741,7 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (sCsState >= DEATH_START) {
-        Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 0.0f, 0.3f, 0.25f, 0.125f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, 0.0f, 0.3f, 0.25f, 0.125f);
     }
 
     switch (sCsState) {
@@ -1784,15 +1784,15 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupStump(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018150, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06018150.genericHeader),
+    Animation_Change(&this->skelAnime, &D_06018150, 1.0f, 0.0f, Animation_GetLastFrame(&D_06018150),
                          2, 0.0f);
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_Stump);
 }
 
 void BossVa_Stump(BossVa* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (Rand_ZeroOne() < 0.3f)) {
-        this->skelAnime.animCurrentFrame -= Rand_ZeroOne() * 3.0f;
+    if (SkelAnime_Update(&this->skelAnime) && (Rand_ZeroOne() < 0.3f)) {
+        this->skelAnime.curFrame -= Rand_ZeroOne() * 3.0f;
     }
 
     if (sCsState >= DEATH_START) {
@@ -1801,9 +1801,9 @@ void BossVa_Stump(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperIntro(BossVa* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06018D18.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06018D18);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
+    Animation_Change(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_ZapperIntro);
 }
@@ -1815,7 +1815,7 @@ void BossVa_ZapperIntro(BossVa* this, GlobalContext* globalCtx) {
         case INTRO_TITLE:
         case INTRO_BRIGHTEN:
         case INTRO_FINISH:
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
             break;
         case BOSSVA_BATTLE:
             BossVa_SetupZapperAttack(this, globalCtx);
@@ -1823,13 +1823,13 @@ void BossVa_ZapperIntro(BossVa* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - this->actor.shape.rot.x, 1, 0x2EE, 0);
-    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.limbDrawTbl[7].z, 1, 0x2EE, 0);
+    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z, 1, 0x2EE, 0);
 }
 
 void BossVa_SetupZapperAttack(BossVa* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06018D18.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06018D18);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
+    Animation_Change(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_ZapperAttack);
 }
@@ -1910,7 +1910,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
         sp90 = 0x3E80;
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     BossVa_AttachToBody(this);
     if (sFightProgress >= PHASE_4) {
         BossVa_SetupZapperEnraged(this, globalCtx);
@@ -1963,9 +1963,9 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
             tmp17 = Math_SmoothStepToS(&this->unk_1F2, yaw - 0x4000, 1, 0x9C4, 0);
             sp88 += ABS(tmp17);
 
-            sp96 = this->actor.shape.rot.x + this->skelAnime.limbDrawTbl[1].z + this->skelAnime.limbDrawTbl[2].z +
-                   this->skelAnime.limbDrawTbl[3].z + this->skelAnime.limbDrawTbl[4].z +
-                   this->skelAnime.limbDrawTbl[5].z;
+            sp96 = this->actor.shape.rot.x + this->skelAnime.jointTable[1].z + this->skelAnime.jointTable[2].z +
+                   this->skelAnime.jointTable[3].z + this->skelAnime.jointTable[4].z +
+                   this->skelAnime.jointTable[5].z;
 
             yaw = Math_Vec3f_Pitch(&sp7C, &this->zapNeckPos);
             tmp17 = Math_SmoothStepToS(&this->unk_1EA, yaw - sp96, 1, 0xFA0, 0);
@@ -1975,8 +1975,8 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
             tmp17 = Math_SmoothStepToS(&this->unk_1F0, -yaw, 1, 0xFA0, 0);
             sp88 += ABS(tmp17);
 
-            this->skelAnime.animPlaybackSpeed = 0.0f;
-            if (Math_SmoothStepToF(&this->skelAnime.animCurrentFrame, 0.0f, 1.0f, 2.0f, 0.0f) == 0.0f) {
+            this->skelAnime.playSpeed = 0.0f;
+            if (Math_SmoothStepToF(&this->skelAnime.curFrame, 0.0f, 1.0f, 2.0f, 0.0f) == 0.0f) {
                 if (sp88 < sp90) {
                     this->timer2 = 0;
                     this->burst++;
@@ -2010,8 +2010,8 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_1EC, 0, 1, 0x6D6, 0);
         Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0x6D6, 0);
         Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - this->actor.shape.rot.x, 1, 0x6D6, 0);
-        Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.limbDrawTbl[7].z, 1, 0x6D6, 0);
-        Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
+        Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z, 1, 0x6D6, 0);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
         this->burst = false;
     }
 
@@ -2046,11 +2046,11 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_SetupZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
     if (Rand_ZeroOne() > 0.5f) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06018A68, 0.5f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06018A68.genericHeader), 3, 4.0f);
+        Animation_Change(&this->skelAnime, &D_06018A68, 0.5f, 0.0f,
+                             Animation_GetLastFrame(&D_06018A68), 3, 4.0f);
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06018B90, 0.5f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06018B90.genericHeader), 3, 4.0f);
+        Animation_Change(&this->skelAnime, &D_06018B90, 0.5f, 0.0f,
+                             Animation_GetLastFrame(&D_06018B90), 3, 4.0f);
     }
 
     func_8003426C(&this->actor, 0, 0xFF, 0, 0xC);
@@ -2065,8 +2065,8 @@ void BossVa_ZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->unk_1EC, 0, 1, 0xFA0, 0);
     Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0xFA0, 0);
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - this->actor.shape.rot.x, 1, 0x2EE, 0);
-    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.limbDrawTbl[7].z, 1, 0x2EE, 0);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z, 1, 0x2EE, 0);
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (sFightProgress >= PHASE_4) {
             BossVa_SetupZapperEnraged(this, globalCtx);
         } else {
@@ -2076,9 +2076,9 @@ void BossVa_ZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperDeath(BossVa* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06018D18.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06018D18);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018D18, Rand_ZeroOne() + 0.25f, Rand_ZeroOne() * 3.0f, frames,
+    Animation_Change(&this->skelAnime, &D_06018D18, Rand_ZeroOne() + 0.25f, Rand_ZeroOne() * 3.0f, frames,
                          1, -6.0f);
     this->burst = false;
     this->timer2 = (this->actor.params * -6) + 18;
@@ -2097,10 +2097,10 @@ void BossVa_ZapperDeath(BossVa* this, GlobalContext* globalCtx) {
         this->unk_1EE = Rand_CenteredFloat(0x4000);
         this->unk_1F4 = (s16)Rand_CenteredFloat(0x4000) + this->actor.shape.rot.y - this->actor.shape.rot.x;
     } else {
-        Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 0.0f, 1.0f, 0.025f, 0.0f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, 0.0f, 1.0f, 0.025f, 0.0f);
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->unk_1E6, this->unk_1E8, 1, (s16)Rand_CenteredFloat(500.0f) + 0x1F4, 0);
     Math_SmoothStepToS(&this->unk_1E4, 0, 1, 0x1F4, 0);
     Math_SmoothStepToS(&this->unk_1EC, this->unk_1EE, 1, (s16)Rand_CenteredFloat(500.0f) + 0x1F4, 0);
@@ -2165,9 +2165,9 @@ void BossVa_ZapperDeath(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06018D18.genericHeader);
+    f32 frames = Animation_GetLastFrame(&D_06018D18);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
+    Animation_Change(&this->skelAnime, &D_06018D18, 1.0f, frames - 1.0f, frames, 1, -6.0f);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperEnraged);
 }
@@ -2184,7 +2184,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     Vec3f sp54 = player->actor.posRot.pos;
 
     sp54.y += 10.0f;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     BossVa_AttachToBody(this);
     if (sFightProgress >= PHASE_DEATH) {
         BossVa_SetupZapperDeath(this, globalCtx);
@@ -2232,9 +2232,9 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
             tmp16 = Math_SmoothStepToS(&this->unk_1F2, yaw - 0x4000, 1, 0xEA6, 0);
             sp60 += ABS(tmp16);
 
-            sp6A = this->actor.shape.rot.x + this->skelAnime.limbDrawTbl[1].x + this->skelAnime.limbDrawTbl[2].x +
-                   this->skelAnime.limbDrawTbl[3].x + this->skelAnime.limbDrawTbl[4].x +
-                   this->skelAnime.limbDrawTbl[5].x;
+            sp6A = this->actor.shape.rot.x + this->skelAnime.jointTable[1].x + this->skelAnime.jointTable[2].x +
+                   this->skelAnime.jointTable[3].x + this->skelAnime.jointTable[4].x +
+                   this->skelAnime.jointTable[5].x;
 
             yaw = Math_Vec3f_Pitch(&sp54, &this->zapNeckPos);
             tmp16 = Math_SmoothStepToS(&this->unk_1EA, yaw - sp6A, 1, 0x1B58, 0);
@@ -2244,8 +2244,8 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
             tmp16 = Math_SmoothStepToS(&this->unk_1F0, -yaw, 1, 0x1B58, 0);
             sp60 += ABS(tmp16);
 
-            this->skelAnime.animPlaybackSpeed = 0.0f;
-            if ((Math_SmoothStepToF(&this->skelAnime.animCurrentFrame, 0.0f, 1.0f, 3.0f, 0.0f) == 0.0f) &&
+            this->skelAnime.playSpeed = 0.0f;
+            if ((Math_SmoothStepToF(&this->skelAnime.curFrame, 0.0f, 1.0f, 3.0f, 0.0f) == 0.0f) &&
                 (sp60 < 0x258)) {
                 this->timer2 = 0;
                 this->burst++;
@@ -2277,8 +2277,8 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_1EC, 0, 1, 0xEA6, 0);
         Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0xEA6, 0);
         Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - this->actor.shape.rot.x, 1, 0xEA6, 0);
-        Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.limbDrawTbl[7].z, 1, 0xEA6, 0);
-        Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
+        Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z, 1, 0xEA6, 0);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
         this->burst = false;
     }
 
@@ -2313,28 +2313,28 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperHold(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06018B90, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06018B90.genericHeader),
+    Animation_Change(&this->skelAnime, &D_06018B90, 0.0f, 0.0f, Animation_GetLastFrame(&D_06018B90),
                          3, -6.0f);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperHold);
 }
 
 void BossVa_ZapperHold(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     BossVa_AttachToBody(this);
     Math_SmoothStepToS(&this->unk_1E6, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1E4, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1EC, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - 0x4000, 1, 0x2710, 0);
-    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.limbDrawTbl[7].z - 0x1388, 1, 0x1770, 0);
+    Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z - 0x1388, 1, 0x1770, 0);
     if (BODY->actor.speedXZ == 0.0f) {
         BossVa_SetupZapperAttack(this, globalCtx);
     }
 }
 
 void BossVa_SetupBariIntro(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000024, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000024.genericHeader),
+    Animation_Change(&this->skelAnime, &D_06000024, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000024),
                          0, 0.0f);
     this->unk_1A0 = 60.0f;
     this->unk_1A4 = Rand_ZeroOne() * 360.0f;
@@ -2460,7 +2460,7 @@ void BossVa_BariIntro(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupBariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000024, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000024.genericHeader),
+    Animation_Change(&this->skelAnime, &D_06000024, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000024),
                          0, 0.0f);
     this->timer2 = 0x80;
     this->unk_1F0 = 0x78;
@@ -2547,7 +2547,7 @@ void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupBariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000024, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000024.genericHeader),
+    Animation_Change(&this->skelAnime, &D_06000024, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000024),
                          0, 0.0f);
     this->timer2 = 0x40;
     this->unk_1F0 = 0x78;
@@ -3155,7 +3155,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 gSPSegment(POLY_OPA_DISP++, 0x09,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (globalCtx->gameplayFrames * -10) % 32, 0x10,
                                             0x20, 1, 0, (globalCtx->gameplayFrames * -5) % 32, 0x10, 0x20));
-                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                BossVa_BodyOverrideLimbDraw, BossVa_BodyPostLimbDraw, this);
             }
             break;
@@ -3163,7 +3163,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
             if (!this->isDead) {
-                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                  this->skelAnime.dListCount, BossVa_SupportOverrideLimbDraw, BossVa_SupportPostLimbDraw,
                                  this);
             }
@@ -3172,7 +3172,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case BOSSVA_ZAPPER_2:
         case BOSSVA_ZAPPER_3:
             if (!this->isDead) {
-                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                  this->skelAnime.dListCount, BossVa_ZapperOverrideLimbDraw, BossVa_ZapperPostLimbDraw,
                                  this);
             }
@@ -3180,12 +3180,12 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case BOSSVA_STUMP_1:
         case BOSSVA_STUMP_2:
         case BOSSVA_STUMP_3:
-            SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+            SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                              this->skelAnime.dListCount, NULL, NULL, NULL);
             break;
         default:
             if (!this->isDead) {
-                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                BossVa_BariOverrideLimbDraw, BossVa_BariPostLimbDraw, this);
                 func_800628A4(0, &this->colliderSph);
                 if (sCsState < BOSSVA_BATTLE) {

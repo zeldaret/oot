@@ -48,7 +48,7 @@ void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, NULL, NULL, 0);
     ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawFunc_Circle, 4);
     this->unk_194 = 0;
     this->unk_198 = 0;
@@ -68,12 +68,12 @@ void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_0600006C);
+    f32 frameCount = Animation_GetLastFrame(&D_0600006C);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
     AnimationHeader* anim = &D_0600006C;
 
     this->unk_198 = Rand_S16Offset(5, 0x23);
-    SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
     EnBird_SetupAction(this, func_809C1D60);
 }
 
@@ -84,10 +84,10 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
 
     if (this->unk_19C != 0) {
-        this->skelAnime.animPlaybackSpeed = this->actor.speedXZ + this->actor.speedXZ;
+        this->skelAnime.playSpeed = this->actor.speedXZ + this->actor.speedXZ;
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_198 -= 1;
 
     if (this->unk_198 <= 0) {
@@ -106,15 +106,15 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1A8, 0.1f, this->unk_1AC, 0.0f);
 
     if (this->unk_1B0 < Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_198 < 4) {
-        Math_StepToAngleS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos),
-                      this->unk_1C0);
+        Math_StepToAngleS(&this->actor.posRot.rot.y,
+                          Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), this->unk_1C0);
     } else {
         fVar4 = sinf(this->unk_1B4);
         this->actor.posRot.rot.y += (s16)(fVar4 * this->unk_1A4);
     }
 
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_198 -= 1;
     if (this->unk_198 < 0) {
         func_809C1CAC(this, this->actor.params);
@@ -131,5 +131,5 @@ void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBird* this = THIS;
 
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
 }

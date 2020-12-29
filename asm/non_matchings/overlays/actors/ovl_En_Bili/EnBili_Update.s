@@ -28,7 +28,7 @@ glabel EnBili_Update
 /* 013FC 809C0C9C 0C26FFDB */  jal     func_809BFF6C              
 /* 01400 809C0CA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01404 809C0CA4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 01408 809C0CA8 0C0295B2 */  jal     func_800A56C8              
+/* 01408 809C0CA8 0C0295B2 */  jal     Animation_OnFrame              
 /* 0140C 809C0CAC 3C054110 */  lui     $a1, 0x4110                ## $a1 = 41100000
 /* 01410 809C0CB0 5040001A */  beql    $v0, $zero, .L809C0D1C     
 /* 01414 809C0CB4 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
