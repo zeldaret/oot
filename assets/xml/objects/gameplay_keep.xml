@@ -109,7 +109,12 @@
         <DList Name="gFishBackDL" Offset="0x00018A68"/>
         <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgb5a1" Width="16" Height="16" Offset="0x00018B80"/>
         <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgb5a1" Width="32" Height="8" Offset="0x00018D80"/>
+        
         <Blob Name="blob_04018F80" Offset="0x00018F80" Size="0x130"/>
+        <!-- <Hierarchy Name="gFishSkel" Type="Standard" Offset="0x018FE0"/>
+        <Animation Name="gFish1Anim" Offset="0x0185FC" DLCount="3"/>
+        <Animation Name="gFish2Anim" Offset="0x01909C" DLCount="3"/> -->
+
         <Texture Name="gEffectSsBlastTex" OutName="effect_ss_blast" Format="i8" Width="64" Height="64" Offset="0x000190B0"/>
         <DList Name="gEffectSsBlastDL" Offset="0x0001A0B0"/>
         <DList Name="gEffectSsBubbleDL" Offset="0x0001A160"/>
