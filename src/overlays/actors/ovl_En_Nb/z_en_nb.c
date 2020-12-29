@@ -738,7 +738,7 @@ void EnNb_InitDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB2688(EnNb* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 1;
+    this->skelAnime.moveFlags |= 1;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 

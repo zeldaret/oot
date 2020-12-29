@@ -606,6 +606,7 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 s32 func_8003DFA0(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*, f32);
 s32 func_8003E0B8(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
                   s32 chkOneFace);
+s32 func_8003E0FC(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32);
 // ? func_8003E0FC(?);
 s32 func_8003E188(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, f32*);
 // ? func_8003E214(?);
@@ -730,8 +731,9 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
-                          UNK_TYPE arg6);
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0,
+                          void* data1, s16 data2, s16 data3, UNK_TYPE arg6);
+s16 func_8005B1A4(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void func_8005B280(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
@@ -1340,19 +1342,19 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* pos, s16 angle);
 s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame);
 void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 void SkelAnime_CopyVec3s(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
-// ? func_800A57C0(?);
-// ? func_800A598C(?);
-// ? func_800A5E28(?);
-// ? func_800A5F60(?);
-// ? func_800A60D8(?);
-void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
-void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
-void func_800A6408(PSkinAwb* skin, u8 joint, Vec3f*, Vec3f*);
-// ? func_800A6460(?);
-void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
-void func_800A6888(GlobalContext*, PSkinAwb*);
-// ? func_800A698C(?);
-// ? func_800A6AC4(?);
+void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx* arg3, Vec3f* arg4);
+void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3);
+void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 arg4);
+void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* arg3, s32 arg4);
+void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_800A6330(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4);
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_800A6408(PSkinAwb* skin, s32 joint, Vec3f* arg2, Vec3f* arg3);
+void func_800A6460(GlobalContext* globalCtx, PSkinAwb* skin, s32 arg2);
+void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
+void func_800A6888(GlobalContext* globalCtx, PSkinAwb* skin);
+s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, Mtx* arg2, u8 arg3, u8 arg4);
+s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3);
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
 void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest);
@@ -1364,6 +1366,7 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw);
 void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z);
 void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32 scaleZ, s16 yaw, s16 roll, s16 pitch,
                                            f32 dx, f32 dy, f32 dz);
+void SkinMatrix_SetRotateRPYTranslate(MtxF* mf, s16 roll, s16 pitch, s16 yaw, f32 dx, f32 dy, f32 dz);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
 void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
 void Sram_InitNewSave(void);

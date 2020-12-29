@@ -405,17 +405,17 @@ s32 EnRu1_FrameUpdateMatrix(EnRu1* this) {
 }
 
 void func_80AEB364(EnRu1* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 1;
+    this->skelAnime.moveFlags |= 1;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AEB3A4(EnRu1* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 1;
+    this->skelAnime.moveFlags |= 1;
     func_80AEB364(this, globalCtx);
 }
 
 void func_80AEB3CC(EnRu1* this) {
-    this->skelAnime.flags &= ~0x1;
+    this->skelAnime.moveFlags &= ~0x1;
 }
 
 void func_80AEB3DC(EnRu1* this, GlobalContext* globalCtx) {
@@ -477,7 +477,7 @@ void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->flags |= 3;
+        skelAnime->moveFlags |= 3;
         AnimationContext_SetMoveActor(globalCtx, &this->actor, skelAnime, 1.0f);
     }
 }
@@ -488,13 +488,13 @@ void func_80AEB738(EnRu1* this, GlobalContext* globalCtx) {
     skelAnime->baseTransl = skelAnime->jointTable[0];
     skelAnime->prevTransl = skelAnime->jointTable[0];
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->flags |= 3;
+        skelAnime->moveFlags |= 3;
         AnimationContext_SetMoveActor(globalCtx, &this->actor, skelAnime, 1.0f);
     }
 }
 
 void func_80AEB7D0(EnRu1* this) {
-    this->skelAnime.flags &= ~0x3;
+    this->skelAnime.moveFlags &= ~0x3;
 }
 
 f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {

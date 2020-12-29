@@ -11,7 +11,7 @@ typedef void (*BgGndIceblockActionFunc)(struct BgGndIceblock*, GlobalContext*);
 typedef struct BgGndIceblock {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgGndIceblockActionFunc actionFunc;
-    /* 0x0168 */ Vec3f unk_168;
+    /* 0x0168 */ Vec3f targetPos;
 } BgGndIceblock; // size = 0x0174
 
 extern const ActorInit Bg_Gnd_Iceblock_InitVars;

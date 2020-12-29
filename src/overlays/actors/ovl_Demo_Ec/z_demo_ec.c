@@ -181,19 +181,19 @@ void DemoEc_UpdateBgFlags(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 3;
+    this->skelAnime.moveFlags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D5D4(DemoEc* this, GlobalContext* globalCtx) {
     this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    this->skelAnime.flags |= 3;
+    this->skelAnime.moveFlags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D64C(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 3;
+    this->skelAnime.moveFlags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 

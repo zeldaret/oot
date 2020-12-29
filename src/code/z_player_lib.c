@@ -800,12 +800,12 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         D_80160000 = &this->swordInfo[2].base;
 
         if (LINK_IS_CHILD) {
-            if (!(this->skelAnime.flags & 4) || (this->skelAnime.flags & 1)) {
+            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.flags & 4) || (this->skelAnime.flags & 2)) {
+            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 2)) {
                 pos->y *= 0.64f;
             }
         }
