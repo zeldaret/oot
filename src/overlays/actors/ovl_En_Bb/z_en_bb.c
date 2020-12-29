@@ -1230,7 +1230,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                          (-20 - (this->flameScrollMod * -2))) %
                                             0x200,
                                         0x20, 0x80));
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, this->flamePrimBlue, this->flamePrimAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, this->flamePrimBlue, this->flamePrimAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, this->flameEnvColor.r, this->flameEnvColor.g, this->flameEnvColor.b, 0);
             Matrix_RotateY(((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000)) *
                                (M_PI / 0x8000),
