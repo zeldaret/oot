@@ -245,8 +245,7 @@ void func_80AE2970(EnRd* this) {
 void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
     if (this->actor.shape.rot.x != -0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
-        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 2.0f, 0.3f) ==
-            0.0f) {
+        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 2.0f, 0.3f) == 0.0f) {
             this->actor.gravity = -3.5f;
             func_80AE269C(this);
         }
@@ -254,8 +253,8 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
         if (this->actor.posRot.pos.y == this->actor.initPosRot.pos.y) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
         }
-        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 50.0f, 0.3f, 2.0f,
-                                    0.3f) == 0.0f) {
+        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) ==
+            0.0f) {
             if (this->unk_30C != 0) {
                 this->unk_30C--;
                 Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.3f, 1.0f, 0.3f);
@@ -467,12 +466,12 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
 
             Math_SmoothStepToF(&this->actor.posRot.pos.x,
-                                    (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
-                                    10.0f, 0.0f);
+                               (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.x, 1.0f,
+                               10.0f, 0.0f);
             Math_SmoothStepToF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y, 1.0f, 10.0f, 0.0f);
             Math_SmoothStepToF(&this->actor.posRot.pos.z,
-                                    (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
-                                    10.0f, 0.0f);
+                               (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.posRot.pos.z, 1.0f,
+                               10.0f, 0.0f);
             Math_SmoothStepToS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
 
             if (this->skelAnime.animCurrentFrame == 0.0f) {

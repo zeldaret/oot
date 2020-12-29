@@ -134,7 +134,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         if (this->judgeTimer > 40) {
             // gera gera [onomatopoeia for loud giggling]
             osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
-            func_800F436C(&this->actor.projectedPos, 0x205D, 2.0f);
+            func_800F436C(&this->actor.projectedPos, NA_SE_EV_CROWD - SFX_FLAG, 2.0f);
         }
         if (this->judgeTimer < 120) {
             this->judgeTimer++;

@@ -286,13 +286,11 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->unk_15A == -1) {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000,
-                                             1500)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000, 1500)) {
                     this->unk_15A = -2;
                 }
             } else {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000,
-                                             1500)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000, 1500)) {
                     this->unk_15A = -1;
                 }
             }
