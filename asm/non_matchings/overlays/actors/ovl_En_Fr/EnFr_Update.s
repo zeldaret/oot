@@ -22,7 +22,7 @@ glabel EnFr_Update
 /* 002D4 80A1AC74 2401FFEF */  addiu   $at, $zero, 0xFFEF         ## $at = FFFFFFEF
 /* 002D8 80A1AC78 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 002DC 80A1AC7C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
-/* 002E0 80A1AC80 3C0580A2 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80A20000
+/* 002E0 80A1AC80 3C0580A2 */  lui     $a1, %hi(D_80A1D0BC)       ## $a1 = 80A20000
 /* 002E4 80A1AC84 01C17824 */  and     $t7, $t6, $at
 /* 002E8 80A1AC88 2442FFFF */  addiu   $v0, $v0, 0xFFFF           ## $v0 = FFFFFFFF
 /* 002EC 80A1AC8C 0002C080 */  sll     $t8, $v0,  2
@@ -31,7 +31,7 @@ glabel EnFr_Update
 /* 002F8 80A1AC98 00380821 */  addu    $at, $at, $t8
 /* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(sEnFrPointers + 0x4)($at)
 /* 00300 80A1ACA0 AFA2003C */  sw      $v0, 0x003C($sp)
-/* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 80A1D0BC
+/* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(D_80A1D0BC)  ## $a1 = 80A1D0BC
 /* 00308 80A1ACA8 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0030C 80A1ACAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -149,9 +149,9 @@ glabel EnFr_Update
 /* 004AC 80A1AE4C 8E0E002C */  lw      $t6, 0x002C($s0)           ## 0000002C
 /* 004B0 80A1AE50 3C0B80A2 */  lui     $t3, %hi(EnFr_DecrementBlinkTimerUpdate)    ## $t3 = 80A20000
 /* 004B4 80A1AE54 4600320D */  trunc.w.s $f8, $f6
-/* 004B8 80A1AE58 3C0F80A2 */  lui     $t7, %hi(EnFr_InitJumpingOutOfWater)    ## $t7 = 80A20000
+/* 004B8 80A1AE58 3C0F80A2 */  lui     $t7, %hi(EnFr_SetupJumpingOutOfWater)    ## $t7 = 80A20000
 /* 004BC 80A1AE5C 256BB19C */  addiu   $t3, $t3, %lo(EnFr_DecrementBlinkTimerUpdate) ## $t3 = 80A1B19C
-/* 004C0 80A1AE60 25EFB22C */  addiu   $t7, $t7, %lo(EnFr_InitJumpingOutOfWater) ## $t7 = 80A1B22C
+/* 004C0 80A1AE60 25EFB22C */  addiu   $t7, $t7, %lo(EnFr_SetupJumpingOutOfWater) ## $t7 = 80A1B22C
 /* 004C4 80A1AE64 44084000 */  mfc1    $t0, $f8
 /* 004C8 80A1AE68 24180007 */  addiu   $t8, $zero, 0x0007         ## $t8 = 00000007
 /* 004CC 80A1AE6C AE0B0374 */  sw      $t3, 0x0374($s0)           ## 00000374

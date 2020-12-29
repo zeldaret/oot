@@ -12,7 +12,6 @@ void EnFr_UpdateIdle(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-
 // Animation Functions
 void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx);
 void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx);
@@ -163,7 +162,8 @@ static s16 sTimerFrogSong[] = {
     40, 20, 15, 12, 12,
 };
 
-InitChainEntry sInitChain[] = {
+// static InitChainEntry sInitChain[]
+InitChainEntry D_80A1D0BC[] = {
     ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
 };
@@ -174,7 +174,7 @@ static u8 sTimerJumpingOutOfWater[] = {
     5, 1, 7, 3, 9,
 };
 
-// targetScale (default = 150.0) Actor scale target for Math_SmoothScaleMaxF
+// targetScale (default = 150.0) Actor scale target for Math_ApproachF
 // Used as a frog grows from hearing a new child song
 static f32 sGrowingScale[] = {
     180.0f,
@@ -283,7 +283,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
-        Actor_ProcessInitChain(&this->actor, sInitChain);
+        Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
         // frog
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
                            &this->transitionDrawTable, 24);
@@ -306,7 +306,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.minVelocityY = -9999.0f;
         Actor_SetHeight(&this->actor, 10.0f);
         this->eyeTexIndex = 1;
-        this->blinkTimer = (s16)(Math_Rand_ZeroFloat(60.0f) + 20.0f);
+        this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
 
         // regalloc issues here
@@ -325,7 +325,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFr_DrawIdle(this);
         this->actor.update = EnFr_UpdateActive;
         this->isButterflyDrawn = false;
-        this->xyAngleButterfly = 0x1000 * (s16)Math_Rand_ZeroFloat(255.0f);
+        this->xyAngleButterfly = 0x1000 * (s16)Rand_ZeroFloat(255.0f);
         this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
         this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
         this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
@@ -402,7 +402,7 @@ void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
         this->blinkTimer--;
     } else if (this->eyeTexIndex) {
         this->eyeTexIndex = 0;
-        this->blinkTimer = (s16)(Math_Rand_ZeroFloat(60.0f) + 20.0f);
+        this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimer;
     } else {
         this->eyeTexIndex = 1;
@@ -439,7 +439,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = this->posLogSpot.x + vec2.x;
     this->actor.posRot.pos.z = this->posLogSpot.z + vec2.z;
     if (this->skelAnime.animCurrentFrame >= 3.0f) {
-        Math_SmoothScaleMaxF(&this->xzDistToLogSpot, 0.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->xzDistToLogSpot, 0.0f, 1.0f, 10.0f);
     }
     
     if (EnFr_IsBelowLogSpot(this, &vec2.y)) { // The frog has reached the log
@@ -454,10 +454,10 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
-    s16 func = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 10000, 100);
+    s16 rotYRemaining = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 10000, 100);
 
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if (!func && this->skelAnime.animCurrentFrame == this->skelAnime.animFrameCount) {
+    if (!rotYRemaining && this->skelAnime.animCurrentFrame == this->skelAnime.animFrameCount) {
         sEnFrPointers.flags++;
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06001534, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001534), 0, 0.0f);
@@ -502,7 +502,7 @@ void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
     f32 yUnderwater = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 2, 10000, 100);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 2, 10000, 100);
     if (this->skelAnime.animCurrentFrame == 6.0f) {
         this->skelAnime.animPlaybackSpeed = 0.0f;
     } else if (this->skelAnime.animCurrentFrame == 3.0f) {
@@ -524,7 +524,7 @@ void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_SetScaleActive(EnFr* this, GlobalContext* globalCtx) {
     switch (this->isGrowing) {
         case false:
-            Math_SmoothScaleMaxF(&this->scale, sGrowingScale[this->growingScaleIndex], 2.0f, 25.0f);
+            Math_ApproachF(&this->scale, sGrowingScale[this->growingScaleIndex], 2.0f, 25.0f);
             if (this->scale >= sGrowingScale[this->growingScaleIndex]) {
                 this->scale = sGrowingScale[this->growingScaleIndex];
                 if (this->growingScaleIndex < 3) {
@@ -536,7 +536,7 @@ void EnFr_SetScaleActive(EnFr* this, GlobalContext* globalCtx) {
             }
             break;
         case true:
-            Math_SmoothScaleMaxF(&this->scale, 150.0f, 2.0f, 25.0f);
+            Math_ApproachF(&this->scale, 150.0f, 2.0f, 25.0f);
             if (this->scale <= 150.0f) {
                 this->scale = 150.0f;
                 this->growingScaleIndex++;
@@ -561,10 +561,10 @@ void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
     vec1.x = vec1.y = 0.0f;
     vec1.z = 25.0f;
     Matrix_MultVec3f(&vec1, &vec2);
-    sin = Math_Sins(this->xyAngleButterfly * 2) * 5.0f;
-    this->posButterfly.x = (Math_Sins(rotY) * sin) + vec2.x;
-    this->posButterfly.y = (2.0f * Math_Coss(this->xyAngleButterfly)) + (this->posLogSpot.y + 50.0f);
-    this->posButterfly.z = (Math_Coss(rotY) * sin) + vec2.z;
+    sin = Math_SinS(this->xyAngleButterfly * 2) * 5.0f;
+    this->posButterfly.x = (Math_SinS(rotY) * sin) + vec2.x;
+    this->posButterfly.y = (2.0f * Math_CosS(this->xyAngleButterfly)) + (this->posLogSpot.y + 50.0f);
+    this->posButterfly.z = (Math_CosS(rotY) * sin) + vec2.z;
     Matrix_Translate(this->posButterfly.x, this->posButterfly.y, this->posButterfly.z, MTXMODE_NEW);
     Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
     vec1.x = 0.0f;
@@ -819,7 +819,7 @@ u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
     if ((gSaveContext.eventChkInf[13] & 1) == 0) {
         return gFrogsSongPtr[ocarinaNoteIndex];
     } else {
-        return sOcarinaNotes[(s32)Math_Rand_ZeroFloat(60.0f) % 5];
+        return sOcarinaNotes[(s32)Rand_ZeroFloat(60.0f) % 5];
     }
 }
 
