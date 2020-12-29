@@ -233,8 +233,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     switch (sActionState) {
         case ENTORCH2_WAIT:
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            this->skelAnime.animCurrentFrame = 0.0f;
-            this->skelAnime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.curFrame = 0.0f;
+            this->skelAnime.playSpeed = 0.0f;
             this->actor.posRot.pos.x = (Math_SinS(this->actor.posRot.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.posRot.pos.z = (Math_CosS(this->actor.posRot.rot.y) * 25.0f) + sSpawnPoint.z;
             if ((this->actor.xzDistFromLink <= 120.0f) || func_80033A84(globalCtx, &this->actor) ||
@@ -340,7 +340,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         input->cur.button = BTN_A;
                         player->stateFlags3 &= ~4;
                         sStickTilt = 127.0f;
-                        player->skelAnime.animCurrentFrame = 3.0f;
+                        player->skelAnime.curFrame = 3.0f;
                         sStickAngle = this->actor.yawTowardsLink + 0x8000;
                         sSwordJumpTimer = sSwordJumpState = 0;
                         this->actor.flags |= 1;
@@ -381,8 +381,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 player->linearVelocity = 0.0f;
                                 this->invincibilityTimer = -7;
                                 this->linearVelocity = 0.0f;
-                                player->skelAnime.animCurrentFrame = 2.0f;
-                                func_800A3BC0(globalCtx, &player->skelAnime);
+                                player->skelAnime.curFrame = 2.0f;
+                                LinkAnimation_Update(globalCtx, &player->skelAnime);
                                 sHoldShieldTimer = 0;
                                 input->cur.button = BTN_A;
                             } else {
@@ -663,7 +663,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->linearVelocity = 1.0f;
         }
         if (staggerThreshold < sStaggerCount) {
-            this->skelAnime.animPlaybackSpeed *= 0.6f;
+            this->skelAnime.playSpeed *= 0.6f;
             func_800F4190(&this->actor.projectedPos, NA_SE_PL_DAMAGE);
             sStaggerTimer = 0;
             sStaggerCount = 0;
@@ -687,9 +687,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             sCounterState = 2;
             this->swordState = 1;
-            this->skelAnime.animCurrentFrame = player->skelAnime.animCurrentFrame - player->skelAnime.animPlaybackSpeed;
-            this->skelAnime.animPlaybackSpeed = player->skelAnime.animPlaybackSpeed;
-            func_800A3BC0(globalCtx, &this->skelAnime);
+            this->skelAnime.curFrame = player->skelAnime.curFrame - player->skelAnime.playSpeed;
+            this->skelAnime.playSpeed = player->skelAnime.playSpeed;
+            LinkAnimation_Update(globalCtx, &this->skelAnime);
             Collider_QuadSetAT(globalCtx, &this->swordQuads[0].base);
             Collider_QuadSetAT(globalCtx, &this->swordQuads[1].base);
         }
@@ -768,7 +768,7 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw, EnTorch2_PostLimbDraw,
                                            this, POLY_OPA_DISP);
     } else {
@@ -776,7 +776,7 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw, EnTorch2_PostLimbDraw,
                                            this, POLY_XLU_DISP);
     }

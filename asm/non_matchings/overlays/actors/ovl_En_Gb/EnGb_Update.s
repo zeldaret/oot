@@ -12,7 +12,7 @@ glabel EnGb_Update
 /* 00C1C 80A2FD9C 00A09825 */  or      $s3, $a1, $zero            ## $s3 = 00000000
 /* 00C20 80A2FDA0 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
 /* 00C24 80A2FDA4 A48F0380 */  sh      $t7, 0x0380($a0)           ## 00000380
-/* 00C28 80A2FDA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00C28 80A2FDA8 0C02927F */  jal     SkelAnime_Update
               
 /* 00C2C 80A2FDAC 24840164 */  addiu   $a0, $a0, 0x0164           ## $a0 = 00000164
 /* 00C30 80A2FDB0 8E590238 */  lw      $t9, 0x0238($s2)           ## 00000238

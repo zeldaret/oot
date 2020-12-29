@@ -100,11 +100,10 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 switchFlag;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
-    ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->limbDrawTable,
-                       this->transitionDrawTable, 0x15);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->limbDrawTable2,
-                       this->transitionDrawTable2, 0x10);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 36.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->jointTable, this->morphTable, 21);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->jointTable2, this->morphTable2,
+                       16);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -847,16 +846,16 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACBD4C(EnOwl* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentFrame > 10.0f) {
+    if (this->skelAnime.curFrame > 10.0f) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
-    if (this->skelAnime.animCurrentFrame > 45.0f) {
+    if (this->skelAnime.curFrame > 45.0f) {
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
         this->actor.speedXZ = 8.0f;
-    } else if (this->skelAnime.animCurrentFrame > 17.0f) {
+    } else if (this->skelAnime.curFrame > 17.0f) {
         this->actor.velocity.y = 6.0f;
         this->actor.gravity = 0.0f;
         this->actor.speedXZ = 4.0f;
@@ -945,9 +944,9 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->skelAnime.animCurrentFrame >= 37.0f) {
+    if (this->skelAnime.curFrame >= 37.0f) {
         if (this->unk_3FE > 0) {
-            this->skelAnime.animCurrentFrame = 21.0f;
+            this->skelAnime.curFrame = 21.0f;
             this->unk_3FE--;
         } else {
             this->actionFunc = func_80ACBF50;
@@ -958,7 +957,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentFrame < 20.0f) {
+    if (this->skelAnime.curFrame < 20.0f) {
         this->actor.speedXZ = 1.5f;
     } else {
         this->actor.speedXZ = 0.0f;
@@ -966,8 +965,8 @@ void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
-    if (this->skelAnime.animCurrentFrame >= 37.0f) {
-        this->skelAnime.animCurrentFrame = 21.0f;
+    if (this->skelAnime.curFrame >= 37.0f) {
+        this->skelAnime.curFrame = 21.0f;
         this->actionFunc = func_80ACC00C;
         this->unk_3FE = 5;
         this->actor.velocity.y = 0.0f;
@@ -990,37 +989,35 @@ void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACC390(EnOwl* this) {
-    SkelAnime_FrameUpdateMatrix(this->curSkelAnime);
+    SkelAnime_Update(this->curSkelAnime);
     if (this->unk_3FE > 0) {
         this->unk_3FE--;
         this->actor.shape.rot.z = Math_SinS(this->unk_3FE * 0x333) * 1000.0f;
     } else {
         this->unk_410 = &func_80ACC460;
         this->unk_3FE = 6;
-        SkelAnime_ChangeAnim(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060015CC.genericHeader), 2, 5.0f);
+        Animation_Change(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060015CC), 2, 5.0f);
     }
 }
 
 void func_80ACC460(EnOwl* this) {
-    if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0) {
+    if (SkelAnime_Update(this->curSkelAnime) != 0) {
         if (this->unk_3FE > 0) {
             this->unk_3FE--;
-            SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(this->curSkelAnime->animation), 2, 0.0f);
+            Animation_Change(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f,
+                             Animation_GetLastFrame(this->curSkelAnime->animation), 2, 0.0f);
         } else {
             this->unk_3FE = 0xA0;
             this->unk_410 = func_80ACC390;
-            SkelAnime_ChangeAnim(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
+            Animation_Change(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600C1C4), 0, 5.0f);
         }
     }
 }
 
 void func_80ACC540(EnOwl* this) {
-    if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0) {
-        SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(this->curSkelAnime->animation), 2, 0.0f);
+    if (SkelAnime_Update(this->curSkelAnime) != 0) {
+        Animation_Change(this->curSkelAnime, this->curSkelAnime->animation, 1.0f, 0.0f,
+                         Animation_GetLastFrame(this->curSkelAnime->animation), 2, 0.0f);
         this->actionFlags |= 1;
     } else {
         this->actionFlags &= ~1;
@@ -1081,10 +1078,10 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->actionFlags & 0x80) && func_80ACC624(this, globalCtx)) {
         if ((this->skelAnime.animation == &D_06001168 &&
-             (this->skelAnime.animCurrentFrame == 2.0f || this->skelAnime.animCurrentFrame == 9.0f ||
-              this->skelAnime.animCurrentFrame == 23.0f || this->skelAnime.animCurrentFrame == 40.0f ||
-              this->skelAnime.animCurrentFrame == 58.0f)) ||
-            (this->skelAnime.animation == &D_060015CC && this->skelAnime.animCurrentFrame == 4.0f)) {
+             (this->skelAnime.curFrame == 2.0f || this->skelAnime.curFrame == 9.0f ||
+              this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
+              this->skelAnime.curFrame == 58.0f)) ||
+            (this->skelAnime.animation == &D_060015CC && this->skelAnime.curFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
@@ -1142,7 +1139,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                 case 2:
                     if (func_80ACC5CC(this)) {
                         this->actionFlags &= ~0x10;
-                        this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                        this->unk_406 = (s32)Rand_ZeroFloat(20.0f) + 0x3C;
                         this->unk_404 = 0;
                         func_80ACA6C0(this);
                     }
@@ -1170,7 +1167,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case 1:
                         phi_a1 = Math_SinS((-this->unk_405 * 4096) + 0x4000) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_405 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
+                            this->unk_405 = (s32)(Rand_ZeroFloat(15.0f) + 5.0f);
                             this->unk_404 = 2;
                         }
                         break;
@@ -1184,7 +1181,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case 3:
                         phi_a1 = Math_SinS(this->unk_405 * 4096) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            this->unk_406 = (s32)Rand_ZeroFloat(20.0f) + 0x3C;
                             this->unk_404 = 0;
                             func_80ACA6C0(this);
                         }
@@ -1192,7 +1189,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case 4:
                         phi_a1 = Math_SinS(this->unk_405 * 8192) * 5000.0f;
                         if (this->unk_405 <= 0) {
-                            this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            this->unk_406 = (s32)Rand_ZeroFloat(20.0f) + 0x3C;
                             this->unk_404 = 0;
                             func_80ACA6C0(this);
                         }
@@ -1215,7 +1212,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                         this->unk_3F2 = (-this->unk_408 * 0x5DC) + 0x1770;
                         if (this->unk_408 <= 0) {
                             this->unk_407 = 1;
-                            this->unk_408 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
+                            this->unk_408 = (s32)(Rand_ZeroFloat(15.0f) + 5.0f);
                         }
                         break;
                     case 1:
@@ -1230,7 +1227,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
                         if (this->unk_408 <= 0) {
                             this->unk_407 = 0;
                             this->unk_408 = 4;
-                            this->unk_409 = (s32)Math_Rand_ZeroFloat(40.0f) + 0xA0;
+                            this->unk_409 = (s32)Rand_ZeroFloat(40.0f) + 0xA0;
                         }
                         break;
                     default:
@@ -1301,19 +1298,14 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 }
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = {
-        NULL,
-        0x060089A8,
-        0x06008DA8,
-        0x060091A8,
-    };
+    static Gfx* dLists[] = { NULL, 0x060089A8, 0x06008DA8, 0x060091A8 };
     EnOwl* this = THIS;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl,
+    SkelAnime_DrawFlexOpa(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->jointTable,
                           this->curSkelAnime->dListCount, EnOwl_OverrideLimbDraw, EnOwl_PostLimbUpdate, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
 }
@@ -1321,8 +1313,7 @@ void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
 void EnOwl_ChangeMode(EnOwl* this, EnOwlActionFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime,
                       AnimationHeader* animation, f32 transitionRate) {
     this->curSkelAnime = skelAnime;
-    SkelAnime_ChangeAnim(this->curSkelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader),
-                         2, transitionRate);
+    Animation_Change(this->curSkelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, transitionRate);
     this->actionFunc = actionFunc;
     this->unk_410 = arg2;
 }
