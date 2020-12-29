@@ -14,7 +14,7 @@ void SkelAnime_CopyVec3s(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
 static u32 sDisableAnimQueueFlags = 0;
 static u32 sAnimQueueFlags;
 
-/*
+/**
  * Draw a limb of type `LodLimb`
  * Near or far display list is specified via `lod`
  */
@@ -65,7 +65,7 @@ void SkelAnime_DrawLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** skele
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 821);
 }
 
-/*
+/**
  * Draw all limbs of type `LodLimb` in a given skeleton
  * Near or far display list is specified via `lod`
  */
@@ -117,7 +117,7 @@ void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
 }
 
-/*
+/**
  * Draw a limb of type `LodLimb` contained within a flexible skeleton
  * Near or far display list is specified via `lod`
  */
@@ -175,7 +175,7 @@ void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** s
     }
 }
 
-/*
+/**
  * Draws all limbs of type `LodLimb` in a given flexible skeleton
  * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
  * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
@@ -239,7 +239,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1053);
 }
 
-/*
+/**
  * Draw a limb of type `StandardLimb` to the polyOpa buffer
  */
 void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* jointTable,
@@ -286,7 +286,7 @@ void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skele
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1121);
 }
 
-/*
+/**
  * Draw all limbs of type `StandardLimb` in a given skeleton to the polyOpa buffer
  */
 void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
@@ -337,7 +337,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1190);
 }
 
-/*
+/**
  * Draw a limb of type `StandardLimb` contained within a flexible skeleton to the polyOpa buffer
  */
 void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* jointTable,
@@ -394,7 +394,7 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1265);
 }
 
-/*
+/**
  * Draw all limbs of type `StandardLimb` in a given flexible skeleton to the polyOpa buffer
  * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
  * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
@@ -460,7 +460,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1347);
 }
 
-/*
+/**
  * Copies frame data from the frame data table, indexed by the joint index table.
  * Indices below limit are copied from that entry in the static frame data table.
  * Indices above limit are offsets to a frame data array indexed by the frame.
@@ -503,7 +503,7 @@ s16 Animation_GetLastFrame(void* animation) {
     return (u16)common->frameCount - 1;
 }
 
-/*
+/**
  * Draw a limb of type `StandardLimb` to the specified display buffer
  */
 Gfx* SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* jointTable,
@@ -553,7 +553,7 @@ Gfx* SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton
     return gfx;
 }
 
-/*
+/**
  * Draw all limbs of type `StandardLimb` in a given skeleton to the specified display buffer
  */
 Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
@@ -605,7 +605,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
     return gfx;
 }
 
-/*
+/**
  * Draw a limb of type `StandardLimb` contained within a flexible skeleton to the specified display buffer
  */
 Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* jointTable,
@@ -658,7 +658,7 @@ Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skel
     return gfx;
 }
 
-/*
+/**
  * Draw all limbs of type `StandardLimb` in a given flexible skeleton to the specified display buffer
  * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
  * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
@@ -729,7 +729,7 @@ s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frame
     s16* dynamicData = &frameData[frame];
     s32 i;
 
-    /*
+    /**
      *Equivalent to the following, but the compiler optimizes the loop in a way I can't replicate
      */
 
@@ -779,7 +779,7 @@ ret:
     return limbCount;
 }
 
-/*
+/**
  * Used by legacy animation format
  */
 s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
@@ -788,7 +788,7 @@ s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
     return animHeader->limbCount;
 }
 
-/*
+/**
  * Used by legacy animation format
  */
 s16 Animation_GetLength2(AnimationHeader2* animation) {
@@ -797,7 +797,7 @@ s16 Animation_GetLength2(AnimationHeader2* animation) {
     return animHeader->frameCount;
 }
 
-/*
+/**
  * Used by legacy animation format
  */
 s16 Animation_GetLastFrame2(AnimationHeader2* animation) {
@@ -806,7 +806,7 @@ s16 Animation_GetLastFrame2(AnimationHeader2* animation) {
     return animHeader->frameCount - 1;
 }
 
-/*
+/**
  * Linearly interpolates between vector arrays start and target at the given weight.
  */
 void SkelAnime_InterpVec3s(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* target, f32 weight) {
@@ -860,7 +860,7 @@ AnimationEntry* AnimationContext_AddEntry(AnimationContext* animationCtx, Animat
     return entry;
 }
 
-/*
+/**
  * Requests loading frame data from the Link animation at segment into frameTable
  */
 void AnimationContext_SetLoadFrame(GlobalContext* globalCtx, LinkAnimationHeader* segment, s32 frame, s32 limbCount,
@@ -879,7 +879,7 @@ void AnimationContext_SetLoadFrame(GlobalContext* globalCtx, LinkAnimationHeader
     }
 }
 
-/*
+/**
  * Requests copying all vectors from src into dst
  */
 void AnimationContext_SetCopyAll(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src) {
@@ -893,7 +893,7 @@ void AnimationContext_SetCopyAll(GlobalContext* globalCtx, s32 vecCount, Vec3s* 
     }
 }
 
-/*
+/**
  * Requests interpolating between base and mod with the given weight, placing the result in base
  */
 void AnimationContext_SetInterp(GlobalContext* globalCtx, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight) {
@@ -908,7 +908,7 @@ void AnimationContext_SetInterp(GlobalContext* globalCtx, s32 vecCount, Vec3s* b
     }
 }
 
-/*
+/**
  * Requests copying vectors from src to dst whose copy flag is true
  */
 void AnimationContext_SetCopyTrue(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag) {
@@ -923,7 +923,7 @@ void AnimationContext_SetCopyTrue(GlobalContext* globalCtx, s32 vecCount, Vec3s*
     }
 }
 
-/*
+/**
  * Requests copying vectors from src to dst whose copy flag is false
  */
 void AnimationContext_SetCopyFalse(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag) {
@@ -938,7 +938,7 @@ void AnimationContext_SetCopyFalse(GlobalContext* globalCtx, s32 vecCount, Vec3s
     }
 }
 
-/*
+/**
  * Requests moving an actor according to the translation of its root limb
  */
 void AnimationContext_SetMoveActor(GlobalContext* globalCtx, Actor* actor, SkelAnime* skelAnime, f32 arg3) {
@@ -951,9 +951,7 @@ void AnimationContext_SetMoveActor(GlobalContext* globalCtx, Actor* actor, SkelA
     }
 }
 
-// The next functions perform the requests set above
-
-/*
+/**
  * Receives the request for Link's animation frame data
  */
 void AnimationContext_LoadFrame(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -962,7 +960,7 @@ void AnimationContext_LoadFrame(GlobalContext* globalCtx, AnimationEntryData* da
     osRecvMesg(&entry->msgQueue, NULL, OS_MESG_BLOCK);
 }
 
-/*
+/**
  * If the entry's queue is enabled, copies all vectors from src to dst
  */
 void AnimationContext_CopyAll(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -979,7 +977,7 @@ void AnimationContext_CopyAll(GlobalContext* globalCtx, AnimationEntryData* data
     }
 }
 
-/*
+/**
  * If the entry's queue is enabled, interpolates between base and mod, placing the result in base
  */
 void AnimationContext_Interp(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -990,7 +988,7 @@ void AnimationContext_Interp(GlobalContext* globalCtx, AnimationEntryData* data)
     }
 }
 
-/*
+/**
  * If the entry's queue is enabled, copies all vectors from src to dst whose copy flag is true
  */
 void AnimationContext_CopyTrue(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -1010,7 +1008,7 @@ void AnimationContext_CopyTrue(GlobalContext* globalCtx, AnimationEntryData* dat
     }
 }
 
-/*
+/**
  * If the entry's queue is enabled, copies all vectors from src to dst whose copy flag is false
  */
 void AnimationContext_CopyFalse(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -1030,7 +1028,7 @@ void AnimationContext_CopyFalse(GlobalContext* globalCtx, AnimationEntryData* da
     }
 }
 
-/*
+/**
  * Moves an actor according to the translation of its root limb
  */
 void AnimationContext_MoveActor(GlobalContext* globalCtx, AnimationEntryData* data) {
@@ -1044,7 +1042,7 @@ void AnimationContext_MoveActor(GlobalContext* globalCtx, AnimationEntryData* da
     actor->posRot.pos.z += diff.z * actor->scale.z;
 }
 
-/*
+/**
  * Performs all requests in the animation queue, then resets the queue flags.
  */
 void AnimationContext_Update(GlobalContext* globalCtx, AnimationContext* animationCtx) {
@@ -1245,14 +1243,14 @@ void LinkAnimation_PlayLoopSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAni
                          0.0f);
 }
 
-/*
+/**
  * Requests copying jointTable to morphTable
  */
 void LinkAnimation_CopyJointToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     AnimationContext_SetCopyAll(globalCtx, skelAnime->limbCount, skelAnime->morphTable, skelAnime->jointTable);
 }
 
-/*
+/**
  * Requests copying morphTable to jointTable
  * unused
  */
@@ -1260,7 +1258,7 @@ void LinkAnimation_CopyMorphToJoint(GlobalContext* globalCtx, SkelAnime* skelAni
     AnimationContext_SetCopyAll(globalCtx, skelAnime->limbCount, skelAnime->jointTable, skelAnime->morphTable);
 }
 
-/*
+/**
  * Requests loading frame data from the Link animation at segment into morphTable
  */
 void LinkAnimation_LoadToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
@@ -1268,7 +1266,7 @@ void LinkAnimation_LoadToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, L
     AnimationContext_SetLoadFrame(globalCtx, segment, (s32)frame, skelAnime->limbCount, skelAnime->morphTable);
 }
 
-/*
+/**
  * Requests loading frame data from the Link animation at segment into jointTable
  */
 void LinkAnimation_LoadToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
@@ -1276,14 +1274,14 @@ void LinkAnimation_LoadToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, L
     AnimationContext_SetLoadFrame(globalCtx, segment, (s32)frame, skelAnime->limbCount, skelAnime->jointTable);
 }
 
-/*
+/**
  * Requests interpolating between jointTable and morphTable, placing the result in jointTable
  */
 void LinkAnimation_InterpJointMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 weight) {
     AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->jointTable, skelAnime->morphTable, weight);
 }
 
-/*
+/**
  * Requests loading frame data from the Link animation segments and blending them, placing the result in jointTable
  */
 void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
@@ -1299,7 +1297,7 @@ void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, 
     AnimationContext_SetInterp(globalCtx, skelAnime->limbCount, skelAnime->jointTable, alignedBlendTable, blendWeight);
 }
 
-/*
+/**
  * Requests loading frame data from the Link animation segments and blending them, placing the result in morphTable
  */
 void LinkAnimation_BlendToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
@@ -1676,7 +1674,7 @@ void SkelAnime_CopyVec3sFalse(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* 
     }
 }
 
-/*
+/**
  * Updates translation of the root limb and calculates `pos`, the difference between
  * the old and new positions of the root limb as rotated by `angle`. Used to allow
  * animations to change an actor's position.
