@@ -5,7 +5,7 @@ glabel func_80B18E7C
 /* 00408 80B18E88 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0040C 80B18E8C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00410 80B18E90 AFA5005C */  sw      $a1, 0x005C($sp)
-/* 00414 80B18E94 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00414 80B18E94 0C02927F */  jal     SkelAnime_Update
 
 /* 00418 80B18E98 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 0041C 80B18E9C 504000AA */  beql    $v0, $zero, .L80B19148
@@ -198,7 +198,7 @@ glabel func_80B18E7C
 /* 006B0 80B19130 13230004 */  beq     $t9, $v1, .L80B19144
 /* 006B4 80B19134 3C0580B2 */  lui     $a1, %hi(D_80B1B634)       ## $a1 = 80B20000
 /* 006B8 80B19138 00A82821 */  addu    $a1, $a1, $t0
-/* 006BC 80B1913C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 006BC 80B1913C 0C02947A */  jal     Animation_PlayOnce
 /* 006C0 80B19140 8CA5B634 */  lw      $a1, %lo(D_80B1B634)($a1)
 .L80B19144:
 /* 006C4 80B19144 860202E0 */  lh      $v0, 0x02E0($s0)           ## 000002E0
@@ -308,7 +308,7 @@ glabel func_80B18E7C
 /* 0083C 80B192BC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00840 80B192C0 24A512E4 */  addiu   $a1, $a1, 0x12E4           ## $a1 = 000012E4
 /* 00844 80B192C4 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
-/* 00848 80B192C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00848 80B192C8 0C0294D3 */  jal     Animation_MorphToLoop
 /* 0084C 80B192CC AFA70040 */  sw      $a3, 0x0040($sp)
 /* 00850 80B192D0 8FA70040 */  lw      $a3, 0x0040($sp)
 /* 00854 80B192D4 8E0A02EC */  lw      $t2, 0x02EC($s0)           ## 000002EC

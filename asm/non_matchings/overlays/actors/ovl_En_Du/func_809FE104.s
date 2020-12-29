@@ -20,7 +20,7 @@ glabel func_809FE104
 /* 0051C 809FE14C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00520 809FE150 8CC5015C */  lw      $a1, 0x015C($a2)           ## 0000015C
 /* 00524 809FE154 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 00528 809FE158 0C0295B2 */  jal     func_800A56C8              
+/* 00528 809FE158 0C0295B2 */  jal     Animation_OnFrame              
 /* 0052C 809FE15C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00530 809FE160 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00534 809FE164 1040000D */  beq     $v0, $zero, .L809FE19C     

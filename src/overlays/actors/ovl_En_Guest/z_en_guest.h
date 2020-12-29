@@ -11,8 +11,8 @@ typedef void (*EnGuestActionFunc)(struct EnGuest* this, GlobalContext* globalCtx
 typedef struct EnGuest {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[16];
-    /* 0x01F0 */ Vec3s transitionDrawTable[16];
+    /* 0x0190 */ Vec3s jointTable[16];
+    /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnGuestActionFunc actionFunc;
     /* 0x0254 */ ColliderCylinder collider;
     /* 0x02A0 */ struct_80034A14_arg1 unk_2A0;
