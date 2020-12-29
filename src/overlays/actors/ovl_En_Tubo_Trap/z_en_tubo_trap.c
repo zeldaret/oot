@@ -22,13 +22,22 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x04 },
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_ON,
-      OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 9, 23, 0, { 0 } },
 };
 

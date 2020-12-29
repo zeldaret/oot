@@ -8884,30 +8884,62 @@ void func_80846578(Player* this, GlobalContext* globalCtx) {
 }
 
 ColliderCylinderInit D_80854624 = {
-    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_ENEMY, OC_ON | OC_ALL, OT_PLAYER, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    {
+        COLTYPE_HIT5,
+        AT_OFF,
+        AC_ON | AC_ENEMY,
+        OC_ON | OC_ALL,
+        OT_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
 ColliderQuadInit D_80854650 = {
-    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2,
-      { 0x00000100, 0x00, 0x01 },
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_OFF,
-      OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_PLAYER,
+        AC_OFF,
+        OC_OFF,
+        OT_PLAYER,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000100, 0x00, 0x01 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_OFF,
+        OCELEM_OFF,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 ColliderQuadInit D_808546A0 = {
-    { COLTYPE_METAL, AT_ON | AT_PLAYER, AC_ON | AC_HARD | AC_ENEMY, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2,
-      { 0x00100000, 0x00, 0x00 },
-      { 0xDFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_ON,
-      OCELEM_OFF },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_PLAYER,
+        AC_ON | AC_HARD | AC_ENEMY,
+        OC_OFF,
+        OT_PLAYER,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00100000, 0x00, 0x00 },
+        { 0xDFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 

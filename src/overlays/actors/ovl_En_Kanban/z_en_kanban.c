@@ -27,13 +27,13 @@ const ActorInit En_Kanban_InitVars = {
 };
 
 static ColliderCylinderInit D_80A94490 = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x00 },
       { 0xFFCFFFFF, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 20, 50, 5, { 0, 0, 0 } },
 };
 */

@@ -43,8 +43,21 @@ const ActorInit En_Gm_InitVars = {
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 100, 120, 0, { 0, 0, 0 } },
 };
 

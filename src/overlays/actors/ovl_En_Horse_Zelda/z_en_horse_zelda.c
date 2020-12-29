@@ -36,20 +36,47 @@ static AnimationHeader* sAnimationHeaders[] = { 0x06007148 };
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f };
 
 static ColliderCylinderInitType1 sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_ON,
+        },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1 | OT_UNK1,
+        COLSHAPE_JNTSPH,
+    },
     1,
     sJntSphElementsInit,
 };

@@ -30,14 +30,23 @@ const ActorInit En_Boom_InitVars = {
 };
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2,
-      { 0x00000010, 0x00, 0x01 },
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NORMAL,
-      BUMP_OFF,
-      OCELEM_OFF },
-    { 0 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_PLAYER,
+        AC_OFF,
+        OC_OFF,
+        OT_PLAYER,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000010, 0x00, 0x01 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NORMAL,
+        BUMP_OFF,
+        OCELEM_OFF,
+    },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 static InitChainEntry sInitChain[] = {

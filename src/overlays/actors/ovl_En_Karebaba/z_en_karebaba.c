@@ -42,19 +42,42 @@ const ActorInit En_Karebaba_InitVars = {
 };
 
 static ColliderCylinderInit sBodyColliderInit = {
-    { COLTYPE_HARD, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    {
+        COLTYPE_HARD,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 7, 25, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sHeadColliderInit = {
-    { COLTYPE_HARD, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x08 },
-      { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_HARD,
-      BUMP_OFF,
-      OCELEM_ON },
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_ENEMY,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 4, 25, 0, { 0, 0, 0 } },
 };
 

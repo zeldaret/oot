@@ -50,17 +50,38 @@ const ActorInit Bg_Po_Event_InitVars = {
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f } } },
     },
     {
-        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f }, { 25.0f, -33.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_TRIS,
+    },
     2,
     sTrisElementsInit,
 };

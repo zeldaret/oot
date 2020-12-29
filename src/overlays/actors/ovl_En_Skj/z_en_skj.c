@@ -30,13 +30,13 @@ const ActorInit En_Skj_InitVars = {
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 8, 48, 0, { 0, 0, 0 } },
 };
 */

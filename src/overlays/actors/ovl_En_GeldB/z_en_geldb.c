@@ -99,72 +99,116 @@ const ActorInit En_GeldB_InitVars = {
 };
 
 static ColliderCylinderInit sBodyCylInit = {
-    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    {
+        COLTYPE_HIT5,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
 static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
     {
-        { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK2,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC1FFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
     {
-        { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK2,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC1FFFF, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
 };
 
 static ColliderTrisInit sBlockTrisInit = {
-    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    {
+        COLTYPE_METAL,
+        AT_OFF,
+        AC_ON | AC_HARD | AC_PLAYER,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     sBlockTrisElementsInit,
 };
 
 static ColliderQuadInit sSwordQuadInit = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x08 },
-      { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-      BUMP_OFF,
-      OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_ENEMY,
+        AC_OFF,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
+        BUMP_OFF,
+        OCELEM_OFF,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
-    /* Deku stick    */ DMG_ENTRY(2 , 0x0),
-    /* Slingshot     */ DMG_ENTRY(1 , 0x0),
-    /* Explosive     */ DMG_ENTRY(2 , 0x0),
-    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2 , 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2 , 0x0),
-    /* Hookshot      */ DMG_ENTRY(0 , 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1 , 0x0),
-    /* Master sword  */ DMG_ENTRY(2 , 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4 , 0x0),
-    /* Fire arrow    */ DMG_ENTRY(2 , 0x0),
-    /* Ice arrow     */ DMG_ENTRY(2 , 0xF),
-    /* Light arrow   */ DMG_ENTRY(2 , 0x0),
-    /* Wind arrow    */ DMG_ENTRY(2 , 0x0),
-    /* Shadow arrow  */ DMG_ENTRY(2 , 0x0),
-    /* Spirit arrow  */ DMG_ENTRY(2 , 0x0),
-    /* Fire magic    */ DMG_ENTRY(4 , 0xE),
-    /* Ice magic     */ DMG_ENTRY(0 , 0x6),
-    /* Light magic   */ DMG_ENTRY(3 , 0xD),
-    /* Shield        */ DMG_ENTRY(0 , 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
-    /* Giant spin    */ DMG_ENTRY(4 , 0x0),
-    /* Master spin   */ DMG_ENTRY(2 , 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
-    /* Giant jump    */ DMG_ENTRY(8 , 0x0),
-    /* Master jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 1     */ DMG_ENTRY(4 , 0x0),
-    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Wind arrow    */ DMG_ENTRY(2, 0x0),
+    /* Shadow arrow  */ DMG_ENTRY(2, 0x0),
+    /* Spirit arrow  */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0xE),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(3, 0xD),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(4, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -1215,7 +1259,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     prevKeyFrame = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
 
-    playSpeed = ((void) 0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
+    playSpeed = ((void)0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {

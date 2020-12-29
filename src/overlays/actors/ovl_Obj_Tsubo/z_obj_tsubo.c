@@ -28,13 +28,13 @@ const ActorInit Obj_Tsubo_InitVars = {
 };
 
 static ColliderCylinderInit D_80BA1B94 = {
-    { COLTYPE_HARD, AT_ON | AT_PLAYER, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_ON | AT_PLAYER, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK0,
       { 0x00000002, 0x00, 0x01 },
       { 0x4FC1FFFE, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 9, 26, 0, { 0, 0, 0 } },
 };
 */

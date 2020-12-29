@@ -43,13 +43,27 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
     sJntSphElementsInit,
 };

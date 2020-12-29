@@ -34,19 +34,42 @@ const ActorInit En_Ice_Hono_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_OFF,
+        OC_ON | OC_ALL,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitDroppedFlame = {
-    { COLTYPE_NONE, AT_ON | AT_OTHER, AC_OFF, OC_ON | OC_TYPE2, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0,
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_OFF,
-      OCELEM_ON },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_OTHER,
+        AC_OFF,
+        OC_ON | OC_TYPE2,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 

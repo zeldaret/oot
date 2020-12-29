@@ -29,7 +29,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON | BUMP_HOOKABLE,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 35, { { 6000, 0, 0 }, 21 }, 100 },
     },
     {
@@ -38,7 +38,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 18, { { 4000, 0, 0 }, 13 }, 100 },
     },
     {
@@ -47,7 +47,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 19, { { 3000, 0, 0 }, 13 }, 100 },
     },
     {
@@ -56,7 +56,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 20, { { 4000, 0, 0 }, 15 }, 100 },
     },
     {
@@ -65,7 +65,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 24, { { 4000, 0, 0 }, 13 }, 100 },
     },
     {
@@ -74,7 +74,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 25, { { 3000, 0, 0 }, 13 }, 100 },
     },
     {
@@ -83,7 +83,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 26, { { 3500, 1500, 0 }, 15 }, 100 },
     },
     {
@@ -92,7 +92,7 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 17, { { 0, 0, 0 }, 26 }, 100 },
     },
     {
@@ -101,13 +101,13 @@ static ColliderJntSphElementInit D_808D5FD0[9] = {
           { 0xFFCDFFFE, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 30, { { 0, 0, 0 }, 17 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_808D6114 = {
-    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_JNTSPH, },
     9,
     D_808D5FD0,
 };

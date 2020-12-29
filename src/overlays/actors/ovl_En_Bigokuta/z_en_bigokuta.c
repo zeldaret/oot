@@ -36,25 +36,25 @@ static ColliderJntSphElementInit D_809BF3D4[1] = {
           { 0xFFCFFFFF, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_HARD,
           BUMP_ON,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 1, { { 0, 45, -30 }, 75 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_809BF3F8 = {
-    { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH, },
     1,
     D_809BF3D4,
 };
 
 static ColliderCylinderInit D_809BF408 = {
-    { COLTYPE_HARD, AT_ON | AT_ENEMY, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_ON | AT_ENEMY, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK1,
       { 0x20000000, 0x00, 0x08 },
       { 0xFFCFFFE7, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_HARD,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 50, 100, 0, { 30, 0, 12 } },
 };
 */

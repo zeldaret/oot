@@ -46,30 +46,48 @@ const ActorInit Mir_Ray_InitVars = {
 u8 D_80B8E670 = 0;
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0,
-      { 0x00200000, 0x00, 0x00 },
-      { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NORMAL,
-      BUMP_OFF,
-      OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_PLAYER,
+        AC_OFF,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00200000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_OFF,
+        OCELEM_OFF,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { ELEMTYPE_UNK0,
-          { 0x00200000, 0x00, 0x00 },
-          { 0x00000000, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_NORMAL,
-          BUMP_OFF,
-          OCELEM_OFF },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00200000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_OFF,
+            OCELEM_OFF,
+        },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_PLAYER,
+        AC_OFF,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
     sJntSphElementsInit,
 };

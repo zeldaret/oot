@@ -27,29 +27,29 @@ const ActorInit En_Honotrap_InitVars = {
 
 static ColliderTrisElementInit D_80A5AF80[2] = {
     {
-        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
         { { { 0.0f, 23.0f, 8.5f }, { 0.0f, -23.0f, 8.5f }, { 23.0f, 0.0f, 8.5f } } },
     },
 };
 
 static ColliderTrisInit D_80A5AFF8 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS, },
     2,
     D_80A5AF80,
 };
 
 static ColliderCylinderInit D_80A5B008 = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x01, 0x04 },
       { 0x00100000, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_NONE,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 10, 25, 0, { 0, 0, 0 } },
 };
 */

@@ -50,12 +50,25 @@ const ActorInit En_Nwc_InitVars = {
 };
 
 static ColliderJntSphElementInit sJntSphElementInit = {
-    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 0, { { 0, 0, 0 }, 10 }, 100 },
 };
 
 static ColliderJntSphInitType1 sJntSphInit = {
-    { COLTYPE_HIT3, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT3,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
+        COLSHAPE_JNTSPH,
+    },
     16,
     NULL,
 };

@@ -21,8 +21,21 @@ void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInitType1 sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    {
+        COLTYPE_HIT0,
+        AT_OFF,
+        AC_OFF,
+        OC_ON | OC_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 

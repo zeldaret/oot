@@ -37,7 +37,7 @@ static ColliderTrisElementInit D_80889820[2] = {
           { 0x40000040, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON |  BUMP_NO_AT_INFO  |  BUMP_NO_DAMAGE  |  BUMP_NO_SWORD_SFX  | BUMP_NO_HITMARK,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { { { -40.0f, 3.0f, -40.0f }, { -40.0f, 3.0f, 40.0f }, { 40.0f, 3.0f, 40.0f } } },
     },
     {
@@ -46,13 +46,13 @@ static ColliderTrisElementInit D_80889820[2] = {
           { 0x40000040, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON |  BUMP_NO_AT_INFO  |  BUMP_NO_DAMAGE  |  BUMP_NO_SWORD_SFX  | BUMP_NO_HITMARK,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { { { 40.0f, 3.0f, 40.0f }, { 40.0f, 3.0f, -40.0f }, { -40.0f, 3.0f, -40.0f } } },
     },
 };
 
 static ColliderTrisInit D_80889898 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS, },
     2,
     D_80889820,
 };

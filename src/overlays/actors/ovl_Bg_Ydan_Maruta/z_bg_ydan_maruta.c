@@ -35,27 +35,38 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { ELEMTYPE_UNK0,
-          { 0x20000000, 0x00, 0x04 },
-          { 0x00000004, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_WOOD,
-          BUMP_ON,
-          OCELEM_OFF },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000004, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_WOOD,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
     },
     {
-        { ELEMTYPE_UNK0,
-          { 0x20000000, 0x00, 0x04 },
-          { 0x00000004, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_WOOD,
-          BUMP_ON,
-          OCELEM_OFF },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000004, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_WOOD,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { { { 16.0f, 0.0f, 0.0f }, { 16.0f, 135.0f, 0.0f }, { -16.0f, 135.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_ENEMY,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_TRIS,
+    },
     2,
     sTrisElementsInit,
 };

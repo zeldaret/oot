@@ -36,7 +36,7 @@ static ColliderJntSphElementInit D_80AFE020[2] = {
           { 0x00000000, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { 15, { { 0, 0, 0 }, 10 }, 100 },
     },
     {
@@ -45,13 +45,13 @@ static ColliderJntSphElementInit D_80AFE020[2] = {
           { 0xFFCFFFFF, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON | BUMP_HOOKABLE,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80AFE068 = {
-    { COLTYPE_HIT6, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT6, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH, },
     2,
     D_80AFE020,
 };

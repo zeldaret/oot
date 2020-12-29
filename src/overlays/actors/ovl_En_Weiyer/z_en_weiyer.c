@@ -34,13 +34,13 @@ const ActorInit En_Weiyer_InitVars = {
 };
 
 static ColliderCylinderInit D_80B33A90 = {
-    { COLTYPE_HIT0, AT_OFF | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER, },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
       TOUCH_ON | TOUCH_SFX_HARD,
       BUMP_ON,
-      OCELEM_ON },
+      OCELEM_ON, },
     { 16, 10, -6, { 0, 0, 0 } },
 };
 */

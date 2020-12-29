@@ -31,19 +31,42 @@ const ActorInit Obj_Syokudai_InitVars = {
 };
 
 static ColliderCylinderInit sCylInitStand = {
-    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK2,
-      { 0x00100000, 0x00, 0x00 },
-      { 0xEE01FFFF, 0x00, 0x00 },
-      TOUCH_OFF,
-      BUMP_ON | BUMP_HOOKABLE,
-      OCELEM_ON },
+    {
+        COLTYPE_METAL,
+        AT_OFF,
+        AC_ON | AC_HARD | AC_PLAYER,
+        OC_ON | OC_ALL,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00100000, 0x00, 0x00 },
+        { 0xEE01FFFF, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 12, 45, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylInitFlame = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x00020820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00020820, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 15, 45, 45, { 0, 0, 0 } },
 };
 

@@ -40,17 +40,38 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_OFF,
+            OCELEM_ON,
+        },
         { 0, { { 0, 2040, 0 }, 54 }, 100 },
     },
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_OFF,
+            BUMP_ON,
+            OCELEM_OFF,
+        },
         { 1, { { 0, 1400, 0 }, 13 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_PLAYER,
+        OT_TYPE2,
+        COLSHAPE_JNTSPH,
+    },
     2,
     sJntSphElementsInit,
 };

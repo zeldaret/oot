@@ -34,7 +34,14 @@ const ActorInit En_A_Obj_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, 0x00, 0x39, 0x39, 0x20, COLSHAPE_CYLINDER },
+    {
+        COLTYPE_NONE,
+        0x00,
+        0x39,
+        0x39,
+        0x20,
+        COLSHAPE_CYLINDER,
+    },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 25, 60, 0, { 0, 0, 0 } },
 };

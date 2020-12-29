@@ -2607,13 +2607,13 @@ void CollisionCheck_SetHitEffects(GlobalContext* globalCtx, CollisionCheckContex
 
 static ColChkVsFunc sACVsFuncs[4][4] = {
     { CollisionCheck_AC_JntSphVsJntSph, CollisionCheck_AC_JntSphVsCyl, CollisionCheck_AC_JntSphVsTris,
-        CollisionCheck_AC_JntSphVsQuad },
+      CollisionCheck_AC_JntSphVsQuad },
     { CollisionCheck_AC_CylVsJntSph, CollisionCheck_AC_CylVsCyl, CollisionCheck_AC_CylVsTris,
-        CollisionCheck_AC_CylVsQuad },
+      CollisionCheck_AC_CylVsQuad },
     { CollisionCheck_AC_TrisVsJntSph, CollisionCheck_AC_TrisVsCyl, CollisionCheck_AC_TrisVsTris,
-        CollisionCheck_AC_TrisVsQuad },
+      CollisionCheck_AC_TrisVsQuad },
     { CollisionCheck_AC_QuadVsJntSph, CollisionCheck_AC_QuadVsCyl, CollisionCheck_AC_QuadVsTris,
-        CollisionCheck_AC_QuadVsQuad },
+      CollisionCheck_AC_QuadVsQuad },
 };
 
 /**
@@ -2938,7 +2938,9 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
  * Initializes CollisionCheckInfo to default values
  */
 void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
-    static CollisionCheckInfo init = { NULL, { 0.0f, 0.0f, 0.0f }, 10, 10, 0, 50, 8, 0, 0, 0, 0, };
+    static CollisionCheckInfo init = {
+        NULL, { 0.0f, 0.0f, 0.0f }, 10, 10, 0, 50, 8, 0, 0, 0, 0,
+    };
 
     *info = init;
 }
@@ -3109,8 +3111,8 @@ void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colC
 /**
  * Checks if the line ab intersects any of the ColliderJntSph's elements
  */
-s32 CollisionCheck_LineOC_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
-                                             Collider* collider, Vec3f* a, Vec3f* b) {
+s32 CollisionCheck_LineOC_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
+                                 Vec3f* a, Vec3f* b) {
     static Linef D_8015E610;
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     s32 i;
@@ -3133,8 +3135,8 @@ s32 CollisionCheck_LineOC_JntSph(GlobalContext* globalCtx, CollisionCheckContext
 /**
  * Checks if the line segment ab intersects the ColliderCylinder
  */
-s32 CollisionCheck_LineOC_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
-                                          Collider* collider, Vec3f* a, Vec3f* b) {
+s32 CollisionCheck_LineOC_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, Vec3f* a,
+                              Vec3f* b) {
     static Vec3f D_8015E628;
     static Vec3f D_8015E638;
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
@@ -3160,7 +3162,7 @@ static ColChkLineFunc sOCLineCheckFuncs[4] = {
  * on the exclusion list. Returns true if there are any intersections and false otherwise.
  */
 s32 CollisionCheck_LineOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
-                                      Actor** exclusions, s32 numExclusions) {
+                          Actor** exclusions, s32 numExclusions) {
     ColChkLineFunc lineCheck;
     Collider** col;
     s32 i;

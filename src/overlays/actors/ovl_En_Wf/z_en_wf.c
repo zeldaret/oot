@@ -45,7 +45,7 @@ static ColliderJntSphElementInit D_80B37990[4] = {
           { 0x00000000, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { 15, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
@@ -54,7 +54,7 @@ static ColliderJntSphElementInit D_80B37990[4] = {
           { 0x00000000, 0x00, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { 21, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
@@ -63,7 +63,7 @@ static ColliderJntSphElementInit D_80B37990[4] = {
           { 0xFFC1FFFF, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON | BUMP_HOOKABLE,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 17, { { 800, 0, 0 }, 25 }, 100 },
     },
     {
@@ -72,26 +72,26 @@ static ColliderJntSphElementInit D_80B37990[4] = {
           { 0xFFC1FFFF, 0x00, 0x00 },
           TOUCH_OFF,
           BUMP_ON | BUMP_HOOKABLE,
-          OCELEM_ON },
+          OCELEM_ON, },
         { 12, { { 0, 0, 0 }, 30 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80B37A20 = {
-    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH, },
     4,
     D_80B37990,
 };
 
 static ColliderCylinderInit D_80B37A30 = {
-    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER, },
+    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_80B37A5C = {
-    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER, },
+    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF, },
     { 15, 20, -15, { 0, 0, 0 } },
 };
 */

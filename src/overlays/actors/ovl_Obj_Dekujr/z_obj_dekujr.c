@@ -30,7 +30,13 @@ const ActorInit Obj_Dekujr_InitVars = {
 };
 
 static ColliderCylinderInitToActor sCylinderInit = {
-    { NULL, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
+    {
+        NULL,
+        0x00,
+        0x00,
+        0x39,
+        COLSHAPE_CYLINDER,
+    },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 60, 80, 0, { 0, 0, 0 } },
 };

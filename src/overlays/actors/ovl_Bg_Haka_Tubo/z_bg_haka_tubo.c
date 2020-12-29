@@ -31,19 +31,42 @@ const ActorInit Bg_Haka_Tubo_InitVars = {
 };
 
 static ColliderCylinderInit sPotColliderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    {
+        COLTYPE_NONE,
+        AT_OFF,
+        AC_ON | AC_PLAYER,
+        OC_OFF,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_OFF,
+        BUMP_ON,
+        OCELEM_OFF,
+    },
     { 25, 60, 30, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sFlamesColliderInit = {
-    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0,
-      { 0x20000000, 0x01, 0x04 },
-      { 0x00000008, 0x00, 0x00 },
-      TOUCH_ON | TOUCH_SFX_NONE,
-      BUMP_OFF,
-      OCELEM_ON },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_ENEMY,
+        AC_OFF,
+        OC_ON | OC_PLAYER,
+        OT_TYPE2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x01, 0x04 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_OFF,
+        OCELEM_ON,
+    },
     { 60, 45, 235, { 0, 0, 0 } },
 };
 

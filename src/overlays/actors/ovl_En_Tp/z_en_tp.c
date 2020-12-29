@@ -39,13 +39,13 @@ static ColliderJntSphElementInit D_80B22A90[1] = {
           { 0xFFCFFFFF, 0x01, 0x00 },
           TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_ON,
-          OCELEM_OFF },
+          OCELEM_OFF, },
         { 0, { { 0, 0, 0 }, 4 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80B22AB4 = {
-    { COLTYPE_HIT1, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT1, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_JNTSPH, },
     1,
     D_80B22A90,
 };
