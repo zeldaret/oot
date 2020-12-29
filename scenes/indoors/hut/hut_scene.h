@@ -1,0 +1,50 @@
+extern RomFile _hut_scene_roomList_00000080[];
+extern TransitionActorEntry _hut_scene_transitionActorList_00000070[];
+extern CollisionHeader _hut_scene_collisionHeader_000004DC;
+extern EntranceEntry _hut_scene_entranceList_00000088[];
+extern ActorEntry _hut_scene_startPositionList_00000060[];
+extern u16 _hut_scene_exitList_0000008C[];
+extern LightSettings _hut_scene_lightSettings_00000090[];
+
+extern SCmdSoundSettings _hut_scene_set0000_cmd00;
+extern SCmdRoomList _hut_scene_set0000_cmd01;
+extern SCmdTransiActorList _hut_scene_set0000_cmd02;
+extern SCmdMiscSettings _hut_scene_set0000_cmd03;
+extern SCmdColHeader _hut_scene_set0000_cmd04;
+extern SCmdEntranceList _hut_scene_set0000_cmd05;
+extern SCmdSpecialFiles _hut_scene_set0000_cmd06;
+extern SCmdSpawnList _hut_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _hut_scene_set0000_cmd08;
+extern SCmdExitList _hut_scene_set0000_cmd09;
+extern SCmdLightSettingList _hut_scene_set0000_cmd0A;
+extern SCmdEndMarker _hut_scene_set0000_cmd0B;
+
+
+
+
+
+extern SCmdSoundSettings _hut_scene_set0000_cmd00;
+
+extern SCmdRoomList _hut_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _hut_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _hut_scene_set0000_cmd03;
+
+extern SCmdColHeader _hut_scene_set0000_cmd04;
+
+extern SCmdEntranceList _hut_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _hut_scene_set0000_cmd06;
+
+extern SCmdSpawnList _hut_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _hut_scene_set0000_cmd08;
+
+extern SCmdExitList _hut_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _hut_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _hut_scene_set0000_cmd0B;
+
+

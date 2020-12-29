@@ -1,0 +1,43 @@
+extern RomFile _golon_scene_roomList_00000060[];
+extern CollisionHeader _golon_scene_collisionHeader_00000368;
+extern EntranceEntry _golon_scene_entranceList_00000068[];
+extern ActorEntry _golon_scene_startPositionList_00000050[];
+extern u16 _golon_scene_exitList_0000006C[];
+extern LightSettings _golon_scene_lightSettings_00000070[];
+
+extern SCmdSoundSettings _golon_scene_set0000_cmd00;
+extern SCmdRoomList _golon_scene_set0000_cmd01;
+extern SCmdMiscSettings _golon_scene_set0000_cmd02;
+extern SCmdColHeader _golon_scene_set0000_cmd03;
+extern SCmdEntranceList _golon_scene_set0000_cmd04;
+extern SCmdSpawnList _golon_scene_set0000_cmd05;
+extern SCmdSkyboxSettings _golon_scene_set0000_cmd06;
+extern SCmdExitList _golon_scene_set0000_cmd07;
+extern SCmdLightSettingList _golon_scene_set0000_cmd08;
+extern SCmdEndMarker _golon_scene_set0000_cmd09;
+
+
+
+
+
+extern SCmdSoundSettings _golon_scene_set0000_cmd00;
+
+extern SCmdRoomList _golon_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _golon_scene_set0000_cmd02;
+
+extern SCmdColHeader _golon_scene_set0000_cmd03;
+
+extern SCmdEntranceList _golon_scene_set0000_cmd04;
+
+extern SCmdSpawnList _golon_scene_set0000_cmd05;
+
+extern SCmdSkyboxSettings _golon_scene_set0000_cmd06;
+
+extern SCmdExitList _golon_scene_set0000_cmd07;
+
+extern SCmdLightSettingList _golon_scene_set0000_cmd08;
+
+extern SCmdEndMarker _golon_scene_set0000_cmd09;
+
+

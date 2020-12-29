@@ -1,0 +1,40 @@
+extern MeshHeader2 _MIZUsin_room_13_meshHeader_00000060;
+extern MeshEntry2 _MIZUsin_room_13_meshDListEntry_0000006C[1];
+extern Gfx _MIZUsin_room_13_dlist_00000130[];
+extern Vtx_t _MIZUsin_room_13_vertices_00000080[3];
+extern Vtx_t _MIZUsin_room_13_vertices_000000B0[8];
+extern u64 _MIZUsin_room_13_tex_000001F8[];
+s16 _MIZUsin_room_13_objectList_00000040[];
+extern ActorEntry _MIZUsin_room_13_actorList_0000004C[1];
+
+extern SCmdEchoSettings _MIZUsin_room_13_set0000_cmd00;
+extern SCmdRoomBehavior _MIZUsin_room_13_set0000_cmd01;
+extern SCmdSkyboxDisables _MIZUsin_room_13_set0000_cmd02;
+extern SCmdTimeSettings _MIZUsin_room_13_set0000_cmd03;
+extern SCmdMesh _MIZUsin_room_13_set0000_cmd04;
+extern SCmdObjectList _MIZUsin_room_13_set0000_cmd05;
+extern SCmdActorList _MIZUsin_room_13_set0030_cmd06;
+extern SCmdEndMarker _MIZUsin_room_13_set0000_cmd07;
+
+
+
+
+
+extern SCmdEchoSettings _MIZUsin_room_13_set0000_cmd00;
+
+extern SCmdRoomBehavior _MIZUsin_room_13_set0000_cmd01;
+
+extern SCmdSkyboxDisables _MIZUsin_room_13_set0000_cmd02;
+
+extern SCmdTimeSettings _MIZUsin_room_13_set0000_cmd03;
+
+extern SCmdMesh _MIZUsin_room_13_set0000_cmd04;
+
+extern SCmdObjectList _MIZUsin_room_13_set0000_cmd05;
+
+extern SCmdActorList _MIZUsin_room_13_set0030_cmd06;
+
+extern SCmdEndMarker _MIZUsin_room_13_set0000_cmd07;
+
+
+
