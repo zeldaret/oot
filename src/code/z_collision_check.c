@@ -1462,7 +1462,7 @@ void CollisionCheck_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f*
  */
 void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
-    s32 blood;
+    s32 bloodIndex;
 
     D_8015D8A0.position.x = v->x;
     D_8015D8A0.position.y = v->y;
@@ -1506,7 +1506,7 @@ void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3
     D_8015D8A0.speed = 8.0f;
     D_8015D8A0.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &blood, EFFECT_SPARK, 0, 1, &D_8015D8A0);
+    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
 /**
@@ -1515,7 +1515,7 @@ void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3
  */
 void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
-    s32 blood;
+    s32 bloodIndex;
 
     D_8015DD68.position.x = v->x;
     D_8015DD68.position.y = v->y;
@@ -1559,7 +1559,7 @@ void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec
     D_8015DD68.speed = 8.0f;
     D_8015DD68.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &blood, EFFECT_SPARK, 0, 1, &D_8015DD68);
+    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
 /**
@@ -3308,7 +3308,7 @@ void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider) {
  */
 void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
-    s32 blood;
+    s32 bloodIndex;
 
     D_8015CF10.position.x = v->x;
     D_8015CF10.position.y = v->y;
@@ -3352,7 +3352,7 @@ void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     D_8015CF10.speed = 8.0f;
     D_8015CF10.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &blood, EFFECT_SPARK, 0, 1, &D_8015CF10);
+    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 
 /**
@@ -3361,7 +3361,7 @@ void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
  */
 void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
-    s32 water;
+    s32 waterIndex;
 
     D_8015D3D8.position.x = v->x;
     D_8015D3D8.position.y = v->y;
@@ -3405,7 +3405,7 @@ void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     D_8015D3D8.speed = 8.0f;
     D_8015D3D8.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &water, EFFECT_SPARK, 0, 1, &D_8015D3D8);
+    Effect_Add(globalCtx, &waterIndex, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
 
 /**
