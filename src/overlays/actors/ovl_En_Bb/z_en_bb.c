@@ -167,7 +167,7 @@ void EnBb_SpawnFlameTrail(GlobalContext* globalCtx, EnBb* this, s16 startAtZero)
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        next = (EnBb*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x69, this->actor.posRot.pos.x,
+        next = (EnBb*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BB, this->actor.posRot.pos.x,
                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
         if (next != NULL) {
             now->actor.child = &next->actor;
