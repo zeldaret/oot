@@ -366,7 +366,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->collider.info.acHitInfo->toucher.dFlags & 0x1F824) != 0) {
+    if ((this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
@@ -962,7 +962,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.info.acHitInfo->toucher.dFlags & 0x80) {
+                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & 0x80) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

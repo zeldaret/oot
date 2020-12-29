@@ -157,7 +157,7 @@ void ObjComb_SetupWait(ObjComb* this) {
 }
 
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
-    s32 dFlags;
+    s32 dmgFlags;
 
     this->unk_1B0 -= 50;
     if (this->unk_1B0 < 0) {
@@ -166,8 +166,8 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        dFlags = this->collider.elements[0].info.acHitInfo->toucher.dFlags;
-        if (dFlags & 0x4001F866) {
+        dmgFlags = this->collider.elements[0].info.acHitInfo->toucher.dmgFlags;
+        if (dmgFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);

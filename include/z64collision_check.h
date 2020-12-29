@@ -48,20 +48,20 @@ typedef struct ColliderInitToActor {
 } ColliderInitToActor; // size = 0x08
 
 typedef struct ColliderTouch {
-    /* 0x00 */ u32 dFlags; // Toucher exclusion mask.
+    /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage or Stun Timer
 } ColliderTouch; // size = 0x08
 
 typedef struct ColliderBump {
-    /* 0x00 */ u32 dFlags;  // Bumper exclusion mask
+    /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderBump; // size = 0x0C
 
 typedef struct ColliderBumpInit {
-    /* 0x00 */ u32 dFlags; // Bumper exclusion mask
+    /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderBumpInit; // size = 0x08

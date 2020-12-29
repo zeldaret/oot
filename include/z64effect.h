@@ -289,11 +289,4 @@ typedef enum {
     /* 0x25 */ EFFECT_SS_TYPE_MAX // originally "EFFECT_SS2_TYPE_LAST_LABEL"
 } EffectSsType;
 
-typedef enum {
-    EFFECT_HITMARK_WHITE,
-    EFFECT_HITMARK_DUST,
-    EFFECT_HITMARK_RED,
-    EFFECT_HITMARK_METAL
-} EffectSsHitmarkTypes;
-
 #endif

@@ -193,12 +193,12 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dFlags = 0x0003F8E9;
-    this->colCylinder[1].info.bumper.dFlags = 0xFFC00716;
+    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8E9;
+    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00716;
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dFlags = 0xFFCC0716;
+    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0716;
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
@@ -311,8 +311,7 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
-                                1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->stunTimer < 30) {
@@ -427,13 +426,13 @@ void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        info0->bumper.dFlags |= 2;
-        this->colCylinder[1].info.bumper.dFlags &= ~2;
-        this->colCylinder[2].info.bumper.dFlags &= ~2;
+        info0->bumper.dmgFlags |= 2;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        info0->bumper.dFlags &= ~2;
-        this->colCylinder[1].info.bumper.dFlags |= 2;
-        this->colCylinder[2].info.bumper.dFlags |= 2;
+        info0->bumper.dmgFlags &= ~2;
+        this->colCylinder[1].info.bumper.dmgFlags |= 2;
+        this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 

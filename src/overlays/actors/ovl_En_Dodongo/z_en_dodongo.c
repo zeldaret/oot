@@ -523,8 +523,8 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
             this->sphElements[2].info.toucherFlags = TOUCH_OFF;
             this->sphElements[1].info.toucherFlags = TOUCH_OFF;
             this->colliderBody.base.atFlags = AT_OFF;
-            this->sphElements[2].info.toucher.dFlags = 0;
-            this->sphElements[1].info.toucher.dFlags = 0;
+            this->sphElements[2].info.toucher.dmgFlags = 0;
+            this->sphElements[1].info.toucher.dmgFlags = 0;
             this->sphElements[2].info.toucher.damage = 0;
             this->sphElements[1].info.toucher.damage = 0;
             EnDodongo_SetupBreatheFire(this);
@@ -545,7 +545,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
                 this->sphElements[2].info.toucherFlags = AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->sphElements[1].info.toucher.dFlags = this->sphElements[2].info.toucher.dFlags = 0xFFCFFFFF;
+            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = 0xFFCFFFFF;
             this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
         }
     } else if (this->timer > 1) {

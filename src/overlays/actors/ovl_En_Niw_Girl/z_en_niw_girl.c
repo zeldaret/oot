@@ -119,7 +119,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 
     // Change her angle so that she is always facing the cuckoo
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * 10430.378f, 3,
-                            this->unk_27C, 0);
+                       this->unk_27C, 0);
     Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 

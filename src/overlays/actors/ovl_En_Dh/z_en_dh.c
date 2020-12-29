@@ -263,7 +263,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.animCurrentFrame, 0.0f, 2, -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
-        this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
+        this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
     }
     switch (this->actionState) {
         case 1:
@@ -277,13 +277,13 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             if (this->skelAnime.animCurrentFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
                     AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-                this->collider2.elements[0].info.toucher.dFlags = 0xFFCFFFFF;
+                this->collider2.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
                 this->collider2.elements[0].info.toucher.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
-                this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
+                this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
                 this->actionState++;
             } else if (this->collider2.base.atFlags & AT_HIT) {
                 this->collider2.base.atFlags &= ~AT_HIT;
@@ -300,7 +300,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
                                      2, -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
-                this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
+                this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
             }
             break;
         case 5:
@@ -331,7 +331,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
             this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.info.toucherFlags =
                 AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->collider1.info.toucher.dFlags = 0xFFCFFFFF;
+            this->collider1.info.toucher.dmgFlags = 0xFFCFFFFF;
             this->collider1.info.toucher.damage = 4;
         case 1:
             this->dirtWavePhase += 0x47E;
@@ -348,7 +348,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
             this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
             this->collider1.base.atFlags = this->collider1.info.toucherFlags = AT_OFF; // Also TOUCH_OFF
-            this->collider1.info.toucher.dFlags = this->collider1.info.toucher.damage = 0;
+            this->collider1.info.toucher.dmgFlags = this->collider1.info.toucher.damage = 0;
             EnDh_SetupWait(this);
             break;
     }
@@ -432,7 +432,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
         this->collider2.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
             this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
-            this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
+            this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;
             }

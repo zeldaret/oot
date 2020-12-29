@@ -149,7 +149,7 @@ void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
         tempVelocity = this->dyna.actor.velocity.y;
     }
     if (fabsf(Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
-                                      tempVelocity, 1.0f)) < 0.001f) {
+                                 tempVelocity, 1.0f)) < 0.001f) {
         this->dyna.actor.posRot.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);

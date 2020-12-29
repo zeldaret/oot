@@ -257,12 +257,12 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dFlags = 0x0003F8F9;
-    this->colCylinder[1].info.bumper.dFlags = 0xFFC00706;
+    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8F9;
+    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00706;
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dFlags = 0xFFCC0706;
+    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0706;
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
@@ -275,13 +275,13 @@ void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        body->bumper.dFlags |= 2;
-        this->colCylinder[1].info.bumper.dFlags &= ~2;
-        this->colCylinder[2].info.bumper.dFlags &= ~2;
+        body->bumper.dmgFlags |= 2;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        body->bumper.dFlags &= ~2;
-        this->colCylinder[1].info.bumper.dFlags |= 2;
-        this->colCylinder[2].info.bumper.dFlags |= 2;
+        body->bumper.dmgFlags &= ~2;
+        this->colCylinder[1].info.bumper.dmgFlags |= 2;
+        this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 
@@ -397,14 +397,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dFlags;
+        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dFlags;
+        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
     }
 
     if (!hit) {

@@ -320,8 +320,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
-                                0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z, 0);
         Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -466,11 +465,11 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.posRot.rot.y,
-                            (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
-                                              player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
-                                  10430.378f) +
-                                phi_f16,
-                            5, this->unk_2C8.y, 0);
+                       (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
+                                          player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
+                             10430.378f) +
+                           phi_f16,
+                       5, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
     if (this->unk_296 == 2) {
         this->unk_256 = 10;

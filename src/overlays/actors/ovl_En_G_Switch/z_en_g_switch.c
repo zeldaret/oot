@@ -1,7 +1,14 @@
+/*
+ * File: z_en_g_switch.c
+ * Overlay: ovl_En_G_Switch
+ * Description: Silver rupees, shooting gallery targets, and horseback archery pots
+ */
+
 #include "z_en_g_switch.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
 #define FLAGS 0x00000030
 
@@ -117,7 +124,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.info.bumper.dFlags = 0x1F820;
+            this->collider.info.bumper.dmgFlags = 0x1F820;
             this->objId = OBJECT_TSUBO;
             this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
             if (this->objIndex < 0) {
@@ -166,7 +173,7 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     hitPos.x = this->collider.info.bumper.hitPos.x;
     hitPos.y = this->collider.info.bumper.hitPos.y;
     hitPos.z = this->collider.info.bumper.hitPos.z;
-    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 700, &hitPos);
+    EffectSsHitMark_SpawnCustomScale(globalCtx, EFFECT_HITMARK_WHITE, 700, &hitPos);
     if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
         EffectSsExtra_Spawn(globalCtx, &hitPos, &velocity, &accel, 5, 2);
@@ -305,10 +312,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                         if (this->waitTimer == 0) {
                             if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
                                 (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
-                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
-                                                     30.0f);
-                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
-                                                     30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, 30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 30.0f);
                             } else {
                                 gallery = ((EnSyatekiItm*)this->actor.parent);
                                 if (gallery->actor.update != NULL) {

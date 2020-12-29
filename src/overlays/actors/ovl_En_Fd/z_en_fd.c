@@ -243,7 +243,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
             return false;
         }
         info = &this->collider.elements[0].info;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dFlags & 0x80)) {
+        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & 0x80)) {
             return false;
         }
 

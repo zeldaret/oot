@@ -110,7 +110,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Player* player;
     EnArrow* arrow;
     s32 interactionType;
-    u32 dFlags;
+    u32 dmgFlags;
     Vec3f tipToFlame;
     s32 pad;
     s32 pad2;
@@ -150,8 +150,8 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dFlags = this->colliderFlame.info.acHitInfo->toucher.dFlags;
-            if (dFlags & 0x20820) {
+            dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
+            if (dmgFlags & 0x20820) {
                 interactionType = 1;
             }
         } else if (player->heldItemActionParam == 6) {
@@ -171,7 +171,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
-                } else if (dFlags & 0x20) {
+                } else if (dmgFlags & 0x20) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
@@ -181,7 +181,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
                     this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((interactionType > 0) && (dFlags & 0x20800)) ||
+            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & 0x20800)) ||
                                             ((interactionType < 0) && (player->unk_860 != 0)))) {
 
                 if ((interactionType < 0) && (player->unk_860 < 200)) {

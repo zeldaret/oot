@@ -257,7 +257,7 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000570);
     }
-    if (this->colliderCyl.info.acHitInfo->toucher.dFlags & 0x0001F824) {
+    if (this->colliderCyl.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
         this->actor.posRot.rot.y = this->colliderCyl.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->colliderCyl.base.ac) + 0x8000;

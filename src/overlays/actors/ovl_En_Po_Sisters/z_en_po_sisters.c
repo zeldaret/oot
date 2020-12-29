@@ -175,7 +175,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actor.flags &= -0x4201;
             this->collider.info.elemType = ELEMTYPE_UNK4;
-            this->collider.info.bumper.dFlags |= 1;
+            this->collider.info.bumper.dmgFlags |= 1;
             this->collider.base.ocFlags = OC_OFF;
             func_80AD9C24(this, NULL);
         }
@@ -266,7 +266,7 @@ void func_80AD9568(EnPoSisters* this) {
 void func_80AD95D8(EnPoSisters* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060008C0, -3.0f);
     if (this->collider.base.ac != NULL) {
-        this->actor.posRot.rot.y = (this->collider.info.acHitInfo->toucher.dFlags & 0x1F824)
+        this->actor.posRot.rot.y = (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824)
                                        ? this->collider.base.ac->posRot.rot.y
                                        : func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
     }
@@ -579,11 +579,9 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & 8) {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x71C);
     } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) > 300.0f) {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x71C);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x71C);
     }
 }
 
@@ -675,7 +673,7 @@ void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
     }
     if (this->unk_195 != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
-                                 (this->unk_195 == 2) ? 0x800 : 0x400);
+                           (this->unk_195 == 2) ? 0x800 : 0x400);
         this->unk_22E.a = ((this->skelAnime.animFrameCount - this->skelAnime.animCurrentFrame) * 255.0f) /
                           this->skelAnime.animFrameCount;
         this->actor.posRot.pos.y = this->actor.parent->posRot.pos.y;
@@ -706,7 +704,7 @@ void func_80ADAD54(EnPoSisters* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->unk_22E.a = 0;
-        this->collider.info.bumper.dFlags = 0x60001;
+        this->collider.info.bumper.dmgFlags = 0x60001;
         func_80AD93C4(this);
     } else {
         animFrameCount = this->skelAnime.animFrameCount;
@@ -719,7 +717,7 @@ void func_80ADAE6C(EnPoSisters* this, GlobalContext* globalCtx) {
         this->unk_22E.a = 255;
         if (this->unk_194 != 0) {
             this->unk_199 |= 1;
-            this->collider.info.bumper.dFlags = 0x4FC7FFEA;
+            this->collider.info.bumper.dmgFlags = 0x4FC7FFEA;
             if (this->unk_19A != 0) {
                 this->unk_19A--;
             }
@@ -885,7 +883,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
                 phi_a2 *= 2;
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                     this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
+                               this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
         } else if (this->unk_19A == 70 || this->unk_19A == 40) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
         }
@@ -980,8 +978,7 @@ void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
     if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) < 10.0f) {
         func_80ADA028(this);
     } else {
-        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 1820);
+        Math_ScaledStepToS(&this->actor.posRot.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 1820);
     }
 }
 

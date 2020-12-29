@@ -226,7 +226,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
 
 void EnPoField_SetupDamage(EnPoField* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000454, -6.0f);
-    if (this->collider.info.acHitInfo->toucher.dFlags & 0x1F824) {
+    if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;

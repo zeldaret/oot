@@ -275,10 +275,9 @@ s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
             this->actor.speedXZ *= distFromHome;
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x300);
-        Math_ScaledStepToS(&this->actor.shape.rot.x,
-                                 func_8002DB28(&this->actor, &this->actor.initPosRot.pos) + 0x1554, 0x100);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &this->actor.initPosRot.pos) + 0x1554,
+                           0x100);
         return 1;
     }
 
@@ -315,8 +314,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
             EnFirefly_Ignite(this);
             return 1;
         } else {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, &closestTorch->actor),
-                                     0x300);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, &closestTorch->actor), 0x300);
             Math_ScaledStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &flamePos) + 0x1554, 0x100);
             return 1;
         }
@@ -339,8 +337,8 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
         if (skelanimeUpdated) {
             rand = Rand_ZeroOne();
             if (rand < 0.5f) {
-                Math_ScaledStepToS(&this->actor.shape.rot.y,
-                                         func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
+                Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
+                                   0x300);
             } else if (rand < 0.8f) {
                 this->actor.shape.rot.y += Rand_CenteredFloat(1536.0f);
             }
@@ -431,8 +429,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
         preyPos.x = player->actor.posRot.pos.x;
         preyPos.y = player->actor.posRot.pos.y + 20.0f;
         preyPos.z = player->actor.posRot.pos.z;
-        Math_SmoothStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &preyPos) + 0x1554, 2, 0x400,
-                                0x100);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &preyPos) + 0x1554, 2, 0x400, 0x100);
     } else {
         this->skelAnime.animPlaybackSpeed = 1.5f;
         if (this->actor.xzDistFromLink > 80.0f) {
@@ -490,8 +487,7 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
     } else {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos),
-                                 0x300);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
     }
     Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
 }

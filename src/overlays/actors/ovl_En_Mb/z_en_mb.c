@@ -169,7 +169,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->unk_364 = 710.0f;
-            this->collider2.info.toucher.dFlags = 0x20000000;
+            this->collider2.info.toucher.dmgFlags = 0x20000000;
             yawDiff = (this->actor.posRot.rot.y - Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos));
 
             if (ABS(yawDiff) > 0x4000) {
@@ -691,8 +691,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     s16 sp54[] = { 20, 40, 0 };
     s16 sp4C[] = { -2500, 0, 3500 };
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
-                            0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE, 0);
 
     if (this->collider2.base.atFlags & AT_HIT) {
         this->collider2.base.atFlags &= ~AT_HIT;
