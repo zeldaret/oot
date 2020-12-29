@@ -54,7 +54,7 @@ typedef enum {
     ENBB_BLUE,
     ENBB_FLAME_TRAIL,
     ENBB_KILL_TRAIL=11
-} EnBbParam;
+} EnBbType;
 
 extern const ActorInit En_Bb_InitVars;
 
