@@ -142,14 +142,14 @@ void BgJya1flift_ChangeDirection(BgJya1flift* this) {
 void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
     f32 tempVelocity;
 
-    Math_ApproxF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
+    Math_StepToF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
     if (this->dyna.actor.velocity.y < 1.0f) {
         tempVelocity = 1.0f;
     } else {
         tempVelocity = this->dyna.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
-                                      tempVelocity, 1.0f)) < 0.001f) {
+    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
+                                 tempVelocity, 1.0f)) < 0.001f) {
         this->dyna.actor.posRot.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
@@ -182,9 +182,9 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
         tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                func_8005A77C(globalCtx->cameraPtrs[0], 3);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;

@@ -37,10 +37,10 @@ glabel func_80B3CD98
 /* 00C20 80B3CE00 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00C24 80B3CE04 14400013 */  bne     $v0, $zero, .L80B3CE54     
 /* 00C28 80B3CE08 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00C2C 80B3CE0C 3C050200 */  lui     $a1, 0x0200                ## $a1 = 02000000
+/* 00C2C 80B3CE0C 3C050200 */  lui     $a1, %hi(D_02000330)                ## $a1 = 02000000
 /* 00C30 80B3CE10 0C01A4F6 */  jal     Cutscene_SetSegment
               
-/* 00C34 80B3CE14 24A50330 */  addiu   $a1, $a1, 0x0330           ## $a1 = 02000330
+/* 00C34 80B3CE14 24A50330 */  addiu   $a1, $a1, %lo(D_02000330)           ## $a1 = 02000330
 /* 00C38 80B3CE18 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00C3C 80B3CE1C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00C40 80B3CE20 946E0EDE */  lhu     $t6, 0x0EDE($v1)           ## 8015F53E

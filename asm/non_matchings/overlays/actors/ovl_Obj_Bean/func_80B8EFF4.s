@@ -11,7 +11,7 @@ glabel func_80B8EFF4
 /* 00598 80B8F018 01F81021 */  addu    $v0, $t7, $t8
 /* 0059C 80B8F01C 8C450000 */  lw      $a1, 0x0000($v0)           ## 00000000
 /* 005A0 80B8F020 8C460004 */  lw      $a2, 0x0004($v0)           ## 00000004
-/* 005A4 80B8F024 0C01DE80 */  jal     Math_ApproxF
+/* 005A4 80B8F024 0C01DE80 */  jal     Math_StepToF
 
 /* 005A8 80B8F028 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
 /* 005AC 80B8F02C 8FB9007C */  lw      $t9, 0x007C($sp)

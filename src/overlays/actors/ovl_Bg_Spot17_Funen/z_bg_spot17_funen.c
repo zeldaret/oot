@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot17_funen.h"
+#include "objects/object_spot17_obj/object_spot17_obj.h"
 
 #define FLAGS 0x00000030
 
@@ -32,8 +33,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx D_06000B40[];
-
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Funen* this = THIS;
 
@@ -60,14 +59,15 @@ void func_808B7478(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 153);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - thisx->shape.rot.y + 0x8000) * 9.58738019108e-05f, MTXMODE_APPLY);
+    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - thisx->shape.rot.y + 0x8000) * 9.58738019108e-05f,
+                   MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 161),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20, 1, 0,
                                 (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B40);
+    gSPDisplayList(POLY_XLU_DISP++, gBgSpot17DL1);
 
     if (1) {}
 

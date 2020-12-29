@@ -64,9 +64,9 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     if (this->counter < 16) {
-        z = Math_Sins(this->counter << 10) * 1330;
+        z = Math_SinS(this->counter << 10) * 1330;
     } else {
         z = 1330;
     }

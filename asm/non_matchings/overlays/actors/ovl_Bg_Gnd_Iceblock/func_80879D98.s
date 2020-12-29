@@ -1,3 +1,68 @@
+.late_rodata
+
+glabel jtbl_8087A848
+    .word L80879DE8
+    .word L80879DE8
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879DFC
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879E38
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879E4C
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879E60
+    .word L80879E60
+
+glabel jtbl_8087A88C
+    .word L80879EB0
+    .word L80879EB0
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879EC4
+    .word L8087A0B8
+    .word L80879EC4
+    .word L8087A0B8
+    .word L80879ED8
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879EEC
+    .word L80879EEC
+    .word L8087A0B8
+    .word L80879F00
+    .word L80879F14
+
+glabel jtbl_8087A8D0
+    .word L80879F7C
+    .word L80879F90
+    .word L8087A0B8
+    .word L80879FA4
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L80879FB8
+    .word L8087A0B8
+    .word L80879FCC
+    .word L80879FE0
+
+glabel jtbl_8087A8F8
+    .word L8087A034
+    .word L8087A048
+    .word L8087A0B8
+    .word L8087A05C
+    .word L8087A0B8
+    .word L8087A05C
+    .word L8087A0B8
+    .word L8087A0B8
+    .word L8087A070
+    .word L8087A084
+
+.text
 glabel func_80879D98
 /* 002F8 80879D98 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 002FC 80879D9C AFBF0014 */  sw      $ra, 0x0014($sp)           

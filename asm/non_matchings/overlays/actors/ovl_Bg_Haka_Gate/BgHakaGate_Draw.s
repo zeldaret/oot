@@ -35,10 +35,10 @@ glabel BgHakaGate_Draw
 /* 00CA0 8087CA90 31F80080 */  andi    $t8, $t7, 0x0080           ## $t8 = 00000000
 /* 00CA4 8087CA94 17010006 */  bne     $t8, $at, .L8087CAB0       
 /* 00CA8 8087CA98 8FB90094 */  lw      $t9, 0x0094($sp)           
-/* 00CAC 8087CA9C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 00CAC 8087CA9C 3C050601 */  lui     $a1, %hi(D_0600F1B0)                ## $a1 = 06010000
 /* 00CB0 8087CAA0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
-/* 00CB4 8087CAA4 24A5F1B0 */  addiu   $a1, $a1, 0xF1B0           ## $a1 = 0600F1B0
+/* 00CB4 8087CAA4 24A5F1B0 */  addiu   $a1, $a1, %lo(D_0600F1B0)           ## $a1 = 0600F1B0
 /* 00CB8 8087CAA8 1000007C */  beq     $zero, $zero, .L8087CC9C   
 /* 00CBC 8087CAAC 8FA40090 */  lw      $a0, 0x0090($sp)           
 .L8087CAB0:
@@ -96,8 +96,8 @@ glabel BgHakaGate_Draw
 /* 00D8C 8087CB7C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00D90 8087CB80 AFA20034 */  sw      $v0, 0x0034($sp)           
 /* 00D94 8087CB84 8FA30034 */  lw      $v1, 0x0034($sp)           
-/* 00D98 8087CB88 3C190601 */  lui     $t9, 0x0601                ## $t9 = 06010000
-/* 00D9C 8087CB8C 27390A10 */  addiu   $t9, $t9, 0x0A10           ## $t9 = 06010A10
+/* 00D98 8087CB88 3C190601 */  lui     $t9, %hi(D_06010A10)                ## $t9 = 06010000
+/* 00D9C 8087CB8C 27390A10 */  addiu   $t9, $t9, %lo(D_06010A10)           ## $t9 = 06010A10
 /* 00DA0 8087CB90 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00DA4 8087CB94 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 808802C0
 /* 00DA8 8087CB98 3C18DE00 */  lui     $t8, 0xDE00                ## $t8 = DE000000
@@ -143,8 +143,8 @@ glabel BgHakaGate_Draw
 /* 00E48 8087CC38 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00E4C 8087CC3C AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 00E50 8087CC40 8FA3002C */  lw      $v1, 0x002C($sp)           
-/* 00E54 8087CC44 3C180601 */  lui     $t8, 0x0601                ## $t8 = 06010000
-/* 00E58 8087CC48 27180C10 */  addiu   $t8, $t8, 0x0C10           ## $t8 = 06010C10
+/* 00E54 8087CC44 3C180601 */  lui     $t8, %hi(D_06010C10)                ## $t8 = 06010000
+/* 00E58 8087CC48 27180C10 */  addiu   $t8, $t8, %lo(D_06010C10)           ## $t8 = 06010C10
 /* 00E5C 8087CC4C AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00E60 8087CC50 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 808802C0
 /* 00E64 8087CC54 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000

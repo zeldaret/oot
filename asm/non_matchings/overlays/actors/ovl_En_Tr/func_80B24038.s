@@ -121,19 +121,19 @@ glabel func_80B24038
 /* 014EC 80B241DC 00000000 */  nop
 /* 014F0 80B241E0 44058000 */  mfc1    $a1, $f16                  
 .L80B241E4:
-/* 014F4 80B241E4 0C01DE80 */  jal     Math_ApproxF
+/* 014F4 80B241E4 0C01DE80 */  jal     Math_StepToF
               
 /* 014F8 80B241E8 E7B2002C */  swc1    $f18, 0x002C($sp)          
 /* 014FC 80B241EC C7B2002C */  lwc1    $f18, 0x002C($sp)          
 /* 01500 80B241F0 26040060 */  addiu   $a0, $s0, 0x0060           ## $a0 = 00000060
 /* 01504 80B241F4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01508 80B241F8 44059000 */  mfc1    $a1, $f18                  
-/* 0150C 80B241FC 0C01DE80 */  jal     Math_ApproxF
+/* 0150C 80B241FC 0C01DE80 */  jal     Math_StepToF
               
 /* 01510 80B24200 00000000 */  nop
 /* 01514 80B24204 4405A000 */  mfc1    $a1, $f20                  
 /* 01518 80B24208 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
-/* 0151C 80B2420C 0C01DE80 */  jal     Math_ApproxF
+/* 0151C 80B2420C 0C01DE80 */  jal     Math_StepToF
               
 /* 01520 80B24210 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01524 80B24214 0C00B5FB */  jal     func_8002D7EC              

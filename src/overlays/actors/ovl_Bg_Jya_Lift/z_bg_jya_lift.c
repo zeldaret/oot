@@ -114,9 +114,9 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
     f32 distFromBottom;
     f32 tempVelocity;
 
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
-    distFromBottom = Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
+    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
     if ((this->dyna.actor.posRot.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.pos4.y)) {
         func_8005B1A4(ACTIVE_CAM);
     }
@@ -141,10 +141,10 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        func_8005A77C(globalCtx2->cameraPtrs[0], 0x3F);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);
     } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
                (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
-        func_8005A77C(globalCtx2->cameraPtrs[0], 3);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 

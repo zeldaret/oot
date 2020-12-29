@@ -14,7 +14,7 @@ glabel func_80A46CD8
 /* 03FD8 80A46D08 44045000 */  mfc1    $a0, $f10                  
 /* 03FDC 80A46D0C 00000000 */  nop
 /* 03FE0 80A46D10 00042400 */  sll     $a0, $a0, 16               
-/* 03FE4 80A46D14 0C01DE1C */  jal     Math_Sins
+/* 03FE4 80A46D14 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03FE8 80A46D18 00042403 */  sra     $a0, $a0, 16               
 /* 03FEC 80A46D1C 8FA40018 */  lw      $a0, 0x0018($sp)           
