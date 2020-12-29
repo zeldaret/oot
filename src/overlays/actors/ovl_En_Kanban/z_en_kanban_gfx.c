@@ -1,10 +1,5 @@
 #include "z_en_kanban.h"
 
-static Gfx* sDisplayLists[] = {
-    0x06000CB0, 0x06000DB8, 0x06000E78, 0x06000F38, 0x06000FF8, 0x060010B8,
-    0x060011C0, 0x060012C8, 0x060013D0, 0x06001488, 0x06001540,
-};
-
 static u16 sShadowTexFlags[] = {
     0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x100,
     0x100, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000,
@@ -70,36 +65,4 @@ static u16 sShadowTexFlags[] = {
     0x400, 0x400, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000,
     0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x400, 0x400,
     0x400, 0x400, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000,
-};
-
-static f32 sCutAngles[] = {
-    /* CUT_POST   */ 0.50f * M_PI,
-    /* CUT_VERT_L */ 0.00f * M_PI,
-    /* CUT_HORIZ  */ 0.50f * M_PI,
-    /* CUT_DIAG_L */ 0.66f * M_PI,
-    /* CUT_DIAG_R */ 0.34f * M_PI,
-    /* CUT_VERT_R */ 0.00f * M_PI,
-};
-
-static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
-
-static Vtx sShadowVertices[] = {
-    VTX(-2000, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 6000, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-2000, 6000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-};
-
-static Gfx sShadowDList[] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(0x08000000, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                         G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD),
-    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_OVL_SURF2),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(sShadowVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
 };

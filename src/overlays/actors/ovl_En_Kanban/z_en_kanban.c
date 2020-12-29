@@ -359,8 +359,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     piece->pieceHeight = sPieceSizes[piece->pieceType].y;
                     piece->actor.gravity = -1.0f;
                     piece->actionState = ENKANBAN_AIR;
-                    piece->actor.posRot.rot.y =
-                        (s16)Rand_CenteredFloat(0x3000) + this->actor.yawTowardsLink + 0x8000;
+                    piece->actor.posRot.rot.y = (s16)Rand_CenteredFloat(0x3000) + this->actor.yawTowardsLink + 0x8000;
                     piece->actor.velocity.y = Rand_ZeroFloat(2.0f) + 3.0f;
                     piece->actor.speedXZ = Rand_ZeroFloat(2.0f) + 3.0f;
                     if (piece->partCount >= 4) {
@@ -578,8 +577,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;
                     }
-                    if (Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 1,
-                                                0x1000, 0) > 0) {
+                    if (Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 1, 0x1000,
+                                           0) > 0) {
                         this->spinVel.y = this->actor.speedXZ * 1000.0f;
                     } else {
                         this->spinVel.y = this->actor.speedXZ * -1000.0f;
@@ -726,12 +725,12 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
-            distX = Math_SmoothStepToF(&this->actor.posRot.pos.x, signpost->actor.posRot.pos.x + offset.x, 1.0f,
-                                            3.0f, 0.0f);
-            distY = Math_SmoothStepToF(&this->actor.posRot.pos.y, signpost->actor.posRot.pos.y + offset.y, 1.0f,
-                                            3.0f, 0.0f);
-            distZ = Math_SmoothStepToF(&this->actor.posRot.pos.z, signpost->actor.posRot.pos.z + offset.z, 1.0f,
-                                            3.0f, 0.0f);
+            distX = Math_SmoothStepToF(&this->actor.posRot.pos.x, signpost->actor.posRot.pos.x + offset.x, 1.0f, 3.0f,
+                                       0.0f);
+            distY = Math_SmoothStepToF(&this->actor.posRot.pos.y, signpost->actor.posRot.pos.y + offset.y, 1.0f, 3.0f,
+                                       0.0f);
+            distZ = Math_SmoothStepToF(&this->actor.posRot.pos.z, signpost->actor.posRot.pos.z + offset.z, 1.0f, 3.0f,
+                                       0.0f);
             pDiff = Math_SmoothStepToS(&this->actor.shape.rot.x, signpost->actor.shape.rot.x, 1, 0x200, 0);
             yDiff = Math_SmoothStepToS(&this->actor.shape.rot.y, signpost->actor.shape.rot.y, 1, 0x200, 0);
             rDiff = Math_SmoothStepToS(&this->actor.shape.rot.z, signpost->actor.shape.rot.z, 1, 0x200, 0);
@@ -751,7 +750,44 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
+static Gfx* sDisplayLists[] = {
+    0x06000CB0, 0x06000DB8, 0x06000E78, 0x06000F38, 0x06000FF8, 0x060010B8,
+    0x060011C0, 0x060012C8, 0x060013D0, 0x06001488, 0x06001540,
+};
+
 #include "z_en_kanban_gfx.c"
+
+static f32 sCutAngles[] = {
+    /* CUT_POST   */ 0.50f * M_PI,
+    /* CUT_VERT_L */ 0.00f * M_PI,
+    /* CUT_HORIZ  */ 0.50f * M_PI,
+    /* CUT_DIAG_L */ 0.66f * M_PI,
+    /* CUT_DIAG_R */ 0.34f * M_PI,
+    /* CUT_VERT_R */ 0.00f * M_PI,
+};
+
+static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
+
+static Vtx sShadowVertices[] = {
+    VTX(-2000, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(2000, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(2000, 6000, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-2000, 6000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+};
+
+static Gfx sShadowDList[] = {
+    gsDPPipeSync(),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsDPLoadTextureBlock(0x08000000, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                         G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD),
+    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_OVL_SURF2),
+    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsSPVertex(sShadowVertices, 4, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSPEndDisplayList(),
+};
 
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKanban* this = THIS;
