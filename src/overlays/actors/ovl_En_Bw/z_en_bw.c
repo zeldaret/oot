@@ -279,19 +279,19 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     switch (this->unk_221) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
-            if ((this->unk_224 == 0) && (this->actor.xzDistToLink < 200.0f) &&
-                (ABS(this->actor.yDistToLink) < 50.0f) && func_8002E084(&this->actor, 0x1C70)) {
+            if ((this->unk_224 == 0) && (this->actor.xzDistToLink < 200.0f) && (ABS(this->actor.yDistToLink) < 50.0f) &&
+                func_8002E084(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             break;
         case 0:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if (sp64 == 0) {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
                 if ((this->actor.xzDistToLink < 90.0f) && (this->actor.yDistToLink < 50.0f) &&
                     func_8002E084(&this->actor, 0x1554) &&
                     func_800339B8(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsLink)) {
@@ -299,7 +299,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                 }
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             if ((this->unk_224 == 0) || (ABS(this->actor.yDistToLink) > 60.0f) || (player2->stateFlags1 & 0x6000)) {
                 this->unk_221 = 3;
@@ -313,10 +313,10 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x8000, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             if (this->unk_224 <= 200) {
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 55.0f;
