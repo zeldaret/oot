@@ -139,7 +139,7 @@ glabel Gameplay_Init
 /* B33D88 800BCBE8 3C010001 */  lui   $at, (0x00010B20 >> 16) # lui $at, 1
 /* B33D8C 800BCBEC 34210B20 */  ori   $at, (0x00010B20 & 0xFFFF) # ori $at, $at, 0xb20
 /* B33D90 800BCBF0 02212021 */  addu  $a0, $s1, $at
-/* B33D94 800BCBF4 0C028CBB */  jal   SkelAnime_AnimationCtxReset
+/* B33D94 800BCBF4 0C028CBB */  jal   AnimationContext_Reset
 /* B33D98 800BCBF8 AFA4003C */   sw    $a0, 0x3c($sp)
 /* B33D9C 800BCBFC 02202025 */  move  $a0, $s1
 /* B33DA0 800BCC00 0C019143 */  jal   func_8006450C
@@ -600,7 +600,7 @@ glabel Gameplay_Init
 /* B34440 800BD2A0 0C00B7C6 */  jal   func_8002DF18
 /* B34444 800BD2A4 8E251C44 */   lw    $a1, 0x1c44($s1)
 /* B34448 800BD2A8 02202025 */  move  $a0, $s1
-/* B3444C 800BD2AC 0C028E43 */  jal   func_800A390C
+/* B3444C 800BD2AC 0C028E43 */  jal   AnimationContext_Update
 /* B34450 800BD2B0 8FA5003C */   lw    $a1, 0x3c($sp)
 /* B34454 800BD2B4 AE401364 */  sw    $zero, 0x1364($s2)
 /* B34458 800BD2B8 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016

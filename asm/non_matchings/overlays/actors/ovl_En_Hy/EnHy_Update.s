@@ -21,7 +21,7 @@ glabel EnHy_Update
 /* 02078 80A71628 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0207C 80A7162C 01014821 */  addu    $t1, $t0, $at              
 /* 02080 80A71630 3C018016 */  lui     $at, %hi(gSegments+0x18)
-/* 02084 80A71634 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02084 80A71634 0C02927F */  jal     SkelAnime_Update
               
 /* 02088 80A71638 AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 0208C 80A7163C 0C29C169 */  jal     func_80A705A4              

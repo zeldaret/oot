@@ -11,8 +11,8 @@ typedef void (*EnDivingGameActionFunc)(struct EnDivingGame*, GlobalContext*);
 typedef struct EnDivingGame {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[20];
-    /* 0x0208 */ Vec3s transitionDrawTable[20];
+    /* 0x0190 */ Vec3s jointTable[20];
+    /* 0x0208 */ Vec3s morphTable[20];
     /* 0x0280 */ EnDivingGameActionFunc actionFunc;
     /* 0x0284 */ Vec3s vec_284;
     /* 0x028A */ Vec3s vec_28A;
