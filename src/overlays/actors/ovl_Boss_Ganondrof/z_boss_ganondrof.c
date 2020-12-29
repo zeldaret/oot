@@ -316,7 +316,7 @@ void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupIntro(BossGanondrof* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060019A4);
+    Animation_PlayLoop(&this->skelAnime, &D_060019A4);
     this->actionFunc = BossGanondrof_Intro;
     this->maskOff = true;
 }
@@ -328,7 +328,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     s32 pad;
     EnfHG* horse = (EnfHG*)this->actor.child;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.posRot.pos = horse->actor.posRot.pos;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
 
@@ -354,23 +354,23 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (horse->bossFhgSignal == FHG_LIGHTNING) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001144, 0.5f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06001144.genericHeader), 3, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06001144, 0.5f, 0.0f,
+                             Animation_GetLastFrame(&D_06001144), 3, 0.0f);
         this->timers[1] = 40;
     }
 
     if (horse->bossFhgSignal == FHG_REAR) {
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002684, -3.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_06002684, -3.0f);
     }
 
     if (horse->bossFhgSignal == FHG_RIDE) {
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060019A4, -13.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_060019A4, -13.0f);
     }
 
     if (horse->bossFhgSignal == FHG_SPUR) {
         EnfHG* tempHorse;
 
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -7.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600D99C, -7.0f);
         tempHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, 50, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
@@ -378,7 +378,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (horse->bossFhgSignal == FHG_FINISH) {
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600DF80, -5.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600DF80, -5.0f);
     }
 
     switch (this->eyeState) {
@@ -416,7 +416,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupPaintings(BossGanondrof* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06003CA4, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06003CA4, -5.0f);
     this->actionFunc = BossGanondrof_Paintings;
 }
 
@@ -424,24 +424,24 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse = (EnfHG*)this->actor.child; // sp48;
 
     osSyncPrintf("RUN 1\n");
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     osSyncPrintf("RUN 2\n");
 
     if (horse->bossFhgSignal == FHG_RAISE_SPEAR) {
         EnfHG* tmpHorse;
 
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600D99C, -2.0f);
         this->actor.flags |= 1;
         tmpHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, 30, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
         this->actor.child = &tmpHorse->actor;
     } else if (horse->bossFhgSignal == FHG_LIGHTNING) {
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003080, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_06003080, -2.0f);
     } else if (horse->bossFhgSignal == FHG_RESET) {
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600DF80, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600DF80, -2.0f);
     } else if (horse->bossFhgSignal == FHG_RIDE) {
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06003CA4, -2.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_06003CA4, -2.0f);
         this->actor.flags &= ~1;
     }
 
@@ -467,7 +467,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06010060, arg1);
+    Animation_MorphToLoop(&this->skelAnime, &D_06010060, arg1);
     this->actionFunc = BossGanondrof_Neutral;
     this->actor.flags |= 1;
     this->floatSpeed = 0.0f;
@@ -484,7 +484,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 rand01;
     s16 i;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     switch (this->flyMode) {
         case FHG_FLY_NEUTRAL:
             if (this->timers[0] == 0) {
@@ -613,8 +613,8 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse;
     s16 lightTime;
 
-    this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600EC94.genericHeader);
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600EC94, -5.0f);
+    this->endFrame = Animation_GetLastFrame(&D_0600EC94);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_0600EC94, -5.0f);
     this->actionFunc = BossGanondrof_Throw;
     if ((Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->flyMode == FHG_FLY_NEUTRAL)) {
         this->actionState = THROW_SLOW;
@@ -635,20 +635,20 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    osSyncPrintf("this->fwork[GND_END_FRAME] = %d\n", (s16)this->animeFrameCount);
+    SkelAnime_Update(&this->skelAnime);
+    osSyncPrintf("this->fwork[GND_END_FRAME] = %d\n", (s16)this->endFrame);
     osSyncPrintf("this->work[GND_SHOT_FRAME] = %d\n", this->throwFrame);
-    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+    if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
         BossGanondrof_SetupNeutral(this, -6.0f);
     }
 
-    if ((this->actionState != THROW_NORMAL) && func_800A56C8(&this->skelAnime, 21.0f)) {
-        this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600F48C.genericHeader);
-        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600F48C, 0.0f);
+    if ((this->actionState != THROW_NORMAL) && Animation_OnFrame(&this->skelAnime, 21.0f)) {
+        this->endFrame = Animation_GetLastFrame(&D_0600F48C);
+        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600F48C, 0.0f);
         this->throwFrame = 10;
     }
 
-    if (func_800A56C8(&this->skelAnime, this->throwFrame)) {
+    if (Animation_OnFrame(&this->skelAnime, this->throwFrame)) {
         if (this->flyMode <= FHG_FLY_NEUTRAL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
         } else {
@@ -658,7 +658,7 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
     }
 
-    if (func_800A56C8(&this->skelAnime, this->throwFrame)) {
+    if (Animation_OnFrame(&this->skelAnime, this->throwFrame)) {
         EnfHG* horse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, this->actionState, 0, 0, FHGFIRE_ENERGY_BALL);
@@ -678,20 +678,20 @@ void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
 
     s16 rand = Rand_ZeroOne() * 1.99f;
 
-    this->animeFrameCount = SkelAnime_GetFrameCount(&returnAnime[rand]->genericHeader);
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, returnAnime[rand], 0.0f);
+    this->endFrame = Animation_GetLastFrame(returnAnime[rand]);
+    Animation_MorphToPlayOnce(&this->skelAnime, returnAnime[rand], 0.0f);
     this->actionFunc = BossGanondrof_Return;
 }
 
 void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800A56C8(&this->skelAnime, 5.0f)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
         osSyncPrintf("VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         osSyncPrintf("VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     }
 
-    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+    if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
         BossGanondrof_SetupNeutral(this, 0.0f);
     }
 
@@ -709,13 +709,13 @@ void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
 
 void BossGanondrof_SetupStunned(BossGanondrof* this, GlobalContext* globalCtx) {
     if (this->actionFunc != BossGanondrof_Stunned) {
-        this->animeFrameCount = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060108D8, 0.0f);
+        this->endFrame = Animation_GetLastFrame(&D_060108D8);
+        Animation_MorphToLoop(&this->skelAnime, &D_060108D8, 0.0f);
         this->timers[0] = 50;
         this->shockTimer = 60;
     } else {
-        this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600FAC8.genericHeader);
-        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600FAC8, 0.0f);
+        this->endFrame = Animation_GetLastFrame(&D_0600FAC8);
+        Animation_MorphToLoop(&this->skelAnime, &D_0600FAC8, 0.0f);
     }
 
     this->actionFunc = BossGanondrof_Stunned;
@@ -726,18 +726,18 @@ void BossGanondrof_SetupStunned(BossGanondrof* this, GlobalContext* globalCtx) {
 
 void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
     osSyncPrintf("DAMAGE   .................................\n");
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.gravity = -0.2f;
     if (this->actor.posRot.pos.y <= 5.0f) {
         if (this->actionState == STUNNED_FALL) {
-            this->animeFrameCount = SkelAnime_GetFrameCount(&D_06011BCC.genericHeader);
-            SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06011BCC, -10.0f);
+            this->endFrame = Animation_GetLastFrame(&D_06011BCC);
+            Animation_MorphToLoop(&this->skelAnime, &D_06011BCC, -10.0f);
             this->actionState = STUNNED_GROUND;
         }
 
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
-        if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+        if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE2);
         }
 
@@ -758,8 +758,8 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->animeFrameCount = SkelAnime_GetFrameCount(&D_06010344.genericHeader);
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06010344, -3.0f);
+    this->endFrame = Animation_GetLastFrame(&D_06010344);
+    Animation_MorphToLoop(&this->skelAnime, &D_06010344, -3.0f);
     this->actionFunc = BossGanondrof_Block;
     this->timers[0] = 10;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
@@ -767,7 +767,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
 
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
     this->colliderBody.base.type = 9;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
     Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
@@ -781,8 +781,8 @@ void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->animeFrameCount = SkelAnime_GetFrameCount(&D_060129E0.genericHeader);
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060129E0, -3.0f);
+    this->endFrame = Animation_GetLastFrame(&D_060129E0);
+    Animation_MorphToLoop(&this->skelAnime, &D_060129E0, -3.0f);
     this->actionFunc = BossGanondrof_Charge;
     this->timers[0] = 20;
     this->actionState = CHARGE_WINDUP;
@@ -796,7 +796,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 dzCenter = thisx->posRot.pos.z - -3315.0f;
 
     this->colliderBody.base.type = 9;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     switch (this->actionState) {
         case CHARGE_WINDUP:
             if (this->timers[0] == 218) {
@@ -815,16 +815,16 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 this->actionState = CHARGE_START;
                 this->timers[0] = 10;
                 thisx->speedXZ = 0.0f;
-                this->animeFrameCount = SkelAnime_GetFrameCount(&D_06011F44.genericHeader);
-                SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06011F44, 0.0f);
+                this->endFrame = Animation_GetLastFrame(&D_06011F44);
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06011F44, 0.0f);
             }
 
             Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
             break;
         case CHARGE_START:
-            if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
-                this->animeFrameCount = SkelAnime_GetFrameCount(&D_0601267C.genericHeader);
-                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0601267C, 0.0f);
+            if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
+                this->endFrame = Animation_GetLastFrame(&D_0601267C);
+                Animation_MorphToLoop(&this->skelAnime, &D_0601267C, 0.0f);
                 this->actionState = CHARGE_ATTACK;
             }
         case CHARGE_ATTACK:
@@ -918,8 +918,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupDeath(BossGanondrof* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600090C);
-    this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600090C.genericHeader);
+    Animation_PlayOnce(&this->skelAnime, &D_0600090C);
+    this->endFrame = Animation_GetLastFrame(&D_0600090C);
     this->actionFunc = BossGanondrof_Death;
     Audio_SetBGM(0x100100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DEAD);
@@ -939,7 +939,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
 
     osSyncPrintf("PYP %f\n", player->actor.groundY);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->deathSfxTimer++;
     if (((60 < this->deathSfxTimer) && (this->deathSfxTimer < 500)) ||
         ((501 < this->deathSfxTimer) && (this->deathSfxTimer < 620))) {
@@ -982,16 +982,16 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         case DEATH_THROE:
             switch (this->actionState) {
                 case DEATH_SPASM:
-                    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
-                        this->animeFrameCount = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
-                        SkelAnime_ChangeAnim(&this->skelAnime, &D_060108D8, 0.5f, 0.0f, this->animeFrameCount, 3, 0.0f);
+                    if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
+                        this->endFrame = Animation_GetLastFrame(&D_060108D8);
+                        Animation_Change(&this->skelAnime, &D_060108D8, 0.5f, 0.0f, this->endFrame, 3, 0.0f);
                         this->actionState = DEATH_LIMP;
                     }
                     break;
                 case DEATH_LIMP:
-                    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
-                        this->animeFrameCount = SkelAnime_GetFrameCount(&D_06000D84.genericHeader);
-                        SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000D84, -20.0f);
+                    if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
+                        this->endFrame = Animation_GetLastFrame(&D_06000D84);
+                        Animation_MorphToLoop(&this->skelAnime, &D_06000D84, -20.0f);
                         this->actionState = DEATH_HUNCHED;
                     }
                 case DEATH_HUNCHED:
@@ -1046,7 +1046,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_SCREAM;
                 this->timers[0] = 50;
-                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600189C, -10.0f);
+                Animation_MorphToLoop(&this->skelAnime, &D_0600189C, -10.0f);
                 this->actor.posRot.pos.x = 14.0f;
                 this->actor.posRot.pos.y = 50.0f;
                 this->actor.posRot.pos.z = -3315.0f;
@@ -1070,7 +1070,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             this->cameraAt.z = -3315.0f;
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_DISINTEGRATE;
-                SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001AB0, -10.0f);
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06001AB0, -10.0f);
                 this->bodyDecayIndex = 0;
                 this->timers[0] = 40;
             }
@@ -1502,7 +1502,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
     }
 
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossGanondrof_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,
                    BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);

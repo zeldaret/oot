@@ -172,7 +172,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             ObjComb_Break(this, globalCtx);
             ObjComb_ChooseItemDrop(this, globalCtx);
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);

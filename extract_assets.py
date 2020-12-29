@@ -24,19 +24,23 @@ def ExtractFunc(fullPath):
 	else:
 		Extract(fullPath, outPath)
 
-xmlFiles = []
+def main():
+    xmlFiles = []
 
-for currentPath, folders, files in os.walk("assets"):
-	for file in files:
-		fullPath = os.path.join(currentPath, file)
-		if file.endswith(".xml") and currentPath.startswith("assets/xml"):
-			outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
-			xmlFiles.append(fullPath)
+    for currentPath, folders, files in os.walk("assets"):
+            for file in files:
+                    fullPath = os.path.join(currentPath, file)
+                    if file.endswith(".xml") and currentPath.startswith("assets/xml/"):
+                            outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+                            xmlFiles.append(fullPath)
 
-numCores = cpu_count()
-print("Extracting assets with " + str(numCores) + " CPU cores.")
-p = Pool(numCores)
-p.map(ExtractFunc, xmlFiles)
+    numCores = cpu_count()
+    print("Extracting assets with " + str(numCores) + " CPU cores.")
+    p = Pool(numCores)
+    p.map(ExtractFunc, xmlFiles)
 
 
-#os.system("make resources")
+    #os.system("make resources")
+
+if __name__ == "__main__":
+    main()

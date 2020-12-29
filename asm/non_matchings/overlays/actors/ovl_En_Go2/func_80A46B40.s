@@ -43,7 +43,7 @@ glabel func_80A46B40
 .L80A46BC4:
 /* 03E94 80A46BC4 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
 /* 03E98 80A46BC8 A3A30027 */  sb      $v1, 0x0027($sp)           
-/* 03E9C 80A46BCC 0C0295B2 */  jal     func_800A56C8              
+/* 03E9C 80A46BCC 0C0295B2 */  jal     Animation_OnFrame              
 /* 03EA0 80A46BD0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03EA4 80A46BD4 10400017 */  beq     $v0, $zero, .L80A46C34     
 /* 03EA8 80A46BD8 93A30027 */  lbu     $v1, 0x0027($sp)           

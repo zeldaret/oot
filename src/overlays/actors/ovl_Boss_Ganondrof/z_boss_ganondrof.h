@@ -44,7 +44,7 @@ typedef struct BossGanondrof {
     /* 0x01C9 */ u8 flyMode;
     /* 0x01CA */ u8 returnSuccess;
     /* 0x01CC */ f32 floatSpeed;
-    /* 0x01D0 */ f32 animeFrameCount;
+    /* 0x01D0 */ f32 endFrame;
     /* 0x01D4 */ f32 eyeBrightness;
     /* 0x01D8 */ f32 cameraZoom;
     /* 0x01DC */ f32 cameraAngle;

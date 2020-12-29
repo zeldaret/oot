@@ -279,7 +279,7 @@ glabel func_80A61A28
 /* 06AE8 80A61DD8 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 .L80A61DDC:
 /* 06AEC 80A61DDC AFA40034 */  sw      $a0, 0x0034($sp)
-/* 06AF0 80A61DE0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 06AF0 80A61DE0 0C02927F */  jal     SkelAnime_Update
 
 /* 06AF4 80A61DE4 AFA6004C */  sw      $a2, 0x004C($sp)
 /* 06AF8 80A61DE8 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210
@@ -305,7 +305,7 @@ glabel func_80A61A28
 /* 06B40 80A61E30 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
 /* 06B44 80A61E34 00064880 */  sll     $t1, $a2,  2
 /* 06B48 80A61E38 01095021 */  addu    $t2, $t0, $t1
-/* 06B4C 80A61E3C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06B4C 80A61E3C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06B50 80A61E40 8D440000 */  lw      $a0, 0x0000($t2)           ## 00000000
 /* 06B54 80A61E44 8E0B0158 */  lw      $t3, 0x0158($s0)           ## 00000158
@@ -327,7 +327,7 @@ glabel func_80A61A28
 /* 06B94 80A61E84 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06B98 80A61E88 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 06B9C 80A61E8C 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 06BA0 80A61E90 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06BA0 80A61E90 0C029468 */  jal     Animation_Change
 
 /* 06BA4 80A61E94 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 06BA8 80A61E98 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210
@@ -381,7 +381,7 @@ glabel func_80A61A28
 /* 06C54 80A61F44 8D4A5E58 */  lw      $t2, %lo(D_80A65E58)($t2)
 /* 06C58 80A61F48 00065880 */  sll     $t3, $a2,  2
 /* 06C5C 80A61F4C 014B6021 */  addu    $t4, $t2, $t3
-/* 06C60 80A61F50 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06C60 80A61F50 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06C64 80A61F54 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 06C68 80A61F58 8E0E0158 */  lw      $t6, 0x0158($s0)           ## 00000158
@@ -403,7 +403,7 @@ glabel func_80A61A28
 /* 06CA8 80A61F98 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06CAC 80A61F9C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 06CB0 80A61FA0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 06CB4 80A61FA4 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06CB4 80A61FA4 0C029468 */  jal     Animation_Change
 
 /* 06CB8 80A61FA8 E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 06CBC 80A61FAC 100000AE */  beq     $zero, $zero, .L80A62268
@@ -458,7 +458,7 @@ glabel func_80A61A28
 /* 06D68 80A62058 8D6B5E58 */  lw      $t3, %lo(D_80A65E58)($t3)
 /* 06D6C 80A6205C 000C7080 */  sll     $t6, $t4,  2
 /* 06D70 80A62060 016E6821 */  addu    $t5, $t3, $t6
-/* 06D74 80A62064 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06D74 80A62064 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06D78 80A62068 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 06D7C 80A6206C 8E180158 */  lw      $t8, 0x0158($s0)           ## 00000158
@@ -480,7 +480,7 @@ glabel func_80A61A28
 /* 06DBC 80A620AC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06DC0 80A620B0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 06DC4 80A620B4 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 06DC8 80A620B8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06DC8 80A620B8 0C029468 */  jal     Animation_Change
 
 /* 06DCC 80A620BC E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 06DD0 80A620C0 10000069 */  beq     $zero, $zero, .L80A62268
@@ -496,7 +496,7 @@ glabel func_80A61A28
 /* 06DF4 80A620E4 8DAD5E58 */  lw      $t5, %lo(D_80A65E58)($t5)
 /* 06DF8 80A620E8 0006C080 */  sll     $t8, $a2,  2
 /* 06DFC 80A620EC 01B87821 */  addu    $t7, $t5, $t8
-/* 06E00 80A620F0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06E00 80A620F0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06E04 80A620F4 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
 /* 06E08 80A620F8 8E080158 */  lw      $t0, 0x0158($s0)           ## 00000158
@@ -518,7 +518,7 @@ glabel func_80A61A28
 /* 06E48 80A62138 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06E4C 80A6213C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 06E50 80A62140 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 06E54 80A62144 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06E54 80A62144 0C029468 */  jal     Animation_Change
 
 /* 06E58 80A62148 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 06E5C 80A6214C 10000046 */  beq     $zero, $zero, .L80A62268
@@ -531,7 +531,7 @@ glabel func_80A61A28
 /* 06E74 80A62164 01F87821 */  addu    $t7, $t7, $t8
 /* 06E78 80A62168 8DEF5E58 */  lw      $t7, %lo(D_80A65E58)($t7)
 /* 06E7C 80A6216C 01E8C821 */  addu    $t9, $t7, $t0
-/* 06E80 80A62170 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06E80 80A62170 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06E84 80A62174 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 06E88 80A62178 8E0A0158 */  lw      $t2, 0x0158($s0)           ## 00000158
@@ -552,7 +552,7 @@ glabel func_80A61A28
 /* 06EC4 80A621B4 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 06EC8 80A621B8 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06ECC 80A621BC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 06ED0 80A621C0 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06ED0 80A621C0 0C029468 */  jal     Animation_Change
 
 /* 06ED4 80A621C4 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 06ED8 80A621C8 10000027 */  beq     $zero, $zero, .L80A62268
@@ -573,7 +573,7 @@ glabel func_80A61A28
 /* 06F0C 80A621FC 8F395E58 */  lw      $t9, %lo(D_80A65E58)($t9)
 /* 06F10 80A62200 00065080 */  sll     $t2, $a2,  2
 /* 06F14 80A62204 032A4821 */  addu    $t1, $t9, $t2
-/* 06F18 80A62208 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 06F18 80A62208 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06F1C 80A6220C 8D240000 */  lw      $a0, 0x0000($t1)           ## 00000000
 /* 06F20 80A62210 8E0B0158 */  lw      $t3, 0x0158($s0)           ## 00000158
@@ -595,7 +595,7 @@ glabel func_80A61A28
 /* 06F60 80A62250 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 06F64 80A62254 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 06F68 80A62258 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 06F6C 80A6225C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 06F6C 80A6225C 0C029468 */  jal     Animation_Change
 
 /* 06F70 80A62260 E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 06F74 80A62264 8FBF002C */  lw      $ra, 0x002C($sp)

@@ -5,7 +5,7 @@ glabel func_80B408FC
 /* 04728 80B40908 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0472C 80B4090C 3C040600 */  lui     $a0, %hi(D_06004828)                ## $a0 = 06000000
 /* 04730 80B40910 AFA5004C */  sw      $a1, 0x004C($sp)
-/* 04734 80B40914 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04734 80B40914 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04738 80B40918 24844828 */  addiu   $a0, $a0, %lo(D_06004828)           ## $a0 = 06004828
 /* 0473C 80B4091C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -19,7 +19,7 @@ glabel func_80B408FC
 /* 0475C 80B4093C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 04760 80B40940 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 04764 80B40944 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 04768 80B40948 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 04768 80B40948 0C029468 */  jal     Animation_Change
 
 /* 0476C 80B4094C E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 04770 80B40950 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -30,7 +30,7 @@ glabel func_80B408FC
 /* 04784 80B40964 0C2CF259 */  jal     func_80B3C964
 /* 04788 80B40968 8FA5004C */  lw      $a1, 0x004C($sp)
 /* 0478C 80B4096C 3C040601 */  lui     $a0, %hi(D_060149E4)                ## $a0 = 06010000
-/* 04790 80B40970 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04790 80B40970 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04794 80B40974 248449E4 */  addiu   $a0, $a0, %lo(D_060149E4)           ## $a0 = 060149E4
 /* 04798 80B40978 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -44,7 +44,7 @@ glabel func_80B408FC
 /* 047B8 80B40998 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 047BC 80B4099C E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 047C0 80B409A0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 047C4 80B409A4 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 047C4 80B409A4 0C029468 */  jal     Animation_Change
 
 /* 047C8 80B409A8 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 047CC 80B409AC 240F003D */  addiu   $t7, $zero, 0x003D         ## $t7 = 0000003D

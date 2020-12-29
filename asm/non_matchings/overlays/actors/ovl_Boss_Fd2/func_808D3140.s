@@ -15,7 +15,7 @@ glabel func_808D3140
 /* 00ADC 808D314C AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00AE0 808D3150 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00AE4 808D3154 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00AE8 808D3158 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00AE8 808D3158 0C02927F */  jal     SkelAnime_Update
 
 /* 00AEC 808D315C AFA40030 */  sw      $a0, 0x0030($sp)
 /* 00AF0 808D3160 860E0196 */  lh      $t6, 0x0196($s0)           ## 00000196
@@ -61,7 +61,7 @@ glabel func_808D3140
 /* 00B84 808D31F4 00000000 */  nop
 /* 00B88 808D31F8 45020007 */  bc1fl   .L808D3218
 /* 00B8C 808D31FC 4602603C */  c.lt.s  $f12, $f2
-/* 00B90 808D3200 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00B90 808D3200 0C0294D3 */  jal     Animation_MorphToLoop
 /* 00B94 808D3204 E7A2002C */  swc1    $f2, 0x002C($sp)
 /* 00B98 808D3208 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 00B9C 808D320C 44816000 */  mtc1    $at, $f12                  ## $f12 = 1000.00
@@ -72,8 +72,8 @@ glabel func_808D3140
 /* 00BAC 808D321C 4502000F */  bc1fl   .L808D325C
 /* 00BB0 808D3220 860801BC */  lh      $t0, 0x01BC($s0)           ## 000001BC
 /* 00BB4 808D3224 86190196 */  lh      $t9, 0x0196($s0)           ## 00000196
-/* 00BB8 808D3228 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00BBC 808D322C 24A5C8EC */  addiu   $a1, $a1, 0xC8EC           ## $a1 = 0600C8EC
+/* 00BB8 808D3228 3C050601 */  lui     $a1, %hi(D_0600C8EC)                ## $a1 = 06010000
+/* 00BBC 808D322C 24A5C8EC */  addiu   $a1, $a1, %lo(D_0600C8EC)           ## $a1 = 0600C8EC
 /* 00BC0 808D3230 44994000 */  mtc1    $t9, $f8                   ## $f8 = 0.00
 /* 00BC4 808D3234 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00BC8 808D3238 46804020 */  cvt.s.w $f0, $f8
@@ -82,7 +82,7 @@ glabel func_808D3140
 /* 00BD4 808D3244 00000000 */  nop
 /* 00BD8 808D3248 45020004 */  bc1fl   .L808D325C
 /* 00BDC 808D324C 860801BC */  lh      $t0, 0x01BC($s0)           ## 000001BC
-/* 00BE0 808D3250 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00BE0 808D3250 0C0294D3 */  jal     Animation_MorphToLoop
 /* 00BE4 808D3254 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 00BE8 808D3258 860801BC */  lh      $t0, 0x01BC($s0)           ## 000001BC
 .L808D325C:

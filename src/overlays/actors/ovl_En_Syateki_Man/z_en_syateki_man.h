@@ -12,8 +12,8 @@ typedef void (*EnSyatekiManOtherFunc) (struct EnSyatekiMan*);
 typedef struct EnSyatekiMan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTbl[9];
-    /* 0x01C6 */ Vec3s transitionDrawTbl[9];
+    /* 0x0190 */ Vec3s jointTable[9];
+    /* 0x01C6 */ Vec3s morphTable[9];
     /* 0x01FC */ EnSyatekiManActionFunc actionFunc;
     /* 0x0200 */ Vec3s headRot;
     /* 0x0206 */ Vec3s bodyRot;

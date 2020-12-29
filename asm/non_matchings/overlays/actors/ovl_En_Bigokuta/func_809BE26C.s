@@ -20,8 +20,8 @@ glabel func_809BE26C
 /* 01650 809BE2B0 10000047 */  beq     $zero, $zero, .L809BE3D0
 /* 01654 809BE2B4 A61800B6 */  sh      $t8, 0x00B6($s0)           ## 000000B6
 .L809BE2B8:
-/* 01658 809BE2B8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
-
+/* 01658 809BE2B8 0C02927F */  jal     SkelAnime_Update
+              
 /* 0165C 809BE2BC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01660 809BE2C0 10400043 */  beq     $v0, $zero, .L809BE3D0
 /* 01664 809BE2C4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006

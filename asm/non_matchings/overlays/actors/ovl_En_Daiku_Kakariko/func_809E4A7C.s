@@ -4,7 +4,7 @@ glabel func_809E4A7C
 /* 00764 809E4A84 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00768 809E4A88 0C2791FB */  jal     func_809E47EC              
 /* 0076C 809E4A8C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00770 809E4A90 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00770 809E4A90 0C02927F */  jal     SkelAnime_Update
               
 /* 00774 809E4A94 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00778 809E4A98 10400004 */  beq     $v0, $zero, .L809E4AAC     

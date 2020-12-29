@@ -115,9 +115,9 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         Vec3s* transform;
 
         transform = &skelCurve->transforms[limbIndex];
-        scale.x = transform->x * (1.0f / 1024.0f);
-        scale.y = transform->y * (1.0f / 1024.0f);
-        scale.z = transform->z * (1.0f / 1024.0f);
+        scale.x = transform->x / 1024.0f;
+        scale.y = transform->y / 1024.0f;
+        scale.z = transform->z / 1024.0f;
         transform++;
         rot.x = transform->x;
         rot.y = transform->y;

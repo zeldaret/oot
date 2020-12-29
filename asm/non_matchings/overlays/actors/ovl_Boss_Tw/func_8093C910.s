@@ -522,9 +522,9 @@ glabel func_8093C910
 /* 04378 8093D048 26108E2C */  addiu   $s0, $s0, %lo(D_06038E2C)           ## $s0 = 06038E2C
 /* 0437C 8093D04C 4406B000 */  mfc1    $a2, $f22
 /* 04380 8093D050 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06038E2C
-/* 04384 8093D054 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 04384 8093D054 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04388 8093D058 26240568 */  addiu   $a0, $s1, 0x0568           ## $a0 = 00000568
-/* 0438C 8093D05C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0438C 8093D05C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04390 8093D060 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C
 /* 04394 8093D064 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -563,13 +563,13 @@ glabel func_8093C910
 /* 0440C 8093D0DC E5600050 */  swc1    $f0, 0x0050($t3)           ## 80950050
 .L8093D0E0:
 /* 04410 8093D0E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C
-/* 04414 8093D0E4 0C0295B2 */  jal     func_800A56C8
+/* 04414 8093D0E4 0C0295B2 */  jal     Animation_OnFrame
 /* 04418 8093D0E8 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
 /* 0441C 8093D0EC 10400005 */  beq     $v0, $zero, .L8093D104
 /* 04420 8093D0F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C
 /* 04424 8093D0F4 3C050603 */  lui     $a1, %hi(D_06032BF8)                ## $a1 = 06030000
 /* 04428 8093D0F8 24A52BF8 */  addiu   $a1, $a1, %lo(D_06032BF8)           ## $a1 = 06032BF8
-/* 0442C 8093D0FC 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 0442C 8093D0FC 0C0294D3 */  jal     Animation_MorphToLoop
 /* 04430 8093D100 3C06C170 */  lui     $a2, 0xC170                ## $a2 = C1700000
 .L8093D104:
 /* 04434 8093D104 240CFFFF */  addiu   $t4, $zero, 0xFFFF         ## $t4 = FFFFFFFF
@@ -589,7 +589,7 @@ glabel func_8093C910
 
 /* 0446C 8093D13C 02412021 */  addu    $a0, $s2, $at
 .L8093D140:
-/* 04470 8093D140 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04470 8093D140 0C02927F */  jal     SkelAnime_Update
 
 /* 04474 8093D144 26240568 */  addiu   $a0, $s1, 0x0568           ## $a0 = 00000568
 /* 04478 8093D148 3C053BE5 */  lui     $a1, 0x3BE5                ## $a1 = 3BE50000

@@ -22,7 +22,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
-static s16 D_8089A020 = 0;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
@@ -52,14 +52,14 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2,
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
     DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
     this->unk_16A = 0;
 
-    if (D_8089A020) {
+    if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
     }
@@ -69,12 +69,12 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift_InitDynapoly(this, globalCtx, &D_0600D7E8, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
-        BgJyaLift_SetFinalPosY(thisx);
+        BgJyaLift_SetFinalPosY(this);
     } else {
-        BgJyaLift_SetInitPosY(thisx);
+        BgJyaLift_SetInitPosY(this);
     }
     thisx->room = -1;
-    D_8089A020 = 1;
+    sIsSpawned = true;
     this->unk_16A = 1;
 }
 
@@ -85,7 +85,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
-        D_8089A020 = 0;
+        sIsSpawned = false;
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
@@ -138,7 +138,7 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this);
+        this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
         Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);

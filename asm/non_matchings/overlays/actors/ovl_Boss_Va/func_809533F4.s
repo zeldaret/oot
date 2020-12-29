@@ -741,7 +741,7 @@ glabel L80953CD8
 /* 04B68 80953E28 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 04B6C 80953E2C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80953E30:
-/* 04B70 80953E30 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04B70 80953E30 0C02927F */  jal     SkelAnime_Update
               
 /* 04B74 80953E34 2664014C */  addiu   $a0, $s3, 0x014C           ## $a0 = 0000014C
 /* 04B78 80953E38 266400BC */  addiu   $a0, $s3, 0x00BC           ## $a0 = 000000BC
