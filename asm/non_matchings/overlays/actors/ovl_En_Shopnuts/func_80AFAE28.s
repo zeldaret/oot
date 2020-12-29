@@ -23,7 +23,7 @@ glabel func_80AFAE28
 /* 00758 80AFAE78 10000036 */  beq     $zero, $zero, .L80AFAF54   
 /* 0075C 80AFAE7C 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80AFAE80:
-/* 00760 80AFAE80 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00760 80AFAE80 0C02927F */  jal     SkelAnime_Update
               
 /* 00764 80AFAE84 AFA40038 */  sw      $a0, 0x0038($sp)           
 /* 00768 80AFAE88 10400005 */  beq     $v0, $zero, .L80AFAEA0     
@@ -33,7 +33,7 @@ glabel func_80AFAE28
 /* 00778 80AFAE98 1000002E */  beq     $zero, $zero, .L80AFAF54   
 /* 0077C 80AFAE9C 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80AFAEA0:
-/* 00780 80AFAEA0 0C0295B2 */  jal     func_800A56C8              
+/* 00780 80AFAEA0 0C0295B2 */  jal     Animation_OnFrame              
 /* 00784 80AFAEA4 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 00788 80AFAEA8 5040002A */  beql    $v0, $zero, .L80AFAF54     
 /* 0078C 80AFAEAC 8FBF0034 */  lw      $ra, 0x0034($sp)           

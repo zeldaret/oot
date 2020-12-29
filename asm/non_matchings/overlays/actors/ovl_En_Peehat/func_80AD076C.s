@@ -88,7 +88,7 @@ glabel func_80AD076C
 .L80AD0884:
 /* 013E4 80AD0884 2644014C */  addiu   $a0, $s2, 0x014C           ## $a0 = 0000014C
 /* 013E8 80AD0888 2719015E */  addiu   $t9, $t8, 0x015E           ## $t9 = 0000015E
-/* 013EC 80AD088C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 013EC 80AD088C 0C02927F */  jal     SkelAnime_Update
               
 /* 013F0 80AD0890 A65900B6 */  sh      $t9, 0x00B6($s2)           ## 000000B6
 /* 013F4 80AD0894 264402F0 */  addiu   $a0, $s2, 0x02F0           ## $a0 = 000002F0

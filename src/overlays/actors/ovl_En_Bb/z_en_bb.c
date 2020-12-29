@@ -427,7 +427,7 @@ void EnBb_Damage(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_SetupBlue(EnBb* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+    Animation_PlayLoop(&this->skelAnime, &D_06000444);
     this->actor.speedXZ = (Rand_ZeroOne() * 0.5f) + 0.5f;
     this->timer = (Rand_ZeroOne() * 20.0f) + 40.0f;
     this->unk_264 = (Rand_ZeroOne() * 30.0f) + 180.0f;
@@ -448,7 +448,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
                            0.0f);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Math_CosF(this->bobPhase) == 0.0f) {
         if (this->charge) {
             this->bobSpeedMod = Rand_ZeroOne() * 2.0f;
@@ -472,14 +472,14 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             if (this->charge && (this->targetActor == NULL)) {
                 this->vMoveAngleY = this->actor.posRot.rot.y;
                 if (this->actor.xzDistFromLink < 200.0f) {
-                    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
+                    Animation_PlayLoop(&this->skelAnime, &D_06000184);
                     this->vMoveAngleY = this->actor.yawTowardsLink;
                 }
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 6.0f;
                 this->timer = (Rand_ZeroOne() * 5.0f) + 20.0f;
                 this->actionState = BBBLUE_NORMAL;
             } else {
-                SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+                Animation_PlayLoop(&this->skelAnime, &D_06000444);
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 1.0f;
                 this->timer = (Rand_ZeroOne() * 20.0f) + 40.0f;
                 this->vMoveAngleY = Math_SinF(this->bobPhase) * 65535.0f;
@@ -487,7 +487,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
         }
         if ((this->actor.xzDistFromLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
             if (!this->charge) {
-                SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
+                Animation_PlayLoop(&this->skelAnime, &D_06000184);
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 6.0f;
                 this->timer = (Rand_ZeroOne() * 5.0f) + 20.0f;
                 this->vMoveAngleY = this->actor.yawTowardsLink;
@@ -548,24 +548,24 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
     }
 
     if (this->maxSpeed >= 6.0f) {
-        if ((s32)this->skelAnime.animCurrentFrame == 0 || (s32)this->skelAnime.animCurrentFrame == 5) {
+        if ((s32)this->skelAnime.curFrame == 0 || (s32)this->skelAnime.curFrame == 5) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
-        } else if ((s32)this->skelAnime.animCurrentFrame == 2 || (s32)this->skelAnime.animCurrentFrame == 7) {
+        } else if ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 7) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
         }
     } else {
-        if ((s32)this->skelAnime.animCurrentFrame == 5) {
+        if ((s32)this->skelAnime.curFrame == 5) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
         }
     }
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
+    if (((s32)this->skelAnime.curFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
 void EnBb_SetupDown(EnBb* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+    Animation_PlayLoop(&this->skelAnime, &D_06000444);
     this->action = BB_DOWN;
     this->timer = 200;
     this->actor.dmgEffectTimer = 0;
@@ -581,7 +581,7 @@ void EnBb_SetupDown(EnBb* this) {
 void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
     s16 yawDiff = this->actor.posRot.rot.y - this->actor.wallPolyRot;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & 8) {
         if (ABS(yawDiff) > 0x4000) {
             this->actor.posRot.rot.y =
@@ -614,7 +614,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, -this->actor.yawTowardsLink, 1, 0xBB8, 0);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if ((s32)this->skelAnime.animCurrentFrame == 5) {
+    if ((s32)this->skelAnime.curFrame == 5) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
     }
     if (this->timer == 0) {
@@ -644,7 +644,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_SetupRed(GlobalContext* globalCtx, EnBb* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
+    Animation_PlayLoop(&this->skelAnime, &D_06000184);
     if (this->action == BB_DOWN) {
         this->actor.speedXZ = 5.0f;
         this->actor.gravity = -1.0f;
@@ -673,7 +673,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
     s32 floorType;
     s16 yawDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -744,7 +744,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
             break;
     }
     if (this->actionState != BBRED_WAIT) {
-        if (((s32)this->skelAnime.animCurrentFrame == 0) || ((s32)this->skelAnime.animCurrentFrame == 5)) {
+        if (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEFALL_FIRE - SFX_FLAG);
@@ -771,7 +771,7 @@ void EnBb_SetWaypoint(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_SetupWhite(GlobalContext* globalCtx, EnBb* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+    Animation_PlayLoop(&this->skelAnime, &D_06000444);
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.pos.y += 60.0f;
     this->flameScaleX = 100.0f;
@@ -802,11 +802,11 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
             if (this->timer == 0) {
                 EnBb_SetWaypoint(this, globalCtx);
                 EnBb_FaceWaypoint(this);
-                SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000184);
+                Animation_PlayLoop(&this->skelAnime, &D_06000184);
                 this->timer = Rand_ZeroOne() * 30.0f + 40.0f;
             } else {
                 if (this->moveMode != BBMOVE_NORMAL) {
-                    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+                    Animation_PlayLoop(&this->skelAnime, &D_06000444);
                 }
                 this->actor.posRot.rot.y += 0x1F40;
             }
@@ -824,15 +824,15 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
     } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
         EnBb_FaceWaypoint(this);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() <= 0.1f)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (((s32)this->skelAnime.curFrame == 0) && (Rand_ZeroOne() <= 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 
     if ((this->maxSpeed != 0.0f) &&
-        (((s32)this->skelAnime.animCurrentFrame == 0) || ((s32)this->skelAnime.animCurrentFrame == 5))) {
+        (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
-    } else if (((s32)this->skelAnime.animCurrentFrame == 2) || ((s32)this->skelAnime.animCurrentFrame == 7)) {
+    } else if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 7)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
     }
 }
@@ -840,7 +840,7 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
 void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
     Vec3f bobOffset = { 0.0f, 0.0f, 0.0f };
 
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+    Animation_PlayLoop(&this->skelAnime, &D_06000444);
     this->moveMode = BBMOVE_NOCLIP;
     this->actionState = BBGREEN_FLAME_ON;
     this->bobPhase = Rand_ZeroOne();
@@ -864,7 +864,7 @@ void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_SetupGreen(EnBb* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000444);
+    Animation_PlayLoop(&this->skelAnime, &D_06000444);
     this->moveMode = BBMOVE_NOCLIP;
     this->actionState = BBGREEN_FLAME_ON;
     this->targetActor = NULL;
@@ -924,7 +924,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 0);
         Math_SmoothStepToS(&this->actor.shape.rot.x, Math_Vec3f_Pitch(&this->actor.posRot.pos, &nextPos), 1, 0xFA0, 0);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Math_CosF(this->bobPhase) <= 0.002f) {
         this->bobSpeedMod = Rand_ZeroOne() * 0.05f;
     }
@@ -959,10 +959,10 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
         Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
     }
-    if ((s32)this->skelAnime.animCurrentFrame == 5) {
+    if ((s32)this->skelAnime.curFrame == 5) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
     }
-    if (((s32)this->skelAnime.animCurrentFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
+    if (((s32)this->skelAnime.curFrame == 0) && (Rand_ZeroOne() < 0.1f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 }
@@ -1189,7 +1189,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->moveMode != BBMOVE_HIDDEN) {
         if (this->actor.params <= ENBB_BLUE) {
             func_80093D18(globalCtx->state.gfxCtx);
-            SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, EnBb_PostLimbDraw,
+            SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnBb_PostLimbDraw,
                               this);
 
             if (this->fireIceTimer != 0) {

@@ -26,8 +26,8 @@ typedef struct EnZo {
     /* 0x0194 */ struct_80034A14_arg1 unk_194;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ u8 canSpeak;
-    /* 0x020A */ Vec3s limbDrawTbl[20];
-    /* 0x0282 */ Vec3s transitionDrawTbl[20];
+    /* 0x020A */ Vec3s jointTable[20];
+    /* 0x0282 */ Vec3s morphTable[20];
     /* 0x02FC */ EnZoEffect effects[15];
     /* 0x0644 */ f32 dialogRadius;
     /* 0x0648 */ f32 alpha;
