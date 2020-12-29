@@ -18,7 +18,7 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a);
 s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-void func_80A99BC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+
 extern UNK_TYPE D_06006A60;
 extern UNK_TYPE D_06007830;
 extern UNK_TYPE D_06007D94;
@@ -105,32 +105,24 @@ u8 D_80A9A4BC[13][5] = { { 0x08, 0x09, 0x09, 0x0E, 0x0B }, { 0x02, 0x0C, 0x02, 0
                          { 0x05, 0x05, 0x05, 0x05, 0x05 } };
 typedef struct {
     u8 unk_0;
-    s8 unk_1;
+    u8 unk_1;
     Color_RGBA8 color1;
-    // s8 unk_2; // R
-    // s8 unk_3; // G
-    // s8 unk_4; // B
-    // s8 unk_5; // A
     u8 unk_6;
     Color_RGBA8 color2;
-    // s8 unk_7; // R
-    // s8 unk_8; // G
-    // s8 unk_9; // B
-    // s8 unk_A; // A
 } struct_80A9A500;
-struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
-                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
-                                 { 0x01, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
-                                 { 0x00, 0x00, { 0x00, 0x82, 0x46, 0xFF }, 0x00, { 0x6E, 0xAA, 0x14, 0xFF } },
-                                 { 0x02, 0x01, { 0x46, 0xBE, 0x3C, 0xFF }, 0x01, { 0x64, 0x1E, 0x00, 0xFF } },
+struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+                                 { 0x02, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
                                  /*0x00*/ };
 
 typedef struct {
@@ -156,61 +148,38 @@ s32 D_80A9A62C[] = { 0x00000000, 0x00000000, 0x00000000, 0xC1F00000, 0xC1A00000,
 s32 D_80A9A730[] = { 0x01010100, 0x01010101, 0x01010101, 0x01000101, 0x01010001, 0x01010100,
                      0x01000000, 0x00000101, 0x01010101, 0x01010001, 0x00000000, 0x00000000,
                      0x00000101, 0x01010100, 0x00000000, 0x01010101, 0x01000000 };
-s32 D_80A9A774[] = { 0x00000000, 0x00000000, 0x00000000 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96DB0.s")
-/*s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
-
+#ifdef NON_MATCHING
+// Minor regalloc
+s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
     s16 temp_a1;
-    u8 temp_t0;
     u8 temp_t1;
-    struct_80A9A500* temp_v0;
-
-    //temp_v0 = ((this->actor.params & 0xFF) * 0xB) + D_80A9A500;
-    // temp_a0 = &globalCtx->objectCtx;
-    temp_v0 = &D_80A9A500[this->actor.params];
-    temp_t0 = temp_v0->unk_0;
-    temp_t1 = temp_v0->unk_1;
-    temp_a1 = *(D_80A9A17C + (temp_v0->unk_6 * 8));
-    // sp18 = temp_a0;
-    //sp1F = temp_t0;
-    //sp1E = temp_t1;
-    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, temp_a1);
-    if ((s32)this->unk_196 < 0) {
-        return 0;
-    }
-    this->unk_195 = Object_GetIndex(&globalCtx->objectCtx, *(D_80A9A17C + (temp_t1 * 8)));
-    if ((s32)this->unk_195 < 0) {
-        return 0;
-    }
-    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, *(D_80A9A158 + (temp_t0 * 0xC)));
-    if ((s32)this->unk_194 < 0) {
-        return 0;
-    }
-    return 1;
-}*/
-/*void func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
-    s16 objectId;
-    struct_80A9A500* temp_v0;
     u8 temp_t0;
-    u8 temp_t1;
 
-    temp_v0 = &D_80A9A500[this->actor.params & 0xFF];
-    temp_t0 = (u8)temp_v0->unk_0;
-    temp_t1 = (u8)temp_v0->unk_1;
-    objectId = D_80A9A17C[temp_v0->unk_6].objectId;
-
-    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, objectId);
-    if ((s32)this->unk_196 < 0) {
-        return;
+    temp_a1 = D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].objectId;
+    temp_a1 = D_80A9A500[this->actor.params & 0xFF].unk_6;
+    temp_t0 = D_80A9A500[this->actor.params & 0xFF].unk_0;
+    temp_t1 = D_80A9A500[this->actor.params & 0xFF].unk_1;
+    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[temp_a1].objectId);
+    if (this->unk_196 < 0) {
+        return 0;
     }
+
     this->unk_195 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[temp_t1].objectId);
-    if ((s32)this->unk_195 < 0) {
-        return;
+    if (this->unk_195 < 0) {
+        return 0;
     }
-    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[temp_t0].objectId);
-    if ((s32)this->unk_194 < 0) {}
-}*/
+
+    this->unk_194 = (temp_a1 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[temp_t0].objectId));
+    if (this->unk_194 < 0) {
+        return 0;
+    }
+
+    return 1;
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96DB0.s")
+#endif
 
 s32 func_80A96EC4(EnKo* this, GlobalContext* globalCtx) {
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_196)) {
@@ -476,8 +445,10 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     // this->actor.posRot.pos.z +=  temp_f10;
     if ((this->unk_1E8 == 0) || (this->actor.unk_10C == 0)) {
-        temp_f2 = fabsf(this->actor.yawTowardsLink - yawToPlayer) * 0.001f * 3.0f;
-        if (((temp_f2) > 1.0f)) {
+
+        temp_f2 = fabsf((f32)this->actor.yawTowardsLink - yawToPlayer) * 0.001f * 3.0f;
+        if (temp_f2 > 1.0f) {
+
             phi_f0 = CLAMP_MAX(temp_f2, 3.0f);
             this->skelAnime.animPlaybackSpeed = phi_f0;
             return;
@@ -489,7 +460,6 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Update.s")
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     EnKo* this = THIS;
@@ -571,7 +541,20 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     return 0;
 }*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99BC4.s")
+// Post limb draw
+void func_80A99BC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    EnKo* this = THIS;
+    Vec3f D_80A9A774 = { 0.0f, 0.0f, 0.0f };
+
+    if (limbIndex == 7) {
+        gSPSegment((*gfx)++, 0x06, globalCtx2->objectCtx.status[this->unk_195].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx2->objectCtx.status[this->unk_195].segment);
+    }
+    if (limbIndex == 15) {
+        Matrix_MultVec3f(&D_80A9A774, &this->actor.posRot2.pos);
+    }
+}
 
 // AllocColorDList?
 Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
@@ -583,7 +566,7 @@ Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     gSPEndDisplayList(dList + 1);
     return dList;
 }
-
+// Type Conversion issues
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
 /*void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
