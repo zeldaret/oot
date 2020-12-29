@@ -1,7 +1,7 @@
 #include "global.h"
 
 MtxF D_801600C0[60];
-char pad[0x10];
+char D_80160FC0[0x10];
 
 void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx* arg3, Vec3f* arg4) {
     Vtx* temp_s2;
