@@ -11,7 +11,7 @@ glabel func_809E9F6C
 
 /* 00A30 809E9F90 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 00A34 809E9F94 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00A38 809E9F98 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00A38 809E9F98 0C02927F */  jal     SkelAnime_Update
 
 /* 00A3C 809E9F9C AFA40038 */  sw      $a0, 0x0038($sp)
 /* 00A40 809E9FA0 10400005 */  beq     $v0, $zero, .L809E9FB8
@@ -21,7 +21,7 @@ glabel func_809E9F6C
 /* 00A50 809E9FB0 10000040 */  beq     $zero, $zero, .L809EA0B4
 /* 00A54 809E9FB4 8FBF0034 */  lw      $ra, 0x0034($sp)
 .L809E9FB8:
-/* 00A58 809E9FB8 0C0295B2 */  jal     func_800A56C8
+/* 00A58 809E9FB8 0C0295B2 */  jal     Animation_OnFrame
 /* 00A5C 809E9FBC 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 00A60 809E9FC0 5040002B */  beql    $v0, $zero, .L809EA070
 /* 00A64 809E9FC4 86190196 */  lh      $t9, 0x0196($s0)           ## 00000196
@@ -76,13 +76,13 @@ glabel func_809E9F6C
 /* 00B14 809EA074 2B210002 */  slti    $at, $t9, 0x0002
 /* 00B18 809EA078 5420000E */  bnel    $at, $zero, .L809EA0B4
 /* 00B1C 809EA07C 8FBF0034 */  lw      $ra, 0x0034($sp)
-/* 00B20 809EA080 0C0295B2 */  jal     func_800A56C8
+/* 00B20 809EA080 0C0295B2 */  jal     Animation_OnFrame
 /* 00B24 809EA084 3C054140 */  lui     $a1, 0x4140                ## $a1 = 41400000
 /* 00B28 809EA088 10400009 */  beq     $v0, $zero, .L809EA0B0
 /* 00B2C 809EA08C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00B30 809EA090 3C050600 */  lui     $a1, %hi(D_060001C4)                ## $a1 = 06000000
 /* 00B34 809EA094 24A501C4 */  addiu   $a1, $a1, %lo(D_060001C4)           ## $a1 = 060001C4
-/* 00B38 809EA098 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 00B38 809EA098 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 00B3C 809EA09C 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 00B40 809EA0A0 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196
 /* 00B44 809EA0A4 10400002 */  beq     $v0, $zero, .L809EA0B0

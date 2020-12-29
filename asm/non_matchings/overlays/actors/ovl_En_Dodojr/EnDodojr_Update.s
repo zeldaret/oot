@@ -4,7 +4,7 @@ glabel EnDodojr_Update
 /* 018D8 809F7C98 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 018DC 809F7C9C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 018E0 809F7CA0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 018E4 809F7CA4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 018E4 809F7CA4 0C02927F */  jal     SkelAnime_Update
               
 /* 018E8 809F7CA8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 018EC 809F7CAC 0C00B638 */  jal     Actor_MoveForward

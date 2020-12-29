@@ -25,7 +25,7 @@ glabel func_80A60294
 /* 04FEC 80A602DC 248401AC */  addiu   $a0, $a0, 0x01AC           ## $a0 = 000001AC
 /* 04FF0 80A602E0 8D050018 */  lw      $a1, 0x0018($t0)           ## 80A60018
 /* 04FF4 80A602E4 44064000 */  mfc1    $a2, $f8
-/* 04FF8 80A602E8 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 04FF8 80A602E8 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 04FFC 80A602EC 00000000 */  nop
 /* 05000 80A602F0 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 05004 80A602F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

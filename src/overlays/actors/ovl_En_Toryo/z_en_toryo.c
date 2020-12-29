@@ -82,15 +82,14 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColliderCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sCollisionCheckInfoInit2);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    SkelAnime_ChangeAnim(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
-                         sEnToryoAnimation.transitionRate);
+    Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
+                     sEnToryoAnimation.transitionRate);
     this->stateFlags |= 0x8;
     this->actor.unk_1F = 6;
     this->actionFunc = func_80B20914;
@@ -298,7 +297,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void func_80B20914(EnToryo* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80B20768(this, globalCtx);
     if (this->unk_1E4 != 0) {
         this->stateFlags |= 0x10;
@@ -341,7 +340,7 @@ void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnToryo_OverrideLimbDraw, EnToryo_PostLimbDraw, this);
 }
 

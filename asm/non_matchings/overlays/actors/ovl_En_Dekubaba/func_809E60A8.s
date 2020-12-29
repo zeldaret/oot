@@ -12,7 +12,7 @@ glabel func_809E60A8
 /* 008EC 809E60BC 3C050600 */  lui     $a1, %hi(D_06000208)                ## $a1 = 06000000
 /* 008F0 809E60C0 24A50208 */  addiu   $a1, $a1, %lo(D_06000208)           ## $a1 = 06000208
 /* 008F4 809E60C4 2484017C */  addiu   $a0, $a0, 0x017C           ## $a0 = 0000017C
-/* 008F8 809E60C8 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 008F8 809E60C8 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 008FC 809E60CC 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 00900 809E60D0 920F0249 */  lbu     $t7, 0x0249($s0)           ## 00000249
 /* 00904 809E60D4 8FAE002C */  lw      $t6, 0x002C($sp)

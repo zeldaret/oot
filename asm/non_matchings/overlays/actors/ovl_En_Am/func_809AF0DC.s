@@ -120,7 +120,7 @@ glabel func_809AF0DC
 /* 0136C 809AF28C 316CFFF7 */  andi    $t4, $t3, 0xFFF7           ## $t4 = 00000000
 /* 01370 809AF290 A60C0088 */  sh      $t4, 0x0088($s0)           ## 00000088
 .L809AF294:
-/* 01374 809AF294 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01374 809AF294 0C02927F */  jal     SkelAnime_Update
               
 /* 01378 809AF298 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 0137C 809AF29C 860D0258 */  lh      $t5, 0x0258($s0)           ## 00000258

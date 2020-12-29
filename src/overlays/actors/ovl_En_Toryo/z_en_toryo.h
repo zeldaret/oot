@@ -18,8 +18,8 @@ typedef struct EnToryo {
     /* 0x01E8 */ u16 stateFlags;
     /* 0x01EA */ s16 unk_1EA;
     /* 0x01EC */ struct_80034A14_arg1 unk_1EC;
-    /* 0x0214 */ Vec3s limbDrawTable[17];
-    /* 0x027A */ Vec3s transitionDrawTable[17];
+    /* 0x0214 */ Vec3s jointTable[17];
+    /* 0x027A */ Vec3s morphTable[17];
 } EnToryo; // size = 0x02E0
 
 extern const ActorInit En_Toryo_InitVars;

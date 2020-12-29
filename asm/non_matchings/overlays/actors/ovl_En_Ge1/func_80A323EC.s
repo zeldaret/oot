@@ -7,7 +7,7 @@ glabel func_80A323EC
 /* 01A90 80A32400 31CF0004 */  andi    $t7, $t6, 0x0004           ## $t7 = 00000000
 /* 01A94 80A32404 55E0000C */  bnel    $t7, $zero, .L80A32438     
 /* 01A98 80A32408 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01A9C 80A3240C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01A9C 80A3240C 0C02927F */  jal     SkelAnime_Update
               
 /* 01AA0 80A32410 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 01AA4 80A32414 10400004 */  beq     $v0, $zero, .L80A32428     

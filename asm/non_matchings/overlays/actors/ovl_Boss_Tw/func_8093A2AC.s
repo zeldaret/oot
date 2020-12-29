@@ -20,7 +20,7 @@ glabel func_8093A2AC
 /* 01604 8093A2D4 0C01E107 */  jal     Math_ApproachF
               
 /* 01608 8093A2D8 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
-/* 0160C 8093A2DC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0160C 8093A2DC 0C02927F */  jal     SkelAnime_Update
               
 /* 01610 8093A2E0 26040568 */  addiu   $a0, $s0, 0x0568           ## $a0 = 00000568
 /* 01614 8093A2E4 C60804B4 */  lwc1    $f8, 0x04B4($s0)           ## 000004B4

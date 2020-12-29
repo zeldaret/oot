@@ -14,7 +14,7 @@ glabel EnGo2_Update
 /* 04B8C 80A478BC 26050220 */  addiu   $a1, $s0, 0x0220           ## $a1 = 00000220
 /* 04B90 80A478C0 0C291680 */  jal     func_80A45A00              
 /* 04B94 80A478C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 04B98 80A478C8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04B98 80A478C8 0C02927F */  jal     SkelAnime_Update
               
 /* 04B9C 80A478CC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04BA0 80A478D0 0C29151B */  jal     func_80A4546C              
