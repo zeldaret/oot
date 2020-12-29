@@ -5,7 +5,7 @@ glabel func_809EA0C4
 /* 00B70 809EA0D0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00B74 809EA0D4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00B78 809EA0D8 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00B7C 809EA0DC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00B7C 809EA0DC 0C02927F */  jal     SkelAnime_Update
               
 /* 00B80 809EA0E0 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 00B84 809EA0E4 10400005 */  beq     $v0, $zero, .L809EA0FC     
@@ -53,7 +53,7 @@ glabel func_809EA0C4
 /* 00C1C 809EA17C A60F030A */  sh      $t7, 0x030A($s0)           ## 0000030A
 /* 00C20 809EA180 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L809EA184:
-/* 00C24 809EA184 0C0295B2 */  jal     func_800A56C8              
+/* 00C24 809EA184 0C0295B2 */  jal     Animation_OnFrame              
 /* 00C28 809EA188 3C054080 */  lui     $a1, 0x4080                ## $a1 = 40800000
 /* 00C2C 809EA18C 10400004 */  beq     $v0, $zero, .L809EA1A0     
 /* 00C30 809EA190 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
@@ -63,13 +63,13 @@ glabel func_809EA0C4
 .L809EA1A0:
 /* 00C40 809EA1A0 8E050008 */  lw      $a1, 0x0008($s0)           ## 00000008
 /* 00C44 809EA1A4 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 00C48 809EA1A8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C48 809EA1A8 0C01E107 */  jal     Math_ApproachF
               
 /* 00C4C 809EA1AC 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
 /* 00C50 809EA1B0 2604002C */  addiu   $a0, $s0, 0x002C           ## $a0 = 0000002C
 /* 00C54 809EA1B4 8E050010 */  lw      $a1, 0x0010($s0)           ## 00000010
 /* 00C58 809EA1B8 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 00C5C 809EA1BC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C5C 809EA1BC 0C01E107 */  jal     Math_ApproachF
               
 /* 00C60 809EA1C0 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
 /* 00C64 809EA1C4 8FBF001C */  lw      $ra, 0x001C($sp)           

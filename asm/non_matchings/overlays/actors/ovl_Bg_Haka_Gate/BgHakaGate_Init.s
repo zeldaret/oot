@@ -43,7 +43,7 @@ glabel BgHakaGate_Init
 /* 00094 8087BE84 28614000 */  slti    $at, $v1, 0x4000           
 /* 00098 8087BE88 5020002D */  beql    $at, $zero, .L8087BF40     
 /* 0009C 8087BE8C AE080164 */  sw      $t0, 0x0164($s0)           ## 00000164
-/* 000A0 8087BE90 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 000A0 8087BE90 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 000A4 8087BE94 00000000 */  nop
 /* 000A8 8087BE98 3C038088 */  lui     $v1, %hi(D_8087CCD4)       ## $v1 = 80880000
@@ -93,7 +93,7 @@ glabel BgHakaGate_Init
 /* 00148 8087BF38 AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 /* 0014C 8087BF3C AE080164 */  sw      $t0, 0x0164($s0)           ## 00000164
 .L8087BF40:
-/* 00150 8087BF40 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00150 8087BF40 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00154 8087BF44 00000000 */  nop
 /* 00158 8087BF48 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

@@ -38,14 +38,14 @@ glabel func_8088EB54
 /* 007DC 8088EBAC 34108000 */  ori     $s0, $zero, 0x8000         ## $s0 = 00008000
 /* 007E0 8088EBB0 01D02021 */  addu    $a0, $t6, $s0              
 /* 007E4 8088EBB4 00042400 */  sll     $a0, $a0, 16               
-/* 007E8 8088EBB8 0C01DE0D */  jal     Math_Coss
+/* 007E8 8088EBB8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007EC 8088EBBC 00042403 */  sra     $a0, $a0, 16               
 /* 007F0 8088EBC0 E7A00098 */  swc1    $f0, 0x0098($sp)           
 /* 007F4 8088EBC4 868F0032 */  lh      $t7, 0x0032($s4)           ## 00000032
 /* 007F8 8088EBC8 01F02021 */  addu    $a0, $t7, $s0              
 /* 007FC 8088EBCC 00042400 */  sll     $a0, $a0, 16               
-/* 00800 8088EBD0 0C01DE1C */  jal     Math_Sins
+/* 00800 8088EBD0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00804 8088EBD4 00042403 */  sra     $a0, $a0, 16               
 /* 00808 8088EBD8 E7A00094 */  swc1    $f0, 0x0094($sp)           

@@ -55,7 +55,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
+    Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->actor.posRot.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
@@ -66,12 +66,12 @@ void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
 }
 
 void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
+    Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->unk_154 == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
         return;
     }
-    Math_SmoothDownscaleMaxF(&this->unk_158, 0.03f, 0.05f);
+    Math_ApproachZeroF(&this->unk_158, 0.03f, 0.05f);
     if (this->actor.posRot.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }

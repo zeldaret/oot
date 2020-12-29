@@ -39,7 +39,7 @@ typedef struct {
 
 typedef struct EnGo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelanime;
+    /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGoActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ struct_80034A14_arg1 unk_1E0; // 
@@ -54,8 +54,8 @@ typedef struct EnGo {
     /* 0x021A */ s16 unk_21A;
     /* 0x021C */ s16 unk_21C;
     /* 0x021E */ s16 unk_21E;
-    /* 0x0220 */ s16 unk_220[18];
-    /* 0x0244 */ s16 unk_244[18];
+    /* 0x0220 */ s16 jointTable[18];
+    /* 0x0244 */ s16 morphTable[18];
     /* 0x0268 */ EnGoEffect dustEffects[20];
 } EnGo; // size = 0x06C8
 

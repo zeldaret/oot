@@ -3,7 +3,7 @@ glabel func_8092E2E0
 /* 01D14 8092E2E4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01D18 8092E2E8 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 01D1C 8092E2EC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 01D20 8092E2F0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01D20 8092E2F0 0C02927F */  jal     SkelAnime_Update
               
 /* 01D24 8092E2F4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01D28 8092E2F8 8FA30020 */  lw      $v1, 0x0020($sp)           
@@ -12,7 +12,7 @@ glabel func_8092E2E0
 /* 01D34 8092E304 846501A4 */  lh      $a1, 0x01A4($v1)           ## 000001A4
 /* 01D38 8092E308 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01D3C 8092E30C 24070800 */  addiu   $a3, $zero, 0x0800         ## $a3 = 00000800
-/* 01D40 8092E310 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01D40 8092E310 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01D44 8092E314 246400B6 */  addiu   $a0, $v1, 0x00B6           ## $a0 = 000000B6
 /* 01D48 8092E318 14400008 */  bne     $v0, $zero, .L8092E33C     

@@ -34,7 +34,7 @@ glabel func_80B47EB4
 /* 03ECC 80B47F1C AE0003E4 */  sw      $zero, 0x03E4($s0)         ## 000003E4
 .L80B47F20:
 /* 03ED0 80B47F20 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 03ED4 80B47F24 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03ED4 80B47F24 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03ED8 80B47F28 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03EDC 80B47F2C 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
@@ -47,7 +47,7 @@ glabel func_80B47EB4
 /* 03EF8 80B47F48 544000AD */  bnel    $v0, $zero, .L80B48200     
 /* 03EFC 80B47F4C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B47F50:
-/* 03F00 80B47F50 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03F00 80B47F50 0C02927F */  jal     SkelAnime_Update
               
 /* 03F04 80B47F54 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03F08 80B47F58 504000A9 */  beql    $v0, $zero, .L80B48200     

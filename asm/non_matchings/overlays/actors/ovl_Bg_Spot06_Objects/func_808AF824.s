@@ -39,7 +39,7 @@ glabel func_808AF824
 /* 01110 808AF890 44050000 */  mfc1    $a1, $f0                   
 /* 01114 808AF894 44070000 */  mfc1    $a3, $f0                   
 /* 01118 808AF898 2604016C */  addiu   $a0, $s0, 0x016C           ## $a0 = 0000016C
-/* 0111C 808AF89C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0111C 808AF89C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 01120 808AF8A0 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 01124 808AF8A4 8FA2002C */  lw      $v0, 0x002C($sp)           

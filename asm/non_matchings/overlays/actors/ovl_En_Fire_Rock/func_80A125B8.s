@@ -26,12 +26,12 @@ glabel func_80A125B8
 /* 009E0 80A12600 55E00025 */  bnel    $t7, $zero, .L80A12698     
 /* 009E4 80A12604 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 009E8 80A12608 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 009EC 80A1260C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 009EC 80A1260C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 009F0 80A12610 A498018A */  sh      $t8, 0x018A($a0)           ## 0000018A
 /* 009F4 80A12614 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 009F8 80A12618 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 009FC 80A1261C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 009FC 80A1261C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00A00 80A12620 E7A00054 */  swc1    $f0, 0x0054($sp)           
 /* 00A04 80A12624 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

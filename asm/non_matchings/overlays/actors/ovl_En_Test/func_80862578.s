@@ -41,7 +41,7 @@ glabel func_80862578
 /* 02FC0 80862610 A60907E0 */  sh      $t1, 0x07E0($s0)           ## 000007E0
 .L80862614:
 /* 02FC4 80862614 24A58604 */  addiu   $a1, $a1, %lo(D_06008604)           ## $a1 = 06008604
-/* 02FC8 80862618 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 02FC8 80862618 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 02FCC 8086261C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80862620:
 /* 02FD0 80862620 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
