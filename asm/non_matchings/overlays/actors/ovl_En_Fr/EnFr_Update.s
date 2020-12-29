@@ -137,7 +137,7 @@ glabel EnFr_Update
 /* 00480 80A1AE20 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 00484 80A1AE24 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 00488 80A1AE28 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 0048C 80A1AE2C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0048C 80A1AE2C 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00490 80A1AE30 A2180378 */  sb      $t8, 0x0378($s0)           ## 00000378
 /* 00494 80A1AE34 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -179,7 +179,7 @@ glabel EnFr_Update
 /* 00524 80A1AEC4 2739BB34 */  addiu   $t9, $t9, %lo(func_80A1BB34) ## $t9 = 80A1BB34
 /* 00528 80A1AEC8 44816000 */  mtc1    $at, $f12                  ## $f12 = 255.00
 /* 0052C 80A1AECC AE190130 */  sw      $t9, 0x0130($s0)           ## 00000130
-/* 00530 80A1AED0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00530 80A1AED0 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00534 80A1AED4 A20003A8 */  sb      $zero, 0x03A8($s0)         ## 000003A8
 /* 00538 80A1AED8 C602038C */  lwc1    $f2, 0x038C($s0)           ## 0000038C

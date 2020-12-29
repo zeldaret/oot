@@ -9,7 +9,7 @@ glabel func_80AFA880
 /* 0017C 80AFA89C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 00180 80AFA8A0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00184 80AFA8A4 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
-/* 00188 80AFA8A8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00188 80AFA8A8 0C01DF64 */  jal     Rand_S16Offset
 
 /* 0018C 80AFA8AC 24050032 */  addiu   $a1, $zero, 0x0032         ## $a1 = 00000032
 /* 00190 80AFA8B0 8FA70018 */  lw      $a3, 0x0018($sp)

@@ -14,7 +14,7 @@ glabel func_80A1B19C
 /* 00828 80A1B1C8 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
 /* 0082C 80A1B1CC A0800378 */  sb      $zero, 0x0378($a0)         ## 00000378
 /* 00830 80A1B1D0 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 00834 80A1B1D4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00834 80A1B1D4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00838 80A1B1D8 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 0083C 80A1B1DC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

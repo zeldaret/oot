@@ -119,9 +119,9 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     }
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.08f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.08f);
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 1.0f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
         if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -3.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.3f;
@@ -263,9 +263,9 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         } else {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         }
 
         if (this->timer < 3) {

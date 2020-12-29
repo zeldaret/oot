@@ -65,11 +65,11 @@ glabel func_808DC9B4
 /* 0623C 808DCAAC 8C4A0000 */  lw      $t2, 0x0000($v0)           ## 808F93C0
 /* 06240 808DCAB0 E54616D0 */  swc1    $f6, 0x16D0($t2)           ## 000016D0
 .L808DCAB4:
-/* 06244 808DCAB4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06244 808DCAB4 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 06248 808DCAB8 4600B306 */  mov.s   $f12, $f22
 /* 0624C 808DCABC 46000506 */  mov.s   $f20, $f0
-/* 06250 808DCAC0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06250 808DCAC0 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 06254 808DCAC4 4600B306 */  mov.s   $f12, $f22
 /* 06258 808DCAC8 C62801FC */  lwc1    $f8, 0x01FC($s1)           ## 000001FC

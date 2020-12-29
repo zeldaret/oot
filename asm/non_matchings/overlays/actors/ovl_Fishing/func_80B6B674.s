@@ -622,7 +622,7 @@ glabel func_80B6B674
 /* 02538 80B6BED8 01215025 */  or      $t2, $t1, $at              ## $t2 = FFFFFF50
 /* 0253C 80B6BEDC AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
 .L80B6BEE0:
-/* 02540 80B6BEE0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 02540 80B6BEE0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 02544 80B6BEE4 00000000 */  nop
 /* 02548 80B6BEE8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

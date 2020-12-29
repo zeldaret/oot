@@ -118,7 +118,7 @@ glabel func_80904D88
 /* 07FC4 80904F04 44066000 */  mfc1    $a2, $f12                  
 /* 07FC8 80904F08 0C0342A3 */  jal     Matrix_Scale              
 /* 07FCC 80904F0C 46006386 */  mov.s   $f14, $f12                 
-/* 07FD0 80904F10 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 07FD0 80904F10 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 07FD4 80904F14 4600A306 */  mov.s   $f12, $f20                 
 /* 07FD8 80904F18 46000306 */  mov.s   $f12, $f0                  

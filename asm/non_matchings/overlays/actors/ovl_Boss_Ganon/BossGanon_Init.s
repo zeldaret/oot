@@ -257,7 +257,7 @@ glabel BossGanon_Init
 /* 00C90 808D7500 AE0B0130 */  sw      $t3, 0x0130($s0)           ## 00000130
 /* 00C94 808D7504 AE0C0134 */  sw      $t4, 0x0134($s0)           ## 00000134
 /* 00C98 808D7508 3C01808F */  lui     $at, %hi(D_808F7E5C)       ## $at = 808F0000
-/* 00C9C 808D750C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00C9C 808D750C 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00CA0 808D7510 C42C7E5C */  lwc1    $f12, %lo(D_808F7E5C)($at)
 /* 00CA4 808D7514 4600018D */  trunc.w.s $f6, $f0
@@ -302,7 +302,7 @@ glabel BossGanon_Init
 .L808D75A8:
 /* 00D38 808D75A8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 00D3C 808D75AC 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 00D40 808D75B0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00D40 808D75B0 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00D44 808D75B4 00000000 */  nop
 /* 00D48 808D75B8 4600028D */  trunc.w.s $f10, $f0
@@ -351,7 +351,7 @@ glabel BossGanon_Init
 /* 00DE8 808D7658 C468002C */  lwc1    $f8, 0x002C($v1)           ## 00000038
 /* 00DEC 808D765C E7AE005C */  swc1    $f14, 0x005C($sp)
 /* 00DF0 808D7660 460A4301 */  sub.s   $f12, $f8, $f10
-/* 00DF4 808D7664 0C034199 */  jal     atan2s
+/* 00DF4 808D7664 0C034199 */  jal     Math_Atan2S
 
 /* 00DF8 808D7668 E7AC0054 */  swc1    $f12, 0x0054($sp)
 /* 00DFC 808D766C C7A2005C */  lwc1    $f2, 0x005C($sp)
@@ -361,10 +361,10 @@ glabel BossGanon_Init
 /* 00E0C 808D767C C7AE0058 */  lwc1    $f14, 0x0058($sp)
 /* 00E10 808D7680 46108102 */  mul.s   $f4, $f16, $f16
 /* 00E14 808D7684 46049000 */  add.s   $f0, $f18, $f4
-/* 00E18 808D7688 0C034199 */  jal     atan2s
+/* 00E18 808D7688 0C034199 */  jal     Math_Atan2S
 
 /* 00E1C 808D768C 46000304 */  sqrt.s  $f12, $f0
-/* 00E20 808D7690 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00E20 808D7690 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00E24 808D7694 A6020030 */  sh      $v0, 0x0030($s0)           ## 00000030
 /* 00E28 808D7698 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
@@ -373,7 +373,7 @@ glabel BossGanon_Init
 /* 00E34 808D76A4 00000000 */  nop
 /* 00E38 808D76A8 45020013 */  bc1fl   .L808D76F8
 /* 00E3C 808D76AC 240F0003 */  addiu   $t7, $zero, 0x0003         ## $t7 = 00000003
-/* 00E40 808D76B0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00E40 808D76B0 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 00E44 808D76B4 C42C7E64 */  lwc1    $f12, %lo(D_808F7E64)($at)
 /* 00E48 808D76B8 4600018D */  trunc.w.s $f6, $f0
@@ -383,7 +383,7 @@ glabel BossGanon_Init
 /* 00E58 808D76C8 44183000 */  mfc1    $t8, $f6
 /* 00E5C 808D76CC 00000000 */  nop
 /* 00E60 808D76D0 0198C821 */  addu    $t9, $t4, $t8
-/* 00E64 808D76D4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00E64 808D76D4 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 00E68 808D76D8 A6190032 */  sh      $t9, 0x0032($s0)           ## 00000032
 /* 00E6C 808D76DC 4600020D */  trunc.w.s $f8, $f0

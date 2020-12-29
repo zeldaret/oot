@@ -23,7 +23,7 @@ glabel func_80A87B1C
 /* 0036C 80A87B6C 10000007 */  beq     $zero, $zero, .L80A87B8C   
 /* 00370 80A87B70 A0C80310 */  sb      $t0, 0x0310($a2)           ## 00000310
 .L80A87B74:
-/* 00374 80A87B74 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00374 80A87B74 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00378 80A87B78 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 0037C 80A87B7C 8FA60018 */  lw      $a2, 0x0018($sp)           

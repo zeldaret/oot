@@ -51,14 +51,14 @@ glabel EnWf_Update
 /* 03600 80B372B0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 .L80B372B4:
 /* 03604 80B372B4 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 03608 80B372B8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03608 80B372B8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0360C 80B372BC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03610 80B372C0 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
 /* 03614 80B372C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03618 80B372C8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0361C 80B372CC 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 03620 80B372D0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03620 80B372D0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03624 80B372D4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03628 80B372D8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -141,7 +141,7 @@ glabel EnWf_Update
 /* 0372C 80B373DC E60A003C */  swc1    $f10, 0x003C($s0)          ## 0000003C
 /* 03730 80B373E0 14400016 */  bne     $v0, $zero, .L80B3743C     
 /* 03734 80B373E4 AE190040 */  sw      $t9, 0x0040($s0)           ## 00000040
-/* 03738 80B373E8 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03738 80B373E8 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0373C 80B373EC 00000000 */  nop
 /* 03740 80B373F0 3C0180B3 */  lui     $at, %hi(D_80B37BD0)       ## $at = 80B30000
