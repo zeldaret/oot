@@ -185,7 +185,7 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
         return;
     }
     if (globalCtx->sceneNum == SCENE_MIHARIGOYA) {
-        if (gSaveContext.nightFlag == 0) {
+        if (!gSaveContext.nightFlag) {
             this->actor.textId = 0x7004;
         } else {
             this->actor.textId = 0x709A;

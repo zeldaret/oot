@@ -108,7 +108,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
                 DynaPolyInfo_Alloc(&D_06001C58, &sp54);
                 this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
-                if (gSaveContext.nightFlag == 0) {
+                if (!gSaveContext.nightFlag) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
                                        position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,

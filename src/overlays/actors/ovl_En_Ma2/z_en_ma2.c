@@ -140,7 +140,7 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
         return 0;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
-        (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
+        (!gSaveContext.nightFlag) && (this->actor.shape.rot.z == 5)) {
         return 1;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
@@ -150,7 +150,7 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 7) && (gSaveContext.nightFlag == 0)) {
+    if ((this->actor.shape.rot.z == 7) && (!gSaveContext.nightFlag)) {
         return 3;
     }
     if ((this->actor.shape.rot.z == 8) && (gSaveContext.nightFlag == 1)) {
