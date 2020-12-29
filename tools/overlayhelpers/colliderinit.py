@@ -438,7 +438,11 @@ parser.add_argument('num', nargs='?', default=0, type=HexParse, help="Number of 
 
 args = parser.parse_args()
 
-print(GetColliderInitFull(args.address, args.type, args.num, "../.."))
+scriptDir = os.path.dirname(os.path.realpath(__file__))
+
+repo = scriptDir + os.sep +  ".." + os.sep + ".."
+
+print(GetColliderInitFull(args.address, args.type, args.num, repo))
 # print(GetColliderInit(args.address, args.type, args.num, "../.."))
 
 # fileResult = None
