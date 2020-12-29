@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dnt_jiji.c
+ * Overlay: ovl_En_Dnt_Jiji
+ * Description: Forest Stage scrub leader
+ */
+
 #include "z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "vt.h"

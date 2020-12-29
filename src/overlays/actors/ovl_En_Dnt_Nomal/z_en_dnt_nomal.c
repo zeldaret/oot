@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dnt_nomal
+ * Overlay: ovl_En_Dnt_Nomal
+ * Description: Lost Woods minigame scrubs
+ */
+
 #include "z_en_dnt_nomal.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"

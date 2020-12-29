@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dnt_demo.c
+ * Overlay: ovl_En_Dnt_Demo
+ * Description: Forest Stage minigame
+ */
+
 #include "z_en_dnt_demo.h"
 
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
