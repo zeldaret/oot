@@ -221,38 +221,27 @@ void EnHintnuts_SetupFreeze(EnHintnuts* this) {
 
 void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
     s32 hasSlowPlaybackSpeed;
-    f32 boundedCurrentFrame;
-    f32 boundedCurrentFrameTemp;
 
     hasSlowPlaybackSpeed = 0;
     if (this->skelAnime.animPlaybackSpeed < 0.5f) {
         hasSlowPlaybackSpeed = 1;
     }
-    if (hasSlowPlaybackSpeed && this->animFlagAndTimer != 0) {
-        this->animFlagAndTimer--;
+    if (hasSlowPlaybackSpeed) {
+        DECR(this->animFlagAndTimer);
     }
     if (func_800A56C8(&this->skelAnime, 9.0f) != 0) {
         this->collider.base.acFlags |= 1;
     } else if (func_800A56C8(&this->skelAnime, 8.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     }
-    if (this->skelAnime.animCurrentFrame < 9.0f) {
-        boundedCurrentFrame = 9.0f;
-    } else {
-        if (this->skelAnime.animCurrentFrame > 12.0f) {
-            boundedCurrentFrameTemp = 12.0f;
-        } else {
-            boundedCurrentFrameTemp = this->skelAnime.animCurrentFrame;
-        }
-        boundedCurrentFrame = boundedCurrentFrameTemp;
-    }
-    this->collider.dim.height = (((boundedCurrentFrame - 9.0f) * 9.0f) + 5.0f);
+
+    this->collider.dim.height = (((CLAMP(this->skelAnime.animCurrentFrame, 9.0f, 12.0f) - 9.0f) * 9.0f) + 5.0f);
     if (!hasSlowPlaybackSpeed && (this->actor.xzDistFromLink < 120.0f)) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->actor.xzDistFromLink < 120.0f) {
             EnHintnuts_SetupBurrow(this);
-        } else if ((this->animFlagAndTimer == 0) && (320.0f < this->actor.xzDistFromLink)) {
+        } else if ((this->animFlagAndTimer == 0) && (this->actor.xzDistFromLink > 320.0f)) {
             EnHintnuts_SetupLookAround(this);
         } else {
             EnHintnuts_SetupStand(this);
@@ -298,9 +287,9 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         EnHintnuts_SetupStand(this);
     } else if (func_800A56C8(&this->skelAnime, 6.0f) != 0) {
-        nutPos.x = (Math_SinS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
+        nutPos.x = this->actor.posRot.pos.x + (Math_SinS(this->actor.shape.rot.y) * 23.0f);
         nutPos.y = this->actor.posRot.pos.y + 12.0f;
-        nutPos.z = (Math_CosS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
+        nutPos.z = this->actor.posRot.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
@@ -309,15 +298,10 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
-    f32 boundedCurrentFrame;
-
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         EnHintnuts_SetupWait(this);
     } else {
-        boundedCurrentFrame = this->skelAnime.animCurrentFrame < 1.0f
-                                  ? 1.0f
-                                  : this->skelAnime.animCurrentFrame > 3.0f ? 3.0f : this->skelAnime.animCurrentFrame;
-        this->collider.dim.height = (((3.0f - boundedCurrentFrame) * 12.0f) + 5.0f);
+        this->collider.dim.height = (((3.0f - CLAMP(this->skelAnime.animCurrentFrame, 1.0f, 3.0f)) * 12.0f) + 5.0f);
     }
     if (func_800A56C8(&this->skelAnime, 4.0f) != 0) {
         this->collider.base.acFlags &= ~1;
