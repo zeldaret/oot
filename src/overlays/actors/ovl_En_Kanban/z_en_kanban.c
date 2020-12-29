@@ -1,3 +1,9 @@
+/*
+ * File: z_en_kanban.c
+ * Overlay: ovl_En_Kanban
+ * Description: Cuttable square sign
+ */
+
 #include "z_en_kanban.h"
 #include "vt.h"
 
