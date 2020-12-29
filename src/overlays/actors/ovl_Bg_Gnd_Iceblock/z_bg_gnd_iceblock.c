@@ -16,10 +16,10 @@ typedef enum {
     /* 2 */ GNDICE_HOLE
 } BgGndIceblockAction;
 
-void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Destroy(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Update(BgGndIceblock* this, GlobalContext* globalCtx);
-void BgGndIceblock_Draw(BgGndIceblock* this, GlobalContext* globalCtx);
+void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 
 static u8 sBlockPositions[2];
 
-void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext* globalCtx) {
+void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
     ColHeader* colHeader = NULL;
@@ -72,7 +72,7 @@ void BgGndIceblock_Init(BgGndIceblock* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndIceblock_Destroy(BgGndIceblock* thisx, GlobalContext* globalCtx) {
+void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
@@ -352,14 +352,14 @@ void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgGndIceblock_Update(BgGndIceblock* thisx, GlobalContext* globalCtx) {
+void BgGndIceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void BgGndIceblock_Draw(BgGndIceblock* thisx, GlobalContext* globalCtx) {
+void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
