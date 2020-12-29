@@ -15,7 +15,26 @@ typedef enum {
     /* 02 */ FROG_RED,      // Front Right
     /* 03 */ FROG_PURPLE,   // Back Left
     /* 04 */ FROG_WHITE     // Back Right
-} frogType;
+} FrogType;
+
+typedef enum {
+    /* 00 */ FROG_ZL, 
+    /* 01 */ FROG_EPONA,
+    /* 02 */ FROG_SARIA,
+    /* 03 */ FROG_SUNS,
+    /* 04 */ FROG_SOT,
+    /* 05 */ FROG_STORMS,
+    /* 06 */ FROG_CHOIR_SONG,
+    /* 07 */ FROG_NO_SONG,
+} FrogSongType;
+
+typedef enum {
+    /* 00 */ FROG_BTN_A,
+    /* 01 */ FROG_BTN_C_DOWN,
+    /* 02 */ FROG_BTN_C_RIGHT,
+    /* 03 */ FROG_BTN_C_LEFT,
+    /* 04 */ FROG_BTN_C_UP,
+} FrogNotes;
 
 typedef struct EnFr {
     /* 0x0000 */ Actor actor;
