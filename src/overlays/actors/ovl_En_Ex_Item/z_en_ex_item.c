@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ex_item.c
+ * Overlay: ovl_En_Ex_Item
+ * Description: Minigame prize items
+ */
+
 #include "z_en_ex_item.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
