@@ -39,19 +39,19 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-static Gfx sSetOpa[] = {
+static Gfx sSetupOpaDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
-static Gfx sSetXlu[] = {
+static Gfx sSetupXluDL[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2),
     gsSPEndDisplayList(),
 };
 
 extern Gfx D_060014E0[];
 extern Gfx D_060053D0[];
-extern UNK_TYPE D_06007564;
+extern ColHeader D_06007564;
 
 void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -139,9 +139,9 @@ void EnBlkobj_DrawAlpha(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 322);
 
     if (alpha == 255) {
-        segment = sSetOpa;
+        segment = sSetupOpaDL;
     } else {
-        segment = sSetXlu;
+        segment = sSetupXluDL;
     }
 
     gSPSegment(POLY_XLU_DISP++, 0x08, segment);
