@@ -36,12 +36,12 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
+    Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;
 
-    Actor_SetScale(this, 0.013f);
+    Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
     this->actor.unk_1F = 1;
@@ -238,8 +238,8 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        this->skelAnime.curFrame = 0.0f;
     }
 
     this->actionFunc(this, globalCtx);
@@ -261,7 +261,7 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->x += this->unk_1D8.y;
         rot->z += this->unk_1D8.x;
     }
-    return 0;
+    return false;
 }
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -277,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

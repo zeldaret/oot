@@ -73,7 +73,7 @@ extern AnimationHeader D_06000278;
 void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &D_06001368;
     if (this->skelAnime.animation == walk) {
-        if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
+        if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
@@ -82,7 +82,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 void EnDog_PlayRunSFX(EnDog* this) {
     AnimationHeader* run = &D_06000D78;
     if (this->skelAnime.animation == run) {
-        if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
+        if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
@@ -91,7 +91,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 void EnDog_PlayBarkSFX(EnDog* this) {
     AnimationHeader* bark = &D_06000278;
     if (this->skelAnime.animation == bark) {
-        if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
+        if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
     }
@@ -131,13 +131,13 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 
     switch (this->behavior) {
         case DOG_SIT:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
@@ -226,7 +226,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, this->jointTable, this->morphTable, 13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -433,7 +433,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
@@ -442,7 +442,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    return 0;
+    return false;
 }
 
 void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -460,7 +460,7 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);

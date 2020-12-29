@@ -193,7 +193,7 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupIdle(EnTite* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060012E4, 4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
     this->action = TEKTITE_IDLE;
     this->vIdleTimer = Rand_S16Offset(15, 30);
     this->actor.speedXZ = 0.0f;
@@ -201,7 +201,7 @@ void EnTite_SetupIdle(EnTite* this) {
 }
 
 void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & 0x20) {
@@ -226,7 +226,7 @@ void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
 
 void EnTite_SetupAttack(EnTite* this) {
 
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600083C);
+    Animation_PlayOnce(&this->skelAnime, &D_0600083C);
     this->action = TEKTITE_ATTACK;
     this->vAttackState = TEKTITE_BEGIN_LUNGE;
     this->vQueuedJumps = Rand_S16Offset(1, 3);
@@ -241,7 +241,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
     s32 attackState;
     Vec3f ripplePos;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         attackState = this->vAttackState; // for deciding whether to change animation
         switch (this->vAttackState) {
             case TEKTITE_BEGIN_LUNGE:
@@ -311,7 +311,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
         }
         // If switching attack state, change animation (unless tektite is switching between submerged and landed)
         if (attackState != this->vAttackState) {
-            SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80B1B634[this->vAttackState]);
+            Animation_PlayOnce(&this->skelAnime, D_80B1B634[this->vAttackState]);
         }
     }
 
@@ -342,7 +342,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
             } else {
                 Player* player = PLAYER;
                 this->collider.base.atFlags = (this->collider.base.atFlags & ~2);
-                SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060012E4, 4.0f);
+                Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
                 this->actor.speedXZ = -6.0f;
                 this->actor.posRot.rot.y = this->actor.yawTowardsLink;
                 if (&player->actor == this->collider.base.at) {
@@ -394,7 +394,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupTurnTowardPlayer(EnTite* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000A14);
+    Animation_PlayLoop(&this->skelAnime, &D_06000A14);
     this->action = TEKTITE_TURN_TOWARD_PLAYER;
     if ((this->actor.bgCheckFlags & 3) || (TEKTITE_BLUE && (this->actor.bgCheckFlags & 0x20))) {
         if (this->actor.velocity.y <= 0.0f) {
@@ -429,16 +429,16 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         this->actor.posRot.rot.y += (turnVelocity * 2);
     }
     if (angleToPlayer > 0) {
-        this->skelAnime.animPlaybackSpeed = turnVelocity * 0.01f;
+        this->skelAnime.playSpeed = turnVelocity * 0.01f;
     } else {
-        this->skelAnime.animPlaybackSpeed = turnVelocity * 0.01f;
+        this->skelAnime.playSpeed = turnVelocity * 0.01f;
     }
 
     /**
      * Play sounds once every animation cycle
      */
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (((s16)this->skelAnime.animCurrentFrame & 7) == 0) {
+    SkelAnime_Update(&this->skelAnime);
+    if (((s16)this->skelAnime.curFrame & 7) == 0) {
         if (TEKTITE_BLUE && (this->actor.bgCheckFlags & 0x20)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_WALK_WATER);
         } else {
@@ -460,7 +460,7 @@ void EnTite_TurnTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupMoveTowardPlayer(EnTite* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000C70);
+    Animation_PlayLoop(&this->skelAnime, &D_06000C70);
     this->action = TEKTITE_MOVE_TOWARD_PLAYER;
     this->actor.velocity.y = 10.0f;
     this->actor.gravity = -1.0f;
@@ -479,7 +479,7 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
  */
 void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & 0x42) {
         if (!(this->actor.bgCheckFlags & 0x40)) {
@@ -576,7 +576,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
 
 void EnTite_SetupRecoil(EnTite* this) {
     this->action = TEKTITE_RECOIL;
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060012E4, 4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_060012E4, 4.0f);
     this->actor.speedXZ = -6.0f;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     this->actor.gravity = -1.0f;
@@ -635,12 +635,11 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
             EnTite_SetupMoveTowardPlayer(this);
         }
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnTite_SetupStunned(EnTite* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060012E4, 0.0f, 0.0f,
-                         (f32)SkelAnime_GetFrameCount(&D_060012E4.genericHeader), 0, 4.0f);
+    Animation_Change(&this->skelAnime, &D_060012E4, 0.0f, 0.0f, (f32)Animation_GetLastFrame(&D_060012E4), 0, 4.0f);
     this->action = TEKTITE_STUNNED;
     this->actor.speedXZ = -6.0f;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -703,7 +702,7 @@ void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
             EnTite_SetupMoveTowardPlayer(this);
         }
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnTite_SetupDeathCry(EnTite* this) {
@@ -740,7 +739,7 @@ void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx) {
 
 void EnTite_SetupFlipOnBack(EnTite* this) {
 
-    SkelAnime_ChangeAnimPlaybackRepeat(&this->skelAnime, &D_06000A14, 1.5f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000A14, 1.5f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_REVERSE);
     this->flipState = TEKTITE_FLIPPED;
     this->vOnBackTimer = 500;
@@ -760,9 +759,9 @@ void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx) {
     this->vLegTwitchTimer--;
     if (this->vLegTwitchTimer == 0) {
         this->vLegTwitchTimer = Rand_ZeroOne() * 30.0f;
-        this->skelAnime.animCurrentFrame = Rand_ZeroOne() * 5.0f;
+        this->skelAnime.curFrame = Rand_ZeroOne() * 5.0f;
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & 3) {
         // Upon landing, spawn dust and make noise
         if (this->actor.bgCheckFlags & 2) {
@@ -792,7 +791,7 @@ void EnTite_SetupFlipUpright(EnTite* this) {
 
 void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 0xFA0, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     //! @bug flying tektite: the following condition is never met and tektite stays stuck in this action forever
     if (this->actor.bgCheckFlags & 2) {
         func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
@@ -960,7 +959,7 @@ void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06001F00));
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06002100));
     }
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, EnTite_PostLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnTite_PostLimbDraw,
                       thisx);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tite.c", 1735);
 

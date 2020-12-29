@@ -169,8 +169,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->jointTable, this->morphTable, 11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -201,9 +200,9 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     EnBom* bomb;
     Actor* flareDancer;
 
-    Math_SmoothStepToF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animation == &D_06006CF8) {
-        if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) == 0) {
+        if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
             func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
         }
@@ -225,7 +224,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     }
 
     if (this->explosionTimer != 0) {
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.dmgEffectTimer == 0) {
@@ -292,7 +291,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
                 this->slideSfxTimer = 4;
             }
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
-            this->skelAnime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.playSpeed = 0.0f;
             EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
             if (this->slideTimer == 0) {
@@ -301,7 +300,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             }
         } else {
             Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
-            phi_v0 = this->skelAnime.animCurrentFrame;
+            phi_v0 = this->skelAnime.curFrame;
             if (phi_v0 == 1 || phi_v0 == 4) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
                 EnFw_SpawnDust(this, 8, 0.16f, 0.1f, 1, 0.0f, 20.0f, 0.0f);
@@ -338,7 +337,7 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->actor.flags & 0x2000) != 0x2000) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
@@ -353,7 +352,7 @@ void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFw_OverrideLimbDraw(GlobalContext* globalContext, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                           void* thisx) {
-    return 0;
+    return false;
 }
 
 void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -381,7 +380,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_DrawDust(this, globalCtx);
     Matrix_Pull();
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
 

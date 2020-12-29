@@ -48,9 +48,8 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->limbDrawTable,
-                       this->transitionDrawTable, 13);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600045C);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->jointTable, this->morphTable, 13);
+    Animation_PlayOnce(&this->skelAnime, &D_0600045C);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -87,7 +86,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600045C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), 2, -4.0f);
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
@@ -143,7 +142,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600018C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), 2, -4.0f);
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
@@ -169,8 +168,8 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, (sREG(81) / 10.0f) + 50.0f);
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_284 & 1) {
@@ -200,7 +199,7 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 12) {
         rot->y -= this->unk_278.y;
     }
-    return 0;
+    return false;
 }
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -215,6 +214,6 @@ void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnJs_OverrideLimbDraw, EnJs_PostLimbDraw, this);
 }

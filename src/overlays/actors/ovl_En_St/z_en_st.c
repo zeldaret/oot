@@ -219,13 +219,13 @@ void EnSt_SetLandAnimation(EnSt* this) {
     this->actor.posRot.pos.y = this->actor.groundY + this->groundYOffset;
     func_80034EC0(&this->skelAnime, sAnimations, 4);
     this->sfxTimer = 0;
-    this->animFrames = this->skelAnime.totalFrames;
+    this->animFrames = this->skelAnime.animLength;
 }
 
 void EnSt_SetDropAnimAndVel(EnSt* this) {
     if (this->takeDamageSpinTimer == 0) {
         func_80034EC0(&this->skelAnime, sAnimations, 4);
-        this->animFrames = this->skelAnime.totalFrames;
+        this->animFrames = this->skelAnime.animLength;
     }
     this->sfxTimer = 0;
     this->actor.velocity.y = -10.0f;
@@ -414,7 +414,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     this->swayTimer = this->stunTimer = 0;
     this->gaveDamageSpinTimer = 1;
     func_80034EC0(&this->skelAnime, sAnimations, 3);
-    this->takeDamageSpinTimer = this->skelAnime.totalFrames;
+    this->takeDamageSpinTimer = this->skelAnime.animLength;
     func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
@@ -741,7 +741,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transitionDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTable, this->morphTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
@@ -872,7 +872,7 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
-    f32 animPctDone = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
+    f32 animPctDone = this->skelAnime.curFrame / (this->skelAnime.animLength - 1.0f);
 
     if (animPctDone == 1.0f) {
         EnSt_SetReturnToCeilingAnimation(this);
@@ -970,12 +970,12 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & 0x8000) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.
 
         if (this->stunTimer == 0) {
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
         }
 
         if (this->swayTimer == 0 && this->stunTimer == 0) {
@@ -1031,7 +1031,7 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
-    return 0;
+    return false;
 }
 
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSt_OverrideLimbDraw,
                       EnSt_PostLimbDraw, this);
 }

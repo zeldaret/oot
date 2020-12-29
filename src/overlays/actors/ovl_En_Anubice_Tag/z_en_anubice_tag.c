@@ -70,12 +70,12 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
         return;
     }
 
     if (anubis->unk_25A != 0) {
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
         return;
     }
 

@@ -29,7 +29,7 @@ glabel func_80B2A448
 /* 002B4 80B2A4B4 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
 /* 002B8 80B2A4B8 01215021 */  addu    $t2, $t1, $at
 /* 002BC 80B2A4BC 3C018016 */  lui     $at, %hi(gSegments+0x18)
-/* 002C0 80B2A4C0 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
+/* 002C0 80B2A4C0 0C0294E1 */  jal     Animation_PlayLoopSetSpeed
 /* 002C4 80B2A4C4 AC2A6FC0 */  sw      $t2, %lo(gSegments+0x18)($at)
 /* 002C8 80B2A4C8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 002CC 80B2A4CC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000

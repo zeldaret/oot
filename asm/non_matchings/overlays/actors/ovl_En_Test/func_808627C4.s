@@ -16,7 +16,7 @@ glabel func_808627C4
 .L808627FC:
 /* 031AC 808627FC 3C050601 */  lui     $a1, %hi(D_0600E2B0)                ## $a1 = 06010000
 /* 031B0 80862800 24A5E2B0 */  addiu   $a1, $a1, %lo(D_0600E2B0)           ## $a1 = 0600E2B0
-/* 031B4 80862804 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 031B4 80862804 0C0294D3 */  jal     Animation_MorphToLoop
 /* 031B8 80862808 3C06C000 */  lui     $a2, 0xC000                ## $a2 = C0000000
 /* 031BC 8086280C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 031C0 80862810 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001

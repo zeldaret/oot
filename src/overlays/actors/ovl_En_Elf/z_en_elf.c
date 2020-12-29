@@ -108,7 +108,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 100;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 12:
             this->unk_2AE = 0x400;
@@ -117,7 +117,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 100;
             this->unk_2B4 = 1.0f;
             this->unk_2B8 = 5.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 10:
             this->unk_2AE = 0x400;
@@ -125,7 +125,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B8 = 0.0f;
             this->unk_2B4 = 5.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 9:
             this->unk_2AE = 0x1000;
@@ -133,7 +133,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 3.0f;
             this->unk_2B8 = 10.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 7:
             this->func_2C8 = func_80A02A20;
@@ -141,7 +141,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 1;
             this->unk_2B4 = 0.0f;
             this->unk_2B8 = 0.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 8:
             this->unk_2AE = 0x1000;
@@ -149,7 +149,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 0.0f;
             this->unk_2B8 = 0.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 1:
             this->unk_2AE = 0x1000;
@@ -157,7 +157,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 7.5f;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 2:
             this->unk_2AE = 0x400;
@@ -165,28 +165,28 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02AA4;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 3:
             this->unk_2B0 = 0x600;
             this->func_2C8 = func_80A02B38;
             this->unk_2B8 = 1.0f;
             this->unk_2B4 = 1.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 4:
             this->unk_2B0 = 0x800;
             this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 20.0f;
             this->unk_2B8 = 10.0;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 5:
             this->unk_2B0 = 0x200;
             this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 10.0f;
-            this->skelAnime.animPlaybackSpeed = 0.5f;
+            this->skelAnime.playSpeed = 0.5f;
             break;
         case 6:
             this->unk_2AE = 0x1000;
@@ -194,7 +194,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 60.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 11:
             this->unk_2AE = 0x400;
@@ -203,7 +203,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 42;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 1.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
     }
 }
@@ -323,8 +323,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->limbDrawTable,
-                   this->transitionDrawTable, 15);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->jointTable, this->morphTable, 15);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.unk_14 = 0xFF;
 
@@ -606,7 +605,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 heightDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (Rand_ZeroOne() < 0.05f) {
         this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
@@ -672,7 +671,7 @@ void func_80A0353C(EnElf* this, GlobalContext* globalCtx) {
     Vec3f parentPos;
     Actor* parent;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80A02A20(this, globalCtx);
     parent = this->actor.parent;
 
@@ -693,7 +692,7 @@ void func_80A03604(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
@@ -736,7 +735,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_28C.y > 200.0f) {
         Actor_Kill(&this->actor);
@@ -771,7 +770,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     this->unk_28C.z = 0.0f;
     this->unk_28C.x = 0.0f;
@@ -798,7 +797,7 @@ void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
         func_80A04414(this, globalCtx);
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->func_2C8 == NULL) {
         __assert("0", "../z_en_elf.c", 1725);
@@ -1490,7 +1489,7 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1529,7 +1528,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);

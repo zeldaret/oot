@@ -94,8 +94,7 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVm* this = THIS;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->limbDrawTable,
-                   this->transitionDrawTable, 11);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->jointTable, this->morphTable, 11);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, thisx, &sCylinderInit);
@@ -125,9 +124,9 @@ void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupWait(EnVm* this) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000068);
+    f32 frameCount = Animation_GetLastFrame(&D_06000068);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, frameCount, frameCount, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, 1.0f, frameCount, frameCount, 2, 0.0f);
     this->unk_25E = this->unk_260 = 0;
     this->unk_21C = 0;
     this->timer = 10;
@@ -161,9 +160,9 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                     this->timer--;
                     if (this->timer == 0) {
                         this->unk_25E++;
-                        this->skelAnime.animCurrentFrame = 0.0f;
-                        this->skelAnime.initialFrame = 0.0f;
-                        this->skelAnime.animPlaybackSpeed = 2.0f;
+                        this->skelAnime.curFrame = 0.0f;
+                        this->skelAnime.startFrame = 0.0f;
+                        this->skelAnime.playSpeed = 2.0f;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
                     }
                 }
@@ -171,7 +170,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                 this->headRotY -= 0x1F4;
             }
 
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
             return;
         case 1:
             break;
@@ -181,9 +180,9 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F40, 0);
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_260++;
-        this->skelAnime.animCurrentFrame = 0.0f;
+        this->skelAnime.curFrame = 0.0f;
     }
 
     if (this->unk_260 == 2) {
@@ -195,12 +194,12 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
         }
 
         if (this->beamRot.x < 0xAAA) {
-            this->skelAnime.initialFrame = this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
+            this->skelAnime.startFrame = this->skelAnime.curFrame = this->skelAnime.endFrame;
             this->unk_25E = this->unk_260 = 0;
             this->timer = 10;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
         } else {
-            this->skelAnime.animCurrentFrame = 6.0f;
+            this->skelAnime.curFrame = 6.0f;
             EffectSsDeadDd_Spawn(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255,
                                  255, 16, 20);
             EnVm_SetupAttack(this);
@@ -209,7 +208,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupAttack(EnVm* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 3.0f, 3.0f, 7.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, 3.0f, 3.0f, 7.0f, 2, 0.0f);
     this->timer = 305;
     this->beamScale.x = 0.6f;
     this->beamSpeed = 40.0f;
@@ -272,13 +271,13 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         this->unk_260 = 3;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        this->skelAnime.animCurrentFrame = this->skelAnime.initialFrame;
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->skelAnime.curFrame = this->skelAnime.startFrame;
     }
 }
 
 void EnVm_SetupStun(EnVm* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, -1.0f, SkelAnime_GetFrameCount(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->unk_260 = 0;
     this->timer = 180;
     this->unk_25E = this->unk_260;
@@ -291,28 +290,28 @@ void EnVm_SetupStun(EnVm* this) {
 
 void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
-        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->unk_25E++;
             if (this->unk_25E == 3) {
                 EnVm_SetupWait(this);
             } else if (this->unk_25E == 1) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000068), 2,
-                                     0.0f);
+                Animation_Change(&this->skelAnime, &D_06000068, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000068), 2,
+                                 0.0f);
             } else {
                 this->timer = 10;
-                this->skelAnime.animCurrentFrame = 0.0f;
-                this->skelAnime.animPlaybackSpeed = 2.0f;
+                this->skelAnime.curFrame = 0.0f;
+                this->skelAnime.playSpeed = 2.0f;
             }
         }
     } else {
         Math_SmoothStepToS(&this->beamRot, 0, 10, 0x5DC, 0);
         this->timer--;
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     }
 }
 
 void EnVm_SetupDie(EnVm* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, -1.0f, SkelAnime_GetFrameCount(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->timer = 33;
     this->unk_25E = this->unk_260 = 0;
     this->unk_21C = 3;
@@ -420,7 +419,7 @@ s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -481,7 +480,7 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnVm_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnVm_OverrideLimbDraw,
                       EnVm_PostLimbDraw, this);
     actorPos = this->actor.posRot.pos;
     func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);

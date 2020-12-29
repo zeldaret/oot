@@ -223,7 +223,7 @@ void func_80B538B0(EnZl3* this) {
 }
 
 s32 EnZl3_FrameUpdateMatrix(EnZl3* this) {
-    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 s32 func_80B5396C(EnZl3* this) {
@@ -239,7 +239,7 @@ void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
     s32 action = this->action;
     s16 y2 = y;
     s32 yTemp;
-    f32 animCurrentFrame;
+    f32 curFrame;
     f32 unk_3DC;
 
     if (this->unk_2FC != 0) {
@@ -276,9 +276,9 @@ void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
         if (idx == 0 && action == 3) {
             yTemp = y + -11000;
             if (skelAnime->mode == 2) {
-                animCurrentFrame = skelAnime->animCurrentFrame;
+                curFrame = skelAnime->curFrame;
                 unk_3DC = this->unk_3DC;
-                yTemp = (s32)((animCurrentFrame / unk_3DC) * -11000) + y;
+                yTemp = (s32)((curFrame / unk_3DC) * -11000) + y;
                 if (0) {};
                 if (temp28C >= yTemp) {
                     temp28C = yTemp;
@@ -389,10 +389,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
         if (idx == 2) {
             if (action == 4) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
 
-                    phi_v1_2 = (s32)(((unk_3E0 - animCurrentFrame) / unk_3E0) * -2000.0f) + phi_a1;
+                    phi_v1_2 = (s32)(((unk_3E0 - curFrame) / unk_3E0) * -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -402,10 +402,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 5) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
 
-                    phi_v1_2 = (s32)((animCurrentFrame / unk_3E4) * -2000.0f) + phi_a1;
+                    phi_v1_2 = (s32)((curFrame / unk_3E4) * -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -423,14 +423,13 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if ((action == 20) || (action == 21)) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F4 = this->unk_3F4;
 
-                    if (animCurrentFrame <= 42.0f) {
+                    if (curFrame <= 42.0f) {
                         phi_v1_2 = phi_a1 - 2000;
                     } else {
-                        phi_v1_2 =
-                            (s32)((((animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
+                        phi_v1_2 = (s32)((((curFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
                     }
 
                     if (phi_v1_2 >= temp_a0) {
@@ -450,10 +449,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 22) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3EC = this->unk_3EC;
 
-                    phi_v1_2 = (s32)(((animCurrentFrame / unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
+                    phi_v1_2 = (s32)(((curFrame / unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -471,10 +470,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 23) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F0 = this->unk_3F0;
 
-                    phi_v1_2 = (s32)(((animCurrentFrame / unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
+                    phi_v1_2 = (s32)(((curFrame / unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -492,10 +491,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 24) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E8 = this->unk_3E8;
 
-                    phi_v1_2 = (s32)(((animCurrentFrame / unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
+                    phi_v1_2 = (s32)(((curFrame / unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -515,10 +514,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
         } else if (idx == 11 || idx == 17) {
             if (action == 4) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
 
-                    phi_v1_2 = (s32)((animCurrentFrame / unk_3E0) * -7000.0f) + phi_a1;
+                    phi_v1_2 = (s32)((curFrame / unk_3E0) * -7000.0f) + phi_a1;
                     if (temp_a0 >= phi_v1_2) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 > 0) {
@@ -536,10 +535,10 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 }
             } else if (action == 5) {
                 if (skelAnime->mode == 2) {
-                    f32 animCurrentFrame = skelAnime->animCurrentFrame;
+                    f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
 
-                    phi_v1_2 = (s32)(((unk_3E4 - animCurrentFrame) / unk_3E4) * -7000.0f) + phi_a1;
+                    phi_v1_2 = (s32)(((unk_3E4 - curFrame) / unk_3E4) * -7000.0f) + phi_a1;
                     if (temp_a0 >= phi_v1_2) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 > 0) {
@@ -722,7 +721,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->x += unk_3F8_unk_0E->y;
         rot->y -= unk_3F8_unk_0E->x;
     }
-    return 0;
+    return false;
 }
 
 void EnZl3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
@@ -773,7 +772,7 @@ void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(animation);
+    f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -788,7 +787,7 @@ void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_80B54EA4(EnZl3* this, GlobalContext* globalCtx) {
@@ -1048,7 +1047,7 @@ void func_80B5582C(EnZl3* this) {
 void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 4.0f)) {
+    if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 4.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
@@ -1071,7 +1070,7 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.posRot.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 = func_8006F9BC(SkelAnime_GetFrameCount(&D_06005248), 0, (s32)this->skelAnime.animCurrentFrame, 3, 3);
+    f32 temp_f0 = func_8006F9BC(Animation_GetLastFrame(&D_06005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -1571,7 +1570,7 @@ void func_80B56DC8(EnZl3* this) {
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 9.0f) != 0) {
+    if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
@@ -1581,7 +1580,7 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     s32 sfxId;
     SkelAnime* sp20 = &this->skelAnime;
 
-    if ((func_800A56C8(sp20, 6.0f) || func_800A56C8(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
         sfxId = 0x800;
         sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
         func_80078914(&this->actor.projectedPos, sfxId);
@@ -2506,7 +2505,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Pull();
         Matrix_Pull();
     }
-    return 0;
+    return false;
 }
 
 s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {
@@ -2617,13 +2616,13 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59B6C(EnZl3* this, GlobalContext* globalCtx) {
     s32 sp2C = func_80B54DD4(this);
 
-    this->unk_3DC = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_060091D8));
-    this->unk_3E0 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_0600A598));
-    this->unk_3E4 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_0600A334));
-    this->unk_3F4 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06001110));
-    this->unk_3EC = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06002348));
-    this->unk_3F0 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06002E54));
-    this->unk_3E8 = SkelAnime_GetFrameCount(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
+    this->unk_3DC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_060091D8));
+    this->unk_3E0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A598));
+    this->unk_3E4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A334));
+    this->unk_3F4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001110));
+    this->unk_3EC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002348));
+    this->unk_3F0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002E54));
+    this->unk_3E8 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
 
     switch (sp2C) {
         case 0:
@@ -2687,8 +2686,7 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     shape->unk_14 = 0;
     func_80B533B0(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       15);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->jointTable, this->morphTable, 15);
 
     switch (func_80B54DD4(this)) {
         case 1:
@@ -2741,7 +2739,7 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0xB, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
@@ -2766,7 +2764,7 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_258);
     gSPSegment(POLY_XLU_DISP++, 11, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        EnZl3_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);

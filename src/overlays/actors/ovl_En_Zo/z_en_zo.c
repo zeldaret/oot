@@ -547,8 +547,8 @@ void EnZo_SetAnimation(EnZo* this) {
     if (animId != 8) {
         func_80034EC0(&this->skelAnime, sAnimations, animId);
         if (animId == 3) {
-            this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
-            this->skelAnime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.curFrame = this->skelAnime.endFrame;
+            this->skelAnime.playSpeed = 0.0f;
         }
     }
 }
@@ -557,7 +557,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnZo* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, this->limbDrawTbl, this->transitionDrawTbl, 20);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInit);
@@ -638,10 +638,10 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
 
 void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     func_80034F54(globalCtx, this->unk_656, this->unk_67E, 20);
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
         this->unk_64C = 4;
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
     }
     EnZo_SetAnimation(this);
 
@@ -659,29 +659,29 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     if (EnZo_PlayerInProximity(this, globalCtx) != 0) {
         this->timeToDive = Rand_S16Offset(40, 40);
     } else if (DECR(this->timeToDive) == 0) {
-        f32 initialFrame;
+        f32 startFrame;
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->canSpeak = false;
         this->unk_64C = 1;
         this->actionFunc = EnZo_Dive;
-        initialFrame = this->skelAnime.initialFrame;
-        this->skelAnime.initialFrame = this->skelAnime.animFrameCount;
-        this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
-        this->skelAnime.animFrameCount = initialFrame;
-        this->skelAnime.animPlaybackSpeed = -1.0f;
+        startFrame = this->skelAnime.startFrame;
+        this->skelAnime.startFrame = this->skelAnime.endFrame;
+        this->skelAnime.curFrame = this->skelAnime.endFrame;
+        this->skelAnime.endFrame = startFrame;
+        this->skelAnime.playSpeed = -1.0f;
     }
 }
 
 void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
         this->actor.flags &= ~1;
         this->actor.velocity.y = -4.0f;
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
     }
 
-    if (this->skelAnime.animPlaybackSpeed > 0.0f) {
+    if (this->skelAnime.playSpeed > 0.0f) {
         return;
     }
 
@@ -704,7 +704,7 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f pos;
 
     if ((s32)this->alpha != 0) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         EnZo_Blink(this);
     }
 
