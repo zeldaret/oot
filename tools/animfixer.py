@@ -66,11 +66,11 @@ def replace_anim_all(repo):
     return 1
 
 parser = argparse.ArgumentParser(description='Update to the new animation names')
-parser.add_argument('file', help="source file to be processed. omit to process the whole repo", default = None)
+parser.add_argument('file', help="source file to be processed. use '.' to process the whole repo", default = None)
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    if(args.file is None):
+    if(args.file is '.'):
         replace_anim_all(os.curdir)
     else:
         replace_anim(args.file)
