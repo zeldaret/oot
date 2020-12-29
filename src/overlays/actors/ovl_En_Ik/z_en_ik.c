@@ -129,10 +129,40 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static DamageTable sDamageTable = { {
-    0xD0, 0xF2, 0xE1, 0xF2, 0xD0, 0xE2, 0xF2, 0xD0, 0xF1, 0xF2, 0xF4, 0xE2, 0xE2, 0xE2, 0xE2, 0xE2,
-    0xEF, 0x60, 0x60, 0x60, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0xFA, 0x00, 0xF4, 0x00,
-} };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0 , 0xD),
+    /* Deku stick    */ DMG_ENTRY(2 , 0xF),
+    /* Slingshot     */ DMG_ENTRY(1 , 0xE),
+    /* Explosive     */ DMG_ENTRY(2 , 0xF),
+    /* Boomerang     */ DMG_ENTRY(0 , 0xD),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xF),
+    /* Hookshot      */ DMG_ENTRY(0 , 0xD),
+    /* Kokiri sword  */ DMG_ENTRY(1 , 0xF),
+    /* Master sword  */ DMG_ENTRY(2 , 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
+    /* Fire arrow    */ DMG_ENTRY(2 , 0xE),
+    /* Ice arrow     */ DMG_ENTRY(2 , 0xE),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xE),
+    /* Wind arrow    */ DMG_ENTRY(2 , 0xE),
+    /* Shadow arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Spirit arrow  */ DMG_ENTRY(15 , 0xE),
+    /* Fire magic    */ DMG_ENTRY(0 , 0x6),
+    /* Ice magic     */ DMG_ENTRY(0 , 0x6),
+    /* Light magic   */ DMG_ENTRY(0 , 0x6),
+    /* Shield        */ DMG_ENTRY(0 , 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0xF),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
+    /* Master spin   */ DMG_ENTRY(2 , 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0xF),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
+    /* Master jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 1     */ DMG_ENTRY(10 , 0xF),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+};
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;

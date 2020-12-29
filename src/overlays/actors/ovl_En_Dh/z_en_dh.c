@@ -79,10 +79,40 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static DamageTable D_809EC620 = { {
-    0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
-} };
+static DamageTable D_809EC620 = {
+    /* Deku nut      */ DMG_ENTRY(0 , 0x0),
+    /* Deku stick    */ DMG_ENTRY(2 , 0xF),
+    /* Slingshot     */ DMG_ENTRY(0 , 0x0),
+    /* Explosive     */ DMG_ENTRY(0 , 0x0),
+    /* Boomerang     */ DMG_ENTRY(0 , 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0 , 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0 , 0x0),
+    /* Hookshot      */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(2 , 0xF),
+    /* Master sword  */ DMG_ENTRY(2 , 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
+    /* Fire arrow    */ DMG_ENTRY(0 , 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0 , 0x0),
+    /* Light arrow   */ DMG_ENTRY(0 , 0x0),
+    /* Wind arrow    */ DMG_ENTRY(0 , 0x0),
+    /* Shadow arrow  */ DMG_ENTRY(0 , 0x0),
+    /* Spirit arrow  */ DMG_ENTRY(0 , 0x0),
+    /* Fire magic    */ DMG_ENTRY(0 , 0x0),
+    /* Ice magic     */ DMG_ENTRY(0 , 0x0),
+    /* Light magic   */ DMG_ENTRY(0 , 0x0),
+    /* Shield        */ DMG_ENTRY(0 , 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(2 , 0xF),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
+    /* Master spin   */ DMG_ENTRY(2 , 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(4 , 0xF),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
+    /* Master jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 47, ICHAIN_CONTINUE),
