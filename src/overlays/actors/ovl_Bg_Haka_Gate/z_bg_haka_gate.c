@@ -10,19 +10,22 @@
 
 #define THIS ((BgHakaGate*)thisx)
 
+// general purpose timer
 #define vTimer actionVar1
-#define vTurnDirection actionVar1
 
+// variables for turning the statue. Deg10 rotations are in tenths of a degree
+#define vTurnDirection actionVar1
 #define vTurnRateDeg10 actionVar2
+#define vTurnAngleDeg10 actionVar3
+#define vRotYDeg10 actionVar4
+#define vInitTurnAngle actionVar5
+
+// opening angle for floor
 #define vOpenAngle actionVar2
 
-#define vTurnAngleDeg10 actionVar3
+// variables for the skull flames
 #define vFlameScale actionVar3
-
 #define vIsSkullOfTruth actionVar4
-#define vRotYdeg10 actionVar4
-
-#define vInitTurnAngle actionVar5
 #define vScrollTimer actionVar5
 
 #define SKULL_OF_TRUTH_FOUND 100
@@ -199,7 +202,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     this->vTurnRateDeg10 = CLAMP_MAX(this->vTurnRateDeg10, 5);
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
-    this->dyna.actor.shape.rot.y = (this->vRotYdeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
+    this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
     if ((player->stateFlags2 & 0x10) && (sStatueDistFromLink > 0.0f)) {
         player->actor.posRot.pos.x =
             this->dyna.actor.initPosRot.pos.x +
@@ -213,7 +216,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     sStatueRotY = this->dyna.actor.shape.rot.y;
     if (turnFinished) {
         player->stateFlags2 &= ~0x10;
-        this->vRotYdeg10 = (this->vRotYdeg10 + turnAngle) % 3600;
+        this->vRotYDeg10 = (this->vRotYDeg10 + turnAngle) % 3600;
         this->vTurnRateDeg10 = 0;
         this->vTurnAngleDeg10 = 0;
         this->vTimer = 5;
@@ -330,9 +333,9 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
         Matrix_Translate(thisx->posRot.pos.x, thisx->posRot.pos.y + 15.0f, thisx->posRot.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(Camera_GetCamDirYaw(ACTIVE_CAM) * (M_PI / 0x8000), 1);
+        Matrix_RotateY(Camera_GetCamDirYaw(ACTIVE_CAM) * (M_PI / 0x8000), MTXMODE_APPLY);
         scale = this->vFlameScale * 0.00001f;
-        Matrix_Scale(scale, scale, scale, 1);
+        Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744), 2);
         gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 749);
@@ -354,13 +357,15 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_Translate(0.0f, 0.0f, 2000.0f, 1);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 788), 2);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 788),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06010A10);
             Matrix_Put(&currentMtxF);
             Matrix_Translate(0.0f, 0.0f, 2000.0f, MTXMODE_APPLY);
             Matrix_RotateX(-this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_Translate(0.0f, 0.0f, -2000.0f, 1);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 796), 2);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 796),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06010C10);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 800);
         } else {
