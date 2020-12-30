@@ -4,7 +4,7 @@ glabel func_80860438
 /* 00DF0 80860440 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DF4 80860444 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00DF8 80860448 3C040600 */  lui     $a0, %hi(D_06001C20)                ## $a0 = 06000000
-/* 00DFC 8086044C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00DFC 8086044C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00E00 80860450 24841C20 */  addiu   $a0, $a0, %lo(D_06001C20)           ## $a0 = 06001C20
 /* 00E04 80860454 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -19,12 +19,12 @@ glabel func_80860438
 /* 00E28 80860478 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00E2C 8086047C 260404A8 */  addiu   $a0, $s0, 0x04A8           ## $a0 = 000004A8
 /* 00E30 80860480 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 00E34 80860484 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00E34 80860484 0C029468 */  jal     Animation_Change
 
 /* 00E38 80860488 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00E3C 8086048C 3C050601 */  lui     $a1, %hi(D_060081B4)                ## $a1 = 06010000
 /* 00E40 80860490 24A581B4 */  addiu   $a1, $a1, %lo(D_060081B4)           ## $a1 = 060081B4
-/* 00E44 80860494 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00E44 80860494 0C0294BE */  jal     Animation_PlayLoop
 /* 00E48 80860498 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 00E4C 8086049C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float

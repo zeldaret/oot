@@ -30,8 +30,8 @@ typedef struct EnPoField {
     /* 0x0196 */ s16 actionTimer;
     /* 0x0198 */ s16 flameRotation;
     /* 0x019A */ s16 flameTimer;
-    /* 0x019C */ Vec3s limbDrawTable[10];
-    /* 0x01D8 */ Vec3s transitionDrawTable[10];
+    /* 0x019C */ Vec3s jointTable[10];
+    /* 0x01D8 */ Vec3s morphTable[10];
     /* 0x0214 */ Color_RGBA8 lightColor;
     /* 0x0214 */ Color_RGBA8 soulColor;
     /* 0x021C */ f32 scaleModifier;

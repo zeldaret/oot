@@ -22,7 +22,7 @@ glabel func_80912020
 /* 01A18 80912058 0018C880 */  sll     $t9, $t8,  2
 /* 01A1C 8091205C 00992021 */  addu    $a0, $a0, $t9
 /* 01A20 80912060 8C8450D0 */  lw      $a0, %lo(D_809150D0)($a0)
-/* 01A24 80912064 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01A24 80912064 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01A28 80912068 A7A2001E */  sh      $v0, 0x001E($sp)
 /* 01A2C 8091206C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -35,7 +35,7 @@ glabel func_80912020
 /* 01A48 80912088 87A8001E */  lh      $t0, 0x001E($sp)
 /* 01A4C 8091208C 00084880 */  sll     $t1, $t0,  2
 /* 01A50 80912090 00A92821 */  addu    $a1, $a1, $t1
-/* 01A54 80912094 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 01A54 80912094 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01A58 80912098 8CA550D0 */  lw      $a1, %lo(D_809150D0)($a1)
 /* 01A5C 8091209C 8FAB0020 */  lw      $t3, 0x0020($sp)
 /* 01A60 809120A0 3C0A8091 */  lui     $t2, %hi(func_809120BC)    ## $t2 = 80910000

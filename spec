@@ -339,7 +339,6 @@ beginseg
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
     include "build/src/code/z_skin.o"
-    include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
     include "build/src/code/z_sram.o"
@@ -715,9 +714,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.bss.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/ovl_Bg_Gnd_Iceblock_reloc.o"
 endseg
 
 beginseg
@@ -741,9 +738,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Gate"
     include "build/src/overlays/actors/ovl_Bg_Haka_Gate/z_bg_haka_gate.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.data.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.bss.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Gate/ovl_Bg_Haka_Gate_reloc.o"
 endseg
 
 beginseg
@@ -862,8 +857,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Kowarerukabe"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/z_bg_hidan_kowarerukabe.o"
-    include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/ovl_Bg_Hidan_Kowarerukabe_reloc.o"
 endseg
 
 beginseg
@@ -902,8 +896,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Objects"
     include "build/src/overlays/actors/ovl_Bg_Ice_Objects/z_bg_ice_objects.o"
-    include "build/data/overlays/actors/z_bg_ice_objects.data.o"
-    include "build/data/overlays/actors/z_bg_ice_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Objects/ovl_Bg_Ice_Objects_reloc.o"
 endseg
 
 beginseg
@@ -946,8 +939,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bigmirror"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.o"
-    include "build/data/overlays/actors/z_bg_jya_bigmirror.data.o"
-    include "build/data/overlays/actors/z_bg_jya_bigmirror.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bigmirror/ovl_Bg_Jya_Bigmirror_reloc.o"
 endseg
 
 beginseg
@@ -1039,8 +1031,7 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Bwall"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Bwall/z_bg_mizu_bwall.o"
-    include "build/data/overlays/actors/z_bg_mizu_bwall.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_bwall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Bwall/ovl_Bg_Mizu_Bwall_reloc.o"
 endseg
 
 beginseg
@@ -1923,8 +1914,7 @@ endseg
 beginseg
     name "ovl_En_Bb"
     include "build/src/overlays/actors/ovl_En_Bb/z_en_bb.o"
-    include "build/data/overlays/actors/z_en_bb.data.o"
-    include "build/data/overlays/actors/z_en_bb.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bb/ovl_En_Bb_reloc.o"
 endseg
 
 beginseg
@@ -2026,8 +2016,7 @@ endseg
 beginseg
     name "ovl_En_Bw"
     include "build/src/overlays/actors/ovl_En_Bw/z_en_bw.o"
-    include "build/data/overlays/actors/z_en_bw.data.o"
-    include "build/data/overlays/actors/z_en_bw.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bw/ovl_En_Bw_reloc.o"
 endseg
 
 beginseg
@@ -2609,8 +2598,7 @@ endseg
 beginseg
     name "ovl_En_Kanban"
     include "build/src/overlays/actors/ovl_En_Kanban/z_en_kanban.o"
-    include "build/data/overlays/actors/z_en_kanban.data.o"
-    include "build/data/overlays/actors/z_en_kanban.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kanban/ovl_En_Kanban_reloc.o"
 endseg
 
 beginseg
@@ -3073,9 +3061,11 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-    include "build/data/overlays/actors/z_en_torch2.data.o"
-    include "build/data/overlays/actors/z_en_torch2.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_torch2.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3450,8 +3440,11 @@ endseg
 beginseg
     name "ovl_Obj_Mure2"
     include "build/src/overlays/actors/ovl_Obj_Mure2/z_obj_mure2.o"
-    include "build/data/overlays/actors/z_obj_mure2.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Obj_Mure2/ovl_Obj_Mure2_reloc.o"
+#else
     include "build/data/overlays/actors/z_obj_mure2.reloc.o"
+#endif
 endseg
 
 beginseg

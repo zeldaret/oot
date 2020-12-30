@@ -56,8 +56,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable,
-                   this->transitionDrawTable, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->jointTable, this->morphTable, 10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColliderInit);
     this->lightColor.r = 255;
@@ -85,7 +84,7 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params];
     Vec3s* pathPoint;
 
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06001360, -6.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     pathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPathPoint];
     this->actor.initPosRot.pos.x = pathPoint->x;
     this->actor.initPosRot.pos.y = pathPoint->y;
@@ -102,12 +101,12 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
 }
 
 void EnPoDesert_SetupMoveToNextPoint(EnPoDesert* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000924, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06000924, -5.0f);
     this->actionFunc = EnPoDesert_MoveToNextPoint;
 }
 
 void EnPoDesert_SetupDisappear(EnPoDesert* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001360, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06001360, -6.0f);
     this->actionTimer = 16;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
@@ -183,7 +182,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
     s32 pad;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
@@ -212,7 +211,7 @@ s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if ((this->actor.flags & 0x80) != 0x80) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
@@ -258,7 +257,7 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280 + 2);
     }
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                    EnPoDesert_OverrideLimbDraw, EnPoDesert_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 597);
 }

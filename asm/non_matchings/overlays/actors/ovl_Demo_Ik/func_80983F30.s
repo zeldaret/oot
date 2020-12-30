@@ -4,7 +4,7 @@ glabel func_80983F30
 /* 00C38 80983F38 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00C3C 80983F3C AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 00C40 80983F40 44056000 */  mfc1    $a1, $f12                  
-/* 00C44 80983F44 0C0295B2 */  jal     func_800A56C8              
+/* 00C44 80983F44 0C0295B2 */  jal     Animation_OnFrame              
 /* 00C48 80983F48 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00C4C 80983F4C 1040000B */  beq     $v0, $zero, .L80983F7C     
 /* 00C50 80983F50 3C078013 */  lui     $a3, %hi(D_801333E0)
