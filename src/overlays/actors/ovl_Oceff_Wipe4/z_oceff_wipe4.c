@@ -1,7 +1,7 @@
 /*
  * File: z_oceff_wipe4.c
  * Overlay: ovl_Oceff_Wipe4
- * Description: Song of Time effect
+ * Description: Scarecrow's Song effect. Unused alternate version if param == 1.
  */
 
 #include "z_oceff_wipe4.h"

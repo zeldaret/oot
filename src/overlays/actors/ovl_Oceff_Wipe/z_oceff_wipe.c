@@ -1,7 +1,8 @@
 /*
  * File: z_oceff_wipe.c
  * Overlay: ovl_Oceff_Wipe
- * Description: Zelda's Lullaby Effect
+ * Description: Ocarina playback effect for Zelda's Lullaby (param 0) and Song
+ * of Time (param nonzero).
  */
 
 #include "z_oceff_wipe.h"
