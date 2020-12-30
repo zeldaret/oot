@@ -202,9 +202,9 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
 
     if (params == 3 || params == 7 || params == 8 || params == 9) {
-        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, animationSeg, 1.0f);
+        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 1.0f);
     } else {
-        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, animationSeg, 3.0f);
+        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
     }
 }
 
@@ -212,7 +212,7 @@ void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
                    AnimationHeader* animationSeg) {
     SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, 0, 0, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
-    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, animationSeg, 3.0f);
+    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
 }
 
 void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, SkeletonHeader* skeletonHeaderSeg,
@@ -222,9 +222,9 @@ void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, SkeletonHeader* ske
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, animationSeg);
     params = this->actor.params >> 8;
     if (!(params == 3 || params == 4 || params == 7 || params == 8 || params == 9)) {
-        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, animationSeg, 3.0f);
+        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
     } else {
-        SkelAnime_ChangeAnimPlaybackStop(&this->skin.skelAnime, animationSeg, 1.0f);
+        Animation_PlayOnceSetSpeed(&this->skin.skelAnime, animationSeg, 1.0f);
     }
 }
 
@@ -317,7 +317,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
     } else if (params == 4) {
-        currentFrame = (s16)this->skin.skelAnime.animCurrentFrame;
+        currentFrame = (s16)this->skin.skelAnime.curFrame;
         if (this->skin.skelAnime.animation == &D_06003858) {
             if (currentFrame == 8) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
@@ -341,69 +341,69 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
     EnViewer_GetCutsceneNextPos(this, globalCtx);
     Actor_MoveForward(&this->actor);
 
-    frameUpdate = SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
+    frameUpdate = SkelAnime_Update(&this->skin.skelAnime);
 
     if (params == 3 || params == 4) {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL) {
             if (globalCtx->csCtx.npcActions[1]->action == 2 && D_80B2CFCC == 0) {
                 if (params == 3) {
                     if (this->skin.skelAnime.animation != &D_06002928) {
-                        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06002928, 1.0f);
+                        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06002928, 1.0f);
                     }
                 } else if (this->skin.skelAnime.animation != &D_06004AA4) {
-                    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06004AA4, 1.0f);
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06004AA4, 1.0f);
                 }
             } else if (globalCtx->csCtx.npcActions[1]->action == 1) {
                 D_80B2CFCC = 100;
                 if (params == 3) {
                     if (this->skin.skelAnime.animation != &D_06001D28) {
-                        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06001D28, 1.0f);
+                        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06001D28, 1.0f);
                     }
                 } else if (this->skin.skelAnime.animation != &D_06003858) {
-                    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06003858, 1.0f);
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06003858, 1.0f);
                 }
             } else if (params == 3) {
                 switch (this->unk_1E5) {
                     case 0:
                         if (globalCtx->csCtx.npcActions[1]->action == 4) {
-                            SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_06000F54, -5.0f);
+                            Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_06000F54, -5.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 1:
                         if (frameUpdate != 0) {
-                            SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_060014F4, -5.0f);
+                            Animation_MorphToLoop(&this->skin.skelAnime, &D_060014F4, -5.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 2:
                         if (globalCtx->csCtx.npcActions[1]->action == 5) {
-                            SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_060008A0, -5.0f);
+                            Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_060008A0, -5.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 3:
                         if (frameUpdate != 0) {
-                            SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_06000BC8, -5.0f);
+                            Animation_MorphToLoop(&this->skin.skelAnime, &D_06000BC8, -5.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 4:
                         if (globalCtx->csCtx.npcActions[1]->action == 11) {
-                            SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_060014F4, -20.0f);
+                            Animation_MorphToLoop(&this->skin.skelAnime, &D_060014F4, -20.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 5:
                         if (globalCtx->csCtx.npcActions[1]->action == 8) {
-                            SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_06002928, -15.0f);
+                            Animation_MorphToLoop(&this->skin.skelAnime, &D_06002928, -15.0f);
                             this->unk_1E5++;
                         }
                         break;
                     case 6:
                         if (globalCtx->csCtx.npcActions[1]->action == 12) {
                             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_VOICE_DEMO);
-                            SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_060005B4, 3.0f);
+                            Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_060005B4, 3.0f);
                             this->unk_1E5++;
                         }
                         break;
@@ -412,7 +412,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         break;
                 }
             } else if (this->skin.skelAnime.animation != &D_06002650 && globalCtx->csCtx.npcActions[1]->action == 12) {
-                SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06002650, 3.0f);
+                Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06002650, 3.0f);
             }
         }
     } else if (params == 1) {
@@ -431,14 +431,14 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             case 0:
                 if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
                     globalCtx->csCtx.npcActions[0]->action == 6 && this->skin.skelAnime.animation != &D_06002574) {
-                    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06002574, 1.5f);
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06002574, 1.5f);
                     this->unk_1E5++;
                 }
                 break;
             case 1:
                 if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
                     globalCtx->csCtx.npcActions[0]->action == 2 && this->skin.skelAnime.animation != &D_060029CC) {
-                    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_060029CC, 3.0f);
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_060029CC, 3.0f);
                     this->unk_1E5++;
                 }
                 break;
@@ -450,7 +450,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     if (globalCtx->csCtx.state != 0) {
                         if (globalCtx->csCtx.npcActions[0] != NULL && globalCtx->csCtx.npcActions[0]->action == 6 &&
                             this->skin.skelAnime.animation != &D_06001410) {
-                            SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06001410, 1.5f);
+                            Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06001410, 1.5f);
                             this->unk_1E5++;
                         }
                     }
@@ -459,7 +459,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     if (globalCtx->csCtx.state != 0) {
                         if (globalCtx->csCtx.npcActions[0] != NULL && globalCtx->csCtx.npcActions[0]->action == 2 &&
                             this->skin.skelAnime.animation != &D_06000450) {
-                            SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_06000450, 3.0f);
+                            Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06000450, 3.0f);
                             this->unk_1E5++;
                         }
                     }
@@ -469,18 +469,18 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             func_800F67A0(0);
             switch (this->unk_1E5) {
                 case 0:
-                    SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_0600504C, 1.0f);
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_0600504C, 1.0f);
                     this->unk_1E5++;
                     break;
                 case 1:
                     if (globalCtx->csCtx.npcActions[0]->action == 11) {
-                        SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600420C, -5.0f);
+                        Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_0600420C, -5.0f);
                         this->unk_1E5++;
                     }
                     break;
                 case 2:
                     if (frameUpdate != 0) {
-                        SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_060048FC, -5.0f);
+                        Animation_MorphToLoop(&this->skin.skelAnime, &D_060048FC, -5.0f);
                         this->unk_1E5++;
                     }
                     break;
@@ -494,13 +494,13 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                 if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL &&
                     globalCtx->csCtx.npcActions[1]->action == 7) {
                     Audio_PlaySoundGeneral(NA_SE_EN_GANON_LAUGH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_06004534, -5.0f);
+                    Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_06004534, -5.0f);
                     this->unk_1E5++;
                 }
                 break;
             case 1:
                 if (frameUpdate != 0) {
-                    SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_060048B0, -5.0f);
+                    Animation_MorphToLoop(&this->skin.skelAnime, &D_060048B0, -5.0f);
                     this->unk_1E5++;
                 }
                 break;
@@ -513,26 +513,26 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             case 0:
                 if (globalCtx->csCtx.state != 0) {
                     if (globalCtx->csCtx.npcActions[1] != NULL && globalCtx->csCtx.npcActions[1]->action == 9) {
-                        SkelAnime_ChangeAnimPlaybackRepeat(&this->skin.skelAnime, &D_060050A8, 1.0f);
+                        Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_060050A8, 1.0f);
                         this->unk_1E5++;
                     }
                 }
                 break;
             case 1:
                 if (globalCtx->csCtx.npcActions[1]->action == 10) {
-                    SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_06003284, -10.0f);
+                    Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_06003284, -10.0f);
                     this->unk_1E5++;
                 }
                 break;
             case 2:
                 if (frameUpdate != 0) {
-                    SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_06003D84, -5.0f);
+                    Animation_MorphToLoop(&this->skin.skelAnime, &D_06003D84, -5.0f);
                     this->unk_1E5++;
                 }
                 break;
             case 3:
                 if (globalCtx->csCtx.npcActions[1]->action == 4) {
-                    SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_06003428, -5.0f);
+                    Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_06003428, -5.0f);
                     this->unk_1E5++;
                 }
                 break;
@@ -609,20 +609,20 @@ void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx) {
     }
 
     if (params == 9) {
-        SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                               this->skin.skelAnime.dListCount, 0, func_80B2B364, this);
     } else if (params == 3) {
-        SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                               this->skin.skelAnime.dListCount, func_80B2B2F4, func_80B2B468, this);
         func_80B2CC1C(globalCtx, this);
     } else if ((params == 3) || (params == 5) || (params == 7) || (params == 8)) {
         if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[1] != NULL)) {
-            SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl,
+            SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                                   this->skin.skelAnime.dListCount, 0, func_80B2B468, this);
             func_80B2CC1C(globalCtx, this);
         }
     } else {
-        SkelAnime_DrawOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl, NULL, 0, this);
+        SkelAnime_DrawOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, 0, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1511);
 }
@@ -706,7 +706,7 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_060032F0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06004EF0));
     }
-    SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                           this->skin.skelAnime.dListCount, func_80B2B928, func_80B2B9A4, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1690);
 }
@@ -724,7 +724,7 @@ void func_80B2C130(EnViewer* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_06007210));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.limbDrawTbl,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                           this->skin.skelAnime.dListCount, func_80B2C10C, 0, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1740);
 }
@@ -802,8 +802,8 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
 
             if (globalCtx->csCtx.npcActions[1]->action == 12) {
                 yaw = Math_Vec3f_Yaw(&startPos, &endPos);
-                Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
-                Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, yaw, 10, 1000, 1);
+                Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
+                Math_SmoothStepToS(&this->actor.shape.rot.y, yaw, 10, 1000, 1);
             }
 
             if (params == 9) {
@@ -833,7 +833,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
         unkStruct->unk_C.x = 100.0f;
         unkStruct->unk_C.y = -420.0f;
         unkStruct->unk_C.z = -400.0f;
-        unkStruct->unk_24.y = (((Math_Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
+        unkStruct->unk_24.y = (((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
     } else {
         unkStruct = &this->unk_1E8[arg2];
         unkStruct->unk_0.x = -100.0f;
@@ -842,7 +842,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
         unkStruct->unk_C.x = -100.0f;
         unkStruct->unk_C.y = -420.0f;
         unkStruct->unk_C.z = -400.0f;
-        unkStruct->unk_24.y = (((Math_Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
+        unkStruct->unk_24.y = (((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
     }
     if (this) {}
 }
@@ -861,7 +861,7 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
                 this->unk_1E8[i].state++;
                 break;
             case 1:
-                Math_SmoothScaleMaxMinF(&this->unk_1E8[i].unk_24.z, 1.0f, 1.0f, this->unk_1E8[i].unk_24.x,
+                Math_SmoothStepToF(&this->unk_1E8[i].unk_24.z, 1.0f, 1.0f, this->unk_1E8[i].unk_24.x,
                                         this->unk_1E8[i].unk_24.x);
                 this->unk_1E8[i].unk_18.x =
                     this->unk_1E8[i].unk_0.x +
@@ -925,7 +925,7 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
 
         // Any of the temps defined above vec1.y results in a near match
         // with only the stack pointer being too large
-        vec1.y = KREG(17) + 3.0f + Math_Sins(D_80B2CFEC) * KREG(20);
+        vec1.y = KREG(17) + 3.0f + Math_SinS(D_80B2CFEC) * KREG(20);
         vec1.z = KREG(18) - 10.0f;
         D_80B2CFEC += KREG(19) * 0x1000 + 0x2000;
         // D_80B2CFEC += KREG(index) * 0x1000 + 0x2000;
