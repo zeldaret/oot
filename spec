@@ -3953,7 +3953,8 @@ endseg
 beginseg
     name "object_b_heart"
     romalign 0x1000
-    include "build/baserom/object_b_heart.o"
+    include "build/assets/objects/object_b_heart/object_b_heart.o"
+    number 06
 endseg
 
 beginseg
@@ -4752,7 +4753,8 @@ endseg
 beginseg
     name "object_gi_bomb_2"
     romalign 0x1000
-    include "build/baserom/object_gi_bomb_2.o"
+    include "build/assets/objects/object_gi_bomb_2/object_gi_bomb_2.o"
+    number 06
 endseg
 
 beginseg

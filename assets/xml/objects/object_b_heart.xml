@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_b_heart" Segment="6">
+        <DList Name="gBHeartDL1" Offset="0x240"/>
+        <DList Name="gBHeartDL2" Offset="0x348"/>
+    </File>
+</Root>
