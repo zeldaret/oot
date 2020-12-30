@@ -3973,7 +3973,8 @@ endseg
 beginseg
     name "object_oE4"
     romalign 0x1000
-    include "build/baserom/object_oE4.o"
+    include "build/assets/objects/object_oE4/object_oE4.o"
+    number 06
 endseg
 
 beginseg
@@ -5398,7 +5399,8 @@ endseg
 beginseg
     name "object_gi_frog"
     romalign 0x1000
-    include "build/baserom/object_gi_frog.o"
+    include "build/assets/objects/object_gi_frog/object_gi_frog.o"
+    number 06
 endseg
 
 beginseg
