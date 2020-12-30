@@ -98,13 +98,13 @@ void ObjKibako2_Break(ObjKibako2 *this, GlobalContext *globalCtx) {
 }
 
 void ObjKibako2_SpawnCollectible(ObjKibako2 *this, GlobalContext *globalCtx) {
-    s16 initXPos;
-    s16 temp;
+    s16 itemDropped;
+    s16 collectibleFlagTemp;
 
-    temp = this->unk_1B4;
-    initXPos = this->dyna.actor.initPosRot.rot.x;
-    if (initXPos >= 0 && initXPos < 0x1A) {
-        Item_DropCollectible(globalCtx, &this->dyna.actor.posRot.pos, initXPos | (temp << 8));
+    collectibleFlagTemp = this->collectibleFlag;
+    itemDropped = this->dyna.actor.initPosRot.rot.x;
+    if (itemDropped >= 0 && itemDropped < 0x1A) {
+        Item_DropCollectible(globalCtx, &this->dyna.actor.posRot.pos, itemDropped | (collectibleFlagTemp << 8));
     }
 }
 
@@ -120,12 +120,12 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
     ObjKibako2_InitCollider(thisx, globalCtx);
     CollisionHeader_GetVirtual(&D_06000B70, &sp2C);
     bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
-    this->unk_1B4 = this->dyna.actor.initPosRot.rot.z & 0x3F;
+    this->collectibleFlag = this->dyna.actor.initPosRot.rot.z & 0x3F;
     this->dyna.bgId = bgId;
     this->actionFunc = ObjKibako2_Idle;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
     // Wooden box (stationary)
-    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->unk_1B4, this->dyna.actor.initPosRot.rot.x);
+    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag, this->dyna.actor.initPosRot.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
@@ -155,7 +155,7 @@ void ObjKibako2_Kill(ObjKibako2 *this, GlobalContext *globalCtx) {
 
     params = this->dyna.actor.params;
     if ((params & 0x8000) == 0) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x95, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
     }
     ObjKibako2_SpawnCollectible(this, globalCtx);
     Actor_Kill(&this->dyna.actor);
