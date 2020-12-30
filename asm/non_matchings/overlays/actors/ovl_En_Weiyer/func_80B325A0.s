@@ -13,7 +13,7 @@ glabel func_80B325A0
 /* 0033C 80B325CC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00340 80B325D0 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 00344 80B325D4 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 00348 80B325D8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00348 80B325D8 0C029468 */  jal     Animation_Change
 
 /* 0034C 80B325DC E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 00350 80B325E0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -37,8 +37,8 @@ glabel func_80B325A0
 /* 00398 80B32628 240600C8 */  addiu   $a2, $zero, 0x00C8         ## $a2 = 000000C8
 /* 0039C 80B3262C 0C00D09B */  jal     func_8003426C
 /* 003A0 80B32630 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 003A4 80B32634 3C0A80B3 */  lui     $t2, %hi(D_80B33AB2)       ## $t2 = 80B30000
-/* 003A8 80B32638 854A3AB2 */  lh      $t2, %lo(D_80B33AB2)($t2)
+/* 003A4 80B32634 3C0A80B3 */  lui     $t2, %hi(D_80B33A90+0x22)       ## $t2 = 80B30000
+/* 003A8 80B32638 854A3AB2 */  lh      $t2, %lo(D_80B33A90+0x22)($t2)
 /* 003AC 80B3263C 3C0B80B3 */  lui     $t3, %hi(func_80B331CC)    ## $t3 = 80B30000
 /* 003B0 80B32640 256B31CC */  addiu   $t3, $t3, %lo(func_80B331CC) ## $t3 = 80B331CC
 /* 003B4 80B32644 AE0B0190 */  sw      $t3, 0x0190($s0)           ## 00000190

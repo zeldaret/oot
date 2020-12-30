@@ -48,7 +48,7 @@ glabel func_80A4592C
 /* 02C9C 80A459CC 29210004 */  slti    $at, $t1, 0x0004           
 /* 02CA0 80A459D0 14200007 */  bne     $at, $zero, .L80A459F0     
 /* 02CA4 80A459D4 A0C80214 */  sb      $t0, 0x0214($a2)           ## 00000214
-/* 02CA8 80A459D8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 02CA8 80A459D8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 02CAC 80A459DC AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02CB0 80A459E0 8FA60018 */  lw      $a2, 0x0018($sp)           

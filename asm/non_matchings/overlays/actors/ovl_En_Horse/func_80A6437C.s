@@ -16,11 +16,11 @@ glabel func_80A6437C
 /* 090A8 80A64398 004E2023 */  subu    $a0, $v0, $t6              
 /* 090AC 80A6439C 00042400 */  sll     $a0, $a0, 16               
 /* 090B0 80A643A0 00042403 */  sra     $a0, $a0, 16               
-/* 090B4 80A643A4 0C01DE1C */  jal     Math_Sins
+/* 090B4 80A643A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 090B8 80A643A8 A7A4002A */  sh      $a0, 0x002A($sp)           
 /* 090BC 80A643AC 87A4002A */  lh      $a0, 0x002A($sp)           
-/* 090C0 80A643B0 0C01DE0D */  jal     Math_Coss
+/* 090C0 80A643B0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 090C4 80A643B4 E7A00024 */  swc1    $f0, 0x0024($sp)           
 /* 090C8 80A643B8 3C0180A6 */  lui     $at, %hi(D_80A669AC)       ## $at = 80A60000

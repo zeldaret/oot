@@ -88,7 +88,7 @@ glabel func_80A4B554
 /* 027C8 80A4B688 3C073A44 */  lui     $a3, 0x3A44                ## $a3 = 3A440000
 /* 027CC 80A4B68C 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 027D0 80A4B690 34E79BA6 */  ori     $a3, $a3, 0x9BA6           ## $a3 = 3A449BA6
-/* 027D4 80A4B694 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 027D4 80A4B694 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 027D8 80A4B698 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 027DC 80A4B69C 3C0180A5 */  lui     $at, %hi(D_80A4B984)       ## $at = 80A50000
@@ -112,21 +112,21 @@ glabel func_80A4B554
 /* 02818 80A4B6D8 10400022 */  beq     $v0, $zero, .L80A4B764     
 /* 0281C 80A4B6DC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 02820 80A4B6E0 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 02824 80A4B6E4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02824 80A4B6E4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02828 80A4B6E8 00000000 */  nop
 /* 0282C 80A4B6EC C6120024 */  lwc1    $f18, 0x0024($s0)          ## 00000024
 /* 02830 80A4B6F0 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 02834 80A4B6F4 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
 /* 02838 80A4B6F8 46120100 */  add.s   $f4, $f0, $f18             
-/* 0283C 80A4B6FC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0283C 80A4B6FC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02840 80A4B700 E7A40044 */  swc1    $f4, 0x0044($sp)           
 /* 02844 80A4B704 C6060028 */  lwc1    $f6, 0x0028($s0)           ## 00000028
 /* 02848 80A4B708 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 0284C 80A4B70C 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
 /* 02850 80A4B710 46060200 */  add.s   $f8, $f0, $f6              
-/* 02854 80A4B714 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 02854 80A4B714 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 02858 80A4B718 E7A80048 */  swc1    $f8, 0x0048($sp)           
 /* 0285C 80A4B71C C60A002C */  lwc1    $f10, 0x002C($s0)          ## 0000002C

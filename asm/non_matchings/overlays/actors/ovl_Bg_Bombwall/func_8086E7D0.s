@@ -17,8 +17,8 @@ glabel func_8086E7D0
 /* 00014 8086E7E4 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
 /* 00018 8086E7E8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0001C 8086E7EC 3C040500 */  lui     $a0, 0x0500                ## $a0 = 05000000
-/* 00020 8086E7F0 248441B0 */  addiu   $a0, $a0, 0x41B0           ## $a0 = 050041B0
+/* 0001C 8086E7EC 3C040500 */  lui     $a0, %hi(D_050041B0)                ## $a0 = 05000000
+/* 00020 8086E7F0 248441B0 */  addiu   $a0, $a0, %lo(D_050041B0)           ## $a0 = 050041B0
 /* 00024 8086E7F4 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 00028 8086E7F8 27A5001C */  addiu   $a1, $sp, 0x001C           ## $a1 = FFFFFFF4

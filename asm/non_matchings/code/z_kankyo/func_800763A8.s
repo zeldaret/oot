@@ -155,14 +155,14 @@ glabel func_800763A8
 /* AED798 800765F8 02322021 */  addu  $a0, $s1, $s2
 /* AED79C 800765FC 00002825 */  move  $a1, $zero
 /* AED7A0 80076600 24060005 */  li    $a2, 5
-/* AED7A4 80076604 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AED7A4 80076604 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AED7A8 80076608 2407000C */   li    $a3, 12
 /* AED7AC 8007660C 24090001 */  li    $t1, 1
 /* AED7B0 80076610 AFA90010 */  sw    $t1, 0x10($sp)
 /* AED7B4 80076614 02332021 */  addu  $a0, $s1, $s3
 /* AED7B8 80076618 00002825 */  move  $a1, $zero
 /* AED7BC 8007661C 24060005 */  li    $a2, 5
-/* AED7C0 80076620 0C01E1A7 */  jal   Math_SmoothScaleMaxMinS
+/* AED7C0 80076620 0C01E1A7 */  jal   Math_SmoothStepToS
 /* AED7C4 80076624 2407000C */   li    $a3, 12
 /* AED7C8 80076628 26100001 */  addiu $s0, $s0, 1
 /* AED7CC 8007662C 00108400 */  sll   $s0, $s0, 0x10

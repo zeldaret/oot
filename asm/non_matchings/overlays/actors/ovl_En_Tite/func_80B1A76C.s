@@ -6,7 +6,7 @@ glabel func_80B1A76C
 /* 01CFC 80B1A77C 3C050600 */  lui     $a1, %hi(D_06000A14)                ## $a1 = 06000000
 /* 01D00 80B1A780 24A50A14 */  addiu   $a1, $a1, %lo(D_06000A14)           ## $a1 = 06000A14
 /* 01D04 80B1A784 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 01D08 80B1A788 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
+/* 01D08 80B1A788 0C0294E1 */  jal     Animation_PlayLoopSetSpeed
 /* 01D0C 80B1A78C 3C063FC0 */  lui     $a2, 0x3FC0                ## $a2 = 3FC00000
 /* 01D10 80B1A790 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01D14 80B1A794 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -20,7 +20,7 @@ glabel func_80B1A76C
 /* 01D30 80B1A7B0 A20E02BD */  sb      $t6, 0x02BD($s0)           ## 000002BD
 /* 01D34 80B1A7B4 A60F02E0 */  sh      $t7, 0x02E0($s0)           ## 000002E0
 /* 01D38 80B1A7B8 E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
-/* 01D3C 80B1A7BC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01D3C 80B1A7BC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01D40 80B1A7C0 E606006C */  swc1    $f6, 0x006C($s0)           ## 0000006C
 /* 01D44 80B1A7C4 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

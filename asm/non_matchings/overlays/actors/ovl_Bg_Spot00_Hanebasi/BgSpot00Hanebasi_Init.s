@@ -100,11 +100,11 @@ glabel BgSpot00Hanebasi_Init
 /* 00158 808A98D8 00000000 */  nop
 /* 0015C 808A98DC A61900B4 */  sh      $t9, 0x00B4($s0)           ## 000000B4
 .L808A98E0:
-/* 00160 808A98E0 0C01DE0D */  jal     Math_Coss
+/* 00160 808A98E0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00164 808A98E4 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 00168 808A98E8 E7A00054 */  swc1    $f0, 0x0054($sp)           
-/* 0016C 808A98EC 0C01DE1C */  jal     Math_Sins
+/* 0016C 808A98EC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00170 808A98F0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 00174 808A98F4 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -117,11 +117,11 @@ glabel BgSpot00Hanebasi_Init
 /* 00190 808A9910 46080282 */  mul.s   $f10, $f0, $f8             
 /* 00194 808A9914 460A3401 */  sub.s   $f16, $f6, $f10            
 /* 00198 808A9918 E7B00060 */  swc1    $f16, 0x0060($sp)          
-/* 0019C 808A991C 0C01DE1C */  jal     Math_Sins
+/* 0019C 808A991C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001A0 808A9920 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 001A4 808A9924 E7A00054 */  swc1    $f0, 0x0054($sp)           
-/* 001A8 808A9928 0C01DE0D */  jal     Math_Coss
+/* 001A8 808A9928 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001AC 808A992C 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 001B0 808A9930 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -134,11 +134,11 @@ glabel BgSpot00Hanebasi_Init
 /* 001CC 808A994C 46080182 */  mul.s   $f6, $f0, $f8              
 /* 001D0 808A9950 46062281 */  sub.s   $f10, $f4, $f6             
 /* 001D4 808A9954 E7AA0064 */  swc1    $f10, 0x0064($sp)          
-/* 001D8 808A9958 0C01DE0D */  jal     Math_Coss
+/* 001D8 808A9958 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001DC 808A995C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 001E0 808A9960 E7A00054 */  swc1    $f0, 0x0054($sp)           
-/* 001E4 808A9964 0C01DE1C */  jal     Math_Sins
+/* 001E4 808A9964 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001E8 808A9968 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 001EC 808A996C C7B00064 */  lwc1    $f16, 0x0064($sp)          
@@ -149,11 +149,11 @@ glabel BgSpot00Hanebasi_Init
 /* 00200 808A9980 46024102 */  mul.s   $f4, $f8, $f2              
 /* 00204 808A9984 46049180 */  add.s   $f6, $f18, $f4             
 /* 00208 808A9988 E7A6005C */  swc1    $f6, 0x005C($sp)           
-/* 0020C 808A998C 0C01DE1C */  jal     Math_Sins
+/* 0020C 808A998C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00210 808A9990 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00214 808A9994 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 00218 808A9998 0C01DE0D */  jal     Math_Coss
+/* 00218 808A9998 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0021C 808A999C E7A00054 */  swc1    $f0, 0x0054($sp)           
 /* 00220 808A99A0 C7AC0064 */  lwc1    $f12, 0x0064($sp)          
@@ -206,11 +206,11 @@ glabel BgSpot00Hanebasi_Init
 .L808A9A4C:
 /* 002CC 808A9A4C 14600029 */  bne     $v1, $zero, .L808A9AF4     
 /* 002D0 808A9A50 3C19808B */  lui     $t9, %hi(func_808A9E58)    ## $t9 = 808B0000
-/* 002D4 808A9A54 0C01DE0D */  jal     Math_Coss
+/* 002D4 808A9A54 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 002D8 808A9A58 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 002DC 808A9A5C E7A0004C */  swc1    $f0, 0x004C($sp)           
-/* 002E0 808A9A60 0C01DE1C */  jal     Math_Sins
+/* 002E0 808A9A60 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 002E4 808A9A64 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 002E8 808A9A68 3C01439E */  lui     $at, 0x439E                ## $at = 439E0000

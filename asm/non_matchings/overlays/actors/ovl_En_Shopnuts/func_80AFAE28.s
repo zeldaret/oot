@@ -7,7 +7,7 @@ glabel func_80AFAE28
 /* 0071C 80AFAE3C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00720 80AFAE40 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
 /* 00724 80AFAE44 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 00728 80AFAE48 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 00728 80AFAE48 0C01E1EF */  jal     Math_ApproachS
               
 /* 0072C 80AFAE4C 24070E38 */  addiu   $a3, $zero, 0x0E38         ## $a3 = 00000E38
 /* 00730 80AFAE50 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
@@ -23,7 +23,7 @@ glabel func_80AFAE28
 /* 00758 80AFAE78 10000036 */  beq     $zero, $zero, .L80AFAF54   
 /* 0075C 80AFAE7C 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80AFAE80:
-/* 00760 80AFAE80 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00760 80AFAE80 0C02927F */  jal     SkelAnime_Update
               
 /* 00764 80AFAE84 AFA40038 */  sw      $a0, 0x0038($sp)           
 /* 00768 80AFAE88 10400005 */  beq     $v0, $zero, .L80AFAEA0     
@@ -33,11 +33,11 @@ glabel func_80AFAE28
 /* 00778 80AFAE98 1000002E */  beq     $zero, $zero, .L80AFAF54   
 /* 0077C 80AFAE9C 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80AFAEA0:
-/* 00780 80AFAEA0 0C0295B2 */  jal     func_800A56C8              
+/* 00780 80AFAEA0 0C0295B2 */  jal     Animation_OnFrame              
 /* 00784 80AFAEA4 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 00788 80AFAEA8 5040002A */  beql    $v0, $zero, .L80AFAF54     
 /* 0078C 80AFAEAC 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 00790 80AFAEB0 0C01DE1C */  jal     Math_Sins
+/* 00790 80AFAEB0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00794 80AFAEB4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00798 80AFAEB8 3C0141B8 */  lui     $at, 0x41B8                ## $at = 41B80000
@@ -51,7 +51,7 @@ glabel func_80AFAE28
 /* 007B8 80AFAED8 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028
 /* 007BC 80AFAEDC 46062200 */  add.s   $f8, $f4, $f6              
 /* 007C0 80AFAEE0 E7A80040 */  swc1    $f8, 0x0040($sp)           
-/* 007C4 80AFAEE4 0C01DE0D */  jal     Math_Coss
+/* 007C4 80AFAEE4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 007C8 80AFAEE8 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 007CC 80AFAEEC 3C0141B8 */  lui     $at, 0x41B8                ## $at = 41B80000

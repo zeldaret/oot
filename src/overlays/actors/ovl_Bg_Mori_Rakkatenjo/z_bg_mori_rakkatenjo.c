@@ -193,7 +193,7 @@ void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
     this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
     if (this->dyna.actor.posRot.pos.y >= 683.0f) {
         BgMoriRakkatenjo_SetupWait(this);
