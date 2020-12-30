@@ -73,7 +73,7 @@ glabel EnNy_Update
 /* 009E4 80ABD594 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 009E8 80ABD598 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 009EC 80ABD59C 264401E4 */  addiu   $a0, $s2, 0x01E4           ## $a0 = 000001E4
-/* 009F0 80ABD5A0 0C01DE80 */  jal     Math_ApproxF
+/* 009F0 80ABD5A0 0C01DE80 */  jal     Math_StepToF
               
 /* 009F4 80ABD5A4 8E4501E8 */  lw      $a1, 0x01E8($s2)           ## 000001E8
 /* 009F8 80ABD5A8 8E59014C */  lw      $t9, 0x014C($s2)           ## 0000014C
@@ -112,19 +112,19 @@ glabel EnNy_Update
 /* 00A7C 80ABD62C 02408025 */  or      $s0, $s2, $zero            ## $s0 = 00000000
 /* 00A80 80ABD630 24130008 */  addiu   $s3, $zero, 0x0008         ## $s3 = 00000008
 .L80ABD634:
-/* 00A84 80ABD634 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00A84 80ABD634 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00A88 80ABD638 4600A306 */  mov.s   $f12, $f20                 
 /* 00A8C 80ABD63C C6500024 */  lwc1    $f16, 0x0024($s2)          ## 00000024
 /* 00A90 80ABD640 4600A306 */  mov.s   $f12, $f20                 
 /* 00A94 80ABD644 46100480 */  add.s   $f18, $f0, $f16            
-/* 00A98 80ABD648 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00A98 80ABD648 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00A9C 80ABD64C E61201F8 */  swc1    $f18, 0x01F8($s0)          ## 000001F8
 /* 00AA0 80ABD650 C6440028 */  lwc1    $f4, 0x0028($s2)           ## 00000028
 /* 00AA4 80ABD654 4600A306 */  mov.s   $f12, $f20                 
 /* 00AA8 80ABD658 46040180 */  add.s   $f6, $f0, $f4              
-/* 00AAC 80ABD65C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00AAC 80ABD65C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00AB0 80ABD660 E60601FC */  swc1    $f6, 0x01FC($s0)           ## 000001FC
 /* 00AB4 80ABD664 C648002C */  lwc1    $f8, 0x002C($s2)           ## 0000002C

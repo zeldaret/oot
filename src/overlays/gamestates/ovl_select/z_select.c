@@ -429,7 +429,7 @@ void Select_PrintLoadingMessage(SelectContext* this, GfxPrint* printer) {
 
     GfxPrint_SetPos(printer, 0xA, 0xF);
     GfxPrint_SetColor(printer, 255, 255, 255, 255);
-    randomMsg = Math_Rand_ZeroOne() * ARRAY_COUNT(sLoadingMessages);
+    randomMsg = Rand_ZeroOne() * ARRAY_COUNT(sLoadingMessages);
     GfxPrint_Printf(printer, "%s", sLoadingMessages[randomMsg]);
 }
 

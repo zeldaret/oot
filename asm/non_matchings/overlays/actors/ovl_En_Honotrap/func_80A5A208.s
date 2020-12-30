@@ -12,11 +12,11 @@ glabel func_80A5A208
 /* 00600 80A5A230 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00604 80A5A234 0C2968B6 */  jal     func_80A5A2D8              
 /* 00608 80A5A238 00000000 */  nop
-/* 0060C 80A5A23C 0C01DE1C */  jal     Math_Sins
+/* 0060C 80A5A23C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00610 80A5A240 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00614 80A5A244 E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 00618 80A5A248 0C01DE0D */  jal     Math_Coss
+/* 00618 80A5A248 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0061C 80A5A24C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00620 80A5A250 3C014140 */  lui     $at, 0x4140                ## $at = 41400000

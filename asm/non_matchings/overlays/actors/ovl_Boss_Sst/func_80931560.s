@@ -6,7 +6,7 @@ glabel func_80931560
 /* 04FA0 80931570 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 04FA4 80931574 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 04FA8 80931578 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 04FAC 8093157C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04FAC 8093157C 0C02927F */  jal     SkelAnime_Update
               
 /* 04FB0 80931580 AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 04FB4 80931584 86030198 */  lh      $v1, 0x0198($s0)           ## 00000198
@@ -22,7 +22,7 @@ glabel func_80931560
 /* 04FD8 809315A8 8F3978A8 */  lw      $t9, %lo(D_809378A8)($t9)  
 /* 04FDC 809315AC 53200013 */  beql    $t9, $zero, .L809315FC     
 /* 04FE0 809315B0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 04FE4 809315B4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04FE4 809315B4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04FE8 809315B8 00000000 */  nop
 /* 04FEC 809315BC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -98,7 +98,7 @@ glabel func_80931560
 /* 050EC 809316BC A602019A */  sh      $v0, 0x019A($s0)           ## 0000019A
 .L809316C0:
 /* 050F0 809316C0 86050016 */  lh      $a1, 0x0016($s0)           ## 00000016
-/* 050F4 809316C4 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 050F4 809316C4 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 050F8 809316C8 8606019A */  lh      $a2, 0x019A($s0)           ## 0000019A
 /* 050FC 809316CC 1040000A */  beq     $v0, $zero, .L809316F8     
@@ -118,7 +118,7 @@ glabel func_80931560
 /* 05128 809316F8 0C00BE5D */  jal     func_8002F974              
 /* 0512C 809316FC 24053167 */  addiu   $a1, $zero, 0x3167         ## $a1 = 00003167
 .L80931700:
-/* 05130 80931700 0C01DE1C */  jal     Math_Sins
+/* 05130 80931700 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 05134 80931704 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 05138 80931708 C60603C4 */  lwc1    $f6, 0x03C4($s0)           ## 000003C4
@@ -128,7 +128,7 @@ glabel func_80931560
 /* 05148 80931718 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0514C 8093171C C5CA0024 */  lwc1    $f10, 0x0024($t6)          ## 80940024
 /* 05150 80931720 460A4400 */  add.s   $f16, $f8, $f10            
-/* 05154 80931724 0C01DE0D */  jal     Math_Coss
+/* 05154 80931724 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 05158 80931728 E6100024 */  swc1    $f16, 0x0024($s0)          ## 00000024
 /* 0515C 8093172C C61203C4 */  lwc1    $f18, 0x03C4($s0)          ## 000003C4

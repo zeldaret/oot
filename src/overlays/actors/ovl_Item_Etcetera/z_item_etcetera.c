@@ -151,13 +151,13 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
     static Color_RGB8 envColor = { 255, 50, 50 };
     Vec3f pos;
 
-    velocity.x = Math_Rand_CenteredFloat(3.0f);
-    velocity.z = Math_Rand_CenteredFloat(3.0f);
+    velocity.x = Rand_CenteredFloat(3.0f);
+    velocity.z = Rand_CenteredFloat(3.0f);
     velocity.y = -0.05f;
     accel.y = -0.025f;
-    pos.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
-    pos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    pos.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    pos.x = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
+    pos.y = (Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
+    pos.z = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
     EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 5000, 16);
 }
 

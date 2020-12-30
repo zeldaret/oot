@@ -138,7 +138,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->rightChestGetItemId = GI_DOOR_KEY;
     rightChestItem = ITEM_ETC_KEY_SMALL_CHEST_GAME;
 
-    if (Math_Rand_ZeroFloat(1.99f) < 1.0f) {
+    if (Rand_ZeroFloat(1.99f) < 1.0f) {
         rightChestParams = (sLoserGetItemIds[globalCtx->roomCtx.curRoom.num] << 5) | 0x4000;
         this->rightChestNum = new_var;
         this->rightChestGetItemId = sLoserGetItemIds[globalCtx->roomCtx.curRoom.num];

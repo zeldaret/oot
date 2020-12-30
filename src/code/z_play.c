@@ -243,7 +243,7 @@ void Gameplay_Init(GameState* thisx) {
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
     func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
-    SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
+    AnimationContext_Reset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
 
     if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
@@ -339,7 +339,7 @@ void Gameplay_Init(GameState* thisx) {
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
-    Math_Rand_Seed((u32)osGetTime());
+    Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;
@@ -407,7 +407,7 @@ void Gameplay_Init(GameState* thisx) {
     gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
     gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
     func_8002DF18(globalCtx, PLAYER);
-    func_800A390C(globalCtx, &globalCtx->animationCtx);
+    AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
 
     if (dREG(95) != 0) {
@@ -803,7 +803,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3555);
             }
 
-            SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
+            AnimationContext_Reset(&globalCtx->animationCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3561);
@@ -981,7 +981,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3765);
             }
 
-            func_800A390C(globalCtx, &globalCtx->animationCtx);
+            AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);

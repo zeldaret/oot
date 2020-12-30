@@ -128,7 +128,7 @@ glabel MagicFire_Update
 .L80B89074:
 /* 00304 80B89074 3C063D08 */  lui     $a2, 0x3D08                ## $a2 = 3D080000
 /* 00308 80B89078 34C68889 */  ori     $a2, $a2, 0x8889           ## $a2 = 3D088889
-/* 0030C 80B8907C 0C01DE80 */  jal     Math_ApproxF
+/* 0030C 80B8907C 0C01DE80 */  jal     Math_StepToF
               
 /* 00310 80B89080 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 00314 80B89084 861901A8 */  lh      $t9, 0x01A8($s0)           ## 000001A8
@@ -141,7 +141,7 @@ glabel MagicFire_Update
 /* 00330 80B890A0 8E0601A0 */  lw      $a2, 0x01A0($s0)           ## 000001A0
 /* 00334 80B890A4 3C073DCC */  lui     $a3, 0x3DCC                ## $a3 = 3DCC0000
 /* 00338 80B890A8 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3DCCCCCD
-/* 0033C 80B890AC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 0033C 80B890AC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00340 80B890B0 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 00344 80B890B4 C6000050 */  lwc1    $f0, 0x0050($s0)           ## 00000050

@@ -44,7 +44,7 @@ glabel func_80895C74
 /* 003D8 80895CC8 AFA30018 */  sw      $v1, 0x0018($sp)           
 /* 003DC 80895CCC 44050000 */  mfc1    $a1, $f0                   
 /* 003E0 80895CD0 AFA70028 */  sw      $a3, 0x0028($sp)           
-/* 003E4 80895CD4 0C01DE80 */  jal     Math_ApproxF
+/* 003E4 80895CD4 0C01DE80 */  jal     Math_StepToF
               
 /* 003E8 80895CD8 AFA80020 */  sw      $t0, 0x0020($sp)           
 /* 003EC 80895CDC 8FA30018 */  lw      $v1, 0x0018($sp)           
@@ -149,7 +149,7 @@ glabel func_80895C74
 .L80895E4C:
 /* 0055C 80895E4C 44050000 */  mfc1    $a1, $f0                   
 .L80895E50:
-/* 00560 80895E50 0C01DE80 */  jal     Math_ApproxF
+/* 00560 80895E50 0C01DE80 */  jal     Math_StepToF
               
 /* 00564 80895E54 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3D23D70A
 /* 00568 80895E58 10000022 */  beq     $zero, $zero, .L80895EE4   
@@ -187,7 +187,7 @@ glabel func_80895C74
 /* 005E0 80895ED0 C420771C */  lwc1    $f0, %lo(D_8089771C)($at)  
 .L80895ED4:
 /* 005E4 80895ED4 44050000 */  mfc1    $a1, $f0                   
-/* 005E8 80895ED8 0C01DE80 */  jal     Math_ApproxF
+/* 005E8 80895ED8 0C01DE80 */  jal     Math_StepToF
               
 /* 005EC 80895EDC 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3D23D70A
 .L80895EE0:
