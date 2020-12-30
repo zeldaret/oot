@@ -34,16 +34,14 @@ const ActorInit Obj_Kibako2_InitVars = {
     (ActorFunc)ObjKibako2_Draw,
 };
 
-// sCylinderInit
-static ColliderCylinderInit D_80B95FD0 =
+static ColliderCylinderInit sCylinderInit =
 {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 31, 48, 0, { 0, 0, 0 } },
 };
 
-// sInitChain
-InitChainEntry D_80B95FFC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
@@ -54,7 +52,7 @@ void ObjKibako2_InitCollider(Actor *thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80B95FD0);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
 }
 
@@ -118,7 +116,7 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
 
     sp2C = 0;
     DynaPolyActor_Init(&this->dyna, 0);
-    Actor_ProcessInitChain(&this->dyna.actor, D_80B95FFC);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, globalCtx);
     CollisionHeader_GetVirtual(&D_06000B70, &sp2C);
     bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
