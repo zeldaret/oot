@@ -89,8 +89,8 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
 
     pos = pos; // Required to match
     pos.y = this->dyna.actor.initPosRot.pos.y - 100.0f;
-    sin = Math_Sins(this->dyna.actor.shape.rot.y + 0x8000);
-    cos = Math_Coss(this->dyna.actor.shape.rot.y + 0x8000);
+    sin = Math_SinS(this->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_CosS(this->dyna.actor.shape.rot.y + 0x8000);
 
     for (i = 0; i < 5; i++) {
         pos.x = (((i * 160.0f) + 60.0f) * sin) + this->dyna.actor.initPosRot.pos.x;
@@ -201,8 +201,8 @@ void func_808884C8(BgHidanHamstep* step, GlobalContext* globalCtx) {
 
     func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 0);
 
-    sin = Math_Sins(step->dyna.actor.shape.rot.y + 0x8000);
-    cos = Math_Coss(step->dyna.actor.shape.rot.y + 0x8000);
+    sin = Math_SinS(step->dyna.actor.shape.rot.y + 0x8000);
+    cos = Math_CosS(step->dyna.actor.shape.rot.y + 0x8000);
 
     pos.y = step->dyna.actor.posRot.pos.y;
 
