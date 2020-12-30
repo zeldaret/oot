@@ -398,7 +398,7 @@ glabel EnHorse_Init
 /* 01318 80A5C608 01194021 */  addu    $t0, $t0, $t9
 /* 0131C 80A5C60C 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
 /* 01320 80A5C610 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
-/* 01324 80A5C614 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 01324 80A5C614 0C02947A */  jal     Animation_PlayOnce
 /* 01328 80A5C618 8D050000 */  lw      $a1, 0x0000($t0)           ## 80A60000
 /* 0132C 80A5C61C 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006
 /* 01330 80A5C620 A2090238 */  sb      $t1, 0x0238($s0)           ## 00000238

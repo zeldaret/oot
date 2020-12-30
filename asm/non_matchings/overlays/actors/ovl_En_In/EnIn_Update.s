@@ -34,7 +34,7 @@ glabel EnIn_Update
 /* 021D4 80A7B184 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 021D8 80A7B188 11F8001A */  beq     $t7, $t8, .L80A7B1F4       
 /* 021DC 80A7B18C 00000000 */  nop
-/* 021E0 80A7B190 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 021E0 80A7B190 0C02927F */  jal     SkelAnime_Update
               
 /* 021E4 80A7B194 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 021E8 80A7B198 8E080154 */  lw      $t0, 0x0154($s0)           ## 00000154

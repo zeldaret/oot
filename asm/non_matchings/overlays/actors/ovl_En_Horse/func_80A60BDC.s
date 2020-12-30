@@ -60,7 +60,7 @@ glabel func_80A60BDC
 /* 059B0 80A60CA0 E6080068 */  swc1    $f8, 0x0068($s0)           ## 00000068
 .L80A60CA4:
 /* 059B4 80A60CA4 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
-/* 059B8 80A60CA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 059B8 80A60CA8 0C02927F */  jal     SkelAnime_Update
 
 /* 059BC 80A60CAC AFA40024 */  sw      $a0, 0x0024($sp)
 /* 059C0 80A60CB0 50400019 */  beql    $v0, $zero, .L80A60D18
@@ -86,7 +86,7 @@ glabel func_80A60BDC
 /* 05A10 80A60D00 8FA40024 */  lw      $a0, 0x0024($sp)
 /* 05A14 80A60D04 44069000 */  mfc1    $a2, $f18
 /* 05A18 80A60D08 016D7021 */  addu    $t6, $t3, $t5
-/* 05A1C 80A60D0C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 05A1C 80A60D0C 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 05A20 80A60D10 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 05A24 80A60D14 8FBF001C */  lw      $ra, 0x001C($sp)
 .L80A60D18:

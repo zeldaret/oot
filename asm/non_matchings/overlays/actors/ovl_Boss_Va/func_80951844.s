@@ -79,7 +79,7 @@ glabel func_80951844
               
 /* 02680 80951940 2405393D */  addiu   $a1, $zero, 0x393D         ## $a1 = 0000393D
 .L80951944:
-/* 02684 80951944 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02684 80951944 0C02927F */  jal     SkelAnime_Update
               
 /* 02688 80951948 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0268C 8095194C 10400008 */  beq     $v0, $zero, .L80951970     

@@ -37,7 +37,7 @@ glabel EnMk_Update
 /* 00A3C 80AAD33C 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 00A40 80AAD340 57000009 */  bnel    $t8, $zero, .L80AAD368     
 /* 00A44 80AAD344 8E190284 */  lw      $t9, 0x0284($s0)           ## 00000284
-/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_Update
               
 /* 00A4C 80AAD34C 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 00A50 80AAD350 50400005 */  beql    $v0, $zero, .L80AAD368     

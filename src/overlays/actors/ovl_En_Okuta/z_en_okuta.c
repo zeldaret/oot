@@ -134,8 +134,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->numShots = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->limbDrawTable,
-                       this->transitionDrawTable, 38);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTable, this->morphTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -214,24 +213,24 @@ void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.flags |= 1;
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06003C64);
+    Animation_PlayOnce(&this->skelAnime, &D_06003C64);
     EnOkuta_SpawnBubbles(this, globalCtx);
     this->actionFunc = EnOkuta_Appear;
 }
 
 void EnOkuta_SetupHide(EnOkuta* this) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000AC0);
+    Animation_PlayOnce(&this->skelAnime, &D_06000AC0);
     this->actionFunc = EnOkuta_Hide;
 }
 
 void EnOkuta_SetupWaitToShoot(EnOkuta* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
+    Animation_PlayLoop(&this->skelAnime, &D_06000DDC);
     this->timer = (this->actionFunc == EnOkuta_Shoot) ? 2 : 0;
     this->actionFunc = EnOkuta_WaitToShoot;
 }
 
 void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
+    Animation_PlayOnce(&this->skelAnime, &D_06000344);
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
     }
@@ -247,7 +246,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003910, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06003910, -5.0f);
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
     this->collider.base.acFlags &= ~AC_HIT;
     Actor_SetScale(&this->actor, 0.01f);
@@ -256,7 +255,7 @@ void EnOkuta_SetupWaitToDie(EnOkuta* this) {
 }
 
 void EnOkuta_SetupDie(EnOkuta* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060008FC, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_060008FC, -3.0f);
     this->timer = 0;
     this->actionFunc = EnOkuta_Die;
 }
@@ -299,24 +298,24 @@ void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx) {
 void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.xzDistFromLink < 160.0f) {
             EnOkuta_SetupHide(this);
         } else {
             EnOkuta_SetupWaitToShoot(this);
         }
-    } else if (this->skelAnime.animCurrentFrame <= 4.0f) {
-        Actor_SetScale(&this->actor, this->skelAnime.animCurrentFrame * 0.25f * 0.01f);
-    } else if (func_800A56C8(&this->skelAnime, 5.0f)) {
+    } else if (this->skelAnime.curFrame <= 4.0f) {
+        Actor_SetScale(&this->actor, this->skelAnime.curFrame * 0.25f * 0.01f);
+    } else if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Actor_SetScale(&this->actor, 0.01f);
     }
-    if (func_800A56C8(&this->skelAnime, 2.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 2.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
     }
-    if (func_800A56C8(&this->skelAnime, 12.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 12.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
-    if (func_800A56C8(&this->skelAnime, 3.0f) || func_800A56C8(&this->skelAnime, 15.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 3.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
@@ -325,17 +324,17 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
         EnOkuta_SetupWaitToAppear(this);
-    } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
-        Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
+    } else if (this->skelAnime.curFrame >= 4.0f) {
+        Actor_SetScale(&this->actor, (6.0f - this->skelAnime.curFrame) * 0.5f * 0.01f);
     }
-    if (func_800A56C8(&this->skelAnime, 2.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 2.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
     }
-    if (func_800A56C8(&this->skelAnime, 4.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
@@ -345,13 +344,13 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     s32 phi_v1;
 
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (func_800A56C8(&this->skelAnime, 0.0f)) {
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         if (this->timer != 0) {
             this->timer--;
         }
     }
-    if (func_800A56C8(&this->skelAnime, 0.5f)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
     if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
@@ -367,7 +366,7 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer != 0) {
             this->timer--;
         }
@@ -377,19 +376,19 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             EnOkuta_SetupShoot(this, globalCtx);
         }
     } else {
-        f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
+        f32 curFrame = this->skelAnime.curFrame;
 
-        if (animCurrentFrame < 13.0f) {
+        if (curFrame < 13.0f) {
             this->actor.posRot.pos.y =
-                (sinf((0.08333f * M_PI) * animCurrentFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
+                (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
         }
-        if (func_800A56C8(&this->skelAnime, 6.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
         }
-        if ((this->jumpHeight > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && Animation_OnFrame(&this->skelAnime, 13.0f)) {
             EnOkuta_SpawnSplash(this, globalCtx);
         }
-        if ((this->jumpHeight > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && Animation_OnFrame(&this->skelAnime, 13.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
@@ -399,7 +398,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnOkuta_SetupDie(this);
     }
     Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
@@ -413,7 +412,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s32 i;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->timer++;
     }
     Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
@@ -427,7 +426,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
         EnOkuta_SpawnDust(&pos, &velocity, -0x14, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
     }
-    if (func_800A56C8(&this->skelAnime, 15.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 15.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
@@ -517,45 +516,45 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_UpdateHeadScale(EnOkuta* this) {
-    f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
+    f32 curFrame = this->skelAnime.curFrame;
 
     if (this->actionFunc == EnOkuta_Appear) {
-        if (animCurrentFrame < 8.0f) {
+        if (curFrame < 8.0f) {
             this->headScale.x = this->headScale.y = this->headScale.z = 1.0f;
-        } else if (animCurrentFrame < 10.0f) {
+        } else if (curFrame < 10.0f) {
             this->headScale.x = this->headScale.z = 1.0f;
-            this->headScale.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
-        } else if (animCurrentFrame < 14.0f) {
-            this->headScale.x = this->headScale.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
-            this->headScale.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
+            this->headScale.y = ((curFrame - 7.0f) * 0.4f) + 1.0f;
+        } else if (curFrame < 14.0f) {
+            this->headScale.x = this->headScale.z = ((curFrame - 9.0f) * 0.075f) + 1.0f;
+            this->headScale.y = 1.8f - ((curFrame - 9.0f) * 0.25f);
         } else {
-            this->headScale.x = this->headScale.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
-            this->headScale.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
+            this->headScale.x = this->headScale.z = 1.3f - ((curFrame - 13.0f) * 0.05f);
+            this->headScale.y = ((curFrame - 13.0f) * 0.0333f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_Hide) {
-        if (animCurrentFrame < 3.0f) {
+        if (curFrame < 3.0f) {
             this->headScale.y = 1.0f;
-        } else if (animCurrentFrame < 4.0f) {
-            this->headScale.y = (animCurrentFrame - 2.0f) + 1.0f;
+        } else if (curFrame < 4.0f) {
+            this->headScale.y = (curFrame - 2.0f) + 1.0f;
         } else {
-            this->headScale.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
+            this->headScale.y = 2.0f - ((curFrame - 3.0f) * 0.333f);
         }
         this->headScale.x = this->headScale.z = 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
-        if (animCurrentFrame < 5.0f) {
-            this->headScale.x = this->headScale.y = this->headScale.z = (animCurrentFrame * 0.125f) + 1.0f;
-        } else if (animCurrentFrame < 7.0f) {
-            this->headScale.x = this->headScale.y = this->headScale.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
-        } else if (animCurrentFrame < 17.0f) {
-            this->headScale.x = this->headScale.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
+        if (curFrame < 5.0f) {
+            this->headScale.x = this->headScale.y = this->headScale.z = (curFrame * 0.125f) + 1.0f;
+        } else if (curFrame < 7.0f) {
+            this->headScale.x = this->headScale.y = this->headScale.z = 1.5f - ((curFrame - 4.0f) * 0.35f);
+        } else if (curFrame < 17.0f) {
+            this->headScale.x = this->headScale.z = ((curFrame - 6.0f) * 0.05f) + 0.8f;
             this->headScale.y = 0.8f;
         } else {
-            this->headScale.x = this->headScale.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
-            this->headScale.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
+            this->headScale.x = this->headScale.z = 1.3f - ((curFrame - 16.0f) * 0.1f);
+            this->headScale.y = ((curFrame - 16.0f) * 0.0666f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_WaitToShoot) {
         this->headScale.x = this->headScale.z = 1.0f;
-        this->headScale.y = (sinf((M_PI / 16) * animCurrentFrame) * 0.2f) + 1.0f;
+        this->headScale.y = (sinf((M_PI / 16) * curFrame) * 0.2f) + 1.0f;
     } else {
         this->headScale.x = this->headScale.y = this->headScale.z = 1.0f;
     }
@@ -628,8 +627,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
-            this->collider.dim.pos.y =
-                this->actor.posRot.pos.y + (this->skelAnime.limbDrawTbl->y * this->actor.scale.y);
+            this->collider.dim.pos.y = this->actor.posRot.pos.y + (this->skelAnime.jointTable->y * this->actor.scale.y);
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
@@ -650,33 +648,33 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* scale) {
+s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 curFrame, Vec3f* scale) {
     if (this->actionFunc == EnOkuta_WaitToShoot) {
         scale->x = scale->z = 1.0f;
-        scale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
+        scale->y = (sinf((M_PI / 16) * curFrame) * 0.4f) + 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
-        if (animCurrentFrame < 5.0f) {
+        if (curFrame < 5.0f) {
             scale->x = 1.0f;
-            scale->y = scale->z = (animCurrentFrame * 0.25f) + 1.0f;
-        } else if (animCurrentFrame < 7.0f) {
-            scale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
-            scale->y = scale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
+            scale->y = scale->z = (curFrame * 0.25f) + 1.0f;
+        } else if (curFrame < 7.0f) {
+            scale->x = (curFrame - 4.0f) * 0.5f + 1.0f;
+            scale->y = scale->z = 2.0f - (curFrame - 4.0f) * 0.5f;
         } else {
-            scale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
+            scale->x = 2.0f - ((curFrame - 6.0f) * 0.0769f);
             scale->y = scale->z = 1.0f;
         }
     } else if (this->actionFunc == EnOkuta_Die) {
-        if (animCurrentFrame >= 35.0f || animCurrentFrame < 25.0f) {
+        if (curFrame >= 35.0f || curFrame < 25.0f) {
             return false;
         }
-        if (animCurrentFrame < 27.0f) {
+        if (curFrame < 27.0f) {
             scale->x = 1.0f;
-            scale->y = scale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
-        } else if (animCurrentFrame < 30.0f) {
-            scale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
-            scale->y = scale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
+            scale->y = scale->z = ((curFrame - 24.0f) * 0.5f) + 1.0f;
+        } else if (curFrame < 30.0f) {
+            scale->x = (curFrame - 26.0f) * 0.333f + 1.0f;
+            scale->y = scale->z = 2.0f - (curFrame - 26.0f) * 0.333f;
         } else {
-            scale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
+            scale->x = 2.0f - ((curFrame - 29.0f) * 0.2f);
             scale->y = scale->z = 1.0f;
         }
     } else {
@@ -689,12 +687,12 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* scale) {
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
     EnOkuta* this = THIS;
-    f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
+    f32 curFrame = this->skelAnime.curFrame;
     Vec3f scale;
     s32 doScale = false;
 
     if (this->actionFunc == EnOkuta_Die) {
-        animCurrentFrame += this->timer;
+        curFrame += this->timer;
     }
     if (limbIndex == 5) {
         if ((this->headScale.x != 1.0f) || (this->headScale.y != 1.0f) || (this->headScale.z != 1.0f)) {
@@ -702,12 +700,12 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
             doScale = true;
         }
     } else if (limbIndex == 8) {
-        doScale = EnOkuta_GetSnoutScale(this, animCurrentFrame, &scale);
+        doScale = EnOkuta_GetSnoutScale(this, curFrame, &scale);
     }
     if (doScale) {
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
     }
-    return 0;
+    return false;
 }
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -717,7 +715,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->actor.params == 0) {
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnOkuta_OverrideLimbDraw,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnOkuta_OverrideLimbDraw,
                           NULL, this);
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);

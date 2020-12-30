@@ -67,7 +67,7 @@ glabel func_80AC73B4
 /* 04804 80AC74A4 0040F809 */  jalr    $ra, $v0                   
 /* 04808 80AC74A8 8FA50034 */  lw      $a1, 0x0034($sp)           
 .L80AC74AC:
-/* 0480C 80AC74AC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0480C 80AC74AC 0C02927F */  jal     SkelAnime_Update
               
 /* 04810 80AC74B0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04814 80AC74B4 8FBF0024 */  lw      $ra, 0x0024($sp)           

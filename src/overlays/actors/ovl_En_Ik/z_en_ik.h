@@ -11,8 +11,8 @@ typedef void (*EnIkActionFunc)(struct EnIk*, GlobalContext*);
 typedef struct EnIk {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[30];
-    /* 0x0244 */ Vec3s transitionDrawTable[30];
+    /* 0x0190 */ Vec3s jointTable[30];
+    /* 0x0244 */ Vec3s morphTable[30];
     /* 0x02F8 */ u8 unk_2F8;
     /* 0x02F9 */ u8 unk_2F9;
     /* 0x02FA */ u8 unk_2FA;

@@ -71,7 +71,7 @@ glabel EnDekunuts_Update
 /* 013C4 809EA924 15830012 */  bne     $t4, $v1, .L809EA970       
 /* 013C8 809EA928 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013CC 809EA92C 3C040600 */  lui     $a0, %hi(D_060004D8)                ## $a0 = 06000000
-/* 013D0 809EA930 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 013D0 809EA930 0C028800 */  jal     Animation_GetLastFrame
               
 /* 013D4 809EA934 248404D8 */  addiu   $a0, $a0, %lo(D_060004D8)           ## $a0 = 060004D8
 /* 013D8 809EA938 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

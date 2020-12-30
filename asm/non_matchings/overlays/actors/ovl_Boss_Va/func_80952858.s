@@ -250,7 +250,7 @@ glabel func_80952858
 /* 038E8 80952BA8 2449FFFF */  addiu   $t1, $v0, 0xFFFF           ## $t1 = FFFFFFFF
 /* 038EC 80952BAC A609019C */  sh      $t1, 0x019C($s0)           ## 0000019C
 .L80952BB0:
-/* 038F0 80952BB0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 038F0 80952BB0 0C02927F */  jal     SkelAnime_Update
               
 /* 038F4 80952BB4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 038F8 80952BB8 8E0A0198 */  lw      $t2, 0x0198($s0)           ## 00000198

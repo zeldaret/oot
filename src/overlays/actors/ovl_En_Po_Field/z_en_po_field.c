@@ -177,8 +177,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable,
-                   this->transitionDrawTable, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->jointTable, this->morphTable, 10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD7080);
     Collider_InitCylinder(globalCtx, &this->flameCollider);
@@ -218,7 +217,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_SetupAppear(EnPoField* this) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000F9C);
+    Animation_PlayOnce(&this->skelAnime, &D_06000F9C);
     this->actor.draw = EnPoField_Draw;
     this->lightColor.r = 255;
     this->lightColor.g = 255;
@@ -251,7 +250,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
 void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000924);
+    Animation_PlayLoop(&this->skelAnime, &D_06000924);
     this->collider.base.acFlags |= AC_ON;
     this->scaleModifier = this->actor.xzDistFromLink;
     Math_Vec3f_Copy(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
@@ -265,7 +264,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_SetupFlee(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000608, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06000608, -5.0f);
     this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnPoField_Flee;
     this->actor.speedXZ = 12.0f;
@@ -278,7 +277,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
 }
 
 void EnPoField_SetupDamage(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000454, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000454, -6.0f);
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
@@ -303,7 +302,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
 }
 
 void EnPoField_SetupDisappear(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06001360, -6.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     this->actionTimer = 16;
     this->collider.base.acFlags &= ~3;
     this->actor.speedXZ = 0.0f;
@@ -454,7 +453,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         Actor_SetScale(&this->actor, this->scaleModifier);
         if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -462,8 +461,8 @@ void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
         } else {
             EnPoField_SetupCirclePlayer(this, globalCtx);
         }
-    } else if (this->skelAnime.animCurrentFrame > 10.0f) {
-        this->lightColor.a = ((this->skelAnime.animCurrentFrame - 10.0f) * 0.05f) * 255.0f;
+    } else if (this->skelAnime.curFrame > 10.0f) {
+        this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
     } else {
         this->actor.scale.x += this->scaleModifier * 0.1f;
         this->actor.scale.y = this->actor.scale.x;
@@ -481,7 +480,7 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 temp_v1 = 16 - this->unk_194;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -519,7 +518,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     f32 temp_f6;
     s16 phi_t0;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -544,7 +543,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
 
 void EnPoField_Damage(EnPoField* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnPoField_SetupDeath(this);
         } else if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -602,7 +601,7 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Disappear(EnPoField* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -853,10 +852,9 @@ void func_80AD619C(EnPoField* this) {
 void func_80AD6330(EnPoField* this) {
     f32 rand;
 
-    if (this->actionFunc == EnPoField_Appear && this->skelAnime.animCurrentFrame < 12.0f) {
-        this->soulColor.r = this->soulColor.g = this->soulColor.b =
-            (s16)(this->skelAnime.animCurrentFrame * 16.66f) + 55;
-        this->soulColor.a = this->skelAnime.animCurrentFrame * 16.666666f;
+    if (this->actionFunc == EnPoField_Appear && this->skelAnime.curFrame < 12.0f) {
+        this->soulColor.r = this->soulColor.g = this->soulColor.b = (s16)(this->skelAnime.curFrame * 16.66f) + 55;
+        this->soulColor.a = this->skelAnime.curFrame * 16.666666f;
     } else {
         rand = Rand_ZeroOne();
         this->soulColor.r = (s16)(rand * 30.0f) + 225;
@@ -884,7 +882,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80AD6330(this);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if (this->collider.base.acFlags & 1) {
+        if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
@@ -908,7 +906,7 @@ s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if (this->actionFunc == EnPoField_Disappear && limbIndex == 7) {
         Matrix_Scale(this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, 1);
     }
-    return 0;
+    return false;
 }
 
 void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
@@ -953,7 +951,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
             POLY_OPA_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_OPA_DISP);
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -961,7 +959,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
             POLY_XLU_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_XLU_DISP);
         }
         gDPPipeSync(POLY_OPA_DISP++);

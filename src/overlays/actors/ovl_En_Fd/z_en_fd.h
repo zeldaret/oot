@@ -45,8 +45,8 @@ typedef struct EnFd {
     /* 0x04C8 */ f32 runRadius;
     /* 0x04CC */ f32 fadeAlpha;
     /* 0x04D0 */ Vec3f corePos;
-    /* 0x04DC */ Vec3s limbDrawTable[27];
-    /* 0x057E */ Vec3s transitionDrawTable[27];
+    /* 0x04DC */ Vec3s jointTable[27];
+    /* 0x057E */ Vec3s morphTable[27];
     /* 0x0620 */ EnFdEffect effects[200];
 } EnFd; // size = 0x31E0
 

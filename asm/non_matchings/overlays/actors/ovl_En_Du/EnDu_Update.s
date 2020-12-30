@@ -23,7 +23,7 @@ glabel EnDu_Update
 /* 01138 809FED68 15CF000A */  bne     $t6, $t7, .L809FED94       
 /* 0113C 809FED6C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01140 809FED70 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 01144 809FED74 0C0295B2 */  jal     func_800A56C8              
+/* 01144 809FED74 0C0295B2 */  jal     Animation_OnFrame              
 /* 01148 809FED78 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 0114C 809FED7C 10400005 */  beq     $v0, $zero, .L809FED94     
 /* 01150 809FED80 8FA4002C */  lw      $a0, 0x002C($sp)           
@@ -32,7 +32,7 @@ glabel EnDu_Update
 /* 0115C 809FED8C 0C00D3B0 */  jal     func_80034EC0              
 /* 01160 809FED90 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 .L809FED94:
-/* 01164 809FED94 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01164 809FED94 0C02927F */  jal     SkelAnime_Update
               
 /* 01168 809FED98 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0116C 809FED9C 0C27F7A7 */  jal     func_809FDE9C              

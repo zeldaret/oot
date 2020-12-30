@@ -149,7 +149,7 @@ glabel L80A3FCC8
 /* 017DC 80A3FD4C 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80A3FD50
 /* 017E0 80A3FD50 3C040600 */  lui     $a0, %hi(D_06004930)                ## $a0 = 06000000
-/* 017E4 80A3FD54 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 017E4 80A3FD54 0C028800 */  jal     Animation_GetLastFrame
 
 /* 017E8 80A3FD58 24844930 */  addiu   $a0, $a0, %lo(D_06004930)           ## $a0 = 06004930
 /* 017EC 80A3FD5C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

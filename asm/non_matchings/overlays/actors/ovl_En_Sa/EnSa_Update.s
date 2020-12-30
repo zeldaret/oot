@@ -17,7 +17,7 @@ glabel EnSa_Update
 /* 016B8 80AF6C18 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 016BC 80AF6C1C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 016C0 80AF6C20 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 016C0 80AF6C20 0C02927F */  jal     SkelAnime_Update
               
 /* 016C4 80AF6C24 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 016C8 80AF6C28 8E0E0154 */  lw      $t6, 0x0154($s0)           ## 00000154
@@ -25,7 +25,7 @@ glabel EnSa_Update
 /* 016D0 80AF6C30 24841D50 */  addiu   $a0, $a0, %lo(D_06001D50)           ## $a0 = 06001D50
 /* 016D4 80AF6C34 548E000E */  bnel    $a0, $t6, .L80AF6C70       
 /* 016D8 80AF6C38 8E0F0190 */  lw      $t7, 0x0190($s0)           ## 00000190
-/* 016DC 80AF6C3C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 016DC 80AF6C3C 0C028800 */  jal     Animation_GetLastFrame
               
 /* 016E0 80AF6C40 00000000 */  nop
 /* 016E4 80AF6C44 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

@@ -14,7 +14,7 @@ glabel func_808C2A40
 /* 018E0 808C2A70 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 018E4 808C2A74 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 018E8 808C2A78 E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 018EC 808C2A7C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 018EC 808C2A7C 0C029468 */  jal     Animation_Change
 
 /* 018F0 808C2A80 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 018F4 808C2A84 8FA20028 */  lw      $v0, 0x0028($sp)

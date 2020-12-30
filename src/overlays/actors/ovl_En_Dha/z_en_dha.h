@@ -11,8 +11,8 @@ typedef void (*EnDhaActionFunc)(struct EnDha*, GlobalContext*);
 typedef struct EnDha {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[4];
-    /* 0x01A8 */ Vec3s transitionDrawTable[4];
+    /* 0x0190 */ Vec3s jointTable[4];
+    /* 0x01A8 */ Vec3s morphTable[4];
     /* 0x01C0 */ u8 unk_1C0;
     /* 0x01C4 */ EnDhaActionFunc actionFunc;
     /* 0x01C8 */ s16 unk_1C8;

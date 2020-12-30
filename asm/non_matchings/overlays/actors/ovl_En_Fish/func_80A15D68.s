@@ -113,7 +113,7 @@ glabel func_80A15D68
 /* 00C6C 80A15EEC E60201C8 */  swc1    $f2, 0x01C8($s0)           ## 000001C8
 /* 00C70 80A15EF0 E60001C8 */  swc1    $f0, 0x01C8($s0)           ## 000001C8
 .L80A15EF4:
-/* 00C74 80A15EF4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00C74 80A15EF4 0C02927F */  jal     SkelAnime_Update
               
 /* 00C78 80A15EF8 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 00C7C 80A15EFC 860B0248 */  lh      $t3, 0x0248($s0)           ## 00000248

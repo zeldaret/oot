@@ -33,7 +33,7 @@ glabel func_80874304
 .L8087436C:
 /* 01B3C 8087436C 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
 /* 01B40 80874370 AFA40040 */  sw      $a0, 0x0040($sp)
-/* 01B44 80874374 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01B44 80874374 0C02927F */  jal     SkelAnime_Update
 
 /* 01B48 80874378 E7AC005C */  swc1    $f12, 0x005C($sp)
 /* 01B4C 8087437C C7AC005C */  lwc1    $f12, 0x005C($sp)
@@ -51,7 +51,7 @@ glabel func_80874304
 /* 01B7C 808743AC 17210014 */  bne     $t9, $at, .L80874400
 /* 01B80 808743B0 00000000 */  nop
 /* 01B84 808743B4 3C040600 */  lui     $a0, %hi(D_06007CA8)                ## $a0 = 06000000
-/* 01B88 808743B8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01B88 808743B8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01B8C 808743BC 24847CA8 */  addiu   $a0, $a0, %lo(D_06007CA8)           ## $a0 = 06007CA8
 /* 01B90 808743C0 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -66,13 +66,13 @@ glabel func_80874304
 /* 01BB4 808743E4 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01BB8 808743E8 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 01BBC 808743EC 8FA40040 */  lw      $a0, 0x0040($sp)
-/* 01BC0 808743F0 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01BC0 808743F0 0C029468 */  jal     Animation_Change
 
 /* 01BC4 808743F4 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 01BC8 808743F8 10000012 */  beq     $zero, $zero, .L80874444
 /* 01BCC 808743FC 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 .L80874400:
-/* 01BD0 80874400 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01BD0 80874400 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01BD4 80874404 24844344 */  addiu   $a0, $a0, 0x4344           ## $a0 = 00004344
 /* 01BD8 80874408 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -87,7 +87,7 @@ glabel func_80874304
 /* 01BFC 8087442C AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01C00 80874430 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 01C04 80874434 8FA40040 */  lw      $a0, 0x0040($sp)
-/* 01C08 80874438 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01C08 80874438 0C029468 */  jal     Animation_Change
 
 /* 01C0C 8087443C E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 01C10 80874440 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001

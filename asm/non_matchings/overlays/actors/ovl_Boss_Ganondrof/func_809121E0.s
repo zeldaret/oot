@@ -12,7 +12,7 @@ glabel func_809121E0
 /* 01BC8 80912208 11CF0011 */  beq     $t6, $t7, .L80912250
 /* 01BCC 8091220C 00000000 */  nop
 /* 01BD0 80912210 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 01BD4 80912214 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01BD4 80912214 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01BD8 80912218 248408D8 */  addiu   $a0, $a0, 0x08D8           ## $a0 = 060108D8
 /* 01BDC 8091221C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -21,7 +21,7 @@ glabel func_809121E0
 /* 01BE8 80912228 468021A0 */  cvt.s.w $f6, $f4
 /* 01BEC 8091222C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01BF0 80912230 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01BF4 80912234 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 01BF4 80912234 0C0294D3 */  jal     Animation_MorphToLoop
 /* 01BF8 80912238 E60601D0 */  swc1    $f6, 0x01D0($s0)           ## 000001D0
 /* 01BFC 8091223C 24180032 */  addiu   $t8, $zero, 0x0032         ## $t8 = 00000032
 /* 01C00 80912240 2419003C */  addiu   $t9, $zero, 0x003C         ## $t9 = 0000003C
@@ -29,7 +29,7 @@ glabel func_809121E0
 /* 01C08 80912248 1000000B */  beq     $zero, $zero, .L80912278
 /* 01C0C 8091224C A21901C8 */  sb      $t9, 0x01C8($s0)           ## 000001C8
 .L80912250:
-/* 01C10 80912250 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01C10 80912250 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01C14 80912254 2484FAC8 */  addiu   $a0, $a0, 0xFAC8           ## $a0 = FFFFFAC8
 /* 01C18 80912258 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -38,7 +38,7 @@ glabel func_809121E0
 /* 01C24 80912264 468042A0 */  cvt.s.w $f10, $f8
 /* 01C28 80912268 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01C2C 8091226C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01C30 80912270 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 01C30 80912270 0C0294D3 */  jal     Animation_MorphToLoop
 /* 01C34 80912274 E60A01D0 */  swc1    $f10, 0x01D0($s0)          ## 000001D0
 .L80912278:
 /* 01C38 80912278 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
