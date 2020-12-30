@@ -2600,8 +2600,7 @@ endseg
 beginseg
     name "ovl_En_Kanban"
     include "build/src/overlays/actors/ovl_En_Kanban/z_en_kanban.o"
-    include "build/data/overlays/actors/z_en_kanban.data.o"
-    include "build/data/overlays/actors/z_en_kanban.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kanban/ovl_En_Kanban_reloc.o"
 endseg
 
 beginseg
