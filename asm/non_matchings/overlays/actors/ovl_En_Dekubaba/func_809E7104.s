@@ -5,14 +5,14 @@ glabel func_809E7104
 /* 01940 809E7110 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 01944 809E7114 2484017C */  addiu   $a0, $a0, 0x017C           ## $a0 = 0000017C
 /* 01948 809E7118 AFA50054 */  sw      $a1, 0x0054($sp)
-/* 0194C 809E711C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0194C 809E711C 0C02927F */  jal     SkelAnime_Update
 
 /* 01950 809E7120 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 01954 809E7124 860301C6 */  lh      $v1, 0x01C6($s0)           ## 000001C6
 /* 01958 809E7128 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0195C 809E712C 14600068 */  bne     $v1, $zero, .L809E72D0
 /* 01960 809E7130 2861000B */  slti    $at, $v1, 0x000B
-/* 01964 809E7134 0C0295B2 */  jal     func_800A56C8
+/* 01964 809E7134 0C0295B2 */  jal     Animation_OnFrame
 /* 01968 809E7138 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 0196C 809E713C 5040000D */  beql    $v0, $zero, .L809E7174
 /* 01970 809E7140 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -80,7 +80,7 @@ glabel func_809E7104
 /* 01A48 809E7218 00621824 */  and     $v1, $v1, $v0
 /* 01A4C 809E721C 10600054 */  beq     $v1, $zero, .L809E7370
 /* 01A50 809E7220 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 01A54 809E7224 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
+/* 01A54 809E7224 0C0294E1 */  jal     Animation_PlayLoopSetSpeed
 /* 01A58 809E7228 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
 /* 01A5C 809E722C 0C01DE1C */  jal     Math_SinS
               ## sins?
@@ -151,11 +151,11 @@ glabel func_809E7104
 .L809E7320:
 /* 01B50 809E7320 8FA40034 */  lw      $a0, 0x0034($sp)
 .L809E7324:
-/* 01B54 809E7324 0C0295B2 */  jal     func_800A56C8
+/* 01B54 809E7324 0C0295B2 */  jal     Animation_OnFrame
 /* 01B58 809E7328 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01B5C 809E732C 14400005 */  bne     $v0, $zero, .L809E7344
 /* 01B60 809E7330 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 01B64 809E7334 0C0295B2 */  jal     func_800A56C8
+/* 01B64 809E7334 0C0295B2 */  jal     Animation_OnFrame
 /* 01B68 809E7338 3C054140 */  lui     $a1, 0x4140                ## $a1 = 41400000
 /* 01B6C 809E733C 1040000C */  beq     $v0, $zero, .L809E7370
 /* 01B70 809E7340 00000000 */  nop

@@ -8,7 +8,7 @@ glabel EnZl4_Update
 /* 02B20 80B5E2D0 25CEE108 */  addiu   $t6, $t6, %lo(func_80B5E108) ## $t6 = 80B5E108
 /* 02B24 80B5E2D4 11CF0003 */  beq     $t6, $t7, .L80B5E2E4       
 /* 02B28 80B5E2D8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 02B2C 80B5E2DC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02B2C 80B5E2DC 0C02927F */  jal     SkelAnime_Update
               
 /* 02B30 80B5E2E0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 .L80B5E2E4:

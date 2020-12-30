@@ -6,11 +6,11 @@ glabel func_80B3CE84
 /* 00CB4 80B3CE94 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00CB8 80B3CE98 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00CBC 80B3CE9C AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 00CC0 80B3CEA0 0C0295B2 */  jal     func_800A56C8              
+/* 00CC0 80B3CEA0 0C0295B2 */  jal     Animation_OnFrame              
 /* 00CC4 80B3CEA4 3C054130 */  lui     $a1, 0x4130                ## $a1 = 41300000
 /* 00CC8 80B3CEA8 14400005 */  bne     $v0, $zero, .L80B3CEC0     
 /* 00CCC 80B3CEAC 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 00CD0 80B3CEB0 0C0295B2 */  jal     func_800A56C8              
+/* 00CD0 80B3CEB0 0C0295B2 */  jal     Animation_OnFrame              
 /* 00CD4 80B3CEB4 3C0541B8 */  lui     $a1, 0x41B8                ## $a1 = 41B80000
 /* 00CD8 80B3CEB8 5040000E */  beql    $v0, $zero, .L80B3CEF4     
 /* 00CDC 80B3CEBC 8FBF001C */  lw      $ra, 0x001C($sp)           

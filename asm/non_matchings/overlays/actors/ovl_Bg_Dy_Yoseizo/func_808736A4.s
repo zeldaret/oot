@@ -30,7 +30,7 @@ glabel func_808736A4
 /* 00ED0 80873700 00000000 */  nop
 /* 00ED4 80873704 E60A0324 */  swc1    $f10, 0x0324($s0)          ## 00000324
 .L80873708:
-/* 00ED8 80873708 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00ED8 80873708 0C02927F */  jal     SkelAnime_Update
               
 /* 00EDC 8087370C 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
 /* 00EE0 80873710 0C042F6F */  jal     func_8010BDBC              

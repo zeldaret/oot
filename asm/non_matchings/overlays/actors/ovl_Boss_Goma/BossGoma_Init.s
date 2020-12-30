@@ -30,7 +30,7 @@ glabel BossGoma_Init
 /* 00298 80915CA8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0029C 80915CAC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A0 80915CB0 24A52678 */  addiu   $a1, $a1, 0x2678           ## $a1 = 06012678
-/* 002A4 80915CB4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 002A4 80915CB4 0C0294BE */  jal     Animation_PlayLoop
 /* 002A8 80915CB8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002AC 80915CBC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 002B0 80915CC0 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00

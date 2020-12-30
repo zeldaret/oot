@@ -16,7 +16,7 @@ glabel func_80AF67D0
 /* 012A8 80AF6808 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 012AC 80AF680C 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 012B0 80AF6810 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 012B4 80AF6814 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 012B4 80AF6814 0C029468 */  jal     Animation_Change
 
 /* 012B8 80AF6818 E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 012BC 80AF681C 8FA80028 */  lw      $t0, 0x0028($sp)

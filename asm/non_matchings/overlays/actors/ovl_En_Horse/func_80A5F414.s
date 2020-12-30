@@ -82,7 +82,7 @@ glabel func_80A5F414
 /* 04254 80A5F544 0C297D7E */  jal     func_80A5F5F8
 /* 04258 80A5F548 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 .L80A5F54C:
-/* 0425C 80A5F54C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0425C 80A5F54C 0C02927F */  jal     SkelAnime_Update
 
 /* 04260 80A5F550 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 04264 80A5F554 50400024 */  beql    $v0, $zero, .L80A5F5E8

@@ -182,7 +182,7 @@ glabel func_8099B33C
 /* 02E40 8099B5C0 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFD8
 /* 02E44 8099B5C4 0C031AD5 */  jal     Graph_CloseDisps
 /* 02E48 8099B5C8 24070868 */  addiu   $a3, $zero, 0x0868         ## $a3 = 00000868
-/* 02E4C 8099B5CC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02E4C 8099B5CC 0C02927F */  jal     SkelAnime_Update
 
 /* 02E50 8099B5D0 2644014C */  addiu   $a0, $s2, 0x014C           ## $a0 = 0000014C
 /* 02E54 8099B5D4 8FBF0034 */  lw      $ra, 0x0034($sp)
