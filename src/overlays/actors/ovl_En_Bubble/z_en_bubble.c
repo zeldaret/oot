@@ -1,4 +1,5 @@
 #include "z_en_bubble.h"
+#include "objects/object_bubble/object_bubble.h"
 
 #define FLAGS 0x00000001
 
@@ -8,8 +9,6 @@ void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06001000;
 
 /*
 const ActorInit En_Bubble_InitVars = {
@@ -24,6 +23,7 @@ const ActorInit En_Bubble_InitVars = {
     (ActorFunc)EnBubble_Draw,
 };
 */
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bubble/func_809CBC00.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bubble/func_809CBCBC.s")

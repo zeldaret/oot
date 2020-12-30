@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_gi_sword_1" Segment="6">
+        <DList Name="gGISword1DL" Offset="0x960"/>
+    </File>
+</Root>
