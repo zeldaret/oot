@@ -524,7 +524,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
     if (envCtx->gloomySkyMode != 0) {
         switch (envCtx->unk_DE) {
             case 0:
-                if ((envCtx->gloomySkyMode == 1) && (gSkyboxBlendingEnabled == 0)) {
+                if ((envCtx->gloomySkyMode == 1) && !gSkyboxBlendingEnabled) {
                     envCtx->unk_19 = 1;
                     envCtx->unk_17 = 0;
                     envCtx->unk_18 = 1;
@@ -538,7 +538,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
                 }
                 break;
             case 1:
-                if ((gSkyboxBlendingEnabled == 0) && (envCtx->gloomySkyMode == 2)) {
+                if (!gSkyboxBlendingEnabled && (envCtx->gloomySkyMode == 2)) {
                     gWeatherMode = 0;
                     envCtx->unk_19 = 1;
                     envCtx->unk_17 = 1;
@@ -801,6 +801,7 @@ void Kankyo_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
 }
 
 #define TIME_ENTRY D_8011FB48[envCtx->unk_1F][i]
+#define TIME_ENTRY2 D_8011FB48[envCtx->unk_20][i]
 #define LERP(x, y, scale) (x + (y - x) * scale)
 
 #ifdef NON_EQUIVALENT
@@ -917,7 +918,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         D_8011FDCC = D_8011FB48[envCtx->unk_1F][i].unk_04 & 3;
                         D_8011FDD0 = D_8011FB48[envCtx->unk_1F][i].unk_05 & 3;
                         D_8011FDD4 = sp8C;
-                        // 2160
+                        // 2160 (l 387)
                         if (envCtx->unk_21 != 0) {
                             f32 timer = envCtx->unk_24;
 
@@ -931,18 +932,19 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                         }
 
                         for (j = 0; j < 3; j++) {
+                            f32 tempf;
                             // blend ambientColor
-                            // 21d0
+                            // 21d0 (l 415)
 
-                            // color1 = lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j];
-                            // temp1 = color1 + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] - color1) *
-                            // sp8C);
+                            tempf = lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j];
+                            temp1 = tempf + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] -
+                                              lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j]) *
+                                             sp8C);
 
-                            temp1 = LERP(lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j],
-                                         lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j], sp8C);
-
-                            color2 = lightSettingsList[TIME_ENTRY.unk_04].ambientColor[j];
-                            temp2 = color2 + ((lightSettingsList[TIME_ENTRY.unk_05].ambientColor[j] - color2) * sp8C);
+                            tempf = lightSettingsList[TIME_ENTRY2.unk_04].ambientColor[j];
+                            temp2 = tempf + ((lightSettingsList[TIME_ENTRY2.unk_05].ambientColor[j] -
+                                              lightSettingsList[TIME_ENTRY2.unk_04].ambientColor[j]) *
+                                             sp8C);
 
                             envCtx->lightSettings.ambientColor[j] = temp1 + ((temp2 - temp1) * sp88);
 
@@ -1065,6 +1067,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                     envCtx->lightSettings.fogFar = lightSettingsList[envCtx->unk_BD].fogFar;
                     envCtx->unk_D8 = 1.0f;
                 } else {
+                    // 3344 (l 1689)
                     u8 blendRate;
                     blendRate = ((lightSettingsList[envCtx->unk_BD].fogNear >> 0xA) << 0x2) & 0xFF;
 
@@ -1085,17 +1088,20 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
                     }
 
                     for (i = 0; i < 3; i++) {
+                        s8 direction;
                         // blend ambientColor
-                        color1 = lightSettingsList[envCtx->unk_BE].ambientColor[j];
+                        // color1 = lightSettingsList[envCtx->unk_BE].ambientColor[j];
 
-                        envCtx->lightSettings.ambientColor[j] =
-                            color1 + ((lightSettingsList[envCtx->unk_BD].ambientColor[j] - color1) * envCtx->unk_D8);
+                        envCtx->lightSettings.ambientColor[j] = lightSettingsList[envCtx->unk_BE].ambientColor[j] +
+                                                                ((lightSettingsList[envCtx->unk_BD].ambientColor[j] -
+                                                                  lightSettingsList[envCtx->unk_BE].ambientColor[j]) *
+                                                                 envCtx->unk_D8);
 
                         // blend light1Dir
-                        color1 = lightSettingsList[envCtx->unk_BE].light1Dir[j];
-
+                        // color1 = lightSettingsList[envCtx->unk_BE].light1Dir[j];
+                        direction = lightSettingsList[envCtx->unk_BE].light1Dir[j];
                         envCtx->lightSettings.light1Dir[j] =
-                            color1 + ((lightSettingsList[envCtx->unk_BD].light1Dir[j] - color1) * envCtx->unk_D8);
+                            direction + ((lightSettingsList[envCtx->unk_BD].light1Dir[j] - direction) * envCtx->unk_D8);
 
                         // blend light1Color
                         color1 = lightSettingsList[envCtx->unk_BE].light1Color[j];
