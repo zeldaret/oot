@@ -73,9 +73,9 @@ static f32 sEffectPositions[][2] = {
     { 0.0f, -80.0f },    { 50.0f, -80.0f }, { 100.0f, -80.0f },
 };
 
-void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 actionState) {
-    this->actionState = actionState;
-    this->actionFunc = sActionFuncs[actionState];
+void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 action) {
+    this->action = action;
+    this->actionFunc = sActionFuncs[action];
 }
 
 s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx) {
@@ -314,7 +314,7 @@ void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx) {
 
     func_80888734(this);
 
-    if ((parent->actionState == 4) || ((parent->actionState == 3) && (parent->unk_244 >= 5))) {
+    if ((parent->action == 4) || ((parent->action == 3) && (parent->unk_244 >= 5))) {
         if ((this->dyna.actor.params & 0xFF) == 1) {
             this->dyna.actor.posRot.pos.y =
                 sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.initPosRot.pos.y;
