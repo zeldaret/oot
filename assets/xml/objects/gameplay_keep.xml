@@ -50,7 +50,7 @@
         <DList Name="gEndDL" Offset="0x0000C690"/>
         <DList Name="gBoomerangDL" Offset="0x0000C698"/>
         <DList Name="gBoomerangRefDL" Offset="0x0000C808"/>
-        <DList Name="gUnknownTriangleDL" Offset="0x0000C820"/>
+        <DList Name="gCompassArrowDL" Offset="0x0000C820"/>
         <DList Name="gIndicatorArrowDL" Offset="0x0000CB70"/>
         <Texture Name="gReflection4Tex" OutName="reflection_4" Format="i8" Width="8" Height="8" Offset="0x0000CC80"/>
         <DList Name="gEffectSsHahen2DL" Offset="0x0000CD80"/>

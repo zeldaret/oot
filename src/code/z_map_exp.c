@@ -340,7 +340,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, 255);
-        gSPDisplayList(OVERLAY_DISP++, gUnknownTriangleDL);
+        gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
 
         tempX = sPlayerInitialPosX;
         tempZ = sPlayerInitialPosZ;
@@ -354,7 +354,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0xFF, 200, 0, 0, 255);
-        gSPDisplayList(OVERLAY_DISP++, gUnknownTriangleDL);
+        gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
