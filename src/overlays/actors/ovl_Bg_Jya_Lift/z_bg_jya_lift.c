@@ -52,7 +52,8 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2,
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
     DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
