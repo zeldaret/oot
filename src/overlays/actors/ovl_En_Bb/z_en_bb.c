@@ -212,8 +212,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBb* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->limbDrawTbl, this->transitionDrawTbl,
-                   16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->jointTable, this->morphTable, 16);
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -829,8 +828,7 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 
-    if ((this->maxSpeed != 0.0f) &&
-        (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
+    if ((this->maxSpeed != 0.0f) && (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
     } else if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 7)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);

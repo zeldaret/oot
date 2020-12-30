@@ -637,8 +637,7 @@ endseg
 beginseg
     name "ovl_Bg_Bombwall"
     include "build/src/overlays/actors/ovl_Bg_Bombwall/z_bg_bombwall.o"
-    include "build/data/overlays/actors/z_bg_bombwall.data.o"
-    include "build/data/overlays/actors/z_bg_bombwall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Bombwall/ovl_Bg_Bombwall_reloc.o"
 endseg
 
 beginseg
@@ -737,9 +736,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Gate"
     include "build/src/overlays/actors/ovl_Bg_Haka_Gate/z_bg_haka_gate.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.data.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.bss.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Gate/ovl_Bg_Haka_Gate_reloc.o"
 endseg
 
 beginseg
@@ -838,8 +835,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Hamstep"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hamstep/z_bg_hidan_hamstep.o"
-    include "build/data/overlays/actors/z_bg_hidan_hamstep.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_hamstep.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Hamstep/ovl_Bg_Hidan_Hamstep_reloc.o"
 endseg
 
 beginseg
@@ -858,8 +854,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Kowarerukabe"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/z_bg_hidan_kowarerukabe.o"
-    include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_kowarerukabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Kowarerukabe/ovl_Bg_Hidan_Kowarerukabe_reloc.o"
 endseg
 
 beginseg
@@ -3441,8 +3436,11 @@ endseg
 beginseg
     name "ovl_Obj_Mure2"
     include "build/src/overlays/actors/ovl_Obj_Mure2/z_obj_mure2.o"
-    include "build/data/overlays/actors/z_obj_mure2.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Obj_Mure2/ovl_Obj_Mure2_reloc.o"
+#else
     include "build/data/overlays/actors/z_obj_mure2.reloc.o"
+#endif
 endseg
 
 beginseg
