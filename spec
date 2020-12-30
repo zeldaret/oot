@@ -737,9 +737,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Gate"
     include "build/src/overlays/actors/ovl_Bg_Haka_Gate/z_bg_haka_gate.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.data.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.bss.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Gate/ovl_Bg_Haka_Gate_reloc.o"
 endseg
 
 beginseg
