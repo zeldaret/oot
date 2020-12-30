@@ -1,7 +1,7 @@
 /*
  * File: z_en_wood02.c
  * Overlay: ovl_En_Wood02
- * Description: Trees & Bushes
+ * Description: Trees, bushes, leaves
  */
 
 #include "z_en_wood02.h"
@@ -15,9 +15,40 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06000700;
+typedef enum {
+    /* 0x00 */ TREE_CONICAL_LARGE,
+    /* 0x01 */ TREE_CONICAL_MEDIUM,
+    /* 0x02 */ TREE_CONICAL_SMALL,
+    /* 0x03 */ TREE_CONICAL_SPAWNER,
+    /* 0x04 */ TREE_CONICAL_SPAWNED, // Improve names of these?
+    /* 0x05 */ TREE_OVAL_GREEN,
+    /* 0x06 */ TREE_OVAL_YELLOW_SPAWNER,
+    /* 0x07 */ TREE_OVAL_YELLOW_SPAWNED,
+    /* 0x08 */ TREE_OVAL_GREEN_SPAWNER,
+    /* 0x09 */ TREE_OVAL_GREEN_SPAWNED,
+    /* 0x0A */ TREE_KAKARIKO_ADULT,
+    /* 0x0B */ BUSH_GREEN_SMALL,
+    /* 0x0C */ BUSH_GREEN_LARGE,
+    /* 0x0D */ BUSH_GREEN_SMALL_SPAWNER,
+    /* 0x0E */ BUSH_GREEN_SMALL_SPAWNED,
+    /* 0x0F */ BUSH_GREEN_LARGE_SPAWNER,
+    /* 0x10 */ BUSH_GREEN_LARGE_SPAWNED,
+    /* 0x11 */ BUSH_BLACK_SMALL,
+    /* 0x12 */ BUSH_BLACK_LARGE,
+    /* 0x13 */ BUSH_BLACK_SMALL_SPAWNER,
+    /* 0x14 */ BUSH_BLACK_SMALL_SPAWNED,
+    /* 0x15 */ BUSH_BLACK_LARGE_SPAWNER,
+    /* 0x16 */ BUSH_BLACK_LARGE_SPAWNED,
+    /* 0x17 */ LEAF_GREEN,
+    /* 0x18 */ LEAF_YELLOW
+} WoodType;
 
-/*
+typedef enum {
+    /* 0 */ WOOD_SPAWN_NORMAL,
+    /* 1 */ WOOD_SPAWN_SPAWNED,
+    /* 1 */ WOOD_SPAWN_SPAWNER
+} WoodSpawnType;
+
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
     ACTORTYPE_PROP,
@@ -29,15 +60,404 @@ const ActorInit En_Wood02_InitVars = {
     (ActorFunc)EnWood02_Update,
     (ActorFunc)EnWood02_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3AF70.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3B094.s")
+// D_80B3BF00
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK13, 0x00, 0x0D, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x05, { 0x00000000, 0x00, 0x00 }, { 0x0FC0074A, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 18, 60, 0, { 0, 0, 0 } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Init.s")
+// D_80B3BF2C
+static f32 sSpawnDistance[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Destroy.s")
+// D_80B3BF44
+static s16 sSpawnAngle[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, 0xD6C3, 0xA000 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Update.s")
+// D_80B3BF50
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Draw.s")
+static Gfx* D_80B3BF54[] = {
+    0x060078D0, 0x06007CA0, 0x060080D0, 0x06000090, 0x06000340, 0x06000340, 0x06000700,
+};
+
+static Gfx* D_80B3BF70[] = {
+    0x06007968, 0x06007D38, 0x060081A8, NULL,       NULL,       NULL,
+    0x06007AD0, 0x06007E20, 0x06008350, 0x06000160, 0x06000440, 0x06000700,
+};
+
+// D_80B3C1D0
+static f32 sSpawnCos;
+
+// D_80B3C1D4
+static f32 sSpawnSin;
+
+extern Gfx D_06000700[];
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3AF70.s")
+s32 func_80B3AF70(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
+    f32 phi_f12;
+
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, pos, &this->actor.projectedPos, &this->actor.projectedW);
+
+    phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
+
+    if ((-this->actor.uncullZoneScale < this->actor.projectedPos.z) &&
+        (this->actor.projectedPos.z < (this->actor.uncullZoneForward + this->actor.uncullZoneScale)) &&
+        (((fabsf(this->actor.projectedPos.x) - this->actor.uncullZoneScale) * phi_f12) < 1.0f) &&
+        (((this->actor.projectedPos.y + this->actor.uncullZoneDownward) * phi_f12) > -1.0f) &&
+        (((this->actor.projectedPos.y - this->actor.uncullZoneScale) * phi_f12) < 1.0f)) {
+        return 1;
+    }
+    return 0;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3B094.s")
+void EnWood02_SpawnOffspring(EnWood02* this, GlobalContext* globalCtx) {
+    EnWood02* childWood;
+    s16* childSpawnAngle;
+    Vec3f childPos;
+    s16 extraRot;
+    s16 childParams;
+    s32 i;
+
+    for (i = 4; i >= 0; i--) {
+        if ((this->unk_14E[i] & 0x7F) == 0) {
+            extraRot = 0;
+            if (this->actor.params == BUSH_GREEN_LARGE_SPAWNER) {
+                extraRot = 0x4000;
+            }
+            childSpawnAngle = &sSpawnAngle[i];
+            sSpawnCos = Math_CosS(*childSpawnAngle + this->actor.posRot.rot.y + extraRot);
+            sSpawnSin = Math_SinS(*childSpawnAngle + this->actor.posRot.rot.y + extraRot);
+            childPos.x = (sSpawnDistance[i] * sSpawnSin) + this->actor.initPosRot.pos.x;
+            childPos.y = this->actor.initPosRot.pos.y;
+            childPos.z = (sSpawnDistance[i] * sSpawnCos) + this->actor.initPosRot.pos.z;
+            if (func_80B3AF70(this, globalCtx, &childPos)) {
+                if ((this->unk_14E[i] & 0x80) != 0) {
+                    childParams = (0xFF00 | (this->actor.params + 1));
+                } else {
+                    childParams = (((this->drawType & 0xF0) << 4) | (this->actor.params + 1));
+                }
+                childWood = (EnWood02*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+                                                          ACTOR_EN_WOOD02, childPos.x, childPos.y, childPos.z,
+                                                          this->actor.posRot.rot.x, *childSpawnAngle, 0, childParams);
+                if (childWood != NULL) {
+                    childWood->unk_14E[0] = i;
+                    this->unk_14E[i] |= 1;
+                    childWood->actor.projectedPos = this->actor.projectedPos;
+                } else {
+                    this->unk_14E[i] &= 0x80;
+                }
+            }
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Init.s")
+void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
+
+    s16 spawnType;
+    f32 actorScale;
+    GlobalContext* globalCtx = globalCtx2;
+    EnWood02* this = THIS;
+    CollisionPoly* outPoly;
+    void* outBgId;
+    f32 floorY;
+    s16 extraRot;
+
+    spawnType = 0;
+    actorScale = 1.0f;
+    this->unk_14C = (this->actor.params >> 8) & 0xFF;
+
+    if (this->actor.initPosRot.rot.z != 0) {
+        this->actor.initPosRot.rot.z = (this->actor.initPosRot.rot.z << 8) | this->unk_14C;
+        this->unk_14C = -1;
+        this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
+    } else if (this->unk_14C & 0x80) {
+        this->unk_14C = -1;
+    }
+
+    this->actor.params &= 0xFF;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+
+    if (this->actor.params < 0xB) { // Tree
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    }
+
+    switch (this->actor.params) {
+        case BUSH_GREEN_LARGE_SPAWNER:
+        case BUSH_BLACK_LARGE_SPAWNER:
+            spawnType = 1;
+        case BUSH_GREEN_LARGE_SPAWNED:
+        case BUSH_BLACK_LARGE_SPAWNED:
+            spawnType++;
+        case TREE_CONICAL_LARGE:
+        case BUSH_GREEN_LARGE:
+        case BUSH_BLACK_LARGE:
+            actorScale = 1.5f;
+            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.uncullZoneScale = 2000.0f;
+            this->actor.uncullZoneDownward = 2400.0f;
+            break;
+        case TREE_CONICAL_SPAWNER:
+        case TREE_OVAL_YELLOW_SPAWNER:
+        case TREE_OVAL_GREEN_SPAWNER:
+        case BUSH_GREEN_SMALL_SPAWNER:
+        case BUSH_BLACK_SMALL_SPAWNER:
+            spawnType = 1;
+        case TREE_CONICAL_SPAWNED:
+        case TREE_OVAL_YELLOW_SPAWNED:
+        case TREE_OVAL_GREEN_SPAWNED:
+        case BUSH_GREEN_SMALL_SPAWNED:
+        case BUSH_BLACK_SMALL_SPAWNED:
+            spawnType++;
+        case TREE_CONICAL_MEDIUM:
+        case TREE_OVAL_GREEN:
+        case TREE_KAKARIKO_ADULT:
+        case BUSH_GREEN_SMALL:
+        case BUSH_BLACK_SMALL:
+            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.uncullZoneScale = 800.0f;
+            this->actor.uncullZoneDownward = 1800.0f;
+            break;
+        case TREE_CONICAL_SMALL:
+            actorScale = 0.6f;
+            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.uncullZoneScale = 400.0f;
+            this->actor.uncullZoneDownward = 1000.0f;
+            break;
+        case LEAF_GREEN:
+        case LEAF_YELLOW:
+            this->unk_14E[0] = 0x4B;
+            actorScale = 0.02f;
+            this->actor.velocity.x = Rand_CenteredFloat(6.0f);
+            this->actor.velocity.z = Rand_CenteredFloat(6.0f);
+            this->actor.velocity.y = (Rand_ZeroOne() * 1.25f) + -3.1f;
+    }
+
+    if (this->actor.params < 5) { // Gray trunk trees
+        this->drawType = 0;
+    } else if (this->actor.params < 0xA) { // Most other trees
+        this->drawType = 1;
+    } else if (this->actor.params < 0xB) { // Kak tree
+        this->drawType = 2;
+    } else if (this->actor.params < 0x11) { // Green bushes
+        this->drawType = 3;
+    } else if (this->actor.params < 0x18) { // Black bushes and green leaves
+        this->drawType = 4;
+    } else { // Yellow leaves
+        this->drawType = 5;
+    }
+
+    Actor_SetScale(&this->actor, actorScale);
+    this->spawnType = spawnType;
+
+    if (spawnType != WOOD_SPAWN_NORMAL) {
+        extraRot = 0;
+
+        if (this->actor.params == BUSH_GREEN_LARGE_SPAWNER) {
+            extraRot = 0x4000;
+        }
+
+        if (spawnType == WOOD_SPAWN_SPAWNER) {
+            this->drawType |= this->unk_14C << 4;
+            EnWood02_SpawnOffspring(this, globalCtx);
+            sSpawnCos = Math_CosS(sSpawnAngle[5] + this->actor.posRot.rot.y + extraRot);
+            sSpawnSin = Math_SinS(sSpawnAngle[5] + this->actor.posRot.rot.y + extraRot);
+            this->actor.posRot.pos.x += (sSpawnSin * sSpawnDistance[5]);
+            this->actor.posRot.pos.z += (sSpawnCos * sSpawnDistance[5]);
+        } else {
+            this->actor.flags |= 0x10;
+        }
+
+        // Snap to floor, or remove if over void
+        this->actor.posRot.pos.y += 200.0f;
+        floorY = func_8003C9A4(&globalCtx->colCtx, &outPoly, &outBgId, &this->actor, &this->actor.posRot.pos);
+
+        if ((floorY > BGCHECK_Y_MIN)) {
+            this->actor.posRot.pos.y = floorY;
+        } else {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    }
+    ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
+    this->actor.initPosRot.rot.y = 0;
+    this->actor.colChkInfo.mass = 0xFF;
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Destroy.s")
+void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnWood02* this = THIS;
+
+    if (this->actor.params < 0xB) { // Tree
+        Collider_DestroyCylinder(globalCtx, &this->collider);
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Update.s")
+void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnWood02* this = THIS;
+
+    f32 wobbleAmplitude;
+    u8 new_var;
+    u8 phi_v0;
+    s32 pad;
+    Vec3f dropsSpawnPt;
+    s32 i;
+    s32 leavesParams;
+
+    if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
+        if (!(this->actor.flags & 0x40)) {
+            new_var = this->unk_14E[0];
+            phi_v0 = 0;
+
+            if (this->unk_14C < 0) {
+                phi_v0 = 0x80;
+            }
+
+            ((EnWood02*)this->actor.parent)->unk_14E[new_var] = phi_v0;
+            Actor_Kill(&this->actor);
+            return;
+        }
+    } else if (this->spawnType == WOOD_SPAWN_SPAWNER) {
+        EnWood02_SpawnOffspring(this, globalCtx);
+    }
+
+    if (this->actor.params < 0xB) { // Tree
+        if (this->collider.base.acFlags & 2) {
+            this->collider.base.acFlags &= ~2;
+            Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
+        }
+
+        if (this->actor.initPosRot.rot.y != 0) {
+            dropsSpawnPt = this->actor.posRot.pos;
+            dropsSpawnPt.y += 200.0f;
+
+            if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
+                Item_DropCollectibleRandom(globalCtx, &this->actor, &dropsSpawnPt, this->unk_14C << 4);
+            } else {
+                if (this->actor.initPosRot.rot.z != 0) {
+                    this->actor.initPosRot.rot.z &= 0x1FFF;
+                    this->actor.initPosRot.rot.z |= 0xE000;
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, dropsSpawnPt.x, dropsSpawnPt.y,
+                                dropsSpawnPt.z, 0, this->actor.posRot.rot.y, 0, this->actor.initPosRot.rot.z);
+                    this->actor.initPosRot.rot.z = 0;
+                }
+            }
+
+            // Spawn falling leaves
+            if (this->unk_14C >= -1) {
+                leavesParams = LEAF_GREEN;
+
+                if ((this->actor.params == TREE_OVAL_YELLOW_SPAWNER) ||
+                    (this->actor.params == TREE_OVAL_YELLOW_SPAWNED)) {
+                    leavesParams = LEAF_YELLOW;
+                }
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
+
+                for (i = 3; i >= 0; i--) {
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y,
+                                dropsSpawnPt.z, 0, Rand_CenteredFloat(65535.0f), 0, leavesParams);
+                }
+            }
+            this->unk_14C = -0x15;
+            this->actor.initPosRot.rot.y = 0;
+        }
+
+        if (this->actor.xzDistFromLink < 600.0f) {
+            Collider_CylinderUpdate(&this->actor, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        }
+    } else if (this->actor.params < 0x17) { // Bush
+        Player* player = PLAYER;
+        if (this->unk_14C >= -1) {
+            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistFromLinkSq) < 20.0) &&
+                 (player->linearVelocity != 0.0f)) ||
+                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistFromLinkSq) < 60.0) &&
+                 (player->rideActor->speedXZ != 0.0f))) {
+                if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
+                    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos,
+                                               ((this->unk_14C << 4) | 0x8000));
+                }
+                this->unk_14C = -0x15;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
+            }
+        }
+    } else { // Leaves
+        this->unk_14C++;
+        Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 5 * 0.01f);
+        Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 5 * 0.01f);
+        func_8002D7EC(&this->actor);
+        this->actor.shape.rot.z = Math_SinS(3000 * this->unk_14C) * 0x4000;
+        this->unk_14E[0]--;
+
+        if (this->unk_14E[0] == 0) {
+            Actor_Kill(&this->actor);
+        }
+    }
+
+    // Wobble from impact
+    if (this->unk_14C < -1) {
+        this->unk_14C++;
+        wobbleAmplitude = Math_SinS((this->unk_14C ^ 0xFFFF) * 0x3332) * 250.0f;
+        this->actor.shape.rot.x = (Math_CosS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * wobbleAmplitude);
+        this->actor.shape.rot.z = (Math_SinS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * wobbleAmplitude);
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Draw.s")
+void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnWood02* this = THIS;
+
+    s16 params;
+    GraphicsContext* gfxCtx;
+    u8 colorr;
+    u8 colorg;
+    u8 colorb;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(gfxCtx, "../z_en_wood02.c", 775);
+    params = this->actor.params;
+
+    if ((params == TREE_OVAL_GREEN_SPAWNER) || (params == TREE_OVAL_GREEN_SPAWNED) || (params == TREE_OVAL_GREEN) ||
+        (params == LEAF_GREEN)) {
+        colorr = 50;
+        colorg = 170;
+        colorb = 70;
+    } else if ((params == TREE_OVAL_YELLOW_SPAWNER) || (params == TREE_OVAL_YELLOW_SPAWNED) ||
+               (params == LEAF_YELLOW)) {
+        colorr = 180;
+        colorg = 155;
+        colorb = 0;
+    } else {
+        colorr = colorg = colorb = 255;
+    }
+
+    func_80093D84(gfxCtx);
+
+    if ((this->actor.params == LEAF_GREEN) || (this->actor.params == LEAF_YELLOW)) {
+        func_80093D18(gfxCtx);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colorr, colorg, colorb, 127);
+        Gfx_DrawDListOpa(globalCtx, D_06000700);
+    } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
+        Gfx_DrawDListOpa(globalCtx, D_80B3BF54[this->drawType & 0xF]);
+        gDPSetEnvColor(POLY_XLU_DISP++, colorr, colorg, colorb, 0);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->drawType & 0xF]);
+    } else {
+        func_80093D84(gfxCtx);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 814),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->drawType & 0xF]);
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_wood02.c", 840);
+}
