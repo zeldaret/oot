@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_ouke_haka" Segment="6">
+        <DList Name="gOukeHakaDL" Offset="0xC0"/>
+    </File>
+</Root>

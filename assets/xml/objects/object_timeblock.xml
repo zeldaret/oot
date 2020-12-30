@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_timeblock" Segment="6">
+        <Texture Name="gTimeblockTex" Format="i4" Width="64" Height="64"/>
+        <DList Name="gTimeblockDL" Offset="0x980"/>
+        <Blob Name="gTimeblockCol" Offset="0xB30" Size="0x30"/>
+    </File>
+</Root>

@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_gi_sutaru" Segment="6">
+        <DList Name="gGISutaruDL1" Offset="0x330"/>
+        <DList Name="gGISutaruDL2" Offset="0x438"/>
+    </File>
+</Root>

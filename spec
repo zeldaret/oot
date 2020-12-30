@@ -5514,7 +5514,8 @@ endseg
 beginseg
     name "object_gi_sutaru"
     romalign 0x1000
-    include "build/baserom/object_gi_sutaru.o"
+    include "build/assets/objects/object_gi_sutaru/object_gi_sutaru.o"
+    number 06
 endseg
 
 beginseg
@@ -5622,7 +5623,8 @@ endseg
 beginseg
     name "object_spot01_objects2"
     romalign 0x1000
-    include "build/baserom/object_spot01_objects2.o"
+    include "build/assets/objects/object_spot01_objects2/object_spot01_objects2.o"
+    number 06
 endseg
 
 beginseg
@@ -5841,13 +5843,15 @@ endseg
 beginseg
     name "object_ouke_haka"
     romalign 0x1000
-    include "build/baserom/object_ouke_haka.o"
+    include "build/assets/objects/object_ouke_haka/object_ouke_haka.o"
+    number 06
 endseg
 
 beginseg
     name "object_timeblock"
     romalign 0x1000
-    include "build/baserom/object_timeblock.o"
+    include "build/assets/objects/object_timeblock/object_timeblock.o"
+    number 06
 endseg
 
 beginseg

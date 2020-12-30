@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_warp2block.h"
+#include "objects/object_timeblock/object_timeblock.h"
 
 #define FLAGS 0x0A000011
 
@@ -27,9 +28,6 @@ void func_80BA24DC(ObjWarp2block* this, GlobalContext* globalCtx);
 void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx);
 // func_80BA2600
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06000980;
-extern UNK_TYPE D_06000B30;
 
 /*
 const ActorInit Obj_Warp2block_InitVars = {
