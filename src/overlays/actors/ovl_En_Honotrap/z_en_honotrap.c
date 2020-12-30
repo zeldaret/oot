@@ -9,14 +9,6 @@ void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A59C30(EnHonotrap* this, GlobalContext* globalCtx);
-void func_80A59CC0(Vec3f* dst, Vec3f* vec);
-void func_80A59D70(Actor* thisx, GlobalContext* globalCtx);
-void func_80A59F08(Actor* thisx, GlobalContext* globalCtx);
-
-void func_80A5ABFC(Actor* thisx, GlobalContext* globalCtx);
-void func_80A5AD28(Actor* thisx, GlobalContext* globalCtx);
-
 void func_80A5A0E4(EnHonotrap* this);
 void func_80A5A0FC(EnHonotrap* this, GlobalContext* globalCtx);
 void func_80A5A1B4(EnHonotrap* this);
@@ -91,9 +83,9 @@ void func_80A59C30(EnHonotrap* this, GlobalContext* globalCtx) {
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.cyl.base);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.cyl.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.cyl.base);
-    this->unk_240 |= 1;
-    this->unk_240 |= 2;
-    this->unk_240 |= 4;
+    this->colChkFlags |= 1;
+    this->colChkFlags |= 2;
+    this->colChkFlags |= 4;
 }
 
 void func_80A59CC0(Vec3f* norm, Vec3f* vec) {
@@ -158,7 +150,7 @@ void func_80A59F08(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_22C.y += 10.0f;
     this->unk_23E = Rand_ZeroOne() * 511.0f;
     func_80A5A378(this);
-    Audio_PlayActorSound2(&this->actor, 0x2822);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FLAME_IGNITION);
     if (this->actor.params == 2) {
         this->actor.room = -1;
         this->collider.cyl.dim.radius = 12;
@@ -187,41 +179,224 @@ void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A0E4.s")
+void func_80A5A0E4(EnHonotrap* this) {
+    this->actionFunc = func_80A5A0FC;
+    this->unk_22A = 3;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A0FC.s")
+void func_80A5A0FC(EnHonotrap* this, GlobalContext* globalCtx) {
+    if (this->actor.child != NULL) {
+        this->timer = 0xC8;
+    } else if ((this->timer <= 0) && (this->actor.xzDistFromLink < 750.0f) && (0.0f > this->actor.yDistFromLink) &&
+               (this->actor.yDistFromLink > -700.0f) &&
+               (-0x4000 < (this->actor.yawTowardsLink - this->actor.shape.rot.y)) &&
+               ((this->actor.yawTowardsLink - this->actor.shape.rot.y) < 0x4000)) {
+        func_80A5A1B4(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A1B4.s")
+void func_80A5A1B4(EnHonotrap* this) {
+    this->actionFunc = func_80A5A208;
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x28);
+    this->timer = 0x1E;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EV_RED_EYE);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A208.s")
+void func_80A5A208(EnHonotrap *this, GlobalContext *globalCtx) {
+    f32 cos;
+    f32 sin;
+    
+    this->unk_22A--;
+    if (this->unk_22A <= 0) {
+        func_80A5A2D8(this);
+        sin = Math_SinS(this->actor.shape.rot.y);
+        cos = Math_CosS(this->actor.shape.rot.y);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_HONOTRAP, (sin * 12.0f) + this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y - 10.0f, (cos * 12.0f) + this->actor.initPosRot.pos.z, this->actor.initPosRot.rot.x, this->actor.initPosRot.rot.y, this->actor.initPosRot.rot.z, 1);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A2D8.s")
+void func_80A5A2D8(EnHonotrap* this) {
+    this->actionFunc = func_80A5A2EC;
+    this->unk_22A = 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A2EC.s")
+void func_80A5A2EC(EnHonotrap *this, GlobalContext *globalCtx) {
+    if (this->timer <= 0) {
+        func_80A5A31C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A31C.s")
+void func_80A5A31C(EnHonotrap* this) {
+    this->actionFunc = func_80A5A32C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A32C.s")
+void func_80A5A32C(EnHonotrap *this, GlobalContext *globalCtx) {
+    this->unk_22A++;
+    if (this->unk_22A >= 3) {
+        func_80A5A0E4(this);
+        this->timer = 0xC8;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A378.s")
+void func_80A5A378(EnHonotrap* this) {
+    this->actionFunc = func_80A5A388;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A388.s")
+void func_80A5A388(EnHonotrap *this, GlobalContext *globalCtx) {
+    s32 pad;
+    s32 temp_v0 = Math_StepToF(&this->actor.scale.x, (this->actor.params == 1) ? 0.004f : 0.0048f, 0.0006f);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A41C.s")
+    this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
+    if (temp_v0) {
+        if (this->actor.params == 1) {
+            func_80A5A5C8(this);
+        } else {
+            func_80A5A41C(this);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A484.s")
+void func_80A5A41C(EnHonotrap* this) {
+    this->timer = 40;
+    this->actor.velocity.y = 1.0f;
+    this->actor.velocity.x = 2.0f * Math_SinS(this->actor.posRot.rot.y);
+    this->actor.velocity.z = 2.0f * Math_CosS(this->actor.posRot.rot.y);
+    this->actionFunc = func_80A5A484;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A5C8.s")
+void func_80A5A484(EnHonotrap *this, GlobalContext *globalCtx) {
+    if ((this->collider.tris.base.atFlags & 2) || (this->timer <= 0)) {
+        if ((this->collider.tris.base.atFlags & 2) && !(this->collider.tris.base.atFlags & 4)) {
+            func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsLink, 0.0f);
+        }
+        this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
+        func_80A5AA14(this);
+    } else {
+        if (this->actor.velocity.y > 0.0f) {
+            this->actor.posRot.pos.x += this->actor.velocity.x;
+            this->actor.posRot.pos.z += this->actor.velocity.z;
+            func_8002E4B4(globalCtx, &this->actor, 7.0f, 12.0f, 0.0f, 5);
+        }
+        if (!Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY + 1.0f, this->actor.velocity.y)) {
+            this->actor.velocity.y += 1.0f;
+        } else {
+            this->actor.velocity.y = 0.0f;
+        }
+        func_80A59C30(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A658.s")
+void func_80A5A5C8(EnHonotrap* this) {
+    f32 temp_f2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A824.s")
+    this->actionFunc = func_80A5A658;
+    temp_f2 = 1.0f / (func_8002DB6C(&this->actor, &this->unk_22C) + 1.0f);
+    this->timer = 160;
+    this->actor.velocity.x = (this->unk_22C.x - this->actor.posRot.pos.x) * temp_f2;
+    this->actor.velocity.y = (this->unk_22C.y - this->actor.posRot.pos.y) * temp_f2;
+    this->actor.velocity.z = (this->unk_22C.z - this->actor.posRot.pos.z) * temp_f2;
+    this->unk_238 = 0.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5A860.s")
+void func_80A5A658(EnHonotrap *this, GlobalContext *globalCtx) {
+    s32 pad;
+    Vec3f sp60;
+    s32 temp_s1;
+    Player* player;
+    Vec3f sp4C;
+    Vec3f sp40;
+    Vec3f sp34;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5AA14.s")
+    Math_StepToF(&this->unk_238, 13.0f, 0.5f);
+    sp60.x = fabsf(this->unk_238 * this->actor.velocity.x);
+    sp60.y = fabsf(this->unk_238 * this->actor.velocity.y);
+    sp60.z = fabsf(this->unk_238 * this->actor.velocity.z);
+    temp_s1 = Math_StepToF(&this->actor.posRot.pos.x, this->unk_22C.x, sp60.x) & 1;
+    temp_s1 &= Math_StepToF(&this->actor.posRot.pos.y, this->unk_22C.y, sp60.y);
+    temp_s1 &= Math_StepToF(&this->actor.posRot.pos.z, this->unk_22C.z, sp60.z);
+    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Honotrap/func_80A5AA24.s")
+    if (this->collider.tris.base.atFlags & 4) {
+        player = PLAYER;
+
+        sp34.x = -player->shieldMf.zx;
+        sp34.y = -player->shieldMf.zy;
+        sp34.z = -player->shieldMf.zz;
+        func_80A59CC0(&sp4C, &sp34);
+
+        sp40 = this->actor.velocity;
+        Math3D_Vec3fReflect(&sp40, &sp4C, &this->actor.velocity);
+        this->actor.speedXZ = this->unk_238 * 0.5f;
+        this->actor.posRot.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
+        func_80A5AA14(this);
+    } else if (this->collider.tris.base.atFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+        this->actor.velocity.y = 0.0f;
+        func_80A5AA14(this);
+    } else if (this->timer <= 0) {
+        func_80A5AA14(this);
+    } else {
+        func_80A59C30(this, globalCtx);
+        if (temp_s1) {
+            func_80A5A824(this);
+        }
+    }
+}
+
+void func_80A5A824(EnHonotrap* this) {
+    this->actor.posRot.rot.x = this->actor.posRot.rot.y = this->actor.posRot.rot.z = 0;
+    this->actionFunc = func_80A5A860;
+    this->timer = 100;
+    this->actor.speedXZ = 0.0f;
+    this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
+}
+
+void func_80A5A860(EnHonotrap *this, GlobalContext *globalCtx) {
+    s32 pad;
+    Player* player;
+    Vec3s sp30;
+
+    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x300);
+    Math_StepToF(&this->actor.speedXZ, 3.0f, 0.1f);
+    this->actor.gravity =(-this->actor.yDistFromLink < 10.0f) ? 0.08f : -0.08f;
+    func_8002D868(&this->actor);
+    if (this->actor.velocity.y > 1.0f) {
+        this->actor.velocity.y = 1.0f;
+    }
+    this->actor.velocity.y *= 0.95f;
+    func_8002D7EC(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
+    if (this->collider.tris.base.atFlags & 4) {
+        player = PLAYER;
+        func_800D20CC(&player->shieldMf, &sp30, 0);
+        this->actor.posRot.rot.y = ((sp30.y * 2) - this->actor.posRot.rot.y) + 0x8000;
+        func_80A5AA14(this);
+    } else if (this->collider.tris.base.atFlags & 2) {
+        this->actor.speedXZ *= 0.1f;
+        this->actor.velocity.y *= 0.1f;
+        func_80A5AA14(this);
+    } else if ((this->actor.bgCheckFlags & 8) || (this->timer <= 0))  {
+        func_80A5AA14(this);
+    } else {
+        func_80A59C30(this, globalCtx);
+    }
+}
+
+void func_80A5AA14(EnHonotrap* this) {
+    this->actionFunc = func_80A5AA24;
+}
+
+void func_80A5AA24(EnHonotrap *this, GlobalContext *globalCtx) {
+    s32 pad;
+    s32 sp28 = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+
+    this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
+    if (sp28) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -229,19 +404,19 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnHonotrap* this = THIS;
 
-    if (this->unk_228 > 0) {
-        this->unk_228--;
+    if (this->timer > 0) {
+        this->timer--;
     }
     if (this->actor.params == 0) {
         if ((this->actor.child != NULL) && (this->actor.child->update == NULL)) {
             this->actor.child = NULL;
         }
     } else {
-        this->unk_240 = 0;
+        this->colChkFlags = 0;
         this->unk_23C += 0x640;
         this->actor.shape.unk_08 = (Math_SinS(this->unk_23C) * 1000.0f) + 600.0f;
         Actor_SetHeight(&this->actor, 5.0f);
-        Audio_PlayActorSound2(&this->actor, 0x205B);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     }
     this->actionFunc(this, globalCtx);
     if (this->actor.params == 0) {
@@ -259,7 +434,7 @@ void func_80A5ABFC(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* D_80A5B060[] = { 0x0500B0A0, 0x0500B8A0, 0x0500C0A0, 0x0500C0A0 };
     EnHonotrap* this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 0x3D6);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A5B060[this->unk_22A]));
@@ -267,17 +442,17 @@ void func_80A5ABFC(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_05006810);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 0x3DF);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 991);
 }
 
 void func_80A5AD28(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnHonotrap* this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 0x3E8);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1000);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    this->unk_23E -= 0x14;
+    this->unk_23E -= 20;
     this->unk_23E &= 0x1FF;
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, this->unk_23E, 0x20, 0x80));
@@ -289,7 +464,7 @@ void func_80A5AD28(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 0x404);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1028);
 }
 
 void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
