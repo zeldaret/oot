@@ -10,7 +10,7 @@ glabel func_808DC75C
 /* 05F0C 808DC77C AFB0002C */  sw      $s0, 0x002C($sp)
 /* 05F10 808DC780 F7B60020 */  sdc1    $f22, 0x0020($sp)
 /* 05F14 808DC784 F7B40018 */  sdc1    $f20, 0x0018($sp)
-/* 05F18 808DC788 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 05F18 808DC788 0C02927F */  jal     SkelAnime_Update
 
 /* 05F1C 808DC78C AFA40048 */  sw      $a0, 0x0048($sp)
 /* 05F20 808DC790 866301C2 */  lh      $v1, 0x01C2($s3)           ## 000001C2
@@ -22,12 +22,12 @@ glabel func_808DC75C
 /* 05F38 808DC7A8 0C235AFC */  jal     func_808D6BF0
 /* 05F3C 808DC7AC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 05F40 808DC7B0 8FA40048 */  lw      $a0, 0x0048($sp)
-/* 05F44 808DC7B4 0C0295B2 */  jal     func_800A56C8
+/* 05F44 808DC7B4 0C0295B2 */  jal     Animation_OnFrame
 /* 05F48 808DC7B8 8E6501CC */  lw      $a1, 0x01CC($s3)           ## 000001CC
 /* 05F4C 808DC7BC 10400063 */  beq     $v0, $zero, .L808DC94C
 /* 05F50 808DC7C0 3C100601 */  lui     $s0, %hi(D_06008F44)                ## $s0 = 06010000
 /* 05F54 808DC7C4 26108F44 */  addiu   $s0, $s0, %lo(D_06008F44)           ## $s0 = 06008F44
-/* 05F58 808DC7C8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05F58 808DC7C8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05F5C 808DC7CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06008F44
 /* 05F60 808DC7D0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -35,7 +35,7 @@ glabel func_808DC75C
 /* 05F68 808DC7D8 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 05F6C 808DC7DC 468021A0 */  cvt.s.w $f6, $f4
 /* 05F70 808DC7E0 E66601CC */  swc1    $f6, 0x01CC($s3)           ## 000001CC
-/* 05F74 808DC7E4 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 05F74 808DC7E4 0C0294D3 */  jal     Animation_MorphToLoop
 /* 05F78 808DC7E8 8FA40048 */  lw      $a0, 0x0048($sp)
 /* 05F7C 808DC7EC 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 05F80 808DC7F0 10000056 */  beq     $zero, $zero, .L808DC94C
@@ -52,7 +52,7 @@ glabel func_808DC75C
 /* 05FA8 808DC818 26108A88 */  addiu   $s0, $s0, %lo(D_06008A88)           ## $s0 = 06008A88
 /* 05FAC 808DC81C 55E0004C */  bnel    $t7, $zero, .L808DC950
 /* 05FB0 808DC820 866401A2 */  lh      $a0, 0x01A2($s3)           ## 000001A2
-/* 05FB4 808DC824 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05FB4 808DC824 0C028800 */  jal     Animation_GetLastFrame
 
 /* 05FB8 808DC828 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06008A88
 /* 05FBC 808DC82C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -60,11 +60,11 @@ glabel func_808DC75C
 /* 05FC4 808DC834 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 05FC8 808DC838 468042A0 */  cvt.s.w $f10, $f8
 /* 05FCC 808DC83C E66A01CC */  swc1    $f10, 0x01CC($s3)          ## 000001CC
-/* 05FD0 808DC840 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 05FD0 808DC840 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 05FD4 808DC844 8FA40048 */  lw      $a0, 0x0048($sp)
 /* 05FD8 808DC848 24180002 */  addiu   $t8, $zero, 0x0002         ## $t8 = 00000002
 /* 05FDC 808DC84C A67801C2 */  sh      $t8, 0x01C2($s3)           ## 000001C2
-/* 05FE0 808DC850 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 05FE0 808DC850 0C02927F */  jal     SkelAnime_Update
 
 /* 05FE4 808DC854 8FA40048 */  lw      $a0, 0x0048($sp)
 /* 05FE8 808DC858 3C014190 */  lui     $at, 0x4190                ## $at = 41900000
@@ -84,7 +84,7 @@ glabel func_808DC75C
 /* 06018 808DC888 10000030 */  beq     $zero, $zero, .L808DC94C
 /* 0601C 808DC88C A66801BA */  sh      $t0, 0x01BA($s3)           ## 000001BA
 .L808DC890:
-/* 06020 808DC890 0C0295B2 */  jal     func_800A56C8
+/* 06020 808DC890 0C0295B2 */  jal     Animation_OnFrame
 /* 06024 808DC894 3C0540E0 */  lui     $a1, 0x40E0                ## $a1 = 40E00000
 /* 06028 808DC898 10400025 */  beq     $v0, $zero, .L808DC930
 /* 0602C 808DC89C 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
@@ -132,7 +132,7 @@ glabel func_808DC75C
 /* 060BC 808DC92C 24050806 */  addiu   $a1, $zero, 0x0806         ## $a1 = 00000806
 .L808DC930:
 /* 060C0 808DC930 8FA40048 */  lw      $a0, 0x0048($sp)
-/* 060C4 808DC934 0C0295B2 */  jal     func_800A56C8
+/* 060C4 808DC934 0C0295B2 */  jal     Animation_OnFrame
 /* 060C8 808DC938 8E6501CC */  lw      $a1, 0x01CC($s3)           ## 000001CC
 /* 060CC 808DC93C 10400003 */  beq     $v0, $zero, .L808DC94C
 /* 060D0 808DC940 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000

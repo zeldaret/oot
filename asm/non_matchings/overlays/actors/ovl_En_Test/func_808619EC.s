@@ -24,7 +24,7 @@ glabel func_808619EC
 .L80861A3C:
 /* 023EC 80861A3C AE0F07E8 */  sw      $t7, 0x07E8($s0)           ## 000007E8
 .L80861A40:
-/* 023F0 80861A40 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 023F0 80861A40 0C02927F */  jal     SkelAnime_Update
               
 /* 023F4 80861A44 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 023F8 80861A48 10400042 */  beq     $v0, $zero, .L80861B54     

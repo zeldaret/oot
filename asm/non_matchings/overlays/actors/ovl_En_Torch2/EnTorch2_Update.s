@@ -551,7 +551,7 @@ glabel EnTorch2_Update
 /* 00C0C 80B1E58C E5E601CC */  swc1    $f6, 0x01CC($t7)           ## 000001D0
 /* 00C10 80B1E590 8FA50078 */  lw      $a1, 0x0078($sp)           
 /* 00C14 80B1E594 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 00C18 80B1E598 0C028EF0 */  jal     func_800A3BC0              
+/* 00C18 80B1E598 0C028EF0 */  jal     LinkAnimation_Update              
 /* 00C1C 80B1E59C 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 /* 00C20 80B1E5A0 3C0180B2 */  lui     $at, %hi(sHoldShieldTimer)       ## $at = 80B20000
 /* 00C24 80B1E5A4 AC20F9FC */  sw      $zero, %lo(sHoldShieldTimer)($at) 
@@ -1681,7 +1681,7 @@ glabel EnTorch2_Update
 /* 01C3C 80B1F5BC E61001D0 */  swc1    $f16, 0x01D0($s0)          ## 000001D0
 /* 01C40 80B1F5C0 AFAE0030 */  sw      $t6, 0x0030($sp)           
 /* 01C44 80B1F5C4 AFB90038 */  sw      $t9, 0x0038($sp)           
-/* 01C48 80B1F5C8 0C028EF0 */  jal     func_800A3BC0              
+/* 01C48 80B1F5C8 0C028EF0 */  jal     LinkAnimation_Update              
 /* 01C4C 80B1F5CC 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C50 80B1F5D0 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C54 80B1F5D4 0C017458 */  jal     Collider_QuadSetAT              

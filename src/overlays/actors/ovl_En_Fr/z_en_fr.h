@@ -39,11 +39,11 @@ typedef enum {
 typedef struct EnFr {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;   // Frog Skeleton
-    /* 0x0190 */ Vec3s limbDrawTable[24];                                   
-    /* 0x0220 */ Vec3s transitionDrawTable[24];
+    /* 0x0190 */ Vec3s jointTable[24];                                   
+    /* 0x0220 */ Vec3s morphTable[24];
     /* 0x02B0 */ SkelAnime skelAnimeButterfly;  // Butterfly Skeleton above Frog during Frog Song
-    /* 0x02F4 */ Vec3s limbDrawTableButterfly[8]; 
-    /* 0x0324 */ Vec3s transitionDrawTableButterfly[8];
+    /* 0x02F4 */ Vec3s jointTableButterfly[8]; 
+    /* 0x0324 */ Vec3s morphTableButterfly[8];
     /* 0x0354 */ EnFrActionFunc actionFunc;
     /* 0x0358 */ LightNode* lightNode; // Frogs light up during the Frog Song, specifically the frog with the next note. 
     /* 0x035C */ LightInfo lightInfo;

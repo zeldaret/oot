@@ -33,7 +33,7 @@ const ActorInit En_Horse_Zelda_InitVars = {
 
 static AnimationHeader* sAnimationHeaders[] = { 0x06007148 };
 
-static f32 sAnimPlaybackSpeeds[] = { 0.66666666f };
+static f32 splaySpeeds[] = { 0.66666666f };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
@@ -136,7 +136,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06006B2C, &D_06007148);
     this->animationIndex = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimationHeaders[0]);
+    Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder_Set3(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
@@ -160,12 +160,12 @@ void func_80A6DC7C(EnHorseZelda* this) {
     if (this->animationIndex > 0) {
         this->animationIndex = 0;
     }
-    SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex]);
+    Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex]);
 }
 
 void func_80A6DCCC(EnHorseZelda* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A6DC7C(this);
     }
 }
@@ -177,14 +177,14 @@ void func_80A6DD14(EnHorseZelda* this) {
     this->animationIndex = 0;
     sp34 = this->actor.speedXZ / 6.0f;
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
-                         sAnimPlaybackSpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                         SkelAnime_GetFrameCount(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
+    Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
+                     splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
+                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
     func_80A6D918(this, globalCtx);
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A6DD14(this);
     }
 }

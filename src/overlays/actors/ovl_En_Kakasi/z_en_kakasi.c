@@ -48,7 +48,7 @@ void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    //! @bug Skelanime_Free is not called
+    //! @bug SkelAnime_Free is not called
 }
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -72,10 +72,10 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A8F28C(EnKakasi* this) {
     this->unk_1A4 = 0;
-    this->skelanime.animPlaybackSpeed = 0.0f;
+    this->skelanime.playSpeed = 0.0f;
     this->unk_1A8 = this->unk_1AC = 0;
 
-    Math_ApproachZeroF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->skelanime.curFrame, 0.5f, 1.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
     Math_SmoothStepToS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
@@ -135,7 +135,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
-        Math_ApproachF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
+        Math_ApproachF(&this->skelanime.playSpeed, this->unk_1B8, 0.1f, 0.2f);
         Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk_1A8, 5, 0x3E8, 0);
         Math_SmoothStepToS(&this->actor.shape.rot.z, this->unk_1AC, 5, 0x3E8, 0);
 
@@ -152,18 +152,18 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
                 this->unk_1A4 = 0;
             }
         }
-        currentFrame = this->skelanime.animCurrentFrame;
+        currentFrame = this->skelanime.curFrame;
         if (currentFrame == 11 || currentFrame == 17) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
         }
-        SkelAnime_FrameUpdateMatrix(&this->skelanime);
+        SkelAnime_Update(&this->skelanime);
     }
 }
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    SkelAnime_ChangeAnim(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
 
     this->actor.textId = 0x4076;
     this->unk_196 = 6;
@@ -189,7 +189,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     s16 absyawTowardsLink;
 
     func_80A8F28C(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     this->camId = -1;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
@@ -251,7 +251,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
 
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
@@ -295,7 +295,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
 
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
@@ -338,6 +338,6 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
                           NULL, NULL, this);
 }

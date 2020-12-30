@@ -65,7 +65,7 @@ glabel func_80933608
 /* 07114 809336E4 46080402 */  mul.s   $f16, $f0, $f8             
 /* 07118 809336E8 C70603D0 */  lwc1    $f6, 0x03D0($t8)           ## 000003D0
 /* 0711C 809336EC 46103281 */  sub.s   $f10, $f6, $f16            
-/* 07120 809336F0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 07120 809336F0 0C02927F */  jal     SkelAnime_Update
               
 /* 07124 809336F4 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 07128 809336F8 50400006 */  beql    $v0, $zero, .L80933714     

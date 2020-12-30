@@ -285,11 +285,11 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
         // frog
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
-                           &this->transitionDrawTable, 24);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->jointTable,
+                           &this->morphTable, 24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->limbDrawTableButterfly,
-                       &this->transitionDrawTableButterfly, 8);
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->jointTableButterfly,
+                       &this->morphTableButterfly, 8);
         // When playing the frogs song for the HP,
         // the frog with the next note and the butterfly
         // turns on its lightsource
@@ -363,7 +363,7 @@ void EnFr_DivingIntoWater(EnFr* this, GlobalContext* globalCtx) {
         vec.z = this->actor.posRot.pos.z;
         EffectSsGSplash_Spawn(globalCtx, &vec, NULL, NULL, 1, 1);
         if (this->isBelowWaterSurfaceCurrent == false) { // Jumping out of the water
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L); 
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
         } else { // Jumping into the water
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
         }
@@ -413,7 +413,7 @@ void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
 // Frogs jumping out one at a time in order sTimerJumpingOutOfWater
 void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == sTimerJumpingOutOfWater[this->actor.params - 1]) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
         EnFr_DrawActive(this);
         this->actionFunc = EnFr_JumpingOutOfWater;
     }
@@ -423,10 +423,10 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     Vec3f vec1;
     Vec3f vec2;
 
-    if (this->skelAnime.animCurrentFrame == 6.0f) { // Increment flag to time the next frog jumping out of water
+    if (this->skelAnime.curFrame == 6.0f) { // Increment flag to time the next frog jumping out of water
         sEnFrPointers.flags++;
-        this->skelAnime.animPlaybackSpeed = 0.0f;
-    } else if (this->skelAnime.animCurrentFrame == 3.0f) { // Midway through jump
+        this->skelAnime.playSpeed = 0.0f;
+    } else if (this->skelAnime.curFrame == 3.0f) { // Midway through jump
         this->actor.gravity = -10.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.y = 47.0f;
@@ -438,10 +438,10 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&vec1, &vec2);
     this->actor.posRot.pos.x = this->posLogSpot.x + vec2.x;
     this->actor.posRot.pos.z = this->posLogSpot.z + vec2.z;
-    if (this->skelAnime.animCurrentFrame >= 3.0f) {
+    if (this->skelAnime.curFrame >= 3.0f) {
         Math_ApproachF(&this->xzDistToLogSpot, 0.0f, 1.0f, 10.0f);
     }
-    
+
     if (EnFr_IsBelowLogSpot(this, &vec2.y)) { // The frog has reached the log
         this->actor.gravity = 0.0f;
         this->actionFunc = EnFr_OrientOnLogSpot;
@@ -449,7 +449,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.velocity.y <= 0.0f) && (vec2.y < 40.0f)) {
-        this->skelAnime.animPlaybackSpeed = 1.0f;
+        this->skelAnime.playSpeed = 1.0f;
     }
 }
 
@@ -457,20 +457,20 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
     s16 rotYRemaining = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 10000, 100);
 
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if (!rotYRemaining && this->skelAnime.animCurrentFrame == this->skelAnime.animFrameCount) {
+    if (!rotYRemaining && this->skelAnime.curFrame == this->skelAnime.endFrame) {
         sEnFrPointers.flags++;
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001534, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001534), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06001534, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001534), 0, 0.0f);
     }
 }
 
 void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 12) { // Jumping back into water
         this->actor.posRot.rot.y = ((f32)0x8000 / M_PI) * sLogSpotToFromWater[this->actor.params].yaw;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
         this->actionFunc = EnFr_JumpingBackIntoWater;
     } else if (this->isJumpingUp) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
         this->actionFunc = EnFr_JumpingUp;
     }
 }
@@ -478,9 +478,9 @@ void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
     f32 yDistToLogSpot;
 
-    if (this->skelAnime.animCurrentFrame == 6.0f) {
-        this->skelAnime.animPlaybackSpeed = 0.0f;
-    } else if (this->skelAnime.animCurrentFrame == 3.0f) {
+    if (this->skelAnime.curFrame == 6.0f) {
+        this->skelAnime.playSpeed = 0.0f;
+    } else if (this->skelAnime.curFrame == 3.0f) {
         this->actor.gravity = -10.0f;
         this->actor.velocity.y = 25.0f;
         if (this->isJumpingToFrogSong) { // Used only for frogs song
@@ -492,10 +492,10 @@ void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
     if (EnFr_IsBelowLogSpot(this, &yDistToLogSpot)) {
         this->isJumpingUp = false;
         this->actor.gravity = 0.0f;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060011C0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060011C0), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060011C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060011C0), 0, 0.0f);
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
     } else if ((this->actor.velocity.y <= 0.0f) && (yDistToLogSpot < 40.0f)) {
-        this->skelAnime.animPlaybackSpeed = 1.0f;
+        this->skelAnime.playSpeed = 1.0f;
     }
 }
 
@@ -503,9 +503,9 @@ void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
     f32 yUnderwater = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 2, 10000, 100);
-    if (this->skelAnime.animCurrentFrame == 6.0f) {
-        this->skelAnime.animPlaybackSpeed = 0.0f;
-    } else if (this->skelAnime.animCurrentFrame == 3.0f) {
+    if (this->skelAnime.curFrame == 6.0f) {
+        this->skelAnime.playSpeed = 0.0f;
+    } else if (this->skelAnime.curFrame == 3.0f) {
         this->actor.speedXZ = 6.0f;
         this->actor.gravity = -10.0f;
         this->actor.velocity.y = 25.0f;
@@ -513,7 +513,7 @@ void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
 
     // Final Spot Reached
     if ((this->actor.velocity.y < 0.0f) && (this->actor.posRot.pos.y < yUnderwater)) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001534, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001534), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06001534, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001534), 0, 0.0f);
         this->actionFunc = EnFr_SetupJumpingOutOfWater;
         EnFr_DrawIdle(this);
         this->isDeactivating = true;
@@ -586,8 +586,8 @@ void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         EnFr_IsDivingIntoWater(this, globalCtx);
         EnFr_DivingIntoWater(this, globalCtx);
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        SkelAnime_FrameUpdateMatrix(&this->skelAnimeButterfly);
+        SkelAnime_Update(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnimeButterfly);
         EnFr_ButterflyPath(this, globalCtx);
         Actor_MoveForward(&this->actor);
     }
@@ -617,7 +617,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
         if (globalCtx->msgCtx.unk_E3EE == 4) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
-        
+
         func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.posRot.pos.x = this->actor.posRot.pos.x; // x = 990.0f
@@ -674,7 +674,7 @@ void EnFr_SetupAnimation(EnFr* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    
+
     func_8010BD58(globalCtx, 0x30);
     this->actionFunc = EnFr_ListeningToOcarinaNotes;
 }
@@ -894,7 +894,7 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        
+
         if (globalCtx->msgCtx.msgMode == 0x33) {
             globalCtx->msgCtx.msgMode = 0x31;
             switch (globalCtx->msgCtx.unk_E410) {
@@ -1002,7 +1002,7 @@ void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    
+
     for (frogIndex = 0; frogIndex < ARRAY_COUNT(sEnFrPointers.frogs); frogIndex++) {
         frogLoop2 = sEnFrPointers.frogs[frogIndex];
         if (frogLoop2 == NULL) {
@@ -1083,7 +1083,7 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1754);
     func_80093D18(globalCtx->state.gfxCtx);
     // For the frogs 2 HP, the frog with the next note and the butterfly lights up
-    lightRadius = this->isButterflyDrawn ? 95 : -1; 
+    lightRadius = this->isButterflyDrawn ? 95 : -1;
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->posButterflyLight.x, this->posButterflyLight.y,
@@ -1091,13 +1091,13 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, sEnFrColor[frogIndex].r, sEnFrColor[frogIndex].g, sEnFrColor[frogIndex].b, 255);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDLists[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDLists[this->eyeTexIndex]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFr_OverrideLimbDraw, EnFr_PostLimbDraw, this);
     if (this->isButterflyDrawn) {
         Matrix_Translate(this->posButterfly.x, this->posButterfly.y, this->posButterfly.z, MTXMODE_NEW);
         Matrix_Scale(0.015f, 0.015f, 0.015f, MTXMODE_APPLY);
         Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnimeButterfly.skeleton, this->skelAnimeButterfly.limbDrawTbl, NULL,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnimeButterfly.skeleton, this->skelAnimeButterfly.jointTable, NULL,
                           NULL, NULL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1816);
