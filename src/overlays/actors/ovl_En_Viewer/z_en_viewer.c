@@ -16,7 +16,13 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// EnView_AnimFunc x3
+void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx);
+void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx);
+void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this);
+void func_80B2A570(EnViewer* this, GlobalContext* globalCtx);
+void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx);
+
+// sAnimFuncs
 void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg);
 void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
@@ -24,27 +30,11 @@ void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
 void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, SkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg);
 
-void func_80B2A570(EnViewer* this, GlobalContext* globalCtx);
-void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx);
+// sDrawFuncs
 void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
-
-// EnViewer_OverrideLimbDraw x3
-s32 func_80B2B2F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-s32 func_80B2B928(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-s32 func_80B2C10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-
-// EnViewer_PostLimbDraw x3
-void func_80B2B364(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-void func_80B2B468(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-
-void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx);
-void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2);
-void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx);
-void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this);
 
 extern Mtx D_01000000;
 extern Gfx* D_0404D4E0;
@@ -120,7 +110,7 @@ static InitChainEntry sInitChain[] = {
 struct_80B2CEE8 D_80B2CEE8[] = {
     { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, 2, 20, 1, &D_06006B2C, &D_06007148 },
     { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &D_0600F788, &D_060029CC },
-    { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &D_0600E038, &D_06000450 }, 
+    { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &D_0600E038, &D_06000450 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &D_06008668, &D_06003858 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060005B4 },
@@ -137,7 +127,7 @@ EnViewerAnimFunc sAnimFuncs[] = {
     func_80B2A448,
 };
 
-static void* ActorShadowDrawFunc[] = {
+static void* sActorShadowDrawFunc[] = {
     NULL,
     ActorShadow_DrawFunc_Circle,
     ActorShadow_DrawFunc_Squiggly,
@@ -146,7 +136,11 @@ static void* ActorShadowDrawFunc[] = {
 // timer
 s16 D_80B2CFCC = 0;
 
-Vec3f D_80B2CFD0 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_80B2CFD0 = {
+    0.0f,
+    0.0f,
+    0.0f,
+};
 
 static EnViewerDrawFunc sDrawFuncs[] = {
     func_80B2B4A8,
@@ -158,7 +152,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 // angle
 s16 D_80B2CFEC = 0;
 
-EnGanonMant* ganonCape;
+EnGanonMant* sGanonCape;
 
 Vec3f D_80B2D448;
 
@@ -178,7 +172,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E5 = 0;
     this->unk_1E6 = false;
     if (params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        ganonCape = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
+        sGanonCape = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
                                        0.0f, 0, 0, 0, 35);
     }
 }
@@ -190,17 +184,15 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
-    s16 params;
-    params = this->actor.params >> 8;
+    s16 params = this->actor.params >> 8;;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, 0, 0, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     } else {
-        SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, 0, 0, 0);
+        SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
 
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
-
     if (params == 3 || params == 7 || params == 8 || params == 9) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 1.0f);
     } else {
@@ -210,7 +202,7 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
 
 void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
-    SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
 }
@@ -229,41 +221,40 @@ void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, SkeletonHeader* ske
 }
 
 void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
-    struct_80B2CEE8* unkStruct;
-    s32 objIndex;
+    struct_80B2CEE8* unkStruct = &D_80B2CEE8[this->actor.params >> 8];
+    s32 objIndex = Object_GetIndex(&globalCtx->objectCtx, unkStruct->objId1);
 
-    unkStruct = &D_80B2CEE8[this->actor.params >> 8];
-    objIndex = Object_GetIndex(&globalCtx->objectCtx, unkStruct->objId1);
     if (objIndex < 0) {
         __assert("bank_ID >= 0", "../z_en_viewer.c", 576);
     }
+
     this->animObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, unkStruct->objId2);
     if (this->animObjBankIndex < 0) {
         __assert("this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
     }
-    if (Object_IsLoaded(&globalCtx->objectCtx, objIndex) == 0 ||
-        Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex) == 0) {
+
+    if (!Object_IsLoaded(&globalCtx->objectCtx, objIndex) ||
+        !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
         this->actor.flags &= ~0x40;
         return;
     }
+    
     this->unk_1E6 = true;
     this->actor.objBankIndex = objIndex;
     Actor_SetObjectDependency(globalCtx, &this->actor);
     Actor_SetScale(&this->actor, unkStruct->scale / 100.0f);
     ActorShape_Init(&this->actor.shape, unkStruct->unk_5 * 100,
-                    ActorShadowDrawFunc[unkStruct->actorShadowDrawFuncIndex], unkStruct->unk_7);
+                    sActorShadowDrawFunc[unkStruct->actorShadowDrawFuncIndex], unkStruct->unk_7);
     this->drawFuncIndex = unkStruct->drawFuncIndex;
     sAnimFuncs[this->drawFuncIndex](this, globalCtx, unkStruct->unk_C, unkStruct->unk_10);
     EnViewer_SetupAction(this, func_80B2A75C);
 }
 
 void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
-    u8 params;
+    u8 params = this->actor.params >> 8;
     u16 csFrames;
-    s32 frameUpdate;
-    s16 currentFrame;
-
-    params = this->actor.params >> 8;
+    s32 animationEnded;
+    s16 curFrame;
 
     if (params == 2) {
         if (gSaveContext.sceneSetupIndex == 5) {
@@ -312,21 +303,21 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         }
-    } else if (params == 6) { 
+    } else if (params == 6) {
         if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 10) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
     } else if (params == 4) {
-        currentFrame = (s16)this->skin.skelAnime.curFrame;
+        curFrame = this->skin.skelAnime.curFrame;
         if (this->skin.skelAnime.animation == &D_06003858) {
-            if (currentFrame == 8) {
+            if (curFrame == 8) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
             }
-            if (currentFrame == 30) {
+            if (curFrame == 30) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_LAND2);
             }
         } else if (this->skin.skelAnime.animation == &D_06004AA4) {
-            if (currentFrame == 25) {
+            if (curFrame == 25) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
             }
         } else if (this->skin.skelAnime.animation == &D_06002650) {
@@ -334,15 +325,13 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (D_80B2CFCC != 0) {
+    if (D_80B2CFCC) {
         D_80B2CFCC--;
     }
 
     EnViewer_GetCutsceneNextPos(this, globalCtx);
     Actor_MoveForward(&this->actor);
-
-    frameUpdate = SkelAnime_Update(&this->skin.skelAnime);
-
+    animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (params == 3 || params == 4) {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL) {
             if (globalCtx->csCtx.npcActions[1]->action == 2 && D_80B2CFCC == 0) {
@@ -371,7 +360,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         }
                         break;
                     case 1:
-                        if (frameUpdate != 0) {
+                        if (animationEnded) {
                             Animation_MorphToLoop(&this->skin.skelAnime, &D_060014F4, -5.0f);
                             this->unk_1E5++;
                         }
@@ -383,7 +372,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         }
                         break;
                     case 3:
-                        if (frameUpdate != 0) {
+                        if (animationEnded) {
                             Animation_MorphToLoop(&this->skin.skelAnime, &D_06000BC8, -5.0f);
                             this->unk_1E5++;
                         }
@@ -479,7 +468,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 2:
-                    if (frameUpdate != 0) {
+                    if (animationEnded) {
                         Animation_MorphToLoop(&this->skin.skelAnime, &D_060048FC, -5.0f);
                         this->unk_1E5++;
                     }
@@ -499,7 +488,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1:
-                if (frameUpdate != 0) {
+                if (animationEnded) {
                     Animation_MorphToLoop(&this->skin.skelAnime, &D_060048B0, -5.0f);
                     this->unk_1E5++;
                 }
@@ -525,7 +514,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 2:
-                if (frameUpdate != 0) {
+                if (animationEnded) {
                     Animation_MorphToLoop(&this->skin.skelAnime, &D_06003D84, -5.0f);
                     this->unk_1E5++;
                 }
@@ -542,6 +531,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
 
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = THIS;
+
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     this->actionFunc(this, globalCtx);
 }
@@ -577,10 +567,9 @@ void func_80B2B468(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 }
 
 void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx) {
-    s16 frames;
+    s16 frames = 0;
     s16 params;
 
-    frames = 0;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1405);
     params = this->actor.params >> 8;
     if ((params == 3) || (params == 5) || (params == 7) || (params == 8)) {
@@ -657,6 +646,7 @@ s32 func_80B2B928(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 pad;
+
     if (globalCtx->sceneNum == SCENE_TOKINOMA && limbIndex == 16) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1568);
         gSPDisplayList(POLY_OPA_DISP++, &D_0600DE08);
@@ -735,7 +725,6 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 params;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1760);
-
     if (this->unk_1E6) {
         params = this->actor.params >> 8;
         if (params < 3) {
@@ -748,7 +737,6 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sDrawFuncs[this->drawFuncIndex](this, globalCtx);
         }
     }
-
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1784);
 }
 
@@ -756,10 +744,9 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
     f32 interpolated;
-    s16 params;
+    s16 params = this->actor.params >> 8;
     s16 yaw;
 
-    params = this->actor.params >> 8;
     if (params < 3) {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
             globalCtx->csCtx.frames < globalCtx->csCtx.npcActions[0]->endFrame) {
@@ -777,13 +764,11 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-
             interpolated = func_8006F93C(globalCtx->csCtx.npcActions[0]->endFrame,
                                          globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             this->actor.posRot.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.posRot.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.posRot.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
-            return;
         }
     } else {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL &&
@@ -799,7 +784,6 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             this->actor.posRot.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
             this->actor.posRot.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
             this->actor.posRot.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
-
             if (globalCtx->csCtx.npcActions[1]->action == 12) {
                 yaw = Math_Vec3f_Yaw(&startPos, &endPos);
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
@@ -833,7 +817,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
         unkStruct->unk_C.x = 100.0f;
         unkStruct->unk_C.y = -420.0f;
         unkStruct->unk_C.z = -400.0f;
-        unkStruct->unk_24.y = (((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
+        unkStruct->unk_24.y = ((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f;
     } else {
         unkStruct = &this->unk_1E8[arg2];
         unkStruct->unk_0.x = -100.0f;
@@ -842,7 +826,7 @@ void func_80B2C768(EnViewer* this, GlobalContext* globalCtx, s16 arg2) {
         unkStruct->unk_C.x = -100.0f;
         unkStruct->unk_C.y = -420.0f;
         unkStruct->unk_C.z = -400.0f;
-        unkStruct->unk_24.y = (((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f);
+        unkStruct->unk_24.y = ((Rand_ZeroOne() * 5.0f) + 12.0f) * 0.001f;
     }
     if (this) {}
 }
@@ -862,7 +846,7 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
                 break;
             case 1:
                 Math_SmoothStepToF(&this->unk_1E8[i].unk_24.z, 1.0f, 1.0f, this->unk_1E8[i].unk_24.x,
-                                        this->unk_1E8[i].unk_24.x);
+                                   this->unk_1E8[i].unk_24.x);
                 this->unk_1E8[i].unk_18.x =
                     this->unk_1E8[i].unk_0.x +
                     (this->unk_1E8[i].unk_C.x - this->unk_1E8[i].unk_0.x) * this->unk_1E8[i].unk_24.z;
@@ -887,7 +871,6 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         Matrix_Translate(this->unk_1E8[i].unk_18.x, this->unk_1E8[i].unk_18.y, this->unk_1E8[i].unk_18.z, MTXMODE_NEW);
         Matrix_Scale(this->unk_1E8[i].unk_24.y, this->unk_1E8[i].unk_24.y, this->unk_1E8[i].unk_24.y, MTXMODE_APPLY);
-
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
                                     (10 * i - 20 * globalCtx->state.frames) & 0x1FF, 32, 128));
@@ -898,7 +881,6 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, &D_0404D4E0);
     }
-
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
 
@@ -915,12 +897,12 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
 
     if (this->actor.params >> 8 == 5) {
         if (1) {}
-        ganonCape->unk_16B0 = BREG(54) / 10.0f;
-        ganonCape->unk_16B4 = (BREG(60) + 25) / 100.0f;
-        ganonCape->unk_16B8 = (BREG(55) - 45) / 10.0f;
-        ganonCape->unk_16AC = -10000.0f;
-        ganonCape->unk_16D0 = 0.0f;
-        ganonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
+        sGanonCape->unk_16B0 = BREG(54) / 10.0f;
+        sGanonCape->unk_16B4 = (BREG(60) + 25) / 100.0f;
+        sGanonCape->unk_16B8 = (BREG(55) - 45) / 10.0f;
+        sGanonCape->unk_16AC = -10000.0f;
+        sGanonCape->unk_16D0 = 0.0f;
+        sGanonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
         vec1.x = KREG(16) - 13.0f;
 
         // Any of the temps defined above vec1.y results in a near match
@@ -934,15 +916,14 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
-        ganonCape->unk_16D4.x = D_80B2D448.x + vec2.x;
-        ganonCape->unk_16D4.y = D_80B2D448.y + vec2.y;
-        ganonCape->unk_16D4.z = D_80B2D448.z + vec2.z;
-
+        sGanonCape->unk_16D4.x = D_80B2D448.x + vec2.x;
+        sGanonCape->unk_16D4.y = D_80B2D448.y + vec2.y;
+        sGanonCape->unk_16D4.z = D_80B2D448.z + vec2.z;
         vec1.x = -(KREG(16) - 13.0f);
         Matrix_MultVec3f(&vec1, &vec2);
-        ganonCape->unk_16E0.x = D_80B2D448.x + vec2.x;
-        ganonCape->unk_16E0.y = D_80B2D448.y + vec2.y;
-        ganonCape->unk_16E0.z = D_80B2D448.z + vec2.z;
+        sGanonCape->unk_16E0.x = D_80B2D448.x + vec2.x;
+        sGanonCape->unk_16E0.y = D_80B2D448.y + vec2.y;
+        sGanonCape->unk_16E0.z = D_80B2D448.z + vec2.z;
     }
 }
 #else
