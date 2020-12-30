@@ -225,8 +225,8 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->skelAnime.playSpeed < 0.5f) {
         hasSlowPlaybackSpeed = 1;
     }
-    if (hasSlowPlaybackSpeed) {
-        DECR(this->animFlagAndTimer);
+    if (hasSlowPlaybackSpeed && (this->animFlagAndTimer != 0)) {
+        this->animFlagAndTimer--;
     }
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= 1;
