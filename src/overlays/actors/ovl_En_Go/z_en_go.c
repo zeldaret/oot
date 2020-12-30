@@ -1007,7 +1007,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
-        func_80034F54(globalCtx, this->unk_220, this->unk_244, 18);
+        func_80034F54(globalCtx, this->jointTable, this->morphTable, 18);
     }
     func_80A3F274(this);
     if (this->unk_1E0.unk_00 == 0) {
@@ -1078,9 +1078,9 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        float1 = Math_SinS(this->unk_220[limb]);
+        float1 = Math_SinS(this->jointTable[limb]);
         rot->y += float1 * 200.0f;
-        float1 = Math_CosS(this->unk_244[limb]);
+        float1 = Math_CosS(this->morphTable[limb]);
         rot->z += float1 * 200.0f;
     }
 

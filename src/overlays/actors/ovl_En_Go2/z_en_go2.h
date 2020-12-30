@@ -96,8 +96,8 @@ typedef struct EnGo2 {
     /* 0x0270 */ EnGoEffect dustEffects[10];
     /* 0x04A0 */ Vec3f eye;
     /* 0x04AC */ Vec3f at;
-    /* 0x04B8 */ Vec3s limbDrawTable[18];
-    /* 0x0524 */ Vec3s transitionDrawTable[18];
+    /* 0x04B8 */ Vec3s jointTable[18];
+    /* 0x0524 */ Vec3s morphTable[18];
     /* 0x0590 */ s16 unk_590; // timer
     /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
     /* 0x0594 */ s32 getItemID;
