@@ -108,8 +108,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.012999999f);
     this->actor.naviEnemyId = 0x23;
     this->actor.gravity = -2.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTable, this->morphTable,
-                   12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
@@ -312,14 +311,14 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             break;
         case 0:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if (sp64 == 0) {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
                 if ((this->actor.xzDistFromLink < 90.0f) && (this->actor.yDistFromLink < 50.0f) &&
                     func_8002E084(&this->actor, 0x1554) &&
                     func_800339B8(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsLink)) {
@@ -327,7 +326,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                 }
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             if ((this->unk_224 == 0) || (ABS(this->actor.yDistFromLink) > 60.0f) || (player2->stateFlags1 & 0x6000)) {
                 this->unk_221 = 3;
@@ -341,10 +340,10 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x8000, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             if (this->unk_224 <= 200) {
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 55.0f;
@@ -416,11 +415,11 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
     this->actor.scale.x = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
     this->actor.scale.y = 0.013f + Math_SinF(this->unk_222 * 0.001f) * 0.0245f;
     this->actor.scale.z = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
-    if (this->collider1.base.acFlags & AT_HIT) {
+    if (this->collider1.base.atFlags & AT_HIT) {
         this->collider1.base.atFlags &= ~AT_HIT;
         this->actor.speedXZ = -6.0f;
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-        if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.acFlags & AT_BOUNCED)) {
+        if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
@@ -656,7 +655,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
         func_809D00F4(this);
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
-            this->collider2.base.atFlags &= ~AC_HIT;
+            this->collider2.base.acFlags &= ~AC_HIT;
             if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
                 return;
             }

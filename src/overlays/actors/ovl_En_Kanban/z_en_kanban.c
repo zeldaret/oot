@@ -278,7 +278,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 EnKanban_Message(this, globalCtx);
             }
             if ((this->invincibilityTimer == 0) && (this->collider.base.acFlags & AC_HIT)) {
-                this->collider.base.atFlags &= ~AC_HIT;
+                this->collider.base.acFlags &= ~AC_HIT;
                 this->invincibilityTimer = 6;
                 piece = (EnKanban*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN,
                                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y,

@@ -3641,8 +3641,8 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
  * Gets damage from a sword strike using generic values, and returns 0 if the attack is
  * not sword-type. Used by bosses to require that a sword attack deal the killing blow.
  */
-s32 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
-    s32 damage = 0;
+u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
+    u8 damage = 0;
 
     if (dmgFlags & 0x00400100) {
         damage = 1;

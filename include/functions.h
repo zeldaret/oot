@@ -824,7 +824,7 @@ void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
-s32 CollisionCheck_GetSwordDamage(s32 dmgFlags);
+u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);

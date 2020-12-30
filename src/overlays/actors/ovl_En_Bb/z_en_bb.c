@@ -545,7 +545,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
         }
     }
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->vMoveAngleY, 1, 0x3E8, 0);
-    if ((this->collider.base.acFlags & AC_HIT) || (this->collider.base.acFlags & AT_HIT)) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->collider.base.atFlags & AT_HIT)) {
         this->vMoveAngleY = this->actor.yawTowardsLink + 0x8000;
         if (this->collider.base.acFlags & AC_HIT) {
             afterHitAngle = -0x8000;
@@ -557,7 +557,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             }
         }
         this->actor.posRot.rot.y = this->actor.yawTowardsLink + afterHitAngle;
-        this->collider.base.atFlags &= ~AC_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.atFlags &= ~AT_HIT;
     }
 
@@ -830,7 +830,7 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
             this->moveMode = BBMOVE_NOCLIP;
             this->maxSpeed = 10.0f;
         }
-        if (this->collider.base.acFlags & AT_HIT) {
+        if (this->collider.base.atFlags & AT_HIT) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_BITE);
             this->collider.base.atFlags &= ~AT_HIT;
         }
@@ -843,8 +843,7 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 
-    if ((this->maxSpeed != 0.0f) &&
-        (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
+    if ((this->maxSpeed != 0.0f) && (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
     } else if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 7)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);
@@ -918,7 +917,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
             }
             this->moveMode = BBMOVE_NOCLIP;
             this->maxSpeed = 10.0f;
-            if (this->collider.base.acFlags & AT_HIT) {
+            if (this->collider.base.atFlags & AT_HIT) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_BITE);
                 this->collider.base.atFlags &= ~AT_HIT;
             }
@@ -956,7 +955,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         this->actionState++;
         this->timer = (Rand_ZeroOne() * 30.0f) + 60.0f;
         if (this->vFlameTimer != 0) {
-            this->collider.base.atFlags &= ~AC_HIT;
+            this->collider.base.acFlags &= ~AC_HIT;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
@@ -1049,7 +1048,7 @@ void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & AT_BOUNCED) {
+    if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
         if (this->action != BB_DOWN) {
             if (this->actor.params >= ENBB_RED) {
@@ -1064,7 +1063,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
         }
     }
     if (this->collider.base.acFlags & AC_HIT) {
-        this->collider.base.atFlags &= ~AC_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
         func_80035650(&this->actor, &this->collider.elements[0].info, 0);
         switch (this->dmgEffect) {

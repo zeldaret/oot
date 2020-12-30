@@ -464,7 +464,7 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx) {
 void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
     BgMizuBwall_SetAlpha(this, globalCtx);
     if (this->collider.base.acFlags & AC_HIT) {
-        this->collider.base.atFlags &= ~AC_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
         Flags_SetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F);
         this->breakTimer = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);

@@ -89,8 +89,38 @@ const ActorInit En_Torch2_InitVars = {
 /* static */ u8 sAlpha;
 
 static DamageTable sDamageTable = {
-    0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02,
-    0x02, 0xE2, 0x60, 0xD3, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Wind arrow    */ DMG_ENTRY(2, 0x0),
+    /* Shadow arrow  */ DMG_ENTRY(2, 0x0),
+    /* Spirit arrow  */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(2, 0xE),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(3, 0xD),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
@@ -104,14 +134,14 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player_SetModelGroup(this, 2);
     globalCtx->playerInit(this, globalCtx, &D_06004764);
     this->actor.naviEnemyId = 0x26;
-    this->cylinder.base.acFlags = 9;
-    this->swordQuads[0].base.atFlags = this->swordQuads[1].base.atFlags = 0x11;
-    this->swordQuads[0].base.acFlags = this->swordQuads[1].base.acFlags = 0xD;
-    this->swordQuads[0].base.colType = this->swordQuads[1].base.colType = 9;
+    this->cylinder.base.acFlags = AC_ON | AC_PLAYER;
+    this->swordQuads[0].base.atFlags = this->swordQuads[1].base.atFlags = AT_ON | AT_ENEMY;
+    this->swordQuads[0].base.acFlags = this->swordQuads[1].base.acFlags = AC_ON | AC_HARD | AC_PLAYER;
+    this->swordQuads[0].base.colType = this->swordQuads[1].base.colType = COLTYPE_METAL;
     this->swordQuads[0].info.toucher.damage = this->swordQuads[1].info.toucher.damage = 8;
-    this->swordQuads[0].info.bumperFlags = this->swordQuads[1].info.bumperFlags = 1;
-    this->shieldQuad.base.atFlags = 0x11;
-    this->shieldQuad.base.acFlags = 0xD;
+    this->swordQuads[0].info.bumperFlags = this->swordQuads[1].info.bumperFlags = BUMP_ON;
+    this->shieldQuad.base.atFlags = AT_ON | AT_ENEMY;
+    this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_PLAYER;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = gSaveContext.healthCapacity >> 3;
     this->actor.colChkInfo.unk_10 = 60;
@@ -578,9 +608,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk_46A = 1;
         sDeathFlag = false;
     }
-    if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) && (this->cylinder.base.acFlags & AC_HIT) &&
-        !(this->stateFlags1 & 0x04000000) && !(this->swordQuads[0].base.acFlags & AT_HIT) &&
-        !(this->swordQuads[1].base.acFlags & AT_HIT)) {
+    if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&
+        (this->cylinder.base.acFlags & AC_HIT) && !(this->stateFlags1 & 0x04000000) &&
+        !(this->swordQuads[0].base.acFlags & AT_HIT) && !(this->swordQuads[1].base.acFlags & AT_HIT)) {
 
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
