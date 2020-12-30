@@ -39,7 +39,7 @@ typedef enum {
 //     /* 0x09 */ GORON_FIRE_BOSS_KEY
 //     /* 0x0A */ GORON_FIRE_MAZE_UPPER, 
 //     /* 0x0B */ GORON_FIRE_HIGHEST
-// } GoronFireTemple;
+// } GoronFireTempleType;
 
 typedef struct {
     s16 unused;
@@ -47,14 +47,14 @@ typedef struct {
     s16 xzDist;
     s16 radius;
     s16 height;
-} EnGo2DataStruct1; // size 0xA
+} EnGo2DataStruct1; // size = 0xA
 
 typedef struct {
     f32 shape_unk_10;
     f32 scale;
     s8 actor_unk_1F;
     f32 unk_218;
-} EnGo2DataStruct2; // size 0x10
+} EnGo2DataStruct2; // size = 0x10
 
 typedef struct {
     u8 initialTimer;
@@ -63,7 +63,7 @@ typedef struct {
     s32 numDustEffects;
     f32 radius;
     f32 yAccel;
-} EnGo2DustEffectData; // size 0x18
+} EnGo2DustEffectData; // size = 0x18
 
 typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;

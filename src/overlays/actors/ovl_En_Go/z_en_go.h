@@ -21,7 +21,7 @@ typedef s16 (*callback2_80A3ED24)(struct GlobalContext*, struct EnGo*);
 //     /* 0x70 */ GORON1_CITY_LOST_WOODS, 
 //     /* 0x80 */ // Not Used
 //     /* 0x90 */ GORON1_DMT_BIGGORON, // Biggoron
-// } GoronSize;
+// } GoronType;
 
 typedef struct {
     /* 0x0000 */ u8 type;
@@ -35,11 +35,11 @@ typedef struct {
     /* 0x0020 */ Vec3f velocity;
     /* 0x002C */ Vec3f accel;
 
-} EnGoEffect; // Size 0x38
+} EnGoEffect; // size = 0x38
 
 typedef struct EnGo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelanime;
+    /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGoActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ struct_80034A14_arg1 unk_1E0; // 

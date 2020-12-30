@@ -343,9 +343,9 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
 }
 
 void func_80A3EDE0(EnGo* this, s32 unkVal) {
-    SkelAnime_ChangeAnim(&this->skelanime, (&D_80A41B38[unkVal])->animationseg,
+    Animation_Change(&this->skelAnime, (&D_80A41B38[unkVal])->animationseg,
                          (&D_80A41B38[unkVal])->playbackSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f),
-                         0.0f, SkelAnime_GetFrameCount((&D_80A41B38[unkVal])->animationseg),
+                         0.0f, Animation_GetLastFrame((&D_80A41B38[unkVal])->animationseg),
                          (&D_80A41B38[unkVal])->mode, (&D_80A41B38[unkVal])->transitionRate);
 }
 
@@ -405,7 +405,7 @@ void func_80A3F0E4(EnGo* this) {
     if (DECR(this->unk_214) == 0) {
         this->unk_216++;
         if (this->unk_216 >= 3) {
-            this->unk_214 = Math_Rand_S16Offset(30, 30);
+            this->unk_214 = Rand_S16Offset(30, 30);
             this->unk_216 = 0;
         }
     }
@@ -437,22 +437,22 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_SwapInitialFrameAnimFrameCount(EnGo* this) {
-    f32 initialFrame = this->skelanime.initialFrame;
+    f32 initialFrame = this->skelAnime.startFrame;
 
-    this->skelanime.initialFrame = this->skelanime.animFrameCount;
-    this->skelanime.animFrameCount = initialFrame;
+    this->skelAnime.startFrame = this->skelAnime.endFrame;
+    this->skelAnime.endFrame = initialFrame;
 }
 
 void func_80A3F274(EnGo* this) {
     s16 unk_14;
-    f32 currentFrame = this->skelanime.animCurrentFrame;
+    f32 currentFrame = this->skelAnime.curFrame;
     s16 unk_14Target =
-        (this->skelanime.animation == &D_06004930 && currentFrame > 32.0f) || this->skelanime.animation != &D_06004930
+        (this->skelAnime.animation == &D_06004930 && currentFrame > 32.0f) || this->skelAnime.animation != &D_06004930
             ? 0xFF
             : 0;
 
     unk_14 = this->actor.shape.unk_14;
-    Math_SmoothScaleMaxMinS(&unk_14, unk_14Target, 10, 60, 1);
+    Math_SmoothStepToS(&unk_14, unk_14Target, 10, 60, 1);
     this->actor.shape.unk_14 = unk_14;
 }
 
@@ -471,7 +471,7 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.posRot.pos.x;
     zDist = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (s16)(Math_atan2f(xDist, zDist) * ((f32)0X8000 / M_PI)), 10,
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10,
                             1000, 1);
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -517,13 +517,13 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 
     pos = this->actor.posRot.pos; // Overwrites pos
     pos.y = this->actor.groundY;
-    angle = (Math_Rand_ZeroOne() - 0.5f) * 0x10000;
+    angle = (Rand_ZeroOne() - 0.5f) * 0x10000;
     i = numDustEffects;
     while (i >= 0) {
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
-        pos.x = (Math_Sins(angle) * radius) + this->actor.posRot.pos.x;
-        pos.z = (Math_Coss(angle) * radius) + this->actor.posRot.pos.z;
+        accel.x = (Rand_ZeroOne() - 0.5f) * xzAccel;
+        accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
+        pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
+        pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
         EnGo_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
@@ -548,7 +548,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
         this->unk_21A--;
         if (this->unk_21A <= 0) {
             if (this->unk_21A == 0) {
-                this->unk_21C = Math_Rand_S16Offset(60, 30);
+                this->unk_21C = Rand_S16Offset(60, 30);
                 this->unk_21A = 0;
                 this->actor.velocity.y = 0.0f;
                 return true;
@@ -617,7 +617,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_0600FEF0, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -648,7 +648,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 0x10:
-            this->skelanime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06004930);
+            this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
@@ -683,7 +683,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
-    SkelAnime_Free(&this->skelanime, globalCtx);
+    SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -754,8 +754,8 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
 
-        this->skelanime.animPlaybackSpeed = 0.1f;
-        this->skelanime.animPlaybackSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
+        this->skelAnime.playSpeed = 0.1f;
+        this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
@@ -767,16 +767,16 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
-    if (this->skelanime.animPlaybackSpeed != 0.0f) {
-        Math_SmoothScaleMaxMinF(&this->skelanime.animPlaybackSpeed,
+    if (this->skelAnime.playSpeed != 0.0f) {
+        Math_SmoothStepToF(&this->skelAnime.playSpeed,
                                 ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f, 0.1f);
-        frame = this->skelanime.animCurrentFrame;
-        frame += this->skelanime.animPlaybackSpeed;
+        frame = this->skelAnime.curFrame;
+        frame += this->skelAnime.playSpeed;
         if (frame <= 12.0f) {
             return;
         } else {
-            this->skelanime.animCurrentFrame = 12.0f;
-            this->skelanime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.curFrame = 12.0f;
+            this->skelAnime.playSpeed = 0.0f;
             if ((this->actor.params & 0xF0) != 0x90) {
                 this->unk_212 = 30;
                 return;
@@ -790,7 +790,7 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
         EnGo_SetupAction(this, &func_80A405CC);
     } else if (!EnGo_IsCameraModified(this, globalCtx)) {
         EnGo_SwapInitialFrameAnimFrameCount(this);
-        this->skelanime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A40494);
     }
 }
@@ -798,36 +798,36 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
 void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
-    Math_SmoothScaleMaxMinF(&this->skelanime.animPlaybackSpeed,
+    Math_SmoothStepToF(&this->skelAnime.playSpeed,
                             ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f, 0.1f);
-    frame = this->skelanime.animCurrentFrame;
-    frame += this->skelanime.animPlaybackSpeed;
+    frame = this->skelAnime.curFrame;
+    frame += this->skelAnime.playSpeed;
     if (!(frame >= 0.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         EnGo_SpawnDust(this, 10, 0.4f, 0.1f, 16, 26.0f, 2.0f);
         EnGo_SwapInitialFrameAnimFrameCount(this);
-        this->skelanime.animPlaybackSpeed = 0.0f;
-        this->skelanime.animCurrentFrame = 0.0f;
-        this->unk_210 = Math_Rand_S16Offset(30, 30);
+        this->skelAnime.playSpeed = 0.0f;
+        this->skelAnime.curFrame = 0.0f;
+        this->unk_210 = Rand_S16Offset(30, 30);
         EnGo_SetupAction(this, EnGo_CurledUp);
     }
 }
 
 void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
-    f32 frameCount;
+    f32 lastFrame;
     f32 frame;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06004930);
-    Math_SmoothScaleMaxMinF(&this->skelanime.animPlaybackSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f,
+    lastFrame = Animation_GetLastFrame(&D_06004930);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f,
                             1000.0f, 0.1f);
 
-    frame = this->skelanime.animCurrentFrame;
-    frame += this->skelanime.animPlaybackSpeed;
-    if (!(frame < frameCount)) {
-        this->skelanime.animCurrentFrame = frameCount;
-        this->skelanime.animPlaybackSpeed = 0.0f;
-        this->unk_212 = Math_Rand_S16Offset(30, 30);
+    frame = this->skelAnime.curFrame;
+    frame += this->skelAnime.playSpeed;
+    if (!(frame < lastFrame)) {
+        this->skelAnime.curFrame = lastFrame;
+        this->skelAnime.playSpeed = 0.0f;
+        this->unk_212 = Rand_S16Offset(30, 30);
         if (((this->actor.params & 0xF0) == 0x40) && ((gSaveContext.infTable[14] & 0x800) == 0)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
@@ -863,8 +863,8 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_SwapInitialFrameAnimFrameCount(this);
-            this->skelanime.animPlaybackSpeed = -0.1f;
-            this->skelanime.animPlaybackSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
+            this->skelAnime.playSpeed = -0.1f;
+            this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
             EnGo_SetupAction(this, func_80A408D8);
         }
     }
@@ -873,16 +873,16 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
 void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
-    if (this->skelanime.animPlaybackSpeed != 0.0f) {
-        Math_SmoothScaleMaxMinF(&this->skelanime.animPlaybackSpeed,
+    if (this->skelAnime.playSpeed != 0.0f) {
+        Math_SmoothStepToF(&this->skelAnime.playSpeed,
                                 ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f, 0.1f);
-        frame = this->skelanime.animCurrentFrame;
-        frame += this->skelanime.animPlaybackSpeed;
+        frame = this->skelAnime.curFrame;
+        frame += this->skelAnime.playSpeed;
         if (frame >= 12.0f) {
             return;
         } else {
-            this->skelanime.animCurrentFrame = 12.0f;
-            this->skelanime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.curFrame = 12.0f;
+            this->skelAnime.playSpeed = 0.0f;
             if ((this->actor.params & 0xF0) != 0x90) {
                 this->unk_212 = 30;
                 return;
@@ -896,19 +896,19 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
         EnGo_SwapInitialFrameAnimFrameCount(this);
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        this->skelanime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A405CC);
     }
 }
 
 void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
-    f32 float1 = ((f32)0X8000 / SkelAnime_GetFrameCount(&D_06010590));
-    f32 float2 = this->skelanime.animCurrentFrame * float1;
+    f32 float1 = ((f32)0X8000 / Animation_GetLastFrame(&D_06010590));
+    f32 float2 = this->skelAnime.curFrame * float1;
 
-    this->actor.speedXZ = Math_Sins((s16)float2);
+    this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
         func_80A3EDE0(this, 1);
-        this->skelanime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
     }
@@ -991,7 +991,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         func_80A3EDE0(this, 1);
-        this->skelanime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
         func_80106CCC(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
@@ -1004,7 +1004,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
         func_80034F54(globalCtx, this->unk_220, this->unk_244, 18);
@@ -1078,9 +1078,9 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        float1 = Math_Sins(this->unk_220[limb]);
+        float1 = Math_SinS(this->unk_220[limb]);
         rot->y += float1 * 200.0f;
-        float1 = Math_Coss(this->unk_244[limb]);
+        float1 = Math_CosS(this->unk_244[limb]);
         rot->z += float1 * 200.0f;
     }
 
@@ -1107,19 +1107,19 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc == EnGo_CurledUp) {
         EnGo_DrawCurledUp(this, globalCtx);
-        return;
+        return; // needed for match?
     } else if (this->actionFunc == EnGo_GoronLinkRolling || this->actionFunc == func_80A3FEB4 ||
                this->actionFunc == EnGo_StopRolling || this->actionFunc == func_80A3FEB4) {
         EnGo_DrawRolling(this, globalCtx);
-        return;
+        return; // needed for match?
     } else {
         func_800943C8(globalCtx->state.gfxCtx);
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600CE80));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600DE80));
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl,
-                              this->skelanime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2525);
         EnGo_DrawDust(this, globalCtx);
     }
@@ -1159,8 +1159,8 @@ void EnGo_UpdateDust(EnGo* this) {
                 dustEffect->type = 0;
             }
 
-            dustEffect->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            randomNumber = Math_Rand_ZeroOne() * 0.4f;
+            dustEffect->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            randomNumber = Rand_ZeroOne() * 0.4f;
             dustEffect->accel.z = randomNumber - 0.2f;
             dustEffect->pos.x += dustEffect->velocity.x;
             dustEffect->pos.y += dustEffect->velocity.y;

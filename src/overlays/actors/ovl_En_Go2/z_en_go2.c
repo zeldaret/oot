@@ -197,8 +197,8 @@ void EnGo2_UpdateDust(EnGo2* this) {
             if (dustEffect->timer == 0) {
                 dustEffect->type = 0;
             }
-            dustEffect->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            randomNumber = Math_Rand_ZeroOne() * 0.4f;
+            dustEffect->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            randomNumber = Rand_ZeroOne() * 0.4f;
             dustEffect->accel.z = randomNumber - 0.2f;
             dustEffect->pos.x += dustEffect->velocity.x;
             dustEffect->pos.y += dustEffect->velocity.y;
@@ -257,12 +257,12 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
 
     pos = this->actor.posRot.pos; // overwrites sPos data
     pos.y = this->actor.groundY;
-    angle = (Math_Rand_ZeroOne() - 0.5f) * 0x10000;
+    angle = (Rand_ZeroOne() - 0.5f) * 0x10000;
     i = numDustEffects;
     while (i >= 0) {
-        accel.y += Math_Rand_ZeroOne() * yAccel;
-        pos.x = (Math_Sins(angle) * radius) + this->actor.posRot.pos.x;
-        pos.z = (Math_Coss(angle) * radius) + this->actor.posRot.pos.z;
+        accel.y += Rand_ZeroOne() * yAccel;
+        pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
+        pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
         EnGo2_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
@@ -834,8 +834,8 @@ void EnGo2_CheckCollision(EnGo2* this, GlobalContext* globalCtx) {
     pos.y = this->actor.posRot.pos.y;
     pos.z = this->actor.posRot.pos.z;
     xzDist = D_80A4816C[this->actor.params & 0x1F].xzDist;
-    pos.x += (s16)(xzDist * Math_Sins(this->actor.shape.rot.y));
-    pos.z += (s16)(xzDist * Math_Coss(this->actor.shape.rot.y));
+    pos.x += (s16)(xzDist * Math_SinS(this->actor.shape.rot.y));
+    pos.z += (s16)(xzDist * Math_CosS(this->actor.shape.rot.y));
     pos.y += D_80A4816C[this->actor.params & 0x1F].yDist;
     this->collider.dim.pos = pos;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -845,9 +845,9 @@ void EnGo2_CheckCollision(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_SwapInitialFrameAnimFrameCount(EnGo2* this) {
     f32 initialFrame;
 
-    initialFrame = this->skelAnime.initialFrame;
-    this->skelAnime.initialFrame = this->skelAnime.animFrameCount;
-    this->skelAnime.animFrameCount = initialFrame;
+    initialFrame = this->skelAnime.startFrame;
+    this->skelAnime.startFrame = this->skelAnime.endFrame;
+    this->skelAnime.endFrame = initialFrame;
 }
 
 s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
@@ -915,7 +915,7 @@ s32 EnGo2_Orient(EnGo2* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     f32 waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 6, 4000, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, targetYaw, 6, 4000, 1);
     if (waypointDistSq > 0.0f && waypointDistSq < SQ(30.0f)) {
         return EnGo2_UpdateWaypoint(this, globalCtx);
     } else {
@@ -982,7 +982,7 @@ s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
     this->unk_59C--;
     if (this->unk_59C <= 0) {
         if (this->unk_59C == 0) {
-            this->unk_590 = Math_Rand_S16Offset(60, 30);
+            this->unk_590 = Rand_S16Offset(60, 30);
             this->unk_59C = 0;
             this->actor.velocity.y = 0.0f;
             return true;
@@ -1074,9 +1074,9 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A45360(EnGo2* this, f32* alpha) {
-    f32 alphaTarget = (this->skelAnime.animation == &D_06004930) && (this->skelAnime.animCurrentFrame <= 32.0f) ? 0.0f : 255.0f;
+    f32 alphaTarget = (this->skelAnime.animation == &D_06004930) && (this->skelAnime.curFrame <= 32.0f) ? 0.0f : 255.0f;
 
-    Math_SmoothScaleMaxF(alpha, alphaTarget, 0.4f, 100.0f);
+    Math_ApproachF(alpha, alphaTarget, 0.4f, 100.0f);
     this->actor.shape.unk_14 = (u8)(u32)*alpha;
 }
 
@@ -1109,7 +1109,7 @@ void func_80A454CC(EnGo2* this) {
                 break;
             }
         default:
-            this->skelAnime.animPlaybackSpeed = 0.0f;
+            this->skelAnime.playSpeed = 0.0f;
     }
 }
 
@@ -1229,7 +1229,7 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
             if (DECR(this->blinkTimer) == 0) {
                 this->eyeTexIndex++;
                 if (this->eyeTexIndex >= 4) {
-                    this->blinkTimer = Math_Rand_S16Offset(30, 30);
+                    this->blinkTimer = Rand_S16Offset(30, 30);
                     this->eyeTexIndex = 1;
                 }
             }
@@ -1237,19 +1237,19 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
 }
 
 void EnGo2_SitDownAnimation(EnGo2* this) {
-    if ((this->skelAnime.animPlaybackSpeed != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
-        if (this->skelAnime.animPlaybackSpeed > 0.0f && this->skelAnime.animCurrentFrame == 14.0f) {
+    if ((this->skelAnime.playSpeed != 0.0f) && (this->skelAnime.animation == &D_06004930)) {
+        if (this->skelAnime.playSpeed > 0.0f && this->skelAnime.curFrame == 14.0f) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 60);
             }
         }
-        if (this->skelAnime.animPlaybackSpeed < 0.0f) {
-            if (this->skelAnime.animCurrentFrame == 1.0f) {
+        if (this->skelAnime.playSpeed < 0.0f) {
+            if (this->skelAnime.curFrame == 1.0f) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             }
-            if (this->skelAnime.animCurrentFrame == 40.0f) {
+            if (this->skelAnime.curFrame == 40.0f) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             }
         }
@@ -1268,10 +1268,10 @@ void EnGo2_RollingAnimation(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         this->actor.flags &= ~1;
         func_80034EC0(&this->skelAnime, sAnimations, 10);
-        this->skelAnime.animPlaybackSpeed = -0.5f;
+        this->skelAnime.playSpeed = -0.5f;
     } else {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
-        this->skelAnime.animPlaybackSpeed = -1.0f;
+        this->skelAnime.playSpeed = -1.0f;
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
     this->unk_26E = 1;
@@ -1281,7 +1281,7 @@ void EnGo2_RollingAnimation(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animPlaybackSpeed == 0.0f) {
+    if (this->skelAnime.playSpeed == 0.0f) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
@@ -1291,10 +1291,10 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
         func_80034EC0(&this->skelAnime, sAnimations, 10);
-        this->skelAnime.animPlaybackSpeed = 0.5f;
+        this->skelAnime.playSpeed = 0.5f;
     } else {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
-        this->skelAnime.animPlaybackSpeed = 1.0f;
+        this->skelAnime.playSpeed = 1.0f;
     }
     this->actionFunc = func_80A46B40;
 }
@@ -1303,9 +1303,9 @@ void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx) {
     func_80034EC0(&this->skelAnime, sAnimations, 1);
     this->unk_211 = true;
     this->actionFunc = func_80A46B40;
-    this->skelAnime.animPlaybackSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
-    this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
+    this->skelAnime.curFrame = this->skelAnime.endFrame;
 }
 
 void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
@@ -1431,7 +1431,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
         }
 
         if (this->skelAnime.animation == &D_06000750) {
-            if (this->skelAnime.animCurrentFrame == 20.0f) {
+            if (this->skelAnime.curFrame == 20.0f) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_CRY);
             }
         }
@@ -1450,8 +1450,8 @@ void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
     Path_CopyLastPoint(this->path, &this->at);
     yaw = Math_Vec3f_Yaw(&this->actor.posRot, &this->at) + 0xE38;
-    this->eye.x = Math_Sins(yaw) * 100.0f + this->actor.posRot.pos.x;
-    this->eye.z = Math_Coss(yaw) * 100.0f + this->actor.posRot.pos.z;
+    this->eye.x = Math_SinS(yaw) * 100.0f + this->actor.posRot.pos.x;
+    this->eye.z = Math_CosS(yaw) * 100.0f + this->actor.posRot.pos.z;
     this->eye.y = this->actor.posRot.pos.y + 20.0f;
     this->at.x = this->actor.posRot.pos.x;
     this->at.y = this->actor.posRot.pos.y + 40.0f;
@@ -1468,7 +1468,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
     if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_EYEDROPS &&
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
-            this->animTimer = Math_Rand_S16Offset(30, 30);
+            this->animTimer = Rand_S16Offset(30, 30);
             func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
         }
     }
@@ -1592,7 +1592,7 @@ void EnGo2_CurledUp(EnGo2* this, GlobalContext* globalCtx) {
     s16 height;
     s32 quake;
 
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
             quake = Quake_Add(ACTIVE_CAM, 3);
             Quake_SetSpeed(quake, -0x3CB0);
@@ -1601,15 +1601,15 @@ void EnGo2_CurledUp(EnGo2* this, GlobalContext* globalCtx) {
         } else {
             EnGo2_GetDustData(this, 1);
         }
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
     }
 
-    if ((s32)this->skelAnime.animCurrentFrame == 0) {
+    if ((s32)this->skelAnime.curFrame == 0) {
         this->collider.dim.height = ((&D_80A4816C[index])->height * 0.6f);
     } else {
         height = (&D_80A4816C[index])->height;
         this->collider.dim.height =
-            (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.initialFrame)) +
+            (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.startFrame)) +
              (height * 0.6f));
     }
     if (EnGo2_IsFreeingGoronInFire(this, globalCtx)) {
@@ -1638,7 +1638,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+        if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
                 this->actor.flags |= 1;
             }
@@ -1648,7 +1648,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
         } else {
             height = (&D_80A4816C[index])->height;
             this->collider.dim.height =
-                (s16)((height * 0.4f * (this->skelAnime.animCurrentFrame / this->skelAnime.animFrameCount)) +
+                (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) +
                       (height * 0.6f));
         }
     }
@@ -1658,19 +1658,19 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_GoronDmtBombFlowerAnimation(EnGo2* this, GlobalContext* globalCtx) {
-    f32 float1 = this->skelAnime.animFrameCount;
-    f32 float2 = this->skelAnime.animCurrentFrame * ((f32)0x8000 / float1);
+    f32 float1 = this->skelAnime.endFrame;
+    f32 float2 = this->skelAnime.curFrame * ((f32)0x8000 / float1);
 
-    this->actor.speedXZ = Math_Sins(float2);
+    this->actor.speedXZ = Math_SinS(float2);
     if ((EnGo2_Orient(this, globalCtx)) && (this->waypoint == 0)) {
         EnGo2_GetItemAnimation(this, globalCtx);
     }
 }
 
 void EnGo2_GoronRollingBigContinueRolling(EnGo2* this, GlobalContext* globalCtx) {
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         EnGo2_GetDustData(this, 1);
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+        this->skelAnime.playSpeed = 0.0f;
         EnGo2_SetupRolling(this, globalCtx);
     }
 }
@@ -1709,7 +1709,7 @@ void EnGo2_SlowRolling(EnGo2* this, GlobalContext* globalCtx) {
             EnGo2_StopRolling(this, globalCtx);
             return;
         }
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, EnGo2_GetTargetXZSpeed(this), 0.4f, 0.6f);
+        Math_ApproachF(&this->actor.speedXZ, EnGo2_GetTargetXZSpeed(this), 0.4f, 0.6f);
         this->actor.shape.rot = this->actor.posRot.rot;
     }
 }
@@ -1735,7 +1735,7 @@ void EnGo2_GroundRolling(EnGo2* this, GlobalContext* globalCtx) {
 
 void EnGo2_ReverseRolling(EnGo2* this, GlobalContext* globalCtx) {
     if (!EnGo2_IsRolling(this)) {
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0f, 0.6f, 0.8f);
+        Math_ApproachF(&this->actor.speedXZ, 0.0f, 0.6f, 0.8f);
         if (this->actor.speedXZ >= 1.0f) {
             EnGo2_GetDustData(this, 3);
         }
@@ -1791,7 +1791,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             this->actor.shape.rot.y += 0x5B0;
             this->unk_26E = 1;
-            this->animTimer = this->skelAnime.animFrameCount + 60.0f + 60.0f; // eyeDrops animation timer
+            this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
             this->eyeMouthTexState = 2;
             this->unk_20C = 0;
             this->goronState++;
@@ -1814,15 +1814,15 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 this->eyeMouthTexState = 0;
             }
             if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 func_80034EC0(&this->skelAnime, sAnimations, 1);
                 this->actor.flags |= 1;
                 this->unk_26E = 2;
-                this->skelAnime.animPlaybackSpeed = 0.0f;
-                this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
+                this->skelAnime.playSpeed = 0.0f;
+                this->skelAnime.curFrame = this->skelAnime.endFrame;
                 EnGo2_GetItem(this, globalCtx, GI_CLAIM_CHECK);
                 this->actionFunc = EnGo2_SetupGetItem;
                 this->goronState = 0;
@@ -1871,7 +1871,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 globalCtx->msgCtx.msgMode = 0x37;
                 func_80034EC0(&this->skelAnime, sAnimations, 2);
                 this->waypoint = 1;
-                this->skelAnime.animPlaybackSpeed = 2.0f;
+                this->skelAnime.playSpeed = 2.0f;
                 func_80A44D84(this);
                 this->actor.shape.rot = this->actor.posRot.rot;
                 this->animTimer = 60;
@@ -1884,9 +1884,9 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 player->actor.posRot.rot.y = this->actor.posRot.rot.y;
                 player->actor.shape.rot.y = this->actor.posRot.rot.y;
                 player->actor.posRot.pos.x =
-                    (f32)((Math_Sins(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.x);
+                    (f32)((Math_SinS(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.x);
                 player->actor.posRot.pos.z =
-                    (f32)((Math_Coss(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.z);
+                    (f32)((Math_CosS(this->actor.posRot.rot.y) * -30.0f) + this->actor.posRot.pos.z);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 func_800F5C64(0x51);
             }
@@ -1937,7 +1937,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A45360(this, &this->alpha);
     EnGo2_SitDownAnimation(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
     func_8002E4B4(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f, (f32)this->collider.dim.radius * 0.6f,
                   0.0f, 5);
@@ -2006,9 +2006,9 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        float1 = Math_Sins(this->unk_226[limb]);
+        float1 = Math_SinS(this->unk_226[limb]);
         rot->y += float1 * 200.0f;
-        float1 = Math_Coss(this->unk_24A[limb]);
+        float1 = Math_CosS(this->unk_24A[limb]);
         rot->z += float1 * 200.0f;
     }
     return 0;
@@ -2033,15 +2033,13 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2_DrawDust(this, globalCtx);
     Matrix_Pull();
 
-    if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.animPlaybackSpeed == 0.0f) &&
-        (this->skelAnime.animCurrentFrame == 0.0f)) {
+    if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&
+        (this->skelAnime.curFrame == 0.0f)) {
         if (1) {}
         EnGo2_DrawCurledUp(this, globalCtx);
-        return;
     } else if (this->actionFunc == EnGo2_SlowRolling || this->actionFunc == EnGo2_ReverseRolling ||
                this->actionFunc == EnGo2_ContinueRolling) {
         EnGo2_DrawRolling(this, globalCtx);
-        return;
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 3063);
         func_80093D18(globalCtx->state.gfxCtx);
@@ -2049,7 +2047,7 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(EyeTextures[this->eyeTexIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(MouthTextures[this->mouthTexIndex]));
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 3081);
     }
