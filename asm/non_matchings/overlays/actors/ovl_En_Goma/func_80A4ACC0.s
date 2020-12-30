@@ -71,13 +71,13 @@ glabel func_80A4ACC0
 /* 01EE8 80A4ADA8 246C0008 */  addiu   $t4, $v1, 0x0008           ## $t4 = 00000008
 /* 01EEC 80A4ADAC AD0C02C0 */  sw      $t4, 0x02C0($t0)           ## 000002C0
 /* 01EF0 80A4ADB0 AC660000 */  sw      $a2, 0x0000($v1)           ## 00000000
-/* 01EF4 80A4ADB4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01EF4 80A4ADB4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01EF8 80A4ADB8 AFA30028 */  sw      $v1, 0x0028($sp)           
-/* 01EFC 80A4ADBC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01EFC 80A4ADBC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01F00 80A4ADC0 E7A00020 */  swc1    $f0, 0x0020($sp)           
-/* 01F04 80A4ADC4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01F04 80A4ADC4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01F08 80A4ADC8 E7A00024 */  swc1    $f0, 0x0024($sp)           
 /* 01F0C 80A4ADCC 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000

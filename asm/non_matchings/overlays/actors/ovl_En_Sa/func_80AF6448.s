@@ -232,7 +232,7 @@ glabel func_80AF6448
 /* 0123C 80AF679C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01240 80AF67A0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 01244 80AF67A4 E7AA0010 */  swc1    $f10, 0x0010($sp)
-/* 01248 80AF67A8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01248 80AF67A8 0C029468 */  jal     Animation_Change
 
 /* 0124C 80AF67AC E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 01250 80AF67B0 3C0B80AF */  lui     $t3, %hi(func_80AF67D0)    ## $t3 = 80AF0000

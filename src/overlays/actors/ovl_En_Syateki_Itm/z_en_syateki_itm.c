@@ -141,9 +141,9 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
                 this->actionFunc = EnSyatekiItm_CleanupGame;
                 return;
             }
-            i = Math_Rand_ZeroFloat(5.99f);
+            i = Rand_ZeroFloat(5.99f);
             while (this->roundFlags[i]) {
-                i = Math_Rand_ZeroFloat(5.99f);
+                i = Rand_ZeroFloat(5.99f);
                 if (1) {}
             }
             this->roundNum = i + 1;

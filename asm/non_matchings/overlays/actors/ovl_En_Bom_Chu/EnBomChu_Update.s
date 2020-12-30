@@ -23,13 +23,13 @@ glabel EnBomChu_Update
 /* 00DF4 809C6624 00073C03 */  sra     $a3, $a3, 16               
 /* 00DF8 809C6628 00072400 */  sll     $a0, $a3, 16               
 /* 00DFC 809C662C 00042403 */  sra     $a0, $a0, 16               
-/* 00E00 809C6630 0C01DE1C */  jal     Math_Sins
+/* 00E00 809C6630 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E04 809C6634 A7A7006E */  sh      $a3, 0x006E($sp)           
 /* 00E08 809C6638 87A7006E */  lh      $a3, 0x006E($sp)           
 /* 00E0C 809C663C E7A00068 */  swc1    $f0, 0x0068($sp)           
 /* 00E10 809C6640 00072400 */  sll     $a0, $a3, 16               
-/* 00E14 809C6644 0C01DE0D */  jal     Math_Coss
+/* 00E14 809C6644 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E18 809C6648 00042403 */  sra     $a0, $a0, 16               
 /* 00E1C 809C664C C7AC0068 */  lwc1    $f12, 0x0068($sp)          
@@ -118,10 +118,10 @@ glabel EnBomChu_Update
 /* 00F54 809C6784 25085F48 */  addiu   $t0, $t0, %lo(func_809C5F48) ## $t0 = 809C5F48
 /* 00F58 809C6788 1509007D */  bne     $t0, $t1, .L809C6980       
 /* 00F5C 809C678C 262A07C0 */  addiu   $t2, $s1, 0x07C0           ## $t2 = 000007C0
-/* 00F60 809C6790 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F60 809C6790 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F64 809C6794 AFAA0030 */  sw      $t2, 0x0030($sp)           
-/* 00F68 809C6798 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F68 809C6798 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F6C 809C679C E7A00038 */  swc1    $f0, 0x0038($sp)           
 /* 00F70 809C67A0 3C014400 */  lui     $at, 0x4400                ## $at = 44000000
@@ -138,7 +138,7 @@ glabel EnBomChu_Update
 /* 00F9C 809C67CC 44043000 */  mfc1    $a0, $f6                   
 /* 00FA0 809C67D0 00000000 */  nop
 /* 00FA4 809C67D4 00042400 */  sll     $a0, $a0, 16               
-/* 00FA8 809C67D8 0C01DE1C */  jal     Math_Sins
+/* 00FA8 809C67D8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00FAC 809C67DC 00042403 */  sra     $a0, $a0, 16               
 /* 00FB0 809C67E0 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

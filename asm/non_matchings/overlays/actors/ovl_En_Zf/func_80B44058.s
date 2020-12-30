@@ -51,13 +51,13 @@ glabel func_80B44058
 /* 000B8 80B44108 A7A80044 */  sh      $t0, 0x0044($sp)           
 /* 000BC 80B4410C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 000C0 80B44110 E7AC0050 */  swc1    $f12, 0x0050($sp)          
-/* 000C4 80B44114 0C01DE1C */  jal     Math_Sins
+/* 000C4 80B44114 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 000C8 80B44118 AFA20028 */  sw      $v0, 0x0028($sp)           
 /* 000CC 80B4411C C7AC0050 */  lwc1    $f12, 0x0050($sp)          
 /* 000D0 80B44120 460C0282 */  mul.s   $f10, $f0, $f12            
 /* 000D4 80B44124 E7AA0040 */  swc1    $f10, 0x0040($sp)          
-/* 000D8 80B44128 0C01DE0D */  jal     Math_Coss
+/* 000D8 80B44128 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 000DC 80B4412C 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 000E0 80B44130 C7AC0050 */  lwc1    $f12, 0x0050($sp)          

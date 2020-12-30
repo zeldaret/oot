@@ -22,10 +22,8 @@ typedef struct EnDog {
     /* 0x01EE */ s16 pad2;
     /* 0x01F0 */ s16 nextBehavior; 
     /* 0x01F2 */ s16 behavior;
-    /* 0x01F4 */ u8 unk_1F4; // I believe this and the rest below belong to something skelanime
-    /* 0x01F5 */ char unk_1F5[0x4D]; 
-    /* 0x0242 */ u8 unk_242; 
-    /* 0x0243 */ char unk_243[0x4D]; 
+    /* 0x01F4 */ Vec3s jointTable[13];
+    /* 0x0242 */ Vec3s morphTable[13];
 } EnDog; // size = 0x0290
 
 extern const ActorInit En_Dog_InitVars;

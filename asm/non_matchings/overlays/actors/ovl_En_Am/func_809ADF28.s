@@ -17,13 +17,13 @@ glabel func_809ADF28
 /* 00044 809ADF64 94990088 */  lhu     $t9, 0x0088($a0)           ## 00000088
 /* 00048 809ADF68 AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 0004C 809ADF6C 87A40056 */  lh      $a0, 0x0056($sp)           
-/* 00050 809ADF70 0C01DE1C */  jal     Math_Sins
+/* 00050 809ADF70 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00054 809ADF74 A7B90044 */  sh      $t9, 0x0044($sp)           
 /* 00058 809ADF78 C7A40050 */  lwc1    $f4, 0x0050($sp)           
 /* 0005C 809ADF7C 87A40056 */  lh      $a0, 0x0056($sp)           
 /* 00060 809ADF80 46040182 */  mul.s   $f6, $f0, $f4              
-/* 00064 809ADF84 0C01DE0D */  jal     Math_Coss
+/* 00064 809ADF84 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00068 809ADF88 E7A60040 */  swc1    $f6, 0x0040($sp)           
 /* 0006C 809ADF8C C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
