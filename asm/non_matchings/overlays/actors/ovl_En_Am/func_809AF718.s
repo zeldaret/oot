@@ -34,7 +34,7 @@ glabel func_809AF718
 /* 01874 809AF794 00000000 */  nop
 /* 01878 809AF798 E6020068 */  swc1    $f2, 0x0068($s0)           ## 00000068
 .L809AF79C:
-/* 0187C 809AF79C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0187C 809AF79C 0C02927F */  jal     SkelAnime_Update
               
 /* 01880 809AF7A0 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 01884 809AF7A4 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

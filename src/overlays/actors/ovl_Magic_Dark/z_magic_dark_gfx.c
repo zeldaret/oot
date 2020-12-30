@@ -1,7 +1,7 @@
 #include "z_magic_dark.h"
 
 static u64 sDiamondTexture[] = {
-    #include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
+#include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
 };
 
 extern UNK_TYPE D_04032490[];

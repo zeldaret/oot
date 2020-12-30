@@ -36,7 +36,7 @@ glabel func_80AFD3D4
 /* 00AAC 80AFD44C 10000008 */  beq     $zero, $zero, .L80AFD470   
 /* 00AB0 80AFD450 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFD454:
-/* 00AB4 80AFD454 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00AB4 80AFD454 0C02927F */  jal     SkelAnime_Update
               
 /* 00AB8 80AFD458 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00ABC 80AFD45C 10400003 */  beq     $v0, $zero, .L80AFD46C     

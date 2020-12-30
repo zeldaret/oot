@@ -32,7 +32,7 @@ glabel func_80B6424C
 /* 018A8 80B64268 248452EC */  addiu   $a0, $a0, %lo(D_80B652EC)  ## $a0 = 80B652EC
 /* 018AC 80B6426C A200014D */  sb      $zero, 0x014D($s0)         ## 0000014D
 /* 018B0 80B64270 26040250 */  addiu   $a0, $s0, 0x0250           ## $a0 = 00000250
-/* 018B4 80B64274 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 018B4 80B64274 0C02927F */  jal     SkelAnime_Update
 
 /* 018B8 80B64278 AFA40044 */  sw      $a0, 0x0044($sp)
 /* 018BC 80B6427C 860E01D4 */  lh      $t6, 0x01D4($s0)           ## 000001D4
@@ -57,7 +57,7 @@ glabel func_80B6424C
 /* 01904 80B642C4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01908 80B642C8 24A5C65C */  addiu   $a1, $a1, 0xC65C           ## $a1 = 0600C65C
 /* 0190C 80B642CC 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 01910 80B642D0 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 01910 80B642D0 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01914 80B642D4 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80B642D8:
 /* 01918 80B642D8 260401E8 */  addiu   $a0, $s0, 0x01E8           ## $a0 = 000001E8
@@ -189,7 +189,7 @@ glabel func_80B6424C
 /* 01ACC 80B6448C 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 01AD0 80B64490 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01AD4 80B64494 24A5B9D0 */  addiu   $a1, $a1, 0xB9D0           ## $a1 = 0600B9D0
-/* 01AD8 80B64498 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 01AD8 80B64498 0C0294D3 */  jal     Animation_MorphToLoop
 /* 01ADC 80B6449C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01AE0 80B644A0 860301D6 */  lh      $v1, 0x01D6($s0)           ## 000001D6
 .L80B644A4:
@@ -204,7 +204,7 @@ glabel func_80B6424C
 /* 01B00 80B644C0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 01B04 80B644C4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01B08 80B644C8 24A5CB1C */  addiu   $a1, $a1, 0xCB1C           ## $a1 = 0600CB1C
-/* 01B0C 80B644CC 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 01B0C 80B644CC 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01B10 80B644D0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01B14 80B644D4 24090004 */  addiu   $t1, $zero, 0x0004         ## $t1 = 00000004
 /* 01B18 80B644D8 A209014C */  sb      $t1, 0x014C($s0)           ## 0000014C
@@ -246,7 +246,7 @@ glabel func_80B6424C
 /* 01B8C 80B6454C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 01B90 80B64550 AE0B01FC */  sw      $t3, 0x01FC($s0)           ## 000001FC
 /* 01B94 80B64554 A60001C8 */  sh      $zero, 0x01C8($s0)         ## 000001C8
-/* 01B98 80B64558 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01B98 80B64558 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01B9C 80B6455C 2484CB1C */  addiu   $a0, $a0, 0xCB1C           ## $a0 = 0600CB1C
 /* 01BA0 80B64560 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -261,7 +261,7 @@ glabel func_80B6424C
 /* 01BC4 80B64584 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 01BC8 80B64588 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 01BCC 80B6458C 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 01BD0 80B64590 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01BD0 80B64590 0C029468 */  jal     Animation_Change
 
 /* 01BD4 80B64594 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 01BD8 80B64598 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -381,7 +381,7 @@ glabel func_80B6424C
 /* 01D7C 80B6473C A60B01D4 */  sh      $t3, 0x01D4($s0)           ## 000001D4
 /* 01D80 80B64740 AE0C01FC */  sw      $t4, 0x01FC($s0)           ## 000001FC
 /* 01D84 80B64744 44060000 */  mfc1    $a2, $f0
-/* 01D88 80B64748 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 01D88 80B64748 0C0294D3 */  jal     Animation_MorphToLoop
 /* 01D8C 80B6474C 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 01D90 80B64750 240D0005 */  addiu   $t5, $zero, 0x0005         ## $t5 = 00000005
 /* 01D94 80B64754 A20D014C */  sb      $t5, 0x014C($s0)           ## 0000014C

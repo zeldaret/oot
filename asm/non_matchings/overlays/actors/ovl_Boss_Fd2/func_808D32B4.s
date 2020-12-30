@@ -9,14 +9,14 @@ glabel func_808D32B4
 /* 00C60 808D32D0 AFA70020 */  sw      $a3, 0x0020($sp)
 /* 00C64 808D32D4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00C68 808D32D8 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 00C6C 808D32DC 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 00C6C 808D32DC 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 00C70 808D32E0 AFAE001C */  sw      $t6, 0x001C($sp)
 /* 00C74 808D32E4 8FA70020 */  lw      $a3, 0x0020($sp)
 /* 00C78 808D32E8 3C0F808D */  lui     $t7, %hi(func_808D3330)    ## $t7 = 808D0000
 /* 00C7C 808D32EC 25EF3330 */  addiu   $t7, $t7, %lo(func_808D3330) ## $t7 = 808D3330
 /* 00C80 808D32F0 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00C84 808D32F4 24849194 */  addiu   $a0, $a0, 0x9194           ## $a0 = 06009194
-/* 00C88 808D32F8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00C88 808D32F8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00C8C 808D32FC ACEF0190 */  sw      $t7, 0x0190($a3)           ## 00000190
 /* 00C90 808D3300 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
