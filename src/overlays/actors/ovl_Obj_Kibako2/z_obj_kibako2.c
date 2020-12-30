@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_kibako2.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -19,7 +20,7 @@ void func_80B95ED4(ObjKibako2* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000960[];
 extern UNK_TYPE D_06000B70;
-extern UNK_TYPE D_06001000;
+extern Gfx D_06001000[];
 
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
@@ -57,7 +58,46 @@ void func_80B959D0(Actor *thisx, GlobalContext *globalCtx) {
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako2/func_80B95A28.s")
+void func_80B95A28(ObjKibako2 *this, GlobalContext *globalCtx) {
+    s32 pad;
+    s32 pad2;
+    PosRot *thisPosRot;
+    Vec3f pos;
+    Vec3f velocity;
+    s16 angle;
+    s32 i;
+
+    thisPosRot = &this->dyna.actor.posRot;
+    for (i = 0, angle = 0; i < 0x10; i++, angle += 0x4E20) {
+        f32 sn = Math_Sins(angle);
+        f32 cs = Math_Coss(angle);
+        f32 temp_rand;
+        s32 phi_s0;
+
+        temp_rand = Math_Rand_ZeroOne() * 30.0f;
+        pos.x = sn * temp_rand;
+        pos.y = (Math_Rand_ZeroOne() * 10.0f) + 2.0f;
+        pos.z = cs * temp_rand;
+        velocity.x = pos.x * 0.2f;
+        velocity.y = (Math_Rand_ZeroOne() * 10.0f) + 2.0f;
+        velocity.z = pos.z * 0.2f;
+        pos.x += thisPosRot->pos.x;
+        pos.y += thisPosRot->pos.y;
+        pos.z += thisPosRot->pos.z;
+        temp_rand = Math_Rand_ZeroOne();
+        if (temp_rand < 0.05f) {
+            phi_s0 = 0x60;
+        } else if (temp_rand < 0.7f) {
+            phi_s0 = 0x40;
+        } else {
+            phi_s0 = 0x20;
+        }
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0,
+                             (Math_Rand_ZeroOne() * 30.0f) + 5.0f, 0, 0, 70, KAKERA_COLOR_NONE,
+                             OBJECT_KIBAKO2, D_06001000);
+    }
+    func_80033480(globalCtx, &thisPosRot->pos, 90.0f, 6, 100, 160, 1);
+}
 
 void func_80B95CA4(ObjKibako2 *this, GlobalContext *globalCtx) {
     s16 initXPos;
