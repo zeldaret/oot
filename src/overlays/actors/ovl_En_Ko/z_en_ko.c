@@ -149,12 +149,12 @@ s32 D_80A9A730[] = { 0x01010100, 0x01010101, 0x01010101, 0x01000101, 0x01010001,
                      0x01000000, 0x00000101, 0x01010101, 0x01010001, 0x00000000, 0x00000000,
                      0x00000101, 0x01010100, 0x00000000, 0x01010101, 0x01000000 };
 
-#ifdef NON_MATCHING
-// Minor regalloc
+
 s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
-    s16 temp_a1;
-    u8 temp_t1;
     u8 temp_t0;
+    u8 temp_t1;
+    s16 temp_a1;
+    
 
     temp_a1 = D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].objectId;
     temp_a1 = D_80A9A500[this->actor.params & 0xFF].unk_6;
@@ -170,16 +170,13 @@ s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    this->unk_194 = (temp_a1 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[temp_t0].objectId));
+    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[temp_t0].objectId);
     if (this->unk_194 < 0) {
         return 0;
     }
 
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96DB0.s")
-#endif
 
 s32 func_80A96EC4(EnKo* this, GlobalContext* globalCtx) {
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_196)) {
