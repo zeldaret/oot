@@ -44,19 +44,20 @@ static ColliderCylinderInit sCylinderInit = {
     { 0x0014, 0x0028, 0x0000, { 0x0000, 0x0000, 0x0000 } }
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0x0014, 0x0028, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, 0xFE };
 
-static InitChainEntry sInitChain[] = { ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
-                                       ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-                                       ICHAIN_F32(unk_4C, 2600, ICHAIN_STOP) };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
+    ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 2600, ICHAIN_STOP),
+};
 
 void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnShopnuts* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_06004574, this->jointTable,
-                       this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_06004574, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -81,7 +82,7 @@ void EnShopnuts_SetupWait(EnShopnuts* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600139C, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
-    this->collider.base.acFlags &= ~0x1;
+    this->collider.base.acFlags &= ~1;
     this->actionFunc = EnShopnuts_Wait;
 }
 
@@ -115,7 +116,7 @@ void EnShopnuts_SetupBurrow(EnShopnuts* this) {
 void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000764, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
-    this->collider.base.acFlags &= ~0x1;
+    this->collider.base.acFlags &= ~1;
     this->actionFunc = EnShopnuts_SpawnSalesman;
 }
 
@@ -126,19 +127,19 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
     if (this->skelAnime.playSpeed < 0.5f) {
         hasSlowPlaybackSpeed = 1;
     }
-    if (hasSlowPlaybackSpeed) {
-        DECR(this->animFlagAndTimer);
+    if (hasSlowPlaybackSpeed && (this->animFlagAndTimer != 0)) {
+        this->animFlagAndTimer--;
     }
-    if (Animation_OnFrame(&this->skelAnime, 9.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= 1;
-    } else if (Animation_OnFrame(&this->skelAnime, 8.0f) != 0) {
+    } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = ((CLAMP(this->skelAnime.curFrame, 9.0f, 13.0f) - 9.0f) * 9.0f) + 5.0f;
     if (!hasSlowPlaybackSpeed && (this->actor.xzDistFromLink < 120.0f)) {
         EnShopnuts_SetupBurrow(this);
-    } else if (SkelAnime_Update(&this->skelAnime) != 0) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.xzDistFromLink < 120.0f) {
             EnShopnuts_SetupBurrow(this);
         } else if ((this->animFlagAndTimer == 0) && (this->actor.xzDistFromLink > 320.0f)) {
@@ -156,8 +157,8 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
 
 void EnShopnuts_LookAround(EnShopnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0) {
-        DECR(this->animFlagAndTimer);
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && (this->animFlagAndTimer != 0)) {
+        this->animFlagAndTimer--;
     }
     if ((this->actor.xzDistFromLink < 120.0f) || (this->animFlagAndTimer == 0)) {
         EnShopnuts_SetupBurrow(this);
@@ -166,8 +167,8 @@ void EnShopnuts_LookAround(EnShopnuts* this, GlobalContext* globalCtx) {
 
 void EnShopnuts_Stand(EnShopnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0) {
-        DECR(this->animFlagAndTimer);
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && (this->animFlagAndTimer != 0)) {
+        this->animFlagAndTimer--;
     }
     if (!(this->animFlagAndTimer & 0x1000)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
@@ -185,9 +186,9 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     if (this->actor.xzDistFromLink < 120.0f) {
         EnShopnuts_SetupBurrow(this);
-    } else if (SkelAnime_Update(&this->skelAnime) != 0) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         EnShopnuts_SetupStand(this);
-    } else if (Animation_OnFrame(&this->skelAnime, 6.0f) != 0) {
+    } else if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
         spawnPos.x = this->actor.posRot.pos.x + (Math_SinS(this->actor.shape.rot.y) * 23.0f);
         spawnPos.y = this->actor.posRot.pos.y + 12.0f;
         spawnPos.z = this->actor.posRot.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
@@ -199,18 +200,18 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_Burrow(EnShopnuts* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnShopnuts_SetupWait(this);
     } else {
         this->collider.dim.height = ((4.0f - CLAMP_MAX(this->skelAnime.curFrame, 4.0f)) * 10.0f) + 5.0f;
     }
-    if (Animation_OnFrame(&this->skelAnime, 4.0f) != 0) {
-        this->collider.base.acFlags &= ~0x1;
+    if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
+        this->collider.base.acFlags &= ~1;
     }
 }
 
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_DNS, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                     this->actor.posRot.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
                     this->actor.params);
@@ -221,8 +222,8 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 0x2) {
-        this->collider.base.acFlags &= ~0x2;
+    if (this->collider.base.acFlags & 2) {
+        this->collider.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->collider.body, 1);
         EnShopnuts_SetupSpawnSalesman(this);
     } else if (globalCtx->actorCtx.unk_02 != 0) {
