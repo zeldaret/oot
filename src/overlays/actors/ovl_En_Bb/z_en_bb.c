@@ -212,8 +212,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBb* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->limbDrawTbl, this->transitionDrawTbl,
-                   16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->jointTable, this->morphTable, 16);
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(globalCtx, &this->collider);
