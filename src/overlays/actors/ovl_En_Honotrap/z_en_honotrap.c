@@ -442,13 +442,13 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* eyeDLists[] = { 0x0500B0A0, 0x0500B8A0, 0x0500C0A0, 0x0500C0A0 };
+    static void* eyeTextures[] = { 0x0500B0A0, 0x0500B8A0, 0x0500C0A0, 0x0500C0A0 };
     EnHonotrap* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeDLists[this->eyeState]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeState]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 0x3DB),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_05006810);
