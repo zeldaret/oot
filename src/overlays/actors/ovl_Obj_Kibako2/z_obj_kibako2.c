@@ -69,22 +69,22 @@ void ObjKibako2_Break(ObjKibako2 *this, GlobalContext *globalCtx) {
 
     thisPosRot = &this->dyna.actor.posRot;
     for (i = 0, angle = 0; i < 0x10; i++, angle += 0x4E20) {
-        f32 sn = Math_Sins(angle);
-        f32 cs = Math_Coss(angle);
+        f32 sn = Math_SinS(angle);
+        f32 cs = Math_CosS(angle);
         f32 temp_rand;
         s32 phi_s0;
 
-        temp_rand = Math_Rand_ZeroOne() * 30.0f;
+        temp_rand = Rand_ZeroOne() * 30.0f;
         pos.x = sn * temp_rand;
-        pos.y = (Math_Rand_ZeroOne() * 10.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 10.0f) + 2.0f;
         pos.z = cs * temp_rand;
         velocity.x = pos.x * 0.2f;
-        velocity.y = (Math_Rand_ZeroOne() * 10.0f) + 2.0f;
+        velocity.y = (Rand_ZeroOne() * 10.0f) + 2.0f;
         velocity.z = pos.z * 0.2f;
         pos.x += thisPosRot->pos.x;
         pos.y += thisPosRot->pos.y;
         pos.z += thisPosRot->pos.z;
-        temp_rand = Math_Rand_ZeroOne();
+        temp_rand = Rand_ZeroOne();
         if (temp_rand < 0.05f) {
             phi_s0 = 0x60;
         } else if (temp_rand < 0.7f) {
@@ -93,7 +93,7 @@ void ObjKibako2_Break(ObjKibako2 *this, GlobalContext *globalCtx) {
             phi_s0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0,
-                             (Math_Rand_ZeroOne() * 30.0f) + 5.0f, 0, 0, 70, KAKERA_COLOR_NONE,
+                             (Rand_ZeroOne() * 30.0f) + 5.0f, 0, 0, 70, KAKERA_COLOR_NONE,
                              OBJECT_KIBAKO2, D_06001000);
     }
     func_80033480(globalCtx, &thisPosRot->pos, 90.0f, 6, 100, 160, 1);
