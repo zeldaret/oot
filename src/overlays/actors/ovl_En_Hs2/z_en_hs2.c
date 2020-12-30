@@ -35,7 +35,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_06006260;
+extern FlexSkeletonHeader D_06006260;
 extern AnimationHeader D_060005C0;
 
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -43,9 +43,8 @@ void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
+    Animation_PlayLoop(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -103,44 +102,44 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_2A8 & 0x1) {
         func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
         this->unk_2A8 &= ~1;
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_29C.x, 12800, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 }
 
-s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, Actor* thisx) {
+s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
     EnHs2* this = THIS;
 
     switch (limbIndex) {
         case 12:
         case 13:
             *dList = NULL;
-            return 0;
+            return false;
         case 9:
             rot->x += this->unk_29C.y;
             rot->z += this->unk_29C.x;
             break;
         case 10:
             *dList = NULL;
-            return 0;
+            return false;
         case 11:
             *dList = NULL;
-            return 0;
+            return false;
     }
-    return 0;
+    return false;
 }
 
-void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A6F4CC = { 300.0f, 1000.0f, 0.0f };
     EnHs2* this = THIS;
 
@@ -153,6 +152,6 @@ void EnHs2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHs2* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnHs2_OverrideLimbDraw, EnHs2_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnHs2_OverrideLimbDraw, EnHs2_PostLimbDraw, this);
 }

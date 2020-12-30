@@ -58,7 +58,7 @@ glabel func_80A59F08
 /* 00390 80A59FC0 8F08002C */  lw      $t0, 0x002C($t8)           ## 0000002C
 /* 00394 80A59FC4 46083280 */  add.s   $f10, $f6, $f8             
 /* 00398 80A59FC8 AE080234 */  sw      $t0, 0x0234($s0)           ## 00000234
-/* 0039C 80A59FCC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0039C 80A59FCC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003A0 80A59FD0 E60A0230 */  swc1    $f10, 0x0230($s0)          ## 00000230
 /* 003A4 80A59FD4 3C0180A6 */  lui     $at, %hi(D_80A5B124)       ## $at = 80A60000

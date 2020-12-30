@@ -4,7 +4,7 @@ glabel EnSw_Update
 /* 02CC0 80B0EA70 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02CC4 80B0EA74 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 02CC8 80B0EA78 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 02CCC 80B0EA7C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02CCC 80B0EA7C 0C02927F */  jal     SkelAnime_Update
               
 /* 02CD0 80B0EA80 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02CD4 80B0EA84 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

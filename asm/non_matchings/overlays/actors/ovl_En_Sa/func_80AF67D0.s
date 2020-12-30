@@ -4,8 +4,8 @@ glabel func_80AF67D0
 /* 01278 80AF67D8 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 0127C 80AF67DC AFA5002C */  sw      $a1, 0x002C($sp)
 /* 01280 80AF67E0 848F01E0 */  lh      $t7, 0x01E0($a0)           ## 000001E0
-/* 01284 80AF67E4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 01288 80AF67E8 24A5C500 */  addiu   $a1, $a1, 0xC500           ## $a1 = 0600C500
+/* 01284 80AF67E4 3C050601 */  lui     $a1, %hi(D_0600C500)                ## $a1 = 06010000
+/* 01288 80AF67E8 24A5C500 */  addiu   $a1, $a1, %lo(D_0600C500)           ## $a1 = 0600C500
 /* 0128C 80AF67EC 15E0000F */  bne     $t7, $zero, .L80AF682C
 /* 01290 80AF67F0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01294 80AF67F4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -16,7 +16,7 @@ glabel func_80AF67D0
 /* 012A8 80AF6808 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 012AC 80AF680C 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 012B0 80AF6810 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 012B4 80AF6814 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 012B4 80AF6814 0C029468 */  jal     Animation_Change
 
 /* 012B8 80AF6818 E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 012BC 80AF681C 8FA80028 */  lw      $t0, 0x0028($sp)

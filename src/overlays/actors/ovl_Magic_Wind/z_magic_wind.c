@@ -223,7 +223,7 @@ void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, Actor* thisx) {
+s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
     MagicWind* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
@@ -245,7 +245,7 @@ s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCur
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
 
-    return 1;
+    return true;
 }
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {

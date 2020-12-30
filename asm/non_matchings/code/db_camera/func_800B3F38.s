@@ -1,9 +1,0 @@
-glabel func_800B3F38
-/* B2B0D8 800B3F38 C4840000 */  lwc1  $f4, ($a0)
-/* B2B0DC 800B3F3C E4A40000 */  swc1  $f4, ($a1)
-/* B2B0E0 800B3F40 C4860004 */  lwc1  $f6, 4($a0)
-/* B2B0E4 800B3F44 E4A60004 */  swc1  $f6, 4($a1)
-/* B2B0E8 800B3F48 C4880008 */  lwc1  $f8, 8($a0)
-/* B2B0EC 800B3F4C 03E00008 */  jr    $ra
-/* B2B0F0 800B3F50 E4A80008 */   swc1  $f8, 8($a1)
-

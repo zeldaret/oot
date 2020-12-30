@@ -59,14 +59,14 @@ glabel func_80BA1958
 /* 00CC0 80BA1A20 3C0580BA */  lui     $a1, %hi(D_80BA1B50)       ## $a1 = 80BA0000
 /* 00CC4 80BA1A24 84A51B50 */  lh      $a1, %lo(D_80BA1B50)($a1)  
 /* 00CC8 80BA1A28 24841B54 */  addiu   $a0, $a0, %lo(D_80BA1B54)  ## $a0 = 80BA1B54
-/* 00CCC 80BA1A2C 0C01DE5F */  jal     Math_ApproxS
+/* 00CCC 80BA1A2C 0C01DE5F */  jal     Math_StepToS
               
 /* 00CD0 80BA1A30 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00CD4 80BA1A34 3C0480BA */  lui     $a0, %hi(D_80BA1B5C)       ## $a0 = 80BA0000
 /* 00CD8 80BA1A38 3C0580BA */  lui     $a1, %hi(D_80BA1B58)       ## $a1 = 80BA0000
 /* 00CDC 80BA1A3C 84A51B58 */  lh      $a1, %lo(D_80BA1B58)($a1)  
 /* 00CE0 80BA1A40 24841B5C */  addiu   $a0, $a0, %lo(D_80BA1B5C)  ## $a0 = 80BA1B5C
-/* 00CE4 80BA1A44 0C01DE5F */  jal     Math_ApproxS
+/* 00CE4 80BA1A44 0C01DE5F */  jal     Math_StepToS
               
 /* 00CE8 80BA1A48 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00CEC 80BA1A4C 3C0980BA */  lui     $t1, %hi(D_80BA1B54)       ## $t1 = 80BA0000

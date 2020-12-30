@@ -18,8 +18,7 @@ void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
-                  Gfx** gfx);
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx);
 
 void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx);
@@ -80,7 +79,7 @@ static EnZl2ActionFunc sActionFuncs[] = {
     func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
 };
 
-static EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
+static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
@@ -129,7 +128,7 @@ extern AnimationHeader D_0600AFE0;
 extern AnimationHeader D_0600B224;
 extern AnimationHeader D_0600B5FC;
 extern Gfx D_0600BAE8[];
-extern SkeletonHeader D_06010D70;
+extern FlexSkeletonHeader D_06010D70;
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
@@ -144,7 +143,7 @@ void func_80B4E9B0(EnZl2* this) {
     s16* unk_190 = &this->unk_190;
 
     if (DECR(*unk_192) == 0) {
-        *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
+        *unk_192 = Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_190 = *unk_192;
     if (*unk_190 >= 3) {
@@ -241,7 +240,7 @@ void func_80B4ED2C(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
-    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 CsCmdActorAction* EnZl2_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
@@ -272,7 +271,7 @@ void func_80B4EE38(EnZl2* this, s16 arg1, s32 arg2) {
         phi_a3 = arg1 - this->unk_20C[phi_v0];
         phi_v0 = this->unk_1AC[phi_v0];
 
-        if ((s32)fabsf((f32)phi_a3) >= 0x8001) {
+        if ((s32)fabsf((f32)phi_a3) > 0x8000) {
             if (arg1 > 0) {
                 phi_a3 -= 0x10000;
             } else {
@@ -289,7 +288,7 @@ void func_80B4EE38(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= ((s16)(temp_v1 - arg1) / 50);
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) >= -0x63) &&
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) > -0x64) &&
             ((s16)(temp_v1 - arg1) < 0x64)) {
             temp_v1 = arg1;
             phi_v0 = 0;
@@ -307,8 +306,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     s32 phi_t1;
     s32 phi_v0;
     s32 phi_a0;
-    u32 zero;
-    f32 animCurrentFrame;
+    f32 curFrame;
     f32 unk_278;
 
     if (temp_t0 == 2) {
@@ -340,7 +338,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         temp_t2 = arg1 - this->unk_20C[temp_t0];
         phi_v0 = this->unk_1AC[temp_t0];
 
-        if ((s32)fabsf((f32)temp_t2) >= 0x8001) {
+        if ((s32)fabsf((f32)temp_t2) > 0x8000) {
             if (arg1 > 0) {
                 temp_t2 -= 0x10000;
             } else {
@@ -361,40 +359,30 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         }
         temp_v1 += phi_v0;
 
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) >= -0x63) &&
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) > -0x64) &&
             ((s16)(temp_v1 - phi_a0) < 0x64)) {
             temp_v1 = phi_a0;
             phi_v0 = 0;
         }
 
-        zero = 0;
         if (arg2 == 2) {
             if ((this->action == 5) || (this->action == 30)) {
-                animCurrentFrame = this->skelAnime.animCurrentFrame;
+                curFrame = this->skelAnime.curFrame;
                 unk_278 = this->unk_278;
-                temp_t0 = (s32)((3500.0f * animCurrentFrame) / unk_278) + phi_a0;
+                temp_t0 = (s32)((3500.0f * curFrame) / unk_278) + phi_a0;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if ((this->action == 6) || (this->action == 31)) {
                 temp_t0 = phi_a0 + 0xDAC;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if (this->action == 20) {
                 temp_t0 = phi_a0 - 0x3E8;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
@@ -412,7 +400,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t2;
     s32 temp_t3;
     s32 phi_v0;
-    s32 temp_1AC;
     s32 index1AC;
     s32 phi_t5;
 
@@ -422,7 +409,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
         temp_t2 = temp_t0;
         temp_t3 = this->unk_1AC[arg2];
         phi_v0 = temp_t3;
-        temp_1AC = phi_v0;
         temp_t3 = arg1 - this->unk_20C[arg2];
 
         if (arg2 == 1) {
@@ -469,7 +455,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= temp_t0 / 50;
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 > -0x64) && (temp_t2 < 0x64)) {
             temp_v1 = 0;
             phi_v0 = 0;
         }
@@ -479,7 +465,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad;
     EnZl2* this = THIS;
@@ -489,7 +475,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     s16 pad2;
     s16* unk_1DC = this->unk_1DC;
 
-    if (limbIndex == 0xE) {
+    if (limbIndex == 14) {
         sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
         gSPSegment((*gfx)++, 0x0C, sp74);
 
@@ -500,7 +486,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
             func_80B4EF64(this, sp2C.z, 2);
@@ -510,7 +496,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
         }
@@ -519,7 +505,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
         }
@@ -531,7 +517,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
             func_80B4EF64(this, sp2C.z, 11);
@@ -541,7 +527,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
             func_80B4EF64(this, sp2C.z, 14);
@@ -554,7 +540,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
             func_80B4EF64(this, sp2C.z, 17);
@@ -564,7 +550,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
             func_80B4EF64(this, sp2C.z, 20);
@@ -576,10 +562,10 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Pull();
         this->unk_24C = 1;
     }
-    return 0;
+    return false;
 }
 
-void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl2* this = THIS;
     s32 pad[2];
 
@@ -612,7 +598,7 @@ void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
+    f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -627,7 +613,7 @@ void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
@@ -636,7 +622,7 @@ void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FDD4(EnZl2* this) {
-    if (func_800A56C8(&this->skelAnime, 14.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 14.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -798,7 +784,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     actorShape->unk_14 = 0xFF;
-    this->actor.posRot.rot.y = actorShape->rot.y = Math_atan2f(actionXDelta, actionZDelta) * 10430.3779296875f;
+    this->actor.posRot.rot.y = actorShape->rot.y = Math_FAtan2F(actionXDelta, actionZDelta) * 10430.3779296875f;
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
@@ -1481,7 +1467,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((func_800A56C8(skelAnime, 6.0f)) || (func_800A56C8(skelAnime, 0.0f))) {
+    if ((Animation_OnFrame(skelAnime, 6.0f)) || (Animation_OnFrame(skelAnime, 0.0f))) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -1624,7 +1610,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(objectCtx, bankIndex)) {
         this->unk_274 = bankIndex;
         func_80B4FCCC(this, globalCtx);
-        this->unk_278 = SkelAnime_GetFrameCount(&D_060022D0.genericHeader);
+        this->unk_278 = Animation_GetLastFrame(&D_060022D0);
         func_80B52114(this, globalCtx);
     }
 }
@@ -1646,7 +1632,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(actorShape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     actorShape->unk_14 = 0;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
 
     switch (thisx->params) {
         case 1:
@@ -1658,7 +1644,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
     EnZl2* this = THIS;
 
@@ -1694,8 +1680,8 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                                       EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
 }
@@ -1719,8 +1705,8 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnZl2_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                                       EnZl2_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);
 }

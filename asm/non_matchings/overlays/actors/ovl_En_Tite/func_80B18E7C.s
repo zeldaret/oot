@@ -5,7 +5,7 @@ glabel func_80B18E7C
 /* 00408 80B18E88 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0040C 80B18E8C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00410 80B18E90 AFA5005C */  sw      $a1, 0x005C($sp)
-/* 00414 80B18E94 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00414 80B18E94 0C02927F */  jal     SkelAnime_Update
 
 /* 00418 80B18E98 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 0041C 80B18E9C 504000AA */  beql    $v0, $zero, .L80B19148
@@ -198,7 +198,7 @@ glabel func_80B18E7C
 /* 006B0 80B19130 13230004 */  beq     $t9, $v1, .L80B19144
 /* 006B4 80B19134 3C0580B2 */  lui     $a1, %hi(D_80B1B634)       ## $a1 = 80B20000
 /* 006B8 80B19138 00A82821 */  addu    $a1, $a1, $t0
-/* 006BC 80B1913C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 006BC 80B1913C 0C02947A */  jal     Animation_PlayOnce
 /* 006C0 80B19140 8CA5B634 */  lw      $a1, %lo(D_80B1B634)($a1)
 .L80B19144:
 /* 006C4 80B19144 860202E0 */  lh      $v0, 0x02E0($s0)           ## 000002E0
@@ -219,7 +219,7 @@ glabel func_80B18E7C
 /* 006FC 80B1917C 96030088 */  lhu     $v1, 0x0088($s0)           ## 00000088
 .L80B19180:
 /* 00700 80B19180 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 00704 80B19184 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00704 80B19184 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 00708 80B19188 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0070C 80B1918C 86090032 */  lh      $t1, 0x0032($s0)           ## 00000032
@@ -308,7 +308,7 @@ glabel func_80B18E7C
 /* 0083C 80B192BC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00840 80B192C0 24A512E4 */  addiu   $a1, $a1, 0x12E4           ## $a1 = 000012E4
 /* 00844 80B192C4 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
-/* 00848 80B192C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00848 80B192C8 0C0294D3 */  jal     Animation_MorphToLoop
 /* 0084C 80B192CC AFA70040 */  sw      $a3, 0x0040($sp)
 /* 00850 80B192D0 8FA70040 */  lw      $a3, 0x0040($sp)
 /* 00854 80B192D4 8E0A02EC */  lw      $t2, 0x02EC($s0)           ## 000002EC
@@ -338,7 +338,7 @@ glabel func_80B18E7C
 /* 008A4 80B19324 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 008A8 80B19328 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 008AC 80B1932C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 008B0 80B19330 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 008B0 80B19330 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 008B4 80B19334 240705DC */  addiu   $a3, $zero, 0x05DC         ## $a3 = 000005DC
 /* 008B8 80B19338 1000001A */  beq     $zero, $zero, .L80B193A4
@@ -348,7 +348,7 @@ glabel func_80B18E7C
 /* 008C4 80B19344 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 008C8 80B19348 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 008CC 80B1934C 44050000 */  mfc1    $a1, $f0
-/* 008D0 80B19350 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 008D0 80B19350 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 008D4 80B19354 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 008D8 80B19358 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -356,7 +356,7 @@ glabel func_80B18E7C
 /* 008E0 80B19360 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 008E4 80B19364 44050000 */  mfc1    $a1, $f0
 /* 008E8 80B19368 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 008EC 80B1936C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 008EC 80B1936C 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 008F0 80B19370 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 008F4 80B19374 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
@@ -368,7 +368,7 @@ glabel func_80B18E7C
 /* 0090C 80B1938C 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 00910 80B19390 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 00914 80B19394 44058000 */  mfc1    $a1, $f16
-/* 00918 80B19398 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00918 80B19398 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 0091C 80B1939C 00000000 */  nop
 /* 00920 80B193A0 96030088 */  lhu     $v1, 0x0088($s0)           ## 00000088

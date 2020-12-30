@@ -2,8 +2,8 @@ glabel func_800B8A0C
 /* B2FBAC 800B8A0C 3C048016 */  lui   $a0, %hi(D_801612EC) # $a0, 0x8016
 /* B2FBB0 800B8A10 248412EC */  addiu $a0, %lo(D_801612EC) # addiu $a0, $a0, 0x12ec
 /* B2FBB4 800B8A14 AC800000 */  sw    $zero, ($a0)
-/* B2FBB8 800B8A18 3C0E8016 */  lui   $t6, %hi(D_80161150) # $t6, 0x8016
-/* B2FBBC 800B8A1C 91CE1150 */  lbu   $t6, %lo(D_80161150)($t6)
+/* B2FBB8 800B8A18 3C0E8016 */  lui   $t6, %hi(sDbgEditorSlots) # $t6, 0x8016
+/* B2FBBC 800B8A1C 91CE1150 */  lbu   $t6, %lo(sDbgEditorSlots)($t6)
 /* B2FBC0 800B8A20 2405003F */  li    $a1, 63
 /* B2FBC4 800B8A24 3C0C8016 */  lui   $t4, %hi(D_80161160) # $t4, 0x8016
 /* B2FBC8 800B8A28 10AE000A */  beq   $a1, $t6, .L800B8A54

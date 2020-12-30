@@ -2,11 +2,11 @@ glabel func_809CAEA0
 /* 00390 809CAEA0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00394 809CAEA4 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00398 809CAEA8 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 0039C 809CAEAC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 003A0 809CAEB0 24A51958 */  addiu   $a1, $a1, 0x1958           ## $a1 = 06001958
+/* 0039C 809CAEAC 3C050600 */  lui     $a1, %hi(D_06001958)                ## $a1 = 06000000
+/* 003A0 809CAEB0 24A51958 */  addiu   $a1, $a1, %lo(D_06001958)           ## $a1 = 06001958
 /* 003A4 809CAEB4 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 003A8 809CAEB8 24840164 */  addiu   $a0, $a0, 0x0164           ## $a0 = 00000164
-/* 003AC 809CAEBC 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 003AC 809CAEBC 0C0294D3 */  jal     Animation_MorphToLoop
 /* 003B0 809CAEC0 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 003B4 809CAEC4 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 003B8 809CAEC8 3C18809D */  lui     $t8, %hi(func_809CB218)    ## $t8 = 809D0000

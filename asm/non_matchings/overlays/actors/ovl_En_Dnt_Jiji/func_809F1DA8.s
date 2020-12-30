@@ -3,18 +3,18 @@ glabel func_809F1DA8
 /* 002CC 809F1DAC AFB00030 */  sw      $s0, 0x0030($sp)
 /* 002D0 809F1DB0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 002D4 809F1DB4 AFBF0034 */  sw      $ra, 0x0034($sp)
-/* 002D8 809F1DB8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 002D8 809F1DB8 3C040600 */  lui     $a0, %hi(D_060012B0)                ## $a0 = 06000000
 /* 002DC 809F1DBC AFA5003C */  sw      $a1, 0x003C($sp)
-/* 002E0 809F1DC0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 002E0 809F1DC0 0C028800 */  jal     Animation_GetLastFrame
 
-/* 002E4 809F1DC4 248412B0 */  addiu   $a0, $a0, 0x12B0           ## $a0 = 060012B0
+/* 002E4 809F1DC4 248412B0 */  addiu   $a0, $a0, %lo(D_060012B0)           ## $a0 = 060012B0
 /* 002E8 809F1DC8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 002EC 809F1DCC 3C01C120 */  lui     $at, 0xC120                ## $at = C1200000
 /* 002F0 809F1DD0 44819000 */  mtc1    $at, $f18                  ## $f18 = -10.00
 /* 002F4 809F1DD4 468021A0 */  cvt.s.w $f6, $f4
-/* 002F8 809F1DD8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 002F8 809F1DD8 3C050600 */  lui     $a1, %hi(D_060012B0)                ## $a1 = 06000000
 /* 002FC 809F1DDC 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
-/* 00300 809F1DE0 24A512B0 */  addiu   $a1, $a1, 0x12B0           ## $a1 = 060012B0
+/* 00300 809F1DE0 24A512B0 */  addiu   $a1, $a1, %lo(D_060012B0)           ## $a1 = 060012B0
 /* 00304 809F1DE4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00308 809F1DE8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 0030C 809F1DEC 4600320D */  trunc.w.s $f8, $f6
@@ -28,7 +28,7 @@ glabel func_809F1DA8
 /* 0032C 809F1E0C 44985000 */  mtc1    $t8, $f10                  ## $f10 = 0.00
 /* 00330 809F1E10 00000000 */  nop
 /* 00334 809F1E14 46805420 */  cvt.s.w $f16, $f10
-/* 00338 809F1E18 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00338 809F1E18 0C029468 */  jal     Animation_Change
 
 /* 0033C 809F1E1C E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 00340 809F1E20 2408000F */  addiu   $t0, $zero, 0x000F         ## $t0 = 0000000F

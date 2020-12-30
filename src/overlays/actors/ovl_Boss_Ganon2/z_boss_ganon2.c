@@ -9,6 +9,36 @@ void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000BFC;
+extern UNK_TYPE D_06000EA0;
+extern UNK_TYPE D_06002168;
+extern UNK_TYPE D_060028A8;
+extern UNK_TYPE D_06002E6C;
+extern UNK_TYPE D_06003754;
+extern UNK_TYPE D_06003B1C;
+extern UNK_TYPE D_06003F38;
+extern UNK_TYPE D_06007288;
+extern UNK_TYPE D_06008EB8;
+extern UNK_TYPE D_0600A8E0;
+extern UNK_TYPE D_0600ADD0;
+extern UNK_TYPE D_0600BE90;
+extern UNK_TYPE D_0600CAF8;
+extern UNK_TYPE D_0600DFF0;
+extern UNK_TYPE D_0600E8EC;
+extern UNK_TYPE D_0600FFE4;
+extern UNK_TYPE D_06010380;
+extern UNK_TYPE D_060114E8;
+extern UNK_TYPE D_060147E0;
+extern UNK_TYPE D_06021A90;
+extern UNK_TYPE D_06025970;
+extern UNK_TYPE D_06026510;
+extern UNK_TYPE D_06026AF4;
+extern UNK_TYPE D_06027824;
+extern UNK_TYPE D_0602A848;
+extern UNK_TYPE D_060334F8;
+extern UNK_TYPE D_06034278;
+extern UNK_TYPE D_060353C0;
+
 /*
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,

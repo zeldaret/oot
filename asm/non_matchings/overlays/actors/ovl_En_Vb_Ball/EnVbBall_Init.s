@@ -28,21 +28,21 @@ glabel EnVbBall_Init
 /* 00024 80B28FC4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00028 80B28FC8 3C014440 */  lui     $at, 0x4440                ## $at = 44400000
 /* 0002C 80B28FCC 44816000 */  mtc1    $at, $f12                  ## $f12 = 768.00
-/* 00030 80B28FD0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00030 80B28FD0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00034 80B28FD4 00000000 */  nop
 /* 00038 80B28FD8 3C014440 */  lui     $at, 0x4440                ## $at = 44400000
 /* 0003C 80B28FDC 44816000 */  mtc1    $at, $f12                  ## $f12 = 768.00
-/* 00040 80B28FE0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00040 80B28FE0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00044 80B28FE4 E600015C */  swc1    $f0, 0x015C($s0)           ## 0000015C
 /* 00048 80B28FE8 E6000158 */  swc1    $f0, 0x0158($s0)           ## 00000158
 /* 0004C 80B28FEC C60C0024 */  lwc1    $f12, 0x0024($s0)          ## 00000024
-/* 00050 80B28FF0 0C03F494 */  jal     Math_atan2f              
+/* 00050 80B28FF0 0C03F494 */  jal     Math_FAtan2F              
 /* 00054 80B28FF4 C60E002C */  lwc1    $f14, 0x002C($s0)          ## 0000002C
 /* 00058 80B28FF8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 0005C 80B28FFC 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
-/* 00060 80B29000 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00060 80B29000 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00064 80B29004 E7A00028 */  swc1    $f0, 0x0028($sp)           
 /* 00068 80B29008 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
@@ -104,12 +104,12 @@ glabel EnVbBall_Init
 /* 00130 80B290D0 46060202 */  mul.s   $f8, $f0, $f6              
 /* 00134 80B290D4 4600428D */  trunc.w.s $f10, $f8                  
 /* 00138 80B290D8 440B5000 */  mfc1    $t3, $f10                  
-/* 0013C 80B290DC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0013C 80B290DC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00140 80B290E0 A60B01AC */  sh      $t3, 0x01AC($s0)           ## 000001AC
 /* 00144 80B290E4 3C014600 */  lui     $at, 0x4600                ## $at = 46000000
 /* 00148 80B290E8 44816000 */  mtc1    $at, $f12                  ## $f12 = 8192.00
-/* 0014C 80B290EC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0014C 80B290EC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00150 80B290F0 E6000158 */  swc1    $f0, 0x0158($s0)           ## 00000158
 /* 00154 80B290F4 3C014288 */  lui     $at, 0x4288                ## $at = 42880000

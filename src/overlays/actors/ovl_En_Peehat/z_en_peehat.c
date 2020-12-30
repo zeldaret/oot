@@ -9,6 +9,12 @@ void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000350;
+extern UNK_TYPE D_060005C4;
+extern UNK_TYPE D_06000844;
+extern UNK_TYPE D_060009C4;
+extern UNK_TYPE D_06001C80;
+
 /*
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,

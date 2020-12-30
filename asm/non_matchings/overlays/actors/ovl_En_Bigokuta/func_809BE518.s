@@ -6,7 +6,7 @@ glabel func_809BE518
 /* 018C8 809BE528 8CE5000C */  lw      $a1, 0x000C($a3)           ## 0000000C
 /* 018CC 809BE52C AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 018D0 809BE530 24840028 */  addiu   $a0, $a0, 0x0028           ## $a0 = 00000028
-/* 018D4 809BE534 0C01DE80 */  jal     Math_ApproxF
+/* 018D4 809BE534 0C01DE80 */  jal     Math_StepToF
               
 /* 018D8 809BE538 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 018DC 809BE53C 10400006 */  beq     $v0, $zero, .L809BE558     

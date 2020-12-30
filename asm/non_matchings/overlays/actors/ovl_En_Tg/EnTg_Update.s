@@ -33,7 +33,7 @@ glabel EnTg_Update
 /* 00300 80B18660 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00304 80B18664 00A12821 */  addu    $a1, $a1, $at              
-/* 00308 80B18668 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00308 80B18668 0C02927F */  jal     SkelAnime_Update
               
 /* 0030C 80B1866C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00310 80B18670 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
