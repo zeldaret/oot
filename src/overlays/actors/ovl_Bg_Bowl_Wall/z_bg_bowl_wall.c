@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bowl_wall.h"
+#include "objects/object_bowl/object_bowl.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
@@ -23,11 +24,6 @@ void BgBowlWall_WaitForHit(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx);
-
-extern ColHeader D_06000CB8;
-extern ColHeader D_06001B00;
-extern Gfx D_06000610[];
-extern Gfx D_06001390[];
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
@@ -59,9 +55,9 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyInfo_Alloc(&D_06000CB8, &colHeader);
+        DynaPolyInfo_Alloc(&gBowlCol1, &colHeader);
     } else {
-        DynaPolyInfo_Alloc(&D_06001B00, &colHeader);
+        DynaPolyInfo_Alloc(&gBowlCol2, &colHeader);
     }
 
     this->dyna.dynaPolyId =
@@ -218,9 +214,9 @@ void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06000610);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlDL1);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_06001390);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlDL2);
     }
 
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 464);

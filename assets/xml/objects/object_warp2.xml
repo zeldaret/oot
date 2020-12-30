@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_warp2" Segment="6">
+        <Blob Name="gWarp2Pad" Size="0xF"/>
+    </File>
+</Root>

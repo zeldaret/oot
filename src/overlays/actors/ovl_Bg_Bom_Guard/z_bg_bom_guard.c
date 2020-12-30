@@ -7,6 +7,7 @@
 #include "vt.h"
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "objects/object_bowl/object_bowl.h"
 
 #define FLAGS 0x00000010
 
@@ -30,8 +31,6 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     NULL,
 };
 
-extern UNK_TYPE D_06001C40;
-
 void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -42,7 +41,7 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 local_c = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06001C40, &local_c);
+    DynaPolyInfo_Alloc(&gBowlCol3, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 
     osSyncPrintf("\n\n");

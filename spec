@@ -4208,7 +4208,8 @@ endseg
 beginseg
     name "object_warp2"
     romalign 0x1000
-    include "build/baserom/object_warp2.o"
+    include "build/assets/objects/object_warp2/object_warp2.o"
+    number 06
 endseg
 
 beginseg
@@ -5686,7 +5687,8 @@ endseg
 beginseg
     name "object_bowl"
     romalign 0x1000
-    include "build/baserom/object_bowl.o"
+    include "build/assets/objects/object_bowl/object_bowl.o"
+    number 06
 endseg
 
 beginseg

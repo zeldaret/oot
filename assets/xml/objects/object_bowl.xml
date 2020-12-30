@@ -1,0 +1,10 @@
+<Root>
+    <File Name="object_bowl" Segment="6">
+        <DList Name="gBowlDL1" Offset="0x610"/>
+        <DList Name="gBowlDL2" Offset="0x1390"/>
+        <DList Name="gBowlDL3" Offset="0x1B80"/>
+        <Blob Name="gBowlCol1" Offset="0xCB8" Size="0x30"/>
+        <Blob Name="gBowlCol2" Offset="0x1B00" Size="0x30"/>
+        <Blob Name="gBowlCol3" Offset="0x1C40" Size="0x30"/>
+    </File>
+</Root>
