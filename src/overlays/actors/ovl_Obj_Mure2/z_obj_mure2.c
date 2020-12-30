@@ -120,7 +120,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
     Vec3f spawnPos[12];
     s16 params;
 
-    setPosFunc[actorNum](&spawnPos, this);
+    setPosFunc[actorNum](spawnPos, this);
     ObjMure2_SetActorSpawnParams(&params, this);
 
     for (i = 0; i < D_80B9A818[actorNum]; i++) {
