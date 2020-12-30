@@ -61,20 +61,16 @@ const ActorInit En_Wood02_InitVars = {
     (ActorFunc)EnWood02_Draw,
 };
 
-// D_80B3BF00
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK13, 0x00, 0x0D, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x05, { 0x00000000, 0x00, 0x00 }, { 0x0FC0074A, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 18, 60, 0, { 0, 0, 0 } },
 };
 
-// D_80B3BF2C
 static f32 sSpawnDistance[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f };
 
-// D_80B3BF44
 static s16 sSpawnAngle[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, 0xD6C3, 0xA000 };
 
-// D_80B3BF50
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
 };
@@ -88,15 +84,12 @@ static Gfx* D_80B3BF70[] = {
     0x06007AD0, 0x06007E20, 0x06008350, 0x06000160, 0x06000440, 0x06000700,
 };
 
-// D_80B3C1D0
 static f32 sSpawnCos;
 
-// D_80B3C1D4
 static f32 sSpawnSin;
 
 extern Gfx D_06000700[];
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3AF70.s")
 s32 func_80B3AF70(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
     f32 phi_f12;
 
@@ -114,7 +107,6 @@ s32 func_80B3AF70(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3B094.s")
 void EnWood02_SpawnOffspring(EnWood02* this, GlobalContext* globalCtx) {
     EnWood02* childWood;
     s16* childSpawnAngle;
@@ -156,7 +148,6 @@ void EnWood02_SpawnOffspring(EnWood02* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Init.s")
 void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     s16 spawnType;
@@ -290,7 +281,6 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.colChkInfo.mass = 0xFF;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Destroy.s")
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnWood02* this = THIS;
 
@@ -299,7 +289,6 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Update.s")
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnWood02* this = THIS;
@@ -412,7 +401,6 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/EnWood02_Draw.s")
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnWood02* this = THIS;
 
