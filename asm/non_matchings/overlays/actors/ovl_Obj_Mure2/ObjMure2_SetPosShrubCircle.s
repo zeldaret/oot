@@ -1,4 +1,4 @@
-glabel func_80B99F40
+glabel ObjMure2_SetPosShrubCircle
 /* 00000 80B99F40 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80B99F44 AFB50034 */  sw      $s5, 0x0034($sp)           
 /* 00008 80B99F48 AFB40030 */  sw      $s4, 0x0030($sp)           
