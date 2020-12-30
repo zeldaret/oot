@@ -9,7 +9,7 @@ glabel func_80ACBF50
 /* 0204C 80ACBF6C AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 02050 80ACBF70 24840032 */  addiu   $a0, $a0, 0x0032           ## $a0 = 00000032
 /* 02054 80ACBF74 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 02058 80ACBF78 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02058 80ACBF78 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0205C 80ACBF7C 24070384 */  addiu   $a3, $zero, 0x0384         ## $a3 = 00000384
 /* 02060 80ACBF80 960203FC */  lhu     $v0, 0x03FC($s0)           ## 000003FC

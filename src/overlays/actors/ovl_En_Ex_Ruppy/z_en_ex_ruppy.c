@@ -74,7 +74,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     }
                 }
 
-                temp3 = Math_Rand_ZeroFloat(temp1);
+                temp3 = Rand_ZeroFloat(temp1);
                 if ((temp3 >= 0) && (temp3 < 40)) {
                     this->rupeeValue = 1;
                     this->colorIdx = 0;
@@ -117,7 +117,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colorIdx = 4;
             } else {
                 Actor_SetScale(thisx, 0.02f);
-                this->colorIdx = (s16)Math_Rand_ZeroFloat(3.99f) + 1;
+                this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
             // "Wow Coin"
@@ -131,7 +131,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 3: // Spawned by the guard in Hyrule courtyard
             Actor_SetScale(&this->actor, 0.02f);
             this->colorIdx = 0;
-            switch ((s16)Math_Rand_ZeroFloat(30.99f)) {
+            switch ((s16)Rand_ZeroFloat(30.99f)) {
                 case 0:
                     this->colorIdx = 2;
                     break;
@@ -193,14 +193,14 @@ void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 numS
 
     for (i = 0; i < numSparkles; i++) {
         if (movementType == 1) {
-            accel.x = Math_Rand_CenteredFloat(20.0f);
-            accel.z = Math_Rand_CenteredFloat(20.0f);
+            accel.x = Rand_CenteredFloat(20.0f);
+            accel.z = Rand_CenteredFloat(20.0f);
             scale = 5000;
             life = 20;
         }
-        pos.x = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.x;
-        pos.y = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.posRot.pos.y + this->unk_160 * 600.0f);
-        pos.z = (Math_Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.z;
+        pos.x = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.x;
+        pos.y = (Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.posRot.pos.y + this->unk_160 * 600.0f);
+        pos.z = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.z;
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
     }
 }
@@ -209,7 +209,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     EnDivingGame* divingGame;
 
     this->actor.shape.rot.y += 0x7A8;
-    Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
+    Math_ApproachF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
@@ -230,15 +230,15 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
 
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
         this->invisible = false;
-        this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
-        this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
+        this->actor.posRot.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
+        this->actor.posRot.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
         temp_f2 = this->unk_15A * -50.0f;
         if (!(gSaveContext.eventChkInf[3] & 0x100)) {
             temp_f2 += -500.0f;
-            this->actor.posRot.pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
+            this->actor.posRot.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
         } else {
             temp_f2 += -300.0f;
-            this->actor.posRot.pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
+            this->actor.posRot.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
         }
         this->actionFunc = EnExRuppy_Sink;
         this->actor.gravity = -1.0f;
@@ -274,7 +274,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         this->timer = 10;
-        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
+        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Rand_ZeroFloat(0.03f) + 0.07f);
     }
     if (this->actor.parent != NULL) {
         divingGame = (EnDivingGame*)this->actor.parent;
@@ -358,9 +358,9 @@ void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
 
 void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->galleryFlag) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
     }
 }
 

@@ -20,12 +20,12 @@ glabel func_80B4743C
 /* 03434 80B47484 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 03438 80B47488 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0343C 80B4748C 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
-/* 03440 80B47490 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03440 80B47490 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03444 80B47494 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03448 80B47498 86190032 */  lh      $t9, 0x0032($s0)           ## 00000032
 /* 0344C 80B4749C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 03450 80B474A0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03450 80B474A0 0C02927F */  jal     SkelAnime_Update
               
 /* 03454 80B474A4 A61900B6 */  sh      $t9, 0x00B6($s0)           ## 000000B6
 /* 03458 80B474A8 10400009 */  beq     $v0, $zero, .L80B474D0     

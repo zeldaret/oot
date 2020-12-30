@@ -294,11 +294,11 @@ void func_80B31B24(EnWeatherTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_8002DB8C(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
-        Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_9E, -0x50, 1, 2, 1);
-        Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_A0, -0x7D0, 1, 0x32, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, -0x50, 1, 2, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.unk_A0, -0x7D0, 1, 0x32, 1);
     } else {
-        Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_9E, 0, 1, 1, 1);
-        Math_SmoothScaleMaxMinS(&globalCtx->envCtx.unk_A0, 0, 1, 0x19, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, 0, 1, 1, 1);
+        Math_SmoothStepToS(&globalCtx->envCtx.unk_A0, 0, 1, 0x19, 1);
     }
 }
 

@@ -21,7 +21,7 @@ glabel func_80B5E108
 /* 029A0 80B5E150 8DF90000 */  lw      $t9, 0x0000($t7)           ## 80B5FB20
 /* 029A4 80B5E154 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 029A8 80B5E158 ADD90000 */  sw      $t9, 0x0000($t6)           ## FFFFFFE4
-/* 029AC 80B5E15C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 029AC 80B5E15C 0C02927F */  jal     SkelAnime_Update
               
 /* 029B0 80B5E160 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 029B4 80B5E164 1040000A */  beq     $v0, $zero, .L80B5E190     

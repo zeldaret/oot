@@ -3,7 +3,7 @@ glabel func_80ACA6C0
 /* 007A4 80ACA6C4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 007A8 80ACA6C8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 007AC 80ACA6CC 44816000 */  mtc1    $at, $f12                  ## $f12 = 1.00
-/* 007B0 80ACA6D0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 007B0 80ACA6D0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 007B4 80ACA6D4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 007B8 80ACA6D8 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

@@ -119,8 +119,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable,
-                   this->transitionDrawTable, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->jointTable, this->morphTable, 10);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD7080);
     Collider_InitCylinder(globalCtx, &this->flameCollider);
@@ -160,7 +159,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_SetupAppear(EnPoField* this) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000F9C);
+    Animation_PlayOnce(&this->skelAnime, &D_06000F9C);
     this->actor.draw = EnPoField_Draw;
     this->lightColor.r = 255;
     this->lightColor.g = 255;
@@ -193,7 +192,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
 void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000924);
+    Animation_PlayLoop(&this->skelAnime, &D_06000924);
     this->collider.base.acFlags |= 1;
     this->scaleModifier = this->actor.xzDistFromLink;
     Math_Vec3f_Copy(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
@@ -207,7 +206,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_SetupFlee(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000608, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06000608, -5.0f);
     this->collider.base.acFlags |= 1;
     this->actionFunc = EnPoField_Flee;
     this->actor.speedXZ = 12.0f;
@@ -220,7 +219,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
 }
 
 void EnPoField_SetupDamage(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000454, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000454, -6.0f);
     if (this->collider.body.acHitItem->toucher.flags & 0x1F824) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
@@ -245,7 +244,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
 }
 
 void EnPoField_SetupDisappear(EnPoField* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06001360, -6.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     this->actionTimer = 16;
     this->collider.base.acFlags &= ~3;
     this->actor.speedXZ = 0.0f;
@@ -326,11 +325,11 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupDisappear(this);
         return;
     }
-    Math_SmoothScaleMaxF(
+    Math_ApproachF(
         &this->actor.initPosRot.pos.y,
         ((player->actor.posRot.pos.y > this->actor.groundY) ? player->actor.posRot.pos.y : this->actor.groundY) + 13.0f,
         0.2f, 5.0f);
-    this->actor.posRot.pos.y = Math_Sins(this->unk_194 * 0x800) * 13.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.initPosRot.pos.y;
 }
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
@@ -369,7 +368,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
                     }
-                } else if (player->stateFlags1 & 0x800000 || Math_Rand_ZeroOne() < 0.4f) {
+                } else if (player->stateFlags1 & 0x800000 || Rand_ZeroOne() < 0.4f) {
                     this->actor.params = EN_PO_FIELD_BIG;
                     this->spawnFlagIndex = i;
                     spawnDist = 480.0f;
@@ -378,9 +377,9 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                     spawnDist = 300.0f;
                 }
                 this->actor.posRot.pos.x =
-                    Math_Sins(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.x;
+                    Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.x;
                 this->actor.posRot.pos.z =
-                    Math_Coss(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
+                    Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
                 this->actor.posRot.pos.y = player->actor.posRot.pos.y + 1000.0f;
                 this->actor.posRot.pos.y = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp88,
                                                          &this->actor, &this->actor.posRot.pos);
@@ -396,7 +395,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->lightColor.a = 255;
         Actor_SetScale(&this->actor, this->scaleModifier);
         if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -404,8 +403,8 @@ void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
         } else {
             EnPoField_SetupCirclePlayer(this, globalCtx);
         }
-    } else if (this->skelAnime.animCurrentFrame > 10.0f) {
-        this->lightColor.a = ((this->skelAnime.animCurrentFrame - 10.0f) * 0.05f) * 255.0f;
+    } else if (this->skelAnime.curFrame > 10.0f) {
+        this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
     } else {
         this->actor.scale.x += this->scaleModifier * 0.1f;
         this->actor.scale.y = this->actor.scale.x;
@@ -423,17 +422,17 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 temp_v1 = 16 - this->unk_194;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
     if (ABS(temp_v1) < 16) {
-        this->actor.posRot.rot.y += 512.0f * fabsf(Math_Sins(this->unk_194 * 0x800));
+        this->actor.posRot.rot.y += 512.0f * fabsf(Math_SinS(this->unk_194 * 0x800));
     }
-    Math_SmoothScaleMaxF(&this->scaleModifier, 180.0f, 0.5f, 10.0f);
-    Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.2f, 6.0f);
-    Math_SmoothScaleMaxF(&this->actor.initPosRot.pos.z, player->actor.posRot.pos.z, 0.2f, 6.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x800, 0x200);
+    Math_ApproachF(&this->scaleModifier, 180.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->actor.initPosRot.pos.x, player->actor.posRot.pos.x, 0.2f, 6.0f);
+    Math_ApproachF(&this->actor.initPosRot.pos.z, player->actor.posRot.pos.z, 0.2f, 6.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 1, 0x800, 0x200);
     if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x > 100.0f) {
         this->actor.initPosRot.pos.x = player->actor.posRot.pos.x + 100.0f;
     } else if (this->actor.initPosRot.pos.x - player->actor.posRot.pos.x < -100.0f) {
@@ -445,9 +444,9 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
         this->actor.initPosRot.pos.z = player->actor.posRot.pos.z + -100.0f;
     }
     this->actor.posRot.pos.x =
-        this->actor.initPosRot.pos.x - (Math_Sins(this->actor.posRot.rot.y) * this->scaleModifier);
+        this->actor.initPosRot.pos.x - (Math_SinS(this->actor.posRot.rot.y) * this->scaleModifier);
     this->actor.posRot.pos.z =
-        this->actor.initPosRot.pos.z - (Math_Coss(this->actor.posRot.rot.y) * this->scaleModifier);
+        this->actor.initPosRot.pos.z - (Math_CosS(this->actor.posRot.rot.y) * this->scaleModifier);
     if (this->actionTimer == 0) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -461,7 +460,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     f32 temp_f6;
     s16 phi_t0;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -470,12 +469,12 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     } else {
         phi_t0 = 0;
     }
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink - phi_t0, 6, 0x400);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink - phi_t0, 6, 0x400);
     EnPoField_SetFleeSpeed(this, globalCtx);
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x8000;
-    temp_f6 = Math_Sins(this->actionTimer * 0x800) * 3.0f;
-    this->actor.posRot.pos.x -= temp_f6 * Math_Coss(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += temp_f6 * Math_Sins(this->actor.shape.rot.y);
+    temp_f6 = Math_SinS(this->actionTimer * 0x800) * 3.0f;
+    this->actor.posRot.pos.x -= temp_f6 * Math_CosS(this->actor.shape.rot.y);
+    this->actor.posRot.pos.z += temp_f6 * Math_SinS(this->actor.shape.rot.y);
     if (this->actionTimer == 0 || this->actor.xzDistFromLink > 1500.0f) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -485,8 +484,8 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Damage(EnPoField* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnPoField_SetupDeath(this);
         } else if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -507,14 +506,14 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
     this->actionTimer++;
     if (this->actionTimer < 8) {
         if (this->actionTimer < 5) {
-            sp6C.y = Math_Sins(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
-            sp68 = Math_Coss(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
-            sp6C.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.x;
-            sp6C.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.z;
+            sp6C.y = Math_SinS(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
+            sp68 = Math_CosS(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
+            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.x;
+            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.posRot.pos.z;
         } else {
             sp6C.y = this->actor.posRot.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            sp6C.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
-            sp6C.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
+            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
+            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, 1);
@@ -544,7 +543,7 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Disappear(EnPoField* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
@@ -625,7 +624,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    this->actor.posRot.pos.y = Math_Sins(this->unk_194 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = Math_SinS(this->unk_194 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
     if (this->unk_194 != 0) {
         this->unk_194 -= 1;
     }
@@ -718,12 +717,12 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
             this->flameTimer = 19;
         }
         if (this->flameTimer < 20) {
-            Math_ApproxF(&this->flameScale, 0.0f, 0.00015f);
+            Math_StepToF(&this->flameScale, 0.0f, 0.00015f);
             return;
         }
-        if (Math_ApproxF(&this->flameScale, 0.003f, 0.0006f) != 0) {
-            this->flamePosition.x += 2.5f * Math_Sins(this->flameRotation);
-            this->flamePosition.z += 2.5f * Math_Coss(this->flameRotation);
+        if (Math_StepToF(&this->flameScale, 0.003f, 0.0006f) != 0) {
+            this->flamePosition.x += 2.5f * Math_SinS(this->flameRotation);
+            this->flamePosition.z += 2.5f * Math_CosS(this->flameRotation);
         }
         this->flameCollider.dim.pos.x = this->flamePosition.x;
         this->flameCollider.dim.pos.y = this->flamePosition.y;
@@ -795,12 +794,11 @@ void func_80AD619C(EnPoField* this) {
 void func_80AD6330(EnPoField* this) {
     f32 rand;
 
-    if (this->actionFunc == EnPoField_Appear && this->skelAnime.animCurrentFrame < 12.0f) {
-        this->soulColor.r = this->soulColor.g = this->soulColor.b =
-            (s16)(this->skelAnime.animCurrentFrame * 16.66f) + 55;
-        this->soulColor.a = this->skelAnime.animCurrentFrame * 16.666666f;
+    if (this->actionFunc == EnPoField_Appear && this->skelAnime.curFrame < 12.0f) {
+        this->soulColor.r = this->soulColor.g = this->soulColor.b = (s16)(this->skelAnime.curFrame * 16.66f) + 55;
+        this->soulColor.a = this->skelAnime.curFrame * 16.666666f;
     } else {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->soulColor.r = (s16)(rand * 30.0f) + 225;
         this->soulColor.g = (s16)(rand * 100.0f) + 155;
         this->soulColor.b = (s16)(rand * 160.0f) + 95;
@@ -850,7 +848,7 @@ s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if (this->actionFunc == EnPoField_Disappear && limbIndex == 7) {
         Matrix_Scale(this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, 1);
     }
-    return 0;
+    return false;
 }
 
 void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
@@ -895,7 +893,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
             POLY_OPA_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_OPA_DISP);
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -903,7 +901,7 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                     this->lightColor.a));
             gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
             POLY_XLU_DISP =
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                EnPoField_OverrideLimbDraw2, EnPoField_PostLimDraw2, &this->actor, POLY_XLU_DISP);
         }
         gDPPipeSync(POLY_OPA_DISP++);

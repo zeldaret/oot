@@ -105,7 +105,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->flameTextureScroll = (s16)(Math_Rand_ZeroOne() * 20.0f);
+    this->flameTextureScroll = (s16)(Rand_ZeroOne() * 20.0f);
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,7 +149,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Color_RGBA8* primColor = &sPrimColors[this->flameColor];
         Color_RGBA8* envColor = &sEnvColors[this->flameColor];
 
-        lightBrightness = (0.3f * Math_Rand_ZeroOne()) + 0.7f;
+        lightBrightness = (0.3f * Rand_ZeroOne()) + 0.7f;
 
         red = (u8)(primColor->r * lightBrightness);
         green = (u8)(primColor->g * lightBrightness);

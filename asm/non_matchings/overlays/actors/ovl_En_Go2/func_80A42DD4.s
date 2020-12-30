@@ -30,12 +30,12 @@ glabel func_80A42DD4
 /* 000F0 80A42E20 A2180001 */  sb      $t8, 0x0001($s0)           ## 00000271
 /* 000F4 80A42E24 A2000000 */  sb      $zero, 0x0000($s0)         ## 00000270
 .L80A42E28:
-/* 000F8 80A42E28 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 000F8 80A42E28 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 000FC 80A42E2C 00000000 */  nop
 /* 00100 80A42E30 46140102 */  mul.s   $f4, $f0, $f20             
 /* 00104 80A42E34 46162181 */  sub.s   $f6, $f4, $f22             
-/* 00108 80A42E38 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00108 80A42E38 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0010C 80A42E3C E606002C */  swc1    $f6, 0x002C($s0)           ## 0000029C
 /* 00110 80A42E40 C60C0020 */  lwc1    $f12, 0x0020($s0)          ## 00000290

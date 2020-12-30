@@ -18,7 +18,7 @@ glabel func_80AAF668
 /* 00830 80AAF680 848F0032 */  lh      $t7, 0x0032($a0)           ## 00000032
 /* 00834 80AAF684 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00838 80AAF688 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 0083C 80AAF68C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0083C 80AAF68C 0C02927F */  jal     SkelAnime_Update
               
 /* 00840 80AAF690 A48FFF6A */  sh      $t7, -0x0096($a0)          ## 000000B6
 /* 00844 80AAF694 3C078016 */  lui     $a3, %hi(gSaveContext)

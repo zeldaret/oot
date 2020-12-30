@@ -6,13 +6,13 @@ glabel func_80B18C5C
 /* 001EC 80B18C6C 24A512E4 */  addiu   $a1, $a1, %lo(D_060012E4)           ## $a1 = 060012E4
 /* 001F0 80B18C70 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 001F4 80B18C74 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 001F8 80B18C78 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 001F8 80B18C78 0C0294D3 */  jal     Animation_MorphToLoop
 /* 001FC 80B18C7C 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
 /* 00200 80B18C80 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 00204 80B18C84 240E0006 */  addiu   $t6, $zero, 0x0006         ## $t6 = 00000006
 /* 00208 80B18C88 2404000F */  addiu   $a0, $zero, 0x000F         ## $a0 = 0000000F
 /* 0020C 80B18C8C 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
-/* 00210 80B18C90 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00210 80B18C90 0C01DF64 */  jal     Rand_S16Offset
 
 /* 00214 80B18C94 A0EE02BC */  sb      $t6, 0x02BC($a3)           ## 000002BC
 /* 00218 80B18C98 8FA40018 */  lw      $a0, 0x0018($sp)

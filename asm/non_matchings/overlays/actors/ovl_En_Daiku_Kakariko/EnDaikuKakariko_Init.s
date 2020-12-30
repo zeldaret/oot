@@ -112,7 +112,7 @@ glabel EnDaikuKakariko_Init
 /* 00238 809E4558 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0023C 809E455C 3C03809E */  lui     $v1, %hi(D_809E5508)       ## $v1 = 809E0000
 /* 00240 809E4560 24635508 */  addiu   $v1, $v1, %lo(D_809E5508)  ## $v1 = 809E5508
-/* 00244 809E4564 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00244 809E4564 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00248 809E4568 8C640000 */  lw      $a0, 0x0000($v1)           ## 809E5508
 /* 0024C 809E456C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -127,7 +127,7 @@ glabel EnDaikuKakariko_Init
 /* 00270 809E4590 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00274 809E4594 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00278 809E4598 AFA80014 */  sw      $t0, 0x0014($sp)
-/* 0027C 809E459C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 0027C 809E459C 0C029468 */  jal     Animation_Change
 
 /* 00280 809E45A0 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00284 809E45A4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -194,7 +194,7 @@ glabel EnDaikuKakariko_Init
 /* 00368 809E4688 0C2790C8 */  jal     func_809E4320
 /* 0036C 809E468C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L809E4690:
-/* 00370 809E4690 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00370 809E4690 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00374 809E4694 00000000 */  nop
 /* 00378 809E4698 C606015C */  lwc1    $f6, 0x015C($s0)           ## 0000015C
@@ -211,7 +211,7 @@ glabel EnDaikuKakariko_Init
 /* 003A0 809E46C0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003A4 809E46C4 0C2790C8 */  jal     func_809E4320
 /* 003A8 809E46C8 260601EC */  addiu   $a2, $s0, 0x01EC           ## $a2 = 000001EC
-/* 003AC 809E46CC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 003AC 809E46CC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 003B0 809E46D0 00000000 */  nop
 /* 003B4 809E46D4 C604015C */  lwc1    $f4, 0x015C($s0)           ## 0000015C

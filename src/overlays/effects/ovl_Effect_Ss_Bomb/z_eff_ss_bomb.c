@@ -92,6 +92,6 @@ void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         this->rTexIdx = 3;
     }
 
-    this->accel.x = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
-    this->accel.z = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
+    this->accel.x = ((Rand_ZeroOne() * 0.4f) - 0.2f);
+    this->accel.z = ((Rand_ZeroOne() * 0.4f) - 0.2f);
 }

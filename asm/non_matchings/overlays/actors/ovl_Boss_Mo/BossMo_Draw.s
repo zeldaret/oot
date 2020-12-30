@@ -124,7 +124,7 @@ glabel BossMo_Draw
 /* 091C8 80924CC8 00812023 */  subu    $a0, $a0, $at              
 /* 091CC 80924CCC 00042200 */  sll     $a0, $a0,  8               
 /* 091D0 80924CD0 00042400 */  sll     $a0, $a0, 16               
-/* 091D4 80924CD4 0C01DE1C */  jal     Math_Sins
+/* 091D4 80924CD4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 091D8 80924CD8 00042403 */  sra     $a0, $a0, 16               
 /* 091DC 80924CDC 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

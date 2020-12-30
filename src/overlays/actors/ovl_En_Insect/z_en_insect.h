@@ -14,8 +14,8 @@ typedef struct EnInsect {
     /* 0x014C */ ColliderJntSph collider;
     /* 0x016C */ ColliderJntSphItem colliderItem;
     /* 0x01AC */ SkelAnime skelAnime;
-    /* 0x01F0 */ Vec3s limbDrawTable[24];
-    /* 0x0280 */ Vec3s transitionDrawTable[24];
+    /* 0x01F0 */ Vec3s jointTable[24];
+    /* 0x0280 */ Vec3s morphTable[24];
     /* 0x0310 */ EnInsectActionFunc actionFunc;
     /* 0x0314 */ u16 unk_314;
     /* 0x0316 */ s16 unk_316;
