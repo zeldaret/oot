@@ -13,7 +13,7 @@ typedef struct BgHidanHamstep {
     /* 0x0164 */ ColliderTris collider;
     /* 0x0184 */ ColliderTrisItem colliderItems[2];
     /* 0x023C */ BgHidanHamstepActionFunc actionFunc;
-    /* 0x0240 */ s32 actionState;
+    /* 0x0240 */ s32 action;
     /* 0x0244 */ s32 unk_244;
 } BgHidanHamstep; // size = 0x0248
 
