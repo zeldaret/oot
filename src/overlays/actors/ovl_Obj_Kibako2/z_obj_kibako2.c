@@ -114,16 +114,16 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
     s16 pad;
     s32 sp2C;
-    u32 dynaPolyId;
+    u32 bgId;
 
     sp2C = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, D_80B95FFC);
     ObjKibako2_InitCollider(thisx, globalCtx);
-    DynaPolyInfo_Alloc(&D_06000B70, &sp2C);
-    dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+    CollisionHeader_GetVirtual(&D_06000B70, &sp2C);
+    bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
     this->unk_1B4 = this->dyna.actor.initPosRot.rot.z & 0x3F;
-    this->dyna.dynaPolyId = dynaPolyId;
+    this->dyna.bgId = bgId;
     this->actionFunc = ObjKibako2_Idle;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
     // Wooden box (stationary)
@@ -134,7 +134,7 @@ void ObjKibako2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     ObjKibako2 *this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void ObjKibako2_Idle(ObjKibako2 *this, GlobalContext *globalCtx) {
@@ -142,7 +142,7 @@ void ObjKibako2_Idle(ObjKibako2 *this, GlobalContext *globalCtx) {
         ObjKibako2_Break(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags = this->dyna.actor.flags | 0x10;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;
         this->actionFunc = ObjKibako2_Kill;
         return;
