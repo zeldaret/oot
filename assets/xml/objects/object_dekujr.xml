@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_dekujr" Segment="6">
+        <Texture Name="gDekuJrLeafTex" Format="rgb5a1" Width="32" Height="32"/>
+        <DList Name="gDekuJrBodyDL" Offset="0x30D0"/>
+        <DList Name="gDekuJrShadowDL" Offset="0x32D8"/>
+    </File>
+</Root>

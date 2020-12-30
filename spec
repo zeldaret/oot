@@ -4676,7 +4676,8 @@ endseg
 beginseg
     name "object_dekujr"
     romalign 0x1000
-    include "build/baserom/object_dekujr.o"
+    include "build/assets/objects/object_dekujr/object_dekujr.o"
+    number 06
 endseg
 
 beginseg
