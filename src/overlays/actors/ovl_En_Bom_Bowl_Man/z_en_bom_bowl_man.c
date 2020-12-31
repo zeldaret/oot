@@ -107,7 +107,7 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
 
-        if (!(this->actor.xzDistFromLink > 120.0f) && (yawDiff < 0x4300)) {
+        if (!(this->actor.xzDistToLink > 120.0f) && (yawDiff < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
@@ -269,7 +269,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             }
         } else {
             yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
-            if (!(this->actor.xzDistFromLink > 120.0f) && (yawDiff < 0x4300)) {
+            if (!(this->actor.xzDistToLink > 120.0f) && (yawDiff < 0x4300)) {
                 func_8002F2CC(&this->actor, globalCtx, 120.0f);
             }
         }

@@ -243,7 +243,7 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
     Math_ApproachZeroF(&this->headAngle, 0.5f, 2000.0f);
 
-    if (this->actor.xzDistFromLink < 70.0f) {
+    if (this->actor.xzDistToLink < 70.0f) {
         this->actionFunc = EnHeishi1_SetupTurnTowardLink;
     }
 }
@@ -376,7 +376,7 @@ void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.xzDistFromLink < 100.0f) {
+    if (this->actor.xzDistToLink < 100.0f) {
         func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         // "Discovered!"
@@ -440,9 +440,9 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                      &this->linkDetected);
 
-                        if (this->actor.xzDistFromLink < 60.0f) {
+                        if (this->actor.xzDistToLink < 60.0f) {
                             this->linkDetected = true;
-                        } else if (this->actor.xzDistFromLink < 70.0f) {
+                        } else if (this->actor.xzDistToLink < 70.0f) {
                             // this case probably exists to detect link making a jump sound
                             // from slightly further away than the previous 60 unit check
                             if (player->actor.velocity.y > -4.0f) {
