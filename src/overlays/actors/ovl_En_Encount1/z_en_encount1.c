@@ -1,5 +1,6 @@
 #include "z_en_encount1.h"
 #include "vt.h"
+#include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS 0x08000010
 
@@ -199,7 +200,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
                 }
                 spawnPos.y = floorY;
                 if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_TITE, spawnPos.x,
-                                       spawnPos.y, spawnPos.z, 0, 0, 0, -1) != NULL) { // Red tektite
+                                       spawnPos.y, spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) { // Red tektite
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {

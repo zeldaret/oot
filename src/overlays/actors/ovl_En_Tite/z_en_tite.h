@@ -8,11 +8,16 @@ struct EnTite;
 
 typedef void (*EnTiteActionFunc)(struct EnTite*, GlobalContext*);
 
+typedef enum {
+    /* -2 */ TEKTITE_BLUE = -2,
+    /* -1 */ TEKTITE_RED
+} EnTiteType;
+
 typedef struct EnTite {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[25];
-    /* 0x0226 */ Vec3s transitionDrawTable[25];
+    /* 0x0190 */ Vec3s jointTable[25];
+    /* 0x0226 */ Vec3s morphTable[25];
     /* 0x02BC */ u8 action;
     /* 0x02BD */ u8 flipState;
     /* 0x02C0 */ EnTiteActionFunc actionFunc;
