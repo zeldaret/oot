@@ -246,19 +246,19 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
         boundedCurrentFrame = boundedCurrentFrameTemp;
     }
     this->collider.dim.height = (((boundedCurrentFrame - 9.0f) * 9.0f) + 5.0f);
-    if (!hasSlowPlaybackSpeed && (this->actor.xzDistFromLink < 120.0f)) {
+    if (!hasSlowPlaybackSpeed && (this->actor.xzDistToLink < 120.0f)) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_Update(&this->skelAnime) != 0) {
-        if (this->actor.xzDistFromLink < 120.0f) {
+        if (this->actor.xzDistToLink < 120.0f) {
             EnHintnuts_SetupBurrow(this);
-        } else if ((this->animFlagAndTimer == 0) && (320.0f < this->actor.xzDistFromLink)) {
+        } else if ((this->animFlagAndTimer == 0) && (320.0f < this->actor.xzDistToLink)) {
             EnHintnuts_SetupLookAround(this);
         } else {
             EnHintnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistFromLink && fabsf(this->actor.yDistFromLink) < 120.0f &&
-        ((this->animFlagAndTimer == 0) || (this->actor.xzDistFromLink < 480.0f))) {
+    if (hasSlowPlaybackSpeed && 160.0f < this->actor.xzDistToLink && fabsf(this->actor.yDistToLink) < 120.0f &&
+        ((this->animFlagAndTimer == 0) || (this->actor.xzDistToLink < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -268,7 +268,7 @@ void EnHintnuts_LookAround(EnHintnuts* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0 && this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
-    if ((this->actor.xzDistFromLink < 120.0f) || (this->animFlagAndTimer == 0)) {
+    if ((this->actor.xzDistToLink < 120.0f) || (this->animFlagAndTimer == 0)) {
         EnHintnuts_SetupBurrow(this);
     }
 }
@@ -281,7 +281,7 @@ void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
     if (!(this->animFlagAndTimer & 0x1000)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     }
-    if (this->actor.xzDistFromLink < 120.0f || this->animFlagAndTimer == 0x1000) {
+    if (this->actor.xzDistToLink < 120.0f || this->animFlagAndTimer == 0x1000) {
         EnHintnuts_SetupBurrow(this);
     } else if (this->animFlagAndTimer == 0) {
         EnHintnuts_SetupThrowScrubProjectile(this);
@@ -292,7 +292,7 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     Vec3f nutPos;
 
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
-    if (this->actor.xzDistFromLink < 120.0f) {
+    if (this->actor.xzDistToLink < 120.0f) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnHintnuts_SetupStand(this);
@@ -346,7 +346,7 @@ void EnHintnuts_CheckProximity(EnHintnuts* this, GlobalContext* globalCtx) {
         } else {
             this->actor.flags &= ~0x10000;
         }
-        if (this->actor.xzDistFromLink < 130.0f) {
+        if (this->actor.xzDistToLink < 130.0f) {
             this->actor.textId = this->textIdCopy;
             func_8002F2F4(&this->actor, globalCtx);
         }

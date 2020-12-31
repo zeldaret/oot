@@ -3039,8 +3039,7 @@ endseg
 beginseg
     name "ovl_En_Tite"
     include "build/src/overlays/actors/ovl_En_Tite/z_en_tite.o"
-    include "build/data/overlays/actors/z_en_tite.data.o"
-    include "build/data/overlays/actors/z_en_tite.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tite/ovl_En_Tite_reloc.o"
 endseg
 
 beginseg

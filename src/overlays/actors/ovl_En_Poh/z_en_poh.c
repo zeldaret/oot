@@ -437,7 +437,7 @@ void func_80ADEAC4(EnPoh* this, GlobalContext* globalCtx) {
         this->unk_198--;
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
-    if (this->actor.xzDistFromLink < 200.0f) {
+    if (this->actor.xzDistToLink < 200.0f) {
         func_80ADE1BC(this);
     } else if (this->unk_198 == 0) {
         EnPoh_SetupIdle(this);
@@ -455,7 +455,7 @@ void EnPoh_Idle(EnPoh* this, GlobalContext* globalCtx) {
     }
     func_80ADEA5C(this);
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
-    if (this->actor.xzDistFromLink < 200.0f && this->unk_198 < 19) {
+    if (this->actor.xzDistToLink < 200.0f && this->unk_198 < 19) {
         func_80ADE1BC(this);
     } else if (this->unk_198 == 0) {
         if (Rand_ZeroOne() < 0.1f) {
@@ -487,9 +487,9 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
-    if (this->actor.xzDistFromLink > 280.0f) {
+    if (this->actor.xzDistToLink > 280.0f) {
         EnPoh_SetupIdle(this);
-    } else if (this->unk_198 == 0 && this->actor.xzDistFromLink < 140.0f &&
+    } else if (this->unk_198 == 0 && this->actor.xzDistToLink < 140.0f &&
                func_8002DFC8(&this->actor, 0x2AAA, globalCtx) == 0) {
         EnPoh_SetupAttack(this);
     }
@@ -538,7 +538,7 @@ void func_80ADEF38(EnPoh* this, GlobalContext* globalCtx) {
     } else if (this->skelAnime.curFrame > 10.0f) {
         this->lightColor.a = ((this->skelAnime.curFrame - 10.0f) * 0.05f) * 255.0f;
     }
-    if (this->skelAnime.playSpeed < 0.5f && this->actor.xzDistFromLink < 280.0f) {
+    if (this->skelAnime.playSpeed < 0.5f && this->actor.xzDistToLink < 280.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
         this->skelAnime.playSpeed = 1.0f;
     }
@@ -617,7 +617,7 @@ void func_80ADF5E0(EnPoh* this, GlobalContext* globalCtx) {
     if (Math_ScaledStepToS(&this->actor.posRot.rot.y, this->unk_19C, 1820) != 0) {
         EnPoh_SetupIdle(this);
     }
-    if (this->actor.xzDistFromLink < 200.0f) {
+    if (this->actor.xzDistToLink < 200.0f) {
         func_80ADE1BC(this);
     }
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
@@ -657,7 +657,7 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.z += multiplier * Math_SinS(this->actor.shape.rot.y);
     Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0x71C);
     EnPoh_MoveTowardsPlayerHeight(this, globalCtx);
-    if (this->unk_198 == 0 || this->actor.xzDistFromLink > 250.0f) {
+    if (this->unk_198 == 0 || this->actor.xzDistToLink > 250.0f) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         EnPoh_SetupIdle(this);
     }

@@ -188,7 +188,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
         Vec3f velocity = { 0.0f, 8.0f, 0.0f };
         Vec3f accel = { 0.0f, -1.5f, 0.0f };
 
-        if (sqrt(this->actor.xyzDistFromLinkSq) <= 40.0f) {
+        if (sqrt(this->actor.xyzDistToLinkSq) <= 40.0f) {
             u8 prevInvincibilityTimer = player->invincibilityTimer;
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer <= -40) {
@@ -198,7 +198,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
                     globalCtx->damagePlayer(globalCtx, -8);
                 }
             }
-            func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistFromLink) * 0.04f + 4.0f,
+            func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistToLink) * 0.04f + 4.0f,
                           this->actor.parent->posRot.rot.y, 8.0f);
             player->invincibilityTimer = prevInvincibilityTimer;
             this->timer = 1;

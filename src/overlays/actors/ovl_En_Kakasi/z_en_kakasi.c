@@ -201,7 +201,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     }
 
     yawTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!(this->actor.xzDistFromLink > 120.0f)) {
+    if (!(this->actor.xzDistToLink > 120.0f)) {
         absyawTowardsLink = ABS(yawTowardsLink);
 
         if (absyawTowardsLink < 0x4300) {
@@ -216,7 +216,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A8F8D0;
                     return;
                 }
-                if (this->actor.xzDistFromLink < 80.0f) {
+                if (this->actor.xzDistToLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             }

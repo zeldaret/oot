@@ -85,7 +85,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     u32 bgId;
     Vec3f collisionPos;
 
-    if (this->actor.xzDistFromLink > 300.0f) {
+    if (this->actor.xzDistToLink > 300.0f) {
         return false;
     }
 

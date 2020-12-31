@@ -176,7 +176,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
     }
-    this->jumpHeight = this->actor.yDistFromLink + 20.0f;
+    this->jumpHeight = this->actor.yDistToLink + 20.0f;
     this->jumpHeight = CLAMP_MIN(this->jumpHeight, 10.0f);
     if (this->jumpHeight > 50.0f) {
         EnOkuta_SpawnSplash(this, globalCtx);
@@ -232,7 +232,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
-    if ((this->actor.xzDistFromLink < 480.0f) && (this->actor.xzDistFromLink > 200.0f)) {
+    if ((this->actor.xzDistToLink < 480.0f) && (this->actor.xzDistToLink > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
     }
 }
@@ -241,7 +241,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->actor.xzDistFromLink < 160.0f) {
+        if (this->actor.xzDistToLink < 160.0f) {
             EnOkuta_SetupHide(this);
         } else {
             EnOkuta_SetupWaitToShoot(this);
@@ -295,12 +295,12 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
-    if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
+    if (this->actor.xzDistToLink < 160.0f || this->actor.xzDistToLink > 560.0f) {
         EnOkuta_SetupHide(this);
     } else {
         temp_v0_2 = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
-        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistFromLink < 200.0f)) {
+        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistToLink < 200.0f)) {
             EnOkuta_SetupShoot(this, globalCtx);
         }
     }
@@ -334,7 +334,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
-    if (this->actor.xzDistFromLink < 160.0f) {
+    if (this->actor.xzDistToLink < 160.0f) {
         EnOkuta_SetupHide(this);
     }
 }
