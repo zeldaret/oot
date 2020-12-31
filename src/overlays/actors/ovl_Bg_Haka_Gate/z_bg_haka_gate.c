@@ -56,7 +56,7 @@ extern ColHeader D_060131C4;
 
 static s16 sSkullOfTruthRotY = 0x100;
 static u8 sPuzzleState = 1;
-static f32 sStatueDistFromLink = 0;
+static f32 sStatueDistToLink = 0;
 
 static s16 sStatueRotY;
 
@@ -113,7 +113,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params == BGHAKAGATE_STATUE) {
             DynaPolyInfo_Alloc(&D_060131C4, &colHeader);
             this->vTimer = 0;
-            sStatueDistFromLink = 0.0f;
+            sStatueDistToLink = 0.0f;
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_StatueInactive;
             } else {
@@ -172,7 +172,7 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
     if (this->dyna.unk_150 != 0.0f) {
         if (this->vTimer == 0) {
             this->vInitTurnAngle = this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsLink;
-            sStatueDistFromLink = this->dyna.actor.xzDistFromLink;
+            sStatueDistToLink = this->dyna.actor.xzDistToLink;
             forceDirection = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
             linkDirection = ((s16)(this->dyna.actor.yawTowardsLink - player->actor.shape.rot.y) > 0) ? -1 : 1;
             this->vTurnDirection = linkDirection * forceDirection;
@@ -203,15 +203,15 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
     this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
-    if ((player->stateFlags2 & 0x10) && (sStatueDistFromLink > 0.0f)) {
+    if ((player->stateFlags2 & 0x10) && (sStatueDistToLink > 0.0f)) {
         player->actor.posRot.pos.x =
             this->dyna.actor.initPosRot.pos.x +
-            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToLink);
         player->actor.posRot.pos.z =
             this->dyna.actor.initPosRot.pos.z +
-            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToLink);
     } else {
-        sStatueDistFromLink = 0.0f;
+        sStatueDistToLink = 0.0f;
     }
     sStatueRotY = this->dyna.actor.shape.rot.y;
     if (turnFinished) {
@@ -227,7 +227,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
-    if ((sStatueDistFromLink > 1.0f) && (sStatueRotY != 0)) {
+    if ((sStatueDistToLink > 1.0f) && (sStatueRotY != 0)) {
         Player* player = PLAYER;
         f32 radialDist;
         f32 angDist;
@@ -242,7 +242,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
         if ((radialDist > 110.0f) || (fabsf(angDist) > 40.0f)) {
             s16 yawDiff = sSkullOfTruthRotY - sStatueRotY;
 
-            sStatueDistFromLink = 0.0f;
+            sStatueDistToLink = 0.0f;
             if (ABS(yawDiff) < 0x80) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 sPuzzleState = SKULL_OF_TRUTH_FOUND;
