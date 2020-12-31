@@ -398,8 +398,8 @@ PlayerAgeProperties sAgeProperties[] = {
         gPlayerAnimation168,
         0x04002E70,
         0x04002E78,
-        { 0x04002E80, 0x04002E88, 0x04002D90, 0x04002D98 },
-        { 0x04002D70, 0x04002D78 },
+        { 0x04002E80, 0x04002E88, gPlayerAnimation339, gPlayerAnimation340 },
+        { gPlayerAnimation335, gPlayerAnimation336 },
         { 0x04002E50, 0x04002E58 },
         { 0x04002E68, 0x04002E60 },
     },
@@ -449,8 +449,8 @@ PlayerAgeProperties sAgeProperties[] = {
         gPlayerAnimation22,
         gPlayerAnimation29,
         gPlayerAnimation30,
-        { gPlayerAnimation31, gPlayerAnimation32, 0x04002D90, 0x04002D98 },
-        { 0x04002D70, 0x04002D78 },
+        { gPlayerAnimation31, gPlayerAnimation32, gPlayerAnimation339, gPlayerAnimation340 },
+        { gPlayerAnimation335, gPlayerAnimation336 },
         { gPlayerAnimation25, gPlayerAnimation26 },
         { gPlayerAnimation28, gPlayerAnimation27 },
     },
@@ -612,15 +612,15 @@ GetItemEntry sGetItemTable[] = {
 };
 
 LinkAnimationHeader* D_80853914[] = {
-    0x04003240, 0x04003238, 0x04003238, 0x04002BE0, 0x04003240, 0x04003240,
+    0x04003240, 0x04003238, 0x04003238, gPlayerAnimation285, 0x04003240, 0x04003240,
 };
 
 LinkAnimationHeader* D_8085392C[] = {
-    0x04003290, 0x04003268, 0x04003268, 0x04002BF8, 0x04003290, 0x04003290,
+    0x04003290, 0x04003268, 0x04003268, gPlayerAnimation288, 0x04003290, 0x04003290,
 };
 
 LinkAnimationHeader* D_80853944[] = {
-    0x04003140, 0x04002B38, 0x04003138, 0x04002B40, 0x04003140, 0x04003140,
+    0x04003140, gPlayerAnimation264, 0x04003138, gPlayerAnimation265, 0x04003140, 0x04003140,
 };
 
 LinkAnimationHeader* D_8085395C[] = {
@@ -632,15 +632,15 @@ LinkAnimationHeader* D_80853974[] = {
 };
 
 LinkAnimationHeader* D_8085398C[] = {
-    0x04003220, gPlayerAnimation83, gPlayerAnimation83, 0x04002BC0, 0x04003220, 0x04003220,
+    0x04003220, gPlayerAnimation83, gPlayerAnimation83, gPlayerAnimation281, 0x04003220, 0x04003220,
 };
 
 LinkAnimationHeader* D_808539A4[] = {
-    0x04003230, gPlayerAnimation91, gPlayerAnimation91, 0x04002BD0, 0x04003230, 0x04003230,
+    0x04003230, gPlayerAnimation91, gPlayerAnimation91, gPlayerAnimation283, 0x04003230, 0x04003230,
 };
 
 LinkAnimationHeader* D_808539BC[] = {
-    0x04002BB0, 0x040031F8, 0x040031F8, 0x04002BB0, 0x04002BB0, 0x04002BB0,
+    gPlayerAnimation279, 0x040031F8, 0x040031F8, gPlayerAnimation279, gPlayerAnimation279, gPlayerAnimation279,
 };
 
 LinkAnimationHeader* D_808539D4[] = {
@@ -684,11 +684,11 @@ LinkAnimationHeader* D_80853AAC[] = {
 };
 
 LinkAnimationHeader* D_80853AC4[] = {
-    0x04003278, 0x04003270, 0x04003270, 0x04002BE8, 0x04003278, 0x04003278,
+    0x04003278, 0x04003270, 0x04003270, gPlayerAnimation286, 0x04003278, 0x04003278,
 };
 
 LinkAnimationHeader* D_80853ADC[] = {
-    0x04003288, 0x04003280, 0x04003280, 0x04002BF0, 0x04003288, 0x04003288,
+    0x04003288, 0x04003280, 0x04003280, gPlayerAnimation287, 0x04003288, 0x04003288,
 };
 
 LinkAnimationHeader* D_80853AF4[] = {
@@ -704,27 +704,27 @@ LinkAnimationHeader* D_80853B24[] = {
 };
 
 LinkAnimationHeader* D_80853B3C[] = {
-    0x04003190, 0x04003188, 0x04003188, 0x04002B68, 0x04003190, 0x04003190,
+    0x04003190, 0x04003188, 0x04003188, gPlayerAnimation270, 0x04003190, 0x04003190,
 };
 
 LinkAnimationHeader* D_80853B54[] = {
-    0x04003178, gPlayerAnimation78, gPlayerAnimation78, 0x04002B58, 0x04003178, 0x04003178,
+    0x04003178, gPlayerAnimation78, gPlayerAnimation78, gPlayerAnimation268, 0x04003178, 0x04003178,
 };
 
 LinkAnimationHeader* D_80853B6C[] = {
-    0x04003180, gPlayerAnimation79, gPlayerAnimation79, 0x04002B60, 0x04003180, 0x04003180,
+    0x04003180, gPlayerAnimation79, gPlayerAnimation79, gPlayerAnimation269, 0x04003180, 0x04003180,
 };
 
 LinkAnimationHeader* D_80853B84[] = {
-    0x04002D60, 0x04002D58, 0x04002D58, 0x04002D60, 0x04002D60, 0x04002D60,
+    gPlayerAnimation333, gPlayerAnimation332, gPlayerAnimation332, gPlayerAnimation333, gPlayerAnimation333, gPlayerAnimation333,
 };
 
 LinkAnimationHeader* D_80853B9C[] = {
-    0x04002BB8, 0x04003218, 0x04003218, 0x04002BB8, 0x04002BB8, 0x04002BB8,
+    gPlayerAnimation280, 0x04003218, 0x04003218, gPlayerAnimation280, gPlayerAnimation280, gPlayerAnimation280,
 };
 
 LinkAnimationHeader* D_80853BB4[] = {
-    0x04002BC8, 0x04003228, 0x04003228, 0x04002BC8, 0x04002BC8, 0x04002BC8,
+    gPlayerAnimation282, 0x04003228, 0x04003228, gPlayerAnimation282, gPlayerAnimation282, gPlayerAnimation282,
 };
 
 LinkAnimationHeader* D_80853BCC[] = {
@@ -736,7 +736,7 @@ LinkAnimationHeader* D_80853BE4[] = {
 };
 
 LinkAnimationHeader* D_80853BFC[] = {
-    0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8,
+    gPlayerAnimation350, gPlayerAnimation350, gPlayerAnimation350, gPlayerAnimation350, gPlayerAnimation350, gPlayerAnimation350,
 };
 
 LinkAnimationHeader* D_80853C14[] = {
@@ -954,8 +954,8 @@ void (*D_80853FE8[])(GlobalContext* globalCtx, Player* this) = {
 };
 
 struct_808540F4 D_808540F4[] = {
-    { 0x04002F50, 12 }, { 0x04003080, 6 }, { 0x04002C68, 8 },  { 0x04003090, 8 },  { gPlayerAnimation229, 8 },
-    { 0x04002F30, 10 }, { 0x04002C58, 7 }, { 0x04002C60, 11 }, { 0x04002F50, 12 }, { 0x04003078, 4 },
+    { 0x04002F50, 12 }, { 0x04003080, 6 }, { gPlayerAnimation302, 8 },  { 0x04003090, 8 },  { gPlayerAnimation229, 8 },
+    { 0x04002F30, 10 }, { gPlayerAnimation300, 7 }, { gPlayerAnimation301, 11 }, { 0x04002F50, 12 }, { 0x04003078, 4 },
     { 0x04003058, 4 },  { 0x04002F38, 4 }, { gPlayerAnimation61, 5 },  { 0x04002F48, 13 },
 };
 
@@ -980,39 +980,39 @@ struct_80854190 D_80854190[] = {
     { gPlayerAnimation248, gPlayerAnimation249, gPlayerAnimation75, 1, 9 },  { gPlayerAnimation191, gPlayerAnimation192, gPlayerAnimation55, 1, 8 },
     { gPlayerAnimation237, gPlayerAnimation235, gPlayerAnimation235, 1, 10 }, { gPlayerAnimation193, gPlayerAnimation195, gPlayerAnimation195, 1, 11 },
     { gPlayerAnimation235, gPlayerAnimation236, gPlayerAnimation236, 1, 2 },  { gPlayerAnimation195, gPlayerAnimation194, gPlayerAnimation194, 1, 2 },
-    { 0x04002B80, 0x04002B88, 0x04002B88, 1, 5 },  { 0x04002B70, 0x04002B78, 0x04002B78, 1, 4 },
-    { 0x04002C40, 0x04002C50, 0x04002C48, 3, 10 }, { 0x04002C70, 0x04002C80, 0x04002C78, 2, 11 },
-    { 0x04002B28, 0x04002B30, gPlayerAnimation77, 0, 12 }, { gPlayerAnimation201, gPlayerAnimation202, gPlayerAnimation56, 0, 15 },
+    { gPlayerAnimation273, gPlayerAnimation274, gPlayerAnimation274, 1, 5 },  { gPlayerAnimation271, gPlayerAnimation272, gPlayerAnimation272, 1, 4 },
+    { gPlayerAnimation297, gPlayerAnimation299, gPlayerAnimation298, 3, 10 }, { gPlayerAnimation303, gPlayerAnimation305, gPlayerAnimation304, 2, 11 },
+    { gPlayerAnimation262, gPlayerAnimation263, gPlayerAnimation77, 0, 12 }, { gPlayerAnimation201, gPlayerAnimation202, gPlayerAnimation56, 0, 15 },
     { gPlayerAnimation217, gPlayerAnimation218, gPlayerAnimation77, 0, 16 }, { gPlayerAnimation217, gPlayerAnimation218, gPlayerAnimation56, 0, 16 },
 };
 
 LinkAnimationHeader* D_80854350[] = {
-    0x04002AE8,
+    gPlayerAnimation254,
     gPlayerAnimation197,
 };
 
 LinkAnimationHeader* D_80854358[] = {
-    0x04002AE0,
+    gPlayerAnimation253,
     gPlayerAnimation197,
 };
 
 LinkAnimationHeader* D_80854360[] = {
-    0x04002AF0,
+    gPlayerAnimation255,
     gPlayerAnimation198,
 };
 
 LinkAnimationHeader* D_80854368[] = {
-    0x04002AF8,
+    gPlayerAnimation256,
     gPlayerAnimation199,
 };
 
 LinkAnimationHeader* D_80854370[] = {
-    0x04002B00,
+    gPlayerAnimation257,
     gPlayerAnimation200,
 };
 
 LinkAnimationHeader* D_80854378[] = {
-    0x04002AD8,
+    gPlayerAnimation252,
     gPlayerAnimation196,
 };
 
@@ -1054,12 +1054,12 @@ LinkAnimationHeader* D_808543C4[] = {
 
 LinkAnimationHeader* D_808543CC[] = {
     gPlayerAnimation127,
-    0x04002CC8,
+    gPlayerAnimation314,
 };
 
 LinkAnimationHeader* D_808543D4[] = {
     gPlayerAnimation121,
-    0x04002CC0,
+    gPlayerAnimation313,
 };
 
 // external segments
@@ -1194,7 +1194,6 @@ extern LinkAnimationHeader D_040033A0;
 extern LinkAnimationHeader D_040033B0;
 extern LinkAnimationHeader D_040033B8;
 extern LinkAnimationHeader D_040033C8;
-extern Gfx gEffectIceFragmentDL3[];
 
 // return type can't be void due to regalloc in func_8084FCAC
 s32 func_80832210(Player* this) {
@@ -3464,7 +3463,7 @@ void func_80837B9C(Player* this, GlobalContext* globalCtx) {
 }
 
 LinkAnimationHeader* D_808544B0[] = {
-    0x04002F80, 0x04002F78, 0x04002DE0, 0x04002DD8, 0x04002F70, gPlayerAnimation70, 0x04002DC8, gPlayerAnimation63,
+    0x04002F80, 0x04002F78, gPlayerAnimation349, gPlayerAnimation348, 0x04002F70, gPlayerAnimation70, gPlayerAnimation346, gPlayerAnimation63,
 };
 
 void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f32 arg4, s16 arg5, s32 arg6) {
@@ -7508,10 +7507,10 @@ void func_80842CF0(GlobalContext* globalCtx, Player* this) {
 }
 
 LinkAnimationHeader* D_808545CC[] = {
-    0x04002B10,
-    0x04002B20,
-    0x04002B08,
-    0x04002B18,
+    gPlayerAnimation259,
+    gPlayerAnimation261,
+    gPlayerAnimation258,
+    gPlayerAnimation260,
 };
 
 void func_80842D20(GlobalContext* globalCtx, Player* this) {
@@ -12764,21 +12763,21 @@ void func_8085076C(Player* this, GlobalContext* globalCtx) {
 }
 
 LinkAnimationHeader* D_80854A58[] = {
-    0x04002CF8,
-    0x04002CE0,
-    0x04002D10,
+    gPlayerAnimation320,
+    gPlayerAnimation317,
+    gPlayerAnimation323,
 };
 
 LinkAnimationHeader* D_80854A64[] = {
-    0x04002D00,
-    0x04002CE8,
-    0x04002D18,
+    gPlayerAnimation321,
+    gPlayerAnimation318,
+    gPlayerAnimation324,
 };
 
 LinkAnimationHeader* D_80854A70[] = {
-    0x04002D08,
-    0x04002CF0,
-    0x04002D20,
+    gPlayerAnimation322,
+    gPlayerAnimation319,
+    gPlayerAnimation325,
 };
 
 u8 D_80854A7C[] = { 70, 10, 10 };
@@ -12973,22 +12972,22 @@ struct_80854B18 D_80854B18[] = {
     { 3, gPlayerAnimation137 },     { 0, NULL },           { 0, NULL },           { -1, func_808515A4 }, { 2, gPlayerAnimation144 },
     { -1, func_80851788 }, { 3, gPlayerAnimation173 },     { -1, func_808518DC }, { 7, gPlayerAnimation10 },     { 5, gPlayerAnimation11 },
     { 5, gPlayerAnimation12 },     { 5, gPlayerAnimation23 },     { 7, gPlayerAnimation24 },     { -1, func_808519EC }, { 2, gPlayerAnimation134 },
-    { 2, gPlayerAnimation136 },     { 0, NULL },           { -1, func_80851B90 }, { 3, gPlayerAnimation150 },     { 9, 0x04002DB0 },
-    { 2, 0x04002DC0 },     { -1, func_80851D2C }, { 2, 0x04003098 },     { 3, gPlayerAnimation145 },     { -1, func_808515A4 },
+    { 2, gPlayerAnimation136 },     { 0, NULL },           { -1, func_80851B90 }, { 3, gPlayerAnimation150 },     { 9, gPlayerAnimation343 },
+    { 2, gPlayerAnimation345 },     { -1, func_80851D2C }, { 2, 0x04003098 },     { 3, gPlayerAnimation145 },     { -1, func_808515A4 },
     { 2, 0x04003088 },     { 0, NULL },           { 0, NULL },           { 5, gPlayerAnimation5 },     { -1, func_80851368 },
     { -1, func_80851E64 }, { 5, gPlayerAnimation6 },     { 16, 0x04002F90 },    { -1, func_80851F84 }, { -1, func_80851E90 },
     { 6, gPlayerAnimation35 },     { 6, gPlayerAnimation36 },     { -1, func_80852080 }, { 5, gPlayerAnimation19 },     { -1, func_808521F4 },
     { -1, func_8085225C }, { -1, func_80852280 }, { 5, gPlayerAnimation21 },     { 5, gPlayerAnimation14 },     { -1, func_808515A4 },
     { 5, gPlayerAnimation15 },     { 5, gPlayerAnimation151 },     { 5, gPlayerAnimation152 },     { 5, gPlayerAnimation153 },     { 3, gPlayerAnimation142 },
     { 3, gPlayerAnimation156 },     { 4, gPlayerAnimation157 },     { 3, gPlayerAnimation17 },     { 3, gPlayerAnimation166 },     { 6, gPlayerAnimation47 },
-    { 6, 0x040032A8 },     { 14, 0x040032A0 },    { 3, 0x040032A0 },     { 5, 0x04002AE8 },     { 16, gPlayerAnimation43 },
-    { 15, gPlayerAnimation45 },    { 15, gPlayerAnimation44 },    { 3, gPlayerAnimation41 },     { 3, gPlayerAnimation40 },     { 3, 0x04002C88 },
+    { 6, 0x040032A8 },     { 14, 0x040032A0 },    { 3, 0x040032A0 },     { 5, gPlayerAnimation254 },     { 16, gPlayerAnimation43 },
+    { 15, gPlayerAnimation45 },    { 15, gPlayerAnimation44 },    { 3, gPlayerAnimation41 },     { 3, gPlayerAnimation40 },     { 3, gPlayerAnimation306 },
     { 6, 0x04003450 },     { 6, 0x04003448 },     { 6, 0x04003460 },     { 6, 0x04003440 },     { 3, gPlayerAnimation148 },
     { 3, gPlayerAnimation164 },     { 4, gPlayerAnimation170 },     { 3, gPlayerAnimation171 },     { 3, 0x040034E0 },     { 3, 0x040034D8 },
     { 6, 0x040034C8 },     { 3, 0x04003470 },     { 3, 0x04003478 },     { 3, 0x040034C0 },     { 3, 0x04003480 },
     { 3, 0x04003490 },     { 3, 0x04003488 },     { 3, 0x04003498 },     { 3, 0x040034B0 },     { -1, func_808524B0 },
     { 3, 0x04003420 },     { -1, func_80852544 }, { -1, func_80852564 }, { 3, 0x04003250 },     { -1, func_80852608 },
-    { 3, gPlayerAnimation163 },     { 3, gPlayerAnimation168 },     { 3, 0x04002CD0 },     { 3, 0x04002CD8 },     { 3, gPlayerAnimation174 },
+    { 3, gPlayerAnimation163 },     { 3, gPlayerAnimation168 },     { 3, gPlayerAnimation315 },     { 3, gPlayerAnimation316 },     { 3, gPlayerAnimation174 },
     { 3, gPlayerAnimation158 },     { 3, gPlayerAnimation160 },     { 3, gPlayerAnimation161 },
 };
 
