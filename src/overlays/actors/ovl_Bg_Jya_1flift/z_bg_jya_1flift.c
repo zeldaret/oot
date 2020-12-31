@@ -54,8 +54,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-
-extern Gfx g1fliftDlist[];
+//extern UNK_TYPE g1fliftCol;
+//extern Gfx g1fliftDlist[];
 
 void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, UNK_PTR arg2, s32 moveFlag) {
     s32 pad;

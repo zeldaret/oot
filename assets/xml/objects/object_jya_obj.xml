@@ -40,7 +40,7 @@
 		<Texture Name="gLiftTopTex" Format="rgb5a1" Width="16" Height="64" Offset="0x18140"/>
 		<Texture Name="gLiftUpperChainTex" Format="rgb5a1" Width="8" Height="32" Offset="0x18940"/>
 		<Blob Name="gLiftCol" Offset="0xD7E8" Size="0x2C"/>
-		<DList Name="gMegamiDlist1" Offset="0x5780"/>
+				<DList Name="gMegamiDlist1" Offset="0x5780"/>
 		<Blob Name="GMegamiCol" Offset="0x5C4C" Size="0x2C"/>
 		<DList Name="gMegamiDlist2" Offset="0xB9F8"/>
 		<DList Name="gMegamiDlist2" Offset="0xB9F8"/>
@@ -57,8 +57,8 @@
 		<DList Name="gMegamiPieceDlist11" Offset="0xA7E0"/>
 		<DList Name="gMegamiPieceDlist12" Offset="0xA978"/>
 		<DList Name="gMegamiPieceDlist13" Offset="0xAAC8"/>
-		<Texture Name="object_jya_obj_tex_0000ACB8" Format="i8" Width="64" Height="32" Offset="0xACB8"/>
-		<Texture Name="object_jya_obj_tex_00005CE8" Format="i8" Width="64" Height="32" Offset="0x5CE8"/>
+		<Texture Name="object_jya_obj_tex_0000ACB8" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
+		<Texture Name="object_jya_obj_tex_00005CE8" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
 		<DList Name="gZurerukabeDlist" Offset="0x12340"/>
 		<Blob Name="gZurerukabeCol" Offset="0x12508" Size="0x2C"/>
 	</File>
