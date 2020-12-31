@@ -800,9 +800,9 @@ LinkAnimationHeader* D_80853D4C[][3] = {
 
 LinkAnimationHeader* D_80853D7C[][2] = {
     { gPlayerAnimation490, gPlayerAnimation481 }, { gPlayerAnimation492, gPlayerAnimation483 }, { gPlayerAnimation491, gPlayerAnimation482 }, { gPlayerAnimation491, gPlayerAnimation482 },
-    { 0x04003430, 0x040033F0 }, { 0x04003430, 0x040033F0 }, { 0x04003430, 0x040033F0 }, { 0x040033F8, 0x040033D0 },
-    { 0x04003400, 0x040033D8 }, { 0x04003420, 0x04003420 }, { 0x04003408, 0x040033E0 }, { 0x04003410, 0x040033E8 },
-    { 0x04003418, 0x04003418 }, { 0x04003428, 0x04003428 },
+    { 0x04003430, gPlayerAnimation543 }, { 0x04003430, gPlayerAnimation543 }, { 0x04003430, gPlayerAnimation543 }, { gPlayerAnimation544, gPlayerAnimation539 },
+    { gPlayerAnimation545, gPlayerAnimation540 }, { gPlayerAnimation549, gPlayerAnimation549 }, { gPlayerAnimation546, gPlayerAnimation541 }, { gPlayerAnimation547, gPlayerAnimation542 },
+    { gPlayerAnimation548, gPlayerAnimation548 }, { gPlayerAnimation550, gPlayerAnimation550 },
 };
 
 struct_80832924 D_80853DEC[] = {
@@ -5794,8 +5794,8 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
 }
 
 struct_80854578 D_80854578[] = {
-    { 0x04003398, 35.16999817f, 6.609999657f },
-    { 0x040033A8, -34.15999985f, 7.909999847f },
+    { gPlayerAnimation532, 35.16999817f, 6.609999657f },
+    { gPlayerAnimation534, -34.15999985f, 7.909999847f },
 };
 
 s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
@@ -11269,17 +11269,17 @@ void func_8084CBF4(Player* this, f32 arg1, f32 arg2) {
 }
 
 LinkAnimationHeader* D_80854944[] = {
-    0x04003370, 0x04003368, 0x04003380, 0x04003358, 0x04003338, 0x04003348, 0x04003350, NULL, NULL,
+    gPlayerAnimation527, gPlayerAnimation526, gPlayerAnimation529, gPlayerAnimation524, gPlayerAnimation520, gPlayerAnimation522, gPlayerAnimation523, NULL, NULL,
 };
 
 LinkAnimationHeader* D_80854968[] = {
-    0x04003388, 0x04003388, 0x04003388, 0x04003360, 0x04003340, 0x04003340, 0x04003340, NULL, NULL,
+    gPlayerAnimation530, gPlayerAnimation530, gPlayerAnimation530, gPlayerAnimation525, gPlayerAnimation521, gPlayerAnimation521, gPlayerAnimation521, NULL, NULL,
 };
 
 LinkAnimationHeader* D_8085498C[] = {
-    0x040033C8,
-    0x040033B8,
-    0x040033C0,
+    gPlayerAnimation538,
+    gPlayerAnimation536,
+    gPlayerAnimation537,
 };
 
 u8 D_80854998[2][2] = {
@@ -12980,13 +12980,13 @@ struct_80854B18 D_80854B18[] = {
     { -1, func_8085225C }, { -1, func_80852280 }, { 5, gPlayerAnimation21 },     { 5, gPlayerAnimation14 },     { -1, func_808515A4 },
     { 5, gPlayerAnimation15 },     { 5, gPlayerAnimation151 },     { 5, gPlayerAnimation152 },     { 5, gPlayerAnimation153 },     { 3, gPlayerAnimation142 },
     { 3, gPlayerAnimation156 },     { 4, gPlayerAnimation157 },     { 3, gPlayerAnimation17 },     { 3, gPlayerAnimation166 },     { 6, gPlayerAnimation47 },
-    { 6, 0x040032A8 },     { 14, 0x040032A0 },    { 3, 0x040032A0 },     { 5, gPlayerAnimation254 },     { 16, gPlayerAnimation43 },
+    { 6, gPlayerAnimation502 },     { 14, gPlayerAnimation501 },    { 3, gPlayerAnimation501 },     { 5, gPlayerAnimation254 },     { 16, gPlayerAnimation43 },
     { 15, gPlayerAnimation45 },    { 15, gPlayerAnimation44 },    { 3, gPlayerAnimation41 },     { 3, gPlayerAnimation40 },     { 3, gPlayerAnimation306 },
     { 6, 0x04003450 },     { 6, 0x04003448 },     { 6, 0x04003460 },     { 6, 0x04003440 },     { 3, gPlayerAnimation148 },
     { 3, gPlayerAnimation164 },     { 4, gPlayerAnimation170 },     { 3, gPlayerAnimation171 },     { 3, 0x040034E0 },     { 3, 0x040034D8 },
     { 6, 0x040034C8 },     { 3, 0x04003470 },     { 3, 0x04003478 },     { 3, 0x040034C0 },     { 3, 0x04003480 },
     { 3, 0x04003490 },     { 3, 0x04003488 },     { 3, 0x04003498 },     { 3, 0x040034B0 },     { -1, func_808524B0 },
-    { 3, 0x04003420 },     { -1, func_80852544 }, { -1, func_80852564 }, { 3, gPlayerAnimation491 },     { -1, func_80852608 },
+    { 3, gPlayerAnimation549 },     { -1, func_80852544 }, { -1, func_80852564 }, { 3, gPlayerAnimation491 },     { -1, func_80852608 },
     { 3, gPlayerAnimation163 },     { 3, gPlayerAnimation168 },     { 3, gPlayerAnimation315 },     { 3, gPlayerAnimation316 },     { 3, gPlayerAnimation174 },
     { 3, gPlayerAnimation158 },     { 3, gPlayerAnimation160 },     { 3, gPlayerAnimation161 },
 };
