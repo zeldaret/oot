@@ -356,15 +356,15 @@ s32 func_80B5CF70(EnZl4 *this, GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5CF70.s")
 
-s32 func_80B5C3CC(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5D3CC(EnZl4 *this, GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5D3CC.s")
 
-s32 func_80B5C610(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5D610(EnZl4 *this, GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5D610.s")
 
-s32 func_80B5CAD8(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5DAD8(EnZl4 *this, GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5DAD8.s")
 
@@ -383,9 +383,9 @@ void func_80B5DE1C(EnZl4 *this, GlobalContext *globalCtx) {
             this->unk_210 = 0;
             this->unk_20D = 0;
             this->unk_20E = 3;
-            func_800F5C64((u16)0x51U);
-            func_80B5B7B0(globalCtx, (u16)0);
-            Interface_ChangeAlpha((u16)2U);
+            func_800F5C64(0x51);
+            func_80B5B7B0(globalCtx, 0);
+            Interface_ChangeAlpha(2);
             ShrinkWindow_SetVal(0x20);
             this->unk_208 = 0;
             this->unk_209++;

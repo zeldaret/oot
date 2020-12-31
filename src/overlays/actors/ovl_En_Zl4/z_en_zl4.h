@@ -9,19 +9,6 @@ struct EnZl4;
 typedef void (*EnZl4ActionFunc)(struct EnZl4*, GlobalContext*);
 typedef void (*EnZl4DrawFunc)(struct EnZl4*, GlobalContext*);
 
-typedef struct {
-    Vec3f at;
-    Vec3f eye;
-    s16 roll;
-    s16 fov;
-} EnZl4CameraStruct;
-
-typedef struct {
-    CutsceneCameraPoint* atPoints;
-    CutsceneCameraPoint* eyePoints;
-    s16 relativeToPlayer;
-} EnZl4CsCamStruct;
-
 typedef struct EnZl4 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
