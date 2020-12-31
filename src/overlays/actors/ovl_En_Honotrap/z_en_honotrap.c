@@ -193,8 +193,8 @@ void EnHonotrap_SetupEyeIdle(EnHonotrap* this) {
 void EnHonotrap_EyeIdle(EnHonotrap* this, GlobalContext* globalCtx) {
     if (this->actor.child != NULL) {
         this->timer = 200;
-    } else if ((this->timer <= 0) && (this->actor.xzDistFromLink < 750.0f) && (0.0f > this->actor.yDistFromLink) &&
-               (this->actor.yDistFromLink > -700.0f) &&
+    } else if ((this->timer <= 0) && (this->actor.xzDistToLink < 750.0f) && (0.0f > this->actor.yDistToLink) &&
+               (this->actor.yDistToLink > -700.0f) &&
                (-0x4000 < (this->actor.yawTowardsLink - this->actor.shape.rot.y)) &&
                ((this->actor.yawTowardsLink - this->actor.shape.rot.y) < 0x4000)) {
         EnHonotrap_SetupEyeOpen(this);
@@ -355,7 +355,7 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
 
 void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_FlameChase;
-    
+
     this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.x = this->actor.posRot.rot.y = this->actor.posRot.rot.z = 0;
 
@@ -369,7 +369,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
 
     Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x300);
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.1f);
-    this->actor.gravity = (-this->actor.yDistFromLink < 10.0f) ? 0.08f : -0.08f;
+    this->actor.gravity = (-this->actor.yDistToLink < 10.0f) ? 0.08f : -0.08f;
     func_8002D868(&this->actor);
     if (this->actor.velocity.y > 1.0f) {
         this->actor.velocity.y = 1.0f;
