@@ -278,7 +278,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     tempSetupIndex = gSaveContext.sceneSetupIndex;
-    if ((gEntranceTable[(0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
         gSaveContext.sceneSetupIndex < 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -286,19 +286,19 @@ void Gameplay_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneSetupIndex = 0;
         }
-    } else if ((gEntranceTable[(0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
                gSaveContext.sceneSetupIndex < 4) {
         gSaveContext.sceneSetupIndex = (gSaveContext.eventChkInf[4] & 0x100) ? 3 : 2;
     }
 
     Gameplay_SpawnScene(
-        globalCtx, (&gEntranceTable[((0, gSaveContext.entranceIndex)) + ((0, gSaveContext.sceneSetupIndex))])->scene,
-        (&gEntranceTable[((0, gSaveContext.sceneSetupIndex)) + ((0, gSaveContext.entranceIndex))])->spawn);
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", (0, gSaveContext.entranceIndex), gSaveContext.sceneSetupIndex);
+        globalCtx, (&gEntranceTable[(((void)0, gSaveContext.entranceIndex)) + (((void)0, gSaveContext.sceneSetupIndex))])->scene,
+        (&gEntranceTable[(((void)0, gSaveContext.sceneSetupIndex)) + (((void)0, gSaveContext.entranceIndex))])->spawn);
+    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneSetupIndex);
 
     // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[(0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) && gSaveContext.sceneSetupIndex == 6) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) && gSaveContext.sceneSetupIndex == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)())0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
@@ -343,7 +343,7 @@ void Gameplay_Init(GameState* thisx) {
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransition == 0xFF) {
             globalCtx->fadeTransition =
-                (gEntranceTable[(0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F; // Fade In
+                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F; // Fade In
         } else {
             globalCtx->fadeTransition = gSaveContext.nextTransition;
             gSaveContext.nextTransition = 0xFF;
