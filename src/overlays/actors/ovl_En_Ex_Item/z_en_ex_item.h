@@ -52,7 +52,7 @@ typedef enum {
     /* 17 */ EXITEM_MAGIC_WIND,
     /* 18 */ EXITEM_MAGIC_DARK,
     /* 19 */ EXITEM_BULLET_BAG
-} EnExItemParam;
+} EnExItemType;
 
 #define EXITEM_COUNTER 5
 #define EXITEM_CHEST 10
