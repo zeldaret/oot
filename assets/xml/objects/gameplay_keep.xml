@@ -1,294 +1,822 @@
 <Root>
     <File Name="gameplay_keep"  Segment="4">
-        <Texture Name="gReflection1Tex" OutName="reflection_1" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
-        <Texture Name="gReflection2Tex" OutName="reflection_2" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
-        <Texture Name="gHylianShieldFrontTex" OutName="hylian_shield_front" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
-        <Texture Name="gOcarinaofTimeSurfaceTex" OutName="ocarina_of_time_surface" Format="rgb5a1" Width="32" Height="16" Offset="0x00001400"/>
-        <Texture Name="gBottleSurfaceTex" OutName="bottle_surface" Format="rgb5a1" Width="16" Height="16" Offset="0x00001800"/>
-        <Texture Name="tex_04001A00" Format="i8" Width="8" Height="8" Offset="0x00001A00"/>
+        <Texture Name="gReflectionTex1" OutName="reflection_1" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
+        <Texture Name="gReflectionTex2" OutName="reflection_2" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
+        <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
+        <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgb5a1" Width="32" Height="16" Offset="0x00001400"/>
+        <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgb5a1" Width="16" Height="16" Offset="0x00001800"/>
+        <Texture Name="gLinkTunicTex1" OutName="link_tunic_1" Format="i8" Width="8" Height="8" Offset="0x00001A00"/>
         <Texture Name="gLinkHairTex" OutName="link_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x00001A40"/>
-        <Texture Name="gLinkTunic1Tex" OutName="link_tunic_1" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
-        <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
-        <Texture Name="gCandleFlameTex" OutName="candle_flame" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
-        <Blob Name="blob_04002040" Offset="0x2040" Size="0x14C0"/>        
-        <DList Name="gDebugTriangleDL" Offset="0x000035C0"/>
-        <Texture Name="gCircle1Tex" OutName="circle_1" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
-        <Texture Name="gReflection3Tex" OutName="reflection_3" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
-        <Texture Name="gTargetReticleTex" OutName="target_reticle" Format="i8" Width="16" Height="16" Offset="0x000037F0"/>
-        <Texture Name="gCrossTex" OutName="cross" Format="i8" Width="16" Height="16" Offset="0x000038F0"/>
+        <Texture Name="gLinkTunicTex2" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
+        <Texture Name="gLinkTunicTex3" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
+        <Texture Name="gLinkTunicTex4" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
+        <!--
+        <PlayerAnim Name="gPlayerAnimation1" Offset="0x00002300"/>
+        <PlayerAnim Name="gPlayerAnimation2"/>
+        <PlayerAnim Name="gPlayerAnimation3"/>
+        <PlayerAnim Name="gPlayerAnimation4"/>
+        <PlayerAnim Name="gPlayerAnimation5"/>
+        <PlayerAnim Name="gPlayerAnimation6"/>
+        <PlayerAnim Name="gPlayerAnimation7"/>
+        <PlayerAnim Name="gPlayerAnimation8"/>
+        <PlayerAnim Name="gPlayerAnimation9"/>
+        <PlayerAnim Name="gPlayerAnimation10"/>
+        <PlayerAnim Name="gPlayerAnimation11"/>
+        <PlayerAnim Name="gPlayerAnimation12"/>
+        <PlayerAnim Name="gPlayerAnimation13"/>
+        <PlayerAnim Name="gPlayerAnimation14"/>
+        <PlayerAnim Name="gPlayerAnimation15"/>
+        <PlayerAnim Name="gPlayerAnimation16"/>
+        <PlayerAnim Name="gPlayerAnimation17"/>
+        <PlayerAnim Name="gPlayerAnimation18"/>
+        <PlayerAnim Name="gPlayerAnimation19"/>
+        <PlayerAnim Name="gPlayerAnimation20"/>
+        <PlayerAnim Name="gPlayerAnimation21"/>
+        <PlayerAnim Name="gPlayerAnimation22"/>
+        <PlayerAnim Name="gPlayerAnimation23"/>
+        <PlayerAnim Name="gPlayerAnimation24"/>
+        <PlayerAnim Name="gPlayerAnimation25"/>
+        <PlayerAnim Name="gPlayerAnimation26"/>
+        <PlayerAnim Name="gPlayerAnimation27"/>
+        <PlayerAnim Name="gPlayerAnimation28"/>
+        <PlayerAnim Name="gPlayerAnimation29"/>
+        <PlayerAnim Name="gPlayerAnimation30"/>
+        <PlayerAnim Name="gPlayerAnimation31"/>
+        <PlayerAnim Name="gPlayerAnimation32"/>
+        <PlayerAnim Name="gPlayerAnimation33"/>
+        <PlayerAnim Name="gPlayerAnimation34"/>
+        <PlayerAnim Name="gPlayerAnimation35"/>
+        <PlayerAnim Name="gPlayerAnimation36"/>
+        <PlayerAnim Name="gPlayerAnimation37"/>
+        <PlayerAnim Name="gPlayerAnimation38"/>
+        <PlayerAnim Name="gPlayerAnimation39"/>
+        <PlayerAnim Name="gPlayerAnimation40"/>
+        <PlayerAnim Name="gPlayerAnimation41"/>
+        <PlayerAnim Name="gPlayerAnimation42"/>
+        <PlayerAnim Name="gPlayerAnimation43"/>
+        <PlayerAnim Name="gPlayerAnimation44"/>
+        <PlayerAnim Name="gPlayerAnimation45"/>
+        <PlayerAnim Name="gPlayerAnimation46"/>
+        <PlayerAnim Name="gPlayerAnimation47"/>
+        <PlayerAnim Name="gPlayerAnimation48"/>
+        <PlayerAnim Name="gPlayerAnimation49"/>
+        <PlayerAnim Name="gPlayerAnimation50"/>
+        <PlayerAnim Name="gPlayerAnimation51"/>
+        <PlayerAnim Name="gPlayerAnimation52"/>
+        <PlayerAnim Name="gPlayerAnimation53"/>
+        <PlayerAnim Name="gPlayerAnimation54"/>
+        <PlayerAnim Name="gPlayerAnimation55"/>
+        <PlayerAnim Name="gPlayerAnimation56"/>
+        <PlayerAnim Name="gPlayerAnimation57"/>
+        <PlayerAnim Name="gPlayerAnimation58"/>
+        <PlayerAnim Name="gPlayerAnimation59"/>
+        <PlayerAnim Name="gPlayerAnimation60"/>
+        <PlayerAnim Name="gPlayerAnimation61"/>
+        <PlayerAnim Name="gPlayerAnimation62"/>
+        <PlayerAnim Name="gPlayerAnimation63"/>
+        <PlayerAnim Name="gPlayerAnimation64"/>
+        <PlayerAnim Name="gPlayerAnimation65"/>
+        <PlayerAnim Name="gPlayerAnimation66"/>
+        <PlayerAnim Name="gPlayerAnimation67"/>
+        <PlayerAnim Name="gPlayerAnimation68"/>
+        <PlayerAnim Name="gPlayerAnimation69"/>
+        <PlayerAnim Name="gPlayerAnimation70"/>
+        <PlayerAnim Name="gPlayerAnimation71"/>
+        <PlayerAnim Name="gPlayerAnimation72"/>
+        <PlayerAnim Name="gPlayerAnimation73"/>
+        <PlayerAnim Name="gPlayerAnimation74"/>
+        <PlayerAnim Name="gPlayerAnimation75"/>
+        <PlayerAnim Name="gPlayerAnimation76"/>
+        <PlayerAnim Name="gPlayerAnimation77"/>
+        <PlayerAnim Name="gPlayerAnimation78"/>
+        <PlayerAnim Name="gPlayerAnimation79"/>
+        <PlayerAnim Name="gPlayerAnimation80"/>
+        <PlayerAnim Name="gPlayerAnimation81"/>
+        <PlayerAnim Name="gPlayerAnimation82"/>
+        <PlayerAnim Name="gPlayerAnimation83"/>
+        <PlayerAnim Name="gPlayerAnimation84"/>
+        <PlayerAnim Name="gPlayerAnimation85"/>
+        <PlayerAnim Name="gPlayerAnimation86"/>
+        <PlayerAnim Name="gPlayerAnimation87"/>
+        <PlayerAnim Name="gPlayerAnimation88"/>
+        <PlayerAnim Name="gPlayerAnimation89"/>
+        <PlayerAnim Name="gPlayerAnimation90"/>
+        <PlayerAnim Name="gPlayerAnimation91"/>
+        <PlayerAnim Name="gPlayerAnimation92"/>
+        <PlayerAnim Name="gPlayerAnimation93"/>
+        <PlayerAnim Name="gPlayerAnimation94"/>
+        <PlayerAnim Name="gPlayerAnimation95"/>
+        <PlayerAnim Name="gPlayerAnimation96"/>
+        <PlayerAnim Name="gPlayerAnimation97"/>
+        <PlayerAnim Name="gPlayerAnimation98"/>
+        <PlayerAnim Name="gPlayerAnimation99"/>
+        <PlayerAnim Name="gPlayerAnimation100"/>
+        <PlayerAnim Name="gPlayerAnimation101"/>
+        <PlayerAnim Name="gPlayerAnimation102"/>
+        <PlayerAnim Name="gPlayerAnimation103"/>
+        <PlayerAnim Name="gPlayerAnimation104"/>
+        <PlayerAnim Name="gPlayerAnimation105"/>
+        <PlayerAnim Name="gPlayerAnimation106"/>
+        <PlayerAnim Name="gPlayerAnimation107"/>
+        <PlayerAnim Name="gPlayerAnimation108"/>
+        <PlayerAnim Name="gPlayerAnimation109"/>
+        <PlayerAnim Name="gPlayerAnimation110"/>
+        <PlayerAnim Name="gPlayerAnimation111"/>
+        <PlayerAnim Name="gPlayerAnimation112"/>
+        <PlayerAnim Name="gPlayerAnimation113"/>
+        <PlayerAnim Name="gPlayerAnimation114"/>
+        <PlayerAnim Name="gPlayerAnimation115"/>
+        <PlayerAnim Name="gPlayerAnimation116"/>
+        <PlayerAnim Name="gPlayerAnimation117"/>
+        <PlayerAnim Name="gPlayerAnimation118"/>
+        <PlayerAnim Name="gPlayerAnimation119"/>
+        <PlayerAnim Name="gPlayerAnimation120"/>
+        <PlayerAnim Name="gPlayerAnimation121"/>
+        <PlayerAnim Name="gPlayerAnimation122"/>
+        <PlayerAnim Name="gPlayerAnimation123"/>
+        <PlayerAnim Name="gPlayerAnimation124"/>
+        <PlayerAnim Name="gPlayerAnimation125"/>
+        <PlayerAnim Name="gPlayerAnimation126"/>
+        <PlayerAnim Name="gPlayerAnimation127"/>
+        <PlayerAnim Name="gPlayerAnimation128"/>
+        <PlayerAnim Name="gPlayerAnimation129"/>
+        <PlayerAnim Name="gPlayerAnimation130"/>
+        <PlayerAnim Name="gPlayerAnimation131"/>
+        <PlayerAnim Name="gPlayerAnimation132"/>
+        <PlayerAnim Name="gPlayerAnimation133"/>
+        <PlayerAnim Name="gPlayerAnimation134"/>
+        <PlayerAnim Name="gPlayerAnimation135"/>
+        <PlayerAnim Name="gPlayerAnimation136"/>
+        <PlayerAnim Name="gPlayerAnimation137"/>
+        <PlayerAnim Name="gPlayerAnimation138"/>
+        <PlayerAnim Name="gPlayerAnimation139"/>
+        <PlayerAnim Name="gPlayerAnimation140"/>
+        <PlayerAnim Name="gPlayerAnimation141"/>
+        <PlayerAnim Name="gPlayerAnimation142"/>
+        <PlayerAnim Name="gPlayerAnimation143"/>
+        <PlayerAnim Name="gPlayerAnimation144"/>
+        <PlayerAnim Name="gPlayerAnimation145"/>
+        <PlayerAnim Name="gPlayerAnimation146"/>
+        <PlayerAnim Name="gPlayerAnimation147"/>
+        <PlayerAnim Name="gPlayerAnimation148"/>
+        <PlayerAnim Name="gPlayerAnimation149"/>
+        <PlayerAnim Name="gPlayerAnimation150"/>
+        <PlayerAnim Name="gPlayerAnimation151"/>
+        <PlayerAnim Name="gPlayerAnimation152"/>
+        <PlayerAnim Name="gPlayerAnimation153"/>
+        <PlayerAnim Name="gPlayerAnimation154"/>
+        <PlayerAnim Name="gPlayerAnimation155"/>
+        <PlayerAnim Name="gPlayerAnimation156"/>
+        <PlayerAnim Name="gPlayerAnimation157"/>
+        <PlayerAnim Name="gPlayerAnimation158"/>
+        <PlayerAnim Name="gPlayerAnimation159"/>
+        <PlayerAnim Name="gPlayerAnimation160"/>
+        <PlayerAnim Name="gPlayerAnimation161"/>
+        <PlayerAnim Name="gPlayerAnimation162"/>
+        <PlayerAnim Name="gPlayerAnimation163"/>
+        <PlayerAnim Name="gPlayerAnimation164"/>
+        <PlayerAnim Name="gPlayerAnimation165"/>
+        <PlayerAnim Name="gPlayerAnimation166"/>
+        <PlayerAnim Name="gPlayerAnimation167"/>
+        <PlayerAnim Name="gPlayerAnimation168"/>
+        <PlayerAnim Name="gPlayerAnimation169"/>
+        <PlayerAnim Name="gPlayerAnimation170"/>
+        <PlayerAnim Name="gPlayerAnimation171"/>
+        <PlayerAnim Name="gPlayerAnimation172"/>
+        <PlayerAnim Name="gPlayerAnimation173"/>
+        <PlayerAnim Name="gPlayerAnimation174"/>
+        <PlayerAnim Name="gPlayerAnimation175"/>
+        <PlayerAnim Name="gPlayerAnimation176"/>
+        <PlayerAnim Name="gPlayerAnimation177"/>
+        <PlayerAnim Name="gPlayerAnimation178"/>
+        <PlayerAnim Name="gPlayerAnimation179"/>
+        <PlayerAnim Name="gPlayerAnimation180"/>
+        <PlayerAnim Name="gPlayerAnimation181"/>
+        <PlayerAnim Name="gPlayerAnimation182"/>
+        <PlayerAnim Name="gPlayerAnimation183"/>
+        <PlayerAnim Name="gPlayerAnimation184"/>
+        <PlayerAnim Name="gPlayerAnimation185"/>
+        <PlayerAnim Name="gPlayerAnimation186"/>
+        <PlayerAnim Name="gPlayerAnimation187"/>
+        <PlayerAnim Name="gPlayerAnimation188"/>
+        <PlayerAnim Name="gPlayerAnimation189"/>
+        <PlayerAnim Name="gPlayerAnimation190"/>
+        <PlayerAnim Name="gPlayerAnimation191"/>
+        <PlayerAnim Name="gPlayerAnimation192"/>
+        <PlayerAnim Name="gPlayerAnimation193"/>
+        <PlayerAnim Name="gPlayerAnimation194"/>
+        <PlayerAnim Name="gPlayerAnimation195"/>
+        <PlayerAnim Name="gPlayerAnimation196"/>
+        <PlayerAnim Name="gPlayerAnimation197"/>
+        <PlayerAnim Name="gPlayerAnimation198"/>
+        <PlayerAnim Name="gPlayerAnimation199"/>
+        <PlayerAnim Name="gPlayerAnimation200"/>
+        <PlayerAnim Name="gPlayerAnimation201"/>
+        <PlayerAnim Name="gPlayerAnimation202"/>
+        <PlayerAnim Name="gPlayerAnimation203"/>
+        <PlayerAnim Name="gPlayerAnimation204"/>
+        <PlayerAnim Name="gPlayerAnimation205"/>
+        <PlayerAnim Name="gPlayerAnimation206"/>
+        <PlayerAnim Name="gPlayerAnimation207"/>
+        <PlayerAnim Name="gPlayerAnimation208"/>
+        <PlayerAnim Name="gPlayerAnimation209"/>
+        <PlayerAnim Name="gPlayerAnimation210"/>
+        <PlayerAnim Name="gPlayerAnimation211"/>
+        <PlayerAnim Name="gPlayerAnimation212"/>
+        <PlayerAnim Name="gPlayerAnimation213"/>
+        <PlayerAnim Name="gPlayerAnimation214"/>
+        <PlayerAnim Name="gPlayerAnimation215"/>
+        <PlayerAnim Name="gPlayerAnimation216"/>
+        <PlayerAnim Name="gPlayerAnimation217"/>
+        <PlayerAnim Name="gPlayerAnimation218"/>
+        <PlayerAnim Name="gPlayerAnimation219"/>
+        <PlayerAnim Name="gPlayerAnimation220"/>
+        <PlayerAnim Name="gPlayerAnimation221"/>
+        <PlayerAnim Name="gPlayerAnimation222"/>
+        <PlayerAnim Name="gPlayerAnimation223"/>
+        <PlayerAnim Name="gPlayerAnimation224"/>
+        <PlayerAnim Name="gPlayerAnimation225"/>
+        <PlayerAnim Name="gPlayerAnimation226"/>
+        <PlayerAnim Name="gPlayerAnimation227"/>
+        <PlayerAnim Name="gPlayerAnimation228"/>
+        <PlayerAnim Name="gPlayerAnimation229"/>
+        <PlayerAnim Name="gPlayerAnimation230"/>
+        <PlayerAnim Name="gPlayerAnimation231"/>
+        <PlayerAnim Name="gPlayerAnimation232"/>
+        <PlayerAnim Name="gPlayerAnimation233"/>
+        <PlayerAnim Name="gPlayerAnimation234"/>
+        <PlayerAnim Name="gPlayerAnimation235"/>
+        <PlayerAnim Name="gPlayerAnimation236"/>
+        <PlayerAnim Name="gPlayerAnimation237"/>
+        <PlayerAnim Name="gPlayerAnimation238"/>
+        <PlayerAnim Name="gPlayerAnimation239"/>
+        <PlayerAnim Name="gPlayerAnimation240"/>
+        <PlayerAnim Name="gPlayerAnimation241"/>
+        <PlayerAnim Name="gPlayerAnimation242"/>
+        <PlayerAnim Name="gPlayerAnimation243"/>
+        <PlayerAnim Name="gPlayerAnimation244"/>
+        <PlayerAnim Name="gPlayerAnimation245"/>
+        <PlayerAnim Name="gPlayerAnimation246"/>
+        <PlayerAnim Name="gPlayerAnimation247"/>
+        <PlayerAnim Name="gPlayerAnimation248"/>
+        <PlayerAnim Name="gPlayerAnimation249"/>
+        <PlayerAnim Name="gPlayerAnimation250"/>
+        <PlayerAnim Name="gPlayerAnimation251"/>
+        <PlayerAnim Name="gPlayerAnimation252"/>
+        <PlayerAnim Name="gPlayerAnimation253"/>
+        <PlayerAnim Name="gPlayerAnimation254"/>
+        <PlayerAnim Name="gPlayerAnimation255"/>
+        <PlayerAnim Name="gPlayerAnimation256"/>
+        <PlayerAnim Name="gPlayerAnimation257"/>
+        <PlayerAnim Name="gPlayerAnimation258"/>
+        <PlayerAnim Name="gPlayerAnimation259"/>
+        <PlayerAnim Name="gPlayerAnimation260"/>
+        <PlayerAnim Name="gPlayerAnimation261"/>
+        <PlayerAnim Name="gPlayerAnimation262"/>
+        <PlayerAnim Name="gPlayerAnimation263"/>
+        <PlayerAnim Name="gPlayerAnimation264"/>
+        <PlayerAnim Name="gPlayerAnimation265"/>
+        <PlayerAnim Name="gPlayerAnimation266"/>
+        <PlayerAnim Name="gPlayerAnimation267"/>
+        <PlayerAnim Name="gPlayerAnimation268"/>
+        <PlayerAnim Name="gPlayerAnimation269"/>
+        <PlayerAnim Name="gPlayerAnimation270"/>
+        <PlayerAnim Name="gPlayerAnimation271"/>
+        <PlayerAnim Name="gPlayerAnimation272"/>
+        <PlayerAnim Name="gPlayerAnimation273"/>
+        <PlayerAnim Name="gPlayerAnimation274"/>
+        <PlayerAnim Name="gPlayerAnimation275"/>
+        <PlayerAnim Name="gPlayerAnimation276"/>
+        <PlayerAnim Name="gPlayerAnimation277"/>
+        <PlayerAnim Name="gPlayerAnimation278"/>
+        <PlayerAnim Name="gPlayerAnimation279"/>
+        <PlayerAnim Name="gPlayerAnimation280"/>
+        <PlayerAnim Name="gPlayerAnimation281"/>
+        <PlayerAnim Name="gPlayerAnimation282"/>
+        <PlayerAnim Name="gPlayerAnimation283"/>
+        <PlayerAnim Name="gPlayerAnimation284"/>
+        <PlayerAnim Name="gPlayerAnimation285"/>
+        <PlayerAnim Name="gPlayerAnimation286"/>
+        <PlayerAnim Name="gPlayerAnimation287"/>
+        <PlayerAnim Name="gPlayerAnimation288"/>
+        <PlayerAnim Name="gPlayerAnimation289"/>
+        <PlayerAnim Name="gPlayerAnimation290"/>
+        <PlayerAnim Name="gPlayerAnimation291"/>
+        <PlayerAnim Name="gPlayerAnimation292"/>
+        <PlayerAnim Name="gPlayerAnimation293"/>
+        <PlayerAnim Name="gPlayerAnimation294"/>
+        <PlayerAnim Name="gPlayerAnimation295"/>
+        <PlayerAnim Name="gPlayerAnimation296"/>
+        <PlayerAnim Name="gPlayerAnimation297"/>
+        <PlayerAnim Name="gPlayerAnimation298"/>
+        <PlayerAnim Name="gPlayerAnimation299"/>
+        <PlayerAnim Name="gPlayerAnimation300"/>
+        <PlayerAnim Name="gPlayerAnimation301"/>
+        <PlayerAnim Name="gPlayerAnimation302"/>
+        <PlayerAnim Name="gPlayerAnimation303"/>
+        <PlayerAnim Name="gPlayerAnimation304"/>
+        <PlayerAnim Name="gPlayerAnimation305"/>
+        <PlayerAnim Name="gPlayerAnimation306"/>
+        <PlayerAnim Name="gPlayerAnimation307"/>
+        <PlayerAnim Name="gPlayerAnimation308"/>
+        <PlayerAnim Name="gPlayerAnimation309"/>
+        <PlayerAnim Name="gPlayerAnimation310"/>
+        <PlayerAnim Name="gPlayerAnimation311"/>
+        <PlayerAnim Name="gPlayerAnimation312"/>
+        <PlayerAnim Name="gPlayerAnimation313"/>
+        <PlayerAnim Name="gPlayerAnimation314"/>
+        <PlayerAnim Name="gPlayerAnimation315"/>
+        <PlayerAnim Name="gPlayerAnimation316"/>
+        <PlayerAnim Name="gPlayerAnimation317"/>
+        <PlayerAnim Name="gPlayerAnimation318"/>
+        <PlayerAnim Name="gPlayerAnimation319"/>
+        <PlayerAnim Name="gPlayerAnimation320"/>
+        <PlayerAnim Name="gPlayerAnimation321"/>
+        <PlayerAnim Name="gPlayerAnimation322"/>
+        <PlayerAnim Name="gPlayerAnimation323"/>
+        <PlayerAnim Name="gPlayerAnimation324"/>
+        <PlayerAnim Name="gPlayerAnimation325"/>
+        <PlayerAnim Name="gPlayerAnimation326"/>
+        <PlayerAnim Name="gPlayerAnimation327"/>
+        <PlayerAnim Name="gPlayerAnimation328"/>
+        <PlayerAnim Name="gPlayerAnimation329"/>
+        <PlayerAnim Name="gPlayerAnimation330"/>
+        <PlayerAnim Name="gPlayerAnimation331"/>
+        <PlayerAnim Name="gPlayerAnimation332"/>
+        <PlayerAnim Name="gPlayerAnimation333"/>
+        <PlayerAnim Name="gPlayerAnimation334"/>
+        <PlayerAnim Name="gPlayerAnimation335"/>
+        <PlayerAnim Name="gPlayerAnimation336"/>
+        <PlayerAnim Name="gPlayerAnimation337"/>
+        <PlayerAnim Name="gPlayerAnimation338"/>
+        <PlayerAnim Name="gPlayerAnimation339"/>
+        <PlayerAnim Name="gPlayerAnimation340"/>
+        <PlayerAnim Name="gPlayerAnimation341"/>
+        <PlayerAnim Name="gPlayerAnimation342"/>
+        <PlayerAnim Name="gPlayerAnimation343"/>
+        <PlayerAnim Name="gPlayerAnimation344"/>
+        <PlayerAnim Name="gPlayerAnimation345"/>
+        <PlayerAnim Name="gPlayerAnimation346"/>
+        <PlayerAnim Name="gPlayerAnimation347"/>
+        <PlayerAnim Name="gPlayerAnimation348"/>
+        <PlayerAnim Name="gPlayerAnimation349"/>
+        <PlayerAnim Name="gPlayerAnimation350"/>
+        <PlayerAnim Name="gPlayerAnimation351"/>
+        <PlayerAnim Name="gPlayerAnimation352"/>
+        <PlayerAnim Name="gPlayerAnimation353"/>
+        <PlayerAnim Name="gPlayerAnimation354"/>
+        <PlayerAnim Name="gPlayerAnimation355"/>
+        <PlayerAnim Name="gPlayerAnimation356"/>
+        <PlayerAnim Name="gPlayerAnimation357"/>
+        <PlayerAnim Name="gPlayerAnimation358"/>
+        <PlayerAnim Name="gPlayerAnimation359"/>
+        <PlayerAnim Name="gPlayerAnimation360"/>
+        <PlayerAnim Name="gPlayerAnimation361"/>
+        <PlayerAnim Name="gPlayerAnimation362"/>
+        <PlayerAnim Name="gPlayerAnimation363"/>
+        <PlayerAnim Name="gPlayerAnimation364"/>
+        <PlayerAnim Name="gPlayerAnimation365"/>
+        <PlayerAnim Name="gPlayerAnimation366"/>
+        <PlayerAnim Name="gPlayerAnimation367"/>
+        <PlayerAnim Name="gPlayerAnimation368"/>
+        <PlayerAnim Name="gPlayerAnimation369"/>
+        <PlayerAnim Name="gPlayerAnimation370"/>
+        <PlayerAnim Name="gPlayerAnimation371"/>
+        <PlayerAnim Name="gPlayerAnimation372"/>
+        <PlayerAnim Name="gPlayerAnimation373"/>
+        <PlayerAnim Name="gPlayerAnimation374"/>
+        <PlayerAnim Name="gPlayerAnimation375"/>
+        <PlayerAnim Name="gPlayerAnimation376"/>
+        <PlayerAnim Name="gPlayerAnimation377"/>
+        <PlayerAnim Name="gPlayerAnimation378"/>
+        <PlayerAnim Name="gPlayerAnimation379"/>
+        <PlayerAnim Name="gPlayerAnimation380"/>
+        <PlayerAnim Name="gPlayerAnimation381"/>
+        <PlayerAnim Name="gPlayerAnimation382"/>
+        <PlayerAnim Name="gPlayerAnimation383"/>
+        <PlayerAnim Name="gPlayerAnimation384"/>
+        <PlayerAnim Name="gPlayerAnimation385"/>
+        <PlayerAnim Name="gPlayerAnimation386"/>
+        <PlayerAnim Name="gPlayerAnimation387"/>
+        <PlayerAnim Name="gPlayerAnimation388"/>
+        <PlayerAnim Name="gPlayerAnimation389"/>
+        <PlayerAnim Name="gPlayerAnimation390"/>
+        <PlayerAnim Name="gPlayerAnimation391"/>
+        <PlayerAnim Name="gPlayerAnimation392"/>
+        <PlayerAnim Name="gPlayerAnimation393"/>
+        <PlayerAnim Name="gPlayerAnimation394"/>
+        <PlayerAnim Name="gPlayerAnimation395"/>
+        <PlayerAnim Name="gPlayerAnimation396"/>
+        <PlayerAnim Name="gPlayerAnimation397"/>
+        <PlayerAnim Name="gPlayerAnimation398"/>
+        <PlayerAnim Name="gPlayerAnimation399"/>
+        <PlayerAnim Name="gPlayerAnimation400"/>
+        <PlayerAnim Name="gPlayerAnimation401"/>
+        <PlayerAnim Name="gPlayerAnimation402"/>
+        <PlayerAnim Name="gPlayerAnimation403"/>
+        <PlayerAnim Name="gPlayerAnimation404"/>
+        <PlayerAnim Name="gPlayerAnimation405"/>
+        <PlayerAnim Name="gPlayerAnimation406"/>
+        <PlayerAnim Name="gPlayerAnimation407"/>
+        <PlayerAnim Name="gPlayerAnimation408"/>
+        <PlayerAnim Name="gPlayerAnimation409"/>
+        <PlayerAnim Name="gPlayerAnimation410"/>
+        <PlayerAnim Name="gPlayerAnimation411"/>
+        <PlayerAnim Name="gPlayerAnimation412"/>
+        <PlayerAnim Name="gPlayerAnimation413"/>
+        <PlayerAnim Name="gPlayerAnimation414"/>
+        <PlayerAnim Name="gPlayerAnimation415"/>
+        <PlayerAnim Name="gPlayerAnimation416"/>
+        <PlayerAnim Name="gPlayerAnimation417"/>
+        <PlayerAnim Name="gPlayerAnimation418"/>
+        <PlayerAnim Name="gPlayerAnimation419"/>
+        <PlayerAnim Name="gPlayerAnimation420"/>
+        <PlayerAnim Name="gPlayerAnimation421"/>
+        <PlayerAnim Name="gPlayerAnimation422"/>
+        <PlayerAnim Name="gPlayerAnimation423"/>
+        <PlayerAnim Name="gPlayerAnimation424"/>
+        <PlayerAnim Name="gPlayerAnimation425"/>
+        <PlayerAnim Name="gPlayerAnimation426"/>
+        <PlayerAnim Name="gPlayerAnimation427"/>
+        <PlayerAnim Name="gPlayerAnimation428"/>
+        <PlayerAnim Name="gPlayerAnimation429"/>
+        <PlayerAnim Name="gPlayerAnimation430"/>
+        <PlayerAnim Name="gPlayerAnimation431"/>
+        <PlayerAnim Name="gPlayerAnimation432"/>
+        <PlayerAnim Name="gPlayerAnimation433"/>
+        <PlayerAnim Name="gPlayerAnimation434"/>
+        <PlayerAnim Name="gPlayerAnimation435"/>
+        <PlayerAnim Name="gPlayerAnimation436"/>
+        <PlayerAnim Name="gPlayerAnimation437"/>
+        <PlayerAnim Name="gPlayerAnimation438"/>
+        <PlayerAnim Name="gPlayerAnimation439"/>
+        <PlayerAnim Name="gPlayerAnimation440"/>
+        <PlayerAnim Name="gPlayerAnimation441"/>
+        <PlayerAnim Name="gPlayerAnimation442"/>
+        <PlayerAnim Name="gPlayerAnimation443"/>
+        <PlayerAnim Name="gPlayerAnimation444"/>
+        <PlayerAnim Name="gPlayerAnimation445"/>
+        <PlayerAnim Name="gPlayerAnimation446"/>
+        <PlayerAnim Name="gPlayerAnimation447"/>
+        <PlayerAnim Name="gPlayerAnimation448"/>
+        <PlayerAnim Name="gPlayerAnimation449"/>
+        <PlayerAnim Name="gPlayerAnimation450"/>
+        <PlayerAnim Name="gPlayerAnimation451"/>
+        <PlayerAnim Name="gPlayerAnimation452"/>
+        <PlayerAnim Name="gPlayerAnimation453"/>
+        <PlayerAnim Name="gPlayerAnimation454"/>
+        <PlayerAnim Name="gPlayerAnimation455"/>
+        <PlayerAnim Name="gPlayerAnimation456"/>
+        <PlayerAnim Name="gPlayerAnimation457"/>
+        <PlayerAnim Name="gPlayerAnimation458"/>
+        <PlayerAnim Name="gPlayerAnimation459"/>
+        <PlayerAnim Name="gPlayerAnimation460"/>
+        <PlayerAnim Name="gPlayerAnimation461"/>
+        <PlayerAnim Name="gPlayerAnimation462"/>
+        <PlayerAnim Name="gPlayerAnimation463"/>
+        <PlayerAnim Name="gPlayerAnimation464"/>
+        <PlayerAnim Name="gPlayerAnimation465"/>
+        <PlayerAnim Name="gPlayerAnimation466"/>
+        <PlayerAnim Name="gPlayerAnimation467"/>
+        <PlayerAnim Name="gPlayerAnimation468"/>
+        <PlayerAnim Name="gPlayerAnimation469"/>
+        <PlayerAnim Name="gPlayerAnimation470"/>
+        <PlayerAnim Name="gPlayerAnimation471"/>
+        <PlayerAnim Name="gPlayerAnimation472"/>
+        <PlayerAnim Name="gPlayerAnimation473"/>
+        <PlayerAnim Name="gPlayerAnimation474"/>
+        <PlayerAnim Name="gPlayerAnimation475"/>
+        <PlayerAnim Name="gPlayerAnimation476"/>
+        <PlayerAnim Name="gPlayerAnimation477"/>
+        <PlayerAnim Name="gPlayerAnimation478"/>
+        <PlayerAnim Name="gPlayerAnimation479"/>
+        <PlayerAnim Name="gPlayerAnimation480"/>
+        <PlayerAnim Name="gPlayerAnimation481"/>
+        <PlayerAnim Name="gPlayerAnimation482"/>
+        <PlayerAnim Name="gPlayerAnimation483"/>
+        <PlayerAnim Name="gPlayerAnimation484"/>
+        <PlayerAnim Name="gPlayerAnimation485"/>
+        <PlayerAnim Name="gPlayerAnimation486"/>
+        <PlayerAnim Name="gPlayerAnimation487"/>
+        <PlayerAnim Name="gPlayerAnimation488"/>
+        <PlayerAnim Name="gPlayerAnimation489"/>
+        <PlayerAnim Name="gPlayerAnimation490"/>
+        <PlayerAnim Name="gPlayerAnimation491"/>
+        <PlayerAnim Name="gPlayerAnimation492"/>
+        <PlayerAnim Name="gPlayerAnimation493"/>
+        <PlayerAnim Name="gPlayerAnimation494"/>
+        <PlayerAnim Name="gPlayerAnimation495"/>
+        <PlayerAnim Name="gPlayerAnimation496"/>
+        <PlayerAnim Name="gPlayerAnimation497"/>
+        <PlayerAnim Name="gPlayerAnimation498"/>
+        <PlayerAnim Name="gPlayerAnimation499"/>
+        <PlayerAnim Name="gPlayerAnimation500"/>
+        <PlayerAnim Name="gPlayerAnimation501"/>
+        <PlayerAnim Name="gPlayerAnimation502"/>
+        <PlayerAnim Name="gPlayerAnimation503"/>
+        <PlayerAnim Name="gPlayerAnimation504"/>
+        <PlayerAnim Name="gPlayerAnimation505"/>
+        <PlayerAnim Name="gPlayerAnimation506"/>
+        <PlayerAnim Name="gPlayerAnimation507"/>
+        <PlayerAnim Name="gPlayerAnimation508"/>
+        <PlayerAnim Name="gPlayerAnimation509"/>
+        <PlayerAnim Name="gPlayerAnimation510"/>
+        <PlayerAnim Name="gPlayerAnimation511"/>
+        <PlayerAnim Name="gPlayerAnimation512"/>
+        <PlayerAnim Name="gPlayerAnimation513"/>
+        <PlayerAnim Name="gPlayerAnimation514"/>
+        <PlayerAnim Name="gPlayerAnimation515"/>
+        <PlayerAnim Name="gPlayerAnimation516"/>
+        <PlayerAnim Name="gPlayerAnimation517"/>
+        <PlayerAnim Name="gPlayerAnimation518"/>
+        <PlayerAnim Name="gPlayerAnimation519"/>
+        <PlayerAnim Name="gPlayerAnimation520"/>
+        <PlayerAnim Name="gPlayerAnimation521"/>
+        <PlayerAnim Name="gPlayerAnimation522"/>
+        <PlayerAnim Name="gPlayerAnimation523"/>
+        <PlayerAnim Name="gPlayerAnimation524"/>
+        <PlayerAnim Name="gPlayerAnimation525"/>
+        <PlayerAnim Name="gPlayerAnimation526"/>
+        <PlayerAnim Name="gPlayerAnimation527"/>
+        <PlayerAnim Name="gPlayerAnimation528"/>
+        <PlayerAnim Name="gPlayerAnimation529"/>
+        <PlayerAnim Name="gPlayerAnimation530"/>
+        <PlayerAnim Name="gPlayerAnimation531"/>
+        <PlayerAnim Name="gPlayerAnimation532"/>
+        <PlayerAnim Name="gPlayerAnimation533"/>
+        <PlayerAnim Name="gPlayerAnimation534"/>
+        <PlayerAnim Name="gPlayerAnimation535"/>
+        <PlayerAnim Name="gPlayerAnimation536"/>
+        <PlayerAnim Name="gPlayerAnimation537"/>
+        <PlayerAnim Name="gPlayerAnimation538"/>
+        <PlayerAnim Name="gPlayerAnimation539"/>
+        <PlayerAnim Name="gPlayerAnimation540"/>
+        <PlayerAnim Name="gPlayerAnimation541"/>
+        <PlayerAnim Name="gPlayerAnimation542"/>
+        <PlayerAnim Name="gPlayerAnimation543"/>
+        <PlayerAnim Name="gPlayerAnimation544"/>
+        <PlayerAnim Name="gPlayerAnimation545"/>
+        <PlayerAnim Name="gPlayerAnimation546"/>
+        <PlayerAnim Name="gPlayerAnimation547"/>
+        <PlayerAnim Name="gPlayerAnimation548"/>
+        <PlayerAnim Name="gPlayerAnimation549"/>
+        <PlayerAnim Name="gPlayerAnimation550"/>
+        <PlayerAnim Name="gPlayerAnimation551"/>
+        <PlayerAnim Name="gPlayerAnimation552"/>
+        <PlayerAnim Name="gPlayerAnimation553"/>
+        <PlayerAnim Name="gPlayerAnimation554"/>
+        <PlayerAnim Name="gPlayerAnimation555"/>
+        <PlayerAnim Name="gPlayerAnimation556"/>
+        <PlayerAnim Name="gPlayerAnimation557"/>
+        <PlayerAnim Name="gPlayerAnimation558"/>
+        <PlayerAnim Name="gPlayerAnimation559"/>
+        <PlayerAnim Name="gPlayerAnimation560"/>
+        <PlayerAnim Name="gPlayerAnimation561"/>
+        <PlayerAnim Name="gPlayerAnimation562"/>
+        <PlayerAnim Name="gPlayerAnimation563"/>
+        <PlayerAnim Name="gPlayerAnimation564"/>
+        <PlayerAnim Name="gPlayerAnimation565"/>
+        <PlayerAnim Name="gPlayerAnimation566"/>
+        <PlayerAnim Name="gPlayerAnimation567"/>
+        <PlayerAnim Name="gPlayerAnimation568"/>
+        <PlayerAnim Name="gPlayerAnimation569"/>
+        <PlayerAnim Name="gPlayerAnimation570"/>
+        <PlayerAnim Name="gPlayerAnimation571"/>
+        <PlayerAnim Name="gPlayerAnimation572"/>
+        <PlayerAnim Name="gPlayerAnimation573"/>
+        <PlayerAnim Name="gPlayerAnimation574"/>
+        <PlayerAnim Name="gPlayerAnimation575"/> -->
+        <DList Name="gDebugPyramidDL" Offset="0x000035C0"/>
+        <Texture Name="gUnknownCircleTex1" OutName="unknown_circle_1" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
+        <Texture Name="gUnknownCircleTex2" OutName="unknown_circle_2" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
+        <Texture Name="gDebugTargetTex" OutName="debug_target" Format="i8" Width="16" Height="16" Offset="0x000037F0"/>
+        <Texture Name="gDebugCrossTex" OutName="debug_cross" Format="i8" Width="16" Height="16" Offset="0x000038F0"/>
         <DList Name="gDebugArrowDL" Offset="0x000039F0"/>
         <DList Name="gDebugCameraDL" Offset="0x00003C90"/>
-        <DList Name="gCheckeredFloorDL" Offset="0x00003FC8"/>
-        <Texture Name="gCheckeredFloorTex" OutName="checkered_floor" Format="ia4" Width="32" Height="32" Offset="0x00004058"/>
-        <DList Name="gBlankSquareDL" Offset="0x00004298"/>
-        <Blob Name="blob_040042B0" Offset="0x42B0" Size="0xD0"/>
+        <DList Name="gDebugCheckeredFloorDL" Offset="0x00003FC8"/>
+        <Texture Name="gDebugCheckeredFloorTex" OutName="debug_checkered_floor" Format="ia4" Width="32" Height="32" Offset="0x00004058"/>
+        <DList Name="gDebugSpriteDL" Offset="0x00004298"/>
         <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgb5a1" Width="16" Height="128" Offset="0x00004380"/>
         <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgb5a1" Width="32" Height="16" Offset="0x00005380"/>
-        <DList Name="gArrowHQDL" Offset="0x00005AA0"/>
-        <DList Name="gArrowLQDL" Offset="0x00005E20"/>
-        <Blob Name="blob_04005FC0" Offset="0x00005FC0" Size="0x60"/>
-        <Texture Name="gFlameGlowTex" OutName="flame_glow" Format="i8" Width="64" Height="32" Offset="0x00006020"/>
-        <Texture Name="gBombSurfaceTex" OutName="bomb_surface" Format="ia8" Width="64" Height="64" Offset="0x00006820"/>
-        <DList Name="gBombSurfaceDL" Offset="0x00007860"/>
+        <DList Name="gArrowHighPolyDL" Offset="0x00005AA0"/>
+        <DList Name="gArrowLowPolyDL" Offset="0x00005E20"/>
+        <Texture Name="gUnknownBlureEffectTex" OutName="unknown_blure_effect" Format="i8" Width="64" Height="32" Offset="0x00006020"/>
+        <Texture Name="gBombBillboardTex" OutName="bomb_billboard" Format="ia8" Width="64" Height="64" Offset="0x00006820"/>
+        <DList Name="gBombBillboardDL" Offset="0x00007860"/>
         <Texture Name="gBombCapTex" OutName="bomb_cap" Format="rgb5a1" Width="8" Height="8" Offset="0x000078F0"/>
         <DList Name="gBombCapDL" Offset="0x00007A50"/>
-        <Texture Name="gBombchuSurfaceTex" OutName="bombchu_surface" Format="rgb5a1" Width="8" Height="8" Offset="0x00007B10"/>
+        <Texture Name="gBombchuBodyTex" OutName="bombchu_body" Format="rgb5a1" Width="8" Height="8" Offset="0x00007B10"/>
         <DList Name="gBombchuDL" Offset="0x00007E10"/>
-        <Texture Name="gEffectSsBomb1Tex" OutName="effect_ss_bomb_1" Format="ia16" Width="32" Height="32" Offset="0x00007F80"/>
-        <Texture Name="gEffectSsBomb2Tex" OutName="effect_ss_bomb_2" Format="ia16" Width="32" Height="32" Offset="0x00008780"/>
-        <Texture Name="gEffectSsBomb3Tex" OutName="effect_ss_bomb_3" Format="ia16" Width="32" Height="32" Offset="0x00008F80"/>
-        <Texture Name="gEffectSsBomb4Tex" OutName="effect_ss_bomb_4" Format="ia16" Width="32" Height="32" Offset="0x00009780"/>
-        <Texture Name="gEffectSsBomb5Tex" OutName="effect_ss_bomb_5" Format="ia16" Width="32" Height="32" Offset="0x00009F80"/>
-        <Texture Name="gEffectSsBomb6Tex" OutName="effect_ss_bomb_6" Format="ia16" Width="32" Height="32" Offset="0x0000A780"/>
-        <Texture Name="gEffectSsBomb7Tex" OutName="effect_ss_bomb_7" Format="ia16" Width="32" Height="32" Offset="0x0000AF80"/>
-        <Texture Name="gEffectSsBomb8Tex" OutName="effect_ss_bomb_8" Format="ia16" Width="32" Height="32" Offset="0x0000B780"/>
-        <DList Name="gEffectSsBomb1DL" Offset="0x0000BF80"/>
-        <DList Name="gEffectSsBomb2DL" Offset="0x0000BFE8"/>
-        <DList Name="gEffectSsBomb3DL" Offset="0x0000C040"/>
-        <DList Name="gEffectSsHahen1DL" Offset="0x0000C0D0"/>
-        <Texture Name="gEffectSsHahenTex" OutName="effect_ss_hahen" Format="rgb5a1" Width="16" Height="16" Offset="0x0000C160"/>
-        <DList Name="gEndDL" Offset="0x0000C690"/>
+        <Texture Name="gEffectBombExplosionTex1" OutName="effect_bomb_explosion_1" Format="ia16" Width="32" Height="32" Offset="0x00007F80"/>
+        <Texture Name="gEffectBombExplosionTex2" OutName="effect_bomb_explosion_2" Format="ia16" Width="32" Height="32" Offset="0x00008780"/>
+        <Texture Name="gEffectBombExplosionTex3" OutName="effect_bomb_explosion_3" Format="ia16" Width="32" Height="32" Offset="0x00008F80"/>
+        <Texture Name="gEffectBombExplosionTex4" OutName="effect_bomb_explosion_4" Format="ia16" Width="32" Height="32" Offset="0x00009780"/>
+        <Texture Name="gEffectBombExplosionTex5" OutName="effect_bomb_explosion_5" Format="ia16" Width="32" Height="32" Offset="0x00009F80"/>
+        <Texture Name="gEffectBombExplosionTex6" OutName="effect_bomb_explosion_6" Format="ia16" Width="32" Height="32" Offset="0x0000A780"/>
+        <Texture Name="gEffectBombExplosionTex7" OutName="effect_bomb_explosion_7" Format="ia16" Width="32" Height="32" Offset="0x0000AF80"/>
+        <Texture Name="gEffectBombExplosionTex8" OutName="effect_bomb_explosion_8" Format="ia16" Width="32" Height="32" Offset="0x0000B780"/>
+        <DList Name="gEffectBombExplosionDL1" Offset="0x0000BF80"/>
+        <DList Name="gEffectBombExplosionDL2" Offset="0x0000BFE8"/>
+        <DList Name="gEffectBombExplosionDL3" Offset="0x0000C040"/>
+        <DList Name="gEffectFragmentsDL1" Offset="0x0000C0D0"/>
+        <Texture Name="gWitheredLeafTex" OutName="withered_leaf" Format="rgb5a1" Width="16" Height="16" Offset="0x0000C160"/>
+        <DList Name="gUnknownBlankDL" Offset="0x0000C690"/>
         <DList Name="gBoomerangDL" Offset="0x0000C698"/>
         <DList Name="gBoomerangRefDL" Offset="0x0000C808"/>
         <DList Name="gCompassArrowDL" Offset="0x0000C820"/>
-        <DList Name="gIndicatorArrowDL" Offset="0x0000CB70"/>
-        <Texture Name="gReflection4Tex" OutName="reflection_4" Format="i8" Width="8" Height="8" Offset="0x0000CC80"/>
-        <DList Name="gEffectSsHahen2DL" Offset="0x0000CD80"/>
+        <DList Name="gZTargetArrowDL" Offset="0x0000CB70"/>
+        <Texture Name="gReflectionTex3" OutName="reflection_3" Format="i8" Width="8" Height="8" Offset="0x0000CC80"/>
+        <DList Name="gEffectFragmentsDL2" Offset="0x0000CD80"/>
         <Texture Name="gShopSelectionIndicatorTex" OutName="shop_selection_indicator" Format="ia4" Width="16" Height="16" Offset="0x0000CDC0"/>
         <Texture Name="gShopControlStickIconTex" OutName="shop_control_stick_icon" Format="ia8" Width="16" Height="16" Offset="0x0000CE40"/>
         <Texture Name="gShopArrowIconTex" OutName="shop_arrow_icon" Format="ia8" Width="16" Height="24" Offset="0x0000CF40"/>
-        <DList Name="gGoronRock1DL" Offset="0x0000D240"/>
-        <DList Name="gGoronRock2DL" Offset="0x0000D340"/>
-        <Texture Name="gGoronRock1Tex" OutName="goron_rock_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0000D4E0"/>
-        <Texture Name="gGoronRock2Tex" OutName="goron_rock_2" Format="rgb5a1" Width="32" Height="32" Offset="0x0000DCE0"/>
-        <Blob Name="blob_0400E4E0" Offset="0x0000E4E0" Size="0xF0"/>
-        <Blob Name="blob_0400E5D0" Offset="0x0000E5D0" Size="0xE0"/>
-        <Blob Name="blob_0400E6B0" Offset="0x0000E6B0" Size="0xC0"/>
+        <DList Name="gUnusedRockFragmentDL" Offset="0x0000D240"/>
+        <DList Name="gBoulderFragmentsDL" Offset="0x0000D340"/>
+        <Texture Name="gRockFragmentTex1" OutName="rock_fragment_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0000D4E0"/>
+        <Texture Name="gRockFragmentTex2" OutName="rock_fragment_2" Format="rgb5a1" Width="32" Height="32" Offset="0x0000DCE0"/>
         <DList Name="gDoorFrameDL" Offset="0x0000EC30"/>
         <DList Name="gDoorLeftDL" Offset="0x0000ECB8"/>
         <DList Name="gDoorRightDL" Offset="0x0000EE00"/>
         <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgb5a1" Width="32" Height="64" Offset="0x0000EF38"/>
-        <Blob Name="blob_0400FF38" Offset="0x0000FF38" Size="0x48"/>
-        <Blob Name="blob_0400FF80" Offset="0x0000FF80" Size="0xD0"/>
-        <DList Name="gEffectSsDustDL" Offset="0x00010050"/>
-        <DList Name="gGameKeepMote1DL" Offset="0x00010130"/>
-        <DList Name="gGameKeepMote2DL" Offset="0x000101A8"/>
+        <DList Name="gEffectDustDL" Offset="0x00010050"/>
+        <DList Name="gEffectFlashDL1" Offset="0x00010130"/>
+        <DList Name="gEffectFlashDL2" Offset="0x000101A8"/>
         <Texture Name="gFlashTex" OutName="flash" Format="i8" Width="64" Height="64" Offset="0x00010228"/>
-        <Texture Name="gFlameTex" OutName="flame" Format="i8" Width="64" Height="32" Offset="0x00011230"/>
-        <Texture Name="gReflection5Tex" OutName="reflection_5" Format="i8" Width="64" Height="32" Offset="0x00011A30"/>
-        <DList Name="gEnMThunder1DL" Offset="0x00012570"/>
-        <DList Name="gEnMThunder2DL" Offset="0x00012690"/>
-        <DList Name="gEnMThunder3DL" Offset="0x00012AF0"/>
-        <DList Name="gEnMThunder4DL" Offset="0x00012C10"/>
-        <Texture Name="gFlameWall1Tex" OutName="flame_wall_1" Format="i8" Width="32" Height="32" Offset="0x00012D30"/>
-        <Texture Name="gFlameWall2Tex" OutName="flame_wall_2" Format="i8" Width="32" Height="32" Offset="0x00013130"/>
-        <DList Name="gEnMThunder5DL" Offset="0x00013610"/>
-        <Texture Name="tex_04013700" Format="i8" Width="32" Height="64" Offset="0x00013700"/>
-        <Texture Name="tex_04013F00" Format="i8" Width="32" Height="64" Offset="0x00013F00"/>
-        <DList Name="dl_040149C0" Offset="0x000149C0"/>
-        <Blob Name="blob_04014AF0" Offset="0x00014AF0" Size="0xC8"/>
+        <Texture Name="gTorchFlameTex" OutName="torch_flame" Format="i8" Width="64" Height="32" Offset="0x00011230"/>
+        <Texture Name="gEffectUnknownTex1" OutName="effect_unknown_1" Format="i8" Width="64" Height="32" Offset="0x00011A30"/>
+        <DList Name="gEffectSpinAttackDL1" Offset="0x00012570"/>
+        <DList Name="gEffectSpinAttackDL2" Offset="0x00012690"/>
+        <DList Name="gEffectSpinAttackDL3" Offset="0x00012AF0"/>
+        <DList Name="gEffectSpinAttackDL4" Offset="0x00012C10"/>
+        <Texture Name="gFlameWallTex1" OutName="flame_wall_1" Format="i8" Width="32" Height="32" Offset="0x00012D30"/>
+        <Texture Name="gFlameWallTex2" OutName="flame_wall_2" Format="i8" Width="32" Height="32" Offset="0x00013130"/>
+        <DList Name="gEffectSpinAttackChargingDL" Offset="0x00013610"/>
+        <Texture Name="gEffectUnknownTex2" OutName="effect_unknown_2" Format="i8" Width="32" Height="64" Offset="0x00013700"/>
+        <Texture Name="gEffectUnknownTex3" OutName="effect_unknown_3" Format="i8" Width="32" Height="64" Offset="0x00013F00"/>
+        <DList Name="gUnusedBeamBladeDL" Offset="0x000149C0"/>
         <Texture Name="gFairyWingTex" OutName="fairy_wing" Format="i8" Width="32" Height="64" Offset="0x00014BC0"/>
-        <DList Name="gFairyWing1DL" Offset="0x00015400"/>
-        <DList Name="gFairyWing2DL" Offset="0x000154C8"/>
-        <DList Name="gFairyWing3DL" Offset="0x00015590"/>
-        <DList Name="gFairyWing4DL" Offset="0x00015658"/>
-        <DList Name="gLightHalo1DL" Offset="0x00015720"/>
-        <DList Name="gLightHalo2DL" Offset="0x00015760"/>
-        <DList Name="gFairyBodyDL" Offset="0x00015780"/>
+        <DList Name="gFairyWingDL1" Offset="0x00015400"/>
+        <DList Name="gFairyWingDL2" Offset="0x000154C8"/>
+        <DList Name="gFairyWingDL3" Offset="0x00015590"/>
+        <DList Name="gFairyWingDL4" Offset="0x00015658"/>
+        <DList Name="gGlowCircleTextureLoadDL" Offset="0x00015720"/>
+        <DList Name="gGlowCircleDL" Offset="0x00015760"/>
+        <DList Name="gGlowCircleSmallDL" Offset="0x00015780"/>
         <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x00015968"/>
-        <Blob Name="blob_04016968" Offset="0x00016968" Size="0xE8"/>
-        <Texture Name="gFairyBodyTex" OutName="fairy_body" Format="i4" Width="16" Height="16" Offset="0x00016A50"/>
-        <Texture Name="gFairyBodyLargeTex" OutName="fairy_body_large" Format="i8" Width="16" Height="16" Offset="0x00016AD0"/>
-        <Texture Name="gReflection6Tex" OutName="reflection_6" Format="rgb5a1" Width="32" Height="32" Offset="0x00016BD0"/>
-        <Texture Name="tex_040173D0" Format="i8" Width="32" Height="64" Offset="0x000173D0"/>
-        <Texture Name="tex_04017BD0" Format="i8" Width="32" Height="64" Offset="0x00017BD0"/>
-        <DList Name="gEffectSsFcircleDL" Offset="0x000184B0"/>
-        <Blob Name="blob_040185A0" Offset="0x000185A0" Size="0x70"/>
-        <DList Name="gFishTailDL" Offset="0x000188B0"/>
-        <DList Name="gFishBodyDL" Offset="0x00018950"/>
-        <DList Name="gFishBackDL" Offset="0x00018A68"/>
+        <Texture Name="gUnknownCircleTex3" OutName="unknown_circle_3" Format="i4" Width="16" Height="16" Offset="0x00016A50"/>
+        <Texture Name="gUnknownCircleTex4" OutName="unknown_circle_4" Format="i8" Width="16" Height="16" Offset="0x00016AD0"/>
+        <Texture Name="gReflectionTex4" OutName="reflection_4" Format="rgb5a1" Width="32" Height="32" Offset="0x00016BD0"/>
+        <Texture Name="gEffectUnknownTex4" OutName="effect_unknown_4" Format="i8" Width="32" Height="64" Offset="0x000173D0"/>
+        <Texture Name="gEffectUnknownTex5" OutName="effect_unknown_5" Format="i8" Width="32" Height="64" Offset="0x00017BD0"/>
+        <DList Name="gEffectFireCircleDL" Offset="0x000184B0"/>
+        <!-- Fish Object:
+        gFishSkel 0x04018FE0
+        gFishAnim1 0x040185FC
+        gFish2Anim 0x0401909C-->
         <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgb5a1" Width="16" Height="16" Offset="0x00018B80"/>
         <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgb5a1" Width="32" Height="8" Offset="0x00018D80"/>
-        
-        <Blob Name="blob_04018F80" Offset="0x00018F80" Size="0x130"/>
-        <!-- <Hierarchy Name="gFishSkel" Type="Standard" Offset="0x018FE0"/>
-        <Animation Name="gFish1Anim" Offset="0x0185FC" DLCount="3"/>
-        <Animation Name="gFish2Anim" Offset="0x01909C" DLCount="3"/> -->
-
-        <Texture Name="gEffectSsBlastTex" OutName="effect_ss_blast" Format="i8" Width="64" Height="64" Offset="0x000190B0"/>
-        <DList Name="gEffectSsBlastDL" Offset="0x0001A0B0"/>
-        <DList Name="gEffectSsBubbleDL" Offset="0x0001A160"/>
-        <Texture Name="gEffectSsGFire1Tex" OutName="effect_ss_g_fire_1" Format="ia8" Width="32" Height="32" Offset="0x0001A220"/>
-        <Texture Name="gEffectSsGFire2Tex" OutName="effect_ss_g_fire_2" Format="ia8" Width="32" Height="32" Offset="0x0001A620"/>
-        <Texture Name="gEffectSsGFire3Tex" OutName="effect_ss_g_fire_3" Format="ia8" Width="32" Height="32" Offset="0x0001AA20"/>
-        <Texture Name="gEffectSsGFire4Tex" OutName="effect_ss_g_fire_4" Format="ia8" Width="32" Height="32" Offset="0x0001AE20"/>
-        <Texture Name="gEffectSsGFire5Tex" OutName="effect_ss_g_fire_5" Format="ia8" Width="32" Height="32" Offset="0x0001B220"/>
-        <Texture Name="gEffectSsGFire6Tex" OutName="effect_ss_g_fire_6" Format="ia8" Width="32" Height="32" Offset="0x0001B620"/>
-        <Texture Name="gEffectSsGFire7Tex" OutName="effect_ss_g_fire_7" Format="ia8" Width="32" Height="32" Offset="0x0001BA20"/>
-        <Texture Name="gEffectSsGFire8Tex" OutName="effect_ss_g_fire_8" Format="ia8" Width="32" Height="32" Offset="0x0001BE20"/>
-        <DList Name="gEffectSsGFireDL" Offset="0x0001C220"/>
-        <Texture Name="gEffectSsSibuki21Tex" OutName="effect_ss_sibuki_2_1" Format="ia8" Width="32" Height="32" Offset="0x0001C2C0"/>
-        <Texture Name="gEffectSsSibuki22Tex" OutName="effect_ss_sibuki_2_2" Format="ia8" Width="32" Height="32" Offset="0x0001C6C0"/>
-        <Texture Name="gEffectSsSibuki23Tex" OutName="effect_ss_sibuki_2_3" Format="ia8" Width="32" Height="32" Offset="0x0001CAC0"/>
-        <Texture Name="gEffectSsSibuki24Tex" OutName="effect_ss_sibuki_2_4" Format="ia8" Width="32" Height="32" Offset="0x0001CEC0"/>
-        <Texture Name="gEffectSsSibuki25Tex" OutName="effect_ss_sibuki_2_5" Format="ia8" Width="32" Height="32" Offset="0x0001D2C0"/>
-        <Texture Name="gEffectSsSibuki26Tex" OutName="effect_ss_sibuki_2_6" Format="ia8" Width="32" Height="32" Offset="0x0001D6C0"/>
-        <Texture Name="gEffectSsSibuki27Tex" OutName="effect_ss_sibuki_2_7" Format="ia8" Width="32" Height="32" Offset="0x0001DAC0"/>
-        <Texture Name="gEffectSsSibuki28Tex" OutName="effect_ss_sibuki_2_8" Format="ia8" Width="32" Height="32" Offset="0x0001DEC0"/>
-        <DList Name="gEffectSsSibuki2DL" Offset="0x0001E2C0"/>
-        <Texture Name="gMirrorCircleTex" OutName="mirror_circle" Format="i8" Width="64" Height="64" Offset="0x0001E370"/>
-        <Texture Name="gEffectSsHitmark1Tex" OutName="effect_ss_hitmark_1" Format="i4" Width="32" Height="24" Offset="0x0001F370"/>
-        <Texture Name="gEffectSsHitmark2Tex" OutName="effect_ss_hitmark_2" Format="i4" Width="32" Height="24" Offset="0x0001F4F0"/>
-        <Texture Name="gEffectSsHitmark3Tex" OutName="effect_ss_hitmark_3" Format="i4" Width="32" Height="24" Offset="0x0001F670"/>
-        <Texture Name="gEffectSsHitmark4Tex" OutName="effect_ss_hitmark_4" Format="i4" Width="32" Height="24" Offset="0x0001F7F0"/>
-        <Texture Name="gEffectSsHitmark5Tex" OutName="effect_ss_hitmark_5" Format="i4" Width="32" Height="24" Offset="0x0001F970"/>
-        <Texture Name="gEffectSsHitmark6Tex" OutName="effect_ss_hitmark_6" Format="i4" Width="32" Height="24" Offset="0x0001FAF0"/>
-        <Texture Name="gEffectSsHitmark7Tex" OutName="effect_ss_hitmark_7" Format="i4" Width="32" Height="24" Offset="0x0001FC70"/>
-        <Texture Name="gEffectSsHitmark8Tex" OutName="effect_ss_hitmark_8" Format="i4" Width="32" Height="24" Offset="0x0001FDF0"/>
-        <Texture Name="gEffectSsHitmark9Tex" OutName="effect_ss_hitmark_9" Format="i4" Width="32" Height="24" Offset="0x0001FF70"/>
-        <Texture Name="gEffectSsHitmark10Tex" OutName="effect_ss_hitmark_10" Format="i4" Width="32" Height="24" Offset="0x000200F0"/>
-        <Texture Name="gEffectSsHitmark11Tex" OutName="effect_ss_hitmark_11" Format="i4" Width="32" Height="24" Offset="0x00020270"/>
-        <Texture Name="gEffectSsHitmark12Tex" OutName="effect_ss_hitmark_12" Format="i4" Width="32" Height="24" Offset="0x000203F0"/>
-        <Texture Name="gEffectSsHitmark13Tex" OutName="effect_ss_hitmark_13" Format="i4" Width="32" Height="24" Offset="0x00020570"/>
-        <Texture Name="gEffectSsHitmark14Tex" OutName="effect_ss_hitmark_14" Format="i4" Width="32" Height="24" Offset="0x000206F0"/>
-        <Texture Name="gEffectSsHitmark15Tex" OutName="effect_ss_hitmark_15" Format="i4" Width="32" Height="24" Offset="0x00020870"/>
-        <Texture Name="gEffectSsHitmark16Tex" OutName="effect_ss_hitmark_16" Format="i4" Width="32" Height="24" Offset="0x000209F0"/>
-        <Texture Name="gEffectSsHitmark17Tex" OutName="effect_ss_hitmark_17" Format="i4" Width="32" Height="24" Offset="0x00020B70"/>
-        <Texture Name="gEffectSsHitmark18Tex" OutName="effect_ss_hitmark_18" Format="i4" Width="32" Height="24" Offset="0x00020CF0"/>
-        <Texture Name="gEffectSsHitmark19Tex" OutName="effect_ss_hitmark_19" Format="i4" Width="32" Height="24" Offset="0x00020E70"/>
-        <Texture Name="gEffectSsHitmark20Tex" OutName="effect_ss_hitmark_20" Format="i4" Width="32" Height="24" Offset="0x00020FF0"/>
-        <Texture Name="gEffectSsHitmark21Tex" OutName="effect_ss_hitmark_21" Format="i4" Width="32" Height="24" Offset="0x00021170"/>
-        <Texture Name="gEffectSsHitmark22Tex" OutName="effect_ss_hitmark_22" Format="i4" Width="32" Height="24" Offset="0x000212F0"/>
-        <Texture Name="gEffectSsHitmark23Tex" OutName="effect_ss_hitmark_23" Format="i4" Width="32" Height="24" Offset="0x00021470"/>
-        <Texture Name="gEffectSsHitmark24Tex" OutName="effect_ss_hitmark_24" Format="i4" Width="32" Height="24" Offset="0x000215F0"/>
-        <DList Name="gEffectSsHitmarkDL" Offset="0x00021770"/>
-        <Texture Name="tex_04021810" Format="i8" Width="32" Height="64" Offset="0x00021810"/>
-        <Texture Name="tex_04022010" Format="i8" Width="32" Height="64" Offset="0x00022010"/>
-        <Texture Name="tex_04022810" Format="i8" Width="64" Height="64" Offset="0x00022810"/>
-        <Texture Name="gEffectSsGMagma1Tex" OutName="effect_ss_g_magma_1" Format="ia8" Width="16" Height="24" Offset="0x00023810"/>
-        <Texture Name="gEffectSsGMagma2Tex" OutName="effect_ss_g_magma_2" Format="ia8" Width="16" Height="24" Offset="0x00023990"/>
-        <Texture Name="gEffectSsGMagma3Tex" OutName="effect_ss_g_magma_3" Format="ia8" Width="16" Height="24" Offset="0x00023B10"/>
-        <Texture Name="gEffectSsGMagma4Tex" OutName="effect_ss_g_magma_4" Format="ia8" Width="16" Height="24" Offset="0x00023C90"/>
-        <Texture Name="gEffectSsGMagma5Tex" OutName="effect_ss_g_magma_5" Format="ia8" Width="16" Height="24" Offset="0x00023E10"/>
-        <Texture Name="gEffectSsGMagma6Tex" OutName="effect_ss_g_magma_6" Format="ia8" Width="16" Height="24" Offset="0x00023F90"/>
-        <Texture Name="gEffectSsGMagma7Tex" OutName="effect_ss_g_magma_7" Format="ia8" Width="16" Height="24" Offset="0x00024110"/>
-        <Texture Name="gEffectSsGMagma8Tex" OutName="effect_ss_g_magma_8" Format="ia8" Width="16" Height="24" Offset="0x00024290"/>
-        <DList Name="gEffectSsGMagmaDL" Offset="0x00024410"/>
-        <Texture Name="gEffectSsGRippleTex" OutName="effect_ss_g_ripple" Format="i8" Width="64" Height="64" Offset="0x000244B0"/>
-        <DList Name="gEffectSsGRippleDL" Offset="0x000254B0"/>
-        <DList Name="gEffectSsGSpkDL" Offset="0x00025550"/>
-        <Texture Name="gEffectSsGSplash1Tex" OutName="effect_ss_g_splash_1" Format="i8" Width="32" Height="40" Offset="0x000255F0"/>
-        <Texture Name="gEffectSsGSplash2Tex" OutName="effect_ss_g_splash_2" Format="i8" Width="32" Height="40" Offset="0x00025AF0"/>
-        <Texture Name="gEffectSsGSplash3Tex" OutName="effect_ss_g_splash_3" Format="i8" Width="32" Height="40" Offset="0x00025FF0"/>
-        <Texture Name="gEffectSsGSplash4Tex" OutName="effect_ss_g_splash_4" Format="i8" Width="32" Height="40" Offset="0x000264F0"/>
-        <Texture Name="gEffectSsGSplash5Tex" OutName="effect_ss_g_splash_5" Format="i8" Width="32" Height="40" Offset="0x000269F0"/>
-        <Texture Name="gEffectSsGSplash6Tex" OutName="effect_ss_g_splash_6" Format="i8" Width="32" Height="40" Offset="0x00026EF0"/>
-        <Texture Name="gEffectSsGSplash7Tex" OutName="effect_ss_g_splash_7" Format="i8" Width="32" Height="40" Offset="0x000273F0"/>
-        <Texture Name="gEffectSsGSplash8Tex" OutName="effect_ss_g_splash_8" Format="i8" Width="32" Height="40" Offset="0x000278F0"/>
-        <DList Name="gEffectSsGSplashDL" Offset="0x00027DF0"/>
-        <Texture Name="gEffectSsStone11Tex" OutName="effect_ss_stone_1_1" Format="ia8" Width="32" Height="32" Offset="0x00027E90"/>
-        <Texture Name="gEffectSsStone12Tex" OutName="effect_ss_stone_1_2" Format="ia8" Width="32" Height="32" Offset="0x00028290"/>
-        <Texture Name="gEffectSsStone13Tex" OutName="effect_ss_stone_1_3" Format="ia8" Width="32" Height="32" Offset="0x00028690"/>
-        <Texture Name="gEffectSsStone14Tex" OutName="effect_ss_stone_1_4" Format="ia8" Width="32" Height="32" Offset="0x00028A90"/>
-        <Texture Name="gEffectSsStone15Tex" OutName="effect_ss_stone_1_5" Format="ia8" Width="32" Height="32" Offset="0x00028E90"/>
-        <Texture Name="gEffectSsStone16Tex" OutName="effect_ss_stone_1_6" Format="ia8" Width="32" Height="32" Offset="0x00029290"/>
-        <Texture Name="gEffectSsStone17Tex" OutName="effect_ss_stone_1_7" Format="ia8" Width="32" Height="32" Offset="0x00029690"/>
-        <Texture Name="gEffectSsStone18Tex" OutName="effect_ss_stone_1_8" Format="ia8" Width="32" Height="32" Offset="0x00029A90"/>
-        <DList Name="gEffectSsStone1DL" Offset="0x00029E90"/>
-        <Texture Name="gEffectSsLightning1Tex" OutName="effect_ss_lightning_1" Format="i8" Width="16" Height="96" Offset="0x00029F30"/>
-        <Texture Name="gEffectSsLightning2Tex" OutName="effect_ss_lightning_2" Format="i8" Width="16" Height="96" Offset="0x0002A530"/>
-        <Texture Name="gEffectSsLightning3Tex" OutName="effect_ss_lightning_3" Format="i8" Width="16" Height="96" Offset="0x0002AB30"/>
-        <Texture Name="gEffectSsLightning4Tex" OutName="effect_ss_lightning_4" Format="i8" Width="16" Height="96" Offset="0x0002B130"/>
-        <Texture Name="gEffectSsLightning5Tex" OutName="effect_ss_lightning_5" Format="i8" Width="16" Height="96" Offset="0x0002B730"/>
-        <Texture Name="gEffectSsLightning6Tex" OutName="effect_ss_lightning_6" Format="i8" Width="16" Height="96" Offset="0x0002BD30"/>
-        <Texture Name="gEffectSsLightning7Tex" OutName="effect_ss_lightning_7" Format="i8" Width="16" Height="96" Offset="0x0002C330"/>
-        <Texture Name="gEffectSsLightning8Tex" OutName="effect_ss_lightning_8" Format="i8" Width="16" Height="96" Offset="0x0002C930"/>
-        <DList Name="gEffectSsLightningDL" Offset="0x0002CF30"/>
-        <Texture Name="gEffectSsDeadDb1Tex" OutName="effect_ss_dead_db_1" Format="i8" Width="32" Height="64" Offset="0x0002CFE0"/>
-        <Texture Name="gEffectSsDeadDb2Tex" OutName="effect_ss_dead_db_2" Format="i8" Width="32" Height="64" Offset="0x0002D7E0"/>
-        <Texture Name="gEffectSsDeadDb3Tex" OutName="effect_ss_dead_db_3" Format="i8" Width="32" Height="64" Offset="0x0002DFE0"/>
-        <Texture Name="gEffectSsDeadDb4Tex" OutName="effect_ss_dead_db_4" Format="i8" Width="32" Height="64" Offset="0x0002E7E0"/>
-        <Texture Name="gEffectSsDeadDb5Tex" OutName="effect_ss_dead_db_5" Format="i8" Width="32" Height="64" Offset="0x0002EFE0"/>
-        <Texture Name="gEffectSsDeadDb6Tex" OutName="effect_ss_dead_db_6" Format="i8" Width="32" Height="64" Offset="0x0002F7E0"/>
-        <Texture Name="gEffectSsDeadDb7Tex" OutName="effect_ss_dead_db_7" Format="i8" Width="32" Height="64" Offset="0x0002FFE0"/>
-        <Texture Name="gEffectSsDeadDb8Tex" OutName="effect_ss_dead_db_8" Format="i8" Width="32" Height="64" Offset="0x000307E0"/>
-        <Texture Name="gEffectSsDeadDb9Tex" OutName="effect_ss_dead_db_9" Format="i8" Width="32" Height="64" Offset="0x00030FE0"/>
-        <Texture Name="gEffectSsDeadDb10Tex" OutName="effect_ss_dead_db_10" Format="i8" Width="32" Height="64" Offset="0x000317E0"/>
-        <DList Name="gEffectSsDeadDbDL" Offset="0x00031FE0"/>
-        <Texture Name="tex_04032090" Format="i8" Width="32" Height="32" Offset="0x00032090"/>
-        <Texture Name="tex_04032490" Format="i8" Width="32" Height="32" Offset="0x00032490"/>
-        <Texture Name="tex_04032890" Format="i8" Width="32" Height="32" Offset="0x00032890"/>
-        <Texture Name="gEffectSsKakeraTex" OutName="effect_ss_kakera" Format="i8" Width="32" Height="32" Offset="0x00032C90"/>
-        <Texture Name="gWoodBoardTex" OutName="wood_board" Format="i8" Width="32" Height="32" Offset="0x00033090"/>
-        <DList Name="gEffectSsKakeraDL" Offset="0x00033720"/>
-        <DList Name="gEffectSsEnIceDL" Offset="0x00033818"/>
-        <DList Name="gEffectSsShardDL" Offset="0x00033EE0"/>
-        <Blob Name="blob_04034050" Offset="0x00034050" Size="0x1C0"/>
-        <DList Name="gBugLegDL" Offset="0x00034210"/>
-        <DList Name="gBugLegRefDL" Offset="0x000342B0"/>
-        <DList Name="gBugLegRefRefDL" Offset="0x000342C0"/>
-        <DList Name="gBugLeg2DL" Offset="0x00034300"/>
-        <DList Name="gBugLeg2RefDL" Offset="0x000343A0"/>
-        <DList Name="gBugLeg2RefRefDL" Offset="0x000343B0"/>
-        <DList Name="gBugLeg3DL" Offset="0x000343F0"/>
-        <DList Name="gBugLeg3RefDL" Offset="0x00034490"/>
-        <DList Name="gBugLeg3RefRefDL" Offset="0x000344A0"/>
-        <DList Name="gBugLeg4DL" Offset="0x000344E0"/>
-        <DList Name="gBugLeg4RefDL" Offset="0x00034580"/>
-        <DList Name="gBugLeg4RefRefDL" Offset="0x00034590"/>
-        <DList Name="gBugLeg5DL" Offset="0x000345D0"/>
-        <DList Name="gBugLeg5RefDL" Offset="0x00034670"/>
-        <DList Name="gBugLeg5RefRefDL" Offset="0x00034680"/>
-        <DList Name="gBugLeg6DL" Offset="0x000346C0"/>
-        <DList Name="gBugLeg6RefDL" Offset="0x00034760"/>
-        <DList Name="gBugLeg6RefRefDL" Offset="0x00034770"/>
-        <DList Name="gBugLeg7DL" Offset="0x000347B0"/>
-        <DList Name="gBugLeg7RefDL" Offset="0x00034850"/>
-        <DList Name="gBugLeg7RefRefDL" Offset="0x00034860"/>
-        <DList Name="gBugLeg8DL" Offset="0x000348A0"/>
-        <DList Name="gBugLeg8RefDL" Offset="0x00034940"/>
-        <DList Name="gBugLeg8RefRefDL" Offset="0x00034950"/>
-        <DList Name="gBugBodyDL" Offset="0x00034990"/>
-        <DList Name="gBugBodyRefDL" Offset="0x00034A40"/>
-        <DList Name="gBugBodyRefRefDL" Offset="0x00034A50"/>
+        <Texture Name="gEffectShockwaveTex" OutName="effect_shockwave" Format="i8" Width="64" Height="64" Offset="0x000190B0"/>
+        <DList Name="gEffectShockwaveDL" Offset="0x0001A0B0"/>
+        <DList Name="gEffectBubbleDL" Offset="0x0001A160"/>
+        <Texture Name="gEffectFireFootprintTex1" OutName="effect_fire_footprint_1" Format="ia8" Width="32" Height="32" Offset="0x0001A220"/>
+        <Texture Name="gEffectFireFootprintTex2" OutName="effect_fire_footprint_2" Format="ia8" Width="32" Height="32" Offset="0x0001A620"/>
+        <Texture Name="gEffectFireFootprintTex3" OutName="effect_fire_footprint_3" Format="ia8" Width="32" Height="32" Offset="0x0001AA20"/>
+        <Texture Name="gEffectFireFootprintTex4" OutName="effect_fire_footprint_4" Format="ia8" Width="32" Height="32" Offset="0x0001AE20"/>
+        <Texture Name="gEffectFireFootprintTex5" OutName="effect_fire_footprint_5" Format="ia8" Width="32" Height="32" Offset="0x0001B220"/>
+        <Texture Name="gEffectFireFootprintTex6" OutName="effect_fire_footprint_6" Format="ia8" Width="32" Height="32" Offset="0x0001B620"/>
+        <Texture Name="gEffectFireFootprintTex7" OutName="effect_fire_footprint_7" Format="ia8" Width="32" Height="32" Offset="0x0001BA20"/>
+        <Texture Name="gEffectFireFootprintTex8" OutName="effect_fire_footprint_8" Format="ia8" Width="32" Height="32" Offset="0x0001BE20"/>
+        <DList Name="gEffectFireFootprintDL" Offset="0x0001C220"/>
+        <Texture Name="gEffectUnusedBubblesTex1" OutName="effect_unused_bubbles_1" Format="ia8" Width="32" Height="32" Offset="0x0001C2C0"/>
+        <Texture Name="gEffectUnusedBubblesTex2" OutName="effect_unused_bubbles_2" Format="ia8" Width="32" Height="32" Offset="0x0001C6C0"/>
+        <Texture Name="gEffectUnusedBubblesTex3" OutName="effect_unused_bubbles_3" Format="ia8" Width="32" Height="32" Offset="0x0001CAC0"/>
+        <Texture Name="gEffectUnusedBubblesTex4" OutName="effect_unused_bubbles_4" Format="ia8" Width="32" Height="32" Offset="0x0001CEC0"/>
+        <Texture Name="gEffectUnusedBubblesTex5" OutName="effect_unused_bubbles_5" Format="ia8" Width="32" Height="32" Offset="0x0001D2C0"/>
+        <Texture Name="gEffectUnusedBubblesTex6" OutName="effect_unused_bubbles_6" Format="ia8" Width="32" Height="32" Offset="0x0001D6C0"/>
+        <Texture Name="gEffectUnusedBubblesTex7" OutName="effect_unused_bubbles_7" Format="ia8" Width="32" Height="32" Offset="0x0001DAC0"/>
+        <Texture Name="gEffectUnusedBubblesTex8" OutName="effect_unused_bubbles_8" Format="ia8" Width="32" Height="32" Offset="0x0001DEC0"/>
+        <DList Name="gEffectUnusedBubblesDL" Offset="0x0001E2C0"/>
+        <Texture Name="gUnknownCircleTex5" OutName="unknown_circle_5" Format="i8" Width="64" Height="64" Offset="0x0001E370"/>
+        <Texture Name="gEffectDamageParticlesTex1" OutName="effect_damage_particles_1" Format="i4" Width="32" Height="24" Offset="0x0001F370"/>
+        <Texture Name="gEffectDamageParticlesTex2" OutName="effect_damage_particles_2" Format="i4" Width="32" Height="24" Offset="0x0001F4F0"/>
+        <Texture Name="gEffectDamageParticlesTex3" OutName="effect_damage_particles_3" Format="i4" Width="32" Height="24" Offset="0x0001F670"/>
+        <Texture Name="gEffectDamageParticlesTex4" OutName="effect_damage_particles_4" Format="i4" Width="32" Height="24" Offset="0x0001F7F0"/>
+        <Texture Name="gEffectDamageParticlesTex5" OutName="effect_damage_particles_5" Format="i4" Width="32" Height="24" Offset="0x0001F970"/>
+        <Texture Name="gEffectDamageParticlesTex6" OutName="effect_damage_particles_6" Format="i4" Width="32" Height="24" Offset="0x0001FAF0"/>
+        <Texture Name="gEffectDamageParticlesTex7" OutName="effect_damage_particles_7" Format="i4" Width="32" Height="24" Offset="0x0001FC70"/>
+        <Texture Name="gEffectDamageParticlesTex8" OutName="effect_damage_particles_8" Format="i4" Width="32" Height="24" Offset="0x0001FDF0"/>
+        <Texture Name="gEffectDamageParticlesTex9" OutName="effect_damage_particles_9" Format="i4" Width="32" Height="24" Offset="0x0001FF70"/>
+        <Texture Name="gEffectDamageParticlesTex10" OutName="effect_damage_particles_10" Format="i4" Width="32" Height="24" Offset="0x000200F0"/>
+        <Texture Name="gEffectDamageParticlesTex11" OutName="effect_damage_particles_11" Format="i4" Width="32" Height="24" Offset="0x00020270"/>
+        <Texture Name="gEffectDamageParticlesTex12" OutName="effect_damage_particles_12" Format="i4" Width="32" Height="24" Offset="0x000203F0"/>
+        <Texture Name="gEffectDamageParticlesTex13" OutName="effect_damage_particles_13" Format="i4" Width="32" Height="24" Offset="0x00020570"/>
+        <Texture Name="gEffectDamageParticlesTex14" OutName="effect_damage_particles_14" Format="i4" Width="32" Height="24" Offset="0x000206F0"/>
+        <Texture Name="gEffectDamageParticlesTex15" OutName="effect_damage_particles_15" Format="i4" Width="32" Height="24" Offset="0x00020870"/>
+        <Texture Name="gEffectDamageParticlesTex16" OutName="effect_damage_particles_16" Format="i4" Width="32" Height="24" Offset="0x000209F0"/>
+        <Texture Name="gEffectDamageParticlesTex17" OutName="effect_damage_particles_17" Format="i4" Width="32" Height="24" Offset="0x00020B70"/>
+        <Texture Name="gEffectDamageParticlesTex18" OutName="effect_damage_particles_18" Format="i4" Width="32" Height="24" Offset="0x00020CF0"/>
+        <Texture Name="gEffectDamageParticlesTex19" OutName="effect_damage_particles_19" Format="i4" Width="32" Height="24" Offset="0x00020E70"/>
+        <Texture Name="gEffectDamageParticlesTex20" OutName="effect_damage_particles_20" Format="i4" Width="32" Height="24" Offset="0x00020FF0"/>
+        <Texture Name="gEffectDamageParticlesTex21" OutName="effect_damage_particles_21" Format="i4" Width="32" Height="24" Offset="0x00021170"/>
+        <Texture Name="gEffectDamageParticlesTex22" OutName="effect_damage_particles_22" Format="i4" Width="32" Height="24" Offset="0x000212F0"/>
+        <Texture Name="gEffectDamageParticlesTex23" OutName="effect_damage_particles_23" Format="i4" Width="32" Height="24" Offset="0x00021470"/>
+        <Texture Name="gEffectDamageParticlesTex24" OutName="effect_damage_particles_24" Format="i4" Width="32" Height="24" Offset="0x000215F0"/>
+        <DList Name="gEffectDamageParticlesDL" Offset="0x00021770"/>
+        <Texture Name="gEffectUnknownTex6" OutName="effect_unknown_6" Format="i8" Width="32" Height="64" Offset="0x00021810"/>
+        <Texture Name="gEffectUnknownTex7" OutName="effect_unknown_7" Format="i8" Width="32" Height="64" Offset="0x00022010"/>
+        <Texture Name="gEffectUnknownTex8" OutName="effect_unknown_8" Format="i8" Width="64" Height="64" Offset="0x00022810"/>
+        <Texture Name="gEffectMagmaBubbleTex1" OutName="effect_magma_bubbles_1" Format="ia8" Width="16" Height="24" Offset="0x00023810"/>
+        <Texture Name="gEffectMagmaBubbleTex2" OutName="effect_magma_bubbles_2" Format="ia8" Width="16" Height="24" Offset="0x00023990"/>
+        <Texture Name="gEffectMagmaBubbleTex3" OutName="effect_magma_bubbles_3" Format="ia8" Width="16" Height="24" Offset="0x00023B10"/>
+        <Texture Name="gEffectMagmaBubbleTex4" OutName="effect_magma_bubbles_4" Format="ia8" Width="16" Height="24" Offset="0x00023C90"/>
+        <Texture Name="gEffectMagmaBubbleTex5" OutName="effect_magma_bubbles_5" Format="ia8" Width="16" Height="24" Offset="0x00023E10"/>
+        <Texture Name="gEffectMagmaBubbleTex6" OutName="effect_magma_bubbles_6" Format="ia8" Width="16" Height="24" Offset="0x00023F90"/>
+        <Texture Name="gEffectMagmaBubbleTex7" OutName="effect_magma_bubbles_7" Format="ia8" Width="16" Height="24" Offset="0x00024110"/>
+        <Texture Name="gEffectMagmaBubbleTex8" OutName="effect_magma_bubbles_8" Format="ia8" Width="16" Height="24" Offset="0x00024290"/>
+        <DList Name="gEffectMagmaBubbleDL" Offset="0x00024410"/>
+        <Texture Name="gEffectWaterRippleTex" OutName="effect_ss_g_ripple" Format="i8" Width="64" Height="64" Offset="0x000244B0"/>
+        <DList Name="gEffectWaterRippleDL" Offset="0x000254B0"/>
+        <DList Name="gEffectSparkDL" Offset="0x00025550"/>
+        <Texture Name="gEffectWaterSplashTex1" OutName="effect_water_splash_1" Format="i8" Width="32" Height="40" Offset="0x000255F0"/>
+        <Texture Name="gEffectWaterSplashTex2" OutName="effect_water_splash_2" Format="i8" Width="32" Height="40" Offset="0x00025AF0"/>
+        <Texture Name="gEffectWaterSplashTex3" OutName="effect_water_splash_3" Format="i8" Width="32" Height="40" Offset="0x00025FF0"/>
+        <Texture Name="gEffectWaterSplashTex4" OutName="effect_water_splash_4" Format="i8" Width="32" Height="40" Offset="0x000264F0"/>
+        <Texture Name="gEffectWaterSplashTex5" OutName="effect_water_splash_5" Format="i8" Width="32" Height="40" Offset="0x000269F0"/>
+        <Texture Name="gEffectWaterSplashTex6" OutName="effect_water_splash_6" Format="i8" Width="32" Height="40" Offset="0x00026EF0"/>
+        <Texture Name="gEffectWaterSplashTex7" OutName="effect_water_splash_7" Format="i8" Width="32" Height="40" Offset="0x000273F0"/>
+        <Texture Name="gEffectWaterSplashTex8" OutName="effect_water_splash_8" Format="i8" Width="32" Height="40" Offset="0x000278F0"/>
+        <DList Name="gEffectWaterSplashDL" Offset="0x00027DF0"/>
+        <Texture Name="gUnknownEffectStoneTex1" OutName="unknown_effect_stone_1" Format="ia8" Width="32" Height="32" Offset="0x00027E90"/>
+        <Texture Name="gUnknownEffectStoneTex2" OutName="unknown_effect_stone_2" Format="ia8" Width="32" Height="32" Offset="0x00028290"/>
+        <Texture Name="gUnknownEffectStoneTex3" OutName="unknown_effect_stone_3" Format="ia8" Width="32" Height="32" Offset="0x00028690"/>
+        <Texture Name="gUnknownEffectStoneTex4" OutName="unknown_effect_stone_4" Format="ia8" Width="32" Height="32" Offset="0x00028A90"/>
+        <Texture Name="gUnknownEffectStoneTex5" OutName="unknown_effect_stone_5" Format="ia8" Width="32" Height="32" Offset="0x00028E90"/>
+        <Texture Name="gUnknownEffectStoneTex6" OutName="unknown_effect_stone_6" Format="ia8" Width="32" Height="32" Offset="0x00029290"/>
+        <Texture Name="gUnknownEffectStoneTex7" OutName="unknown_effect_stone_7" Format="ia8" Width="32" Height="32" Offset="0x00029690"/>
+        <Texture Name="gUnknownEffectStoneTex8" OutName="unknown_effect_stone_8" Format="ia8" Width="32" Height="32" Offset="0x00029A90"/>
+        <DList Name="gUnknownEffectStoneDL" Offset="0x00029E90"/>
+        <Texture Name="gEffectLightningTex1" OutName="effect_lightning_1" Format="i8" Width="16" Height="96" Offset="0x00029F30"/>
+        <Texture Name="gEffectLightningTex2" OutName="effect_lightning_2" Format="i8" Width="16" Height="96" Offset="0x0002A530"/>
+        <Texture Name="gEffectLightningTex3" OutName="effect_lightning_3" Format="i8" Width="16" Height="96" Offset="0x0002AB30"/>
+        <Texture Name="gEffectLightningTex4" OutName="effect_lightning_4" Format="i8" Width="16" Height="96" Offset="0x0002B130"/>
+        <Texture Name="gEffectLightningTex5" OutName="effect_lightning_5" Format="i8" Width="16" Height="96" Offset="0x0002B730"/>
+        <Texture Name="gEffectLightningTex6" OutName="effect_lightning_6" Format="i8" Width="16" Height="96" Offset="0x0002BD30"/>
+        <Texture Name="gEffectLightningTex7" OutName="effect_lightning_7" Format="i8" Width="16" Height="96" Offset="0x0002C330"/>
+        <Texture Name="gEffectLightningTex8" OutName="effect_lightning_8" Format="i8" Width="16" Height="96" Offset="0x0002C930"/>
+        <DList Name="gEffectLightningDL" Offset="0x0002CF30"/>
+        <Texture Name="gEffectEnemyDeathFlameTex1" OutName="effect_enemy_death_flame_1" Format="i8" Width="32" Height="64" Offset="0x0002CFE0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex2" OutName="effect_enemy_death_flame_2" Format="i8" Width="32" Height="64" Offset="0x0002D7E0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex3" OutName="effect_enemy_death_flame_3" Format="i8" Width="32" Height="64" Offset="0x0002DFE0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex4" OutName="effect_enemy_death_flame_4" Format="i8" Width="32" Height="64" Offset="0x0002E7E0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex5" OutName="effect_enemy_death_flame_5" Format="i8" Width="32" Height="64" Offset="0x0002EFE0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex6" OutName="effect_enemy_death_flame_6" Format="i8" Width="32" Height="64" Offset="0x0002F7E0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex7" OutName="effect_enemy_death_flame_7" Format="i8" Width="32" Height="64" Offset="0x0002FFE0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex8" OutName="effect_enemy_death_flame_8" Format="i8" Width="32" Height="64" Offset="0x000307E0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex9" OutName="effect_enemy_death_flame_9" Format="i8" Width="32" Height="64" Offset="0x00030FE0"/>
+        <Texture Name="gEffectEnemyDeathFlameTex10" OutName="effect_enemy_death_flame_10" Format="i8" Width="32" Height="64" Offset="0x000317E0"/>
+        <DList Name="gEffectEnemyDeathFlameDL" Offset="0x00031FE0"/>
+        <Texture Name="gEffectUnknownTex9" OutName="effect_unknown_9" Format="i8" Width="32" Height="32" Offset="0x00032090"/>
+        <Texture Name="gEffectUnknownTex10" OutName="effect_unknown_10" Format="i8" Width="32" Height="32" Offset="0x00032490"/>
+        <Texture Name="gEffectUnknownTex11" OutName="effect_unknown_11" Format="i8" Width="32" Height="32" Offset="0x00032890"/>
+        <Texture Name="gEffectUnknownTex12" OutName="effect_unknown_12" Format="i8" Width="32" Height="32" Offset="0x00032C90"/>
+        <Texture Name="gUnknownWoodBoardTex" OutName="unknown_wood_board" Format="i8" Width="32" Height="32" Offset="0x00033090"/>
+        <DList Name="gEffectIceFragmentDL1" Offset="0x00033720"/>
+        <DList Name="gEffectIceFragmentDL2" Offset="0x00033818"/>
+        <DList Name="gEffectIceFragmentDL3" Offset="0x00033EE0"/>
+        <!-- Bug Object: 
+        gBugSkel 0x04035590
+        gBugCrawlAnim 0x040341FC -->
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgb5a1" Width="16" Height="64" Offset="0x00034B20"/>
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgb5a1" Width="32" Height="4" Offset="0x00035320"/>
-        <Blob Name="blob_04035420" Offset="0x00035420" Size="0x178"/>
-        <DList Name="gShrubStalkDL" Offset="0x000355E0"/>
-        <DList Name="gShrubTipDL" Offset="0x000356A0"/>
-        <Texture Name="gLeafTex" OutName="leaf" Format="rgb5a1" Width="32" Height="32" Offset="0x00035730"/>
-        <Texture Name="gShrubTex" OutName="shrub"Format="rgb5a1" Width="32" Height="32" Offset="0x00035F30"/>
-        <Texture Name="gCircle2Tex" OutName="circle_2" Format="i4" Width="64" Height="64" Offset="0x00036730"/>
-        <Texture Name="gRingTex" OutName="ring" Format="i4" Width="64" Height="64" Offset="0x00036F30"/>
-        <DList Name="gEffectSsDeadDdDL" Offset="0x00037730"/>
-        <DList Name="gRingDL" Offset="0x00037798"/>
-        <DList Name="gEffectSsKiraKiraDL" Offset="0x00037880"/>
-        <Texture Name="gEffectSsKiraKiraTex" OutName="effect_ss_kira_kira" Format="i4" Width="16" Height="16" Offset="0x000378E0"/>
-        <Texture Name="gGlowTex" OutName="glow" Format="i8" Width="16" Height="32" Offset="0x00037960"/>
-        <Texture Name="tex_04037B60" Format="i8" Width="16" Height="32" Offset="0x00037B60"/>
-        <DList Name="gUnkPlayerDL" Offset="0x00037E30"/>
+        <DList Name="gCuttableShrubStalkDL" Offset="0x000355E0"/>
+        <DList Name="gCuttableShrubTipDL" Offset="0x000356A0"/>
+        <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgb5a1" Width="32" Height="32" Offset="0x00035730"/>
+        <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgb5a1" Width="32" Height="32" Offset="0x00035F30"/>
+        <Texture Name="gBurnMarkTex1" OutName="burn_mark_1" Format="i4" Width="64" Height="64" Offset="0x00036730"/>
+        <Texture Name="gBurnMarkTex2" OutName="burn_mark_2" Format="i4" Width="64" Height="64" Offset="0x00036F30"/>
+        <DList Name="gEffectBurnMarkDL1" Offset="0x00037730"/>
+        <DList Name="gEffectBurnMarkDL2" Offset="0x00037798"/>
+        <DList Name="gEffectFairySparklesDL" Offset="0x00037880"/>
+        <Texture Name="gEffectFairySparklesTex" OutName="effect_fairy_sparkles" Format="i4" Width="16" Height="16" Offset="0x000378E0"/>
+        <Texture Name="gEffectUnknownTex13" OutName="effect_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x00037960"/>
+        <Texture Name="gEffectUnknownTex14" OutName="effect_unknown_tex_14" Format="i8" Width="16" Height="32" Offset="0x00037B60"/>
+        <DList Name="gHoverBootsCircleDL" Offset="0x00037E30"/>
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x00037F00"/>
         <DList Name="gMoonDL" Offset="0x00038F00"/>
-        <Texture Name="gCircle3Tex" OutName="circle_3" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
-        <Blob Name="blob_040393B0" Offset="0x00393B0" Size="0x128"/>
-        <DList Name="gRockMediumDL" Offset="0x00039660"/>
-        <DList Name="gRockVLargeDL" Offset="0x00039890"/>
-        <Blob Name="blob_04039940" Offset="0x0039940" Size="0x138"/>
-        <DList Name="gRockVSmallDL" Offset="0x00039C00"/>
-        <Blob Name="blob_04039CC0" Offset="0x0039CC0" Size="0x128"/>
-        <DList Name="gRockHSmallDL" Offset="0x00039F70"/>
-        <Blob Name="blob_0403A020" Offset="0x003A020" Size="0x128"/>
-        <DList Name="gRockHLargeDL" Offset="0x0003A2D0"/>
-        <Blob Name="blob_0403A380" Offset="0x003A380" Size="0x128"/>
-        <DList Name="gRockSCubeDL" Offset="0x0003A630"/>
-        <Blob Name="blob_0403A6F0" Offset="0x003A6F0" Size="0x128"/>
-        <DList Name="gStumpDL" Offset="0x0003A9B0"/>
-        <DList Name="gGrassDL" Offset="0x0003AB80"/>
+        <Texture Name="gUnknownCircleTex6" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
+        <DList Name="gLiftableRockDL" Offset="0x00039660"/>
+        <DList Name="gUnusedRockRectangularPrismDL1" Offset="0x00039890"/>
+        <DList Name="gUnusedRockRectangularPrismDL2" Offset="0x00039C00"/>
+        <DList Name="gUnusedRockRectangularPrismDL3" Offset="0x00039F70"/>
+        <DList Name="gUnusedRockRectangularPrismDL4" Offset="0x0003A2D0"/>
+        <DList Name="gUnusedRockRectangularPrismDL5" Offset="0x0003A630"/>
+        <DList Name="gUnusedTreeStumpDL" Offset="0x0003A9B0"/>
+        <DList Name="gUnusedGrassBladesDL" Offset="0x0003AB80"/>
         <Texture Name="gHeartShapeTex" OutName="heart_shape" Format="i8" Width="16" Height="16" Offset="0x0003AC30"/>
         <DList Name="gHeartPieceInteriorDL" Offset="0x0003B030"/>
         <DList Name="gHeartPieceExteriorDL" Offset="0x0003BBA0"/>
         <DList Name="gHeartContainerInteriorDL" Offset="0x0003BCD8"/>
-        <DList Name="gSignSquareDL" Offset="0x0003C050"/>
+        <DList Name="gSignRectangularDL" Offset="0x0003C050"/>
         <DList Name="gSignDirectionalDL" Offset="0x0003C5B0"/>
         <Texture Name="gDropArrows2Tex" OutName="drop_arrows_2" Format="rgb5a1" Width="32" Height="32" Offset="0x0003C870"/>
         <Texture Name="gDropArrows1Tex" OutName="drop_arrows_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0003D070"/>
@@ -310,66 +838,66 @@
         <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgb5a1" Width="4" Height="4" Offset="0x000421E0"/>
         <DList Name="gRupeeDL" Offset="0x00042440"/>
         <Texture Name="gRupeeLightRedTex" OutName="rupee_light_red" Format="rgb5a1" Width="4" Height="4" Offset="0x00042510"/>
-        <Texture Name="gStone1Tex" OutName="stone_1" Format="rgb5a1" Width="32" Height="32" Offset="0x00042530"/>
-        <Texture Name="gStone2Tex" OutName="stone_2" Format="rgb5a1" Width="32" Height="32" Offset="0x00042D30"/>
-        <Texture Name="gStumpTopTex" OutName="stump_top" Format="rgb5a1" Width="32" Height="32" Offset="0x00043530"/>
-        <Texture Name="gStumpBarkTex" OutName="stump_bark" Format="rgb5a1" Width="32" Height="32" Offset="0x00043D30"/>
-        <Texture Name="gGrassTex" OutName="grass" Format="rgb5a1" Width="64" Height="32" Offset="0x00044530"/>
-        <Texture Name="gStoneTargetTex" OutName="stone_target" Format="rgb5a1" Width="32" Height="32" Offset="0x00045530"/>
-        <Texture Name="gStone3Tex" OutName="stone_3" Format="rgb5a1" Width="32" Height="32" Offset="0x00045D30"/>
-        <Texture Name="gSignSquareSideTex" OutName="sign_square_side" Format="rgb5a1" Width="32" Height="16" Offset="0x00046530"/>
-        <Texture Name="gSignSquareFrontTex" OutName="sign_square_front" Format="rgb5a1" Width="32" Height="16" Offset="0x00046930"/>
-        <Texture Name="gSignPostTex" OutName="sign_post" Format="rgb5a1" Width="64" Height="8" Offset="0x00046D30"/>
-        <Texture Name="gSignDirectionalFrontTex" OutName="sign_directional_front" Format="rgb5a1" Width="64" Height="32" Offset="0x00047130"/>
-        <DList Name="gUnknownTriDL" Offset="0x00048160"/>
-        <DList Name="gShadowTeardropDL" Offset="0x00048180"/>
-        <Texture Name="gShadowTeardropTex" OutName="shadow_teardrop" Format="ia16" Width="32" Height="64" Offset="0x00048210"/>
-        <DList Name="gShadowCircleDL" Offset="0x00049210"/>
-        <Texture Name="gShadowCircleTex" OutName="shadow_circle" Format="ia16" Width="32" Height="32" Offset="0x00049290"/>
-        <DList Name="gShadowHorseDL" Offset="0x00049AD0"/>
-        <Texture Name="gShadowHorseTex" OutName="shadow_horse" Format="i8" Width="16" Height="64" Offset="0x00049B20"/>
+        <Texture Name="gUnknownStoneTex1" OutName="unknown_stone_1" Format="rgb5a1" Width="32" Height="32" Offset="0x00042530"/>
+        <Texture Name="gUnknownStoneTex2" OutName="unknown_stone_2" Format="rgb5a1" Width="32" Height="32" Offset="0x00042D30"/>
+        <Texture Name="gUnusedTreeStumpTopTex" OutName="unused_tree_stump_top" Format="rgb5a1" Width="32" Height="32" Offset="0x00043530"/>
+        <Texture Name="gUnusedTreeStumpBarkTex" OutName="unused_tree_stump_bark" Format="rgb5a1" Width="32" Height="32" Offset="0x00043D30"/>
+        <Texture Name="gUnusedGrassBladesTex" OutName="unused_grass_blades" Format="rgb5a1" Width="64" Height="32" Offset="0x00044530"/>
+        <Texture Name="gUnusedStoneHookshotTargetTex" OutName="unused_stone_hookshot_target" Format="rgb5a1" Width="32" Height="32" Offset="0x00045530"/>
+        <Texture Name="gUnknownStoneTex3" OutName="unknown_stone_3" Format="rgb5a1" Width="32" Height="32" Offset="0x00045D30"/>
+        <Texture Name="gSignRectangularSideTex" OutName="sign_rectangular_side" Format="rgb5a1" Width="32" Height="16" Offset="0x00046530"/>
+        <Texture Name="gSignRectangularFrontTex" OutName="sign_rectangular_front" Format="rgb5a1" Width="32" Height="16" Offset="0x00046930"/>
+        <Texture Name="gSignPostWoodTex" OutName="sign_post_wood" Format="rgb5a1" Width="64" Height="8" Offset="0x00046D30"/>
+        <Texture Name="gSignLetteringTex" OutName="sign_lettering" Format="rgb5a1" Width="64" Height="32" Offset="0x00047130"/>
+        <DList Name="gRaindropDL" Offset="0x00048160"/>
+        <DList Name="gFootprintShadowDL" Offset="0x00048180"/>
+        <Texture Name="gFootprintShadowTex" OutName="footprint_shadow" Format="ia16" Width="32" Height="64" Offset="0x00048210"/>
+        <DList Name="gCircularShadowDL" Offset="0x00049210"/>
+        <Texture Name="gCircularShadowTex" OutName="circular_shadow" Format="ia16" Width="32" Height="32" Offset="0x00049290"/>
+        <DList Name="gHorseShadowDL" Offset="0x00049AD0"/>
+        <Texture Name="gHorseShadowTex" OutName="horse_shadow" Format="i8" Width="16" Height="64" Offset="0x00049B20"/>
         <DList Name="gDoorMetalBarsDL" Offset="0x00049FE0"/>
         <Texture Name="gDoorMetalBarsTex" OutName="door_metal_bars" Format="ia8" Width="32" Height="128" Offset="0x0004A090"/>
-        <DList Name="gSlidingDungeonDoorDL" Offset="0x0004B0D0"/>
-        <Texture Name="gSlidingDungeonDoorTex" OutName="sliding_dungeon_door" Format="rgb5a1" Width="32" Height="64" Offset="0x0004B160"/>
-        <Texture Name="gSunATex" OutName="sun_a" Format="i4" Width="64" Height="31" Offset="0x0004C160"/>
-        <Texture Name="gSunBTex" OutName="sun_b" Format="i4" Width="64" Height="16" Offset="0x0004C540"/>
-        <Texture Name="gSunCTex" OutName="sun_c" Format="i4" Width="64" Height="16" Offset="0x0004C740"/>
-        <Texture Name="gSunObscuredATex" OutName="sun_obscured_a" Format="i4" Width="64" Height="31" Offset="0x0004C960"/>
-        <Texture Name="gSunObscuredBTex" OutName="sun_obscured_b" Format="i4" Width="64" Height="16" Offset="0x0004CD40"/>
-        <Texture Name="gSunObscuredCTex" OutName="sun_obscured_c" Format="i4" Width="64" Height="16" Offset="0x0004CF40"/>
-        <DList Name="gKankyoDL" Offset="0x0004D160"/>
-        <DList Name="gUnknownSquareDL" Offset="0x0004D1A8"/>
+        <DList Name="gDungeonDoorDL" Offset="0x0004B0D0"/>
+        <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgb5a1" Width="32" Height="64" Offset="0x0004B160"/>
+        <Texture Name="gSunTex1" OutName="sun_1" Format="i4" Width="64" Height="31" Offset="0x0004C160"/>
+        <Texture Name="gSunTex2" OutName="sun_2" Format="i4" Width="64" Height="16" Offset="0x0004C540"/>
+        <Texture Name="gSunTex3" OutName="sun_3" Format="i4" Width="64" Height="16" Offset="0x0004C740"/>
+        <Texture Name="gSunEveningTex1" OutName="sun_evening_1" Format="i4" Width="64" Height="31" Offset="0x0004C960"/>
+        <Texture Name="gSunEveningTex2" OutName="sun_evening_2" Format="i4" Width="64" Height="16" Offset="0x0004CD40"/>
+        <Texture Name="gSunEveningTex3" OutName="sun_evening_3" Format="i4" Width="64" Height="16" Offset="0x0004CF40"/>
+        <DList Name="gKokiriDustMoteTextureLoadDL " Offset="0x0004D160"/>
+        <DList Name="gKokiriDustMoteDL" Offset="0x0004D1A8"/>
         <DList Name="gSunDL" Offset="0x0004D1C0"/>
-        <DList Name="gZTargetReticleDL" Offset="0x0004D450"/>
-        <DList Name="gEffectSsFireTailDL" Offset="0x0004D4E0"/>
-        <DList Name="gEffectSsKFireDL" Offset="0x0004D5A0"/>
-        <Texture Name="gEffectSsFireTailTex" OutName="effect_ss_fire_tail" Format="i8" Width="32" Height="64" Offset="0x0004D660"/>
-        <Texture Name="gEffectSsKFireTex" OutName="effect_ss_k_fire" Format="i8" Width="32" Height="64" Offset="0x0004DE60"/>
-        <DList Name="gBangShapeDL" Offset="0x0004F2B0"/>
-        <DList Name="gBangShapeRefDL" Offset="0x0004F630"/>
-        <DList Name="gCloudShapeDL" Offset="0x000502E0"/>
-        <DList Name="gCloudShapeRefDL" Offset="0x00050600"/>
-        <DList Name="gRoundShapeDL" Offset="0x00051280"/>
-        <DList Name="gRoundShapeRefDL" Offset="0x00051598"/>
-        <Texture Name="gZeldaTex" OutName="zelda" Format="i8" Width="64" Height="32" Offset="0x000515B0"/>
-        <Texture Name="gDust1Tex" OutName="dust_1" Format="i8" Width="32" Height="32" Offset="0x00051DB0"/>
-        <Texture Name="gDust2Tex" OutName="dust_2" Format="i8" Width="32" Height="32" Offset="0x000521B0"/>
-        <Texture Name="gDust3Tex" OutName="dust_3" Format="i8" Width="32" Height="32" Offset="0x000525B0"/>
-        <Texture Name="gDust4Tex" OutName="dust_4" Format="i8" Width="32" Height="32" Offset="0x000529B0"/>
-        <Texture Name="gDust5Tex" OutName="dust_5" Format="i8" Width="32" Height="32" Offset="0x00052DB0"/>
-        <Texture Name="gDust6Tex" OutName="dust_6" Format="i8" Width="32" Height="32" Offset="0x000531B0"/>
-        <Texture Name="gDust7Tex" OutName="dust_7" Format="i8" Width="32" Height="32" Offset="0x000535B0"/>
-        <Texture Name="gDust8Tex" OutName="dust_8" Format="i8" Width="32" Height="32" Offset="0x000539B0"/>
+        <DList Name="gZTargetLockOnTriangleDL" Offset="0x0004D450"/>
+        <DList Name="gEffectFireDL1" Offset="0x0004D4E0"/>
+        <DList Name="gEffectFireDL2" Offset="0x0004D5A0"/>
+        <Texture Name="gEffectFireTex1" OutName="effect_fire_1" Format="i8" Width="32" Height="64" Offset="0x0004D660"/>
+        <Texture Name="gEffectFireTex2" OutName="effect_fire_2" Format="i8" Width="32" Height="64" Offset="0x0004DE60"/>
+        <DList Name="gUnusedUnknownShape1DL" Offset="0x0004F2B0"/>
+        <DList Name="gUnusedUnknownShape1RefDL" Offset="0x0004F630"/>
+        <DList Name="gUnusedUnknownShape2DL" Offset="0x000502E0"/>
+        <DList Name="gUnusedUnknownShape2RefDL" Offset="0x00050600"/>
+        <DList Name="gUnusedUnknownShape3DL" Offset="0x00051280"/>
+        <DList Name="gUnusedUnknownShape3RefDL" Offset="0x00051598"/>
+        <Texture Name="gUnusedUpsideDownZeldaTex" OutName="upside_down_zelda" Format="i8" Width="64" Height="32" Offset="0x000515B0"/>
+        <Texture Name="gDustTex1" OutName="dust_1" Format="i8" Width="32" Height="32" Offset="0x00051DB0"/>
+        <Texture Name="gDustTex2" OutName="dust_2" Format="i8" Width="32" Height="32" Offset="0x000521B0"/>
+        <Texture Name="gDustTex3" OutName="dust_3" Format="i8" Width="32" Height="32" Offset="0x000525B0"/>
+        <Texture Name="gDustTex4" OutName="dust_4" Format="i8" Width="32" Height="32" Offset="0x000529B0"/>
+        <Texture Name="gDustTex5" OutName="dust_5" Format="i8" Width="32" Height="32" Offset="0x00052DB0"/>
+        <Texture Name="gDustTex6" OutName="dust_6" Format="i8" Width="32" Height="32" Offset="0x000531B0"/>
+        <Texture Name="gDustTex7" OutName="dust_7" Format="i8" Width="32" Height="32" Offset="0x000535B0"/>
+        <Texture Name="gDustTex8" OutName="dust_8" Format="i8" Width="32" Height="32" Offset="0x000539B0"/>
         <Texture Name="gCircleGlowLTex" OutName="circle_glow_l" Format="i8" Width="32" Height="64" Offset="0x00053DB0"/>
         <Texture Name="gCircleGlowRTex" OutName="circle_glow_r" Format="i8" Width="32" Height="64" Offset="0x000545B0"/>
         <Texture Name="gCircleGlowSLTex" OutName="circle_glow_sl" Format="i8" Width="32" Height="64" Offset="0x00054DB0"/>
         <Texture Name="gCircleGlowSRTex" OutName="circle_glow_sr" Format="i8" Width="32" Height="64" Offset="0x000555B0"/>
-        <Texture Name="gEffectSsBubble1Tex" OutName="effect_ss_bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
-        <Texture Name="gEffectSsBubble2Tex" OutName="effect_ss_bubble_2" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
-        <Texture Name="gEffectSsGSpk1Tex" OutName="effect_ss_g_spk_1" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
-        <Texture Name="gEffectSsGSpk2Tex" OutName="effect_ss_g_spk_2" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
-        <Texture Name="gEffectSsGSpk3Tex" OutName="effect_ss_g_spk_3" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
-        <Texture Name="gEffectSsGSpk4Tex" OutName="effect_ss_g_spk_4" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
+        <Texture Name="gEffectBubbleTex1" OutName="effect_bubble_1" Format="i8" Width="16" Height="16" Offset="0x00055DB0"/>
+        <Texture Name="gEffectBubbleTex2" OutName="effect_bubble_2" Format="i8" Width="16" Height="16" Offset="0x00055EB0"/>
+        <Texture Name="gEffectSparkTex1" OutName="effect_spark_1" Format="i4" Width="32" Height="32" Offset="0x00055FB0"/>
+        <Texture Name="gEffectSparkTex2" OutName="effect_spark_2" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
+        <Texture Name="gEffectSparkTex3" OutName="effect_spark_3" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
+        <Texture Name="gEffectSparkTex4" OutName="effect_spark_4" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
     </File>
 </Root>

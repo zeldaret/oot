@@ -1194,7 +1194,7 @@ extern LinkAnimationHeader D_040033A0;
 extern LinkAnimationHeader D_040033B0;
 extern LinkAnimationHeader D_040033B8;
 extern LinkAnimationHeader D_040033C8;
-extern Gfx gEffectSsShardDL[];
+extern Gfx gEffectIceFragmentDL3[];
 
 // return type can't be void due to regalloc in func_8084FCAC
 s32 func_80832210(Player* this) {
@@ -10372,7 +10372,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, D_8085486C);
             gDPSetEnvColor(POLY_XLU_DISP++, 120, 90, 30, 128);
-            gSPDisplayList(POLY_XLU_DISP++, gUnkPlayerDL);
+            gSPDisplayList(POLY_XLU_DISP++, gHoverBootsCircleDL);
         }
     }
 
@@ -10464,7 +10464,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, 255);
-            gSPDisplayList(POLY_XLU_DISP++, gEffectSsShardDL);
+            gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragmentDL3);
         }
 
         if (this->unk_862 > 0) {

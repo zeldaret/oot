@@ -38,5 +38,5 @@ glabel D_80A41BC0
 glabel D_80A41BCC
  .word 0x44160000, 0x00000000, 0x00000000
 glabel D_80A41BD8
- .word gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex, 0x00000000, 0x00000000
+ .word gDustTex8, gDustTex7, gDustTex6, gDustTex5, gDustTex4, gDustTex3, gDustTex2, gDustTex1, 0x00000000, 0x00000000
 

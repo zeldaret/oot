@@ -28,13 +28,13 @@ static Color_RGB8 sColors[] = {
 };
 
 static UNK_PTR sTextures[] = {
-    gEffectSsHitmark1Tex,  gEffectSsHitmark2Tex,  gEffectSsHitmark3Tex,  gEffectSsHitmark4Tex,  gEffectSsHitmark5Tex,
-    gEffectSsHitmark6Tex,  gEffectSsHitmark7Tex,  gEffectSsHitmark8Tex,  gEffectSsHitmark9Tex,  gEffectSsHitmark10Tex,
-    gEffectSsHitmark11Tex, gEffectSsHitmark12Tex, gEffectSsHitmark13Tex, gEffectSsHitmark14Tex, gEffectSsHitmark15Tex,
-    gEffectSsHitmark16Tex, gEffectSsHitmark17Tex, gEffectSsHitmark18Tex, gEffectSsHitmark19Tex, gEffectSsHitmark20Tex,
-    gEffectSsHitmark21Tex, gEffectSsHitmark22Tex, gEffectSsHitmark23Tex, gEffectSsHitmark24Tex, gEffectSsHitmark1Tex,
-    gEffectSsHitmark2Tex,  gEffectSsHitmark3Tex,  gEffectSsHitmark4Tex,  gEffectSsHitmark5Tex,  gEffectSsHitmark6Tex,
-    gEffectSsHitmark7Tex,  gEffectSsHitmark8Tex,
+    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,  gEffectDamageParticlesTex5,
+    gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,  gEffectDamageParticlesTex9,  gEffectDamageParticlesTex10,
+    gEffectDamageParticlesTex11, gEffectDamageParticlesTex12, gEffectDamageParticlesTex13, gEffectDamageParticlesTex14, gEffectDamageParticlesTex15,
+    gEffectDamageParticlesTex16, gEffectDamageParticlesTex17, gEffectDamageParticlesTex18, gEffectDamageParticlesTex19, gEffectDamageParticlesTex20,
+    gEffectDamageParticlesTex21, gEffectDamageParticlesTex22, gEffectDamageParticlesTex23, gEffectDamageParticlesTex24, gEffectDamageParticlesTex1,
+    gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,  gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,
+    gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {
@@ -46,7 +46,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsHitmarkDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectDamageParticlesDL);
 
     if (initParams->type == 1) {
         this->life = 16;

@@ -35,7 +35,7 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsGSpkDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSparkDL);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
@@ -66,10 +66,10 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectSsGSpk1Tex,
-    gEffectSsGSpk2Tex,
-    gEffectSsGSpk3Tex,
-    gEffectSsGSpk4Tex,
+    gEffectSparkTex1,
+    gEffectSparkTex2,
+    gEffectSparkTex3,
+    gEffectSparkTex4,
 };
 
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

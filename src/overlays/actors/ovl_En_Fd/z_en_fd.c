@@ -773,7 +773,7 @@ void EnFd_UpdateDots(EnFd* this) {
 
 void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
     static UNK_PTR D_80A0E0F8[] = {
-        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
+        gDustTex8, gDustTex7, gDustTex6, gDustTex5, gDustTex4, gDustTex3, gDustTex2, gDustTex1,
     };
     s32 firstDone;
     s16 i;

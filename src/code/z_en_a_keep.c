@@ -45,8 +45,18 @@ static UNK_PTR D_8011546C[] = {
 };
 
 static Gfx* D_80115484[] = {
-    gRockVSmallDL, gRockVSmallDL, gRockVSmallDL, gRockHLargeDL, gRockHLargeDL,      gRockSCubeDL,
-    0x06000210,    gGrassDL,      gStumpDL,      gSignSquareDL, gSignDirectionalDL, gGoronRock2DL,
+    gUnusedRockRectangularPrismDL2,
+    gUnusedRockRectangularPrismDL2,
+    gUnusedRockRectangularPrismDL2,
+    gUnusedRockRectangularPrismDL4,
+    gUnusedRockRectangularPrismDL4,
+    gUnusedRockRectangularPrismDL5,
+    0x06000210,
+    gUnusedGrassBladesDL,
+    gUnusedTreeStumpDL,
+    gSignRectangularDL,
+    gSignDirectionalDL,
+    gBoulderFragmentsDL,
 };
 
 void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {

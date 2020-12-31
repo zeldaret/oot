@@ -46,11 +46,11 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rObjId = initParams->objId;
         EffectSsHahen_CheckForObject(this, globalCtx);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsHahen1DL);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffectFragmentsDL1);
         this->rObjId = -1;
     }
 
-    if ((this->rObjId == OBJECT_HAKA_OBJECTS) && (this->gfx == gEffectSsHahen2DL)) {
+    if ((this->rObjId == OBJECT_HAKA_OBJECTS) && (this->gfx == gEffectFragmentsDL2)) {
         this->draw = EffectSsHahen_DrawGray;
     } else {
         this->draw = EffectSsHahen_Draw;

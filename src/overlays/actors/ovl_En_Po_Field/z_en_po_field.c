@@ -755,7 +755,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         }
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1709),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gEffectSsFireTailDL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL1);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1712);
     }
 }

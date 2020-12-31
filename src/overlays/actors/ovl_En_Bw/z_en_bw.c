@@ -831,7 +831,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gEffectSsFireTailDL);
+    gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL1);
 
     if (this->iceTimer != 0) {
         thisx->dmgEffectTimer++;

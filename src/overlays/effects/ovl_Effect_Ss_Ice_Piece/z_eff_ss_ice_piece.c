@@ -22,7 +22,7 @@ EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
     EffectSsIcePiece_Init,
 };
 
-extern Gfx gEffectSsKakeraDL[];
+extern Gfx gEffectIceFragmentDL1[];
 
 u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIcePieceInitParams* initParams = (EffectSsIcePieceInitParams*)initParamsx;
@@ -75,7 +75,7 @@ void EffectSsIcePiece_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (1 * frames) % 256, 0x20, 0x10, 1, 0, (2 * frames) % 256,
                                 0x40, 0x20));
-    gSPDisplayList(POLY_XLU_DISP++, gEffectSsKakeraDL);
+    gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragmentDL1);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ice_piece.c", 209);
 }

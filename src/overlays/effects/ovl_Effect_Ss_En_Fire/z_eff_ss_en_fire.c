@@ -95,9 +95,9 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                                 0x20, 0x80));
 
     if (((this->rFlags & 0x7FFF) != 0) || (this->life < 18)) {
-        gSPDisplayList(POLY_XLU_DISP++, gEffectSsKFireDL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL2);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, gEffectSsFireTailDL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL1);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);

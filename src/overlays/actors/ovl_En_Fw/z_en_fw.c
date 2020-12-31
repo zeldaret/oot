@@ -428,7 +428,7 @@ void EnFw_UpdateDust(EnFw* this) {
 
 void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
     static UNK_PTR D_80A1FC18[] = {
-        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
+        gDustTex8, gDustTex7, gDustTex6, gDustTex5, gDustTex4, gDustTex3, gDustTex2, gDustTex1,
     };
     EnFwEffect* eff = this->effects;
     s16 firstDone;

@@ -81,8 +81,8 @@ static Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
 static Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
 
 static UNK_PTR D_80B2EB88[] = {
-    gEffectSsDeadDb1Tex, gEffectSsDeadDb2Tex, gEffectSsDeadDb3Tex, gEffectSsDeadDb4Tex, gEffectSsDeadDb5Tex,
-    gEffectSsDeadDb6Tex, gEffectSsDeadDb7Tex, gEffectSsDeadDb8Tex, gEffectSsDeadDb9Tex, gEffectSsDeadDb10Tex,
+    gEffectEnemyDeathFlameTex1, gEffectEnemyDeathFlameTex2, gEffectEnemyDeathFlameTex3, gEffectEnemyDeathFlameTex4, gEffectEnemyDeathFlameTex5,
+    gEffectEnemyDeathFlameTex6, gEffectEnemyDeathFlameTex7, gEffectEnemyDeathFlameTex8, gEffectEnemyDeathFlameTex9, gEffectEnemyDeathFlameTex10,
 };
 
 extern SkeletonHeader D_06003F60;
@@ -496,12 +496,12 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80094BC4(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames % 8]));
-        gSPDisplayList(POLY_XLU_DISP++, gEffectSsDeadDbDL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectEnemyDeathFlameDL);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) % 8]));
-        gSPDisplayList(POLY_XLU_DISP++, gEffectSsDeadDbDL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectEnemyDeathFlameDL);
     }
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);

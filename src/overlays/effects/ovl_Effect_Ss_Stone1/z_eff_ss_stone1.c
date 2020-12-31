@@ -25,14 +25,14 @@ typedef struct {
 } EffStoneDrawInfo;
 
 static EffStoneDrawInfo sDrawInfo[] = {
-    { gEffectSsStone18Tex, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
-    { gEffectSsStone17Tex, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
-    { gEffectSsStone16Tex, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
-    { gEffectSsStone15Tex, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
-    { gEffectSsStone14Tex, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
-    { gEffectSsStone13Tex, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
-    { gEffectSsStone12Tex, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
-    { gEffectSsStone11Tex, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
+    { gUnknownEffectStoneTex8, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
+    { gUnknownEffectStoneTex7, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
+    { gUnknownEffectStoneTex6, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
+    { gUnknownEffectStoneTex5, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
+    { gUnknownEffectStoneTex4, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
+    { gUnknownEffectStoneTex3, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
+    { gUnknownEffectStoneTex2, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
+    { gUnknownEffectStoneTex1, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
 };
 
 u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
@@ -69,7 +69,7 @@ void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, drawParams->primColor.r, drawParams->primColor.g, drawParams->primColor.b,
                     255);
     gDPSetEnvColor(POLY_XLU_DISP++, drawParams->envColor.r, drawParams->envColor.g, drawParams->envColor.b, 255);
-    gSPDisplayList(POLY_XLU_DISP++, gEffectSsStone1DL);
+    gSPDisplayList(POLY_XLU_DISP++, gUnknownEffectStoneDL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 183);
 }

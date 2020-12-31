@@ -51,8 +51,8 @@ u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectSsSibuki21Tex, gEffectSsSibuki21Tex, gEffectSsSibuki22Tex, gEffectSsSibuki23Tex, gEffectSsSibuki24Tex,
-    gEffectSsSibuki25Tex, gEffectSsSibuki26Tex, gEffectSsSibuki27Tex, gEffectSsSibuki28Tex,
+    gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex2, gEffectUnusedBubblesTex3, gEffectUnusedBubblesTex4,
+    gEffectUnusedBubblesTex5, gEffectUnusedBubblesTex6, gEffectUnusedBubblesTex7, gEffectUnusedBubblesTex8,
 };
 
 void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -69,7 +69,7 @@ void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffectSsSibuki2DL));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffectUnusedBubblesDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki2.c", 198);
 }

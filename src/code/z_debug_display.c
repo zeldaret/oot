@@ -17,10 +17,10 @@ static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
 };
 
 static DebugDispObjectInfo sDebugObjectInfoTable[] = {
-    { 0, gCircle1Tex },
-    { 0, gCrossTex },
-    { 0, gReflection3Tex },
-    { 0, gTargetReticleTex },
+    { 0, gUnknownCircleTex1 },
+    { 0, gDebugCrossTex },
+    { 0, gUnknownCircleTex2 },
+    { 0, gDebugTargetTex },
     { 1, gDebugArrowDL },
     { 1, gDebugCameraDL },
 };
@@ -87,7 +87,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalCont
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 189),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gBlankSquareDL);
+    gSPDisplayList(POLY_XLU_DISP++, &gDebugSpriteDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }

@@ -90,7 +90,7 @@ void EnTkEff_Update(EnTk* this) {
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     static UNK_PTR dustImages[] = {
-        &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
+        &gDustTex8, &gDustTex7, &gDustTex6, &gDustTex5, &gDustTex4, &gDustTex3, &gDustTex2, &gDustTex1,
     };
 
     EnTkEff* eff = this->eff;

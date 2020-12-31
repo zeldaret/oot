@@ -25,7 +25,7 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectSsBomb1DL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectBombExplosionDL1);
     this->life = 20;
     this->draw = EffectSsBomb_Draw;
     this->update = EffectSsBomb_Update;
@@ -36,10 +36,10 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectSsBomb1Tex,
-    gEffectSsBomb2Tex,
-    gEffectSsBomb3Tex,
-    gEffectSsBomb4Tex,
+    gEffectBombExplosionTex1,
+    gEffectBombExplosionTex2,
+    gEffectBombExplosionTex3,
+    gEffectBombExplosionTex4,
 };
 
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
