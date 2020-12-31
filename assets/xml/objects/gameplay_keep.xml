@@ -10,582 +10,581 @@
         <Texture Name="gLinkTunicTex2" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
         <Texture Name="gLinkTunicTex3" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
         <Texture Name="gLinkTunicTex4" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
-        <!--
-        <PlayerAnimation Name="gPlayerAnimation1" Offset="0x00002300"/>
-        <PlayerAnimation Name="gPlayerAnimation2"/>
-        <PlayerAnimation Name="gPlayerAnimation3"/>
-        <PlayerAnimation Name="gPlayerAnimation4"/>
-        <PlayerAnimation Name="gPlayerAnimation5"/>
-        <PlayerAnimation Name="gPlayerAnimation6"/>
-        <PlayerAnimation Name="gPlayerAnimation7"/>
-        <PlayerAnimation Name="gPlayerAnimation8"/>
-        <PlayerAnimation Name="gPlayerAnimation9"/>
-        <PlayerAnimation Name="gPlayerAnimation10"/>
-        <PlayerAnimation Name="gPlayerAnimation11"/>
-        <PlayerAnimation Name="gPlayerAnimation12"/>
-        <PlayerAnimation Name="gPlayerAnimation13"/>
-        <PlayerAnimation Name="gPlayerAnimation14"/>
-        <PlayerAnimation Name="gPlayerAnimation15"/>
-        <PlayerAnimation Name="gPlayerAnimation16"/>
-        <PlayerAnimation Name="gPlayerAnimation17"/>
-        <PlayerAnimation Name="gPlayerAnimation18"/>
-        <PlayerAnimation Name="gPlayerAnimation19"/>
-        <PlayerAnimation Name="gPlayerAnimation20"/>
-        <PlayerAnimation Name="gPlayerAnimation21"/>
-        <PlayerAnimation Name="gPlayerAnimation22"/>
-        <PlayerAnimation Name="gPlayerAnimation23"/>
-        <PlayerAnimation Name="gPlayerAnimation24"/>
-        <PlayerAnimation Name="gPlayerAnimation25"/>
-        <PlayerAnimation Name="gPlayerAnimation26"/>
-        <PlayerAnimation Name="gPlayerAnimation27"/>
-        <PlayerAnimation Name="gPlayerAnimation28"/>
-        <PlayerAnimation Name="gPlayerAnimation29"/>
-        <PlayerAnimation Name="gPlayerAnimation30"/>
-        <PlayerAnimation Name="gPlayerAnimation31"/>
-        <PlayerAnimation Name="gPlayerAnimation32"/>
-        <PlayerAnimation Name="gPlayerAnimation33"/>
-        <PlayerAnimation Name="gPlayerAnimation34"/>
-        <PlayerAnimation Name="gPlayerAnimation35"/>
-        <PlayerAnimation Name="gPlayerAnimation36"/>
-        <PlayerAnimation Name="gPlayerAnimation37"/>
-        <PlayerAnimation Name="gPlayerAnimation38"/>
-        <PlayerAnimation Name="gPlayerAnimation39"/>
-        <PlayerAnimation Name="gPlayerAnimation40"/>
-        <PlayerAnimation Name="gPlayerAnimation41"/>
-        <PlayerAnimation Name="gPlayerAnimation42"/>
-        <PlayerAnimation Name="gPlayerAnimation43"/>
-        <PlayerAnimation Name="gPlayerAnimation44"/>
-        <PlayerAnimation Name="gPlayerAnimation45"/>
-        <PlayerAnimation Name="gPlayerAnimation46"/>
-        <PlayerAnimation Name="gPlayerAnimation47"/>
-        <PlayerAnimation Name="gPlayerAnimation48"/>
-        <PlayerAnimation Name="gPlayerAnimation49"/>
-        <PlayerAnimation Name="gPlayerAnimation50"/>
-        <PlayerAnimation Name="gPlayerAnimation51"/>
-        <PlayerAnimation Name="gPlayerAnimation52"/>
-        <PlayerAnimation Name="gPlayerAnimation53"/>
-        <PlayerAnimation Name="gPlayerAnimation54"/>
-        <PlayerAnimation Name="gPlayerAnimation55"/>
-        <PlayerAnimation Name="gPlayerAnimation56"/>
-        <PlayerAnimation Name="gPlayerAnimation57"/>
-        <PlayerAnimation Name="gPlayerAnimation58"/>
-        <PlayerAnimation Name="gPlayerAnimation59"/>
-        <PlayerAnimation Name="gPlayerAnimation60"/>
-        <PlayerAnimation Name="gPlayerAnimation61"/>
-        <PlayerAnimation Name="gPlayerAnimation62"/>
-        <PlayerAnimation Name="gPlayerAnimation63"/>
-        <PlayerAnimation Name="gPlayerAnimation64"/>
-        <PlayerAnimation Name="gPlayerAnimation65"/>
-        <PlayerAnimation Name="gPlayerAnimation66"/>
-        <PlayerAnimation Name="gPlayerAnimation67"/>
-        <PlayerAnimation Name="gPlayerAnimation68"/>
-        <PlayerAnimation Name="gPlayerAnimation69"/>
-        <PlayerAnimation Name="gPlayerAnimation70"/>
-        <PlayerAnimation Name="gPlayerAnimation71"/>
-        <PlayerAnimation Name="gPlayerAnimation72"/>
-        <PlayerAnimation Name="gPlayerAnimation73"/>
-        <PlayerAnimation Name="gPlayerAnimation74"/>
-        <PlayerAnimation Name="gPlayerAnimation75"/>
-        <PlayerAnimation Name="gPlayerAnimation76"/>
-        <PlayerAnimation Name="gPlayerAnimation77"/>
-        <PlayerAnimation Name="gPlayerAnimation78"/>
-        <PlayerAnimation Name="gPlayerAnimation79"/>
-        <PlayerAnimation Name="gPlayerAnimation80"/>
-        <PlayerAnimation Name="gPlayerAnimation81"/>
-        <PlayerAnimation Name="gPlayerAnimation82"/>
-        <PlayerAnimation Name="gPlayerAnimation83"/>
-        <PlayerAnimation Name="gPlayerAnimation84"/>
-        <PlayerAnimation Name="gPlayerAnimation85"/>
-        <PlayerAnimation Name="gPlayerAnimation86"/>
-        <PlayerAnimation Name="gPlayerAnimation87"/>
-        <PlayerAnimation Name="gPlayerAnimation88"/>
-        <PlayerAnimation Name="gPlayerAnimation89"/>
-        <PlayerAnimation Name="gPlayerAnimation90"/>
-        <PlayerAnimation Name="gPlayerAnimation91"/>
-        <PlayerAnimation Name="gPlayerAnimation92"/>
-        <PlayerAnimation Name="gPlayerAnimation93"/>
-        <PlayerAnimation Name="gPlayerAnimation94"/>
-        <PlayerAnimation Name="gPlayerAnimation95"/>
-        <PlayerAnimation Name="gPlayerAnimation96"/>
-        <PlayerAnimation Name="gPlayerAnimation97"/>
-        <PlayerAnimation Name="gPlayerAnimation98"/>
-        <PlayerAnimation Name="gPlayerAnimation99"/>
-        <PlayerAnimation Name="gPlayerAnimation100"/>
-        <PlayerAnimation Name="gPlayerAnimation101"/>
-        <PlayerAnimation Name="gPlayerAnimation102"/>
-        <PlayerAnimation Name="gPlayerAnimation103"/>
-        <PlayerAnimation Name="gPlayerAnimation104"/>
-        <PlayerAnimation Name="gPlayerAnimation105"/>
-        <PlayerAnimation Name="gPlayerAnimation106"/>
-        <PlayerAnimation Name="gPlayerAnimation107"/>
-        <PlayerAnimation Name="gPlayerAnimation108"/>
-        <PlayerAnimation Name="gPlayerAnimation109"/>
-        <PlayerAnimation Name="gPlayerAnimation110"/>
-        <PlayerAnimation Name="gPlayerAnimation111"/>
-        <PlayerAnimation Name="gPlayerAnimation112"/>
-        <PlayerAnimation Name="gPlayerAnimation113"/>
-        <PlayerAnimation Name="gPlayerAnimation114"/>
-        <PlayerAnimation Name="gPlayerAnimation115"/>
-        <PlayerAnimation Name="gPlayerAnimation116"/>
-        <PlayerAnimation Name="gPlayerAnimation117"/>
-        <PlayerAnimation Name="gPlayerAnimation118"/>
-        <PlayerAnimation Name="gPlayerAnimation119"/>
-        <PlayerAnimation Name="gPlayerAnimation120"/>
-        <PlayerAnimation Name="gPlayerAnimation121"/>
-        <PlayerAnimation Name="gPlayerAnimation122"/>
-        <PlayerAnimation Name="gPlayerAnimation123"/>
-        <PlayerAnimation Name="gPlayerAnimation124"/>
-        <PlayerAnimation Name="gPlayerAnimation125"/>
-        <PlayerAnimation Name="gPlayerAnimation126"/>
-        <PlayerAnimation Name="gPlayerAnimation127"/>
-        <PlayerAnimation Name="gPlayerAnimation128"/>
-        <PlayerAnimation Name="gPlayerAnimation129"/>
-        <PlayerAnimation Name="gPlayerAnimation130"/>
-        <PlayerAnimation Name="gPlayerAnimation131"/>
-        <PlayerAnimation Name="gPlayerAnimation132"/>
-        <PlayerAnimation Name="gPlayerAnimation133"/>
-        <PlayerAnimation Name="gPlayerAnimation134"/>
-        <PlayerAnimation Name="gPlayerAnimation135"/>
-        <PlayerAnimation Name="gPlayerAnimation136"/>
-        <PlayerAnimation Name="gPlayerAnimation137"/>
-        <PlayerAnimation Name="gPlayerAnimation138"/>
-        <PlayerAnimation Name="gPlayerAnimation139"/>
-        <PlayerAnimation Name="gPlayerAnimation140"/>
-        <PlayerAnimation Name="gPlayerAnimation141"/>
-        <PlayerAnimation Name="gPlayerAnimation142"/>
-        <PlayerAnimation Name="gPlayerAnimation143"/>
-        <PlayerAnimation Name="gPlayerAnimation144"/>
-        <PlayerAnimation Name="gPlayerAnimation145"/>
-        <PlayerAnimation Name="gPlayerAnimation146"/>
-        <PlayerAnimation Name="gPlayerAnimation147"/>
-        <PlayerAnimation Name="gPlayerAnimation148"/>
-        <PlayerAnimation Name="gPlayerAnimation149"/>
-        <PlayerAnimation Name="gPlayerAnimation150"/>
-        <PlayerAnimation Name="gPlayerAnimation151"/>
-        <PlayerAnimation Name="gPlayerAnimation152"/>
-        <PlayerAnimation Name="gPlayerAnimation153"/>
-        <PlayerAnimation Name="gPlayerAnimation154"/>
-        <PlayerAnimation Name="gPlayerAnimation155"/>
-        <PlayerAnimation Name="gPlayerAnimation156"/>
-        <PlayerAnimation Name="gPlayerAnimation157"/>
-        <PlayerAnimation Name="gPlayerAnimation158"/>
-        <PlayerAnimation Name="gPlayerAnimation159"/>
-        <PlayerAnimation Name="gPlayerAnimation160"/>
-        <PlayerAnimation Name="gPlayerAnimation161"/>
-        <PlayerAnimation Name="gPlayerAnimation162"/>
-        <PlayerAnimation Name="gPlayerAnimation163"/>
-        <PlayerAnimation Name="gPlayerAnimation164"/>
-        <PlayerAnimation Name="gPlayerAnimation165"/>
-        <PlayerAnimation Name="gPlayerAnimation166"/>
-        <PlayerAnimation Name="gPlayerAnimation167"/>
-        <PlayerAnimation Name="gPlayerAnimation168"/>
-        <PlayerAnimation Name="gPlayerAnimation169"/>
-        <PlayerAnimation Name="gPlayerAnimation170"/>
-        <PlayerAnimation Name="gPlayerAnimation171"/>
-        <PlayerAnimation Name="gPlayerAnimation172"/>
-        <PlayerAnimation Name="gPlayerAnimation173"/>
-        <PlayerAnimation Name="gPlayerAnimation174"/>
-        <PlayerAnimation Name="gPlayerAnimation175"/>
-        <PlayerAnimation Name="gPlayerAnimation176"/>
-        <PlayerAnimation Name="gPlayerAnimation177"/>
-        <PlayerAnimation Name="gPlayerAnimation178"/>
-        <PlayerAnimation Name="gPlayerAnimation179"/>
-        <PlayerAnimation Name="gPlayerAnimation180"/>
-        <PlayerAnimation Name="gPlayerAnimation181"/>
-        <PlayerAnimation Name="gPlayerAnimation182"/>
-        <PlayerAnimation Name="gPlayerAnimation183"/>
-        <PlayerAnimation Name="gPlayerAnimation184"/>
-        <PlayerAnimation Name="gPlayerAnimation185"/>
-        <PlayerAnimation Name="gPlayerAnimation186"/>
-        <PlayerAnimation Name="gPlayerAnimation187"/>
-        <PlayerAnimation Name="gPlayerAnimation188"/>
-        <PlayerAnimation Name="gPlayerAnimation189"/>
-        <PlayerAnimation Name="gPlayerAnimation190"/>
-        <PlayerAnimation Name="gPlayerAnimation191"/>
-        <PlayerAnimation Name="gPlayerAnimation192"/>
-        <PlayerAnimation Name="gPlayerAnimation193"/>
-        <PlayerAnimation Name="gPlayerAnimation194"/>
-        <PlayerAnimation Name="gPlayerAnimation195"/>
-        <PlayerAnimation Name="gPlayerAnimation196"/>
-        <PlayerAnimation Name="gPlayerAnimation197"/>
-        <PlayerAnimation Name="gPlayerAnimation198"/>
-        <PlayerAnimation Name="gPlayerAnimation199"/>
-        <PlayerAnimation Name="gPlayerAnimation200"/>
-        <PlayerAnimation Name="gPlayerAnimation201"/>
-        <PlayerAnimation Name="gPlayerAnimation202"/>
-        <PlayerAnimation Name="gPlayerAnimation203"/>
-        <PlayerAnimation Name="gPlayerAnimation204"/>
-        <PlayerAnimation Name="gPlayerAnimation205"/>
-        <PlayerAnimation Name="gPlayerAnimation206"/>
-        <PlayerAnimation Name="gPlayerAnimation207"/>
-        <PlayerAnimation Name="gPlayerAnimation208"/>
-        <PlayerAnimation Name="gPlayerAnimation209"/>
-        <PlayerAnimation Name="gPlayerAnimation210"/>
-        <PlayerAnimation Name="gPlayerAnimation211"/>
-        <PlayerAnimation Name="gPlayerAnimation212"/>
-        <PlayerAnimation Name="gPlayerAnimation213"/>
-        <PlayerAnimation Name="gPlayerAnimation214"/>
-        <PlayerAnimation Name="gPlayerAnimation215"/>
-        <PlayerAnimation Name="gPlayerAnimation216"/>
-        <PlayerAnimation Name="gPlayerAnimation217"/>
-        <PlayerAnimation Name="gPlayerAnimation218"/>
-        <PlayerAnimation Name="gPlayerAnimation219"/>
-        <PlayerAnimation Name="gPlayerAnimation220"/>
-        <PlayerAnimation Name="gPlayerAnimation221"/>
-        <PlayerAnimation Name="gPlayerAnimation222"/>
-        <PlayerAnimation Name="gPlayerAnimation223"/>
-        <PlayerAnimation Name="gPlayerAnimation224"/>
-        <PlayerAnimation Name="gPlayerAnimation225"/>
-        <PlayerAnimation Name="gPlayerAnimation226"/>
-        <PlayerAnimation Name="gPlayerAnimation227"/>
-        <PlayerAnimation Name="gPlayerAnimation228"/>
-        <PlayerAnimation Name="gPlayerAnimation229"/>
-        <PlayerAnimation Name="gPlayerAnimation230"/>
-        <PlayerAnimation Name="gPlayerAnimation231"/>
-        <PlayerAnimation Name="gPlayerAnimation232"/>
-        <PlayerAnimation Name="gPlayerAnimation233"/>
-        <PlayerAnimation Name="gPlayerAnimation234"/>
-        <PlayerAnimation Name="gPlayerAnimation235"/>
-        <PlayerAnimation Name="gPlayerAnimation236"/>
-        <PlayerAnimation Name="gPlayerAnimation237"/>
-        <PlayerAnimation Name="gPlayerAnimation238"/>
-        <PlayerAnimation Name="gPlayerAnimation239"/>
-        <PlayerAnimation Name="gPlayerAnimation240"/>
-        <PlayerAnimation Name="gPlayerAnimation241"/>
-        <PlayerAnimation Name="gPlayerAnimation242"/>
-        <PlayerAnimation Name="gPlayerAnimation243"/>
-        <PlayerAnimation Name="gPlayerAnimation244"/>
-        <PlayerAnimation Name="gPlayerAnimation245"/>
-        <PlayerAnimation Name="gPlayerAnimation246"/>
-        <PlayerAnimation Name="gPlayerAnimation247"/>
-        <PlayerAnimation Name="gPlayerAnimation248"/>
-        <PlayerAnimation Name="gPlayerAnimation249"/>
-        <PlayerAnimation Name="gPlayerAnimation250"/>
-        <PlayerAnimation Name="gPlayerAnimation251"/>
-        <PlayerAnimation Name="gPlayerAnimation252"/>
-        <PlayerAnimation Name="gPlayerAnimation253"/>
-        <PlayerAnimation Name="gPlayerAnimation254"/>
-        <PlayerAnimation Name="gPlayerAnimation255"/>
-        <PlayerAnimation Name="gPlayerAnimation256"/>
-        <PlayerAnimation Name="gPlayerAnimation257"/>
-        <PlayerAnimation Name="gPlayerAnimation258"/>
-        <PlayerAnimation Name="gPlayerAnimation259"/>
-        <PlayerAnimation Name="gPlayerAnimation260"/>
-        <PlayerAnimation Name="gPlayerAnimation261"/>
-        <PlayerAnimation Name="gPlayerAnimation262"/>
-        <PlayerAnimation Name="gPlayerAnimation263"/>
-        <PlayerAnimation Name="gPlayerAnimation264"/>
-        <PlayerAnimation Name="gPlayerAnimation265"/>
-        <PlayerAnimation Name="gPlayerAnimation266"/>
-        <PlayerAnimation Name="gPlayerAnimation267"/>
-        <PlayerAnimation Name="gPlayerAnimation268"/>
-        <PlayerAnimation Name="gPlayerAnimation269"/>
-        <PlayerAnimation Name="gPlayerAnimation270"/>
-        <PlayerAnimation Name="gPlayerAnimation271"/>
-        <PlayerAnimation Name="gPlayerAnimation272"/>
-        <PlayerAnimation Name="gPlayerAnimation273"/>
-        <PlayerAnimation Name="gPlayerAnimation274"/>
-        <PlayerAnimation Name="gPlayerAnimation275"/>
-        <PlayerAnimation Name="gPlayerAnimation276"/>
-        <PlayerAnimation Name="gPlayerAnimation277"/>
-        <PlayerAnimation Name="gPlayerAnimation278"/>
-        <PlayerAnimation Name="gPlayerAnimation279"/>
-        <PlayerAnimation Name="gPlayerAnimation280"/>
-        <PlayerAnimation Name="gPlayerAnimation281"/>
-        <PlayerAnimation Name="gPlayerAnimation282"/>
-        <PlayerAnimation Name="gPlayerAnimation283"/>
-        <PlayerAnimation Name="gPlayerAnimation284"/>
-        <PlayerAnimation Name="gPlayerAnimation285"/>
-        <PlayerAnimation Name="gPlayerAnimation286"/>
-        <PlayerAnimation Name="gPlayerAnimation287"/>
-        <PlayerAnimation Name="gPlayerAnimation288"/>
-        <PlayerAnimation Name="gPlayerAnimation289"/>
-        <PlayerAnimation Name="gPlayerAnimation290"/>
-        <PlayerAnimation Name="gPlayerAnimation291"/>
-        <PlayerAnimation Name="gPlayerAnimation292"/>
-        <PlayerAnimation Name="gPlayerAnimation293"/>
-        <PlayerAnimation Name="gPlayerAnimation294"/>
-        <PlayerAnimation Name="gPlayerAnimation295"/>
-        <PlayerAnimation Name="gPlayerAnimation296"/>
-        <PlayerAnimation Name="gPlayerAnimation297"/>
-        <PlayerAnimation Name="gPlayerAnimation298"/>
-        <PlayerAnimation Name="gPlayerAnimation299"/>
-        <PlayerAnimation Name="gPlayerAnimation300"/>
-        <PlayerAnimation Name="gPlayerAnimation301"/>
-        <PlayerAnimation Name="gPlayerAnimation302"/>
-        <PlayerAnimation Name="gPlayerAnimation303"/>
-        <PlayerAnimation Name="gPlayerAnimation304"/>
-        <PlayerAnimation Name="gPlayerAnimation305"/>
-        <PlayerAnimation Name="gPlayerAnimation306"/>
-        <PlayerAnimation Name="gPlayerAnimation307"/>
-        <PlayerAnimation Name="gPlayerAnimation308"/>
-        <PlayerAnimation Name="gPlayerAnimation309"/>
-        <PlayerAnimation Name="gPlayerAnimation310"/>
-        <PlayerAnimation Name="gPlayerAnimation311"/>
-        <PlayerAnimation Name="gPlayerAnimation312"/>
-        <PlayerAnimation Name="gPlayerAnimation313"/>
-        <PlayerAnimation Name="gPlayerAnimation314"/>
-        <PlayerAnimation Name="gPlayerAnimation315"/>
-        <PlayerAnimation Name="gPlayerAnimation316"/>
-        <PlayerAnimation Name="gPlayerAnimation317"/>
-        <PlayerAnimation Name="gPlayerAnimation318"/>
-        <PlayerAnimation Name="gPlayerAnimation319"/>
-        <PlayerAnimation Name="gPlayerAnimation320"/>
-        <PlayerAnimation Name="gPlayerAnimation321"/>
-        <PlayerAnimation Name="gPlayerAnimation322"/>
-        <PlayerAnimation Name="gPlayerAnimation323"/>
-        <PlayerAnimation Name="gPlayerAnimation324"/>
-        <PlayerAnimation Name="gPlayerAnimation325"/>
-        <PlayerAnimation Name="gPlayerAnimation326"/>
-        <PlayerAnimation Name="gPlayerAnimation327"/>
-        <PlayerAnimation Name="gPlayerAnimation328"/>
-        <PlayerAnimation Name="gPlayerAnimation329"/>
-        <PlayerAnimation Name="gPlayerAnimation330"/>
-        <PlayerAnimation Name="gPlayerAnimation331"/>
-        <PlayerAnimation Name="gPlayerAnimation332"/>
-        <PlayerAnimation Name="gPlayerAnimation333"/>
-        <PlayerAnimation Name="gPlayerAnimation334"/>
-        <PlayerAnimation Name="gPlayerAnimation335"/>
-        <PlayerAnimation Name="gPlayerAnimation336"/>
-        <PlayerAnimation Name="gPlayerAnimation337"/>
-        <PlayerAnimation Name="gPlayerAnimation338"/>
-        <PlayerAnimation Name="gPlayerAnimation339"/>
-        <PlayerAnimation Name="gPlayerAnimation340"/>
-        <PlayerAnimation Name="gPlayerAnimation341"/>
-        <PlayerAnimation Name="gPlayerAnimation342"/>
-        <PlayerAnimation Name="gPlayerAnimation343"/>
-        <PlayerAnimation Name="gPlayerAnimation344"/>
-        <PlayerAnimation Name="gPlayerAnimation345"/>
-        <PlayerAnimation Name="gPlayerAnimation346"/>
-        <PlayerAnimation Name="gPlayerAnimation347"/>
-        <PlayerAnimation Name="gPlayerAnimation348"/>
-        <PlayerAnimation Name="gPlayerAnimation349"/>
-        <PlayerAnimation Name="gPlayerAnimation350"/>
-        <PlayerAnimation Name="gPlayerAnimation351"/>
-        <PlayerAnimation Name="gPlayerAnimation352"/>
-        <PlayerAnimation Name="gPlayerAnimation353"/>
-        <PlayerAnimation Name="gPlayerAnimation354"/>
-        <PlayerAnimation Name="gPlayerAnimation355"/>
-        <PlayerAnimation Name="gPlayerAnimation356"/>
-        <PlayerAnimation Name="gPlayerAnimation357"/>
-        <PlayerAnimation Name="gPlayerAnimation358"/>
-        <PlayerAnimation Name="gPlayerAnimation359"/>
-        <PlayerAnimation Name="gPlayerAnimation360"/>
-        <PlayerAnimation Name="gPlayerAnimation361"/>
-        <PlayerAnimation Name="gPlayerAnimation362"/>
-        <PlayerAnimation Name="gPlayerAnimation363"/>
-        <PlayerAnimation Name="gPlayerAnimation364"/>
-        <PlayerAnimation Name="gPlayerAnimation365"/>
-        <PlayerAnimation Name="gPlayerAnimation366"/>
-        <PlayerAnimation Name="gPlayerAnimation367"/>
-        <PlayerAnimation Name="gPlayerAnimation368"/>
-        <PlayerAnimation Name="gPlayerAnimation369"/>
-        <PlayerAnimation Name="gPlayerAnimation370"/>
-        <PlayerAnimation Name="gPlayerAnimation371"/>
-        <PlayerAnimation Name="gPlayerAnimation372"/>
-        <PlayerAnimation Name="gPlayerAnimation373"/>
-        <PlayerAnimation Name="gPlayerAnimation374"/>
-        <PlayerAnimation Name="gPlayerAnimation375"/>
-        <PlayerAnimation Name="gPlayerAnimation376"/>
-        <PlayerAnimation Name="gPlayerAnimation377"/>
-        <PlayerAnimation Name="gPlayerAnimation378"/>
-        <PlayerAnimation Name="gPlayerAnimation379"/>
-        <PlayerAnimation Name="gPlayerAnimation380"/>
-        <PlayerAnimation Name="gPlayerAnimation381"/>
-        <PlayerAnimation Name="gPlayerAnimation382"/>
-        <PlayerAnimation Name="gPlayerAnimation383"/>
-        <PlayerAnimation Name="gPlayerAnimation384"/>
-        <PlayerAnimation Name="gPlayerAnimation385"/>
-        <PlayerAnimation Name="gPlayerAnimation386"/>
-        <PlayerAnimation Name="gPlayerAnimation387"/>
-        <PlayerAnimation Name="gPlayerAnimation388"/>
-        <PlayerAnimation Name="gPlayerAnimation389"/>
-        <PlayerAnimation Name="gPlayerAnimation390"/>
-        <PlayerAnimation Name="gPlayerAnimation391"/>
-        <PlayerAnimation Name="gPlayerAnimation392"/>
-        <PlayerAnimation Name="gPlayerAnimation393"/>
-        <PlayerAnimation Name="gPlayerAnimation394"/>
-        <PlayerAnimation Name="gPlayerAnimation395"/>
-        <PlayerAnimation Name="gPlayerAnimation396"/>
-        <PlayerAnimation Name="gPlayerAnimation397"/>
-        <PlayerAnimation Name="gPlayerAnimation398"/>
-        <PlayerAnimation Name="gPlayerAnimation399"/>
-        <PlayerAnimation Name="gPlayerAnimation400"/>
-        <PlayerAnimation Name="gPlayerAnimation401"/>
-        <PlayerAnimation Name="gPlayerAnimation402"/>
-        <PlayerAnimation Name="gPlayerAnimation403"/>
-        <PlayerAnimation Name="gPlayerAnimation404"/>
-        <PlayerAnimation Name="gPlayerAnimation405"/>
-        <PlayerAnimation Name="gPlayerAnimation406"/>
-        <PlayerAnimation Name="gPlayerAnimation407"/>
-        <PlayerAnimation Name="gPlayerAnimation408"/>
-        <PlayerAnimation Name="gPlayerAnimation409"/>
-        <PlayerAnimation Name="gPlayerAnimation410"/>
-        <PlayerAnimation Name="gPlayerAnimation411"/>
-        <PlayerAnimation Name="gPlayerAnimation412"/>
-        <PlayerAnimation Name="gPlayerAnimation413"/>
-        <PlayerAnimation Name="gPlayerAnimation414"/>
-        <PlayerAnimation Name="gPlayerAnimation415"/>
-        <PlayerAnimation Name="gPlayerAnimation416"/>
-        <PlayerAnimation Name="gPlayerAnimation417"/>
-        <PlayerAnimation Name="gPlayerAnimation418"/>
-        <PlayerAnimation Name="gPlayerAnimation419"/>
-        <PlayerAnimation Name="gPlayerAnimation420"/>
-        <PlayerAnimation Name="gPlayerAnimation421"/>
-        <PlayerAnimation Name="gPlayerAnimation422"/>
-        <PlayerAnimation Name="gPlayerAnimation423"/>
-        <PlayerAnimation Name="gPlayerAnimation424"/>
-        <PlayerAnimation Name="gPlayerAnimation425"/>
-        <PlayerAnimation Name="gPlayerAnimation426"/>
-        <PlayerAnimation Name="gPlayerAnimation427"/>
-        <PlayerAnimation Name="gPlayerAnimation428"/>
-        <PlayerAnimation Name="gPlayerAnimation429"/>
-        <PlayerAnimation Name="gPlayerAnimation430"/>
-        <PlayerAnimation Name="gPlayerAnimation431"/>
-        <PlayerAnimation Name="gPlayerAnimation432"/>
-        <PlayerAnimation Name="gPlayerAnimation433"/>
-        <PlayerAnimation Name="gPlayerAnimation434"/>
-        <PlayerAnimation Name="gPlayerAnimation435"/>
-        <PlayerAnimation Name="gPlayerAnimation436"/>
-        <PlayerAnimation Name="gPlayerAnimation437"/>
-        <PlayerAnimation Name="gPlayerAnimation438"/>
-        <PlayerAnimation Name="gPlayerAnimation439"/>
-        <PlayerAnimation Name="gPlayerAnimation440"/>
-        <PlayerAnimation Name="gPlayerAnimation441"/>
-        <PlayerAnimation Name="gPlayerAnimation442"/>
-        <PlayerAnimation Name="gPlayerAnimation443"/>
-        <PlayerAnimation Name="gPlayerAnimation444"/>
-        <PlayerAnimation Name="gPlayerAnimation445"/>
-        <PlayerAnimation Name="gPlayerAnimation446"/>
-        <PlayerAnimation Name="gPlayerAnimation447"/>
-        <PlayerAnimation Name="gPlayerAnimation448"/>
-        <PlayerAnimation Name="gPlayerAnimation449"/>
-        <PlayerAnimation Name="gPlayerAnimation450"/>
-        <PlayerAnimation Name="gPlayerAnimation451"/>
-        <PlayerAnimation Name="gPlayerAnimation452"/>
-        <PlayerAnimation Name="gPlayerAnimation453"/>
-        <PlayerAnimation Name="gPlayerAnimation454"/>
-        <PlayerAnimation Name="gPlayerAnimation455"/>
-        <PlayerAnimation Name="gPlayerAnimation456"/>
-        <PlayerAnimation Name="gPlayerAnimation457"/>
-        <PlayerAnimation Name="gPlayerAnimation458"/>
-        <PlayerAnimation Name="gPlayerAnimation459"/>
-        <PlayerAnimation Name="gPlayerAnimation460"/>
-        <PlayerAnimation Name="gPlayerAnimation461"/>
-        <PlayerAnimation Name="gPlayerAnimation462"/>
-        <PlayerAnimation Name="gPlayerAnimation463"/>
-        <PlayerAnimation Name="gPlayerAnimation464"/>
-        <PlayerAnimation Name="gPlayerAnimation465"/>
-        <PlayerAnimation Name="gPlayerAnimation466"/>
-        <PlayerAnimation Name="gPlayerAnimation467"/>
-        <PlayerAnimation Name="gPlayerAnimation468"/>
-        <PlayerAnimation Name="gPlayerAnimation469"/>
-        <PlayerAnimation Name="gPlayerAnimation470"/>
-        <PlayerAnimation Name="gPlayerAnimation471"/>
-        <PlayerAnimation Name="gPlayerAnimation472"/>
-        <PlayerAnimation Name="gPlayerAnimation473"/>
-        <PlayerAnimation Name="gPlayerAnimation474"/>
-        <PlayerAnimation Name="gPlayerAnimation475"/>
-        <PlayerAnimation Name="gPlayerAnimation476"/>
-        <PlayerAnimation Name="gPlayerAnimation477"/>
-        <PlayerAnimation Name="gPlayerAnimation478"/>
-        <PlayerAnimation Name="gPlayerAnimation479"/>
-        <PlayerAnimation Name="gPlayerAnimation480"/>
-        <PlayerAnimation Name="gPlayerAnimation481"/>
-        <PlayerAnimation Name="gPlayerAnimation482"/>
-        <PlayerAnimation Name="gPlayerAnimation483"/>
-        <PlayerAnimation Name="gPlayerAnimation484"/>
-        <PlayerAnimation Name="gPlayerAnimation485"/>
-        <PlayerAnimation Name="gPlayerAnimation486"/>
-        <PlayerAnimation Name="gPlayerAnimation487"/>
-        <PlayerAnimation Name="gPlayerAnimation488"/>
-        <PlayerAnimation Name="gPlayerAnimation489"/>
-        <PlayerAnimation Name="gPlayerAnimation490"/>
-        <PlayerAnimation Name="gPlayerAnimation491"/>
-        <PlayerAnimation Name="gPlayerAnimation492"/>
-        <PlayerAnimation Name="gPlayerAnimation493"/>
-        <PlayerAnimation Name="gPlayerAnimation494"/>
-        <PlayerAnimation Name="gPlayerAnimation495"/>
-        <PlayerAnimation Name="gPlayerAnimation496"/>
-        <PlayerAnimation Name="gPlayerAnimation497"/>
-        <PlayerAnimation Name="gPlayerAnimation498"/>
-        <PlayerAnimation Name="gPlayerAnimation499"/>
-        <PlayerAnimation Name="gPlayerAnimation500"/>
-        <PlayerAnimation Name="gPlayerAnimation501"/>
-        <PlayerAnimation Name="gPlayerAnimation502"/>
-        <PlayerAnimation Name="gPlayerAnimation503"/>
-        <PlayerAnimation Name="gPlayerAnimation504"/>
-        <PlayerAnimation Name="gPlayerAnimation505"/>
-        <PlayerAnimation Name="gPlayerAnimation506"/>
-        <PlayerAnimation Name="gPlayerAnimation507"/>
-        <PlayerAnimation Name="gPlayerAnimation508"/>
-        <PlayerAnimation Name="gPlayerAnimation509"/>
-        <PlayerAnimation Name="gPlayerAnimation510"/>
-        <PlayerAnimation Name="gPlayerAnimation511"/>
-        <PlayerAnimation Name="gPlayerAnimation512"/>
-        <PlayerAnimation Name="gPlayerAnimation513"/>
-        <PlayerAnimation Name="gPlayerAnimation514"/>
-        <PlayerAnimation Name="gPlayerAnimation515"/>
-        <PlayerAnimation Name="gPlayerAnimation516"/>
-        <PlayerAnimation Name="gPlayerAnimation517"/>
-        <PlayerAnimation Name="gPlayerAnimation518"/>
-        <PlayerAnimation Name="gPlayerAnimation519"/>
-        <PlayerAnimation Name="gPlayerAnimation520"/>
-        <PlayerAnimation Name="gPlayerAnimation521"/>
-        <PlayerAnimation Name="gPlayerAnimation522"/>
-        <PlayerAnimation Name="gPlayerAnimation523"/>
-        <PlayerAnimation Name="gPlayerAnimation524"/>
-        <PlayerAnimation Name="gPlayerAnimation525"/>
-        <PlayerAnimation Name="gPlayerAnimation526"/>
-        <PlayerAnimation Name="gPlayerAnimation527"/>
-        <PlayerAnimation Name="gPlayerAnimation528"/>
-        <PlayerAnimation Name="gPlayerAnimation529"/>
-        <PlayerAnimation Name="gPlayerAnimation530"/>
-        <PlayerAnimation Name="gPlayerAnimation531"/>
-        <PlayerAnimation Name="gPlayerAnimation532"/>
-        <PlayerAnimation Name="gPlayerAnimation533"/>
-        <PlayerAnimation Name="gPlayerAnimation534"/>
-        <PlayerAnimation Name="gPlayerAnimation535"/>
-        <PlayerAnimation Name="gPlayerAnimation536"/>
-        <PlayerAnimation Name="gPlayerAnimation537"/>
-        <PlayerAnimation Name="gPlayerAnimation538"/>
-        <PlayerAnimation Name="gPlayerAnimation539"/>
-        <PlayerAnimation Name="gPlayerAnimation540"/>
-        <PlayerAnimation Name="gPlayerAnimation541"/>
-        <PlayerAnimation Name="gPlayerAnimation542"/>
-        <PlayerAnimation Name="gPlayerAnimation543"/>
-        <PlayerAnimation Name="gPlayerAnimation544"/>
-        <PlayerAnimation Name="gPlayerAnimation545"/>
-        <PlayerAnimation Name="gPlayerAnimation546"/>
-        <PlayerAnimation Name="gPlayerAnimation547"/>
-        <PlayerAnimation Name="gPlayerAnimation548"/>
-        <PlayerAnimation Name="gPlayerAnimation549"/>
-        <PlayerAnimation Name="gPlayerAnimation550"/>
-        <PlayerAnimation Name="gPlayerAnimation551"/>
-        <PlayerAnimation Name="gPlayerAnimation552"/>
-        <PlayerAnimation Name="gPlayerAnimation553"/>
-        <PlayerAnimation Name="gPlayerAnimation554"/>
-        <PlayerAnimation Name="gPlayerAnimation555"/>
-        <PlayerAnimation Name="gPlayerAnimation556"/>
-        <PlayerAnimation Name="gPlayerAnimation557"/>
-        <PlayerAnimation Name="gPlayerAnimation558"/>
-        <PlayerAnimation Name="gPlayerAnimation559"/>
-        <PlayerAnimation Name="gPlayerAnimation560"/>
-        <PlayerAnimation Name="gPlayerAnimation561"/>
-        <PlayerAnimation Name="gPlayerAnimation562"/>
-        <PlayerAnimation Name="gPlayerAnimation563"/>
-        <PlayerAnimation Name="gPlayerAnimation564"/>
-        <PlayerAnimation Name="gPlayerAnimation565"/>
-        <PlayerAnimation Name="gPlayerAnimation566"/>
-        <PlayerAnimation Name="gPlayerAnimation567"/>
-        <PlayerAnimation Name="gPlayerAnimation568"/>
-        <PlayerAnimation Name="gPlayerAnimation569"/>
-        <PlayerAnimation Name="gPlayerAnimation570"/>
-        <PlayerAnimation Name="gPlayerAnimation571"/>
-        <PlayerAnimation Name="gPlayerAnimation572"/>
-        <PlayerAnimation Name="gPlayerAnimation573"/>
-        <PlayerAnimation Name="gPlayerAnimation574"/>
-        <PlayerAnimation Name="gPlayerAnimation575"/> -->
+        <Blob Name="gPlayerAnimation1" Size="0x8" Offset="0x00002300"/>
+        <Blob Name="gPlayerAnimation2" Size="0x8"/>
+        <Blob Name="gPlayerAnimation3" Size="0x8"/>
+        <Blob Name="gPlayerAnimation4" Size="0x8"/>
+        <Blob Name="gPlayerAnimation5" Size="0x8"/>
+        <Blob Name="gPlayerAnimation6" Size="0x8"/>
+        <Blob Name="gPlayerAnimation7" Size="0x8"/>
+        <Blob Name="gPlayerAnimation8" Size="0x8"/>
+        <Blob Name="gPlayerAnimation9" Size="0x8"/>
+        <Blob Name="gPlayerAnimation10" Size="0x8"/>
+        <Blob Name="gPlayerAnimation11" Size="0x8"/>
+        <Blob Name="gPlayerAnimation12" Size="0x8"/>
+        <Blob Name="gPlayerAnimation13" Size="0x8"/>
+        <Blob Name="gPlayerAnimation14" Size="0x8"/>
+        <Blob Name="gPlayerAnimation15" Size="0x8"/>
+        <Blob Name="gPlayerAnimation16" Size="0x8"/>
+        <Blob Name="gPlayerAnimation17" Size="0x8"/>
+        <Blob Name="gPlayerAnimation18" Size="0x8"/>
+        <Blob Name="gPlayerAnimation19" Size="0x8"/>
+        <Blob Name="gPlayerAnimation20" Size="0x8"/>
+        <Blob Name="gPlayerAnimation21" Size="0x8"/>
+        <Blob Name="gPlayerAnimation22" Size="0x8"/>
+        <Blob Name="gPlayerAnimation23" Size="0x8"/>
+        <Blob Name="gPlayerAnimation24" Size="0x8"/>
+        <Blob Name="gPlayerAnimation25" Size="0x8"/>
+        <Blob Name="gPlayerAnimation26" Size="0x8"/>
+        <Blob Name="gPlayerAnimation27" Size="0x8"/>
+        <Blob Name="gPlayerAnimation28" Size="0x8"/>
+        <Blob Name="gPlayerAnimation29" Size="0x8"/>
+        <Blob Name="gPlayerAnimation30" Size="0x8"/>
+        <Blob Name="gPlayerAnimation31" Size="0x8"/>
+        <Blob Name="gPlayerAnimation32" Size="0x8"/>
+        <Blob Name="gPlayerAnimation33" Size="0x8"/>
+        <Blob Name="gPlayerAnimation34" Size="0x8"/>
+        <Blob Name="gPlayerAnimation35" Size="0x8"/>
+        <Blob Name="gPlayerAnimation36" Size="0x8"/>
+        <Blob Name="gPlayerAnimation37" Size="0x8"/>
+        <Blob Name="gPlayerAnimation38" Size="0x8"/>
+        <Blob Name="gPlayerAnimation39" Size="0x8"/>
+        <Blob Name="gPlayerAnimation40" Size="0x8"/>
+        <Blob Name="gPlayerAnimation41" Size="0x8"/>
+        <Blob Name="gPlayerAnimation42" Size="0x8"/>
+        <Blob Name="gPlayerAnimation43" Size="0x8"/>
+        <Blob Name="gPlayerAnimation44" Size="0x8"/>
+        <Blob Name="gPlayerAnimation45" Size="0x8"/>
+        <Blob Name="gPlayerAnimation46" Size="0x8"/>
+        <Blob Name="gPlayerAnimation47" Size="0x8"/>
+        <Blob Name="gPlayerAnimation48" Size="0x8"/>
+        <Blob Name="gPlayerAnimation49" Size="0x8"/>
+        <Blob Name="gPlayerAnimation50" Size="0x8"/>
+        <Blob Name="gPlayerAnimation51" Size="0x8"/>
+        <Blob Name="gPlayerAnimation52" Size="0x8"/>
+        <Blob Name="gPlayerAnimation53" Size="0x8"/>
+        <Blob Name="gPlayerAnimation54" Size="0x8"/>
+        <Blob Name="gPlayerAnimation55" Size="0x8"/>
+        <Blob Name="gPlayerAnimation56" Size="0x8"/>
+        <Blob Name="gPlayerAnimation57" Size="0x8"/>
+        <Blob Name="gPlayerAnimation58" Size="0x8"/>
+        <Blob Name="gPlayerAnimation59" Size="0x8"/>
+        <Blob Name="gPlayerAnimation60" Size="0x8"/>
+        <Blob Name="gPlayerAnimation61" Size="0x8"/>
+        <Blob Name="gPlayerAnimation62" Size="0x8"/>
+        <Blob Name="gPlayerAnimation63" Size="0x8"/>
+        <Blob Name="gPlayerAnimation64" Size="0x8"/>
+        <Blob Name="gPlayerAnimation65" Size="0x8"/>
+        <Blob Name="gPlayerAnimation66" Size="0x8"/>
+        <Blob Name="gPlayerAnimation67" Size="0x8"/>
+        <Blob Name="gPlayerAnimation68" Size="0x8"/>
+        <Blob Name="gPlayerAnimation69" Size="0x8"/>
+        <Blob Name="gPlayerAnimation70" Size="0x8"/>
+        <Blob Name="gPlayerAnimation71" Size="0x8"/>
+        <Blob Name="gPlayerAnimation72" Size="0x8"/>
+        <Blob Name="gPlayerAnimation73" Size="0x8"/>
+        <Blob Name="gPlayerAnimation74" Size="0x8"/>
+        <Blob Name="gPlayerAnimation75" Size="0x8"/>
+        <Blob Name="gPlayerAnimation76" Size="0x8"/>
+        <Blob Name="gPlayerAnimation77" Size="0x8"/>
+        <Blob Name="gPlayerAnimation78" Size="0x8"/>
+        <Blob Name="gPlayerAnimation79" Size="0x8"/>
+        <Blob Name="gPlayerAnimation80" Size="0x8"/>
+        <Blob Name="gPlayerAnimation81" Size="0x8"/>
+        <Blob Name="gPlayerAnimation82" Size="0x8"/>
+        <Blob Name="gPlayerAnimation83" Size="0x8"/>
+        <Blob Name="gPlayerAnimation84" Size="0x8"/>
+        <Blob Name="gPlayerAnimation85" Size="0x8"/>
+        <Blob Name="gPlayerAnimation86" Size="0x8"/>
+        <Blob Name="gPlayerAnimation87" Size="0x8"/>
+        <Blob Name="gPlayerAnimation88" Size="0x8"/>
+        <Blob Name="gPlayerAnimation89" Size="0x8"/>
+        <Blob Name="gPlayerAnimation90" Size="0x8"/>
+        <Blob Name="gPlayerAnimation91" Size="0x8"/>
+        <Blob Name="gPlayerAnimation92" Size="0x8"/>
+        <Blob Name="gPlayerAnimation93" Size="0x8"/>
+        <Blob Name="gPlayerAnimation94" Size="0x8"/>
+        <Blob Name="gPlayerAnimation95" Size="0x8"/>
+        <Blob Name="gPlayerAnimation96" Size="0x8"/>
+        <Blob Name="gPlayerAnimation97" Size="0x8"/>
+        <Blob Name="gPlayerAnimation98" Size="0x8"/>
+        <Blob Name="gPlayerAnimation99" Size="0x8"/>
+        <Blob Name="gPlayerAnimation100" Size="0x8"/>
+        <Blob Name="gPlayerAnimation101" Size="0x8"/>
+        <Blob Name="gPlayerAnimation102" Size="0x8"/>
+        <Blob Name="gPlayerAnimation103" Size="0x8"/>
+        <Blob Name="gPlayerAnimation104" Size="0x8"/>
+        <Blob Name="gPlayerAnimation105" Size="0x8"/>
+        <Blob Name="gPlayerAnimation106" Size="0x8"/>
+        <Blob Name="gPlayerAnimation107" Size="0x8"/>
+        <Blob Name="gPlayerAnimation108" Size="0x8"/>
+        <Blob Name="gPlayerAnimation109" Size="0x8"/>
+        <Blob Name="gPlayerAnimation110" Size="0x8"/>
+        <Blob Name="gPlayerAnimation111" Size="0x8"/>
+        <Blob Name="gPlayerAnimation112" Size="0x8"/>
+        <Blob Name="gPlayerAnimation113" Size="0x8"/>
+        <Blob Name="gPlayerAnimation114" Size="0x8"/>
+        <Blob Name="gPlayerAnimation115" Size="0x8"/>
+        <Blob Name="gPlayerAnimation116" Size="0x8"/>
+        <Blob Name="gPlayerAnimation117" Size="0x8"/>
+        <Blob Name="gPlayerAnimation118" Size="0x8"/>
+        <Blob Name="gPlayerAnimation119" Size="0x8"/>
+        <Blob Name="gPlayerAnimation120" Size="0x8"/>
+        <Blob Name="gPlayerAnimation121" Size="0x8"/>
+        <Blob Name="gPlayerAnimation122" Size="0x8"/>
+        <Blob Name="gPlayerAnimation123" Size="0x8"/>
+        <Blob Name="gPlayerAnimation124" Size="0x8"/>
+        <Blob Name="gPlayerAnimation125" Size="0x8"/>
+        <Blob Name="gPlayerAnimation126" Size="0x8"/>
+        <Blob Name="gPlayerAnimation127" Size="0x8"/>
+        <Blob Name="gPlayerAnimation128" Size="0x8"/>
+        <Blob Name="gPlayerAnimation129" Size="0x8"/>
+        <Blob Name="gPlayerAnimation130" Size="0x8"/>
+        <Blob Name="gPlayerAnimation131" Size="0x8"/>
+        <Blob Name="gPlayerAnimation132" Size="0x8"/>
+        <Blob Name="gPlayerAnimation133" Size="0x8"/>
+        <Blob Name="gPlayerAnimation134" Size="0x8"/>
+        <Blob Name="gPlayerAnimation135" Size="0x8"/>
+        <Blob Name="gPlayerAnimation136" Size="0x8"/>
+        <Blob Name="gPlayerAnimation137" Size="0x8"/>
+        <Blob Name="gPlayerAnimation138" Size="0x8"/>
+        <Blob Name="gPlayerAnimation139" Size="0x8"/>
+        <Blob Name="gPlayerAnimation140" Size="0x8"/>
+        <Blob Name="gPlayerAnimation141" Size="0x8"/>
+        <Blob Name="gPlayerAnimation142" Size="0x8"/>
+        <Blob Name="gPlayerAnimation143" Size="0x8"/>
+        <Blob Name="gPlayerAnimation144" Size="0x8"/>
+        <Blob Name="gPlayerAnimation145" Size="0x8"/>
+        <Blob Name="gPlayerAnimation146" Size="0x8"/>
+        <Blob Name="gPlayerAnimation147" Size="0x8"/>
+        <Blob Name="gPlayerAnimation148" Size="0x8"/>
+        <Blob Name="gPlayerAnimation149" Size="0x8"/>
+        <Blob Name="gPlayerAnimation150" Size="0x8"/>
+        <Blob Name="gPlayerAnimation151" Size="0x8"/>
+        <Blob Name="gPlayerAnimation152" Size="0x8"/>
+        <Blob Name="gPlayerAnimation153" Size="0x8"/>
+        <Blob Name="gPlayerAnimation154" Size="0x8"/>
+        <Blob Name="gPlayerAnimation155" Size="0x8"/>
+        <Blob Name="gPlayerAnimation156" Size="0x8"/>
+        <Blob Name="gPlayerAnimation157" Size="0x8"/>
+        <Blob Name="gPlayerAnimation158" Size="0x8"/>
+        <Blob Name="gPlayerAnimation159" Size="0x8"/>
+        <Blob Name="gPlayerAnimation160" Size="0x8"/>
+        <Blob Name="gPlayerAnimation161" Size="0x8"/>
+        <Blob Name="gPlayerAnimation162" Size="0x8"/>
+        <Blob Name="gPlayerAnimation163" Size="0x8"/>
+        <Blob Name="gPlayerAnimation164" Size="0x8"/>
+        <Blob Name="gPlayerAnimation165" Size="0x8"/>
+        <Blob Name="gPlayerAnimation166" Size="0x8"/>
+        <Blob Name="gPlayerAnimation167" Size="0x8"/>
+        <Blob Name="gPlayerAnimation168" Size="0x8"/>
+        <Blob Name="gPlayerAnimation169" Size="0x8"/>
+        <Blob Name="gPlayerAnimation170" Size="0x8"/>
+        <Blob Name="gPlayerAnimation171" Size="0x8"/>
+        <Blob Name="gPlayerAnimation172" Size="0x8"/>
+        <Blob Name="gPlayerAnimation173" Size="0x8"/>
+        <Blob Name="gPlayerAnimation174" Size="0x8"/>
+        <Blob Name="gPlayerAnimation175" Size="0x8"/>
+        <Blob Name="gPlayerAnimation176" Size="0x8"/>
+        <Blob Name="gPlayerAnimation177" Size="0x8"/>
+        <Blob Name="gPlayerAnimation178" Size="0x8"/>
+        <Blob Name="gPlayerAnimation179" Size="0x8"/>
+        <Blob Name="gPlayerAnimation180" Size="0x8"/>
+        <Blob Name="gPlayerAnimation181" Size="0x8"/>
+        <Blob Name="gPlayerAnimation182" Size="0x8"/>
+        <Blob Name="gPlayerAnimation183" Size="0x8"/>
+        <Blob Name="gPlayerAnimation184" Size="0x8"/>
+        <Blob Name="gPlayerAnimation185" Size="0x8"/>
+        <Blob Name="gPlayerAnimation186" Size="0x8"/>
+        <Blob Name="gPlayerAnimation187" Size="0x8"/>
+        <Blob Name="gPlayerAnimation188" Size="0x8"/>
+        <Blob Name="gPlayerAnimation189" Size="0x8"/>
+        <Blob Name="gPlayerAnimation190" Size="0x8"/>
+        <Blob Name="gPlayerAnimation191" Size="0x8"/>
+        <Blob Name="gPlayerAnimation192" Size="0x8"/>
+        <Blob Name="gPlayerAnimation193" Size="0x8"/>
+        <Blob Name="gPlayerAnimation194" Size="0x8"/>
+        <Blob Name="gPlayerAnimation195" Size="0x8"/>
+        <Blob Name="gPlayerAnimation196" Size="0x8"/>
+        <Blob Name="gPlayerAnimation197" Size="0x8"/>
+        <Blob Name="gPlayerAnimation198" Size="0x8"/>
+        <Blob Name="gPlayerAnimation199" Size="0x8"/>
+        <Blob Name="gPlayerAnimation200" Size="0x8"/>
+        <Blob Name="gPlayerAnimation201" Size="0x8"/>
+        <Blob Name="gPlayerAnimation202" Size="0x8"/>
+        <Blob Name="gPlayerAnimation203" Size="0x8"/>
+        <Blob Name="gPlayerAnimation204" Size="0x8"/>
+        <Blob Name="gPlayerAnimation205" Size="0x8"/>
+        <Blob Name="gPlayerAnimation206" Size="0x8"/>
+        <Blob Name="gPlayerAnimation207" Size="0x8"/>
+        <Blob Name="gPlayerAnimation208" Size="0x8"/>
+        <Blob Name="gPlayerAnimation209" Size="0x8"/>
+        <Blob Name="gPlayerAnimation210" Size="0x8"/>
+        <Blob Name="gPlayerAnimation211" Size="0x8"/>
+        <Blob Name="gPlayerAnimation212" Size="0x8"/>
+        <Blob Name="gPlayerAnimation213" Size="0x8"/>
+        <Blob Name="gPlayerAnimation214" Size="0x8"/>
+        <Blob Name="gPlayerAnimation215" Size="0x8"/>
+        <Blob Name="gPlayerAnimation216" Size="0x8"/>
+        <Blob Name="gPlayerAnimation217" Size="0x8"/>
+        <Blob Name="gPlayerAnimation218" Size="0x8"/>
+        <Blob Name="gPlayerAnimation219" Size="0x8"/>
+        <Blob Name="gPlayerAnimation220" Size="0x8"/>
+        <Blob Name="gPlayerAnimation221" Size="0x8"/>
+        <Blob Name="gPlayerAnimation222" Size="0x8"/>
+        <Blob Name="gPlayerAnimation223" Size="0x8"/>
+        <Blob Name="gPlayerAnimation224" Size="0x8"/>
+        <Blob Name="gPlayerAnimation225" Size="0x8"/>
+        <Blob Name="gPlayerAnimation226" Size="0x8"/>
+        <Blob Name="gPlayerAnimation227" Size="0x8"/>
+        <Blob Name="gPlayerAnimation228" Size="0x8"/>
+        <Blob Name="gPlayerAnimation229" Size="0x8"/>
+        <Blob Name="gPlayerAnimation230" Size="0x8"/>
+        <Blob Name="gPlayerAnimation231" Size="0x8"/>
+        <Blob Name="gPlayerAnimation232" Size="0x8"/>
+        <Blob Name="gPlayerAnimation233" Size="0x8"/>
+        <Blob Name="gPlayerAnimation234" Size="0x8"/>
+        <Blob Name="gPlayerAnimation235" Size="0x8"/>
+        <Blob Name="gPlayerAnimation236" Size="0x8"/>
+        <Blob Name="gPlayerAnimation237" Size="0x8"/>
+        <Blob Name="gPlayerAnimation238" Size="0x8"/>
+        <Blob Name="gPlayerAnimation239" Size="0x8"/>
+        <Blob Name="gPlayerAnimation240" Size="0x8"/>
+        <Blob Name="gPlayerAnimation241" Size="0x8"/>
+        <Blob Name="gPlayerAnimation242" Size="0x8"/>
+        <Blob Name="gPlayerAnimation243" Size="0x8"/>
+        <Blob Name="gPlayerAnimation244" Size="0x8"/>
+        <Blob Name="gPlayerAnimation245" Size="0x8"/>
+        <Blob Name="gPlayerAnimation246" Size="0x8"/>
+        <Blob Name="gPlayerAnimation247" Size="0x8"/>
+        <Blob Name="gPlayerAnimation248" Size="0x8"/>
+        <Blob Name="gPlayerAnimation249" Size="0x8"/>
+        <Blob Name="gPlayerAnimation250" Size="0x8"/>
+        <Blob Name="gPlayerAnimation251" Size="0x8"/>
+        <Blob Name="gPlayerAnimation252" Size="0x8"/>
+        <Blob Name="gPlayerAnimation253" Size="0x8"/>
+        <Blob Name="gPlayerAnimation254" Size="0x8"/>
+        <Blob Name="gPlayerAnimation255" Size="0x8"/>
+        <Blob Name="gPlayerAnimation256" Size="0x8"/>
+        <Blob Name="gPlayerAnimation257" Size="0x8"/>
+        <Blob Name="gPlayerAnimation258" Size="0x8"/>
+        <Blob Name="gPlayerAnimation259" Size="0x8"/>
+        <Blob Name="gPlayerAnimation260" Size="0x8"/>
+        <Blob Name="gPlayerAnimation261" Size="0x8"/>
+        <Blob Name="gPlayerAnimation262" Size="0x8"/>
+        <Blob Name="gPlayerAnimation263" Size="0x8"/>
+        <Blob Name="gPlayerAnimation264" Size="0x8"/>
+        <Blob Name="gPlayerAnimation265" Size="0x8"/>
+        <Blob Name="gPlayerAnimation266" Size="0x8"/>
+        <Blob Name="gPlayerAnimation267" Size="0x8"/>
+        <Blob Name="gPlayerAnimation268" Size="0x8"/>
+        <Blob Name="gPlayerAnimation269" Size="0x8"/>
+        <Blob Name="gPlayerAnimation270" Size="0x8"/>
+        <Blob Name="gPlayerAnimation271" Size="0x8"/>
+        <Blob Name="gPlayerAnimation272" Size="0x8"/>
+        <Blob Name="gPlayerAnimation273" Size="0x8"/>
+        <Blob Name="gPlayerAnimation274" Size="0x8"/>
+        <Blob Name="gPlayerAnimation275" Size="0x8"/>
+        <Blob Name="gPlayerAnimation276" Size="0x8"/>
+        <Blob Name="gPlayerAnimation277" Size="0x8"/>
+        <Blob Name="gPlayerAnimation278" Size="0x8"/>
+        <Blob Name="gPlayerAnimation279" Size="0x8"/>
+        <Blob Name="gPlayerAnimation280" Size="0x8"/>
+        <Blob Name="gPlayerAnimation281" Size="0x8"/>
+        <Blob Name="gPlayerAnimation282" Size="0x8"/>
+        <Blob Name="gPlayerAnimation283" Size="0x8"/>
+        <Blob Name="gPlayerAnimation284" Size="0x8"/>
+        <Blob Name="gPlayerAnimation285" Size="0x8"/>
+        <Blob Name="gPlayerAnimation286" Size="0x8"/>
+        <Blob Name="gPlayerAnimation287" Size="0x8"/>
+        <Blob Name="gPlayerAnimation288" Size="0x8"/>
+        <Blob Name="gPlayerAnimation289" Size="0x8"/>
+        <Blob Name="gPlayerAnimation290" Size="0x8"/>
+        <Blob Name="gPlayerAnimation291" Size="0x8"/>
+        <Blob Name="gPlayerAnimation292" Size="0x8"/>
+        <Blob Name="gPlayerAnimation293" Size="0x8"/>
+        <Blob Name="gPlayerAnimation294" Size="0x8"/>
+        <Blob Name="gPlayerAnimation295" Size="0x8"/>
+        <Blob Name="gPlayerAnimation296" Size="0x8"/>
+        <Blob Name="gPlayerAnimation297" Size="0x8"/>
+        <Blob Name="gPlayerAnimation298" Size="0x8"/>
+        <Blob Name="gPlayerAnimation299" Size="0x8"/>
+        <Blob Name="gPlayerAnimation300" Size="0x8"/>
+        <Blob Name="gPlayerAnimation301" Size="0x8"/>
+        <Blob Name="gPlayerAnimation302" Size="0x8"/>
+        <Blob Name="gPlayerAnimation303" Size="0x8"/>
+        <Blob Name="gPlayerAnimation304" Size="0x8"/>
+        <Blob Name="gPlayerAnimation305" Size="0x8"/>
+        <Blob Name="gPlayerAnimation306" Size="0x8"/>
+        <Blob Name="gPlayerAnimation307" Size="0x8"/>
+        <Blob Name="gPlayerAnimation308" Size="0x8"/>
+        <Blob Name="gPlayerAnimation309" Size="0x8"/>
+        <Blob Name="gPlayerAnimation310" Size="0x8"/>
+        <Blob Name="gPlayerAnimation311" Size="0x8"/>
+        <Blob Name="gPlayerAnimation312" Size="0x8"/>
+        <Blob Name="gPlayerAnimation313" Size="0x8"/>
+        <Blob Name="gPlayerAnimation314" Size="0x8"/>
+        <Blob Name="gPlayerAnimation315" Size="0x8"/>
+        <Blob Name="gPlayerAnimation316" Size="0x8"/>
+        <Blob Name="gPlayerAnimation317" Size="0x8"/>
+        <Blob Name="gPlayerAnimation318" Size="0x8"/>
+        <Blob Name="gPlayerAnimation319" Size="0x8"/>
+        <Blob Name="gPlayerAnimation320" Size="0x8"/>
+        <Blob Name="gPlayerAnimation321" Size="0x8"/>
+        <Blob Name="gPlayerAnimation322" Size="0x8"/>
+        <Blob Name="gPlayerAnimation323" Size="0x8"/>
+        <Blob Name="gPlayerAnimation324" Size="0x8"/>
+        <Blob Name="gPlayerAnimation325" Size="0x8"/>
+        <Blob Name="gPlayerAnimation326" Size="0x8"/>
+        <Blob Name="gPlayerAnimation327" Size="0x8"/>
+        <Blob Name="gPlayerAnimation328" Size="0x8"/>
+        <Blob Name="gPlayerAnimation329" Size="0x8"/>
+        <Blob Name="gPlayerAnimation330" Size="0x8"/>
+        <Blob Name="gPlayerAnimation331" Size="0x8"/>
+        <Blob Name="gPlayerAnimation332" Size="0x8"/>
+        <Blob Name="gPlayerAnimation333" Size="0x8"/>
+        <Blob Name="gPlayerAnimation334" Size="0x8"/>
+        <Blob Name="gPlayerAnimation335" Size="0x8"/>
+        <Blob Name="gPlayerAnimation336" Size="0x8"/>
+        <Blob Name="gPlayerAnimation337" Size="0x8"/>
+        <Blob Name="gPlayerAnimation338" Size="0x8"/>
+        <Blob Name="gPlayerAnimation339" Size="0x8"/>
+        <Blob Name="gPlayerAnimation340" Size="0x8"/>
+        <Blob Name="gPlayerAnimation341" Size="0x8"/>
+        <Blob Name="gPlayerAnimation342" Size="0x8"/>
+        <Blob Name="gPlayerAnimation343" Size="0x8"/>
+        <Blob Name="gPlayerAnimation344" Size="0x8"/>
+        <Blob Name="gPlayerAnimation345" Size="0x8"/>
+        <Blob Name="gPlayerAnimation346" Size="0x8"/>
+        <Blob Name="gPlayerAnimation347" Size="0x8"/>
+        <Blob Name="gPlayerAnimation348" Size="0x8"/>
+        <Blob Name="gPlayerAnimation349" Size="0x8"/>
+        <Blob Name="gPlayerAnimation350" Size="0x8"/>
+        <Blob Name="gPlayerAnimation351" Size="0x8"/>
+        <Blob Name="gPlayerAnimation352" Size="0x8"/>
+        <Blob Name="gPlayerAnimation353" Size="0x8"/>
+        <Blob Name="gPlayerAnimation354" Size="0x8"/>
+        <Blob Name="gPlayerAnimation355" Size="0x8"/>
+        <Blob Name="gPlayerAnimation356" Size="0x8"/>
+        <Blob Name="gPlayerAnimation357" Size="0x8"/>
+        <Blob Name="gPlayerAnimation358" Size="0x8"/>
+        <Blob Name="gPlayerAnimation359" Size="0x8"/>
+        <Blob Name="gPlayerAnimation360" Size="0x8"/>
+        <Blob Name="gPlayerAnimation361" Size="0x8"/>
+        <Blob Name="gPlayerAnimation362" Size="0x8"/>
+        <Blob Name="gPlayerAnimation363" Size="0x8"/>
+        <Blob Name="gPlayerAnimation364" Size="0x8"/>
+        <Blob Name="gPlayerAnimation365" Size="0x8"/>
+        <Blob Name="gPlayerAnimation366" Size="0x8"/>
+        <Blob Name="gPlayerAnimation367" Size="0x8"/>
+        <Blob Name="gPlayerAnimation368" Size="0x8"/>
+        <Blob Name="gPlayerAnimation369" Size="0x8"/>
+        <Blob Name="gPlayerAnimation370" Size="0x8"/>
+        <Blob Name="gPlayerAnimation371" Size="0x8"/>
+        <Blob Name="gPlayerAnimation372" Size="0x8"/>
+        <Blob Name="gPlayerAnimation373" Size="0x8"/>
+        <Blob Name="gPlayerAnimation374" Size="0x8"/>
+        <Blob Name="gPlayerAnimation375" Size="0x8"/>
+        <Blob Name="gPlayerAnimation376" Size="0x8"/>
+        <Blob Name="gPlayerAnimation377" Size="0x8"/>
+        <Blob Name="gPlayerAnimation378" Size="0x8"/>
+        <Blob Name="gPlayerAnimation379" Size="0x8"/>
+        <Blob Name="gPlayerAnimation380" Size="0x8"/>
+        <Blob Name="gPlayerAnimation381" Size="0x8"/>
+        <Blob Name="gPlayerAnimation382" Size="0x8"/>
+        <Blob Name="gPlayerAnimation383" Size="0x8"/>
+        <Blob Name="gPlayerAnimation384" Size="0x8"/>
+        <Blob Name="gPlayerAnimation385" Size="0x8"/>
+        <Blob Name="gPlayerAnimation386" Size="0x8"/>
+        <Blob Name="gPlayerAnimation387" Size="0x8"/>
+        <Blob Name="gPlayerAnimation388" Size="0x8"/>
+        <Blob Name="gPlayerAnimation389" Size="0x8"/>
+        <Blob Name="gPlayerAnimation390" Size="0x8"/>
+        <Blob Name="gPlayerAnimation391" Size="0x8"/>
+        <Blob Name="gPlayerAnimation392" Size="0x8"/>
+        <Blob Name="gPlayerAnimation393" Size="0x8"/>
+        <Blob Name="gPlayerAnimation394" Size="0x8"/>
+        <Blob Name="gPlayerAnimation395" Size="0x8"/>
+        <Blob Name="gPlayerAnimation396" Size="0x8"/>
+        <Blob Name="gPlayerAnimation397" Size="0x8"/>
+        <Blob Name="gPlayerAnimation398" Size="0x8"/>
+        <Blob Name="gPlayerAnimation399" Size="0x8"/>
+        <Blob Name="gPlayerAnimation400" Size="0x8"/>
+        <Blob Name="gPlayerAnimation401" Size="0x8"/>
+        <Blob Name="gPlayerAnimation402" Size="0x8"/>
+        <Blob Name="gPlayerAnimation403" Size="0x8"/>
+        <Blob Name="gPlayerAnimation404" Size="0x8"/>
+        <Blob Name="gPlayerAnimation405" Size="0x8"/>
+        <Blob Name="gPlayerAnimation406" Size="0x8"/>
+        <Blob Name="gPlayerAnimation407" Size="0x8"/>
+        <Blob Name="gPlayerAnimation408" Size="0x8"/>
+        <Blob Name="gPlayerAnimation409" Size="0x8"/>
+        <Blob Name="gPlayerAnimation410" Size="0x8"/>
+        <Blob Name="gPlayerAnimation411" Size="0x8"/>
+        <Blob Name="gPlayerAnimation412" Size="0x8"/>
+        <Blob Name="gPlayerAnimation413" Size="0x8"/>
+        <Blob Name="gPlayerAnimation414" Size="0x8"/>
+        <Blob Name="gPlayerAnimation415" Size="0x8"/>
+        <Blob Name="gPlayerAnimation416" Size="0x8"/>
+        <Blob Name="gPlayerAnimation417" Size="0x8"/>
+        <Blob Name="gPlayerAnimation418" Size="0x8"/>
+        <Blob Name="gPlayerAnimation419" Size="0x8"/>
+        <Blob Name="gPlayerAnimation420" Size="0x8"/>
+        <Blob Name="gPlayerAnimation421" Size="0x8"/>
+        <Blob Name="gPlayerAnimation422" Size="0x8"/>
+        <Blob Name="gPlayerAnimation423" Size="0x8"/>
+        <Blob Name="gPlayerAnimation424" Size="0x8"/>
+        <Blob Name="gPlayerAnimation425" Size="0x8"/>
+        <Blob Name="gPlayerAnimation426" Size="0x8"/>
+        <Blob Name="gPlayerAnimation427" Size="0x8"/>
+        <Blob Name="gPlayerAnimation428" Size="0x8"/>
+        <Blob Name="gPlayerAnimation429" Size="0x8"/>
+        <Blob Name="gPlayerAnimation430" Size="0x8"/>
+        <Blob Name="gPlayerAnimation431" Size="0x8"/>
+        <Blob Name="gPlayerAnimation432" Size="0x8"/>
+        <Blob Name="gPlayerAnimation433" Size="0x8"/>
+        <Blob Name="gPlayerAnimation434" Size="0x8"/>
+        <Blob Name="gPlayerAnimation435" Size="0x8"/>
+        <Blob Name="gPlayerAnimation436" Size="0x8"/>
+        <Blob Name="gPlayerAnimation437" Size="0x8"/>
+        <Blob Name="gPlayerAnimation438" Size="0x8"/>
+        <Blob Name="gPlayerAnimation439" Size="0x8"/>
+        <Blob Name="gPlayerAnimation440" Size="0x8"/>
+        <Blob Name="gPlayerAnimation441" Size="0x8"/>
+        <Blob Name="gPlayerAnimation442" Size="0x8"/>
+        <Blob Name="gPlayerAnimation443" Size="0x8"/>
+        <Blob Name="gPlayerAnimation444" Size="0x8"/>
+        <Blob Name="gPlayerAnimation445" Size="0x8"/>
+        <Blob Name="gPlayerAnimation446" Size="0x8"/>
+        <Blob Name="gPlayerAnimation447" Size="0x8"/>
+        <Blob Name="gPlayerAnimation448" Size="0x8"/>
+        <Blob Name="gPlayerAnimation449" Size="0x8"/>
+        <Blob Name="gPlayerAnimation450" Size="0x8"/>
+        <Blob Name="gPlayerAnimation451" Size="0x8"/>
+        <Blob Name="gPlayerAnimation452" Size="0x8"/>
+        <Blob Name="gPlayerAnimation453" Size="0x8"/>
+        <Blob Name="gPlayerAnimation454" Size="0x8"/>
+        <Blob Name="gPlayerAnimation455" Size="0x8"/>
+        <Blob Name="gPlayerAnimation456" Size="0x8"/>
+        <Blob Name="gPlayerAnimation457" Size="0x8"/>
+        <Blob Name="gPlayerAnimation458" Size="0x8"/>
+        <Blob Name="gPlayerAnimation459" Size="0x8"/>
+        <Blob Name="gPlayerAnimation460" Size="0x8"/>
+        <Blob Name="gPlayerAnimation461" Size="0x8"/>
+        <Blob Name="gPlayerAnimation462" Size="0x8"/>
+        <Blob Name="gPlayerAnimation463" Size="0x8"/>
+        <Blob Name="gPlayerAnimation464" Size="0x8"/>
+        <Blob Name="gPlayerAnimation465" Size="0x8"/>
+        <Blob Name="gPlayerAnimation466" Size="0x8"/>
+        <Blob Name="gPlayerAnimation467" Size="0x8"/>
+        <Blob Name="gPlayerAnimation468" Size="0x8"/>
+        <Blob Name="gPlayerAnimation469" Size="0x8"/>
+        <Blob Name="gPlayerAnimation470" Size="0x8"/>
+        <Blob Name="gPlayerAnimation471" Size="0x8"/>
+        <Blob Name="gPlayerAnimation472" Size="0x8"/>
+        <Blob Name="gPlayerAnimation473" Size="0x8"/>
+        <Blob Name="gPlayerAnimation474" Size="0x8"/>
+        <Blob Name="gPlayerAnimation475" Size="0x8"/>
+        <Blob Name="gPlayerAnimation476" Size="0x8"/>
+        <Blob Name="gPlayerAnimation477" Size="0x8"/>
+        <Blob Name="gPlayerAnimation478" Size="0x8"/>
+        <Blob Name="gPlayerAnimation479" Size="0x8"/>
+        <Blob Name="gPlayerAnimation480" Size="0x8"/>
+        <Blob Name="gPlayerAnimation481" Size="0x8"/>
+        <Blob Name="gPlayerAnimation482" Size="0x8"/>
+        <Blob Name="gPlayerAnimation483" Size="0x8"/>
+        <Blob Name="gPlayerAnimation484" Size="0x8"/>
+        <Blob Name="gPlayerAnimation485" Size="0x8"/>
+        <Blob Name="gPlayerAnimation486" Size="0x8"/>
+        <Blob Name="gPlayerAnimation487" Size="0x8"/>
+        <Blob Name="gPlayerAnimation488" Size="0x8"/>
+        <Blob Name="gPlayerAnimation489" Size="0x8"/>
+        <Blob Name="gPlayerAnimation490" Size="0x8"/>
+        <Blob Name="gPlayerAnimation491" Size="0x8"/>
+        <Blob Name="gPlayerAnimation492" Size="0x8"/>
+        <Blob Name="gPlayerAnimation493" Size="0x8"/>
+        <Blob Name="gPlayerAnimation494" Size="0x8"/>
+        <Blob Name="gPlayerAnimation495" Size="0x8"/>
+        <Blob Name="gPlayerAnimation496" Size="0x8"/>
+        <Blob Name="gPlayerAnimation497" Size="0x8"/>
+        <Blob Name="gPlayerAnimation498" Size="0x8"/>
+        <Blob Name="gPlayerAnimation499" Size="0x8"/>
+        <Blob Name="gPlayerAnimation500" Size="0x8"/>
+        <Blob Name="gPlayerAnimation501" Size="0x8"/>
+        <Blob Name="gPlayerAnimation502" Size="0x8"/>
+        <Blob Name="gPlayerAnimation503" Size="0x8"/>
+        <Blob Name="gPlayerAnimation504" Size="0x8"/>
+        <Blob Name="gPlayerAnimation505" Size="0x8"/>
+        <Blob Name="gPlayerAnimation506" Size="0x8"/>
+        <Blob Name="gPlayerAnimation507" Size="0x8"/>
+        <Blob Name="gPlayerAnimation508" Size="0x8"/>
+        <Blob Name="gPlayerAnimation509" Size="0x8"/>
+        <Blob Name="gPlayerAnimation510" Size="0x8"/>
+        <Blob Name="gPlayerAnimation511" Size="0x8"/>
+        <Blob Name="gPlayerAnimation512" Size="0x8"/>
+        <Blob Name="gPlayerAnimation513" Size="0x8"/>
+        <Blob Name="gPlayerAnimation514" Size="0x8"/>
+        <Blob Name="gPlayerAnimation515" Size="0x8"/>
+        <Blob Name="gPlayerAnimation516" Size="0x8"/>
+        <Blob Name="gPlayerAnimation517" Size="0x8"/>
+        <Blob Name="gPlayerAnimation518" Size="0x8"/>
+        <Blob Name="gPlayerAnimation519" Size="0x8"/>
+        <Blob Name="gPlayerAnimation520" Size="0x8"/>
+        <Blob Name="gPlayerAnimation521" Size="0x8"/>
+        <Blob Name="gPlayerAnimation522" Size="0x8"/>
+        <Blob Name="gPlayerAnimation523" Size="0x8"/>
+        <Blob Name="gPlayerAnimation524" Size="0x8"/>
+        <Blob Name="gPlayerAnimation525" Size="0x8"/>
+        <Blob Name="gPlayerAnimation526" Size="0x8"/>
+        <Blob Name="gPlayerAnimation527" Size="0x8"/>
+        <Blob Name="gPlayerAnimation528" Size="0x8"/>
+        <Blob Name="gPlayerAnimation529" Size="0x8"/>
+        <Blob Name="gPlayerAnimation530" Size="0x8"/>
+        <Blob Name="gPlayerAnimation531" Size="0x8"/>
+        <Blob Name="gPlayerAnimation532" Size="0x8"/>
+        <Blob Name="gPlayerAnimation533" Size="0x8"/>
+        <Blob Name="gPlayerAnimation534" Size="0x8"/>
+        <Blob Name="gPlayerAnimation535" Size="0x8"/>
+        <Blob Name="gPlayerAnimation536" Size="0x8"/>
+        <Blob Name="gPlayerAnimation537" Size="0x8"/>
+        <Blob Name="gPlayerAnimation538" Size="0x8"/>
+        <Blob Name="gPlayerAnimation539" Size="0x8"/>
+        <Blob Name="gPlayerAnimation540" Size="0x8"/>
+        <Blob Name="gPlayerAnimation541" Size="0x8"/>
+        <Blob Name="gPlayerAnimation542" Size="0x8"/>
+        <Blob Name="gPlayerAnimation543" Size="0x8"/>
+        <Blob Name="gPlayerAnimation544" Size="0x8"/>
+        <Blob Name="gPlayerAnimation545" Size="0x8"/>
+        <Blob Name="gPlayerAnimation546" Size="0x8"/>
+        <Blob Name="gPlayerAnimation547" Size="0x8"/>
+        <Blob Name="gPlayerAnimation548" Size="0x8"/>
+        <Blob Name="gPlayerAnimation549" Size="0x8"/>
+        <Blob Name="gPlayerAnimation550" Size="0x8"/>
+        <Blob Name="gPlayerAnimation551" Size="0x8"/>
+        <Blob Name="gPlayerAnimation552" Size="0x8"/>
+        <Blob Name="gPlayerAnimation553" Size="0x8"/>
+        <Blob Name="gPlayerAnimation554" Size="0x8"/>
+        <Blob Name="gPlayerAnimation555" Size="0x8"/>
+        <Blob Name="gPlayerAnimation556" Size="0x8"/>
+        <Blob Name="gPlayerAnimation557" Size="0x8"/>
+        <Blob Name="gPlayerAnimation558" Size="0x8"/>
+        <Blob Name="gPlayerAnimation559" Size="0x8"/>
+        <Blob Name="gPlayerAnimation560" Size="0x8"/>
+        <Blob Name="gPlayerAnimation561" Size="0x8"/>
+        <Blob Name="gPlayerAnimation562" Size="0x8"/>
+        <Blob Name="gPlayerAnimation563" Size="0x8"/>
+        <Blob Name="gPlayerAnimation564" Size="0x8"/>
+        <Blob Name="gPlayerAnimation565" Size="0x8"/>
+        <Blob Name="gPlayerAnimation566" Size="0x8"/>
+        <Blob Name="gPlayerAnimation567" Size="0x8"/>
+        <Blob Name="gPlayerAnimation568" Size="0x8"/>
+        <Blob Name="gPlayerAnimation569" Size="0x8"/>
+        <Blob Name="gPlayerAnimation570" Size="0x8"/>
+        <Blob Name="gPlayerAnimation571" Size="0x8"/>
+        <Blob Name="gPlayerAnimation572" Size="0x8"/>
+        <Blob Name="gPlayerAnimation573" Size="0x8"/>
+        <Blob Name="gPlayerAnimation574" Size="0x8"/>
+        <Blob Name="gPlayerAnimation575" Size="0x8"/>
         <DList Name="gDebugPyramidDL" Offset="0x000035C0"/>
         <Texture Name="gUnknownCircleTex1" OutName="unknown_circle_1" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
         <Texture Name="gUnknownCircleTex2" OutName="unknown_circle_2" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
