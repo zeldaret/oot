@@ -27,27 +27,6 @@ void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void DemoExt_Wait(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_MaintainVortex(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_DispellVortex(DemoExt* this, GlobalContext* globalCtx);
-void DemoExt_DrawNothing(Actor* thisx, GlobalContext* globalCtx);
-void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx);
-
-static DemoExtActionFunc sActionFuncs[] = { DemoExt_Wait, DemoExt_MaintainVortex, DemoExt_DispellVortex };
-static DemoExtDrawFunc sDrawFuncs[] = { DemoExt_DrawNothing, DemoExt_DrawVortex };
-
-const ActorInit Demo_Ext_InitVars = {
-    ACTOR_DEMO_EXT,
-    ACTORTYPE_NPC,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(DemoExt),
-    (ActorFunc)DemoExt_Init,
-    (ActorFunc)DemoExt_Destroy,
-    (ActorFunc)DemoExt_Update,
-    (ActorFunc)DemoExt_Draw,
-};
-
 extern Gfx D_0600FAA0[];
 
 void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -187,6 +166,7 @@ void DemoExt_DispellVortex(DemoExt* this, GlobalContext* globalCtx) {
 }
 
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
+    static DemoExtActionFunc sActionFuncs[] = { DemoExt_Wait, DemoExt_MaintainVortex, DemoExt_DispellVortex };
     DemoExt* this = THIS;
 
     if ((this->action < 0) || (this->action >= 3) || sActionFuncs[this->action] == NULL) {
@@ -237,6 +217,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static DemoExtDrawFunc sDrawFuncs[] = { DemoExt_DrawNothing, DemoExt_DrawVortex };
     DemoExt* this = THIS;
 
     if ((this->drawMode < 0) || (this->drawMode >= 2) || sDrawFuncs[this->drawMode] == NULL) {
@@ -246,3 +227,15 @@ void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sDrawFuncs[this->drawMode](thisx, globalCtx);
     }
 }
+
+const ActorInit Demo_Ext_InitVars = {
+    ACTOR_DEMO_EXT,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_FHG,
+    sizeof(DemoExt),
+    (ActorFunc)DemoExt_Init,
+    (ActorFunc)DemoExt_Destroy,
+    (ActorFunc)DemoExt_Update,
+    (ActorFunc)DemoExt_Draw,
+};
