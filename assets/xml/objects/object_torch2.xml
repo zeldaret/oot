@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_torch2" Segment="6">
+        <Hierarchy Name="gDarkLinkSkel" Type="Flex" LimbType="LOD" Offset="0x4764"/>
+    </File>
+</Root>

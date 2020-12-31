@@ -1,0 +1,12 @@
+<Root>
+    <File Name="object_blkobj" Segment="6">
+        <DList Name="gBlkobjDListNormal" Offset="0x14E0"/>
+        <DList Name="gBlkobjDListIllusion" Offset="0x53D0"/>
+        <DList Name="gBlkobjDListUnusedTree" Offset="0x7EB0"/>
+        <Blob Name="gBlkobjColCamSetting" Offset="0x6C70" Size="0x8"/>
+        <Blob Name="gBlkobjColPolyType" Offset="0x6C78" Size="0x10"/>
+        <Blob Name="gBlkobjColPoly" Offset="0x6C88" Size="0x700"/>
+        <Blob Name="gBlkobjColVtx" Offset="0x7388" Size="0x1DC"/>
+        <Blob Name="gBlkobjColHeader" Offset="0x7564" Size="0x2C"/>
+    </File>
+</Root>

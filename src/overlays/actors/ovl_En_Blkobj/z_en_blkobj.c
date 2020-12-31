@@ -5,6 +5,7 @@
  */
 
 #include "z_en_blkobj.h"
+#include "objects/object_blkobj/object_blkobj.h"
 
 #define FLAGS 0x00000030
 
@@ -49,10 +50,6 @@ static Gfx sSetupXluDL[] = {
     gsSPEndDisplayList(),
 };
 
-extern Gfx D_060014E0[];
-extern Gfx D_060053D0[];
-extern ColHeader D_06007564;
-
 void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
     this->timer = 0;
@@ -69,7 +66,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&D_06007564, &colHeader);
+        DynaPolyInfo_Alloc(&gBlkobjColHeader, &colHeader);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
@@ -169,11 +166,11 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->alpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, D_060014E0, this->alpha);
+        EnBlkobj_DrawAlpha(globalCtx, gBlkobjDListNormal, this->alpha);
     }
     illusionAlpha = 255 - this->alpha;
     if (illusionAlpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, D_060053D0, illusionAlpha);
+        EnBlkobj_DrawAlpha(globalCtx, gBlkobjDListIllusion, illusionAlpha);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);

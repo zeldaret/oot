@@ -5178,7 +5178,9 @@ endseg
 beginseg
     name "object_blkobj"
     romalign 0x1000
-    include "build/baserom/object_blkobj.o"
+    // include "build/baserom/object_blkobj.o"
+    include "build/assets/objects/object_blkobj/object_blkobj.o"
+    number 06
 endseg
 
 beginseg
