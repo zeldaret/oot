@@ -4884,7 +4884,8 @@ endseg
 beginseg
     name "object_jya_obj"
     romalign 0x1000
-    include "build/baserom/object_jya_obj.o"
+    //include "build/baserom/object_jya_obj.o"
+    include "build/assets/objects/object_jya_obj/object_jya_obj.o"
 endseg
 
 beginseg

@@ -1,7 +1,7 @@
 /*
  * File: z_bg_jya_zurerukabe.c
  * Overlay: ovl_Bg_Jya_Zurerukabe
- * Description:
+ * Description: Sliding, Climbable Brick Wall
  */
 
 #include "z_bg_jya_zurerukabe.h"

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_1flift.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -53,8 +54,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060004A8;
-extern Gfx D_060001F0[];
+
+extern Gfx g1fliftDlist[];
 
 void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, UNK_PTR arg2, s32 moveFlag) {
     s32 pad;
@@ -91,7 +92,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return;
     }
-    BgJya1flift_InitDynapoly(this, globalCtx, &D_060004A8, 0);
+    BgJya1flift_InitDynapoly(this, globalCtx, &g1fliftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
@@ -196,5 +197,5 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060001F0);
+    Gfx_DrawDListOpa(globalCtx, g1fliftDlist);
 }
