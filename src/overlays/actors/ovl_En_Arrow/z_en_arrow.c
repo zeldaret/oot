@@ -16,9 +16,7 @@ void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_04004310;
-extern UNK_TYPE D_0400436C;
-extern UNK_TYPE D_04006010;
+extern SkeletonHeader D_04006010;
 
 /*
 const ActorInit En_Arrow_InitVars = {

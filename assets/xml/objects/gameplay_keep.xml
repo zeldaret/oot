@@ -596,10 +596,13 @@
         <DList Name="gDebugCheckeredFloorDL" Offset="0x00003FC8"/>
         <Texture Name="gDebugCheckeredFloorTex" OutName="debug_checkered_floor" Format="ia4" Width="32" Height="32" Offset="0x00004058"/>
         <DList Name="gDebugSpriteDL" Offset="0x00004298"/>
+        <Animation Name="gArrowAnim1" Offset="0x00004310"/>
+        <Animation Name="gArrowAnim2" Offset="0x0000436C"/>
         <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgb5a1" Width="16" Height="128" Offset="0x00004380"/>
         <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgb5a1" Width="32" Height="16" Offset="0x00005380"/>
         <DList Name="gArrowHighPolyDL" Offset="0x00005AA0"/>
         <DList Name="gArrowLowPolyDL" Offset="0x00005E20"/>
+        <!-- <Hierarchy Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x00006010"/> -->
         <Texture Name="gUnknownBlureEffectTex" OutName="unknown_blure_effect" Format="i8" Width="64" Height="32" Offset="0x00006020"/>
         <Texture Name="gBombBillboardTex" OutName="bomb_billboard" Format="ia8" Width="64" Height="64" Offset="0x00006820"/>
         <DList Name="gBombBillboardDL" Offset="0x00007860"/>
@@ -634,10 +637,15 @@
         <DList Name="gBoulderFragmentsDL" Offset="0x0000D340"/>
         <Texture Name="gRockFragmentTex1" OutName="rock_fragment_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0000D4E0"/>
         <Texture Name="gRockFragmentTex2" OutName="rock_fragment_2" Format="rgb5a1" Width="32" Height="32" Offset="0x0000DCE0"/>
+        <Animation Name="gDoorAnim1" Offset="0x0000E5B4"/>
+        <Animation Name="gDoorAnim2" Offset="0x0000E6A0"/>
+        <Animation Name="gDoorAnim3" Offset="0x0000E758"/>
         <DList Name="gDoorFrameDL" Offset="0x0000EC30"/>
         <DList Name="gDoorLeftDL" Offset="0x0000ECB8"/>
         <DList Name="gDoorRightDL" Offset="0x0000EE00"/>
         <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgb5a1" Width="32" Height="64" Offset="0x0000EF38"/>
+        <Hierarchy Name="gDoorSkel" Type="Normal" LimbType="Standard" Offset="0x0000FF78"/>
+        <Animation Name="gDoorAnim4" Offset="0x00010038"/>
         <DList Name="gEffectDustDL" Offset="0x00010050"/>
         <DList Name="gEffectFlashDL1" Offset="0x00010130"/>
         <DList Name="gEffectFlashDL2" Offset="0x000101A8"/>
@@ -654,6 +662,7 @@
         <Texture Name="gEffectUnknownTex2" OutName="effect_unknown_2" Format="i8" Width="32" Height="64" Offset="0x00013700"/>
         <Texture Name="gEffectUnknownTex3" OutName="effect_unknown_3" Format="i8" Width="32" Height="64" Offset="0x00013F00"/>
         <DList Name="gUnusedBeamBladeDL" Offset="0x000149C0"/>
+        <Animation Name="gFairyAnim" Offset="0x00014BA4"/>
         <Texture Name="gFairyWingTex" OutName="fairy_wing" Format="i8" Width="32" Height="64" Offset="0x00014BC0"/>
         <DList Name="gFairyWingDL1" Offset="0x00015400"/>
         <DList Name="gFairyWingDL2" Offset="0x000154C8"/>
@@ -663,6 +672,7 @@
         <DList Name="gGlowCircleDL" Offset="0x00015760"/>
         <DList Name="gGlowCircleSmallDL" Offset="0x00015780"/>
         <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x00015968"/>
+        <Hierarchy Name="gFairySkel" Type="Normal" LimbType="Standard" Offset="0x00016A48"/>
         <Texture Name="gUnknownCircleTex3" OutName="unknown_circle_3" Format="i4" Width="16" Height="16" Offset="0x00016A50"/>
         <Texture Name="gUnknownCircleTex4" OutName="unknown_circle_4" Format="i8" Width="16" Height="16" Offset="0x00016AD0"/>
         <Texture Name="gReflectionTex4" OutName="reflection_4" Format="rgb5a1" Width="32" Height="32" Offset="0x00016BD0"/>
@@ -802,12 +812,16 @@
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x00037F00"/>
         <DList Name="gMoonDL" Offset="0x00038F00"/>
         <Texture Name="gUnknownCircleTex6" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
+        <Blob Name="gRockCol1" Offset="0x00394B0" Size="0x30"/> <!-- waiting on ZAP support! -->
         <DList Name="gLiftableRockDL" Offset="0x00039660"/>
         <DList Name="gUnusedRockRectangularPrismDL1" Offset="0x00039890"/>
         <DList Name="gUnusedRockRectangularPrismDL2" Offset="0x00039C00"/>
         <DList Name="gUnusedRockRectangularPrismDL3" Offset="0x00039F70"/>
+        <Blob Name="gRockCol2" Offset="0x003A120" Size="0x30"/> <!-- waiting on ZAP support! -->
         <DList Name="gUnusedRockRectangularPrismDL4" Offset="0x0003A2D0"/>
+        <Blob Name="gRockCol3" Offset="0x003A480" Size="0x30"/> <!-- waiting on ZAP support! -->
         <DList Name="gUnusedRockRectangularPrismDL5" Offset="0x0003A630"/>
+        <Blob Name="gRockCol4" Offset="0x003A7F0" Size="0x30"/> <!-- waiting on ZAP support! -->
         <DList Name="gUnusedTreeStumpDL" Offset="0x0003A9B0"/>
         <DList Name="gUnusedGrassBladesDL" Offset="0x0003AB80"/>
         <Texture Name="gHeartShapeTex" OutName="heart_shape" Format="i8" Width="16" Height="16" Offset="0x0003AC30"/>
@@ -900,22 +914,6 @@
         <!-- Currently unaccounted data:
         0x002040 sz 0x2C0 // limb draw vec3s'
         0x002300 sz 0x1200 // link_animetion headers
-        0x0042B0 sz 0xD0 // ?????
-        0x005FC0 sz 0x60 // ?????
-        0x00E4E0 sz 0x290 // ?????
-        0x00FF38 sz 0x118 // ?????
-        0x014AE8 sz 0xD8 // ?????
-        0x016968 sz 0xE8 // ?????
-        0x01860C sz 0x574 // ?????
-        0x03420C sz 0x914 // ?????
-        0x0393B0 sz 0x130 // ?????
-        0x039940 sz 0x140 // ?????
-        0x039CB8 sz 0x138 // ?????
-        0x03A020 sz 0x130 // ?????
-        0x03A380 sz 0x130 // ?????
-        0x03A6E8 sz 0x138 // ?????
-        0x04C940 sz 0x20 // useless padding
-        0x04D140 sz 0x20 // useless padding
         -->
     </File>
 </Root>

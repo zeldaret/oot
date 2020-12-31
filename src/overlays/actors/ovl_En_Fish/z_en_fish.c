@@ -1,4 +1,5 @@
 #include "z_en_fish.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -8,10 +9,6 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern AnimationHeader D_040185FC;
-extern FlexSkeletonHeader D_04018FE0;
-extern AnimationHeader D_0401909C;
 
 /*
 const ActorInit En_Fish_InitVars = {
