@@ -72,7 +72,7 @@ glabel func_809BFD94
 .L809BFE7C:
 /* 005DC 809BFE7C C62A002C */  lwc1    $f10, 0x002C($s1)          ## 0000002C
 /* 005E0 809BFE80 460A0400 */  add.s   $f16, $f0, $f10            
-/* 005E4 809BFE84 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 005E4 809BFE84 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 005E8 809BFE88 E7B00088 */  swc1    $f16, 0x0088($sp)          
 /* 005EC 809BFE8C 461A0482 */  mul.s   $f18, $f0, $f26            

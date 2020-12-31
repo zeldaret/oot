@@ -84,7 +84,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.list[i].dim.worldSphere.radius = this->collider.list[i].dim.modelSphere.radius;
     }
     this->burnFrame = 0;
-    this->blastFrame = 0;
+    this->bendFrame = 0;
 }
 
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -104,17 +104,17 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->burnFrame = (this->burnFrame + 1) % 8;
 
-    if (this->blastFrame != 0) {
-        this->blastFrame--;
+    if (this->bendFrame != 0) {
+        this->bendFrame--;
     }
 
-    if (this->blastFrame == 0) {
-        this->blastFrame = 3;
+    if (this->bendFrame == 0) {
+        this->bendFrame = 3;
     }
 
     this->dyna.actor.shape.rot.y += 0x180; // Approximately 2 Degrees per Frame
-    yawSine = Math_Sins(this->dyna.actor.shape.rot.y);
-    yawCosine = Math_Coss(this->dyna.actor.shape.rot.y);
+    yawSine = Math_SinS(this->dyna.actor.shape.rot.y);
+    yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         sphere = &this->collider.list[i];
@@ -143,17 +143,17 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
 
     frame++;
-    fVar6 = (frame != 4) ? frame + ((3 - this->blastFrame) * 0.33333334f) : frame;
+    fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * 0.33333334f) : frame;
 
     gDPSetPrimColor(displayList++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
 
     if (a == 0) {
-        sins = -Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = -Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = -Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = -Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
     } else {
-        sins = Math_Sins(this->dyna.actor.shape.rot.y - (frame * 1500));
-        coss = Math_Coss(this->dyna.actor.shape.rot.y - (frame * 1500));
+        sins = Math_SinS(this->dyna.actor.shape.rot.y - (frame * 1500));
+        coss = Math_CosS(this->dyna.actor.shape.rot.y - (frame * 1500));
     }
 
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;

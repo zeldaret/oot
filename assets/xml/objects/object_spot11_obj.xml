@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_spot11_obj" Segment="6">
+        <Blob Name="gBgSpot11Unk" Offset="0x0000" Size="0x940"/>
+        <DList Name="gBgSpot11DL1" Offset="0x1980"/>
+        <Blob Name="gBgSpot11Col" Offset="0x1A58" Size="0x30"/>
+    </File>
+</Root>

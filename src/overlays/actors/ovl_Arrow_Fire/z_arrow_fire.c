@@ -49,7 +49,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->radius = 0;
     this->unk_158 = 1.0f;
     ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
-    Actor_SetScale(this, 0.01f);
+    Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 160;
     this->timer = 0;
     this->unk_15C = 0.0f;

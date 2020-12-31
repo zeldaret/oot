@@ -7,26 +7,26 @@ glabel func_800B3BD4
 /* B2AD88 800B3BE8 F7B40010 */  sdc1  $f20, 0x10($sp)
 /* B2AD8C 800B3BEC AFA600C8 */  sw    $a2, 0xc8($sp)
 /* B2AD90 800B3BF0 AFA700CC */  sw    $a3, 0xcc($sp)
-/* B2AD94 800B3BF4 0C01DE1C */  jal   Math_Sins
+/* B2AD94 800B3BF4 0C01DE1C */  jal   Math_SinS
 /* B2AD98 800B3BF8 87A400C6 */   lh    $a0, 0xc6($sp)
 /* B2AD9C 800B3BFC 46000586 */  mov.s $f22, $f0
-/* B2ADA0 800B3C00 0C01DE0D */  jal   Math_Coss
+/* B2ADA0 800B3C00 0C01DE0D */  jal   Math_CosS
 /* B2ADA4 800B3C04 87A400C6 */   lh    $a0, 0xc6($sp)
 /* B2ADA8 800B3C08 46000506 */  mov.s $f20, $f0
-/* B2ADAC 800B3C0C 0C01DE1C */  jal   Math_Sins
+/* B2ADAC 800B3C0C 0C01DE1C */  jal   Math_SinS
 /* B2ADB0 800B3C10 87A400CA */   lh    $a0, 0xca($sp)
 /* B2ADB4 800B3C14 E7A000B4 */  swc1  $f0, 0xb4($sp)
-/* B2ADB8 800B3C18 0C01DE0D */  jal   Math_Coss
+/* B2ADB8 800B3C18 0C01DE0D */  jal   Math_CosS
 /* B2ADBC 800B3C1C 87A400CA */   lh    $a0, 0xca($sp)
 /* B2ADC0 800B3C20 87A400CE */  lh    $a0, 0xce($sp)
 /* B2ADC4 800B3C24 E7A000B0 */  swc1  $f0, 0xb0($sp)
 /* B2ADC8 800B3C28 00042023 */  negu  $a0, $a0
 /* B2ADCC 800B3C2C 00042400 */  sll   $a0, $a0, 0x10
 /* B2ADD0 800B3C30 00042403 */  sra   $a0, $a0, 0x10
-/* B2ADD4 800B3C34 0C01DE1C */  jal   Math_Sins
+/* B2ADD4 800B3C34 0C01DE1C */  jal   Math_SinS
 /* B2ADD8 800B3C38 AFA4005C */   sw    $a0, 0x5c($sp)
 /* B2ADDC 800B3C3C 8FA4005C */  lw    $a0, 0x5c($sp)
-/* B2ADE0 800B3C40 0C01DE0D */  jal   Math_Coss
+/* B2ADE0 800B3C40 0C01DE0D */  jal   Math_CosS
 /* B2ADE4 800B3C44 E7A000AC */   swc1  $f0, 0xac($sp)
 /* B2ADE8 800B3C48 4600B287 */  neg.s $f10, $f22
 /* B2ADEC 800B3C4C C7A400B4 */  lwc1  $f4, 0xb4($sp)

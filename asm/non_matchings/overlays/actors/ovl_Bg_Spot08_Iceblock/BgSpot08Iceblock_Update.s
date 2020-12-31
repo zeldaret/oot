@@ -9,7 +9,7 @@ glabel BgSpot08Iceblock_Update
 /* 00C38 808B1598 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00C3C 808B159C AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00C40 808B15A0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00C44 808B15A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00C44 808B15A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00C48 808B15A8 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00C4C 808B15AC 3C01808B */  lui     $at, %hi(D_808B18AC)       ## $at = 808B0000
@@ -19,12 +19,12 @@ glabel BgSpot08Iceblock_Update
 /* 00C5C 808B15BC 00000000 */  nop
 /* 00C60 808B15C0 45020009 */  bc1fl   .L808B15E8                 
 /* 00C64 808B15C4 860E018C */  lh      $t6, 0x018C($s0)           ## 0000018C
-/* 00C68 808B15C8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00C68 808B15C8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00C6C 808B15CC 24050064 */  addiu   $a1, $zero, 0x0064         ## $a1 = 00000064
 /* 00C70 808B15D0 A6020190 */  sh      $v0, 0x0190($s0)           ## 00000190
 /* 00C74 808B15D4 24040320 */  addiu   $a0, $zero, 0x0320         ## $a0 = 00000320
-/* 00C78 808B15D8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00C78 808B15D8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00C7C 808B15DC 24050190 */  addiu   $a1, $zero, 0x0190         ## $a1 = 00000190
 /* 00C80 808B15E0 A6020192 */  sh      $v0, 0x0192($s0)           ## 00000192

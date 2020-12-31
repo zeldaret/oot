@@ -53,7 +53,7 @@ glabel func_80A3F594
 /* 010F0 80A3F660 8C8E002C */  lw      $t6, 0x002C($a0)           ## 0000002C
 /* 010F4 80A3F664 AE8E0008 */  sw      $t6, 0x0008($s4)           ## FFFFFFFC
 /* 010F8 80A3F668 C4840080 */  lwc1    $f4, 0x0080($a0)           ## 00000080
-/* 010FC 80A3F66C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 010FC 80A3F66C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01100 80A3F670 E7A40098 */  swc1    $f4, 0x0098($sp)           
 /* 01104 80A3F674 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -88,19 +88,19 @@ glabel func_80A3F594
 /* 01174 80A3F6E4 00000000 */  nop
 /* 01178 80A3F6E8 0006000D */  break 6
 .L80A3F6EC:
-/* 0117C 80A3F6EC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0117C 80A3F6EC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01180 80A3F6F0 00000000 */  nop
 /* 01184 80A3F6F4 46180481 */  sub.s   $f18, $f0, $f24            
 /* 01188 80A3F6F8 46149102 */  mul.s   $f4, $f18, $f20            
-/* 0118C 80A3F6FC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0118C 80A3F6FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01190 80A3F700 E7A4007C */  swc1    $f4, 0x007C($sp)           
 /* 01194 80A3F704 46180181 */  sub.s   $f6, $f0, $f24             
 /* 01198 80A3F708 00102400 */  sll     $a0, $s0, 16               
 /* 0119C 80A3F70C 00042403 */  sra     $a0, $a0, 16               
 /* 011A0 80A3F710 46143202 */  mul.s   $f8, $f6, $f20             
-/* 011A4 80A3F714 0C01DE1C */  jal     Math_Sins
+/* 011A4 80A3F714 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 011A8 80A3F718 E7A80084 */  swc1    $f8, 0x0084($sp)           
 /* 011AC 80A3F71C 46160282 */  mul.s   $f10, $f0, $f22            
@@ -108,7 +108,7 @@ glabel func_80A3F594
 /* 011B4 80A3F724 00102400 */  sll     $a0, $s0, 16               
 /* 011B8 80A3F728 00042403 */  sra     $a0, $a0, 16               
 /* 011BC 80A3F72C 46105480 */  add.s   $f18, $f10, $f16           
-/* 011C0 80A3F730 0C01DE0D */  jal     Math_Coss
+/* 011C0 80A3F730 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 011C4 80A3F734 E7B20094 */  swc1    $f18, 0x0094($sp)          
 /* 011C8 80A3F738 46160102 */  mul.s   $f4, $f0, $f22             

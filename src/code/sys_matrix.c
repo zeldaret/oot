@@ -308,8 +308,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     f32 cos;
 
     if (mode == MTXMODE_APPLY) {
-        sin = Math_Sins(z);
-        cos = Math_Coss(z);
+        sin = Math_SinS(z);
+        cos = Math_CosS(z);
 
         temp1 = cmf->xx;
         temp2 = cmf->yx;
@@ -332,8 +332,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
         cmf->yw = temp2 * cos - temp1 * sin;
 
         if (y != 0) {
-            sin = Math_Sins(y);
-            cos = Math_Coss(y);
+            sin = Math_SinS(y);
+            cos = Math_CosS(y);
 
             temp1 = cmf->xx;
             temp2 = cmf->zx;
@@ -357,8 +357,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
         }
 
         if (x != 0) {
-            sin = Math_Sins(x);
-            cos = Math_Coss(x);
+            sin = Math_SinS(x);
+            cos = Math_CosS(x);
 
             temp1 = cmf->yx;
             temp2 = cmf->zx;
@@ -395,8 +395,8 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     f32 temp1;
     f32 temp2;
 
-    sin = Math_Sins(rotation->z);
-    cos = Math_Coss(rotation->z);
+    sin = Math_SinS(rotation->z);
+    cos = Math_CosS(rotation->z);
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
@@ -423,8 +423,8 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     cmf->yw = temp2 * cos - temp1 * sin;
 
     if (rotation->y != 0) {
-        sin = Math_Sins(rotation->y);
-        cos = Math_Coss(rotation->y);
+        sin = Math_SinS(rotation->y);
+        cos = Math_CosS(rotation->y);
 
         temp1 = cmf->xx;
         temp2 = cmf->zx;
@@ -448,8 +448,8 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     }
 
     if (rotation->x != 0) {
-        sin = Math_Sins(rotation->x);
-        cos = Math_Coss(rotation->x);
+        sin = Math_SinS(rotation->x);
+        cos = Math_CosS(rotation->x);
 
         temp1 = cmf->yx;
         temp2 = cmf->zx;
@@ -480,8 +480,8 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     f32 sp28;
     f32 sp24;
 
-    sp30 = Math_Sins(vec->y);
-    sp2C = Math_Coss(vec->y);
+    sp30 = Math_SinS(vec->y);
+    sp2C = Math_CosS(vec->y);
 
     cmf->xx = sp2C;
     cmf->xz = -sp30;
@@ -494,8 +494,8 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     cmf->ww = 1.0f;
 
     if (vec->x != 0) {
-        sp24 = Math_Sins(vec->x);
-        sp28 = Math_Coss(vec->x);
+        sp24 = Math_SinS(vec->x);
+        sp28 = Math_CosS(vec->x);
 
         cmf->zz = sp2C * sp28;
         cmf->yz = sp2C * sp24;
@@ -513,8 +513,8 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     }
 
     if (vec->z != 0) {
-        sp24 = Math_Sins(vec->z);
-        sp28 = Math_Coss(vec->z);
+        sp24 = Math_SinS(vec->z);
+        sp28 = Math_CosS(vec->z);
 
         sp30 = cmf->xx;
         sp2C = cmf->yx;
@@ -752,17 +752,17 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->zx;
     temp *= temp;
     temp += SQ(mf->zz);
-    vec->x = Math_atan2f(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
+    vec->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
 
     if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
         vec->z = 0;
 
-        vec->y = Math_atan2f(-mf->xz, mf->xx) * (32768 / M_PI);
+        vec->y = Math_FAtan2F(-mf->xz, mf->xx) * (32768 / M_PI);
     } else {
-        vec->y = Math_atan2f(mf->zx, mf->zz) * (32768 / M_PI);
+        vec->y = Math_FAtan2F(mf->zx, mf->zz) * (32768 / M_PI);
 
         if (!flag) {
-            vec->z = Math_atan2f(mf->xy, mf->yy) * (32768 / M_PI);
+            vec->z = Math_FAtan2F(mf->xy, mf->yy) * (32768 / M_PI);
         } else {
             temp = mf->xx;
             temp4 = mf->xz;
@@ -783,7 +783,7 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            vec->z = Math_atan2f(temp, temp2) * (32768 / M_PI);
+            vec->z = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
         }
     }
 }
@@ -800,18 +800,18 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->xx;
     temp *= temp;
     temp += SQ(mf->xy);
-    vec->y = Math_atan2f(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
+    vec->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
 
     if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
         vec->x = 0;
-        vec->z = Math_atan2f(-mf->yx, mf->yy) * (32768 / M_PI);
+        vec->z = Math_FAtan2F(-mf->yx, mf->yy) * (32768 / M_PI);
         return;
     }
 
-    vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
+    vec->z = Math_FAtan2F(mf->xy, mf->xx) * (32768 / M_PI);
 
     if (!flag) {
-        vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
+        vec->x = Math_FAtan2F(mf->yz, mf->zz) * (32768 / M_PI);
     } else {
         temp = mf->yx;
         temp *= temp;
@@ -827,7 +827,7 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
         temp2 = sqrtf(temp2);
         temp2 = mf->zz / temp2;
 
-        vec->x = Math_atan2f(temp, temp2) * (32768 / M_PI);
+        vec->x = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
     }
 }
 #else
