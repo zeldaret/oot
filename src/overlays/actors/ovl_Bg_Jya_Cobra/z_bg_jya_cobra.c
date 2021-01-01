@@ -148,7 +148,7 @@ void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaP
     DynaPolyInfo_Alloc(arg2, &sp30);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
     if (this->dyna.dynaPolyId == 50) {
-        // Warning : move BG Registration Failure(%s %d)(name %d)(arg_data 0x%04x)
+        // Warning : move BG Registration Failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -159,7 +159,7 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
                        this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        //  	Ｅｒｒｏｒ : Mir Ray occurrence failure (%s %d)
+        //  	Ｅｒｒｏｒ : Mir Ray occurrence failure
         osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
         osSyncPrintf(VT_RST);
     }
@@ -168,17 +168,15 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895A70.s")
 // minor register and stack diffs
 // void func_80895A70(BgJyaCobra *this) {
-//     s32 temp_v0;
+//     s32 pad;
 //     BgJyaBigmirror* temp_v1;
 //     MirRay* phi_v0;
 //     Vec3f sp28;
 //     MirRay* temp;
 
 //     temp_v1 = (BgJyaBigmirror*)this->dyna.actor.parent;
-//     // this can be inlined
-//     temp_v0 = this->dyna.actor.params & 3;
 
-//     switch (temp_v0) {
+//     switch (this->dyna.actor.params & 3) {
 //         case 0:
 //             temp = (MirRay*)this->dyna.actor.child;
 //             if (this->dyna.actor.child != NULL) {
@@ -209,10 +207,11 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
 //         phi_v0->unLit = 1;
 //         return;
 //     }
+
 //     phi_v0->unLit = 0;
 //     Math_Vec3f_Copy(&phi_v0->sourcePt, &this->unk_180);
-//     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW);
-//     Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * 0.0000958738f, MTXMODE_APPLY);
+//     Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+//     Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * (M_PI / 0x8000), MTXMODE_APPLY);
 //     sp28.x = 0.0f;
 //     sp28.y = 0.0;
 //     sp28.z = this->unk_190 * 2800.0f;
@@ -296,7 +295,7 @@ void func_80895EF0(BgJyaCobra* this);
 //     Vec3f spD4;
 //     Vec3f spC8;
 //     Vec3f spBC;
-//     u8(*temp_s2)[0x40][0x40];
+//     u8(*temp_s2)[0x40];
 //     s32 temp_x;
 //     // making volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously wrong
 //     s32 temp_z;
@@ -307,7 +306,7 @@ void func_80895EF0(BgJyaCobra* this);
 //     s32 k;
 //     s32 l;
 
-//     temp_s2 = (u8(*)[0x40][0x40])ALIGN16((s32)(&this->unk_194));
+//     temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->unk_194));
 //     Lib_MemSet((u8*)temp_s2, 0x1000, 0);
 
 //     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
@@ -335,7 +334,7 @@ void func_80895EF0(BgJyaCobra* this);
 //                     for (l = 0; l < 11; l++) {
 //                         temp_x = (x - 5 + l);
 //                         if (!(temp_x & ~0x3F)) {
-//                             (*temp_s2)[temp_z][temp_x] |= D_8089731C[k][l];
+//                             temp_s2[temp_z][temp_x] |= D_8089731C[k][l];
 //                         }
 //                     }
 //                 }
@@ -361,7 +360,7 @@ void func_80895EF0(BgJyaCobra* this);
 //                     for (l = 0; l < 3; l++) {
 //                         temp_x = x - 1 + l;
 //                         if (!(temp_x & ~0x3F)) {
-//                             (*temp_s2)[temp_z][temp_x] |= D_80897398[k][l];
+//                             temp_s2[temp_z][temp_x] |= D_80897398[k][l];
 //                         }
 //                     }
 //                 }
@@ -370,13 +369,13 @@ void func_80895EF0(BgJyaCobra* this);
 //     }
 
 //     for (i = 0; i < 0x40; i++) {
-//         (*temp_s2)[0][i] = 0;
-//         (*temp_s2)[0x3F][i] = 0;
+//         temp_s2[0][i] = 0;
+//         temp_s2[0x3F][i] = 0;
 //     }
 
 //     for (j = 1; j < 0x3F; j++) {
-//         (*temp_s2)[j][0] = 0;
-//         (*temp_s2)[j][0x3F] = 0;
+//         temp_s2[j][0] = 0;
+//         temp_s2[j][0x3F] = 0;
 //     }
 // }
 
@@ -387,9 +386,9 @@ void func_80896518(BgJyaCobra* this);
 //     f32 temp_f12;
 //     f32 temp_f2;
 //     u8* temp_s0;
-//     s32 phi_t0;
+//     s32 i_copy;
 //     u8 *phi_a3;
-//     s32 temp;
+//     s32 counter;
 //     s32 i;
 //     s32 j;
 
@@ -406,22 +405,22 @@ void func_80896518(BgJyaCobra* this);
 //         for(j = 0; j < 0x40; j++) {
 //             temp_f2 = (sp58[j] * 0.5f) + temp_f12;
 //             if (temp_f2 < 300.0f) {
-//                 *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 + temp_f2), 166);
+//                 *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 * 2.0f), 166);
 //             }
-//             phi_a3 += 1;
+//             phi_a3++;
 //         }
 //     }
 
-//     for (temp = 0, i = 0x780; temp < 4; temp += 1, i += 0x40) {
-//         phi_t0 = i;
+//     for (counter = 0, i = 0x780; counter < 4; counter++, i += 0x40) {
+//         i_copy = i;
 //         for (j = 4; j < 0x3C; j++)
 //         {
-//             if (temp_s0[i + j] < D_80897518[temp]) {
-//                 temp_s0[i + j] = D_80897518[temp];
+//             if (temp_s0[i + j] < D_80897518[counter]) {
+//                 temp_s0[i + j] = D_80897518[counter];
 //             }
 //         }
-//         temp_s0[phi_t0 + 0x3C] = 32;
-//         temp_s0[phi_t0 + 0x3] = 32;
+//         temp_s0[i_copy + 0x3C] = 0x20;
+//         temp_s0[i_copy + 0x3] = 0x20;
 //     }
 // }
 
@@ -448,8 +447,8 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80896518(this);
     }
 
-    // (jya cobra)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)
-    osSyncPrintf((const char*)"(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params,
+    // (jya cobra)
+    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params,
                  this, ((s8*)this) + 0x194, ALIGN16((s32)(&this->unk_194)));
 }
 
@@ -462,15 +461,14 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {
     this->actionFunc = &func_80896950;
     this->unk_168 = 0;
-    this->dyna.actor.posRot.rot.y = (((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) << 0x10) >> 0x10;
-    this->dyna.actor.shape.rot.y = (((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) << 0x10) >> 0x10;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y = (s16)((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y);
 }
 
 void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (0.001f < this->dyna.unk_150) {
-        this->unk_168 += 1;
+        this->unk_168++;
         if (this->unk_168 >= 15) {
             func_808969F8(this, globalCtx);
         }
@@ -492,19 +490,17 @@ void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
     player = PLAYER;
     this->actionFunc = func_80896ABC;
     temp2 = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
-    phi_a3 = ((this->dyna.actor.shape.rot.y - this->dyna.unk_158) << 0x10) >> 0x10;
-    if ((phi_a3) < 0) {
-        phi_a3 = 0 - (phi_a3);
-    }
+    phi_a3 = (s16)(this->dyna.actor.shape.rot.y - this->dyna.unk_158);
+    phi_a3 = ABS(phi_a3);
 
     if (temp2 > 0) {
-        if (phi_a3 >= 0x4001) {
+        if (phi_a3 > 0x4000) {
             this->unk_16A = 1;
         } else {
             this->unk_16A = -1;
         }
     } else {
-        if (phi_a3 >= 0x4001) {
+        if (phi_a3 > 0x4000) {
             this->unk_16A = -1;
         } else {
             this->unk_16A = 1;
