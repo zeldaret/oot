@@ -2215,8 +2215,7 @@ endseg
 beginseg
     name "ovl_En_Ex_Item"
     include "build/src/overlays/actors/ovl_En_Ex_Item/z_en_ex_item.o"
-    include "build/data/overlays/actors/z_en_ex_item.data.o"
-    include "build/data/overlays/actors/z_en_ex_item.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ex_Item/ovl_En_Ex_Item_reloc.o"
 endseg
 
 beginseg
