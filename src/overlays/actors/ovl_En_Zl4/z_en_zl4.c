@@ -1025,8 +1025,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, this);
-                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistFromLink) + 1.0f,
-                              fabsf(this->actor.yDistFromLink) + 1.0f);
+                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
+                              fabsf(this->actor.yDistToLink) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
             }
@@ -1036,8 +1036,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, 0);
                 this->talkState++;
             } else {
-                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistFromLink) + 1.0f,
-                              fabsf(this->actor.yDistFromLink) + 1.0f);
+                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
+                              fabsf(this->actor.yDistToLink) + 1.0f);
             }
             // no break here is required for matching
     }
