@@ -62,7 +62,7 @@ glabel func_80955940
               
 /* 0674C 80955A0C E7B00010 */  swc1    $f16, 0x0010($sp)          
 .L80955A10:
-/* 06750 80955A10 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 06750 80955A10 0C02927F */  jal     SkelAnime_Update
               
 /* 06754 80955A14 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 06758 80955A18 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000

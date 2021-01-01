@@ -197,7 +197,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
             thisx->velocity.z = Rand_CenteredFloat(8.0f);
             BgHeavyBlock_SetPieceRandRot(this, 1.0f);
             Audio_PlayActorSound2(thisx, NA_SE_EV_ROCK_BROKEN);
-            func_800AA000(thisx->xzDistFromLink, 0x96, 0xA, 8);
+            func_800AA000(thisx->xzDistToLink, 0x96, 0xA, 8);
         }
     }
 

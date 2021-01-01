@@ -6,9 +6,15 @@
 
 struct BgHidanHamstep;
 
+typedef void (*BgHidanHamstepActionFunc)(struct BgHidanHamstep*, GlobalContext*);
+
 typedef struct BgHidanHamstep {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xFC];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ ColliderTris collider;
+    /* 0x0184 */ ColliderTrisItem colliderItems[2];
+    /* 0x023C */ BgHidanHamstepActionFunc actionFunc;
+    /* 0x0240 */ s32 action;
+    /* 0x0244 */ s32 unk_244;
 } BgHidanHamstep; // size = 0x0248
 
 extern const ActorInit Bg_Hidan_Hamstep_InitVars;
