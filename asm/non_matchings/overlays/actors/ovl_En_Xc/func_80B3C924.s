@@ -9,7 +9,7 @@ glabel func_80B3C924
 /* 00760 80B3C940 35CF0003 */  ori     $t7, $t6, 0x0003           ## $t7 = 00000003
 /* 00764 80B3C944 A08F0181 */  sb      $t7, 0x0181($a0)           ## 00000181
 /* 00768 80B3C948 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 0076C 80B3C94C 0C028D88 */  jal     SkelAnime_LoadAnimationType5
+/* 0076C 80B3C94C 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 00770 80B3C950 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00774 80B3C954 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 00778 80B3C958 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

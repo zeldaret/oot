@@ -1,5 +1,6 @@
 #include "z_demo_effect.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -54,8 +55,6 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
 void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionIndex);
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
-
-extern Gfx D_04010130[]; // lightBall
 
 extern Gfx D_06001240[]; // kokiriJewel
 extern Gfx D_060010E0[]; // kokiriJewelHolder
@@ -1882,7 +1881,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (u32)D_04010130; // necessary to match, should be able to remove after fake matches are fixed
+            disp = (u32)gGameKeepMoteDL0; // necessary to match, should be able to remove after fake matches are fixed
             alpha = &this->light.alpha;
             func_80093D84(globalCtx->state.gfxCtx);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
@@ -1925,7 +1924,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
-    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 

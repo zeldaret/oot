@@ -190,13 +190,13 @@ void func_80895A70(BgJyaCobra* this) {
             }
             break;
         case 1:
-            phi_v0 = temp_v1->unk_164;
+            phi_v0 = temp_v1->lightBeams[1];
             if (phi_v0 == NULL) {
                 return;
             }
             break;
         case 2:
-            phi_v0 = temp_v1->unk_168;
+            phi_v0 = temp_v1->lightBeams[2];
             if (phi_v0 == NULL) {
                 return;
             }
@@ -241,7 +241,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
     f32 phi_f0;
 
-    if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->unk_15C & 4) || !(parent->unk_15C & 1))) {
+    if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->puzzleFlags & 4) || !(parent->puzzleFlags & 1))) {
         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
     } else {
         this->unk_18C = 1.0f;
@@ -270,7 +270,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->unk_15C & 4)) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->puzzleFlags & 4)) {
                 phi_f0 = 0.34f;
             }
         }
@@ -670,7 +670,7 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params & 3) == 2) {
         BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
-        if (parent != NULL && (parent->unk_15C & 4) && (parent->unk_15C & 1)) {
+        if (parent != NULL && (parent->puzzleFlags & 4) && (parent->puzzleFlags & 1)) {
             func_80896EE4(this, globalCtx);
         }
     } else {

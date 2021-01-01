@@ -12,7 +12,7 @@ glabel func_80919150
               
 /* 03768 80919178 2405301E */  addiu   $a1, $zero, 0x301E         ## $a1 = 0000301E
 .L8091917C:
-/* 0376C 8091917C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0376C 8091917C 0C02927F */  jal     SkelAnime_Update
               
 /* 03770 80919180 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03774 80919184 860F01D4 */  lh      $t7, 0x01D4($s0)           ## 000001D4

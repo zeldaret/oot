@@ -515,9 +515,9 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->actionTimer == 0) && (this->actor.xzDistFromLink < 160.0f)) {
+    if ((this->actionTimer == 0) && (this->actor.xzDistToLink < 160.0f)) {
         EnRr_SetupReach(this);
-    } else if ((this->actor.xzDistFromLink < 400.0f) && (this->actor.speedXZ == 0.0f)) {
+    } else if ((this->actor.xzDistToLink < 400.0f) && (this->actor.speedXZ == 0.0f)) {
         EnRr_SetSpeed(this, 2.0f);
     }
 }
@@ -563,7 +563,7 @@ void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
 void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    func_800AA000(this->actor.xyzDistFromLinkSq, 120, 2, 120);
+    func_800AA000(this->actor.xyzDistToLinkSq, 120, 2, 120);
     if ((this->frameCount % 8) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
@@ -763,15 +763,13 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
-                                    this->segMoveRate * 1000.0f, 0);
-            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
-                                    this->segMoveRate * 1000.0f, 0);
-            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
-                                 this->segMoveRate * 0.2f);
+            Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
+                               0);
+            Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
+                               0);
+            Math_ApproachF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f, this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
-            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
-                                 this->segMoveRate * 300.0f);
+            Math_ApproachF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f, this->segMoveRate * 300.0f);
         }
         Math_ApproachF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
     }

@@ -22,7 +22,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx);
 
 extern Gfx D_060049D0[];
 
-static s16 sAlreadyLoaded = false;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
@@ -43,16 +43,16 @@ void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc acti
 void BgMoriIdomizu_SetWaterLevel(GlobalContext* globalCtx, s16 waterLevel) {
     WaterBox* waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes;
 
-    waterBox[2].unk_02 = waterLevel;
-    waterBox[3].unk_02 = waterLevel;
-    waterBox[4].unk_02 = waterLevel;
+    waterBox[2].ySurface = waterLevel;
+    waterBox[3].ySurface = waterLevel;
+    waterBox[4].ySurface = waterLevel;
 }
 
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriIdomizu* this = THIS;
 
-    if (sAlreadyLoaded) {
+    if (sIsSpawned) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -78,7 +78,7 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
-    sAlreadyLoaded = true;
+    sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
     // Forest Temple well water
@@ -90,7 +90,7 @@ void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriIdomizu* this = THIS;
 
     if (this->isLoaded) {
-        sAlreadyLoaded = false;
+        sIsSpawned = false;
     }
 }
 

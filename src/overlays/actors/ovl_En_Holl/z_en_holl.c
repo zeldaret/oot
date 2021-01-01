@@ -206,10 +206,10 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
 // Vertical Planes
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 absY = fabsf(this->actor.yDistFromLink);
+    f32 absY = fabsf(this->actor.yDistToLink);
     s32 transitionActorIdx;
 
-    if (this->actor.xzDistFromLink < 500.0f && absY < 700.0f) {
+    if (this->actor.xzDistToLink < 500.0f && absY < 700.0f) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absY < 95.0f) {
             globalCtx->unk_11E18 = 0xFF;
@@ -241,7 +241,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
     s32 side;
     s32 transitionActorIdx;
 
-    if ((this->actor.xzDistFromLink < 120.0f) && (absY = fabsf(this->actor.yDistFromLink), absY < 200.0f)) {
+    if ((this->actor.xzDistToLink < 120.0f) && (absY = fabsf(this->actor.yDistToLink), absY < 200.0f)) {
         if (absY < 50.0f) {
             globalCtx->unk_11E18 = 0xFF;
         } else {
@@ -249,7 +249,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
         }
         if (absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
-            side = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
+            side = (0.0f < this->actor.yDistToLink) ? 0 : 1;
             this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
@@ -269,11 +269,11 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
     s8 side;
     s32 transitionActorIdx;
 
-    if (this->actor.xzDistFromLink < 120.0f) {
-        absY = fabsf(this->actor.yDistFromLink);
+    if (this->actor.xzDistToLink < 120.0f) {
+        absY = fabsf(this->actor.yDistToLink);
         if (absY < 200.0f && absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
-            side = (0.0f < this->actor.yDistFromLink) ? 0 : 1;
+            side = (0.0f < this->actor.yDistToLink) ? 0 : 1;
             this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {

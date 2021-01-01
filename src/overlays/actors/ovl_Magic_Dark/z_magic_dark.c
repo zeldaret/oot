@@ -5,6 +5,7 @@
  */
 
 #include "z_magic_dark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000010
 
@@ -269,12 +270,12 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 632),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_RotateZ(sp6C * (M_PI / 32), MTXMODE_APPLY);
-    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
     Matrix_Pull();
     Matrix_RotateZ(-sp6C * (M_PI / 32), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 639),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 643);
 }

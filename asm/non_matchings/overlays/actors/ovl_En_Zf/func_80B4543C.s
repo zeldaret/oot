@@ -28,7 +28,7 @@ glabel func_80B4543C
 /* 01434 80B45484 00031C00 */  sll     $v1, $v1, 16               
 /* 01438 80B45488 00031C03 */  sra     $v1, $v1, 16               
 .L80B4548C:
-/* 0143C 80B4548C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0143C 80B4548C 0C02927F */  jal     SkelAnime_Update
               
 /* 01440 80B45490 A7A30026 */  sh      $v1, 0x0026($sp)           
 /* 01444 80B45494 8FA40034 */  lw      $a0, 0x0034($sp)           

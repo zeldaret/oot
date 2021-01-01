@@ -163,7 +163,7 @@ glabel func_80A61778
 /* 066C0 80A619B0 00000000 */  nop
 /* 066C4 80A619B4 E4E001C8 */  swc1    $f0, 0x01C8($a3)           ## 000001C8
 .L80A619B8:
-/* 066C8 80A619B8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 066C8 80A619B8 0C02927F */  jal     SkelAnime_Update
               
 /* 066CC 80A619BC AFA70028 */  sw      $a3, 0x0028($sp)           
 /* 066D0 80A619C0 1440000A */  bne     $v0, $zero, .L80A619EC     

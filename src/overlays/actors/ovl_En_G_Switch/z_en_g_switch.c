@@ -219,7 +219,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->actor.shape.rot.y += 0x800;
-    if (this->actor.xyzDistFromLinkSq < 900.0f) {
+    if (this->actor.xyzDistToLinkSq < 900.0f) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
         func_80078884(NA_SE_SY_GET_RUPY);
@@ -305,10 +305,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                         if (this->waitTimer == 0) {
                             if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
                                 (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
-                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
-                                                     30.0f);
-                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
-                                                     30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, 30.0f);
+                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 30.0f);
                             } else {
                                 gallery = ((EnSyatekiItm*)this->actor.parent);
                                 if (gallery->actor.update != NULL) {
