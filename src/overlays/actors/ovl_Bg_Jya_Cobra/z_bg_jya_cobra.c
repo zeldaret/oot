@@ -266,11 +266,11 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     } else if ((temp_v0 & 3) == 1) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
-        if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+        if (phi_v0 < 0x500 && phi_v0 > -0x500) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 >= -0x4FF && parent != NULL &&
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL &&
                 (parent->unk_15C & 4)) {
                 phi_f0 = 0.34f;
             }
@@ -279,11 +279,11 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     } else if ((temp_v0 & 3) == 2) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
-        if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+        if (phi_v0 < 0x500 && phi_v0 > -0x500) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y + 0xFFFF4000;
-            if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500) {
                 phi_f0 = 0.34f;
             }
         }
