@@ -106,7 +106,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+    if ((BREG(1) != 0) && (this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
@@ -123,7 +123,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         this->actionFunc = func_80A904D8;
-    } else if ((this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+    } else if ((this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y) &&
                (gSaveContext.eventChkInf[9] & 0x1000)) {
 
@@ -206,7 +206,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST,
-                         this->actor.xzDistFromLink);
+                         this->actor.xzDistToLink);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
             osSyncPrintf("\n\n");
         }

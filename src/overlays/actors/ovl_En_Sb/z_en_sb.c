@@ -107,7 +107,7 @@ void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
     s32 i;
 
-    if (this->actor.waterY > 0) {
+    if (this->actor.yDistToWater > 0) {
         for (i = 0; i < 10; i++) {
             EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -135,7 +135,7 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = Animation_GetLastFrame(&D_06000124);
-    f32 playbackSpeed = this->actor.waterY > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
 
     Animation_Change(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, 2, 0);
     this->behavior = SHELLBLADE_LUNGE;
@@ -157,7 +157,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.waterY > 0.0f) {
+        if (this->actor.yDistToWater > 0.0f) {
             this->actor.speedXZ = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
@@ -177,7 +177,7 @@ void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistFromLink <= 160.0f) && (this->actor.xzDistFromLink > 40.0f)) {
+    if ((this->actor.xzDistToLink <= 160.0f) && (this->actor.xzDistToLink > 40.0f)) {
         EnSb_SetupOpen(this);
     }
 }
@@ -190,7 +190,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         EnSb_SetupWaitOpen(this);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
-        if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
+        if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
     }
@@ -201,7 +201,7 @@ void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistFromLink > 160.0f) || (this->actor.xzDistFromLink <= 40.0f)) {
+    if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
     }
 
@@ -222,7 +222,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.posRot.rot.y = this->attackYaw;
-        if (this->actor.waterY > 0.0f) {
+        if (this->actor.yDistToWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speedXZ = 5.0f;
             this->actor.gravity = -0.35f;
@@ -242,7 +242,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
-        if (!(this->actor.waterY > 0.0f)) {
+        if (!(this->actor.yDistToWater > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags = this->actor.bgCheckFlags & ~2;
@@ -263,7 +263,7 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.waterY > 0.0f) {
+            if (this->actor.yDistToWater > 0.0f) {
                 this->actor.velocity.y = 3.0f;
                 this->actor.speedXZ = 5.0f;
                 this->actor.gravity = -0.35f;
@@ -413,7 +413,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.waterY > 0.0f) {
+        if (this->actor.yDistToWater > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;

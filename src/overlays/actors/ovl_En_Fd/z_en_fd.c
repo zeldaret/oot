@@ -165,8 +165,8 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistFromLink < 300.0f &&
-               this->actor.yDistFromLink < 60.0f) {
+    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistToLink < 300.0f &&
+               this->actor.yDistToLink < 60.0f) {
         return true;
     } else {
         return false;
@@ -436,7 +436,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.shape.rot.y += (this->runDir * 0x2000);
         if (this->spinTimer == 30 && this->invincibilityTimer == 0) {
-            if (this->actor.xzDistFromLink > 160.0f) {
+            if (this->actor.xzDistToLink > 160.0f) {
                 // orange flames
                 EnFd_SpawnChildFire(this, globalCtx, 8, 0);
             } else {
