@@ -470,7 +470,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             if (this->charge && (this->targetActor == NULL)) {
                 this->vMoveAngleY = this->actor.posRot.rot.y;
-                if (this->actor.xzDistFromLink < 200.0f) {
+                if (this->actor.xzDistToLink < 200.0f) {
                     Animation_PlayLoop(&this->skelAnime, &D_06000184);
                     this->vMoveAngleY = this->actor.yawTowardsLink;
                 }
@@ -484,7 +484,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = Math_SinF(this->bobPhase) * 65535.0f;
             }
         }
-        if ((this->actor.xzDistFromLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
+        if ((this->actor.xzDistToLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
             if (!this->charge) {
                 Animation_PlayLoop(&this->skelAnime, &D_06000184);
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 6.0f;
@@ -492,7 +492,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = this->actor.yawTowardsLink;
                 this->actionState = this->charge = true; // Sets actionState to BBBLUE_AGGRO
             }
-        } else if (this->actor.xzDistFromLink < 200.0f) {
+        } else if (this->actor.xzDistToLink < 200.0f) {
             this->vMoveAngleY = this->actor.yawTowardsLink;
         }
         if (this->targetActor == NULL) {

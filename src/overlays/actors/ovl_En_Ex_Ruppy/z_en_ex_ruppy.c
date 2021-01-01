@@ -251,9 +251,9 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s32 pad;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
         pos = this->actor.posRot.pos;
-        pos.y += this->actor.waterY;
+        pos.y += this->actor.yDistToWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
         EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 800);
@@ -284,7 +284,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
                 this->timer = 20;
                 this->actionFunc = EnExRuppy_Kill;
                 if (1) {}
-            } else if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
+            } else if (this->actor.xyzDistToLinkSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
                 divingGame->unk_2A4++;
@@ -321,7 +321,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->type == 2) {
         distToBlowUp = 30.0f;
     }
-    if (this->actor.xyzDistFromLinkSq < SQ(distToBlowUp)) {
+    if (this->actor.xyzDistToLinkSq < SQ(distToBlowUp)) {
         parent = (EnExRuppyParentActor*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
@@ -350,7 +350,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
 void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 localConst = 30.0f;
 
-    if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
+    if (this->actor.xyzDistToLinkSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
         Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
         Actor_Kill(&this->actor);

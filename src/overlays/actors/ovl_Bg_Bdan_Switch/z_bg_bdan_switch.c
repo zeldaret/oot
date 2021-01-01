@@ -262,7 +262,7 @@ void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }
@@ -324,7 +324,7 @@ void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
     }
 }
 
@@ -339,7 +339,7 @@ void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }
