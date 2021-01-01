@@ -210,7 +210,7 @@ void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < 200.0f && fabsf(this->actor.yDistFromLink) < 30.0f) {
+    if (this->actor.xzDistToLink < 200.0f && fabsf(this->actor.yDistToLink) < 30.0f) {
         EnKarebaba_SetupAwaken(this);
     }
 }

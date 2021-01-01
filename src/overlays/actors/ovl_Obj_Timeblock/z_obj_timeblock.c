@@ -154,7 +154,7 @@ u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (this->dyna.actor.xzDistFromLink <= sRanges[(this->dyna.actor.params >> 11) & 7]) {
+    if (this->dyna.actor.xzDistToLink <= sRanges[(this->dyna.actor.params >> 11) & 7]) {
         Vec3f distance;
         f32 blockSize;
 

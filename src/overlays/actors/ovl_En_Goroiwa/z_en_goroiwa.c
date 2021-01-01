@@ -356,7 +356,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += this->actor.velocity.y;
     if (this->actor.velocity.y < 0.0f && this->actor.posRot.pos.y <= nextPointY) {
         if (this->unk_1C6 == 0) {
-            if (this->actor.xzDistFromLink < 600.0f) {
+            if (this->actor.xzDistToLink < 600.0f) {
                 quakeIdx = Quake_Add(ACTIVE_CAM, 3);
                 Quake_SetSpeed(quakeIdx, -0x3CB0);
                 Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
@@ -716,7 +716,7 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 break;
         }
         func_80A4CED8(this, globalCtx);
-        if (this->actor.xzDistFromLink < 300.0f) {
+        if (this->actor.xzDistToLink < 300.0f) {
             func_80A4BCA0(this);
             if (this->unk_1D3 & 1 && this->collisionTimer <= 0) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
