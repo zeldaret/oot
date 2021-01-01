@@ -96,7 +96,7 @@ u32 func_809CBCEC(EnBubble* this) {
 }
 
 void EnBubble_DamagePlayer(EnBubble* this, GlobalContext* globalCtx) {
-    u32 damage = -this->colliderSphere.list->body.toucher.damage;
+    s32 damage = -this->colliderSphere.list->body.toucher.damage;
 
     globalCtx->damagePlayer(globalCtx, damage);
     func_8002F7A0(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f);
@@ -269,7 +269,7 @@ u32 func_809CC648(EnBubble* this) {
         return false;
     }
     this->colliderSphere.base.acFlags &= ~0x2;
-    if ((this->colliderSphere.list[1].body.bumperFlags & 0x2)) {
+    if (this->colliderSphere.list[1].body.bumperFlags & 0x2) {
         this->unk_1F0.x = this->colliderSphere.base.ac->velocity.x / 10.0f;
         this->unk_1F0.y = this->colliderSphere.base.ac->velocity.y / 10.0f;
         this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;
