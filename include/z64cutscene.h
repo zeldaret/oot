@@ -23,13 +23,13 @@ typedef struct {
     /* 0x0C */ Vec3f eye;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 fov;
-} CutsceneCameraStart; // size = 0x1C
+} CutsceneCameraAngle; // size = 0x1C
 
 typedef struct {
     /* 0x0 */ CutsceneCameraPoint* atPoints;
     /* 0x4 */ CutsceneCameraPoint* eyePoints;
     /* 0x8 */ s16 relativeToPlayer;
-} CutsceneCameraParams; // size = 0xC
+} CutsceneCameraMove; // size = 0xC
 
 typedef struct {
     /* 0x00 */ u16 base;

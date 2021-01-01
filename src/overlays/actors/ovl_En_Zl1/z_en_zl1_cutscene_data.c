@@ -247,7 +247,7 @@ CutsceneData D_80B4C5D0[] = {
 };
 // clang-format on
 
-CutsceneCameraStart D_80B4D5C0[] = {
+CutsceneCameraAngle D_80B4D5C0[] = {
     {{-440.0f, 117.0f, 0.0f}, {-490.0f, 120.0f, 0.0f}, 0,45},
     {{-484.0f, 122.0f, -29.0f}, {-480.0f, 116.0f, 18.0f}, 0,80},
     {{-413.0f, 136.0f, -72.0f}, {-403.0f, 141.0f, -89.0f}, 0,25},
@@ -532,7 +532,7 @@ CutsceneCameraPoint D_80B4E4CC[] = {
     {-1, 0, 0, 20.799965f, {-549, 124, 29}},
     {-1, 0, 0, 20.799965f, {-549, 124, 29}},
 };
-CutsceneCameraParams D_80B4E54C[] = {
+CutsceneCameraMove D_80B4E54C[] = {
     {D_80B4D72C, D_80B4D7AC, 0}, {D_80B4D82C, D_80B4D8CC, 0}, {D_80B4D96C, D_80B4DA4C, 0},
     {D_80B4DB2C, D_80B4DBBC, 0}, {D_80B4DC4C, D_80B4DD3C, 0}, {D_80B4DE2C, D_80B4DF0C, 0},
     {D_80B4DFEC, D_80B4E08C, 0}, {D_80B4E12C, D_80B4E1BC, 0}, {D_80B4E24C, D_80B4E2CC, 0},
