@@ -5,8 +5,6 @@
 #include "global.h"
 #include "overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
 
-#include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
-
 struct BgJyaBigmirror;
 
 typedef struct {
