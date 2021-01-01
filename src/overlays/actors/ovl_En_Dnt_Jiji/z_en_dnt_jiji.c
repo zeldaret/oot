@@ -112,7 +112,7 @@ void func_809F1CF4(EnDntJiji* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk_240 == 1) && (this->actor.xzDistFromLink < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
+    if ((this->unk_240 == 1) && (this->actor.xzDistToLink < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & 0x800)) {
         func_800800F8(globalCtx, 0x8B6, -0x63, &this->actor, 0);
         this->unk_240 = 0;
@@ -132,7 +132,7 @@ void func_809F1DA8(EnDntJiji* this, GlobalContext* globalCtx) {
 void func_809F1E8C(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
-    if (this->actor.xzDistFromLink < 150.0f) {
+    if (this->actor.xzDistToLink < 150.0f) {
         this->actionFunc = func_809F236C;
     }
 }
@@ -180,7 +180,7 @@ void func_809F2118(EnDntJiji* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
-    if (this->actor.xzDistFromLink < 100.0f) {
+    if (this->actor.xzDistToLink < 100.0f) {
         if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
             this->unk_254 = 0x77;
         } else {

@@ -7,6 +7,7 @@
 #include "z_en_dnt_nomal.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -344,7 +345,7 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx) {
         f32 itemZ = this->mouthPos.z;
 
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM, itemX, itemY, itemZ, 0,
-                               0, 0, 0x13) == NULL) {
+                               0, 0, EXITEM_BULLET_BAG) == NULL) {
             func_8002DF54(globalCtx, NULL, 7);
             Actor_Kill(&this->actor);
         }
@@ -457,7 +458,7 @@ void func_809F44FC(EnDntNomal* this, GlobalContext* globalCtx) {
             }
             Math_SmoothStepToS(&this->actor.shape.rot.y, phi_a1, 3, 0x1388, 0);
         }
-        if (this->actor.xzDistFromLink < 70.0f) {
+        if (this->actor.xzDistToLink < 70.0f) {
             this->actionFunc = func_809F4E18;
         }
     }
@@ -622,7 +623,7 @@ void func_809F4EF4(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void func_809F50B8(EnDntNomal* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink > 70.0f) {
+    if (this->actor.xzDistToLink > 70.0f) {
         this->actionFunc = func_809F43F0;
     }
 }
@@ -660,7 +661,7 @@ void func_809F51B8(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->timer2 == 1) {
         this->spawnedItem = false;
         this->actionFunc = func_809F50EC;
-    } else if (this->actor.xzDistFromLink < 50.0f) {
+    } else if (this->actor.xzDistToLink < 50.0f) {
         this->demoAction = 2;
         this->actionFunc = func_809F4E18;
     } else if ((frame >= 8.0f) && (!this->spawnedItem)) {

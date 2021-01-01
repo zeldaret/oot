@@ -110,7 +110,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
         this->unk_158 = 0;
         this->actionFunc = EnDntDemo_Results;
-    } else if ((this->actor.xzDistFromLink > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
+    } else if ((this->actor.xzDistToLink > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
         if (this->subCamera != 0) {
             this->subCamera = 0;
