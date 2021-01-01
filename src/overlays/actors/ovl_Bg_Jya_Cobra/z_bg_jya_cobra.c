@@ -165,59 +165,62 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895A70.s")
+#ifdef NON_MATCHING
 // minor register and stack diffs
-// void func_80895A70(BgJyaCobra *this) {
-//     s32 pad;
-//     BgJyaBigmirror* temp_v1;
-//     MirRay* phi_v0;
-//     Vec3f sp28;
-//     MirRay* temp;
+void func_80895A70(BgJyaCobra *this) {
+    s32 pad;
+    BgJyaBigmirror* temp_v1;
+    MirRay* phi_v0;
+    Vec3f sp28;
+    MirRay* temp;
 
-//     temp_v1 = (BgJyaBigmirror*)this->dyna.actor.parent;
+    temp_v1 = (BgJyaBigmirror*)this->dyna.actor.parent;
 
-//     switch (this->dyna.actor.params & 3) {
-//         case 0:
-//             temp = (MirRay*)this->dyna.actor.child;
-//             if (this->dyna.actor.child != NULL) {
-//                 phi_v0 = temp;
-//                 if (phi_v0->actor.update == NULL) {
-//                     this->dyna.actor.child = NULL;
-//                     return;
-//                 }
-//             } else {
-//                 return;
-//             }
-//             break;
-//         case 1:
-//             phi_v0 = temp_v1->unk_164;
-//             if (phi_v0 == NULL) {
-//                 return;
-//             }
-//             break;
-//         case 2:
-//             phi_v0 = temp_v1->unk_168;
-//             if (phi_v0 == NULL) {
-//                 return;
-//             }
-//             break;
-//     }
+    switch (this->dyna.actor.params & 3) {
+        case 0:
+            temp = (MirRay*)this->dyna.actor.child;
+            if (this->dyna.actor.child != NULL) {
+                phi_v0 = temp;
+                if (phi_v0->actor.update == NULL) {
+                    this->dyna.actor.child = NULL;
+                    return;
+                }
+            } else {
+                return;
+            }
+            break;
+        case 1:
+            phi_v0 = temp_v1->unk_164;
+            if (phi_v0 == NULL) {
+                return;
+            }
+            break;
+        case 2:
+            phi_v0 = temp_v1->unk_168;
+            if (phi_v0 == NULL) {
+                return;
+            }
+            break;
+    }
 
-//     if (this->unk_18C <= 0.0f) {
-//         phi_v0->unLit = 1;
-//         return;
-//     }
+    if (this->unk_18C <= 0.0f) {
+        phi_v0->unLit = 1;
+        return;
+    }
 
-//     phi_v0->unLit = 0;
-//     Math_Vec3f_Copy(&phi_v0->sourcePt, &this->unk_180);
-//     Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
-//     Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * (M_PI / 0x8000), MTXMODE_APPLY);
-//     sp28.x = 0.0f;
-//     sp28.y = 0.0;
-//     sp28.z = this->unk_190 * 2800.0f;
-//     Matrix_MultVec3f(&sp28, &phi_v0->poolPt);
-//     Math_Vec3f_Sum(&phi_v0->sourcePt, &phi_v0->poolPt, &phi_v0->poolPt);
-// }
+    phi_v0->unLit = 0;
+    Math_Vec3f_Copy(&phi_v0->sourcePt, &this->unk_180);
+    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * (M_PI / 0x8000), MTXMODE_APPLY);
+    sp28.x = 0.0f;
+    sp28.y = 0.0;
+    sp28.z = this->unk_190 * 2800.0f;
+    Matrix_MultVec3f(&sp28, &phi_v0->poolPt);
+    Math_Vec3f_Sum(&phi_v0->sourcePt, &phi_v0->poolPt, &phi_v0->poolPt);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895A70.s")
+#endif
 
 void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -230,199 +233,207 @@ void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
     player->actor.posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
 }
 
-void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
+#ifdef NON_MATCHING
 // Small stack diffs
-// void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
-//     s16 phi_v0;
-//     s32 temp_v0 = this->dyna.actor.params;
-//     BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
-//     f32 phi_f0;
+void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
+    s16 phi_v0;
+    s32 temp_v0 = this->dyna.actor.params;
+    BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
+    f32 phi_f0;
 
-//     if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->unk_15C & 4) || !(parent->unk_15C & 1))) {
-//         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
-//     } else {
-//         this->unk_18C = 1.0f;
-//         if (D_80897310[(temp_v0 & 3)] != 0) {
-//             phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[(temp_v0 & 3)];
-//             phi_v0 = ABS(phi_v0);
-//             if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
-//                 this->unk_18C += ((phi_v0 - 0x2000) * 0.00018310547f);
-//                 if (this->unk_18C < 0.0f) {
-//                     this->unk_18C = 0.0f;
-//                 }
-//             }
-//         }
-//     }
+    if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->unk_15C & 4) || !(parent->unk_15C & 1))) {
+        Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
+    } else {
+        this->unk_18C = 1.0f;
+        if (D_80897310[(temp_v0 & 3)] != 0) {
+            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[(temp_v0 & 3)];
+            phi_v0 = ABS(phi_v0);
+            if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
+                this->unk_18C += ((phi_v0 - 0x2000) * 0.00018310547f);
+                if (this->unk_18C < 0.0f) {
+                    this->unk_18C = 0.0f;
+                }
+            }
+        }
+    }
 
-//     this->unk_180.x = this->dyna.actor.posRot.pos.x;
-//     this->unk_180.y = this->dyna.actor.posRot.pos.y + 57.0f;
-//     this->unk_180.z = this->dyna.actor.posRot.pos.z;
+    this->unk_180.x = this->dyna.actor.posRot.pos.x;
+    this->unk_180.y = this->dyna.actor.posRot.pos.y + 57.0f;
+    this->unk_180.z = this->dyna.actor.posRot.pos.z;
 
-//     if (!(temp_v0 & 3)) {
-//         this->unk_190 = 0.1f;
-//     } else if ((temp_v0 & 3) == 1) {
-//         phi_f0 = 0.1f;
-//         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
-//         if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
-//             phi_f0 = 0.34f;
-//         } else {
-//             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-//             if (phi_v0 < 0x500 && phi_v0 >= -0x4FF && parent != NULL &&
-//                 (parent->unk_15C & 4)) {
-//                 phi_f0 = 0.34f;
-//             }
-//         }
-//         Math_StepToF(&this->unk_190, phi_f0, 0.04f);
-//     } else if ((temp_v0 & 3) == 2) {
-//         phi_f0 = 0.1f;
-//         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
-//         if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
-//             phi_f0 = 0.34f;
-//         } else {
-//             phi_v0 = this->dyna.actor.shape.rot.y + 0xFFFF4000;
-//             if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
-//                 phi_f0 = 0.34f;
-//             }
-//         }
-//         Math_StepToF(&this->unk_190, phi_f0, 0.04f);
-//     }
-// }
+    if (!(temp_v0 & 3)) {
+        this->unk_190 = 0.1f;
+    } else if ((temp_v0 & 3) == 1) {
+        phi_f0 = 0.1f;
+        phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+        if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+            phi_f0 = 0.34f;
+        } else {
+            phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
+            if (phi_v0 < 0x500 && phi_v0 >= -0x4FF && parent != NULL &&
+                (parent->unk_15C & 4)) {
+                phi_f0 = 0.34f;
+            }
+        }
+        Math_StepToF(&this->unk_190, phi_f0, 0.04f);
+    } else if ((temp_v0 & 3) == 2) {
+        phi_f0 = 0.1f;
+        phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
+        if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+            phi_f0 = 0.34f;
+        } else {
+            phi_v0 = this->dyna.actor.shape.rot.y + 0xFFFF4000;
+            if (phi_v0 < 0x500 && phi_v0 >= -0x4FF) {
+                phi_f0 = 0.34f;
+            }
+        }
+        Math_StepToF(&this->unk_190, phi_f0, 0.04f);
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
+#endif
 
-void func_80895EF0(BgJyaCobra* this);
+#ifdef NON_EQUIVALENT
+// Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
+// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously wrong.
+void func_80895EF0(BgJyaCobra* this) {
+    Vec3f spD4;
+    Vec3f spC8;
+    Vec3f spBC;
+    u8(*temp_s2)[0x40];
+    s32 temp_x;
+    s32 temp_z;
+    s32 x;
+    s32 z;
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 l;
+
+    temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->unk_194));
+    Lib_MemSet((u8*)temp_s2, 0x1000, 0);
+
+    Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
+    Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000)
+                                                   : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) *
+                       (M_PI / 0x8000),
+                   MTXMODE_APPLY);
+    Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
+
+    for (i = 0; i < 25; i++) {
+        Math_Vec3f_Diff(&D_808973A4[i + 1], &D_808973A4[i], &spD4);
+        spD4.x *= 0.5f;
+        spD4.y *= 0.5f;
+        spD4.z *= 0.5f;
+        for (j = 0; j < 2; j++) {
+            spC8.x = D_808973A4[i].x + (spD4.x * j);
+            spC8.y = D_808973A4[i].y + (spD4.y * j);
+            spC8.z = D_808973A4[i].z + (spD4.z * j);
+            Matrix_MultVec3f(&spC8, &spBC);
+            x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
+            for (k = 0; k < 11; k++) {
+                temp_z = z - 5 + k;
+                if (!(temp_z & ~0x3F)) {
+                    for (l = 0; l < 11; l++) {
+                        temp_x = (x - 5 + l);
+                        if (!(temp_x & ~0x3F)) {
+                            temp_s2[temp_z][temp_x] |= D_8089731C[k][l];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < 4; i++) {
+        Math_Vec3f_Diff(&D_808974DC[i + 1], &D_808974DC[i], &spD4);
+        spD4.x = spD4.x * 0.2f;
+        spD4.y = spD4.y * 0.2f;
+        spD4.z = spD4.z * 0.2f;
+        for (j = 0; j < 5; j++) {
+            spC8.x = D_808974DC[i].x + (spD4.x * j);
+            spC8.y = D_808974DC[i].y + (spD4.y * j);
+            spC8.z = D_808974DC[i].z + (spD4.z * j);
+            Matrix_MultVec3f(&spC8, &spBC);
+            x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
+            for (k = 0; k < 3; k++) {
+                temp_z = z - 1 + k;
+                if (!(temp_z & ~0x3F)) {
+                    for (l = 0; l < 3; l++) {
+                        temp_x = x - 1 + l;
+                        if (!(temp_x & ~0x3F)) {
+                            temp_s2[temp_z][temp_x] |= D_80897398[k][l];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < 0x40; i++) {
+        temp_s2[0][i] = 0;
+        temp_s2[0x3F][i] = 0;
+    }
+
+    for (j = 1; j < 0x3F; j++) {
+        temp_s2[j][0] = 0;
+        temp_s2[j][0x3F] = 0;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
-// void func_80895EF0(BgJyaCobra* this) {
-//     Vec3f spD4;
-//     Vec3f spC8;
-//     Vec3f spBC;
-//     u8(*temp_s2)[0x40];
-//     s32 temp_x;
-//     // making volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously wrong
-//     s32 temp_z;
-//     s32 x;
-//     s32 z;
-//     s32 i;
-//     s32 j;
-//     s32 k;
-//     s32 l;
+#endif
 
-//     temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->unk_194));
-//     Lib_MemSet((u8*)temp_s2, 0x1000, 0);
+#ifdef NON_MATCHING
+// minor register and stack diffs
+void func_80896518(BgJyaCobra *this) {
+    f32 sp58[0x40];
+    f32 temp_f12;
+    f32 temp_f2;
+    u8* temp_s0;
+    s32 i_copy;
+    u8 *phi_a3;
+    s32 counter;
+    s32 i;
+    s32 j;
 
-//     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
-//     Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000)
-//                                                    : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) *
-//                        (M_PI / 0x8000),
-//                    MTXMODE_APPLY);
-//     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
+    for (i = 0; i < 0x40; i++) {
+        sp58[i] = SQ(i - 31.5f);
+    }
 
-//     for (i = 0; i < 25; i++) {
-//         Math_Vec3f_Diff(&D_808973A4[i + 1], &D_808973A4[i], &spD4);
-//         spD4.x *= 0.5f;
-//         spD4.y *= 0.5f;
-//         spD4.z *= 0.5f;
-//         for (j = 0; j < 2; j++) {
-//             spC8.x = D_808973A4[i].x + (spD4.x * j);
-//             spC8.y = D_808973A4[i].y + (spD4.y * j);
-//             spC8.z = D_808973A4[i].z + (spD4.z * j);
-//             Matrix_MultVec3f(&spC8, &spBC);
-//             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-//             z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
-//             for (k = 0; k < 11; k++) {
-//                 temp_z = z - 5 + k;
-//                 if (!(temp_z & ~0x3F)) {
-//                     for (l = 0; l < 11; l++) {
-//                         temp_x = (x - 5 + l);
-//                         if (!(temp_x & ~0x3F)) {
-//                             temp_s2[temp_z][temp_x] |= D_8089731C[k][l];
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
+    temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
+    phi_a3 = temp_s0;
+    Lib_MemSet(temp_s0, 0x1000, 0);
 
-//     for (i = 0; i < 4; i++) {
-//         Math_Vec3f_Diff(&D_808974DC[i + 1], &D_808974DC[i], &spD4);
-//         spD4.x = spD4.x * 0.2f;
-//         spD4.y = spD4.y * 0.2f;
-//         spD4.z = spD4.z * 0.2f;
-//         for (j = 0; j < 5; j++) {
-//             spC8.x = D_808974DC[i].x + (spD4.x * j);
-//             spC8.y = D_808974DC[i].y + (spD4.y * j);
-//             spC8.z = D_808974DC[i].z + (spD4.z * j);
-//             Matrix_MultVec3f(&spC8, &spBC);
-//             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-//             z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
-//             for (k = 0; k < 3; k++) {
-//                 temp_z = z - 1 + k;
-//                 if (!(temp_z & ~0x3F)) {
-//                     for (l = 0; l < 3; l++) {
-//                         temp_x = x - 1 + l;
-//                         if (!(temp_x & ~0x3F)) {
-//                             temp_s2[temp_z][temp_x] |= D_80897398[k][l];
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
+    for (i = 0; i != 0x40; i++) {
+        temp_f12 = sp58[i];
+        for(j = 0; j < 0x40; j++) {
+            temp_f2 = (sp58[j] * 0.5f) + temp_f12;
+            if (temp_f2 < 300.0f) {
+                *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 * 2.0f), 166);
+            }
+            phi_a3++;
+        }
+    }
 
-//     for (i = 0; i < 0x40; i++) {
-//         temp_s2[0][i] = 0;
-//         temp_s2[0x3F][i] = 0;
-//     }
-
-//     for (j = 1; j < 0x3F; j++) {
-//         temp_s2[j][0] = 0;
-//         temp_s2[j][0x3F] = 0;
-//     }
-// }
-
-void func_80896518(BgJyaCobra* this);
+    for (counter = 0, i = 0x780; counter < 4; counter++, i += 0x40) {
+        i_copy = i;
+        for (j = 4; j < 0x3C; j++)
+        {
+            if (temp_s0[i + j] < D_80897518[counter]) {
+                temp_s0[i + j] = D_80897518[counter];
+            }
+        }
+        temp_s0[i_copy + 0x3C] = 0x20;
+        temp_s0[i_copy + 0x3] = 0x20;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
-// void func_80896518(BgJyaCobra *this) {
-//     f32 sp58[0x40];
-//     f32 temp_f12;
-//     f32 temp_f2;
-//     u8* temp_s0;
-//     s32 i_copy;
-//     u8 *phi_a3;
-//     s32 counter;
-//     s32 i;
-//     s32 j;
-
-//     for (i = 0; i < 0x40; i++) {
-//         sp58[i] = SQ(i - 31.5f);
-//     }
-
-//     temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
-//     phi_a3 = temp_s0;
-//     Lib_MemSet(temp_s0, 0x1000, 0);
-
-//     for (i = 0; i != 0x40; i++) {
-//         temp_f12 = sp58[i];
-//         for(j = 0; j < 0x40; j++) {
-//             temp_f2 = (sp58[j] * 0.5f) + temp_f12;
-//             if (temp_f2 < 300.0f) {
-//                 *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 * 2.0f), 166);
-//             }
-//             phi_a3++;
-//         }
-//     }
-
-//     for (counter = 0, i = 0x780; counter < 4; counter++, i += 0x40) {
-//         i_copy = i;
-//         for (j = 4; j < 0x3C; j++)
-//         {
-//             if (temp_s0[i + j] < D_80897518[counter]) {
-//                 temp_s0[i + j] = D_80897518[counter];
-//             }
-//         }
-//         temp_s0[i_copy + 0x3C] = 0x20;
-//         temp_s0[i_copy + 0x3] = 0x20;
-//     }
-// }
+#endif
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
