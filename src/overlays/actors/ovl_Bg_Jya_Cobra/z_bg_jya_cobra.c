@@ -122,9 +122,9 @@ InitChainEntry D_80897528[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3s D_80897538 = {0, 0xC000, 0 };
+Vec3s D_80897538 = { 0, 0xC000, 0 };
 
-Vec3s D_80897540 = {0, 0x4000, 0 };
+Vec3s D_80897540 = { 0, 0x4000, 0 };
 
 Vec3f D_80897548[] = {
     { 0.1f, 0.1f, 0.1f },
@@ -167,7 +167,7 @@ void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // minor register and stack diffs
-void func_80895A70(BgJyaCobra *this) {
+void func_80895A70(BgJyaCobra* this) {
     s32 pad;
     BgJyaBigmirror* temp_v1;
     MirRay* phi_v0;
@@ -270,8 +270,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL &&
-                (parent->unk_15C & 4)) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->unk_15C & 4)) {
                 phi_f0 = 0.34f;
             }
         }
@@ -296,7 +295,8 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 #ifdef NON_EQUIVALENT
 // Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
-// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously wrong.
+// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously
+// wrong.
 void func_80895EF0(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
@@ -389,13 +389,13 @@ void func_80895EF0(BgJyaCobra* this) {
 
 #ifdef NON_MATCHING
 // minor register and stack diffs
-void func_80896518(BgJyaCobra *this) {
+void func_80896518(BgJyaCobra* this) {
     f32 sp58[0x40];
     f32 temp_f12;
     f32 temp_f2;
     u8* temp_s0;
     s32 i_copy;
-    u8 *phi_a3;
+    u8* phi_a3;
     s32 counter;
     s32 i;
     s32 j;
@@ -410,10 +410,10 @@ void func_80896518(BgJyaCobra *this) {
 
     for (i = 0; i != 0x40; i++) {
         temp_f12 = sp58[i];
-        for(j = 0; j < 0x40; j++) {
+        for (j = 0; j < 0x40; j++) {
             temp_f2 = (sp58[j] * 0.5f) + temp_f12;
             if (temp_f2 < 300.0f) {
-                *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 * 2.0f), 166);
+                *phi_a3 |= CLAMP_MAX(640 - (s32)(temp_f2 * 2.0f), 166);
             }
             phi_a3++;
         }
@@ -421,8 +421,7 @@ void func_80896518(BgJyaCobra *this) {
 
     for (counter = 0, i = 0x780; counter < 4; counter++, i += 0x40) {
         i_copy = i;
-        for (j = 4; j < 0x3C; j++)
-        {
+        for (j = 4; j < 0x3C; j++) {
             if (temp_s0[i + j] < D_80897518[counter]) {
                 temp_s0[i + j] = D_80897518[counter];
             }
@@ -459,8 +458,8 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // (jya cobra)
-    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params,
-                 this, ((s8*)this) + 0x194, ALIGN16((s32)(&this->unk_194)));
+    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
+                 ((s8*)this) + 0x194, ALIGN16((s32)(&this->unk_194)));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -472,7 +471,8 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {
     this->actionFunc = &func_80896950;
     this->unk_168 = 0;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y = (s16)((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y);
+    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y =
+        (s16)((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y);
 }
 
 void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
@@ -525,7 +525,7 @@ void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
     this->unk_172 = 1;
 }
 
-void func_80896ABC(BgJyaCobra *this, GlobalContext *globalCtx) {
+void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
     s16 temp_v0;
     Player* player;
 
@@ -585,7 +585,7 @@ void func_80896CB4(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 872);
 }
 
-void func_80896D78(BgJyaCobra *this, GlobalContext *globalCtx) {
+void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3s sp44;
 
