@@ -298,6 +298,7 @@ void func_80895EF0(BgJyaCobra* this);
 //     Vec3f spBC;
 //     u8(*temp_s2)[0x40][0x40];
 //     s32 temp_x;
+//     // making volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously wrong
 //     s32 temp_z;
 //     s32 x;
 //     s32 z;
@@ -328,8 +329,8 @@ void func_80895EF0(BgJyaCobra* this);
 //             Matrix_MultVec3f(&spC8, &spBC);
 //             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
 //             z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
-//             temp_z = z - 5;
 //             for (k = 0; k < 11; k++) {
+//                 temp_z = z - 5 + k;
 //                 if (!(temp_z & ~0x3F)) {
 //                     for (l = 0; l < 11; l++) {
 //                         temp_x = (x - 5 + l);
@@ -338,7 +339,6 @@ void func_80895EF0(BgJyaCobra* this);
 //                         }
 //                     }
 //                 }
-//                 temp_z++;
 //             }
 //         }
 //     }
@@ -355,18 +355,16 @@ void func_80895EF0(BgJyaCobra* this);
 //             Matrix_MultVec3f(&spC8, &spBC);
 //             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
 //             z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
-//             temp_z = z - 1;
 //             for (k = 0; k < 3; k++) {
+//                 temp_z = z - 1 + k;
 //                 if (!(temp_z & ~0x3F)) {
-//                     temp_x = x - 1;
 //                     for (l = 0; l < 3; l++) {
+//                         temp_x = x - 1 + l;
 //                         if (!(temp_x & ~0x3F)) {
 //                             (*temp_s2)[temp_z][temp_x] |= D_80897398[k][l];
 //                         }
-//                         temp_x++;
 //                     }
 //                 }
-//                 temp_z++;
 //             }
 //         }
 //     }
