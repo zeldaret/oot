@@ -146,7 +146,7 @@ void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
         this->actionFunc = ObjKibako2_Kill;
         return;
     }
-    if (this->dyna.actor.xzDistFromLink < 600.0f) {
+    if (this->dyna.actor.xzDistToLink < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
