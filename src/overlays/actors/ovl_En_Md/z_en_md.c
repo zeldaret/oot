@@ -482,7 +482,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 temp2;
     s16 yawDiff;
 
-    if (this->actor.xzDistFromLink < 170.0f) {
+    if (this->actor.xzDistToLink < 170.0f) {
         yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
@@ -707,7 +707,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (this->actor.xzDistFromLink < (30.0f + this->collider.dim.radius)) {
+        if (this->actor.xzDistToLink < (30.0f + this->collider.dim.radius)) {
             player->stateFlags2 |= 0x800000;
         }
     }

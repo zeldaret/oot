@@ -69,7 +69,7 @@ s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2Action
 
     this->actor.textId = textId;
     if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x2151 &&
-        this->actor.xzDistFromLink < 100.0f) {
+        this->actor.xzDistToLink < 100.0f) {
         this->unk_2A8 |= 0x1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }

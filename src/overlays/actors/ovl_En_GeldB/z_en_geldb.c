@@ -220,13 +220,13 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     }
     if (func_800354B4(globalCtx, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
         thisx->shape.rot.y = thisx->posRot.rot.y = thisx->yawTowardsLink;
-        if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (thisx->xzDistFromLink < 90.0f)) {
+        if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (thisx->xzDistToLink < 90.0f)) {
             EnGeldB_SetupJump(this);
             return true;
         } else if (player->swordAnimation == 0x11) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
             return true;
-        } else if ((thisx->xzDistFromLink < 90.0f) && (globalCtx->gameplayFrames & 1)) {
+        } else if ((thisx->xzDistToLink < 90.0f) && (globalCtx->gameplayFrames & 1)) {
             EnGeldB_SetupBlock(this);
             return true;
         } else {
@@ -255,7 +255,7 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
         } else {
             s16 angleToFacingLink = player->actor.shape.rot.y - thisx->shape.rot.y;
 
-            if ((thisx->xzDistFromLink <= 45.0f) && !func_80033AB8(globalCtx, thisx) &&
+            if ((thisx->xzDistToLink <= 45.0f) && !func_80033AB8(globalCtx, thisx) &&
                 ((globalCtx->gameplayFrames & 7) || (ABS(angleToFacingLink) < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
                 return true;
@@ -282,7 +282,7 @@ void EnGeldB_SetupWait(EnGeldB* this) {
 
 void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->invisible && !Flags_GetSwitch(globalCtx, this->actor.initPosRot.rot.z)) ||
-        this->actor.xzDistFromLink > 300.0f) {
+        this->actor.xzDistToLink > 300.0f) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actor.posRot.pos.y = this->actor.groundY + 120.0f;
     } else {
@@ -369,12 +369,12 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
             return;
         }
         angleToLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
-        if ((this->actor.xzDistFromLink < 100.0f) && (player->swordState != 0) && (ABS(angleToLink) >= 0x1F40)) {
+        if ((this->actor.xzDistToLink < 100.0f) && (player->swordState != 0) && (ABS(angleToLink) >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
             EnGeldB_SetupCircle(this);
         } else if (--this->timer == 0) {
             if (func_8002E084(&this->actor, 30 * 0x10000 / 360)) {
-                if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
+                if ((210.0f > this->actor.xzDistToLink) && (this->actor.xzDistToLink > 150.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
                     if (func_80033AB8(globalCtx, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleToLink) < 0x38E0)) {
@@ -416,9 +416,9 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
     if (!EnGeldB_DodgeRanged(globalCtx, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x2EE, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        if (this->actor.xzDistFromLink <= 40.0f) {
+        if (this->actor.xzDistToLink <= 40.0f) {
             Math_SmoothStepToF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
-        } else if (this->actor.xzDistFromLink > 55.0f) {
+        } else if (this->actor.xzDistToLink > 55.0f) {
             Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
         } else {
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -426,7 +426,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = this->actor.speedXZ * 0.125f;
         facingAngletoLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
         facingAngletoLink = ABS(facingAngletoLink);
-        if ((this->actor.xzDistFromLink < 150.0f) && (player->swordState != 0) && (facingAngletoLink >= 0x1F40)) {
+        if ((this->actor.xzDistToLink < 150.0f) && (player->swordState != 0) && (facingAngletoLink >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
             if (Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupCircle(this);
@@ -444,9 +444,9 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             } else {
                 EnGeldB_SetupReady(this);
             }
-        } else if (this->actor.xzDistFromLink < 90.0f) {
+        } else if (this->actor.xzDistToLink < 90.0f) {
             if (!func_80033AB8(globalCtx, &this->actor) &&
-                (Rand_ZeroOne() > 0.03f || (this->actor.xzDistFromLink <= 45.0f && facingAngletoLink < 0x38E0))) {
+                (Rand_ZeroOne() > 0.03f || (this->actor.xzDistToLink <= 45.0f && facingAngletoLink < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
             } else if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
@@ -455,7 +455,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             }
         }
         if (!EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
-            if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
+            if ((210.0f > this->actor.xzDistToLink) && (this->actor.xzDistToLink > 150.0f) &&
                 func_8002E084(&this->actor, 0x71C)) {
                 if (func_80033A84(globalCtx, &this->actor)) {
                     if (Rand_ZeroOne() > 0.5f) {
@@ -610,9 +610,9 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        if (this->actor.xzDistFromLink <= 45.0f) {
+        if (this->actor.xzDistToLink <= 45.0f) {
             Math_SmoothStepToF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
-        } else if (this->actor.xzDistFromLink > 40.0f) {
+        } else if (this->actor.xzDistToLink > 40.0f) {
             Math_SmoothStepToF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
         } else {
             Math_SmoothStepToF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -641,7 +641,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
         if ((Math_CosS(angleBehindLink - this->actor.shape.rot.y) < -0.85f) &&
-            !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 45.0f)) {
+            !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistToLink <= 45.0f)) {
             EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
             if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
@@ -704,9 +704,9 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    if (this->actor.xzDistFromLink <= 45.0f) {
+    if (this->actor.xzDistToLink <= 45.0f) {
         Math_SmoothStepToF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
-    } else if (this->actor.xzDistFromLink > 40.0f) {
+    } else if (this->actor.xzDistToLink > 40.0f) {
         Math_SmoothStepToF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -736,7 +736,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
         if (!EnGeldB_DodgeRanged(globalCtx, this)) {
-            if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 70.0f)) {
+            if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistToLink <= 70.0f)) {
                 EnGeldB_SetupSlash(this);
             } else {
                 EnGeldB_SetupRollBack(this);
@@ -787,7 +787,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
             if (angleToLink > 0x4000) {
                 this->lookTimer = 20;
             }
-        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
+        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistToLink >= 120.0f)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
@@ -861,7 +861,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
             this->lookTimer = 46;
         } else if (this->spinAttackState != 0) {
             EnGeldB_SetupRollBack(this);
-        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
+        } else if (Rand_ZeroOne() > 0.7f || (this->actor.xzDistToLink >= 120.0f)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
@@ -901,8 +901,8 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
 
 void EnGeldB_RollBack(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink < 170.0f) &&
-            (this->actor.xzDistFromLink > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
+        if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistToLink < 170.0f) &&
+            (this->actor.xzDistToLink > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnGeldB_SetupSpinAttack(this);
         } else if (globalCtx->gameplayFrames & 1) {
             EnGeldB_SetupSidestep(this, globalCtx);
@@ -980,10 +980,10 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0) &&
         SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & 1)) {
         angleToWall = this->actor.wallPolyRot - this->actor.shape.rot.y;
-        if ((this->actor.bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistFromLink < 90.0f)) {
+        if ((this->actor.bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistToLink < 90.0f)) {
             EnGeldB_SetupJump(this);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
-            if ((this->actor.xzDistFromLink <= 45.0f) && !func_80033AB8(globalCtx, &this->actor) &&
+            if ((this->actor.xzDistToLink <= 45.0f) && !func_80033AB8(globalCtx, &this->actor) &&
                 (globalCtx->gameplayFrames & 7)) {
                 EnGeldB_SetupSlash(this);
             } else {
@@ -1052,8 +1052,8 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         angleToLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-        if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistFromLink < 40.0f) &&
-            (ABS(this->actor.yDistFromLink) < 50.0f)) {
+        if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistToLink < 40.0f) &&
+            (ABS(this->actor.yDistToLink) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->swordAnimation == 0x11) {
                     EnGeldB_SetupSpinDodge(this, globalCtx);
@@ -1080,7 +1080,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((globalCtx->gameplayFrames & 1)) {
-                if ((this->actor.xzDistFromLink < 100.0f) && (Rand_ZeroOne() > 0.7f)) {
+                if ((this->actor.xzDistToLink < 100.0f) && (Rand_ZeroOne() > 0.7f)) {
                     EnGeldB_SetupJump(this);
                 } else {
                     EnGeldB_SetupRollBack(this);
@@ -1158,9 +1158,9 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     } else {
         this->actor.posRot.rot.y = this->actor.shape.rot.y - 0x3E80;
     }
-    if (this->actor.xzDistFromLink <= 45.0f) {
+    if (this->actor.xzDistToLink <= 45.0f) {
         Math_SmoothStepToF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
-    } else if (this->actor.xzDistFromLink > 40.0f) {
+    } else if (this->actor.xzDistToLink > 40.0f) {
         Math_SmoothStepToF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -1194,10 +1194,10 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 this->actor.posRot.rot.y = this->actor.shape.rot.y;
-                if ((this->actor.xzDistFromLink <= 45.0f) && (!func_80033AB8(globalCtx, &this->actor)) &&
+                if ((this->actor.xzDistToLink <= 45.0f) && (!func_80033AB8(globalCtx, &this->actor)) &&
                     (!(globalCtx->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
-                } else if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
+                } else if ((210.0f > this->actor.xzDistToLink) && (this->actor.xzDistToLink > 150.0f) &&
                            !(globalCtx->gameplayFrames & 1)) {
                     if (func_80033AB8(globalCtx, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleFacingPlayer2) < 0x38E0)) {
