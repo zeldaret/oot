@@ -312,8 +312,6 @@ void func_80B5BFE4(EnZl4* this) {
     this->skelAnime.playSpeed = -1.0f;
 }
 
-s32 func_80B5C008(EnZl4 *this, GlobalContext *globalCtx);
-
 s32 func_80B5C008(EnZl4 *this, GlobalContext *globalCtx) {
     Player *player = PLAYER;
     Actor* playerx = &PLAYER->actor;
@@ -340,33 +338,679 @@ s32 func_80B5C008(EnZl4 *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-s32 func_80B5C160(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5C160(EnZl4 *this, GlobalContext *globalCtx) {
+    switch (this->unk_208) {
+        case 0:
+            if (this->skelAnime.curFrame == 50.0f) {
+                Audio_PlayActorSound2(this, 0x686A);
+            }
+            if (!func_80B5BF90(this, 4)) {
+                break;
+            } else {
+                func_8010B680(globalCtx, 0x702E, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 1:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 1);
+                func_8010B680(globalCtx, 0x702F, NULL);
+                this->unk_214 = 0;
+                this->unk_208++;
+            }
+            break;
+        case 2:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02003994);
+                gSaveContext.cutsceneTrigger = 1;
+                func_80B5B888(globalCtx, 0);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_214 = 0;
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            this->unk_214++;
+            if (this->unk_214 >= 0x2D) {
+                func_8010B680(globalCtx, 0x70F9, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 4:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B888(globalCtx, 1);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_214 = 0;
+                this->unk_208++;
+            }
+            break;
+        case 5:
+            this->unk_214++;
+            if (this->unk_214 >= 10) {
+                func_8010B680(globalCtx, 0x70FA, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 6:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 2);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x16);
+                this->unk_20E = 0;
+                this->unk_214 = 0;
+                this->unk_208++;
+                func_8010B680(globalCtx, 0x70FB, NULL);
+            }
+            break;
+    }
+    return (this->unk_208 == 7) ? 1 : 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5C160.s")
+s32 func_80B5C458(EnZl4 *this, GlobalContext *globalCtx) {
+    switch (this->unk_208) {
+        case 0:
+            if (func_80B5BF90(this, 25)) {
+                this->unk_208++;
+            }
+        case 1:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 3);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_212 = 40;
+                this->unk_208 = 2;
+            }
+            break;
+        case 2:
+            if (DECR(this->unk_212) == 0) {
+                func_8010B680(globalCtx, 0x7030, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+                break;
+            } else if (globalCtx->msgCtx.choiceIndex == 0) {
+                func_80B5B7B0(globalCtx, 4);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x1C);
+                this->unk_210 = 0;
+                this->unk_20D = 5;
+                this->unk_20E = 1;
+                func_8010B680(globalCtx, 0x7032, NULL);
+                this->unk_208 = 7;
+            } else {
+                func_80B5B7B0(globalCtx, 2);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 9);
+                this->unk_20E = 2;
+                func_8010B680(globalCtx, 0x7031, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 4:
+            if (this->skelAnime.curFrame == 16.0f) {
+                Audio_PlayActorSound2(this, 0x686B);
+            }
+            if (func_80B5BF90(this, 10)) {
+                this->unk_208++;
+            }
+        case 5:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 9);
+                this->unk_20E = 2;
+                func_80B5BFE4(this);
+                this->unk_208 = 6;
+            }
+            break;
+        case 6:
+            this->unk_20E = 0;
+            func_80B5B7B0(globalCtx, 3);
+            func_8010B680(globalCtx, 0x7030, NULL);
+            this->unk_208 = 12;
+            break;
+        case 12:
+            if (func_80B5BF90(this, 25)) {
+                this->unk_208 = 13;
+            }
+        case 13:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+                break;
+            } else if (globalCtx->msgCtx.choiceIndex == 0) {
+                func_80B5B7B0(globalCtx, 4);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x1C);
+                this->unk_210 = 0;
+                this->unk_20D = 5;
+                this->unk_20E = 1;
+                func_8010B680(globalCtx, 0x7032, NULL);
+                this->unk_208 = 7;
+            } else {
+                func_80B5B7B0(globalCtx, 2);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 9);
+                this->unk_20E = 2;
+                func_8010B680(globalCtx, 0x7031, NULL);
+                this->unk_208 = 4;
+            }
+            break;
+        case 7:
+            if (this->skelAnime.curFrame == 17.0f) {
+                Audio_PlayActorSound2(this, 0x686D);
+            }
+            if (func_80B5BF90(this, 29)) {
+                this->unk_208++;
+            }
+        case 8:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B888(globalCtx, 2);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0);
+                this->unk_210 = 0;
+                this->unk_20D = 0;
+                this->unk_20E = 0;
+                func_8010B680(globalCtx, 0x70FC, NULL);
+                this->unk_208 = 9;
+            }
+            break;
+        case 9:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 5);
+                func_8010B680(globalCtx, 0x70FD, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 10:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 5);
+                this->unk_20D = 6;
+                this->unk_20E = 3;
+                func_8010B680(globalCtx, 0x70FE, NULL);
+                this->unk_208++;
+            }
+            break;
+    }
+    return (this->unk_208 == 11) ? 1 : 0;
+}
 
-s32 func_80B5C458(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5C984(EnZl4 *this, GlobalContext *globalCtx) {
+    switch(this->unk_208) {
+        case 0:
+            if (func_80B5BF90(this, 4)) {
+                this->unk_208++;
+            }
+            break;
+        case 1:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 6);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 1);
+                this->unk_210 = 11;
+                this->unk_20D = 5;
+                this->unk_20E = 0;
+                globalCtx->msgCtx.msgMode = 0x37;
+                func_8010B680(globalCtx, 0x70FF, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 2:
+            if (func_80B5BF90(this, 2)) {
+                this->unk_208++;
+            }
+        case 3:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x10);
+                this->unk_210 = 0;
+                this->unk_20D = 0;
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208 = 4;
+            }
+            break;
+        case 4:
+            if (func_80B5BF90(this, 17)) {
+                func_8010B680(globalCtx, 0x2073, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 5:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B888(globalCtx, 3);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_214 = 0;
+                this->unk_208 = 6;
+            }
+            break;
+        case 6:
+            this->unk_214++;
+            if (this->unk_214 >= 15) {
+                func_8010B680(globalCtx, 0x2074, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 7:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 6);
+                this->unk_20E = 1;
+                func_8010B680(globalCtx, 0x2075, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 8:
+            if (func_80B5BF90(this, 25)) {
+                this->unk_208++;
+            }
+        case 9:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_8010B680(globalCtx, 0x7033, NULL);
+                this->unk_208 = 10;
+            }
+            break;
+        case 10:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+                if (globalCtx->msgCtx.choiceIndex == 0) {
+                    func_80B5B888(globalCtx, 4);
+                    func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x21);
+                    this->unk_20E = 0;
+                    globalCtx->msgCtx.msgMode = 0x37;
+                    this->unk_214 = 0;
+                    this->unk_208 = 15;
+                } else {
+                    func_80B5B7B0(globalCtx, 6);
+                    globalCtx->msgCtx.msgMode = 0x37;
+                    this->unk_212 = 20;
+                    this->unk_208++;
+                    this->skelAnime.playSpeed = 0.0f;
+                }
+            }
+            break;
+        case 11:
+            if (DECR(this->unk_212) == 0) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0xB);
+                this->unk_210 = 11;
+                this->unk_20D = 3;
+                this->unk_20E = 2;
+                func_8010B680(globalCtx, 0x7034, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 12:
+            if (this->skelAnime.curFrame == 5.0f) {
+                Audio_PlayActorSound2(this, 0x686C);
+            }
+            if (func_80B5BF90(this, 12)) {
+                this->unk_208++;
+            }
+        case 13:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 6);
+                this->unk_210 = 3;
+                this->unk_20D = 0;
+                this->unk_20E = 1;
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208 = 14;
+            }
+            break;
+        case 14:
+            if (func_80B5BF90(this, 25)) {
+                func_8010B680(globalCtx, 0x7033, NULL);
+                this->unk_208 = 10;
+            }
+            break;
+        case 15:
+            this->unk_214++;
+            if (this->unk_214 >= 30) {
+                func_8010B680(globalCtx, 0x7035, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 16:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+        case 17:
+            this->unk_214++;
+            if (this->unk_214 == 130) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->nextEntranceIndex = 0xA0;
+                gSaveContext.nextCutsceneIndex = 0xFFF7;
+                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->fadeTransition = 3;
+            }
+            break;
+    }
+    if ((this->unk_214 == 17) && (this->unk_214 > 130)) {
+        return 1;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5C458.s")
+s32 func_80B5CF70(EnZl4 *this, GlobalContext *globalCtx) {
+    Camera* activeCam = ACTIVE_CAM;
 
-s32 func_80B5C984(EnZl4 *this, GlobalContext *globalCtx);
+    switch(this->unk_208) {
+        case 0:
+            this->unk_214++;
+            if (this->unk_214 >= 60) {
+                func_8010B680(globalCtx, 0x7037, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 1:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 7);
+                func_8010B680(globalCtx, 0x2076, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 2:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B888(globalCtx, 6);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            if (activeCam->animState == 2) {
+                func_8010B680(globalCtx, 0x2077, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 4:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+                break;
+            } else if (globalCtx->msgCtx.choiceIndex == 0) {
+                func_80B5B7B0(globalCtx, 8);
+                func_8010B680(globalCtx, 0x7005, NULL);
+                this->unk_208 = 9;
+            } else {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 5);
+                this->unk_20E = 3;
+                func_8010B680(globalCtx, 0x7038, NULL);
+                this->unk_208++;
+                Audio_PlayActorSound2(this, 0x6869);
+            }
+            break;
+        case 5:
+            if (func_80B5BF90(this, 4)) {
+                this->unk_208++;
+            }
+        case 6:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x21);
+                this->unk_20E = 0;
+                func_8010B680(globalCtx, 0x7037, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 7:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_8010B680(globalCtx, 0x2076, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 8:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_8010B680(globalCtx, 0x2077, NULL);
+                this->unk_208 = 4;
+            }
+            break;
+        case 9:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x1A);
+                func_8010B680(globalCtx, 0x2078, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 10:
+            if (func_80B5BF90(this, 27)) {
+                this->unk_208++;
+            }
+        case 11:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+                break;
+            } else if (globalCtx->msgCtx.choiceIndex == 0) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208 = 13;
+            } else {
+                func_8010B680(globalCtx, 0x700B, NULL);
+                this->unk_208 = 12;
+            }
+            break;
+        case 12:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208 = 13;
+            }
+            break;
+    }
+    return (this->unk_208 == 0xD) ? 1 : 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5C984.s")
+s32 func_80B5D3CC(EnZl4 *this, GlobalContext *globalCtx) {
+    switch(this->unk_208) {
+        case 0:
+            func_80B5B888(globalCtx, 7);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000444);
+            gSaveContext.cutsceneTrigger = 1;
+            this->unk_208++;
+            break;
+        case 1:
+            if (globalCtx->csCtx.state != 0) {
+                if (globalCtx->csCtx.frames == 90) {
+                    globalCtx->csCtx.state = 3;
+                }
+            } else {
+                globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000104);
+                gSaveContext.cutsceneTrigger = 1;
+                this->unk_208++;
+                func_8002DF54(globalCtx, this, 8);
+            }
+            break;
+        case 2:
+            if (globalCtx->csCtx.state != 0) {
+                if (globalCtx->csCtx.frames == 209) {
+                    globalCtx->csCtx.state = 3;
+                }
+            } else {
+                func_800AA000(0.0f, 0xA0, 0xA, 0x28);
+                func_8002DF54(globalCtx, this, 1);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x1E);
+                func_80B5B7B0(globalCtx, 0xB);
+                func_8010B680(globalCtx, 0x7039, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+            break;
+    }
+    return (this->unk_208 == 4) ? 1 : 0;
+}
 
-s32 func_80B5CF70(EnZl4 *this, GlobalContext *globalCtx);
+s32 func_80B5D610(EnZl4 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s16 sp22;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5CF70.s")
+    switch(this->unk_208) {
+        case 0:
+            player->actor.posRot.pos = this->actor.posRot.pos;
+            sp22 = this->actor.shape.rot.y - 0x3FFC;
+            player->actor.posRot.pos.x += 34.0f * Math_SinS(sp22);
+            player->actor.posRot.pos.z += 34.0f * Math_CosS(sp22);
+            func_80B5B888(globalCtx, 8);
+            this->unk_210 = 0;
+            this->unk_20D = 4;
+            this->unk_20E = 2;
+            this->unk_214 = 0;
+            this->unk_208++;
+            func_8010B680(globalCtx, 0x2079, NULL);
+        case 1:
+            this->unk_214++;
+            if (this->unk_214 >= 20) {
+                this->unk_208++;
+            }
+            break;
+        case 2:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B888(globalCtx, 9);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_214 = 0;
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            this->unk_214++;
+            if (this->unk_214 >= 20) {
+                func_8010B680(globalCtx, 0x207A, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 4:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 12);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x17);
+                this->unk_210 = 0;
+                this->unk_20D = 0;
+                this->unk_20E = 3;
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+            break;
+        case 5:
+            if (func_80B5BF90(this, 24)) {
+                func_8010B680(globalCtx, 0x207B, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 6:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_8010B680(globalCtx, 0x703A, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 7:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx))) {
+                break;
+            } else if (globalCtx->msgCtx.choiceIndex == 0) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x1F);
+                this->unk_210 = 0xB;
+                this->unk_20D = 5;
+                this->unk_20E = 1;
+                func_8010B680(globalCtx, 0x703B, NULL);
+                this->unk_208 = 0xB;
+            } else {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0xD);
+                this->unk_210 = 0xB;
+                this->unk_20D = 2;
+                this->unk_20E = 2;
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+            break;
+        case 8:
+            if (func_80B5BF90(this, 15)) {
+                this->unk_210 = 3;
+                this->unk_20D = 0;
+                this->unk_20E = 3;
+                func_8010B680(globalCtx, 0x7073, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 9:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0xE);
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208++;
+            }
+            break;
+        case 10:
+            if (func_80B5BF90(this, 24)) {
+                func_8010B680(globalCtx, 0x703A, NULL);
+                this->unk_208 = 7;
+            }
+            break;
+        case 11:
+            if (func_80B5BF90(this, 32)) {
+                this->unk_208++;
+            }
+        case 12:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->unk_208 = 13;
+            }
+            break;
+    }
+    return (this->unk_208 == 13) ? 1 : 0;
+}
 
-s32 func_80B5D3CC(EnZl4 *this, GlobalContext *globalCtx);
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5D3CC.s")
-
-s32 func_80B5D610(EnZl4 *this, GlobalContext *globalCtx);
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5D610.s")
-
-s32 func_80B5DAD8(EnZl4 *this, GlobalContext *globalCtx);
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl4/func_80B5DAD8.s")
+s32 func_80B5DAD8(EnZl4 *this, GlobalContext *globalCtx) {
+    switch (this->unk_208) {
+        case 0:
+            func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x12);
+            this->unk_210 = 0;
+            this->unk_20D = 0;
+            this->unk_20E = 2;
+            func_80B5B888(globalCtx, 10);
+            this->unk_214 = 0;
+            this->unk_208++;
+        case 1:
+            this->unk_214++;
+            if (this->unk_214 >= 10) {
+                func_8010B680(globalCtx, 0x7123, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 2:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_80B5B7B0(globalCtx, 0xD);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0x13);
+                this->unk_210 = 0;
+                this->unk_20D = 0;
+                this->unk_20E = 3;
+                func_8010B680(globalCtx, 0x207C, NULL);
+                this->unk_208++;
+            }
+            break;
+        case 3:
+            if (func_80B5BF90(this, 20)) {
+                this->unk_208++;
+            }
+        case 4:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+                func_8010B680(globalCtx, 0x207D, NULL);
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 7);
+                this->unk_210 = 0;
+                this->unk_20D = 0;
+                this->unk_20E = 0;
+                this->unk_208 = 5;
+                this->unk_20F = this->unk_216 = 0;
+            }
+            break;
+        case 5:
+            if (func_80B5BF90(this, 8)) {
+                this->unk_208++;
+            }
+        case 6:
+            if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
+                break;
+            } else {
+                Camera_ChangeSetting(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
+                this->unk_208 = 7;
+                globalCtx->talkWithPlayer(globalCtx, this);
+                func_8002F434(this, globalCtx, 0xB, fabsf(this->actor.xzDistFromLink) + 1.0f, fabsf(this->actor.yDistFromLink) + 1.0f);
+                globalCtx->msgCtx.unk_E3E7 = 4;
+                globalCtx->msgCtx.msgMode = 0x36;
+            }
+            break;
+        case 7:
+            if (Actor_HasParent(this, globalCtx)) {
+                func_80034EC0(&this->skelAnime, D_80B5E7B8, 0);
+                this->unk_208++;
+            } else {
+                func_8002F434(this, globalCtx, 0xB, fabsf(this->actor.xzDistFromLink) + 1.0f, fabsf(this->actor.yDistFromLink) + 1.0f);
+            }
+            // no break here is required for matching
+    }
+    return (this->unk_208 == 8) ? 1 : 0;
+}
 
 void func_80B5DE1C(EnZl4 *this, GlobalContext *globalCtx) {
     Player *player = PLAYER;

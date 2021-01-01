@@ -22,8 +22,9 @@ typedef struct EnZl4 {
     /* 0x020C */ u8 unk_20C;
     /* 0x020D */ u8 unk_20D;
     /* 0x020E */ u8 unk_20E;
+    /* 0x020F */ u8 unk_20F;
     /* 0x0210 */ s16 unk_210;
-    /* 0x0212 */ char unk_212[2];
+    /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s16 unk_214;
     /* 0x0216 */ s16 unk_216;
     /* 0x0218 */ Vec3s jointTable[18];
