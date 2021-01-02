@@ -38,7 +38,7 @@ def main():
     print("Extracting assets with " + str(numCores) + " CPU cores.")
     #p = Pool(numCores)
     #p.map(ExtractFunc, xmlFiles)
-    Extract("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
+    Extract("assets/xml/objects/object_spot17_obj.xml", "assets/objects/object_spot17_obj")
 
 
     #os.system("make resources")

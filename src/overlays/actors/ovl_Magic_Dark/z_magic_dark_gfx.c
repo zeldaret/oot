@@ -5,7 +5,6 @@ static u64 sDiamondTex[] = {
 #include "assets/overlays/ovl_Magic_Dark/diamond_texture.i8.inc.c"
 };
 
-
 static Vtx sDiamondVerts[] = {
     VTX(0, 0, 64, 1024, 512, 0x00, 0x00, 0x78, 0xFF),    VTX(55, 0, 32, 1707, 512, 0x67, 0x00, 0x3C, 0xFF),
     VTX(0, 108, 0, 1365, 0, 0x00, 0x78, 0x00, 0xFF),     VTX(55, 0, -32, 2389, 512, 0x67, 0x00, 0xC4, 0xFF),
