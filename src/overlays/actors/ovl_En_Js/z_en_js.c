@@ -76,7 +76,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
         this->actor.textId = textId;
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistFromLink < 100.0f) {
+        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToLink < 100.0f) {
             this->unk_284 |= 1;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }

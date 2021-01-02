@@ -249,13 +249,13 @@ void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
-    f32 xzDistFromLink;
+    f32 xzDistToLink;
 
     if (this->unk_2C0 > 0) {
         this->unk_2C0--;
     } else {
-        xzDistFromLink = this->actor.xzDistFromLink;
-        if (xzDistFromLink < 50.0f) {
+        xzDistToLink = this->actor.xzDistToLink;
+        if (xzDistToLink < 50.0f) {
             if (Rand_ZeroOne() < 0.2f) {
                 this->unk_2A8 = 2;
                 this->unk_2AC = 0x400;
@@ -267,16 +267,16 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_2C0 = 10;
             }
         } else {
-            if (xzDistFromLink > 150.0f) {
-                xzDistFromLink = 150.0f;
+            if (xzDistToLink > 150.0f) {
+                xzDistToLink = 150.0f;
             }
 
-            xzDistFromLink = ((xzDistFromLink - 50.0f) * 0.95f) + 0.05f;
+            xzDistToLink = ((xzDistToLink - 50.0f) * 0.95f) + 0.05f;
 
-            if (Rand_ZeroOne() < xzDistFromLink) {
+            if (Rand_ZeroOne() < xzDistToLink) {
                 this->unk_2A8 = 3;
                 this->unk_2AC = 0x200;
-                this->unk_2B8 = (xzDistFromLink * 2.0f) + 1.0f;
+                this->unk_2B8 = (xzDistToLink * 2.0f) + 1.0f;
                 this->func_2C8 = func_80A01FE0;
                 this->unk_2C0 = (s16)Rand_ZeroFloat(16.0f) + 0x10;
             } else {

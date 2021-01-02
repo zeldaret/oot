@@ -261,10 +261,10 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
     if (((this->actor.params & 1) == 1) && (player->heldItemActionParam == 6) && (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.posRot.pos.x, player->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
                           this->actor.initPosRot.pos.z) < SQ(120.0f)) ||
-         (this->actor.xzDistFromLink < 60.0f))) {
+         (this->actor.xzDistToLink < 60.0f))) {
         EnButte_SetupFollowLink(this);
         this->unk_257 = 2;
-    } else if (this->actor.xzDistFromLink < 120.0) {
+    } else if (this->actor.xzDistToLink < 120.0) {
         this->unk_257 = 1;
     } else {
         this->unk_257 = 0;
@@ -400,7 +400,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.update != NULL) {
         Actor_MoveForward(&this->actor);
         Math_StepToF(&this->actor.posRot.pos.y, this->posYTarget, 0.6f);
-        if (this->actor.xyzDistFromLinkSq < 5000.0f) {
+        if (this->actor.xyzDistToLinkSq < 5000.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         Actor_SetHeight(&this->actor, this->actor.shape.unk_08 * this->actor.scale.y);
