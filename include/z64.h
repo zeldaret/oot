@@ -428,10 +428,10 @@ typedef struct {
     /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ u16    unk_E3F6;
-    /* 0xE3F8 */ s8     unk_E3F8;
-    /* 0xE3F8 */ s8     unk_E3F9;
-    /* 0xE3F8 */ s8     unk_E3FA;
-    /* 0xE3F8 */ s8     unk_E3FB;
+    /* 0xE3F8 */ u8     unk_E3F8;
+    /* 0xE3F8 */ u8     unk_E3F9;
+    /* 0xE3F8 */ u8     unk_E3FA;
+    /* 0xE3F8 */ u8     unk_E3FB;
     /* 0xE3FC */ char   unk_E3FC[0x02];
     /* 0xE3FE */ s16    unk_E3FE;
     /* 0xE400 */ s16    unk_E400;

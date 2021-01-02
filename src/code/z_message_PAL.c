@@ -46,10 +46,10 @@ extern OcarinaSongInfo D_80131C00[];
 
 // data
 extern s16 D_8014B2F0;
-extern const u8 D_8014B2F4[];
+extern u8 D_8014B2F4;
 extern const s16 D_8014B2F8;
 extern const s16 D_8014B2FC;
-extern const u8 D_8014B300[];
+extern u8 D_8014B300;
 extern u16 D_8014B304;
 extern const s16 D_8014B308[];
 extern s16 D_8014B310;
@@ -103,8 +103,8 @@ extern s16 D_80153D0C[];
 extern s16 D_80153D18[];
 extern s16 D_80153D24[];
 extern s16 D_80153D30[];
-extern const u8 D_80153D74[];
-extern const u16 D_80153D78[];
+extern u8 D_80153D74;
+extern u16 D_80153D78;
 
 // bss
 s32 D_801759A0;
@@ -504,6 +504,208 @@ void func_801076CC(MessageContext* msgCtx, u16 textId) {
 void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
 /* void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3) {
+    s16 sp60;
+    s32 spC;
+    s32 sp8;
+    s32 sp4;
+    s32 sp0;
+    GameInfo *temp_v1;
+    Gfx *temp_a1_3;
+    Gfx *temp_v0;
+    Gfx *temp_v0_10;
+    Gfx *temp_v0_11;
+    Gfx *temp_v0_12;
+    Gfx *temp_v0_13;
+    Gfx *temp_v0_2;
+    Gfx *temp_v0_3;
+    Gfx *temp_v0_4;
+    Gfx *temp_v0_5;
+    Gfx *temp_v0_6;
+    Gfx *temp_v0_7;
+    Gfx *temp_v0_8;
+    Gfx *temp_v0_9;
+    MessageContext *temp_v1_2;
+    s16 temp_a1;
+    s16 temp_a2;
+    s16 temp_a2_3;
+    s16 temp_a3_3;
+    s16 temp_a3_4;
+    s16 temp_t0;
+    s16 temp_t0_2;
+    s16 temp_t1;
+    s16 temp_t1_3;
+    s16 temp_t2;
+    s16 temp_t2_3;
+    s16 temp_t3;
+    s16 temp_t3_2;
+    s16 temp_t4;
+    s16 temp_t4_2;
+    s16 temp_t5;
+    s16 temp_t5_2;
+    s16 temp_t9;
+    s32 temp_a0_2;
+    s32 temp_a0_3;
+    s32 temp_a0_4;
+    s32 temp_a1_4;
+    s32 temp_a2_2;
+    s32 temp_a3;
+    s32 temp_a3_2;
+    s32 temp_f18;
+    s32 temp_t1_2;
+    s32 temp_t2_2;
+    s32 temp_t6;
+    Vec3s *temp_a0;
+    Vec3s *temp_a1_2;
+    s32 phi_v1;
+    s32 phi_t1;
+    s32 phi_t2;
+    s16 phi_a3;
+    s16 phi_t5;
+    s16 phi_t1_2;
+    s16 phi_t2_2;
+    s32 phi_v1_2;
+    s32 phi_v1_3;
+    s32 phi_t5_2;
+    s32 phi_t1_3;
+    s32 phi_v1_4;
+    s32 phi_v1_5;
+    s32 phi_v1_6;
+
+    temp_v0 = *p;
+    if (D_8014B308[0] == 0) {
+        temp_a0 = &D_801539C8[D_801539F0];
+        temp_t0 = D_801539EC;
+
+        temp_a1 = temp_a0->x;
+        temp_a3 = D_801539E0 - temp_a1;
+        temp_t5 = ABS(temp_a3) / temp_t0;
+
+        temp_t3 = temp_a0->y;
+        temp_a3_2 = D_801539E4 - temp_t3;
+        sp60 = ABS(temp_a3_2) / temp_t0;
+
+        temp_t4 = temp_a0->z;
+        temp_t6 = D_801539E8 - temp_t4;
+        phi_v1_3 = ABS(temp_t6) / temp_t0;
+
+        if (D_801539E0 >= temp_a1) {
+            temp_t2_2 = D_801539E0 - temp_t5;
+        } else {
+            temp_t2_2 = D_801539E0 + temp_t5;
+        }
+
+        if (D_801539E4 >= temp_t3) {
+            temp_t1_2 = D_801539E4 - sp60;
+        } else {
+            temp_t1_2 = D_801539E4 + sp60;
+        }
+
+        if (D_801539E8 >= temp_t4) {
+            phi_a3 = D_801539E8 - phi_v1_3;
+        } else {
+            phi_a3 = D_801539E8 + phi_v1_3;
+        }
+
+        spC = temp_a1;
+        temp_a1_2 = &D_801539D4[D_801539F0];
+        temp_t5_2 = D_801539F4;
+        temp_t9 = temp_a1_2->x;
+        temp_a0_2 = temp_t5_2 - temp_t9;
+        if (temp_a0_2 >= 0) {
+            D_801539E4 = temp_t1_2;
+            D_801539E0 = temp_t2_2;
+            phi_v1_4 = temp_a0_2;
+        } else {
+            D_801539E4 = temp_t1_2;
+            D_801539E0 = temp_t2_2;
+            phi_v1_4 = -temp_a0_2;
+        }
+        sp8 = temp_t3;
+        temp_t1_3 = D_801539F8;
+        temp_t3_2 = temp_a1_2->y;
+        temp_a0_3 = temp_t1_3 - temp_t3_2;
+        temp_a2_3 = phi_v1_4 / temp_t0;
+        if (temp_a0_3 >= 0) {
+            D_801539E8 = phi_a3;
+            phi_v1_5 = temp_a0_3;
+        } else {
+            D_801539E8 = phi_a3;
+            phi_v1_5 = -temp_a0_3;
+        }
+        sp4 = temp_t4;
+        temp_t2_3 = D_801539FC;
+        temp_t4_2 = temp_a1_2->z;
+        temp_a0_4 = temp_t2_3 - temp_t4_2;
+        temp_a3_4 = phi_v1_5 / temp_t0;
+        if (temp_a0_4 >= 0) {
+            phi_v1_6 = temp_a0_4;
+        } else {
+            phi_v1_6 = -temp_a0_4;
+        }
+        if (temp_t5_2 >= temp_t9) {
+            phi_t5_2 = (temp_t5_2 - temp_a2_3) << 0x10;
+        } else {
+            phi_t5_2 = (temp_t5_2 + temp_a2_3) << 0x10;
+        }
+        if (temp_t1_3 >= temp_t3_2) {
+            phi_t1_3 = (temp_t1_3 - temp_a3_4) << 0x10;
+        } else {
+            phi_t1_3 = (temp_t1_3 + temp_a3_4) << 0x10;
+        }
+        if (temp_t2_3 >= temp_t4_2) {
+            phi_t2_2 = temp_t2_3 - (phi_v1_6 / temp_t0);
+        } else {
+            phi_t2_2 = temp_t2_3 + (phi_v1_6 / temp_t0);
+        }
+        temp_t0_2 = temp_t0 - 1;
+        D_801539EC = temp_t0_2;
+        phi_t5 = phi_t5_2 >> 0x10;
+        phi_t1_2 = phi_t1_3 >> 0x10;
+        if (temp_t0_2 == 0) {
+            D_801539E0 = spC;
+            D_801539E4 = sp8;
+            D_801539E8 = sp4;
+            D_801539F0 = D_801539F0 ^ 1;
+            D_801539EC = 0xC;
+            phi_t5 = sp0;
+            phi_t1_2 = temp_t3_2;
+            phi_t2_2 = temp_t4_2;
+        }
+
+        gDPPipeSync(temp_v0++);
+        gDPSetCombineLERP(temp_v0++, 
+            PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+            PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(temp_v0++, 0, 0, D_801539E0, D_801539E4, D_801539E8, 255);
+        gDPSetEnvColor(temp_v0++, phi_t5, phi_t1_2, phi_t2_2, 255);
+
+        D_801539F8 = phi_t1_2;
+        D_801539FC = phi_t2_2;
+        D_801539F4 = phi_t5;
+
+        gDPSetTextureImage(temp_v0++, G_IM_FMT_I, G_IM_SIZ_16b, 1, globalCtx->msgCtx.font.iconBuf);
+        gDPSetTile(temp_v0++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+        gDPLoadSync(temp_v0++);
+        gDPLoadBlock(temp_v0++, G_TX_LOADTILE, 0, 0, 63, 2048);
+        gDPPipeSync(temp_v0++);
+        gDPSetTile(temp_v0++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+        gDPSetTileSize(temp_v0++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x003C);
+
+        D_801759A0 = (XREG(57) / 100.0f) * 16.0f;
+        D_801759A4 = 1024.0f / (XREG(57) / 100.0f);
+
+        gSPTextureRectangle(temp_v0++, 
+                        arg2 * 4, arg3 * 4, 
+                        (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
+
+        globalCtx->msgCtx.unk_E3E7++;
+        *p = temp_v0;
+    }
+} */
+
+
+
+/* void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s16 sp60;
 
@@ -528,7 +730,7 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
     s16 phi_t2;
 
     gfx = *p;
-    if (D_8014B308 == 0) {
+    if (D_8014B308[0] == 0) {
 
         phi_v1 = ABS(D_801539E0 - D_801539C8[D_801539F0].x);
         if (D_801539E0 >= D_801539C8[D_801539F0].x) {
@@ -728,46 +930,20 @@ void func_801083F8(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_EQUIVALENT
-// Weirdness with the nested loop, somewhat ok otherwise
+#ifdef NON_MATCHING
+// Reorderings in the large block of gbi macros, some regalloc, a few Audio_PlaySoundGeneral args reordered, stack
 void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
-    u16 sp128;
-    Gfx *sp120;
-    Font *sp58;
-    s32 sp50;
-    MessageContext *temp_s1;
-    s32 temp_a0;
-    u16 temp_a3;
-    s32 temp_s2;
-    s32 temp_t7_2;
-    s32 temp_v0_18;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_7;
-    u16 temp_v0_19;
-    u32 temp_t8;
-    u8 temp_a1;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    u8 temp_v0_5;
-    u8 temp_v0_6;
-    u16 phi_s2;
+    s32 temp_v0;
     u16 phi_a0;
-    s32 phi_t0;
-    s32 phi_t1;
-    s32 phi_t2;
-    s32 phi_t3;
-    s32 phi_t4;
-    s32 phi_t5;
-    s32 phi_v1;
-    ColorRBG16* temp_v0_8;
-    ColorRBG16* temp_v0_13;
-    Font* font;
+    u16 sp128;
+    u16 phi_s2;
+    ColorRBG16* temp;
+    Gfx *sp120 = *gfxP;
+    Font* font = &globalCtx->msgCtx.font;
+    MessageContext *temp_s1 = &globalCtx->msgCtx;
 
-    sp120 = *gfxP;
     globalCtx->msgCtx.unk_E3D8 = XREG(54);
-    temp_s1 = &globalCtx->msgCtx;
-    if (D_8014B308 == 0) {
+    if (D_8014B308[0] == 0) {
         temp_s1->unk_E3DA = XREG(55);
     } else {
         temp_s1->unk_E3DA = YREG(1);
@@ -780,18 +956,10 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
     temp_s1->unk_E3D0 = 0;
     sp128 = 0;
 
-    phi_t0 = 9;
-    phi_t1 = 0xA;
-    phi_t2 = 0xB;
-    phi_t3 = 0xC;
-    phi_t4 = 0xD;
-    phi_t5 = 4;
     for (phi_s2 = 0; phi_s2 < temp_s1->unk_E3D2; phi_s2++) {
-
         temp_v0 = temp_s1->unk_E306[phi_s2];
-        temp_t8 = temp_v0 - 1;
-        switch(temp_t8) {
-        case 0:
+        switch(temp_v0) {
+        case 1:
             temp_s1->unk_E3D8 = XREG(54);
             if ((temp_s1->unk_E3E6 == 1) || (temp_s1->unk_E3E6 == 3)) {
                 temp_s1->unk_E3D8 += 0x20;
@@ -801,22 +969,15 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             }
             temp_s1->unk_E3DA += XREG(56);
             break;
-        case 4:
+        case 5:
             func_801076CC(temp_s1, temp_s1->unk_E306[++phi_s2] & 0xF);
-            phi_t0 = 9;
-            phi_t1 = 0xA;
-            phi_t2 = 0xB;
-            phi_t3 = 0xC;
-            phi_t4 = 0xD;
-            phi_t5 = 4;
             break;
-        case 31:
+        case 32:
             temp_s1->unk_E3D8 += 6;
             break;
-        case 3:
+        case 4:
             if (temp_s1->msgMode == 6) {
-                if ((u8) D_8014B300 == 0) {
-                    font = &globalCtx->msgCtx.font;
+                if (D_8014B300 == 0) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     temp_s1->msgMode = 0x34;
                     Font_LoadMessageBoxEndIcon(font, 0);
@@ -828,35 +989,33 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             }
             *gfxP = sp120;
             return;
-        case 5:
+        case 6:
             temp_s1->unk_E3D8 += temp_s1->unk_E306[++phi_s2];
             break;
-        case 6:
+        case 7:
             temp_s1->unk_E3E4 = 0x30;
             if (temp_s1->msgMode == 6) {
-                font = &globalCtx->msgCtx.font;
                 Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 temp_s1->msgMode = 0x35;
                 Font_LoadMessageBoxEndIcon(font, 0);
             }
             *gfxP = sp120;
             return;
-        case 7:
-            if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
-                phi_a0 = phi_s2;
+        case 8:
+            if ((phi_s2 + 1) == temp_s1->unk_E3D2) {
                 if (temp_s1->msgMode == 6 || (temp_s1->msgMode >= 9 && temp_s1->msgMode < 0x21)) {
+                    phi_a0 = phi_s2;
                     while (true) {
-                        // temp_v0_6 = temp_s1->unk_E306[phi_a0];
                         if (temp_s1->unk_E306[phi_a0] == 6) {
                             phi_a0 += 2;
                             continue;
                         }
-                        if ((temp_s1->unk_E306[phi_a0] != phi_t0) && 
-                            (temp_s1->unk_E306[phi_a0] != phi_t1) && 
-                            (temp_s1->unk_E306[phi_a0] != phi_t2) && 
-                            (temp_s1->unk_E306[phi_a0] != phi_t3) && 
-                            (temp_s1->unk_E306[phi_a0] != phi_t4) && 
-                            (temp_s1->unk_E306[phi_a0] != phi_t5) && 
+                        if ((temp_s1->unk_E306[phi_a0] != 9) && 
+                            (temp_s1->unk_E306[phi_a0] != 0xA) && 
+                            (temp_s1->unk_E306[phi_a0] != 0xB) && 
+                            (temp_s1->unk_E306[phi_a0] != 0xC) && 
+                            (temp_s1->unk_E306[phi_a0] != 0xD) && 
+                            (temp_s1->unk_E306[phi_a0] != 4) && 
                             (temp_s1->unk_E306[phi_a0] != 2)) {
                             phi_a0++;
                             continue;
@@ -867,12 +1026,11 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
                     temp_s1->unk_E3D2 = phi_s2 + 1;
                 }
             }
-        case 8:
+        case 9:
             break;
-        case 12:
-            if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
+        case 13:
+            if ((phi_s2 + 1) == temp_s1->unk_E3D2) {
                 if (temp_s1->msgMode == 6) {
-                    font = &globalCtx->msgCtx.font;
                     temp_s1->msgMode = 7;
                     Font_LoadMessageBoxEndIcon(font, 0);
                 }
@@ -880,72 +1038,55 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
                 return;
             }
             break;
-        case 11:
+        case 12:
             if (temp_s1->msgMode == 6) {
-                temp_s1->unk_E3E7 = temp_s1->unk_E306[phi_s2 + 1];
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[++phi_s2];
                 temp_s1->msgMode = 8;
             }
             *gfxP = sp120;
             return;
-        case 16:
+        case 17:
             if (temp_s1->msgMode == 6) {
                 temp_s1->msgMode = 0x35;
                 temp_s1->unk_E3E4 = 0x60;
                 osSyncPrintf("タイマー (%x) (%x)", temp_s1->unk_E306[phi_s2 + 1], temp_s1->unk_E306[phi_s2 + 2]); // timer
-                temp_s1->unk_E3E7 = temp_s1->unk_E306[phi_s2 + 1] << 8;
-                temp_s1->unk_E3E7 |= temp_s1->unk_E306[phi_s2 + 2];
-                temp_a1 = temp_s1->unk_E3E7;
-                osSyncPrintf("合計wct=%x(%d)\n", temp_a1, temp_a1); // total wct
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[++phi_s2] << 8;
+                temp_s1->unk_E3E7 |= temp_s1->unk_E306[++phi_s2];
+                osSyncPrintf("合計wct=%x(%d)\n", temp_s1->unk_E3E7, temp_s1->unk_E3E7); // total wct
             }
             *gfxP = sp120;
             return;
-        case 17:
+        case 18:
             if ((temp_s1->msgMode == 6) && (NON_CONST_ARR(D_8014B318,s16*)[0] == 0)) {
                 NON_CONST_ARR(D_8014B318,s16*)[0] = 1;
                 osSyncPrintf("サウンド（ＳＥ）\n"); // sfx
                 Audio_PlaySoundGeneral((temp_s1->unk_E306[phi_s2 + 1] << 8) | temp_s1->unk_E306[phi_s2 + 2], &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                phi_t0 = 9;
-                phi_t1 = 0xA;
-                phi_t2 = 0xB;
-                phi_t3 = 0xC;
-                phi_t4 = 0xD;
-                phi_t5 = 4;
             }
             phi_s2 += 2;
             break;
-        case 18:
+        case 19:
             phi_s2 = func_801080B4(globalCtx, temp_s1->unk_E306[phi_s2 + 1], &sp120, phi_s2);
-            phi_t0 = 9;
-            phi_t1 = 0xA;
-            phi_t2 = 0xB;
-            phi_t3 = 0xC;
-            phi_t4 = 0xD;
-            phi_t5 = 4;
             break;
-        case 20:
+        case 21:
             if (temp_s1->msgMode == 6) {
                 Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                phi_t0 = 9;
-                phi_t1 = 0xA;
-                phi_t2 = 0xB;
-                phi_t3 = 0xC;
-                phi_t4 = 0xD;
-                phi_t5 = 4;
             }
             gDPPipeSync(sp120++);
             gDPSetCombineMode(sp120++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gDPSetPrimColor(sp120++, 0, 0, D_80153930[temp_s1->unk_E3F9].r, D_80153930[temp_s1->unk_E3F9].g, D_80153930[temp_s1->unk_E3F9].b, temp_s1->unk_E3E2);
-            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1000));
+
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (u32)((u32)temp_s1->textboxSegment + 0x1000));
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPLoadSync(sp120++);
-            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 343);
+            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
             gDPPipeSync(sp120++);
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
             gSPTextureRectangle(sp120++, 
-                            (temp_s1->unk_E3D8 + 1) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61)) * 4, 
-                            (temp_s1->unk_E3D8 + 0x61) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
-            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1900));
+                            (u16)(temp_s1->unk_E3D8 + 1) * 4,    (u16)(XREG(61) + D_80153948[temp_s1->unk_E3FA]) * 4, 
+                            (u16)(temp_s1->unk_E3D8 + 0x61) * 4, (u16)((u16)(XREG(61) + D_80153948[temp_s1->unk_E3FA]) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (u32)((u32)temp_s1->textboxSegment + 0x1900));
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPLoadSync(sp120++);
             gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
@@ -953,12 +1094,13 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 0x017C, 0x00BC);
             gSPTextureRectangle(sp120++, 
-                            (temp_s1->unk_E3D8 + 0x61) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61)) * 4, 
-                            (temp_s1->unk_E3D8 + 0xC2) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+                            (u16)(temp_s1->unk_E3D8 + 0x61) * 4, (u16)(XREG(61) + D_80153948[temp_s1->unk_E3FA]) * 4, 
+                            (u16)(temp_s1->unk_E3D8 + 0xC2) * 4, (u16)((u16)(XREG(61) + D_80153948[temp_s1->unk_E3FA]) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+
             gDPPipeSync(sp120++);
-            temp_v0_13 = &D_80153900[temp_s1->unk_E3F8];
-            gDPSetPrimColor(sp120++, 0, 0, temp_v0_13->r, temp_v0_13->g, temp_v0_13->b, temp_s1->unk_E3E2);
-            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1000));
+            gDPSetPrimColor(sp120++, 0, 0, D_80153900[temp_s1->unk_E3F8].r, D_80153900[temp_s1->unk_E3F8].g, D_80153900[temp_s1->unk_E3F8].b, temp_s1->unk_E3E2);
+
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (u32)((u32)temp_s1->textboxSegment + 0x1000));
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPLoadSync(sp120++);
             gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
@@ -967,8 +1109,9 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
             gSPTextureRectangle(sp120++, 
                             temp_s1->unk_E3D8 * 4, XREG(61) * 4, 
-                            (temp_s1->unk_E3D8 + 0x60) * 4, (XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
-            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1900));
+                            (u16)(temp_s1->unk_E3D8 + 0x60) * 4, (u16)(XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (u32)((u32)temp_s1->textboxSegment + 0x1900));
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPLoadSync(sp120++);
             gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
@@ -976,54 +1119,42 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
             gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
             gSPTextureRectangle(sp120++, 
-                            (temp_s1->unk_E3D8 + 0x60) * 4, XREG(61) * 4, 
-                            (temp_s1->unk_E3D8 + 0xC0) * 4, (XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+                            (u16)(temp_s1->unk_E3D8 + 0x60) * 4, XREG(61) * 4, 
+                            (u16)(temp_s1->unk_E3D8 + 0xC0) * 4, (u16)(XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+
             gDPPipeSync(sp120++);
             gDPSetCombineLERP(sp120++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
 
             temp_s1->unk_E3D8 += 0x20;
             break;
-        case 19:
+        case 20:
             temp_s1->unk_E3EA = temp_s1->unk_E306[++phi_s2];
             break;
-        case 25:
+        case 26:
             temp_s1->unk_E3D6 = 1;
             break;
-        case 26:
+        case 27:
             temp_s1->unk_E3E4 = 0x10;
             if (temp_s1->msgMode == 6) {
+                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
                 temp_s1->unk_E3E7 = 4;
                 temp_s1->choiceIndex = 0;
-                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
-                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 2);
-                phi_t0 = 9;
-                phi_t1 = 0xA;
-                phi_t2 = 0xB;
-                phi_t3 = 0xC;
-                phi_t4 = 0xD;
-                phi_t5 = 4;
+                Font_LoadMessageBoxEndIcon(font, 2);
             }
             break;
-        case 27:
+        case 28:
             temp_s1->unk_E3E4 = 0x20;
             if (temp_s1->msgMode == 6) {
+                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
                 temp_s1->unk_E3E7 = 4;
                 temp_s1->choiceIndex = 0;
-                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
-                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 2);
-                phi_t0 = 9;
-                phi_t1 = 0xA;
-                phi_t2 = 0xB;
-                phi_t3 = 0xC;
-                phi_t4 = 0xD;
-                phi_t5 = 4;
+                Font_LoadMessageBoxEndIcon(font, 2);
             }
             break;
-        case 1:
+        case 2:
             if (temp_s1->msgMode == 6) {
                 temp_s1->msgMode = 0x35;
                 if (temp_s1->unk_E3E4 == 0) {
-                    font = &globalCtx->msgCtx.font;
                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     Font_LoadMessageBoxEndIcon(font, 1);
                     if (globalCtx->csCtx.state == 0) {
@@ -1033,26 +1164,26 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             }
             *gfxP = sp120;
             return;
-        case 15:
+        case 16:
             if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
                 func_801083F8(globalCtx);
                 *gfxP = sp120;
                 return;
             }
             break;
-        case 13:
+        case 14:
             if (temp_s1->msgMode == 6) {
                 temp_s1->msgMode = 0x35;
                 temp_s1->unk_E3E4 = 0x60;
-                temp_s1->unk_E3E7 = temp_s1->unk_E306[(u16)(phi_s2 + 1)];
-                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 1);
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[++phi_s2];
+                Font_LoadMessageBoxEndIcon(font, 1);
                 if (globalCtx->csCtx.state == 0) {
                     Interface_SetDoAction(globalCtx, 3);
                 }
             }
             *gfxP = sp120;
             return;
-        case 9:
+        case 10:
             if (temp_s1->msgMode == 6) {
                 Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 temp_s1->msgMode = 0x35;
@@ -1060,28 +1191,22 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             }
             *gfxP = sp120;
             return;
-        case 10:
+        case 11:
             if (temp_s1->msgMode == 6) {
                 temp_s1->msgMode = 0x35;
                 temp_s1->unk_E3E4 = 0x50;
-                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 0);
-                Audio_PlaySoundGeneral(0x482E, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Font_LoadMessageBoxEndIcon(font, 0);
+                Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_END, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
-            break;
+            *gfxP = sp120;
+            return;
         default:
-            font = &globalCtx->msgCtx.font;
-            if ((temp_s1->msgMode == 6) && (temp_s1->unk_E3D2 == (phi_s2 + 1)) && (temp_s1->unk_E3E8 == temp_s1->unk_E3EA)) {
+            if (temp_s1->msgMode == 6 && temp_s1->unk_E3D2 == (phi_s2 + 1) && temp_s1->unk_E3E8 == temp_s1->unk_E3EA) {
                 Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
-            func_80106F1C(globalCtx, (u32)font + sp128 + 8, &sp120);
+            func_80106F1C(globalCtx, &((u8*)&font->xy)[sp128], &sp120);
             sp128 += 128;
             temp_s1->unk_E3D8 += (s16)(D_80153980[temp_v0] * (XREG(57) / 100.0f));
-            phi_t0 = 9;
-            phi_t1 = 0xA;
-            phi_t2 = 0xB;
-            phi_t3 = 0xC;
-            phi_t4 = 0xD;
-            phi_t5 = 4;
             break;
         }
     }
@@ -1246,18 +1371,18 @@ void func_80109B3C(GlobalContext *globalCtx) {
 
             for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                 Font_LoadChar(font, sp7C[phi_s3] + 0x10, phi_s5_8);
+                phi_s5_8 += 0x80;
                 msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                 phi_s6++;
-                phi_s5_8 += 0x80;
                 if (phi_s3 == 1) {
                     Font_LoadChar(font, 2, phi_s5_8);
+                    phi_s5_8 += 0x80;
                     msgCtx->unk_E306[phi_s6] = 0x22;
                     phi_s6++;
-                    phi_s5_8 += 0x80;
                 } else if (phi_s3 == 3) {
                     Font_LoadChar(font, 2, phi_s5_8);
-                    msgCtx->unk_E306[phi_s6] = 0x22;
                     phi_s5_8 += 0x80;
+                    msgCtx->unk_E306[phi_s6] = 0x22;
                 }
             }
         } else if (temp_s2 == 0x18) {
@@ -1284,10 +1409,10 @@ void func_80109B3C(GlobalContext *globalCtx) {
                     phi_s1_2 = 1;
                 }
                 if (phi_s1_2 != 0) {
-                    Font_LoadChar(font, sp7C[phi_s3] + 0x10F, phi_s5_8);
+                    Font_LoadChar(font, sp7C[phi_s3] + 0x10, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
-                    phi_s6++;
                     phi_s5_8 += 0x80;
+                    phi_s6++;
                 }
             }
             phi_s6--;
@@ -1410,18 +1535,18 @@ void func_80109B3C(GlobalContext *globalCtx) {
 
                     for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                         Font_LoadChar(font, sp7C[phi_s3] + 0x10, phi_s5_8);
-                        msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                         phi_s5_8 += 0x80;
+                        msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                         phi_s6++;
                         if (phi_s3 == 1) {
                             Font_LoadChar(font, 2, phi_s5_8);
-                            msgCtx->unk_E306[phi_s6] = 0x22;
                             phi_s5_8 += 0x80;
+                            msgCtx->unk_E306[phi_s6] = 0x22;
                             phi_s6++;
                         } else if (phi_s3 == 3) {
                             Font_LoadChar(font, 2, phi_s5_8);
-                            msgCtx->unk_E306[phi_s6] = 0x22;
                             phi_s5_8 += 0x80;
+                            msgCtx->unk_E306[phi_s6] = 0x22;
                         }
                     }
                     break;
@@ -1445,13 +1570,13 @@ void func_80109B3C(GlobalContext *globalCtx) {
 
             for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                 Font_LoadChar(font, sp7C[phi_s3] + 0x10, phi_s5_8);
-                msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                 phi_s5_8 += 0x80;
+                msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                 phi_s6++;
                 if (phi_s3 == 1) {
                     Font_LoadChar(font, 0x1A, phi_s5_8);
-                    msgCtx->unk_E306[phi_s6] = 0x3A;
                     phi_s5_8 += 0x80;
+                    msgCtx->unk_E306[phi_s6] = 0x3A;
                     phi_s6++;
                 }
             }
@@ -1502,8 +1627,8 @@ void func_80109B3C(GlobalContext *globalCtx) {
                 phi_s5_8 += 0x80;
             }
         }
-        msgCtx->unk_E3CE++;
         phi_s6++;
+        msgCtx->unk_E3CE++;
     }
 }
 #else
@@ -1530,7 +1655,7 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
     }
 
     NON_CONST_ARR(D_8014B308,s16*)[0] = 0;
-    NON_CONST_ARR(D_8014B2F4,u8*)[0] = NON_CONST_ARR(D_8014B300,u8*)[0] = NON_CONST_ARR(D_8014B308,s16*)[0];
+    D_8014B2F4 = NON_CONST_ARR(D_8014B300,u8*)[0] = NON_CONST_ARR(D_8014B308,s16*)[0];
     NON_CONST_ARR(D_8014B318,s16*)[0] = NON_CONST_ARR(D_8014B308,s16*)[0] & 0xFF;
 
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
@@ -1811,41 +1936,37 @@ void func_8010BD88(GlobalContext* globalCtx, u16 arg1) {
 }
 
 // Talk states?
-#ifdef NON_MATCHING
-// Tiny regalloc at the end
 u8 func_8010BDBC(MessageContext* msgCtx) {
+    u8 ret;
     if (msgCtx->unk_E300 == 0) {
-        return 0;
+        ret = 0;
     } else if (msgCtx->msgMode == 0x35) {
         if (msgCtx->unk_E3E4 == 0x30) {
-            return 1;
+            ret = 1;
         } else if (msgCtx->unk_E3E4 == 0x10 || msgCtx->unk_E3E4 == 0x20) {
-            return 4;
+            ret = 4;
         } else if (msgCtx->unk_E3E4 == 0x50 || msgCtx->unk_E3E4 == 0x40) {
-            return 5;
+            ret = 5;
         } else if (msgCtx->unk_E3E4 == 0x60) {
-            return 3;
+            ret = 3;
         } else {
-            return 6;
+            ret = 6;
         }
     } else if (msgCtx->msgMode == 0x34) {
-        return 10;
+        ret = 10;
     } else if (msgCtx->msgMode == 0x1A) {
-        return 7;
+        ret = 7;
     } else if (msgCtx->unk_E3EE == 3) {
-        return 8;
+        ret = 8;
     } else if (msgCtx->msgMode == 0x1F) {
-        return 9;
+        ret = 9;
     } else if (msgCtx->msgMode == 0x36 && msgCtx->unk_E3E7 == 1) {
-        return 2;
+        ret = 2;
     } else {
-        return 3;
+        ret = 3;
     }
+    return ret;
 }
-#else
-u8 func_8010BDBC(MessageContext* msgCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BDBC.s")
-#endif
 
 #ifdef NON_MATCHING
 // Very small reorderings, regalloc
@@ -3121,24 +3242,33 @@ void func_8010F58C(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // Small reorderings, regalloc, stack, data loads
 void func_8010F6F0(GlobalContext *globalCtx) {
+    static s16 D_80153D00[] = {0};
+    static s16 D_80153D0C[] = {0};
+    static s16 D_80153D18[] = {0};
+    static s16 D_80153D24[] = {0};
+    static s16 D_80153D30[] = {0};
+    static u8 D_80153D74 = 0;
+    static u16 D_80153D78 = 0;
+
+                                                    // globalCtx sp58 
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Input *curInput = &globalCtx->state.input[0];
-    Player *player = PLAYER;
-    s32 phi_v1_2;
-    u8 unk_E2FD;
+    Player *player = PLAYER;                        // sp4C
     u16 new_var;
-    s16 sp44;
-    s16 sp42;
-    s16 sp40;
-    s16 sp3E;
-    MessageContext *msgCtx = &globalCtx->msgCtx;
+    u8 unk_E2FD;
+    s16 sp44;                                       // sp44
+    s16 sp42;                                       // sp42
+    s16 sp40;                                       // sp40
+    s16 sp3E;                                       // sp3E
     MessageTableEntry *entry;
+    MessageContext *msgCtx = &globalCtx->msgCtx;    // sp30
+    s32 phi_v1_2;
 
     if (BREG(0) != 0) {
         if (CHECK_BTN_ALL(curInput->press.button,0x400) && CHECK_BTN_ALL(curInput->cur.button, 0x20)) {
-            osSyncPrintf("msgno=%d\n", NON_CONST_ARR(D_80153D78,u16*)[0]);
+            osSyncPrintf("msgno=%d\n", D_80153D78);
             func_8010B680(globalCtx, YREG(79), NULL);
-            NON_CONST_ARR(D_80153D78,u16*)[0] = (NON_CONST_ARR(D_80153D78,u16*)[0] + 1) % 10;
+            D_80153D78 = (D_80153D78 + 1) % 10;
         }
         if (YREG(78) != 0) {
             while (YREG(79) != 0x8000) {
@@ -3161,15 +3291,15 @@ void func_8010F6F0(GlobalContext *globalCtx) {
     if (msgCtx->unk_E300 != 0) {
         switch (msgCtx->msgMode) {
             case 1:
-                NON_CONST_ARR(D_8014B2F4,u8*)[0]++;
                 phi_v1_2 = 0;
+                D_8014B2F4++;
                 if (YREG(15) == 0x40) {
-                    if (NON_CONST_ARR(D_8014B2F4,u8*)[0] >= 4) {
+                    if (D_8014B2F4 >= 4) {
                         phi_v1_2 = 1;
                     }
-                } else if (YREG(15) != 0 || globalCtx->sceneNum == 0x45) {
+                } else if (YREG(15) != 0 || globalCtx->sceneNum == SCENE_HAIRAL_NIWA) {
                     phi_v1_2 = 1;
-                } else if (NON_CONST_ARR(D_8014B2F4,u8*)[0] >= 4 || msgCtx->unk_E408 == 0) {
+                } else if (D_8014B2F4 >= 4 || msgCtx->unk_E408 == 0) {
                     phi_v1_2 = 1;
                 }
                 if (phi_v1_2 != 0) {
@@ -3188,24 +3318,12 @@ void func_8010F6F0(GlobalContext *globalCtx) {
                     }
                     unk_E2FD = msgCtx->unk_E2FD;
                     if (msgCtx->unk_E2FE == 0) {
-                        if (YREG(15) != 0 || globalCtx->sceneNum == 0x45) {
-                            if (sp42 < XREG(92)) {
-                                XREG(73) = D_80153D0C[unk_E2FD];
-                            } else {
-                                XREG(73) = D_80153D18[unk_E2FD];
-                            }
-                        } else if (globalCtx->sceneNum == 0x20 || globalCtx->sceneNum == 0x21 || globalCtx->sceneNum == 0x22) {
-                            if (sp42 < XREG(93)) {
-                                XREG(73) = D_80153D0C[unk_E2FD];
-                            } else {
-                                XREG(73) = D_80153D18[unk_E2FD];
-                            }
+                        if (YREG(15) != 0 || globalCtx->sceneNum == SCENE_HAIRAL_NIWA) {
+                            XREG(73) = (sp42 < XREG(92)) ? D_80153D0C[unk_E2FD] : D_80153D18[unk_E2FD];
+                        } else if (globalCtx->sceneNum == SCENE_MARKET_DAY || globalCtx->sceneNum == SCENE_MARKET_NIGHT || globalCtx->sceneNum == SCENE_MARKET_RUINS) {
+                            XREG(73) = (sp42 < XREG(93)) ? D_80153D0C[unk_E2FD] : D_80153D18[unk_E2FD];
                         } else {
-                            if (sp42 < XREG(94)) {
-                                XREG(73) = D_80153D0C[unk_E2FD];
-                            } else {
-                                XREG(73) = D_80153D18[unk_E2FD];
-                            }
+                            XREG(73) = (sp42 < XREG(94)) ? D_80153D0C[unk_E2FD] : D_80153D18[unk_E2FD];
                         }
                     } else if (msgCtx->unk_E2FE == 1) {
                         XREG(73) = D_80153D18[unk_E2FD];
@@ -3250,9 +3368,9 @@ void func_8010F6F0(GlobalContext *globalCtx) {
                 if (D_8014B2F0 != 0) {
                     Interface_ChangeAlpha(1);
                 }
-                if (NON_CONST_ARR(D_80153D74,u8*)[0] != 0) {
+                if (D_80153D74 != 0) {
                     msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
-                    NON_CONST_ARR(D_80153D74,u8*)[0] = 0;
+                    D_80153D74 = 0;
                 }
                 break;
             case 5:
@@ -3263,7 +3381,7 @@ void func_8010F6F0(GlobalContext *globalCtx) {
                 break;
             case 6:
                 if (msgCtx->unk_E2FD != 4 && YREG(31) == 0 && ~(globalCtx->state.input[0].press.button | ~0x4000) == 0 && msgCtx->unk_E3D6 == 0) {
-                    NON_CONST_ARR(D_8014B300,u8*)[0] = 1;
+                    D_8014B300 = 1;
                     msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
                 }
                 break;
