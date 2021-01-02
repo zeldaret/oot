@@ -19,7 +19,7 @@ typedef enum {
     /* 5 */ ZL4_CS_LEGEND,
     /* 6 */ ZL4_CS_WINDOW,
     /* 7 */ ZL4_CS_GANON,
-    /* 8 */ ZL4_CS_PLAN,
+    /* 8 */ ZL4_CS_PLAN
 } EnZl4CutsceneState;
 
 typedef enum {
@@ -29,14 +29,14 @@ typedef enum {
     /* 3 */ ZL4_EYES_LOOK_RIGHT,
     /* 4 */ ZL4_EYES_WIDE,
     /* 5 */ ZL4_EYES_HALF_OPEN,
-    /* 6 */ ZL4_EYES_OPEN,
+    /* 6 */ ZL4_EYES_OPEN
 } EnZl4EyeExpression;
 
 typedef enum {
     /* 0 */ ZL4_MOUTH_NEUTRAL,
     /* 0 */ ZL4_MOUTH_HAPPY,
     /* 0 */ ZL4_MOUTH_WORRIED,
-    /* 0 */ ZL4_MOUTH_SURPRISED,
+    /* 0 */ ZL4_MOUTH_SURPRISED
 } EnZl4MouthExpression;
 
 void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -349,13 +349,13 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 absYawDiff;
 
-    if (!func_8002F194(this, globalCtx)) {
+    if (!func_8002F194(&this->actor, globalCtx)) {
         yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
         if ((playerx->posRot.pos.y != this->actor.posRot.pos.y) || (absYawDiff >= 0x3FFC)) {
             return 0;
         } else {
-            func_8002F2CC(this, globalCtx, this->collider.dim.radius + 60.0f);
+            func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 60.0f);
             return 0;
         }
     }
@@ -372,7 +372,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
     switch (this->talkState) {
         case 0:
             if (this->skelAnime.curFrame == 50.0f) {
-                Audio_PlayActorSound2(this, NA_SE_VO_Z0_MEET);
+                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_MEET);
             }
             if (!EnZl4_SetNextAnim(this, 4)) {
                 break;
@@ -476,7 +476,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 4:
             if (this->skelAnime.curFrame == 16.0f) {
-                Audio_PlayActorSound2(this, NA_SE_VO_Z0_QUESTION);
+                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_QUESTION);
             }
             if (EnZl4_SetNextAnim(this, 10)) {
                 this->talkState++;
@@ -521,7 +521,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 7:
             if (this->skelAnime.curFrame == 17.0f) {
-                Audio_PlayActorSound2(this, NA_SE_VO_Z0_SMILE_0);
+                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_SMILE_0);
             }
             if (EnZl4_SetNextAnim(this, 29)) {
                 this->talkState++;
@@ -659,7 +659,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 12:
             if (this->skelAnime.curFrame == 5.0f) {
-                Audio_PlayActorSound2(this, NA_SE_VO_Z0_SIGH_0);
+                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_SIGH_0);
             }
             if (EnZl4_SetNextAnim(this, 12)) {
                 this->talkState++;
@@ -752,7 +752,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
                 func_8010B680(globalCtx, 0x7038, NULL);
                 this->talkState++;
-                Audio_PlayActorSound2(this, NA_SE_VO_Z0_HURRY);
+                Audio_PlayActorSound2(&this->actor, NA_SE_VO_Z0_HURRY);
             }
             break;
         case 5:
@@ -828,7 +828,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000104);
                 gSaveContext.cutsceneTrigger = 1;
                 this->talkState++;
-                func_8002DF54(globalCtx, this, 8);
+                func_8002DF54(globalCtx, &this->actor, 8);
             }
             break;
         case 2:
@@ -838,7 +838,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
                 }
             } else {
                 func_800AA000(0.0f, 0xA0, 0xA, 0x28);
-                func_8002DF54(globalCtx, this, 1);
+                func_8002DF54(globalCtx, &this->actor, 1);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, 30);
                 EnZl4_SetCsCameraAngle(globalCtx, 11);
                 func_8010B680(globalCtx, 0x7039, NULL);
@@ -921,14 +921,14 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, 31);
-                this->blinkTimer = 0xB;
+                this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_HALF_OPEN;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 func_8010B680(globalCtx, 0x703B, NULL);
-                this->talkState = 0xB;
+                this->talkState = 11;
             } else {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, 13);
-                this->blinkTimer = 0xB;
+                this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_LEFT;
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
                 globalCtx->msgCtx.msgMode = 0x37;
@@ -1024,19 +1024,19 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             } else {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
                 this->talkState = 7;
-                globalCtx->talkWithPlayer(globalCtx, this);
-                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
+                globalCtx->talkWithPlayer(globalCtx, &this->actor);
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
                               fabsf(this->actor.yDistToLink) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
             }
             break;
         case 7:
-            if (Actor_HasParent(this, globalCtx)) {
+            if (Actor_HasParent(&this->actor, globalCtx)) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, 0);
                 this->talkState++;
             } else {
-                func_8002F434(this, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
                               fabsf(this->actor.yDistToLink) + 1.0f);
             }
             // no break here is required for matching
