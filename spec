@@ -1525,8 +1525,7 @@ endseg
 beginseg
     name "ovl_Demo_Ik"
     include "build/src/overlays/actors/ovl_Demo_Ik/z_demo_ik.o"
-    include "build/data/overlays/actors/z_demo_ik.data.o"
-    include "build/data/overlays/actors/z_demo_ik.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Ik/ovl_Demo_Ik_reloc.o"
 endseg
 
 beginseg
