@@ -1,4 +1,11 @@
+/*
+ * File: z_bg_sst_floor.c
+ * Overlay: ovl_Bg_Sst_Floor
+ * Description: Bongo Bongo's drum
+ */
+
 #include "z_bg_sst_floor.h"
+#include "objects/object_sst/object_sst.h"
 
 #define FLAGS 0x00000030
 
@@ -9,10 +16,10 @@ void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 
-extern CollisionHeader D_060194F8;
-extern Gfx D_06019210[];
+extern CollisionHeader gBongoDrumCol;
+extern Gfx gBongoDrumDL[];
 
-s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
+static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
@@ -37,7 +44,7 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, D_808B9E3C);
     DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(&D_060194F8, &colHeader);
+    DynaPolyInfo_Alloc(&gBongoDrumCol, &colHeader);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
@@ -53,13 +60,13 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSstFloor* this = THIS;
     Player* player = PLAYER;
-    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&D_060194F8);    
+    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
     colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
 
     if (1) {}
 
-    if (func_80043590(&this->dyna) && (this->dyna.actor.yDistFromLink < 1000.0f)) {
+    if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToLink < 1000.0f)) {
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0xC);
     } else {
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
@@ -80,7 +87,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         this->drumPhase = 28;
 
         if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
-            distFromRim = 600.0f - this->dyna.actor.xzDistFromLink;
+            distFromRim = 600.0f - this->dyna.actor.xzDistToLink;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {
                     distFromRim = 350.0f;
@@ -111,8 +118,8 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         colHeader->vertexArray[3].y = colHeader->vertexArray[4].y = colHeader->vertexArray[7].y =
             colHeader->vertexArray[9].y = colHeader->vertexArray[11].y = colHeader->vertexArray[13].y =
                 this->dyna.actor.initPosRot.pos.y + this->drumHeight;
-    
-    if(this->drumPhase != 0) {
+
+    if (this->drumPhase != 0) {
         this->drumPhase--;
     }
     if (1) {}
@@ -129,7 +136,7 @@ void BgSstFloor_Draw(BgSstFloor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 283),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06019210);
+    gSPDisplayList(POLY_OPA_DISP++, gBongoDrumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 287);
 }

@@ -1,0 +1,46 @@
+<Root>
+    <File Name="object_sst" Segment="6">
+        <Texture Name="gBongoTitleCard" Format="i8" Width="128" Height="120" Offset="0x13D80"/>
+        
+        <Skeleton Name="gBongoLeftHandSkel" Type="Flex" LimbType="Standard" Offset="0x04DE0"/>
+        <Animation Name="gBongoLeftHandAnim1" Offset="0x002E8"/>
+        <Animation Name="gBongoLeftHandAnim2" Offset="0x04EC4"/>
+        <Animation Name="gBongoLeftHandAnim3" Offset="0x04FB4"/>
+        <Animation Name="gBongoLeftHandAnim4" Offset="0x050A8"/>
+        <Animation Name="gBongoLeftHandAnim5" Offset="0x0529C"/>
+        <Animation Name="gBongoLeftHandAnim6" Offset="0x0539C"/>
+        <Animation Name="gBongoLeftHandAnim7" Offset="0x0549C"/>
+        <Animation Name="gBongoLeftHandAnim8" Offset="0x05588"/>
+
+        <Skeleton Name="gBongoRightHandSkel" Type="Flex" LimbType="Standard" Offset="0x0A350"/>
+        <Animation Name="gBongoRightHandAnim1" Offset="0x05860"/>
+        <Animation Name="gBongoRightHandAnim2" Offset="0x0A434"/>
+        <Animation Name="gBongoRightHandAnim3" Offset="0x0A524"/>
+        <Animation Name="gBongoRightHandAnim4" Offset="0x0A618"/>
+        <Animation Name="gBongoRightHandAnim5" Offset="0x0A848"/>
+        <Animation Name="gBongoRightHandAnim6" Offset="0x0A948"/>
+        <Animation Name="gBongoRightHandAnim7" Offset="0x0AA4C"/>
+        <Animation Name="gBongoRightHandAnim8" Offset="0x0AB38"/>
+
+        <Skeleton Name="gBongoHeadSkel" Type="Flex" LimbType="Standard" Offset="0x17C40"/>
+        <Animation Name="gBongoHeadAnim1" Offset="0x0ACD4"/>
+        <Animation Name="gBongoHeadAnim2" Offset="0x0B0D8"/>
+        <Animation Name="gBongoHeadAnim3" Offset="0x0B6FC"/>
+        <Animation Name="gBongoHeadAnim4" Offset="0x0C288"/>
+        <Animation Name="gBongoHeadAnim5" Offset="0x0C5B0"/>
+        <Animation Name="gBongoHeadAnim6" Offset="0x0C9BC"/>
+        <Animation Name="gBongoHeadAnim7" Offset="0x0CC6C"/>
+        <Animation Name="gBongoHeadAnim8" Offset="0x0D458"/>
+        <Animation Name="gBongoHeadAnim9" Offset="0x0DC2C"/>
+        <Animation Name="gBongoHeadAnim10" Offset="0x0E7B8"/>
+
+        <DList Name="gBongoIceCrystalDL" Offset="0x17EE0"/>
+        <DList Name="gBongoIceShardDL" Offset="0x17F80"/>
+
+        <DList Name="gBongoDrumDL" Offset="0x19210"/>
+        <Collision Name="gBongoDrumCol" Offset="0x194F8"/>
+
+        <Texture Name="gBongoUnused1" Format="rgb5a1" Width="8" Height="8" Offset="0x01A6B0"/>
+        <Texture Name="gBongoUnused2" Format="rgb5a1" Width="16" Height="16" Offset="0x01A9B0"/>
+    </File>
+</Root>

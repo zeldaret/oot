@@ -4795,7 +4795,8 @@ endseg
 beginseg
     name "object_sst"
     romalign 0x1000
-    include "build/baserom/object_sst.o"
+    include "build/assets/objects/object_sst/object_sst.o"
+    number 6
 endseg
 
 beginseg

@@ -39,8 +39,8 @@ typedef struct BossSst {
     /* 0x01A2 */ s16 amplitude;
     /* 0x01A4 */ s16 targetYaw;
     /* 0x01A6 */ s16 targetRoll;
-    /* 0x01A8 */ Vec3s limbDrawTable[45];
-    /* 0x02B6 */ Vec3s transitionDrawTable[45];
+    /* 0x01A8 */ Vec3s jointTable[45];
+    /* 0x02B6 */ Vec3s morphTable[45];
     /* 0x03C4 */ f32 radius;
     /* 0x03C8 */ Vec3f center;
     /* 0x03D4 */ ColliderJntSph colliderJntSph;
@@ -56,7 +56,7 @@ typedef enum {
     /* -1 */ BONGO_HEAD = -1,
     /*  0 */ BONGO_LEFT_HAND,
     /*  1 */ BONGO_RIGHT_HAND
-} BossSstParams;
+} BossSstType;
 
 extern const ActorInit Boss_Sst_InitVars;
 
