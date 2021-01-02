@@ -452,7 +452,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 400.0f) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x1F4, 0);
         this->actor.flags |= 1;
-        if ((this->actor.xzDistFromLink < 100.0f) && (yawDiff < 0x1388) && (this->actor.yDistFromLink < 60.0f)) {
+        if ((this->actor.xzDistToLink < 100.0f) && (yawDiff < 0x1388) && (this->actor.yDistToLink < 60.0f)) {
             EnDodongo_SetupBreatheFire(this);
         }
     } else {

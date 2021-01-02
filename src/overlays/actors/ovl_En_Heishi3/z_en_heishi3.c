@@ -118,7 +118,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
             sightRange = 100.0f;
         }
     }
-    if ((this->actor.xzDistFromLink < sightRange) &&
+    if ((this->actor.xzDistToLink < sightRange) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
         func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"

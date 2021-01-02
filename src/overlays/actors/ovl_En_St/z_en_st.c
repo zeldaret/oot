@@ -651,7 +651,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         // skull is spinning from damage.
         return false;
-    } else if (this->actor.xzDistFromLink > 160.0f) {
+    } else if (this->actor.xzDistToLink > 160.0f) {
         // player is more than 160 xz units from the skulltulla
         return false;
     }
