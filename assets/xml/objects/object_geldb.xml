@@ -1,0 +1,21 @@
+<Root>
+    <File Name="object_geldb" Segment="6">
+        <Skeleton Name="gGerudoThiefSkel" Type="Flex" LimbType="Standard" Offset="0xA458"/>
+        <Animation Name="gGerudoThiefJumpAnim" Offset="0xADF8"/>
+        <Animation Name="gGerudoThiefNeutralAnim" Offset="0xB6D4"/>
+        <Animation Name="gGerudoThiefSidestepAnim" Offset="0xA814"/>
+        <Animation Name="gGerudoThiefFlipAnim" Offset="0x1390"/>
+        <Animation Name="gGerudoThiefWalkAnim" Offset="0x24E8"/>
+        <Animation Name="gGerudoThiefSlashAnim" Offset="0x03CC"/>
+        <Animation Name="gGerudoThiefSpinAttackAnim" Offset="0x0F5C"/>
+        <Animation Name="gGerudoThiefDamageAnim" Offset="0x2280"/>
+        <Animation Name="gGerudoThiefDefeatAnim" Offset="0x1E10"/>
+        <Animation Name="gGerudoThiefBlockAnim" Offset="0x1578"/>
+        <Animation Name="gGerudoThiefStandAnim" Offset="0xB07C"/>
+        <Texture Name="gGerudoThiefTex1" Format="rgb5a1" Width="18" Height="14" Offset="0x5D30"/>
+        <Texture Name="gGerudoThiefTex2" Format="i8" Width="8" Height="8" Offset="0x5F28"/>
+        <Texture Name="gGerudoThiefTexEyeOpen" Format="i8" Width="32" Height="32" Offset="0x5FE8"/>
+        <Texture Name="gGerudoThiefTexEyeHalf" Format="i8" Width="32" Height="32" Offset="0x65A8"/>
+        <Texture Name="gGerudoThiefTexEyeShut" Format="i8" Width="32" Height="32" Offset="0x6D28"/>
+    </File>
+</Root>
