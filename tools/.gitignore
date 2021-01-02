@@ -1,6 +1,7 @@
 # Output files
-yaz0*
-makeromfs*
-elf2rom*
-mkldscript*
-vtxdis*
+*.exe
+yaz0
+makeromfs
+elf2rom
+mkldscript
+vtxdis
