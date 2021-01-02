@@ -57,7 +57,7 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->unk_1F = 1;
     thisx->gravity = -2.0f;
-    DynaPolyInfo_Alloc(&gPuBoxCol, &local_c);
+    DynaPolyInfo_Alloc(&gUnknownUnusedBox2Col, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
@@ -86,5 +86,5 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gPuBoxDL2);
+    Gfx_DrawDListOpa(globalCtx, gUnknownUnusedBox2DL);
 }

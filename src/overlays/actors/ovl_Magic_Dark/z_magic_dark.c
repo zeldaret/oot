@@ -221,7 +221,7 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondTextureDList);
+        gSPDisplayList(POLY_XLU_DISP++, sDiamondTexDList);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4, 32, 32, 1,
                                         0, gameplayFrames * -16, 64, 32));
