@@ -1,4 +1,5 @@
 #include "z_bg_jya_cobra.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -9,10 +10,6 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06010790;
-extern UNK_TYPE D_06010C20;
-extern UNK_TYPE D_0601167C;
-extern UNK_TYPE D_060117D0;
 
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {

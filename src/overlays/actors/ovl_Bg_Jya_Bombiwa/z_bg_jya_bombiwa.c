@@ -1,5 +1,6 @@
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000000
@@ -29,21 +30,19 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
+
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
     &sJntSphItemsInit,
 };
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
-
-extern UNK_TYPE D_0600E710;
-extern Gfx D_0600E490[];
-extern Gfx D_0600EDC0[];
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
     s16 pad1;
@@ -70,6 +69,7 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaBombiwa* this = THIS;
     if ((thisx->params & 0x3F) != 0x29) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
 
@@ -78,8 +78,8 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      thisx->params & 0x3F);
         osSyncPrintf(VT_SGR());
     }
-    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, 0);
-    BgJyaBombiwa_InitCollider(thisx, globalCtx);
+    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, gBombiwaCol, 0);
+    BgJyaBombiwa_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);
     } else {
@@ -133,7 +133,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, arg6, arg7, 0, scale, 1, 20, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDlist);
     }
     pos.x = this->dyna.actor.posRot.pos.x;
     pos.y = this->dyna.actor.posRot.pos.y + 70.0f;
@@ -147,7 +147,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -157,6 +157,6 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_0600E490);
+    Gfx_DrawDListOpa(globalCtx, gBombiwaDlist);
     func_800628A4(0, &this->collider);
 }

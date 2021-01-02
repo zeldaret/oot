@@ -1,10 +1,11 @@
 /*
  * File: z_bg_jya_kanaami.c
  * Overlay: Bg_Jya_Kanaami
- * Description: Climbable Metal Grating (Fire Temple)
+ * Description: Climbable Metal Grating
  */
 
 #include "z_bg_jya_kanaami.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -40,40 +41,37 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_0600F000[];
-extern UNK_TYPE D_0600F208;
-
-void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag flag) {
+void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag flag) {
     s32 pad;
-    s32 local_c = 0;
+    s32 localConst = 0;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->actor, flag);
-    DynaPolyInfo_Alloc(arg2, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
-    if (this->dynaPolyId == 0x32) {
+    DynaPolyInfo_SetActorMove(&this->dyna, flag);
+    DynaPolyInfo_Alloc(arg2, &localConst);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
-                     this->actor.id, this->actor.params);
+                     this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
-    func_80899740(this, globalCtx, &D_0600F208, 0);
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
+    BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, 0);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_80899A08(this);
     } else {
         func_80899880(this);
     }
-    osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->actor.params);
+    osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_80899880(BgJyaKanaami* this) {
@@ -82,9 +80,9 @@ void func_80899880(BgJyaKanaami* this) {
 }
 
 void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) || this->unk_16A > 0) {
-        if (this->actor.posRot.pos.x > -1000.0f && this->unk_16A == 0) {
-            func_800800F8(globalCtx, 0xD7A, -0x63, &this->actor, 0);
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || this->unk_16A > 0) {
+        if (this->dyna.actor.posRot.pos.x > -1000.0f && this->unk_16A == 0) {
+            func_800800F8(globalCtx, 0xD7A, -0x63, &this->dyna.actor, 0);
         }
         this->unk_16A += 1;
         if (this->unk_16A >= 0xA) {
@@ -100,21 +98,21 @@ void func_8089993C(BgJyaKanaami* this) {
 
 void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s32 var;
+    s32 quakeId;
     this->unk_168 += 0x20;
-    if (Math_ScaledStepToS(&this->actor.posRot.rot.x, 0x4000, this->unk_168)) {
+    if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRAP_BOUND);
-        var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 25000);
-        Quake_SetQuakeValues(var, 2, 0, 0, 0);
-        Quake_SetCountdown(var, 0x10);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+        quakeId = Quake_Add(ACTIVE_CAM, 3);
+        Quake_SetSpeed(quakeId, 25000);
+        Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
+        Quake_SetCountdown(quakeId, 16);
     }
 }
 
 void func_80899A08(BgJyaKanaami* this) {
-    this->actionFunc = 0;
-    this->actor.posRot.rot.x = 0x4000;
+    this->actionFunc = NULL;
+    this->dyna.actor.posRot.rot.x = 0x4000;
 }
 
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -123,9 +121,9 @@ void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
-    this->actor.shape.rot.x = this->actor.posRot.rot.x;
+    this->dyna.actor.shape.rot.x = this->dyna.actor.posRot.rot.x;
 }
 
 void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600F000);
+    Gfx_DrawDListOpa(globalCtx, gKanaamiDlist);
 }

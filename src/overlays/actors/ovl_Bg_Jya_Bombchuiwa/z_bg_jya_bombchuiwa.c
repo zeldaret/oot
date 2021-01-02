@@ -1,6 +1,6 @@
 #include "z_bg_jya_bombchuiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-
+#include "objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS 0x00000001
 
 #define THIS ((BgJyaBombchuiwa*)thisx)
@@ -49,11 +49,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_0600EDC0[];
-extern Gfx D_0600E8D0[];
-extern Gfx D_060119B0[];
-extern Gfx D_0600DC40[];
-extern Gfx D_0600DB60[];
+
 
 void BgJyaBombchuiwa_SetupCollider(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -70,8 +66,8 @@ void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
-    Actor_ProcessInitChain(thisx, &sInitChain);
-    BgJyaBombchuiwa_SetupCollider(thisx, globalCtx);
+    Actor_ProcessInitChain(thisx, sInitChain);
+    BgJyaBombchuiwa_SetupCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     } else {
@@ -123,7 +119,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDlist);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 100.0f, 8, 100, 160, 0);
 }
@@ -194,7 +190,7 @@ void BgJyaBombchuiwa_DrawRock(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060119B0);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaDlist2);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 443);
 }
 
@@ -206,10 +202,10 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 153.0f), 153));
-    gSPDisplayList(POLY_XLU_DISP++, D_0600DC40);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLightDlist1);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 255.0f), 255));
-    gSPDisplayList(POLY_XLU_DISP++, D_0600DB60);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLightDlist2);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 472);
 }
 
@@ -219,7 +215,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
     if (this->drawFlags & 1) {
-        Gfx_DrawDListOpa(globalCtx, &D_0600E8D0);
+        Gfx_DrawDListOpa(globalCtx, gBombchuiwaDlist);
         func_800628A4(0, &this->collider);
     }
 

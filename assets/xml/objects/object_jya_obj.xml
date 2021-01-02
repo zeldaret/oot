@@ -11,7 +11,6 @@
 		<DList Name="gBigMirrorDlist3" Offset="0xE1B0"/>
 		<DList Name="gBigMirrorDlist4" Offset="0xE2D0"/>
 		<Texture Name="gBigMirrorGradientTex" Format="ia16" Width="8" Height="128" Offset="0x1AB40"/>
-		<DList Name="gBombchuiwaEffectDlist" Offset="0xEDC0"/>
 		<DList Name="gBombchuiwaDlist" Offset="0xE8D0"/>
 		<DList Name="gBombchuiwaLightDlist1" Offset="0xDC40"/>
 		<DList Name="gBombchuiwaLightDlist2" Offset="0xDB60"/>
@@ -40,9 +39,8 @@
 		<Texture Name="gLiftTopTex" Format="rgb5a1" Width="16" Height="64" Offset="0x18140"/>
 		<Texture Name="gLiftUpperChainTex" Format="rgb5a1" Width="8" Height="32" Offset="0x18940"/>
 		<Blob Name="gLiftCol" Offset="0xD7E8" Size="0x2C"/>
-				<DList Name="gMegamiDlist1" Offset="0x5780"/>
+		<DList Name="gMegamiDlist1" Offset="0x5780"/>
 		<Blob Name="GMegamiCol" Offset="0x5C4C" Size="0x2C"/>
-		<DList Name="gMegamiDlist2" Offset="0xB9F8"/>
 		<DList Name="gMegamiDlist2" Offset="0xB9F8"/>
 		<DList Name="gMegamiPieceDlist1" Offset="0x9928"/>
 		<DList Name="gMegamiPieceDlist2" Offset="0x9AC0"/>

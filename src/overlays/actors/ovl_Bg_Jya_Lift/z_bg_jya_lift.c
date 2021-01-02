@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_lift.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -43,11 +44,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600D7E8;
-extern Gfx D_0600CCE0[];
-
 void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
-    s32 pad1;
+    s32 pad;
     s32 localConst = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
@@ -67,7 +65,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // Goddess lift CT
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, globalCtx, &D_0600D7E8, 0);
+    BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
@@ -156,5 +154,5 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600CCE0);
+    Gfx_DrawDListOpa(globalCtx, gLiftDlist);
 }
