@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B53F9E5B-0A58-4BAE-9AFE-856C8CBB8D36}</ProjectGuid>
+    <RootNamespace>ZAPD</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ZAPD</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)sqlite;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;USE_ASSIMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <Profile>true</Profile>
+      <AdditionalDependencies>assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="HighLevel\HLAnimationIntermediette.cpp" />
+    <ClCompile Include="HighLevel\HLModelIntermediette.cpp" />
+    <ClCompile Include="HighLevel\HLTexture.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Overlays\ZOverlay.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
+    <ClCompile Include="ZAnimation.cpp" />
+    <ClCompile Include="ZBlob.cpp" />
+    <ClCompile Include="ZCollision.cpp" />
+    <ClCompile Include="ZCutscene.cpp" />
+    <ClCompile Include="ZDisplayList.cpp" />
+    <ClCompile Include="ZFile.cpp" />
+    <ClCompile Include="ZSkeleton.cpp" />
+    <ClCompile Include="ZResource.cpp" />
+    <ClCompile Include="ZRoom\Commands\EndMarker.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetActorList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetAlternateHeaders.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetCameraSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetCollisionHeader.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetCutscenes.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetEchoSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetEntranceList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetExitList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetLightingSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetLightList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetMesh.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetObjectList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetPathways.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetRoomBehavior.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetRoomList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetSkyboxModifier.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetSkyboxSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetSoundSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetSpecialObjects.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetStartPositionList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetTimeSettings.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetTransitionActorList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetWind.cpp" />
+    <ClCompile Include="ZRoom\Commands\Unused09.cpp" />
+    <ClCompile Include="ZRoom\Commands\ZRoomCommandUnk.cpp" />
+    <ClCompile Include="ZRoom\ZRoom.cpp" />
+    <ClCompile Include="ZRoom\ZRoomCommand.cpp" />
+    <ClCompile Include="ZTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BitConverter.h" />
+    <ClInclude Include="Directory.h" />
+    <ClInclude Include="elfio\elfio.hpp" />
+    <ClInclude Include="elfio\elfio_dump.hpp" />
+    <ClInclude Include="elfio\elfio_dynamic.hpp" />
+    <ClInclude Include="elfio\elfio_header.hpp" />
+    <ClInclude Include="elfio\elfio_note.hpp" />
+    <ClInclude Include="elfio\elfio_relocation.hpp" />
+    <ClInclude Include="elfio\elfio_section.hpp" />
+    <ClInclude Include="elfio\elfio_segment.hpp" />
+    <ClInclude Include="elfio\elfio_strings.hpp" />
+    <ClInclude Include="elfio\elfio_symbols.hpp" />
+    <ClInclude Include="elfio\elfio_utils.hpp" />
+    <ClInclude Include="elfio\elf_types.hpp" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="HighLevel\HLAnimation.h" />
+    <ClInclude Include="HighLevel\HLAnimationIntermediette.h" />
+    <ClInclude Include="HighLevel\HLFileIntermediette.h" />
+    <ClInclude Include="HighLevel\HLModelIntermediette.h" />
+    <ClInclude Include="HighLevel\HLTexture.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="OpenFBX\miniz.h" />
+    <ClInclude Include="OpenFBX\ofbx.h" />
+    <ClInclude Include="Overlays\ZOverlay.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="sqlite_orm.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_image_write.h" />
+    <ClInclude Include="StringHelper.h" />
+    <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="tiny_gltf.h" />
+    <ClInclude Include="Vec3s.h" />
+    <ClInclude Include="ZAnimation.h" />
+    <ClInclude Include="ZBlob.h" />
+    <ClInclude Include="ZCollision.h" />
+    <ClInclude Include="ZCutscene.h" />
+    <ClInclude Include="ZDisplayList.h" />
+    <ClInclude Include="ZFile.h" />
+    <ClInclude Include="ZSkeleton.h" />
+    <ClInclude Include="ZResource.h" />
+    <ClInclude Include="ZRoom\ActorList.h" />
+    <ClInclude Include="ZRoom\Commands\EndMarker.h" />
+    <ClInclude Include="ZRoom\Commands\SetActorList.h" />
+    <ClInclude Include="ZRoom\Commands\SetAlternateHeaders.h" />
+    <ClInclude Include="ZRoom\Commands\SetCameraSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetCollisionHeader.h" />
+    <ClInclude Include="ZRoom\Commands\SetCutscenes.h" />
+    <ClInclude Include="ZRoom\Commands\SetEchoSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetEntranceList.h" />
+    <ClInclude Include="ZRoom\Commands\SetExitList.h" />
+    <ClInclude Include="ZRoom\Commands\SetLightingSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetLightList.h" />
+    <ClInclude Include="ZRoom\Commands\SetMesh.h" />
+    <ClInclude Include="ZRoom\Commands\SetObjectList.h" />
+    <ClInclude Include="ZRoom\Commands\SetPathways.h" />
+    <ClInclude Include="ZRoom\Commands\SetRoomBehavior.h" />
+    <ClInclude Include="ZRoom\Commands\SetRoomList.h" />
+    <ClInclude Include="ZRoom\Commands\SetSkyboxModifier.h" />
+    <ClInclude Include="ZRoom\Commands\SetSkyboxSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetSoundSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetSpecialObjects.h" />
+    <ClInclude Include="ZRoom\Commands\SetStartPositionList.h" />
+    <ClInclude Include="ZRoom\Commands\SetTimeSettings.h" />
+    <ClInclude Include="ZRoom\Commands\SetTransitionActorList.h" />
+    <ClInclude Include="ZRoom\Commands\SetWind.h" />
+    <ClInclude Include="ZRoom\Commands\Unused09.h" />
+    <ClInclude Include="ZRoom\Commands\ZRoomCommandUnk.h" />
+    <ClInclude Include="ZRoom\ObjectList.h" />
+    <ClInclude Include="ZRoom\ZRoom.h" />
+    <ClInclude Include="ZRoom\ZRoomCommand.h" />
+    <ClInclude Include="ZTexture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\SymbolMap_OoTMqDbg.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Libs\assimp-vc142-mt.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
