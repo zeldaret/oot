@@ -11616,7 +11616,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
 
             if (this->unk_6C2 < 10000) {
                 this->unk_84F++;
-                this->unk_850 = this->actor.waterY;
+                this->unk_850 = this->actor.yDistToWater;
                 func_80832C6C(globalCtx, this, &gPlayerAnim511);
             }
         } else if (!func_8083D12C(globalCtx, this, sControlInput)) {
@@ -14000,7 +14000,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 func_8083A2F8(globalCtx, this);
 
                 if (!func_8008E9C4(this)) {
-                    if ((actor != this->naviActor) && (actor->xzDistFromLink < 40.0f)) {
+                    if ((actor != this->naviActor) && (actor->xzDistToLink < 40.0f)) {
                         func_808322D0(globalCtx, this, &gPlayerAnim351);
                     } else {
                         func_80832284(globalCtx, this, func_80833338(this));
@@ -14008,7 +14008,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 }
             } else {
                 func_80836898(globalCtx, this, func_8083A2F8);
-                func_808322D0(globalCtx, this, (actor->xzDistFromLink < 40.0f) ? &gPlayerAnim351 : &gPlayerAnim469);
+                func_808322D0(globalCtx, this, (actor->xzDistToLink < 40.0f) ? &gPlayerAnim351 : &gPlayerAnim469);
             }
 
             if (this->skelAnime.animation == &gPlayerAnim351) {
