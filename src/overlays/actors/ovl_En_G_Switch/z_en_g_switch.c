@@ -447,9 +447,8 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static UNK_PTR sRupeeTex[] = {
-    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex, gRupeeSilverTex
-};
+static UNK_PTR sRupeeTex[] = { gRupeeGreenTex, gRupeeBlueTex,   gRupeeRedTex,
+                               gRupeePinkTex,  gRupeeOrangeTex, gRupeeSilverTex };
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

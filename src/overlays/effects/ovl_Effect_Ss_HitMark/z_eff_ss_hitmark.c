@@ -28,13 +28,14 @@ static Color_RGB8 sColors[] = {
 };
 
 static UNK_PTR sTextures[] = {
-    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,  gEffectDamageParticlesTex5,
-    gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,  gEffectDamageParticlesTex9,  gEffectDamageParticlesTex10,
-    gEffectDamageParticlesTex11, gEffectDamageParticlesTex12, gEffectDamageParticlesTex13, gEffectDamageParticlesTex14, gEffectDamageParticlesTex15,
-    gEffectDamageParticlesTex16, gEffectDamageParticlesTex17, gEffectDamageParticlesTex18, gEffectDamageParticlesTex19, gEffectDamageParticlesTex20,
-    gEffectDamageParticlesTex21, gEffectDamageParticlesTex22, gEffectDamageParticlesTex23, gEffectDamageParticlesTex24, gEffectDamageParticlesTex1,
-    gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,  gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,
-    gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
+    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,
+    gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
+    gEffectDamageParticlesTex9,  gEffectDamageParticlesTex10, gEffectDamageParticlesTex11, gEffectDamageParticlesTex12,
+    gEffectDamageParticlesTex13, gEffectDamageParticlesTex14, gEffectDamageParticlesTex15, gEffectDamageParticlesTex16,
+    gEffectDamageParticlesTex17, gEffectDamageParticlesTex18, gEffectDamageParticlesTex19, gEffectDamageParticlesTex20,
+    gEffectDamageParticlesTex21, gEffectDamageParticlesTex22, gEffectDamageParticlesTex23, gEffectDamageParticlesTex24,
+    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,
+    gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {

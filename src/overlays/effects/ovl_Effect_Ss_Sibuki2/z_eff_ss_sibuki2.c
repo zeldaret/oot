@@ -51,8 +51,9 @@ u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex2, gEffectUnusedBubblesTex3, gEffectUnusedBubblesTex4,
-    gEffectUnusedBubblesTex5, gEffectUnusedBubblesTex6, gEffectUnusedBubblesTex7, gEffectUnusedBubblesTex8,
+    gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex1, gEffectUnusedBubblesTex2,
+    gEffectUnusedBubblesTex3, gEffectUnusedBubblesTex4, gEffectUnusedBubblesTex5,
+    gEffectUnusedBubblesTex6, gEffectUnusedBubblesTex7, gEffectUnusedBubblesTex8,
 };
 
 void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
