@@ -80,8 +80,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.012999999f);
     this->actor.naviEnemyId = 0x23;
     this->actor.gravity = -2.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTable, this->morphTable,
-                   12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020F0, &D_06000228, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
@@ -279,29 +278,29 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     switch (this->unk_221) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
-            if ((this->unk_224 == 0) && (this->actor.xzDistFromLink < 200.0f) &&
-                (ABS(this->actor.yDistFromLink) < 50.0f) && func_8002E084(&this->actor, 0x1C70)) {
+            if ((this->unk_224 == 0) && (this->actor.xzDistToLink < 200.0f) && (ABS(this->actor.yDistToLink) < 50.0f) &&
+                func_8002E084(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             break;
         case 0:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if (sp64 == 0) {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
-                if ((this->actor.xzDistFromLink < 90.0f) && (this->actor.yDistFromLink < 50.0f) &&
+                                   this->actor.speedXZ * 1000.0f, 0);
+                if ((this->actor.xzDistToLink < 90.0f) && (this->actor.yDistToLink < 50.0f) &&
                     func_8002E084(&this->actor, 0x1554) &&
                     func_800339B8(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsLink)) {
                     func_809CF8F0(this);
                 }
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
-            if ((this->unk_224 == 0) || (ABS(this->actor.yDistFromLink) > 60.0f) || (player2->stateFlags1 & 0x6000)) {
+            if ((this->unk_224 == 0) || (ABS(this->actor.yDistToLink) > 60.0f) || (player2->stateFlags1 & 0x6000)) {
                 this->unk_221 = 3;
                 this->unk_224 = 150;
                 this->unk_250 = 0.0f;
@@ -313,10 +312,10 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink - 0x8000, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             } else {
                 Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_236 + this->unk_238, 1,
-                                        this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speedXZ * 1000.0f, 0);
             }
             if (this->unk_224 <= 200) {
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 55.0f;
@@ -668,7 +667,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                 this->unk_248 = 0.0f;
             }
         }
-        if ((globalCtx->actorCtx.unk_02 != 0) && (this->actor.xzDistFromLink <= 400.0f) &&
+        if ((globalCtx->actorCtx.unk_02 != 0) && (this->actor.xzDistToLink <= 400.0f) &&
             (this->actor.bgCheckFlags & 1)) {
             if (this->unk_220 == 5) {
                 this->unk_23C = 0;

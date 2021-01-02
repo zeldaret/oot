@@ -114,7 +114,7 @@ void BgIceTurara_Stalagmite(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Wait(BgIceTurara* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.xzDistFromLink < 60.0f) {
+    if (this->dyna.actor.xzDistToLink < 60.0f) {
         this->shiverTimer = 10;
         this->actionFunc = BgIceTurara_Shiver;
     }
