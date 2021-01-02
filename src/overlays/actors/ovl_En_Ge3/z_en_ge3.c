@@ -127,7 +127,7 @@ void EnGe3_TurnToFacePlayer(EnGe3* this, GlobalContext* globalCtx) {
 
 void EnGe3_LookAtPlayer(EnGe3* this, GlobalContext* globalCtx) {
     if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x2300) &&
-        (this->actor.xzDistFromLink < 100.0f)) {
+        (this->actor.xzDistToLink < 100.0f)) {
         func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_306, this->actor.posRot2.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
@@ -221,7 +221,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = EnGe3_Update;
     } else {
         this->actor.textId = 0x6005;
-        if (this->actor.xzDistFromLink < 100.0f) {
+        if (this->actor.xzDistToLink < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
     }
