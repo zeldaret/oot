@@ -1,4 +1,5 @@
 #include "z_demo_ik.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -93,7 +94,7 @@ Gfx* DemoIk_SetColors(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 
     return head;
 }
 
-s32 DemoIk_GetActionFromParams(s32 params) {
+s32 DemoIk_GetIndexFromParams(s32 params) {
     s32 ret;
 
     if (params == 0) {
@@ -136,18 +137,18 @@ void DemoIk_SpawnDeadDb(DemoIk* this, GlobalContext* globalCtx) {
         { -6.0f, 13.0f, -5.0f }, { 1.0f, 9.0f, 3.0f },    { -10.0f, 9.0f, 1.0f },
     };
     s32 i;
-    s32 action = DemoIk_GetActionFromParams(this->actor.params);
+    s32 index = DemoIk_GetIndexFromParams(this->actor.params);
 
-    if (DemoIk_CheckNpcAction(globalCtx, 5, action)) {
+    if (DemoIk_CheckNpcAction(globalCtx, 5, index)) {
         Vec3f pos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         s32 startIndex;
         s32 endIndex;
 
-        if (action == 5) {
+        if (index == 5) {
             startIndex = 0;
             endIndex = 4;
-        } else if (action == 7) {
+        } else if (index == 7) {
             startIndex = 4;
             endIndex = 8;
         } else {
@@ -203,29 +204,29 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
 }
 
 void func_8098393C(DemoIk* this) {
-    this->actionIndex = 0;
-    this->drawIndex = 0;
+    this->actionMode = 0;
+    this->drawMode = 0;
     this->actor.shape.unk_14 = 0;
 }
 
 void func_8098394C(DemoIk* this, GlobalContext* globalCtx) {
     DemoIk_EndMove(this);
-    DemoIk_MoveToStartPos(this, globalCtx, DemoIk_GetActionFromParams(this->actor.params));
-    this->actionIndex = 1;
-    this->drawIndex = 1;
+    DemoIk_MoveToStartPos(this, globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
+    this->actionMode = 1;
+    this->drawMode = 1;
     this->actor.shape.unk_14 = 0xFF;
     this->skelAnime.curFrame = 0.0f;
 }
 
 void func_809839AC(DemoIk* this) {
-    this->actionIndex = 2;
-    this->drawIndex = 1;
+    this->actionMode = 2;
+    this->drawMode = 1;
     this->actor.shape.unk_14 = 0xFF;
     this->skelAnime.curFrame = 0.0f;
 }
 
 void func_809839D0(DemoIk* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, DemoIk_GetActionFromParams(this->actor.params));
+    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
 
     if (npcAction != NULL) {
         s32 newAction = npcAction->action;
@@ -336,8 +337,8 @@ void DemoIk_Type2Init(DemoIk* this, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
-    this->actionIndex = 3;
-    this->drawIndex = 0;
+    this->actionMode = 3;
+    this->drawMode = 0;
 }
 
 void DemoIk_Type2PlaySoundOnFrame(DemoIk* this, f32 frame) {
@@ -359,20 +360,20 @@ void DemoIk_Type2PlaySound(DemoIk* this) {
 }
 
 void func_80983FDC(DemoIk* this) {
-    this->actionIndex = 3;
-    this->drawIndex = 0;
+    this->actionMode = 3;
+    this->drawMode = 0;
 }
 
 void func_80983FEC(DemoIk* this, GlobalContext* globalCtx) {
     DemoIk_MoveToStartPos(this, globalCtx, 4);
-    this->actionIndex = 4;
-    this->drawIndex = 2;
+    this->actionMode = 4;
+    this->drawMode = 2;
     this->skelAnime.curFrame = 0.0f;
 }
 
 void func_8098402C(DemoIk* this) {
-    this->actionIndex = 5;
-    this->drawIndex = 2;
+    this->actionMode = 5;
+    this->drawMode = 2;
     this->skelAnime.curFrame = 0.0f;
 }
 
@@ -398,6 +399,7 @@ void func_80984048(DemoIk* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
+                    // there is no such action
                     osSyncPrintf("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
             this->npcAction = newAction;
@@ -483,11 +485,13 @@ void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DemoIk* this = THIS;
 
-    if (this->actionIndex < 0 || this->actionIndex >= 6 || sActionFuncs[this->actionIndex] == NULL) {
-        osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+    if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
+        sActionFuncs[this->actionMode] == NULL) {
+        // The main mode is strange
+        osSyncPrintf(VT_FGCOL(RED)"メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n"VT_RST);
         return;
     }
-    sActionFuncs[this->actionIndex](this, globalCtx);
+    sActionFuncs[this->actionMode](this, globalCtx);
 }
 
 void DemoIk_DrawNothing(DemoIk* this, GlobalContext* globalCtx) {
@@ -498,11 +502,12 @@ void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DemoIk* this = THIS;
 
-    if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        osSyncPrintf("\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+    if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
+        // The draw mode is strange
+        osSyncPrintf(VT_FGCOL(RED)"描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n"VT_RST);
         return;
     }
-    sDrawFuncs[this->drawIndex](this, globalCtx);
+    sDrawFuncs[this->drawMode](this, globalCtx);
 }
 
 const ActorInit Demo_Ik_InitVars = {
