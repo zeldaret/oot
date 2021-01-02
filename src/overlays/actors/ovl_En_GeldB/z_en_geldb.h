@@ -14,7 +14,7 @@ typedef struct EnGeldB {
     /* 0x0188 */ SkelAnime skelAnime;
     /* 0x01CC */ Vec3s jointTable[24];
     /* 0x025C */ Vec3s morphTable[24];
-    /* 0x02EC */ s32 actionState;
+    /* 0x02EC */ s32 action;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ EnGeldBActionFunc actionFunc;
     /* 0x02F8 */ s16 unkTimer;
@@ -31,7 +31,7 @@ typedef struct EnGeldB {
     /* 0x0316 */ char unk_316[2];
     /* 0x0318 */ s16 invisible;
     /* 0x031A */ u8 blinkState;
-    /* 0x031C */ s32 blureIdx;
+    /* 0x031C */ s32 blureIndex;
     /* 0x0320 */ ColliderCylinder bodyCollider;
     /* 0x036C */ ColliderQuad swordCollider;
     /* 0x03EC */ ColliderTris blockCollider;

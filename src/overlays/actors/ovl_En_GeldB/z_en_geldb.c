@@ -23,7 +23,7 @@ typedef enum {
     /* 14 */ GELDB_ROLL_FORWARD,
     /* 15 */ GELDB_STUNNED,
     /* 16 */ GELDB_SPIN_DODGE
-} EnGeldBActionState;
+} EnGeldBAction;
 
 typedef enum {
     /* 0x0 */ GELDB_DAMAGE_NORMAL,
@@ -149,7 +149,8 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoThiefSkel, &gGerudoThiefNeutralAnim, this->jointTable, this->morphTable, 24);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoThiefSkel, &gGerudoThiefNeutralAnim, this->jointTable,
+                       this->morphTable, 24);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
     Collider_InitTris(globalCtx, &this->blockCollider);
@@ -166,7 +167,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     blureInit.unkFlag = 0;
     blureInit.calcMode = 2;
 
-    Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
+    Effect_Add(globalCtx, &this->blureIndex, EFFECT_BLURE1, 0, 0, &blureInit);
     Actor_SetScale(thisx, 0.012499999f);
     EnGeldB_SetupWait(this);
     if ((this->keyFlag != 0) && Flags_GetCollectible(globalCtx, this->keyFlag >> 8)) {
@@ -179,7 +180,7 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGeldB* this = THIS;
 
     func_800F5B58();
-    Effect_Delete(globalCtx, this->blureIdx);
+    Effect_Delete(globalCtx, this->blureIndex);
     Collider_DestroyTris(globalCtx, &this->blockCollider);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyQuad(globalCtx, &this->swordCollider);
@@ -261,7 +262,7 @@ void EnGeldB_SetupWait(EnGeldB* this) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 120.0f;
     this->timer = 10;
     this->invisible = true;
-    this->actionState = GELDB_WAIT;
+    this->action = GELDB_WAIT;
     this->actor.bgCheckFlags &= ~3;
     this->actor.gravity = -2.0f;
     this->actor.flags &= ~1;
@@ -295,10 +296,12 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupFlee(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefJumpAnim, -2.0f, Animation_GetLastFrame(&gGerudoThiefJumpAnim), 0.0f, 3, -4.0f);
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefJumpAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefJumpAnim, -2.0f, lastFrame, 0.0f, ANIMMODE_ONCE_INTERP, -4.0f);
     this->timer = 20;
     this->invisible = false;
-    this->actionState = GELDB_WAIT;
+    this->action = GELDB_WAIT;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     EnGeldB_SetupAction(this, EnGeldB_Flee);
 }
@@ -323,7 +326,7 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupReady(EnGeldB* this) {
     Animation_MorphToLoop(&this->skelAnime, &gGerudoThiefNeutralAnim, -4.0f);
-    this->actionState = GELDB_READY;
+    this->action = GELDB_READY;
     this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -386,8 +389,10 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefWalkAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGerudoThiefWalkAnim), 1, -4.0f);
-    this->actionState = GELDB_ADVANCE;
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefWalkAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefWalkAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
+    this->action = GELDB_ADVANCE;
     EnGeldB_SetupAction(this, EnGeldB_Advance);
 }
 
@@ -469,10 +474,12 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupRollForward(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefFlipAnim, -1.0f, Animation_GetLastFrame(&gGerudoThiefFlipAnim), 0.0f, 2, -3.0f);
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefFlipAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefFlipAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->timer = 0;
     this->invisible = true;
-    this->actionState = GELDB_ROLL_FORWARD;
+    this->action = GELDB_ROLL_FORWARD;
     this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.speedXZ = 10.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
@@ -506,7 +513,7 @@ void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupPivot(EnGeldB* this) {
     Animation_MorphToLoop(&this->skelAnime, &gGerudoThiefSidestepAnim, -4.0f);
-    this->actionState = GELDB_PIVOT;
+    this->action = GELDB_PIVOT;
     EnGeldB_SetupAction(this, EnGeldB_Pivot);
 }
 
@@ -542,12 +549,14 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupCircle(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGerudoThiefSidestepAnim), 1, 0.0f);
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefSidestepAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
     this->actor.speedXZ = Rand_CenteredFloat(12.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
     this->timer = Rand_ZeroOne() * 30.0f + 30.0f;
-    this->actionState = GELDB_CIRCLE;
+    this->action = GELDB_CIRCLE;
     this->approachRate = 0.0f;
     EnGeldB_SetupAction(this, EnGeldB_Circle);
 }
@@ -644,8 +653,9 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
     Player* player = PLAYER;
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefSidestepAnim);
 
-    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGerudoThiefSidestepAnim), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
     sp3E = player->actor.shape.rot.y;
     if (Math_SinS(sp3E - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -10.0f;
@@ -661,7 +671,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     this->timer = 6;
     this->approachRate = 0.0f;
     this->unkFloat = 0.0f;
-    this->actionState = GELDB_SPIN_DODGE;
+    this->action = GELDB_SPIN_DODGE;
 
     EnGeldB_SetupAction(this, EnGeldB_SpinDodge);
 }
@@ -742,7 +752,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_SetupSlash(EnGeldB* this) {
     Animation_PlayOnce(&this->skelAnime, &gGerudoThiefSlashAnim);
     this->swordCollider.base.atFlags &= ~4;
-    this->actionState = GELDB_SLASH;
+    this->action = GELDB_SLASH;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
     func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
@@ -797,9 +807,11 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupSpinAttack(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefSpinAttackAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGerudoThiefSpinAttackAnim), 3, 0.0f);
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefSpinAttackAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefSpinAttackAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, 0.0f);
     this->swordCollider.base.atFlags &= ~6;
-    this->actionState = GELDB_SPIN_ATTACK;
+    this->action = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
     EnGeldB_SetupAction(this, EnGeldB_SpinAttack);
@@ -880,7 +892,7 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGerudoThiefFlipAnim, -3.0f);
     this->timer = 0;
     this->invisible = true;
-    this->actionState = GELDB_ROLL_BACK;
+    this->action = GELDB_ROLL_BACK;
     this->actor.speedXZ = -8.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -907,14 +919,14 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = 0.0f;
     }
-    if ((this->damageEffect != GELDB_DAMAGE_FREEZE) || (this->actionState == GELDB_SPIN_ATTACK)) {
+    if ((this->damageEffect != GELDB_DAMAGE_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gGerudoThiefDamageAnim, 0.0f);
     }
     if (this->damageEffect == GELDB_DAMAGE_FREEZE) {
         this->iceTimer = 36;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->actionState = GELDB_STUNNED;
+    this->action = GELDB_STUNNED;
     EnGeldB_SetupAction(this, EnGeldB_Stunned);
 }
 
@@ -948,7 +960,7 @@ void EnGeldB_SetupDamaged(EnGeldB* this) {
     this->lookTimer = 0;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_DAMAGE);
-    this->actionState = GELDB_DAMAGED;
+    this->action = GELDB_DAMAGED;
     EnGeldB_SetupAction(this, EnGeldB_Damaged);
 }
 
@@ -982,10 +994,12 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupJump(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &gGerudoThiefFlipAnim, -1.0f, Animation_GetLastFrame(&gGerudoThiefFlipAnim), 0.0f, 2, -3.0f);
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefFlipAnim);
+
+    Animation_Change(&this->skelAnime, &gGerudoThiefFlipAnim, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->timer = 0;
     this->invisible = false;
-    this->actionState = GELDB_JUMP;
+    this->action = GELDB_JUMP;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
@@ -1014,16 +1028,15 @@ void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupBlock(EnGeldB* this) {
-    f32 lastFrame;
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefBlockAnim);
 
-    lastFrame = Animation_GetLastFrame(&gGerudoThiefBlockAnim);
     if (this->swordState != 0) {
         this->swordState = -1;
     }
     this->actor.speedXZ = 0.0f;
-    this->actionState = GELDB_BLOCK;
+    this->action = GELDB_BLOCK;
     this->timer = (s32)Rand_CenteredFloat(10.0f) + 10;
-    Animation_Change(&this->skelAnime, &gGerudoThiefBlockAnim, 0.0f, 0.0f, lastFrame, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gGerudoThiefBlockAnim, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     EnGeldB_SetupAction(this, EnGeldB_Block);
 }
 
@@ -1083,8 +1096,9 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 linkAngle;
     Player* player;
+    f32 lastFrame = Animation_GetLastFrame(&gGerudoThiefSidestepAnim);
 
-    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGerudoThiefSidestepAnim), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &gGerudoThiefSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
     player = PLAYER;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     linkAngle = player->actor.shape.rot.y;
@@ -1099,7 +1113,7 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     this->approachRate = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = Rand_ZeroOne() * 10.0f + 5.0f;
-    this->actionState = GELDB_SIDESTEP;
+    this->action = GELDB_SIDESTEP;
     EnGeldB_SetupAction(this, EnGeldB_Sidestep);
 }
 
@@ -1218,7 +1232,7 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
     } else {
         this->invisible = true;
     }
-    this->actionState = GELDB_DEFEAT;
+    this->action = GELDB_DEFEAT;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_DEAD);
     EnGeldB_SetupAction(this, EnGeldB_Defeated);
@@ -1241,10 +1255,10 @@ void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_TurnHead(EnGeldB* this, GlobalContext* globalCtx) {
-    if ((this->actionState == GELDB_READY) && (this->lookTimer != 0)) {
+    if ((this->action == GELDB_READY) && (this->lookTimer != 0)) {
         this->headRot.y = Math_SinS(this->lookTimer * 0x1068) * 8920.0f;
-    } else if (this->actionState != GELDB_STUNNED) {
-        if ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK)) {
+    } else if (this->action != GELDB_STUNNED) {
+        if ((this->action != GELDB_SLASH) && (this->action != GELDB_SPIN_ATTACK)) {
             Math_SmoothStepToS(&this->headRot.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F4, 0);
             this->headRot.y = CLAMP(this->headRot.y, -0x256F, 0x256F);
         } else {
@@ -1260,8 +1274,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->blockCollider.base.acFlags & 0x80) {
         this->blockCollider.base.acFlags &= ~0x80;
         this->bodyCollider.base.acFlags &= ~2;
-    } else if ((this->bodyCollider.base.acFlags & 2) && (this->actionState >= GELDB_READY) &&
-               (this->spinAttackState < 2)) {
+    } else if ((this->bodyCollider.base.acFlags & 2) && (this->action >= GELDB_READY) && (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~2;
         if (this->actor.colChkInfo.damageEffect != GELDB_DAMAGE_UNK6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
@@ -1269,7 +1282,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_FREEZE)) {
-                if (this->actionState != GELDB_STUNNED) {
+                if (this->action != GELDB_STUNNED) {
                     func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
                     EnGeldB_SetupStunned(this);
@@ -1313,11 +1326,11 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
-    if ((this->actionState >= GELDB_READY) && (this->spinAttackState < 2) &&
+    if ((this->action >= GELDB_READY) && (this->spinAttackState < 2) &&
         ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     }
-    if ((this->actionState == GELDB_BLOCK) && (this->skelAnime.curFrame == 0.0f)) {
+    if ((this->action == GELDB_BLOCK) && (this->skelAnime.curFrame == 0.0f)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->blockCollider.base);
     }
     if (this->swordState > 0) {
@@ -1380,12 +1393,11 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_MultVec3f(&swordTipOffset, &swordTip);
         Matrix_MultVec3f(&swordHiltOffset, &swordHilt);
 
-        if ((this->swordState < 0) ||
-            ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK))) {
-            EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));
+        if ((this->swordState < 0) || ((this->action != GELDB_SLASH) && (this->action != GELDB_SPIN_ATTACK))) {
+            EffectBlure_AddSpace(Effect_GetByIndex(this->blureIndex));
             this->swordState = 0;
         } else if (this->swordState > 0) {
-            EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &swordTip, &swordHilt);
+            EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
         func_8002BDB0(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
@@ -1449,7 +1461,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
         { 3000.0f, 0.0f, 1600.0f },
         { 3000.0f, 6000.0f, 1600.0f },
     };
-    static Gfx* eyeDLists[4] = { gGerudoThiefTexEyeOpen, gGerudoThiefTexEyeHalf, gGerudoThiefTexEyeShut, gGerudoThiefTexEyeHalf };
+    static u64* eyeDLists[4] = { gGerudoThiefTexEyeOpen, gGerudoThiefTexEyeHalf, gGerudoThiefTexEyeShut,
+                                 gGerudoThiefTexEyeHalf };
     s32 pad;
     EnGeldB* this = THIS;
 
@@ -1458,7 +1471,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {
-            Animation_Change(&this->skelAnime, &gGerudoThiefSpinAttackAnim, 0.5f, 0.0f, 12.0f, 3, 4.0f);
+            Animation_Change(&this->skelAnime, &gGerudoThiefSpinAttackAnim, 0.5f, 0.0f, 12.0f, ANIMMODE_ONCE_INTERP,
+                             4.0f);
             this->spinAttackState++;
             thisx->posRot.rot.y = thisx->shape.rot.y = thisx->yawTowardsLink;
         } else {
@@ -1477,12 +1491,12 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actionState != GELDB_WAIT) || !this->invisible) {
+    if ((this->action != GELDB_WAIT) || !this->invisible) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeDLists[this->blinkState]));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
-        if (this->actionState == GELDB_BLOCK) {
+        if (this->action == GELDB_BLOCK) {
             s32 i;
             Vec3f blockTrisVtx0[3];
             Vec3f blockTrisVtx1[3];
@@ -1501,8 +1515,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((this->iceTimer % 4) == 0) {
                 s32 iceIndex = this->iceTimer >> 2;
 
-                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->bodyPartsPos[iceIndex], 0x96, 0x96, 0x96, 0xFA,
-                                               0xEB, 0xF5, 0xFF, 1.5f);
+                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->bodyPartsPos[iceIndex], 150, 150, 150, 250, 235,
+                                               245, 255, 1.5f);
             }
         }
     }

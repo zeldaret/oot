@@ -93,32 +93,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 6000, ICHAIN_STOP),
 };
 
-static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
-
-static s16 D_80ADD79C[4] = { 0xB000, 0xD000, 0x5000, 0x3000 };
-
-static Vec3s D_80ADD7A4[4] = {
-    { -22, 337, -1704 },
-    { -431, 879, -3410 },
-    { 549, 879, -3410 },
-    { 1717, 515, -1340 },
-};
-
-static Vec3f D_80ADD7BC = { 120.0f, 250.0f, -1420.0f };
-
-static Gfx* D_80ADD7C8[4] = { 0x06001DE0, 0x06002F88, 0x06003628, 0x06003DC8 };
-
-static Gfx* D_80ADD7D8[4] = { 0x06001CB0, 0x06002EB8, 0x06003880, 0x06004020 };
-
-static Color_RGBA8 D_80ADD7E8[4] = {
-    { 80, 0, 100, 0 },
-    { 80, 15, 0, 0 },
-    { 0, 70, 50, 0 },
-    { 70, 70, 0, 0 },
-};
-
-static Vec3f D_80ADD7F8 = { 1000.0f, -1700.0f, 0.0f };
-
 extern SkeletonHeader D_060065C8;
 extern AnimationHeader D_060014CC;
 extern AnimationHeader D_06000D40;
@@ -380,6 +354,7 @@ void func_80AD9AA8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f vec;
 
     this->actor.draw = NULL;
@@ -392,7 +367,7 @@ void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
         vec.x = this->actor.posRot.pos.x;
         vec.y = this->actor.posRot.pos.y + 45.0f;
         vec.z = this->actor.posRot.pos.z;
-        EffectSsDeadDb_Spawn(globalCtx, &vec, &sZeroVector, &sZeroVector, 150, 0, 255, 255, 255, 155, 150, 150, 150, 1,
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &zeroVec, &zeroVec, 150, 0, 255, 255, 255, 155, 150, 150, 150, 1,
                              9, 0);
     }
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
@@ -509,6 +484,8 @@ void func_80ADA25C(EnPoSisters* this) {
 }
 
 void func_80ADA2BC(EnPoSisters* this, GlobalContext* globalCtx) {
+    static s16 D_80ADD79C[4] = { 0xB000, 0xD000, 0x5000, 0x3000 };
+
     Animation_MorphToLoop(&this->skelAnime, &D_06000D40, -3.0f);
     this->unk_198 = 0;
     this->unk_199 = 40;
@@ -759,6 +736,13 @@ void func_80ADAFC0(EnPoSisters* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
+
+static Vec3s D_80ADD7A4[4] = {
+    { -22, 337, -1704 },
+    { -431, 879, -3410 },
+    { 549, 879, -3410 },
+    { 1717, 515, -1340 },
+};
 
 void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_19A++;
@@ -1040,6 +1024,8 @@ void func_80ADBEE8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADBF58(EnPoSisters* this, GlobalContext* globalCtx) {
+    static Vec3f D_80ADD7BC = { 120.0f, 250.0f, -1420.0f };
+
     SkelAnime_Update(&this->skelAnime);
     this->unk_19A--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 0x500);
@@ -1216,6 +1202,17 @@ void func_80ADC55C(EnPoSisters* this) {
     }
 }
 
+static Gfx* D_80ADD7C8[4] = { 0x06001DE0, 0x06002F88, 0x06003628, 0x06003DC8 };
+
+static Gfx* D_80ADD7D8[4] = { 0x06001CB0, 0x06002EB8, 0x06003880, 0x06004020 };
+
+static Color_RGBA8 D_80ADD7E8[4] = {
+    { 80, 0, 100, 0 },
+    { 80, 15, 0, 0 },
+    { 0, 70, 50, 0 },
+    { 70, 70, 0, 0 },
+};
+
 s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
@@ -1246,6 +1243,7 @@ s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                               Gfx** gfxP) {
+    static Vec3f D_80ADD7F8 = { 1000.0f, -1700.0f, 0.0f };
     EnPoSisters* this = THIS;
     s32 i;
     s32 pad;
