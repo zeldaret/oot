@@ -7,21 +7,21 @@
  * hearts is the red color of the hearts.
  ***/
 
-#define HEART_PRIM_R 255
-#define HEART_PRIM_G 70
-#define HEART_PRIM_B 50
+#define HEALTH_PRIM_R 255
+#define HEALTH_PRIM_G 70
+#define HEALTH_PRIM_B 50
 
-#define HEART_ENV_R 50
-#define HEART_ENV_G 40
-#define HEART_ENV_B 60
+#define HEALTH_ENV_R 50
+#define HEALTH_ENV_G 40
+#define HEALTH_ENV_B 60
 
-#define HEART_DOUBLE_DEFENSE_PRIM_R 255
-#define HEART_DOUBLE_DEFENSE_PRIM_G 255
-#define HEART_DOUBLE_DEFENSE_PRIM_B 255
+#define HEALTH_DOUBLE_DEFENSE_PRIM_R 255
+#define HEALTH_DOUBLE_DEFENSE_PRIM_G 255
+#define HEALTH_DOUBLE_DEFENSE_PRIM_B 255
 
-#define HEART_DOUBLE_DEFENSE_ENV_R 200
-#define HEART_DOUBLE_DEFENSE_ENV_G 0
-#define HEART_DOUBLE_DEFENSE_ENV_B 0
+#define HEALTH_DOUBLE_DEFENSE_ENV_R 200
+#define HEALTH_DOUBLE_DEFENSE_ENV_G 0
+#define HEALTH_DOUBLE_DEFENSE_ENV_B 0
 
 /***
  * The burn and drown colors listed here are unused. Prerelease footage of the game confirms that at one
@@ -30,32 +30,32 @@
  * In the final game these environments only have a timer and do not damage you continuously.
  ***/
 
-#define HEART_BURN_PRIM_R 255
-#define HEART_BURN_PRIM_G 190
-#define HEART_BURN_PRIM_B 0
+#define HEALTH_BURN_PRIM_R 255
+#define HEALTH_BURN_PRIM_G 190
+#define HEALTH_BURN_PRIM_B 0
 
-#define HEART_PRIM_BURN_ENV_R 255
-#define HEART_PRIM_BURN_ENV_G 0
-#define HEART_PRIM_BURN_ENV_B 0
+#define HEALTH_PRIM_BURN_ENV_R 255
+#define HEALTH_PRIM_BURN_ENV_G 0
+#define HEALTH_PRIM_BURN_ENV_B 0
 
-#define HEART_DROWN_PRIM_R 100
-#define HEART_DROWN_PRIM_G 100
-#define HEART_DROWN_PRIM_B 255
+#define HEALTH_DROWN_PRIM_R 100
+#define HEALTH_DROWN_PRIM_G 100
+#define HEALTH_DROWN_PRIM_B 255
 
-#define HEART_DROWN_ENV_R 0
-#define HEART_DROWN_ENV_G 0
-#define HEART_DROWN_ENV_B 255
+#define HEALTH_DROWN_ENV_R 0
+#define HEALTH_DROWN_ENV_G 0
+#define HEALTH_DROWN_ENV_B 255
 
 s16 sHeartPrimColors[3][3] = {
-    { HEART_PRIM_R, HEART_PRIM_G, HEART_PRIM_B },
-    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
-    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
+    { HEALTH_PRIM_R, HEALTH_PRIM_G, HEALTH_PRIM_B },
+    { HEALTH_BURN_PRIM_R, HEALTH_BURN_PRIM_G, HEALTH_BURN_PRIM_B },    // unused
+    { HEALTH_DROWN_PRIM_R, HEALTH_DROWN_PRIM_G, HEALTH_DROWN_PRIM_B }, // unused
 };
 
 s16 sHeartEnvColors[3][3] = {
-    { HEART_ENV_R, HEART_ENV_G, HEART_ENV_B },
-    { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G },            // unused
-    { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B }, // unused
+    { HEALTH_ENV_R, HEALTH_ENV_G, HEALTH_ENV_B },
+    { HEALTH_PRIM_BURN_ENV_R, HEALTH_PRIM_BURN_ENV_G },             // unused
+    { HEALTH_DROWN_ENV_R, HEALTH_DROWN_ENV_G, HEALTH_DROWN_ENV_B }, // unused
 };
 
 s16 sHeartPrimFactors[3][3] = {
@@ -71,15 +71,15 @@ s16 sHeartEnvFactors[3][3] = {
 };
 
 s16 sHeartDDPrimColors[3][3] = {
-    { HEART_DOUBLE_DEFENSE_PRIM_R, HEART_DOUBLE_DEFENSE_PRIM_G, HEART_DOUBLE_DEFENSE_PRIM_B },
-    { HEART_BURN_PRIM_R, HEART_BURN_PRIM_G, HEART_BURN_PRIM_B },    // unused
-    { HEART_DROWN_PRIM_R, HEART_DROWN_PRIM_G, HEART_DROWN_PRIM_B }, // unused
+    { HEALTH_DOUBLE_DEFENSE_PRIM_R, HEALTH_DOUBLE_DEFENSE_PRIM_G, HEALTH_DOUBLE_DEFENSE_PRIM_B },
+    { HEALTH_BURN_PRIM_R, HEALTH_BURN_PRIM_G, HEALTH_BURN_PRIM_B },    // unused
+    { HEALTH_DROWN_PRIM_R, HEALTH_DROWN_PRIM_G, HEALTH_DROWN_PRIM_B }, // unused
 };
 
 s16 sHeartDDEnvColors[3][3] = {
-    { HEART_DOUBLE_DEFENSE_ENV_R, HEART_DOUBLE_DEFENSE_ENV_G, HEART_DOUBLE_DEFENSE_ENV_B },
-    { HEART_PRIM_BURN_ENV_R, HEART_PRIM_BURN_ENV_G, HEART_PRIM_BURN_ENV_B }, // unused
-    { HEART_DROWN_ENV_R, HEART_DROWN_ENV_G, HEART_DROWN_ENV_B },             // unused
+    { HEALTH_DOUBLE_DEFENSE_ENV_R, HEALTH_DOUBLE_DEFENSE_ENV_G, HEALTH_DOUBLE_DEFENSE_ENV_B },
+    { HEALTH_PRIM_BURN_ENV_R, HEALTH_PRIM_BURN_ENV_G, HEALTH_PRIM_BURN_ENV_B }, // unused
+    { HEALTH_DROWN_ENV_R, HEALTH_DROWN_ENV_G, HEALTH_DROWN_ENV_B },             // unused
 };
 
 s16 sHeartDDPrimFactors[3][3] = {
@@ -107,28 +107,28 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
     interfaceCtx->unk_22A = interfaceCtx->unk_1FE = 0;
     interfaceCtx->unk_22C = interfaceCtx->unk_200 = 0;
 
-    interfaceCtx->healthPrimR[0] = HEART_PRIM_R;
-    interfaceCtx->healthPrimG[0] = HEART_PRIM_G;
-    interfaceCtx->healthPrimB[0] = HEART_PRIM_B;
+    interfaceCtx->healthPrimR[0] = HEALTH_PRIM_R;
+    interfaceCtx->healthPrimG[0] = HEALTH_PRIM_G;
+    interfaceCtx->healthPrimB[0] = HEALTH_PRIM_B;
 
-    interfaceCtx->healthEnvR[0] = HEART_ENV_R;
-    interfaceCtx->healthEnvG[0] = HEART_ENV_G;
-    interfaceCtx->healthEnvB[0] = HEART_ENV_B;
+    interfaceCtx->healthEnvR[0] = HEALTH_ENV_R;
+    interfaceCtx->healthEnvG[0] = HEALTH_ENV_G;
+    interfaceCtx->healthEnvB[0] = HEALTH_ENV_B;
 
-    interfaceCtx->healthPrimR[1] = HEART_PRIM_R;
-    interfaceCtx->healthPrimG[1] = HEART_PRIM_G;
-    interfaceCtx->healthPrimB[1] = HEART_PRIM_B;
+    interfaceCtx->healthPrimR[1] = HEALTH_PRIM_R;
+    interfaceCtx->healthPrimG[1] = HEALTH_PRIM_G;
+    interfaceCtx->healthPrimB[1] = HEALTH_PRIM_B;
 
-    interfaceCtx->healthEnvR[1] = HEART_ENV_R;
-    interfaceCtx->healthEnvG[1] = HEART_ENV_G;
-    interfaceCtx->healthEnvB[1] = HEART_ENV_B;
+    interfaceCtx->healthEnvR[1] = HEALTH_ENV_R;
+    interfaceCtx->healthEnvG[1] = HEALTH_ENV_G;
+    interfaceCtx->healthEnvB[1] = HEALTH_ENV_B;
 
-    sHeartPrimCurrent2[0][0] = sHeartPrimCurrent2[1][0] = HEART_DOUBLE_DEFENSE_PRIM_R;
-    sHeartPrimCurrent2[0][1] = sHeartPrimCurrent2[1][1] = HEART_DOUBLE_DEFENSE_PRIM_G;
-    sHeartPrimCurrent2[0][2] = sHeartPrimCurrent2[1][2] = HEART_DOUBLE_DEFENSE_PRIM_B;
-    sHeartEnvCurrent2[0][0] = sHeartEnvCurrent2[1][0] = HEART_DOUBLE_DEFENSE_ENV_R;
-    sHeartEnvCurrent2[0][1] = sHeartEnvCurrent2[1][1] = HEART_DOUBLE_DEFENSE_ENV_G;
-    sHeartEnvCurrent2[0][2] = sHeartEnvCurrent2[1][2] = HEART_DOUBLE_DEFENSE_ENV_B;
+    sHeartPrimCurrent2[0][0] = sHeartPrimCurrent2[1][0] = HEALTH_DOUBLE_DEFENSE_PRIM_R;
+    sHeartPrimCurrent2[0][1] = sHeartPrimCurrent2[1][1] = HEALTH_DOUBLE_DEFENSE_PRIM_G;
+    sHeartPrimCurrent2[0][2] = sHeartPrimCurrent2[1][2] = HEALTH_DOUBLE_DEFENSE_PRIM_B;
+    sHeartEnvCurrent2[0][0] = sHeartEnvCurrent2[1][0] = HEALTH_DOUBLE_DEFENSE_ENV_R;
+    sHeartEnvCurrent2[0][1] = sHeartEnvCurrent2[1][1] = HEALTH_DOUBLE_DEFENSE_ENV_G;
+    sHeartEnvCurrent2[0][2] = sHeartEnvCurrent2[1][2] = HEALTH_DOUBLE_DEFENSE_ENV_B;
 }
 
 #ifdef NON_MATCHING
@@ -157,13 +157,13 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
         }
     }
 
-    interfaceCtx->healthPrimR[0] = HEART_PRIM_R;
-    interfaceCtx->healthPrimG[0] = HEART_PRIM_G;
-    interfaceCtx->healthPrimB[0] = HEART_PRIM_B;
+    interfaceCtx->healthPrimR[0] = HEALTH_PRIM_R;
+    interfaceCtx->healthPrimG[0] = HEALTH_PRIM_G;
+    interfaceCtx->healthPrimB[0] = HEALTH_PRIM_B;
 
-    interfaceCtx->healthEnvR[0] = HEART_ENV_R;
-    interfaceCtx->healthEnvG[0] = HEART_ENV_G;
-    interfaceCtx->healthEnvB[0] = HEART_ENV_B;
+    interfaceCtx->healthEnvR[0] = HEALTH_ENV_R;
+    interfaceCtx->healthEnvG[0] = HEALTH_ENV_G;
+    interfaceCtx->healthEnvB[0] = HEALTH_ENV_B;
 
     interfaceCtx->healthPrimR[1] = sHeartPrimColors[0][0];
     interfaceCtx->healthPrimG[1] = sHeartPrimColors[0][1];
@@ -177,25 +177,25 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     gFactor = sHeartPrimFactors[0][1] * factor;
     bFactor = sHeartPrimFactors[0][2] * factor;
 
-    interfaceCtx->beatingHeartPrim[0] = (u8)(s32)(rFactor + HEART_PRIM_R) & 0xFF;
-    interfaceCtx->beatingHeartPrim[1] = (u8)(s32)(gFactor + HEART_PRIM_G) & 0xFF;
-    interfaceCtx->beatingHeartPrim[2] = (u8)(s32)(bFactor + HEART_PRIM_B) & 0xFF;
+    interfaceCtx->beatingHeartPrim[0] = (u8)(s32)(rFactor + HEALTH_PRIM_R) & 0xFF;
+    interfaceCtx->beatingHeartPrim[1] = (u8)(s32)(gFactor + HEALTH_PRIM_G) & 0xFF;
+    interfaceCtx->beatingHeartPrim[2] = (u8)(s32)(bFactor + HEALTH_PRIM_B) & 0xFF;
 
     rFactor = sHeartEnvFactors[0][0] * factor;
     gFactor = sHeartEnvFactors[0][1] * factor;
     bFactor = sHeartEnvFactors[0][2] * factor;
 
-    interfaceCtx->beatingHeartEnv[0] = (u8)(s32)(rFactor + HEART_ENV_R) & 0xFF;
-    interfaceCtx->beatingHeartEnv[1] = (u8)(s32)(gFactor + HEART_ENV_G) & 0xFF;
-    interfaceCtx->beatingHeartEnv[2] = (u8)(s32)(bFactor + HEART_ENV_B) & 0xFF;
+    interfaceCtx->beatingHeartEnv[0] = (u8)(s32)(rFactor + HEALTH_ENV_R) & 0xFF;
+    interfaceCtx->beatingHeartEnv[1] = (u8)(s32)(gFactor + HEALTH_ENV_G) & 0xFF;
+    interfaceCtx->beatingHeartEnv[2] = (u8)(s32)(bFactor + HEALTH_ENV_B) & 0xFF;
 
-    sHeartPrimCurrent2[0][0] = HEART_DOUBLE_DEFENSE_PRIM_R;
-    sHeartPrimCurrent2[0][1] = HEART_DOUBLE_DEFENSE_PRIM_G;
-    sHeartPrimCurrent2[0][2] = HEART_DOUBLE_DEFENSE_PRIM_B;
+    sHeartPrimCurrent2[0][0] = HEALTH_DOUBLE_DEFENSE_PRIM_R;
+    sHeartPrimCurrent2[0][1] = HEALTH_DOUBLE_DEFENSE_PRIM_G;
+    sHeartPrimCurrent2[0][2] = HEALTH_DOUBLE_DEFENSE_PRIM_B;
 
-    sHeartEnvCurrent2[0][0] = HEART_DOUBLE_DEFENSE_ENV_R;
-    sHeartEnvCurrent2[0][1] = HEART_DOUBLE_DEFENSE_ENV_G;
-    sHeartEnvCurrent2[0][2] = HEART_DOUBLE_DEFENSE_ENV_B;
+    sHeartEnvCurrent2[0][0] = HEALTH_DOUBLE_DEFENSE_ENV_R;
+    sHeartEnvCurrent2[0][1] = HEALTH_DOUBLE_DEFENSE_ENV_G;
+    sHeartEnvCurrent2[0][2] = HEALTH_DOUBLE_DEFENSE_ENV_B;
 
     for (prim = &sHeartPrimCurrent2[1][0], env = &sHeartEnvCurrent2[1][0], i = 0; i < 3; i++) {
         prim[i] = sHeartDDPrimColors[0][i];
@@ -206,17 +206,17 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     gFactor = sHeartDDPrimFactors[0][1] * factor;
     bFactor = sHeartDDPrimFactors[0][2] * factor;
 
-    sHeartPrimCurrent1[0] = (u8)(s32)(rFactor + HEART_DOUBLE_DEFENSE_PRIM_R) & 0xFF;
-    sHeartPrimCurrent1[1] = (u8)(s32)(gFactor + HEART_DOUBLE_DEFENSE_PRIM_G) & 0xFF;
-    sHeartPrimCurrent1[2] = (u8)(s32)(bFactor + HEART_DOUBLE_DEFENSE_PRIM_B) & 0xFF;
+    sHeartPrimCurrent1[0] = (u8)(s32)(rFactor + HEALTH_DOUBLE_DEFENSE_PRIM_R) & 0xFF;
+    sHeartPrimCurrent1[1] = (u8)(s32)(gFactor + HEALTH_DOUBLE_DEFENSE_PRIM_G) & 0xFF;
+    sHeartPrimCurrent1[2] = (u8)(s32)(bFactor + HEALTH_DOUBLE_DEFENSE_PRIM_B) & 0xFF;
 
     rFactor = sHeartDDEnvFactors[0][0] * factor;
     gFactor = sHeartDDEnvFactors[0][1] * factor;
     bFactor = sHeartDDEnvFactors[0][2] * factor;
 
-    sHeartEnvCurrent1[0] = (u8)(s32)(rFactor + HEART_DOUBLE_DEFENSE_ENV_R) & 0xFF;
-    sHeartEnvCurrent1[1] = (u8)(s32)(gFactor + HEART_DOUBLE_DEFENSE_ENV_G) & 0xFF;
-    sHeartEnvCurrent1[2] = (u8)(s32)(bFactor + HEART_DOUBLE_DEFENSE_ENV_B) & 0xFF;
+    sHeartEnvCurrent1[0] = (u8)(s32)(rFactor + HEALTH_DOUBLE_DEFENSE_ENV_R) & 0xFF;
+    sHeartEnvCurrent1[1] = (u8)(s32)(gFactor + HEALTH_DOUBLE_DEFENSE_ENV_G) & 0xFF;
+    sHeartEnvCurrent1[2] = (u8)(s32)(bFactor + HEALTH_DOUBLE_DEFENSE_ENV_B) & 0xFF;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/HealthMeter_Update.s")
@@ -258,7 +258,7 @@ s32 func_80078E84(GlobalContext* globalCtx) {
     return 0;
 }
 
-void Health_Draw(GlobalContext* globalCtx) {
+void HealthMeter_Draw(GlobalContext* globalCtx) {
     static u8* sHeartTextureList[] = {
         0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
         0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
@@ -466,7 +466,7 @@ void Health_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_lifemeter.c", 606);
 }
 
-void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
+void HealthMeter_HandleCriticalAlarm(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (interfaceCtx->unk_22C != 0) {
@@ -475,7 +475,7 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
             interfaceCtx->unk_22A = 0;
             interfaceCtx->unk_22C = 0;
             if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-                Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
+                HealthMeter_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }
@@ -488,7 +488,7 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
     }
 }
 
-u32 Health_IsCritical(void) {
+u32 HealthMeter_IsCritical(void) {
     s32 var;
 
     if (gSaveContext.healthCapacity <= 0x50) {
@@ -502,8 +502,8 @@ u32 Health_IsCritical(void) {
     }
 
     if ((var >= gSaveContext.health) && (gSaveContext.health > 0)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }

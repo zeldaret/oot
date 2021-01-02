@@ -3081,7 +3081,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->flag == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        Health_Draw(globalCtx);
+        HealthMeter_Draw(globalCtx);
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -4034,7 +4034,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    Health_HandleCriticalAlarm(globalCtx);
+    HealthMeter_HandleCriticalAlarm(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {

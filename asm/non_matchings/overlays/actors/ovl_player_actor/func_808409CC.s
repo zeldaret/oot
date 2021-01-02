@@ -12,7 +12,7 @@ glabel func_808409CC
 /* 0E7D0 808409E0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0E7D4 808409E4 55C0000D */  bnel    $t6, $zero, .L80840A1C
 /* 0E7D8 808409E8 8E0F0680 */  lw      $t7, 0x0680($s0)           ## 00000680
-/* 0E7DC 808409EC 0C01E72D */  jal     Health_IsCritical
+/* 0E7DC 808409EC 0C01E72D */  jal     HealthMeter_IsCritical
 /* 0E7E0 808409F0 00000000 */  nop
 /* 0E7E4 808409F4 54400012 */  bnel    $v0, $zero, .L80840A40
 /* 0E7E8 808409F8 8E190680 */  lw      $t9, 0x0680($s0)           ## 00000680
