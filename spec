@@ -2000,8 +2000,7 @@ endseg
 beginseg
     name "ovl_En_Bubble"
     include "build/src/overlays/actors/ovl_En_Bubble/z_en_bubble.o"
-    include "build/data/overlays/actors/z_en_bubble.data.o"
-    include "build/data/overlays/actors/z_en_bubble.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bubble/ovl_En_Bubble_reloc.o"
 endseg
 
 beginseg
