@@ -359,7 +359,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.initPosRot.rot.y = 0;
         }
 
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             Collider_CylinderUpdate(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -367,9 +367,9 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     } else if (this->actor.params < 0x17) { // Bush
         Player* player = PLAYER;
         if (this->unk_14C >= -1) {
-            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistFromLinkSq) < 20.0) &&
+            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToLinkSq) < 20.0) &&
                  (player->linearVelocity != 0.0f)) ||
-                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistFromLinkSq) < 60.0) &&
+                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToLinkSq) < 60.0) &&
                  (player->rideActor->speedXZ != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos,
