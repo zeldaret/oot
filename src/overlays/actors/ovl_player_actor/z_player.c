@@ -3847,7 +3847,7 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
         sp3C = 0;
 
         if (func_808332B8(this)) {
-            if (this->actor.waterY < 50.0f) {
+            if (this->actor.yDistToWater < 50.0f) {
                 if ((this->unk_88C < 2) || (this->wallHeight > this->ageProperties->unk_10)) {
                     return 0;
                 }
@@ -4506,7 +4506,7 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
     Vec3f sp68;
     f32 temp1;
 
-    if ((this->actor.waterY < -80.0f) && (ABS(this->unk_898) < 2730) && (ABS(this->unk_89A) < 2730)) {
+    if ((this->actor.yDistToWater < -80.0f) && (ABS(this->unk_898) < 2730) && (ABS(this->unk_89A) < 2730)) {
         sp74.x = this->actor.pos4.x - this->actor.posRot.pos.x;
         sp74.z = this->actor.pos4.z - this->actor.posRot.pos.z;
 
@@ -4958,7 +4958,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 s32 func_8083B8F4(Player* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags1 & 0x800800) && Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, 0), 6)) {
         if ((this->actor.bgCheckFlags & 1) ||
-            (func_808332B8(this) && (this->actor.waterY < this->ageProperties->unk_2C))) {
+            (func_808332B8(this) && (this->actor.yDistToWater < this->ageProperties->unk_2C))) {
             this->unk_6AD = 1;
             return 1;
         }
@@ -5264,7 +5264,7 @@ s32 func_8083C6B8(GlobalContext* globalCtx, Player* this) {
         if (Player_GetBottleHeld(this) >= 0) {
             func_80835C58(globalCtx, this, func_8084ECA4, 0);
 
-            if (this->actor.waterY > 12.0f) {
+            if (this->actor.yDistToWater > 12.0f) {
                 this->unk_850 = 1;
             }
 
@@ -5507,7 +5507,7 @@ s32 func_8083D12C(GlobalContext* globalCtx, Player* this, Input* arg2) {
 
     if ((this->stateFlags1 & 0x400) || (this->stateFlags2 & 0x400)) {
         if (this->actor.velocity.y > 0.0f) {
-            if (this->actor.waterY < this->ageProperties->unk_30) {
+            if (this->actor.yDistToWater < this->ageProperties->unk_30) {
 
                 this->stateFlags2 &= ~0x400;
 
@@ -5559,7 +5559,7 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
         }
     }
 
-    if (!(this->stateFlags1 & 0x8000000) || (this->actor.waterY < this->ageProperties->unk_2C)) {
+    if (!(this->stateFlags1 & 0x8000000) || (this->actor.yDistToWater < this->ageProperties->unk_2C)) {
         if (func_8083CFA8(globalCtx, this, this->actor.velocity.y, 500)) {
             func_8002F7DC(&this->actor, NA_SE_EV_DIVE_INTO_WATER);
 
@@ -5578,7 +5578,7 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083D53C(GlobalContext* globalCtx, Player* this) {
-    if (this->actor.waterY < this->ageProperties->unk_2C) {
+    if (this->actor.yDistToWater < this->ageProperties->unk_2C) {
         func_800F67A0(0);
         this->unk_840 = 0;
     } else {
@@ -5589,7 +5589,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
     }
 
     if ((func_80845668 != this->func_674) && (func_8084BDFC != this->func_674)) {
-        if (this->ageProperties->unk_2C < this->actor.waterY) {
+        if (this->ageProperties->unk_2C < this->actor.yDistToWater) {
             if (!(this->stateFlags1 & 0x8000000) ||
                 (!((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) &&
                  (func_8084E30C != this->func_674) && (func_8084E368 != this->func_674) &&
@@ -5599,7 +5599,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
                 func_8083D36C(globalCtx, this);
                 return;
             }
-        } else if ((this->stateFlags1 & 0x8000000) && (this->actor.waterY < this->ageProperties->unk_24)) {
+        } else if ((this->stateFlags1 & 0x8000000) && (this->actor.yDistToWater < this->ageProperties->unk_24)) {
             if ((this->skelAnime.moveFlags == 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
                 func_8083CD54(globalCtx, this, this->actor.shape.rot.y);
             }
@@ -5659,7 +5659,7 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
     }
 
     if (this->actor.bgCheckFlags & 0x20) {
-        if (this->actor.waterY < 50.0f) {
+        if (this->actor.yDistToWater < 50.0f) {
             temp4 = fabsf(this->bodyPartsPos[0].x - this->unk_A88.x) +
                     fabsf(this->bodyPartsPos[0].y - this->unk_A88.y) + fabsf(this->bodyPartsPos[0].z - this->unk_A88.z);
             if (temp4 > 4.0f) {
@@ -5671,19 +5671,19 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
                 this->unk_854 = 0.0f;
 
                 ripplePos.x = (Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
-                ripplePos.y = this->actor.posRot.pos.y + this->actor.waterY;
+                ripplePos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
                 ripplePos.z = (Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
                 EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
 
                 if ((this->linearVelocity > 4.0f) && !func_808332B8(this) &&
-                    ((this->actor.posRot.pos.y + this->actor.waterY) < this->bodyPartsPos[0].y)) {
+                    ((this->actor.posRot.pos.y + this->actor.yDistToWater) < this->bodyPartsPos[0].y)) {
                     func_8083CFA8(globalCtx, this, 20.0f,
-                                  (fabsf(this->linearVelocity) * 50.0f) + (this->actor.waterY * 5.0f));
+                                  (fabsf(this->linearVelocity) * 50.0f) + (this->actor.yDistToWater * 5.0f));
                 }
             }
         }
 
-        if (this->actor.waterY > 40.0f) {
+        if (this->actor.yDistToWater > 40.0f) {
             s32 numBubbles = 0;
             s32 i;
 
@@ -6061,7 +6061,7 @@ s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
 s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
     if (this->wallHeight >= 79.0f) {
         if (!(this->stateFlags1 & 0x8000000) || (this->currentBoots == PLAYER_BOOTS_IRON) ||
-            (this->actor.waterY < this->ageProperties->unk_2C)) {
+            (this->actor.yDistToWater < this->ageProperties->unk_2C)) {
             s32 sp8C = (arg2 & 8) ? 2 : 0;
 
             if ((sp8C != 0) || (arg2 & 2) ||
@@ -9280,7 +9280,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                 } else if (!(this->stateFlags1 & 0x8000000) && func_8083A0D4(this) && (this->getItemId < GI_MAX)) {
                     doAction = 0x11;
                 } else if (this->stateFlags2 & 0x800) {
-                    sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.waterY) / 40.0f;
+                    sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
                     doAction = D_80854790[sp24];
                 } else if (sp1C && !(this->stateFlags2 & 0x400)) {
@@ -9336,7 +9336,7 @@ s32 func_80847A78(Player* this) {
     }
 
     cond = (this->currentBoots == PLAYER_BOOTS_HOVER) &&
-           ((this->actor.waterY >= 0.0f) || (func_80838144(D_808535E4) >= 0) || func_8083816C(D_808535E4));
+           ((this->actor.yDistToWater >= 0.0f) || (func_80838144(D_808535E4) >= 0) || func_8083816C(D_808535E4));
 
     if (cond && (this->actor.bgCheckFlags & 1) && (this->unk_893 != 0)) {
         this->actor.bgCheckFlags &= ~1;
@@ -9420,7 +9420,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         this->unk_A82 = this->unk_89E;
 
         if (this->actor.bgCheckFlags & 0x20) {
-            if (this->actor.waterY < 20.0f) {
+            if (this->actor.yDistToWater < 20.0f) {
                 this->unk_89E = 4;
             } else {
                 this->unk_89E = 5;
@@ -9446,7 +9446,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         D_808535F4 = func_800420C0(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
         if (D_808535F4 != 0) {
             D_808535F8 = func_80042084(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
-            if (((D_808535F8 == 0) && (this->actor.waterY > 20.0f) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
+            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
+                 (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
                 D_808535FC = func_800420E4(&globalCtx->colCtx, spC0, this->actor.floorPolySource) << 10;
             } else {
@@ -9691,7 +9692,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
 
         if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
             sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistFromLinkSq));
+            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToLinkSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
@@ -9928,7 +9929,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             if (this->currentBoots == PLAYER_BOOTS_IRON) {
                 if (this->stateFlags1 & 0x8000000) {
                     func_80832340(globalCtx, this);
-                    if (this->ageProperties->unk_2C < this->actor.waterY) {
+                    if (this->ageProperties->unk_2C < this->actor.yDistToWater) {
                         this->stateFlags2 |= 0x400;
                     }
                 }
@@ -10548,7 +10549,7 @@ void func_8084B000(Player* this) {
     f32 phi_f18;
     f32 phi_f16;
     f32 phi_f14;
-    f32 waterY;
+    f32 yDistToWater;
 
     phi_f14 = -5.0f;
 
@@ -10557,7 +10558,7 @@ void func_8084B000(Player* this) {
         phi_f16 += 1.0f;
     }
 
-    if (this->actor.waterY < phi_f16) {
+    if (this->actor.yDistToWater < phi_f16) {
         if (this->actor.velocity.y <= 0.0f) {
             phi_f16 = 0.0f;
         } else {
@@ -10578,8 +10579,8 @@ void func_8084B000(Player* this) {
             phi_f18 = phi_f16 + 0.1f;
         }
 
-        waterY = this->actor.waterY;
-        if (waterY > 100.0f) {
+        yDistToWater = this->actor.yDistToWater;
+        if (yDistToWater > 100.0f) {
             this->stateFlags2 |= 0x400;
         }
     }
@@ -11702,7 +11703,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
             this->unk_6C2 = 16000;
 
             if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) && !func_8083E5A8(this, globalCtx) &&
-                !(this->actor.bgCheckFlags & 1) && (this->actor.waterY < D_80854784[CUR_UPG_VALUE(UPG_SCALE)])) {
+                !(this->actor.bgCheckFlags & 1) && (this->actor.yDistToWater < D_80854784[CUR_UPG_VALUE(UPG_SCALE)])) {
                 func_8084DBC4(globalCtx, this, -2.0f);
             } else {
                 this->unk_84F++;
@@ -11714,7 +11715,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
 
             if (this->unk_6C2 < 10000) {
                 this->unk_84F++;
-                this->unk_850 = this->actor.waterY;
+                this->unk_850 = this->actor.yDistToWater;
                 func_80832C6C(globalCtx, this, &D_040032F0);
             }
         } else if (!func_8083D12C(globalCtx, this, sControlInput)) {
@@ -13934,7 +13935,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 func_8083A2F8(globalCtx, this);
 
                 if (!func_8008E9C4(this)) {
-                    if ((actor != this->naviActor) && (actor->xzDistFromLink < 40.0f)) {
+                    if ((actor != this->naviActor) && (actor->xzDistToLink < 40.0f)) {
                         func_808322D0(globalCtx, this, &D_04002DF0);
                     } else {
                         func_80832284(globalCtx, this, func_80833338(this));
@@ -13942,7 +13943,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
                 }
             } else {
                 func_80836898(globalCtx, this, func_8083A2F8);
-                func_808322D0(globalCtx, this, (actor->xzDistFromLink < 40.0f) ? &D_04002DF0 : &D_040031A0);
+                func_808322D0(globalCtx, this, (actor->xzDistToLink < 40.0f) ? &D_04002DF0 : &D_040031A0);
             }
 
             if (this->skelAnime.animation == &D_04002DF0) {

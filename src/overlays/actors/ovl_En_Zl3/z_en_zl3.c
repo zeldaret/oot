@@ -2004,8 +2004,8 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s16 phi_v1;
 
     unk_3F8->unk_18.y = player->actor.posRot.pos.y;
-    unk_3F8->unk_18.x = (Math_SinS(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.x;
-    unk_3F8->unk_18.z = (Math_CosS(temp_v0) * this->actor.xzDistFromLink) + this->actor.posRot.pos.z;
+    unk_3F8->unk_18.x = (Math_SinS(temp_v0) * this->actor.xzDistToLink) + this->actor.posRot.pos.x;
+    unk_3F8->unk_18.z = (Math_CosS(temp_v0) * this->actor.xzDistToLink) + this->actor.posRot.pos.z;
     unk_3F8->unk_14 = kREG(16) - 16.0f;
     func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
 

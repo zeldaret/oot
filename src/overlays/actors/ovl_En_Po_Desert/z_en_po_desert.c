@@ -125,7 +125,7 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    if (this->actor.xzDistFromLink < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
+    if (this->actor.xzDistToLink < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
         if (this->currentPathPoint == 2) {
             if (Gameplay_InCsMode(globalCtx)) {
                 this->actor.shape.rot.y += 0x800;

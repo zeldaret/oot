@@ -212,8 +212,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBb* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->limbDrawTbl, this->transitionDrawTbl,
-                   16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->jointTable, this->morphTable, 16);
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -471,7 +470,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             if (this->charge && (this->targetActor == NULL)) {
                 this->vMoveAngleY = this->actor.posRot.rot.y;
-                if (this->actor.xzDistFromLink < 200.0f) {
+                if (this->actor.xzDistToLink < 200.0f) {
                     Animation_PlayLoop(&this->skelAnime, &D_06000184);
                     this->vMoveAngleY = this->actor.yawTowardsLink;
                 }
@@ -485,7 +484,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = Math_SinF(this->bobPhase) * 65535.0f;
             }
         }
-        if ((this->actor.xzDistFromLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
+        if ((this->actor.xzDistToLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
             if (!this->charge) {
                 Animation_PlayLoop(&this->skelAnime, &D_06000184);
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 6.0f;
@@ -493,7 +492,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = this->actor.yawTowardsLink;
                 this->actionState = this->charge = true; // Sets actionState to BBBLUE_AGGRO
             }
-        } else if (this->actor.xzDistFromLink < 200.0f) {
+        } else if (this->actor.xzDistToLink < 200.0f) {
             this->vMoveAngleY = this->actor.yawTowardsLink;
         }
         if (this->targetActor == NULL) {
@@ -829,8 +828,7 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_LAUGH);
     }
 
-    if ((this->maxSpeed != 0.0f) &&
-        (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
+    if ((this->maxSpeed != 0.0f) && (((s32)this->skelAnime.curFrame == 0) || ((s32)this->skelAnime.curFrame == 5))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_MOUTH);
     } else if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 7)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_WING);

@@ -122,7 +122,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.posRot.pos.x == this->closedPos.x) &&
             (this->dyna.actor.posRot.pos.y == this->closedPos.y) &&
             (this->dyna.actor.posRot.pos.z == this->closedPos.z)) {
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }

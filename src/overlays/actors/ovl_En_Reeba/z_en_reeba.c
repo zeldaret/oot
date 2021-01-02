@@ -212,7 +212,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     if ((surfaceType != 4) && (surfaceType != 7)) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = func_80AE5688;
-    } else if ((this->unk_272 == 0) || (this->actor.xzDistFromLink < 30.0f) || (this->actor.xzDistFromLink > 400.0f) ||
+    } else if ((this->unk_272 == 0) || (this->actor.xzDistToLink < 30.0f) || (this->actor.xzDistToLink > 400.0f) ||
                (this->actor.bgCheckFlags & 8)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
@@ -240,15 +240,15 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
 
-    if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistFromLink > 400.0f) ||
+    if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToLink > 400.0f) ||
         (this->actor.bgCheckFlags & 8)) {
         this->actionfunc = func_80AE5688;
     } else {
-        if ((this->actor.xzDistFromLink < 70.0f) && (this->unk_270 == 0)) {
+        if ((this->actor.xzDistToLink < 70.0f) && (this->unk_270 == 0)) {
             this->unk_270 = 30;
         }
 
-        speed = (this->actor.xzDistFromLink - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
+        speed = (this->actor.xzDistToLink - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
         this->actor.speedXZ += speed * 1.8f;
         if (this->actor.speedXZ >= 3.0f) {
             this->actor.speedXZ = 3.0f;
