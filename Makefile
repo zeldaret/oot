@@ -194,7 +194,6 @@ clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 setup:
-	git submodule update --init --recursive
 	$(MAKE) -C tools -j
 	python3 fixbaserom.py
 	python3 extract_baserom.py
