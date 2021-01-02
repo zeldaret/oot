@@ -16,8 +16,6 @@ void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_04006010;
-
 /*
 const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
