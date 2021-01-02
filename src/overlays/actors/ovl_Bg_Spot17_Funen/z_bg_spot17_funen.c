@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot17_funen.h"
+#include "objects/object_spot17_obj/object_spot17_obj.h"
 
 #define FLAGS 0x00000030
 
@@ -31,8 +32,6 @@ const ActorInit Bg_Spot17_Funen_InitVars = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
-
-extern Gfx D_06000B40[];
 
 void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Funen* this = THIS;
@@ -68,7 +67,7 @@ void func_808B7478(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20, 1, 0,
                                 (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B40);
+    gSPDisplayList(POLY_XLU_DISP++, gBgSpot17DL1);
 
     if (1) {}
 

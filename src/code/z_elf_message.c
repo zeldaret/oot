@@ -90,7 +90,7 @@ u32 func_8006BF1C(ElfMessage** msgp) {
         return false;
     }
 
-    temp3 = Math_Rand_ZeroFloat(temp1);
+    temp3 = Rand_ZeroFloat(temp1);
     for (temp1 = 0; temp1 < temp2; temp1++) {
         if (sp44[temp1]) {
             if (temp3 > 0) {

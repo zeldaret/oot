@@ -120,9 +120,9 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
         if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
                 // "North! ! ! ! !"
-                osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
+                osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToLink);
             }
-            if ((this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
+            if ((this->actor.xzDistToLink < (90.0f + this->unk_15C)) &&
                 (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
                 if (player->stateFlags2 & 0x2000000) {
                     unk_152 = this->unk_152;
@@ -132,7 +132,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
                     player->stateFlags2 |= 0x800000;
                     func_8010BD58(globalCtx, unk_152 + 0x22);
                     this->actionFunc = func_80ABF0CC;
-                } else if ((this->actor.xzDistFromLink < (50.0f + this->unk_15C) &&
+                } else if ((this->actor.xzDistToLink < (50.0f + this->unk_15C) &&
                             ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 40.0f)))) {
                     this->unk_15A = 0;
                     player->unk_6A8 = &this->actor;
@@ -194,7 +194,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
         } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
                    ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
-                   (this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
+                   (this->actor.xzDistToLink < (90.0f + this->unk_15C)) &&
                    (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
             if (player->stateFlags2 & 0x1000000) {
                 switch (this->unk_150) {
@@ -219,7 +219,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 }
                 player->stateFlags2 |= 0x800000;
                 this->actionFunc = func_80ABF4C8;
-            } else if ((this->actor.xzDistFromLink < (50.0f + this->unk_15C)) &&
+            } else if ((this->actor.xzDistToLink < (50.0f + this->unk_15C)) &&
                        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 40.0f)) {
                 this->unk_15A = 0;
                 player->stateFlags2 |= 0x800000;
@@ -287,7 +287,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         this->unk_15A++;
-        if (!(this->actor.xzDistFromLink > 120.0f)) {
+        if (!(this->actor.xzDistToLink > 120.0f)) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
                 // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;

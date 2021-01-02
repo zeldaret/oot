@@ -114,8 +114,8 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
     Vec3f effPos;
 
     if ((globalCtx->gameplayFrames & 1) == 0) {
-        effPos.x = this->explosionCenter.x + Math_Rand_CenteredFloat(300.0f);
-        effPos.y = this->explosionCenter.y + Math_Rand_CenteredFloat(300.0f);
+        effPos.x = this->explosionCenter.x + Rand_CenteredFloat(300.0f);
+        effPos.y = this->explosionCenter.y + Rand_CenteredFloat(300.0f);
         effPos.z = this->explosionCenter.z;
         EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &effAccel, 100, 30);
         EffectSsHahen_SpawnBurst(globalCtx, &effPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);

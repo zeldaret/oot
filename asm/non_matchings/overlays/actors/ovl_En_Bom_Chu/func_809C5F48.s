@@ -318,17 +318,17 @@ glabel func_809C5F48
 /* 00BD0 809C6400 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00BD4 809C6404 00052823 */  subu    $a1, $zero, $a1            
 /* 00BD8 809C6408 00052C00 */  sll     $a1, $a1, 16               
-/* 00BDC 809C640C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00BDC 809C640C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00BE0 809C6410 00052C03 */  sra     $a1, $a1, 16               
 /* 00BE4 809C6414 262400B6 */  addiu   $a0, $s1, 0x00B6           ## $a0 = 000000B6
 /* 00BE8 809C6418 86250032 */  lh      $a1, 0x0032($s1)           ## 00000032
-/* 00BEC 809C641C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00BEC 809C641C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00BF0 809C6420 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00BF4 809C6424 262400B8 */  addiu   $a0, $s1, 0x00B8           ## $a0 = 000000B8
 /* 00BF8 809C6428 86250034 */  lh      $a1, 0x0034($s1)           ## 00000034
-/* 00BFC 809C642C 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00BFC 809C642C 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00C00 809C6430 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00C04 809C6434 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

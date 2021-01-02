@@ -75,7 +75,7 @@ glabel func_80B2CC1C
 /* 02B24 80B2CD24 00000000 */  nop
 /* 02B28 80B2CD28 46805420 */  cvt.s.w $f16, $f10                 
 /* 02B2C 80B2CD2C 46128101 */  sub.s   $f4, $f16, $f18            
-/* 02B30 80B2CD30 0C01DE1C */  jal     Math_Sins
+/* 02B30 80B2CD30 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02B34 80B2CD34 E7A40034 */  swc1    $f4, 0x0034($sp)           
 /* 02B38 80B2CD38 8E220000 */  lw      $v0, 0x0000($s1)           ## 8015FA90

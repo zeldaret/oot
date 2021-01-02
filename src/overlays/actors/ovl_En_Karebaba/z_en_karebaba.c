@@ -74,8 +74,7 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 22.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->limbDrawTable,
-                   this->transitionDrawTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTable, this->morphTable, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
@@ -124,7 +123,7 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 }
 
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, SkelAnime_GetFrameCount(&D_060002B8), 0, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
@@ -174,13 +173,13 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, -3.0f, SkelAnime_GetFrameCount(&D_060002B8), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060002B8, -3.0f, Animation_GetLastFrame(&D_060002B8), 0.0f, 2, -3.0f);
     EnKarebaba_ResetCollider(this);
     this->actionFunc = EnKarebaba_Retract;
 }
 
 void EnKarebaba_SetupDead(EnKarebaba* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, 0.0f, 2, 0.0f);
     EnKarebaba_ResetCollider(this);
     this->actor.shape.rot.x = -0x4000;
     this->actor.params = 200;
@@ -211,16 +210,16 @@ void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < 200.0f && fabsf(this->actor.yDistFromLink) < 30.0f) {
+    if (this->actor.xzDistToLink < 200.0f && fabsf(this->actor.yDistToLink) < 30.0f) {
         EnKarebaba_SetupAwaken(this);
     }
 }
 
 void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.scale.x, 0.01f, 0.0005f);
+    SkelAnime_Update(&this->skelAnime);
+    Math_StepToF(&this->actor.scale.x, 0.01f, 0.0005f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 60.0f, 5.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 60.0f, 5.0f)) {
         EnKarebaba_SetupUpright(this);
     }
     this->actor.shape.rot.y += 0x1999;
@@ -230,13 +229,13 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.params != 0) {
         this->actor.params--;
     }
 
-    if (func_800A56C8(&this->skelAnime, 0.0f) || func_800A56C8(&this->skelAnime, 12.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
@@ -258,9 +257,9 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
         this->actor.params--;
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
-    if (func_800A56C8(&this->skelAnime, 0.0f) || func_800A56C8(&this->skelAnime, 12.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         if (1) {} // Here for matching purposes only.
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
@@ -276,12 +275,12 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->headCollider.dim.radius = sHeadColliderInit.dim.radius + (value * 2);
     this->actor.shape.rot.x = 0xC000 - (value * 0x100);
     this->actor.shape.rot.y += value * 0x2C0;
-    this->actor.posRot.pos.y = (Math_Sins(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
+    this->actor.posRot.pos.y = (Math_SinS(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
 
-    cos60 = Math_Coss(this->actor.shape.rot.x) * 60.0f;
+    cos60 = Math_CosS(this->actor.shape.rot.x) * 60.0f;
 
-    this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
 
     if (this->bodyCollider.base.acFlags & 2) {
         EnKarebaba_SetupDying(this);
@@ -297,10 +296,10 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
     Vec3f position;
     Vec3f rotation;
 
-    Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
 
     if (this->actor.params == 0) {
-        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
@@ -317,9 +316,9 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
         }
     } else if (this->actor.params == 1) {
         Math_Vec3f_Copy(&position, &this->actor.posRot.pos);
-        rotation.z = Math_Sins(this->actor.shape.rot.x) * 20.0f;
-        rotation.x = -20.0f * Math_Coss(this->actor.shape.rot.x) * Math_Sins(this->actor.shape.rot.y);
-        rotation.y = -20.0f * Math_Coss(this->actor.shape.rot.x) * Math_Coss(this->actor.shape.rot.y);
+        rotation.z = Math_SinS(this->actor.shape.rot.x) * 20.0f;
+        rotation.x = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y);
+        rotation.y = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
             func_800286CC(globalCtx, &position, &zeroVec, &zeroVec, 500, 50);
@@ -346,11 +345,11 @@ void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_ApproxF(&this->actor.scale.x, 0.005f, 0.0005f);
+    SkelAnime_Update(&this->skelAnime);
+    Math_StepToF(&this->actor.scale.x, 0.005f, 0.0005f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 14.0f, 5.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 14.0f, 5.0f)) {
         EnKarebaba_SetupIdle(this);
     }
 
@@ -359,7 +358,7 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.params != 0) {
         this->actor.params--;
@@ -458,7 +457,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
         func_80026230(globalCtx, &black, 1, 2);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
 
         if ((this->actionFunc == EnKarebaba_Regrow) || (this->actionFunc == EnKarebaba_Grow)) {

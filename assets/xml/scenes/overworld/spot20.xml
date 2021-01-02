@@ -1,0 +1,12 @@
+<Root>
+    <File Name="spot20_scene">
+        <Scene Name="spot20_scene">
+        </Scene>
+    </File>
+    <File Name="spot20_room_0">
+        <Room Name="spot20_room_0">
+            <DListHint Offset="0x5E50"/>
+            <DListHint Offset="0x66B8"/>
+        </Room>
+    </File>
+</Root>

@@ -15,7 +15,7 @@ glabel func_80A79690
 /* 00714 80A796C4 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00718 80A796C8 37280003 */  ori     $t0, $t9, 0x0003           ## $t0 = 00000003
 /* 0071C 80A796CC A0880035 */  sb      $t0, 0x0035($a0)           ## 00000035
-/* 00720 80A796D0 0C028D88 */  jal     SkelAnime_LoadAnimationType5
+/* 00720 80A796D0 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 00724 80A796D4 8FA40028 */  lw      $a0, 0x0028($sp)
 /* 00728 80A796D8 8FBF001C */  lw      $ra, 0x001C($sp)
 .L80A796DC:

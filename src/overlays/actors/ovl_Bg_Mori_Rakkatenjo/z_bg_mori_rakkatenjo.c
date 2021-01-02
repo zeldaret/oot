@@ -161,7 +161,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
             if (this->bounceCount == 0) {
                 this->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistFromLink), 0xFF, 0x14, 0x96);
+                func_800AA000(SQ(thisx->yDistToLink), 0xFF, 0x14, 0x96);
             }
             thisx->posRot.pos.y =
                 403.0f - (thisx->posRot.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
@@ -193,7 +193,7 @@ void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
     this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
     if (this->dyna.actor.posRot.pos.y >= 683.0f) {
         BgMoriRakkatenjo_SetupWait(this);

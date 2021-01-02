@@ -35,7 +35,7 @@ glabel func_80A4A964
 /* 01B04 80A4A9C4 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 01B08 80A4A9C8 46000207 */  neg.s   $f8, $f0                   
 /* 01B0C 80A4A9CC 46104302 */  mul.s   $f12, $f8, $f16            
-/* 01B10 80A4A9D0 0C03F494 */  jal     Math_atan2f              
+/* 01B10 80A4A9D0 0C03F494 */  jal     Math_FAtan2F              
 /* 01B14 80A4A9D4 00000000 */  nop
 /* 01B18 80A4A9D8 3C0180A5 */  lui     $at, %hi(D_80A4B938)       ## $at = 80A50000
 /* 01B1C 80A4A9DC C432B938 */  lwc1    $f18, %lo(D_80A4B938)($at) 
@@ -49,7 +49,7 @@ glabel func_80A4A964
 /* 01B3C 80A4A9FC 44053000 */  mfc1    $a1, $f6                   
 /* 01B40 80A4AA00 00000000 */  nop
 /* 01B44 80A4AA04 00052C00 */  sll     $a1, $a1, 16               
-/* 01B48 80A4AA08 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 01B48 80A4AA08 0C01E1EF */  jal     Math_ApproachS
               
 /* 01B4C 80A4AA0C 00052C03 */  sra     $a1, $a1, 16               
 /* 01B50 80A4AA10 C7A8001C */  lwc1    $f8, 0x001C($sp)           
@@ -58,7 +58,7 @@ glabel func_80A4A964
 /* 01B5C 80A4AA1C 46004287 */  neg.s   $f10, $f8                  
 /* 01B60 80A4AA20 44817000 */  mtc1    $at, $f14                  ## $f14 = 1.00
 /* 01B64 80A4AA24 46125302 */  mul.s   $f12, $f10, $f18           
-/* 01B68 80A4AA28 0C03F494 */  jal     Math_atan2f              
+/* 01B68 80A4AA28 0C03F494 */  jal     Math_FAtan2F              
 /* 01B6C 80A4AA2C 00000000 */  nop
 /* 01B70 80A4AA30 3C0180A5 */  lui     $at, %hi(D_80A4B93C)       ## $at = 80A50000
 /* 01B74 80A4AA34 C424B93C */  lwc1    $f4, %lo(D_80A4B93C)($at)  
@@ -71,7 +71,7 @@ glabel func_80A4A964
 /* 01B90 80A4AA50 44054000 */  mfc1    $a1, $f8                   
 /* 01B94 80A4AA54 00000000 */  nop
 /* 01B98 80A4AA58 00052C00 */  sll     $a1, $a1, 16               
-/* 01B9C 80A4AA5C 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 01B9C 80A4AA5C 0C01E1EF */  jal     Math_ApproachS
               
 /* 01BA0 80A4AA60 00052C03 */  sra     $a1, $a1, 16               
 /* 01BA4 80A4AA64 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -81,7 +81,7 @@ glabel func_80904340
 .L809043F8:
 /* 074B8 809043F8 3C073D85 */  lui     $a3, 0x3D85                ## $a3 = 3D850000
 .L809043FC:
-/* 074BC 809043FC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 074BC 809043FC 0C01E107 */  jal     Math_ApproachF
               
 /* 074C0 80904400 34E71EB8 */  ori     $a3, $a3, 0x1EB8           ## $a3 = 3D851EB8
 /* 074C4 80904404 8E4202D0 */  lw      $v0, 0x02D0($s2)           ## 000002D0
