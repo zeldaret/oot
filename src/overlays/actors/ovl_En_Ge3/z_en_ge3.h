@@ -12,14 +12,13 @@ typedef struct EnGe3 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s limbDrawTable[0x18];
-    /* 0x026C */ Vec3s transitionDrawTable[0x18];
-    /* 0x02FC */ s16 unk_2FC;
-    /* 0x02FC */ s16 unk_2FE;
-    /* 0x0300 */ Vec3s unk_300;
+    /* 0x01DC */ Vec3s jointTable[24];
+    /* 0x026C */ Vec3s morphTable[24];
+    /* 0x02FC */ s16 eyeIndex;
+    /* 0x02FE */ s16 blinkTimer;
+    /* 0x0300 */ Vec3s headRot;
     /* 0x0306 */ Vec3s unk_306;
     /* 0x030C */ u16 unk_30C;
-    /* 0x014C */ char unk_30E[0x2];
     /* 0x0310 */ EnGe3ActionFunc actionFunc;
 } EnGe3; // size = 0x0314
 
