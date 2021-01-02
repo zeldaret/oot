@@ -173,7 +173,7 @@ typedef struct {
     /* 0x0104 */ Vec3f  unk_104;
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ u32    flags;
+    /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
@@ -189,10 +189,17 @@ typedef struct {
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0x8];
-    /* 0x0C */ u32 unk_0C;
+    /* 0x00 */ s16 xMin;
+    /* 0x02 */ s16 ySurface;
+    /* 0x04 */ s16 zMin;
+    /* 0x06 */ s16 xLength;
+    /* 0x08 */ s16 zLength;
+    /* 0x0C */ u32 properties;
+
+    // 0x0008_0000 = ?
+    // 0x0007_E000 = Room Index, 0x3F = all rooms
+    // 0x0000_1F00 = Lighting Settings Index
+    // 0x0000_00FF = CamData index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -1711,12 +1718,6 @@ typedef struct {
     /* 0x10C */ u8 unk_10C;
     /* 0x10D */ u8 unk_10D;
 } UnkRumbleStruct; // size = 0x10E
-
-typedef struct {
-    char unk_00[0x48];
-    void* avbTbl;
-    SkelAnime skelAnime;
-} PSkinAwb; // size = 0x90
 
 typedef struct {
     /* 0x00 */ char unk_00[0x18];

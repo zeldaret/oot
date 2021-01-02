@@ -67,8 +67,8 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (gSaveContext.infTable[16] & 0x200) {
-            this->dyna.actor.posRot.pos.x += 125.0f * Math_Coss(this->dyna.actor.posRot.rot.y);
-            this->dyna.actor.posRot.pos.z -= 125.0f * Math_Sins(this->dyna.actor.posRot.rot.y);
+            this->dyna.actor.posRot.pos.x += 125.0f * Math_CosS(this->dyna.actor.posRot.rot.y);
+            this->dyna.actor.posRot.pos.z -= 125.0f * Math_SinS(this->dyna.actor.posRot.rot.y);
             this->actionFunc = func_808B95AC;
         } else {
             this->actionFunc = func_808B9618;
@@ -109,7 +109,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
@@ -118,13 +118,13 @@ void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    f32 sin = Math_Sins(this->dyna.actor.posRot.rot.y);
-    f32 cos = Math_Coss(this->dyna.actor.posRot.rot.y);
+    f32 sin = Math_SinS(this->dyna.actor.posRot.rot.y);
+    f32 cos = Math_CosS(this->dyna.actor.posRot.rot.y);
     s32 flag =
-        Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) &
+        Math_StepToF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) &
         1;
     flag &=
-        Math_ApproxF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - (125.0f * sin), fabsf(sin));
+        Math_StepToF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);

@@ -15,11 +15,11 @@ glabel func_809120BC
 /* 01A88 809120C8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01A8C 809120CC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01A90 809120D0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 01A94 809120D4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01A94 809120D4 0C02927F */  jal     SkelAnime_Update
               
 /* 01A98 809120D8 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 01A9C 809120DC 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 01AA0 809120E0 0C0295B2 */  jal     func_800A56C8              
+/* 01AA0 809120E0 0C0295B2 */  jal     Animation_OnFrame              
 /* 01AA4 809120E4 3C0540A0 */  lui     $a1, 0x40A0                ## $a1 = 40A00000
 /* 01AA8 809120E8 10400009 */  beq     $v0, $zero, .L80912110     
 /* 01AAC 809120EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -36,7 +36,7 @@ glabel func_809120BC
 /* 01ACC 8091210C 2484522C */  addiu   $a0, $a0, %lo(D_8091522C)  ## $a0 = 8091522C
 .L80912110:
 /* 01AD0 80912110 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 01AD4 80912114 0C0295B2 */  jal     func_800A56C8              
+/* 01AD4 80912114 0C0295B2 */  jal     Animation_OnFrame              
 /* 01AD8 80912118 8E0501D0 */  lw      $a1, 0x01D0($s0)           ## 000001D0
 /* 01ADC 8091211C 10400003 */  beq     $v0, $zero, .L8091212C     
 /* 01AE0 80912120 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -53,12 +53,12 @@ glabel func_809120BC
 /* 01B08 80912148 46105480 */  add.s   $f18, $f10, $f16           
 /* 01B0C 8091214C E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 01B10 80912150 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01B14 80912154 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01B14 80912154 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01B18 80912158 E612002C */  swc1    $f18, 0x002C($s0)          ## 0000002C
 /* 01B1C 8091215C 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
 /* 01B20 80912160 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 01B24 80912164 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 01B24 80912164 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 01B28 80912168 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 01B2C 8091216C 86040194 */  lh      $a0, 0x0194($s0)           ## 00000194
@@ -71,7 +71,7 @@ glabel func_809120BC
 /* 01B48 80912188 00812023 */  subu    $a0, $a0, $at              
 /* 01B4C 8091218C 00042080 */  sll     $a0, $a0,  2               
 /* 01B50 80912190 00042400 */  sll     $a0, $a0, 16               
-/* 01B54 80912194 0C01DE1C */  jal     Math_Sins
+/* 01B54 80912194 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 01B58 80912198 00042403 */  sra     $a0, $a0, 16               
 /* 01B5C 8091219C 46000180 */  add.s   $f6, $f0, $f0              

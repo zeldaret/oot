@@ -1,6 +1,6 @@
 #include "global.h"
 
-u16 sATan2Tbl[] = {
+static u16 sATan2Tbl[] = {
     0x0000, 0x000A, 0x0014, 0x001F, 0x0029, 0x0033, 0x003D, 0x0047, 0x0051, 0x005C, 0x0066, 0x0070, 0x007A, 0x0084,
     0x008F, 0x0099, 0x00A3, 0x00AD, 0x00B7, 0x00C2, 0x00CC, 0x00D6, 0x00E0, 0x00EA, 0x00F4, 0x00FF, 0x0109, 0x0113,
     0x011D, 0x0127, 0x0131, 0x013C, 0x0146, 0x0150, 0x015A, 0x0164, 0x016F, 0x0179, 0x0183, 0x018D, 0x0197, 0x01A1,
@@ -77,7 +77,7 @@ u16 sATan2Tbl[] = {
     0x1FF6, 0x1FFB, 0x2000,
 };
 
-u16 GetAtan2Tbl(f32 x, f32 y) {
+u16 Math_GetAtan2Tbl(f32 x, f32 y) {
     s32 tblIdx;
     u16 ret;
 
@@ -93,41 +93,41 @@ u16 GetAtan2Tbl(f32 x, f32 y) {
     return ret;
 }
 
-s16 atan2s(f32 x, f32 y) {
+s16 Math_Atan2S(f32 x, f32 y) {
     s32 ret;
 
     if (y >= 0.0f) {
         if (x >= 0.0f) {
             if (y <= x) {
-                ret = GetAtan2Tbl(y, x);
+                ret = Math_GetAtan2Tbl(y, x);
             } else {
-                ret = 0x4000 - GetAtan2Tbl(x, y);
+                ret = 0x4000 - Math_GetAtan2Tbl(x, y);
             }
         } else {
             if (-x < y) {
-                ret = GetAtan2Tbl(-x, y) + 0x4000;
+                ret = Math_GetAtan2Tbl(-x, y) + 0x4000;
             } else {
-                ret = 0x8000 - GetAtan2Tbl(y, -x);
+                ret = 0x8000 - Math_GetAtan2Tbl(y, -x);
             }
         }
     } else {
         if (x < 0.0f) {
             if (-y <= -x) {
-                ret = GetAtan2Tbl(-y, -x) + 0x8000;
+                ret = Math_GetAtan2Tbl(-y, -x) + 0x8000;
             } else {
-                ret = 0xC000 - GetAtan2Tbl(-x, -y);
+                ret = 0xC000 - Math_GetAtan2Tbl(-x, -y);
             }
         } else {
             if (x < -y) {
-                ret = GetAtan2Tbl(x, -y) + 0xC000;
+                ret = Math_GetAtan2Tbl(x, -y) + 0xC000;
             } else {
-                ret = -GetAtan2Tbl(-y, x);
+                ret = -Math_GetAtan2Tbl(-y, x);
             }
         }
     }
     return ret;
 }
 
-f32 atan2f(f32 x, f32 y) {
-    return atan2s(x, y) * (M_PI / 32768.0f);
+f32 Math_Atan2F(f32 x, f32 y) {
+    return Math_Atan2S(x, y) * (M_PI / 32768.0f);
 }

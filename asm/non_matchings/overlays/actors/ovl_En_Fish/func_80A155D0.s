@@ -3,12 +3,12 @@ glabel func_80A155D0
 /* 00354 80A155D4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00358 80A155D8 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000
 /* 0035C 80A155DC 8484024E */  lh      $a0, 0x024E($a0)           ## 0000024E
-/* 00360 80A155E0 0C01DE1C */  jal     Math_Sins
+/* 00360 80A155E0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00364 80A155E4 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00368 80A155E8 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0036C 80A155EC E7A00018 */  swc1    $f0, 0x0018($sp)           
-/* 00370 80A155F0 0C01DE1C */  jal     Math_Sins
+/* 00370 80A155F0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00374 80A155F4 84A4024C */  lh      $a0, 0x024C($a1)           ## 0000024C
 /* 00378 80A155F8 3C01C348 */  lui     $at, 0xC348                ## $at = C3480000

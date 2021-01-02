@@ -79,12 +79,12 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
     f32 rand1;
 
     for (angle = 0, i = 0; i < ARRAY_COUNT(sKakeraScales); i++) {
-        rand1 = Math_Rand_ZeroOne() * 10.0f;
-        vel.x = (Math_Sins(angle) * rand1) + vec2->x;
-        vel.y = (Math_Rand_ZeroOne() * 10.0f) + vec2->y;
-        vel.z = (Math_Coss(angle) * rand1) + vec2->z;
+        rand1 = Rand_ZeroOne() * 10.0f;
+        vel.x = (Math_SinS(angle) * rand1) + vec2->x;
+        vel.y = (Rand_ZeroOne() * 10.0f) + vec2->y;
+        vel.z = (Math_CosS(angle) * rand1) + vec2->z;
 
-        rand1 = Math_Rand_ZeroOne();
+        rand1 = Rand_ZeroOne();
         if (rand1 < 0.2f) {
             arg5 = 96;
         } else if (rand1 < 0.8f) {
@@ -109,7 +109,7 @@ void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (thisx->params == 0) {
         BgJyaHaheniron_ColliderInit(this, globalCtx);
-        thisx->shape.rot.z = (Math_Rand_ZeroOne() * 65535.0f);
+        thisx->shape.rot.z = (Rand_ZeroOne() * 65535.0f);
         BgJyaHaheniron_SetupChairCrumble(this);
     } else if (thisx->params == 1) {
         BgJyaHaheniron_SetupPillarCrumble(this);
@@ -135,9 +135,9 @@ void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx)
     func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) ||
         ((this->collider.base.atFlags & 2) && (this->collider.base.at) && (this->collider.base.at->type == 2))) {
-        vec.x = -Math_Rand_ZeroOne() * this->actor.velocity.x;
-        vec.y = -Math_Rand_ZeroOne() * this->actor.velocity.y;
-        vec.z = -Math_Rand_ZeroOne() * this->actor.velocity.z;
+        vec.x = -Rand_ZeroOne() * this->actor.velocity.x;
+        vec.y = -Rand_ZeroOne() * this->actor.velocity.y;
+        vec.z = -Rand_ZeroOne() * this->actor.velocity.z;
         BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, &vec);
         Actor_Kill(&this->actor);
     } else if (this->timer >= 61) {

@@ -64,7 +64,7 @@ glabel func_80A5A484
 /* 0093C 80A5A56C 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 00940 80A5A570 46105480 */  add.s   $f18, $f10, $f16           
 /* 00944 80A5A574 44059000 */  mfc1    $a1, $f18                  
-/* 00948 80A5A578 0C01DE80 */  jal     Math_ApproxF
+/* 00948 80A5A578 0C01DE80 */  jal     Math_StepToF
               
 /* 0094C 80A5A57C 00000000 */  nop
 /* 00950 80A5A580 14400007 */  bne     $v0, $zero, .L80A5A5A0     

@@ -4,12 +4,12 @@ glabel func_8086318C
 /* 03B44 80863194 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 03B48 80863198 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 03B4C 8086319C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 03B50 808631A0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03B50 808631A0 0C02927F */  jal     SkelAnime_Update
               
 /* 03B54 808631A4 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 03B58 808631A8 50400015 */  beql    $v0, $zero, .L80863200     
 /* 03B5C 808631AC C60A01A0 */  lwc1    $f10, 0x01A0($s0)          ## 000001A0
-/* 03B60 808631B0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 03B60 808631B0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 03B64 808631B4 00000000 */  nop
 /* 03B68 808631B8 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

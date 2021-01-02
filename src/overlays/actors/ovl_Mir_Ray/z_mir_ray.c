@@ -124,12 +124,12 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
         lightPt.z = (dataEntry->unk_18 * reflectionPt.z) + this->sourcePt.z;
 
         // Fade up
-        Math_ApproxS(&this->lightPointRad, dataEntry->lgtPtMaxRad, 6);
+        Math_StepToS(&this->lightPointRad, dataEntry->lgtPtMaxRad, 6);
         Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, dataEntry->color.r,
                                   dataEntry->color.g, dataEntry->color.b, this->lightPointRad);
     } else {
         // Fade down
-        Math_ApproxS(&this->lightPointRad, 0, 6);
+        Math_StepToS(&this->lightPointRad, 0, 6);
         Lights_PointSetColorAndRadius(&this->lightInfo, dataEntry->color.r, dataEntry->color.g, dataEntry->color.b,
                                       this->lightPointRad);
     }

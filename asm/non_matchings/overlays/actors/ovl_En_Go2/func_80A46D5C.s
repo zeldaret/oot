@@ -5,7 +5,7 @@ glabel func_80A46D5C
 /* 04038 80A46D68 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 0403C 80A46D6C 8CC5015C */  lw      $a1, 0x015C($a2)           ## 0000015C
 /* 04040 80A46D70 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 04044 80A46D74 0C0295B2 */  jal     func_800A56C8              
+/* 04044 80A46D74 0C0295B2 */  jal     Animation_OnFrame              
 /* 04048 80A46D78 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0404C 80A46D7C 1040000B */  beq     $v0, $zero, .L80A46DAC     
 /* 04050 80A46D80 8FA60018 */  lw      $a2, 0x0018($sp)           

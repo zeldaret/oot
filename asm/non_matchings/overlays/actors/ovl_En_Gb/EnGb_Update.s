@@ -12,7 +12,7 @@ glabel EnGb_Update
 /* 00C1C 80A2FD9C 00A09825 */  or      $s3, $a1, $zero            ## $s3 = 00000000
 /* 00C20 80A2FDA0 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
 /* 00C24 80A2FDA4 A48F0380 */  sh      $t7, 0x0380($a0)           ## 00000380
-/* 00C28 80A2FDA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00C28 80A2FDA8 0C02927F */  jal     SkelAnime_Update
               
 /* 00C2C 80A2FDAC 24840164 */  addiu   $a0, $a0, 0x0164           ## $a0 = 00000164
 /* 00C30 80A2FDB0 8E590238 */  lw      $t9, 0x0238($s2)           ## 00000238
@@ -44,7 +44,7 @@ glabel EnGb_Update
 /* 00C8C 80A2FE0C 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C
 /* 00C90 80A2FE10 1615FFFA */  bne     $s0, $s5, .L80A2FDFC       
 /* 00C94 80A2FE14 2631004C */  addiu   $s1, $s1, 0x004C           ## $s1 = 000002D4
-/* 00C98 80A2FE18 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00C98 80A2FE18 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00C9C 80A2FE1C 00000000 */  nop
 /* 00CA0 80A2FE20 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

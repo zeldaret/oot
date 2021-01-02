@@ -10,7 +10,7 @@ glabel func_809F7AB8
 /* 01718 809F7AD8 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 0171C 809F7ADC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01720 809F7AE0 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 01724 809F7AE4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01724 809F7AE4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01728 809F7AE8 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
 /* 0172C 809F7AEC 860F00B4 */  lh      $t7, 0x00B4($s0)           ## 000000B4

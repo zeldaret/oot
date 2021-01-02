@@ -112,14 +112,14 @@ void func_8086D0EC(BgBdanSwitch* this) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
     }
     this->dyna.actor.shape.unk_08 = 1.2f / this->unk_1D0;
@@ -262,7 +262,7 @@ void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }
@@ -324,7 +324,7 @@ void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
     }
 }
 
@@ -339,7 +339,7 @@ void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }
