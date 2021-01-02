@@ -2345,11 +2345,7 @@ endseg
 beginseg
     name "ovl_En_GeldB"
     include "build/src/overlays/actors/ovl_En_GeldB/z_en_geldb.o"
-    #ifdef NON_MATCHING
-        include "build/src/overlays/actors/ovl_En_GeldB/ovl_En_GeldB_reloc.o"
-    #else
-        include "build/data/overlays/actors/z_en_geldb.reloc.o"
-    #endif
+    include "build/src/overlays/actors/ovl_En_GeldB/ovl_En_GeldB_reloc.o"
 endseg
 
 beginseg
@@ -3707,7 +3703,9 @@ endseg
 beginseg
     name "object_torch2"
     romalign 0x1000
-    include "build/baserom/object_torch2.o"
+    // include "build/baserom/object_torch2.o"
+    include "build/assets/objects/object_torch2/object_torch2.o"
+    number 06
 endseg
 
 beginseg
@@ -5580,7 +5578,9 @@ endseg
 beginseg
     name "object_geldb"
     romalign 0x1000
-    include "build/baserom/object_geldb.o"
+    //include "build/baserom/object_geldb.o"
+    include "build/assets/objects/object_geldb/object_geldb.o"
+    number 06
 endseg
 
 beginseg

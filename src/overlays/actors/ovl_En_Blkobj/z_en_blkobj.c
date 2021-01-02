@@ -66,7 +66,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&gBlkobjColHeader, &colHeader);
+        DynaPolyInfo_Alloc(&gIllusionRoomColHeader, &colHeader);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
@@ -166,11 +166,11 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->alpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, gBlkobjDListNormal, this->alpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomDListNormal, this->alpha);
     }
     illusionAlpha = 255 - this->alpha;
     if (illusionAlpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, gBlkobjDListIllusion, illusionAlpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomDListIllusion, illusionAlpha);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);

@@ -1,5 +1,6 @@
 <Root>
     <File Name="object_torch2" Segment="6">
-        <Hierarchy Name="gDarkLinkSkel" Type="Flex" LimbType="LOD" Offset="0x4764"/>
+        <Skeleton Name="gDarkLinkSkeleton" Type="Flex" LimbType="LOD" Offset="0x4764"/>
+        <DList Name="gDarkLinkDListUnusedSheath" Offset="0x3748"/>
     </File>
 </Root>
