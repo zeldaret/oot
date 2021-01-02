@@ -32,8 +32,6 @@ extern Vec3s D_040020D0[];
 extern Vec3s D_04002160[];
 extern Vec3s D_040021F0[];
 extern Vec3s D_04002280[];
-extern u32 D_0401E370;
-//extern ? D_04048160;
 //extern ? D_0500CA70;
 extern Gfx D_06006CC0[];
 extern Gfx D_06016118[];

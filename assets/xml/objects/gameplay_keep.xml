@@ -2,6 +2,7 @@
     <File Name="gameplay_keep"  Segment="4">
         <Texture Name="gReflectionTex1" OutName="reflection_1" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
         <Texture Name="gReflectionTex2" OutName="reflection_2" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
+        <Blob Name="blob_04002040" Offset="0x00002040" Size="0x2C0"/> <!-- Appears to be an array of Vec3s used for player -->
         <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
         <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgb5a1" Width="32" Height="16" Offset="0x00001400"/>
         <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgb5a1" Width="16" Height="16" Offset="0x00001800"/>
@@ -678,8 +679,11 @@
         <Texture Name="gEffectUnknownTex4" OutName="effect_unknown_4" Format="i8" Width="32" Height="64" Offset="0x000173D0"/>
         <Texture Name="gEffectUnknownTex5" OutName="effect_unknown_5" Format="i8" Width="32" Height="64" Offset="0x00017BD0"/>
         <DList Name="gEffectFireCircleDL" Offset="0x000184B0"/>
-        <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x00018FE0"/>
+        <DList Name="gFishLimb1DL" Offset="0x000188B0"/>
+        <DList Name="gFishLimb2DL" Offset="0x00018950"/>
+        <DList Name="gFishLimb3DL" Offset="0x00018A68"/>
         <Animation Name="gFishAnim1" Offset="0x000185FC"/>
+        <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x00018FE0"/>
         <Animation Name="gFishAnim2" Offset="0x0001909C"/>
         <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgb5a1" Width="16" Height="16" Offset="0x00018B80"/>
         <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgb5a1" Width="32" Height="8" Offset="0x00018D80"/>
@@ -791,8 +795,35 @@
         <DList Name="gEffectIceFragmentDL1" Offset="0x00033720"/>
         <DList Name="gEffectIceFragmentDL2" Offset="0x00033818"/>
         <DList Name="gEffectIceFragmentDL3" Offset="0x00033EE0"/>
-        <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x00035590"/>
         <Animation Name="gBugCrawlAnim" Offset="0x000341FC"/>
+        <DList Name="gBugLimb1DL" Offset="0x00034210"/>
+        <DList Name="gBugLimb1WrapperDL" Offset="0x000342B0"/>
+        <DList Name="gBugLimb1WrapperWrapperDL" Offset="0x000342C0"/>
+        <DList Name="gBugLimb2DL" Offset="0x00034300"/>
+        <DList Name="gBugLimb2WrapperDL" Offset="0x000343A0"/>
+        <DList Name="gBugLimb2WrapperWrapperDL" Offset="0x000343B0"/>
+        <DList Name="gBugLimb3DL" Offset="0x000343F0"/>
+        <DList Name="gBugLimb3WrapperDL" Offset="0x00034490"/>
+        <DList Name="gBugLimb3WrapperWrapperDL" Offset="0x000344A0"/>
+        <DList Name="gBugLimb4DL" Offset="0x000344E0"/>
+        <DList Name="gBugLimb4WrapperDL" Offset="0x00034580"/>
+        <DList Name="gBugLimb4WrapperWrapperDL" Offset="0x00034590"/>
+        <DList Name="gBugLimb5DL" Offset="0x000345D0"/>
+        <DList Name="gBugLimb5WrapperDL" Offset="0x00034670"/>
+        <DList Name="gBugLimb5WrapperWrapperDL" Offset="0x00034680"/>
+        <DList Name="gBugLimb6DL" Offset="0x000346C0"/>
+        <DList Name="gBugLimb6WrapperDL" Offset="0x00034760"/>
+        <DList Name="gBugLimb6WrapperWrapperDL" Offset="0x00034770"/>
+        <DList Name="gBugLimb7DL" Offset="0x000347B0"/>
+        <DList Name="gBugLimb7WrapperDL" Offset="0x00034850"/>
+        <DList Name="gBugLimb7WrapperWrapperDL" Offset="0x00034860"/>
+        <DList Name="gBugLimb8DL" Offset="0x000348A0"/>
+        <DList Name="gBugLimb8WrapperDL" Offset="0x00034940"/>
+        <DList Name="gBugLimb8WrapperWrapperDL" Offset="0x00034950"/>
+        <DList Name="gBugLimb9DL" Offset="0x00034990"/>
+        <DList Name="gBugLimb9WrapperDL" Offset="0x00034A40"/>
+        <DList Name="gBugLimb9WrapperWrapperDL" Offset="0x00034A50"/>
+        <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x00035590"/>
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgb5a1" Width="16" Height="64" Offset="0x00034B20"/>
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgb5a1" Width="32" Height="4" Offset="0x00035320"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x000355E0"/>
@@ -811,16 +842,18 @@
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x00037F00"/>
         <DList Name="gMoonDL" Offset="0x00038F00"/>
         <Texture Name="gUnknownCircleTex6" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x00038FB0"/>
-        <Collision Name="gRockCol1" Offset="0x00394B0"/>
+        <Collision Name="gUnknownCol1" Offset="0x00394B0"/>
         <DList Name="gLiftableRockDL" Offset="0x00039660"/>
         <DList Name="gUnusedRockRectangularPrismDL1" Offset="0x00039890"/>
+        <Collision Name="gUnknownCol2" Offset="0x00039A48"/>
         <DList Name="gUnusedRockRectangularPrismDL2" Offset="0x00039C00"/>
+        <Collision Name="gUnknownCol3" Offset="0x00039DC0"/>
         <DList Name="gUnusedRockRectangularPrismDL3" Offset="0x00039F70"/>
-        <Collision Name="gRockCol2" Offset="0x003A120"/>
+        <Collision Name="gUnknownCol4" Offset="0x003A120"/>
         <DList Name="gUnusedRockRectangularPrismDL4" Offset="0x0003A2D0"/>
-        <Collision Name="gRockCol3" Offset="0x003A480"/>
+        <Collision Name="gUnknownCol5" Offset="0x003A480"/>
         <DList Name="gUnusedRockRectangularPrismDL5" Offset="0x0003A630"/>
-        <Collision Name="gRockCol4" Offset="0x003A7F0"/>
+        <Collision Name="gUnknownCol6" Offset="0x003A7F0"/>
         <DList Name="gUnusedTreeStumpDL" Offset="0x0003A9B0"/>
         <DList Name="gUnusedGrassBladesDL" Offset="0x0003AB80"/>
         <Texture Name="gHeartShapeTex" OutName="heart_shape" Format="i8" Width="16" Height="16" Offset="0x0003AC30"/>
@@ -910,8 +943,5 @@
         <Texture Name="gEffectSparkTex2" OutName="effect_spark_2" Format="i4" Width="32" Height="32" Offset="0x000561B0"/>
         <Texture Name="gEffectSparkTex3" OutName="effect_spark_3" Format="i4" Width="32" Height="32" Offset="0x000563B0"/>
         <Texture Name="gEffectSparkTex4" OutName="effect_spark_4" Format="i4" Width="32" Height="32" Offset="0x000565B0"/>
-        <!-- Currently unaccounted data:
-        0x002040 sz 0x2C0 // limb draw vec3s'
-        -->
     </File>
 </Root>

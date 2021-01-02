@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionHeader* D_8011546C[] = {
-    &gRockCol1, &gRockCol1, &gRockCol2, &gRockCol3, &gRockCol4, 0x06000730,
+    &gUnknownCol1, &gUnknownCol1, &gUnknownCol4, &gUnknownCol5, &gUnknownCol6, 0x06000730,
 };
 
 static Gfx* D_80115484[] = {
