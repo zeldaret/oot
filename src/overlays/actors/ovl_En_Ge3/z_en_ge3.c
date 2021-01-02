@@ -11,30 +11,30 @@
 #define THIS ((EnGe3*)thisx)
 
 typedef enum {
-    /* 00 */ GELDB_JOINT_ROOT,
-    /* 01 */ GELDB_JOINT_1,
-    /* 02 */ GELDB_JOINT_TORSO,
-    /* 03 */ GELDB_JOINT_3, // Neck?
-    /* 04 */ GELDB_JOINT_PONYTAIL,
-    /* 05 */ GELDB_JOINT_VEIL,
-    /* 06 */ GELDB_JOINT_HEAD,
-    /* 07 */ GELDB_JOINT_RIGHT_UPPER_ARM,
-    /* 08 */ GELDB_JOINT_RIGHT_FOREARM,
-    /* 09 */ GELDB_JOINT_9, // Right wrist?
-    /* 10 */ GELDB_JOINT_RIGHT_HAND,
-    /* 11 */ GELDB_JOINT_RIGHT_SWORD,
-    /* 12 */ GELDB_JOINT_LEFT_UPPER_ARM,
-    /* 13 */ GELDB_JOINT_LEFT_FOREARM,
-    /* 14 */ GELDB_JOINT_14, // Left wrist?
-    /* 15 */ GELDB_JOINT_LEFT_HAND,
-    /* 16 */ GELDB_JOINT_LEFT_SWORD,
-    /* 17 */ GELDB_JOINT_LEFT_THIGH,
-    /* 18 */ GELDB_JOINT_LEFT_LOWER_LEG,
-    /* 19 */ GELDB_JOINT_LEFT_FOOT,
-    /* 20 */ GELDB_JOINT_RIGHT_THIGH,
-    /* 21 */ GELDB_JOINT_RIGHT_LOWER_LEG,
-    /* 22 */ GELDB_JOINT_RIGHT_FOOT,
-    /* 23 */ GELDB_JOINT_HIPS
+    /* 00 */ GELDB_LIMB_NONE,
+    /* 01 */ GELDB_LIMB_ROOT,
+    /* 02 */ GELDB_LIMB_TORSO,
+    /* 03 */ GELDB_LIMB_NECK,
+    /* 04 */ GELDB_LIMB_PONYTAIL,
+    /* 05 */ GELDB_LIMB_VEIL,
+    /* 06 */ GELDB_LIMB_HEAD,
+    /* 07 */ GELDB_LIMB_RIGHT_UPPER_ARM,
+    /* 08 */ GELDB_LIMB_RIGHT_FOREARM,
+    /* 09 */ GELDB_LIMB_RIGHT_WRIST,
+    /* 10 */ GELDB_LIMB_RIGHT_HAND,
+    /* 11 */ GELDB_LIMB_RIGHT_SWORD,
+    /* 12 */ GELDB_LIMB_LEFT_UPPER_ARM,
+    /* 13 */ GELDB_LIMB_LEFT_FOREARM,
+    /* 14 */ GELDB_LIMB_LEFT_WRIST,
+    /* 15 */ GELDB_LIMB_LEFT_HAND,
+    /* 16 */ GELDB_LIMB_LEFT_SWORD,
+    /* 17 */ GELDB_LIMB_LEFT_THIGH,
+    /* 18 */ GELDB_LIMB_LEFT_LOWER_LEG,
+    /* 19 */ GELDB_LIMB_LEFT_FOOT,
+    /* 20 */ GELDB_LIMB_RIGHT_THIGH,
+    /* 21 */ GELDB_LIMB_RIGHT_LOWER_LEG,
+    /* 22 */ GELDB_LIMB_RIGHT_FOOT,
+    /* 23 */ GELDB_LIMB_HIPS
 } EnGeldBJoints;
 
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -63,24 +63,15 @@ static ColliderCylinderInit sCylinderInit = {
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000722, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 50, 0, { 0, 0, 0 } },
 };
-static EnGe3ActionFunc sActionFunc[] = { EnGe3_WaitLookAtPlayer };
 
-static AnimationHeader* sAnimationHeader[] = { 0x0600B07C }; // Idle with right hand on hip and left over mouth
-
-static u8 sAnimationMode[] = { ANIMMODE_LOOP };
-
-static Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
-
-static u64* sEyeTextures[] = {
-    0x06005FE8, // Half-open
-    0x060065A8, // Quarter-open
-    0x06006D28, // Closed
-};
-
-extern FlexSkeletonHeader D_0600A458;
+extern FlexSkeletonHeader D_0600A458; // Same as GeldB
 extern AnimationHeader D_0600B07C; // Idle with right hand on hip and left over mouth
 
 void EnGe3_ChangeAction(EnGe3* this, s32 i) {
+    static EnGe3ActionFunc sActionFunc[] = { EnGe3_WaitLookAtPlayer };
+    static AnimationHeader* sAnimationHeader[] = { 0x0600B07C }; // Idle with right hand on hip and left over mouth
+    static u8 sAnimationMode[] = { ANIMMODE_LOOP };
+
     this->actionFunc = sActionFunc[i];
     Animation_Change(&this->skelAnime, sAnimationHeader[i], 1.0f, 0.0f,
                      (f32)Animation_GetLastFrame(sAnimationHeader[i]), sAnimationMode[i], -8.0f);
@@ -251,27 +242,27 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
     switch (limbIndex) {
         // Hide swords and veil from object_geldb
-        case GELDB_JOINT_VEIL:
-        case GELDB_JOINT_RIGHT_SWORD:
-        case GELDB_JOINT_LEFT_SWORD:
+        case GELDB_LIMB_VEIL:
+        case GELDB_LIMB_RIGHT_SWORD:
+        case GELDB_LIMB_LEFT_SWORD:
             *dList = NULL;
             return false;
         // Turn head
-        case GELDB_JOINT_HEAD:
+        case GELDB_LIMB_HEAD:
             rot->x += this->headRot.y;
 
         // This is a hack to fix the color-changing clothes this Gerudo has on N64 versions
         default:
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
-                case GELDB_JOINT_3:
+                case GELDB_LIMB_NECK:
                     break;
-                case GELDB_JOINT_HEAD:
+                case GELDB_LIMB_HEAD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
                     break;
-                case GELDB_JOINT_RIGHT_SWORD:
-                case GELDB_JOINT_LEFT_SWORD:
+                case GELDB_LIMB_RIGHT_SWORD:
+                case GELDB_LIMB_LEFT_SWORD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -289,13 +280,19 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnGe3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnGe3* this = THIS;
-    Vec3f src = D_80A351C8;
-    if (limbIndex == GELDB_JOINT_HEAD) {
-        Matrix_MultVec3f(&src, &this->actor.posRot2.pos);
+    Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
+
+    if (limbIndex == GELDB_LIMB_HEAD) {
+        Matrix_MultVec3f(&D_80A351C8, &this->actor.posRot2.pos);
     }
 }
 
 void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    static u64* sEyeTextures[] = {
+        0x06005FE8, // Half-open
+        0x060065A8, // Quarter-open
+        0x06006D28, // Closed
+    };
     EnGe3* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
 
