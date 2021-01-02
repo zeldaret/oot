@@ -1,6 +1,6 @@
 import struct
 
-ROM_ADDR = 0xDA3210
+ROM_ADDR = 0xE743D4
 COUNT = 1
 
 rom = open("../../baserom.z64", "rb")
