@@ -12,8 +12,8 @@
         <Animation Name="gGerudoThiefDefeatAnim" Offset="0x1E10"/>
         <Animation Name="gGerudoThiefBlockAnim" Offset="0x1578"/>
         <Animation Name="gGerudoThiefStandAnim" Offset="0xB07C"/>
-        <Texture Name="gGerudoThiefTex1" Format="rgb5a1" Width="18" Height="14" Offset="0x5D30"/>
-        <Texture Name="gGerudoThiefTex2" Format="i8" Width="8" Height="8" Offset="0x5F28"/>
+        <Texture Name="sGerudoThiefTex1" Format="rgb5a1" Width="18" Height="14" Offset="0x5D30"/>
+        <Texture Name="sGerudoThiefTex2" Format="i8" Width="8" Height="8" Offset="0x5F28"/>
         <Texture Name="gGerudoThiefTexEyeOpen" Format="i8" Width="32" Height="32" Offset="0x5FE8"/>
         <Texture Name="gGerudoThiefTexEyeHalf" Format="i8" Width="32" Height="32" Offset="0x65A8"/>
         <Texture Name="gGerudoThiefTexEyeShut" Format="i8" Width="32" Height="32" Offset="0x6D28"/>
