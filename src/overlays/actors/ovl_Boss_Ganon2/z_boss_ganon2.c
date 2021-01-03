@@ -1021,6 +1021,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 24:
             SkelAnime_Update(&this->skelAnime);
+            if (1) {}
             temp_v0_3 = globalCtx->unk_11E10;
             this->unk_3B0 = temp_v0_3->position;
             this->unk_3A4.x = temp_v0_3->position.x + 70.0f;
@@ -1086,19 +1087,17 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.z = player->actor.posRot.pos.z;
             if (this->unk_398 == 0x1A) {
                 D_8090EB30 = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
-                if (D_8090EB30 != NULL) {
-                    while (D_8090EB30->next != NULL) {
-                        if (D_8090EB30->id == 0x18) {
-                            this->unk_3A4.x = D_8090EB30->posRot.pos.x - 30.0f;
-                            this->unk_3A4.y = D_8090EB30->posRot.pos.y;
-                            this->unk_3A4.z = D_8090EB30->posRot.pos.z;
-                            this->unk_3B0.x = D_8090EB30->posRot.pos.x;
-                            this->unk_3B0.y = D_8090EB30->posRot.pos.y;
-                            this->unk_3B0.z = D_8090EB30->posRot.pos.z;
-                            break;
-                        }
-                        D_8090EB30 = D_8090EB30->next;
+                while (D_8090EB30 != NULL) {
+                    if (D_8090EB30->id == 0x18) {
+                        this->unk_3A4.x = D_8090EB30->posRot.pos.x - 30.0f;
+                        this->unk_3A4.y = D_8090EB30->posRot.pos.y;
+                        this->unk_3A4.z = D_8090EB30->posRot.pos.z;
+                        this->unk_3B0.x = D_8090EB30->posRot.pos.x;
+                        this->unk_3B0.y = D_8090EB30->posRot.pos.y;
+                        this->unk_3B0.z = D_8090EB30->posRot.pos.z;
+                        break;
                     }
+                    D_8090EB30 = D_8090EB30->next;
                 }
                 this->unk_39C = 0x1C;
                 this->unk_398 = 0;
