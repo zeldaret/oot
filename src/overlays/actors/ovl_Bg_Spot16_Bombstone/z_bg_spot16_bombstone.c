@@ -345,15 +345,14 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s32 yawDiff;
     s32 absYawDiff;
 
-    if (this->actor.xzDistFromLink < 130.0f && this->actor.yDistFromLink < 160.0f &&
-        this->actor.yDistFromLink >= -10.0f) {
+    if (this->actor.xzDistToLink < 130.0f && this->actor.yDistToLink < 160.0f && this->actor.yDistToLink >= -10.0f) {
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
         adjustedYawDiff = absYawDiff - 0x3FFF;
 
         if (adjustedYawDiff > 0) {
-            sinValue = Math_SinS(adjustedYawDiff) * this->actor.xzDistFromLink;
+            sinValue = Math_SinS(adjustedYawDiff) * this->actor.xzDistToLink;
 
             if (sinValue >= 0.0f) {
                 player->actor.posRot.pos.x += sinValue * this->sinRotation;

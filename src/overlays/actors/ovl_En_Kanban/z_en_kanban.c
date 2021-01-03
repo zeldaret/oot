@@ -387,7 +387,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Collider_CylinderUpdate(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            if (this->actor.xzDistFromLink > 500.0f) {
+            if (this->actor.xzDistToLink > 500.0f) {
                 this->actor.flags |= 1;
                 this->partFlags = 0xFFFF;
             }
@@ -412,7 +412,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             f32 tempX;
             f32 tempY;
             f32 tempZ;
-            f32 tempWaterY;
+            f32 tempYDistToWater;
             u8 onGround;
 
             Actor_MoveForward(&this->actor);
@@ -422,7 +422,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             tempY = this->actor.posRot.pos.y;
             tempZ = this->actor.posRot.pos.z;
             tempBgFlags = this->actor.bgCheckFlags;
-            tempWaterY = this->actor.waterY;
+            tempYDistToWater = this->actor.yDistToWater;
 
             this->actor.posRot.pos.z += ((this->actor.posRot.pos.y - this->actor.groundY) * -50.0f) / 100.0f;
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
@@ -432,7 +432,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.posRot.pos.y = tempY;
             this->actor.posRot.pos.z = tempZ;
             this->actor.bgCheckFlags = tempBgFlags;
-            this->actor.waterY = tempWaterY;
+            this->actor.yDistToWater = tempYDistToWater;
 
             osSyncPrintf(VT_RST);
             onGround = (this->actor.bgCheckFlags & 1);
@@ -480,13 +480,13 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->actionState = ENKANBAN_WATER;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
                 this->bounceX = this->bounceZ = 0;
-                this->actor.posRot.pos.y += this->actor.waterY;
+                this->actor.posRot.pos.y += this->actor.yDistToWater;
                 EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, NULL, NULL, 0, (this->partCount * 20) + 300);
                 EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 150, 650, 0);
                 EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 300, 800, 5);
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
-                osSyncPrintf(" WAT  Y  = %f\n", this->actor.waterY);
+                osSyncPrintf(" WAT  Y  = %f\n", this->actor.yDistToWater);
                 osSyncPrintf(" POS  Y  = %f\n", this->actor.posRot.pos.y);
                 osSyncPrintf(" GROUND Y  = %f\n", this->actor.groundY);
                 break;
@@ -572,7 +572,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 s32 rippleScale;
 
                 if ((player->actor.speedXZ > 0.0f) && (player->actor.posRot.pos.y < this->actor.posRot.pos.y) &&
-                    (this->actor.xyzDistFromLinkSq < 2500.0f)) {
+                    (this->actor.xyzDistToLinkSq < 2500.0f)) {
                     Math_ApproachF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;
@@ -624,8 +624,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     }
                     EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, rippleScale, rippleScale + 500, 0);
                 }
-            } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->actor.xyzDistFromLinkSq < SQ(100.0f))) {
-                f32 hammerStrength = (100.0f - sqrtf(this->actor.xyzDistFromLinkSq)) * 0.05f;
+            } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->actor.xyzDistToLinkSq < SQ(100.0f))) {
+                f32 hammerStrength = (100.0f - sqrtf(this->actor.xyzDistToLinkSq)) * 0.05f;
 
                 this->actionState = ENKANBAN_AIR;
                 this->actor.gravity = -1.0f;
