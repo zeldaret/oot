@@ -12,7 +12,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80ABDBF8(Actor* thisx, GlobalContext* globalCtx);
 void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx);
 void func_80ABCD40(EnNy* this);
-void func_80ABCDBC(EnNy *this);
+void func_80ABCDBC(EnNy* this);
 
 extern UNK_TYPE D_06001DD0;
 extern UNK_TYPE D_06001EA8;
@@ -91,20 +91,26 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_1D8 = 0xFF;
         this->unk_1E0 = 1.0f;
         func_80ABCDBC(this);
-        return;
-    }
+    } else {
 
-    // Dummy new initials
-    osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", thisx->params);
-    osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", func_80ABDBF8);
-    thisx->colChkInfo.mass = 0xFF;
-    this->collider.base.type = COLTYPE_METAL_SHIELD;
-    thisx->update = &func_80ABDBF8;
+        // Dummy new initials
+        osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", thisx->params);
+        osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", func_80ABDBF8);
+        thisx->colChkInfo.mass = 0xFF;
+        this->collider.base.type = COLTYPE_METAL_SHIELD;
+        thisx->update = &func_80ABDBF8;
+    }
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/EnNy_Destroy.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCD40.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCD40.s")
+void func_80ABCD40(EnNy* this) {
+    f32 temp;
+
+    temp = (this->actor.waterY > 0.0f) ? 0.7f : 1.0f;
+    this->unk_1E8 = 2.8f * temp;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCD84.s")
 
@@ -112,14 +118,12 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCDAC.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCDBC.s")
-void func_80ABCDBC(EnNy *this) {
+void func_80ABCDBC(EnNy* this) {
     this->unk_1F4 = 0.0f;
     func_80ABCD40(this);
     this->unk_1DC = 0xB4;
     this->actionFunc = &func_80ABCF4C;
 }
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCDFC.s")
 
@@ -131,7 +135,29 @@ void func_80ABCDBC(EnNy *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCEEC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABCF4C.s")
+void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx) {
+    f32 sp2C;
+    s32 temp;
+
+    if (!(this->unk_1F0 < this->actor.waterY)) {
+        func_8002F974(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
+    }
+    func_80ABCD40(this);
+    temp = this->unk_1DC;
+    this->unk_1DC--;
+    if ((temp <= 0) || (this->unk_1CC != 0)) {
+        func_80ABCDFC(this);
+    } else {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, this->unk_1F4, 0);
+        Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
+        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        sp2C = Math_FAtan2F(this->actor.yDistFromLink, this->actor.xzDistFromLink);
+        this->actor.speedXZ = fabsf(cosf(sp2C) * this->unk_1E8);
+        if (this->unk_1F0 < this->actor.waterY) {
+            this->unk_1EC = sinf(sp2C) * this->unk_1E8;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABD05C.s")
 
