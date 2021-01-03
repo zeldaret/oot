@@ -300,7 +300,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
                 Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
                 Quake_SetCountdown(quakeIndex, 20);
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-                func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 255, 20, 150);
+                func_800AA000(this->dyna.actor.xyzDistToLinkSq, 255, 20, 150);
                 func_80888638(&this->dyna.actor, globalCtx);
                 osSyncPrintf("A(%d)\n", this->dyna.actor.params);
             }

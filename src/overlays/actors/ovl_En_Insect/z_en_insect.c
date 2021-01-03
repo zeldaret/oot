@@ -80,7 +80,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->actor.xzDistFromLink < 32.0f) {
+    if (this->actor.xzDistToLink < 32.0f) {
         pos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsLink + 0x8000) * 16.0f + player->actor.posRot.pos.z;
@@ -248,7 +248,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
-    } else if (this->actor.xzDistFromLink < 40.0f) {
+    } else if (this->actor.xzDistToLink < 40.0f) {
         func_80A7C818(this);
     }
 }
@@ -291,7 +291,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & 0x40)) {
         func_80A7CE60(this);
-    } else if (this->actor.xzDistFromLink < 40.0f) {
+    } else if (this->actor.xzDistToLink < 40.0f) {
         func_80A7C818(this);
     }
 }
@@ -309,7 +309,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
     s16 pad3;
     s16 frames;
     s16 yaw;
-    s16 sp38 = this->actor.xzDistFromLink < 40.0f;
+    s16 sp38 = this->actor.xzDistToLink < 40.0f;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
@@ -445,7 +445,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
-    this->actor.posRot.pos.y += this->actor.waterY;
+    this->actor.posRot.pos.y += this->actor.yDistToWater;
     this->skelAnime.playSpeed = CLAMP(this->unk_31A * 0.018f, 0.1f, 1.9f);
 
     SkelAnime_Update(&this->skelAnime);
@@ -487,7 +487,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
 
     if (Rand_ZeroOne() < 0.03f) {
         sp40.x = this->actor.posRot.pos.x;
-        sp40.y = this->actor.posRot.pos.y + this->actor.waterY;
+        sp40.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
         sp40.z = this->actor.posRot.pos.z;
         EffectSsGRipple_Spawn(globalCtx, &sp40, 20, 100, 4);
         EffectSsGRipple_Spawn(globalCtx, &sp40, 40, 200, 8);
@@ -523,7 +523,7 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 200;
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
-    if (this->actor.waterY > 5.0f && this->actor.waterY < 30.0f && Rand_ZeroOne() < 0.3f) {
+    if (this->actor.yDistToWater > 5.0f && this->actor.yDistToWater < 30.0f && Rand_ZeroOne() < 0.3f) {
         EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f, (Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 
@@ -759,7 +759,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 func_80A7CA64(this);
             }
-        } else if (this->actor.xzDistFromLink < 50.0f && this->actionFunc != func_80A7CAD0) {
+        } else if (this->actor.xzDistToLink < 50.0f && this->actionFunc != func_80A7CAD0) {
             if (!(this->unk_314 & 0x20) && this->unk_31C < 180) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
