@@ -107,7 +107,7 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((this->actor.xzDistFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if ((this->actor.xzDistToLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }

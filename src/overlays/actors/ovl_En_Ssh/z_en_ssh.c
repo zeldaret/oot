@@ -347,7 +347,7 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->actor.xzDistFromLink > 160.0f) {
+    if (this->actor.xzDistToLink > 160.0f) {
         return false;
     }
 
