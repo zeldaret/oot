@@ -1865,7 +1865,6 @@ endseg
 beginseg
     name "ovl_En_Anubice"
     include "build/src/overlays/actors/ovl_En_Anubice/z_en_anubice.o"
-    include "build/data/overlays/actors/z_en_anubice.data.o"
     include "build/data/overlays/actors/z_en_anubice.reloc.o"
 endseg
 
