@@ -12,7 +12,7 @@ glabel func_80AAF2BC
               
 /* 00494 80AAF2E4 00000000 */  nop
 .L80AAF2E8:
-/* 00498 80AAF2E8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00498 80AAF2E8 0C02927F */  jal     SkelAnime_Update
               
 /* 0049C 80AAF2EC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 004A0 80AAF2F0 860F01F6 */  lh      $t7, 0x01F6($s0)           ## 000001F6

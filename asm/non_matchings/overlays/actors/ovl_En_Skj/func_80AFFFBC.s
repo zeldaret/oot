@@ -11,7 +11,7 @@ glabel func_80AFFFBC
 /* 01D30 80AFFFE0 0C2BF8AC */  jal     func_80AFE2B0
 /* 01D34 80AFFFE4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01D38 80AFFFE8 8FA60018 */  lw      $a2, 0x0018($sp)
-/* 01D3C 80AFFFEC 0C029502 */  jal     SkelAnime_AnimReverse
+/* 01D3C 80AFFFEC 0C029502 */  jal     Animation_Reverse
 /* 01D40 80AFFFF0 24C4014C */  addiu   $a0, $a2, 0x014C           ## $a0 = 0000014C
 /* 01D44 80AFFFF4 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 01D48 80AFFFF8 24050011 */  addiu   $a1, $zero, 0x0011         ## $a1 = 00000011

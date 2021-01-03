@@ -102,9 +102,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 72.0f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->limbDrawTable,
-                               this->transitionDrawTable, 6);
-            SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060001CC);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->jointTable, this->morphTable, 6);
+            Animation_PlayLoop(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
             Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
             Collider_InitCylinder(globalCtx, &this->colliders[1]);
@@ -129,9 +128,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             DREG(53) = 0;
             break;
         case 1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->limbDrawTable,
-                               this->transitionDrawTable, 6);
-            SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004348);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->jointTable, this->morphTable, 6);
+            Animation_PlayLoop(&this->skelAnime, &D_06004348);
             this->actor.update = func_809DFE98;
             this->actor.draw = func_809E0070;
             this->actionFunc = func_809DFA84;
@@ -159,11 +157,11 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
         this->unk_278 -= 1;
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.animCurrentFrame,
-                             SkelAnime_GetFrameCount(&D_060001CC), 2, 1.0f);
+        Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.curFrame,
+                         Animation_GetLastFrame(&D_060001CC), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistToLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_060001CC) {
             this->unk_278 = 0;
@@ -252,7 +250,7 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistFromLink < 150.0f) &&
+                if ((this->actor.xzDistToLink < 150.0f) &&
                     (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
@@ -275,11 +273,11 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
         this->unk_278--;
     } else {
         this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.animCurrentFrame,
-                             SkelAnime_GetFrameCount(&D_06004348), 2, 1.0f);
+        Animation_Change(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.curFrame,
+                         Animation_GetLastFrame(&D_06004348), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistFromLink < 150.0f) &&
+    if ((this->actor.xzDistToLink < 150.0f) &&
         (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_06004348) {
@@ -300,18 +298,16 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004264, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004264), 2,
-                                 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264), 2, 1.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060001CC), 0,
-                                 1.0f);
+            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC), 0, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistFromLink < 150.0f) &&
+    if ((thisx->xzDistToLink < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
         targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;
@@ -340,13 +336,11 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
     s32 pad;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_06004348) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004E98), 2,
-                                 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98), 2, 1.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004348), 0,
-                                 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348), 0, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
@@ -362,7 +356,7 @@ s32 EnCow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 5) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -377,7 +371,7 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, this);
 }
 
@@ -385,6 +379,6 @@ void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

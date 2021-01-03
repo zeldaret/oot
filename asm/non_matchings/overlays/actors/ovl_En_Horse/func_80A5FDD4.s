@@ -138,7 +138,7 @@ glabel func_80A5FDD4
 /* 04CBC 80A5FFAC 01CD7021 */  addu    $t6, $t6, $t5
 /* 04CC0 80A5FFB0 8DCE5E58 */  lw      $t6, %lo(D_80A65E58)($t6)
 /* 04CC4 80A5FFB4 01CFC021 */  addu    $t8, $t6, $t7
-/* 04CC8 80A5FFB8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04CC8 80A5FFB8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04CCC 80A5FFBC 8F040000 */  lw      $a0, 0x0000($t8)           ## 00000000
 /* 04CD0 80A5FFC0 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210
@@ -169,7 +169,7 @@ glabel func_80A5FDD4
 /* 04D34 80A60024 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 04D38 80A60028 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 04D3C 80A6002C E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 04D40 80A60030 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 04D40 80A60030 0C029468 */  jal     Animation_Change
 
 /* 04D44 80A60034 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 04D48 80A60038 10000027 */  beq     $zero, $zero, .L80A600D8
@@ -182,7 +182,7 @@ glabel func_80A5FDD4
 /* 04D60 80A60050 01CD7021 */  addu    $t6, $t6, $t5
 /* 04D64 80A60054 8DCE5E58 */  lw      $t6, %lo(D_80A65E58)($t6)
 /* 04D68 80A60058 01CFC021 */  addu    $t8, $t6, $t7
-/* 04D6C 80A6005C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04D6C 80A6005C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 04D70 80A60060 8F040000 */  lw      $a0, 0x0000($t8)           ## 00000000
 /* 04D74 80A60064 8E030210 */  lw      $v1, 0x0210($s0)           ## 00000210
@@ -211,7 +211,7 @@ glabel func_80A5FDD4
 /* 04DD0 80A600C0 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 04DD4 80A600C4 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 04DD8 80A600C8 E7A00018 */  swc1    $f0, 0x0018($sp)
-/* 04DDC 80A600CC 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 04DDC 80A600CC 0C029468 */  jal     Animation_Change
 
 /* 04DE0 80A600D0 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 04DE4 80A600D4 8FBF002C */  lw      $ra, 0x002C($sp)

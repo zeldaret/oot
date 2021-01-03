@@ -35,7 +35,7 @@ glabel func_80998C90
 /* 0057C 80998CFC 24A51374 */  addiu   $a1, $a1, %lo(D_06001374)           ## $a1 = 06001374
 /* 00580 80998D00 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00584 80998D04 E7A20010 */  swc1    $f2, 0x0010($sp)
-/* 00588 80998D08 0C0293F9 */  jal     SkelAnime_ChangeAnimImpl
+/* 00588 80998D08 0C0293F9 */  jal     Animation_ChangeImpl
 /* 0058C 80998D0C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 00590 80998D10 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00594 80998D14 44811000 */  mtc1    $at, $f2                   ## $f2 = 1.00

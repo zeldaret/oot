@@ -30,7 +30,7 @@ glabel func_80A33BE8
 /* 01080 80A33C50 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 01084 80A33C54 57000009 */  bnel    $t8, $zero, .L80A33C7C     
 /* 01088 80A33C58 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0108C 80A33C5C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0108C 80A33C5C 0C02927F */  jal     SkelAnime_Update
               
 /* 01090 80A33C60 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 01094 80A33C64 50400005 */  beql    $v0, $zero, .L80A33C7C     
