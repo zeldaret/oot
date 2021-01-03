@@ -8,6 +8,13 @@
 
 #define FLAGS 0x00000010
 
+typedef enum {
+    /* 0x0 */ STA_GIANT_BIRD_STATUE,
+    /* 0x1 */ STA_BOMBABLE_SKULL_WALL,
+    /* 0x2 */ STA_BOMBABLE_RUBBLE,
+    /* 0x3 */ STA_UNKNOWN
+} ShadowTempleAssetsType;
+
 #define THIS ((BgHakaZou*)thisx)
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -15,17 +22,15 @@ void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx);
-void func_80882A70(BgHakaZou* this, GlobalContext* globalCtx);
+void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80882BDC(BgHakaZou* this, GlobalContext* globalCtx);
-void func_80882CC4(Actor* thisx, GlobalContext* globalCtx);
 void func_80883000(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883104(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883144(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883254(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883328(BgHakaZou* this, GlobalContext* globalCtx);
 void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx);
-void func_80883568(BgHakaZou* this, GlobalContext* globalCtx);
+void BgHakaZou_Do_Nothing(BgHakaZou* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000A10[];
 extern ColHeader D_06005E30;
@@ -66,7 +71,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
 
-    if (thisx->params == 3) {
+    if (thisx->params == STA_UNKNOWN) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
         thisx->speedXZ = Rand_ZeroOne();
@@ -81,20 +86,21 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         DynaPolyInfo_SetActorMove(thisx, 0);
 
-        if (thisx->params == 0) {
+        if (thisx->params == STA_GIANT_BIRD_STATUE) {
             thisx->uncullZoneForward = 2000.0f;
             thisx->uncullZoneScale = 3000.0f;
             thisx->uncullZoneDownward = 3000.0f;
         }
     }
 
-    this->requiredObjBankIndex = (thisx->params == 2) ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                                      : Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
+    this->requiredObjBankIndex = (thisx->params == STA_BOMBABLE_RUBBLE)
+                                     ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                     : Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
 
     if (this->requiredObjBankIndex < 0) {
         Actor_Kill(thisx);
-    } else if ((thisx->params != 3) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        if (thisx->params != 0) {
+    } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        if (thisx->params != STA_GIANT_BIRD_STATUE) {
             Actor_Kill(thisx);
         } else {
             thisx->shape.rot.x = -0x4000;
@@ -103,13 +109,13 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actionFunc = func_80882A70;
+    this->actionFunc = BgHakaZou_Wait;
 }
 
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaZou* this = THIS;
 
-    if (this->dyna.actor.params != 3) {
+    if (this->dyna.actor.params != STA_UNKNOWN) {
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -140,14 +146,14 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80882A70(BgHakaZou* this, GlobalContext* globalCtx) {
+void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
     ColHeader* colHeader;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
         this->dyna.actor.draw = BgHakaZou_Draw;
 
-        if (this->dyna.actor.params == 3) {
+        if (this->dyna.actor.params == STA_UNKNOWN) {
             this->actionFunc = func_80882BDC;
             return;
         }
@@ -156,7 +162,7 @@ void func_80882A70(BgHakaZou* this, GlobalContext* globalCtx) {
 
         colHeader = NULL;
 
-        if (this->dyna.actor.params == 0) {
+        if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
             DynaPolyInfo_Alloc(&D_06006F70, &colHeader);
             this->collider.dim.radius = 80;
             this->collider.dim.height = 100;
@@ -164,7 +170,7 @@ void func_80882A70(BgHakaZou* this, GlobalContext* globalCtx) {
             this->collider.dim.pos.x -= 56;
             this->collider.dim.pos.z += 56;
             this->dyna.actor.uncullZoneScale = 1500.0f;
-        } else if (this->dyna.actor.params == 1) {
+        } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
             DynaPolyInfo_Alloc(&D_06005E30, &colHeader);
             this->collider.dim.yShift = -50;
         } else {
@@ -176,8 +182,8 @@ void func_80882A70(BgHakaZou* this, GlobalContext* globalCtx) {
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-        if ((this->dyna.actor.params == 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->actionFunc = func_80883568;
+        if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+            this->actionFunc = BgHakaZou_Do_Nothing;
             return;
         }
 
@@ -258,7 +264,7 @@ void func_80883000(BgHakaZou* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         Flags_SetSwitch(globalCtx, this->switchFlag);
 
-        if (this->dyna.actor.params == 0) {
+        if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
             this->timer = 20;
             this->actionFunc = func_80883144;
             func_800800F8(globalCtx, 3400, 999, &this->dyna.actor, 0);
@@ -368,11 +374,11 @@ void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
 
     if (this->timer == 0) {
-        this->actionFunc = func_80883568;
+        this->actionFunc = BgHakaZou_Do_Nothing;
     }
 }
 
-void func_80883568(BgHakaZou* this, GlobalContext* globalCtx) {
+void BgHakaZou_Do_Nothing(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
