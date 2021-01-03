@@ -126,7 +126,7 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 playerSpeed;
 
-    Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, 0, -10.0f);
+    Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
     playerSpeed = fabsf(player->linearVelocity);
     this->unk_278 = 20 - playerSpeed * 2;

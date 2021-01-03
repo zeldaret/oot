@@ -282,7 +282,8 @@ void func_80AD96A4(EnPoSisters* this) {
 }
 
 void func_80AD9718(EnPoSisters* this) {
-    Animation_Change(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, Animation_GetLastFrame(&D_0600119C), 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, Animation_GetLastFrame(&D_0600119C), ANIMMODE_ONCE,
+                     -3.0f);
     this->actor.speedXZ = 0.0f;
     this->unk_19C = 100;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -312,7 +313,8 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD98F4(EnPoSisters* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, Animation_GetLastFrame(&D_0600119C), 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, Animation_GetLastFrame(&D_0600119C), ANIMMODE_ONCE,
+                     -3.0f);
     if (this->unk_194 == 0) {
         this->unk_294 = 110.0f;
         func_80AD97C8(this, globalCtx);
@@ -404,7 +406,8 @@ void func_80AD9D44(EnPoSisters* this) {
         Animation_PlayOnce(&this->skelAnime, &D_0600119C);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
-        Animation_Change(&this->skelAnime, &D_0600119C, 0.5f, 0.0f, Animation_GetLastFrame(&D_0600119C), 3, 0.0f);
+        Animation_Change(&this->skelAnime, &D_0600119C, 0.5f, 0.0f, Animation_GetLastFrame(&D_0600119C),
+                         ANIMMODE_ONCE_INTERP, 0.0f);
     }
     this->unk_22E.a = 0;
     this->unk_199 = 32;
@@ -489,7 +492,8 @@ void func_80ADA10C(EnPoSisters* this) {
 }
 
 void func_80ADA1B8(EnPoSisters* this) {
-    Animation_Change(&this->skelAnime, &D_0600119C, 0.833f, 0.0f, Animation_GetLastFrame(&D_0600119C), 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600119C, 0.833f, 0.0f, Animation_GetLastFrame(&D_0600119C),
+                     ANIMMODE_ONCE_INTERP, 0.0f);
     if (this->unk_194 == 0 || this->unk_194 == 1) {
         this->unk_19A = 40;
     } else {

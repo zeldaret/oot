@@ -48,7 +48,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     frameCount = Animation_GetLastFrame(&D_06000444);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_060000C0, &temp);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);

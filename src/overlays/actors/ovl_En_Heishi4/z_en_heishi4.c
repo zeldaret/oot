@@ -101,7 +101,7 @@ void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A563BC;
 }
 
@@ -156,7 +156,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
@@ -211,7 +211,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
             f32 frames = Animation_GetLastFrame(&D_0600C444);
-            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;
@@ -246,7 +246,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_0600C6C8);
 
-    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
@@ -266,7 +266,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_0600C374);
     this->unk_288 = frames;
-    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 

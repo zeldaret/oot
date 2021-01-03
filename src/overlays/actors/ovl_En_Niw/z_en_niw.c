@@ -383,7 +383,8 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
 
     switch (this->actor.params) {
         case 4:
@@ -795,7 +796,8 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
     this->actionFunc = func_80AB7328;
