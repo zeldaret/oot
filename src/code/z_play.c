@@ -255,7 +255,7 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.environmentTime = gSaveContext.nextDayTime;
     }
 
-    if (gSaveContext.dayTime >= 0xC001 || gSaveContext.dayTime < 0x4555) {
+    if (gSaveContext.dayTime > 0xC000 || gSaveContext.dayTime < 0x4555) {
         gSaveContext.nightFlag = 1;
     } else {
         gSaveContext.nightFlag = 0;
