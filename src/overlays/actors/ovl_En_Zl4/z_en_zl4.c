@@ -81,13 +81,13 @@ const ActorInit En_Zl4_InitVars = {
     (ActorFunc)EnZl4_Draw,
 };
 
-ColliderCylinderInit D_80B5E780 = {
+ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 44, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80B5E7AC = { 0, 0, 0, 0, 0xFF };
+CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
 
 struct_80034EC0_Entry sAnimationEntries[] = {
     { 0x06000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { 0x0600E5C8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
@@ -290,8 +290,8 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     func_80034EC0(&this->skelAnime, sAnimationEntries, 21);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B5E780);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &D_80B5E7AC);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.unk_1F = 6;
     this->actor.textId = -1;
