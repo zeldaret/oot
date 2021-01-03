@@ -272,11 +272,11 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.nayrusLoveTimer = 0;
         func_800876C8(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
-    } else if (LINK_IS_CHILD && (!gSaveContext.nightFlag)) {
+    } else if (LINK_IS_CHILD && (gSaveContext.nightFlag == 0)) {
         gSaveContext.sceneSetupIndex = 0;
-    } else if (LINK_IS_CHILD && (gSaveContext.nightFlag)) {
+    } else if (LINK_IS_CHILD && (gSaveContext.nightFlag != 0)) {
         gSaveContext.sceneSetupIndex = 1;
-    } else if (LINK_IS_ADULT && (!gSaveContext.nightFlag)) {
+    } else if (LINK_IS_ADULT && (gSaveContext.nightFlag == 0)) {
         gSaveContext.sceneSetupIndex = 2;
     } else {
         gSaveContext.sceneSetupIndex = 3;

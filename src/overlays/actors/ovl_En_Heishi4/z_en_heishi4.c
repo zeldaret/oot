@@ -137,7 +137,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.textId = 0x507A;
             }
-        } else if (!gSaveContext.nightFlag) {
+        } else if (gSaveContext.nightFlag == 0) {
             if (this->unk_284 == 0) {
                 this->actor.textId = 0x5063;
             } else {
@@ -183,13 +183,13 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
         return;
     }
     if (globalCtx->sceneNum == SCENE_MIHARIGOYA) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             this->actor.textId = 0x7004;
         } else {
             this->actor.textId = 0x709A;
         }
     } else if (globalCtx->sceneNum != SCENE_MARKET_NIGHT) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             this->actor.textId = 0x7002;
         } else {
             this->actor.textId = 0x7003;

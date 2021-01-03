@@ -106,13 +106,13 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             sightRange = 250.0f;
         } else {
             sightRange = 200.0f;
         }
     } else {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             sightRange = 150.0f;
         } else {
             sightRange = 100.0f;

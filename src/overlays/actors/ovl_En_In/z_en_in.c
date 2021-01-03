@@ -99,7 +99,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
         return temp_v0;
     }
     if (gSaveContext.eventChkInf[1] & 0x100) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             return 0x205F;
         } else {
             return 0x2057;
@@ -328,11 +328,11 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT20 && gSaveContext.linkAge == 1 && (!gSaveContext.nightFlag) &&
+    if (globalCtx->sceneNum == SCENE_SPOT20 && gSaveContext.linkAge == 1 && (gSaveContext.nightFlag == 0) &&
         this->actor.shape.rot.z == 1 && !(gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.linkAge == 1 && (!gSaveContext.nightFlag) &&
+    if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.linkAge == 1 && (gSaveContext.nightFlag == 0) &&
         this->actor.shape.rot.z == 3 && (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
@@ -344,7 +344,7 @@ s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
             return 1;
         }
     }
-    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && (!gSaveContext.nightFlag)) {
+    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && (gSaveContext.nightFlag == 0)) {
         if ((this->actor.shape.rot.z == 5) && !(gSaveContext.eventChkInf[1] & 0x100)) {
             return 2;
         }
@@ -453,8 +453,8 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_IN);
-    if (this->objectIdx < 0 && this->actor.params > 0) {
+    this->ingoObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_IN);
+    if (this->ingoObjBankIndex < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
         return;
@@ -479,7 +479,7 @@ void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
     s32 sp3C = 0;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx) || this->actor.params <= 0) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->jointTable,
                            this->morphTable, 20);
@@ -540,41 +540,41 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 }
                 if (sp3C != 1) {
                     Actor_Kill(&this->actor);
-                } else {
-                    switch (gSaveContext.eventInf[0] & 0xF) {
-                        case 0:
-                        case 2:
-                            func_80A796EC(this, 2);
-                            this->actionFunc = func_80A7A4C8;
-                            gSaveContext.eventInf[0] = 0;
-                            break;
-                        case 1:
-                            this->actor.unk_1F = 3;
-                            func_80A796EC(this, 2);
-                            this->actionFunc = func_80A7A568;
-                            func_80088B34(0x3C);
-                            break;
-                        case 3:
-                            func_80A796EC(this, 4);
-                            this->actionFunc = func_80A7A770;
-                            break;
-                        case 4:
-                            func_80A796EC(this, 6);
-                            this->unk_1EC = 8;
-                            this->actionFunc = func_80A7A940;
-                            break;
-                        case 5:
-                        case 6:
-                            this->actor.unk_1F = 3;
-                            func_80A796EC(this, 6);
-                            this->unk_1EC = 8;
-                            this->actionFunc = func_80A7AA40;
-                            break;
-                        case 7:
-                            func_80A796EC(this, 2);
-                            this->actionFunc = func_80A7A848;
-                            break;
-                    }
+                    return;
+                }
+                switch (gSaveContext.eventInf[0] & 0xF) {
+                    case 0:
+                    case 2:
+                        func_80A796EC(this, 2);
+                        this->actionFunc = func_80A7A4C8;
+                        gSaveContext.eventInf[0] = 0;
+                        break;
+                    case 1:
+                        this->actor.unk_1F = 3;
+                        func_80A796EC(this, 2);
+                        this->actionFunc = func_80A7A568;
+                        func_80088B34(0x3C);
+                        break;
+                    case 3:
+                        func_80A796EC(this, 4);
+                        this->actionFunc = func_80A7A770;
+                        break;
+                    case 4:
+                        func_80A796EC(this, 6);
+                        this->unk_1EC = 8;
+                        this->actionFunc = func_80A7A940;
+                        break;
+                    case 5:
+                    case 6:
+                        this->actor.unk_1F = 3;
+                        func_80A796EC(this, 6);
+                        this->unk_1EC = 8;
+                        this->actionFunc = func_80A7AA40;
+                        break;
+                    case 7:
+                        func_80A796EC(this, 2);
+                        this->actionFunc = func_80A7A848;
+                        break;
                 }
         }
     }
