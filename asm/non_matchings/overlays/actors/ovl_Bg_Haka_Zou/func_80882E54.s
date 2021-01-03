@@ -46,8 +46,8 @@ glabel func_80882E54
 /* 00944 80882F04 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00948 80882F08 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 0094C 80882F0C E7B2007C */  swc1    $f18, 0x007C($sp)          
-/* 00950 80882F10 3C148088 */  lui     $s4, %hi(D_8088361C)       ## $s4 = 80880000
-/* 00954 80882F14 2694361C */  addiu   $s4, $s4, %lo(D_8088361C)  ## $s4 = 8088361C
+/* 00950 80882F10 3C148088 */  lui     $s4, %hi(sEffectVec)       ## $s4 = 80880000
+/* 00954 80882F14 2694361C */  addiu   $s4, $s4, %lo(sEffectVec)  ## $s4 = 8088361C
 /* 00958 80882F18 2415FFE7 */  addiu   $s5, $zero, 0xFFE7         ## $s5 = FFFFFFE7
 /* 0095C 80882F1C 241E004B */  addiu   $s8, $zero, 0x004B         ## $s8 = 0000004B
 /* 00960 80882F20 2417004B */  addiu   $s7, $zero, 0x004B         ## $s7 = 0000004B
