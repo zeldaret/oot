@@ -10,12 +10,13 @@
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
 
-// From z64.h
 struct Actor;
 struct GlobalContext;
-
-// From z64light.h
 struct Lights;
+
+typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
+typedef u16 (*callback1_800343CC)(struct GlobalContext*, struct Actor*);
+typedef s16 (*callback2_800343CC)(struct GlobalContext*, struct Actor*);
 
 typedef struct {
     Vec3f pos;
@@ -23,43 +24,39 @@ typedef struct {
 } PosRot; // size = 0x14
 
 typedef struct {
-    /* 0x00 */ char   unk_00[0x8];
-    /* 0x08 */ Vec3s  norm;  // Normal vector
-    /* 0x0E */ s16    dist;  // Plane distance from origin
+    /* 0x00 */ char unk_00[0x8];
+    /* 0x08 */ Vec3s norm; // Normal vector
+    /* 0x0E */ s16 dist; // Plane distance from origin
 } CollisionPoly; // size = 0x10
-
-typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
-typedef u16 (*callback1_800343CC)(struct GlobalContext*, struct Actor*);
-typedef s16 (*callback2_800343CC)(struct GlobalContext*, struct Actor*);
 
 typedef struct {
     /* 0x00 */ s16 id;
-    /* 0x02 */ u8  type; // Classifies actor and determines when actor will execute
+    /* 0x02 */ u8 type; // Classifies actor and determines when actor will execute
     /* 0x04 */ u32 flags;
     /* 0x08 */ s16 objectId;
     /* 0x0C */ u32 instanceSize;
     /* 0x10 */ ActorFunc init; // Constructor
     /* 0x14 */ ActorFunc destroy; // Destructor
-    /* 0x18 */ ActorFunc update; // Main Update Function
+    /* 0x18 */ ActorFunc update; // Update Function
     /* 0x1C */ ActorFunc draw; // Draw function
 } ActorInit; // size = 0x20
 
-typedef enum {
-    ALLOCTYPE_NORMAL,
-    ALLOCTYPE_ABSOLUTE,
-    ALLOCTYPE_PERMANENT
+typedef enum { 
+    /* 0 */ ALLOCTYPE_NORMAL, 
+    /* 1 */ ALLOCTYPE_ABSOLUTE, 
+    /* 2 */ ALLOCTYPE_PERMANENT 
 } AllocType;
 
 typedef struct {
-    /* 0x00 */ u32   vromStart;
-    /* 0x04 */ u32   vromEnd;
+    /* 0x00 */ u32 vromStart;
+    /* 0x04 */ u32 vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
     /* 0x14 */ ActorInit* initInfo;
     /* 0x18 */ char* name;
-    /* 0x1C */ u16   allocType;
-    /* 0x1E */ s8    nbLoaded; // original name: "clients"
+    /* 0x1C */ u16 allocType;
+    /* 0x1E */ s8 nbLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
 typedef struct {
@@ -82,77 +79,77 @@ typedef struct {
 } CollisionCheckInfoInit2;
 
 typedef struct {
-    /* 0x00 */ DamageTable* damageTable;  // For actors which contain one (example: Stalfos)...
+    /* 0x00 */ DamageTable* damageTable; // For actors which contain one (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
-    /* 0x10 */ s16   unk_10;
-    /* 0x12 */ s16   unk_12;
-    /* 0x14 */ u16   unk_14;
-    /* 0x16 */ u8    mass; // Used to compute displacement, 50 is common value, 0xFF for infinite mass/unmoveable
-    /* 0x17 */ u8    health;
-    /* 0x18 */ u8    damage; // Amount to decrement health by
-    /* 0x19 */ u8    damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8    atHitEffect; // Stores what effect should occur when AT connects with an AC
-    /* 0x1B */ u8    acHitEffect; // Stores what effect should occur when AC is touched by an AT
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ u16 unk_14;
+    /* 0x16 */ u8 mass; // Used to compute displacement, 50 is common value, 0xFF for infinite mass/unmoveable
+    /* 0x17 */ u8 health;
+    /* 0x18 */ u8 damage; // Amount to decrement health by
+    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
+    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ Vec3s  rot; // Current actor shape rotation
-    /* 0x06 */ s16    unk_06;
-    /* 0x08 */ f32    unk_08; // Model y axis offset. Represents model space units. collision mesh related
+    /* 0x00 */ Vec3s rot; // Current actor shape rotation
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ f32 unk_08; // Model y axis offset. Represents model space units. collision mesh related
     /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct Lights*, struct GlobalContext*);
-    /* 0x10 */ f32    unk_10;
-    /* 0x14 */ u8     unk_14;
-    /* 0x15 */ u8     unk_15;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ u8 unk_14;
+    /* 0x15 */ u8 unk_15;
 } ActorShape; // size = 0x18
 
 typedef struct Actor {
-    /* 0x000 */ s16     id; // Actor Id
-    /* 0x002 */ u8      type; // Actor Type. Refer to the corresponding enum for values
-    /* 0x003 */ s8      room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
-    /* 0x004 */ u32     flags; // Flags used for various purposes
-    /* 0x008 */ PosRot  initPosRot; // Initial position/rotation when spawned. Is sometimes used for other purposes
-    /* 0x01C */ s16     params; // original name: "args_data"; Configurable variable set by an actor's spawn data
-    /* 0x01E */ s8      objBankIndex; // original name: "bank"; Object bank index of this actor's object dependency
-    /* 0x01F */ s8      unk_1F;
-    /* 0x020 */ u16     sfx; // Plays sound effect relative to actor's location (if within range of camera?)
-    /* 0x024 */ PosRot  posRot; // position/rotation in the world
-    /* 0x038 */ PosRot  posRot2;
-    /* 0x04C */ f32     unk_4C;
-    /* 0x050 */ Vec3f   scale; // Sets x,y,z scaling factor. Typically, a factor of 0.01 is used for each axis
-    /* 0x05C */ Vec3f   velocity;
-    /* 0x068 */ f32     speedXZ; // Always positive, stores how fast the actor is traveling along the XZ plane
-    /* 0x06C */ f32     gravity; // Acceleration due to gravity; value is added to Y velocity every frame
-    /* 0x070 */ f32     minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
+    /* 0x000 */ s16 id; // Actor Id
+    /* 0x002 */ u8 type; // Actor Type. Refer to the corresponding enum for values
+    /* 0x003 */ s8 room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
+    /* 0x004 */ u32 flags; // Flags used for various purposes
+    /* 0x008 */ PosRot initPosRot; // Initial position/rotation when spawned. Is sometimes used for other purposes
+    /* 0x01C */ s16 params; // original name: "args_data"; Configurable variable set by an actor's spawn data
+    /* 0x01E */ s8 objBankIndex; // original name: "bank"; Object bank index of this actor's object dependency
+    /* 0x01F */ s8 unk_1F;
+    /* 0x020 */ u16 sfx; // Plays sound effect relative to actor's location (if within range of camera?)
+    /* 0x024 */ PosRot posRot; // position/rotation in the world
+    /* 0x038 */ PosRot posRot2;
+    /* 0x04C */ f32 unk_4C;
+    /* 0x050 */ Vec3f scale; // Sets x,y,z scaling factor. Typically, a factor of 0.01 is used for each axis
+    /* 0x05C */ Vec3f velocity;
+    /* 0x068 */ f32 speedXZ; // Always positive, stores how fast the actor is traveling along the XZ plane
+    /* 0x06C */ f32 gravity; // Acceleration due to gravity; value is added to Y velocity every frame
+    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon an actor is touching
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
-    /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
-    /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly an actor is touching
-    /* 0x080 */ f32     groundY;
-    /* 0x084 */ f32     yDistToWater;
-    /* 0x088 */ u16     bgCheckFlags;
-    /* 0x08A */ s16     yawTowardsLink;
-    /* 0x08C */ f32     xyzDistToLinkSq;
-    /* 0x090 */ f32     xzDistToLink;
-    /* 0x094 */ f32     yDistToLink;
+    /* 0x07C */ u8 wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
+    /* 0x07D */ u8 floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
+    /* 0x07E */ s16 wallPolyRot; // Rotation of the wall poly an actor is touching
+    /* 0x080 */ f32 groundY;
+    /* 0x084 */ f32 yDistToWater;
+    /* 0x088 */ u16 bgCheckFlags;
+    /* 0x08A */ s16 yawTowardsLink;
+    /* 0x08C */ f32 xyzDistToLinkSq;
+    /* 0x090 */ f32 xzDistToLink;
+    /* 0x094 */ f32 yDistToLink;
     /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
-    /* 0x0CC */ Vec3f   unk_CC[2];
-    /* 0x0E4 */ Vec3f   projectedPos; // actor position in projected space
-    /* 0x0F0 */ f32     projectedW; // w component of the projected actor position vector
-    /* 0x0F4 */ f32     uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
-    /* 0x0F8 */ f32     uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
-    /* 0x0FC */ f32     uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
-    /* 0x100 */ Vec3f   pos4;
-    /* 0x10C */ u8      unk_10C; // Z-Target related
-    /* 0x10D */ u8      unk_10D; // Z-Target related
-    /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor
-    /* 0x110 */ u16     freezeTimer;
-    /* 0x112 */ u16     dmgEffectParams; // Specifies damage effect color (white/red/blue) and if opaque or translucent
-    /* 0x114 */ u8      dmgEffectTimer;
-    /* 0x115 */ u8      isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
-    /* 0x116 */ u8      unk_116;
-    /* 0x117 */ u8      naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
+    /* 0x0CC */ Vec3f unk_CC[2];
+    /* 0x0E4 */ Vec3f projectedPos; // actor position in projected space
+    /* 0x0F0 */ f32 projectedW; // w component of the projected actor position vector
+    /* 0x0F4 */ f32 uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
+    /* 0x0F8 */ f32 uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
+    /* 0x0FC */ f32 uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
+    /* 0x100 */ Vec3f pos4;
+    /* 0x10C */ u8 unk_10C; // Z-Target related
+    /* 0x10D */ u8 unk_10D; // Z-Target related
+    /* 0x10E */ u16 textId; // Text id to pass to link/display when interacting with an actor
+    /* 0x110 */ u16 freezeTimer;
+    /* 0x112 */ u16 dmgEffectParams; // Specifies damage effect color (white/red/blue) and if opaque or translucent
+    /* 0x114 */ u8 dmgEffectTimer;
+    /* 0x115 */ u8 isDrawn; // Indicates whether the actor is currently being drawn (but not seen through lens)
+    /* 0x116 */ u8 unk_116;
+    /* 0x117 */ u8 naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
     /* 0x118 */ struct Actor* parent;
     /* 0x11C */ struct Actor* child;
     /* 0x120 */ struct Actor* prev; // Previous Actor of this type
@@ -162,21 +159,21 @@ typedef struct Actor {
     /* 0x130 */ ActorFunc update; // Update Routine. Called by Actor_UpdateAll
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by Actor_Draw
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
-    /* 0x13C */ char    dbgPad[0x10]; // Padding that only exists in the debug rom
+    /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom
 } Actor; // size = 0x14C
 
 typedef struct {
     /* 0x00 */ char unk_00[0x04];
     /* 0x04 */ Actor* actor;
     /* 0x08 */ void* unk_08; // Struct800417A0*
-    /* 0x0C */ char  unk_0C[0x0C];
+    /* 0x0C */ char unk_0C[0x0C];
     /* 0x18 */ Vec3f scale1;
     /* 0x24 */ Vec3s rot1;
     /* 0x2C */ Vec3f pos1;
     /* 0x38 */ Vec3f scale2;
     /* 0x44 */ Vec3s rot2;
     /* 0x4C */ Vec3f pos2;
-    /* 0x58 */ char  unk_58[0x0C];
+    /* 0x58 */ char unk_58[0x0C];
 } ActorMesh; // size = 0x64
 
 typedef struct {
