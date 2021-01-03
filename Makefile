@@ -70,7 +70,7 @@ CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUA
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
 ELF2ROM    := tools/elf2rom
-ZAP2       := tools/ZAP2/ZAP2.out
+ZAPD       := tools/ZAPD/ZAPD.out
 
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
@@ -194,7 +194,6 @@ clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 setup:
-	git submodule update --init --recursive
 	$(MAKE) -C tools -j
 	python3 fixbaserom.py
 	python3 extract_baserom.py
@@ -224,7 +223,7 @@ build/assets/%.o: assets/%.c
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
-	$(ZAP2) bovl -i $@ -cfg $^ --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	$(ZAPD) bovl -i $@ -cfg $^ --outputpath $(@D)/$(notdir $(@D))_reloc.s
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
@@ -240,46 +239,46 @@ build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 assets/%.c: assets/%.xml
-#	$(ZAP2) bsf -i $< -o $(dir $@)
-	$(ZAP2) bsf -eh -i $< -o $(dir $<)
+#	$(ZAPD) bsf -i $< -o $(dir $@)
+	$(ZAPD) bsf -eh -i $< -o $(dir $<)
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
 build/%.rgba32.inc.c: %.rgba32.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt rgba32 -i $< -o $@
+	$(ZAPD) btex -tt rgba32 -i $< -o $@
 
 build/%.rgb5a1.inc.c: %.rgb5a1.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt rgb5a1 -i $< -o $@
+	$(ZAPD) btex -tt rgb5a1 -i $< -o $@
 
 build/%.i4.inc.c: %.i4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt i4 -i $< -o $@
+	$(ZAPD) btex -tt i4 -i $< -o $@
 
 build/%.i8.inc.c: %.i8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt i8 -i $< -o $@
+	$(ZAPD) btex -tt i8 -i $< -o $@
 
 build/%.ia4.inc.c: %.ia4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt ia4 -i $< -o $@
+	$(ZAPD) btex -tt ia4 -i $< -o $@
 
 build/%.ia8.inc.c: %.ia8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt ia8 -i $< -o $@
+	$(ZAPD) btex -tt ia8 -i $< -o $@
 
 build/%.ia16.inc.c: %.ia16.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt ia16 -i $< -o $@
+	$(ZAPD) btex -tt ia16 -i $< -o $@
 
 build/assets/%.ci4.inc.c: assets/%.ci4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt ci4 -i $< -o $@
+	$(ZAPD) btex -tt ci4 -i $< -o $@
 
 build/%.ci8.inc.c: %.ci8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) btex -tt ci8 -i $< -o $@
+	$(ZAPD) btex -tt ci8 -i $< -o $@
 
 build/assets/%.bin.inc.c: assets/%.bin
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
-	$(ZAP2) bblb -i $< -o $@
+	$(ZAPD) bblb -i $< -o $@

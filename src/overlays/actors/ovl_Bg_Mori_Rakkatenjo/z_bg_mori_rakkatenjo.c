@@ -161,7 +161,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
             if (this->bounceCount == 0) {
                 this->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistFromLink), 0xFF, 0x14, 0x96);
+                func_800AA000(SQ(thisx->yDistToLink), 0xFF, 0x14, 0x96);
             }
             thisx->posRot.pos.y =
                 403.0f - (thisx->posRot.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);

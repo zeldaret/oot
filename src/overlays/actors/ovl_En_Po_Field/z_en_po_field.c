@@ -194,7 +194,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
 
     Animation_PlayLoop(&this->skelAnime, &D_06000924);
     this->collider.base.acFlags |= 1;
-    this->scaleModifier = this->actor.xzDistFromLink;
+    this->scaleModifier = this->actor.xzDistToLink;
     Math_Vec3f_Copy(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     if (this->actionFunc != EnPoField_Damage) {
@@ -336,11 +336,11 @@ f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 speed = ((player->stateFlags1 & 0x800000) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
 
-    if (this->actor.xzDistFromLink < 300.0f) {
+    if (this->actor.xzDistToLink < 300.0f) {
         this->actor.speedXZ = speed * 1.5f + 2.0f;
-    } else if (this->actor.xzDistFromLink < 400.0f) {
+    } else if (this->actor.xzDistToLink < 400.0f) {
         this->actor.speedXZ = speed * 1.25f + 2.0f;
-    } else if (this->actor.xzDistFromLink < 500.0f) {
+    } else if (this->actor.xzDistToLink < 500.0f) {
         this->actor.speedXZ = speed + 2.0f;
     } else {
         this->actor.speedXZ = 12.0f;
@@ -475,7 +475,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     temp_f6 = Math_SinS(this->actionTimer * 0x800) * 3.0f;
     this->actor.posRot.pos.x -= temp_f6 * Math_CosS(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += temp_f6 * Math_SinS(this->actor.shape.rot.y);
-    if (this->actionTimer == 0 || this->actor.xzDistFromLink > 1500.0f) {
+    if (this->actionTimer == 0 || this->actor.xzDistToLink > 1500.0f) {
         EnPoField_SetupDisappear(this);
     } else {
         EnPoField_CorrectYPos(this, globalCtx);

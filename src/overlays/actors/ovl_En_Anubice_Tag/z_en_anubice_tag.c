@@ -79,12 +79,12 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistFromLink < (200.0f + this->triggerRange)) {
+    if (this->actor.xzDistToLink < (200.0f + this->triggerRange)) {
         if (anubis->unk_260 == 0) {
             if (anubis->unk_262 == 0) {
                 anubis->unk_25E = 1;
-                offset.x = -Math_SinS(this->actor.yawTowardsLink) * this->actor.xzDistFromLink;
-                offset.z = -Math_CosS(this->actor.yawTowardsLink) * this->actor.xzDistFromLink;
+                offset.x = -Math_SinS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
+                offset.z = -Math_CosS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
                 Math_ApproachF(&anubis->actor.posRot.pos.x, (this->actor.posRot.pos.x + offset.x), 0.3f, 10.0f);
                 Math_ApproachF(&anubis->actor.posRot.pos.z, (this->actor.posRot.pos.z + offset.z), 0.3f, 10.0f);
                 return;

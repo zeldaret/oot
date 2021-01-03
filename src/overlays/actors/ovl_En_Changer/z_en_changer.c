@@ -7,6 +7,7 @@
 #include "z_en_changer.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x00000000
 
@@ -246,7 +247,7 @@ void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, 0xF);
                     Flags_SetSwitch(globalCtx, 0x32);
                 } else {
-                    temp_s0_2 = (s16)(this->rightChestGetItemId - 0x72) + 0xA;
+                    temp_s0_2 = (s16)(this->rightChestGetItemId - GI_RUPEE_GREEN_LOSE) + EXITEM_CHEST;
                     // Open right treasure (chest)
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n" VT_RST, temp_s0_2);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0,

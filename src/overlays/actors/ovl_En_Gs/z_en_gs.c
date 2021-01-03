@@ -100,7 +100,7 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     bREG(15) = 0;
-    if (this->actor.xzDistFromLink <= 100.0f) {
+    if (this->actor.xzDistToLink <= 100.0f) {
         bREG(15) = 1;
         if (this->unk_19D == 0) {
             player->stateFlags2 |= 0x800000;
@@ -337,7 +337,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->actor);
-        if (this->actor.yDistFromLink < -12000.0f) {
+        if (this->actor.yDistToLink < -12000.0f) {
             Actor_Kill(&this->actor);
         }
     }
