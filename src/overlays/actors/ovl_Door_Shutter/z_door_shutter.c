@@ -466,7 +466,7 @@ void func_80996F98(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_16E) == 0 && globalCtx->roomCtx.status == 0 && func_80996D14(this, globalCtx) != 0) {
-        if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistFromLink) {
+        if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistToLink) {
             if (DoorShutter_SetupDoor(this, globalCtx)) {
                 this->dyna.actor.velocity.y = 30.0f;
             }
@@ -551,7 +551,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
         Quake_SetSpeed(quakeId, -32536);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 10);
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0xB4, 0x14, 0x64);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0xB4, 0x14, 0x64);
         func_80997220(this, globalCtx);
     }
 }

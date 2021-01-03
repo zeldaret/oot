@@ -150,10 +150,10 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                 pitch = 0x1B91;
             }
 
-            dist = this->beamSightRange - this->actor.xzDistFromLink;
+            dist = this->beamSightRange - this->actor.xzDistToLink;
 
-            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
-                this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
+            if (this->actor.xzDistToLink <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
+                this->actor.yDistToLink <= 80.0f && this->actor.yDistToLink >= -160.0f) {
                 Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xFA0, 0);
                 if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
                                        (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {

@@ -117,7 +117,7 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
+    if (this->dyna.actor.xzDistToLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);

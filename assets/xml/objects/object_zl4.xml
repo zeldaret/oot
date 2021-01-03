@@ -35,7 +35,7 @@
         <Limb Name="gZL4Limb14" Type="Standard" Offset="0xDFD0"/>
         <Limb Name="gZL4Limb15" Type="Standard" Offset="0xDFDC"/>
         <Limb Name="gZL4Limb16" Type="Standard" Offset="0xDFE8"/>
-        <Hierarchy Name="gZL4Skel" Type="Normal" LimbType="Standard" Offset="0xE038"/>
+        <Skeleton Name="gZL4Skel" Type="Normal" LimbType="Standard" Offset="0xE038"/>
         <Animation Name="gZL4Anim1" Offset="0x654"/>
         <Animation Name="gZL4Anim2" Offset="0xE5C8"/>
         <Animation Name="gZL4Anim3" Offset="0xEBC4"/>
