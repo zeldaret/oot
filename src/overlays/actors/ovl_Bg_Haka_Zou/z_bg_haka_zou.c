@@ -32,9 +32,10 @@ extern ColHeader D_06005E30;
 extern ColHeader D_06006F70;
 extern ColHeader D_06000C2C;
 
-/*static*/ u32 D_808835F0[] = {
-    0x0A000900, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
-    0x00000000, 0x00010000, 0x0005003C, 0x00000000, 0x00000000,
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 5, 60, 0, { 0, 0, 0 } },
 };
 
 static Vec3f sEffectVec = { 0.0f, 0.0f, 0.0f };
@@ -51,12 +52,59 @@ const ActorInit Bg_Haka_Zou_InitVars = {
     NULL,
 };
 
-/*static*/ u32 D_80883648[] = {
-    0xB86CFC18,
-    0x48500064,
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Zou/BgHakaZou_Init.s")
+void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaZou* this = THIS;
+    s32 pad;
+
+    Actor_ProcessInitChain(thisx, sInitChain);
+
+    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    thisx->params &= 0xFF;
+
+    if (thisx->params == 3) {
+        Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
+
+        thisx->speedXZ = Rand_ZeroOne();
+        thisx->posRot.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(4096.0f);
+        this->timer = 20;
+        thisx->posRot.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
+        thisx->posRot.rot.z = Rand_S16Offset(0x400, 0x800) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
+    } else {
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
+        Collider_CylinderUpdate(thisx, &this->collider);
+
+        DynaPolyInfo_SetActorMove(thisx, 0);
+
+        if (thisx->params == 0) {
+            thisx->uncullZoneForward = 2000.0f;
+            thisx->uncullZoneScale = 3000.0f;
+            thisx->uncullZoneDownward = 3000.0f;
+        }
+    }
+
+    this->requiredObjBankIndex = (thisx->params == 2) ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                                      : Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
+
+    if (this->requiredObjBankIndex < 0) {
+        Actor_Kill(thisx);
+    } else if ((thisx->params != 3) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        if (thisx->params != 0) {
+            Actor_Kill(thisx);
+        } else {
+            thisx->shape.rot.x = -0x4000;
+            thisx->posRot.pos.z -= 80.0f;
+            thisx->posRot.pos.y -= 54.0f;
+        }
+    }
+
+    this->actionFunc = func_80882A70;
+}
 
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaZou* this = THIS;
