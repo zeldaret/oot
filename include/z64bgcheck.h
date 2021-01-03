@@ -95,6 +95,10 @@ typedef struct {
 } SSNode;
 
 typedef struct {
+    u16 head; // first SSNode index
+} SSList;
+
+typedef struct {
     /* 0x00 */ u16 max;          // original name: short_slist_node_size
     /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
     /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
@@ -108,16 +112,16 @@ typedef struct {
 } DynaSSNodeList;
 
 typedef struct {
-    u16 floor;
-    u16 wall;
-    u16 ceiling;
+    SSList floor;
+    SSList wall;
+    SSList ceiling;
 } StaticLookup;
 
 typedef struct {
     u16 polyStartIndex;
-    u16 ceiling;
-    u16 wall;
-    u16 floor;
+    SSList ceiling;
+    SSList wall;
+    SSList floor;
 } DynaLookup;
 
 typedef struct {
@@ -169,14 +173,14 @@ typedef struct {
     /* 0x20 */ u32 unk_20;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
-    /* 0x2C */ u16* nodeId;
+    /* 0x2C */ SSList* ssList;
 } DynaRaycast;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;
     /* 0x04 */ u16 xpFlags;
     /* 0x08 */ DynaCollisionContext* dyna;
-    /* 0x0C */ u16* nodeId;
+    /* 0x0C */ SSList* ssList;
     /* 0x10 */ Vec3f* posA;
     /* 0x14 */ Vec3f* posB;
     /* 0x18 */ Vec3f* posResult;

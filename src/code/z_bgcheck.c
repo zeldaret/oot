@@ -64,34 +64,32 @@ void SSNode_SetValue(SSNode* node, s16* polyId, u16 next) {
 }
 
 /**
- * Set SS_NULL
+ * Set SSList to SS_NULL
  */
-void SSNode_SetNull(u16* nodeId) {
-    *nodeId = SS_NULL;
+void SSList_SetNull(SSList* ssList) {
+    ssList->head = SS_NULL;
 }
 
 /**
- * Insert `polyId` at the start of the static `headNodeId` list
+ * Insert `polyId` at the start of the static `ssList` list
  */
-void func_80038728(SSNodeList* nodeList, u16* headNodeId, s16* polyId) {
+void SSNodeList_SetSSListHead(SSNodeList* nodeList, SSList* ssList, s16* polyId) {
     u16 newNodeId = SSNodeList_GetNextNodeIdx(nodeList);
 
-    SSNode_SetValue(&nodeList->tbl[newNodeId], polyId, *headNodeId);
-    *headNodeId = newNodeId;
+    SSNode_SetValue(&nodeList->tbl[newNodeId], polyId, ssList->head);
+    ssList->head = newNodeId;
 }
 
 /**
- * Insert `polyId` at the start of the dyna `headNodeId` list
+ * Insert `polyId` at the start of the dyna `ssList` list
  */
-void func_80038780(DynaSSNodeList* nodeList, u16* headNodeId, s16* polyId) {
+void DynaSSNodeList_SetSSListHead(DynaSSNodeList* nodeList, SSList* ssList, s16* polyId) {
     u16 newNodeId = DynaSSNodeList_GetNextNodeIdx(nodeList);
 
-    if (!(newNodeId != SS_NULL)) {
-        __assert("new_node != SS_NULL", "../z_bgcheck.c", 1776);
-    }
+    (newNodeId != SS_NULL) ? (void)0 : __assert("new_node != SS_NULL", "../z_bgcheck.c", 1776);
 
-    SSNode_SetValue(&nodeList->tbl[newNodeId], polyId, *headNodeId);
-    *headNodeId = newNodeId;
+    SSNode_SetValue(&nodeList->tbl[newNodeId], polyId, ssList->head);
+    ssList->head = newNodeId;
 }
 
 /**
@@ -108,9 +106,7 @@ void DynaSSNodeList_Initialize(GlobalContext* globalCtx, DynaSSNodeList* nodeLis
 void DynaSSNodeList_Alloc(GlobalContext* globalCtx, DynaSSNodeList* nodeList, s32 max) {
     nodeList->tbl = THA_AllocEndAlign(&globalCtx->state.tha, max * sizeof(SSNode), -2);
 
-    if (!(nodeList->tbl != NULL)) {
-        __assert("psst->tbl != NULL", "../z_bgcheck.c", 1811);
-    }
+    (nodeList->tbl != NULL) ? (void)0 : __assert("psst->tbl != NULL", "../z_bgcheck.c", 1811);
 
     nodeList->max = max;
     nodeList->count = 0;
@@ -439,19 +435,16 @@ s32 CollisionPoly_SphVsPoly(CollisionPoly* poly, Vec3s* vtxList, Vec3f* center, 
     return Math3D_TriVsSphIntersect(&sphere, &tri, &intersect);
 }
 
-typedef struct{
-    u16 list;
-} StaticLookupEntry;
 /**
  * Add poly to StaticLookup table
  * Table is sorted by poly's smallest y vertex component
- * `nodeList` is the list to append a new poly to
+ * `ssList` is the list to append a new poly to
  * `polyList` is the CollisionPoly lookup list
  * `vtxList` is the vertex lookup list
  * `polyId` is the index of the poly in polyList to insert into the lookup table
  */
-void StaticLookup_AddPolyToNodeList(CollisionContext* colCtx, u16* nodeList, CollisionPoly* polyList, Vec3s* vtxList,
-                                    s16 polyId) {
+void StaticLookup_AddPolyToSSList(CollisionContext* colCtx, SSList* ssList, CollisionPoly* polyList, Vec3s* vtxList,
+                                  s16 polyId) {
     SSNode* curNode;
     SSNode* nextNode;
     s32 polyYMin;
@@ -459,21 +452,22 @@ void StaticLookup_AddPolyToNodeList(CollisionContext* colCtx, u16* nodeList, Col
     s16 curPolyId;
 
     // if list is null
-    if (*nodeList == SS_NULL) {
-        func_80038728(&colCtx->polyNodes, nodeList, &polyId);
+    if (ssList->head == SS_NULL) {
+        SSNodeList_SetSSListHead(&colCtx->polyNodes, ssList, &polyId);
         return;
     }
 
     polyYMin = CollisionPoly_GetMinY(&polyList[polyId], vtxList);
 
     // Swapped operands on this pointer addition
-    curNode = &colCtx->polyNodes.tbl[((StaticLookupEntry*)nodeList)->list];
+    curNode = &colCtx->polyNodes.tbl[ssList->head];
     curPolyId = curNode->polyId;
 
     // if the poly being inserted has a lower y than the first poly
     if (polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIA)].y &&
-        polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIB)].y && polyYMin < vtxList[polyList[curPolyId].vIC].y) {
-        func_80038728(&colCtx->polyNodes, nodeList, &polyId);
+        polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIB)].y &&
+        polyYMin < vtxList[polyList[curPolyId].vIC].y) {
+        SSNodeList_SetSSListHead(&colCtx->polyNodes, ssList, &polyId);
         return;
     }
     while (true) {
@@ -490,7 +484,8 @@ void StaticLookup_AddPolyToNodeList(CollisionContext* colCtx, u16* nodeList, Col
 
         // if the poly being inserted is lower than the next poly
         if (polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIA)].y &&
-            polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIB)].y && polyYMin < vtxList[polyList[curPolyId].vIC].y) {
+            polyYMin < vtxList[COLPOLY_VTX_INDEX(polyList[curPolyId].flags_vIB)].y &&
+            polyYMin < vtxList[polyList[curPolyId].vIC].y) {
             newNodeId = SSNodeList_GetNextNodeIdx(&colCtx->polyNodes);
             SSNode_SetValue(&colCtx->polyNodes.tbl[newNodeId], &polyId, curNode->next);
             curNode->next = newNodeId;
@@ -506,35 +501,34 @@ void StaticLookup_AddPolyToNodeList(CollisionContext* colCtx, u16* nodeList, Col
 void StaticLookup_AddPoly(StaticLookup* lookup, CollisionContext* colCtx, CollisionPoly* polyList, Vec3s* vtxList,
                           s16 index) {
     if (polyList[index].normal.y > COLPOLY_SNORMAL(0.5f)) {
-        StaticLookup_AddPolyToNodeList(colCtx, &lookup->floor, polyList, vtxList, index);
+        StaticLookup_AddPolyToSSList(colCtx, &lookup->floor, polyList, vtxList, index);
     } else if (polyList[index].normal.y < COLPOLY_SNORMAL(-0.8f)) {
-        StaticLookup_AddPolyToNodeList(colCtx, &lookup->ceiling, polyList, vtxList, index);
+        StaticLookup_AddPolyToSSList(colCtx, &lookup->ceiling, polyList, vtxList, index);
     } else {
-        StaticLookup_AddPolyToNodeList(colCtx, &lookup->wall, polyList, vtxList, index);
+        StaticLookup_AddPolyToSSList(colCtx, &lookup->wall, polyList, vtxList, index);
     }
 }
 
 /**
- * Locates the closest static poly directly underneath `pos`, starting at list `nodeId`
+ * Locates the closest static poly directly underneath `pos`, starting at list `ssList`
  * returns yIntersect of the closest poly, or `yIntersectMin`
  * stores the pointer of the closest poly to `outPoly`
  * if (flags & 1), ignore polys with a normal.y < 0 (from vertical walls to ceilings)
  */
-f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, u16* nodeId, CollisionPoly** outPoly,
+f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, SSList* ssList, CollisionPoly** outPoly,
                                    Vec3f* pos, f32 yIntersectMin, f32 chkDist, s32 flags) {
     SSNode* curNode;
-    s32 polyId;   
-    f32 result; 
+    s32 polyId;
+    f32 result;
     f32 yIntersect;
 
     result = yIntersectMin;
-    if (*nodeId == SS_NULL) {
+    if (ssList->head == SS_NULL) {
         return result;
     }
 
-    curNode = &colCtx->polyNodes.tbl[((StaticLookupEntry*)nodeId)->list];
+    curNode = &colCtx->polyNodes.tbl[ssList->head];
 
-    // 0924
     while (true) {
         polyId = curNode->polyId;
 
@@ -547,14 +541,14 @@ f32 BgCheck_RaycastFloorStaticList(CollisionContext* colCtx, u16 xpFlags, u16* n
             continue;
         }
 
-        // vtxList = colCtx->colHeader->vtxList;
         if (pos->y < colCtx->colHeader->vtxList[COLPOLY_VTX_INDEX(colCtx->colHeader->polyList[polyId].flags_vIA)].y &&
             pos->y < colCtx->colHeader->vtxList[COLPOLY_VTX_INDEX(colCtx->colHeader->polyList[polyId].flags_vIB)].y &&
             pos->y < colCtx->colHeader->vtxList[colCtx->colHeader->polyList[polyId].vIC].y) {
             break;
         }
 
-        if (CollisionPoly_CheckYIntersect(&colCtx->colHeader->polyList[polyId], colCtx->colHeader->vtxList, pos->x, pos->z, &yIntersect, chkDist) == true) {
+        if (CollisionPoly_CheckYIntersect(&colCtx->colHeader->polyList[polyId], colCtx->colHeader->vtxList, pos->x,
+                                          pos->z, &yIntersect, chkDist) == true) {
             // if poly is closer to pos without going over
             if (yIntersect < pos->y && result < yIntersect) {
 
@@ -659,34 +653,34 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
     s32 result;              // spE8
     CollisionPoly* curPoly;  // s0
     CollisionPoly* polyList; // spE0
-    SSNode* curNode; // s1
+    SSNode* curNode;         // s1
     // f32 temp_f0;             // pad
-    f32 invNormalXZ;         // sp9C //f14
-    f32 temp_f0_3;           // f0
-    f32 xTemp;               // f0
+    f32 invNormalXZ; // sp9C //f14
+    f32 temp_f0_3;   // f0
+    f32 xTemp;       // f0
     s32 polyId;
-    f32 normalXZ;    // f20
-    f32 nx;          // f22
-    f32 ny;          // f26
-    f32 nz;          // f24
-    f32 temp_f16;    // spB8
-    Vec3s* vtxList;  // s2
-    u16 pad;         // temp_v0;
-    
-    f32 zMin;        // f2
-    f32 zMax;        // f12
-    f32 xMin;        // f2
-    f32 xMax;        //  f12
+    f32 normalXZ;   // f20
+    f32 nx;         // f22
+    f32 ny;         // f26
+    f32 nz;         // f24
+    f32 temp_f16;   // spB8
+    Vec3s* vtxList; // s2
+    u16 pad;        // temp_v0;
+
+    f32 zMin; // f2
+    f32 zMax; // f12
+    f32 xMin; // f2
+    f32 xMax; //  f12
 
     result = false;
-    if (lookup->wall == SS_NULL) {
+    if (lookup->wall.head == SS_NULL) {
         return result;
     }
     resultPos = *pos;
 
     polyList = colCtx->colHeader->polyList;
     vtxList = colCtx->colHeader->vtxList;
-    curNode = &colCtx->polyNodes.tbl[lookup->wall];
+    curNode = &colCtx->polyNodes.tbl[lookup->wall.head];
 
     while (true) {
         polyId = curNode->polyId;
@@ -766,7 +760,7 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
         }
     }
 
-    curNode = &colCtx->polyNodes.tbl[lookup->wall];
+    curNode = &colCtx->polyNodes.tbl[lookup->wall.head];
 
     while (true) {
         polyId = curNode->polyId;
@@ -870,14 +864,12 @@ s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionConte
     f32 ceilingY;
     Vec3s* vtxList;
     SSNode* curNode;
-    u16 ceiling;
     s32 curPolyId;
 
-    ceiling = lookup->ceiling;
-    if (ceiling == SS_NULL) {
+    if (lookup->ceiling.head == SS_NULL) {
         return false;
     }
-    curNode = &colCtx->polyNodes.tbl[ceiling];
+    curNode = &colCtx->polyNodes.tbl[lookup->ceiling.head];
     polyList = colCtx->colHeader->polyList;
     vtxList = colCtx->colHeader->vtxList;
 
@@ -914,13 +906,13 @@ s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionConte
 }
 
 /**
- * Tests if line `posA` to `posB` intersects with a static poly in list `headNodeId`. Uses polyCheckTbl
+ * Tests if line `posA` to `posB` intersects with a static poly in list `ssList`. Uses polyCheckTbl
  * returns true if such a poly exists, else false
  * `outPoly` returns the pointer of the poly intersected
  * `posB` and `outPos` returns the point of intersection with `outPoly`
  * `outDistSq` returns the squared distance from `posA` to the point of intersect
  */
-s32 func_8003A5B8(u16* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
+s32 func_8003A5B8(SSList* ssList, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
                   Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags) {
     SSNode* curNode;
     u8* checkedPoly;
@@ -931,16 +923,14 @@ s32 func_8003A5B8(u16* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 x
     f32 minY;
     f32 distSq;
     s16 polyId;
-    u16 curNodeId;
 
     result = false;
     polyList = colCtx->colHeader->polyList;
-    curNodeId = *headNodeId;
-    if (curNodeId == SS_NULL) {
+    if (ssList->head == SS_NULL) {
         return result;
     }
 
-    curNode = &colCtx->polyNodes.tbl[curNodeId];
+    curNode = &colCtx->polyNodes.tbl[ssList->head];
     while (true) {
         polyId = curNode->polyId;
         checkedPoly = &colCtx->polyNodes.polyCheckTbl[polyId];
@@ -991,21 +981,21 @@ s32 func_8003A5B8(u16* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 x
 s32 func_8003A7D8(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
                   Vec3f* outPos, CollisionPoly** outPoly, f32 chkDist, f32* outDistSq, u32 bccFlags) {
     s32 result = false;
-    if ((bccFlags & BGCHECK_CHECK_FLOOR) && lookup->floor != SS_NULL) {
+    if ((bccFlags & BGCHECK_CHECK_FLOOR) && lookup->floor.head != SS_NULL) {
         if (func_8003A5B8(&lookup->floor, colCtx, xpFlags1, xpFlags2, posA, posB, outPos, outPoly, outDistSq, chkDist,
                           bccFlags)) {
             result = true;
         }
     }
 
-    if ((bccFlags & BGCHECK_CHECK_WALL) && lookup->wall != SS_NULL) {
+    if ((bccFlags & BGCHECK_CHECK_WALL) && lookup->wall.head != SS_NULL) {
         if (func_8003A5B8(&lookup->wall, colCtx, xpFlags1, xpFlags2, posA, posB, outPos, outPoly, outDistSq, chkDist,
                           bccFlags)) {
             result = true;
         }
     }
 
-    if ((bccFlags & BGCHECK_CHECK_CEILING) && lookup->ceiling != SS_NULL) {
+    if ((bccFlags & BGCHECK_CHECK_CEILING) && lookup->ceiling.head != SS_NULL) {
         if (func_8003A5B8(&lookup->ceiling, colCtx, xpFlags1, xpFlags2, posA, posB, outPos, outPoly, outDistSq, chkDist,
                           bccFlags)) {
             result = true;
@@ -1066,20 +1056,20 @@ s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext
  */
 s32 BgCheck_SphVsFirstStaticPoly(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, Vec3f* center, f32 radius,
                                  CollisionPoly** outPoly, u16 bciFlags) {
-    if (lookup->floor != SS_NULL && !(bciFlags & BGCHECK_IGNORE_FLOOR) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->floor], xpFlags, colCtx, center, radius,
+    if (lookup->floor.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_FLOOR) &&
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->floor.head], xpFlags, colCtx, center, radius,
                                          outPoly)) {
         return true;
     }
 
-    if (lookup->wall != SS_NULL && !(bciFlags & BGCHECK_IGNORE_WALL) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->wall], xpFlags, colCtx, center, radius,
+    if (lookup->wall.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_WALL) &&
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->wall.head], xpFlags, colCtx, center, radius,
                                          outPoly)) {
         return true;
     }
 
-    if (lookup->ceiling != SS_NULL && !(bciFlags & BGCHECK_IGNORE_CEILING) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->ceiling], xpFlags, colCtx, center, radius,
+    if (lookup->ceiling.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_CEILING) &&
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->ceiling.head], xpFlags, colCtx, center, radius,
                                          outPoly)) {
         return true;
     }
@@ -1383,9 +1373,9 @@ u32 func_8003BB18(CollisionContext* colCtx, GlobalContext* globalCtx, StaticLook
 
     for (spA4 = lookupTbl;
          spA4 < (colCtx->subdivAmount.x * colCtx->subdivAmount.y * colCtx->subdivAmount.z + lookupTbl); spA4++) {
-        spA4->floor = SS_NULL;
-        spA4->wall = SS_NULL;
-        spA4->ceiling = SS_NULL;
+        spA4->floor.head = SS_NULL;
+        spA4->wall.head = SS_NULL;
+        spA4->ceiling.head = SS_NULL;
     }
     polyMax = colHeader->nbPolygons;
     vtxList = colHeader->vtxList;
@@ -2419,13 +2409,9 @@ void SSNodeList_Alloc(GlobalContext* globalCtx, SSNodeList* this, s32 tblMax, s3
     this->count = 0;
     this->tbl = THA_AllocEndAlign(&globalCtx->state.tha, tblMax * sizeof(SSNode), -2);
 
-    if (!(this->tbl != NULL)) {
-        __assert("this->short_slist_node_tbl != NULL", "../z_bgcheck.c", 5975);
-    }
+    (this->tbl != NULL) ? (void)0 : __assert("this->short_slist_node_tbl != NULL", "../z_bgcheck.c", 5975);
     this->polyCheckTbl = GameState_Alloc(&globalCtx->state, numPolys, "../z_bgcheck.c", 5979);
-    if (!(this->polyCheckTbl != NULL)) {
-        __assert("this->polygon_check != NULL", "../z_bgcheck.c", 5981);
-    }
+    (this->polyCheckTbl != NULL) ? (void)0 : __assert("this->polygon_check != NULL", "../z_bgcheck.c", 5981);
 }
 
 /**
@@ -2435,9 +2421,9 @@ SSNode* SSNodeList_GetNextNode(SSNodeList* this) {
     SSNode* result = &this->tbl[this->count];
     this->count++;
 
-    if (!(this->count < this->max)) {
-        __assert("this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c", 5998);
-    }
+    (this->count < this->max)
+        ? (void)0
+        : __assert("this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c", 5998);
     if (!(this->count < this->max)) {
         return NULL;
     }
@@ -2450,9 +2436,7 @@ SSNode* SSNodeList_GetNextNode(SSNodeList* this) {
 u16 SSNodeList_GetNextNodeIdx(SSNodeList* this) {
     u16 new_index = this->count++;
 
-    if (!(new_index < this->max)) {
-        __assert("new_index < this->short_slist_node_size", "../z_bgcheck.c", 6021);
-    }
+    (new_index < this->max) ? (void)0 : __assert("new_index < this->short_slist_node_size", "../z_bgcheck.c", 6021);
     return new_index;
 }
 
@@ -2490,9 +2474,9 @@ s32 ScaleRotPos_Equals(ScaleRotPos* a, ScaleRotPos* b) {
  * Reset DynaLookup lists
  */
 void DynaLookup_ResetLists(DynaLookup* dynaLookup) {
-    SSNode_SetNull(&dynaLookup->ceiling);
-    SSNode_SetNull(&dynaLookup->wall);
-    SSNode_SetNull(&dynaLookup->floor);
+    SSList_SetNull(&dynaLookup->ceiling);
+    SSList_SetNull(&dynaLookup->wall);
+    SSList_SetNull(&dynaLookup->floor);
 }
 
 /**
@@ -2558,9 +2542,7 @@ void DynaPoly_NullPolyList(CollisionPoly** polyList) {
  */
 void DynaPoly_AllocPolyList(GlobalContext* globalCtx, CollisionPoly** polyList, s32 numPolys) {
     *polyList = THA_AllocEndAlign(&globalCtx->state.tha, numPolys * sizeof(CollisionPoly), -2);
-    if (!(*polyList != NULL)) {
-        __assert("ptbl->pbuf != NULL", "../z_bgcheck.c", 6247);
-    }
+    (*polyList != NULL) ? (void)0 : __assert("ptbl->pbuf != NULL", "../z_bgcheck.c", 6247);
 }
 
 /**
@@ -2575,9 +2557,7 @@ void DynaPoly_NullVtxList(Vec3s** vtxList) {
  */
 void DynaPoly_AllocVtxList(GlobalContext* globalCtx, Vec3s** vtxList, s32 numVtx) {
     *vtxList = THA_AllocEndAlign(&globalCtx->state.tha, numVtx * sizeof(Vec3s), -2);
-    if (!(*vtxList != NULL)) {
-        __assert("ptbl->pbuf != NULL", "../z_bgcheck.c", 6277);
-    }
+    (*vtxList != NULL) ? (void)0 : __assert("ptbl->pbuf != NULL", "../z_bgcheck.c", 6277);
 }
 
 /**
@@ -2824,17 +2804,17 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
             if (poly->normal.y > COLPOLY_SNORMAL(0.5f)) {
                 spA0 = pi;
                 // _6ADC
-                func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &spA0);
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &spA0);
             } else if (poly->normal.y < COLPOLY_SNORMAL(-0.8f)) {
                 if (!(dyna->bgActorFlags[bgId] & 8)) {
                     sp9E = pi;
                     // _6B20
-                    func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp9E);
+                    DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp9E);
                 }
             } else {
                 sp9C = pi;
                 //_6B44
-                func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp9C);
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp9C);
             }
         }
         //_6B6C
@@ -2935,15 +2915,15 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         if (newNorm.y > 0.5f) {
             sp76 = *polyStartIndex + i;
             //_7214
-            func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &sp76);
+            DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &sp76);
         } else if (newNorm.y < -0.8f) {
             sp74 = *polyStartIndex + i;
             //_7254
-            func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp74);
+            DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp74);
         } else {
             sp72 = *polyStartIndex + i;
             //_7274
-            func_80038780(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp72);
+            DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp72);
         }
     }
     *polyStartIndex = *polyStartIndex + pbgdata->nbPolygons;
@@ -3049,15 +3029,13 @@ f32 BgCheck_RaycastFloorDynaList(DynaRaycast* dynaRaycast, u32 listType) {
     f32 result;
     f32 yIntersect;
     s16 id;
-    u16 next;
 
     result = dynaRaycast->yIntersect;
-    next = *dynaRaycast->nodeId;
-    if (next == SS_NULL) {
+    if (dynaRaycast->ssList->head == SS_NULL) {
         return result;
     }
     polyList = dynaRaycast->dyna->polyList;
-    curNode = &dynaRaycast->dyna->polyNodes.tbl[next];
+    curNode = &dynaRaycast->dyna->polyNodes.tbl[dynaRaycast->ssList->head];
 
     while (true) {
         id = curNode->polyId;
@@ -3140,7 +3118,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
 
         dynaRaycast->dyna = &dynaRaycast->colCtx->dyna;
         if (dynaRaycast->unk_20 & BGCHECK_IGNORE_FLOOR) {
-            dynaRaycast->nodeId = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.floor;
+            dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.floor;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_FLOORS);
 
             if (dynaRaycast->yIntersect < intersect2) {
@@ -3152,7 +3130,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
         }
         if ((dynaRaycast->unk_20 & BGCHECK_IGNORE_WALL) ||
             (*dynaRaycast->resultPoly == NULL && (dynaRaycast->unk_20 & 8))) {
-            dynaRaycast->nodeId = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.wall;
+            dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.wall;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_WALLS);
             if (dynaRaycast->yIntersect < intersect2) {
 
@@ -3163,7 +3141,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
         }
 
         if (dynaRaycast->unk_20 & BGCHECK_IGNORE_CEILING) {
-            dynaRaycast->nodeId = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.ceiling;
+            dynaRaycast->ssList = &dynaRaycast->colCtx->dyna.bgActors[i].dynaLookup.ceiling;
             intersect2 = BgCheck_RaycastFloorDynaList(dynaRaycast, DYNA_RAYCAST_CEILINGS);
             if (dynaRaycast->yIntersect < intersect2) {
 
@@ -3185,14 +3163,14 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
             // ab71f4
             curTransform = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].curTransform;
             polyList = dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->polyList;
-            polyMin = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId]
-                            .dynaLookup.polyStartIndex[dynaRaycast->dyna->polyList];
+            polyMin =
+                &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].dynaLookup.polyStartIndex[dynaRaycast->dyna->polyList];
             poly = *dynaRaycast->resultPoly - polyMin + polyList;
-            
-            SkinMatrix_SetScaleRotateYRPTranslate(
-                &srpMtx, curTransform->scale.x, curTransform->scale.y, curTransform->scale.z,
-                curTransform->rot.x, curTransform->rot.y, curTransform->rot.z, curTransform->pos.x,
-                curTransform->pos.y, curTransform->pos.z);
+
+            SkinMatrix_SetScaleRotateYRPTranslate(&srpMtx, curTransform->scale.x, curTransform->scale.y,
+                                                  curTransform->scale.z, curTransform->rot.x, curTransform->rot.y,
+                                                  curTransform->rot.z, curTransform->pos.x, curTransform->pos.y,
+                                                  curTransform->pos.z);
 
             vtxList = dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->vtxList;
 
@@ -3208,11 +3186,10 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
                 polyNorm.x *= 1.0f / magnitude;
                 polyNorm.y *= 1.0f / magnitude;
                 polyNorm.z *= 1.0f / magnitude;
-                polyDist =
-                    -(polyNorm.x * polyVtx[0].x + polyNorm.y * polyVtx[0].y + polyNorm.z * polyVtx[0].z);
-                if (Math3D_TriChkPointParaYIntersectInsideTri(
-                        &polyVtx[0], &polyVtx[1], &polyVtx[2], polyNorm.x, polyNorm.y, polyNorm.z, polyDist,
-                        dynaRaycast->pos->z, dynaRaycast->pos->x, &intersect, dynaRaycast->chkDist)) {
+                polyDist = -(polyNorm.x * polyVtx[0].x + polyNorm.y * polyVtx[0].y + polyNorm.z * polyVtx[0].z);
+                if (Math3D_TriChkPointParaYIntersectInsideTri(&polyVtx[0], &polyVtx[1], &polyVtx[2], polyNorm.x,
+                                                              polyNorm.y, polyNorm.z, polyDist, dynaRaycast->pos->z,
+                                                              dynaRaycast->pos->x, &intersect, dynaRaycast->chkDist)) {
 
                     if (fabsf(intersect - result) < 1.0f) {
 
@@ -3235,12 +3212,12 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
  * `outPoly` returns the pointer to the nearest poly collided with, or NULL
  * `outBgId` returns `bgId` if the poly SurfaceType's wall damage flag is not set, else ?
  */
-s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, u16* nodeId,
+s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
                                    f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
                                    s32 bgId);
 #ifdef NON_MATCHING
 // regalloc
-s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, u16* nodeId,
+s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
                                    f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
                                    s32 bgId) {
     s32 padding;
@@ -3266,11 +3243,11 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
     f32 xMin;           // f2
     f32 xMax;           // f12
 
-    if (*nodeId == SS_NULL) {
+    if (ssList->head == SS_NULL) {
         return result;
     }
     resultPos = *pos;
-    curNode = &dyna->polyNodes.tbl[((StaticLookupEntry*)nodeId)->list];
+    curNode = &dyna->polyNodes.tbl[ssList->head];
 
     while (true) {
         polyId = curNode->polyId;
@@ -3348,7 +3325,7 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
     }
 
     // ab77d0
-    curNode = &dyna->polyNodes.tbl[((StaticLookupEntry*)nodeId)->list];
+    curNode = &dyna->polyNodes.tbl[ssList->head];
     while (true) {
         polyId = curNode->polyId;
         poly = &dyna->polyList[polyId];
@@ -3444,7 +3421,7 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
 // Codegen Issues
 s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
                           CollisionPoly** outPoly, s32* outBgId, Actor* actor) {
-    Vec3f resultPos; // sp94
+    Vec3f resultPos; // sp9C
     s32 result;      // sp90;
     f32 r;           // f0
     f32 dz;          // f12
@@ -3477,8 +3454,8 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
         r = bgActor->boundingSphere.radius;
         dx = bgActor->boundingSphere.center.x - resultPos.x;
         dz = bgActor->boundingSphere.center.z - resultPos.z;
-        if (SQ(r) < (SQ(dx) + SQ(dz)) || !Math3D_XYInSphere(&bgActor->boundingSphere, resultPos.x, resultPos.y) &&
-                                             !Math3D_YZInSphere(&bgActor->boundingSphere, resultPos.y, resultPos.z)) {
+        if (SQ(r) < (SQ(dx) + SQ(dz)) || (!Math3D_XYInSphere(&bgActor->boundingSphere, resultPos.x, resultPos.y) &&
+                                          !Math3D_YZInSphere(&bgActor->boundingSphere, resultPos.y, resultPos.z))) {
             bgActor->boundingSphere.radius -= (s16)radius;
             continue;
         }
@@ -3497,12 +3474,12 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
 #endif
 
 /**
- * Tests for collision with a dyna poly ceiling, starting at `nodeId`
+ * Tests for collision with a dyna poly ceiling, starting at `ssList`
  * returns true if a collision occurs, else false
  * `outPoly` returns the poly collided with
  * `outY` returns the y coordinate needed to not collide with `outPoly`
  */
-s32 BgCheck_CheckDynaCeilingList(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, u16* nodeId,
+s32 BgCheck_CheckDynaCeilingList(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
                                  f32* outY, Vec3f* pos, f32 checkHeight, CollisionPoly** outPoly) {
     s16 polyId;
     SSNode* curNode;
@@ -3515,14 +3492,14 @@ s32 BgCheck_CheckDynaCeilingList(CollisionContext* colCtx, u16 xpFlags, DynaColl
     f32 nz;
     s32 result;
     f32 intersectDist;
-    u16 next;
+    u16 padding;
 
     result = false;
-    next = *nodeId;
-    if (next == SS_NULL) {
+
+    if (ssList->head == SS_NULL) {
         return false;
     }
-    curNode = &dyna->polyNodes.tbl[next];
+    curNode = &dyna->polyNodes.tbl[ssList->head];
     testPos = *pos;
 
     while (true) {
@@ -3613,19 +3590,17 @@ s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, V
  */
 s32 func_80040FA4(DynaLineTest* dynaLineTest) {
     f32 distSq;
-    u16 nodeId;
+    s32 result;
     CollisionPoly* curPoly;
     SSNode* curNode;
     Vec3f polyIntersect;
     s16 polyId;
-    s32 result;
 
-    nodeId = *dynaLineTest->nodeId;
-    if (nodeId == SS_NULL) {
+    if (dynaLineTest->ssList->head == SS_NULL) {
         return false;
     }
 
-    curNode = &dynaLineTest->dyna->polyNodes.tbl[nodeId];
+    curNode = &dynaLineTest->dyna->polyNodes.tbl[dynaLineTest->ssList->head];
     result = false;
 
     while (true) {
@@ -3683,19 +3658,19 @@ s32 func_80041128(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* pos
     dynaLineTest.distSq = distSq;
     dynaLineTest.chkDist = chkDist;
 
-    dynaLineTest.nodeId = &colCtx->dyna.bgActors[bgId].dynaLookup.wall;
+    dynaLineTest.ssList = &colCtx->dyna.bgActors[bgId].dynaLookup.wall;
     if (bccFlags & BGCHECK_CHECK_WALL) {
         if (func_80040FA4(&dynaLineTest)) {
             result = true;
         }
     }
-    dynaLineTest.nodeId = &colCtx->dyna.bgActors[bgId].dynaLookup.floor;
+    dynaLineTest.ssList = &colCtx->dyna.bgActors[bgId].dynaLookup.floor;
     if (bccFlags & BGCHECK_CHECK_FLOOR) {
         if (func_80040FA4(&dynaLineTest)) {
             result = true;
         }
     }
-    dynaLineTest.nodeId = &colCtx->dyna.bgActors[bgId].dynaLookup.ceiling;
+    dynaLineTest.ssList = &colCtx->dyna.bgActors[bgId].dynaLookup.ceiling;
     if (bccFlags & BGCHECK_CHECK_CEILING) {
         if (func_80040FA4(&dynaLineTest)) {
             result = true;
@@ -3743,24 +3718,22 @@ s32 func_80041240(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* pos
 }
 
 /**
- * Get first dyna poly intersecting sphere `center` `radius` from list `nodeId`
+ * Get first dyna poly intersecting sphere `center` `radius` from list `ssList`
  * returns true if any poly intersects the sphere, else returns false
  * `outPoly` returns the pointer of the first poly found that intersects
  */
 s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, Vec3f* center,
-                                   f32 radius, u16* nodeId) {
-    u16 nextId;
+                                   f32 radius, SSList* ssList) {
     CollisionPoly* curPoly;
     DynaCollisionContext* dyna;
     SSNode* node;
     s32 curPolyId;
 
-    nextId = *nodeId;
-    if (nextId == SS_NULL) {
+    if (ssList->head == SS_NULL) {
         return false;
     }
     dyna = &colCtx->dyna;
-    node = &dyna->polyNodes.tbl[nextId];
+    node = &dyna->polyNodes.tbl[ssList->head];
     while (true) {
         curPolyId = node->polyId;
         curPoly = &dyna->polyList[curPolyId];
@@ -4453,11 +4426,11 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
 }
 
 /**
- * Draw a list of dyna polys, specified by `nodeId`
+ * Draw a list of dyna polys, specified by `ssList`
  */
 void BgCheck_DrawDynaPolyList(GlobalContext* globalCtx, CollisionContext* colCtx, DynaCollisionContext* dyna,
-                              u16* nodeId, u8 r, u8 g, u8 b) {
-    u16 nextId;
+                              SSList* ssList, u8 r, u8 g, u8 b) {
+    s16 curPolyId;
     CollisionPoly* poly;
     SSNode* curNode;
     Vec3f vA;
@@ -4466,11 +4439,9 @@ void BgCheck_DrawDynaPolyList(GlobalContext* globalCtx, CollisionContext* colCtx
     f32 nx;
     f32 ny;
     f32 nz;
-    s16 curPolyId;
 
-    nextId = *nodeId;
-    if (nextId != SS_NULL) {
-        curNode = &dyna->polyNodes.tbl[nextId];
+    if (ssList->head != SS_NULL) {
+        curNode = &dyna->polyNodes.tbl[ssList->head];
         while (true) {
             curPolyId = curNode->polyId;
             poly = &dyna->polyList[curPolyId];
@@ -4566,18 +4537,16 @@ void BgCheck_DrawStaticPoly(GlobalContext* globalCtx, CollisionContext* colCtx, 
 }
 
 /**
- * Draw a list of static polys, specified by `nodeId`
+ * Draw a list of static polys, specified by `ssList`
  */
-void BgCheck_DrawStaticPolyList(GlobalContext* globalCtx, CollisionContext* colCtx, u16* nodeId, u8 r, u8 g, u8 b) {
+void BgCheck_DrawStaticPolyList(GlobalContext* globalCtx, CollisionContext* colCtx, SSList* ssList, u8 r, u8 g, u8 b) {
     SSNode* curNode;
     CollisionPoly* polyList;
-    u16 nextId;
     s16 curPolyId;
 
     polyList = colCtx->colHeader->polyList;
-    nextId = *nodeId;
-    if (nextId != SS_NULL) {
-        curNode = &colCtx->polyNodes.tbl[nextId];
+    if (ssList->head != SS_NULL) {
+        curNode = &colCtx->polyNodes.tbl[ssList->head];
         while (true) {
             curPolyId = curNode->polyId;
             BgCheck_DrawStaticPoly(globalCtx, colCtx, &polyList[curPolyId], r, g, b);

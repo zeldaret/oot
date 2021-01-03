@@ -205,7 +205,7 @@ glabel DynaPoly_ExpandSRT
 /* AB6270 8003F0D0 5420000A */  bnezl $at, .L8003F0FC
 /* AB6274 8003F0D4 2861999B */   slti  $at, $v1, -0x6665
 /* AB6278 8003F0D8 A7B000A0 */  sh    $s0, 0xa0($sp)
-/* AB627C 8003F0DC 0C00E1E0 */  jal   func_80038780
+/* AB627C 8003F0DC 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB6280 8003F0E0 26E413F8 */   addiu $a0, $s7, 0x13f8
 /* AB6284 8003F0E4 8FAB0178 */  lw    $t3, 0x178($sp)
 /* AB6288 8003F0E8 97D80014 */  lhu   $t8, 0x14($fp)
@@ -223,7 +223,7 @@ glabel DynaPoly_ExpandSRT
 /* AB62B4 8003F114 55200012 */  bnezl $t1, .L8003F160
 /* AB62B8 8003F118 26100001 */   addiu $s0, $s0, 1
 /* AB62BC 8003F11C A7B0009E */  sh    $s0, 0x9e($sp)
-/* AB62C0 8003F120 0C00E1E0 */  jal   func_80038780
+/* AB62C0 8003F120 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB62C4 8003F124 26E413F8 */   addiu $a0, $s7, 0x13f8
 /* AB62C8 8003F128 8FAD0178 */  lw    $t5, 0x178($sp)
 /* AB62CC 8003F12C 97CF0014 */  lhu   $t7, 0x14($fp)
@@ -233,7 +233,7 @@ glabel DynaPoly_ExpandSRT
 .L8003F13C:
 /* AB62DC 8003F13C A7B0009C */  sh    $s0, 0x9c($sp)
 /* AB62E0 8003F140 26E413F8 */  addiu $a0, $s7, 0x13f8
-/* AB62E4 8003F144 0C00E1E0 */  jal   func_80038780
+/* AB62E4 8003F144 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB62E8 8003F148 02A03025 */   move  $a2, $s5
 /* AB62EC 8003F14C 8FAA0178 */  lw    $t2, 0x178($sp)
 /* AB62F0 8003F150 97CC0014 */  lhu   $t4, 0x14($fp)
@@ -687,7 +687,7 @@ glabel DynaPoly_ExpandSRT
 /* AB69A8 8003F808 26850012 */  addiu $a1, $s4, 0x12
 /* AB69AC 8003F80C 27A60076 */  addiu $a2, $sp, 0x76
 /* AB69B0 8003F810 01737821 */  addu  $t7, $t3, $s3
-/* AB69B4 8003F814 0C00E1E0 */  jal   func_80038780
+/* AB69B4 8003F814 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB69B8 8003F818 A7AF0076 */   sh    $t7, 0x76($sp)
 /* AB69BC 8003F81C 10000018 */  b     .L8003F880
 /* AB69C0 8003F820 97C20014 */   lhu   $v0, 0x14($fp)
@@ -704,7 +704,7 @@ glabel DynaPoly_ExpandSRT
 /* AB69E8 8003F848 02A02025 */  move  $a0, $s5
 /* AB69EC 8003F84C 27A60074 */  addiu $a2, $sp, 0x74
 /* AB69F0 8003F850 01936821 */  addu  $t5, $t4, $s3
-/* AB69F4 8003F854 0C00E1E0 */  jal   func_80038780
+/* AB69F4 8003F854 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB69F8 8003F858 A7AD0074 */   sh    $t5, 0x74($sp)
 /* AB69FC 8003F85C 10000008 */  b     .L8003F880
 /* AB6A00 8003F860 97C20014 */   lhu   $v0, 0x14($fp)
@@ -713,7 +713,7 @@ glabel DynaPoly_ExpandSRT
 /* AB6A08 8003F868 26850010 */  addiu $a1, $s4, 0x10
 /* AB6A0C 8003F86C 27A60072 */  addiu $a2, $sp, 0x72
 /* AB6A10 8003F870 01337021 */  addu  $t6, $t1, $s3
-/* AB6A14 8003F874 0C00E1E0 */  jal   func_80038780
+/* AB6A14 8003F874 0C00E1E0 */  jal   DynaSSNodeList_SetSSListHead
 /* AB6A18 8003F878 A7AE0072 */   sh    $t6, 0x72($sp)
 /* AB6A1C 8003F87C 97C20014 */  lhu   $v0, 0x14($fp)
 .L8003F880:
