@@ -151,7 +151,7 @@ void func_808A91AC(BgRelayObjects* this, GlobalContext* globalCtx) {
 void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += this->dyna.actor.gravity;
     if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 180, 20, 100);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 180, 20, 100);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != globalCtx->roomCtx.curRoom.num) {
             func_800788CC(NA_SE_EN_PO_LAUGH);

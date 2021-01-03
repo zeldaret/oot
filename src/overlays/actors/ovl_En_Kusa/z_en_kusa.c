@@ -306,17 +306,17 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistFromLink > 12.0f)) {
+        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistToLink > 12.0f)) {
             this->collider.base.maskA |= 8;
         }
 
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             Collider_CylinderUpdate(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-            if (this->actor.xzDistFromLink < 400.0f) {
+            if (this->actor.xzDistToLink < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                if (this->actor.xzDistFromLink < 100.0f) {
+                if (this->actor.xzDistToLink < 100.0f) {
                     func_8002F580(&this->actor, globalCtx);
                 }
             }
@@ -377,7 +377,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
     } else {
         if (this->actor.bgCheckFlags & 0x40) {
             contactPos.x = this->actor.posRot.pos.x;
-            contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+            contactPos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
             contactPos.z = this->actor.posRot.pos.z;
             EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 400);
             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);

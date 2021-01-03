@@ -15,7 +15,7 @@ glabel func_80B3CF90
 /* 00DE0 80B3CFC0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00DE4 80B3CFC4 3C054130 */  lui     $a1, 0x4130                ## $a1 = 41300000
 /* 00DE8 80B3CFC8 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00DEC 80B3CFCC 0C0295B2 */  jal     func_800A56C8              
+/* 00DEC 80B3CFCC 0C0295B2 */  jal     Animation_OnFrame              
 /* 00DF0 80B3CFD0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DF4 80B3CFD4 1040000B */  beq     $v0, $zero, .L80B3D004     
 /* 00DF8 80B3CFD8 8FA7001C */  lw      $a3, 0x001C($sp)           

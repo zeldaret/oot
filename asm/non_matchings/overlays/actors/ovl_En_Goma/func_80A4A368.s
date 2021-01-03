@@ -5,15 +5,15 @@ glabel func_80A4A368
 /* 014B4 80A4A374 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 014B8 80A4A378 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 014BC 80A4A37C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 014C0 80A4A380 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 014C0 80A4A380 0C02927F */  jal     SkelAnime_Update
               
 /* 014C4 80A4A384 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 014C8 80A4A388 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 014CC 80A4A38C 0C0295B2 */  jal     func_800A56C8              
+/* 014CC 80A4A38C 0C0295B2 */  jal     Animation_OnFrame              
 /* 014D0 80A4A390 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 014D4 80A4A394 14400005 */  bne     $v0, $zero, .L80A4A3AC     
 /* 014D8 80A4A398 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 014DC 80A4A39C 0C0295B2 */  jal     func_800A56C8              
+/* 014DC 80A4A39C 0C0295B2 */  jal     Animation_OnFrame              
 /* 014E0 80A4A3A0 3C0540A0 */  lui     $a1, 0x40A0                ## $a1 = 40A00000
 /* 014E4 80A4A3A4 5040000E */  beql    $v0, $zero, .L80A4A3E0     
 /* 014E8 80A4A3A8 3C054055 */  lui     $a1, 0x4055                ## $a1 = 40550000

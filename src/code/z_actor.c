@@ -815,7 +815,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     Actor_SetScale(actor, 0.01f);
     actor->unk_1F = 3;
     actor->minVelocityY = -20.0f;
-    actor->xyzDistFromLinkSq = FLT_MAX;
+    actor->xyzDistToLinkSq = FLT_MAX;
     actor->naviEnemyId = 0xFF;
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
@@ -887,7 +887,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
-    func_800A54FC(skelAnime, &sp1C, actor->shape.rot.y);
+    SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
     actor->posRot.pos.x += sp1C.x * actor->scale.x;
     actor->posRot.pos.y += sp1C.y * actor->scale.y;
     actor->posRot.pos.z += sp1C.z * actor->scale.z;
@@ -1105,7 +1105,7 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
     s16 var = actor->yawTowardsLink - actor->shape.rot.y;
 
     if (ABS(var) < arg2) {
-        f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistFromLink) + SQ(actor->yDistFromLink));
+        f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToLink) + SQ(actor->yDistToLink));
 
         if (xyzDistanceFromLink < arg1) {
             return 1;
@@ -1252,8 +1252,8 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
         sp50 = actor->posRot.pos.y;
         if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, actor->posRot.pos.x, actor->posRot.pos.z, &sp50,
                                  &waterBox)) {
-            actor->waterY = sp50 - actor->posRot.pos.y;
-            if (actor->waterY < 0.0f) {
+            actor->yDistToWater = sp50 - actor->posRot.pos.y;
+            if (actor->yDistToWater < 0.0f) {
                 actor->bgCheckFlags &= ~0x60;
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
@@ -1271,7 +1271,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
             }
         } else {
             actor->bgCheckFlags &= ~0x60;
-            actor->waterY = BGCHECK_Y_MIN;
+            actor->yDistToWater = BGCHECK_Y_MIN;
         }
     }
 }
@@ -1419,8 +1419,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            ret = actor->xyzDistFromLinkSq -
-                  actor->xyzDistFromLinkSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            ret = actor->xyzDistToLinkSq - actor->xyzDistToLinkSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
             return ret;
         }
     }
@@ -1429,7 +1428,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         return FLT_MAX;
     }
 
-    return actor->xyzDistFromLinkSq;
+    return actor->xyzDistToLinkSq;
 }
 
 typedef struct {
@@ -1462,7 +1461,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
             dist = FLT_MAX;
         } else {
-            dist = actor->xyzDistFromLinkSq;
+            dist = actor->xyzDistToLinkSq;
         }
 
         return !func_8002F090(actor, D_80115FF8[actor->unk_1F].unk_4 * dist);
@@ -1486,13 +1485,13 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
         ((actor->unk_10C == 0) &&
-         ((arg3 < fabsf(actor->yDistFromLink)) || (player->targetActorDistance < actor->xzDistFromLink) ||
-          (arg2 < actor->xzDistFromLink)))) {
+         ((arg3 < fabsf(actor->yDistToLink)) || (player->targetActorDistance < actor->xzDistToLink) ||
+          (arg2 < actor->xzDistToLink)))) {
         return 0;
     }
 
     player->targetActor = actor;
-    player->targetActorDistance = actor->xzDistFromLink;
+    player->targetActorDistance = actor->xzDistToLink;
     player->exchangeItemId = exchangeItemId;
 
     return 1;
@@ -1551,7 +1550,7 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & 0x20000800))) {
-            if ((actor->xzDistFromLink < xzRange) && (fabsf(actor->yDistFromLink) < yRange)) {
+            if ((actor->xzDistToLink < xzRange) && (fabsf(actor->yDistToLink) < yRange)) {
                 yawDiff = actor->yawTowardsLink - player->actor.shape.rot.y;
                 absYawDiff = ABS(yawDiff);
                 if ((getItemId != GI_NONE) || (player->getItemDirection < absYawDiff)) {
@@ -1600,8 +1599,8 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (actor->xyzDistFromLinkSq < player->unk_6A4) {
-        player->unk_6A4 = actor->xyzDistFromLinkSq;
+    if (actor->xyzDistToLinkSq < player->unk_6A4) {
+        player->unk_6A4 = actor->xyzDistToLinkSq;
     }
 }
 
@@ -1671,7 +1670,7 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
     s32 sfxId;
 
     if (actor->bgCheckFlags & 0x20) {
-        if (actor->waterY < 20.0f) {
+        if (actor->yDistToWater < 20.0f) {
             sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
             sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
@@ -2075,9 +2074,9 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 }
             } else {
                 Math_Vec3f_Copy(&actor->pos4, &actor->posRot.pos);
-                actor->xzDistFromLink = func_8002DB8C(actor, &player->actor);
-                actor->yDistFromLink = Actor_HeightDiff(actor, &player->actor);
-                actor->xyzDistFromLinkSq = SQ(actor->xzDistFromLink) + SQ(actor->yDistFromLink);
+                actor->xzDistToLink = func_8002DB8C(actor, &player->actor);
+                actor->yDistToLink = Actor_HeightDiff(actor, &player->actor);
+                actor->xyzDistToLinkSq = SQ(actor->xzDistToLink) + SQ(actor->yDistToLink);
 
                 actor->yawTowardsLink = func_8002DA78(actor, &player->actor);
                 actor->flags &= ~0x1000000;
@@ -2922,10 +2921,10 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && ((actor->flags & 1) == 1)) {
-            if ((actorType == ACTORTYPE_ENEMY) && ((actor->flags & 5) == 5) && (actor->xyzDistFromLinkSq < 250000.0f) &&
-                (actor->xyzDistFromLinkSq < D_8015BBF4)) {
+            if ((actorType == ACTORTYPE_ENEMY) && ((actor->flags & 5) == 5) && (actor->xyzDistToLinkSq < 250000.0f) &&
+                (actor->xyzDistToLinkSq < D_8015BBF4)) {
                 actorCtx->targetCtx.unk_90 = actor;
-                D_8015BBF4 = actor->xyzDistFromLinkSq;
+                D_8015BBF4 = actor->xyzDistToLinkSq;
             }
 
             if (actor != sp84) {
@@ -3471,9 +3470,9 @@ void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
 
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     if (arg2 >= 5) {
-        func_800AA000(actor->xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
+        func_800AA000(actor->xyzDistToLinkSq, 0xFF, 0x14, 0x96);
     } else {
-        func_800AA000(actor->xyzDistFromLinkSq, 0xB4, 0x14, 0x64);
+        func_800AA000(actor->xyzDistToLinkSq, 0xB4, 0x14, 0x64);
     }
 
     func_80033DB8(globalCtx, arg2, arg3);
@@ -3809,7 +3808,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPPipeSync(POLY_OPA_DISP++);
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8860);
@@ -3825,7 +3824,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8904);
@@ -3860,11 +3859,11 @@ void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2) 
     if (arg1->frameCount > 0.0f) {
         frameCount = arg1->frameCount;
     } else {
-        frameCount = SkelAnime_GetFrameCount(arg1->animation);
+        frameCount = Animation_GetLastFrame(arg1->animation);
     }
 
-    SkelAnime_ChangeAnim(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
-                         arg1->transitionRate);
+    Animation_Change(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
+                     arg1->transitionRate);
 }
 
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3) {
@@ -3947,7 +3946,7 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var1 = (s16)(actor->yawTowardsLink + 0x8000) - player->actor.shape.rot.y;
     var2 = actor->yawTowardsLink - arg5;
 
-    if ((actor->xzDistFromLink <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
+    if ((actor->xzDistToLink <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
         return 1;
     } else {
         return 0;
@@ -5419,11 +5418,11 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return 0;
     }
 
-    if ((actor->xyzDistFromLinkSq > 25600.0f) && (actor->unk_10C == 0)) {
+    if ((actor->xyzDistToLinkSq > 25600.0f) && (actor->unk_10C == 0)) {
         return 0;
     }
 
-    if (actor->xyzDistFromLinkSq <= 6400.0f) {
+    if (actor->xyzDistToLinkSq <= 6400.0f) {
         if (func_8002F2CC(actor, globalCtx, 80.0f)) {
             actor->textId = func_80037C30(globalCtx, arg2);
         }

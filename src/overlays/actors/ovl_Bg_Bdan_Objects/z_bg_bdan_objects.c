@@ -167,7 +167,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (BgBdanObjects_GetContactRu1(this, 0)) {
-        if (this->dyna.actor.xzDistFromLink < 250.0f) {
+        if (this->dyna.actor.xzDistToLink < 250.0f) {
             BgBdanObjects_SetContactRu1(this, 1);
             this->unk_16A = 0x14;
             func_800800F8(globalCtx, 0xBFE, -0x63, &this->dyna.actor, 0);
@@ -322,7 +322,7 @@ void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna.actor)) {
-        if (this->dyna.actor.xzDistFromLink < 120.0f) {
+        if (this->dyna.actor.xzDistToLink < 120.0f) {
             this->actionFunc = func_8086C7D0;
             func_800800F8(globalCtx, 0xC12, -0x63, &this->dyna.actor, 0);
         }

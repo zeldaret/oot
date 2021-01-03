@@ -17,8 +17,8 @@ typedef struct EnFirefly {
     /* 0x01B9 */ u8 onFire;
     /* 0x01BA */ s16 timer;
     /* 0x01BC */ s16 targetPitch;
-    /* 0x01BE */ Vec3s limbDrawTable[28];
-    /* 0x0266 */ Vec3s transitionDrawTable[28];
+    /* 0x01BE */ Vec3s jointTable[28];
+    /* 0x0266 */ Vec3s morphTable[28];
     /* 0x0310 */ f32 maxAltitude;
     /* 0x0314 */ ColliderJntSph collider;
     /* 0x0344 */ ColliderJntSphItem colliderItems[1];

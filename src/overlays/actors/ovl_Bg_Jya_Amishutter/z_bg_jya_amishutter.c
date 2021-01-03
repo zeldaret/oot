@@ -79,8 +79,8 @@ void func_808933BC(BgJyaAmishutter* this) {
 }
 
 void func_808933CC(BgJyaAmishutter* this) {
-    if (this->actor.xzDistFromLink < 60.0f) {
-        if (fabsf(this->actor.yDistFromLink) < 30.0f) {
+    if (this->actor.xzDistToLink < 60.0f) {
+        if (fabsf(this->actor.yDistToLink) < 30.0f) {
             func_80893428(this);
         }
     }
@@ -104,7 +104,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->actor.xzDistFromLink > 300.0f) {
+    if (this->actor.xzDistToLink > 300.0f) {
         func_808934FC(this);
     }
 }

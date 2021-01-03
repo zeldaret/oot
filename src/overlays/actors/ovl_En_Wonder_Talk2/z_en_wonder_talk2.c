@@ -130,7 +130,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
     } else {
         s16 yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.posRot.rot.y));
 
-        if (!((this->actor.xzDistFromLink > 40.0f + this->triggerRange) ||
+        if (!((this->actor.xzDistToLink > 40.0f + this->triggerRange) ||
               (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) > 100.0f) || (yawDiff >= 0x4000))) {
             if (this->unk_158 >= 2) {
                 osSyncPrintf("\n\n");
@@ -215,9 +215,9 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
     } else if ((this->talkMode != 4) || !this->unk_15A) {
         if (BREG(2) != 0) {
             // distance
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ きょり %f\n" VT_RST, this->actor.xzDistFromLink);
+            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ きょり %f\n" VT_RST, this->actor.xzDistToLink);
         }
-        if (((this->actor.xzDistFromLink < (40.0f + this->triggerRange)) &&
+        if (((this->actor.xzDistToLink < (40.0f + this->triggerRange)) &&
              (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f)) &&
             !Gameplay_InCsMode(globalCtx)) {
             if (this->unk_158 >= 2) {

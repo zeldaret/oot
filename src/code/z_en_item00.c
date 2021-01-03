@@ -517,8 +517,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!((this->actor.xzDistFromLink <= 30.0f) && (this->actor.yDistFromLink >= -50.0f) &&
-          (this->actor.yDistFromLink <= 50.0f))) {
+    if (!((this->actor.xzDistToLink <= 30.0f) && (this->actor.yDistToLink >= -50.0f) &&
+          (this->actor.yDistToLink <= 50.0f))) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
             return;
         }
@@ -782,7 +782,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &D_0403F070);
+    gSPDisplayList(POLY_OPA_DISP++, D_0403F070);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
 }
