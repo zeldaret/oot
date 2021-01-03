@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\OpenFBX">
+      <UniqueIdentifier>{c5d86b0a-fff0-47cf-83af-807dd8267ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Libraries">
+      <UniqueIdentifier>{02148456-5068-4613-8478-f10addc58e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries">
+      <UniqueIdentifier>{bcab3136-95ba-4839-833c-43d78ad6e335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries\elfio">
+      <UniqueIdentifier>{dc06ed84-f6fe-4277-80f3-d62bd5cdbb98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Z64">
+      <UniqueIdentifier>{6049c045-bc38-4221-b29e-ca6d4d8af4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Z64\ZRoom">
+      <UniqueIdentifier>{490e3a08-047b-48d3-ab53-3a860a3b92aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Z64\ZRoom\Commands">
+      <UniqueIdentifier>{26c06845-8e8e-4b79-ad18-07c4f9c0f801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Z64">
+      <UniqueIdentifier>{d45c420d-2378-47ac-92c5-80db9475c195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Z64\ZRoom">
+      <UniqueIdentifier>{03cc56a2-e0e8-4167-80a0-98fb900a959a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Z64\ZRoom\Commands">
+      <UniqueIdentifier>{73db0879-6df8-4f6a-8cc2-a1f836e9e796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HighLevel">
+      <UniqueIdentifier>{9464ff21-96af-4b7d-a57b-f62bd9b7389a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HighLevel\Model">
+      <UniqueIdentifier>{e9865c34-fd69-413c-8cce-3f51331c3503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HighLevel">
+      <UniqueIdentifier>{0f9980bb-ae46-4891-a39e-275bf255f010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HighLevel\Room">
+      <UniqueIdentifier>{11dbd8e6-d97a-42a5-b40c-e1350389544d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries\fbx">
+      <UniqueIdentifier>{be9a5be0-ec6a-4200-8e39-bb58c7da7aa8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\ZRoom.cpp">
+      <Filter>Source Files\Z64\ZRoom</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetEchoSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\ZRoomCommand.cpp">
+      <Filter>Source Files\Z64\ZRoom</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetSoundSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetWind.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetTimeSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetSpecialObjects.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetRoomBehavior.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetSkyboxSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetCameraSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetSkyboxModifier.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetActorList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetEntranceList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetStartPositionList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetAlternateHeaders.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetExitList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\EndMarker.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetCollisionHeader.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetRoomList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetObjectList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetMesh.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\Unused09.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetLightingSettings.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetTransitionActorList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetPathways.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetCutscenes.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>Source Files\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="ZAnimation.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZBlob.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCutscene.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZDisplayList.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZFile.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZResource.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZTexture.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlays\ZOverlay.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="HighLevel\HLAnimationIntermediette.cpp">
+      <Filter>Source Files\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="HighLevel\HLModelIntermediette.cpp">
+      <Filter>Source Files\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="HighLevel\HLTexture.cpp">
+      <Filter>Source Files\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ZSkeleton.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetLightList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\ZRoomCommandUnk.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCollision.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\ZRoom.h">
+      <Filter>Header Files\Z64\ZRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\ZRoomCommand.h">
+      <Filter>Header Files\Z64\ZRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetEchoSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetSoundSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetWind.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetTimeSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="BitConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetSpecialObjects.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetRoomBehavior.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetSkyboxSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetCameraSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetSkyboxModifier.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetActorList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetEntranceList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetStartPositionList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elf_types.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_dump.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_dynamic.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_header.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_note.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_relocation.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_section.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_segment.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_strings.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_symbols.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="elfio\elfio_utils.hpp">
+      <Filter>Header Files\Libraries\elfio</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetAlternateHeaders.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetExitList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\EndMarker.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetCollisionHeader.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetRoomList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetObjectList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetMesh.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\Unused09.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\ObjectList.h">
+      <Filter>Header Files\Z64\ZRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\ActorList.h">
+      <Filter>Header Files\Z64\ZRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetLightingSettings.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetTransitionActorList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetPathways.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetCutscenes.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3s.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenFBX\ofbx.h">
+      <Filter>Header Files\OpenFBX</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenFBX\miniz.h">
+      <Filter>Header Files\OpenFBX</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_write.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_gltf.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlays\ZOverlay.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZTexture.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZAnimation.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBlob.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCutscene.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDisplayList.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZFile.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZResource.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="HighLevel\HLTexture.h">
+      <Filter>Header Files\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="HighLevel\HLAnimation.h">
+      <Filter>Header Files\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="HighLevel\HLAnimationIntermediette.h">
+      <Filter>Header Files\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="HighLevel\HLModelIntermediette.h">
+      <Filter>Header Files\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ZSkeleton.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="HighLevel\HLFileIntermediette.h">
+      <Filter>Header Files\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetLightList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\ZRoomCommandUnk.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite_orm.h">
+      <Filter>Header Files\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCollision.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\SymbolMap_OoTMqDbg.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Libs\assimp-vc142-mt.dll">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+</Project>
