@@ -41,23 +41,23 @@ glabel func_80A1B638
 /* 00D24 80A1B6C4 27A5003C */  addiu   $a1, $sp, 0x003C           ## $a1 = FFFFFFFC
 /* 00D28 80A1B6C8 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00D2C 80A1B6CC 10400015 */  beq     $v0, $zero, .L80A1B724
-/* 00D30 80A1B6D0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00D30 80A1B6D0 3C040600 */  lui     $a0, %hi(D_060011C0)                ## $a0 = 06000000
 /* 00D34 80A1B6D4 A2000379 */  sb      $zero, 0x0379($s0)         ## 00000379
 /* 00D38 80A1B6D8 E600006C */  swc1    $f0, 0x006C($s0)           ## 0000006C
-/* 00D3C 80A1B6DC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00D3C 80A1B6DC 0C028800 */  jal     Animation_GetLastFrame
 
-/* 00D40 80A1B6E0 248411C0 */  addiu   $a0, $a0, 0x11C0           ## $a0 = 060011C0
+/* 00D40 80A1B6E0 248411C0 */  addiu   $a0, $a0, %lo(D_060011C0)           ## $a0 = 060011C0
 /* 00D44 80A1B6E4 44829000 */  mtc1    $v0, $f18                  ## $f18 = 0.00
 /* 00D48 80A1B6E8 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00D4C 80A1B6EC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 00D4C 80A1B6EC 3C050600 */  lui     $a1, %hi(D_060011C0)                ## $a1 = 06000000
 /* 00D50 80A1B6F0 46809120 */  cvt.s.w $f4, $f18
 /* 00D54 80A1B6F4 44070000 */  mfc1    $a3, $f0
-/* 00D58 80A1B6F8 24A511C0 */  addiu   $a1, $a1, 0x11C0           ## $a1 = 060011C0
+/* 00D58 80A1B6F8 24A511C0 */  addiu   $a1, $a1, %lo(D_060011C0)           ## $a1 = 060011C0
 /* 00D5C 80A1B6FC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00D60 80A1B700 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00D64 80A1B704 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00D68 80A1B708 E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 00D6C 80A1B70C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00D6C 80A1B70C 0C029468 */  jal     Animation_Change
 
 /* 00D70 80A1B710 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00D74 80A1B714 3C0F80A2 */  lui     $t7, %hi(func_80A1B524)    ## $t7 = 80A20000

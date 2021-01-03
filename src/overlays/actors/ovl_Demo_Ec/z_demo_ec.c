@@ -173,7 +173,7 @@ void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 DemoEc_UpdateSkelAnime(DemoEc* this) {
-    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 void DemoEc_UpdateBgFlags(DemoEc* this, GlobalContext* globalCtx) {
@@ -181,20 +181,20 @@ void DemoEc_UpdateBgFlags(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 3;
-    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= 3;
+    AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D5D4(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.unk_3E = this->skelAnime.limbDrawTbl[0];
-    this->skelAnime.prevFramePos = this->skelAnime.limbDrawTbl[0];
-    this->skelAnime.flags |= 3;
-    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
+    this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
+    this->skelAnime.moveFlags |= 3;
+    AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D64C(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.flags |= 3;
-    SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.moveFlags |= 3;
+    AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {
@@ -229,7 +229,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
     s16 frameCountS;
 
     anim = SEGMENTED_TO_VIRTUAL(animation);
-    frameCountS = SkelAnime_GetFrameCount(anim);
+    frameCountS = Animation_GetLastFrame(anim);
 
     if (!reverse) {
         startFrame = 0.0f;
@@ -241,7 +241,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, transitionRate);
+    Animation_Change(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, transitionRate);
 }
 
 Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
@@ -275,7 +275,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, GlobalContext* globalCtx, void* eyeTextur
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
 }
@@ -311,7 +311,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, GlobalContext* globalCtx, Gfx*
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 646);
@@ -664,7 +664,7 @@ s32 DemoEc_CarpenterOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
         }
     }
 
-    return 0;
+    return false;
 }
 
 Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
@@ -788,7 +788,7 @@ void DemoEc_InitKingZora(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096F1D4(DemoEc* this) {
-    f32 currentFrame = this->skelAnime.animCurrentFrame;
+    f32 currentFrame = this->skelAnime.curFrame;
 
     if (currentFrame <= 32.0f) {
         DemoEc_SetEyeTexIndex(this, 3);

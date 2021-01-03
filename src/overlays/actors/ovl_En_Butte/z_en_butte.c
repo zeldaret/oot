@@ -148,15 +148,14 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneScale = 200.0f;
     }
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_050036F0, &D_05002470, this->limbDrawTable,
-                   this->transitionDrawTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_050036F0, &D_05002470, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
     this->unk_260 = Rand_ZeroOne() * 0xFFFF;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_05002470, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_05002470, 1.0f, 0.0f, 0.0f, 1, 0.0f);
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
@@ -252,8 +251,8 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
 
     animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
-    this->skelAnime.animPlaybackSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->timer <= 0) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
@@ -262,10 +261,10 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
     if (((this->actor.params & 1) == 1) && (player->heldItemActionParam == 6) && (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.posRot.pos.x, player->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
                           this->actor.initPosRot.pos.z) < SQ(120.0f)) ||
-         (this->actor.xzDistFromLink < 60.0f))) {
+         (this->actor.xzDistToLink < 60.0f))) {
         EnButte_SetupFollowLink(this);
         this->unk_257 = 2;
-    } else if (this->actor.xzDistFromLink < 120.0) {
+    } else if (this->actor.xzDistToLink < 120.0) {
         this->unk_257 = 1;
     } else {
         this->unk_257 = 0;
@@ -314,8 +313,8 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
     animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
-    this->skelAnime.animPlaybackSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->timer <= 0) {
         EnButte_SelectFlightParams(this, &sFollowLinkParams[this->flightParamsIdx]);
@@ -339,13 +338,13 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
     this->actor.flags |= 0x10;
-    this->skelAnime.animPlaybackSpeed = 1.0f;
+    this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;
 }
 
 void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     EnButte_UpdateTransformationEffect();
 
     if (this->timer == 5) {
@@ -401,7 +400,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.update != NULL) {
         Actor_MoveForward(&this->actor);
         Math_StepToF(&this->actor.posRot.pos.y, this->posYTarget, 0.6f);
-        if (this->actor.xyzDistFromLinkSq < 5000.0f) {
+        if (this->actor.xyzDistToLinkSq < 5000.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         Actor_SetHeight(&this->actor, this->actor.shape.unk_08 * this->actor.scale.y);
@@ -413,7 +412,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         func_800628A4(0, &this->collider);
     }
 

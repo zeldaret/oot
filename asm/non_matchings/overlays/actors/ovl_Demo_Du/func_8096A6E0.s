@@ -20,11 +20,11 @@ glabel func_8096A6E0
 /* 00C58 8096A728 F7B80038 */  sdc1    $f24, 0x0038($sp)          
 /* 00C5C 8096A72C F7B60030 */  sdc1    $f22, 0x0030($sp)          
 /* 00C60 8096A730 F7B40028 */  sdc1    $f20, 0x0028($sp)          
-/* 00C64 8096A734 0C0295B2 */  jal     func_800A56C8              
+/* 00C64 8096A734 0C0295B2 */  jal     Animation_OnFrame              
 /* 00C68 8096A738 AFA40080 */  sw      $a0, 0x0080($sp)           
 /* 00C6C 8096A73C 14400004 */  bne     $v0, $zero, .L8096A750     
 /* 00C70 8096A740 8FA40080 */  lw      $a0, 0x0080($sp)           
-/* 00C74 8096A744 0C0295B2 */  jal     func_800A56C8              
+/* 00C74 8096A744 0C0295B2 */  jal     Animation_OnFrame              
 /* 00C78 8096A748 3C054224 */  lui     $a1, 0x4224                ## $a1 = 42240000
 /* 00C7C 8096A74C 10400077 */  beq     $v0, $zero, .L8096A92C     
 .L8096A750:
@@ -72,7 +72,7 @@ glabel func_8096A6E0
 /* 00D20 8096A7F0 4405E000 */  mfc1    $a1, $f28                  
 /* 00D24 8096A7F4 AE4C0000 */  sw      $t4, 0x0000($s2)           ## FFFFFFCC
 /* 00D28 8096A7F8 AE6E0000 */  sw      $t6, 0x0000($s3)           ## FFFFFFC8
-/* 00D2C 8096A7FC 0C0295B2 */  jal     func_800A56C8              
+/* 00D2C 8096A7FC 0C0295B2 */  jal     Animation_OnFrame              
 /* 00D30 8096A800 8FA40080 */  lw      $a0, 0x0080($sp)           
 /* 00D34 8096A804 5040000F */  beql    $v0, $zero, .L8096A844     
 /* 00D38 8096A808 C60A0000 */  lwc1    $f10, 0x0000($s0)          ## 8096CEE8

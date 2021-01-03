@@ -11,8 +11,8 @@ typedef void (*EnNiwLadyActionFunc)(struct EnNiwLady*, GlobalContext*);
 typedef struct EnNiwLady {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[16];
-    /* 0x01F0 */ Vec3s transitionDrawTable[16];
+    /* 0x0190 */ Vec3s jointTable[16];
+    /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnNiwLadyActionFunc actionFunc;
     /* 0x0254 */ Vec3s unk_254;
     /* 0x025A */ Vec3s unk_25A;
