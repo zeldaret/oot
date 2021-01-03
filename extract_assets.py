@@ -11,7 +11,7 @@ def ExtractScene(xmlPath, outputPath):
 	ExtractFile(xmlPath, outputPath, 1, 1)
 
 def ExtractFile(xmlPath, outputPath, genSrcFile, incFilePrefix):
-	execStr = "tools/ZAP2/ZAP2.out e -eh -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAP2/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
+	execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAPD/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
 
 	print(execStr)
 	os.system(execStr)
