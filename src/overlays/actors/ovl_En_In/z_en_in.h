@@ -28,7 +28,6 @@ typedef struct EnIn {
     /* 0x01FC */ s16 unk_1FC;
     /* 0x01FE */ Vec3s limbDrawTable[20];
     /* 0x0276 */ Vec3s transitionDrawTable[20];
-    /* 0x0276 */ char unk_2EE[0x2];
     /* 0x02F0 */ f32 unk_2F0;
     /* 0x02F4 */ f32 unk_2F4;
     /* 0x02F8 */ f32 unk_2F8;

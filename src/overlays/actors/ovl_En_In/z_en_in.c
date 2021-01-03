@@ -453,7 +453,7 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, 0xC0);
+    this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_IN);
     if (this->objectIdx < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
