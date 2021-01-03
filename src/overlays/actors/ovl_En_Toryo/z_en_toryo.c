@@ -39,9 +39,10 @@ static ColliderCylinderInit sColliderCylinderInit = {
 
 static CollisionCheckInfoInit2 sCollisionCheckInfoInit2 = { 0x00, 0x00, 0x00, 0x00, 0xFF };
 
-static DamageTable sDamageTable = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static DamageTable sDamageTable = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
 
 typedef struct {
     AnimationHeader* anim;
@@ -62,22 +63,22 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT09:
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-                this->stateFlags |= 0x1;
+                this->stateFlags |= 1;
             }
             break;
         case SCENE_SPOT01:
             if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 0)) {
-                this->stateFlags |= 0x2;
+                this->stateFlags |= 2;
             }
             break;
         case SCENE_KAKARIKO:
             if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 1)) {
-                this->stateFlags |= 0x4;
+                this->stateFlags |= 4;
             }
             break;
     }
 
-    if ((this->stateFlags & 0x7) == 0) {
+    if ((this->stateFlags & 7) == 0) {
         Actor_Kill(&this->actor);
     }
 
@@ -90,7 +91,7 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
                      Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
                      sEnToryoAnimation.transitionRate);
-    this->stateFlags |= 0x8;
+    this->stateFlags |= 8;
     this->actor.unk_1F = 6;
     this->actionFunc = func_80B20914;
 }
@@ -134,7 +135,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x5028:
                     ret = 1;
                     if (func_80106BC8(globalCtx) != 0) {
-                        gSaveContext.infTable[23] |= 0x4;
+                        gSaveContext.infTable[23] |= 4;
                         ret = 0;
                     }
                     break;
@@ -147,14 +148,14 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x606F:
                     ret = 1;
                     if (func_80106BC8(globalCtx) != 0) {
-                        gSaveContext.infTable[23] |= 0x2;
+                        gSaveContext.infTable[23] |= 2;
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
                     if (func_80106BC8(globalCtx) != 0) {
-                        gSaveContext.infTable[23] |= 0x1;
+                        gSaveContext.infTable[23] |= 1;
                         ret = 0;
                     }
                     break;
@@ -167,7 +168,9 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                     if (func_80106BC8(globalCtx) != 0) {
                         ret = 0;
                     }
+                    break;
             }
+            break;
     }
     return ret;
 }
@@ -190,6 +193,7 @@ s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
             if (func_80106BC8(globalCtx) != 0) {
                 ret = 0;
             }
+            break;
     }
     return ret;
 }
@@ -200,7 +204,7 @@ u32 func_80B20634(EnToryo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0 != 0) {
         if (this->unk_1E0 == 10) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            if ((gSaveContext.infTable[23] & 0x2)) {
+            if (gSaveContext.infTable[23] & 2) {
                 ret = 0x606E;
             } else {
                 ret = 0x606D;
@@ -218,23 +222,23 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
     s32 ret = textId;
 
     if (textId == 0) {
-        if ((this->stateFlags & 0x1)) {
+        if ((this->stateFlags & 1)) {
             if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
                 ret = 0x606C;
-            } else if ((gSaveContext.infTable[23] & 0x1)) {
+            } else if ((gSaveContext.infTable[23] & 1)) {
                 ret = 0x606B;
             } else {
                 ret = 0x606A;
             }
-        } else if ((this->stateFlags & 0x2)) {
-            if ((gSaveContext.infTable[23] & 0x4)) {
+        } else if ((this->stateFlags & 2)) {
+            if ((gSaveContext.infTable[23] & 4)) {
                 ret = 0x5029;
             } else {
                 ret = 0x5028;
             }
         } else {
             ret = textId;
-            if ((this->stateFlags & 0x4)) {
+            if ((this->stateFlags & 4)) {
                 ret = 0x506C;
             }
         }
@@ -317,7 +321,7 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if ((this->stateFlags & 0x8)) {
+    if ((this->stateFlags & 8)) {
         this->unk_1EC.unk_18.x = player->actor.posRot2.pos.x;
         this->unk_1EC.unk_18.y = player->actor.posRot2.pos.y;
         this->unk_1EC.unk_18.z = player->actor.posRot2.pos.z;
@@ -348,7 +352,7 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                              void* thisx) {
     EnToryo* this = THIS;
 
-    if ((this->stateFlags & 0x8)) {
+    if ((this->stateFlags & 8)) {
         switch (limbIndex) {
             case 8:
                 rot->x += this->unk_1EC.unk_0E.y;
@@ -357,6 +361,7 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
             case 15:
                 rot->x += this->unk_1EC.unk_08.y;
                 rot->z += this->unk_1EC.unk_08.x;
+                break;
         }
     }
     return 0;
@@ -368,5 +373,6 @@ void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     switch (limbIndex) {
         case 15:
             Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
+            break;
     }
 }
