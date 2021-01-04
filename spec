@@ -2500,8 +2500,7 @@ endseg
 beginseg
     name "ovl_En_Hy"
     include "build/src/overlays/actors/ovl_En_Hy/z_en_hy.o"
-    include "build/data/overlays/actors/z_en_hy.data.o"
-    include "build/data/overlays/actors/z_en_hy.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hy/ovl_En_Hy_reloc.o"
 endseg
 
 beginseg
