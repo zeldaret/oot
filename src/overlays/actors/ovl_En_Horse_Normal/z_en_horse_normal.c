@@ -204,7 +204,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             Actor_Kill(&this->actor);
             return;
         } else {

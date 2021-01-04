@@ -160,7 +160,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 2:
-            if (!gSaveContext.nightFlag) {
+            if (gSaveContext.nightFlag == 0) {
                 Actor_Kill(&this->actor);
             }
             break;
