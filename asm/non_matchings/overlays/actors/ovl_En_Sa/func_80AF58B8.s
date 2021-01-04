@@ -22,7 +22,7 @@ glabel func_80AF58B8
 /* 003A4 80AF5904 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L80AF5908:
 /* 003A8 80AF5908 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 003AC 80AF590C 0C0295B2 */  jal     func_800A56C8              
+/* 003AC 80AF590C 0C0295B2 */  jal     Animation_OnFrame              
 /* 003B0 80AF5910 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 003B4 80AF5914 10400008 */  beq     $v0, $zero, .L80AF5938     
 /* 003B8 80AF5918 8FA40020 */  lw      $a0, 0x0020($sp)           

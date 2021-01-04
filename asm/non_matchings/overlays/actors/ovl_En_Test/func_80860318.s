@@ -13,9 +13,9 @@ glabel func_80860318
 /* 00CE0 80860330 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 00CE4 80860334 AFA40024 */  sw      $a0, 0x0024($sp)
 /* 00CE8 80860338 24A5C438 */  addiu   $a1, $a1, %lo(D_0600C438)           ## $a1 = 0600C438
-/* 00CEC 8086033C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 00CEC 8086033C 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 00CF0 80860340 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 00CF4 80860344 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00CF4 80860344 0C02927F */  jal     SkelAnime_Update
 
 /* 00CF8 80860348 8FA40024 */  lw      $a0, 0x0024($sp)
 /* 00CFC 8086034C C6040080 */  lwc1    $f4, 0x0080($s0)           ## 00000080

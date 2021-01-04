@@ -87,7 +87,7 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
 
     type = this->dyna.actor.params;
     if (type != 0) {
-        type += (s16)Math_Rand_ZeroFloat(2.99f);
+        type += (s16)Rand_ZeroFloat(2.99f);
         this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = sTargetRot[type];
         osSyncPrintf("\n\n");
     }
@@ -136,13 +136,13 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     wallFallen = false;
 
     if (this->dyna.actor.params == 0) { // wall collapses backwards
-        Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
+        Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             wallFallen = true;
         }
     } else { // wall slides downwards
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         if (this->dyna.actor.posRot.pos.y < (this->initPos.y - 400.0f)) {
             wallFallen = true;
         }
@@ -150,9 +150,9 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 
     if (wallFallen) {
         for (i = 0; i < 15; i++) {
-            effectPos.x = Math_Rand_CenteredFloat(300.0f) + this->bullseyeCenter.x;
+            effectPos.x = Rand_CenteredFloat(300.0f) + this->bullseyeCenter.x;
             effectPos.y = -100.0f;
-            effectPos.z = Math_Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
+            effectPos.z = Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
             EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
@@ -170,9 +170,9 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->timer >= 2) {
         if (this->dyna.actor.params == 0) {
-            Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
+            Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
         } else {
-            Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         }
     } else if (this->timer == 1) {
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
@@ -184,7 +184,7 @@ void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
 
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->chuGirl->wallStatus[this->dyna.actor.params] != 2) {
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
         if (fabsf(this->dyna.actor.posRot.pos.y - this->initPos.y) <= 10.0f) {
             this->dyna.actor.posRot.pos.y = this->initPos.y;
             this->isHit = false;

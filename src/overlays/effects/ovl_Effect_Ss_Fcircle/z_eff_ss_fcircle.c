@@ -88,7 +88,7 @@ void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
                 this->life = actor->dmgEffectTimer;
             }
 
-            Math_ApproxS(&this->rScale, 100, 20);
+            Math_StepToS(&this->rScale, 100, 20);
         } else {
             this->actor = NULL;
         }

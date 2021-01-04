@@ -35,8 +35,8 @@ u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->gfx = ageInfoEntry->displayList;
     this->vec = this->pos = initParams->pos;
     this->rYaw = initParams->yaw;
-    this->velocity.x = Math_Sins(initParams->yaw) * 6.0f;
-    this->velocity.z = Math_Coss(initParams->yaw) * 6.0f;
+    this->velocity.x = Math_SinS(initParams->yaw) * 6.0f;
+    this->velocity.z = Math_CosS(initParams->yaw) * 6.0f;
     this->life = 20;
     this->draw = EffectSsStick_Draw;
     this->update = EffectSsStick_Update;

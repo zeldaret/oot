@@ -2,12 +2,12 @@ glabel func_808B0A84
 /* 00124 808B0A84 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00128 808B0A88 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0012C 808B0A8C AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 00130 808B0A90 0C01DE1C */  jal     Math_Sins
+/* 00130 808B0A90 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00134 808B0A94 8484018C */  lh      $a0, 0x018C($a0)           ## 0000018C
 /* 00138 808B0A98 8FAF0020 */  lw      $t7, 0x0020($sp)           
 /* 0013C 808B0A9C E7A0001C */  swc1    $f0, 0x001C($sp)           
-/* 00140 808B0AA0 0C01DE1C */  jal     Math_Sins
+/* 00140 808B0AA0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00144 808B0AA4 85E4018E */  lh      $a0, 0x018E($t7)           ## 0000018E
 /* 00148 808B0AA8 3C014080 */  lui     $at, 0x4080                ## $at = 40800000

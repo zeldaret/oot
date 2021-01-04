@@ -86,7 +86,7 @@ glabel EnGanonMant_Draw
 /* 00D90 80A24AF0 46081280 */  add.s   $f10, $f2, $f8             
 /* 00D94 80A24AF4 46048180 */  add.s   $f6, $f16, $f4             
 /* 00D98 80A24AF8 E7AA0090 */  swc1    $f10, 0x0090($sp)          
-/* 00D9C 80A24AFC 0C0341F5 */  jal     atan2f
+/* 00D9C 80A24AFC 0C0341F5 */  jal     Math_Atan2F
               
 /* 00DA0 80A24B00 E7A60094 */  swc1    $f6, 0x0094($sp)           
 /* 00DA4 80A24B04 4614A702 */  mul.s   $f28, $f20, $f20           
@@ -95,7 +95,7 @@ glabel EnGanonMant_Draw
 /* 00DB0 80A24B10 4616B082 */  mul.s   $f2, $f22, $f22            
 /* 00DB4 80A24B14 4602E000 */  add.s   $f0, $f28, $f2             
 /* 00DB8 80A24B18 E7A2007C */  swc1    $f2, 0x007C($sp)           
-/* 00DBC 80A24B1C 0C0341F5 */  jal     atan2f
+/* 00DBC 80A24B1C 0C0341F5 */  jal     Math_Atan2F
               
 /* 00DC0 80A24B20 46000304 */  sqrt.s  $f12, $f0                  
 /* 00DC4 80A24B24 4618C202 */  mul.s   $f8, $f24, $f24            

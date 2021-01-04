@@ -22,7 +22,7 @@ glabel func_80A32078
 /* 01754 80A320C4 10200013 */  beq     $at, $zero, .L80A32114     
 /* 01758 80A320C8 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
 /* 0175C 80A320CC 24190064 */  addiu   $t9, $zero, 0x0064         ## $t9 = 00000064
-/* 01760 80A320D0 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01760 80A320D0 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01764 80A320D4 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 01768 80A320D8 860800B6 */  lh      $t0, 0x00B6($s0)           ## 000000B6
@@ -48,7 +48,7 @@ glabel func_80A32078
 /* 017B4 80A32124 2604029E */  addiu   $a0, $s0, 0x029E           ## $a0 = 0000029E
 /* 017B8 80A32128 2405E000 */  addiu   $a1, $zero, 0xE000         ## $a1 = FFFFE000
 /* 017BC 80A3212C 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 017C0 80A32130 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 017C0 80A32130 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 017C4 80A32134 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 017C8 80A32138 10000008 */  beq     $zero, $zero, .L80A3215C   
@@ -58,7 +58,7 @@ glabel func_80A32078
 /* 017D4 80A32144 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 017D8 80A32148 24052000 */  addiu   $a1, $zero, 0x2000         ## $a1 = 00002000
 /* 017DC 80A3214C 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 017E0 80A32150 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 017E0 80A32150 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 017E4 80A32154 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 017E8 80A32158 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
@@ -67,7 +67,7 @@ glabel func_80A32078
 /* 017F0 80A32160 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 017F4 80A32164 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 017F8 80A32168 2406000C */  addiu   $a2, $zero, 0x000C         ## $a2 = 0000000C
-/* 017FC 80A3216C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 017FC 80A3216C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01800 80A32170 240703E8 */  addiu   $a3, $zero, 0x03E8         ## $a3 = 000003E8
 /* 01804 80A32174 860E00B6 */  lh      $t6, 0x00B6($s0)           ## 000000B6

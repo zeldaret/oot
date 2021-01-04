@@ -9,14 +9,14 @@ static u32 sRandFloat;
 /**
  * Gets the next integer in the sequence of pseudo-random numbers.
  */
-u32 Math_Rand_Next(void) {
+u32 Rand_Next(void) {
     return sRandInt = (sRandInt * 1664525) + 1013904223;
 }
 
 /**
  * Seeds the pseudo-random number generator by providing a starting value.
  */
-void Math_Rand_Seed(u32 seed) {
+void Rand_Seed(u32 seed) {
     sRandInt = seed;
 }
 
@@ -25,7 +25,7 @@ void Math_Rand_Seed(u32 seed) {
  * the next integer and masking it to an IEEE-754 compliant floating-point number
  * between 1.0f and 2.0f, returning the result subtract 1.0f.
  */
-f32 Math_Rand_ZeroOne(void) {
+f32 Rand_ZeroOne(void) {
     sRandInt = (sRandInt * 1664525) + 1013904223;
     sRandFloat = ((sRandInt >> 9) | 0x3F800000);
     return *((f32*)&sRandFloat) - 1.0f;
@@ -33,9 +33,9 @@ f32 Math_Rand_ZeroOne(void) {
 
 /**
  * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same
- * manner in which Math_Rand_ZeroOne generates its result.
+ * manner in which Rand_ZeroOne generates its result.
  */
-f32 Math_Rand_Centered(void) {
+f32 Rand_Centered(void) {
     sRandInt = (sRandInt * 1664525) + 1013904223;
     sRandFloat = ((sRandInt >> 9) | 0x3F800000);
     return *((f32*)&sRandFloat) - 1.5f;
@@ -44,14 +44,14 @@ f32 Math_Rand_Centered(void) {
 /**
  * Seeds a pseudo-random number at rndNum with a provided seed.
  */
-void Math_Rand_Seed_Variable(u32* rndNum, u32 seed) {
+void Rand_Seed_Variable(u32* rndNum, u32 seed) {
     *rndNum = seed;
 }
 
 /**
  * Generates the next pseudo-random integer from the provided rndNum.
  */
-u32 Math_Rand_Next_Variable(u32* rndNum) {
+u32 Rand_Next_Variable(u32* rndNum) {
     return *rndNum = (*rndNum * 1664525) + 1013904223;
 }
 
@@ -59,7 +59,7 @@ u32 Math_Rand_Next_Variable(u32* rndNum) {
  * Generates the next pseudo-random floating-point number between 0.0f and
  * 1.0f from the provided rndNum.
  */
-f32 Math_Rand_ZeroOne_Variable(u32* rndNum) {
+f32 Rand_ZeroOne_Variable(u32* rndNum) {
     u32 next;
 
     next = (*rndNum * 1664525) + 1013904223;
@@ -73,7 +73,7 @@ f32 Math_Rand_ZeroOne_Variable(u32* rndNum) {
  * Generates the next pseudo-random floating-point number between -0.5f and
  * 0.5f from the provided rndNum.
  */
-f32 Math_Rand_Centered_Variable(u32* rndNum) {
+f32 Rand_Centered_Variable(u32* rndNum) {
     u32 next;
 
     next = (*rndNum * 1664525) + 1013904223;

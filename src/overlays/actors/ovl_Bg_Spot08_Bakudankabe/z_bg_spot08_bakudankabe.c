@@ -84,8 +84,8 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
     f32 sinY;
     f32 cosY;
 
-    sinY = Math_Sins(this->dyna.actor.shape.rot.y);
-    cosY = Math_Coss(this->dyna.actor.shape.rot.y);
+    sinY = Math_SinS(this->dyna.actor.shape.rot.y);
+    cosY = Math_CosS(this->dyna.actor.shape.rot.y);
 
     burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;
@@ -97,14 +97,14 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         f32 temp2;
         s32 rotationSpeed;
 
-        temp1 = (Math_Rand_ZeroOne() - 0.5f) * 440.0f;
-        temp2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        temp1 = (Rand_ZeroOne() - 0.5f) * 440.0f;
+        temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
         burstDepthY.x = this->dyna.actor.posRot.pos.x + temp2 * sinY + (temp1 * cosY);
         burstDepthY.y = (this->dyna.actor.posRot.pos.y + 20.0f) + (i * 5.4166665f);
         burstDepthY.z = this->dyna.actor.posRot.pos.z + temp2 * cosY - (temp1 * sinY);
 
-        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = Math_Rand_ZeroOne() * 75.0f + 10.0f;
+        burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = Rand_ZeroOne() * 75.0f + 10.0f;
 
         if (scale < 25) {
             gravityInfluence = -300;
@@ -114,7 +114,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
             gravityInfluence = -420;
         }
 
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             rotationSpeed = 65;
         } else {
             rotationSpeed = 33;
@@ -164,7 +164,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
-    } else if (this->dyna.actor.xzDistFromLink < 800.0f) {
+    } else if (this->dyna.actor.xzDistToLink < 800.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
