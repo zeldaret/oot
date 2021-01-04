@@ -97,7 +97,7 @@ typedef struct {
     /* 0x0E8C */ char unk_E8C[0x10];
     /* 0x0E9C */ s32 gsFlags[6];
     /* 0x0EB4 */ char unk_EB4[0x4];
-    /* 0x0EB8 */ s32 highscores[7];
+    /* 0x0EB8 */ s32 highScores[7];
     /* 0x0ED4 */ u16 eventChkInf[14]; // "event_chk_inf"
     /* 0x0EF0 */ u16 itemGetInf[4]; // "item_get_inf"
     /* 0x0EF8 */ u16 infTable[30]; // "inf_table"
@@ -187,13 +187,13 @@ typedef enum {
 } ButtonStatus;
 
 typedef enum {
-    /* 0x00 */ HIGHSCORE_HORSE_ARCHERY,
-    /* 0x01 */ HIGHSCORE_POE_POINTS,
-    /* 0x02 */ HIGHSCORE_LARGEST_FISH,
-    /* 0x03 */ HIGHSCORE_HORSE_RACE,
-    /* 0x04 */ HIGHSCORE_MARATHON,
-    /* 0x05 */ HIGHSCORE_UNK_05,
-    /* 0x06 */ HIGHSCORE_DAMPE_RACE
-} Highscores;
+    /* 0x00 */ HS_HBA,          // horseback archery
+    /* 0x01 */ HS_POE_POINTS,
+    /* 0x02 */ HS_FISHING,
+    /* 0x03 */ HS_HORSE_RACE,
+    /* 0x04 */ HS_MARATHON,
+    /* 0x05 */ HS_UNK_05,
+    /* 0x06 */ HS_DAMPE_RACE
+} HighScores;
 
 #endif
