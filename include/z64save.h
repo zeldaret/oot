@@ -96,7 +96,9 @@ typedef struct {
     /* 0x0E64 */ FaroresWindData fw;
     /* 0x0E8C */ char unk_E8C[0x10];
     /* 0x0E9C */ s32 gsFlags[6];
-    /* 0x0EB4 */ char unk_EB4[0xC];
+    /* 0x0EB4 */ char unk_EB4[0x4];
+    /* 0x0EB8 */ s32 highscores[1];
+    /* 0x0EBC */ char unk_EBC[0x4];
     /* 0x0EC0 */ s32 unk_EC0;
     /* 0x0EC4 */ s32 horseRaceRecord;
     /* 0x0EC8 */ char unk_EC8[0x08];
