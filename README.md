@@ -31,7 +31,15 @@ For Windows 10, install WSL and a distribution by following this
 [Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 We recommend using Debian or Ubuntu 18.04 Linux distributions.
 
-For older versions of Windows, install a Linux VM or refer to [Docker](#Docker) instructions.
+For older versions of Windows, install a Linux VM or refer to either [Docker](#Docker) or [Cygwin](#Cygwin) instructions.
+
+### Cygwin
+
+If you want to use Cygwin, you will need to:
+- Download an install [Python 3](https://www.python.org/download/releases/3.0/).
+- Download and install [Git Bash](https://git-scm.com/download/win).
+- Download and install [Cygwin](https://cygwin.com).
+- [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
 
 ### macOS
 
