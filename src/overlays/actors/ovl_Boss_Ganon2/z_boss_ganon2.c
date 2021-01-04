@@ -883,7 +883,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0xA) {
                 this->unk_39C = 0x14;
                 this->unk_398 = 0;
-                this->actor.posRot.pos.x += 250.0f;
+                this->actor.posRot.pos.x += 250;
                 this->actor.posRot.pos.y = 1886.0f;
                 this->unk_394 = 0.0f;
                 func_8002DF54(globalCtx, &this->actor, 0x53);
@@ -1126,9 +1126,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 29:
             SkelAnime_Update(&this->skelAnime);
+            this->unk_3A4.x = (((this->actor.posRot.pos.x + 500.0f) - 350.0f) + 100.0f) - 60.0f;
             this->unk_3B0.x = this->actor.posRot.pos.x;
             this->unk_3B0.z = this->actor.posRot.pos.z;
-            this->unk_3A4.x = (((this->actor.posRot.pos.x + 500.0f) - 350.0f) + 100.0f) - 60.0f;
             this->unk_3A4.y = this->actor.posRot.pos.y;
             this->unk_3A4.z = this->actor.posRot.pos.z + 10.0f;
             this->unk_3B0.y = (this->unk_1B8.y + 60.0f) - 40.0f;
