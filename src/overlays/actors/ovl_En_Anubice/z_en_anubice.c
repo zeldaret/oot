@@ -5,6 +5,8 @@
  */
 
 #include "z_en_anubice.h"
+#include "overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
+#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "vt.h"
 
 #define FLAGS 0x00000015
@@ -12,14 +14,17 @@
 #define THIS ((EnAnubice*)thisx)
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
-// void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
 // void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
 // void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx);
-void EnAnubice_Destroy(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Update(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Draw(EnAnubice* this, GlobalContext* globalCtx);
 
 void func_809B142C(EnAnubice* this, GlobalContext* globalCtx);
+void func_809B1524(EnAnubice* this, GlobalContext* globalCtx);
+void func_809B15CC(EnAnubice* this, GlobalContext* globalCtx);
+void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx);
+void func_809B17FC(EnAnubice* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000348;
 extern UNK_TYPE D_0600078C;
@@ -107,15 +112,123 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = &func_809B142C;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/EnAnubice_Destroy.s")
+void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnAnubice* this = THIS;
+    EnAnubiceTag* temp_v1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B142C.s")
+    Collider_DestroyCylinder(globalCtx, &this->col);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B1524.s")
+    if (this->actor.params != 0) {
+        if (this->actor.parent) {}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B15CC.s")
+        temp_v1 = (EnAnubiceTag*)this->actor.parent;
+        if (temp_v1 != NULL && temp_v1->actor.update != NULL) {
+            temp_v1->anubis = NULL;
+        }
+    }
+}
+
+void func_809B142C(EnAnubice* this, GlobalContext* globalCtx) {
+    void* temp_s1;
+    Actor* phi_s0;
+    s32 phi_s2;
+
+    if (this->unk_25E != 0) {
+        if (this->unk_264 == 0) {
+            phi_s2 = 0;
+            phi_s0 = globalCtx->actorCtx.actorList[6].first;
+            while (phi_s0 != NULL) {
+                if (phi_s0->id != ACTOR_BG_HIDAN_CURTAIN) {
+                    phi_s0 = phi_s0->next;
+                } else {
+                    this->unk_2B0[phi_s2] = (BgHidanCurtain*)phi_s0;
+                    // ☆☆☆☆☆ How many fires? ☆☆☆☆☆
+                    osSyncPrintf("\x1b[32m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n\x1b[m", phi_s2);
+                    osSyncPrintf("\x1b[33m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n\x1b[m", this->unk_2B0[phi_s2]);
+                    if (phi_s2 < 4) {
+                        phi_s2 = phi_s2 + 1;
+                    }
+                    phi_s0 = phi_s0->next;
+                }
+            }
+            this->unk_264 = 1;
+        }
+        this->actor.flags |= 1;
+        this->actionFunc = &func_809B1524;
+    }
+}
+
+void func_809B1524(EnAnubice* this, GlobalContext* globalCtx) {
+    f32 lastFrame = Animation_GetLastFrame((void*)&D_06000F74);
+    Animation_Change(&this->skelAnime, &D_06000F74, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
+
+    this->actionFunc = &func_809B15CC;
+    this->actor.gravity = 0.0f;
+    this->actor.velocity.z = 0.0f;
+    this->actor.velocity.x = 0.0f;
+}
+
+void func_809B15CC(EnAnubice* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    SkelAnime_Update(&this->skelAnime);
+    Math_ApproachZeroF(&this->actor.shape.unk_08, 0.5f, 300.0f);
+    Math_ApproachF(&this->unk_27C, 70.0f, 0.5f, 5.0f);
+
+    if (this->unk_262 == 0) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
+    }
+
+    if (this->actor.shape.unk_08 > -2.0f) {
+        this->actor.shape.unk_08 = 0.0f;
+
+        if (player->swordState != 0) {
+            this->actionFunc = &func_809B17FC;
+        } else if (this->unk_260 != 0) {
+            this->actor.velocity.y = 0.0f;
+            this->actor.gravity = -1.0f;
+            this->actionFunc = &func_809B16AC;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B16AC.s")
+// void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx) {
+//     f32 xzdist;
+//     f32 x;
+//     f32 z;
+//     f32 zRatio;
+//     f32 xRatio;
+
+//     SkelAnime_Update(&this->skelAnime);
+//     Math_ApproachF(&this->actor.shape.unk_08, -4230.0f, 0.5f, 300.0f);
+//     Math_ApproachZeroF(&this->unk_27C, 0.5f, 5.0f);
+
+//     if (this->unk_262 == 0) {
+//         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
+//     }
+
+//     x = this->unk_298.x - this->actor.posRot.pos.x;
+//     if (fabsf(x) > 3.0f) {
+//         z = this->unk_298.z - this->actor.posRot.pos.z;
+//         if (fabsf(z) > 3.0f) {
+//             xzdist = sqrtf(SQ(x) + SQ(z));
+//             zRatio = z / xzdist;
+//             xRatio = x / xzdist;
+//             this->actor.posRot.pos.x += (xRatio * 8.0f);
+//             this->actor.posRot.pos.z += (zRatio * 8.0f);
+//             return;
+//         }
+//     }
+
+//     if (this->actor.shape.unk_08 < -4220.0f) {
+//         this->actor.shape.unk_08 = -4230.0f;
+//         this->unk_260 = 0;
+//         this->actionFunc = func_809B142C;
+//         this->unk_25E = this->unk_260;
+//         this->actor.gravity = 0.0f;
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B17FC.s")
 

@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 
 struct EnAnubice;
 
@@ -20,7 +21,8 @@ typedef struct EnAnubice {
     /* 0x025E */ s16 unk_25E;
     /* 0x0260 */ s16 unk_260;
     /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ char unk_264[0x4];
+    /* 0x0264 */ s16 unk_264;
+    /* 0x0266 */ char unk_266[0x2];
     /* 0x0268 */ f32 unk_268;
     /* 0x026C */ char unk_26C[0x4];
     /* 0x0270 */ f32 unk_270;
@@ -32,7 +34,9 @@ typedef struct EnAnubice {
     /* 0x0290 */ f32 unk_290;
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ Vec3f unk_298;
-    /* 0x02A4 */ char unk_2A4[0x24];
+    /* 0x02A4 */ char unk_2A4[0xC];
+    /* 0x02B0 */ BgHidanCurtain* unk_2B0[3];
+    /* 0x02BC */ char unk_2BC[0xC];
     /* 0x02C8 */ ColliderCylinder col;
 } EnAnubice; // size = 0x0314
 
