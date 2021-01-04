@@ -36,10 +36,20 @@ For older versions of Windows, install a Linux VM or refer to either [Docker](#D
 ### Cygwin
 
 If you want to use Cygwin, you will need to:
-- Download an install [Python 3](https://www.python.org/download/releases/3.0/).
 - Download and install [Git Bash](https://git-scm.com/download/win).
 - Download and install [Cygwin](https://cygwin.com).
 - [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
+
+Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
+- python3
+- libiconv
+- dos2unix
+
+Now before you try to build anything, if you cloned the repository in windows you will need fix the file line endings:
+```bash
+dos2unix fixle.sh
+./fixle.sh
+```
 
 ### macOS
 
