@@ -926,7 +926,7 @@ Gfx sDefaultDisplayList[] = {
 void func_800994A0(GlobalContext* globalCtx) {
     s16 computedEntranceIndex;
 
-    if (gSaveContext.nightFlag) {
+    if (gSaveContext.nightFlag != 0) {
         if (LINK_IS_CHILD) {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 1;
         } else {

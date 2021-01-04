@@ -100,6 +100,7 @@ typedef struct {
 #define BINANG_SUB(a, b) ((s16)(a - b))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
 #define BINANG_TO_DEGF(binang) ((f32)binang * (360.0001525f / 65535.0f))
+#define BINANG_TO_RAD(binang) (((f32)binang / 32768.0f) * M_PI)
 
 // Vector macros
 #define SQXZ(vec) ((vec.x) * (vec.x) + (vec.z) * (vec.z))
