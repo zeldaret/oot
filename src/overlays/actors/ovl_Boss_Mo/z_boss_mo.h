@@ -119,7 +119,7 @@ typedef struct BossMo {
     /* 0x1004 */ f32 cameraYaw;
     /* 0x1008 */ f32 cameraYawRate;
     /* 0x100C */ f32 cameraYawShake;
-    /* 0x1010 */ Vec3f unk_1010;
+    /* 0x1010 */ Vec3f tentTipPos;
     /* 0x101C */ ColliderJntSph colliderTent;
     /* 0x103C */ ColliderJntSphItem colliderItems[19];
     /* 0x14FC */ ColliderCylinder colliderCore;
