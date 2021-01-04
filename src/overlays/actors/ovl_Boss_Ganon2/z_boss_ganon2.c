@@ -814,7 +814,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             Math_ApproachF(&this->unk_3A4.x, (this->actor.posRot.pos.x + 200.0f) - 90.0f, 0.1f, 6.3999996f);
             Math_ApproachF(&this->unk_3A4.y, ((this->actor.posRot.pos.y + 60.0f) - 60.0f) - 70.0f, 0.1f, 13.0f);
-            Math_ApproachF(&this->unk_3B0.y, this->actor.posRot.pos.y + 40, 0.1f, 3.6999998f);
+            Math_ApproachF(&this->unk_3B0.y, this->actor.posRot.pos.y + 40.0f, 0.1f, 3.6999998f);
             if (this->unk_398 == 0x1E) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BIGMASIC);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_BIG);
