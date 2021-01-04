@@ -55,8 +55,25 @@
 		<DList Name="gMegamiPieceDlist11" Offset="0xA7E0"/>
 		<DList Name="gMegamiPieceDlist12" Offset="0xA978"/>
 		<DList Name="gMegamiPieceDlist13" Offset="0xAAC8"/>
-		<Texture Name="object_jya_obj_tex_0000ACB8" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
-		<Texture Name="object_jya_obj_tex_00005CE8" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
+		<Texture Name="gMegamiPalette1" Format="rgb5a1" Width="4" Height="4" Offset="0x5C80"/>
+		<Texture Name="gMegamiTex1" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
+		<Texture Name="gMegamiPalette2" Format="rgb5a1" Width="4" Height="4" Offset="0xAC50"/>
+		<Texture Name="gMegamiTex2" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
+		<Texture Name="gMegamiPalette3" Format="rgb5a1" Width="4" Height="64" Offset="0x6CE8"/>
+		<Texture Name="gMegamiTex3" Format="ci4" Width="64" Height="64" Offset="0x64E8"/>
+		<Texture Name="gMegamiPalette4" Format="rgb5a1" Width="4" Height="4" Offset="0x5CA0"/>
+		<Texture Name="gMegamiPalette5" Format="rgb5a1" Width="4" Height="4" Offset="0xAC70"/>
+
+		<Texture Name="gMeagmiRightCrumbleTex1" Format="ci4" Width="64" Height="64" Offset="0xD00"/>
+		<Texture Name="gMeagmiRightCrumbleTex2" Format="ci4" Width="64" Height="64" Offset="0x1D00"/>
+		<Texture Name="gMeagmiRightCrumbleTex3" Format="ci4" Width="64" Height="64" Offset="0x2500"/>
+		<Texture Name="gMeagmiRightCrumbleTex4" Format="ci4" Width="64" Height="64" Offset="0x2D00"/>
+		<Texture Name="gMeagmiRightCrumbleTex5" Format="ci4" Width="64" Height="64" Offset="0x4D00"/>
+		<Texture Name="gMeagmiLeftCrumbleTex1" Format="ci4" Width="64" Height="64" Offset="0x1500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex2" Format="ci4" Width="64" Height="64" Offset="0x3500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex3" Format="ci4" Width="64" Height="64" Offset="0x3D00"/>
+		<Texture Name="gMeagmiLeftCrumbleTex4" Format="ci4" Width="64" Height="64" Offset="0x4500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex5" Format="ci4" Width="64" Height="64" Offset="0x0500"/>
 		<DList Name="gZurerukabeDlist" Offset="0x12340"/>
 		<Blob Name="gZurerukabeCol" Offset="0x12508" Size="0x2C"/>
 	</File>

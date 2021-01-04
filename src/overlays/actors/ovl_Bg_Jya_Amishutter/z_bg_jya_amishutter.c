@@ -47,12 +47,13 @@ static InitChainEntry sInitChain[] = {
 void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collision,
                                   DynaPolyMoveFlag flag) {
     s16 pad1;
-    u32 local_c = 0;
+    u32 localConst = 0;
     s16 pad2;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(collision, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    DynaPolyInfo_Alloc(collision, &localConst);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -78,7 +79,7 @@ void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
 }
 
 void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
-    if ((this->dyna.actor.xzDistFromLink < 60.0f) && (fabsf(this->dyna.actor.yDistFromLink) < 30.0f)) {
+    if ((this->dyna.actor.xzDistToLink < 60.0f) && (fabsf(this->dyna.actor.yDistToLink) < 30.0f)) {
         func_80893428(this);
     }
 }
@@ -101,7 +102,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->dyna.actor.xzDistFromLink > 300.0f) {
+    if (this->dyna.actor.xzDistToLink > 300.0f) {
         func_808934FC(this);
     }
 }

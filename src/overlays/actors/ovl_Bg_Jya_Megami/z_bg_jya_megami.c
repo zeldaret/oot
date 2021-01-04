@@ -1,5 +1,6 @@
 #include "z_bg_jya_megami.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -15,17 +16,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx);
 
-extern Gfx D_06005780[];
-extern UNK_TYPE D_06005C4C;
-extern Gfx D_0600B9F8[];
 
-typedef struct {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ f32 velX;
-    /* 0x10 */ s16 rotVelX;
-    /* 0x12 */ s16 rotVelY;
-    /* 0x14 */ s16 delay;
-} BgJyaMegamiPieceInit; // size = 0x18
 
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
@@ -51,6 +42,14 @@ static ColliderJntSphInit sJntSphInit = {
     1,
     sJntSphItemsInit,
 };
+
+typedef struct {
+    /* 0x00 */ Vec3f unk_00;
+    /* 0x0C */ f32 velX;
+    /* 0x10 */ s16 rotVelX;
+    /* 0x12 */ s16 rotVelY;
+    /* 0x14 */ s16 delay;
+} BgJyaMegamiPieceInit; // size = 0x18
 
 static BgJyaMegamiPieceInit sPiecesInit[] = {
     { { -50.0f, -21.28f, -38.92f }, -1.6f, 0xFED4, 0xFE70, 40 },
@@ -86,28 +85,13 @@ static s16 D_8089B17C[] = {
     0x0007,
 };
 
-static Vec3f D_8089B184 = { 0.0f, 0.0f, 0.8f };
+static Vec3f sVelocity = { 0.0f, 0.0f, 0.8f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
-};
-
-static Vec3f sVec = { 0.0f, 0.0f, 0.0f };
-
-static UNK_PTR sRightSideCrumbles[] = {
-    0x06000D00, 0x06001D00, 0x06002500, 0x06002D00, 0x06004D00,
-};
-
-static UNK_PTR sLeftSideCrumbles[] = {
-    0x06001500, 0x06003500, 0x06003D00, 0x06004500, 0x06000500,
-};
-
-static Gfx* sDLists[] = {
-    0x06009928, 0x06009AC0, 0x06009C80, 0x06009DE8, 0x06009F60, 0x0600A0A8, 0x0600A278,
-    0x0600A418, 0x0600A568, 0x0600A6A0, 0x0600A7E0, 0x0600A978, 0x0600AAC8,
 };
 
 void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, void* collision, DynaPolyMoveFlag flags) {
@@ -127,7 +111,7 @@ void BgJyaMegami_InitCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
 }
 
-void func_8089A1DC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 num, s32 arg4) {
+void BgJyaMegami_SpawnEffect(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 num, s32 arg4) {
     Vec3f spB4;
     s32 i;
 
@@ -135,7 +119,7 @@ void func_8089A1DC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 nu
         s32 idx = ((s16)(Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
         s16 arg5 = ((idx < 5) && (Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, pos, velocity, pos, -90, arg5, D_8089B16C[idx], 4, 0, D_8089B14C[idx], 0, 5,
-                             D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600B9F8);
+                             D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gMegamiDlist2);
         if (Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, pos);
             spB4.z += 25.0f;
@@ -144,15 +128,15 @@ void func_8089A1DC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 nu
     }
 }
 
-void func_8089A41C(BgJyaMegami* this, GlobalContext* globalCtx, f32 arg2) {
+void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, GlobalContext* globalCtx, f32 arg2) {
     s32 i;
-    Vec3f sp50;
+    Vec3f pos;
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
         if (Rand_ZeroOne() < arg2) {
-            Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &sPiecesInit[i].unk_00, &sp50);
-            sp50.z += 15.0f;
-            func_8089A1DC(globalCtx, &sp50, &D_8089B184, 1, 0);
+            Math_Vec3f_Sum(&this->dyna.actor.posRot.pos, &sPiecesInit[i].unk_00, &pos);
+            pos.z += 15.0f;
+            BgJyaMegami_SpawnEffect(globalCtx, &pos, &sVelocity, 1, 0);
         }
     }
 }
@@ -160,7 +144,7 @@ void func_8089A41C(BgJyaMegami* this, GlobalContext* globalCtx, f32 arg2) {
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    BgJyaMegami_InitDynaPoly(this, globalCtx, &D_06005C4C, 0);
+    BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, 0);
     BgJyaMegami_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
@@ -189,7 +173,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
         this->lightTimer++;
         this->collider.base.acFlags &= ~0x2;
         if (globalCtx->gameplayFrames % 4 == 0) {
-            func_8089A41C(this, globalCtx, (this->crumbleIndex * 0.04f) + 0.05f);
+            BgJyaMegami_SetupSpawnEffect(this, globalCtx, (this->crumbleIndex * 0.04f) + 0.05f);
         }
         func_8002F974(&this->dyna.actor, NA_SE_EV_FACE_CRUMBLE_SLOW - SFX_FLAG);
     } else if (this->lightTimer > 0) {
@@ -228,6 +212,7 @@ void BgJyaMegami_SetupExplode(BgJyaMegami* this) {
 }
 
 void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
+    static Vec3f sVec = { 0.0f, 0.0f, 0.0f };
     BgJyaMegamiPiece* temp;
     u32 i;
     Vec3f sp8C;
@@ -255,12 +240,12 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
             if (Rand_ZeroOne() < 0.067f) {
                 Math_Vec3f_Sum(&temp->pos, &temp2->unk_00, &sp8C);
                 sp8C.z += 10.0f;
-                func_8089A1DC(globalCtx, &sp8C, &temp->vel, 3, 2);
+                BgJyaMegami_SpawnEffect(globalCtx, &sp8C, &temp->vel, 3, 2);
             }
         } else if (this->explosionTimer == temp2->delay) {
             Math_Vec3f_Sum(&temp->pos, &temp2->unk_00, &sp8C);
             sp8C.z += 10.0f;
-            func_8089A1DC(globalCtx, &sp8C, &temp->vel, 4, 2);
+            BgJyaMegami_SpawnEffect(globalCtx, &sp8C, &temp->vel, 4, 2);
         }
     }
 
@@ -269,7 +254,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
         sp8C.x = ((Rand_ZeroOne() - 0.5f) * 90.0f) + this->dyna.actor.posRot.pos.x;
         sp8C.y = (this->dyna.actor.posRot.pos.y - (Rand_ZeroOne() * 80.0f)) - 20.0f;
         sp8C.z = this->dyna.actor.posRot.pos.z - ((Rand_ZeroOne() - 0.5f) * 50.0f);
-        func_8089A1DC(globalCtx, &sp8C, &sVec, 1, 0);
+        BgJyaMegami_SpawnEffect(globalCtx, &sp8C, &sVec, 1, 0);
     }
     if (this->explosionTimer < ARRAY_COUNT(this->pieces)) {
         sp8C.x = this->dyna.actor.posRot.pos.x;
@@ -291,6 +276,14 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
+static u64* sRightSideCrumbles[] = {
+    gMeagmiRightCrumbleTex1, gMeagmiRightCrumbleTex2, gMeagmiRightCrumbleTex3, gMeagmiRightCrumbleTex4, gMeagmiRightCrumbleTex5,
+};
+
+static u64* sLeftSideCrumbles[] = {
+    gMeagmiLeftCrumbleTex1, gMeagmiLeftCrumbleTex2, gMeagmiLeftCrumbleTex3, gMeagmiLeftCrumbleTex4, gMeagmiLeftCrumbleTex5,
+};
+
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 706);
 
@@ -299,10 +292,16 @@ void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 716),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06005780);
+    gSPDisplayList(POLY_OPA_DISP++, gMegamiDlist1);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 720);
 }
+
+static Gfx* sDLists[] = {
+    gMegamiPieceDlist1,  gMegamiPieceDlist2,  gMegamiPieceDlist3,  gMegamiPieceDlist4, gMegamiPieceDlist5,
+    gMegamiPieceDlist6,  gMegamiPieceDlist7,  gMegamiPieceDlist8,  gMegamiPieceDlist9, gMegamiPieceDlist10,
+    gMegamiPieceDlist11, gMegamiPieceDlist12, gMegamiPieceDlist13,
+};
 
 void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
     s32 pad;

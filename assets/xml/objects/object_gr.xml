@@ -1,0 +1,16 @@
+<Root>
+    <File Name="object_gr" Segment="6">
+        <Texture Name="gNiwGirlEyeOpenTex" Format="rgb5a1" Width="32" Height="32" Offset="0x04178"/>
+        <Texture Name="gNiwGirlHalfClosedTex" Format="rgb5a1" Width="32" Height="32" Offset="0x04978"/>
+        <Texture Name="gNiwGirlClosedTex" Format="rgb5a1" Width="32" Height="32" Offset="0x05178"/>
+        <Skeleton Name="gniwGirlSkel1" Type="Flex" LimbType="Standard" Offset="0x09948"/>
+        <Animation Name="gNiwGirlRunAnim" Offset="0x00378"/>
+        <Animation Name="gNiwGirlJumpAnim" Offset="0x09C78"/>
+        <Texture Name="gNiwGirlMouthTex" Format="rgb5a1" Width="32" Height="16" Offset="0x5978"/>
+        <Texture Name="gNiwGirlDressTex1" Format="rgb5a1" Width="32" Height="32" Offset="0x5FF8"/>
+        <Texture Name="gNiwGirlDressTex2" Format="rgb5a1" Width="32" Height="32" Offset="0x6FF8"/>
+        <Texture Name="gNiwGirlDressTex3" Format="rgb5a1" Width="32" Height="32" Offset="0x8FF8"/>
+        <Texture Name="gNiwGirlDressTex4" Format="rgb5a1" Width="32" Height="32" Offset="0x67F8"/>
+        <Texture Name="gNiwGirlDressTex5" Format="rgb5a1" Width="32" Height="32" Offset="0x87F8"/>
+    </File>
+</Root>
