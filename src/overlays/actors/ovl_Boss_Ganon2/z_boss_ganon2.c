@@ -469,6 +469,7 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = -3000.0f;
 }
 
+#ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     u8 sp8D;
     Player* player;
@@ -883,6 +884,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0xA) {
                 this->unk_39C = 0x14;
                 this->unk_398 = 0;
+                // might be fake?
                 this->actor.posRot.pos.x += 250;
                 this->actor.posRot.pos.y = 1886.0f;
                 this->unk_394 = 0.0f;
@@ -1018,6 +1020,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 24:
             SkelAnime_Update(&this->skelAnime);
+            // might be fake?
             if (1) {}
             temp_v0_3 = globalCtx->unk_11E10;
             this->unk_3B0 = temp_v0_3->position;
@@ -1166,6 +1169,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
+#endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
