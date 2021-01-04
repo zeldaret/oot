@@ -49,8 +49,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-
-
 void BgJyaBombchuiwa_SetupCollider(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 pad;
 

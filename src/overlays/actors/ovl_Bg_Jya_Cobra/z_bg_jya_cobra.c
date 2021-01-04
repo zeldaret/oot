@@ -10,7 +10,6 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,

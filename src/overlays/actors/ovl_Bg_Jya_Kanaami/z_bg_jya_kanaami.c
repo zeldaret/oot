@@ -48,7 +48,8 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, UNK
 
     DynaPolyInfo_SetActorMove(&this->dyna, flag);
     DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->dyna.actor.id, this->dyna.actor.params);

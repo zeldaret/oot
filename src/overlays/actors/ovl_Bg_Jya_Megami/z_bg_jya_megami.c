@@ -16,8 +16,6 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx);
 
-
-
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORTYPE_BG,
@@ -277,11 +275,13 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 static u64* sRightSideCrumbles[] = {
-    gMeagmiRightCrumbleTex1, gMeagmiRightCrumbleTex2, gMeagmiRightCrumbleTex3, gMeagmiRightCrumbleTex4, gMeagmiRightCrumbleTex5,
+    gMeagmiRightCrumbleTex1, gMeagmiRightCrumbleTex2, gMeagmiRightCrumbleTex3,
+    gMeagmiRightCrumbleTex4, gMeagmiRightCrumbleTex5,
 };
 
 static u64* sLeftSideCrumbles[] = {
-    gMeagmiLeftCrumbleTex1, gMeagmiLeftCrumbleTex2, gMeagmiLeftCrumbleTex3, gMeagmiLeftCrumbleTex4, gMeagmiLeftCrumbleTex5,
+    gMeagmiLeftCrumbleTex1, gMeagmiLeftCrumbleTex2, gMeagmiLeftCrumbleTex3,
+    gMeagmiLeftCrumbleTex4, gMeagmiLeftCrumbleTex5,
 };
 
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
