@@ -469,7 +469,6 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = -3000.0f;
 }
 
-#ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     u8 sp8D;
     Player* player;
@@ -1002,9 +1001,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             if (this->unk_398 >= 0xE5) {
                 globalCtx->envCtx.unk_E1 = 1;
-                globalCtx->envCtx.unk_E2[2] = 0xFF;
-                globalCtx->envCtx.unk_E2[1] = 0xFF;
-                globalCtx->envCtx.unk_E2[0] = 0xFF;
+                globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
                 globalCtx->envCtx.unk_E2[3] = 0x64;
                 if (this->unk_398 == 0xEA) {
                     globalCtx->envCtx.unk_E1 = 0;
@@ -1169,9 +1166,6 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
-#endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
