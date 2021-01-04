@@ -348,9 +348,9 @@ void ZTexture::PrepareBitmapPalette4()
 				else
 					paletteIndex = (uint8_t)((rawData[pos] & 0x0F));
 
-				bmpRgb[(((y * width) + x) * 3) + 0] = paletteIndex * 16;
-				bmpRgb[(((y * width) + x) * 3) + 1] = paletteIndex * 16;
-				bmpRgb[(((y * width) + x) * 3) + 2] = paletteIndex * 16;
+				bmpRgb[(((y * width) + x + i) * 3) + 0] = paletteIndex * 16;
+				bmpRgb[(((y * width) + x + i) * 3) + 1] = paletteIndex * 16;
+				bmpRgb[(((y * width) + x + i) * 3) + 2] = paletteIndex * 16;
 			}
 		}
 	}
