@@ -1,0 +1,51 @@
+<Root>
+    <File Name="object_zl4" Segment="6">
+        <Skeleton Name="gChildZeldaCYSkel_00E038" Type="Flex" LimbType="Standard" Offset="0xE038"/>
+        <Animation Name="gChildZeldaCYAnim_00F0A4" Offset="0xF0A4"/>
+        <Animation Name="gChildZeldaCYAnim_00F894" Offset="0xF894"/>
+        <Animation Name="gChildZeldaCYAnim_010DF8" Offset="0x10DF8"/>
+        <Animation Name="gChildZeldaCYAnim_0125E4" Offset="0x125E4"/>
+        <Animation Name="gChildZeldaCYAnim_012E58" Offset="0x12E58"/>
+        <Animation Name="gChildZeldaCYAnim_015F14" Offset="0x15F14"/>
+        <Animation Name="gChildZeldaCYAnim_0169B4" Offset="0x169B4"/>
+        <Animation Name="gChildZeldaCYAnim_016D08" Offset="0x16D08"/>
+        <Animation Name="gChildZeldaCYAnim_01805C" Offset="0x1805C"/>
+        <Animation Name="gChildZeldaCYAnim_018898" Offset="0x18898"/>
+        <Animation Name="gChildZeldaCYAnim_01910C" Offset="0x1910C"/>
+        <Animation Name="gChildZeldaCYAnim_01A2FC" Offset="0x1A2FC"/>
+        <Animation Name="gChildZeldaCYAnim_01AAE0" Offset="0x1AAE0"/>
+        <Animation Name="gChildZeldaCYAnim_01B874" Offset="0x1B874"/>
+        <Animation Name="gChildZeldaCYAnim_01BCF0" Offset="0x1BCF0"/>
+        <Animation Name="gChildZeldaCYAnim_01CE08" Offset="0x1CE08"/>
+        <Animation Name="gChildZeldaCYAnim_000654" Offset="0x654"/>
+        <Animation Name="gChildZeldaCYAnim_00E5C8" Offset="0xE5C8"/>
+        <Animation Name="gChildZeldaCYAnim_00EBC4" Offset="0xEBC4"/>
+        <Animation Name="gChildZeldaCYAnim_011248" Offset="0x11248"/>
+        <Animation Name="gChildZeldaCYAnim_011698" Offset="0x11698"/>
+        <Animation Name="gChildZeldaCYAnim_011B34" Offset="0x11B34"/>
+        <Animation Name="gChildZeldaCYAnim_013280" Offset="0x13280"/>
+        <Animation Name="gChildZeldaCYAnim_013628" Offset="0x13628"/>
+        <Animation Name="gChildZeldaCYAnim_013A50" Offset="0x13A50"/>
+        <Animation Name="gChildZeldaCYAnim_013EA0" Offset="0x13EA0"/>
+        <Animation Name="gChildZeldaCYAnim_01726C" Offset="0x1726C"/>
+        <Animation Name="gChildZeldaCYAnim_017818" Offset="0x17818"/>
+        <Animation Name="gChildZeldaCYAnim_019600" Offset="0x19600"/>
+        <Animation Name="gChildZeldaCYAnim_01991C" Offset="0x1991C"/>
+        <Animation Name="gChildZeldaCYAnim_01AE88" Offset="0x1AE88"/>
+        <Animation Name="gChildZeldaCYAnim_01C494" Offset="0x1C494"/>
+        <Animation Name="gChildZeldaCYAnim_01C7B0" Offset="0x1C7B0"/>
+        <Texture Name="gChildZeldaCYTex_0046F0" Format="i8" Width="32" Height="32" Offset="0x46F0"/>
+        <Texture Name="gChildZeldaCYTex_004AF0" Format="i8" Width="32" Height="32" Offset="0x4AF0"/>
+        <Texture Name="gChildZeldaCYTex_004EF0" Format="i8" Width="32" Height="32" Offset="0x4EF0"/>
+        <Texture Name="gChildZeldaCYTex_0052F0" Format="i8" Width="32" Height="32" Offset="0x52F0"/>
+        <Texture Name="gChildZeldaCYTex_002AF0" Format="i8" Width="32" Height="32" Offset="0x2AF0"/>
+        <Texture Name="gChildZeldaCYTex_002EF0" Format="i8" Width="32" Height="32" Offset="0x2EF0"/>
+        <Texture Name="gChildZeldaCYTex_0032F0" Format="i8" Width="32" Height="32" Offset="0x32F0"/>
+        <Texture Name="gChildZeldaCYTex_0036F0" Format="i8" Width="32" Height="32" Offset="0x36F0"/>
+        <Texture Name="gChildZeldaCYTex_003AF0" Format="i8" Width="32" Height="32" Offset="0x3AF0"/>
+        <Texture Name="gChildZeldaCYTex_003EF0" Format="i8" Width="32" Height="32" Offset="0x3EF0"/>
+        <Texture Name="gChildZeldaCYTex_0042F0" Format="i8" Width="32" Height="32" Offset="0x42F0"/>
+        <DList Name="gChildZeldaCYDL_00C410" Offset="0xC410"/>
+        <DList Name="gChildZeldaCYDL_00DE08" Offset="0xDE08"/>
+    </File>
+</Root>
