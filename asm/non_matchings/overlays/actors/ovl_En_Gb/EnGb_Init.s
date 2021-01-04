@@ -27,8 +27,8 @@ glabel EnGb_Init
 /* 0007C 80A2F1FC 0C010D20 */  jal     DynaPolyInfo_SetActorMove
 
 /* 00080 80A2F200 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00084 80A2F204 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 00088 80A2F208 2484C2D0 */  addiu   $a0, $a0, 0xC2D0           ## $a0 = 0600C2D0
+/* 00084 80A2F204 3C040601 */  lui     $a0, %hi(D_0600C2D0)                ## $a0 = 06010000
+/* 00088 80A2F208 2484C2D0 */  addiu   $a0, $a0, %lo(D_0600C2D0)           ## $a0 = 0600C2D0
 /* 0008C 80A2F20C 0C010620 */  jal     DynaPolyInfo_Alloc
 
 /* 00090 80A2F210 27A50084 */  addiu   $a1, $sp, 0x0084           ## $a1 = FFFFFFF4
@@ -39,18 +39,18 @@ glabel EnGb_Init
               ## DynaPolyInfo_setActor
 /* 000A4 80A2F224 8FA70084 */  lw      $a3, 0x0084($sp)
 /* 000A8 80A2F228 AE42014C */  sw      $v0, 0x014C($s2)           ## 0000014C
-/* 000AC 80A2F22C 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 000B0 80A2F230 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 000AC 80A2F22C 3C060601 */  lui     $a2, %hi(D_0600C220)                ## $a2 = 06010000
+/* 000B0 80A2F230 3C070600 */  lui     $a3, %hi(D_0600049C)                ## $a3 = 06000000
 /* 000B4 80A2F234 264E01A8 */  addiu   $t6, $s2, 0x01A8           ## $t6 = 000001A8
 /* 000B8 80A2F238 264F01F0 */  addiu   $t7, $s2, 0x01F0           ## $t7 = 000001F0
 /* 000BC 80A2F23C 2418000C */  addiu   $t8, $zero, 0x000C         ## $t8 = 0000000C
 /* 000C0 80A2F240 AFB80018 */  sw      $t8, 0x0018($sp)
 /* 000C4 80A2F244 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 000C8 80A2F248 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 000CC 80A2F24C 24E7049C */  addiu   $a3, $a3, 0x049C           ## $a3 = 0600049C
-/* 000D0 80A2F250 24C6C220 */  addiu   $a2, $a2, 0xC220           ## $a2 = 0600C220
+/* 000CC 80A2F24C 24E7049C */  addiu   $a3, $a3, %lo(D_0600049C)           ## $a3 = 0600049C
+/* 000D0 80A2F250 24C6C220 */  addiu   $a2, $a2, %lo(D_0600C220)           ## $a2 = 0600C220
 /* 000D4 80A2F254 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 000D8 80A2F258 0C0291BE */  jal     SkelAnime_InitSV
+/* 000D8 80A2F258 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000DC 80A2F25C 26450164 */  addiu   $a1, $s2, 0x0164           ## $a1 = 00000164
 /* 000E0 80A2F260 2650023C */  addiu   $s0, $s2, 0x023C           ## $s0 = 0000023C
 /* 000E4 80A2F264 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
@@ -136,7 +136,7 @@ glabel EnGb_Init
 /* 00208 80A2F388 A24E00AE */  sb      $t6, 0x00AE($s2)           ## 000000AE
 /* 0020C 80A2F38C E6580068 */  swc1    $f24, 0x0068($s2)          ## 00000068
 /* 00210 80A2F390 E6580060 */  swc1    $f24, 0x0060($s2)          ## 00000060
-/* 00214 80A2F394 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00214 80A2F394 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00218 80A2F398 E644006C */  swc1    $f4, 0x006C($s2)           ## 0000006C
 /* 0021C 80A2F39C 4600018D */  trunc.w.s $f6, $f0
@@ -157,7 +157,7 @@ glabel EnGb_Init
 /* 00258 80A2F3D8 24140001 */  addiu   $s4, $zero, 0x0001         ## $s4 = 00000001
 /* 0025C 80A2F3DC 24130003 */  addiu   $s3, $zero, 0x0003         ## $s3 = 00000003
 .L80A2F3E0:
-/* 00260 80A2F3E0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00260 80A2F3E0 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 00264 80A2F3E4 4600D306 */  mov.s   $f12, $f26
 /* 00268 80A2F3E8 4600020D */  trunc.w.s $f8, $f0
@@ -198,7 +198,7 @@ glabel EnGb_Init
 /* 002EC 80A2F46C E61803A8 */  swc1    $f24, 0x03A8($s0)          ## 000003A8
 /* 002F0 80A2F470 E61803AC */  swc1    $f24, 0x03AC($s0)          ## 000003AC
 /* 002F4 80A2F474 E6020398 */  swc1    $f2, 0x0398($s0)           ## 00000398
-/* 002F8 80A2F478 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 002F8 80A2F478 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 002FC 80A2F47C E60203A4 */  swc1    $f2, 0x03A4($s0)           ## 000003A4
 /* 00300 80A2F480 4600028D */  trunc.w.s $f10, $f0
@@ -212,7 +212,7 @@ glabel EnGb_Init
 /* 00320 80A2F4A0 33190001 */  andi    $t9, $t8, 0x0001           ## $t9 = 00000000
 /* 00324 80A2F4A4 1635FFCE */  bne     $s1, $s5, .L80A2F3E0
 /* 00328 80A2F4A8 A2190360 */  sb      $t9, 0x0360($s0)           ## 0000038C
-/* 0032C 80A2F4AC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0032C 80A2F4AC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00330 80A2F4B0 00000000 */  nop
 /* 00334 80A2F4B4 461A0402 */  mul.s   $f16, $f0, $f26

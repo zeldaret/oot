@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // unused
-f32 D_808BD9C4[] = {
+static f32 D_808BD9C4[] = {
     -2746.0f, 545.0f, 4694.0f, -2654.0f, 146.0f, 4534.0f,
 };
 
@@ -117,9 +117,9 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
 
     if ((gSaveContext.sceneSetupIndex == 6) && (globalCtx->csCtx.frames >= 0x2BD) &&
         (globalCtx->state.frames % 8 == 0)) {
-        sp34.x = (Math_Rand_ZeroOne() * 1158.0f) + 3407.0f;
+        sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
-        sp34.z = (Math_Rand_ZeroOne() * 2026.0f) + -2163.0f;
+        sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
         EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
     }
 }

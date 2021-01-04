@@ -6,7 +6,7 @@ glabel D_80937A10
 glabel func_80933B84
 /* 075B4 80933B84 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 075B8 80933B88 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 075BC 80933B8C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 075BC 80933B8C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 075C0 80933B90 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 075C4 80933B94 8FA40018 */  lw      $a0, 0x0018($sp)           

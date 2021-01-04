@@ -22,7 +22,7 @@ glabel func_80ACC23C
 /* 02368 80ACC288 86050400 */  lh      $a1, 0x0400($s0)           ## 00000400
 /* 0236C 80ACC28C 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 02370 80ACC290 E60A0068 */  swc1    $f10, 0x0068($s0)          ## 00000068
-/* 02374 80ACC294 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 02374 80ACC294 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 02378 80ACC298 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 0237C 80ACC29C 860F0032 */  lh      $t7, 0x0032($s0)           ## 00000032

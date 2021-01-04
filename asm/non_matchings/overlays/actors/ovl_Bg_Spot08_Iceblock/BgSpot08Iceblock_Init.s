@@ -1,3 +1,25 @@
+.rdata
+
+glabel D_808B17C4
+    .asciz "(spot08 流氷)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+
+glabel D_808B1890
+    .float 65535.5
+
+glabel D_808B1894
+    .float 65535.5
+
+glabel jtbl_808B1898
+    .word L808B1308
+    .word L808B1308
+    .word L808B1318
+    .word L808B1328
+    .word L808B133C
+
+.text
 glabel BgSpot08Iceblock_Init
 /* 007F4 808B1154 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 007F8 808B1158 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -13,19 +35,19 @@ glabel BgSpot08Iceblock_Init
 /* 0081C 808B117C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00820 808B1180 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 00824 808B1184 24010200 */  addiu   $at, $zero, 0x0200         ## $at = 00000200
-/* 00828 808B1188 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
+/* 00828 808B1188 3C060600 */  lui     $a2, %hi(D_06002FD8)                ## $a2 = 06000000
 /* 0082C 808B118C 30620200 */  andi    $v0, $v1, 0x0200           ## $v0 = 00000000
 /* 00830 808B1190 10400005 */  beq     $v0, $zero, .L808B11A8     
 /* 00834 808B1194 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00838 808B1198 10410005 */  beq     $v0, $at, .L808B11B0       
-/* 0083C 808B119C 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
+/* 0083C 808B119C 3C060600 */  lui     $a2, %hi(D_06001904)                ## $a2 = 06000000
 /* 00840 808B11A0 10000004 */  beq     $zero, $zero, .L808B11B4   
 /* 00844 808B11A4 8FA60020 */  lw      $a2, 0x0020($sp)           
 .L808B11A8:
 /* 00848 808B11A8 10000002 */  beq     $zero, $zero, .L808B11B4   
-/* 0084C 808B11AC 24C62FD8 */  addiu   $a2, $a2, 0x2FD8           ## $a2 = 06002FD8
+/* 0084C 808B11AC 24C62FD8 */  addiu   $a2, $a2, %lo(D_06002FD8)           ## $a2 = 06002FD8
 .L808B11B0:
-/* 00850 808B11B0 24C61904 */  addiu   $a2, $a2, 0x1904           ## $a2 = 060048DC
+/* 00850 808B11B0 24C61904 */  addiu   $a2, $a2, %lo(D_06001904)           ## $a2 = 06001904
 .L808B11B4:
 /* 00854 808B11B4 3062000F */  andi    $v0, $v1, 0x000F           ## $v0 = 00000000
 /* 00858 808B11B8 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -98,7 +120,7 @@ glabel BgSpot08Iceblock_Init
               
 /* 00930 808B1290 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3D4CCCCD
 .L808B1294:
-/* 00934 808B1294 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00934 808B1294 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00938 808B1298 00000000 */  nop
 /* 0093C 808B129C 3C01808B */  lui     $at, %hi(D_808B1890)       ## $at = 808B0000
@@ -106,7 +128,7 @@ glabel BgSpot08Iceblock_Init
 /* 00944 808B12A4 46040182 */  mul.s   $f6, $f0, $f4              
 /* 00948 808B12A8 4600320D */  trunc.w.s $f8, $f6                   
 /* 0094C 808B12AC 44184000 */  mfc1    $t8, $f8                   
-/* 00950 808B12B0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00950 808B12B0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00954 808B12B4 A618018C */  sh      $t8, 0x018C($s0)           ## 0000018C
 /* 00958 808B12B8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

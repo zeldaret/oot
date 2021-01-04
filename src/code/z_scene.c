@@ -190,15 +190,11 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     return 0;
 }
 
-// Scene Command 0x00: Link Spawn List
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
-    ActorEntry* linkEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
-                            globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
+    ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
+                                                        globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
 
-    globalCtx->linkActorEntry = linkEntry;
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
@@ -206,10 +202,6 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
 }
-#else
-void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene/func_80098508.s")
-#endif
 
 // Scene Command 0x01: Actor List
 void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
@@ -392,11 +384,11 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.x = -(Math_SinS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.y = (Math_CosS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.z = (Math_CosS(dayTime - 0x8000) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {

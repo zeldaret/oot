@@ -161,7 +161,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
             if (this->bounceCount == 0) {
                 this->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistFromLink), 0xFF, 0x14, 0x96);
+                func_800AA000(SQ(thisx->yDistToLink), 0xFF, 0x14, 0x96);
             }
             thisx->posRot.pos.y =
                 403.0f - (thisx->posRot.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
@@ -193,7 +193,7 @@ void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
     this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
     if (this->dyna.actor.posRot.pos.y >= 683.0f) {
         BgMoriRakkatenjo_SetupWait(this);
@@ -213,11 +213,11 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[0]->setting;
             Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            func_8005A77C(globalCtx->cameraPtrs[0], 0x27);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_MORI1);
         }
     } else if (sCamSetting != 0) {
         osSyncPrintf("camera changed (previous) ... \n");
-        func_8005A77C(globalCtx->cameraPtrs[0], 4);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
         sCamSetting = 0;
     }
 }

@@ -34,12 +34,12 @@ glabel EnIn_Update
 /* 021D4 80A7B184 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 021D8 80A7B188 11F8001A */  beq     $t7, $t8, .L80A7B1F4       
 /* 021DC 80A7B18C 00000000 */  nop
-/* 021E0 80A7B190 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 021E0 80A7B190 0C02927F */  jal     SkelAnime_Update
               
 /* 021E4 80A7B194 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 021E8 80A7B198 8E080154 */  lw      $t0, 0x0154($s0)           ## 00000154
-/* 021EC 80A7B19C 3C190600 */  lui     $t9, 0x0600                ## $t9 = 06000000
-/* 021F0 80A7B1A0 27391BE0 */  addiu   $t9, $t9, 0x1BE0           ## $t9 = 06001BE0
+/* 021EC 80A7B19C 3C190600 */  lui     $t9, %hi(D_06001BE0)                ## $t9 = 06000000
+/* 021F0 80A7B1A0 27391BE0 */  addiu   $t9, $t9, %lo(D_06001BE0)           ## $t9 = 06001BE0
 /* 021F4 80A7B1A4 1728000A */  bne     $t9, $t0, .L80A7B1D0       
 /* 021F8 80A7B1A8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 021FC 80A7B1AC 3C098016 */  lui     $t1, %hi(gSaveContext+0x13fa)

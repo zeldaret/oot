@@ -64,9 +64,9 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     if (this->counter < 16) {
-        z = Math_Sins(this->counter << 10) * 1330;
+        z = Math_SinS(this->counter << 10) * 1330;
     } else {
         z = 1330;
     }
@@ -101,8 +101,8 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     gSPDisplayList(POLY_XLU_DISP++, sTextureDL2);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64,
-                                                          1, scroll * (-1), scroll, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
+                                                     scroll * (-1), scroll, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sFrustrumDl);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);

@@ -22,7 +22,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
-s16 D_8089A020 = 0;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
@@ -52,14 +52,15 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2,
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
     DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
     this->unk_16A = 0;
 
-    if (D_8089A020) {
+    if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
     }
@@ -69,12 +70,12 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift_InitDynapoly(this, globalCtx, &D_0600D7E8, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
-        BgJyaLift_SetFinalPosY(thisx);
+        BgJyaLift_SetFinalPosY(this);
     } else {
-        BgJyaLift_SetInitPosY(thisx);
+        BgJyaLift_SetInitPosY(this);
     }
     thisx->room = -1;
-    D_8089A020 = 1;
+    sIsSpawned = true;
     this->unk_16A = 1;
 }
 
@@ -85,7 +86,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
-        D_8089A020 = 0;
+        sIsSpawned = false;
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
@@ -114,9 +115,9 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
     f32 distFromBottom;
     f32 tempVelocity;
 
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
-    distFromBottom = Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
+    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
     if ((this->dyna.actor.posRot.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.pos4.y)) {
         func_8005B1A4(ACTIVE_CAM);
     }
@@ -138,13 +139,13 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this);
+        this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        func_8005A77C(globalCtx2->cameraPtrs[0], 0x3F);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);
     } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
                (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
-        func_8005A77C(globalCtx2->cameraPtrs[0], 3);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 

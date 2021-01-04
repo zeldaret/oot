@@ -65,15 +65,15 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2,
 } DogBehavior;
 
-extern SkeletonHeader D_06007290;
+extern FlexSkeletonHeader D_06007290;
 extern AnimationHeader D_06001368;
 extern AnimationHeader D_06000D78;
 extern AnimationHeader D_06000278;
 
 void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &D_06001368;
-    if (this->skelAnime.animCurrentSeg == walk) {
-        if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
+    if (this->skelAnime.animation == walk) {
+        if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
@@ -81,8 +81,8 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 
 void EnDog_PlayRunSFX(EnDog* this) {
     AnimationHeader* run = &D_06000D78;
-    if (this->skelAnime.animCurrentSeg == run) {
-        if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
+    if (this->skelAnime.animation == run) {
+        if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
@@ -90,8 +90,8 @@ void EnDog_PlayRunSFX(EnDog* this) {
 
 void EnDog_PlayBarkSFX(EnDog* this) {
     AnimationHeader* bark = &D_06000278;
-    if (this->skelAnime.animCurrentSeg == bark) {
-        if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
+    if (this->skelAnime.animation == bark) {
+        if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
     }
@@ -131,13 +131,13 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 
     switch (this->behavior) {
         case DOG_SIT:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
@@ -211,7 +211,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     f32 waypointDistSq;
 
     waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
 
     if ((waypointDistSq > 0.0f) && (waypointDistSq < 1000.0f)) {
         return EnDog_UpdateWaypoint(this, globalCtx);
@@ -226,7 +226,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, this->jointTable, this->morphTable, 13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -298,7 +298,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         } else {
             speed = 4.0f;
         }
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
         EnDog_Orient(this, globalCtx);
         this->actor.shape.rot = this->actor.posRot.rot;
 
@@ -315,7 +315,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         frame = globalCtx->state.frames % 3;
         this->nextBehavior = behaviors[frame];
         // no clue why they're using the behavior id to calculate timer. possibly meant to use the unused array?
-        this->behaviorTimer = Math_Rand_S16Offset(60, behaviors[frame]);
+        this->behaviorTimer = Rand_S16Offset(60, behaviors[frame]);
         this->actionFunc = EnDog_ChooseMovement;
     }
 }
@@ -326,7 +326,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->behaviorTimer) == 0) {
-        this->behaviorTimer = Math_Rand_S16Offset(200, 100);
+        this->behaviorTimer = Rand_S16Offset(200, 100);
         if (globalCtx->state.frames % 2) {
             this->nextBehavior = DOG_WALK;
         } else {
@@ -338,7 +338,7 @@ void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnDog_FollowPath;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
 void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
@@ -351,16 +351,16 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistFromLink > 400.0f) {
+    if (this->actor.xzDistToLink > 400.0f) {
         if (this->nextBehavior != DOG_SIT && this->nextBehavior != DOG_SIT_2) {
             this->nextBehavior = DOG_BOW;
         }
         gSaveContext.dogParams = 0;
         speed = 0.0f;
-    } else if (this->actor.xzDistFromLink > 100.0f) {
+    } else if (this->actor.xzDistToLink > 100.0f) {
         this->nextBehavior = DOG_RUN;
         speed = 4.0f;
-    } else if (this->actor.xzDistFromLink < 40.0f) {
+    } else if (this->actor.xzDistToLink < 40.0f) {
         if (this->nextBehavior != DOG_BOW && this->nextBehavior != DOG_BOW_2) {
             this->nextBehavior = DOG_BOW;
         }
@@ -370,18 +370,18 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
         speed = 1.0f;
     }
 
-    Math_SmoothScaleMaxF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
+    Math_ApproachF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
 
-    if (!(this->actor.xzDistFromLink > 400.0f)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
+    if (!(this->actor.xzDistToLink > 400.0f)) {
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
         this->actor.shape.rot = this->actor.posRot.rot;
     }
 }
 
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < 200.0f) {
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
+    if (this->actor.xzDistToLink < 200.0f) {
+        Math_ApproachF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
     }
@@ -394,14 +394,14 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     f32 absAngleDiff;
 
     // if the dog is more than 200 units away from Link, turn to face him then wait
-    if (200.0f <= this->actor.xzDistFromLink) {
+    if (200.0f <= this->actor.xzDistToLink) {
         this->nextBehavior = DOG_WALK;
 
-        Math_SmoothScaleMaxF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
+        Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
 
         rotTowardLink = this->actor.yawTowardsLink;
         prevRotY = this->actor.posRot.rot.y;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
 
         absAngleDiff = this->actor.posRot.rot.y;
         absAngleDiff -= prevRotY;
@@ -422,7 +422,7 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
     this->unusedAngle = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
 
     // If another dog is following Link and he gets within 200 units of waiting dog, run away
-    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistFromLink < 200.0f)) {
+    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistToLink < 200.0f)) {
         this->nextBehavior = DOG_RUN;
         this->actionFunc = EnDog_RunAway;
     }
@@ -433,7 +433,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
@@ -441,11 +441,11 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    return 0;
+s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    return false;
 }
 
-void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -460,8 +460,8 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

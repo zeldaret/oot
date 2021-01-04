@@ -12,7 +12,7 @@ void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
 }
 
 s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
-                   TransformData* transData) {
+                   TransformUpdateIndex* transUpdIdx) {
     SkelCurveLimb** limbs;
     SkelCurveLimbList* limbList = SEGMENTED_TO_VIRTUAL(limbListSeg);
 
@@ -99,7 +99,7 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve) {
 }
 
 void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve* skelCurve,
-                        OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor) {
+                        OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     SkelCurveLimb* limb = SEGMENTED_TO_VIRTUAL(skelCurve->limbList[limbIndex]);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
@@ -107,7 +107,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
     Matrix_Push();
 
     if (overrideLimbDraw == NULL ||
-        (overrideLimbDraw != NULL && overrideLimbDraw(globalCtx, skelCurve, limbIndex, actor))) {
+        (overrideLimbDraw != NULL && overrideLimbDraw(globalCtx, skelCurve, limbIndex, data))) {
         Vec3f scale;
         Vec3s rot;
         Vec3f pos;
@@ -115,9 +115,9 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         Vec3s* transform;
 
         transform = &skelCurve->transforms[limbIndex];
-        scale.x = transform->x * (1.0f / 1024.0f);
-        scale.y = transform->y * (1.0f / 1024.0f);
-        scale.z = transform->z * (1.0f / 1024.0f);
+        scale.x = transform->x / 1024.0f;
+        scale.y = transform->y / 1024.0f;
+        scale.z = transform->z / 1024.0f;
         transform++;
         rot.x = transform->x;
         rot.y = transform->y;
@@ -135,8 +135,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++,
-                          Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
@@ -145,15 +144,13 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++,
-                          Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
             dList = limb->dList[1];
             if (dList != NULL) {
-                gSPMatrix(POLY_XLU_DISP++,
-                          Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }
@@ -164,25 +161,25 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
     }
 
     if (postLimbDraw != NULL) {
-        postLimbDraw(globalCtx, skelCurve, limbIndex, actor);
+        postLimbDraw(globalCtx, skelCurve, limbIndex, data);
     }
 
     if (limb->firstChildIdx != LIMB_DONE) {
-        SkelCurve_DrawLimb(globalCtx, limb->firstChildIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, actor);
+        SkelCurve_DrawLimb(globalCtx, limb->firstChildIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }
 
     Matrix_Pull();
 
     if (limb->nextLimbIdx != LIMB_DONE) {
-        SkelCurve_DrawLimb(globalCtx, limb->nextLimbIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, actor);
+        SkelCurve_DrawLimb(globalCtx, limb->nextLimbIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
-                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2) {
+                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->transforms != NULL) {
-        SkelCurve_DrawLimb(globalCtx, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, actor2);
+        SkelCurve_DrawLimb(globalCtx, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }
 }

@@ -194,7 +194,7 @@ void func_800AA78C(View* view, f32 x, f32 y, f32 z) {
     view->unk_F4.z = z;
 }
 
-void func_800AA7AC(View* view, f32 arg1) {
+s32 func_800AA7AC(View* view, f32 arg1) {
     view->unk_100 = arg1;
 }
 
@@ -260,7 +260,7 @@ s32 func_800AA890(View* view, Mtx* mtx) {
 }
 
 void func_800AAA50(View* view, s32 arg1) {
-    arg1 = (view->flags & arg1) | arg1 >> 4;
+    arg1 = (view->flags & arg1) | (arg1 >> 4);
 
     if (arg1 & 8) {
         func_800AB0A8(view);
@@ -428,8 +428,8 @@ s32 func_800AB2C4(View* view) {
     view->vp = *vp;
 
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY,
-                  view->viewport.rightX, view->viewport.bottomY);
+    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY, view->viewport.rightX,
+                  view->viewport.bottomY);
     gSPViewport(OVERLAY_DISP++, vp);
 
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
@@ -468,8 +468,8 @@ s32 func_800AB560(View* view) {
     view->vp = *vp;
 
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY,
-                  view->viewport.rightX, view->viewport.bottomY);
+    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY, view->viewport.rightX,
+                  view->viewport.bottomY);
     gSPViewport(OVERLAY_DISP++, vp);
 
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
@@ -522,8 +522,6 @@ s32 func_800AB944(View* view) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     GraphicsContext* gfxCtx = view->gfxCtx;
@@ -595,9 +593,6 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
 
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB9EC.s")
-#endif
 
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 error = 0;

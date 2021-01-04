@@ -70,12 +70,12 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
     f32 temp;
 
     this->unk_164 += 1;
-    temp = ((Math_Sins(this->unk_164 * 1548) * 5.0f) + 20.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + temp, 0.1f, this->unk_158);
-    Math_SmoothScaleMaxF(&this->unk_158, 2.0f, 1.0f, 0.1f);
+    temp = ((Math_SinS(this->unk_164 * 1548) * 5.0f) + 20.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + temp, 0.1f, this->unk_158);
+    Math_ApproachF(&this->unk_158, 2.0f, 1.0f, 0.1f);
     this->actor.shape.rot.y += 0x400;
 
-    Math_SmoothScaleMaxF(&this->actor.scale.x, 0.4f, 0.1f, 0.01f);
+    Math_ApproachF(&this->actor.scale.x, 0.4f, 0.1f, 0.01f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 

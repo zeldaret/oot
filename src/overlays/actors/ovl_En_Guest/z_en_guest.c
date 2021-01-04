@@ -43,13 +43,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-UNK_PTR D_80A50BA4[] = {
+static UNK_PTR D_80A50BA4[] = {
     0x060005FC,
     0x060006FC,
     0x060007FC,
 };
 
-extern SkeletonHeader D_060000F0;
+extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_060042AC;
 extern Gfx D_060059B0[];
 
@@ -84,11 +84,9 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
-                         16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), 0, 0.0f);
 
         this->actor.draw = EnGuest_Draw;
         this->actor.update = func_80A505CC;
@@ -121,7 +119,7 @@ void func_80A5046C(EnGuest* this) {
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
-                this->unk_2CA = (s32)Math_Rand_ZeroFloat(60.0f) + 20;
+                this->unk_2CA = (s32)Rand_ZeroFloat(60.0f) + 20;
             } else {
                 this->unk_2CA = 1;
             }
@@ -132,7 +130,7 @@ void func_80A5046C(EnGuest* this) {
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A5057C;
-    } else if (this->actor.xzDistFromLink < 100.0f) {
+    } else if (this->actor.xzDistToLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
 }
@@ -168,7 +166,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Actor_SetHeight(&this->actor, 60.0f);
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -186,7 +184,7 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             Actor* thisx) {
+                             void* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
 
@@ -208,13 +206,13 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_Sins(this->unk_2CC[limbIndex]) * 200.0f;
-        rot->z += Math_Coss(this->unk_2EC[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->unk_2CC[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_2EC[limbIndex]) * 200.0f;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
 
-    return 0;
+    return false;
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -229,8 +227,8 @@ void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnGuest_OverrideLimbDraw, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnGuest_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }

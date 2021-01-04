@@ -18,8 +18,8 @@ glabel func_80AF5F34
 /* 00A10 80AF5F70 14620008 */  bne     $v1, $v0, .L80AF5F94       
 /* 00A14 80AF5F74 00000000 */  nop
 /* 00A18 80AF5F78 8C990154 */  lw      $t9, 0x0154($a0)           ## 00000154
-/* 00A1C 80AF5F7C 3C180601 */  lui     $t8, 0x0601                ## $t8 = 06010000
-/* 00A20 80AF5F80 2718BAEC */  addiu   $t8, $t8, 0xBAEC           ## $t8 = 0600BAEC
+/* 00A1C 80AF5F7C 3C180601 */  lui     $t8, %hi(D_0600BAEC)                ## $t8 = 06010000
+/* 00A20 80AF5F80 2718BAEC */  addiu   $t8, $t8, %lo(D_0600BAEC)           ## $t8 = 0600BAEC
 /* 00A24 80AF5F84 17190003 */  bne     $t8, $t9, .L80AF5F94       
 /* 00A28 80AF5F88 24070003 */  addiu   $a3, $zero, 0x0003         ## $a3 = 00000003
 /* 00A2C 80AF5F8C 10000001 */  beq     $zero, $zero, .L80AF5F94   
@@ -33,8 +33,8 @@ glabel func_80AF5F34
 /* 00A48 80AF5FA8 152A0007 */  bne     $t1, $t2, .L80AF5FC8       
 /* 00A4C 80AF5FAC 00000000 */  nop
 /* 00A50 80AF5FB0 8C8C0154 */  lw      $t4, 0x0154($a0)           ## 00000154
-/* 00A54 80AF5FB4 3C0B0601 */  lui     $t3, 0x0601                ## $t3 = 06010000
-/* 00A58 80AF5FB8 256BC500 */  addiu   $t3, $t3, 0xC500           ## $t3 = 0600C500
+/* 00A54 80AF5FB4 3C0B0601 */  lui     $t3, %hi(D_0600C500)                ## $t3 = 06010000
+/* 00A58 80AF5FB8 256BC500 */  addiu   $t3, $t3, %lo(D_0600C500)           ## $t3 = 0600C500
 /* 00A5C 80AF5FBC 156C0002 */  bne     $t3, $t4, .L80AF5FC8       
 /* 00A60 80AF5FC0 00000000 */  nop
 /* 00A64 80AF5FC4 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
@@ -47,8 +47,8 @@ glabel func_80AF5F34
 /* 00A7C 80AF5FDC 55AE0008 */  bnel    $t5, $t6, .L80AF6000       
 /* 00A80 80AF5FE0 8D090024 */  lw      $t1, 0x0024($t0)           ## 00000024
 /* 00A84 80AF5FE4 8C980154 */  lw      $t8, 0x0154($a0)           ## 00000154
-/* 00A88 80AF5FE8 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
-/* 00A8C 80AF5FEC 25EF1D50 */  addiu   $t7, $t7, 0x1D50           ## $t7 = 06001D50
+/* 00A88 80AF5FE8 3C0F0600 */  lui     $t7, %hi(D_06001D50)                ## $t7 = 06000000
+/* 00A8C 80AF5FEC 25EF1D50 */  addiu   $t7, $t7, %lo(D_06001D50)           ## $t7 = 06001D50
 /* 00A90 80AF5FF0 55F80003 */  bnel    $t7, $t8, .L80AF6000       
 /* 00A94 80AF5FF4 8D090024 */  lw      $t1, 0x0024($t0)           ## 00000024
 /* 00A98 80AF5FF8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001

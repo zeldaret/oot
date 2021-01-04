@@ -27,7 +27,7 @@ const ActorInit Bg_Spot11_Oasis_InitVars = {
     NULL,
 };
 
-s16 D_808B2E10[][2] = {
+static s16 D_808B2E10[][2] = {
     { 1260, 2040 }, { 1259, 1947 }, { 1135, 1860 }, { 1087, 1912 }, { 1173, 2044 },
 };
 
@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3f D_808B2E34[] = {
+static Vec3f D_808B2E34[] = {
     { 0.0f, -100.0f, 0.0f },   { 100.0f, -80.0f, -50.0f }, { -50.0f, -80.0f, -100.0f },
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };
@@ -48,7 +48,7 @@ extern Gfx D_06000870[];
 void func_808B27F0(GlobalContext* globalCtx, s16 arg1) {
     WaterBox* waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[0];
 
-    waterBox->unk_02 = arg1;
+    waterBox->ySurface = arg1;
 }
 
 s32 func_808B280C(GlobalContext* globalCtx) {
@@ -103,7 +103,7 @@ void func_808B29E0(BgSpot11Oasis* this) {
 }
 
 void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
         func_808B2AA8(this);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_SPAWNER);
@@ -135,9 +135,9 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
         gameplayFrames = globalCtx->gameplayFrames;
         if (gameplayFrames & 4) {
             Math_Vec3f_Sum(&this->actor.posRot.pos, &D_808B2E34[this->unk_151], &sp30);
-            EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Math_Rand_ZeroOne() * 0.12f) + 0.02f);
-            if (Math_Rand_ZeroOne() < 0.3f) {
-                this->unk_151 = Math_Rand_ZeroOne() * 4.9f;
+            EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Rand_ZeroOne() * 0.12f) + 0.02f);
+            if (Rand_ZeroOne() < 0.3f) {
+                this->unk_151 = Rand_ZeroOne() * 4.9f;
             }
         }
     } else {

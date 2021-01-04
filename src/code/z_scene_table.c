@@ -1108,16 +1108,14 @@ void func_8009A45C(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5171);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
+    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - (gameplayFrames % 128), (gameplayFrames * 1) % 128,
                                 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(
         POLY_OPA_DISP++, 0x0A,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 127 - (gameplayFrames * 1) % 128, 32, 32));
-    gSPSegment(POLY_OPA_DISP++, 0x0B,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 128, 32, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x0B, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0C,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (gameplayFrames * 50) % 2048, 8, 512, 1, 0,
                                 (gameplayFrames * 60) % 2048, 8, 512));
@@ -1140,8 +1138,7 @@ void func_8009A798(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5226);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 256, 64, 64));
+    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 256, 64, 64));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1260,8 +1257,7 @@ void func_8009AFE0(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5490);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
 
     { s32 pad[2]; }
 
@@ -1453,11 +1449,11 @@ void func_8009BEEC(GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 127);
     }
 
-    if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
+    if ((globalCtx->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
         var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
+        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
@@ -1540,8 +1536,7 @@ void func_8009C608(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6151);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
+    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (gameplayFrames * 60) % 2048, 8, 512, 1, 0,
                                 (gameplayFrames * 50) % 2048, 8, 512));
@@ -1685,8 +1680,7 @@ void func_8009D0E8(GlobalContext* globalCtx) {
     gameplayFrames = globalCtx->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 127 - (gameplayFrames * 4) % 128, 0, 32, 32));
-    gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 5) % 64, 16, 16));
+    gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 5) % 64, 16, 16));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 0, 63 - (gameplayFrames * 2) % 64, 16, 16));
     gSPSegment(
@@ -1755,8 +1749,7 @@ void func_8009D5B4(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6595);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x08, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 1023 - (gameplayFrames * 3) % 1024, 16, 256, 1, 0,
                                 1023 - (gameplayFrames * 6) % 1024, 16, 256));
@@ -1843,11 +1836,11 @@ void func_8009DA30(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC555) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -1998,8 +1991,7 @@ void func_8009E730(GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         var = 0;
     }
-    gSPSegment(POLY_OPA_DISP++, 0x0C,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 64, 32, 1, 0, var, 64, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x0C, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 64, 32, 1, 0, var, 64, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -2197,11 +2189,11 @@ void func_8009F5D4(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC000) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2318,9 +2310,6 @@ void func_8009FC90(GlobalContext* globalCtx) {
 
 f32 D_8012A398 = 0.0f;
 
-// Scene Draw Config 21
-#ifdef NON_MATCHING
-// regalloc differences and single equivalent instruction difference
 void func_8009FE58(GlobalContext* globalCtx) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
@@ -2354,11 +2343,10 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, Math_Coss(D_8012A39C) * (0.00009587531f * temp),
-                      Math_Sins(D_8012A39C) * (0.00009587531f * temp), Math_Sins(D_8012A3A0) * (0.00009587531f * temp));
-        func_800AA78C(&globalCtx->view, 1.0f + (Math_Sins(D_8012A3A0) * (0.79999995f * temp)),
-                      1.0f + (Math_Coss(D_8012A3A0) * (0.39999998f * temp)),
-                      1.0f + (Math_Coss(D_8012A39C) * (1 * temp)));
+        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_CosS(D_8012A39C),
+                      0.00009587531f * temp * Math_SinS(D_8012A39C), 0.00009587531f * temp * Math_SinS(D_8012A3A0));
+        func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_SinS(D_8012A3A0)),
+                      1.f + (0.39999998f * temp * Math_CosS(D_8012A3A0)), 1.f + (1 * temp * Math_CosS(D_8012A39C)));
         func_800AA7AC(&globalCtx->view, 0.95f);
 
         switch (globalCtx->unk_11D30[0]) {
@@ -2385,7 +2373,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
     }
 
     if (globalCtx->roomCtx.curRoom.num == 2) {
-        Matrix_Scale(1, sinf(D_8012A398) * 0.8f, 1, MTXMODE_NEW);
+        Matrix_Scale(1.0f, sinf(D_8012A398) * 0.8f, 1.0f, MTXMODE_NEW);
     } else {
         Matrix_Scale(1.005f, sinf(D_8012A398) * 0.8f, 1.005f, MTXMODE_NEW);
     }
@@ -2394,12 +2382,6 @@ void func_8009FE58(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7811);
 }
-#else
-s16 D_8012A39C = 538;
-s16 D_8012A3A0 = 4272;
-void func_8009FE58(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene_table/func_8009FE58.s")
-#endif
 
 // Scene Draw Config 26
 void func_800A0334(GlobalContext* globalCtx) {
@@ -2446,8 +2428,7 @@ void func_800A059C(GlobalContext* globalCtx) {
     gameplayFrames = globalCtx->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 127 - (gameplayFrames * 2) % 128, 0, 32, 64));
-    gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 512, 128, 128));
+    gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 512, 128, 128));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);

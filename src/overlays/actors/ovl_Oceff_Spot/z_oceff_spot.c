@@ -140,9 +140,9 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
                               (s32)(200.0f * temp), (s16)(100.0f * temp));
 
     Lights_PointNoGlowSetInfo(&this->lightInfo2,
-                              (s16)this->actor.posRot.pos.x + Math_Sins(player->actor.shape.rot.y) * 20.0f,
+                              (s16)this->actor.posRot.pos.x + Math_SinS(player->actor.shape.rot.y) * 20.0f,
                               (s16)this->actor.posRot.pos.y + 20.0f,
-                              (s16)this->actor.posRot.pos.z + Math_Coss(player->actor.shape.rot.y) * 20.0f,
+                              (s16)this->actor.posRot.pos.z + Math_CosS(player->actor.shape.rot.y) * 20.0f,
                               (s32)(255.0f * temp), (s32)(255.0f * temp), (s32)(200.0f * temp), (s16)(100.0f * temp));
 }
 
@@ -157,8 +157,8 @@ void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32,
-                                                          1, 0, scroll * (-8), 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1,
+                                                     0, scroll * (-8), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sCylinderDl);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 485);

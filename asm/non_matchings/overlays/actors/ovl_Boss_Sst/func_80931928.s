@@ -4,7 +4,7 @@ glabel func_80931928
 /* 05360 80931930 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 05364 80931934 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 05368 80931938 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0536C 8093193C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0536C 8093193C 0C02927F */  jal     SkelAnime_Update
               
 /* 05370 80931940 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 05374 80931944 860501A6 */  lh      $a1, 0x01A6($s0)           ## 000001A6
@@ -12,7 +12,7 @@ glabel func_80931928
 /* 0537C 8093194C AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 05380 80931950 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
 /* 05384 80931954 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 05388 80931958 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 05388 80931958 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 0538C 8093195C 24070800 */  addiu   $a3, $zero, 0x0800         ## $a3 = 00000800
 /* 05390 80931960 2C4F0001 */  sltiu   $t7, $v0, 0x0001           
@@ -23,7 +23,7 @@ glabel func_80931928
 /* 053A4 80931974 24060A00 */  addiu   $a2, $zero, 0x0A00         ## $a2 = 00000A00
 /* 053A8 80931978 03192821 */  addu    $a1, $t8, $t9              
 /* 053AC 8093197C 00052C00 */  sll     $a1, $a1, 16               
-/* 053B0 80931980 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 053B0 80931980 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 053B4 80931984 00052C03 */  sra     $a1, $a1, 16               
 /* 053B8 80931988 8FA8002C */  lw      $t0, 0x002C($sp)           
@@ -32,7 +32,7 @@ glabel func_80931928
 /* 053C4 80931994 01024824 */  and     $t1, $t0, $v0              
 /* 053C8 80931998 AFA9002C */  sw      $t1, 0x002C($sp)           
 /* 053CC 8093199C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 053D0 809319A0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 053D0 809319A0 0C01E107 */  jal     Math_ApproachF
               
 /* 053D4 809319A4 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
 /* 053D8 809319A8 8FAA002C */  lw      $t2, 0x002C($sp)           

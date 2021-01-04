@@ -42,9 +42,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 16, ICHAIN_STOP),
 };
 
-UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
+static UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
 
-extern UNK_TYPE D_06000A60;
+extern Gfx D_06000A60[];
 extern Gfx D_06000970[];
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -83,13 +83,13 @@ void func_80B43AD4(EnYukabyun* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 10.0f;
         this->actionfunc = func_80B43B6C;
     }
-    Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 30.0f, 1.0f);
+    Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 30.0f, 1.0f);
     func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
 void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += this->unk_150;
-    if (this->actor.xzDistFromLink > 5000.0f) {
+    if (this->actor.xzDistToLink > 5000.0f) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -98,7 +98,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 
 void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
-                             &D_06000A60);
+                             D_06000A60);
     Actor_Kill(&this->actor);
 }
 

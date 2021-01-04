@@ -40,6 +40,11 @@ typedef struct EnHorse {
          ? true                                                                                         \
          : false)
 
+#define EN_HORSE_CHECK_5(horseActor) \
+    (((horseActor)->unk_1F0 & 0x4) \
+        ? true                       \
+        : false)
+
 extern const ActorInit En_Horse_InitVars;
 
 #endif

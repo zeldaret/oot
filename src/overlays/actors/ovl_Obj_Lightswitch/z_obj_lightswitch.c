@@ -101,11 +101,11 @@ void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx
         Flags_SetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if (type == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, thisx, 0x4807);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_TRE_BOX_APPEAR);
         } else if (type == OBJLIGHTSWITCH_TYPE_BURN) {
-            func_800806BC(globalCtx, thisx, 0x4806);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_ERROR);
         } else {
-            func_800806BC(globalCtx, thisx, 0x4802);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -115,22 +115,22 @@ void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalC
         Flags_UnsetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, &this->actor, 0x4807);
+            func_800806BC(globalCtx, &this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }
 
 void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    f32 s = Math_Sins(this->actor.shape.rot.y);
-    f32 c = Math_Coss(this->actor.shape.rot.y);
+    f32 s = Math_SinS(this->actor.shape.rot.y);
+    f32 c = Math_CosS(this->actor.shape.rot.y);
     f32 x;
     f32 y;
     f32 z;
     s32 pad;
 
     if (this->alpha >= (100 << 6)) {
-        x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Math_Rand_ZeroOne();
+        x = (CLAMP_MAX((1.0f - 1.0f / (255 << 6) * this->alpha) * 400.0f, 60.0f) - 30.0f + 30.0f) * Rand_ZeroOne();
         y = x - 30.0f;
         if (x > 30.0f) {
             x = 30.0f;
@@ -141,8 +141,8 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
             }
             x = sqrtf(x);
         }
-        x = 2.0f * (x * (Math_Rand_ZeroOne() - 0.5f));
-        z = (30.0f - fabsf(x)) * 0.5f + 10.0f * Math_Rand_ZeroOne();
+        x = 2.0f * (x * (Rand_ZeroOne() - 0.5f));
+        z = (30.0f - fabsf(x)) * 0.5f + 10.0f * Rand_ZeroOne();
         pos.x = this->actor.posRot.pos.x + ((z * s) + (x * c));
         pos.y = this->actor.posRot.pos.y + y + 10.0f;
         pos.z = this->actor.posRot.pos.z + ((z * c) - (x * s));
@@ -252,7 +252,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
 
         this->timer++;
 
-        Math_ApproxS(&this->flameRingRotSpeed, -0xAA, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, -0xAA, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
@@ -321,7 +321,7 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->toggleDelay <= 0) {
         this->timer--;
 
-        Math_ApproxS(&this->flameRingRotSpeed, 0, 0xA);
+        Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
         this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
@@ -393,8 +393,8 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
@@ -443,8 +443,8 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;

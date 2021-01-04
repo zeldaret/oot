@@ -356,9 +356,9 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2218);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    skyboxX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
+    skyboxX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
     skyboxY = ZREG(13);
-    skyboxZ = (1000.0f * Math_Sins(ZREG(11))) + (1000.0f * Math_Coss(ZREG(11)));
+    skyboxZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
     FileChoose_SetupView(this, skyboxX, skyboxY, skyboxZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, skyboxX, skyboxY, skyboxZ);
@@ -722,9 +722,9 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    eyeX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
+    eyeX = (1000.0f * Math_CosS(ZREG(11))) - (1000.0f * Math_SinS(ZREG(11)));
     eyeY = ZREG(13);
-    eyeZ = (1000.0f * Math_Sins(ZREG(11))) + (1000.0f * Math_Coss(ZREG(11)));
+    eyeZ = (1000.0f * Math_SinS(ZREG(11))) + (1000.0f * Math_CosS(ZREG(11)));
 
     FileChoose_SetupView(this, eyeX, eyeY, eyeZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, eyeX, eyeY, eyeZ);

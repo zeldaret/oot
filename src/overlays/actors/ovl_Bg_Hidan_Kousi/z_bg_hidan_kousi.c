@@ -22,7 +22,7 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
 
-f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
+static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
@@ -40,20 +40,20 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-UNK_PTR D_80889E70[] = {
+static UNK_PTR D_80889E70[] = {
     0x0600E2CC,
     0x0600E380,
     0x0600E430,
 };
 
-s16 D_80889E7C[] = {
+static s16 D_80889E7C[] = {
     0x4000,
     0xC000,
     0xC000,
     0x0000,
 };
 
-Gfx* D_80889E84[] = {
+static Gfx* D_80889E84[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -97,8 +97,8 @@ void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80889ACC(BgHidanKousi* this) {
     s32 pad[2];
     Vec3s* rot = &this->dyna.actor.posRot.rot;
-    f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_Sins(rot->y);
-    f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_Coss(rot->y);
+    f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
+    f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
     Vec3f* initPos = &this->dyna.actor.initPosRot.pos;
 
     this->dyna.actor.posRot.pos.x = initPos->x + temp1;
@@ -108,7 +108,7 @@ void func_80889ACC(BgHidanKousi* this) {
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         BgHidanKousi_SetupAction(this, func_80889BC0);
-        func_80080480(globalCtx, this);
+        func_80080480(globalCtx, &this->dyna.actor);
         this->unk_168 = 0xC8;
     }
 }

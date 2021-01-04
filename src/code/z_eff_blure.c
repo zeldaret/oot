@@ -308,6 +308,7 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
                                    Color_RGBA8* color1, Color_RGBA8* color2) {
     Vec3s sp30;
+    s32 pad;
     EffectBlureElement* elem;
     f32 mode4Param;
 
@@ -333,14 +334,14 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             break;
 
         case 3:
-            ratio = ratio * 0.5f;
+            ratio /= 2.0f;
             vec1->x = func_80027E34(elem->p1.x, elem->p2.x, ratio);
             vec1->y = func_80027E34(elem->p1.y, elem->p2.y, ratio);
             vec1->z = func_80027E34(elem->p1.z, elem->p2.z, ratio);
             vec2->x = func_80027E34(elem->p2.x, elem->p1.x, ratio);
             vec2->y = func_80027E34(elem->p2.y, elem->p1.y, ratio);
             vec2->z = func_80027E34(elem->p2.z, elem->p1.z, ratio);
-            ratio = ratio + ratio;
+            ratio *= 2.0f;
             break;
 
         case 4:
@@ -352,9 +353,9 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec1->x = (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.x;
             vec1->y = (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.y;
             vec1->z = (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.z;
-            vec2->x = -(sp30.x * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.x;
-            vec2->y = -(sp30.y * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.y;
-            vec2->z = -(sp30.z * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.z;
+            vec2->x = elem->p2.x - (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio);
+            vec2->y = elem->p2.y - (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio);
+            vec2->z = elem->p2.z - (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio);
             break;
 
         case 0:
@@ -367,18 +368,10 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec2->z = elem->p2.z;
             break;
     }
-
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
 
     if (this->flags & 0x10) {
-        color1->a = 255;
-        color1->b = 255;
-        color1->g = 255;
-        color1->r = 255;
-        color2->r = 255;
-        color2->g = 255;
-        color2->b = 255;
-        color2->a = 255;
+        color1->r = color1->g = color1->b = color1->a = color2->r = color2->g = color2->b = color2->a = 255;
     } else {
         color1->r = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
         color1->g = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
@@ -609,16 +602,16 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         vtx[0].v = baseVtx;
         vtx[1].v = baseVtx;
 
-        vtx[0].v.ob[0] = Math_nearbyintf(sp158.x);
-        vtx[0].v.ob[1] = Math_nearbyintf(sp158.y);
-        vtx[0].v.ob[2] = Math_nearbyintf(sp158.z);
+        vtx[0].v.ob[0] = Math_FNearbyIntF(sp158.x);
+        vtx[0].v.ob[1] = Math_FNearbyIntF(sp158.y);
+        vtx[0].v.ob[2] = Math_FNearbyIntF(sp158.z);
         vtx[0].v.cn[0] = sp148.r;
         vtx[0].v.cn[1] = sp148.g;
         vtx[0].v.cn[2] = sp148.b;
         vtx[0].v.cn[3] = sp148.a;
-        vtx[1].v.ob[0] = Math_nearbyintf(sp14C.x);
-        vtx[1].v.ob[1] = Math_nearbyintf(sp14C.y);
-        vtx[1].v.ob[2] = Math_nearbyintf(sp14C.z);
+        vtx[1].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+        vtx[1].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+        vtx[1].v.ob[2] = Math_FNearbyIntF(sp14C.z);
         vtx[1].v.cn[0] = sp144.r;
         vtx[1].v.cn[1] = sp144.g;
         vtx[1].v.cn[2] = sp144.b;
@@ -651,17 +644,17 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             vtx[j1].v = baseVtx;
             vtx[j2].v = baseVtx;
 
-            vtx[j1].v.ob[0] = Math_nearbyintf(sp158.x);
-            vtx[j1].v.ob[1] = Math_nearbyintf(sp158.y);
-            vtx[j1].v.ob[2] = Math_nearbyintf(sp158.z);
+            vtx[j1].v.ob[0] = Math_FNearbyIntF(sp158.x);
+            vtx[j1].v.ob[1] = Math_FNearbyIntF(sp158.y);
+            vtx[j1].v.ob[2] = Math_FNearbyIntF(sp158.z);
             vtx[j1].v.cn[0] = func_80027E84(sp1A4.r, sp19C.r, temp_f28);
             vtx[j1].v.cn[1] = func_80027E84(sp1A4.g, sp19C.g, temp_f28);
             vtx[j1].v.cn[2] = func_80027E84(sp1A4.b, sp19C.b, temp_f28);
             vtx[j1].v.cn[3] = func_80027E84(sp1A4.a, sp19C.a, temp_f28);
 
-            vtx[j2].v.ob[0] = Math_nearbyintf(sp14C.x);
-            vtx[j2].v.ob[1] = Math_nearbyintf(sp14C.y);
-            vtx[j2].v.ob[2] = Math_nearbyintf(sp14C.z);
+            vtx[j2].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+            vtx[j2].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+            vtx[j2].v.ob[2] = Math_FNearbyIntF(sp14C.z);
             vtx[j2].v.cn[0] = func_80027E84(sp1A0.r, sp198.r, temp_f28);
             vtx[j2].v.cn[1] = func_80027E84(sp1A0.g, sp198.g, temp_f28);
             vtx[j2].v.cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);
@@ -762,18 +755,17 @@ void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx*
     gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
     gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, D_04006020, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, D_04006020, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMIRROR | G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-    gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0,
-                      PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED);
+    gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                      ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED);
     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
     gSPClearGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
     gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
     gDPPipeSync(POLY_XLU_DISP++);
 
-    gDPSetEnvColor(POLY_XLU_DISP++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b,
-                   this->altEnvColor.a);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b, this->altEnvColor.a);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1329);
 }

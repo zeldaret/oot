@@ -50,7 +50,7 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_060108B8;
 extern Gfx D_0600FE40[];
-extern UNK_TYPE D_0400CD80;
+extern Gfx D_0400CD80[];
 extern Gfx D_040184B0[];
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -66,7 +66,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
     Collider_InitCylinder(globalCtx, &this->flamesCollider);
     Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &sFlamesColliderInit);
-    this->fireScroll = Math_Rand_ZeroOne() * 15.0f;
+    this->fireScroll = Rand_ZeroOne() * 15.0f;
     sPotsDestroyed = 0;
     this->actionFunc = BgHakaTubo_Idle;
 }
@@ -85,8 +85,8 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
         this->dyna.actor.shape.rot.y += 0x180;
-        this->dyna.actor.posRot.pos.x = Math_Sins(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
-        this->dyna.actor.posRot.pos.z = Math_Coss(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
+        this->dyna.actor.posRot.pos.x = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
+        this->dyna.actor.posRot.pos.z = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
     if (this->flamesCollider.base.atFlags & 2) {
@@ -105,7 +105,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
-            EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, &D_0400CD80);
+            EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, D_0400CD80);
             this->dropTimer = 5;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.0f);
@@ -133,7 +133,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
         spawnPos.y = this->dyna.actor.posRot.pos.y + 200.0f;
         spawnPos.z = this->dyna.actor.posRot.pos.z;
         if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
-            rnd = Math_Rand_ZeroOne();
+            rnd = Rand_ZeroOne();
             sPotsDestroyed++;
             if (sPotsDestroyed == 3) {
                 // All 3 pots destroyed

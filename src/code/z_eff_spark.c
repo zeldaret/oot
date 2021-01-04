@@ -66,9 +66,9 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
             elem->position.x = this->position.x;
             elem->position.y = this->position.y;
             elem->position.z = this->position.z;
-            elem->velocity.x = Math_Rand_ZeroOne() - 0.5f;
-            elem->velocity.y = Math_Rand_ZeroOne() - 0.5f;
-            elem->velocity.z = Math_Rand_ZeroOne() - 0.5f;
+            elem->velocity.x = Rand_ZeroOne() - 0.5f;
+            elem->velocity.y = Rand_ZeroOne() - 0.5f;
+            elem->velocity.z = Rand_ZeroOne() - 0.5f;
 
             velocityNorm = sqrtf(SQ(elem->velocity.x) + SQ(elem->velocity.y) + SQ(elem->velocity.z));
 
@@ -81,12 +81,12 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
                 elem->velocity.y = this->speed;
             }
 
-            elem->unkVelocity.x = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unkVelocity.y = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unkVelocity.z = 30000.0f - Math_Rand_ZeroOne() * 15000.0f;
-            elem->unkPosition.x = Math_Rand_ZeroOne() * 65534.0f;
-            elem->unkPosition.y = Math_Rand_ZeroOne() * 65534.0f;
-            elem->unkPosition.z = Math_Rand_ZeroOne() * 65534.0f;
+            elem->unkVelocity.x = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unkVelocity.y = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unkVelocity.z = 30000.0f - Rand_ZeroOne() * 15000.0f;
+            elem->unkPosition.x = Rand_ZeroOne() * 65534.0f;
+            elem->unkPosition.y = Rand_ZeroOne() * 65534.0f;
+            elem->unkPosition.z = Rand_ZeroOne() * 65534.0f;
         }
 
         this->timer = 0;
@@ -166,13 +166,12 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
 
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-        gDPLoadTextureBlock(POLY_XLU_DISP++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_XLU_DISP++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_SHADEDECALA, G_CC_PASS2);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-        gSPClearGeometryMode(POLY_XLU_DISP++,
-                             G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
+        gSPClearGeometryMode(POLY_XLU_DISP++, G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
         gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
         gDPPipeSync(POLY_XLU_DISP++);
 
@@ -215,7 +214,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             elem = &this->elements[i];
 
             SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
-            temp = ((Math_Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
+            temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
             SkinMatrix_SetScale(&spAC, temp, temp, 1.0f);
             SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
             SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);

@@ -134,7 +134,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
                 (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
-                func_80080480(globalCtx, this);
+                func_80080480(globalCtx, &this->actor);
                 this->timer = 0;
             } else {
                 this->unk_1A4 = 0;
@@ -172,7 +172,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(120.0f < this->actor.xzDistFromLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+        if (!(120.0f < this->actor.xzDistToLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
             cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * 0.16666667f;
             cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
             cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * 0.16666667f;

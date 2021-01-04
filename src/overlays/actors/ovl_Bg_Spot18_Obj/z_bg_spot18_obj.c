@@ -42,24 +42,24 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
     (ActorFunc)BgSpot18Obj_Draw,
 };
 
-u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
+static u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
 
-f32 D_808B90F4[] = {
+static f32 D_808B90F4[] = {
     0.1f,
     0.1f,
 };
 
-UNK_TYPE D_808B90FC[] = {
+static UNK_TYPE D_808B90FC[] = {
     0x06002FE4,
     0x0600261C,
 };
 
-u32 D_808B9104[] = {
+static u32 D_808B9104[] = {
     0,
     0,
 };
 
-BgSpot18ObjInitFunc D_808B910C[] = {
+static BgSpot18ObjInitFunc D_808B910C[] = {
     func_808B8A98,
     func_808B8910,
     func_808B8A5C,
@@ -78,7 +78,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
 };
 
-BgSpot18ObjInitFunc D_808B913C[] = {
+static BgSpot18ObjInitFunc D_808B913C[] = {
     func_808B8BB4,
     func_808B8C90,
 };
@@ -158,9 +158,9 @@ s32 func_808B8BB4(BgSpot18Obj* this, GlobalContext* globalCtx) {
     } else if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         func_808B9030(this);
         this->dyna.actor.posRot.pos.x =
-            (Math_Sins(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
+            (Math_SinS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
         this->dyna.actor.posRot.pos.z =
-            (Math_Coss(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
+            (Math_CosS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
     } else {
         func_808B8E64(this);
     }
@@ -247,7 +247,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    Math_ApproxF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
+    Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
     Actor_MoveForward(&this->dyna.actor);
     func_808B8DDC(this, globalCtx);
 
@@ -255,9 +255,9 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
                         this->dyna.actor.initPosRot.pos.z) >= 6400.0f) {
         func_808B9030(this);
         this->dyna.actor.posRot.pos.x =
-            (Math_Sins(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
+            (Math_SinS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
         this->dyna.actor.posRot.pos.z =
-            (Math_Coss(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
+            (Math_CosS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
