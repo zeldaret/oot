@@ -477,7 +477,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     Camera* temp_v0;
     BossGanon2Effect* temp_v0_3;
 
-    sp8D = 0;
+    sp8D = false;
     player = PLAYER;
     this->unk_398++;
 
@@ -821,7 +821,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_BIG);
             }
             if (this->unk_398 < 0x33) {
-                sp8D = 1;
+                sp8D = true;
             }
             if (this->unk_398 >= 0x3C) {
                 temp_v0 = Gameplay_GetCamera(globalCtx, 0);
@@ -1160,7 +1160,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((this->unk_30C > 4.0f) && (sp8D == 0)) {
+    if ((this->unk_30C > 4.0f) && !sp8D) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
     }
 
