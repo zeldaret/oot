@@ -578,7 +578,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                 bzero(&gSaveContext.linkAge, sizeof(gSaveContext.linkAge));
                 bzero(&gSaveContext.cutsceneIndex, sizeof(gSaveContext.cutsceneIndex));
                 bzero(&gSaveContext.dayTime, sizeof(gSaveContext.dayTime));
-                bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag != 0));
+                bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag));
                 bzero(&gSaveContext.numDays, sizeof(gSaveContext.numDays));
                 bzero(&gSaveContext.unk_18, sizeof(gSaveContext.unk_18));
 
