@@ -1,11 +1,11 @@
 <Root>
 	<File Name="object_jya_obj" Segment="6">
 		<DList Name="g1fliftDlist" Offset="0x1F0"/>
-		<Blob Name="g1fliftCol" Offset="0x4A8" Size="0x2C"/>
+		<Collision Name="g1fliftCol" Offset="0x4A8" />
 		<Texture Name="g1f1fiftTopTex" Format="rgb5a1" Width="32" Height="32" Offset="0x1B940"/>
 		<Texture Name="g1fLiftBottomTex" Format="rgb5a1" Width="32" Height="32" Offset="0x17540"/>
 		<DList Name="gAmishutterDlist" Offset="0xC0A0"/>
-		<Blob Name="gAmishutterCol" Offset="0xC4C8" Size="0x2C"/>
+		<Collision Name="gAmishutterCol" Offset="0xC4C8" />
 		<DList Name="gBigMirrorDlist1" Offset="0xBC70"/>
 		<DList Name="gBigMirrorDlist2" Offset="0xBD80"/>
 		<DList Name="gBigMirrorDlist3" Offset="0xE1B0"/>
@@ -19,10 +19,10 @@
 		<DList Name="gBombiwaEffectDlist" Offset="0xEDC0"/>
 		<Texture Name="gBombiwaRockTex" Format="rgb5a1" Width="32" Height="64" Offset="0x18B40"/>
 		<Texture Name="gBombiwaLightTex1" Format="ia16" Width="32" Height="64" Offset="0x19B40"/>
-		<Blob Name="gBombiwaCol" Offset="0xE710" Size="0x2C"/>
+		<Collision Name="gBombiwaCol" Offset="0xE710" />
 		<DList Name="gCobraDlist1" Offset="0x10790"/>
 		<DList Name="gCobraDlist2" Offset="0x10C20"/>
-		<Blob Name="gCobraCol" Offset="0x1167C" Size="0x2C"/>
+		<Collision Name="gCobraCol" Offset="0x1167C" />
 		<DList Name="gCobraDlist3" Offset="0x117D0"/>
 		<Texture Name="gCobraMirrorStoneTex" Format="rgb5a1" Width="32" Height="32" Offset="0x13D40"/>
 		<Texture Name="gCobraMirrorBorderTex" Format="rgb5a1" Width="16" Height="16" Offset="0x15D40"/>
@@ -31,16 +31,16 @@
 		<Texture Name="gCobraMirrorMirrorTex" Format="ia16" Width="32" Height="32" Offset="0x14540"/>
 		<Texture Name="gCobraMirrorToothTex" Format="ia16" Width="32" Height="32" Offset="0x14D40"/>
 		<DList Name="gKanaamiDlist" Offset="0xF000"/>
-		<Blob Name="gKanaamiCol" Offset="0xF208" Size="0x2C"/>
+		<Collision Name="gKanaamiCol" Offset="0xF208" />
 		<Texture Name="gKanaamiTopTex" Format="rgb5a1" Width="32" Height="64" Offset="0x12540"/>
 		<Texture Name="gKanaamiMiddleTex" Format="rgb5a1" Width="32" Height="32" Offset="0x13540"/>
 		<DList Name="gLiftDlist" Offset="0xCCE0"/>
 		<Texture Name="gLiftChainTex" Format="rgb5a1" Width="16" Height="32" Offset="0x17D40"/>
 		<Texture Name="gLiftTopTex" Format="rgb5a1" Width="16" Height="64" Offset="0x18140"/>
 		<Texture Name="gLiftUpperChainTex" Format="rgb5a1" Width="8" Height="32" Offset="0x18940"/>
-		<Blob Name="gLiftCol" Offset="0xD7E8" Size="0x2C"/>
+		<Collision Name="gLiftCol" Offset="0xD7E8" />
 		<DList Name="gMegamiDlist1" Offset="0x5780"/>
-		<Blob Name="GMegamiCol" Offset="0x5C4C" Size="0x2C"/>
+		<Collision Name="GMegamiCol" Offset="0x5C4C" />
 		<DList Name="gMegamiDlist2" Offset="0xB9F8"/>
 		<DList Name="gMegamiPieceDlist1" Offset="0x9928"/>
 		<DList Name="gMegamiPieceDlist2" Offset="0x9AC0"/>
@@ -75,7 +75,7 @@
 		<Texture Name="gMeagmiLeftCrumbleTex4" Format="ci4" Width="64" Height="64" Offset="0x4500"/>
 		<Texture Name="gMeagmiLeftCrumbleTex5" Format="ci4" Width="64" Height="64" Offset="0x0500"/>
 		<DList Name="gZurerukabeDlist" Offset="0x12340"/>
-		<Blob Name="gZurerukabeCol" Offset="0x12508" Size="0x2C"/>
+		<Collision Name="gZurerukabeCol" Offset="0x12508" />
 	</File>
 </Root>
 
