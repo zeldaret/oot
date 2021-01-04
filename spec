@@ -5836,7 +5836,8 @@ endseg
 beginseg
     name "object_zl4"
     romalign 0x1000
-    include "build/baserom/object_zl4.o"
+    include "build/assets/objects/object_zl4/object_zl4.o"
+    number 6
 endseg
 
 beginseg
