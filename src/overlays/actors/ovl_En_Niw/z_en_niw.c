@@ -130,8 +130,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= 1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                       this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
@@ -161,7 +160,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 2:
-            if (!gSaveContext.nightFlag) {
+            if (gSaveContext.nightFlag == 0) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -384,7 +383,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
 
     switch (this->actor.params) {
         case 4:
@@ -427,7 +426,7 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->actor.xzDistFromLink < 30.0f && fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
+    if (this->actor.xzDistToLink < 30.0f && fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
         this->timer6 = 100;
         this->actor.gravity = -2.0f;
         this->actionFunc = func_80AB7290;
@@ -698,13 +697,13 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 0x20) {
         this->actor.gravity = 0.0f;
 
-        if (this->actor.waterY > 15.0f) {
+        if (this->actor.yDistToWater > 15.0f) {
             this->actor.posRot.pos.y += 2.0f;
         }
         if (this->timer4 == 0) {
             this->timer4 = 30;
             Math_Vec3f_Copy(&pos, &this->actor.posRot.pos);
-            pos.y += this->actor.waterY;
+            pos.y += this->actor.yDistToWater;
             EffectSsGRipple_Spawn(globalCtx, &pos, 100, 500, 30);
         }
         if (this->actor.bgCheckFlags & 8) {
@@ -796,7 +795,7 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
     this->actionFunc = func_80AB7328;
@@ -1009,12 +1008,12 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (thisx->bgCheckFlags & 0x20 && thisx->waterY > 15.0f && this->actionFunc != func_80AB6F04 &&
+    if (thisx->bgCheckFlags & 0x20 && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
         Math_Vec3f_Copy(&pos, &thisx->posRot);
-        pos.y += thisx->waterY;
+        pos.y += thisx->yDistToWater;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
         this->timer5 = 0;
@@ -1028,7 +1027,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         this->timer6 = 100;
 
-        if (thisx->xzDistFromLink > 10.0f) {
+        if (thisx->xzDistToLink > 10.0f) {
             D_80AB85E0 = 1;
             this->timer5 = this->timer4 = this->unk_29E = 0;
             thisx->speedXZ = 0.0f;
@@ -1050,7 +1049,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     dist = 20.0f;
 
-    if (this->unk_2A8 != 0 && thisx->xyzDistFromLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
+    if (this->unk_2A8 != 0 && thisx->xyzDistToLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, thisx->posRot.rot.y, 0.0f, 0x10);
     }
 
@@ -1104,7 +1103,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->z += (s16)this->unk_2C4;
     }
 
-    return 0;
+    return false;
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1113,7 +1112,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiw_OverrideLimbDraw, NULL, this);
 
     if (this->actionFunc == func_80AB6450) {

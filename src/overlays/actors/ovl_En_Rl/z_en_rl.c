@@ -57,7 +57,7 @@ void func_80AE72D0(EnRl* this) {
 }
 
 void func_80AE7358(EnRl* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000A3C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000A3C), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000A3C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000A3C), 0, 0.0f);
     this->action = 4;
     this->drawConfig = 0;
     this->alpha = 0;
@@ -86,7 +86,7 @@ void func_80AE744C(EnRl* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AE7494(EnRl* this) {
-    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 s32 func_80AE74B4(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
@@ -114,7 +114,7 @@ s32 func_80AE74FC(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
 }
 
 void func_80AE7544(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, NULL, NULL, 0);
 }
 
 void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
@@ -150,8 +150,7 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600040C), 2,
-                                 0.0f);
+            Animation_Change(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600040C), 2, 0.0f);
             this->action = 2;
         }
     }
@@ -159,7 +158,7 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE772C(EnRl* this, s32 arg1) {
     if (arg1) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000830), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06000830, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000830), 0, 0.0f);
         this->action = 3;
     }
 }
@@ -192,7 +191,7 @@ void func_80AE7838(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7878(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, NULL, NULL, 0);
     this->action = 4;
     this->actor.shape.unk_14 = 0;
 }
@@ -244,7 +243,7 @@ void func_80AE79A4(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
     if (func_80AE74B4(this, globalCtx, 3, 0)) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600040C), 2, -8.0f);
+        Animation_Change(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600040C), 2, -8.0f);
         this->action = 6;
     } else if (func_80AE74FC(this, globalCtx, 4, 0)) {
         this->action = 5;
@@ -261,7 +260,7 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7BF8(EnRl* this, s32 arg1) {
     if (arg1 != 0) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06000830, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000830), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06000830, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000830), 0, 0.0f);
         this->action = 7;
     }
 }
@@ -312,7 +311,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                                        NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
@@ -361,7 +360,7 @@ void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
 }

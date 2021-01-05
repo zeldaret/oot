@@ -8,7 +8,7 @@ glabel func_80A98174
 /* 013DC 80A9818C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 013E0 80A98190 11C0000A */  beq     $t6, $zero, .L80A981BC     
 /* 013E4 80A98194 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
-/* 013E8 80A98198 0C0295B2 */  jal     func_800A56C8              
+/* 013E8 80A98198 0C0295B2 */  jal     Animation_OnFrame              
 /* 013EC 80A9819C 3C054190 */  lui     $a1, 0x4190                ## $a1 = 41900000
 /* 013F0 80A981A0 10400004 */  beq     $v0, $zero, .L80A981B4     
 /* 013F4 80A981A4 00000000 */  nop

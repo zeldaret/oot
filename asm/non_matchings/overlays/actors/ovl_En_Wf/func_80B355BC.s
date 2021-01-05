@@ -92,7 +92,7 @@ glabel func_80B355BC
 /* 01A20 80B356D0 45010005 */  bc1t    .L80B356E8                 
 .L80B356D4:
 /* 01A24 80B356D4 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
-/* 01A28 80B356D8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01A28 80B356D8 0C02927F */  jal     SkelAnime_Update
               
 /* 01A2C 80B356DC AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01A30 80B356E0 10400085 */  beq     $v0, $zero, .L80B358F8     

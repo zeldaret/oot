@@ -15,11 +15,11 @@ glabel func_80A01374
               
 /* 01404 80A013A4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01408 80A013A8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 0140C 80A013AC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0140C 80A013AC 0C02927F */  jal     SkelAnime_Update
               
 /* 01410 80A013B0 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 01414 80A013B4 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01418 80A013B8 0C0295B2 */  jal     func_800A56C8              
+/* 01418 80A013B8 0C0295B2 */  jal     Animation_OnFrame              
 /* 0141C 80A013BC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01420 80A013C0 10400003 */  beq     $v0, $zero, .L80A013D0     
 /* 01424 80A013C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

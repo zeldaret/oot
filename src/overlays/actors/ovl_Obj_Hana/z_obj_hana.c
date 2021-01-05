@@ -89,7 +89,7 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistFromLink < 400.0f) {
+    if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistToLink < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

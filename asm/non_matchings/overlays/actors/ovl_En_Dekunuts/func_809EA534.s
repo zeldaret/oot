@@ -5,11 +5,11 @@ glabel func_809EA534
 /* 00FE0 809EA540 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00FE4 809EA544 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00FE8 809EA548 AFA4001C */  sw      $a0, 0x001C($sp)           
-/* 00FEC 809EA54C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00FEC 809EA54C 0C02927F */  jal     SkelAnime_Update
               
 /* 00FF0 809EA550 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00FF4 809EA554 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00FF8 809EA558 0C0295B2 */  jal     func_800A56C8              
+/* 00FF8 809EA558 0C0295B2 */  jal     Animation_OnFrame              
 /* 00FFC 809EA55C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01000 809EA560 1040000F */  beq     $v0, $zero, .L809EA5A0     
 /* 01004 809EA564 8FA60020 */  lw      $a2, 0x0020($sp)           
