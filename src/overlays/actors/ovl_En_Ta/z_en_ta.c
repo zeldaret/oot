@@ -188,7 +188,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                 } else {
-                    if (!gSaveContext.nightFlag) {
+                    if (gSaveContext.nightFlag == 0) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->unk_2B8[0] = (EnNiw*)Actor_Spawn(
@@ -261,7 +261,7 @@ s32 func_80B142F4(EnTa* this, GlobalContext* globalCtx, u16 textId) {
     this->actor.textId = textId;
 
     if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) &&
-        (this->actor.xzDistFromLink < 100.0f)) {
+        (this->actor.xzDistToLink < 100.0f)) {
         this->unk_2E0 |= 1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }

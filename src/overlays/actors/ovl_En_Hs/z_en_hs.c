@@ -99,7 +99,7 @@ s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFu
 
     this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToLink < 100.0f)) {
         this->unk_2A8 |= 1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -208,7 +208,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
-        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToLink < 100.0f)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, 7);
         }
     }

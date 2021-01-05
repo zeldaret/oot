@@ -229,7 +229,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    this->yTarget = this->actor.yDistFromLink;
+    this->yTarget = this->actor.yDistToLink;
     func_8002DF38(globalCtx, &this->actor, 0x25);
     func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
 }
@@ -291,8 +291,8 @@ void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
-        (this->actor.xzDistFromLink < 30.0f) && (this->actor.yDistFromLink < -5.0f) &&
-        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistFromLink)) {
+        (this->actor.xzDistToLink < 30.0f) && (this->actor.yDistToLink < -5.0f) &&
+        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToLink)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -342,7 +342,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
-    if (this->actor.yDistFromLink < -900.0f) {
+    if (this->actor.yDistToLink < -900.0f) {
         if (this->actor.params == WMT_FLAG) {
             Actor_Kill(&this->actor);
             return;

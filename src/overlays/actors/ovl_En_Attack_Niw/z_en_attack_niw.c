@@ -346,7 +346,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 0x20) && (this->actionFunc != func_809B5C18)) {
         Math_Vec3f_Copy(&sp30, &this->actor.posRot.pos);
-        sp30.y += this->actor.waterY;
+        sp30.y += this->actor.yDistToWater;
         EffectSsGSplash_Spawn(globalCtx, &sp30, 0, 0, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
@@ -357,7 +357,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     tmpf1 = 20.0f;
-    if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
+    if (this->actor.xyzDistToLinkSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {

@@ -410,7 +410,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actionFunc = BgMizuBwall_Break;
-    } else if (this->dyna.actor.xzDistFromLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

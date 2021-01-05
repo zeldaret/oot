@@ -56,7 +56,8 @@ extern Gfx D_0600E2D0[];
 void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = THIS;
 
-    this->puzzleFlags &= ~(BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
+    this->puzzleFlags &=
+        ~(BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
     if (globalCtx->roomCtx.curRoom.num == 5) {
         this->puzzleFlags |= BIGMIR_PUZZLE_IN_STATUE_ROOM;
     } else if (globalCtx->roomCtx.curRoom.num == 0x19) {

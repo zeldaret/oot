@@ -150,7 +150,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                 }
                 this->actionFunc = func_80B391CC;
             }
-        } else if (!(this->unk_15C < this->actor.xzDistFromLink)) {
+        } else if (!(this->unk_15C < this->actor.xzDistToLink)) {
             yawDiffTemp = (this->actor.yawTowardsLink - this->actor.posRot.rot.y);
             yawDiff = ABS(yawDiffTemp);
 
