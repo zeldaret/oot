@@ -16,6 +16,8 @@ void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AF7FC(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AF824(BgSpot06Objects* this, GlobalContext* globalCtx);
+void func_808AF120(BgSpot06Objects* this, GlobalContext* globalCtx);
+void func_808AEBC0(BgSpot06Objects* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000120[]; // Lake Hylia Lowered Water
 extern Gfx D_06000470[]; // Lake Hylia Raised Water
@@ -158,7 +160,17 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AED48.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AED7C.s")
+void func_808AED7C(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    func_808AEBC0(this, globalCtx);
+
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 0.6f) != 0) {
+        this->actionFunc = func_808AEE00;
+        this->timer = 0;
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+    } else {
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
+    }
+}
 
 void func_808AEE00(BgSpot06Objects* this, GlobalContext* globalCtx) {
 }
@@ -176,11 +188,109 @@ void func_808AEE6C(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEEFC.s")
+void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 i;
+    s32 pad2;
+    Vec3f effectPos;
+    f32 sin;
+    f32 cos;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF120.s")
+    if (this->collider.base.acFlags & 2) {
+        this->timer = 130;
+        this->dyna.actor.flags |= 0x10;
+        sin = Math_SinS(this->dyna.actor.posRot.rot.y);
+        cos = Math_CosS(this->dyna.actor.posRot.rot.y);
+        this->dyna.actor.posRot.pos.x += (3.0f * sin);
+        this->dyna.actor.posRot.pos.z += (3.0f * cos);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF1D8.s")
+        for (i = 0; i < 20; i++) {
+            func_808AEE6C(this, globalCtx, 1);
+        }
+
+        effectPos.x = this->dyna.actor.posRot.pos.x + (5.0f * sin);
+        effectPos.y = this->dyna.actor.posRot.pos.y;
+        effectPos.z = this->dyna.actor.posRot.pos.z + (5.0f * cos);
+
+        for (i = 0; i < 3; i++) {
+            EffectSsBubble_Spawn(globalCtx, &effectPos, 0.0f, 20.0f, 20.0f, (Rand_ZeroOne() * 0.1f) + 0.7f);
+        }
+
+        EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.posRot, NULL, NULL, 1, 700);
+        this->collider.list->dim.worldSphere.radius = 45;
+        this->actionFunc = func_808AF120;
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Flags_SetSwitch(globalCtx, this->switchFlag);
+        func_800800F8(globalCtx, 0x1018, 170, &this->dyna.actor, 0);
+    } else {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    }
+}
+
+void func_808AF120(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    if (this->timer != 0) {
+        this->timer--;
+    }
+
+    this->dyna.actor.posRot.pos.x += (0.3f * Math_SinS(this->dyna.actor.posRot.rot.y));
+    this->dyna.actor.posRot.pos.z += (0.3f * Math_CosS(this->dyna.actor.posRot.rot.y));
+    func_808AEE6C(this, globalCtx, 0);
+
+    if (this->timer == 0) {
+        this->dyna.actor.velocity.y = 0.5f;
+        this->dyna.actor.flags &= ~0x2000;
+
+        this->actionFunc = func_808AF1D8;
+    }
+}
+
+void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    f32 cos;
+    f32 pad;
+
+    this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
+
+    if (this->dyna.actor.velocity.y <= 0.0f) {
+        cos = Math_CosS(this->dyna.actor.shape.rot.x) * 4.3f;
+        this->dyna.actor.posRot.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
+        this->dyna.actor.posRot.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y - 1.3f;
+        func_808AEE0C(this, globalCtx, 0);
+
+        if (Math_ScaledStepToS(&this->dyna.actor.shape, 0, 0x260) != 0) {
+            this->dyna.actor.initPosRot.pos.x =
+                this->dyna.actor.posRot.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y) * 16.0f);
+            this->dyna.actor.initPosRot.pos.z =
+                this->dyna.actor.posRot.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y) * 16.0f);
+            this->dyna.actor.posRot.pos.y = -1993.0f;
+            this->timer = 32;
+            this->dyna.actor.flags &= ~0x10;
+            this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius * 2;
+            this->actionFunc = func_808AF450;
+        }
+    } else {
+        if (this->dyna.actor.posRot.pos.y >= (-1973.0f)) {
+            this->dyna.actor.velocity.y = 0.0f;
+            func_808AEE0C(this, globalCtx, 1);
+            EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.initPosRot, (void*)0, (void*)0, 1, 700);
+        } else if (this->dyna.actor.shape.rot.x == (-0x4000)) {
+            this->dyna.actor.velocity.y += 0.02f;
+            this->dyna.actor.posRot.pos.x = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.x;
+            this->dyna.actor.posRot.pos.z = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.z;
+            this->dyna.actor.velocity.y =
+                (this->dyna.actor.velocity.y > 10.0f) ? (10.0f) : (this->dyna.actor.velocity.y);
+            func_808AEE6C(this, globalCtx, 0);
+        } else {
+            func_808AEE6C(this, globalCtx, 0);
+
+            if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
+                this->dyna.actor.initPosRot.pos.x = this->dyna.actor.posRot.pos.x;
+                this->dyna.actor.initPosRot.pos.y = -1993.0f;
+                this->dyna.actor.initPosRot.pos.z = ((0, this->dyna)).actor.posRot.pos.z;
+            }
+        }
+    }
+}
 
 void func_808AF450(BgSpot06Objects* this, GlobalContext* globalCtx) {
     func_808AEE0C(this, globalCtx, 0);
