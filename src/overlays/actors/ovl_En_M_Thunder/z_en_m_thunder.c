@@ -278,10 +278,10 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (Math_ApproxF(&this->unk_1AC, 0.0f, 0.0625f)) {
+    if (Math_StepToF(&this->unk_1AC, 0.0f, 0.0625f)) {
         Actor_Kill(&this->actor);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, (s32)this->unk_1C9, 0.6f, 0.8f, 0.0f);
+        Math_SmoothStepToF(&this->actor.scale.x, (s32)this->unk_1C9, 0.6f, 0.8f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->collider.dim.radius = (this->actor.scale.x * 25.0f);
         Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -323,7 +323,7 @@ void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
                               (s32)(temp_f0 * 800.0f));
 }
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
@@ -333,9 +333,8 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     f32 phi_f14;
     s32 phi_t1;
-    u8 frames;
-
-    // if (1) {}
+    // u8 frames;
+    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 844);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -343,22 +342,22 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (((this->unk_1C6 & 0xFF) == 0) || (this->unk_1C6 == 1)) {
+    if (((this->unk_1C6 & 0xFF) == 0) || ((this->unk_1C6) == 1)) {
         // temp_f0 = this->unk_1B4;
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((s8)(this->unk_1B4 * 30) & 0xFF), 0, 0x40, 0x20,
                                     1, 0xFF - ((s8)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
-        ;
+        if (1) {}
     }
 
     switch (this->unk_1C6) {
         case 0:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255.0f) & 0xFF));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
             gSPDisplayList(POLY_XLU_DISP++, D_04012AF0);
             gSPDisplayList(POLY_XLU_DISP++, D_04012C10);
             break;
         case 1:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255.0f) & 0xFF));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
             gSPDisplayList(POLY_XLU_DISP++, D_04012570);
             gSPDisplayList(POLY_XLU_DISP++, D_04012690);
             break;
@@ -386,7 +385,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (this->unk_1B8 >= 0.85f) {
-        phi_f14 = (D_80AA046C[(s8)(globalCtx->gameplayFrames & 7)] * 6.0f) + 1.0f;
+        phi_f14 = (D_80AA046C[(globalCtx->gameplayFrames & 7)] * 6.0f) + 1.0f;
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, this->unk_1C8);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
@@ -412,11 +411,11 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     // sp50 = temp_v0_14;
     // sp50->words.w1 = Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (temp_v1_3 * 5) & 0xFF, 0U, 0x20, 0x20, 1,
     // (temp_v1_3 * 0x14) & 0xFF, (temp_v1_3 * temp_t1) & 0xFF, 8, 8);
-    frames = globalCtx->gameplayFrames;
+    // frames = globalCtx->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 5) & 0xFF, (frames * 0) & 0xFF, 0x20, 0x20, 1,
-                                (frames * 0x14) & 0xFF,
-                                (frames * phi_t1) & 0xFF, 8, 8));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 5) & 0xFF, 0, 0x20, 0x20, 1,
+                                (globalCtx->gameplayFrames * 0x14) & 0xFF,
+                                (u8)(globalCtx->gameplayFrames * phi_t1) & 0xFF, 8, 8));
 
     gSPDisplayList(POLY_XLU_DISP++, D_04013610);
 
