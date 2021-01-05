@@ -5,17 +5,17 @@
 #define THIS ((BgSpot06Objects*)thisx)
 
 typedef enum {
-    LHO_WATER_TEMPLE_ENTRACE_GATE,
-    LHO_WATER_TEMPLE_ENTRANCE_LOCK,
-    LHO_WATER_PLANE,
-    LHO_ICE_BLOCK
+    /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
+    /* 0x1 */ LHO_WATER_TEMPLE_ENTRANCE_LOCK,
+    /* 0x2 */ LHO_WATER_PLANE,
+    /* 0x3 */ LHO_ICE_BLOCK
 } LakeHyliaObjectsType;
 
 typedef enum {
-    LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
-    LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
-    LHWB_MAIN_1,                    // main water box
-    LHWB_MAIN_2                     // extension of main water box
+    /* 0x0 */ LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
+    /* 0x1 */ LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
+    /* 0x2 */ LHWB_MAIN_1,                    // main water box
+    /* 0x3 */ LHWB_MAIN_2                     // extension of main water box
 } LakeHyliaWaterBoxIndices;
 
 // Lake Hylia water plane levels
