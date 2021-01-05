@@ -109,7 +109,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
             Collider_InitJntSph(globalCtx, &this->collider);
-            Collider_SetJntSph(globalCtx, &this->collider, thisx, sJntSphInit, &this->colliderItem);
+            Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
 
             if ((LINK_IS_ADULT) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 if (!(gSaveContext.eventChkInf[6] & 0x200)) {
