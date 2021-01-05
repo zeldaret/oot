@@ -45,11 +45,10 @@ u32 D_808AF964[] = { 0x48500064 };
 
 u32 D_808AF968[] = { 0x485003E8, 0x00000000 };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/BgSpot06Objects_Init.s")
 void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
+    s32 pad;
     ColHeader* colHeader = NULL;
-    GlobalContext* globalCtx2 = globalCtx;
 
     this->switchFlag = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
@@ -61,21 +60,23 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_ProcessInitChain(thisx, D_808AF964);
             DynaPolyInfo_SetActorMove(thisx, 0);
             DynaPolyInfo_Alloc(&D_06000EE8, &colHeader);
-            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx2->colCtx.dyna, thisx, colHeader);
+            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
-            if ((LINK_IS_CHILD) || (Flags_GetSwitch(globalCtx2, this->switchFlag))) {
+            if (LINK_IS_ADULT && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y + 120.0f;
                 this->actionFunc = func_808AEE00;
+
             } else {
                 this->actionFunc = func_808AECB4;
             }
+
             break;
         case 1:
             Actor_ProcessInitChain(thisx, D_808AF964);
-            Collider_InitJntSph(globalCtx2, &this->collider);
-            Collider_SetJntSph(globalCtx2, &this->collider, thisx, D_808AF954, &this->colliderItem);
+            Collider_InitJntSph(globalCtx, &this->collider);
+            Collider_SetJntSph(globalCtx, &this->collider, thisx, D_808AF954, &this->colliderItem);
 
-            if ((LINK_IS_CHILD) && (Flags_GetSwitch(globalCtx2, this->switchFlag))) {
+            if ((LINK_IS_ADULT) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 if (!(gSaveContext.eventChkInf[6] & 0x200)) {
                     thisx->initPosRot.pos.y = thisx->posRot.pos.y = -1993.0f;
                 } else {
@@ -100,32 +101,33 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 2:
             Actor_ProcessInitChain(thisx, D_808AF968);
             thisx->flags = 0x30;
-/* bad */
-            if ((LINK_IS_ADULT) && !(gSaveContext.eventChkInf[6] & 0x200)) {
+
+            if (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200)) {
+                if (gSaveContext.sceneSetupIndex < 4) {
+                    this->lakeHyliaWaterBoxYPos = -681.0f;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = -1193;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[1].zMin -= 50;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface = -1993;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[3].ySurface = -1993;
+                    this->actionFunc = func_808AEE00;
+                } else {
+                    thisx->posRot.pos.y = this->lakeHyliaWaterBoxYPos = -681.0f;
+                    thisx->posRot.pos.y += -1313.0f;
+                    this->actionFunc = func_808AF7FC;
+                }
+            } else {
                 this->lakeHyliaWaterBoxYPos = 0.0f;
                 this->actionFunc = func_808AEE00;
-            } else if (gSaveContext.sceneSetupIndex < 4) {
-                this->lakeHyliaWaterBoxYPos = -681.0f;
-                globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = -1193;
-                globalCtx->colCtx.stat.colHeader->waterBoxes[1].zMin -= -50;
-                globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface = -1993;
-                globalCtx->colCtx.stat.colHeader->waterBoxes[3].ySurface = -1993;
-                this->actionFunc = func_808AEE00;
-            } else {
-                thisx->posRot.pos.y = this->lakeHyliaWaterBoxYPos = -681.0f;
-                thisx->posRot.pos.y += -1313.0f;
-                this->actionFunc = func_808AF7FC;
             }
             break;
-/* bad end */
         case 3:
             Actor_ProcessInitChain(thisx, D_808AF964);
             DynaPolyInfo_SetActorMove(thisx, 0);
             DynaPolyInfo_Alloc(&D_06001238, &colHeader);
-            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx2->colCtx.dyna, thisx, colHeader);
+            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
             this->actionFunc = func_808AEE00;
 
-            if (LINK_IS_ADULT) {
+            if (LINK_IS_CHILD) {
                 Actor_Kill(thisx);
             }
             break;
