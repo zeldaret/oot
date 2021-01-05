@@ -13,7 +13,7 @@ typedef struct BgSpot06Objects {
     /* 0x0164 */ BgSpot06ObjectsActionFunc actionFunc;
     /* 0x0168 */ s16 switchFlag;
     /* 0x016A */ s16 timer;
-    /* 0x016C */ f32 lakeHyliaWaterBoxYPos;
+    /* 0x016C */ f32 lakeHyliaWaterLevel;
     /* 0x0170 */ ColliderJntSph collider;
     /* 0x0190 */ ColliderJntSphItem colliderItem[1];
 } BgSpot06Objects; // size = 0x01D0

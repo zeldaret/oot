@@ -4,28 +4,48 @@
 
 #define THIS ((BgSpot06Objects*)thisx)
 
+typedef enum {
+    LHO_WATER_TEMPLE_ENTRACE_GATE,
+    LHO_WATER_TEMPLE_ENTRANCE_LOCK,
+    LHO_WATER_PLANE,
+    LHO_ICE_BLOCK
+} LakeHyliaObjectsType;
+
+typedef enum {
+    LHWB_GERUDO_VALLEY_RIVER_UPPER, // entrance from Gerudo Valley
+    LHWB_GERUDO_VALLEY_RIVER_LOWER, // river flowing from Gerudo Valley
+    LHWB_MAIN_1,                    // main water box
+    LHWB_MAIN_2                     // extension of main water box
+} LakeHyliaWaterBoxIndices;
+
+// Lake Hylia water plane levels
+#define WATER_LEVEL_RAISED (-1313)
+#define WATER_LEVEL_RIVER_RAISED (WATER_LEVEL_RAISED + 200)
+#define WATER_LEVEL_LOWERED (WATER_LEVEL_RAISED - 680)
+#define WATER_LEVEL_RIVER_LOWERED (WATER_LEVEL_RIVER_RAISED - 80)
+
 void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot06Objects_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_GateOpen(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_DoNothing(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx);
+void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx);
 
-void func_808AECB4(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AEE00(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF450(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF7FC(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF824(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF120(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AEBC0(BgSpot06Objects* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000120[]; // Lake Hylia Lowered Water
-extern Gfx D_06000470[]; // Lake Hylia Raised Water
-extern Gfx D_06000E10[];
-extern UNK_TYPE D_06000EE8;
-extern Gfx D_06001160[];
-extern UNK_TYPE D_06001238;
-extern Gfx D_06002490[];
+extern Gfx D_06000120[];     // Lake Hylia lowered water
+extern Gfx D_06000470[];     // Lake Hylia raised water
+extern Gfx D_06000E10[];     // Water Temple entrance gate
+extern ColHeader D_06000EE8; // Water Temple entrance gate collision
+extern Gfx D_06001160[];     // Zora's Domain entrance block of ice
+extern ColHeader D_06001238; // Zora's Domain entrance block of ice collision
+extern Gfx D_06002490[];     // Water Temple entrance lock
 
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
@@ -39,15 +59,26 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
     (ActorFunc)BgSpot06Objects_Draw,
 };
 
-u32 D_808AF930[] = {
-    0x00000000, 0x00000000, 0x00000000, 0x00000080, 0x00000000, 0x00050100, 0x01000000, 0x0000FF60, 0x00120064,
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        { 1, { { 0, 0, -160 }, 18 }, 100 },
+    },
 };
 
-u32 D_808AF954[] = { 0x0A000939, 0x20000000, 0x00000001, &D_808AF930 };
+static ColliderJntSphInit sJntSphInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
+    ARRAY_COUNT(sJntSphItemsInit),
+    sJntSphItemsInit,
+};
 
-u32 D_808AF964[] = { 0x48500064 };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
-u32 D_808AF968[] = { 0x485003E8, 0x00000000 };
+static InitChainEntry sInitChainWaterPlane[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
 
 void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
@@ -60,40 +91,40 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 
     switch (thisx->params) {
-        case 0:
-            Actor_ProcessInitChain(thisx, D_808AF964);
+        case LHO_WATER_TEMPLE_ENTRACE_GATE:
+            Actor_ProcessInitChain(thisx, sInitChain);
             DynaPolyInfo_SetActorMove(thisx, 0);
             DynaPolyInfo_Alloc(&D_06000EE8, &colHeader);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
             if (LINK_IS_ADULT && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y + 120.0f;
-                this->actionFunc = func_808AEE00;
+                this->actionFunc = BgSpot06Objects_DoNothing;
 
             } else {
-                this->actionFunc = func_808AECB4;
+                this->actionFunc = BgSpot06Objects_GateWaitForSwitch;
             }
 
             break;
-        case 1:
-            Actor_ProcessInitChain(thisx, D_808AF964);
+        case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
+            Actor_ProcessInitChain(thisx, sInitChain);
             Collider_InitJntSph(globalCtx, &this->collider);
-            Collider_SetJntSph(globalCtx, &this->collider, thisx, D_808AF954, &this->colliderItem);
+            Collider_SetJntSph(globalCtx, &this->collider, thisx, sJntSphInit, &this->colliderItem);
 
             if ((LINK_IS_ADULT) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 if (!(gSaveContext.eventChkInf[6] & 0x200)) {
-                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = -1993.0f;
+                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = (f32)WATER_LEVEL_LOWERED;
                 } else {
-                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = -1313.0f;
+                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = (f32)WATER_LEVEL_RAISED;
                 }
 
-                this->actionFunc = func_808AF450;
+                this->actionFunc = BgSpot06Objects_LockFloat;
                 thisx->posRot.pos.z -= 100.0f;
                 thisx->initPosRot.pos.z = thisx->posRot.pos.z + 16.0f;
                 this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius * 2;
                 this->collider.list[0].dim.worldSphere.center.z = thisx->posRot.pos.z + 16.0f;
             } else {
-                this->actionFunc = func_808AEEFC;
+                this->actionFunc = BgSpot06Objects_LockWait;
                 this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius;
                 this->collider.list[0].dim.worldSphere.center.z = thisx->posRot.pos.z;
             }
@@ -102,34 +133,35 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.list[0].dim.worldSphere.center.y = thisx->posRot.pos.y;
             thisx->colChkInfo.mass = -1;
             break;
-        case 2:
-            Actor_ProcessInitChain(thisx, D_808AF968);
+        case LHO_WATER_PLANE:
+            Actor_ProcessInitChain(thisx, sInitChainWaterPlane);
             thisx->flags = 0x30;
 
             if (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200)) {
                 if (gSaveContext.sceneSetupIndex < 4) {
-                    this->lakeHyliaWaterBoxYPos = -681.0f;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = -1193;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[1].zMin -= 50;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface = -1993;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[3].ySurface = -1993;
-                    this->actionFunc = func_808AEE00;
+                    this->lakeHyliaWaterLevel = -681.0f;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
+                        WATER_LEVEL_RIVER_LOWERED;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].zMin -= 50;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = WATER_LEVEL_LOWERED;
+                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = WATER_LEVEL_LOWERED;
+                    this->actionFunc = BgSpot06Objects_DoNothing;
                 } else {
-                    thisx->posRot.pos.y = this->lakeHyliaWaterBoxYPos = -681.0f;
-                    thisx->posRot.pos.y += -1313.0f;
-                    this->actionFunc = func_808AF7FC;
+                    thisx->posRot.pos.y = this->lakeHyliaWaterLevel = -681.0f;
+                    thisx->posRot.pos.y += (f32)WATER_LEVEL_RAISED;
+                    this->actionFunc = BgSpot06Objects_WaterPlaneCutsceneWait;
                 }
             } else {
-                this->lakeHyliaWaterBoxYPos = 0.0f;
-                this->actionFunc = func_808AEE00;
+                this->lakeHyliaWaterLevel = 0.0f;
+                this->actionFunc = BgSpot06Objects_DoNothing;
             }
             break;
-        case 3:
-            Actor_ProcessInitChain(thisx, D_808AF964);
+        case LHO_ICE_BLOCK:
+            Actor_ProcessInitChain(thisx, sInitChain);
             DynaPolyInfo_SetActorMove(thisx, 0);
             DynaPolyInfo_Alloc(&D_06001238, &colHeader);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-            this->actionFunc = func_808AEE00;
+            this->actionFunc = BgSpot06Objects_DoNothing;
 
             if (LINK_IS_CHILD) {
                 Actor_Kill(thisx);
@@ -142,29 +174,72 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
 
     switch (this->dyna.actor.params) {
-        case 0:
-        case 3:
+        case LHO_WATER_TEMPLE_ENTRACE_GATE:
+        case LHO_ICE_BLOCK:
             DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             break;
-        case 1:
+        case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Collider_DestroyJntSph(globalCtx, &this->collider.base);
             break;
-        case 2:
+        case LHO_WATER_PLANE:
             break;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEBC0.s")
+/*
+ * Water Temple entrance gate effect functions
+ */
+void BgSpot06Objects_GateSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    Vec3f sp34;
+    f32 tmp;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AECB4.s")
+    if ((globalCtx->gameplayFrames % 3) == 0) {
+        tmp = Rand_CenteredFloat(160.0f);
+        sp34.x = (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.posRot.pos.x;
+        sp34.y = this->dyna.actor.posRot.pos.y;
+        sp34.z = (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.posRot.pos.z;
+        EffectSsBubble_Spawn(globalCtx, &sp34.x, 50.0f, 70.0f, 10.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AED48.s")
+/*
+ * This is where the gate waits for the switch to be set by the fish shaped lock.
+ */
+void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    s32 i;
 
-void func_808AED7C(BgSpot06Objects* this, GlobalContext* globalCtx) {
-    func_808AEBC0(this, globalCtx);
+    if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
+        this->timer = 100;
+        this->dyna.actor.posRot.pos.y += 3.0f;
+        this->actionFunc = BgSpot06Objects_GateWaitToOpen;
 
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 0.6f) != 0) {
-        this->actionFunc = func_808AEE00;
+        for (i = 0; i < 15; i++) {
+            BgSpot06Objects_GateSpawnBubbles(this, globalCtx);
+        }
+    }
+}
+
+/*
+ * This is where the gate waits a few frames before rising after the switch is set.
+ */
+void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    if (this->timer != 0) {
+        this->timer--;
+    }
+
+    if (this->timer == 0) {
+        this->actionFunc = BgSpot06Objects_GateOpen;
+    }
+}
+
+/*
+ * This is where the gate finally rises upward.
+ */
+void BgSpot06Objects_GateOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    BgSpot06Objects_GateSpawnBubbles(this, globalCtx);
+
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 0.6f)) {
+        this->actionFunc = BgSpot06Objects_DoNothing;
         this->timer = 0;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
@@ -172,23 +247,29 @@ void func_808AED7C(BgSpot06Objects* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808AEE00(BgSpot06Objects* this, GlobalContext* globalCtx) {
+void BgSpot06Objects_DoNothing(BgSpot06Objects* this, GlobalContext* globalCtx) {
 }
 
-void func_808AEE0C(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
+/*
+ * Fish shaped lock effect functions
+ */
+void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if ((flag) || ((globalCtx->gameplayFrames % 7) == 0)) {
         EffectSsGRipple_Spawn(globalCtx, &this->dyna.actor.initPosRot, 300, 700, 0);
     }
 }
 
-void func_808AEE6C(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
+void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if (((globalCtx->gameplayFrames % 7) == 0) || (flag)) {
         EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.posRot, 0.0f, 40.0f, 30.0f,
                              (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
-void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx) {
+/*
+ * This is where the fish shaped lock waits to be pulled out by the hookshot. Once it does it will spawn bubbles.
+ */
+void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 i;
     s32 pad2;
@@ -205,7 +286,7 @@ void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z += (3.0f * cos);
 
         for (i = 0; i < 20; i++) {
-            func_808AEE6C(this, globalCtx, 1);
+            BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 1);
         }
 
         effectPos.x = this->dyna.actor.posRot.pos.x + (5.0f * sin);
@@ -218,7 +299,7 @@ void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx) {
 
         EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.posRot, NULL, NULL, 1, 700);
         this->collider.list->dim.worldSphere.radius = 45;
-        this->actionFunc = func_808AF120;
+        this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_800800F8(globalCtx, 0x1018, 170, &this->dyna.actor, 0);
@@ -227,24 +308,31 @@ void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808AF120(BgSpot06Objects* this, GlobalContext* globalCtx) {
+/*
+ * Once the fish shaped lock is pulled out from the Hookshot it will move outward.
+ */
+void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
 
     this->dyna.actor.posRot.pos.x += (0.3f * Math_SinS(this->dyna.actor.posRot.rot.y));
     this->dyna.actor.posRot.pos.z += (0.3f * Math_CosS(this->dyna.actor.posRot.rot.y));
-    func_808AEE6C(this, globalCtx, 0);
+    BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.5f;
         this->dyna.actor.flags &= ~0x2000;
 
-        this->actionFunc = func_808AF1D8;
+        this->actionFunc = BgSpot06Objects_LockSwimToSurface;
     }
 }
 
-void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx) {
+/*
+ * After being pulled all the way out the fish shaped lock will rise to the surface, creating bubbles in the water as it
+ * does so.
+ */
+void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* globalCtx) {
     f32 cos;
     f32 pad;
 
@@ -255,7 +343,7 @@ void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
         this->dyna.actor.posRot.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
         this->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y - 1.3f;
-        func_808AEE0C(this, globalCtx, 0);
+        BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 0);
 
         if (Math_ScaledStepToS(&this->dyna.actor.shape, 0, 0x260) != 0) {
             this->dyna.actor.initPosRot.pos.x =
@@ -266,22 +354,22 @@ void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx) {
             this->timer = 32;
             this->dyna.actor.flags &= ~0x10;
             this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius * 2;
-            this->actionFunc = func_808AF450;
+            this->actionFunc = BgSpot06Objects_LockFloat;
         }
     } else {
         if (this->dyna.actor.posRot.pos.y >= (-1973.0f)) {
             this->dyna.actor.velocity.y = 0.0f;
-            func_808AEE0C(this, globalCtx, 1);
-            EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.initPosRot, (void*)0, (void*)0, 1, 700);
-        } else if (this->dyna.actor.shape.rot.x == (-0x4000)) {
+            BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 1);
+            EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.initPosRot, NULL, NULL, 1, 700);
+        } else if (this->dyna.actor.shape.rot.x == -0x4000) {
             this->dyna.actor.velocity.y += 0.02f;
             this->dyna.actor.posRot.pos.x = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.x;
             this->dyna.actor.posRot.pos.z = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.z;
             this->dyna.actor.velocity.y =
                 (this->dyna.actor.velocity.y > 10.0f) ? (10.0f) : (this->dyna.actor.velocity.y);
-            func_808AEE6C(this, globalCtx, 0);
+            BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
         } else {
-            func_808AEE6C(this, globalCtx, 0);
+            BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
 
             if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
                 this->dyna.actor.initPosRot.pos.x = this->dyna.actor.posRot.pos.x;
@@ -292,8 +380,12 @@ void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808AF450(BgSpot06Objects* this, GlobalContext* globalCtx) {
-    func_808AEE0C(this, globalCtx, 0);
+/*
+ * Once the fish shaped lock finishes rising to the surface it will float and create ripples in the water every few
+ * frames.
+ */
+void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 0);
 
     if (this->timer != 0) {
         this->timer--;
@@ -311,11 +403,14 @@ void BgSpot06Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if (thisx->params == 1) {
+    if (thisx->params == LHO_WATER_TEMPLE_ENTRANCE_LOCK) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
+/*
+ * Draw the Lake Hylia water plane, and scroll its texture
+ */
 void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 gameplayFrames;
@@ -338,7 +433,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* gl
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 
-    if ((this->lakeHyliaWaterBoxYPos < -680.0f) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((this->lakeHyliaWaterLevel < -680.0f) && (gSaveContext.sceneSetupIndex < 4)) {
         gSPDisplayList(POLY_XLU_DISP++, D_06000120);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, D_06000470);
@@ -351,44 +446,52 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
 
     switch (this->dyna.actor.params) {
-        case 0:
+        case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Gfx_DrawDListOpa(globalCtx, D_06000E10);
             break;
-        case 1:
+        case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Gfx_DrawDListOpa(globalCtx, D_06002490);
 
-            if (this->actionFunc == func_808AF1D8) {
+            if (this->actionFunc == BgSpot06Objects_LockSwimToSurface) {
                 func_800628A4(1, &this->collider);
             }
             break;
-        case 2:
+        case LHO_WATER_PLANE:
             BgSpot06Objects_DrawLakeHyliaWater(this, globalCtx);
             break;
-        case 3:
+        case LHO_ICE_BLOCK:
             Gfx_DrawDListOpa(globalCtx, D_06001160);
             break;
     }
 }
 
-void func_808AF7FC(BgSpot06Objects* this, GlobalContext* globalCtx) {
+/*
+ * This is where the Lake Hylia water plane waits for the cutscene to set the water risen flag after the Water Temple is
+ * cleared.
+ */
+void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[6] & 0x200) {
-        this->actionFunc = func_808AF824;
+        this->actionFunc = BgSpot06Objects_WaterPlaneCutsceneRise;
     }
 }
 
-void func_808AF824(BgSpot06Objects* this, GlobalContext* globalCtx) {
+/*
+ * This is where the Lake Hylia water plane rises in the cutscene after the Water Temple is cleared.
+ */
+void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    this->dyna.actor.posRot.pos.y = this->lakeHyliaWaterBoxYPos + -1313.0f;
+    this->dyna.actor.posRot.pos.y = this->lakeHyliaWaterLevel + (f32)WATER_LEVEL_RAISED;
 
-    if (this->lakeHyliaWaterBoxYPos >= 0.0001f) {
-        this->dyna.actor.posRot.pos.y = -1313.0f;
-        this->actionFunc = func_808AEE00;
+    if (this->lakeHyliaWaterLevel >= 0.0001f) {
+        this->dyna.actor.posRot.pos.y = (f32)WATER_LEVEL_RAISED;
+        this->actionFunc = BgSpot06Objects_DoNothing;
     } else {
-        Math_SmoothStepToF(&this->lakeHyliaWaterBoxYPos, 1.0f, 0.1f, 1.0f, 0.001f);
-        globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = -1193;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface = this->dyna.actor.posRot.pos.y;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[3].ySurface = this->dyna.actor.posRot.pos.y;
+        Math_SmoothStepToF(&this->lakeHyliaWaterLevel, 1.0f, 0.1f, 1.0f, 0.001f);
+        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
+            WATER_LEVEL_RIVER_LOWERED;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.posRot.pos.y;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.posRot.pos.y;
     }
 
     func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
