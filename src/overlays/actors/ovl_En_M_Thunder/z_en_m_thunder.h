@@ -11,7 +11,6 @@ typedef void (*EnMThunderActionFunc)(struct EnMThunder*, GlobalContext*);
 typedef struct EnMThunder {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
-    // /* 0x0198 */ char unk_198[0x14];
     /* 0x0198 */ LightNode* unk_198;
     /* 0x019C */ LightInfo unk_19C;
     /* 0x01AC */ f32 unk_1AC;
