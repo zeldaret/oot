@@ -15,10 +15,10 @@ void func_808AF450(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AEEFC(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AF7FC(BgSpot06Objects* this, GlobalContext* globalCtx);
 void func_808AF1D8(BgSpot06Objects* this, GlobalContext* globalCtx);
-void func_808AF524(Actor* thisx, GlobalContext* globalCtx);
+void func_808AF824(BgSpot06Objects* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000120[];
-extern Gfx D_06000470[];
+extern Gfx D_06000120[]; // Lake Hylia Lowered Water
+extern Gfx D_06000470[]; // Lake Hylia Raised Water
 extern Gfx D_06000E10[];
 extern UNK_TYPE D_06000EE8;
 extern Gfx D_06001160[];
@@ -160,11 +160,21 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AED7C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEE00.s")
+void func_808AEE00(BgSpot06Objects* this, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEE0C.s")
+void func_808AEE0C(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
+    if ((flag) || ((globalCtx->gameplayFrames % 7) == 0)) {
+        EffectSsGRipple_Spawn(globalCtx, &this->dyna.actor.initPosRot, 300, 700, 0);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEE6C.s")
+void func_808AEE6C(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
+    if (((globalCtx->gameplayFrames % 7) == 0) || (flag)) {
+        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.posRot, 0.0f, 40.0f, 30.0f,
+                             (Rand_ZeroOne() * 0.05f) + 0.175f);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AEEFC.s")
 
@@ -172,12 +182,32 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF1D8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF450.s")
+void func_808AF450(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    func_808AEE0C(this, globalCtx, 0);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/BgSpot06Objects_Update.s")
+    if (this->timer != 0) {
+        this->timer--;
+    }
 
-void func_808AF524(Actor* thisx, GlobalContext* globalCtx) {
+    this->dyna.actor.posRot.pos.y = (2.0f * sinf(this->timer * (M_PI / 16.0f))) + this->dyna.actor.initPosRot.pos.y;
+
+    if (this->timer == 0) {
+        this->timer = 32;
+    }
+}
+
+void BgSpot06Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+
+    if (thisx->params == 1) {
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    }
+}
+
+void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    s32 pad;
     s32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot06_objects.c", 844);
@@ -222,7 +252,7 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            func_808AF524(thisx, globalCtx);
+            BgSpot06Objects_DrawLakeHyliaWater(this, globalCtx);
             break;
         case 3:
             Gfx_DrawDListOpa(globalCtx, D_06001160);
@@ -230,6 +260,26 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF7FC.s")
+void func_808AF7FC(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    if (gSaveContext.eventChkInf[6] & 0x200) {
+        this->actionFunc = func_808AF824;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/func_808AF824.s")
+void func_808AF824(BgSpot06Objects* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    this->dyna.actor.posRot.pos.y = this->lakeHyliaWaterBoxYPos + -1313.0f;
+
+    if (this->lakeHyliaWaterBoxYPos >= 0.0001f) {
+        this->dyna.actor.posRot.pos.y = -1313.0f;
+        this->actionFunc = func_808AEE00;
+    } else {
+        Math_SmoothStepToF(&this->lakeHyliaWaterBoxYPos, 1.0f, 0.1f, 1.0f, 0.001f);
+        globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = -1193;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface = this->dyna.actor.posRot.pos.y;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[3].ySurface = this->dyna.actor.posRot.pos.y;
+    }
+
+    func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+}
