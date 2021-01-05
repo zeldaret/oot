@@ -4871,7 +4871,6 @@ endseg
 beginseg
     name "object_jya_obj"
     romalign 0x1000
-    //include "build/baserom/object_jya_obj.o"
     include "build/assets/objects/object_jya_obj/object_jya_obj.o"
     number 6
 endseg
@@ -5581,7 +5580,6 @@ endseg
 beginseg
     name "object_gr"
     romalign 0x1000
-    //include "build/baserom/object_gr.o"
     include "build/assets/objects/object_gr/object_gr.o"
     number 6
 endseg

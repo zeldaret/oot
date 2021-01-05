@@ -92,12 +92,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, void* collision, DynaPolyMoveFlag flags) {
+void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                              DynaPolyMoveFlag flag) {
     s32 pad;
     u32 temp;
 
     temp = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, flags);
+    DynaPolyInfo_SetActorMove(&this->dyna, flag);
     DynaPolyInfo_Alloc(collision, &temp);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
 }
@@ -142,7 +143,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, GlobalContext* globalCtx, f
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, 0);
+    BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);

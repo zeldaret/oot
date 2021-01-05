@@ -63,7 +63,6 @@
 		<Texture Name="gMegamiTex3" Format="ci4" Width="64" Height="64" Offset="0x64E8"/>
 		<Texture Name="gMegamiPalette4" Format="rgb5a1" Width="4" Height="4" Offset="0x5CA0"/>
 		<Texture Name="gMegamiPalette5" Format="rgb5a1" Width="4" Height="4" Offset="0xAC70"/>
-
 		<Texture Name="gMeagmiRightCrumbleTex1" Format="ci4" Width="64" Height="64" Offset="0xD00"/>
 		<Texture Name="gMeagmiRightCrumbleTex2" Format="ci4" Width="64" Height="64" Offset="0x1D00"/>
 		<Texture Name="gMeagmiRightCrumbleTex3" Format="ci4" Width="64" Height="64" Offset="0x2500"/>
@@ -78,5 +77,3 @@
 		<Collision Name="gZurerukabeCol" Offset="0x12508" />
 	</File>
 </Root>
-
-

@@ -23,6 +23,7 @@ const ActorInit Bg_Jya_Cobra_InitVars = {
     (ActorFunc)BgJyaCobra_Draw,
 };
 */
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_808958F0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_8089593C.s")

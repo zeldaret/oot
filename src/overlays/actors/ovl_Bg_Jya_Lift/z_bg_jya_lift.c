@@ -16,7 +16,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
+// void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
@@ -44,19 +44,20 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                            DynaPolyMoveFlag moveFlag) {
     s32 pad;
     s32 localConst = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
+    DynaPolyInfo_Alloc(collision, &localConst);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
-    this->unk_16A = 0;
+    this->isSpawned = false;
 
     if (sIsSpawned) {
         Actor_Kill(thisx);
@@ -65,7 +66,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // Goddess lift CT
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, 0);
+    BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
@@ -74,13 +75,13 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     thisx->room = -1;
     sIsSpawned = true;
-    this->unk_16A = 1;
+    this->isSpawned = true;
 }
 
 void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
 
-    if (this->unk_16A != 0) {
+    if (this->isSpawned != false) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");

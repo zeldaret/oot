@@ -44,13 +44,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
+void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                DynaPolyMoveFlag flag) {
     s16 pad1;
     s32 localConst = 0;
     s16 pad2;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
+    DynaPolyInfo_Alloc(collision, &localConst);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
@@ -78,7 +79,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      thisx->params & 0x3F);
         osSyncPrintf(VT_SGR());
     }
-    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, gBombiwaCol, 0);
+    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);

@@ -61,13 +61,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, GlobalContext* globalCtx, void* arg2, s32 flags) {
+void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                  DynaPolyMoveFlag flags) {
     s32 pad;
     s32 localConst = 0;
     s32 pad2;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flags);
-    DynaPolyInfo_Alloc(arg2, &localConst);
+    DynaPolyInfo_Alloc(collision, &localConst);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {

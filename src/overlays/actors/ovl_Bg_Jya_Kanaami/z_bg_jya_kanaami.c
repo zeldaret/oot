@@ -41,13 +41,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag flag) {
+void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                               DynaPolyMoveFlag flag) {
     s32 pad;
     s32 localConst = 0;
     s32 pad2;
 
     DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
+    DynaPolyInfo_Alloc(collision, &localConst);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
     if (this->dyna.dynaPolyId == 0x32) {
@@ -59,7 +60,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, UNK
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
-    BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, 0);
+    BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_80899A08(this);

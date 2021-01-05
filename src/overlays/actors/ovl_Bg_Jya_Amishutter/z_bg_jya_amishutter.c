@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collision,
+void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision,
                                   DynaPolyMoveFlag flag) {
     s16 pad1;
     u32 localConst = 0;
