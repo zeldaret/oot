@@ -211,7 +211,7 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 			if (parent->HasDeclaration(limb->address))
 				limbName = parent->GetDeclarationName(limb->address);
 
-			parent->AddDeclaration(limb->address, DeclarationAlignment::None, 12, entryType, limbName, entryStr);
+			parent->AddDeclaration(limb->address, DeclarationAlignment::None, limb->GetRawDataSize(), entryType, limbName, entryStr);
 		}
 
 		// Table
