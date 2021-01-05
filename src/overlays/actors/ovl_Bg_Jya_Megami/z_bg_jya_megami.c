@@ -95,12 +95,12 @@ static InitChainEntry sInitChain[] = {
 void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, CollisionHeader* collision,
                               DynaPolyMoveFlag flag) {
     s32 pad;
-    u32 temp;
+    u32 localConst;
 
-    temp = 0;
+    localConst = 0;
     DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(collision, &temp);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
+    DynaPolyInfo_Alloc(collision, &localConst);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
 }
 
 void BgJyaMegami_InitCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
