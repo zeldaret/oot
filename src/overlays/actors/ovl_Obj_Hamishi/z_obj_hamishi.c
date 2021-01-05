@@ -178,7 +178,7 @@ void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->collider.base.acFlags &= ~2;
 
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider);
             CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider);
         }

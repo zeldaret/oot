@@ -13,7 +13,7 @@
         <Texture Name="Tex_Graveyard_Flower_Leaf" Format="rgb5a1" Width="32" Height="32"/>
         <DList Name="Gfx_Grotto_Hole" Offset="0x1390"/>
         <Texture Name="Tex_Grotto_Hole" Format="ia16" Width="32" Height="64"/>
-        <!--<Hierarchy Name="Hier_Butterfly" Offset="0x2474" Type="Standard"/>-->
+        <!--<Skeleton Name="Hier_Butterfly" Offset="0x2474" Type="Standard"/>-->
         <DList Name="Gfx_Butterfly_Wing_R" Offset="0x2480"/>
         <DList Name="Gfx_Butterfly_Wing_R_Ref" Offset="0x2520"/>
         <DList Name="Gfx_Butterfly_Wing_R_Ref_Ref" Offset="0x2530"/>
@@ -21,7 +21,7 @@
         <DList Name="Gfx_Butterfly_Wing_L_Ref" Offset="0x2620"/>
         <DList Name="Gfx_Butterfly_Wing_L_Ref_Ref" Offset="0x2630"/>
         <!--<Texture Name="Tex_Butterfly_Wing" Format="rgb5a1" Width="32" Height="64"/>-->
-        <!--<Hierarchy Name="Hier_Bombable_Wall" Offset="0x36EC"/>-->
+        <!--<Skeleton Name="Hier_Bombable_Wall" Offset="0x36EC"/>-->
         <!--<Palette Name="Pal_Bombable_Wall" Format="rgb5a1" Offset="0x3700" Width="16" Height="16"/>-->
         <!--<Texture Name="Tex_Bombable_Wall" Format="ci4" Palette="Pal_Bombable_Wall" Width="32" Height="64"/>-->
         <!--<Texture Name="Tex_Bombable_Wall_Broken" Format="ci4" Palette="Pal_Bombable_Wall" Width="32" Height="64"/>-->
@@ -42,7 +42,7 @@
         <DList Name="Gfx_Orange_Fish_Tail_Ref_Ref" Offset="0x6458"/>
         <Texture Name="Tex_Orange_Fish_Body" Format="rgb5a1" Width="64" Height="64"/>
         <Texture Name="Tex_Orange_Body_Tail" Format="rgb5a1" Width="32" Height="16"/>
-        <!--<Hierarchy Name="Hier_Fish" Offset="0x88F4"/>-->
+        <!--<Skeleton Name="Hier_Fish" Offset="0x88F4"/>-->
         <Texture Name="Tex_Beehive" Format="rgb5a1" Width="32" Height="32" Offset="0x8900"/>
         <Gfx Name="Gfx_Beehive" Offset="0x95B0"/>
         <Texture Name="Tex_Beehive_Fragment" Format="rgb5a1" Width="16" Height="16" Offset="0x9710"/>

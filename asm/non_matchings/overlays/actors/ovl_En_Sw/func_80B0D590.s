@@ -179,7 +179,7 @@ glabel func_80B0D590
 /* 01A2C 80B0D7DC 10000021 */  beq     $zero, $zero, .L80B0D864   
 /* 01A30 80B0D7E0 E6080168 */  swc1    $f8, 0x0168($s0)           ## 00000168
 .L80B0D7E4:
-/* 01A34 80B0D7E4 0C0295B2 */  jal     func_800A56C8              
+/* 01A34 80B0D7E4 0C0295B2 */  jal     Animation_OnFrame              
 /* 01A38 80B0D7E8 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
 /* 01A3C 80B0D7EC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 01A40 80B0D7F0 14410002 */  bne     $v0, $at, .L80B0D7FC       

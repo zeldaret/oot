@@ -1,5 +1,6 @@
 #include "z_en_encount1.h"
 #include "vt.h"
+#include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS 0x08000010
 
@@ -111,7 +112,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
         floorType = func_80041D4C(&globalCtx->colCtx, player->actor.floorPoly, player->actor.floorPolySource);
         if ((floorType != 4) && (floorType != 7) && (floorType != 12)) {
             this->numLeeverSpawns = 0;
-        } else if (!(this->reduceLeevers && (this->actor.xzDistFromLink > 1300.0f))) {
+        } else if (!(this->reduceLeevers && (this->actor.xzDistToLink > 1300.0f))) {
             spawnLimit = 5;
             if (this->reduceLeevers) {
                 spawnLimit = 3;
@@ -185,7 +186,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->timer = 10;
         if ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) > 100.0f) ||
-            (this->actor.xzDistFromLink > this->spawnRange)) {
+            (this->actor.xzDistToLink > this->spawnRange)) {
             this->outOfRangeTimer++;
         } else {
             this->outOfRangeTimer = 0;
@@ -199,7 +200,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
                 }
                 spawnPos.y = floorY;
                 if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_TITE, spawnPos.x,
-                                       spawnPos.y, spawnPos.z, 0, 0, 0, -1) != NULL) { // Red tektite
+                                       spawnPos.y, spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) { // Red tektite
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {
@@ -228,7 +229,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
 
     if (globalCtx->sceneNum != SCENE_SPOT00) {
         if ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) > 100.0f) ||
-            (this->actor.xzDistFromLink > this->spawnRange)) {
+            (this->actor.xzDistToLink > this->spawnRange)) {
             this->outOfRangeTimer++;
             return;
         }
@@ -271,8 +272,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                 if (floorY <= -32000.0f) {
                     break;
                 }
-                if ((player->actor.waterY != -32000.0f) &&
-                    (floorY < (player->actor.posRot.pos.y - player->actor.waterY))) {
+                if ((player->actor.yDistToWater != -32000.0f) &&
+                    (floorY < (player->actor.posRot.pos.y - player->actor.yDistToWater))) {
                     break;
                 }
                 spawnPos.y = floorY;

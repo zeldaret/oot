@@ -12,8 +12,8 @@ typedef void (*EnRu2DrawFunc)(struct EnRu2*, GlobalContext*);
 typedef struct EnRu2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[23];
-    /* 0x021A */ Vec3s transitionDrawTable[23];
+    /* 0x0190 */ Vec3s jointTable[23];
+    /* 0x021A */ Vec3s morphTable[23];
     /* 0x02A4 */ s16 unk_2A4;
     /* 0x02A6 */ s16 unk_2A6;
     /* 0x02A8 */ s32 action;

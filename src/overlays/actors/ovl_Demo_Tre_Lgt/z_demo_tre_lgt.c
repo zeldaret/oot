@@ -79,8 +79,8 @@ void func_80993754(DemoTreLgt* this) {
 void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx) {
     EnBox* treasureChest = (EnBox*)this->actor.parent;
 
-    if (treasureChest != NULL && func_800A56C8(&treasureChest->skelanime, 10.0f)) {
-        func_809937B4(this, globalCtx, treasureChest->skelanime.animCurrentFrame);
+    if (treasureChest != NULL && Animation_OnFrame(&treasureChest->skelanime, 10.0f)) {
+        func_809937B4(this, globalCtx, treasureChest->skelanime.curFrame);
     }
 }
 

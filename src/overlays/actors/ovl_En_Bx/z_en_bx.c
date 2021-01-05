@@ -108,9 +108,9 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 tmp32;
     s32 tmp33;
 
-    if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
+    if ((thisx->xzDistToLink <= 70.0f) || (this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
         (this->colliderQuad.base.atFlags & 2)) {
-        if ((thisx->xzDistFromLink <= 70.0f) || (&player->actor == this->collider.base.at) ||
+        if ((thisx->xzDistToLink <= 70.0f) || (&player->actor == this->collider.base.at) ||
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->posRot.rot.y;

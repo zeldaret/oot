@@ -124,7 +124,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) 
     Vec3f* actorPos = &this->actor.posRot.pos;
 
     pos = *actorPos;
-    pos.y += this->actor.waterY;
+    pos.y += this->actor.yDistToWater;
 
     EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
 
@@ -160,7 +160,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Player* player2 = PLAYER;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
         EnTuboTrap_SpawnEffectsInWater(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -219,7 +219,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
     }
 
-    if (this->actor.xzDistFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
+    if (this->actor.xzDistToLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
