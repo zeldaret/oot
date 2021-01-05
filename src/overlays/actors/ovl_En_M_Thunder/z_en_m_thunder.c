@@ -25,7 +25,6 @@ const ActorInit En_M_Thunder_InitVars = {
     (ActorFunc)EnMThunder_Draw,
 };
 
-// D_80AA0420 sCylinderInit
 ColliderCylinderInit D_80AA0420 = {
     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x01, 0x01 },
@@ -43,9 +42,7 @@ u16 D_80AA0464[] = {
     NA_SE_IT_ROLLING_CUT_LV1,
 };
 
-f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f }; //, 0x00000000
-// glabel D_80AA046C
-//  .word 0x3DCCCCCD, 0x3E19999A, 0x3E4CCCCD, 0x3E800000, 0x3E99999A, 0x3E800000, 0x3E4CCCCD, 0x3E19999A, 0x00000000
+f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
 
 extern Gfx D_04012570[];
 extern Gfx D_04012690[];
@@ -53,13 +50,11 @@ extern Gfx D_04012AF0[];
 extern Gfx D_04012C10[];
 extern Gfx D_04013610[];
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9EFE0.s")
 // Setup action
 void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/EnMThunder_Init.s")
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
@@ -114,7 +109,6 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.child = NULL;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/EnMThunder_Destroy.s")
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = THIS;
 
@@ -126,12 +120,10 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->unk_198);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F314.s")
 void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
     func_800773A8(globalCtx, arg1, 850.0f, 0.2f, 0.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F350.s")
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -150,8 +142,6 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_800F4254(Vec3f* pos, u8 arg1);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F408.s")
 void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     struct Actor* phi_t0;
@@ -257,7 +247,6 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F938.s")
 void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
     if (this->unk_1C4 < 2) {
         if (this->unk_1C8 < 0x28) {
@@ -274,7 +263,6 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9F9B4.s")
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -307,7 +295,6 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/EnMThunder_Update.s")
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = THIS;
 
