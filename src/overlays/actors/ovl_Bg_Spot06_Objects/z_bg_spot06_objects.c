@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot06_objects.c
+ * Overlay: ovl_Bg_Spot06_Objects
+ * Description: Lake Hylia Objects
+ */
+
 #include "z_bg_spot06_objects.h"
 
 #define FLAGS 0x00000200
