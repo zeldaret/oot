@@ -13,7 +13,7 @@ typedef struct EnDodojr {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnDodojrActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ Actor* bombInstance;
+    /* 0x01E0 */ Actor* bomb;
     /* 0x01E4 */ Vec3f unk_1E4;
     /* 0x01F0 */ Vec3f unk_1F0;
     /* 0x01FC */ s16 unk_1FC;

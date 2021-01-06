@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dodojr.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #define FLAGS 0x00000005
 
@@ -130,12 +131,44 @@ void func_809F6730(EnDodojr* this, GlobalContext* globalCtx, Vec3f* arg2) {
     func_8002836C(globalCtx, &pos, &velocity, &accel, &prim, &env, 100, 60, 8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F68B0.s")
+s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
+    if (this->actor.velocity.y >= 0.0f) {
+        return 0;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6994.s")
+    if (this->unk_1FC == 0) {
+        return 0;
+    }
+
+    if ((this->actor.bgCheckFlags & 1) != 0) {
+        Audio_PlayActorSound2(&this->actor, 0x387B);
+        this->unk_1F0 = this->actor.posRot.pos;
+        func_809F6510(this, globalCtx, 10);
+        this->actor.velocity.y = 10.0f / (4 - this->unk_1FC);
+        this->unk_1FC--;
+
+        if (this->unk_1FC == 0) {
+            this->actor.velocity.y = 0.0f;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void func_809F6994(EnDodojr* this) {
+    f32 lastFrame = Animation_GetLastFrame(&D_06000860);
+
+    Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, 1, -10.0f);
+    this->actor.velocity.y = 0.0f;
+    this->actor.speedXZ = 2.6f;
+    this->actor.gravity = -0.8f;
+}
 
 void func_809F6A20(EnDodojr* this) {
-    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060004A0), 2, -10.0f);
+    f32 lastFrame = Animation_GetLastFrame(&D_060004A0);
+
+    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, lastFrame, 2, -10.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -147,19 +180,97 @@ void func_809F6A20(EnDodojr* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6AC4.s")
+void func_809F6AC4(EnDodojr* this) {
+    f32 lastFrame = Animation_GetLastFrame(&D_060005F0);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6B38.s")
+    Animation_Change(&this->skelAnime, &D_060005F0, 1.0f, 0.0f, lastFrame, 0, 0.0f);
+    this->actor.velocity.y = 0.0f;
+    this->actor.gravity = -0.8f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6BBC.s")
+void func_809F6B38(EnDodojr* this) {
+    f32 lastFrame = Animation_GetLastFrame(&D_06000724);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6C24.s")
+    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 0.0f, lastFrame, 0, -10.0f);
+    this->actor.gravity = -0.8f;
+    this->unk_1FC = 3;
+    this->actor.velocity.y = 10.0f;
+}
 
-Vec3f D_809F7F28 = { 99999.0f, 99999.0f, 99999.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6CA4.s")
+void func_809F6BBC(EnDodojr* this) {
+    this->actor.shape.shadowDrawFunc = NULL;
+    this->actor.flags &= ~1;
+    this->actor.initPosRot.pos = this->actor.posRot.pos;
+    this->actor.speedXZ = 0.0f;
+    this->actor.gravity = -0.8f;
+    this->unk_202 = 30;
+    this->unk_1F0 = this->actor.posRot.pos;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6DD0.s")
+void func_809F6C24(EnDodojr* this) {
+    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 8.0f, 12.0f, 2, 0.0f);
+    Audio_PlayActorSound2(this, NA_SE_EN_DODO_M_EAT);
+    this->actor.speedXZ = 0.0f;
+    this->actor.velocity.x = 0.0f;
+    this->actor.velocity.z = 0.0f;
+    this->actor.gravity = -0.8f;
+}
 
+s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
+    Actor* bomb;
+    Vec3f D_809F7F28 = { 99999.0f, 99999.0f, 99999.0f };
+    s32 retVar = 0;
+    f32 xDist;
+    f32 yDist;
+    f32 zDist;
+
+    bomb = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+    this->bomb = NULL;
+
+    while (bomb != NULL) {
+        if ((bomb->params != 0) || (bomb->parent != NULL) || (bomb->update == NULL)) {
+            bomb = bomb->next;
+            continue;
+        }
+
+        if (bomb->id != ACTOR_EN_BOM) {
+            bomb = bomb->next;
+            continue;
+        }
+
+        xDist = bomb->posRot.pos.x - this->actor.posRot.pos.x;
+        yDist = bomb->posRot.pos.y - this->actor.posRot.pos.y;
+        zDist = bomb->posRot.pos.z - this->actor.posRot.pos.z;
+
+        if ((fabsf(xDist) >= fabsf(D_809F7F28.x)) || (fabsf(yDist) >= fabsf(D_809F7F28.y)) ||
+            (fabsf(zDist) >= fabsf(D_809F7F28.z))) {
+            bomb = bomb->next;
+            continue;
+        }
+
+        this->bomb = bomb;
+        D_809F7F28 = bomb->posRot.pos;
+        retVar = 1;
+        bomb = bomb->next;
+    }
+
+    return retVar;
+}
+
+s32 func_809F6DD0(EnDodojr* this) {
+    if (this->bomb == NULL) {
+        return 0;
+    } else if (this->bomb->parent != NULL) {
+        return 0;
+    } else if (Math_Vec3f_DistXYZ(&this->actor.posRot, &this->bomb->posRot.pos) > 30.0f) {
+        return 0;
+    } else {
+        this->bomb->parent = this;
+        return 1;
+    }
+}
+
+// cursed
 Vec3f D_809F7F34[] = {
     { 0.0f, 210.0f, 60.0f },
     { 270.0f, 120.0f, 330.0f },
@@ -169,7 +280,13 @@ Vec3f D_809F7F34[] = {
 void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6E54.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F706C.s")
+s32 func_809F706C(EnDodojr* this) {
+    if (this->actor.xzDistToLink > 40.0f) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
 
 void func_809F709C(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DEAD);
@@ -251,7 +368,21 @@ void func_809F72A4(EnDodojr* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F758C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F768C.s")
+void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
+    EnBom* bomb;
+
+    if (((s16)this->skelAnime.curFrame - 8) < 4) {
+        bomb = (EnBom*)this->bomb;
+        bomb->timer++;
+        this->bomb->posRot.pos = this->unk_1E4;
+    } else {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
+        Actor_Kill(this->bomb);
+        this->unk_202 = 24;
+        this->unk_1FC = 0;
+        this->actionFunc = func_809F773C;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F773C.s")
 
