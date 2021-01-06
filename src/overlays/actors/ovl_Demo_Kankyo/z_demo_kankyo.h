@@ -38,14 +38,14 @@ typedef struct {
     u8 unk_22;      // mode ?
     u8 unk_23;
     s16 unk_24;
-} Struct_Unk_150; // 0x28
+} DemoKankyo_Unk_150; // 0x28
 
 typedef struct DemoKankyo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u8 objBankIndex;
     /* 0x014D */ u8 sparkleCounter;
     /* 0x014E */ u8 warpTimer;
-    /* 0x0150 */ Struct_Unk_150 unk_150[30];
+    /* 0x0150 */ DemoKankyo_Unk_150 unk_150[30];
     /* 0x0600 */ DemoKankyoActionFunc actionFunc;
 } DemoKankyo; // size = 0x0604
 
