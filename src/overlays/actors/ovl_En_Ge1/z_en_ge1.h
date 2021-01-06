@@ -21,7 +21,7 @@ typedef struct EnGe1 {
     /* 0x02AA */ s16 blinkTimer;
     /* 0x02AC */ u16 unk_2AC;
     /* 0x02AE */ u8 hairstyle;
-    /* 0x02AF */ u8 unk_2AF;
+    /* 0x02AF */ u8 cutsceneTimer;
     /* 0x02B0 */ AnimationHeader* animation;
     /* 0x02B4 */ EnGe1ActionFunc actionFunc;
     /* 0x02B8 */ EnGe1UnkFunc unk_func;
