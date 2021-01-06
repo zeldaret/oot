@@ -142,7 +142,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.bgCheckFlags & 1) != 0) {
-        Audio_PlayActorSound2(&this->actor, 0x387B);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->unk_1F0 = this->actor.posRot.pos;
         func_809F6510(this, globalCtx, 10);
         this->actor.velocity.y = 10.0f / (4 - this->unk_1FC);
@@ -401,7 +401,7 @@ void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809F758C(EnDodojr *this, GlobalContext *globalCtx) {
+void func_809F758C(EnDodojr* this, GlobalContext* globalCtx) {
     func_8002D868(&this->actor);
     func_809F6730(this, globalCtx, &this->actor.posRot.pos);
 
@@ -456,7 +456,18 @@ void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F77AC.s")
+void func_809F77AC(EnDodojr* this, GlobalContext* globalCtx) {
+    this->unk_208 = 1.2f;
+    this->unk_208 *= ((f32)this->actor.dmgEffectTimer / 8);
+    func_8002D868(&this->actor);
+
+    if (func_809F68B0(this, globalCtx) != 0) {
+        this->unk_202 = 60;
+        func_809F6AC4(this);
+        this->unk_1FC = 7;
+        this->actionFunc = func_809F784C;
+    }
+}
 
 void func_809F784C(EnDodojr* this, GlobalContext* globalCtx) {
     func_809F7B3C(this, globalCtx);
@@ -589,6 +600,7 @@ s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == 1) {
         Matrix_Scale((this->unk_208 * 0.5f) + 1.0f, this->unk_208 + 1.0f, (this->unk_208 * 0.5f) + 1.0f, 1);
     }
+
     if (limbIndex == 4) {
         Matrix_MultVec3f(&D_809F7F64, &this->unk_1E4);
     }
