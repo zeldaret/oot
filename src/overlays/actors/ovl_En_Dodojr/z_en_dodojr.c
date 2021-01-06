@@ -61,36 +61,6 @@ u32 D_809F7EDC[] = {
     0xFF000000,
 };
 
-u32 D_809F7EE8[] = {
-    0xAA825AFF,
-};
-
-u32 D_809F7EEC[] = {
-    0x643C1400,
-};
-
-Vec3f D_809F7EF0[] = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_809F7EFC[] = { 0.0f, 0.3f, 0.0f };
-
-u32 D_809F7F08[] = {
-    0xAA825AFF,
-};
-
-u32 D_809F7F0C[] = {
-    0x643C1400,
-};
-
-Vec3f D_809F7F10 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_809F7F1C = { 0.0f, 0.3f, 0.0f };
-
-Vec3f D_809F7F28 = { 99999.0f, 99999.0f, 99999.0f };
-
-f32 D_809F7F34[] = {
-    0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
-};
-
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDodojr* this = THIS;
 
@@ -114,17 +84,68 @@ void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F64D0.s")
+void func_809F64D0(EnDodojr* this) {
+    Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+    func_8003426C(&this->actor, 0x4000, 200, 0, 8);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6510.s")
+void func_809F6510(EnDodojr* this, GlobalContext* globalCtx, s32 count) {
+    Color_RGBA8 prim = { 170, 130, 90, 255 };
+    Color_RGBA8 env = { 100, 60, 20, 0 };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
+    Vec3f pos;
+    s16 angle = ((Rand_ZeroOne() - 0.5f) * 65536.0f);
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6730.s")
+    pos.y = this->unk_1F0.y;
+
+    for (i = count; i >= 0; i--, angle += (s16)(0x10000 / count)) {
+        accel.x = (Rand_ZeroOne() - 0.5f) * 4.0f;
+        accel.z = (Rand_ZeroOne() - 0.5f) * 4.0f;
+
+        pos.x = (Math_SinS(angle) * 22.0f) + this->unk_1F0.x;
+        pos.z = (Math_CosS(angle) * 22.0f) + this->unk_1F0.z;
+
+        func_8002836C(globalCtx, &pos, &velocity, &accel, &prim, &env, 120, 40, 10);
+    }
+}
+
+void func_809F6730(EnDodojr* this, GlobalContext* globalCtx, Vec3f* arg2) {
+    Color_RGBA8 prim = { 170, 130, 90, 255 };
+    Color_RGBA8 env = { 100, 60, 20, 0 };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
+    Vec3f pos;
+    s16 angle = ((Rand_ZeroOne() - 0.5f) * 65536.0f);
+
+    pos.y = this->actor.groundY;
+
+    accel.x = (Rand_ZeroOne() - 0.5f) * 2;
+    accel.z = (Rand_ZeroOne() - 0.5f) * 2;
+
+    pos.x = (Math_SinS(angle) * 11.0f) + arg2->x;
+    pos.z = (Math_CosS(angle) * 11.0f) + arg2->z;
+
+    func_8002836C(globalCtx, &pos, &velocity, &accel, &prim, &env, 100, 60, 8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F68B0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6994.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6A20.s")
+void func_809F6A20(EnDodojr* this) {
+    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060004A0), 2, -10.0f);
+    this->actor.speedXZ = 0.0f;
+    this->actor.velocity.x = 0.0f;
+    this->actor.velocity.z = 0.0f;
+    this->actor.gravity = -0.8f;
+
+    if (this->unk_1FC == 0) {
+        this->unk_1FC = 3;
+        this->actor.velocity.y = 10.0f;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6AC4.s")
 
@@ -134,15 +155,23 @@ void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6C24.s")
 
+Vec3f D_809F7F28 = { 99999.0f, 99999.0f, 99999.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6CA4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6DD0.s")
 
+Vec3f D_809F7F34[] = {
+    { 0.0f, 210.0f, 60.0f },
+    { 270.0f, 120.0f, 330.0f },
+    { 180.0f, 30.0f, 240.0f },
+    { 90.0f, 300.0f, 150.0f },
+};
+void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6E54.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F706C.s")
 
-void func_809F709C(EnDodojr *this) {
+void func_809F709C(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DEAD);
     this->actor.flags &= ~1;
     func_809F6A20(this);
