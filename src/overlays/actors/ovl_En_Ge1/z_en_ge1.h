@@ -19,7 +19,7 @@ typedef struct EnGe1 {
     /* 0x02A2 */ Vec3s unk_2A2;
     /* 0x02A8 */ s16 eyeIndex;
     /* 0x02AA */ s16 blinkTimer;
-    /* 0x02AC */ u16 flags;
+    /* 0x02AC */ u16 stateFlags;
     /* 0x02AE */ u8 hairstyle;
     /* 0x02AF */ u8 cutsceneTimer;
     /* 0x02B0 */ AnimationHeader* animation;
