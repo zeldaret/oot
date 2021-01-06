@@ -396,15 +396,93 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F799C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7A00.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7A00.s")
+// wip
+void func_809F7A00(EnDodojr *this, GlobalContext *globalCtx) {
+    s16 tmp;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7AB8.s")
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 0x4000, 4, 1000, 100);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7B3C.s")
+    if (this->unk_202 == 0) {
+        tmp = 0;
+    } else {
+        this->unk_202--;
+        tmp = this->unk_202;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7BE4.s")
+    if (tmp != 0) {
+        this->actor.posRot.pos.y -= (60.0f * ((30 - this->unk_202) / 30.0f));
+    } else {
+        Actor_Kill(&this->actor);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7C48.s")
+    func_809F6510(this, globalCtx, 3);
+}
+
+void func_809F7AB8(EnDodojr *this, GlobalContext *globalCtx) {
+    func_8002D868(this);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
+    this->actor.posRot.rot.x = this->actor.shape.rot.x;
+    
+    if (func_809F68B0(this, globalCtx) != 0) {
+        this->unk_202 = 60;
+        func_809F6AC4(this);
+        this->unk_1FC = 7;
+        this->actionFunc = func_809F7B3C;
+    }
+}
+
+void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
+    EnBom* bomb;
+
+    if (this->unk_1FC != 0) {
+        if (this->actor.dmgEffectTimer == 0) {
+            func_8003426C(&this->actor, 0x4000, 200, 0, this->unk_1FC);
+            this->unk_1FC--;
+        }
+    } else {
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
+                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+
+        if (bomb != NULL) {
+            bomb->timer = 0;
+        }
+
+        this->unk_202 = 8;
+        this->actionFunc = func_809F7BE4;
+    }
+}
+
+void func_809F7BE4(EnDodojr* this, GlobalContext* globalCtx) {
+    s16 tmp;
+
+    if (this->unk_202 == 0) {
+        tmp = 0;
+    } else {
+        this->unk_202--;
+        tmp = this->unk_202;
+    }
+
+    if (tmp == 0) {
+        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x40);
+        Actor_Kill(&this->actor);
+    }
+}
+
+void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx) {
+    s16 tmp;
+
+    if (this->unk_200 == 0) {
+        tmp = 0;
+    } else {
+        this->unk_200--;
+        tmp = this->unk_200;
+    }
+
+    if (tmp == 0) {
+        func_809F709C(this);
+    }
+}
 
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDodojr* this = THIS;
