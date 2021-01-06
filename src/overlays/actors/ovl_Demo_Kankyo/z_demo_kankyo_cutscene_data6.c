@@ -1,7 +1,8 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
 
-CutsceneData D_8098BF00[] = {
+// clang-format off
+CutsceneData sChildWarpOutCS[] = {
     CS_BEGIN_CUTSCENE(5, 1167),
     CS_SCENE_TRANS_FX(0x0005, 36, 46),
     CS_SCENE_TRANS_FX(0x0001, 30, 35),
@@ -27,3 +28,4 @@ CutsceneData D_8098BF00[] = {
         CS_MISC(0x000C, 95, 96, 0x0000, 0x00000000, 0x00000000, 0xFFFFFFEF, 0xFFFFFFCD, 0x00000000, 0xFFFFFFEF, 0xFFFFFFCD, 0x00000000, 0x00000000, 0x00000000),
     CS_END(),
 };
+// clang-format on

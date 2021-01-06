@@ -1,7 +1,8 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
 
-CutsceneData D_8098BA20[] = {
+// clang-format off
+CutsceneData sAdultWarpOutCS[] = {
     CS_BEGIN_CUTSCENE(5, 1167),
     CS_CAM_POS_PLAYER_LIST(0, 1138),
         CS_CAM_POS_PLAYER(CS_CMD_CONTINUE, 0x00, 0, 60.324859619140625f, 31, 82, 61, 0x20BA),
@@ -27,3 +28,4 @@ CutsceneData D_8098BA20[] = {
         CS_MISC(0x000C, 95, 97, 0x0000, 0x00000000, 0x00000000, 0xFFFFFFE3, 0xFFFFFFF9, 0x00000000, 0xFFFFFFE3, 0xFFFFFFF9, 0x00000000, 0x00000000, 0x00000000),
     CS_END(),
 };
+// clang-format on

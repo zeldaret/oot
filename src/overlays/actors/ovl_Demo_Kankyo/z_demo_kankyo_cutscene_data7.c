@@ -1,7 +1,8 @@
 #include "z_demo_kankyo.h"
 #include "z64cutscene_commands.h"
 
-CutsceneData D_8098C080[] = {
+// clang-format off
+CutsceneData sChildWarpInToTCS[] = {
     CS_BEGIN_CUTSCENE(2, 1118),
     CS_CAM_POS_PLAYER_LIST(0, 1089),
         CS_CAM_POS_PLAYER(CS_CMD_CONTINUE, 0x00, 0, 71.32476043701172f, 53, 53, 40, 0x010F),
@@ -23,3 +24,4 @@ CutsceneData D_8098C080[] = {
         CS_CAM_FOCUS_POINT_PLAYER(CS_CMD_STOP, 0x00, 30, 70.59991455078125f, 29, 58, 25, 0x0000),
     CS_END(),
 };
+// clang-format on
