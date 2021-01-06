@@ -34,7 +34,7 @@ glabel func_80B359A8
 /* 01D54 80B35A04 00073C03 */  sra     $a3, $a3, 16               
 .L80B35A08:
 /* 01D58 80B35A08 A7A60022 */  sh      $a2, 0x0022($sp)           
-/* 01D5C 80B35A0C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01D5C 80B35A0C 0C02927F */  jal     SkelAnime_Update
               
 /* 01D60 80B35A10 A7A70020 */  sh      $a3, 0x0020($sp)           
 /* 01D64 80B35A14 1040005A */  beq     $v0, $zero, .L80B35B80     

@@ -115,7 +115,7 @@ glabel EnSkj_Update
 /* 02660 80B00910 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02664 80B00914 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 02668 80B00918 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02668 80B00918 0C02927F */  jal     SkelAnime_Update
               
 /* 0266C 80B0091C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02670 80B00920 0C00B638 */  jal     Actor_MoveForward

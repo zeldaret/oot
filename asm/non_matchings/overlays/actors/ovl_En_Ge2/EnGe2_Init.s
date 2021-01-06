@@ -36,7 +36,7 @@ glabel EnGe2_Init
 /* 00100 80A32CD0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00104 80A32CD4 3C050601 */  lui     $a1, %hi(D_06009ED4)                ## $a1 = 06010000
 /* 00108 80A32CD8 24A59ED4 */  addiu   $a1, $a1, %lo(D_06009ED4)           ## $a1 = 06009ED4
-/* 0010C 80A32CDC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 0010C 80A32CDC 0C0294BE */  jal     Animation_PlayLoop
 /* 00110 80A32CE0 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00114 80A32CE4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00118 80A32CE8 AFA50030 */  sw      $a1, 0x0030($sp)
