@@ -272,12 +272,40 @@ s32 func_809F6DD0(EnDodojr* this) {
 }
 
 #ifdef NON_EQUIVALENT
-void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
+func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     f32 D_809F7F34[] = {
         0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
     };
+    f32 dist;
+    Player* player = PLAYER;
+    Vec3f pos;
+    s16 i;
 
-    // .........
+    /* THERE IS A LOOP HERE THAT IS MISSING BECAUSE IT MAKES NO SENSE */
+    for (i = 0; i < ARRAY_COUNT(D_809F7F34); i++) {
+        // ...........
+    }
+
+    if (((this->bomb == NULL) || (this->bomb->update == NULL)) ||
+        (((this->bomb != NULL) && (this->bomb->parent != NULL)))) {
+        func_809F6CA4(this, globalCtx);
+    }
+
+    if (this->bomb != 0) {
+        pos = this->actor.posRot.pos;
+    } else {
+        pos = player->actor.posRot.pos;
+    }
+
+    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &pos) >= 80.0f) {
+        i = ABS((s16)(this->actor.initPosRot.pos.x + this->actor.initPosRot.pos.y + this->actor.initPosRot.pos.z +
+                      (globalCtx->state.frames / 30) % 0xC));
+        pos.z += sinf(D_809F7F34[i]) * 80.0f;
+        pos.x += cosf(D_809F7F34[i]) * 80.0f;
+    }
+
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 10, 1000, 1);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 #else if
 void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx);
