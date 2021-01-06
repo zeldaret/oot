@@ -182,7 +182,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
     }
-    this->unk_2AC = 0;
+    this->flags = 0;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/EnGe1_Destroy.s")
@@ -197,13 +197,14 @@ s32 func_80A30C70(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, E
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->unk_func = func_80A323EC;
-        this->unk_2AC &= ~4;
+        this->flags &= ~4;
         this->animation = &D_06000228;
         Animation_Change(&this->skelAnime, &D_06000228, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000228), ANIMMODE_ONCE,
                          -8.0f);
         return 1;
     }
     this->actor.textId = textId;
+    
     if (this->actor.xzDistToLink < arg3) {
         func_8002F2CC(&this->actor, globalCtx, arg3);
     }
@@ -233,7 +234,7 @@ s32 EnGe1_CheckCarpentersFreed(void) {
  * Sends player to different places depending on if has hookshot, and if this is the first time captured
  */
 void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
 
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
@@ -280,7 +281,7 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31000.s")
 void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
 
     if (func_8002F334(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
@@ -342,12 +343,12 @@ void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
         EnGe1_SetAnimationIdle(this);
         this->actionFunc = EnGe1_SetNormalText;
     }
-    this->unk_2AC |= 8;
+    this->flags |= 8;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31234.s")
 void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if (this->unk_2AC & 4) {
+    if (this->flags & 4) {
         this->actionFunc = EnGe1_WaitTillOpened_GTGGuard;
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->cutsceneTimer = 50;
@@ -365,7 +366,7 @@ void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
                          -3.0f);
         this->animation = &D_0600A048;
         this->unk_func = func_80A323EC;
-        this->unk_2AC &= ~4;
+        this->flags &= ~4;
     }
 }
 
@@ -379,7 +380,7 @@ void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A313E0.s")
 void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
 
@@ -404,7 +405,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A314D0.s")
 void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
@@ -426,7 +427,7 @@ void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3157C.s")
 void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -443,12 +444,12 @@ void EnGe1_WaitUntilGateOpened_GateOp(EnGe1* this, GlobalContext* globalCtx) {
         EnGe1_SetAnimationIdle(this);
         this->actionFunc = EnGe1_CheckGate_GateOp;
     }
-    this->unk_2AC |= 8;
+    this->flags |= 8;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31644.s")
 void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
-    if (this->unk_2AC & 4) {
+    if (this->flags & 4) {
         this->actionFunc = EnGe1_WaitUntilGateOpened_GateOp;
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->cutsceneTimer = 50;
@@ -460,7 +461,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A316F4.s")
 void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->actionFunc = EnGe1_OpenGate_GateOp;
@@ -468,7 +469,7 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
                          -3.0f);
         this->animation = &D_0600A048;
         this->unk_func = func_80A323EC;
-        this->unk_2AC &= ~4;
+        this->flags &= ~4;
     }
 }
 
@@ -486,7 +487,7 @@ void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3183C.s")
 void EnGe1_Wait_BridgeGuard(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_GetReaction_BridgeGuard;
         EnGe1_SetAnimationIdle(this);
@@ -527,13 +528,13 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_SetupWait_Archery;
-        if ((this->unk_2AC & 2)) {
+        if ((this->flags & 2)) {
             gSaveContext.itemGetInf[0] |= 0x8000;
         } else {
             gSaveContext.infTable[25] |= 1;
         }
     } else {
-        if (this->unk_2AC & 2) {
+        if (this->flags & 2) {
             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                 //! @bug Asschest
                 case 1:
@@ -558,7 +559,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
         this->actor.flags = this->actor.flags & ~0x10000;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
-    if (this->unk_2AC & 2) {
+    if (this->flags & 2) {
         switch (CUR_UPG_VALUE(UPG_QUIVER)) {
             //! @bug Asschest: the compiler inserts a default assigning sp+0x24 to getItemId
             case 1:
@@ -674,7 +675,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     } else if (!(gSaveContext.infTable[25] & 1)) {
         this->actor.textId = 0x6046;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
-        this->unk_2AC &= ~2;
+        this->flags &= ~2;
     } else if (gSaveContext.minigameScore < 1500) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
@@ -684,13 +685,13 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     } else {
         this->actor.textId = 0x6044;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
-        this->unk_2AC |= 2;
+        this->flags |= 2;
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31F9C.s")
 void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    this->unk_2AC |= 1;
+    this->flags |= 1;
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
@@ -766,9 +767,9 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_func(this);
     this->actionFunc(this, globalCtx);
 
-    if (this->unk_2AC & 1) {
+    if (this->flags & 1) {
         EnGe1_TurnToFacePlayer(this, globalCtx);
-        this->unk_2AC &= ~1;
+        this->flags &= ~1;
     } else {
         EnGe1_LookAtPlayer(this, globalCtx);
     }
@@ -793,11 +794,11 @@ void EnGe1_CueUpAnimation(EnGe1* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A323EC.s")
 void func_80A323EC(EnGe1* this) {
-    if (!(this->unk_2AC & 4)) {
+    if (!(this->flags & 4)) {
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->unk_2AC |= 4;
+            this->flags |= 4;
         }
-        this->unk_2AC |= 8;
+        this->flags |= 8;
     }
 }
 
@@ -810,8 +811,8 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->x += this->headRot.y;
         rot->z += this->headRot.x;
     }
-    if (this->unk_2AC & 8) {
-        this->unk_2AC &= ~8;
+    if (this->flags & 8) {
+        this->flags &= ~8;
         return 0;
     }
     if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_LEFT_FOREARM) ||
