@@ -6,7 +6,7 @@
 
 struct EnGe1;
 
-typedef void (*EnGe1UnkFunc)(struct EnGe1*);
+typedef void (*EnGe1AnimFunc)(struct EnGe1*);
 typedef void (*EnGe1ActionFunc)(struct EnGe1*, GlobalContext*);
 
 typedef struct EnGe1 {
@@ -24,7 +24,7 @@ typedef struct EnGe1 {
     /* 0x02AF */ u8 cutsceneTimer;
     /* 0x02B0 */ AnimationHeader* animation;
     /* 0x02B4 */ EnGe1ActionFunc actionFunc;
-    /* 0x02B8 */ EnGe1UnkFunc unk_func;
+    /* 0x02B8 */ EnGe1AnimFunc animFunc;
 } EnGe1; // size = 0x02BC
 
 extern const ActorInit En_Ge1_InitVars;
