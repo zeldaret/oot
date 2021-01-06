@@ -31,13 +31,14 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx);
 void func_809F6A20(EnDodojr* this);
 void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx);
+void func_809F768C(EnDodojr* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_060004A0;
-extern UNK_TYPE D_060005F0;
-extern UNK_TYPE D_06000724;
-extern UNK_TYPE D_06000860;
-extern UNK_TYPE D_060009D4;
-extern UNK_TYPE D_060020E0;
+extern AnimationHeader D_060004A0;
+extern AnimationHeader D_060005F0;
+extern AnimationHeader D_06000724;
+extern AnimationHeader D_06000860;
+extern AnimationHeader D_060009D4;
+extern SkeletonHeader D_060020E0;
 
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
@@ -218,7 +219,7 @@ void func_809F6C24(EnDodojr* this) {
 
 s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
     Actor* bomb;
-    Vec3f D_809F7F28 = { 99999.0f, 99999.0f, 99999.0f };
+    Vec3f unkVec = { 99999.0f, 99999.0f, 99999.0f };
     s32 retVar = 0;
     f32 xDist;
     f32 yDist;
@@ -242,14 +243,14 @@ s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
         yDist = bomb->posRot.pos.y - this->actor.posRot.pos.y;
         zDist = bomb->posRot.pos.z - this->actor.posRot.pos.z;
 
-        if ((fabsf(xDist) >= fabsf(D_809F7F28.x)) || (fabsf(yDist) >= fabsf(D_809F7F28.y)) ||
-            (fabsf(zDist) >= fabsf(D_809F7F28.z))) {
+        if ((fabsf(xDist) >= fabsf(unkVec.x)) || (fabsf(yDist) >= fabsf(unkVec.y)) ||
+            (fabsf(zDist) >= fabsf(unkVec.z))) {
             bomb = bomb->next;
             continue;
         }
 
         this->bomb = bomb;
-        D_809F7F28 = bomb->posRot.pos;
+        unkVec = bomb->posRot.pos;
         retVar = 1;
         bomb = bomb->next;
     }
@@ -270,7 +271,6 @@ s32 func_809F6DD0(EnDodojr* this) {
     }
 }
 
-// cursed
 Vec3f D_809F7F34[] = {
     { 0.0f, 210.0f, 60.0f },
     { 270.0f, 120.0f, 330.0f },
@@ -362,11 +362,74 @@ void func_809F72A4(EnDodojr* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F73AC.s")
+void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
+    f32 lastFrame = Animation_GetLastFrame(&D_06000860);
+    Player* player = PLAYER;
+    f32 dist;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F74C4.s")
+    if (!(this->actor.xzDistToLink >= 320.0f)) {
+        dist = this->actor.posRot.pos.y - player->actor.posRot.pos.y;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F758C.s")
+        if (!(dist >= 40.0f)) {
+            Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, 1, -10.0f);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_UP);
+            this->actor.posRot.pos.y -= 60.0f;
+            this->actor.flags |= 1;
+            this->actor.posRot.rot.x -= 0x4000;
+            this->actor.shape.rot.x = this->actor.posRot.rot.x;
+            this->unk_1F0 = this->actor.posRot.pos;
+            this->unk_1F0.y = this->actor.groundY;
+            this->actionFunc = func_809F74C4;
+        }
+    }
+}
+
+void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
+    f32 sp2C;
+
+    Math_SmoothStepToS(&this->actor.shape, 0, 4, 0x3E8, 0x64);
+    sp2C = this->actor.shape.rot.x;
+    sp2C /= 16384.0f;
+    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + (60.0f * sp2C);
+    func_809F6510(this, globalCtx, 3);
+
+    if (sp2C == 0.0f) {
+        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+        this->actor.posRot.rot.x = this->actor.shape.rot.x;
+        this->actor.speedXZ = 2.6f;
+        this->actionFunc = func_809F758C;
+    }
+}
+
+void func_809F758C(EnDodojr *this, GlobalContext *globalCtx) {
+    func_8002D868(&this->actor);
+    func_809F6730(this, globalCtx, &this->actor.posRot.pos);
+
+    if (DECR(this->unk_204) == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_MOVE);
+        this->unk_204 = 5;
+    }
+
+    if (func_809F6DD0(this) != 0) {
+        func_809F6C24(this);
+        this->actionFunc = func_809F768C;
+        return;
+    }
+
+    func_809F6E54(this, globalCtx);
+
+    if (func_809F706C(this) != 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_CRY);
+        func_809F6B38(this);
+        this->actionFunc = func_809F799C;
+    }
+
+    if (this->actor.bgCheckFlags & 8) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DOWN);
+        func_809F6BBC(this);
+        this->actionFunc = func_809F7A00;
+    }
+}
 
 void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
     EnBom* bomb;
@@ -384,34 +447,71 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F773C.s")
+void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
+    if (DECR(this->unk_202) == 0) {
+        func_809F64D0(this);
+        this->actor.flags &= ~1;
+        func_809F6A20(this);
+        this->actionFunc = func_809F77AC;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F77AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F784C.s")
+void func_809F784C(EnDodojr* this, GlobalContext* globalCtx) {
+    func_809F7B3C(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F786C.s")
+void func_809F786C(EnDodojr* this, GlobalContext* globalCtx) {
+    func_8002D868(&this->actor);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F78EC.s")
+    if (func_809F68B0(this, globalCtx) != 0) {
+        func_809F6AC4(this);
+        this->actionFunc = func_809F78EC;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F799C.s")
+    Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
+    this->actor.posRot.rot.x = this->actor.shape.rot.x;
+    this->actor.dmgEffectTimer = this->unk_1FE;
+}
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F7A00.s")
-// wip
-void func_809F7A00(EnDodojr *this, GlobalContext *globalCtx) {
-    s16 tmp;
+void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
+    if (DECR(this->unk_1FE) != 0) {
+        if (this->unk_1FE < 30) {
+            if ((this->unk_1FE & 1) != 0) {
+                this->actor.posRot.pos.x += 1.5f;
+                this->actor.posRot.pos.z += 1.5f;
+            } else {
+                this->actor.posRot.pos.x -= 1.5f;
+                this->actor.posRot.pos.z -= 1.5f;
+            }
+
+            return;
+        }
+    } else {
+        func_809F6994(this);
+        this->actionFunc = func_809F758C;
+    }
+}
+
+void func_809F799C(EnDodojr* this, GlobalContext* globalCtx) {
+    this->actor.flags |= 0x1000000;
+    func_8002D868(&this->actor);
+
+    if (func_809F68B0(this, globalCtx) != 0) {
+        func_809F6994(this);
+        this->actionFunc = func_809F758C;
+    }
+}
+
+void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx) {
+    f32 tmp;
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0x4000, 4, 1000, 100);
 
-    if (this->unk_202 == 0) {
-        tmp = 0;
-    } else {
-        this->unk_202--;
-        tmp = this->unk_202;
-    }
-
-    if (tmp != 0) {
-        this->actor.posRot.pos.y -= (60.0f * ((30 - this->unk_202) / 30.0f));
+    if (DECR(this->unk_202) != 0) {
+        tmp = (30 - this->unk_202) / 30.0f;
+        this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - (60.0f * tmp);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -419,11 +519,11 @@ void func_809F7A00(EnDodojr *this, GlobalContext *globalCtx) {
     func_809F6510(this, globalCtx, 3);
 }
 
-void func_809F7AB8(EnDodojr *this, GlobalContext *globalCtx) {
+void func_809F7AB8(EnDodojr* this, GlobalContext* globalCtx) {
     func_8002D868(this);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.posRot.rot.x = this->actor.shape.rot.x;
-    
+
     if (func_809F68B0(this, globalCtx) != 0) {
         this->unk_202 = 60;
         func_809F6AC4(this);
@@ -454,32 +554,14 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F7BE4(EnDodojr* this, GlobalContext* globalCtx) {
-    s16 tmp;
-
-    if (this->unk_202 == 0) {
-        tmp = 0;
-    } else {
-        this->unk_202--;
-        tmp = this->unk_202;
-    }
-
-    if (tmp == 0) {
+    if (DECR(this->unk_202) == 0) {
         Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x40);
         Actor_Kill(&this->actor);
     }
 }
 
 void func_809F7C48(EnDodojr* this, GlobalContext* globalCtx) {
-    s16 tmp;
-
-    if (this->unk_200 == 0) {
-        tmp = 0;
-    } else {
-        this->unk_200--;
-        tmp = this->unk_200;
-    }
-
-    if (tmp == 0) {
+    if (DECR(this->unk_200) == 0) {
         func_809F709C(this);
     }
 }
