@@ -99,7 +99,6 @@ extern FlexSkeletonHeader D_06000330;
 extern AnimationHeader D_0600A048; // Clap
 extern AnimationHeader D_0600A498; // Dismissive gesture
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/EnGe1_Init.s")
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
@@ -190,14 +189,12 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->stateFlags = 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/EnGe1_Destroy.s")
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30C70.s")
 s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
@@ -216,7 +213,6 @@ s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 a
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30D48.s")
 void EnGe1_SetAnimationIdle(EnGe1* this) {
     Animation_Change(&this->skelAnime, &D_06000228, -1.0f, Animation_GetLastFrame(&D_06000228), 0.0f, ANIMMODE_ONCE,
                      8.0f);
@@ -224,7 +220,6 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
     this->animFunc = EnGe1_CueUpAnimation;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30DCC.s")
 s32 EnGe1_CheckCarpentersFreed(void) {
     u16 carpenterFlags = gSaveContext.eventChkInf[9];
 
@@ -234,7 +229,6 @@ s32 EnGe1_CheckCarpentersFreed(void) {
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30E08.s")
 /**
  * Sends player to different places depending on if has hookshot, and if this is the first time captured
  */
@@ -259,7 +253,6 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30EE8.s")
 void EnGe1_SpotPlayer(EnGe1* this, GlobalContext* globalCtx) {
     this->cutsceneTimer = 30;
     this->actionFunc = EnGe1_KickPlayer;
@@ -268,7 +261,6 @@ void EnGe1_SpotPlayer(EnGe1* this, GlobalContext* globalCtx) {
     func_8010B680(globalCtx, 0x6000, &this->actor);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A30F48.s")
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
     s16 angleDiff;
 
@@ -284,7 +276,6 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31000.s")
 void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
@@ -307,12 +298,10 @@ void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31094.s")
 void EnGe1_SetNormalText(EnGe1* this, GlobalContext* globalCtx) {
     EnGe1_SetTalkAction(this, globalCtx, 0x6001, 100.0f, EnGe1_ChooseActionFromTextId);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A310C4.s")
 void EnGe1_WatchForAndSensePlayer(EnGe1* this, GlobalContext* globalCtx) {
     s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
@@ -326,7 +315,6 @@ void EnGe1_WatchForAndSensePlayer(EnGe1* this, GlobalContext* globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3118C.s")
 void EnGe1_GetReaction_ValleyFloor(EnGe1* this, GlobalContext* globalCtx) {
     u16 reactionText;
 
@@ -337,9 +325,9 @@ void EnGe1_GetReaction_ValleyFloor(EnGe1* this, GlobalContext* globalCtx) {
     EnGe1_SetTalkAction(this, globalCtx, reactionText, 100.0f, EnGe1_ChooseActionFromTextId);
 }
 
-// Gerudo Training Grounds Guard functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A311E0.s")
+// Gerudo Training Ground Guard functions
+
 void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
@@ -350,7 +338,6 @@ void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_STOP_FIDGET;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31234.s")
 void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitTillOpened_GTGGuard;
@@ -362,7 +349,6 @@ void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A312E4.s")
 void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->actionFunc = EnGe1_Open_GTGGuard;
@@ -374,7 +360,6 @@ void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A313A0.s")
 void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
@@ -382,7 +367,6 @@ void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A313E0.s")
 void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
@@ -407,7 +391,6 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A314D0.s")
 void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
     if (func_8002F334(&this->actor, globalCtx)) {
@@ -416,7 +399,6 @@ void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31514.s")
 void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x6014, 100.0f, EnGe1_OfferOpen_GTGGuard);
@@ -428,7 +410,6 @@ void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 // Gate Operator functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3157C.s")
 void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
@@ -439,7 +420,6 @@ void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A315F0.s")
 void EnGe1_WaitUntilGateOpened_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
@@ -450,7 +430,6 @@ void EnGe1_WaitUntilGateOpened_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_STOP_FIDGET;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31644.s")
 void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     if (this->stateFlags & GE1_STATE_IDLE_ANIM) {
         this->actionFunc = EnGe1_WaitUntilGateOpened_GateOp;
@@ -462,7 +441,6 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A316F4.s")
 void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
@@ -476,7 +454,6 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A317C0.s")
 void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x6018, 100.0f, EnGe1_WaitGateOpen_GateOp);
@@ -487,7 +464,6 @@ void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 
 // Gate guard functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3183C.s")
 void EnGe1_Talk_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
@@ -497,7 +473,6 @@ void EnGe1_Talk_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31880.s")
 void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     u16 reactionText;
 
@@ -517,7 +492,6 @@ void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 // Archery functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31934.s")
 void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
@@ -525,7 +499,6 @@ void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A3196C.s")
 // void EnGe1_WaitTillItemGiven_Archery(EnGe1 *this, GlobalContext *globalCtx);
 void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
@@ -555,7 +528,6 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31A5C.s")
 void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
@@ -582,7 +554,6 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31B20.s")
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
@@ -592,7 +563,6 @@ void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31B7C.s")
 void EnGe1_TalkTooPoor_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -601,11 +571,9 @@ void EnGe1_TalkTooPoor_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31BDC.s")
 void EnGe1_WaitDoNothing(EnGe1* this, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31BE8.s")
 void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* horse;
@@ -648,7 +616,6 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31D88.s")
 void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x6041);
@@ -656,7 +623,6 @@ void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31DE4.s")
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
@@ -665,7 +631,6 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31E2C.s")
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
@@ -696,7 +661,6 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31F9C.s")
 void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
     if (func_8002F334(&this->actor, globalCtx)) {
@@ -705,7 +669,6 @@ void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A31FE0.s")
 void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     u16 textId;
@@ -728,7 +691,6 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
 // General functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A32078.s")
 void EnGe1_TurnToFacePlayer(EnGe1* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
@@ -749,7 +711,6 @@ void EnGe1_TurnToFacePlayer(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A32190.s")
 void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
     s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
@@ -761,7 +722,6 @@ void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/EnGe1_Update.s")
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
@@ -793,14 +753,12 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 // Animation functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A323B0.s")
 void EnGe1_CueUpAnimation(EnGe1* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->animation);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A323EC.s")
 void EnGe1_StopFidget(EnGe1* this) {
     if (!(this->stateFlags & GE1_STATE_IDLE_ANIM)) {
         if (SkelAnime_Update(&this->skelAnime)) {
@@ -810,7 +768,6 @@ void EnGe1_StopFidget(EnGe1* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A32444.s")
 s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
     EnGe1* this = THIS;
@@ -835,7 +792,6 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/func _80A32598.s")
 void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnGe1* this = THIS;
 
@@ -847,7 +803,6 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge1/EnGe1_Draw.s")
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
