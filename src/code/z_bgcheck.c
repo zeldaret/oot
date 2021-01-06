@@ -2889,8 +2889,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
 
             newPoly->flags_vIA = (newPoly->flags_vIA & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIA) + ((IndexStruct*)vtxStartIndex)->index);
             newPoly->flags_vIB = (newPoly->flags_vIB & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIB) + ((IndexStruct*)vtxStartIndex)->index);
-            // newPoly->flags_vIA = (newPoly->flags_vIA & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIA) + *vtxStartIndex);
-            // newPoly->flags_vIB = (newPoly->flags_vIB & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIB) + *vtxStartIndex);
+            // Yeah, this is all kinds of fake, but my God, it matches.
             newPoly->vIC = *vtxStartIndex + newPoly->vIC;
             dvtxList = dyna->vtxList;
             spD0.x = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].x;
