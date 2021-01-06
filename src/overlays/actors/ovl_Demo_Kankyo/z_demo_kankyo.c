@@ -88,7 +88,7 @@ static CutsceneCameraPoint sWarpOutCameraPoints[] = {
     { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
     { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
     { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } }, //! @bug STOP data shouldn't be duplicated like this?
+    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static CutsceneCameraPoint sWarpInCameraPoints[] = {
@@ -105,7 +105,7 @@ static CutsceneCameraPoint sWarpInCameraPoints[] = {
     { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
     { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
     { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } }, //! @bug STOP data shouldn't be duplicated like this?
+    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static Color_RGB8 sSparkleEnvColors[] = {
@@ -167,7 +167,7 @@ static CutsceneCameraPoint sSparklesCameraPoints[] = {
     { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
     { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
     { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } }, //! @bug STOP data shouldn't be duplicated like this?
+    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
 };
 
 static s16 D_8098CF80;
@@ -663,17 +663,19 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
     DemoKankyo* this = THIS;
     s16 i;
     s32 pad;
-    Vec3f ds;
+    f32 dx;
+    f32 dy;
+    f32 dz;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1425);
 
     for (i = 0; i < 30; i++) {
-        ds.x = -(Math_SinS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);
-        ds.y = Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 5.0f + 1200.0f;
-        ds.z = (Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);
+        dx = -(Math_SinS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);
+        dy = Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 5.0f + 1200.0f;
+        dz = (Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);
 
-        Matrix_Translate(globalCtx->view.eye.x + ds.x, globalCtx->view.eye.y + ds.y + ((i - 12.0f) * 300.0f),
-                         globalCtx->view.eye.z + ds.z, MTXMODE_NEW);
+        Matrix_Translate(globalCtx->view.eye.x + dx, globalCtx->view.eye.y + dy + ((i - 12.0f) * 300.0f),
+                         globalCtx->view.eye.z + dz, MTXMODE_NEW);
         Matrix_Scale(125.0f, 60.0f, 125.0f, MTXMODE_APPLY);
 
         gDPPipeSync(POLY_XLU_DISP++);
