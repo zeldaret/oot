@@ -271,14 +271,21 @@ s32 func_809F6DD0(EnDodojr* this) {
     }
 }
 
-Vec3f D_809F7F34[] = {
-    { 0.0f, 210.0f, 60.0f },
-    { 270.0f, 120.0f, 330.0f },
-    { 180.0f, 30.0f, 240.0f },
-    { 90.0f, 300.0f, 150.0f },
-};
+#ifdef NON_EQUIVALENT
+void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
+    f32 D_809F7F34[] = {
+        0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
+    };
+
+    // .........
+}
+#else if
 void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx);
+f32 D_809F7F34[] = {
+    0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
+};
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6E54.s")
+#endif
 
 s32 func_809F706C(EnDodojr* this) {
     if (this->actor.xzDistToLink > 40.0f) {
