@@ -205,7 +205,7 @@ public:
 	uint16_t flag;
 	int16_t s, t;
 	uint8_t r, g, b, a;
-	
+
 	Vertex();
 	Vertex(int16_t nX, int16_t nY, int16_t nZ, uint16_t nFlag, int16_t nS, int16_t nT, uint8_t nR, uint8_t nG, uint8_t nB, uint8_t nA);
 	Vertex(std::vector<uint8_t> rawData, int rawDataIndex);
@@ -258,8 +258,8 @@ public:
 
 	std::vector<uint8_t> GetRawData();
 	int GetRawDataSize();
-	std::string GetSourceOutputHeader(std::string prefix);
-	std::string GetSourceOutputCode(std::string prefix);
-	void Save(std::string outFolder);
+	std::string GetSourceOutputHeader(const std::string& prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
+	void Save(const std::string& outFolder);
 	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
 };

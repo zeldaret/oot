@@ -23,19 +23,6 @@ SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 
 		currentPtr += 8;
 	}
-
-	//string declaration = "";
-
-	/*for (int i = 0; i < rooms.size(); i++)
-	{
-		RoomEntry* entry = rooms[i];
-
-		string roomName = StringHelper::Sprintf("%sRoom%i", StringHelper::Split(zRoom->GetName(), "_scene")[0].c_str(), i);
-		declaration += StringHelper::Sprintf("\t{ (u32)%sSegmentRomStart, (u32)%sSegmentRomEnd },\n", roomName.c_str(), roomName.c_str());
-	}*/
-	
-	//zRoom->parent->declarations[segmentOffset] = new Declaration(DeclarationAlignment::None, rooms.size() * 8, 
-		//"RomFile", StringHelper::Sprintf("%sRoomList0x%06X", zRoom->GetName().c_str(), segmentOffset), true, declaration);
 }
 
 string SetRoomList::GenerateSourceCodePass1(string roomName, int baseAddress)
@@ -79,8 +66,8 @@ std::string SetRoomList::PreGenSourceFiles()
 		}
 	}
 
-	zRoom->parent->declarations[segmentOffset] = new Declaration(DeclarationAlignment::None, rooms.size() * 8,
-		"RomFile", StringHelper::Sprintf("%sRoomList0x%06X", zRoom->GetName().c_str(), segmentOffset), true, declaration);
+	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, rooms.size() * 8,
+		"RomFile", StringHelper::Sprintf("%sRoomList0x%06X", zRoom->GetName().c_str(), segmentOffset), 0, declaration);
 
 	return std::string();
 }

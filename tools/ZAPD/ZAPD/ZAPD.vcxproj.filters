@@ -192,6 +192,9 @@
     <ClCompile Include="ZCollision.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
+    <ClCompile Include="ZScalar.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Path.h">
@@ -408,6 +411,9 @@
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="ZCollision.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZScalar.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>

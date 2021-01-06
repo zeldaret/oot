@@ -141,6 +141,7 @@
     <ClCompile Include="HighLevel\HLTexture.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
+    <ClCompile Include="ZScalar.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="ZAnimation.cpp" />
     <ClCompile Include="ZBlob.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="ZCutscene.h" />
     <ClInclude Include="ZDisplayList.h" />
     <ClInclude Include="ZFile.h" />
+    <ClInclude Include="ZScalar.h" />
     <ClInclude Include="ZSkeleton.h" />
     <ClInclude Include="ZResource.h" />
     <ClInclude Include="ZRoom\ActorList.h" />

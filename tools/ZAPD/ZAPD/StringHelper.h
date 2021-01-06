@@ -8,7 +8,7 @@
 class StringHelper
 {
 public:
-	static std::vector<std::string> Split(std::string s, std::string delimiter)
+	static std::vector<std::string> Split(std::string s, const std::string& delimiter)
 	{
 		std::vector<std::string> result;
 
@@ -28,7 +28,7 @@ public:
 		return result;
 	}
 
-	static std::string Strip(std::string s, std::string delimiter)
+	static std::string Strip(std::string s, const std::string& delimiter)
 	{
 		size_t pos = 0;
 		std::string token;
@@ -42,17 +42,17 @@ public:
 		return s;
 	}
 
-	static bool StartsWith(std::string s, std::string input)
+	static bool StartsWith(const std::string& s, const std::string& input)
 	{
 		return s.rfind(input, 0) == 0;
 	}
 
-	static bool Contains(std::string s, std::string input)
+	static bool Contains(const std::string& s, const std::string& input)
 	{
 		return s.find(input) != std::string::npos;
 	}
 
-	static bool EndsWith(std::string s, std::string input)
+	static bool EndsWith(const std::string& s, const std::string& input)
 	{
 		int inputLen = strlen(input.c_str());
 		return s.rfind(input) == (s.size() - inputLen);

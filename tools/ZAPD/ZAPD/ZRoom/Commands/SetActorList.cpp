@@ -66,9 +66,9 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 		index++;
 	}
 
-	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16, actors.size() * 16, 
+	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16, actors.size() * 16,
 		"ActorEntry", StringHelper::Sprintf("%sActorList0x%06X", roomName.c_str(), segmentOffset), actors.size(), declaration);
-	
+
 	return sourceOutput;
 }
 
@@ -94,7 +94,7 @@ RoomCommand SetActorList::GetRoomCommand()
 
 ActorSpawnEntry::ActorSpawnEntry(std::vector<uint8_t> rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	actorNum = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 	posX = BitConverter::ToInt16BE(data, rawDataIndex + 2);

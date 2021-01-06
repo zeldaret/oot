@@ -67,8 +67,8 @@ public:
 	static ZTexture* FromHLTexture(HLTexture* hlTex);
 	static TextureType GetTextureTypeFromString(std::string str);
 
-	std::string GetSourceOutputCode(std::string prefix);
-	std::string GetSourceOutputHeader(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+	std::string GetSourceOutputHeader(const std::string& prefix) override;
 
 	std::vector<uint8_t> GetRawData();
 	int GetRawDataSize();
@@ -76,6 +76,6 @@ public:
 	std::string GetIMSizFromType();
 	int GetWidth();
 	int GetHeight();
-	void Save(std::string outFolder);
+	void Save(const std::string& outFolder);
 	std::string GetExternalExtension();
 };

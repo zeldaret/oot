@@ -62,7 +62,7 @@ RoomCommand SetLightingSettings::GetRoomCommand()
 
 LightingSettings::LightingSettings(vector<uint8_t> rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	ambientClrR = data[rawDataIndex + 0];
 	ambientClrG = data[rawDataIndex + 1];

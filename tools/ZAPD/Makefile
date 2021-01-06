@@ -4,7 +4,14 @@ ifneq (, $(shell which ccache))
 CC := ccache $(CC)
 endif
 
-CFLAGS := -g -std=c++17 -I ZAPD -I ZAPD/sqlite -O2 -rdynamic
+CFLAGS := -g -std=c++17 -I ZAPD -O2 -rdynamic
+
+UNAME := $(shell uname)
+
+FS_INC =
+ifneq ($(UNAME), Darwin)
+    FS_INC += -lstdc++fs
+endif
 
 SRC_DIRS := ZAPD ZAPD/ZRoom ZAPD/ZRoom/Commands ZAPD/Overlays ZAPD/HighLevel ZAPD/OpenFBX
 
@@ -22,4 +29,4 @@ rebuild: clean all
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ZAPD.out: $(O_FILES)
-	$(CC) $(CFLAGS) $(O_FILES) -o $@ -lstdc++fs
+	$(CC) $(CFLAGS) $(O_FILES) -o $@ $(FS_INC)
