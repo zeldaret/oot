@@ -52,16 +52,13 @@ const ActorInit En_Dodojr_InitVars = {
     (ActorFunc)EnDodojr_Draw,
 };
 
-u32 D_809F7EB0[] = {
-    0x06110939, 0x10010000, 0x00000000, 0xFFCFFFFF, 0x00080000, 0xFFC5FFFF,
-    0x00000000, 0x01010100, 0x00120014, 0x00000000, 0x00000000,
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC5FFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { 18, 20, 0, { 0, 0, 0 } },
 };
 
-u32 D_809F7EDC[] = {
-    0x01000002,
-    0x00190019,
-    0xFF000000,
-};
+static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
 
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDodojr* this = THIS;
@@ -69,8 +66,8 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape.rot.x, 0.0f, NULL, 18.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020E0, &D_060009D4, &this->jointTable, &this->morphTable, 15);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, D_809F7EB0);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(4), D_809F7EDC);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
     this->actor.naviEnemyId = 0xE;
     this->actor.flags &= ~1;
@@ -271,49 +268,36 @@ s32 func_809F6DD0(EnDodojr* this) {
     }
 }
 
-#ifdef NON_EQUIVALENT
-func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
-    f32 D_809F7F34[] = {
-        0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
-    };
-    f32 dist;
+void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
+    f32 angles[] = { 0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f };
+    s32 pad;
     Player* player = PLAYER;
     Vec3f pos;
-    s16 i;
-
-    /* THERE IS A LOOP HERE THAT IS MISSING BECAUSE IT MAKES NO SENSE */
-    for (i = 0; i < ARRAY_COUNT(D_809F7F34); i++) {
-        // ...........
-    }
+    s16 angleIndex;
 
     if (((this->bomb == NULL) || (this->bomb->update == NULL)) ||
         (((this->bomb != NULL) && (this->bomb->parent != NULL)))) {
         func_809F6CA4(this, globalCtx);
     }
 
-    if (this->bomb != 0) {
-        pos = this->actor.posRot.pos;
+    if (this->bomb != NULL) {
+        pos = this->bomb->posRot.pos;
     } else {
         pos = player->actor.posRot.pos;
     }
 
-    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &pos) >= 80.0f) {
-        i = ABS((s16)(this->actor.initPosRot.pos.x + this->actor.initPosRot.pos.y + this->actor.initPosRot.pos.z +
-                      (globalCtx->state.frames / 30) % 0xC));
-        pos.z += sinf(D_809F7F34[i]) * 80.0f;
-        pos.x += cosf(D_809F7F34[i]) * 80.0f;
+    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &pos) > 80.0f) {
+        angleIndex = (s16)(this->actor.initPosRot.pos.x + this->actor.initPosRot.pos.y + this->actor.initPosRot.pos.z +
+                           globalCtx->state.frames / 30) %
+                     12;
+        angleIndex = ABS(angleIndex);
+        pos.x += 80.0f * sinf(angles[angleIndex]);
+        pos.z += 80.0f * cosf(angles[angleIndex]);
     }
 
     Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 10, 1000, 1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
-#else if
-void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx);
-f32 D_809F7F34[] = {
-    0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
-};
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/func_809F6E54.s")
-#endif
 
 s32 func_809F706C(EnDodojr* this) {
     if (this->actor.xzDistToLink > 40.0f) {
