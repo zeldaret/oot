@@ -5,17 +5,23 @@
  */
 
 #include "z_en_horse_game_check.h"
+#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #define FLAGS 0x00000010
 
-#define THIS ((EnHorseGameCheck*)thisx)
+#define THIS ((EnHorseGameCheckBase*)thisx)
+#define IN_SQUARE1(actor)                                                                                      \
+    (Math3D_PointInSquare2D(D_80A68464[0], D_80A68464[1], D_80A68464[2], D_80A68464[3], (actor)->posRot.pos.x, \
+                            (actor)->posRot.pos.z))
+#define IN_SQUARE2(actor)                                                                                      \
+    (Math3D_PointInSquare2D(D_80A68474[0], D_80A68474[1], D_80A68474[2], D_80A68474[3], (actor)->posRot.pos.x, \
+                            (actor)->posRot.pos.z))
 
 void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
 const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORTYPE_BG,
@@ -27,39 +33,409 @@ const ActorInit En_Horse_Game_Check_InitVars = {
     (ActorFunc)EnHorseGameCheck_Update,
     (ActorFunc)EnHorseGameCheck_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67550.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67608.s")
+static Vec3f D_80A68440[] = {
+    { 1700.0f, 1.0f, -540.0f },
+    { 117.0f, 1.0f, 488.0f },
+    { -1700.0f, 1.0f, -540.0f },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67618.s")
+f32 D_80A68464[] = { -200.0f, 80.0f, -2300.0f, -1470.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67764.s")
+static f32 D_80A68474[] = { 800.0f, 1000.0f, -2900.0f, -2700.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67BDC.s")
+static Vec3f D_80A68484 = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67BF8.s")
+Vec3f D_80A68490[] = { { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f }, { 1655.0f, -44.0f, -396.0f },
+                       { 1291.0f, -44.0f, 205.0f },  { 379.0f, -21.0f, 455.0f },    { -95.0f, -21.0f, 455.0f },
+                       { -939.0f, 1.0f, 455.0f },    { -1644.0f, -21.0f, -1035.0f } };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67C08.s")
+typedef struct {
+    Actor actor;
+    char unk_14C[0xA4];
+    s32 unk_1F0;
+    char unk_1F4[0x194];
+    s32 unk_388;
+    char unk_38C[0x14];
+    s32 unk_3A0;
+} HorseActor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67C50.s")
+s32 func_80A67550(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck1* this = (EnHorseGameCheck1*) thisx;
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67C68.s")
+    this->base.type = HORSEGAME_TYPE1;
+    this->unk_150 = 0;
+    for (i = 0; i < 3; i++) {
+        this->unk_154[i] = 0;
+    }
+    this->unk_16C =
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -250.0f, 1.0f, -1650.0f, 0, 0x4000, 0, 0x8003);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67C78.s")
+    if (this->unk_16C == NULL) {
+        LogUtils_HungupThread("../z_en_horse_game_check.c", 385);
+    }
+    this->unk_170 = 0;
+    this->unk_178 = 0;
+    this->unk_174 = 0;
+    this->unk_17C = 0;
+    this->unk_180 = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67C88.s")
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67CD4.s")
+s32 func_80A67608(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67CE4.s")
+void func_80A67618(EnHorseGameCheck1* this, GlobalContext* globalCtx) {
+    gSaveContext.cutsceneIndex = 0;
+    if (this->unk_174 == 1) {
+        globalCtx->nextEntranceIndex = 0x4CE;
+        if (gSaveContext.eventInf[0] & 0x40) {
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 6;
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+            globalCtx->fadeTransition = 3;
+            func_800775F0(0x42);
+        } else {
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 4;
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+            func_800775F0(0x42);
+            globalCtx->fadeTransition = 0x2E;
+        }
+    } else {
+        globalCtx->nextEntranceIndex = 0x558;
+        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 3;
+        globalCtx->fadeTransition = 0x20;
+        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+    }
+    DREG(25) = 0;
+    globalCtx->sceneLoadFlag = 0x14;
+    gSaveContext.timer1State = 0;
+}
 
+s32 func_80A67764(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck1* this = (EnHorseGameCheck1*)thisx;
+    Player* player = PLAYER;
+    s32 i;
+    HorseActor* horse2;
+    HorseActor* horse;
+
+    if ((this->unk_170 > 50) && !(this->unk_150 & 2)) {
+        this->unk_150 |= 2;
+        func_80088B34(0);
+    } else if ((this->unk_170 > 80) && (player->rideActor != NULL) && !(this->unk_150 & 1)) {
+        this->unk_150 |= 1;
+        horse = (HorseActor*)player->rideActor;
+        horse->unk_388 = 1;
+    } else if ((this->unk_170 > 81) && !(this->unk_150 & 4)) {
+        horse2 = (HorseActor*)this->unk_16C;
+
+        horse2->unk_388 = 1;
+        this->unk_150 |= 4;
+        Audio_PlaySoundGeneral(0x4835U, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+
+    this->unk_170++;
+
+    for (i = 0; i < 3; i++) {
+        if ((player->rideActor != NULL) &&
+            (Math3D_Vec3f_DistXYZ(&D_80A68440[i], &player->rideActor->posRot.pos) < 400.0f)) {
+            if ((i > 0) && (this->unk_154[i - 1] == 1)) {
+                this->unk_154[i] = 1;
+            } else if (i == 0) {
+                this->unk_154[i] = 1;
+            }
+        }
+        if (Math3D_Vec3f_DistXYZ(&D_80A68440[i], &this->unk_16C->posRot.pos) < 400.0f) {
+            if ((i > 0) && (this->unk_160[i - 1] == 1)) {
+                this->unk_160[i] = 1;
+            } else if (i == 0) {
+                this->unk_160[i] = 1;
+            }
+        }
+    }
+
+    if (this->unk_174 == 0) {
+        Player* player2 = player;
+
+        if ((player2->rideActor != NULL) && (this->unk_154[2] == 1) && IN_SQUARE1(player2->rideActor)) {
+            this->unk_17C++;
+            if (this->unk_17C > 0) {
+                this->unk_174 = 1;
+                this->unk_178 = 55;
+                Audio_SetBGM(0x41);
+                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            for (i = 0; i < 3; i++) {
+                this->unk_154[i] = 0;
+            }
+        }
+        if ((this->unk_16C != NULL) && (this->unk_160[2] == 1) && IN_SQUARE1(this->unk_16C)) {
+            this->unk_180++;
+            if (this->unk_180 > 0) {
+                horse2 = (HorseActor*)this->unk_16C;
+
+                this->unk_174 = 2;
+                this->unk_178 = 70;
+                horse2->unk_1F0 |= 0x800000;
+                Audio_SetBGM(0x41);
+                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            for (i = 0; i < 3; i++) {
+                this->unk_160[i] = 0;
+            }
+        }
+        if (((player2->rideActor != NULL) && IN_SQUARE2(player2->rideActor)) || IN_SQUARE2(&player2->actor)) {
+            Audio_SetBGM(0x41U);
+            this->unk_174 = 2;
+            this->unk_178 = 0x14;
+        }
+        if ((gSaveContext.timer1Value >= 180) && (this->unk_150 & 2)) {
+            Audio_SetBGM(0x41);
+            this->unk_174 = 3;
+            this->unk_178 = 0x14;
+        }
+    } else {
+        if (this->unk_178 > 0) {
+            this->unk_178--;
+        } else {
+            func_80A67618(this, globalCtx);
+        }
+    }
+    return 1;
+}
+
+s32 func_80A67BDC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
+
+    this->base.type = HORSEGAME_TYPE2;
+    this->unk_150 = 0;
+    this->unk_154= 0;
+    return 1;
+}
+
+s32 func_80A67BF8(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    return 1;
+}
+
+s32 func_80A67C08(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
+    Player* player = PLAYER;
+    HorseActor* horse = (HorseActor*)player->rideActor;
+
+    if (horse == NULL) {
+        return 1;
+    }
+
+    if (this->unk_154 > 90) {
+        if (globalCtx) {}
+        horse->unk_3A0 = 1;
+    }
+    this->unk_154++;
+    return 1;
+}
+
+s32 func_80A67C50(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck3* this = (EnHorseGameCheck3*)thisx;
+
+    this->base.type = HORSEGAME_TYPE3;
+    this->unk_150 = 0;
+    return 1;
+}
+
+s32 func_80A67C68(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    return 1;
+}
+
+s32 func_80A67C78(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    return 1;
+}
+
+s32 func_80A67C88(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
+    s32 i;
+
+    this->base.type = HORSEGAME_TYPE4;
+    this->unk_154 = 0;
+    this->unk_198 = 0;
+    this->unk_19C = 0;
+    for (i = 0; i < 16; i++) {
+        this->unk_158[i] = 0;
+    }
+    this->unk_1A0 = 0;
+    return 1;
+}
+
+s32 func_80A67CD4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    return 1;
+}
+
+void func_80A67CE4(EnHorseGameCheck4* this, GlobalContext* globalCtx) {
+    if ((this->unk_19C == 1) || (this->unk_19C == 2)) {
+        gSaveContext.cutsceneIndex = 0;
+        globalCtx->nextEntranceIndex = 0x4CE;
+        globalCtx->fadeTransition = 0x2E;
+        globalCtx->sceneLoadFlag = 0x14;
+    } else if (this->unk_19C == 4) {
+        gSaveContext.timer1Value = 240;
+        gSaveContext.timer1State = 0xF;
+        gSaveContext.cutsceneIndex = 0;
+        globalCtx->nextEntranceIndex = 0x4CE;
+        globalCtx->fadeTransition = 0x2E;
+        globalCtx->sceneLoadFlag = 0x14;
+    } else {
+        // not supported
+        osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
+        gSaveContext.cutsceneIndex = 0;
+        globalCtx->nextEntranceIndex = 0x157;
+        globalCtx->fadeTransition = 0x2E;
+        globalCtx->sceneLoadFlag = 0x14;
+    }
+}
+
+#ifdef NON_MATCHING
+s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+    EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
+    s32 i;
+    Player* player = PLAYER;
+    HorseActor* horse;
+
+    if (!(this->unk_154 & 0x40) && IN_SQUARE1(player->rideActor)) {
+        this->unk_154 |= 0x40;
+    } else if ((this->unk_154 & 0x40) && !(this->unk_154 & 0x20) && !IN_SQUARE1(player->rideActor)) {
+        this->unk_154 |= 0x20;
+    }
+    if ((this->unk_150 > 50) && !(this->unk_154 & 2)) {
+        this->unk_154 |= 2;
+        func_80088B34(0);
+    } else if ((this->unk_150 > 80) && (player->rideActor != NULL) && !(this->unk_154 & 1)) {
+        this->unk_154 |= 1;
+        horse = (HorseActor*)player->rideActor;
+
+        horse->unk_388 = 1;
+    } else if ((this->unk_150 > 81) && !(this->unk_154 & 0x10)) {
+        this->unk_154 |= 0x10;
+        Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+    this->unk_150++;
+    if (this->unk_19C == 0) {
+
+        for (i = 0; i < 16; i++) {
+
+            if (this->unk_1A0 || (i < 8)) {
+                f32 dist = Math_Vec3f_DistXZ(&D_80A68490[i % 8], &player->rideActor->posRot.pos);
+                if ((player->rideActor != NULL) && (dist < 250.0f)) {
+                    horse = (HorseActor*)player->rideActor;
+
+                    if (horse->unk_1F0 & 4) {
+                        if ((i > 0) && (this->unk_158[i - 1] == 1)) {
+                            this->unk_158[i] = 1;
+                        } else if (i == 0) {
+                            this->unk_158[i] = 1;
+                        }
+
+                        if ((this->unk_158[i - 1] == 0) && !(this->unk_154 & 8)) {
+                            this->unk_154 |= 8;
+                            func_8010B680(globalCtx, 0x208C, NULL);
+                            this->unk_19C = 4;
+                            this->unk_198 = 30;
+                        }
+                        if (1) {}
+                    }
+                }
+            }
+        }
+        if ((player->rideActor != NULL) && (this->unk_154 & 0x20) && IN_SQUARE1(player->rideActor)) {
+            if ((this->unk_1A0 == 1) && (this->unk_158[15] == 0) && (player->rideActor->pos4.x < -200.0f)) {
+                this->unk_154 |= 8;
+                func_8010B680(globalCtx, 0x208C, NULL);
+                this->unk_19C = 4;
+                this->unk_198 = 30;
+            } else if (this->unk_158[15] == 1) {
+                this->unk_1A0 = 2;
+                Audio_SetBGM(0x41);
+                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                this->unk_19C = 1;
+                this->unk_198 = 70;
+                gSaveContext.timer1State = 15;
+            } else if ((this->unk_158[7] == 1) && !(this->unk_154 & 4)) {
+                this->unk_1A0 = 1;
+                this->unk_154 |= 4;
+                func_8010B680(globalCtx, 0x208D, NULL);
+            } else if (this->unk_158[7] == 0) {
+                this->unk_154 |= 8;
+                func_8010B680(globalCtx, 0x208C, NULL);
+                this->unk_19C = 4;
+                this->unk_198 = 30;
+            } else if (player->rideActor->pos4.x > 80.0f) {
+                this->unk_154 |= 8;
+                func_8010B680(globalCtx, 0x208C, NULL);
+                this->unk_19C = 4;
+                this->unk_198 = 30;
+            }
+        }
+        if ((gSaveContext.timer1Value >= 180) && (this->unk_154 & 2)) {
+            gSaveContext.timer1Value = 240;
+            this->unk_19C = 2;
+            this->unk_198 = 30;
+            gSaveContext.timer1State = 0;
+        }
+    } else {
+        if (this->unk_198 > 0) {
+            this->unk_198--;
+        } else {
+            func_80A67CE4(this, globalCtx);
+        }
+    }
+    return 1;
+}
+#else
+s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67DFC.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_Init.s")
+static EnHorseGameCheckFunc sInitFuncs[] = {
+    NULL, func_80A67550, func_80A67BDC, func_80A67C50, func_80A67C88,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_Destroy.s")
+static EnHorseGameCheckFunc sDestroyFuncs[] = {
+    NULL, func_80A67608, func_80A67BF8, func_80A67C68, func_80A67CD4,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_Update.s")
+static EnHorseGameCheckFunc sUpdateFuncs[] = {
+    NULL, func_80A67764, func_80A67C08, func_80A67C78, func_80A67DFC,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_Draw.s")
+void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnHorseGameCheckBase* this = THIS;
+
+    if ((globalCtx->sceneNum == SCENE_SPOT20) && (Flags_GetEventChkInf(0x18) || DREG(1))) {
+        this->actor.params = HORSEGAME_TYPE4;
+    }
+    if (sInitFuncs[this->actor.params] != NULL) {
+        sInitFuncs[this->actor.params](this, globalCtx);
+    }
+}
+
+void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnHorseGameCheckBase* this = THIS;
+
+    if (sDestroyFuncs[this->actor.params] != NULL) {
+        sDestroyFuncs[this->actor.params](this, globalCtx);
+    }
+}
+
+void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnHorseGameCheckBase* this = THIS;
+
+    if (sUpdateFuncs[this->type] != NULL) {
+        sUpdateFuncs[this->type](this, globalCtx);
+    }
+}
+
+void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx) {
+}
