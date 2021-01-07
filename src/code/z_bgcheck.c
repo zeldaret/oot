@@ -1,6 +1,5 @@
 #include "global.h"
 #include "vt.h"
-#include "z64actor.h"
 
 #define SS_NULL 0xFFFF
 
@@ -1111,9 +1110,9 @@ StaticLookup* BgCheck_GetStaticLookup(CollisionContext* colCtx, StaticLookup* lo
  * `sector` returns the subdivision x,y,z indices containing or is nearest to `pos`
  */
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector) {
-    sector->x = (pos->x - colCtx->minBounds.x) * colCtx->subdivSizeInv.x;
-    sector->y = (pos->y - colCtx->minBounds.y) * colCtx->subdivSizeInv.y;
-    sector->z = (pos->z - colCtx->minBounds.z) * colCtx->subdivSizeInv.z;
+    sector->x = (pos->x - colCtx->minBounds.x) * colCtx->subdivLengthInv.x;
+    sector->y = (pos->y - colCtx->minBounds.y) * colCtx->subdivLengthInv.y;
+    sector->z = (pos->z - colCtx->minBounds.z) * colCtx->subdivLengthInv.z;
 
     if (sector->x < 0) {
         sector->x = 0;
@@ -1143,9 +1142,9 @@ void func_8003AEA8(CollisionContext* colCtx, Vec3f* pos, s32* sx, s32* sy, s32* 
     f32 dx = pos->x - colCtx->minBounds.x;
     f32 dy = pos->y - colCtx->minBounds.y;
     f32 dz = pos->z - colCtx->minBounds.z;
-    *sx = dx * colCtx->subdivSizeInv.x;
-    *sy = dy * colCtx->subdivSizeInv.y;
-    *sz = dz * colCtx->subdivSizeInv.z;
+    *sx = dx * colCtx->subdivLengthInv.x;
+    *sy = dy * colCtx->subdivLengthInv.y;
+    *sz = dz * colCtx->subdivLengthInv.z;
 
     if (((s32)dx % (s32)colCtx->subdivLength.x < BGCHECK_SUBDIV_OVERLAP) && (*sx > 0)) {
         *sx -= 1;
@@ -1169,9 +1168,9 @@ void func_8003B04C(CollisionContext* colCtx, Vec3f* pos, s32* sx, s32* sy, s32* 
     f32 dx = pos->x - colCtx->minBounds.x;
     f32 dy = pos->y - colCtx->minBounds.y;
     f32 dz = pos->z - colCtx->minBounds.z;
-    *sx = dx * colCtx->subdivSizeInv.x;
-    *sy = dy * colCtx->subdivSizeInv.y;
-    *sz = dz * colCtx->subdivSizeInv.z;
+    *sx = dx * colCtx->subdivLengthInv.x;
+    *sy = dy * colCtx->subdivLengthInv.y;
+    *sz = dz * colCtx->subdivLengthInv.z;
 
     if (((s32)colCtx->subdivLength.x - BGCHECK_SUBDIV_OVERLAP < (s32)dx % (s32)colCtx->subdivLength.x) &&
         (*sx < colCtx->subdivAmount.x - 1)) {
@@ -1441,16 +1440,16 @@ s32 BgCheck_IsSpotScene(GlobalContext* globalCtx) {
     return false;
 }
 
-struct BgCheckSceneMemEntry {
+typedef struct {
     s16 sceneId;
     u32 memSize;
-};
+} BgCheckSceneMemEntry;
 
 /**
  * Get custom scene memSize
  */
 s32 BgCheck_TryGetCustomMemsize(s32 sceneId, u32* memSize) {
-    static struct BgCheckSceneMemEntry sceneMemList[] = {
+    static BgCheckSceneMemEntry sceneMemList[] = {
         { SCENE_SPOT00, 0xB798 },     { SCENE_GANON_FINAL, 0x78C8 }, { SCENE_GANON_DEMO, 0x70C8 },
         { SCENE_JYASINBOSS, 0xACC8 }, { SCENE_KENJYANOMA, 0x70C8 },  { SCENE_JYASINZOU, 0x16CC8 },
         { SCENE_HIDAN, 0x198C8 },     { SCENE_GANON_BOSS, 0x84C8 },
@@ -1468,27 +1467,27 @@ s32 BgCheck_TryGetCustomMemsize(s32 sceneId, u32* memSize) {
 /**
  * Compute subdivLength for scene mesh lookup, for a single dimension
  */
-void BgCheck_SetSubdivisionDimension(f32 min, s32 subdivAmount, f32* max, f32* subdivLength, f32* subdivSizeInv) {
+void BgCheck_SetSubdivisionDimension(f32 min, s32 subdivAmount, f32* max, f32* subdivLength, f32* subdivLengthInv) {
     f32 length = (*max - min);
 
     *subdivLength = (s32)(length / subdivAmount) + 1;
     *subdivLength = CLAMP_MIN(*subdivLength, BGCHECK_SUBDIV_MIN);
-    *subdivSizeInv = 1.0f / *subdivLength;
+    *subdivLengthInv = 1.0f / *subdivLength;
 
     *max = *subdivLength * subdivAmount + min;
 }
 
-struct BgCheckSceneSubdivisionEntry {
+typedef struct {
     s16 sceneId;
     Vec3s subdivAmount;
     s32 nodeListMax; // if -1, dynamically compute max nodes
-};
+} BgCheckSceneSubdivisionEntry;
 
 /**
  * Allocate CollisionContext
  */
 void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, CollisionHeader* colHeader) {
-    static struct BgCheckSceneSubdivisionEntry sceneSubdivisionList[] = {
+    static BgCheckSceneSubdivisionEntry sceneSubdivisionList[] = {
         { SCENE_HAKADAN, { 23, 7, 14 }, -1 },
         { SCENE_BMORI1, { 38, 1, 38 }, -1 },
     };
@@ -1573,11 +1572,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, Collis
     colCtx->maxBounds.y = colCtx->colHeader->maxBounds.y;
     colCtx->maxBounds.z = colCtx->colHeader->maxBounds.z;
     BgCheck_SetSubdivisionDimension(colCtx->minBounds.x, colCtx->subdivAmount.x, &colCtx->maxBounds.x,
-                                    &colCtx->subdivLength.x, &colCtx->subdivSizeInv.x);
+                                    &colCtx->subdivLength.x, &colCtx->subdivLengthInv.x);
     BgCheck_SetSubdivisionDimension(colCtx->minBounds.y, colCtx->subdivAmount.y, &colCtx->maxBounds.y,
-                                    &colCtx->subdivLength.y, &colCtx->subdivSizeInv.y);
+                                    &colCtx->subdivLength.y, &colCtx->subdivLengthInv.y);
     BgCheck_SetSubdivisionDimension(colCtx->minBounds.z, colCtx->subdivAmount.z, &colCtx->maxBounds.z,
-                                    &colCtx->subdivLength.z, &colCtx->subdivSizeInv.z);
+                                    &colCtx->subdivLength.z, &colCtx->subdivLengthInv.z);
     memSize = colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y * colCtx->subdivAmount.z +
               colCtx->colHeader->nbPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
@@ -3726,22 +3725,22 @@ s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, Collis
                                    f32 radius, SSList* ssList) {
     CollisionPoly* curPoly;
     DynaCollisionContext* dyna;
-    SSNode* node;
+    SSNode* curNode;
     s32 curPolyId;
 
     if (ssList->head == SS_NULL) {
         return false;
     }
     dyna = &colCtx->dyna;
-    node = &dyna->polyNodes.tbl[ssList->head];
+    curNode = &dyna->polyNodes.tbl[ssList->head];
     while (true) {
-        curPolyId = node->polyId;
+        curPolyId = curNode->polyId;
         curPoly = &dyna->polyList[curPolyId];
         if (COLPOLY_VIA_FLAG_TEST(curPoly->flags_vIA, xpFlags)) {
-            if (node->next == SS_NULL) {
+            if (curNode->next == SS_NULL) {
                 break;
             } else {
-                node = &dyna->polyNodes.tbl[node->next];
+                curNode = &dyna->polyNodes.tbl[curNode->next];
                 continue;
             }
         }
@@ -3749,10 +3748,10 @@ s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, Collis
             *outPoly = curPoly;
             return true;
         }
-        if (node->next == SS_NULL) {
+        if (curNode->next == SS_NULL) {
             break;
         } else {
-            node = &dyna->polyNodes.tbl[node->next];
+            curNode = &dyna->polyNodes.tbl[curNode->next];
             continue;
         }
     }

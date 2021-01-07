@@ -44,10 +44,10 @@ typedef struct {
         };
     };
     /* 0x08 */ Vec3s normal; // Unit normal vector
-                           // Value ranges from -0x7FFF to 0x7FFF, representing -1.0 to 1.0; 0x8000 is not valid
+                             // Value ranges from -0x7FFF to 0x7FFF, representing -1.0 to 1.0; 0x8000 is invalid
 
     /* 0x0E */ s16 dist; // Plane distance from origin along the normal
-} CollisionPoly;         // size = 0x10
+} CollisionPoly; // size = 0x10
 
 typedef struct {
     /* 0x00 */ u16 cameraSType;
@@ -102,7 +102,8 @@ typedef struct {
     /* 0x00 */ u16 max;          // original name: short_slist_node_size
     /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
     /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
-    /* 0x08 */ u8* polyCheckTbl; // points to an array of bytes, one per static poly. Zero initialized when starting a bg check, and set to 1 if that poly has already been tested.
+    /* 0x08 */ u8* polyCheckTbl; // points to an array of bytes, one per static poly. Zero initialized when starting a
+                                 // bg check, and set to 1 if that poly has already been tested.
 } SSNodeList;
 
 typedef struct {
@@ -128,7 +129,7 @@ typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
-    /* 0x10 */ u16 vtxStartIndex; 
+    /* 0x10 */ u16 vtxStartIndex;
     /* 0x14 */ ScaleRotPos prevTransform;
     /* 0x34 */ ScaleRotPos curTransform;
     /* 0x54 */ Sphere16 boundingSphere;
@@ -141,7 +142,7 @@ typedef struct {
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
     /* 0x13F0 */ CollisionPoly* polyList;
-    /* 0x13F4 */ Vec3s* vtxList;        
+    /* 0x13F4 */ Vec3s* vtxList;
     /* 0x13F8 */ DynaSSNodeList polyNodes;
     /* 0x1404 */ s32 polyNodesMax;
     /* 0x1408 */ s32 polyListMax;
@@ -149,16 +150,16 @@ typedef struct {
 } DynaCollisionContext; // size = 0x1410
 
 typedef struct CollisionContext {
-    /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ Vec3f minBounds; // minimum coordinates of collision bounding box
-    /* 0x10 */ Vec3f maxBounds; // maximum coordinates of collision bounding box
-    /* 0x1C */ Vec3i subdivAmount;
-    /* 0x28 */ Vec3f subdivLength;
-    /* 0x34 */ Vec3f subdivSizeInv;
-    /* 0x40 */ StaticLookup* lookupTbl; //3d array of length subdivAmount
+    /* 0x00 */ CollisionHeader* colHeader; // scene's static collision
+    /* 0x04 */ Vec3f minBounds;            // minimum coordinates of collision bounding box
+    /* 0x10 */ Vec3f maxBounds;            // maximum coordinates of collision bounding box
+    /* 0x1C */ Vec3i subdivAmount;         // x, y, z subdivisions of the scene's static collision
+    /* 0x28 */ Vec3f subdivLength;         // x, y, z subdivision worldspace lengths
+    /* 0x34 */ Vec3f subdivLengthInv;      // inverse of subdivision length
+    /* 0x40 */ StaticLookup* lookupTbl;    // 3d array of length subdivAmount
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
-    /* 0x1460 */ u32 memSize;
+    /* 0x1460 */ u32 memSize; // Size of all allocated memory plus CollisionContext
 } CollisionContext; // size = 0x1464
 
 typedef struct {
