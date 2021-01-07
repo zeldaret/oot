@@ -91,7 +91,6 @@ static u8 sAnimModes[] = { ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE
 extern FlexSkeletonHeader D_06008968;
 extern AnimationHeader D_06009ED4;
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A32BD0.s")
 // Same as EnGe3_ChangeAction
 void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->actionFunc = sActionFuncs[i];
@@ -100,7 +99,6 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->stateFlags &= ~(GE2_STATE_ANIMCOMPLETE);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Init.s")
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe2* this = THIS;
@@ -158,7 +156,6 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 0xA;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Destroy.s")
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
@@ -167,7 +164,6 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // Detection/check functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A32ECC.s")
 s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
     f32 visionScale;
 
@@ -187,7 +183,6 @@ s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A32F74.s")
 s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, s16 yRot, f32 yDetectRange) {
     Player* player = PLAYER;
     Vec3f posResult;
@@ -214,7 +209,6 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
     return 1;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A330A0.s")
 // Much simpler than the corresponding Ge1 function EnGe1_CheckCarpentersFreed
 s32 EnGe2_CheckCarpentersFreed(void) {
     // Some sort of cast is required, either u8 or u16
@@ -226,7 +220,6 @@ s32 EnGe2_CheckCarpentersFreed(void) {
 
 // Actions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A330CC.s")
 void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
@@ -246,7 +239,6 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A331A0.s")
 void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x400, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -273,7 +265,6 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A332D4.s")
 void EnGe2_CaptureTurn(EnGe2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x400, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -285,7 +276,6 @@ void EnGe2_CaptureTurn(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A3334C.s")
 void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     static Vec3f effectVelocity = { 0.0f, -0.05f, 0.0f };
     static Vec3f effectAccel = { 0.0f, -0.025f, 0.0f };
@@ -305,7 +295,6 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33444.s")
 void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
     s32 playerSpotted;
 
@@ -342,7 +331,6 @@ void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A3354C.s")
 void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
     s32 playerSpotted;
 
@@ -364,7 +352,6 @@ void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33600.s")
 void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx) {
     u8 playerSpotted;
 
@@ -386,14 +373,12 @@ void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A336C4.s")
 void EnGe2_Stand(EnGe2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->walkDirection, 2, 0x400, 0x200);
 }
 
 // Functions that also exist, in whole or in part, in EnGe3
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33704.s")
 // Same as EnGe3_TurnToFacePlayer
 void EnGe2_TurnToFacePlayer(EnGe2* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -415,7 +400,6 @@ void EnGe2_TurnToFacePlayer(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A3381C.s")
 // Same as EnGe3_LookAtPlayer
 void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
     if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) &&
@@ -429,7 +413,6 @@ void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33930.s")
 void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
 
@@ -450,13 +433,11 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_TurnToFacePlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A339EC.s")
 // Same as EnGe3_WaitLookAtPlayer
 void EnGe2_WaitLookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_LookAtPlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33A0C.s")
 // Same as EnGe3_WaitTillCardGiven
 void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
@@ -467,7 +448,6 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33A6C.s")
 // Same as EnGe3_GiveCard
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
@@ -478,7 +458,6 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33AFC.s")
 // Similar, but not identical, to EnGe3_ForceTalk
 void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
@@ -492,7 +471,6 @@ void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_LookAtPlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33B7C.s")
 void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speedXZ = 0.0f;
@@ -502,7 +480,6 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
     func_8010B680(globalCtx, 0x6000, &this->actor);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33BE8.s")
 // Same as EnGe3_MaintainCollider
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -517,7 +494,6 @@ void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33C8C.s")
 // Same as EnGe3_MoveAndBlink
 void EnGe3_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
 
@@ -535,7 +511,6 @@ void EnGe3_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
 
 // Update functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33D10.s")
 void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
@@ -559,7 +534,6 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3_MoveAndBlink(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33DE0.s")
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
@@ -569,7 +543,6 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
     EnGe3_MoveAndBlink(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Update.s")
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
     s32 paramsType;
@@ -620,7 +593,6 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A3402C.s")
 void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnGe2* this = THIS;
@@ -649,7 +621,6 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A3415C.s")
 s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGe2* this = THIS;
 
@@ -660,7 +631,6 @@ s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A341A0.s")
 void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
     EnGe2* this = THIS;
@@ -670,7 +640,6 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Draw.s")
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* sEyeTextures[] = {
         0x06004F78, // Half-open
