@@ -16,19 +16,22 @@ typedef struct EnGe2 {
     /* 0x0260 */ Vec3s morphTable[22];
     /* 0x02E4 */ s16 eyeIndex; // eyeIndex
     /* 0x02E6 */ s16 blinkTimer; // blinkTimer
-    /* 0x02E8 */ Vec3s unk_2E8;
+    /* 0x02E8 */ Vec3s headRot;
     /* 0x02EE */ Vec3s unk_2EE;
-    /* 0x02F4 */ u16 unk_2F4;
-    /* 0x02F6 */ s16 unk_2F6;
-    /* 0x02F8 */ s16 unk_2F8;
-    // /* 0x02FA */ char unk_2FA[0x2];
-    /* 0x02FC */ f32 unk_2FC;
-    /* 0x0300 */ u16 unk_300;
-    /* 0x0302 */ u16 unk_302;
+    /* 0x02F4 */ u16 stateFlags;
+    // 1    unused
+    // 2    turning, other animations?
+    // 4    knocked out?
+    // 8    capturing Player
+    // 0x10 
+    /* 0x02F6 */ s16 walkDirection;
+    /* 0x02F8 */ s16 yawTowardsLink;
+    /* 0x02FC */ f32 yDetectRange;
+    /* 0x0300 */ u16 walkDuration;
+    /* 0x0302 */ u16 walkTimer;
     /* 0x0304 */ u8 unk_304;
-    /* 0x0305 */ u8 unk_305;
-    /* 0x0306 */ u8 unk_306;
-    // /* 0x0307 */ char unk_307;
+    /* 0x0305 */ u8 timer;
+    /* 0x0306 */ u8 playerSpottedParam;
     /* 0x0308 */ EnGe2ActionFunc actionFunc;
 } EnGe2; // size = 0x030C
 
