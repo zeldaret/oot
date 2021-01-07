@@ -6,6 +6,11 @@
 
 #define THIS ((EnGe2*)thisx)
 
+#define GE2_STATE_ANIMCOMPLETE 1 << 1
+#define GE2_STATE_KO 1 << 2
+#define GE2_STATE_CAPTURING 1 << 3
+#define GE2_STATE_TALKED 1 << 4
+
 typedef enum {
     /* 0 */ GE2_TYPE_PATROLLING,
     /* 1 */ GE2_TYPE_STATIONARY,
@@ -15,7 +20,7 @@ typedef enum {
 typedef enum {
     /* 0 */ GE2_ACTION_WALK,
     /* 1 */ GE2_ACTION_ABOUTTURN,
-    /* 2 */ GE2_ACTION2,
+    /* 2 */ GE2_ACTION_TURNPLAYERSPOTTED,
     /* 3 */ GE2_ACTION_KNOCKEDOUT,
     /* 4 */ GE2_ACTION_CAPTURETURN,
     /* 5 */ GE2_ACTION_CAPTURECHARGE,
@@ -34,7 +39,7 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_CaptureTurn(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx);
-void EnGe2_Action2(EnGe2* this, GlobalContext* globalCtx);
+void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx);
 void EnGe2_Stand(EnGe2* this, GlobalContext* globalCtx);
@@ -66,7 +71,7 @@ ColliderCylinderInit sCylinderInit = {
 };
 
 static EnGe2ActionFunc sActionFuncs[] = {
-    EnGe2_Walk, EnGe2_AboutTurn, EnGe2_Action2, EnGe2_KnockedOut, EnGe2_CaptureTurn,
+    EnGe2_Walk, EnGe2_AboutTurn, EnGe2_TurnPlayerSpotted, EnGe2_KnockedOut, EnGe2_CaptureTurn,
     EnGe2_CaptureCharge, EnGe2_CaptureClose, EnGe2_Stand, EnGe2_WaitLookAtPlayer,
 };
 
@@ -92,7 +97,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->actionFunc = sActionFuncs[i];
     Animation_Change(&this->skelAnime, sAnimations[i], 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[i]),
                      sAnimModes[i], -8.0f);
-    this->stateFlags &= ~2;
+    this->stateFlags &= ~(GE2_STATE_ANIMCOMPLETE);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Init.s")
@@ -160,8 +165,10 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
+// Detection/check functions
+
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A32ECC.s")
-s32 func_80A32ECC(GlobalContext* globalCtx, EnGe2* this) {
+s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
     f32 visionScale;
 
     visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
@@ -181,7 +188,7 @@ s32 func_80A32ECC(GlobalContext* globalCtx, EnGe2* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A32F74.s")
-s32 func_80A32F74(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, s16 yRot, f32 yDetectRange) {
+s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, s16 yRot, f32 yDetectRange) {
     Player* player = PLAYER;
     Vec3f posResult;
     CollisionPoly* outPoly;
@@ -216,6 +223,8 @@ s32 EnGe2_CheckCarpentersFreed(void) {
     }
     return 0;
 }
+
+// Actions
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A330CC.s")
 void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
@@ -286,7 +295,7 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
 
     this->actor.flags &= ~1;
-    if (this->stateFlags & 2) {
+    if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (globalCtx->state.frames) * 0x2800;
         effectPos.x = this->actor.posRot2.pos.x + (Math_CosS(effectAngle) * 5.0f);
         effectPos.y = this->actor.posRot2.pos.y + 10.0f;
@@ -297,15 +306,15 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33444.s")
-void EnGe2_Action2(EnGe2* this, GlobalContext* globalCtx) {
+void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
     s32 playerSpotted;
 
     this->actor.speedXZ = 0.0f;
-    
-    if (this->stateFlags & 0x10) {
-        this->stateFlags &= ~0x10;
+
+    if (this->stateFlags & GE2_STATE_TALKED) {
+        this->stateFlags &= ~(GE2_STATE_TALKED);
     } else {
-        playerSpotted = func_80A32ECC(globalCtx, this);
+        playerSpotted = Ge2_DetectPlayerInAction(globalCtx, this);
 
         if (playerSpotted != 0) {
             this->timer = 100;
@@ -338,14 +347,14 @@ void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
     s32 playerSpotted;
 
     this->actor.speedXZ = 0.0f;
-    playerSpotted = func_80A32ECC(globalCtx, this);
+    playerSpotted = Ge2_DetectPlayerInAction(globalCtx, this);
 
     if (playerSpotted != 0) {
-        EnGe2_ChangeAction(this, GE2_ACTION2);
+        EnGe2_ChangeAction(this, GE2_ACTION_TURNPLAYERSPOTTED);
         this->timer = 100;
         this->playerSpottedParam = playerSpotted;
         this->yawTowardsLink = this->actor.yawTowardsLink;
-    } else if (this->stateFlags & 2) {
+    } else if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, this->walkDirection, 2, 0x400, 0x200);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
@@ -359,10 +368,10 @@ void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
 void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx) {
     u8 playerSpotted;
 
-    playerSpotted = func_80A32ECC(globalCtx, this);
+    playerSpotted = Ge2_DetectPlayerInAction(globalCtx, this);
     if (playerSpotted != 0) {
         this->actor.speedXZ = 0.0f;
-        EnGe2_ChangeAction(this, GE2_ACTION2);
+        EnGe2_ChangeAction(this, GE2_ACTION_TURNPLAYERSPOTTED);
         this->timer = 100;
         this->playerSpottedParam = playerSpotted;
         this->yawTowardsLink = this->actor.yawTowardsLink;
@@ -485,7 +494,7 @@ void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33B7C.s")
 void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
-    this->stateFlags |= 8;
+    this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speedXZ = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
     func_8002DF54(globalCtx, &this->actor, 95);
@@ -495,7 +504,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func _80A33BE8.s")
 // Same as EnGe3_MaintainCollider
-void func_80A33BE8(EnGe2* this, GlobalContext* globalCtx) {
+void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
@@ -503,8 +512,8 @@ void func_80A33BE8(EnGe2* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
 
-    if ((!(this->stateFlags & 2)) && SkelAnime_Update(&this->skelAnime)) {
-        this->stateFlags |= 2;
+    if ((!(this->stateFlags & GE2_STATE_ANIMCOMPLETE)) && SkelAnime_Update(&this->skelAnime)) {
+        this->stateFlags |= GE2_STATE_ANIMCOMPLETE;
     }
 }
 
@@ -530,7 +539,7 @@ void EnGe3_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
 void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
-    func_80A33BE8(this, globalCtx);
+    EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -554,8 +563,8 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
-    this->stateFlags |= 0x10;
-    func_80A33BE8(this, globalCtx);
+    this->stateFlags |= GE2_STATE_TALKED;
+    EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
     EnGe3_MoveAndBlink(this, globalCtx);
 }
@@ -565,9 +574,9 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
     s32 paramsType;
 
-    func_80A33BE8(this, globalCtx);
+    EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
 
-    if ((this->stateFlags & 4) || (this->stateFlags & 8)) {
+    if ((this->stateFlags & GE2_STATE_KO) || (this->stateFlags & GE2_STATE_CAPTURING)) {
         this->actionFunc(this, globalCtx);
     } else if (this->collider.base.acFlags & 2) {
         if ((this->collider.body.acHitItem != NULL) && (this->collider.body.acHitItem->toucher.flags & 0x80)) {
@@ -578,13 +587,13 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
-        this->stateFlags |= 4;
+        this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, globalCtx);
 
-        if (func_80A32F74(globalCtx, this, &this->actor.posRot2.pos, this->actor.shape.rot.y, this->yDetectRange)) {
+        if (Ge2_DetectPlayerInUpdate(globalCtx, this, &this->actor.posRot2.pos, this->actor.shape.rot.y, this->yDetectRange)) {
             // Discovered!
             osSyncPrintf(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, globalCtx);
@@ -597,7 +606,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (!(this->stateFlags & 4)) {
+    if (!(this->stateFlags & GE2_STATE_KO)) {
         paramsType = this->actor.params & 0xFF; // Not necessary, but looks a bit nicer
         if ((paramsType == GE2_TYPE_PATROLLING) || (paramsType == GE2_TYPE_STATIONARY)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -605,7 +614,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     EnGe3_MoveAndBlink(this, globalCtx);
 
-    if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & 4)) {
+    if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.unk_1F = 6;
     }
@@ -625,7 +634,7 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.dmgEffectTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
-        this->stateFlags |= 4;
+        this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
     }

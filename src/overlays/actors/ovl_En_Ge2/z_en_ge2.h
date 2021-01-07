@@ -19,11 +19,6 @@ typedef struct EnGe2 {
     /* 0x02E8 */ Vec3s headRot;
     /* 0x02EE */ Vec3s unk_2EE;
     /* 0x02F4 */ u16 stateFlags;
-    // 1    unused
-    // 2    turning, other animations?
-    // 4    knocked out?
-    // 8    capturing Player
-    // 0x10 
     /* 0x02F6 */ s16 walkDirection;
     /* 0x02F8 */ s16 yawTowardsLink;
     /* 0x02FC */ f32 yDetectRange;
