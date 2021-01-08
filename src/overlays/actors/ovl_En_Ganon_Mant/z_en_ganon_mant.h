@@ -34,7 +34,6 @@ typedef struct EnGanonMant {
     /* 0x1704 */ u8 unk_1704;
     /* 0x1705 */ u8 unk_1705;
     /* 0x1706 */ u8 unk_1706;
-    /* 0x1706 */ char unk_1707[0x1];
 } EnGanonMant; // size = 0x1708
 
 extern const ActorInit En_Ganon_Mant_InitVars;
