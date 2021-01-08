@@ -475,9 +475,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     u8 sp8D;
     Player* player;
     s32 pad[3];
-    Vec3f sp68;
     Camera* temp_v0;
     BossGanon2Effect* temp_v0_3;
+    Vec3f sp68;
+    s32 objectIdx;
     s16 temp_a1;
     Vec3f* temp[2];
 
@@ -487,7 +488,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 
     switch (this->unk_39C) {
         case 0:
-            if (Object_IsLoaded(&globalCtx->objectCtx, Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON_ANIME3))) {
+            objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON_ANIME3);
+            if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
