@@ -2723,80 +2723,58 @@ void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
     dyna->bitFlag |= 1;
 }
 
-typedef struct{
-    s32 index;
-} IndexStruct;
-
 /**
  * original name: DynaPolyInfo_expandSRT
  */
 void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId, s32* vtxStartIndex,
                         s32* polyStartIndex) {
-    MtxF mtx;    // sp128
+    MtxF mtx;
+    Actor* actor;
+    s32 pad;
     s32 pad2;
     f32 numVtxInverse;
-    f32 temp_ret;
-    f32 newNormMagnitude;
-    CollisionPoly* newPoly; // s0
-    Vec3f sp108;
-    Sphere16* sphere; // s5
-    Vec3s* dvtxList;
-    Vec3s* point;         // v0
-    Vec3f newCenterPoint; // spF0
-    f32 newRadiusSq;      // f2 spEC;
+    s32 i;
+    Vec3f pos;
+    Sphere16* sphere;
+    Vec3s* dVtxList;
+    Vec3s* point;
+    Vec3f newCenterPoint;
+    f32 newRadiusSq;
     CollisionHeader* pbgdata;
-    Vec3f spDC;
-    Vec3f spD0;
-    Vec3f spC4;
-    Vec3f spB8;
-    Vec3f newNorm; // spAC
-    s32 pi;        // s0
-    s32 i;         // s3
-    s16 normY;
-    s16 spA0;
-    s16 sp9E;
-    s16 sp9C;
-    Vec3f sp90;
-    Vec3f sp84;
-    Actor* actor;
-    CollisionPoly* poly;
-    s32 pad;
-    s16 sp76;
-    s16 sp74;
-    s16 sp72;
+    Vec3f newVtx;
+    Vec3f vtxA;
+    Vec3f vtxB;
+    Vec3f vtxC;
+    Vec3f newNormal;
 
-    //_6880
     pbgdata = dyna->bgActors[bgId].colHeader;
     sphere = &dyna->bgActors[bgId].boundingSphere;
     actor = dyna->bgActors[bgId].actor;
     dyna->bgActors[bgId].dynaLookup.polyStartIndex = *polyStartIndex;
     dyna->bgActors[bgId].vtxStartIndex = *vtxStartIndex;
-    sp108 = actor->posRot.pos;
-    sp108.y += actor->shape.unk_08 * actor->scale.y;
+    pos = actor->posRot.pos;
+    pos.y += actor->shape.unk_08 * actor->scale.y;
 
-    //_6934 ab60d4
-    ScaleRotPos_SetValue(&dyna->bgActors[bgId].curTransform, &actor->scale, &actor->shape.rot, &sp108);
+    ScaleRotPos_SetValue(&dyna->bgActors[bgId].curTransform, &actor->scale, &actor->shape.rot, &pos);
 
-    //_6950 ab60f0
     if (dyna->bgActorFlags[bgId] & 4) {
         return;
     }
 
-    //_6970 ab6110
     if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons)) {
         osSyncPrintf(VT_FGCOL(RED));
         // do not use if %d[*polyStartIndex + pbgdata->nbPolygons] exceeds %d[dyna->polyListMax]
         osSyncPrintf("DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n",
                      *polyStartIndex + pbgdata->nbPolygons, dyna->polyListMax);
     }
-    //_69bc ab615c
+
     if (!(dyna->vtxListMax >= *vtxStartIndex + pbgdata->nbVertices)) {
         osSyncPrintf(VT_FGCOL(RED));
         // do not use if %d[*vtxStartIndex + pbgdata->nbVertices] exceeds %d[dyna->vtxListMax]
         osSyncPrintf("DynaPolyInfo_expandSRT():vertex over %dが%dを越えるとダメ\n",
                      *vtxStartIndex + pbgdata->nbVertices, dyna->vtxListMax);
     }
-    //_69f0
+
     (dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons)
         ? (void)0
         : __assert("pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 6687);
@@ -2804,34 +2782,30 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         ? (void)0
         : __assert("pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
 
-    // _6a74
     if (!(dyna->bitFlag & 1) && (BgActor_HasTransformChanged(&dyna->bgActors[bgId]) == true)) {
-
+        s32 pi;
         for (pi = *polyStartIndex; pi < *polyStartIndex + pbgdata->nbPolygons; pi++) {
-            poly = &dyna->polyList[pi];
-            normY = poly->normal.y;
+            CollisionPoly* poly = &dyna->polyList[pi];
+            s16 normalY = poly->normal.y;
 
-            if (normY > COLPOLY_SNORMAL(0.5f)) {
-                spA0 = pi;
-                // _6ADC
-                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &spA0);
-            } else if (normY < COLPOLY_SNORMAL(-0.8f)) {
+            if (normalY > COLPOLY_SNORMAL(0.5f)) {
+                s16 polyIndex = pi;
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &polyIndex);
+            } else if (normalY < COLPOLY_SNORMAL(-0.8f)) {
                 if (!(dyna->bgActorFlags[bgId] & 8)) {
-                    sp9E = pi;
-                    // _6B20
-                    DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp9E);
+                    s16 polyIndex = pi;
+                    DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling,
+                                                 &polyIndex);
                 }
             } else {
-                sp9C = pi;
-                //_6B44
-                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp9C);
+                s16 polyIndex = pi;
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &polyIndex);
             }
         }
-        //_6B6C
+
         *polyStartIndex += pbgdata->nbPolygons;
-        *vtxStartIndex  += pbgdata->nbVertices;
+        *vtxStartIndex += pbgdata->nbVertices;
     } else {
-        //_6BCC
         SkinMatrix_SetScaleRotateYRPTranslate(
             &mtx, dyna->bgActors[bgId].curTransform.scale.x, dyna->bgActors[bgId].curTransform.scale.y,
             dyna->bgActors[bgId].curTransform.scale.z, dyna->bgActors[bgId].curTransform.rot.x,
@@ -2839,28 +2813,27 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
             dyna->bgActors[bgId].curTransform.pos.x, dyna->bgActors[bgId].curTransform.pos.y,
             dyna->bgActors[bgId].curTransform.pos.z);
 
-        // ab6374
         numVtxInverse = 1.0f / pbgdata->nbVertices;
         newCenterPoint.x = newCenterPoint.y = newCenterPoint.z = 0.0f;
         for (i = 0; i < pbgdata->nbVertices; i++) {
-            //_6c34
-            Math_Vec3s_ToVec3f(&sp90, &pbgdata->vtxList[i]);
-            //_6c44
-            SkinMatrix_Vec3fMtxFMultXYZ(&mtx, &sp90, &sp84);
-            BgCheck_Vec3fToVec3s(&dyna->vtxList[*vtxStartIndex + i], &sp84);
+            Vec3f vtx;
+            Vec3f vtxT; // Vtx after mtx transform
+            Math_Vec3s_ToVec3f(&vtx, &pbgdata->vtxList[i]);
+            SkinMatrix_Vec3fMtxFMultXYZ(&mtx, &vtx, &vtxT);
+            BgCheck_Vec3fToVec3s(&dyna->vtxList[*vtxStartIndex + i], &vtxT);
 
             if (i == 0) {
-                dyna->bgActors[bgId].minY = dyna->bgActors[bgId].maxY = sp84.y;
-            } else if (sp84.y < dyna->bgActors[bgId].minY) {
-                dyna->bgActors[bgId].minY = sp84.y;
-            } else if (dyna->bgActors[bgId].maxY < sp84.y) {
-                dyna->bgActors[bgId].maxY = sp84.y;
+                dyna->bgActors[bgId].minY = dyna->bgActors[bgId].maxY = vtxT.y;
+            } else if (vtxT.y < dyna->bgActors[bgId].minY) {
+                dyna->bgActors[bgId].minY = vtxT.y;
+            } else if (dyna->bgActors[bgId].maxY < vtxT.y) {
+                dyna->bgActors[bgId].maxY = vtxT.y;
             }
-            newCenterPoint.x += sp84.x;
-            newCenterPoint.y += sp84.y;
-            newCenterPoint.z += sp84.z;
+            newCenterPoint.x += vtxT.x;
+            newCenterPoint.y += vtxT.y;
+            newCenterPoint.z += vtxT.z;
         }
-        
+
         newCenterPoint.x *= numVtxInverse;
         newCenterPoint.y *= numVtxInverse;
         newCenterPoint.z *= numVtxInverse;
@@ -2869,70 +2842,67 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         sphere->center.z = newCenterPoint.z;
         newRadiusSq = -100.0f;
 
-        //_6d10
         for (i = 0; i < pbgdata->nbVertices; i++) {
-            spDC.x = dyna->vtxList[*vtxStartIndex + i].x;
-            spDC.y = dyna->vtxList[*vtxStartIndex + i].y;
-            spDC.z = dyna->vtxList[*vtxStartIndex + i].z;
-            temp_ret = Math3D_Vec3fDistSq(&spDC, &newCenterPoint);
-            if(newRadiusSq < temp_ret) {
-                newRadiusSq = temp_ret;
+            f32 radiusSq;
+            newVtx.x = dyna->vtxList[*vtxStartIndex + i].x;
+            newVtx.y = dyna->vtxList[*vtxStartIndex + i].y;
+            newVtx.z = dyna->vtxList[*vtxStartIndex + i].z;
+            radiusSq = Math3D_Vec3fDistSq(&newVtx, &newCenterPoint);
+            if (newRadiusSq < radiusSq) {
+                newRadiusSq = radiusSq;
             }
         }
-        
-        //_6E68
+
         sphere->radius = sqrtf(newRadiusSq) * 1.1f;
 
         for (i = 0; i < pbgdata->nbPolygons; i++) {
-            newPoly = &dyna->polyList[*polyStartIndex + i];
+            CollisionPoly* newPoly = &dyna->polyList[*polyStartIndex + i];
+            f32 newNormMagnitude;
             *newPoly = pbgdata->polyList[i];
 
-            newPoly->flags_vIA = (newPoly->flags_vIA & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIA) + ((IndexStruct*)vtxStartIndex)->index);
-            newPoly->flags_vIB = (newPoly->flags_vIB & 0xE000) | (COLPOLY_VTX_INDEX(newPoly->flags_vIB) + ((IndexStruct*)vtxStartIndex)->index);
             // Yeah, this is all kinds of fake, but my God, it matches.
+            newPoly->flags_vIA =
+                (COLPOLY_VTX_INDEX(newPoly->flags_vIA) + *vtxStartIndex) | ((*newPoly).flags_vIA & 0xE000);
+            newPoly->flags_vIB =
+                (COLPOLY_VTX_INDEX(newPoly->flags_vIB) + *vtxStartIndex) | ((*newPoly).flags_vIB & 0xE000);
             newPoly->vIC = *vtxStartIndex + newPoly->vIC;
-            dvtxList = dyna->vtxList;
-            spD0.x = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].x;
-            spD0.y = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].y;
-            spD0.z = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].z;
-            spC4.x = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].x;
-            spC4.y = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].y;
-            spC4.z = dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].z;
-            spB8.x = dvtxList[newPoly->vIC].x;
-            spB8.y = dvtxList[newPoly->vIC].y;
-            spB8.z = dvtxList[newPoly->vIC].z;
-            Math3D_SurfaceNorm(&spD0, &spC4, &spB8, &newNorm);
-            newNormMagnitude = Math3D_Vec3fMagnitude(&newNorm);
+            dVtxList = dyna->vtxList;
+            vtxA.x = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].x;
+            vtxA.y = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].y;
+            vtxA.z = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].z;
+            vtxB.x = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].x;
+            vtxB.y = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].y;
+            vtxB.z = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].z;
+            vtxC.x = dVtxList[newPoly->vIC].x;
+            vtxC.y = dVtxList[newPoly->vIC].y;
+            vtxC.z = dVtxList[newPoly->vIC].z;
+            Math3D_SurfaceNorm(&vtxA, &vtxB, &vtxC, &newNormal);
+            newNormMagnitude = Math3D_Vec3fMagnitude(&newNormal);
 
             if (!IS_ZERO(newNormMagnitude)) {
-                newNorm.x *= (1.0f / newNormMagnitude);
-                newNorm.y *= (1.0f / newNormMagnitude);
-                newNorm.z *= (1.0f / newNormMagnitude);
-                newPoly->normal.x = COLPOLY_SNORMAL(newNorm.x);
-                newPoly->normal.y = COLPOLY_SNORMAL(newNorm.y);
-                newPoly->normal.z = COLPOLY_SNORMAL(newNorm.z);
+                newNormal.x *= (1.0f / newNormMagnitude);
+                newNormal.y *= (1.0f / newNormMagnitude);
+                newNormal.z *= (1.0f / newNormMagnitude);
+                newPoly->normal.x = COLPOLY_SNORMAL(newNormal.x);
+                newPoly->normal.y = COLPOLY_SNORMAL(newNormal.y);
+                newPoly->normal.z = COLPOLY_SNORMAL(newNormal.z);
             }
-            
-            newPoly->dist = -DOTXYZ(newNorm, dvtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)]);
-            if (newNorm.y > 0.5f) {
-                sp76 = *polyStartIndex + i;
-                //_7214
-                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &sp76);
-            } else if (newNorm.y < -0.8f) {
-                sp74 = *polyStartIndex + i;
-                //_7254
-                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &sp74);
+
+            newPoly->dist = -DOTXYZ(newNormal, dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)]);
+            if (newNormal.y > 0.5f) {
+                s16 polyId = *polyStartIndex + i;
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.floor, &polyId);
+            } else if (newNormal.y < -0.8f) {
+                s16 polyId = *polyStartIndex + i;
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.ceiling, &polyId);
             } else {
-                sp72 = *polyStartIndex + i;
-                //_7274
-                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &sp72);
+                s16 polyId = *polyStartIndex + i;
+                DynaSSNodeList_SetSSListHead(&dyna->polyNodes, &dyna->bgActors[bgId].dynaLookup.wall, &polyId);
             }
-            
         }
 
         *polyStartIndex += pbgdata->nbPolygons;
-        *vtxStartIndex +=  pbgdata->nbVertices;
-        
+        *vtxStartIndex += pbgdata->nbVertices;
     }
 }
 
@@ -3082,19 +3052,19 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
     f32 result;
     f32 intersect2;
     s32 i2;
-    s32 v0_pause;
-    Actor* v0_test;
+    s32 pauseState;
+    Actor* actor;
     s32 pad;
-    Vec3f polyVtx[3]; // spE0[3];
-    Vec3f polyNorm;   // spD4;
+    Vec3f polyVtx[3];
+    Vec3f polyNorm;
     u32 polyIndex;
     CollisionPoly* polyMin;
-    MtxF srpMtx;    // to spCC
+    MtxF srpMtx;
     f32 magnitude;
-    Vec3s* vtxList; // sp84;
-    f32 polyDist; 
-    Vec3f vtx;      // sp74;
-    f32 intersect;  // sp70;
+    Vec3s* vtxList;
+    f32 polyDist;
+    Vec3f vtx;
+    f32 intersect;
     ScaleRotPos* curTransform;
     CollisionPoly* poly;
 
@@ -3148,17 +3118,17 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
             }
         }
     }
-    // 7154 loop_1 end;
 
-    v0_test = DynaPoly_GetActor(dynaRaycast->colCtx, *dynaRaycast->bgId);
-    if ((result != BGCHECK_Y_MIN) && (v0_test != NULL) && (dynaRaycast->globalCtx != NULL)) {
-        v0_pause = dynaRaycast->globalCtx->pauseCtx.state != 0;
-        if (v0_pause == 0) {
-            v0_pause = dynaRaycast->globalCtx->pauseCtx.flag != 0;
+    actor = DynaPoly_GetActor(dynaRaycast->colCtx, *dynaRaycast->bgId);
+    if ((result != BGCHECK_Y_MIN) && (actor != NULL) && (dynaRaycast->globalCtx != NULL)) {
+        pauseState = dynaRaycast->globalCtx->pauseCtx.state != 0;
+        if (pauseState == 0) {
+            pauseState = dynaRaycast->globalCtx->pauseCtx.flag != 0;
         }
-        if (!v0_pause && (dynaRaycast->colCtx->dyna.bgActorFlags[*dynaRaycast->bgId] & 2)) {
+        if (!pauseState && (dynaRaycast->colCtx->dyna.bgActorFlags[*dynaRaycast->bgId] & 2)) {
             curTransform = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].curTransform;
-            polyMin = &dynaRaycast->dyna->polyList[dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].dynaLookup.polyStartIndex];
+            polyMin =
+                &dynaRaycast->dyna->polyList[dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].dynaLookup.polyStartIndex];
             polyIndex = *dynaRaycast->resultPoly - polyMin;
             poly = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->polyList[polyIndex];
 
@@ -3169,15 +3139,14 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
 
             vtxList = dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->vtxList;
 
-            for (i2 = 0; i2 < 3; i2++) { //~ 72a8
+            for (i2 = 0; i2 < 3; i2++) {
                 Math_Vec3s_ToVec3f(&vtx, &vtxList[COLPOLY_VTX_INDEX(poly->vtxData[i2])]);
                 SkinMatrix_Vec3fMtxFMultXYZ(&srpMtx, &vtx, &polyVtx[i2]);
             }
             Math3D_SurfaceNorm(&polyVtx[0], &polyVtx[1], &polyVtx[2], &polyNorm);
             magnitude = Math3D_Vec3fMagnitude(&polyNorm);
-            // ab7330
+
             if (!IS_ZERO(magnitude)) {
-                // ab7378
                 polyNorm.x *= 1.0f / magnitude;
                 polyNorm.y *= 1.0f / magnitude;
                 polyNorm.z *= 1.0f / magnitude;
@@ -3185,7 +3154,6 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
                 if (Math3D_TriChkPointParaYIntersectInsideTri(&polyVtx[0], &polyVtx[1], &polyVtx[2], polyNorm.x,
                                                               polyNorm.y, polyNorm.z, polyDist, dynaRaycast->pos->z,
                                                               dynaRaycast->pos->x, &intersect, dynaRaycast->chkDist)) {
-
                     if (fabsf(intersect - result) < 1.0f) {
 
                         result = intersect;
@@ -3268,7 +3236,7 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
             }
         }
         // ab75e8
-        
+
         // compute poly zMin/zMax
         zMin = zMax = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].z; // 7610
 
