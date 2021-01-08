@@ -471,11 +471,15 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
+    s16 pad2;
     u8 sp8D;
     Player* player;
+    s32 pad[3];
     Vec3f sp68;
     Camera* temp_v0;
     BossGanon2Effect* temp_v0_3;
+    s16 temp_a1;
+    Vec3f* temp[2];
 
     sp8D = false;
     player = PLAYER;
@@ -1164,9 +1168,13 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
     }
 
-    if (this->unk_39E != 0) {
+    temp_a1 = this->unk_39E;
+    if (temp_a1 != 0) {
+        temp[1] = &this->unk_3A4;
+        temp[0] = &this->unk_3B0;
+
         this->unk_3B0.y += this->unk_41C;
-        Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
+        Gameplay_CameraSetAtEyeUp(globalCtx, temp_a1, temp[0], temp[1], &this->unk_3BC);
     }
 }
 #else
