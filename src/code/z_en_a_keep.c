@@ -39,7 +39,11 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-extern CollisionHeader D_040394B0, D_040394B0, D_0403A120, D_0403A480, D_0403A7F0, D_06000730;
+extern CollisionHeader D_040394B0;
+extern CollisionHeader D_0403A120;
+extern CollisionHeader D_0403A480;
+extern CollisionHeader D_0403A7F0;
+extern CollisionHeader D_06000730;
 
 static CollisionHeader* D_8011546C[] = {
     &D_040394B0, &D_040394B0, &D_0403A120, &D_0403A480, &D_0403A7F0, &D_06000730,
