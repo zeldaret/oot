@@ -1465,15 +1465,15 @@ void func_80109B3C(GlobalContext *globalCtx) {
             }
             phi_s6--;
         } else if (temp_s2 == 0x1E) {
-            phi_s0_3 = gSaveContext.highscores[font->msgBuf[++msgCtx->unk_E3CE]];
+            phi_s0_3 = gSaveContext.highScores[font->msgBuf[++msgCtx->unk_E3CE]];
             osSyncPrintf("ランキング＝%d\n", font->msgBuf[msgCtx->unk_E3CE]);
             if (font->msgBuf[msgCtx->unk_E3CE] == 2) {
                 if (LINK_AGE_IN_YEARS == 5) {
                     phi_s0_3 = phi_s0_3 & 0x7F;
                 } else {
                     osSyncPrintf("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n", 
-                                gSaveContext.highscores[((u16*)font->msgBuf)[msgCtx->unk_E3CE * 2] & 0xFF000000]);
-                    phi_s0_3 = ((gSaveContext.highscores[font->msgBuf[msgCtx->unk_E3CE]] & 0xFF000000) >> 0x18) & 0x7F;
+                                gSaveContext.highScores[((u16*)font->msgBuf)[msgCtx->unk_E3CE * 2] & 0xFF000000]);
+                    phi_s0_3 = ((gSaveContext.highScores[font->msgBuf[msgCtx->unk_E3CE]] & 0xFF000000) >> 0x18) & 0x7F;
                 }
                 phi_s0_3 = SQ((f32)phi_s0_3) * 0.0036f + 0.5f;
                 osSyncPrintf("score=%d\n", phi_s0_3);

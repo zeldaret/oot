@@ -339,7 +339,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
 
-    if (this->actor.groundY <= -32000.0f) {
+    if (this->actor.groundY <= BGCHECK_Y_MIN) {
         Actor_Kill(&this->actor);
         return;
     }

@@ -54,36 +54,36 @@ static Gfx* D_8087E410[] = {
     0x06000040,
 };
 
-extern UNK_TYPE D_06000118;
-extern UNK_TYPE D_06005334;
+extern CollisionHeader D_06000118;
+extern CollisionHeader D_06005334;
 extern Gfx D_06008EB0[];
-extern UNK_TYPE D_06009168;
-extern UNK_TYPE D_0600A7F4;
+extern CollisionHeader D_06009168;
+extern CollisionHeader D_0600A7F4;
 
 void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHakaMeganeBG* this = THIS;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->unk_168 = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {
-        DynaPolyInfo_SetActorMove(&this->dyna, 3);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK3);
         thisx->flags |= 0x10;
-        DynaPolyInfo_Alloc(&D_06005334, &localC);
+        CollisionHeader_GetVirtual(&D_06005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
-        DynaPolyInfo_SetActorMove(&this->dyna, 1);
+        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         if (thisx->params == 0) {
-            DynaPolyInfo_Alloc(&D_06009168, &localC);
+            CollisionHeader_GetVirtual(&D_06009168, &colHeader);
             thisx->flags |= 0x80;
             this->unk_16A = 20;
             this->actionFunc = func_8087DFF8;
         } else if (thisx->params == 3) {
-            DynaPolyInfo_Alloc(&D_06000118, &localC);
+            CollisionHeader_GetVirtual(&D_06000118, &colHeader);
             thisx->initPosRot.pos.y += 100.0f;
 
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
@@ -94,7 +94,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087E288;
             }
         } else {
-            DynaPolyInfo_Alloc(&D_0600A7F4, &localC);
+            CollisionHeader_GetVirtual(&D_0600A7F4, &colHeader);
             this->unk_16A = 80;
             this->actionFunc = func_8087E10C;
             thisx->uncullZoneScale = 3000.0f;
@@ -102,13 +102,13 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaMeganeBG* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087DFF8(BgHakaMeganeBG* this, GlobalContext* globalCtx) {

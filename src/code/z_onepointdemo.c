@@ -12,11 +12,11 @@ void func_8007C76C(Vec3f* src, Vec3s* dst) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_onepointdemo/func_8007C7A8.s")
 
-void func_8007C7F8(CollisionContext* colCtx, Vec3f* arg1) {
+void func_8007C7F8(CollisionContext* colCtx, Vec3f* pos) {
     CollisionPoly* poly;
     s32 bgId;
 
-    func_8003C940(colCtx, &poly, &bgId, arg1);
+    BgCheck_EntityRaycastFloor3(colCtx, &poly, &bgId, pos);
 }
 
 void func_8007C820(OnePointDemoCamera* onePointCamera, s16 actionParameters, s16 initTimer,

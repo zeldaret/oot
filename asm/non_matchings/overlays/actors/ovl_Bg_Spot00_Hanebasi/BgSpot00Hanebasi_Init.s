@@ -10,7 +10,7 @@ glabel BgSpot00Hanebasi_Init
               
 /* 00020 808A97A0 24A5A7B4 */  addiu   $a1, $a1, %lo(D_808AA7B4)  ## $a1 = 808AA7B4
 /* 00024 808A97A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00028 808A97A8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00028 808A97A8 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0002C 808A97AC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00030 808A97B0 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -20,21 +20,21 @@ glabel BgSpot00Hanebasi_Init
 /* 00040 808A97C0 24840280 */  addiu   $a0, $a0, %lo(D_06000280)           ## $a0 = 06000280
 /* 00044 808A97C4 3C040600 */  lui     $a0, %hi(D_060005E0)                ## $a0 = 06000000
 /* 00048 808A97C8 248405E0 */  addiu   $a0, $a0, %lo(D_060005E0)           ## $a0 = 060005E0
-/* 0004C 808A97CC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0004C 808A97CC 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00050 808A97D0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFE8
 /* 00054 808A97D4 10000004 */  beq     $zero, $zero, .L808A97E8   
 /* 00058 808A97D8 8FA40074 */  lw      $a0, 0x0074($sp)           
 .L808A97DC:
-/* 0005C 808A97DC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0005C 808A97DC 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00060 808A97E0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFE8
 /* 00064 808A97E4 8FA40074 */  lw      $a0, 0x0074($sp)           
 .L808A97E8:
 /* 00068 808A97E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0006C 808A97EC 8FA70058 */  lw      $a3, 0x0058($sp)           
-/* 00070 808A97F0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00070 808A97F0 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00074 808A97F4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00078 808A97F8 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 0007C 808A97FC 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF
