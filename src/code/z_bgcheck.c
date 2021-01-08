@@ -638,12 +638,7 @@ s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* pol
  * `outPoly` returns the pointer to the nearest poly collided with, or NULL
  */
 s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ,
-                            Vec3f* pos, f32 radius, CollisionPoly** outPoly);
-#ifdef NON_MATCHING
-// regalloc issues
-s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ,
                             Vec3f* pos, f32 radius, CollisionPoly** outPoly) {
-    // f32 sp104;
     Vec3f resultPos; // spFC
     f32 temp_f2;
     f32 temp_f2_2;
@@ -653,9 +648,8 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
     CollisionPoly* curPoly;  // s0
     CollisionPoly* polyList; // spE0
     SSNode* curNode;         // s1
-    // f32 temp_f0;             // pad
     f32 invNormalXZ; // sp9C //f14
-    f32 temp_f0_3;   // f0
+    f32 zTemp;       // f0
     f32 xTemp;       // f0
     s32 polyId;
     f32 normalXZ;   // f20
@@ -716,19 +710,20 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
         }
 
         // compute curPoly zMin/zMax
-        zMin = zMax = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].z;
-        temp_f0_3 = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].z;
+        zTemp = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].z;
+        zMax = zMin = zTemp;
+        zTemp = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].z;
 
-        if (temp_f0_3 < zMin) {
-            zMin = temp_f0_3;
-        } else if (zMax < temp_f0_3) {
-            zMax = temp_f0_3;
+        if (zTemp < zMin) {
+            zMin = zTemp;
+        } else if (zMax < zTemp) {
+            zMax = zTemp;
         }
-        temp_f0_3 = vtxList[curPoly->vIC].z;
-        if (temp_f0_3 < zMin) {
-            zMin = temp_f0_3;
-        } else if (temp_f0_3 > zMax) {
-            zMax = temp_f0_3;
+        zTemp = vtxList[curPoly->vIC].z;
+        if (zTemp < zMin) {
+            zMin = zTemp;
+        } else if (zTemp > zMax) {
+            zMax = zTemp;
         }
 
         zMin -= radius;
@@ -743,9 +738,8 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
             }
         }
         if (CollisionPoly_CheckZIntersectApprox(curPoly, vtxList, resultPos.x, pos->y, &intersect)) {
-            temp_f2 = intersect - resultPos.z;
-            if (fabsf(temp_f2) <= radius / temp_f16) {
-                if (temp_f2 * nz <= 4.0f) {
+            if (fabsf(intersect - resultPos.z) <= radius / temp_f16) {
+                if ((intersect - resultPos.z) * nz <= 4.0f) {
                     BgCheck_ComputeWallDisplacement(colCtx, curPoly, &resultPos.x, &resultPos.z, nx, ny, nz,
                                                     invNormalXZ, planeDist, radius, outPoly);
                     result = true;
@@ -796,19 +790,20 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
         }
 
         // compute curPoly xMin/xMax
-        xMin = xMax = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].x;
-        temp_f0_3 = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].x;
+        xTemp = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].x;
+        xMax = xMin = xTemp;
+        xTemp = vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].x;
 
-        if (temp_f0_3 < xMin) {
-            xMin = temp_f0_3;
-        } else if (xMax < temp_f0_3) {
-            xMax = temp_f0_3;
+        if (xTemp < xMin) {
+            xMin = xTemp;
+        } else if (xMax < xTemp) {
+            xMax = xTemp;
         }
-        temp_f0_3 = vtxList[curPoly->vIC].x;
-        if (temp_f0_3 < xMin) {
-            xMin = temp_f0_3;
-        } else if (xMax < temp_f0_3) {
-            xMax = temp_f0_3;
+        xTemp = vtxList[curPoly->vIC].x;
+        if (xTemp < xMin) {
+            xMin = xTemp;
+        } else if (xMax < xTemp) {
+            xMax = xTemp;
         }
 
         xMin -= radius;
@@ -823,9 +818,8 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
             }
         }
         if (CollisionPoly_CheckXIntersectApprox(curPoly, vtxList, pos->y, resultPos.z, &intersect)) {
-            temp_f2 = intersect - resultPos.x;
-            if (fabsf(temp_f2) <= radius / temp_f16) {
-                if (temp_f2 * nx <= 4.0f) {
+            if (fabsf(intersect - resultPos.x) <= radius / temp_f16) {
+                if ((intersect - resultPos.x) * nx <= 4.0f) {
                     BgCheck_ComputeWallDisplacement(colCtx, curPoly, &resultPos.x, &resultPos.z, nx, ny, nz,
                                                     invNormalXZ, planeDist, radius, outPoly);
                     result = true;
@@ -844,9 +838,6 @@ s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 
     *outZ = resultPos.z;
     return result;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/BgCheck_SphVsStaticWall.s")
-#endif
 
 /**
  * Tests for collision with a static poly ceiling
@@ -3173,11 +3164,6 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
  */
 s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
                                    f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
-                                   s32 bgId);
-#ifdef NON_MATCHING
-// regalloc
-s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCollisionContext* dyna, SSList* ssList,
-                                   f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
                                    s32 bgId) {
     f32 temp;
     f32 intersect;      // spD0
@@ -3237,7 +3223,8 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
         // ab75e8
 
         // compute poly zMin/zMax
-        zMin = zMax = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].z; // 7610
+        zTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].z; // 7610
+        zMax = zMin = zTemp;
 
         zTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIB)].z;
         if (zTemp < zMin) { // 7630
@@ -3314,7 +3301,8 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
         }
 
         // compute poly xMin/xMax
-        xMin = xMax = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].x;
+        xTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].x;
+        xMax = xMin = xTemp;
         xTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIB)].x;
 
         if (xTemp < xMin) {
@@ -3362,9 +3350,6 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
     *outZ = resultPos.z;
     return result;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/BgCheck_SphVsDynaWallInBgActor.s")
-#endif
 
 /**
  * Performs collision detection on all dyna poly walls using sphere `pos`, `radius`
@@ -3375,31 +3360,23 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
  * If `actor` is not NULL, an BgActor bound to that actor will be ignored
  */
 s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
-                          CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-#ifdef NON_MATCHING
-// Codegen Issues
-s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
                           CollisionPoly** outPoly, s32* outBgId, Actor* actor) {
     Vec3f resultPos; // sp9C
     s32 result;      // sp90;
     f32 r;           // f0
     f32 dz;          // f12
     f32 dx;          // f2
-    // s16 temp_s2;
     BgActor* bgActor; // s0
-    // Sphere16* temp_s1;
     s32 i; // s4
-    BgActor* list;
 
     result = false;
     resultPos = *pos;
-    list = colCtx->dyna.bgActors;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         if (!(colCtx->dyna.bgActorFlags[i] & 1)) {
             continue;
         }
-        if (list[i].actor == actor) {
+        if ((colCtx->dyna.bgActors + i)->actor == actor) {
             continue;
         }
         bgActor = &colCtx->dyna.bgActors[i];
@@ -3419,7 +3396,7 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
             continue;
         }
         bgActor->boundingSphere.radius -= (s16)radius;
-        if (BgCheck_SphVsDynaWallInBgActor(colCtx, xpFlags, &colCtx->dyna, &colCtx->dyna.bgActors[i].dynaLookup.wall,
+        if (BgCheck_SphVsDynaWallInBgActor(colCtx, xpFlags, &colCtx->dyna, &(colCtx->dyna.bgActors + i)->dynaLookup.wall,
                                            outX, outZ, outPoly, outBgId, &resultPos, radius, i)) {
             resultPos.x = *outX;
             resultPos.z = *outZ;
@@ -3428,9 +3405,6 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
     }
     return result;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/BgCheck_SphVsDynaWall.s")
-#endif
 
 /**
  * Tests for collision with a dyna poly ceiling, starting at `ssList`
