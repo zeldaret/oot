@@ -35,7 +35,7 @@ glabel func_80AAE598
 /* 00EA8 80AAE618 AE0A0254 */  sw      $t2, 0x0254($s0)           ## 00000254
 /* 00EAC 80AAE61C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00EB0 80AAE620 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
-/* 00EB4 80AAE624 0C2AB5DC */  jal     func_80AAD770              
+/* 00EB4 80AAE624 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00EB8 80AAE628 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 .L80AAE62C:
 /* 00EBC 80AAE62C 8FBF002C */  lw      $ra, 0x002C($sp)           

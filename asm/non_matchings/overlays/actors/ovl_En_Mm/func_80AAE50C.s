@@ -20,12 +20,12 @@ glabel func_80AAE50C
 /* 00DE0 80AAE550 13000006 */  beq     $t8, $zero, .L80AAE56C     
 /* 00DE4 80AAE554 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00DE8 80AAE558 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00DEC 80AAE55C 0C2AB5DC */  jal     func_80AAD770              
+/* 00DEC 80AAE55C 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00DF0 80AAE560 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 00DF4 80AAE564 10000005 */  beq     $zero, $zero, .L80AAE57C   
 /* 00DF8 80AAE568 AE0001E4 */  sw      $zero, 0x01E4($s0)         ## 000001E4
 .L80AAE56C:
-/* 00DFC 80AAE56C 0C2AB5DC */  jal     func_80AAD770              
+/* 00DFC 80AAE56C 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00E00 80AAE570 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 00E04 80AAE574 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 00E08 80AAE578 AE1901E4 */  sw      $t9, 0x01E4($s0)           ## 000001E4

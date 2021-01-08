@@ -1,4 +1,4 @@
-glabel func_80AADC34
+glabel EnMm_GetTextId
 /* 004C4 80AADC34 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 004C8 80AADC38 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 004CC 80AADC3C AFA40020 */  sw      $a0, 0x0020($sp)           

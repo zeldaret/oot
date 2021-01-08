@@ -86,7 +86,7 @@ glabel func_80AADEF0
 /* 0089C 80AAE00C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 008A0 80AAE010 8E241E08 */  lw      $a0, 0x1E08($s1)           ## 00001E08
 .L80AAE014:
-/* 008A4 80AAE014 0C2AB794 */  jal     func_80AADE50              
+/* 008A4 80AAE014 0C2AB794 */  jal     EnMm_GetPointCount              
 /* 008A8 80AAE018 8E0501EC */  lw      $a1, 0x01EC($s0)           ## 000001EC
 /* 008AC 80AAE01C 8E0A01E8 */  lw      $t2, 0x01E8($s0)           ## 000001E8
 /* 008B0 80AAE020 2446FFFF */  addiu   $a2, $v0, 0xFFFF           ## $a2 = FFFFFFFF
@@ -111,7 +111,7 @@ glabel func_80AADEF0
 /* 008F0 80AAE060 8E241E08 */  lw      $a0, 0x1E08($s1)           ## 00001E08
 .L80AAE064:
 /* 008F4 80AAE064 8E0501EC */  lw      $a1, 0x01EC($s0)           ## 000001EC
-/* 008F8 80AAE068 0C2AB794 */  jal     func_80AADE50              
+/* 008F8 80AAE068 0C2AB794 */  jal     EnMm_GetPointCount              
 /* 008FC 80AAE06C AFA60060 */  sw      $a2, 0x0060($sp)           
 /* 00900 80AAE070 8E0C01E8 */  lw      $t4, 0x01E8($s0)           ## 000001E8
 /* 00904 80AAE074 8FA60060 */  lw      $a2, 0x0060($sp)           

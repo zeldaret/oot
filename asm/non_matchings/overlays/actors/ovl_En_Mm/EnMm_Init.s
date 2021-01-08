@@ -55,14 +55,14 @@ glabel EnMm_Init
 /* 001E4 80AAD954 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 001E8 80AAD958 0C00B92D */  jal     func_8002E4B4
 /* 001EC 80AAD95C E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 001F0 80AAD960 3C0380AB */  lui     $v1, %hi(D_80AAEB38)       ## $v1 = 80AB0000
-/* 001F4 80AAD964 2463EB38 */  addiu   $v1, $v1, %lo(D_80AAEB38)  ## $v1 = 80AAEB38
+/* 001F0 80AAD960 3C0380AB */  lui     $v1, %hi(sAnimationEntries)       ## $v1 = 80AB0000
+/* 001F4 80AAD964 2463EB38 */  addiu   $v1, $v1, %lo(sAnimationEntries)  ## $v1 = 80AAEB38
 /* 001F8 80AAD968 0C028800 */  jal     Animation_GetLastFrame
 
 /* 001FC 80AAD96C 8C640000 */  lw      $a0, 0x0000($v1)           ## 80AAEB38
 /* 00200 80AAD970 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
-/* 00204 80AAD974 3C0380AB */  lui     $v1, %hi(D_80AAEB38)       ## $v1 = 80AB0000
-/* 00208 80AAD978 2463EB38 */  addiu   $v1, $v1, %lo(D_80AAEB38)  ## $v1 = 80AAEB38
+/* 00204 80AAD974 3C0380AB */  lui     $v1, %hi(sAnimationEntries)       ## $v1 = 80AB0000
+/* 00208 80AAD978 2463EB38 */  addiu   $v1, $v1, %lo(sAnimationEntries)  ## $v1 = 80AAEB38
 /* 0020C 80AAD97C 468021A0 */  cvt.s.w $f6, $f4
 /* 00210 80AAD980 90680008 */  lbu     $t0, 0x0008($v1)           ## 80AAEB40
 /* 00214 80AAD984 C468000C */  lwc1    $f8, 0x000C($v1)           ## 80AAEB44
@@ -97,7 +97,7 @@ glabel EnMm_Init
 /* 00284 80AAD9F4 AE0301E4 */  sw      $v1, 0x01E4($s0)           ## 000001E4
 /* 00288 80AAD9F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0028C 80AAD9FC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00290 80AADA00 0C2AB5DC */  jal     func_80AAD770
+/* 00290 80AADA00 0C2AB5DC */  jal     EnMm_ChangeAnimation
 /* 00294 80AADA04 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 00298 80AADA08 3C0C80AB */  lui     $t4, %hi(func_80AAE598)    ## $t4 = 80AB0000
 /* 0029C 80AADA0C 258CE598 */  addiu   $t4, $t4, %lo(func_80AAE598) ## $t4 = 80AAE598
@@ -106,7 +106,7 @@ glabel EnMm_Init
 .L80AADA18:
 /* 002A8 80AADA18 AE0001E4 */  sw      $zero, 0x01E4($s0)         ## 000001E4
 /* 002AC 80AADA1C 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
-/* 002B0 80AADA20 0C2AB5DC */  jal     func_80AAD770
+/* 002B0 80AADA20 0C2AB5DC */  jal     EnMm_ChangeAnimation
 /* 002B4 80AADA24 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 002B8 80AADA28 3C0D80AB */  lui     $t5, %hi(func_80AAE294)    ## $t5 = 80AB0000
 /* 002BC 80AADA2C 25ADE294 */  addiu   $t5, $t5, %lo(func_80AAE294) ## $t5 = 80AAE294

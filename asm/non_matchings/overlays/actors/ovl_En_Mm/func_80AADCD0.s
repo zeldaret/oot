@@ -43,7 +43,7 @@ glabel func_80AADCD0
 /* 005FC 80AADD6C 54410034 */  bnel    $v0, $at, .L80AADE40       
 /* 00600 80AADD70 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80AADD74:
-/* 00604 80AADD74 0C2AB5DC */  jal     func_80AAD770              
+/* 00604 80AADD74 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00608 80AADD78 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 0060C 80AADD7C 0C01E221 */  jal     func_80078884              
 /* 00610 80AADD80 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
@@ -93,7 +93,7 @@ glabel func_80AADCD0
 /* 006B4 80AADE24 3C0642C8 */  lui     $a2, 0x42C8                ## $a2 = 42C80000
 /* 006B8 80AADE28 10400004 */  beq     $v0, $zero, .L80AADE3C     
 /* 006BC 80AADE2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 006C0 80AADE30 0C2AB70D */  jal     func_80AADC34              
+/* 006C0 80AADE30 0C2AB70D */  jal     EnMm_GetTextId              
 /* 006C4 80AADE34 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 006C8 80AADE38 A602010E */  sh      $v0, 0x010E($s0)           ## 0000010E
 .L80AADE3C:

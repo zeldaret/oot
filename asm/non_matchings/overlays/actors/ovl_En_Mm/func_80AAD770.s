@@ -1,4 +1,4 @@
-glabel func_80AAD770
+glabel EnMm_ChangeAnimation
 /* 00000 80AAD770 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80AAD774 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00008 80AAD778 AFA40038 */  sw      $a0, 0x0038($sp)
@@ -7,17 +7,17 @@ glabel func_80AAD770
 /* 00014 80AAD784 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 00018 80AAD788 00057900 */  sll     $t7, $a1,  4
 /* 0001C 80AAD78C 04400003 */  bltz    $v0, .L80AAD79C
-/* 00020 80AAD790 3C1880AB */  lui     $t8, %hi(D_80AAEB38)       ## $t8 = 80AB0000
+/* 00020 80AAD790 3C1880AB */  lui     $t8, %hi(sAnimationEntries)       ## $t8 = 80AB0000
 /* 00024 80AAD794 14A20005 */  bne     $a1, $v0, .L80AAD7AC
 /* 00028 80AAD798 0005C900 */  sll     $t9, $a1,  4
 .L80AAD79C:
 /* 0002C 80AAD79C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00030 80AAD7A0 2718EB38 */  addiu   $t8, $t8, %lo(D_80AAEB38)  ## $t8 = 80AAEB38
+/* 00030 80AAD7A0 2718EB38 */  addiu   $t8, $t8, %lo(sAnimationEntries)  ## $t8 = 80AAEB38
 /* 00034 80AAD7A4 10000005 */  beq     $zero, $zero, .L80AAD7BC
 /* 00038 80AAD7A8 01F81821 */  addu    $v1, $t7, $t8
 .L80AAD7AC:
-/* 0003C 80AAD7AC 3C0880AB */  lui     $t0, %hi(D_80AAEB38)       ## $t0 = 80AB0000
-/* 00040 80AAD7B0 2508EB38 */  addiu   $t0, $t0, %lo(D_80AAEB38)  ## $t0 = 80AAEB38
+/* 0003C 80AAD7AC 3C0880AB */  lui     $t0, %hi(sAnimationEntries)       ## $t0 = 80AB0000
+/* 00040 80AAD7B0 2508EB38 */  addiu   $t0, $t0, %lo(sAnimationEntries)  ## $t0 = 80AAEB38
 /* 00044 80AAD7B4 03281821 */  addu    $v1, $t9, $t0
 /* 00048 80AAD7B8 C460000C */  lwc1    $f0, 0x000C($v1)           ## 0000000C
 .L80AAD7BC:

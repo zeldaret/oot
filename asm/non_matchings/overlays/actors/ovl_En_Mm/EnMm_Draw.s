@@ -67,13 +67,13 @@ glabel EnMm_Draw
 /* 00FD0 80AAE740 012D7021 */  addu    $t6, $t1, $t5
 /* 00FD4 80AAE744 01C17821 */  addu    $t7, $t6, $at
 /* 00FD8 80AAE748 AC6F0004 */  sw      $t7, 0x0004($v1)           ## 00000004
-/* 00FDC 80AAE74C 3C1980AB */  lui     $t9, %hi(func_80AAEA10)    ## $t9 = 80AB0000
-/* 00FE0 80AAE750 3C1880AB */  lui     $t8, %hi(func_80AAE97C)    ## $t8 = 80AB0000
+/* 00FDC 80AAE74C 3C1980AB */  lui     $t9, %hi(EnMm_PostLimbDraw)    ## $t9 = 80AB0000
+/* 00FE0 80AAE750 3C1880AB */  lui     $t8, %hi(EnMm_OverrideLimbDraw)    ## $t8 = 80AB0000
 /* 00FE4 80AAE754 9107014E */  lbu     $a3, 0x014E($t0)           ## 0000014E
 /* 00FE8 80AAE758 8D06016C */  lw      $a2, 0x016C($t0)           ## 0000016C
 /* 00FEC 80AAE75C 8D050150 */  lw      $a1, 0x0150($t0)           ## 00000150
-/* 00FF0 80AAE760 2718E97C */  addiu   $t8, $t8, %lo(func_80AAE97C) ## $t8 = 80AAE97C
-/* 00FF4 80AAE764 2739EA10 */  addiu   $t9, $t9, %lo(func_80AAEA10) ## $t9 = 80AAEA10
+/* 00FF0 80AAE760 2718E97C */  addiu   $t8, $t8, %lo(EnMm_OverrideLimbDraw) ## $t8 = 80AAE97C
+/* 00FF4 80AAE764 2739EA10 */  addiu   $t9, $t9, %lo(EnMm_PostLimbDraw) ## $t9 = 80AAEA10
 /* 00FF8 80AAE768 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 00FFC 80AAE76C AFB80010 */  sw      $t8, 0x0010($sp)
 /* 01000 80AAE770 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

@@ -52,7 +52,7 @@ glabel L80AADAF0
 /* 003C8 80AADB38 01616024 */  and     $t4, $t3, $at              
 /* 003CC 80AADB3C ACEC0254 */  sw      $t4, 0x0254($a3)           ## 00000254
 /* 003D0 80AADB40 24050006 */  addiu   $a1, $zero, 0x0006         ## $a1 = 00000006
-/* 003D4 80AADB44 0C2AB5DC */  jal     func_80AAD770              
+/* 003D4 80AADB44 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 003D8 80AADB48 24E60258 */  addiu   $a2, $a3, 0x0258           ## $a2 = 00000258
 /* 003DC 80AADB4C 10000008 */  beq     $zero, $zero, .L80AADB70   
 /* 003E0 80AADB50 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
@@ -109,7 +109,7 @@ glabel L80AADBD0
 /* 00498 80AADC08 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 0049C 80AADC0C 24E60258 */  addiu   $a2, $a3, 0x0258           ## $a2 = 00000258
 /* 004A0 80AADC10 35CF0001 */  ori     $t7, $t6, 0x0001           ## $t7 = 00000001
-/* 004A4 80AADC14 0C2AB5DC */  jal     func_80AAD770              
+/* 004A4 80AADC14 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 004A8 80AADC18 ACEF0254 */  sw      $t7, 0x0254($a3)           ## 00000254
 /* 004AC 80AADC1C AFA0001C */  sw      $zero, 0x001C($sp)         
 glabel L80AADC20

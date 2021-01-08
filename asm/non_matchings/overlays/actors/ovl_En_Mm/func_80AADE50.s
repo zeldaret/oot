@@ -1,4 +1,4 @@
-glabel func_80AADE50
+glabel EnMm_GetPointCount
 /* 006E0 80AADE50 000570C0 */  sll     $t6, $a1,  3               
 /* 006E4 80AADE54 01C47821 */  addu    $t7, $t6, $a0              
 /* 006E8 80AADE58 03E00008 */  jr      $ra                        

@@ -22,7 +22,7 @@ glabel func_80AAE224
 /* 00B00 80AAE270 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00B04 80AAE274 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 00B08 80AAE278 24E60258 */  addiu   $a2, $a3, 0x0258           ## $a2 = 00000258
-/* 00B0C 80AAE27C 0C2AB5DC */  jal     func_80AAD770              
+/* 00B0C 80AAE27C 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00B10 80AAE280 E4E40068 */  swc1    $f4, 0x0068($a3)           ## 00000068
 .L80AAE284:
 /* 00B14 80AAE284 8FBF0014 */  lw      $ra, 0x0014($sp)           

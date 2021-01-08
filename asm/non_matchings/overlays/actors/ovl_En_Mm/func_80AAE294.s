@@ -127,7 +127,7 @@ glabel func_80AAE294
 /* 00CC8 80AAE438 2841001F */  slti    $at, $v0, 0x001F           
 /* 00CCC 80AAE43C 14200007 */  bne     $at, $zero, .L80AAE45C     
 /* 00CD0 80AAE440 24490001 */  addiu   $t1, $v0, 0x0001           ## $t1 = 00000001
-/* 00CD4 80AAE444 0C2AB5DC */  jal     func_80AAD770              
+/* 00CD4 80AAE444 0C2AB5DC */  jal     EnMm_ChangeAnimation              
 /* 00CD8 80AAE448 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 00CDC 80AAE44C 3C0880AB */  lui     $t0, %hi(func_80AAE224)    ## $t0 = 80AB0000
 /* 00CE0 80AAE450 2508E224 */  addiu   $t0, $t0, %lo(func_80AAE224) ## $t0 = 80AAE224

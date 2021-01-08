@@ -1086,9 +1086,9 @@ typedef struct {
 // Another animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               unk_08;
-    /* 0x0C */ f32              transitionRate;
+    /* 0x04 */ f32 frameCount;
+    /* 0x08 */ u8 unk_08;
+    /* 0x0C */ f32 transitionRate;
 } struct_D_80AA1678; // size = 0x10
 
 typedef struct {
