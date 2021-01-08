@@ -142,8 +142,8 @@ static UNK_PTR D_809982D4[] = {
     0x060065C0, 0x060035C0, 0x060055C0, 0x060045C0, 0x06000000, 0x060025C0, 0x060015C0,
 };
 
-extern ColHeader D_0601EDD0; // gohma block collision header
-extern ColHeader D_06012FD0; // phantom ganon bars collision header
+extern CollisionHeader D_0601EDD0; // gohma block collision header
+extern CollisionHeader D_06012FD0; // phantom ganon bars collision header
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -204,7 +204,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.initPosRot.pos.z = this->dyna.actor.shape.unk_08;
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->doorType = (this->dyna.actor.params >> 6) & 0xF;
     phi_a3 = D_80998224[this->doorType];
     if (phi_a3 < 0) {
@@ -253,7 +253,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = (u16)this->dyna.actor.params >> 0xA;
 
@@ -266,13 +266,12 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
-            UNK_TYPE temp = 0;
+            CollisionHeader* colHeader = NULL;
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            DynaPolyInfo_Alloc((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &temp);
-            this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = -2.0f;
@@ -403,8 +402,8 @@ s32 func_80996D14(DoorShutter* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
             func_80996C60(this, globalCtx);
         }
-        Math_ApproxF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-        if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
+        Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
+        if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
                          this->dyna.actor.velocity.y)) {
             return true;
         }
@@ -413,7 +412,7 @@ s32 func_80996D14(DoorShutter* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYODOOR_OPEN);
             func_80996C60(this, globalCtx);
         }
-        if (Math_ApproxS(&this->unk_166, 0, 10)) {
+        if (Math_StepToS(&this->unk_166, 0, 10)) {
             return true;
         }
     }
@@ -436,7 +435,7 @@ s32 func_80996E08(DoorShutter* this, GlobalContext* globalCtx, f32 arg2) {
             }
         }
     }
-    if (Math_ApproxF(&this->unk_170, arg2, 0.2f)) {
+    if (Math_StepToF(&this->unk_170, arg2, 0.2f)) {
         return true;
     }
     return false;
@@ -466,7 +465,7 @@ void func_80996F98(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_16E) == 0 && globalCtx->roomCtx.status == 0 && func_80996D14(this, globalCtx) != 0) {
-        if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistFromLink) {
+        if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistToLink) {
             if (DoorShutter_SetupDoor(this, globalCtx)) {
                 this->dyna.actor.velocity.y = 30.0f;
             }
@@ -539,9 +538,9 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     s32 quakeId;
 
     if (this->dyna.actor.velocity.y < 20.0f) {
-        Math_ApproxF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
+        Math_StepToF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.posRot.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
@@ -551,13 +550,13 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
         Quake_SetSpeed(quakeId, -32536);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 10);
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0xB4, 0x14, 0x64);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0xB4, 0x14, 0x64);
         func_80997220(this, globalCtx);
     }
 }
 
 void func_80997528(DoorShutter* this, GlobalContext* globalCtx) {
-    if (Math_ApproxS(&this->unk_166, 0x64, 0xA)) {
+    if (Math_StepToS(&this->unk_166, 0x64, 0xA)) {
         func_80997220(this, globalCtx);
     }
 }
@@ -603,7 +602,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx) {
         this->unk_164--;
     }
     phi_f0 = (this->unk_164 % 2 != 0) ? -3.0f : 0.0f;
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, -34.0f + phi_f0, 1.0f, 20.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, -34.0f + phi_f0, 1.0f, 20.0f, 0.0f);
     osSyncPrintf("FHG SAKU END !!\n");
 }
 

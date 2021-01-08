@@ -133,15 +133,15 @@ s32 EnSsh_CreateBlureEffect(GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_CheckCeilingPos(EnSsh* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp4C;
-    u32 sp48;
-    Vec3f sp3C;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posB;
 
-    sp3C.x = this->actor.posRot.pos.x;
-    sp3C.y = this->actor.posRot.pos.y + 1000.0f;
-    sp3C.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->ceilingPos, &sp4C, 0, 0, 1, 1,
-                       &sp48)) {
+    posB.x = this->actor.posRot.pos.x;
+    posB.y = this->actor.posRot.pos.y + 1000.0f;
+    posB.z = this->actor.posRot.pos.z;
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &posB, &this->ceilingPos, &poly, false,
+                                 false, true, true, &bgId)) {
         return false;
     } else {
         return true;
@@ -202,11 +202,11 @@ f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
-    f32 frameCount = SkelAnime_GetFrameCount(animation[animIndex]);
+    f32 frameCount = Animation_GetLastFrame(animation[animIndex]);
     s32 pad;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
-                         mode[animIndex], -6.0f);
+    Animation_Change(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
+                     mode[animIndex], -6.0f);
 
     return frameCount;
 }
@@ -272,7 +272,7 @@ s32 EnSsh_Damaged(EnSsh* this) {
         func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
     }
     if (DECR(this->stunTimer) != 0) {
-        Math_SmoothScaleMaxMinS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
+        Math_SmoothStepToS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
         return false;
     } else {
         this->stunTimer = 0;
@@ -294,15 +294,14 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.posRot.rot.y += 10000.0f * (this->spinTimer / 30.0f);
     } else if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
-                                1);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->stunTimer < 30) {
@@ -328,7 +327,7 @@ void EnSsh_Bob(EnSsh* this, GlobalContext* globalCtx) {
     if ((globalCtx->state.frames & 8) != 0) {
         bobVel *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
 }
 
 s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
@@ -348,7 +347,7 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->actor.xzDistFromLink > 160.0f) {
+    if (this->actor.xzDistToLink > 160.0f) {
         return false;
     }
 
@@ -396,10 +395,10 @@ void EnSsh_Sway(EnSsh* this) {
             this->swayAngle = 0;
         }
         temp = this->swayTimer * (1.0f / 6);
-        swayAngle = temp * (0x10000 / 360.0f) * Math_Sins(this->swayAngle);
+        swayAngle = temp * (0x10000 / 360.0f) * Math_SinS(this->swayAngle);
         temp = this->actor.posRot.pos.y - this->ceilingPos.y;
-        swayVecBase.x = Math_Sins(swayAngle) * temp;
-        swayVecBase.y = Math_Coss(swayAngle) * temp;
+        swayVecBase.x = Math_SinS(swayAngle) * temp;
+        swayVecBase.y = Math_CosS(swayAngle) * temp;
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
@@ -587,7 +586,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06000304);
+    frameCount = Animation_GetLastFrame(&D_06000304);
     if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
@@ -598,8 +597,8 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->limbDrawTable, this->transDrawTable, 30);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTable, this->morphTable, 30);
+    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
     this->stateFlags = 0;
@@ -711,7 +710,7 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->actor.groundY + this->groundYoffset) <= this->actor.posRot.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
     }
 }
 
@@ -733,7 +732,7 @@ void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx) {
-    f32 frameRatio = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
+    f32 frameRatio = this->skelAnime.curFrame / (this->skelAnime.animLength - 1.0f);
 
     if (frameRatio == 1.0f) {
         EnSsh_SetReturnAnimation(this);
@@ -794,14 +793,14 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->stunTimer != 0) {
         EnSsh_Damaged(this);
     } else {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         func_8002D7EC(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actionFunc(this, globalCtx);
     }
     EnSsh_UpdateYaw(this, globalCtx);
     if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Math_Rand_S16Offset(60, 60);
+        this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->blinkState = this->blinkTimer;
     if (this->blinkState >= 3) {
@@ -840,7 +839,7 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             }
             break;
     }
-    return 0;
+    return false;
 }
 
 void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -859,6 +858,6 @@ void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2333);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2336);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSsh_OverrideLimbDraw,
                       EnSsh_PostLimbDraw, &this->actor);
 }

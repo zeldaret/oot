@@ -32,23 +32,23 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060038D0[];
-extern UNK_TYPE D_060042D8;
+extern CollisionHeader D_060042D8;
 
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
     s32 pad;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 3);
-    DynaPolyInfo_Alloc(&D_060042D8, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    DynaPolyActor_Init(&this->actor, DPM_UNK3);
+    CollisionHeader_GetVirtual(&D_060042D8, &colHeader);
+    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 }
 
 void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {

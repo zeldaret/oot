@@ -54,15 +54,15 @@ glabel func_80A1241C
 /* 00898 80A124B8 26D21C24 */  addiu   $s2, $s6, 0x1C24           ## $s2 = 00001C24
 /* 0089C 80A124BC 24140002 */  addiu   $s4, $zero, 0x0002         ## $s4 = 00000002
 .L80A124C0:
-/* 008A0 80A124C0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 008A0 80A124C0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 008A4 80A124C4 4600C306 */  mov.s   $f12, $f24                 
 /* 008A8 80A124C8 46000506 */  mov.s   $f20, $f0                  
-/* 008AC 80A124CC 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 008AC 80A124CC 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 008B0 80A124D0 4600C306 */  mov.s   $f12, $f24                 
 /* 008B4 80A124D4 46000586 */  mov.s   $f22, $f0                  
-/* 008B8 80A124D8 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 008B8 80A124D8 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 008BC 80A124DC 4600C306 */  mov.s   $f12, $f24                 
 /* 008C0 80A124E0 C6280028 */  lwc1    $f8, 0x0028($s1)           ## 00000028

@@ -5,7 +5,7 @@ glabel func_80A40A54
 /* 024F0 80A40A60 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 024F4 80A40A64 3C040601 */  lui     $a0, %hi(D_06010590)                ## $a0 = 06010000
 /* 024F8 80A40A68 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 024FC 80A40A6C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 024FC 80A40A6C 0C028800 */  jal     Animation_GetLastFrame
               
 /* 02500 80A40A70 24840590 */  addiu   $a0, $a0, %lo(D_06010590)           ## $a0 = 06010590
 /* 02504 80A40A74 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -19,7 +19,7 @@ glabel func_80A40A54
 /* 02524 80A40A94 44049000 */  mfc1    $a0, $f18                  
 /* 02528 80A40A98 00000000 */  nop
 /* 0252C 80A40A9C 00042400 */  sll     $a0, $a0, 16               
-/* 02530 80A40AA0 0C01DE1C */  jal     Math_Sins
+/* 02530 80A40AA0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02534 80A40AA4 00042403 */  sra     $a0, $a0, 16               
 /* 02538 80A40AA8 E6000068 */  swc1    $f0, 0x0068($s0)           ## 00000068
@@ -35,7 +35,7 @@ glabel func_80A40A54
 /* 02560 80A40AD0 0C28FB78 */  jal     func_80A3EDE0              
 /* 02564 80A40AD4 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 02568 80A40AD8 3C040600 */  lui     $a0, %hi(D_06004930)                ## $a0 = 06000000
-/* 0256C 80A40ADC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0256C 80A40ADC 0C028800 */  jal     Animation_GetLastFrame
               
 /* 02570 80A40AE0 24844930 */  addiu   $a0, $a0, %lo(D_06004930)           ## $a0 = 06004930
 /* 02574 80A40AE4 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00

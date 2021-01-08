@@ -27,7 +27,7 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->update = EffectSsGMagma_Update;
     this->gfx = SEGMENTED_TO_VIRTUAL(D_04024410);
     this->life = 16;
-    this->rgScale = (s16)(Math_Rand_ZeroOne() * 100.0f) + 200;
+    this->rgScale = (s16)(Rand_ZeroOne() * 100.0f) + 200;
     this->rgTexIdx = 0;
     this->rgTexIdxStep = 50;
     this->rgPrimColorR = 255;

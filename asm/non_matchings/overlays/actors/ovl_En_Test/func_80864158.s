@@ -7,14 +7,14 @@ glabel func_80864158
 /* 04B1C 8086416C 24A5E2B0 */  addiu   $a1, $a1, %lo(D_0600E2B0)           ## $a1 = 0600E2B0
 /* 04B20 80864170 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 04B24 80864174 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
-/* 04B28 80864178 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 04B28 80864178 0C0294D3 */  jal     Animation_MorphToLoop
 /* 04B2C 8086417C 3C06C000 */  lui     $a2, 0xC000                ## $a2 = C0000000
 /* 04B30 80864180 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 04B34 80864184 C7A4001C */  lwc1    $f4, 0x001C($sp)
 /* 04B38 80864188 84EE00B6 */  lh      $t6, 0x00B6($a3)           ## 000000B6
 /* 04B3C 8086418C E4E40068 */  swc1    $f4, 0x0068($a3)           ## 00000068
 /* 04B40 80864190 25CF3FFF */  addiu   $t7, $t6, 0x3FFF           ## $t7 = 00003FFF
-/* 04B44 80864194 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04B44 80864194 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04B48 80864198 A4EF0032 */  sh      $t7, 0x0032($a3)           ## 00000032
 /* 04B4C 8086419C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

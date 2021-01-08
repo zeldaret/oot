@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060108B8;
+extern CollisionHeader D_060108B8;
 extern Gfx D_0600FE40[];
 extern Gfx D_0400CD80[];
 extern Gfx D_040184B0[];
@@ -56,17 +56,17 @@ extern Gfx D_040184B0[];
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTubo* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
-    DynaPolyInfo_Alloc(&D_060108B8, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+    CollisionHeader_GetVirtual(&D_060108B8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitCylinder(globalCtx, &this->potCollider);
     Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
     Collider_InitCylinder(globalCtx, &this->flamesCollider);
     Collider_SetCylinder(globalCtx, &this->flamesCollider, &this->dyna.actor, &sFlamesColliderInit);
-    this->fireScroll = Math_Rand_ZeroOne() * 15.0f;
+    this->fireScroll = Rand_ZeroOne() * 15.0f;
     sPotsDestroyed = 0;
     this->actionFunc = BgHakaTubo_Idle;
 }
@@ -74,7 +74,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTubo* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->potCollider);
     Collider_DestroyCylinder(globalCtx, &this->flamesCollider);
 }
@@ -85,8 +85,8 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
         this->dyna.actor.shape.rot.y += 0x180;
-        this->dyna.actor.posRot.pos.x = Math_Sins(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
-        this->dyna.actor.posRot.pos.z = Math_Coss(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
+        this->dyna.actor.posRot.pos.x = Math_SinS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -5559.0f;
+        this->dyna.actor.posRot.pos.z = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
     if (this->flamesCollider.base.atFlags & 2) {
@@ -133,7 +133,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
         spawnPos.y = this->dyna.actor.posRot.pos.y + 200.0f;
         spawnPos.z = this->dyna.actor.posRot.pos.z;
         if (this->dyna.actor.room == 12) { // 3 spinning pots room in Shadow Temple
-            rnd = Math_Rand_ZeroOne();
+            rnd = Rand_ZeroOne();
             sPotsDestroyed++;
             if (sPotsDestroyed == 3) {
                 // All 3 pots destroyed

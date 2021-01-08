@@ -49,10 +49,10 @@ glabel func_80A1BB34
 /* 01230 80A1BBD0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01234 80A1BBD4 0C286BFC */  jal     func_80A1AFF0              
 /* 01238 80A1BBD8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 0123C 80A1BBDC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0123C 80A1BBDC 0C02927F */  jal     SkelAnime_Update
               
 /* 01240 80A1BBE0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 01244 80A1BBE4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01244 80A1BBE4 0C02927F */  jal     SkelAnime_Update
               
 /* 01248 80A1BBE8 260402B0 */  addiu   $a0, $s0, 0x02B0           ## $a0 = 000002B0
 /* 0124C 80A1BBEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

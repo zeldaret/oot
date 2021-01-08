@@ -228,7 +228,7 @@ glabel func_809B3FDC
 /* 009DC 809B42FC 24A545E0 */  addiu   $a1, $a1, %lo(func_809B45E0) ## $a1 = 809B45E0
 /* 009E0 809B4300 3C050400 */  lui     $a1, %hi(D_0400436C)                ## $a1 = 04000000
 /* 009E4 809B4304 24A5436C */  addiu   $a1, $a1, %lo(D_0400436C)           ## $a1 = 0400436C
-/* 009E8 809B4308 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 009E8 809B4308 0C02947A */  jal     Animation_PlayOnce
 /* 009EC 809B430C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 009F0 809B4310 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
 /* 009F4 809B4314 240A003C */  addiu   $t2, $zero, 0x003C         ## $t2 = 0000003C
@@ -270,7 +270,7 @@ glabel func_809B3FDC
 /* 00A6C 809B438C 26050100 */  addiu   $a1, $s0, 0x0100           ## $a1 = 00000100
 /* 00A70 809B4390 8FA60044 */  lw      $a2, 0x0044($sp)
 /* 00A74 809B4394 27A70084 */  addiu   $a3, $sp, 0x0084           ## $a3 = FFFFFFEC
-/* 00A78 809B4398 0C00F80B */  jal     func_8003E02C
+/* 00A78 809B4398 0C00F80B */  jal     BgCheck_ProjectileLineTest
 /* 00A7C 809B439C 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 00A80 809B43A0 304A00FF */  andi    $t2, $v0, 0x00FF           ## $t2 = 00000000
 /* 00A84 809B43A4 1140000E */  beq     $t2, $zero, .L809B43E0
@@ -297,7 +297,7 @@ glabel func_809B3FDC
 /* 00ACC 809B43EC 8E02024C */  lw      $v0, 0x024C($s0)           ## 0000024C
 /* 00AD0 809B43F0 C60E0060 */  lwc1    $f14, 0x0060($s0)          ## 00000060
 /* 00AD4 809B43F4 C60C0068 */  lwc1    $f12, 0x0068($s0)          ## 00000068
-/* 00AD8 809B43F8 0C034199 */  jal     atan2s
+/* 00AD8 809B43F8 0C034199 */  jal     Math_Atan2S
 
 /* 00ADC 809B43FC 46007387 */  neg.s   $f14, $f14
 /* 00AE0 809B4400 A60200B4 */  sh      $v0, 0x00B4($s0)           ## 000000B4
@@ -337,7 +337,7 @@ glabel func_809B3FDC
 /* 00B58 809B4478 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00B5C 809B447C 27A50060 */  addiu   $a1, $sp, 0x0060           ## $a1 = FFFFFFC8
 /* 00B60 809B4480 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFBC
-/* 00B64 809B4484 0C00F7A1 */  jal     func_8003DE84
+/* 00B64 809B4484 0C00F7A1 */  jal     BgCheck_EntityLineTest1
 /* 00B68 809B4488 27A70084 */  addiu   $a3, $sp, 0x0084           ## $a3 = FFFFFFEC
 /* 00B6C 809B448C 1040003D */  beq     $v0, $zero, .L809B4584
 /* 00B70 809B4490 8FA40044 */  lw      $a0, 0x0044($sp)

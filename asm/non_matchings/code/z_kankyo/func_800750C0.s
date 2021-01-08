@@ -29,7 +29,7 @@ glabel func_800750C0
 /* AEC2AC 8007510C 1000009B */  b     .L8007537C
 /* AEC2B0 80075110 00000000 */   nop   
 .L80075114:
-/* AEC2B4 80075114 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC2B4 80075114 0C03F66B */  jal   Rand_ZeroOne
 /* AEC2B8 80075118 00000000 */   nop   
 /* AEC2BC 8007511C 3C018014 */  lui   $at, %hi(D_8013C7F8)
 /* AEC2C0 80075120 C424C7F8 */  lwc1  $f4, %lo(D_8013C7F8)($at)
@@ -45,7 +45,7 @@ glabel func_800750C0
 /* AEC2E8 80075148 46083280 */  add.s $f10, $f6, $f8
 /* AEC2EC 8007514C E46A0008 */  swc1  $f10, 8($v1)
 .L80075150:
-/* AEC2F0 80075150 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC2F0 80075150 0C03F66B */  jal   Rand_ZeroOne
 /* AEC2F4 80075154 00000000 */   nop   
 /* AEC2F8 80075158 3C038016 */  lui   $v1, %hi(D_8015FD70)
 /* AEC2FC 8007515C 2463FD70 */  addiu $v1, %lo(D_8015FD70) # addiu $v1, $v1, -0x290
@@ -66,7 +66,7 @@ glabel func_800750C0
 /* AEC338 80075198 A0640002 */  sb    $a0, 2($v1)
 /* AEC33C 8007519C A06F0003 */  sb    $t7, 3($v1)
 /* AEC340 800751A0 A0640004 */  sb    $a0, 4($v1)
-/* AEC344 800751A4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AEC344 800751A4 0C03F66B */  jal   Rand_ZeroOne
 /* AEC348 800751A8 E4680008 */   swc1  $f8, 8($v1)
 /* AEC34C 800751AC 3C018014 */  lui   $at, %hi(D_8013C7FC)
 /* AEC350 800751B0 C42AC7FC */  lwc1  $f10, %lo(D_8013C7FC)($at)

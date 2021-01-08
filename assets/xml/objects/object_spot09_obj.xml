@@ -1,0 +1,14 @@
+<Root>
+    <File Name="object_spot09_obj" Segment="6">
+        <DList Name="gBgSpot09DL1" Offset="0x100"/>
+        <DList Name="gBgSpot09DL2" Offset="0x3970"/>
+        <DList Name="gBgSpot09DL3" Offset="0x1120"/>
+        <DList Name="gBgSpot09DL4" Offset="0x7D40"/>
+        <DList Name="gBgSpot09DL5" Offset="0x6210"/>
+        <DList Name="gBgSpot09DL6" Offset="0x8010"/>
+        <Blob Name="gBgSpot09Col1" Offset="0x5520" Size="0x30"/>
+        <Blob Name="gBgSpot09Col2" Offset="0x283C" Size="0x30"/>
+        <Blob Name="gBgSpot09Col3" Offset="0x8458" Size="0x30"/>
+        <Blob Name="gBgSpot09Col4" Offset="0x7580" Size="0x30"/>
+    </File>
+</Root>

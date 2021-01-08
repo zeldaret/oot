@@ -214,9 +214,9 @@ void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
     this->flowerBombScale = 1.0f;
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -6.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.5f;
@@ -241,7 +241,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
 
     if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
     }
 
     this->explosionCollider.list->dim.modelSphere.radius += 8;
@@ -304,7 +304,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((!this->bumpOn) && (!Actor_HasParent(thisx, globalCtx)) &&
-        ((thisx->xzDistFromLink >= 20.0f) || (ABS(thisx->yDistFromLink) >= 80.0f))) {
+        ((thisx->xzDistToLink >= 20.0f) || (ABS(thisx->yDistToLink) >= 80.0f))) {
         this->bumpOn = true;
     }
 
@@ -374,9 +374,9 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-                Math_SmoothScaleMaxMinF(&this->flashIntensity, 150.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
+                Math_SmoothStepToF(&this->flashIntensity, 150.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
             } else {
-                Math_SmoothScaleMaxMinF(&this->flashIntensity, 0.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
+                Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 150.0f / this->flashSpeedScale, 0.0f);
             }
 
             if (this->timer < 3) {
@@ -395,7 +395,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100, 19);
 
                 effPos.y = thisx->groundY;
-                if (thisx->groundY > -32000.0f) {
+                if (thisx->groundY > BGCHECK_Y_MIN) {
                     EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
                 }
 
@@ -426,7 +426,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMBFLOWER_EXPLOSION)) {
-        if (thisx->waterY >= 20.0f) {
+        if (thisx->yDistToWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);

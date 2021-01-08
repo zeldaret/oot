@@ -48,7 +48,7 @@ static f32 D_808718FC[] = { 0.0f, 5.0f };
 static f32 D_80871904[] = { 0.0f };
 static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-extern UNK_TYPE D_06004F30;
+extern CollisionHeader D_06004F30;
 extern Gfx D_060048A8[];
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
@@ -58,17 +58,17 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    DynaPolyInfo_Alloc(&D_06004F30, &sp24);
+    CollisionHeader_GetVirtual(&D_06004F30, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
@@ -81,7 +81,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -117,11 +117,11 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
     Vec3f sp50;
     f32 sp4C;
 
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
-    if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (this->dyna.actor.initPosRot.pos.y - 200.0f) - 20.0f,
-                                0.075f, this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
+    if (Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, (this->dyna.actor.initPosRot.pos.y - 200.0f) - 20.0f, 0.075f,
+                           this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params);
         BgDdanKd_SetupAction(this, func_80871838);
     } else {
@@ -131,30 +131,30 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C = sp50 = this->dyna.actor.posRot.pos;
 
             if (globalCtx->state.frames & 2) {
-                sp5C.z += 210.0f + Math_Rand_ZeroOne() * 230.0f;
-                sp50.z += 210.0f + Math_Rand_ZeroOne() * 230.0f;
+                sp5C.z += 210.0f + Rand_ZeroOne() * 230.0f;
+                sp50.z += 210.0f + Rand_ZeroOne() * 230.0f;
             } else {
-                sp5C.z += 330.0f + Math_Rand_ZeroOne() * 240.0f;
-                sp50.z += 330.0f + Math_Rand_ZeroOne() * 240.0f;
+                sp5C.z += 330.0f + Rand_ZeroOne() * 240.0f;
+                sp50.z += 330.0f + Rand_ZeroOne() * 240.0f;
             }
-            sp5C.x += 80.0f + Math_Rand_ZeroOne() * 10.0f;
-            sp50.x -= 80.0f + Math_Rand_ZeroOne() * 10.0f;
-            sp5C.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
-            sp50.y = this->dyna.actor.groundY + 20.0f + Math_Rand_ZeroOne();
+            sp5C.x += 80.0f + Rand_ZeroOne() * 10.0f;
+            sp50.x -= 80.0f + Rand_ZeroOne() * 10.0f;
+            sp5C.y = this->dyna.actor.groundY + 20.0f + Rand_ZeroOne();
+            sp50.y = this->dyna.actor.groundY + 20.0f + Rand_ZeroOne();
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
 
-            D_808718FC[0] = Math_Rand_CenteredFloat(3.0f);
-            D_80871904[0] = Math_Rand_CenteredFloat(3.0f);
+            D_808718FC[0] = Rand_CenteredFloat(3.0f);
+            D_80871904[0] = Rand_CenteredFloat(3.0f);
 
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
             func_8003555C(globalCtx, &sp50, &D_808718FC, &D_80871908);
 
             sp5C = this->dyna.actor.posRot.pos;
-            sp5C.z += 560.0f + Math_Rand_ZeroOne() * 5.0f;
-            sp5C.x += (Math_Rand_ZeroOne() - 0.5f) * 160.0f;
-            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.groundY + 20.0f);
+            sp5C.z += 560.0f + Rand_ZeroOne() * 5.0f;
+            sp5C.x += (Rand_ZeroOne() - 0.5f) * 160.0f;
+            sp5C.y = Rand_ZeroOne() * 3.0f + (this->dyna.actor.groundY + 20.0f);
 
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);

@@ -62,8 +62,8 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->vec = initParams->unk_18;
     this->rReg0 = initParams->unk_2C;
     this->rGravity = initParams->gravity;
-    this->rPitch = Math_Rand_ZeroOne() * 32767.0f;
-    this->rYaw = Math_Rand_ZeroOne() * 32767.0f;
+    this->rPitch = Rand_ZeroOne() * 32767.0f;
+    this->rYaw = Rand_ZeroOne() * 32767.0f;
     this->rReg4 = initParams->unk_26;
     this->rReg5 = initParams->unk_28;
     this->rReg6 = initParams->unk_2A;
@@ -82,7 +82,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
         osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
 
-    temp_f2 = Math_Rand_ZeroOne() * arg1;
+    temp_f2 = Rand_ZeroOne() * arg1;
     return ((temp_f2 * 2.0f) - arg1) + arg0;
 }
 
@@ -373,7 +373,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 break;
             case 1:
                 if (this->velocity.y < 0.0f) {
-                    if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {
+                    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {
                         this->velocity.x *= func_809A9818(0.9f, 0.2f);
                         this->velocity.y *= -0.8f;
                         this->velocity.z *= func_809A9818(0.9f, 0.2f);
@@ -385,7 +385,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 2:
-                if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {}
+                if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {}
                 break;
         }
     }

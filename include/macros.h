@@ -45,6 +45,8 @@
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
+#define HIGH_SCORE(score) (gSaveContext.highScores[score])
+
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
                         : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
@@ -70,6 +72,7 @@
 #define LOG_TIME(exp, value, file, line) LOG(exp, value, "%lld", file, line)
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
 #define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
+#define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     (curState)->init = newInit;                          \

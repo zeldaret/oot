@@ -122,9 +122,9 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     thisx->speedXZ = (sqrtf(tmpf1) * this->unk_1B0);
-    thisx->velocity.x = (Math_Sins(thisx->posRot.rot.y) * thisx->speedXZ);
+    thisx->velocity.x = (Math_SinS(thisx->posRot.rot.y) * thisx->speedXZ);
 
-    tmpf2 = Math_Coss(thisx->posRot.rot.y) * thisx->speedXZ;
+    tmpf2 = Math_CosS(thisx->posRot.rot.y) * thisx->speedXZ;
     thisx->velocity.z = tmpf2;
     thisx->posRot.pos.x = thisx->posRot.pos.x + thisx->velocity.x;
     thisx->posRot.pos.z = thisx->posRot.pos.z + tmpf2;
@@ -161,7 +161,7 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
             func_80897DDC(this);
         }
     } else {
-        Math_ApproxF(&this->unk_1B0, 1.0f, 0.04f);
+        Math_StepToF(&this->unk_1B0, 1.0f, 0.04f);
     }
 
     if (thisx->posRot.pos.x > 1745.0f) {
@@ -199,7 +199,8 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 59.5f;
         pos.z = this->actor.posRot.pos.z;
-        this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
+        this->actor.groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
         func_80897970(this);
         if (this->collider.base.atFlags & 1) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

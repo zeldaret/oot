@@ -4,7 +4,6 @@
 
 #define THIS ((EnHorse*)thisx)
 
-u32 func_80041EEC(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 // z_horse.c
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
@@ -532,15 +531,15 @@ void func_80A5B61C(EnHorse *this, GlobalContext *globalCtx, struct unk_80A66654 
     func_80A5B5E0(this, globalCtx, &sp64, (u16)0x190);
 
     if (sp3C < 90000.0f) {
-        playerDist = this->actor.xzDistFromLink;
+        playerDist = this->actor.xzDistToLink;
         if ((playerDist < 130.0f) || ((this->jntSph.list->body.ocFlags & 2) != 0)) {
-            if (Math_Sins((s16) (this->actor.yawTowardsLink - this->actor.posRot.rot.y)) > 0.0f) {
+            if (Math_SinS((s16) (this->actor.yawTowardsLink - this->actor.posRot.rot.y)) > 0.0f) {
                 this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0x118;
             } else {
                 this->actor.posRot.rot.y = this->actor.posRot.rot.y + 0x118;
             }
         } else if (playerDist < 300.0f) {
-            if (Math_Sins((s16) (this->actor.yawTowardsLink - this->actor.posRot.rot.y)) > 0.0f) {
+            if (Math_SinS((s16) (this->actor.yawTowardsLink - this->actor.posRot.rot.y)) > 0.0f) {
                 this->actor.posRot.rot.y = this->actor.posRot.rot.y + 0x118;
             } else {
                 this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0x118;
@@ -551,7 +550,7 @@ void func_80A5B61C(EnHorse *this, GlobalContext *globalCtx, struct unk_80A66654 
 
     sp50 = func_8002DB8C((Actor *) this, PLAYER);
     sp4E = func_8002DA78((Actor *) this, PLAYER) - this->actor.posRot.rot.y;
-    if (sp50 <= 200.0f || (fabsf(Math_Sins(sp4E)) < 0.8f && Math_Coss(sp4E) > 0.0f)) {
+    if (sp50 <= 200.0f || (fabsf(Math_SinS(sp4E)) < 0.8f && Math_CosS(sp4E) > 0.0f)) {
         if (this->actor.speedXZ < this->unk_398) {
             this->actor.speedXZ += 0.47f;
         } else {
@@ -596,7 +595,7 @@ void func_80A5BACC(EnHorse *this) {
 f32 func_80A5BB14(EnHorse *this, GlobalContext *globalCtx) {
     f32 sp1C = 1.0f;
 
-    if (Math_Coss(this->actor.shape.rot.x) < 0.939262f && Math_Sins(this->actor.shape.rot.x) < 0.0f) {
+    if (Math_CosS(this->actor.shape.rot.x) < 0.939262f && Math_SinS(this->actor.shape.rot.x) < 0.0f) {
         sp1C = 0.7f;
     }
     return sp1C;
@@ -661,7 +660,7 @@ s32 func_80A5BD94(EnHorse *this, GlobalContext *globalCtx) {
                 vec.y = D_80A65F40[i].unk2.y;
                 vec.z = D_80A65F40[i].unk2.z;
                 dist = Math3D_Vec3f_DistXYZ(&player->actor.posRot.pos, &vec);
-                if (globalCtx->sceneNum);
+                if (globalCtx->sceneNum){}
                 if (!(minDist < dist) && (func_80A5BBBC(globalCtx, this, &vec) == 0)) {
                     minDist = dist;
                     this->actor.posRot.pos.x = D_80A65F40[i].unk2.x;
@@ -811,7 +810,7 @@ void EnHorse_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
     func_800A663C(gc, &this->unk_160, D_80A65E84[this->unk_158], *sAnimationHeaders[this->unk_158]);
     this->unk_210 = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, *sAnimationHeaders[this->unk_158]);
+    Animation_PlayOnce(&this->unk_160.skelAnime, *sAnimationHeaders[this->unk_158]);
     this->unk_238 = 6;
     this->unk_37A = this->unk_244 = this->unk_23C = 0;
     func_80A5BFD8(this, gc);
@@ -955,7 +954,7 @@ void func_80A5CAEC(EnHorse *this, GlobalContext *globalCtx, f32 arg2, f32 arg3, 
 
     arg6 *= func_80A5BB14(this, globalCtx);
     func_80A63148(&this->unk_264, &sp40, &sp3E);
-    if (Math_Coss(sp3E) <= arg3) {
+    if (Math_CosS(sp3E) <= arg3) {
         this->actor.speedXZ -= arg2;
         this->actor.speedXZ = (this->actor.speedXZ < 0.0f) ? (0.0f) : (this->actor.speedXZ);
         return;
@@ -1016,13 +1015,13 @@ void func_80A5CAEC(EnHorse *this, GlobalContext *globalCtx, f32 arg2, f32 arg3, 
 
 
 void func_80A5CF28(EnHorse *this) {
-    this->unk_160.skelAnime.animCurrentFrame = 0.0f;
+    this->unk_160.skelAnime.curFrame = 0.0f;
     func_80A5CF64(this);
     this->unk_1F0 &= ~0x1000;
 }
 
 void func_80A5CF64(EnHorse *this) {
-    f32 animCurrentFrame;
+    f32 curFrame;
 
     this->unk_14C = 5;
     this->unk_210 = 0;
@@ -1032,8 +1031,8 @@ void func_80A5CF64(EnHorse *this) {
             Audio_PlaySoundGeneral((u16)0x282CU, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    animCurrentFrame = this->unk_160.skelAnime.animCurrentFrame;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, animCurrentFrame, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    curFrame = this->unk_160.skelAnime.curFrame;
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, curFrame, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 }
 s32 func_80A5BFF8(EnHorse* this, GlobalContext* globalCtx);
 void func_80A5E588(EnHorse* this);
@@ -1052,31 +1051,31 @@ void func_80A5D0A0(EnHorse *this, GlobalContext *globalCtx) {
     this->actor.speedXZ = 0;
     func_80A63148(&this->unk_264, &sp24, &sp22);
     if ((sp24 > 10.0f) && (func_80A5BFF8(this, globalCtx) == 1)) {
-        if (Math_Coss(sp22) <= -0.5f) {
+        if (Math_CosS(sp22) <= -0.5f) {
             func_80A5E588(this);
-        } else if ((f64) Math_Coss(sp22) <= 0.7071) {
+        } else if ((f64) Math_CosS(sp22) <= 0.7071) {
             func_80A5D3C0(this);
         } else {
             func_80A5D628(this);
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         func_80A5D1A0(this);
     }
 }
 
 void func_80A5D1A0(EnHorse *this) {
-    this->unk_160.skelAnime.animCurrentFrame = 0.0f;
+    this->unk_160.skelAnime.curFrame = 0.0f;
     func_80A5D1C4(this);
 }
 
 void func_80A5D1C4(EnHorse *this) {
-    f32 animCurrentFrame;
+    f32 curFrame;
 
     this->unk_14C = 6;
     this->unk_210 = 1;
-    animCurrentFrame = this->unk_160.skelAnime.animCurrentFrame;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, animCurrentFrame, (f32) SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][1]), 2, -3.0f);
+    curFrame = this->unk_160.skelAnime.curFrame;
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, curFrame, (f32) Animation_GetLastFrame(sAnimationHeaders[this->unk_158][1]), 2, -3.0f);
     this->unk_21C = this->unk_228;
     if (this->unk_1F0 & 0x08000000) {
         Audio_PlaySoundGeneral((u16)0x2816U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1091,15 +1090,15 @@ void func_80A5D2C0(EnHorse *this, GlobalContext *globalCtx) {
     this->actor.speedXZ = 0;
     func_80A63148(&this->unk_264, &sp24, (s16 *) &sp22);
     if ((sp24 > 10.0f) && (func_80A5BFF8(this, globalCtx) == 1)) {
-        if (Math_Coss(sp22) <= -0.5f) {
+        if (Math_CosS(sp22) <= -0.5f) {
             func_80A5E588(this);
-        } else if (Math_Coss(sp22) <= 0.7071) {
+        } else if (Math_CosS(sp22) <= 0.7071) {
             func_80A5D3C0(this);
         } else {
             func_80A5D628(this);
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         func_80A5CF28(this);
     }
 }
@@ -1108,7 +1107,7 @@ void func_80A5D3C0(EnHorse *this) {
     this->unk_14C = 7;
     this->unk_218 = 0;
     this->unk_210 = 4;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][4]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][4]), 2, -3.0f);
 }
 
 void func_80A5D468(EnHorse *this, GlobalContext *globalCtx) {
@@ -1122,9 +1121,9 @@ void func_80A5D468(EnHorse *this, GlobalContext *globalCtx) {
     if (sp2C > 10.0f) {
         if (func_80A5BFF8(this, globalCtx) == 0) {
             func_80A5CF28(this);
-        } else if (Math_Coss(yaw) <= -0.5f) {
+        } else if (Math_CosS(yaw) <= -0.5f) {
             func_80A5E588(this);
-        } else if (Math_Coss(yaw) <= 0.7071) {
+        } else if (Math_CosS(yaw) <= 0.7071) {
             clampedYaw = CLAMP(yaw, -800.0f, 800.0f);
             this->actor.posRot.rot.y = this->actor.posRot.rot.y + clampedYaw;
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -1133,8 +1132,8 @@ void func_80A5D468(EnHorse *this, GlobalContext *globalCtx) {
         }
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
-        if (Math_Coss(yaw) <= 0.7071) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
+        if (Math_CosS(yaw) <= 0.7071) {
             func_80A5D3C0(this);
         } else {
             func_80A5CF28(this);
@@ -1164,7 +1163,7 @@ void func_80A5D69C(EnHorse *this) {
     this->unk_218 = 0;
     this->unk_210 = 4;
     this->unk_37C = 0;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][4]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][4]), 2, -3.0f);
 }
 
 void func_80A5D748(EnHorse *this) {
@@ -1172,7 +1171,7 @@ void func_80A5D748(EnHorse *this) {
     this->unk_218 = 0;
     this->unk_210 = 4;
     this->unk_37C = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][4]);
+    Animation_PlayOnce(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][4]);
 }
 
 void func_80A5D748(EnHorse* this);
@@ -1211,8 +1210,8 @@ void func_80A5D79C(EnHorse *this, GlobalContext *globalCtx) {
 
     if (this->unk_37C <= 0) {
         this->unk_1F0 = this->unk_1F0 & ~0x200;
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.75f;
-        if ((SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) || (this->actor.speedXZ == 0.0f)) {
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.75f;
+        if ((SkelAnime_Update(&this->unk_160.skelAnime) != 0) || (this->actor.speedXZ == 0.0f)) {
             if (this->unk_150 <= 0.0f) {
                 if ((this->actor.speedXZ > 3.0f)) {
                     func_80A5DA68(this);
@@ -1220,7 +1219,7 @@ void func_80A5D79C(EnHorse *this, GlobalContext *globalCtx) {
                     this->unk_154 = 0;
                     return;
                 }
-                if ((sp3C < 10.0f) || (Math_Coss(sp3A) <= -0.5f)) {
+                if ((sp3C < 10.0f) || (Math_CosS(sp3A) <= -0.5f)) {
                     func_80A5CF28(this);
                     this->unk_150 = 0;
                     this->unk_154 = 0;
@@ -1240,13 +1239,13 @@ void func_80A5D79C(EnHorse *this, GlobalContext *globalCtx) {
 void func_80A5DA68(EnHorse *this) {
     this->unk_14C = 9;
     this->unk_210 = 5;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 }
 
 void func_80A5DB0C(EnHorse *this) {
     this->unk_14C = 9;
     this->unk_210 = 5;
-    SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
+    Animation_PlayOnce(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
 }
 
 void func_80A5BA84(EnHorse* this);
@@ -1260,8 +1259,8 @@ void func_80A5DB58(EnHorse *this, GlobalContext *globalCtx) {
     if (this->actor.speedXZ < 3.0f) {
         func_80A5D678(this);
     }
-    this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.375f;
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.375f;
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         func_80A5BA84(this);
         func_800AA000(0.0f, (u8)0x3CU, (u8)8U, (u8)0xFFU);
         if (this->actor.speedXZ >= 6.0f) {
@@ -1286,7 +1285,7 @@ void func_80A5DCB0(EnHorse *this) {
     this->unk_14C = 0xA;
     this->unk_210 = 6;
     this->unk_234 = 0;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][6]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][6]), 2, -3.0f);
 }
 
 void func_80A5DD58(EnHorse *this) {
@@ -1295,17 +1294,17 @@ void func_80A5DD58(EnHorse *this) {
     this->unk_14C = 0xA;
     this->unk_210 = 6;
     this->unk_234 = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6]);
+    Animation_PlayOnce(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6]);
 }
 
 void func_80A5DDB0(EnHorse *this, GlobalContext *globalCtx) {
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
     float y;
     this->unk_14C = 0xA;
     this->unk_210 = 6;
-    SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
-    limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-    y = limbDrawTbl->y;
+    Animation_PlayOnce(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
+    jointTable = this->unk_160.skelAnime.jointTable;
+    y = jointTable->y;
     this->unk_258.y += (y * 0.01f);
     this->unk_244 = NULL;
 }
@@ -1328,12 +1327,12 @@ void func_80A5DE38(EnHorse *this, GlobalContext *globalCtx) {
         func_80A5DA68(this);
     }
 
-    this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.3f;
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime)) {
+    this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.3f;
+    if (SkelAnime_Update(&this->unk_160.skelAnime)) {
         func_80A5BACC(this);
         func_800AA000(0, (u8)0x78U, (u8)8U, (u8)0xFFU);
         if (func_80A5BFF8(this, globalCtx) == 1) {
-            if (sp3C >= 10.0f && Math_Coss(sp3A) <= -0.5f) {
+            if (sp3C >= 10.0f && Math_CosS(sp3A) <= -0.5f) {
                 func_80A5E2A8(this, globalCtx);
             } else if (this->actor.speedXZ < 6.0f) {
                 func_80A5DA68(this);
@@ -1355,7 +1354,7 @@ void func_80A5E00C(EnHorse *this) {
         Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     func_800AA000(0.0f, (u8)0xB4U, (u8)0x14U, (u8)0x64U);
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 }
 
 void func_80A5E12C(EnHorse *this, GlobalContext *globalCtx) {
@@ -1371,7 +1370,7 @@ void func_80A5E12C(EnHorse *this, GlobalContext *globalCtx) {
         }
     }
     func_80A63148(&this->unk_264, &dist, &yaw);
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         if (func_80A5BFF8(this, globalCtx) == 1) {
             if (this->unk_1F0 & 0x10) {
                 this->unk_150 = 0x64;
@@ -1383,7 +1382,7 @@ void func_80A5E12C(EnHorse *this, GlobalContext *globalCtx) {
                 this->unk_154 = 0x64;
                 this->unk_1F0 = this->unk_1F0 & ~0x20;
                 func_80A5D69C(this);
-            } else if ((Math_Coss(yaw) <= -0.5f)) {
+            } else if ((Math_CosS(yaw) <= -0.5f)) {
                 func_80A5E588(this);
             } else {
                 func_80A5CF28(this);
@@ -1401,7 +1400,7 @@ void func_80A5E2A8(EnHorse *this, GlobalContext *globalCtx) {
     this->unk_210 = 2;
 
     Audio_PlaySoundGeneral((u16)0x281AU, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 
     this->unk_1F0 |= 0x400;
     this->unk_1F0 &= ~1;
@@ -1415,9 +1414,9 @@ void func_80A5E39C(EnHorse *this, GlobalContext *globalCtx) {
         }
     }
 
-    if (this->unk_1F0 & 0x400 && this->unk_160.skelAnime.animCurrentFrame > 29.0f) {
+    if (this->unk_1F0 & 0x400 && this->unk_160.skelAnime.curFrame > 29.0f) {
         this->actor.speedXZ = 0.0f;
-        if (Math_Rand_ZeroOne() > 0.5) {
+        if (Rand_ZeroOne() > 0.5) {
             this->unk_21C = this->unk_228;
             if (this->unk_1F0 & 0x08000000) {
                 Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1429,13 +1428,13 @@ void func_80A5E39C(EnHorse *this, GlobalContext *globalCtx) {
         }
     }
 
-    if (this->unk_160.skelAnime.animCurrentFrame > 29.0f) {
+    if (this->unk_160.skelAnime.curFrame > 29.0f) {
         this->actor.speedXZ = 0.0f;
     } else if (this->actor.speedXZ > 3.0f && this->unk_1F0 & 0x10) {
         this->actor.speedXZ = 3.0f;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime)) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime)) {
         if ((this->unk_1F0 & 0x10) != 0) {
             this->unk_150 = 0x64;
             this->unk_154 = 0x64;
@@ -1457,7 +1456,7 @@ void func_80A5E5AC(EnHorse *this) {
     this->unk_14C = 0xD;
     this->unk_210 = 4;
     this->unk_218 = 0;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][4]), 0, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, (f32) Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][4]), 0, -3.0f);
 }
 
 void func_80A5E650(EnHorse *this, GlobalContext *globalCtx) {
@@ -1477,7 +1476,7 @@ void func_80A5E650(EnHorse *this, GlobalContext *globalCtx) {
             }
             if (sp34 < 10.0f) {
                 sp32 = -0x7FFF;
-            } else if (Math_Coss(sp32) > -0.5f) {
+            } else if (Math_CosS(sp32) > -0.5f) {
                 this->unk_154 = 0;
                 func_80A5CF28(this);
                 this->actor.speedXZ = 0.0f;
@@ -1506,9 +1505,9 @@ void func_80A5E650(EnHorse *this, GlobalContext *globalCtx) {
             this->unk_154 = 0;
         }
     }
-    this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.5f * 1.5f;
-    if ((SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) && ((f32) this->unk_150 <= 0.0f) && (func_80A5BFF8(this, globalCtx) == 1)) {
-        if ((sp34 > 10.0f) && (Math_Coss(sp32) <= -0.5f)) {
+    this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.5f * 1.5f;
+    if ((SkelAnime_Update(&this->unk_160.skelAnime) != 0) && ((f32) this->unk_150 <= 0.0f) && (func_80A5BFF8(this, globalCtx) == 1)) {
+        if ((sp34 > 10.0f) && (Math_CosS(sp32) <= -0.5f)) {
             this->unk_154 = 0;
             func_80A5E588(this);
             return;
@@ -1524,19 +1523,19 @@ void func_80A5E650(EnHorse *this, GlobalContext *globalCtx) {
 
 void func_80A5EA1C(EnHorse *this, GlobalContext *globalCtx);
 void func_80A5E9F8(EnHorse *this, GlobalContext *globalCtx) {
-    this->unk_160.skelAnime.animCurrentFrame = 0.0f;
+    this->unk_160.skelAnime.curFrame = 0.0f;
     func_80A5EA1C(this, globalCtx);
 }
 
 void func_80A5EA1C(EnHorse *this, GlobalContext *globalCtx) {
     f32 sp34;
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
     f32 y;
 
     this->unk_14C = 0xE;
     this->unk_210 = 7;
-    sp34 = this->unk_160.skelAnime.animCurrentFrame;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, sp34, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][7]), 2, -3.0f);
+    sp34 = this->unk_160.skelAnime.curFrame;
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, sp34, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][7]), 2, -3.0f);
 
     this->unk_244 = NULL;
     this->unk_274 = this->actor.posRot.pos.y;
@@ -1544,8 +1543,8 @@ void func_80A5EA1C(EnHorse *this, GlobalContext *globalCtx) {
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0;
 
-    limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-    y = limbDrawTbl->y;
+    jointTable = this->unk_160.skelAnime.jointTable;
+    y = jointTable->y;
     this->unk_258.y -= (y * 0.01f);
 
     Audio_PlaySoundGeneral((u16)0x2818U, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1557,11 +1556,11 @@ void func_80A5EB4C(EnHorse *this) {
 
 void func_80A5EB54(EnHorse *this, GlobalContext *globalCtx) {
     Vec3f pad;
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
     f32 curFrame;
     f32 y;
 
-    curFrame = this->unk_160.skelAnime.animCurrentFrame;
+    curFrame = this->unk_160.skelAnime.curFrame;
     this->unk_1F0 |= 4;
     this->actor.speedXZ = 12.0f;
     if (curFrame > 17.0f) {
@@ -1570,17 +1569,17 @@ void func_80A5EB54(EnHorse *this, GlobalContext *globalCtx) {
             this->actor.velocity.y = -6.0f;
         }
         if (this->actor.posRot.pos.y < (this->actor.groundY + 90.0f)) {
-            this->unk_160.skelAnime.animPlaybackSpeed = 1.5f;
+            this->unk_160.skelAnime.playSpeed = 1.5f;
         } else {
-            this->unk_160.skelAnime.animPlaybackSpeed = 0;
+            this->unk_160.skelAnime.playSpeed = 0;
         }
     } else {
-        limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-        y = limbDrawTbl->y;
+        jointTable = this->unk_160.skelAnime.jointTable;
+        y = jointTable->y;
         this->actor.posRot.pos.y = this->unk_274 + y * 0.01f;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) || (curFrame > 17.0f && this->actor.posRot.pos.y < this->actor.groundY - this->actor.velocity.y + 80.0f)) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) || (curFrame > 17.0f && this->actor.posRot.pos.y < this->actor.groundY - this->actor.velocity.y + 80.0f)) {
         Audio_PlaySoundGeneral((u16)0x2819U, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
         func_800AA000(0.0f, (u8)0xFFU, (u8)0xAU, (u8)0x50U);
         this->unk_1F0 = this->unk_1F0 & ~4;
@@ -1594,19 +1593,19 @@ void func_80A5EB54(EnHorse *this, GlobalContext *globalCtx) {
 
 void func_80A5ED3C(EnHorse *this, GlobalContext *globalCtx);
 void func_80A5ED18(EnHorse *this, GlobalContext *globalCtx) {
-    this->unk_160.skelAnime.animCurrentFrame = 0.0f;
+    this->unk_160.skelAnime.curFrame = 0.0f;
     func_80A5ED3C(this, globalCtx);
 }
 
 void func_80A5ED3C(EnHorse *this, GlobalContext *globalCtx) {
     f32 sp34;
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
     f32 y;
 
     this->unk_14C = 0xF;
     this->unk_210 = 8;
-    sp34 = this->unk_160.skelAnime.animCurrentFrame;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, sp34, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    sp34 = this->unk_160.skelAnime.curFrame;
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, sp34, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 
     this->unk_274 = this->actor.posRot.pos.y;
     this->unk_244 = NULL;
@@ -1614,8 +1613,8 @@ void func_80A5ED3C(EnHorse *this, GlobalContext *globalCtx) {
     this->actor.gravity = 0;
     this->actor.velocity.y = 0.0f;
 
-    limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-    y = limbDrawTbl->y;
+    jointTable = this->unk_160.skelAnime.jointTable;
+    y = jointTable->y;
     this->unk_258.y -= y * 0.01f;
 
     this->unk_1F0 |= 8;
@@ -1629,11 +1628,11 @@ void func_80A5EE78(EnHorse *this) {
 
 void func_80A5EE80(EnHorse *this, GlobalContext *globalCtx) {
     Vec3f pad;
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
     f32 curFrame;
     f32 y;
 
-    curFrame = this->unk_160.skelAnime.animCurrentFrame;
+    curFrame = this->unk_160.skelAnime.curFrame;
     this->unk_1F0 |= 4;
     this->actor.speedXZ = 13.0f;
     if (curFrame > 23.0f) {
@@ -1643,17 +1642,17 @@ void func_80A5EE80(EnHorse *this, GlobalContext *globalCtx) {
         }
 
         if (this->actor.posRot.pos.y < this->actor.groundY + 90.0f) {
-            this->unk_160.skelAnime.animPlaybackSpeed = 1.5f;
+            this->unk_160.skelAnime.playSpeed = 1.5f;
         } else {
-            this->unk_160.skelAnime.animPlaybackSpeed = 0;
+            this->unk_160.skelAnime.playSpeed = 0;
         }
     } else {
-        limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-        y = limbDrawTbl->y;
+        jointTable = this->unk_160.skelAnime.jointTable;
+        y = jointTable->y;
         this->actor.posRot.pos.y = this->unk_274 + y * 0.01f;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) || (curFrame > 23.0f && this->actor.posRot.pos.y < this->actor.groundY - this->actor.velocity.y + 80.0f)) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) || (curFrame > 23.0f && this->actor.posRot.pos.y < this->actor.groundY - this->actor.velocity.y + 80.0f)) {
         Audio_PlaySoundGeneral((u16)0x2819U, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
         func_800AA000(0.0f, (u8)0xFFU, (u8)0xAU, (u8)0x50U);
         this->unk_1F0 &= ~4;
@@ -1722,7 +1721,7 @@ void func_80A5F1B0(EnHorse *this, s32 arg1, f32 arg2, f32 arg3) {
             this->unk_1F0 &= ~0x800;
         }
 
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, arg2);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, arg2);
     }
 }
 
@@ -1763,7 +1762,7 @@ void func_80A5F414(EnHorse *this, GlobalContext *globalCtx) {
             func_80A5F5F8(this, 6, -3.0f, 0.0f);
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         s32 phi_v1 = 0;
         if (this->unk_210 != 0) {
             if (this->unk_210 == 1) {
@@ -1772,7 +1771,7 @@ void func_80A5F414(EnHorse *this, GlobalContext *globalCtx) {
                 phi_v1 = 2;
             }
         }
-        func_80A5F1B0(this, D_80A66678[(Math_Rand_ZeroOne() > 0.5f ? 0 : 1) + phi_v1 * 2], 0.0f, 0.0f);
+        func_80A5F1B0(this, D_80A66678[(Rand_ZeroOne() > 0.5f ? 0 : 1) + phi_v1 * 2], 0.0f, 0.0f);
     }
 }
 
@@ -1785,9 +1784,9 @@ void func_80A5F5F8(EnHorse *this, s32 arg1, f32 arg2, f32 arg3) {
     }
     if (this->unk_210 != arg1) {
         this->unk_210 = arg1;
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, arg2);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, arg2);
     } else {
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0.0f);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, arg3, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0.0f);
     }
 }
 void func_80A5F760(EnHorse *this, GlobalContext *globalCtx) {
@@ -1847,9 +1846,9 @@ void func_80A5F890(EnHorse *this, GlobalContext *globalCtx) {
             sp38 += 32767;
         }
 
-        this->unk_378 = sp38 / SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]);
-        SkelAnime_ChangeAnimDefaultStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
-        this->unk_160.skelAnime.animPlaybackSpeed = 1.0f;
+        this->unk_378 = sp38 / Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]);
+        Animation_PlayOnce(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210]);
+        this->unk_160.skelAnime.playSpeed = 1.0f;
         this->unk_1F0 &= ~0x800;
         this->unk_21C = this->unk_228;
     } else if ((this->unk_1F0 & 0x8000) != 0) {
@@ -1868,17 +1867,17 @@ void func_80A5F890(EnHorse *this, GlobalContext *globalCtx) {
 
     if (this->unk_210 == 6) {
         this->actor.speedXZ = 8;
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.3f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.3f;
     } else if (this->unk_210 == 5) {
         this->actor.speedXZ = 6;
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.375f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.375f;
     } else if (this->unk_210 == 4) {
         this->actor.speedXZ = 3;
         func_80A5B9C8(this);
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.75f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.75f;
     } else {
         this->actor.speedXZ = 0;
-        this->unk_160.skelAnime.animPlaybackSpeed = 1.0f;
+        this->unk_160.skelAnime.playSpeed = 1.0f;
     }
     if ((this->unk_1F0 & 0x8000) == 0 && ++this->unk_250 >= 0x12D) {
         func_80A5F3DC(this);
@@ -1890,7 +1889,7 @@ void func_80A5F890(EnHorse *this, GlobalContext *globalCtx) {
 
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime)) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime)) {
         if (this->unk_210 == 6) {
             func_80A5BACC(this);
         } else if (this->unk_210 == 5) {
@@ -1976,9 +1975,9 @@ void func_80A5FDD4(EnHorse *this) {
     }
 
     if (phi_v1 == 1) {
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3);
     } else {
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0);
     }
 }
 
@@ -2008,8 +2007,8 @@ void func_80A600E8(EnHorse *this, GlobalContext *globalCtx) {
     } else {
         newSpeed = 1.0f;
     }
-    this->unk_160.skelAnime.animPlaybackSpeed = newSpeed;
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) || (this->unk_210 == 0 && this->actor.speedXZ != 0.0f)) {
+    this->unk_160.skelAnime.playSpeed = newSpeed;
+    if (SkelAnime_Update(&this->unk_160.skelAnime) || (this->unk_210 == 0 && this->actor.speedXZ != 0.0f)) {
         func_80A5FDD4(this);
     }
 
@@ -2023,13 +2022,13 @@ void func_80A600E8(EnHorse *this, GlobalContext *globalCtx) {
         return;
     }
 
-    func_80A5FD30(this->unk_210, this->unk_160.skelAnime.animCurrentFrame, this->unk_394 & 1, (s16*)((u8*)this->rider + 0x1e6), (f32*)((u8*)this->rider + 0x1e0));
+    func_80A5FD30(this->unk_210, this->unk_160.skelAnime.curFrame, this->unk_394 & 1, (s16*)((u8*)this->rider + 0x1e6), (f32*)((u8*)this->rider + 0x1e0));
 }
 
 void func_80A60294(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *action) {
     this->unk_210 = 6;
     this->unk_380 = 1;
-    SkelAnime_ChangeAnimPlaybackStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6], this->actor.speedXZ * 0.3f);
+    Animation_PlayOnceSetSpeed(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6], this->actor.speedXZ * 0.3f);
 }
 
 void func_80A6044C(EnHorse* this, GlobalContext *globalCtx);
@@ -2046,38 +2045,38 @@ void func_80A60300(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
     if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.posRot.pos) > speed) {
         func_80A5B5E0(this, globalCtx, &endPos, 0x190);
         this->actor.speedXZ = speed;
-        this->unk_160.skelAnime.animPlaybackSpeed = speed * 0.3f;
+        this->unk_160.skelAnime.playSpeed = speed * 0.3f;
     } else {
         this->actor.posRot.pos = endPos;
         this->actor.speedXZ = 0.0f;
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         func_80A5BACC(this);
         func_800AA000(0.0f, (u8)0x78U, (u8)8U, (u8)0xFFU);
-        SkelAnime_ChangeAnimPlaybackStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], this->actor.speedXZ * 0.3f);
+        Animation_PlayOnceSetSpeed(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], this->actor.speedXZ * 0.3f);
     }
 }
 
 void func_80A6044C(EnHorse *this, GlobalContext *globalCtx) {
-    this->unk_160.skelAnime.animCurrentFrame = 0.0f;
+    this->unk_160.skelAnime.curFrame = 0.0f;
     func_80A60470(this, globalCtx);
 }
 
 void func_80A60470(EnHorse *this, GlobalContext *globalCtx) {
-    f32 animCurrentFrame;
+    f32 curFrame;
     f32 y;
-    Vec3s *limbDrawTbl;
+    Vec3s *jointTable;
 
     this->unk_210 = 8;
-    animCurrentFrame = this->unk_160.skelAnime.animCurrentFrame;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, animCurrentFrame, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    curFrame = this->unk_160.skelAnime.curFrame;
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, curFrame, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
     this->unk_244 = NULL;
     this->unk_274 = this->actor.posRot.pos.y;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0;
 
-    limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-    y = limbDrawTbl->y;
+    jointTable = this->unk_160.skelAnime.jointTable;
+    y = jointTable->y;
     this->unk_258.y -= (y * 0.01f);
 
     this->unk_1F0 |= 8;
@@ -2098,7 +2097,7 @@ void func_80A605E0(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
         func_80A60300(this, globalCtx, action);
         return;
     }
-    temp_f2 = this->unk_160.skelAnime.animCurrentFrame;
+    temp_f2 = this->unk_160.skelAnime.curFrame;
     this->unk_1F0 |= 4;
     this->actor.speedXZ = 13.0f;
     if (temp_f2 > 19.0f) {
@@ -2107,20 +2106,20 @@ void func_80A605E0(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
             this->actor.velocity.y = -10.5f;
         }
         if (this->actor.posRot.pos.y < (this->actor.groundY + 90.0f)) {
-            this->unk_160.skelAnime.animPlaybackSpeed = 1.5f;
+            this->unk_160.skelAnime.playSpeed = 1.5f;
         } else {
-            this->unk_160.skelAnime.animPlaybackSpeed = 0.0f;
+            this->unk_160.skelAnime.playSpeed = 0.0f;
         }
     } else {
-        Vec3s *limbDrawTbl;
+        Vec3s *jointTable;
         float y;
 
-        limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-        y = limbDrawTbl->y;
+        jointTable = this->unk_160.skelAnime.jointTable;
+        y = jointTable->y;
         this->actor.posRot.pos.y = this->unk_274 + y * 0.01f;
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) || (temp_f2 > 19.0f && this->actor.posRot.pos.y < (this->actor.groundY - this->actor.velocity.y) + 80.0f)) {
-        Vec3s *limbDrawTbl;
+    if (SkelAnime_Update(&this->unk_160.skelAnime) || (temp_f2 > 19.0f && this->actor.posRot.pos.y < (this->actor.groundY - this->actor.velocity.y) + 80.0f)) {
+        Vec3s *jointTable;
         float y;
 
         this->unk_384 |= 1;
@@ -2132,9 +2131,9 @@ void func_80A605E0(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
         this->actor.posRot.pos.y = this->actor.groundY;
         func_80028A54(globalCtx, 25.0f, &this->actor.posRot.pos);
         this->unk_210 = 6;
-        SkelAnime_ChangeAnimPlaybackStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[6]);
-        limbDrawTbl = this->unk_160.skelAnime.limbDrawTbl;
-        y = limbDrawTbl->y;
+        Animation_PlayOnceSetSpeed(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[6]);
+        jointTable = this->unk_160.skelAnime.jointTable;
+        y = jointTable->y;
         this->unk_258.y += y * 0.01f;
         this->unk_244 = NULL;
     }
@@ -2149,7 +2148,7 @@ void func_80A60838(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
     if (this->unk_1F0 & 0x08000000) {
         Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
     }
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 }
 
 void func_80A60954(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *action) {
@@ -2161,14 +2160,14 @@ void func_80A60954(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
             Audio_PlaySoundGeneral((u16)0x282BU, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         this->unk_210 = 0;
         if ((this->unk_384 & 4) == 0) {
             this->unk_384 |= 4;
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
             return;
         }
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 0, 0.0f);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 0, 0.0f);
     }
 }
 
@@ -2181,7 +2180,7 @@ void func_80A60AFC(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
     this->actor.shape.rot = this->actor.posRot.rot;
     this->unk_210 = 6;
     this->unk_380 = 4;
-    SkelAnime_ChangeAnimPlaybackStop(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6], this->actor.speedXZ * 0.3f);
+    Animation_PlayOnceSetSpeed(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][6], this->actor.speedXZ * 0.3f);
 }
 
 void func_80A60BDC(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *action) {
@@ -2194,16 +2193,16 @@ void func_80A60BDC(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
     if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.posRot.pos) > speed) {
         func_80A5B5E0(this, globalCtx, &vec, 0x190);
         this->actor.speedXZ = speed;
-        this->unk_160.skelAnime.animPlaybackSpeed = speed * 0.3f;
+        this->unk_160.skelAnime.playSpeed = speed * 0.3f;
     } else {
         this->actor.posRot.pos = vec;
         this->actor.speedXZ = 0.0f;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         func_80A5BACC(this);
         func_800AA000(0.0f, (u8)0x78U, (u8)8U, (u8)0xFFU);
-        SkelAnime_ChangeAnimPlaybackStop( &this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], this->actor.speedXZ * 0.3f);
+        Animation_PlayOnceSetSpeed( &this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], this->actor.speedXZ * 0.3f);
     }
 }
 
@@ -2222,7 +2221,7 @@ void func_80A60D28(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
     if (this->unk_1F0 & 0x08000000) {
         Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
     }
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
 }
 
 void func_80A60EB0(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *action) {
@@ -2233,13 +2232,13 @@ void func_80A60EB0(EnHorse *this, GlobalContext *globalCtx, CsCmdActorAction *ac
             Audio_PlaySoundGeneral((u16)0x282BU, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         this->unk_210 = 0;
         if ((this->unk_384 & 4) == 0) {
             this->unk_384 |= 4;
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 0, 0.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 0, 0.0f);
         }
     }
 }
@@ -2381,9 +2380,9 @@ void func_80A61440(EnHorse *this) {
         sp30 = 1.0f;
     }
     if (phi_v1 == 1) {
-        SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+        Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
     } else {
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], sPlaybackSpeeds[this->unk_210] * sp30 * 1.5f, 0, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0);
     }
 }
 
@@ -2447,8 +2446,8 @@ void func_80A61778(EnHorse *this, GlobalContext *globalCtx) {
         phi_f0 = 1.0f;
     }
 
-    this->unk_160.skelAnime.animPlaybackSpeed = phi_f0;
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) || (this->unk_210 == 0 && this->actor.speedXZ != 0.0f)) {
+    this->unk_160.skelAnime.playSpeed = phi_f0;
+    if (SkelAnime_Update(&this->unk_160.skelAnime) || (this->unk_210 == 0 && this->actor.speedXZ != 0.0f)) {
         func_80A61440(this);
     }
 }
@@ -2505,19 +2504,19 @@ void func_80A61A28(EnHorse *this, GlobalContext *globalCtx) {
     }
 
     if (this->actor.speedXZ >= 6.0f) {
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.3f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.3f;
         phi_a2 = 6;
     } else if (this->actor.speedXZ >= 3.0f) {
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.375f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.375f;
         phi_a2 = 5;
     } else if (this->actor.speedXZ > 0.1f) {
-        this->unk_160.skelAnime.animPlaybackSpeed = this->actor.speedXZ * 0.75f;
+        this->unk_160.skelAnime.playSpeed = this->actor.speedXZ * 0.75f;
         phi_a2 = 4;
         func_80A5B9C8(this);
     } else {
-        phi_a2 = Math_Rand_ZeroOne() > 0.5f ? 1 : 0;
+        phi_a2 = Rand_ZeroOne() > 0.5f ? 1 : 0;
         func_80A5BC68(this, globalCtx);
-        this->unk_160.skelAnime.animPlaybackSpeed = 1.0f;
+        this->unk_160.skelAnime.playSpeed = 1.0f;
     }
 
     if (phi_a2 == 6 || phi_a2 == 5 || phi_a2 == 4) {
@@ -2537,11 +2536,11 @@ void func_80A61A28(EnHorse *this, GlobalContext *globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
-    ret = SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime);
+    ret = SkelAnime_Update(&this->unk_160.skelAnime);
     if ((this->unk_210 == 0) || (this->unk_210 == 1)) {
         if (phi_a2 == 6 || phi_a2 == 5 || phi_a2 == 4) {
             this->unk_210 = phi_a2;
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
             if (this->unk_210 == 6) {
                 func_80A5BACC(this);
             }
@@ -2562,10 +2561,10 @@ void func_80A61A28(EnHorse *this, GlobalContext *globalCtx) {
         if ((this->unk_210 == 0) || (this->unk_210 == 1)) {
             if (phi_a2 != this->unk_210) {
                 this->unk_210 = phi_a2;
-                SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+                Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
                 return;
             } else {
-                if (Math_Rand_ZeroOne() > 0.5f) {
+                if (Rand_ZeroOne() > 0.5f) {
                     this->unk_210 = 0;
                     this->unk_1F0 &= ~0x1000;
                 } else {
@@ -2575,15 +2574,15 @@ void func_80A61A28(EnHorse *this, GlobalContext *globalCtx) {
                         Audio_PlaySoundGeneral((u16)0x2816U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
                     }
                 }
-                SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+                Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
                 return;
             }
         }
         if (phi_a2 != this->unk_210) {
             this->unk_210 = phi_a2;
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, 0.0f);
         }
         return;
     }
@@ -2591,7 +2590,7 @@ void func_80A61A28(EnHorse *this, GlobalContext *globalCtx) {
     if (this->unk_210 == 4) {
         if ((phi_a2 == 0) || (phi_a2 == 1)) {
             this->unk_210 = phi_a2;
-            SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, SkelAnime_GetFrameCount(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+            Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.0f, 0.0f, Animation_GetLastFrame(sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
         }
     }
 }
@@ -2603,7 +2602,7 @@ void func_80A62278(EnHorse *this, GlobalContext *globalCtx) {
     this->unk_14C = 0x10;
     this->unk_1F0 |= 4;
     this->unk_210 = 8;
-    y = this->unk_160.skelAnime.limbDrawTbl->y;
+    y = this->unk_160.skelAnime.jointTable->y;
     y = y * 0.01f;
     this->unk_3B0 = this->actor.posRot.pos;
     this->unk_3B0.y += y;
@@ -2614,7 +2613,7 @@ void func_80A62278(EnHorse *this, GlobalContext *globalCtx) {
     this->unk_3BC = 0;
     this->actor.gravity = 0.0f;
     this->actor.speedXZ = 0;
-    SkelAnime_ChangeAnim(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, 0.0f, (f32) SkelAnime_GetFrameCount((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
+    Animation_Change(&this->unk_160.skelAnime, sAnimationHeaders[this->unk_158][this->unk_210], 1.5f, 0.0f, (f32) Animation_GetLastFrame((void *) sAnimationHeaders[this->unk_158][this->unk_210]), 2, -3.0f);
     this->unk_21C = this->unk_228;
     if (this->unk_1F0 & 0x08000000) {
         Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2651,8 +2650,8 @@ void func_80A6255C(EnHorse *this, GlobalContext *globalCtx) {
     this->actor.posRot.pos.y = (this->unk_3B0.y + (this->unk_3C0 * this->unk_3BC) + (-0.4f * temp_f2));
 
     this->actor.posRot.rot.y = this->actor.shape.rot.y = (D_80A665DC[this->unk_3AC].unkA + ((1.0f - temp_f14) * this->unk_3C4));
-    this->unk_160.skelAnime.animCurrentFrame = 23.0f * temp_f14;
-    SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime);
+    this->unk_160.skelAnime.curFrame = 23.0f * temp_f14;
+    SkelAnime_Update(&this->unk_160.skelAnime);
     if (this->unk_3BC < 0x1E) {
         this->unk_1F0 |= 0x1000000;
     }
@@ -2665,8 +2664,8 @@ void func_80A626B8(EnHorse *this, GlobalContext *globalCtx) {
 
     temp_a0 = &this->unk_160.skelAnime;
     this->actor.speedXZ = 8.0f;
-    this->unk_160.skelAnime.animPlaybackSpeed = 1.5f;
-    if (SkelAnime_FrameUpdateMatrix(&this->unk_160.skelAnime) != 0) {
+    this->unk_160.skelAnime.playSpeed = 1.5f;
+    if (SkelAnime_Update(&this->unk_160.skelAnime) != 0) {
         this->unk_1F0 &= ~4;
         this->actor.gravity = -3.5f;
         this->actor.posRot.pos.y = D_80A665DC[this->unk_3AC].unk10;
@@ -2689,9 +2688,9 @@ void func_80A627A4(EnHorse *this, GlobalContext *globalCtx) {
 }
 
 void func_80A627E8(Vec3f *src, s16 yaw, f32 dist, f32 height, Vec3f *dst) {
-    dst->x = src->x + Math_Sins(yaw) * dist;
+    dst->x = src->x + Math_SinS(yaw) * dist;
     dst->y = src->y + height;
-    dst->z = src->z + Math_Coss(yaw) * dist;
+    dst->z = src->z + Math_CosS(yaw) * dist;
 }
 
 s32 func_80A62868(EnHorse *this, GlobalContext *globalCtx, Vec3f *vec, CollisionPoly **floorPoly, f32 *arg4) {
@@ -2700,17 +2699,17 @@ s32 func_80A62868(EnHorse *this, GlobalContext *globalCtx, Vec3f *vec, Collision
     WaterBox* sp34;
 
     *floorPoly = NULL;
-    *arg4 = func_8003C940(&globalCtx->colCtx, floorPoly,  &sp3C, vec);
+    *arg4 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, floorPoly,  &sp3C, vec);
 
     if (*arg4 == -32000.0f) {
         return 1;
     }
 
-    if ((func_80042244(globalCtx, &globalCtx->colCtx, vec->x, vec->z, &sp38, &sp34) == 1) && (*arg4 < sp38)) {
+    if ((WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, vec->x, vec->z, &sp38, &sp34) == 1) && (*arg4 < sp38)) {
         return 2;
     }
 
-    if ((*floorPoly)->norm.y * 0.00003051851f < 0.81915206f || func_80041EEC(&globalCtx->colCtx, *floorPoly, sp3C) || func_80041D4C(&globalCtx->colCtx, *floorPoly, sp3C) == 7) {
+    if ((*floorPoly)->normal.y * 0.00003051851f < 0.81915206f || SurfaceType_IsHorseBlocked(&globalCtx->colCtx, *floorPoly, sp3C) || func_80041D4C(&globalCtx->colCtx, *floorPoly, sp3C) == 7) {
         return 3;
     }
     return 0;
@@ -2767,7 +2766,7 @@ void func_80A62ACC(EnHorse *this, GlobalContext *globalCtx) {
     WaterBox* waterBox;
     u32 pad;
 
-    if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface, &waterBox) == 1 && this->actor.groundY < ySurface) {
+    if (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface, &waterBox) == 1 && this->actor.groundY < ySurface) {
         func_80A629A4(this, globalCtx, 1, sp44);
         return;
     }
@@ -2801,11 +2800,11 @@ void func_80A62ACC(EnHorse *this, GlobalContext *globalCtx) {
         func_80A629A4(this, globalCtx, 5, sp44);
         return;
     }
-    sp7A = Math_atan2f(this->unk_24C - this->unk_248, 60.0f) * 10430.378f;
+    sp7A = Math_FAtan2F(this->unk_24C - this->unk_248, 60.0f) * 10430.378f;
     if (this->actor.floorPoly != 0) {
-        nx = this->actor.floorPoly->norm.x * COLPOLY_NORM_FRAC;
-        ny = this->actor.floorPoly->norm.y * COLPOLY_NORM_FRAC;
-        nz = this->actor.floorPoly->norm.z * COLPOLY_NORM_FRAC;
+        nx = this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC;
+        ny = this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC;
+        nz = this->actor.floorPoly->normal.z * COLPOLY_NORMAL_FRAC;
         sp54 =  sp6C;
         sp54.y = this->unk_248;
         dist = Math3D_DistPlaneToPos(nx, ny, nz, this->actor.floorPoly->dist, &sp54);
@@ -2822,7 +2821,7 @@ void func_80A62ACC(EnHorse *this, GlobalContext *globalCtx) {
             func_80A629A4(this, globalCtx, 5, sp44);
             return;
         }
-        if (ny < 0.81915206f || func_80041EEC(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) || func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 7) {
+        if (ny < 0.81915206f || SurfaceType_IsHorseBlocked(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) || func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 7) {
             if ((this->actor.speedXZ >= 0.0f)) {
                 func_80A629A4(this, globalCtx, 4, sp44);
             } else {
@@ -2890,7 +2889,7 @@ void func_80A63148(Vec2f *vec, f32 *arg1, s16 *arg2) {
         *arg1 = (f32) *arg1;
     }
 
-    *arg2 = Math_atan2f(-vec->x, vec->y) * (32768.0f / M_PI);
+    *arg2 = Math_FAtan2F(-vec->x, vec->y) * (32768.0f / M_PI);
 }
 
 void func_80A631D4(EnHorse *this, GlobalContext *globalCtx) {
@@ -2906,10 +2905,10 @@ void func_80A63210(EnHorse *this, GlobalContext *globalCtx, CollisionPoly *arg2)
     f32 nz;
     f32 temp_f2;
 
-    nx = arg2->norm.x * 0.00003051851f;
-    ny = arg2->norm.y * 0.00003051851f;
-    nz = arg2->norm.z * 0.00003051851f;
-    if (Math_Coss(this->actor.posRot.rot.y - (s16) (Math_atan2f(arg2->norm.x, arg2->norm.z) * 10430.378f) - 0x7FFF) < 0.7071f) {
+    nx = arg2->normal.x * 0.00003051851f;
+    ny = arg2->normal.y * 0.00003051851f;
+    nz = arg2->normal.z * 0.00003051851f;
+    if (Math_CosS(this->actor.posRot.rot.y - (s16) (Math_FAtan2F(arg2->normal.x, arg2->normal.z) * 10430.378f) - 0x7FFF) < 0.7071f) {
         return;
     }
 
@@ -2937,10 +2936,10 @@ void func_80A63364(EnHorse *this, GlobalContext *globalCtx) {
     sp60.y = sp60.y + yOffset;
 
     Math_Vec3f_Copy(&sp54, (Vec3f *) &sp60);
-    sp54.x += 30.0f * Math_Sins(this->actor.posRot.rot.y);
-    sp54.y += 30.0f * Math_Sins(-this->actor.shape.rot.x);
-    sp54.z += 30.0f * Math_Coss(this->actor.posRot.rot.y);
-    if (func_8003DE84(&globalCtx->colCtx, &sp60, &sp54, &sp48, &sp44, 1, 0, 0, 1, &sp40) != 0) {
+    sp54.x += 30.0f * Math_SinS(this->actor.posRot.rot.y);
+    sp54.y += 30.0f * Math_SinS(-this->actor.shape.rot.x);
+    sp54.z += 30.0f * Math_CosS(this->actor.posRot.rot.y);
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &sp48, &sp44, 1, 0, 0, 1, &sp40) != 0) {
         func_80A63210(this, globalCtx, sp44);
     }
 }
@@ -2977,7 +2976,7 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
     if (func_80A5B2F0(this, globalCtx))
         return;
 
-    if (this->actor.bgCheckFlags & 8 && Math_Coss(this->actor.wallPolyRot - (0,this->actor.posRot).rot.y) < -0.3f) {
+    if (this->actor.bgCheckFlags & 8 && Math_CosS(this->actor.wallPolyRot - (0,this->actor.posRot).rot.y) < -0.3f) {
         if (this->actor.speedXZ > 4.0f) {
             this->actor.speedXZ -= 1.0f;
             Audio_PlaySoundGeneral((u16)0x282CU, &this->actor.projectedPos, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -3007,12 +3006,12 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
     spAC = this->actor.posRot.pos;
     spAC.y += 19.0f;
     spA0 = spAC;
-    spA0.x += (sp8C * Math_Sins(this->actor.posRot.rot.y));
-    spA0.y += (sp8C * Math_Sins(-this->actor.shape.rot.x));
-    spA0.z += (sp8C * Math_Coss(this->actor.posRot.rot.y));
+    spA0.x += (sp8C * Math_SinS(this->actor.posRot.rot.y));
+    spA0.y += (sp8C * Math_SinS(-this->actor.shape.rot.x));
+    spA0.z += (sp8C * Math_CosS(this->actor.posRot.rot.y));
     sp5C = spA0;
     sp88 = NULL;
-    if (func_8003DE84(&globalCtx->colCtx, &spAC, &spA0, &sp5C, &sp88, 1, 0, 0, 1, &sp80) == 1) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &spAC, &spA0, &sp5C, &sp88, 1, 0, 0, 1, &sp80) == 1) {
         sp8C = sqrt(Math3D_Vec3fDistSq( &spAC, &sp5C));
         this->unk_1F0 |= 0x4000;
     }
@@ -3020,7 +3019,7 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
         if (sp8C < 30.0f) {
             func_80A63210(this, globalCtx, sp88);
         }
-        if ((Math_Coss(this->actor.posRot.rot.y - (s16)(Math_atan2f(sp88->norm.x, sp88->norm.z) * 10430.378f) - 0x7FFF) < 0.5f) || func_80041EEC(&globalCtx->colCtx, sp88, sp80) != 0) {
+        if ((Math_CosS(this->actor.posRot.rot.y - (s16)(Math_FAtan2F(sp88->normal.x, sp88->normal.z) * 10430.378f) - 0x7FFF) < 0.5f) || SurfaceType_IsHorseBlocked(&globalCtx->colCtx, sp88, sp80) != 0) {
             return;
         }
         if ((sp70 == 0 && sp8C < 80.0f) || (sp70 == 1 && sp8C < 150.0f)) {
@@ -3033,7 +3032,7 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
             }
             return;
         }
-        dynaPoly = DynaPolyInfo_GetActor(&globalCtx->colCtx, sp80);
+        dynaPoly = DynaPoly_GetActor(&globalCtx->colCtx, sp80);
         if ((this->unk_1F0 & 0x4000000) && ((dynaPoly && dynaPoly->actor.id != 0x108) || dynaPoly == 0)) {
             if (sp70 == 0) {
                 this->unk_1F0 |= 0x10;
@@ -3047,24 +3046,24 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
 
     sp8C += 5.0f;
     sp94 = spAC;
-    sp94.x += (sp8C * Math_Sins(this->actor.posRot.rot.y));
+    sp94.x += (sp8C * Math_SinS(this->actor.posRot.rot.y));
     sp94.y = this->actor.posRot.pos.y + 120.0f;
-    sp94.z += (sp8C * Math_Coss(this->actor.posRot.rot.y));
+    sp94.z += (sp8C * Math_CosS(this->actor.posRot.rot.y));
     sp50 = sp94;
-    sp50.y = func_8003C940(&globalCtx->colCtx, &sp84, &sp80, &sp94);
+    sp50.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp84, &sp80, &sp94);
     if (sp50.y == -32000.0f)
         return;
     sp7C = sp50.y - this->actor.posRot.pos.y;
     if ((this->actor.floorPoly == 0) || (sp84 == 0))
         return;
 
-    if (Math3D_DistPlaneToPos(this->actor.floorPoly->norm.x * COLPOLY_NORM_FRAC,
-                this->actor.floorPoly->norm.y * COLPOLY_NORM_FRAC,
-                this->actor.floorPoly->norm.z * COLPOLY_NORM_FRAC,
+    if (Math3D_DistPlaneToPos(this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC,
+                this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC,
+                this->actor.floorPoly->normal.z * COLPOLY_NORMAL_FRAC,
                 this->actor.floorPoly->dist, &sp50) < -40.0f
-            && Math3D_DistPlaneToPos(sp84->norm.x * COLPOLY_NORM_FRAC,
-                sp84->norm.y * COLPOLY_NORM_FRAC,
-                sp84->norm.z * COLPOLY_NORM_FRAC,
+            && Math3D_DistPlaneToPos(sp84->normal.x * COLPOLY_NORMAL_FRAC,
+                sp84->normal.y * COLPOLY_NORMAL_FRAC,
+                sp84->normal.z * COLPOLY_NORMAL_FRAC,
                 sp84->dist, &this->actor.posRot.pos) > 40.0f) {
         if ((sp70 == 1) && (this->unk_14C != 0xC)) {
             this->unk_1F0 |= 0x10;
@@ -3074,8 +3073,8 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
         return;
     }
 
-    ny = sp84->norm.y * COLPOLY_NORM_FRAC;
-    if (ny < 0.81915206f || (func_80041EEC(&globalCtx->colCtx, sp84, sp80) != 0) || (func_80041D4C(&globalCtx->colCtx, sp84, sp80) == 7)) {
+    ny = sp84->normal.y * COLPOLY_NORMAL_FRAC;
+    if (ny < 0.81915206f || (SurfaceType_IsHorseBlocked(&globalCtx->colCtx, sp84, sp80) != 0) || (func_80041D4C(&globalCtx->colCtx, sp84, sp80) == 7)) {
         if ((sp70 == 1) && (this->unk_14C != 0xC)) {
             this->unk_1F0 |= 0x10;
             func_80A5E2A8(this, globalCtx);
@@ -3089,15 +3088,15 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
     sp94 = spAC;
     sp94.y = this->actor.posRot.pos.y + 120.0f;
     if (sp70 == 0) {
-        sp94.x += (276.0f * Math_Sins(this->actor.posRot.rot.y));
-        sp94.z += (276.0f * Math_Coss(this->actor.posRot.rot.y));
+        sp94.x += (276.0f * Math_SinS(this->actor.posRot.rot.y));
+        sp94.z += (276.0f * Math_CosS(this->actor.posRot.rot.y));
     } else {
-        sp94.x += (390.0f * Math_Sins(this->actor.posRot.rot.y));
-        sp94.z += (390.0f * Math_Coss(this->actor.posRot.rot.y));
+        sp94.x += (390.0f * Math_SinS(this->actor.posRot.rot.y));
+        sp94.z += (390.0f * Math_CosS(this->actor.posRot.rot.y));
     }
 
     sp50 = sp94;
-    sp50.y = func_8003C940(&globalCtx->colCtx, &sp84, &sp80, &sp94);
+    sp50.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp84, &sp80, &sp94);
     if (sp50.y == -32000.0f)
         return;
 
@@ -3106,8 +3105,8 @@ void func_80A634A0(EnHorse *this, GlobalContext *globalCtx) {
     if (sp84 == 0)
         return;
 
-    ny = sp84->norm.y * COLPOLY_NORM_FRAC;
-    if ((ny < 0.81915206f) || func_80041EEC(&globalCtx->colCtx, sp84, sp80) || func_80041D4C(&globalCtx->colCtx, sp84, sp80) == 7) {
+    ny = sp84->normal.y * COLPOLY_NORMAL_FRAC;
+    if ((ny < 0.81915206f) || SurfaceType_IsHorseBlocked(&globalCtx->colCtx, sp84, sp80) || func_80041D4C(&globalCtx->colCtx, sp84, sp80) == 7) {
         if ((sp70 == 1) && (this->unk_14C != 0xC)) {
             this->unk_1F0 |= 0x10;
             func_80A5E2A8(this, globalCtx);
@@ -3161,7 +3160,7 @@ void func_80A63FA8(Actor* thisx, GlobalContext *globalCtx) {
                 }
                 this->unk_21C = this->unk_228;
                 if (this->unk_1F0 & 0x08000000) {
-                    if (Math_Rand_ZeroOne() < 0.1f) {
+                    if (Rand_ZeroOne() < 0.1f) {
                         Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
                     }
                 }
@@ -3208,7 +3207,7 @@ void func_80A64150(EnHorse *this, GlobalContext *globalCtx) {
             }
         }
     }
-    if ((this->unk_240 == 8) && (Math_Rand_ZeroOne() < 0.25f)) {
+    if ((this->unk_240 == 8) && (Rand_ZeroOne() < 0.25f)) {
         this->unk_21C = this->unk_228;
         if ((this->unk_1F0 & 0x08000000)) {
             Audio_PlaySoundGeneral((u16)0x2805U, &this->unk_21C, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -3217,7 +3216,6 @@ void func_80A64150(EnHorse *this, GlobalContext *globalCtx) {
     globalCtx->interfaceCtx.unk_23A = this->unk_238;
 }
 
-s32 func_800420E4(CollisionContext* colCtx, CollisionPoly* floorPoly, u8 floorPolySource, EnHorse* this);
 void func_80A62ACC(EnHorse* this, GlobalContext* globalCtx);
 
 void func_80A6437C(EnHorse *this, GlobalContext *globalCtx) {
@@ -3227,8 +3225,8 @@ void func_80A6437C(EnHorse *this, GlobalContext *globalCtx) {
     f32 c;
 
     angle = func_8002DA78(this, PLAYER) - this->actor.posRot.rot.y;
-    s = Math_Sins(angle);
-    c = Math_Coss(angle);
+    s = Math_SinS(angle);
+    c = Math_CosS(angle);
     if (s > 0.8660254f) {
         this->unk_370 = 5;
         return;
@@ -3281,7 +3279,7 @@ s32 func_80A64578(EnHorse *this, GlobalContext *globalCtx) {
     if ((this->actor.floorPoly == NULL) && (this != (EnHorse*)player->rideActor)) {
         return 0;
     }
-    ret = func_800420E4(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource, this);
+    ret = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
     ret = (ret << 0xA) - this->actor.posRot.rot.y;
     if (ret > 800.0f) {
         this->actor.posRot.rot.y += 800.0f;
@@ -3296,7 +3294,7 @@ s32 func_80A64578(EnHorse *this, GlobalContext *globalCtx) {
 }
 
 s32 func_80A6467C(f32 arg0) {
-    return Math_Rand_ZeroOne() * arg0;
+    return Rand_ZeroOne() * arg0;
 }
 
 void EnHorse_Update(Actor *thisx, GlobalContext *globalCtx) {
@@ -3323,7 +3321,7 @@ void EnHorse_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
     D_80A66738[this->unk_14C](this, gc);
     this->unk_1F0 &= ~0x4000;
-    this->unk_214 = this->unk_160.skelAnime.animCurrentFrame;
+    this->unk_214 = this->unk_160.skelAnime.curFrame;
     this->unk_1F4 = thisx->posRot.pos;
     if ((this->unk_1F0 & 0x2000) == 0) {
         if ((this->unk_14C == 0xA) || (this->unk_14C == 9) || (this->unk_14C == 8)) {
@@ -3358,10 +3356,10 @@ void EnHorse_Update(Actor *thisx, GlobalContext *globalCtx) {
         }
         Collider_CylinderUpdate((Actor *) this, &this->cyl1);
         Collider_CylinderUpdate((Actor *) this, &this->cyl2);
-        this->cyl1.dim.pos.x = this->cyl1.dim.pos.x + (s16)(Math_Sins(thisx->shape.rot.y) * 11.0f);
-        this->cyl1.dim.pos.z = this->cyl1.dim.pos.z + (s16)(Math_Coss(thisx->shape.rot.y) * 11.0f);
-        this->cyl2.dim.pos.x = this->cyl2.dim.pos.x + (s16)(Math_Sins(thisx->shape.rot.y) * -18.0f);
-        this->cyl2.dim.pos.z = this->cyl2.dim.pos.z + (s16)(Math_Coss(thisx->shape.rot.y) * -18.0f);
+        this->cyl1.dim.pos.x = this->cyl1.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * 11.0f);
+        this->cyl1.dim.pos.z = this->cyl1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
+        this->cyl2.dim.pos.x = this->cyl2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
+        this->cyl2.dim.pos.z = this->cyl2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
         CollisionCheck_SetAT(gc, &gc->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(gc, &gc->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(gc, &gc->colChkCtx, &this->cyl2.base);
@@ -3390,7 +3388,7 @@ void EnHorse_Update(Actor *thisx, GlobalContext *globalCtx) {
         }
         thisx->posRot2.pos = thisx->posRot.pos;
         thisx->posRot2.pos.y += 70.0f;
-        if ((Math_Rand_ZeroOne() < 0.025f) && this->unk_37A == 0) {
+        if ((Rand_ZeroOne() < 0.025f) && this->unk_37A == 0) {
             this->unk_37A++;
         } else {
             if (this->unk_37A > 0) {
@@ -3446,7 +3444,7 @@ s32 func_80A64F14(EnHorse *this, GlobalContext *globalCtx, Player *player) {
         return 0;
     } else if (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) > 30.0f) {
         return 0;
-    } else if (Math_Coss((s16) (func_8002DA78((Actor *) player, (Actor *) this) - player->actor.posRot.rot.y)) < 0.17364818f) {
+    } else if (Math_CosS((s16) (func_8002DA78((Actor *) player, (Actor *) this) - player->actor.posRot.rot.y)) < 0.17364818f) {
         return 0;
     } else {
         ret = func_80A64ED4(this, globalCtx, player);
@@ -3471,9 +3469,9 @@ s32 func_80A65014(EnHorse *this, GlobalContext *globalCtx) {
 }
 
 void func_80A6506C(Vec3f *vec1, f32 arg2, Vec3f *vec2) {
-    vec2->x = ((Math_Rand_ZeroOne() * (arg2 + arg2)) + vec1->x) - arg2;
-    vec2->y = ((Math_Rand_ZeroOne() * (arg2 + arg2)) + vec1->y) - arg2;
-    vec2->z = ((Math_Rand_ZeroOne() * (arg2 + arg2)) + vec1->z) - arg2;
+    vec2->x = ((Rand_ZeroOne() * (arg2 + arg2)) + vec1->x) - arg2;
+    vec2->y = ((Rand_ZeroOne() * (arg2 + arg2)) + vec1->y) - arg2;
+    vec2->z = ((Rand_ZeroOne() * (arg2 + arg2)) + vec1->z) - arg2;
 }
 
 void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
@@ -3486,7 +3484,7 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
     Vec3f sp64 = {0.0f, 0.0f, 0.0f};
     Vec3f sp58 = {0.0f, -1.0f, 0.0f};
 
-    f32 frame = this->unk_160.skelAnime.animCurrentFrame;
+    f32 frame = this->unk_160.skelAnime.curFrame;
     Vec3f center;
     Vec3f newCenter;
     s32 i;
@@ -3506,7 +3504,7 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp2C, &this->unk_228, &sp28);
     if ((this->unk_210 == 0 && this->unk_14C != 0)
             && ((frame > 40.0f && frame < 45.0f && this->unk_158 == 0) || (frame > 28.0f && frame < 33.0f && this->unk_158 == 1))) {
-        if (Math_Rand_ZeroOne() < 0.6f) {
+        if (Rand_ZeroOne() < 0.6f) {
             this->unk_3C8 |= 1;
             func_800A6408(skin, (u8)0x1CU, &sp88, &this->unk_3CC);
             this->unk_3CC.y = this->unk_3CC.y - 5.0f;
@@ -3514,12 +3512,12 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
     } else {
         if (this->unk_14C == 12) {
             if ((frame > 10.0f && frame < 13.0f) || (frame > 25.0f && frame < 33.0f)) {
-                if (Math_Rand_ZeroOne() < 0.7f) {
+                if (Rand_ZeroOne() < 0.7f) {
                     this->unk_3C8 |= 2;
                     func_800A6408(skin, (u8)0x14U, &sp88, &sp70);
                     func_80A6506C(&sp70, 10.0f, &this->unk_3D8);
                 }
-                if (Math_Rand_ZeroOne() < 0.7f) {
+                if (Rand_ZeroOne() < 0.7f) {
                     this->unk_3C8 |= 1;
                     func_800A6408(skin, (u8)0x1CU, &sp88, &sp70);
                     func_80A6506C(&sp70, 10.0f, &this->unk_3CC);
@@ -3527,7 +3525,7 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
             }
 
             if ((frame > 6.0f && frame < 10.0f) || (frame > 23.0f && frame < 29.0f)) {
-                if (Math_Rand_ZeroOne() < 0.7f) {
+                if (Rand_ZeroOne() < 0.7f) {
                     this->unk_3C8 |= 8;
                     func_800A6408(skin, (u8)0x25U, &sp88, &sp70);
                     func_80A6506C(&sp70, 10.0f, &this->unk_3F0);
@@ -3535,7 +3533,7 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
             }
 
             if ((frame > 7.0f && frame < 14.0f)  || (frame > 26.0f && frame < 30.0f)) {
-                if (Math_Rand_ZeroOne() < 0.7f) {
+                if (Rand_ZeroOne() < 0.7f) {
                     this->unk_3C8 |= 4;
                     func_800A6408(skin, (u8)0x2DU, &sp88, &sp70);
                     func_80A6506C(&sp70, 10.0f, &this->unk_3E4);
@@ -3559,30 +3557,30 @@ void func_80A65108(Actor *thisx, GlobalContext *globalCtx, PSkinAwb *skin) {
                 func_800A6408(skin, (u8)0x25U, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3F0);
             }
-        } else if (this->unk_14C == 0xE && frame > 6.0f && Math_Rand_ZeroOne() < 1.0f - (frame - 6.0f) * 0.05882353f) {
-            if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (this->unk_14C == 0xE && frame > 6.0f && Rand_ZeroOne() < 1.0f - (frame - 6.0f) * 0.05882353f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 this->unk_3C8 |= 8;
                 func_800A6408(skin, (u8)0x25U, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3F0);
             }
-            if (Math_Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 this->unk_3C8 |= 4;
                 func_800A6408(skin, (u8)0x2DU, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3E4);
             }
-        } else if (this->unk_14C == 0xF && frame > 5.0f && Math_Rand_ZeroOne() < 1.0f - (frame - 5.0f) * 0.04f) {
-            if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (this->unk_14C == 0xF && frame > 5.0f && Rand_ZeroOne() < 1.0f - (frame - 5.0f) * 0.04f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 this->unk_3C8 |= 8;
                 func_800A6408(skin, (u8)0x25U, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3F0);
             }
-            if (Math_Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 this->unk_3C8 |= 4;
                 func_800A6408(skin, (u8)0x2DU, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3E4);
             }
-        } else if (this->unk_14C == 0x10 && Math_Rand_ZeroOne() < 0.5f) {
-            if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (this->unk_14C == 0x10 && Rand_ZeroOne() < 0.5f) {
+            if (Rand_ZeroOne() < 0.5f) {
                 this->unk_3C8 |= 8;
                 func_800A6408(skin, (u8)0x25U, &sp88, &sp70);
                 func_80A6506C(&sp70, 10.0f, &this->unk_3F0);

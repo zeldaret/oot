@@ -98,7 +98,7 @@ void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    //! @bug Skelanime_Free is not called
+    //! @bug SkelAnime_Free is not called
 }
 
 void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
@@ -106,7 +106,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+    if ((BREG(1) != 0) && (this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
@@ -123,7 +123,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         this->actionFunc = func_80A904D8;
-    } else if ((this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+    } else if ((this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y) &&
                (gSaveContext.eventChkInf[9] & 0x1000)) {
 
@@ -148,9 +148,9 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
 }
@@ -158,15 +158,15 @@ void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx) {
 void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
     s16 currentFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
-    currentFrame = this->skelAnime.animCurrentFrame;
+    currentFrame = this->skelAnime.curFrame;
     if (currentFrame == 11 || currentFrame == 17) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
     }
 
     this->actor.shape.rot.y += 0x800;
-    Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 0.5f, 500.0f);
+    Math_ApproachZeroF(&this->actor.shape.unk_08, 0.5f, 500.0f);
 
     if (this->actor.shape.unk_08 > -100.0f) {
         this->actionFunc = func_80A9062C;
@@ -175,18 +175,18 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9062C(EnKakasi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000214, 0.0f, 0.0f, (s16)frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000214, 0.0f, 0.0f, (s16)frameCount, 2, -10.0f);
     this->actionFunc = func_80A906C4;
 }
 
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentFrame != 0) {
-        Math_SmoothDownscaleMaxF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
+    if (this->skelAnime.curFrame != 0) {
+        Math_ApproachZeroF(&this->skelAnime.curFrame, 0.5f, 1.0f);
     }
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_198, 5, 0xBB8, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_198, 5, 0xBB8, 0);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -206,7 +206,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST,
-                         this->actor.xzDistFromLink);
+                         this->actor.xzDistToLink);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
             osSyncPrintf("\n\n");
         }
@@ -230,6 +230,6 @@ void func_80A90948(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

@@ -22,7 +22,7 @@ glabel func_80AF5B10
 /* 005FC 80AF5B5C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L80AF5B60:
 /* 00600 80AF5B60 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 00604 80AF5B64 0C0295B2 */  jal     func_800A56C8              
+/* 00604 80AF5B64 0C0295B2 */  jal     Animation_OnFrame              
 /* 00608 80AF5B68 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 0060C 80AF5B6C 10400008 */  beq     $v0, $zero, .L80AF5B90     
 /* 00610 80AF5B70 8FA40020 */  lw      $a0, 0x0020($sp)           

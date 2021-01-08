@@ -55,7 +55,7 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Draw,
 };
 
-extern UNK_PTR D_06005CF8;
+extern CollisionHeader D_06005CF8;
 extern Gfx D_060061A0[];
 extern Gfx D_06005A20[];
 
@@ -80,16 +80,15 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f D_8086E0E0 = { 0, 140.0f, 0 };
 
-void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(&this->dyna, flag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -112,14 +111,14 @@ void func_8086D0EC(BgBdanSwitch* this) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            this->unk_1D4 = ((Math_Coss(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
-            this->unk_1D0 = ((Math_Coss(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + (43.0f / 6.0f)) * 0.0075000003f;
+            this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
     }
     this->dyna.actor.shape.unk_08 = 1.2f / this->unk_1D0;
@@ -147,7 +146,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086D010(this, globalCtx, &D_06005CF8, 1);
+            func_8086D010(this, globalCtx, &D_06005CF8, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
@@ -198,7 +197,7 @@ void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
@@ -262,7 +261,7 @@ void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }
@@ -324,7 +323,7 @@ void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
     }
 }
 
@@ -339,7 +338,7 @@ void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
         }
     }
 }

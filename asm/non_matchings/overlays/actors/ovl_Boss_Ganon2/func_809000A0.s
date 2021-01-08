@@ -7,10 +7,10 @@ glabel func_809000A0
 /* 03174 809000B4 24A56510 */  addiu   $a1, $a1, %lo(D_06026510)           ## $a1 = 06026510
 /* 03178 809000B8 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 0317C 809000BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 03180 809000C0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 03180 809000C0 0C0294D3 */  jal     Animation_MorphToLoop
 /* 03184 809000C4 3C06C000 */  lui     $a2, 0xC000                ## $a2 = C0000000
 /* 03188 809000C8 3C040602 */  lui     $a0, %hi(D_06026510)                ## $a0 = 06020000
-/* 0318C 809000CC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0318C 809000CC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 03190 809000D0 24846510 */  addiu   $a0, $a0, %lo(D_06026510)           ## $a0 = 06026510
 /* 03194 809000D4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -26,7 +26,7 @@ glabel func_80931210
 /* 04C9C 8093126C 000B6080 */  sll     $t4, $t3,  2
 /* 04CA0 80931270 00AC2821 */  addu    $a1, $a1, $t4
 /* 04CA4 80931274 8CA5785C */  lw      $a1, %lo(D_8093785C)($a1)
-/* 04CA8 80931278 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 04CA8 80931278 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04CAC 8093127C 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 04CB0 80931280 3C058094 */  lui     $a1, %hi(D_80938C90)       ## $a1 = 80940000
 /* 04CB4 80931284 8CA58C90 */  lw      $a1, %lo(D_80938C90)($a1)

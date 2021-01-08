@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_pit.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x00000010
 
@@ -120,12 +121,12 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
 void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->camId != 0) {
-        Math_SmoothScaleMaxF(&this->unk_180.x, this->unk_1BC.x, this->unk_1C8.x, this->unk_1D4.x);
-        Math_SmoothScaleMaxF(&this->unk_180.y, this->unk_1BC.y, this->unk_1C8.y, this->unk_1D4.y);
-        Math_SmoothScaleMaxF(&this->unk_180.z, this->unk_1BC.z, this->unk_1C8.z, this->unk_1D4.z);
-        Math_SmoothScaleMaxF(&this->unk_18C.x, this->unk_198.x, this->unk_1A4.x, this->unk_1B0.x);
-        Math_SmoothScaleMaxF(&this->unk_18C.y, this->unk_198.y, this->unk_1A4.y, this->unk_1B0.y);
-        Math_SmoothScaleMaxF(&this->unk_18C.z, this->unk_198.z, this->unk_1A4.z, this->unk_1B0.z);
+        Math_ApproachF(&this->unk_180.x, this->unk_1BC.x, this->unk_1C8.x, this->unk_1D4.x);
+        Math_ApproachF(&this->unk_180.y, this->unk_1BC.y, this->unk_1C8.y, this->unk_1D4.y);
+        Math_ApproachF(&this->unk_180.z, this->unk_1BC.z, this->unk_1C8.z, this->unk_1D4.z);
+        Math_ApproachF(&this->unk_18C.x, this->unk_198.x, this->unk_1A4.x, this->unk_1B0.x);
+        Math_ApproachF(&this->unk_18C.y, this->unk_198.y, this->unk_1A4.y, this->unk_1B0.y);
+        Math_ApproachF(&this->unk_18C.z, this->unk_198.z, this->unk_1A4.z, this->unk_1B0.z);
     }
 
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
@@ -155,12 +156,12 @@ void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->unk_156 != 0) {
+    if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
-            case 0:
+            case EXITEM_BOMB_BAG_BOWLING:
                 gSaveContext.itemGetInf[1] |= 2;
                 break;
-            case 1:
+            case EXITEM_HEART_PIECE_BOWLING:
                 gSaveContext.itemGetInf[1] |= 4;
                 break;
         }
@@ -206,7 +207,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
             // Ah recovery! (?)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
         }
-        this->unk_156 = 0;
+        this->exItemDone = 0;
         this->status = 2;
         this->actionFunc = EnBomBowlPit_SetupDetectHit;
     }
