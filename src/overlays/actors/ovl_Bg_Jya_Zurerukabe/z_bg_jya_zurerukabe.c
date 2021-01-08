@@ -61,18 +61,18 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06012340[];
-extern UNK_PTR D_06012508;
+extern CollisionHeader D_06012508;
 
-void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, void* arg2, s32 flags) {
+void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, flags);
-    DynaPolyInfo_Alloc(arg2, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -139,7 +139,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaZurerukabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_8089B9C0[this->unk_168] = 0.0f;
 }
 

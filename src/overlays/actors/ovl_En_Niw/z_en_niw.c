@@ -955,7 +955,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT03) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
     }
-    if (thisx->groundY <= -32000.0f || thisx->groundY >= 32000.0f) {
+    if (thisx->groundY <= BGCHECK_Y_MIN || thisx->groundY >= 32000.0f) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->groundY);
         cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;

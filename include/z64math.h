@@ -89,8 +89,6 @@ typedef struct {
 }
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
-#define COLPOLY_NORM_FRAC (1.0f / 32767)
-#define BGCHECK_Y_MIN -32000.0f
 
 // Trig macros
 #define DEGF_TO_BINANG(degreesf) (s16)(degreesf * 182.04167f + .5f)

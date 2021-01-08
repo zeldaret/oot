@@ -1379,39 +1379,39 @@ s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
 }
 
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
-    CollisionPoly sp50;
+    CollisionPoly poly;
     f32 temp1;
     f32 temp2;
     f32 temp3;
-    f32 sp40;
-    f32 sp3C;
-    f32 sp38;
-    f32 sp34;
+    f32 floorY;
+    f32 nx;
+    f32 ny;
+    f32 nz;
     s32 pad[5];
 
-    sp40 = func_8003CB30(&globalCtx->colCtx, &sp50, vec, mf);
+    floorY = BgCheck_AnyRaycastFloor1(&globalCtx->colCtx, &poly, vec);
 
-    if (sp40 > -32000.0f) {
-        sp3C = sp50.norm.x * (1.0f / 32767.0f);
-        sp38 = sp50.norm.y * (1.0f / 32767.0f);
-        sp34 = sp50.norm.z * (1.0f / 32767.0f);
+    if (floorY > BGCHECK_Y_MIN) {
+        nx = COLPOLY_GET_NORMAL(poly.normal.x);
+        ny = COLPOLY_GET_NORMAL(poly.normal.y);
+        nz = COLPOLY_GET_NORMAL(poly.normal.z);
 
-        temp1 = sqrtf(1.0f - SQ(sp3C));
+        temp1 = sqrtf(1.0f - SQ(nx));
 
         if (temp1 != 0.0f) {
-            temp2 = sp38 * temp1;
-            temp3 = -sp34 * temp1;
+            temp2 = ny * temp1;
+            temp3 = -nz * temp1;
         } else {
             temp3 = 0.0f;
             temp2 = 0.0f;
         }
 
         mf->xx = temp1;
-        mf->xy = -sp3C * temp2;
-        mf->xz = sp3C * temp3;
-        mf->yx = sp3C;
-        mf->yy = sp38;
-        mf->yz = sp34;
+        mf->xy = -nx * temp2;
+        mf->xz = nx * temp3;
+        mf->yx = nx;
+        mf->yy = ny;
+        mf->yz = nz;
         mf->zy = temp3;
         mf->zz = temp2;
         mf->xw = 0.0f;
@@ -1419,7 +1419,7 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
         mf->zx = 0.0f;
         mf->zw = 0.0f;
         mf->wx = vec->x;
-        mf->wy = sp40;
+        mf->wy = floorY;
         mf->wz = vec->z;
         mf->ww = 1.0f;
     } else {
@@ -1441,7 +1441,7 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
         mf->ww = 1.0f;
     }
 
-    return sp40;
+    return floorY;
 }
 
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
@@ -1826,18 +1826,20 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     return 1;
 }
 
-s32 func_800C0DB4(GlobalContext* globalCtx, Vec3f* arg1) {
-    WaterBox* sp3C;
-    CollisionPoly* sp38;
-    Vec3f sp2C;
-    s32 sp28;
+s32 func_800C0DB4(GlobalContext* globalCtx, Vec3f* pos) {
+    WaterBox* waterBox;
+    CollisionPoly* poly;
+    Vec3f waterSurfacePos;
+    s32 bgId;
 
-    sp2C = *arg1;
+    waterSurfacePos = *pos;
 
-    if ((func_8004213C(globalCtx, &globalCtx->colCtx, sp2C.x, sp2C.z, &sp2C.y, &sp3C) == 1) && (arg1->y < sp2C.y) &&
-        (func_8003C940(&globalCtx->colCtx, &sp38, &sp28, &sp2C) != -32000.0f)) {
-        return 1;
+    if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
+                             &waterBox) == true &&
+        pos->y < waterSurfacePos.y &&
+        BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }

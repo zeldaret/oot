@@ -1,4 +1,35 @@
-glabel func_80040284
+.rdata
+glabel D_80138EF0
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_80138F04
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_80138F14
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_80138F28
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+.late_rodata
+glabel D_80138FB4
+    .float 0.008
+    
+glabel D_80138FB8
+    .float 0.4
+
+glabel D_80138FBC
+    .float 0.008
+
+glabel D_80138FC0
+    .float 0.4
+    
+.text
+glabel BgCheck_SphVsDynaWallInBgActor
 /* AB7424 80040284 27BDFF28 */  addiu $sp, $sp, -0xd8
 /* AB7428 80040288 AFBF0064 */  sw    $ra, 0x64($sp)
 /* AB742C 8004028C AFB50060 */  sw    $s5, 0x60($sp)
@@ -44,7 +75,7 @@ glabel func_80040284
 /* AB74C4 80040324 01AE8021 */  addu  $s0, $t5, $t6
 /* AB74C8 80040328 02002025 */  move  $a0, $s0
 /* AB74CC 8004032C 27A600BC */  addiu $a2, $sp, 0xbc
-/* AB74D0 80040330 0C00E275 */  jal   func_800389D4
+/* AB74D0 80040330 0C00E275 */  jal   CollisionPoly_GetNormalF
 /* AB74D4 80040334 27A700B8 */   addiu $a3, $sp, 0xb8
 /* AB74D8 80040338 C7AC00C0 */  lwc1  $f12, 0xc0($sp)
 /* AB74DC 8004033C C7AE00B8 */  lwc1  $f14, 0xb8($sp)
@@ -199,7 +230,7 @@ glabel func_80040284
 /* AB7700 80040560 E7B20090 */  swc1  $f18, 0x90($sp)
 /* AB7704 80040564 E7B00070 */  swc1  $f16, 0x70($sp)
 /* AB7708 80040568 AFAB0010 */  sw    $t3, 0x10($sp)
-/* AB770C 8004056C 0C00E400 */  jal   func_80039000
+/* AB770C 8004056C 0C00E400 */  jal   CollisionPoly_CheckZIntersectApprox
 /* AB7710 80040570 8FA600AC */   lw    $a2, 0xac($sp)
 /* AB7714 80040574 C7B00070 */  lwc1  $f16, 0x70($sp)
 /* AB7718 80040578 10400026 */  beqz  $v0, .L80040614
@@ -235,7 +266,7 @@ glabel func_80040284
 /* AB7790 800405F0 E7B60024 */  swc1  $f22, 0x24($sp)
 /* AB7794 800405F4 AFAC00CC */  sw    $t4, 0xcc($sp)
 /* AB7798 800405F8 E7A60014 */  swc1  $f6, 0x14($sp)
-/* AB779C 800405FC 0C00E68F */  jal   func_80039A3C
+/* AB779C 800405FC 0C00E68F */  jal   BgCheck_ComputeWallDisplacement
 /* AB77A0 80040600 AFA90028 */   sw    $t1, 0x28($sp)
 /* AB77A4 80040604 10400003 */  beqz  $v0, .L80040614
 /* AB77A8 80040608 8FAD0100 */   lw    $t5, 0x100($sp)
@@ -264,7 +295,7 @@ glabel func_80040284
 /* AB77F4 80040654 012C8021 */  addu  $s0, $t1, $t4
 /* AB77F8 80040658 02002025 */  move  $a0, $s0
 /* AB77FC 8004065C 27A600BC */  addiu $a2, $sp, 0xbc
-/* AB7800 80040660 0C00E275 */  jal   func_800389D4
+/* AB7800 80040660 0C00E275 */  jal   CollisionPoly_GetNormalF
 /* AB7804 80040664 27A700B8 */   addiu $a3, $sp, 0xb8
 /* AB7808 80040668 C7AC00C0 */  lwc1  $f12, 0xc0($sp)
 /* AB780C 8004066C C7AE00B8 */  lwc1  $f14, 0xb8($sp)
@@ -418,7 +449,7 @@ glabel func_80040284
 /* AB7A2C 8004088C 8D060004 */  lw    $a2, 4($t0)
 /* AB7A30 80040890 E7B20090 */  swc1  $f18, 0x90($sp)
 /* AB7A34 80040894 E7B00070 */  swc1  $f16, 0x70($sp)
-/* AB7A38 80040898 0C00E3D8 */  jal   func_80038F60
+/* AB7A38 80040898 0C00E3D8 */  jal   CollisionPoly_CheckXIntersectApprox
 /* AB7A3C 8004089C AFAA0010 */   sw    $t2, 0x10($sp)
 /* AB7A40 800408A0 C7B00070 */  lwc1  $f16, 0x70($sp)
 /* AB7A44 800408A4 10400026 */  beqz  $v0, .L80040940
@@ -454,7 +485,7 @@ glabel func_80040284
 /* AB7ABC 8004091C E7B60024 */  swc1  $f22, 0x24($sp)
 /* AB7AC0 80040920 AFAB00CC */  sw    $t3, 0xcc($sp)
 /* AB7AC4 80040924 E7AA0014 */  swc1  $f10, 0x14($sp)
-/* AB7AC8 80040928 0C00E68F */  jal   func_80039A3C
+/* AB7AC8 80040928 0C00E68F */  jal   BgCheck_ComputeWallDisplacement
 /* AB7ACC 8004092C AFB90028 */   sw    $t9, 0x28($sp)
 /* AB7AD0 80040930 10400003 */  beqz  $v0, .L80040940
 /* AB7AD4 80040934 8FA90100 */   lw    $t1, 0x100($sp)

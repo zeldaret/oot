@@ -1,4 +1,41 @@
-glabel func_80039AEC
+.rdata
+glabel D_80138784
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_80138798
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+glabel D_801387A8
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_801387BC
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+.late_rodata
+glabel D_80138F5C
+    .float 0.00003051851
+
+glabel D_80138F60
+    .float 0.008
+
+glabel D_80138F64
+    .float 0.4
+
+glabel D_80138F68
+    .float 0.00003051851
+
+glabel D_80138F6C
+    .float 0.008
+
+glabel D_80138F70
+    .float 0.4
+    
+.text
+glabel BgCheck_SphVsStaticWall
 /* AB0C8C 80039AEC 27BDFEF8 */  addiu $sp, $sp, -0x108
 /* AB0C90 80039AF0 AFBF008C */  sw    $ra, 0x8c($sp)
 /* AB0C94 80039AF4 AFBE0088 */  sw    $fp, 0x88($sp)
@@ -282,7 +319,7 @@ glabel func_80039AEC
 /* AB10A4 80039F04 8EC70004 */  lw    $a3, 4($s6)
 /* AB10A8 80039F08 E7B000B8 */  swc1  $f16, 0xb8($sp)
 /* AB10AC 80039F0C E7AE009C */  swc1  $f14, 0x9c($sp)
-/* AB10B0 80039F10 0C00E400 */  jal   func_80039000
+/* AB10B0 80039F10 0C00E400 */  jal   CollisionPoly_CheckZIntersectApprox
 /* AB10B4 80039F14 AFA90010 */   sw    $t1, 0x10($sp)
 /* AB10B8 80039F18 C7AE009C */  lwc1  $f14, 0x9c($sp)
 /* AB10BC 80039F1C 1040001F */  beqz  $v0, .L80039F9C
@@ -315,7 +352,7 @@ glabel func_80039AEC
 /* AB1128 80039F88 E7BE0020 */  swc1  $f30, 0x20($sp)
 /* AB112C 80039F8C E7BC0024 */  swc1  $f28, 0x24($sp)
 /* AB1130 80039F90 AFAC00E8 */  sw    $t4, 0xe8($sp)
-/* AB1134 80039F94 0C00E68F */  jal   func_80039A3C
+/* AB1134 80039F94 0C00E68F */  jal   BgCheck_ComputeWallDisplacement
 /* AB1138 80039F98 AFAB0028 */   sw    $t3, 0x28($sp)
 .L80039F9C:
 /* AB113C 80039F9C 96220002 */  lhu   $v0, 2($s1)
@@ -539,7 +576,7 @@ glabel func_80039AEC
 /* AB1464 8003A2C4 8EC60004 */  lw    $a2, 4($s6)
 /* AB1468 8003A2C8 E7B000B8 */  swc1  $f16, 0xb8($sp)
 /* AB146C 8003A2CC E7AE009C */  swc1  $f14, 0x9c($sp)
-/* AB1470 8003A2D0 0C00E3D8 */  jal   func_80038F60
+/* AB1470 8003A2D0 0C00E3D8 */  jal   CollisionPoly_CheckXIntersectApprox
 /* AB1474 8003A2D4 AFAD0010 */   sw    $t5, 0x10($sp)
 /* AB1478 8003A2D8 C7AE009C */  lwc1  $f14, 0x9c($sp)
 /* AB147C 8003A2DC 1040001F */  beqz  $v0, .L8003A35C
@@ -572,7 +609,7 @@ glabel func_80039AEC
 /* AB14E8 8003A348 E7BE0020 */  swc1  $f30, 0x20($sp)
 /* AB14EC 8003A34C E7BC0024 */  swc1  $f28, 0x24($sp)
 /* AB14F0 8003A350 AFAA00E8 */  sw    $t2, 0xe8($sp)
-/* AB14F4 8003A354 0C00E68F */  jal   func_80039A3C
+/* AB14F4 8003A354 0C00E68F */  jal   BgCheck_ComputeWallDisplacement
 /* AB14F8 8003A358 AFB90028 */   sw    $t9, 0x28($sp)
 .L8003A35C:
 /* AB14FC 8003A35C 96220002 */  lhu   $v0, 2($s1)
