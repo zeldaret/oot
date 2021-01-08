@@ -56,7 +56,7 @@ glabel func_809AF558
 /* 016FC 809AF61C 2405389E */  addiu   $a1, $zero, 0x389E         ## $a1 = 0000389E
 /* 01700 809AF620 3C05809B */  lui     $a1, %hi(func_809AF644)    ## $a1 = 809B0000
 /* 01704 809AF624 24A5F644 */  addiu   $a1, $a1, %lo(func_809AF644) ## $a1 = 809AF644
-/* 01708 809AF628 0C26B7C8 */  jal     func_809ADF20
+/* 01708 809AF628 0C26B7C8 */  jal     EnAm_SetupAction
 /* 0170C 809AF62C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01710 809AF630 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01714 809AF634 8FB00028 */  lw      $s0, 0x0028($sp)

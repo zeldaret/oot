@@ -35,7 +35,7 @@ glabel func_809AE40C
 .L809AE484:
 /* 00564 809AE484 3C05809B */  lui     $a1, %hi(func_809AE8A8)    ## $a1 = 809B0000
 /* 00568 809AE488 24A5E8A8 */  addiu   $a1, $a1, %lo(func_809AE8A8) ## $a1 = 809AE8A8
-/* 0056C 809AE48C 0C26B7C8 */  jal     func_809ADF20
+/* 0056C 809AE48C 0C26B7C8 */  jal     EnAm_SetupAction
 /* 00570 809AE490 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00574 809AE494 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 00578 809AE498 8FB00028 */  lw      $s0, 0x0028($sp)
