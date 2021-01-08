@@ -639,31 +639,31 @@ s32 BgCheck_ComputeWallDisplacement(CollisionContext* colCtx, CollisionPoly* pol
  */
 s32 BgCheck_SphVsStaticWall(StaticLookup* lookup, CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ,
                             Vec3f* pos, f32 radius, CollisionPoly** outPoly) {
-    Vec3f resultPos; // spFC
+    Vec3f resultPos;
     f32 temp_f2;
     f32 temp_f2_2;
-    f32 planeDist;           // f30
-    f32 intersect;           // spEC
-    s32 result;              // spE8
-    CollisionPoly* curPoly;  // s0
-    CollisionPoly* polyList; // spE0
-    SSNode* curNode;         // s1
-    f32 invNormalXZ; // sp9C //f14
-    f32 zTemp;       // f0
-    f32 xTemp;       // f0
+    f32 planeDist;
+    f32 intersect;
+    s32 result;
+    CollisionPoly* curPoly;
+    CollisionPoly* polyList;
+    SSNode* curNode;
+    f32 invNormalXZ;
+    f32 zTemp;
+    f32 xTemp;
     s32 polyId;
-    f32 normalXZ;   // f20
-    f32 nx;         // f22
-    f32 ny;         // f26
-    f32 nz;         // f24
-    f32 temp_f16;   // spB8
-    Vec3s* vtxList; // s2
-    u16 pad;        // temp_v0;
+    f32 normalXZ;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    f32 temp_f16;
+    Vec3s* vtxList;
+    u16 pad;
 
-    f32 zMin; // f2
-    f32 zMax; // f12
-    f32 xMin; // f2
-    f32 xMax; //  f12
+    f32 zMin;
+    f32 zMax;
+    f32 xMin;
+    f32 xMax;
 
     result = false;
     if (lookup->wall.head == SS_NULL) {
@@ -3166,27 +3166,27 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
                                    f32* outX, f32* outZ, CollisionPoly** outPoly, s32* outBgId, Vec3f* pos, f32 radius,
                                    s32 bgId) {
     f32 temp;
-    f32 intersect;      // spD0
-    s32 result = false; // spCC
+    f32 intersect;
+    s32 result = false;
     CollisionPoly* poly;
-    SSNode* curNode; // curNode s1
-    f32 nx;          //  spC0
-    f32 ny;          // spBC
-    f32 nz;          // spB8
-    Vec3f resultPos; // spAC;
+    SSNode* curNode;
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    Vec3f resultPos;
     s16 polyId;
-    f32 zTemp;          // f0
-    f32 xTemp;          // f0
-    f32 normalXZ;       // f20
-    f32 invNormalXZ;    // sp70 //f16
-    f32 planeDist;      // f24
-    f32 temp_f18;       // sp90
-    f32 zIntersectDist; // f2
-    f32 xIntersectDist; // f2
-    f32 zMin;           // f2
-    f32 zMax;           // f12
-    f32 xMin;           // f2
-    f32 xMax;           // f12
+    f32 zTemp;
+    f32 xTemp;
+    f32 normalXZ;
+    f32 invNormalXZ;
+    f32 planeDist;
+    f32 temp_f18;
+    f32 zIntersectDist;
+    f32 xIntersectDist;
+    f32 zMin;
+    f32 zMax;
+    f32 xMin;
+    f32 xMax;
 
     if (ssList->head == SS_NULL) {
         return result;
@@ -3220,14 +3220,13 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
                 continue;
             }
         }
-        // ab75e8
 
         // compute poly zMin/zMax
-        zTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].z; // 7610
+        zTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIA)].z;
         zMax = zMin = zTemp;
 
         zTemp = dyna->vtxList[COLPOLY_VTX_INDEX(poly->flags_vIB)].z;
-        if (zTemp < zMin) { // 7630
+        if (zTemp < zMin) {
             zMin = zTemp;
         } else if (zTemp > zMax) {
             zMax = zTemp;
@@ -3236,7 +3235,7 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
         zTemp = dyna->vtxList[poly->vIC].z;
         if (zTemp < zMin) {
             zMin = zTemp;
-        } else if (zMax < zTemp) { // 76A0
+        } else if (zMax < zTemp) {
             zMax = zTemp;
         }
 
@@ -3251,10 +3250,8 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
             }
         }
         if (CollisionPoly_CheckZIntersectApprox(poly, dyna->vtxList, resultPos.x, pos->y, &intersect)) {
-            // zIntersectDist = ;
             if (fabsf(intersect - resultPos.z) <= radius / temp_f18) {
                 if ((intersect - resultPos.z) * nz <= 4.0f) {
-                    // ab779c
                     if (BgCheck_ComputeWallDisplacement(colCtx, poly, &resultPos.x, &resultPos.z, nx, ny, nz,
                                                         invNormalXZ, planeDist, radius, outPoly)) {
                         *outBgId = bgId;
@@ -3263,14 +3260,12 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
                 }
             }
         }
-        // ab77b4
         if (curNode->next == SS_NULL) {
             break;
         }
         curNode = &dyna->polyNodes.tbl[curNode->next];
     }
 
-    // ab77d0
     curNode = &dyna->polyNodes.tbl[ssList->head];
     while (true) {
         polyId = curNode->polyId;
@@ -3327,12 +3322,11 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
                 continue;
             }
         }
-        // 7a2c
+
         if (CollisionPoly_CheckXIntersectApprox(poly, dyna->vtxList, pos->y, resultPos.z, &intersect)) {
             xIntersectDist = intersect - resultPos.x;
             if (fabsf(xIntersectDist) <= radius / temp_f18) {
                 if (xIntersectDist * nx <= 4.0f) {
-                    // ab7ac8
                     if (BgCheck_ComputeWallDisplacement(colCtx, poly, &resultPos.x, &resultPos.z, nx, ny, nz,
                                                         invNormalXZ, planeDist, radius, outPoly)) {
                         *outBgId = bgId;
@@ -3361,13 +3355,13 @@ s32 BgCheck_SphVsDynaWallInBgActor(CollisionContext* colCtx, u16 xpFlags, DynaCo
  */
 s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
                           CollisionPoly** outPoly, s32* outBgId, Actor* actor) {
-    Vec3f resultPos; // sp9C
-    s32 result;      // sp90;
-    f32 r;           // f0
-    f32 dz;          // f12
-    f32 dx;          // f2
-    BgActor* bgActor; // s0
-    s32 i; // s4
+    Vec3f resultPos;
+    s32 result;
+    f32 r;
+    f32 dz;
+    f32 dx;
+    BgActor* bgActor;
+    s32 i;
 
     result = false;
     resultPos = *pos;
