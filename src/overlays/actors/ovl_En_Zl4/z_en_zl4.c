@@ -30,16 +30,26 @@ typedef enum {
     /* 2 */ ZL4_EYES_LOOK_LEFT,
     /* 3 */ ZL4_EYES_LOOK_RIGHT,
     /* 4 */ ZL4_EYES_WIDE,
-    /* 5 */ ZL4_EYES_HALF_OPEN,
+    /* 5 */ ZL4_EYES_SQUINT,
     /* 6 */ ZL4_EYES_OPEN
 } EnZl4EyeExpression;
 
 typedef enum {
     /* 0 */ ZL4_MOUTH_NEUTRAL,
-    /* 0 */ ZL4_MOUTH_HAPPY,
-    /* 0 */ ZL4_MOUTH_WORRIED,
-    /* 0 */ ZL4_MOUTH_SURPRISED
+    /* 1 */ ZL4_MOUTH_HAPPY,
+    /* 2 */ ZL4_MOUTH_WORRIED,
+    /* 3 */ ZL4_MOUTH_SURPRISED
 } EnZl4MouthExpression;
+
+typedef enum {
+    /* 0 */ ZL4_EYE_OPEN,
+    /* 1 */ ZL4_EYE_BLINK,
+    /* 2 */ ZL4_EYE_SHUT,
+    /* 3 */ ZL4_EYE_WIDE,
+    /* 4 */ ZL4_EYE_SQUINT,
+    /* 5 */ ZL4_EYE_LOOK_OUT,
+    /* 6 */ ZL4_EYE_LOOK_IN,
+} EnZl4EyeState;
 
 void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl4_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -218,34 +228,34 @@ void EnZl4_UpdateFace(EnZl4* this) {
             break;
         case ZL4_EYES_SHUT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = 2;
+                this->leftEyeState = this->rightEyeState = ZL4_EYE_SHUT;
             }
             break;
         case ZL4_EYES_LOOK_LEFT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = 5;
-                this->rightEyeState = 6;
+                this->leftEyeState = ZL4_EYE_LOOK_OUT;
+                this->rightEyeState = ZL4_EYE_LOOK_IN;
             }
             break;
         case ZL4_EYES_LOOK_RIGHT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = 6;
-                this->rightEyeState = 5;
+                this->leftEyeState = ZL4_EYE_LOOK_IN;
+                this->rightEyeState = ZL4_EYE_LOOK_OUT;
             }
             break;
         case ZL4_EYES_WIDE:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = 3;
+                this->leftEyeState = this->rightEyeState = ZL4_EYE_WIDE;
             }
             break;
-        case ZL4_EYES_HALF_OPEN:
+        case ZL4_EYES_SQUINT:
             if (this->blinkTimer == 0) {
-                this->leftEyeState = this->rightEyeState = 4;
+                this->leftEyeState = this->rightEyeState = ZL4_EYE_SQUINT;
             }
             break;
         case ZL4_EYES_OPEN:
             if (this->blinkTimer >= 3) {
-                this->blinkTimer = 0;
+                this->blinkTimer = ZL4_EYE_OPEN;
             }
             break;
     }
@@ -505,7 +515,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_28);
                 this->blinkTimer = 0;
-                this->eyeExpression = ZL4_EYES_HALF_OPEN;
+                this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 func_8010B680(globalCtx, 0x7032, NULL);
                 this->talkState = 7;
@@ -550,7 +560,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_28);
                 this->blinkTimer = 0;
-                this->eyeExpression = ZL4_EYES_HALF_OPEN;
+                this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 func_8010B680(globalCtx, 0x7032, NULL);
                 this->talkState = 7;
@@ -612,7 +622,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 EnZl4_SetCsCameraAngle(globalCtx, 6);
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_1);
                 this->blinkTimer = 11;
-                this->eyeExpression = ZL4_EYES_HALF_OPEN;
+                this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                 globalCtx->msgCtx.msgMode = 0x37;
                 func_8010B680(globalCtx, 0x70FF, NULL);
@@ -965,7 +975,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_31);
                 this->blinkTimer = 11;
-                this->eyeExpression = ZL4_EYES_HALF_OPEN;
+                this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 func_8010B680(globalCtx, 0x703B, NULL);
                 this->talkState = 11;
