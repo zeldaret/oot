@@ -207,7 +207,7 @@ void EnZl4_UpdateFace(EnZl4* this) {
     } else {
         this->blinkTimer = 0;
     }
-    if (this->blinkTimer < 3) {
+    if (this->blinkTimer <= 2) {
         this->leftEyeState = this->rightEyeState = this->blinkTimer;
     }
     switch (this->eyeExpression) {
@@ -328,7 +328,7 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnZl4* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZeldaCYSkel_00E038, NULL, this->jointTable, this->morphTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZeldaCYSkel, NULL, this->jointTable, this->morphTable,
                        18);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_21);
@@ -1250,11 +1250,11 @@ void EnZl4_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnZl4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZl4* this = THIS;
-    u64* mouthTex[] = { gChildZeldaCYTex_0046F0, gChildZeldaCYTex_004AF0, gChildZeldaCYTex_004EF0,
-                        gChildZeldaCYTex_0052F0 };
+    u64* mouthTex[] = { gChildZeldaCYMouthNeutralTex, gChildZeldaCYMouthHappyTex, gChildZeldaCYMouthWorriedTex,
+                        gChildZeldaCYMouthSurprisedTex };
     u64* eyeTex[] = {
-        gChildZeldaCYTex_002AF0, gChildZeldaCYTex_002EF0, gChildZeldaCYTex_0032F0, gChildZeldaCYTex_0036F0,
-        gChildZeldaCYTex_003AF0, gChildZeldaCYTex_003EF0, gChildZeldaCYTex_0042F0,
+        gChildZeldaCYEyeOpenTex, gChildZeldaCYEyeBlinkTex, gChildZeldaCYEyeShutTex, gChildZeldaCYEyeWideTex,
+        gChildZeldaCYEyeSquintTex, gChildZeldaCYEyeOutTex, gChildZeldaCYEyeInTex,
     };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl4.c", 2012);
