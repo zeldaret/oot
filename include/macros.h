@@ -45,6 +45,8 @@
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
+#define HIGH_SCORE(score) (gSaveContext.highScores[score])
+
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
                         : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \

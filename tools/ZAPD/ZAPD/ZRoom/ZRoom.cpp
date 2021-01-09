@@ -48,6 +48,12 @@ ZRoom::ZRoom() : ZResource()
 	scene = nullptr;
 }
 
+ZRoom::~ZRoom()
+{
+	for (ZRoomCommand* cmd : commands)
+		delete cmd;
+}
+
 ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int rawDataIndex, string nRelPath, ZFile* nParent, ZRoom* nScene)
 {
 	ZRoom* room = new ZRoom();
@@ -78,7 +84,7 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 		if (string(child->Name()) == "DListHint")
 		{
 			string comment = "";
-			
+
 			if (child->Attribute("Comment") != NULL)
 				comment = "// " + string(child->Attribute("Comment")) + "\n";
 
@@ -86,10 +92,8 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
 			ZDisplayList* dList = new ZDisplayList(room->rawData, address, ZDisplayList::GetDListLength(room->rawData, address));
-			//room->parent->declarations[address] = new Declaration(DeclarationAlignment::None, dList->GetRawDataSize(), comment + dList->GetSourceOutputCode(room->name));
-			//room->parent->AddDeclarationArray(address, DeclarationAlignment::None, dList->GetRawDataSize(), "Gfx", "", 0, comment + dList->GetSourceOutputCode(room->name));
-
 			dList->GetSourceOutputCode(room->name);
+			delete dList;
 		}
 		else if (string(child->Name()) == "BlobHint")
 		{
@@ -118,7 +122,7 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
 			ZCutscene* cutscene = new ZCutscene(room->rawData, address, 9999);
-			
+
 			room->parent->AddDeclarationArray(address, DeclarationAlignment::None, DeclarationPadding::Pad16, cutscene->GetRawDataSize(), "s32",
 				StringHelper::Sprintf("%sCutsceneData0x%06X", room->name.c_str(), cutscene->segmentOffset), 0, cutscene->GetSourceOutputCode(room->name));
 		}
@@ -201,7 +205,7 @@ void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet co
 		if (commandsLeft <= 0)
 			break;
 
-		RoomCommand opcode = (RoomCommand)rawData[rawDataIndex]; 
+		RoomCommand opcode = (RoomCommand)rawData[rawDataIndex];
 
 		ZRoomCommand* cmd = nullptr;
 
@@ -280,7 +284,7 @@ void ZRoom::ProcessCommandSets()
 			cmd->commandSet = commandSet & 0x00FFFFFF;
 			string pass1 = cmd->GenerateSourceCodePass1(name, cmd->commandSet);
 
-			Declaration* decl = parent->AddDeclaration(cmd->cmdAddress, i == 0 ? DeclarationAlignment::Align16 : DeclarationAlignment::None, 8, cmd->GetCommandCName(),
+			Declaration* decl = parent->AddDeclaration(cmd->cmdAddress, i == 0 ? DeclarationAlignment::Align16 : DeclarationAlignment::None, 8, StringHelper::Sprintf("static %s", cmd->GetCommandCName().c_str()),
 				StringHelper::Sprintf("%sSet%04XCmd%02X", name.c_str(), commandSet & 0x00FFFFFF, cmd->cmdIndex, cmd->cmdID),
 				StringHelper::Sprintf("%s", pass1.c_str()));
 
@@ -298,7 +302,7 @@ void ZRoom::ProcessCommandSets()
 		string pass2 = cmd->GenerateSourceCodePass2(name, cmd->commandSet);
 
 		if (pass2 != "")
-			parent->AddDeclaration(cmd->cmdAddress, DeclarationAlignment::None, 8, cmd->GetCommandCName(), StringHelper::Sprintf("%sSet%04XCmd%02X", name.c_str(), cmd->commandSet & 0x00FFFFFF, cmd->cmdIndex, cmd->cmdID), StringHelper::Sprintf("%s // 0x%04X", pass2.c_str(), cmd->cmdAddress));
+			parent->AddDeclaration(cmd->cmdAddress, DeclarationAlignment::None, 8, StringHelper::Sprintf("static %s", cmd->GetCommandCName().c_str()), StringHelper::Sprintf("%sSet%04XCmd%02X", name.c_str(), cmd->commandSet & 0x00FFFFFF, cmd->cmdIndex, cmd->cmdID), StringHelper::Sprintf("%s // 0x%04X", pass2.c_str(), cmd->cmdAddress));
 	}
 }
 
@@ -308,7 +312,7 @@ void ZRoom::ProcessCommandSets()
  */
 void ZRoom::SyotesRoomHack()
 {
-	char headerData[] = 
+	char headerData[] =
 	{
 		0x0A, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x08
 	};
@@ -392,10 +396,10 @@ size_t ZRoom::GetCommandSizeFromNeighbor(ZRoomCommand* cmd)
 	return 0;
 }
 
-string ZRoom::GetSourceOutputHeader(string prefix)
+string ZRoom::GetSourceOutputHeader(const std::string& prefix)
 {
 	sourceOutput = "";
-	
+
 	for (ZRoomCommand* cmd : commands)
 		sourceOutput += cmd->GenerateExterns();
 
@@ -407,7 +411,7 @@ string ZRoom::GetSourceOutputHeader(string prefix)
 	return sourceOutput;
 }
 
-string ZRoom::GetSourceOutputCode(std::string prefix)
+string ZRoom::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
 
@@ -466,9 +470,9 @@ string ZRoom::GetSourceOutputCode(std::string prefix)
 
 		declaration += item.second->GetSourceOutputCode(prefix);
 
-		if (Globals::Instance->debugMessages)
+		if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
 			printf("SAVING IMAGE TO %s\n", Globals::Instance->outputPath.c_str());
-		
+
 		item.second->Save(Globals::Instance->outputPath);
 
 		parent->AddDeclarationIncludeArray(item.first, StringHelper::Sprintf("%s/%s.%s.inc.c",
@@ -501,7 +505,7 @@ ZResourceType ZRoom::GetResourceType()
 	return ZResourceType::Room;
 }
 
-void ZRoom::Save(string outFolder)
+void ZRoom::Save(const std::string& outFolder)
 {
 	for (ZRoomCommand* cmd : commands)
 		cmd->Save();

@@ -83,9 +83,11 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
-        thisx->groundY = func_8003C9A4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
-        if (!func_80042244(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
-                           &outWaterBox) ||
+        thisx->groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
+        //! @bug calls WaterBox_GetSurfaceImpl directly
+        if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
+                                     &outWaterBox) ||
             (ySurface <= thisx->groundY)) {
             Actor_Kill(thisx);
         } else {
@@ -432,7 +434,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == -32000.0f) {
+        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
             this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
@@ -529,8 +531,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!func_80042244(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
-                               &ySurface, &outWaterBox) ||
+            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x,
+                                         this->actor.posRot.pos.z, &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.groundY)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
@@ -552,12 +554,14 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&sp38, &this->actor.posRot.pos);
             func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                func_80042048(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly,
+                                                   this->actor.wallPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                func_80042048(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly,
+                                                   this->actor.floorPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }

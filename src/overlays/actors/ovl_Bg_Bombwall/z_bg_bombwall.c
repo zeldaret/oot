@@ -61,14 +61,13 @@ const ActorInit Bg_Bombwall_InitVars = {
 void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_050041B0, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_050041B0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
                      this->dyna.actor.params);
@@ -133,7 +132,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgBombwall_DestroyCollision(BgBombwall* this, GlobalContext* globalCtx) {
     if (this->unk_2A2 & 2) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->unk_2A2 &= ~2;
     }
 

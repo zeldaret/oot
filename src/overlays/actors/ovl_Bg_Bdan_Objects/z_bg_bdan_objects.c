@@ -62,9 +62,9 @@ static Gfx* D_8086CDA0[] = {
 };
 
 extern Gfx D_060038E8[];
-extern UNK_TYPE D_06005048;
-extern UNK_TYPE D_06005580;
-extern UNK_TYPE D_06008CE0;
+extern CollisionHeader D_06005048;
+extern CollisionHeader D_06005580;
+extern CollisionHeader D_06008CE0;
 
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
@@ -99,20 +99,20 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
 void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBdanObjects* this = THIS;
     s32 pad;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(this, sInitChain);
-    DynaPolyInfo_SetActorMove(this, 1);
+    DynaPolyActor_Init(this, DPM_PLAYER);
     this->unk_168 = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
         thisx->flags |= 0x30;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = thisx->posRot.pos.y;
+        globalCtx->colCtx.colHeader->waterBoxes[7].ySurface = thisx->posRot.pos.y;
         this->actionFunc = func_8086C9A8;
         return;
     }
     if (thisx->params == 0) {
-        DynaPolyInfo_Alloc(&D_06008CE0, &localC);
+        CollisionHeader_GetVirtual(&D_06008CE0, &colHeader);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, this, &sCylinderInit);
         thisx->posRot.pos.y = (f32)(thisx->posRot.pos.y + -79.0f);
@@ -137,12 +137,12 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            DynaPolyInfo_Alloc(&D_06005048, &localC);
+            CollisionHeader_GetVirtual(&D_06005048, &colHeader);
             this->unk_16A = 0x200;
             this->unk_168 = 0;
             this->actionFunc = func_8086C874;
         } else {
-            DynaPolyInfo_Alloc(&D_06005580, &localC);
+            CollisionHeader_GetVirtual(&D_06005580, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y - 400.0f;
@@ -151,13 +151,13 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, this, localC);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBdanObjects* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (thisx->params == 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -394,7 +394,7 @@ void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
         func_8002F948(this, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
-    globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = this->dyna.actor.posRot.pos.y;
+    globalCtx->colCtx.colHeader->waterBoxes[7].ySurface = this->dyna.actor.posRot.pos.y;
 }
 
 void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {

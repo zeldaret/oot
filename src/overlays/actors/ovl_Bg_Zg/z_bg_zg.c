@@ -49,12 +49,12 @@ const ActorInit Bg_Zg_InitVars = {
 };
 
 extern Gfx D_06001080[];
-extern UNK_TYPE D_060011D4;
+extern CollisionHeader D_060011D4;
 
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808C0C50(BgZg* this) {
@@ -106,13 +106,13 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
     s32 pad[2];
-    u32 local_c;
+    CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
-    local_c = 0;
-    DynaPolyInfo_Alloc(&D_060011D4, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyActor_Init(thisx, DPM_UNK);
+    colHeader = NULL;
+    CollisionHeader_GetVirtual(&D_060011D4, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
         thisx->scale.x = thisx->scale.x * 1.3f;
         thisx->scale.z = thisx->scale.z * 1.3f;

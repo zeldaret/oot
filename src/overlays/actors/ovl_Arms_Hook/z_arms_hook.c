@@ -142,7 +142,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 sp90;
     s32 pad;
     CollisionPoly* poly;
-    u32 dynaPolyID;
+    s32 bgId;
     Vec3f sp78;
     Vec3f prevFrameDiff;
     Vec3f sp60;
@@ -258,17 +258,17 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
-        if (func_8003DE84(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &dynaPolyID) != 0) {
-            if (func_8002F9EC(globalCtx, &this->actor, poly, dynaPolyID, &sp78) == 0) {
-                sp5C = poly->norm.x * (1 / SHT_MAX);
-                sp58 = poly->norm.z * (1 / SHT_MAX);
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &bgId) != 0) {
+            if (func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78) == false) {
+                sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
+                sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
                 Math_Vec3f_Copy(&this->actor.posRot.pos, &sp78);
                 this->actor.posRot.pos.x += 10.0f * sp5C;
                 this->actor.posRot.pos.z += 10.0f * sp58;
                 this->timer = 0;
-                if (func_80041FE8(&globalCtx->colCtx, poly, dynaPolyID) != 0) {
-                    if (dynaPolyID != 0x32) {
-                        dynaPolyActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, dynaPolyID);
+                if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId) != 0) {
+                    if (bgId != BGCHECK_SCENE) {
+                        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
                         if (dynaPolyActor != NULL) {
                             ArmsHook_AttachHookToActor(this, &dynaPolyActor->actor);
                         }
