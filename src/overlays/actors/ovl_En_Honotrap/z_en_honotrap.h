@@ -8,17 +8,18 @@ struct EnHonotrap;
 
 typedef void (*EnHonotrapActionFunc) (struct EnHonotrap*, GlobalContext*);
 
+typedef union {
+    struct {
+        ColliderTris tris;
+        ColliderTrisItem elements[2];
+    };
+    ColliderCylinder cyl;
+} EnHonotrapCollider; // size = 0xD8
+
 typedef struct EnHonotrap {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnHonotrapActionFunc actionFunc;
-    /* 0x0150 */ union {
-                    
-                    struct {
-                        ColliderTris tris;
-                        ColliderTrisItem elements[2];
-                    };
-                    ColliderCylinder cyl;
-                } collider;
+    /* 0x0150 */ EnHonotrapCollider collider;
     /* 0x0228 */ s16 timer;
     /* 0x022A */ s16 eyeState;
     /* 0x022C */ Vec3f targetPos;

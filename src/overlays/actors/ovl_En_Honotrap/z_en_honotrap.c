@@ -1,3 +1,9 @@
+/**
+ * File: z_en_honotrap.c
+ * Overlay: ovl_En_Honotrap
+ * Description: Fake eye switches and Dampe flames
+ */
+
 #include "z_en_honotrap.h"
 
 #define FLAGS 0x00000010
@@ -7,8 +13,13 @@
 #define HONOTRAP_AT_ACTIVE (1 << 0)
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
-#define HONOTRAP_EYE_OPEN 0
-#define HONOTRAP_EYE_CLOSED 3
+
+typedef enum {
+    HONOTRAP_EYE_OPEN,
+    HONOTRAP_EYE_HALF,
+    HONOTRAP_EYE_CLOSE,
+    HONOTRAP_EYE_SHUT
+} EnHonotrapEyeState;
 
 void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -24,8 +35,8 @@ void EnHonotrap_EyeAttack(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupEyeClose(EnHonotrap* this);
 void EnHonotrap_EyeClose(EnHonotrap* this, GlobalContext* globalCtx);
 
-void func_80A5A378(EnHonotrap* this);
-void func_80A5A388(EnHonotrap* this, GlobalContext* globalCtx);
+void EnHonotrap_SetupFlame(EnHonotrap* this);
+void EnHonotrap_Flame(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupFlameDrop(EnHonotrap* this);
 void EnHonotrap_FlameDrop(EnHonotrap* this, GlobalContext* globalCtx);
 
@@ -155,7 +166,7 @@ void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
     this->targetPos = PLAYER->actor.posRot.pos;
     this->targetPos.y += 10.0f;
     this->flameScroll = Rand_ZeroOne() * 511.0f;
-    func_80A5A378(this);
+    EnHonotrap_SetupFlame(this);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FLAME_IGNITION);
     if (this->actor.params == HONOTRAP_FLAME_DROP) {
         this->actor.room = -1;
@@ -187,7 +198,7 @@ void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHonotrap_SetupEyeIdle(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_EyeIdle;
-    this->eyeState = HONOTRAP_EYE_CLOSED;
+    this->eyeState = HONOTRAP_EYE_SHUT;
 }
 
 void EnHonotrap_EyeIdle(EnHonotrap* this, GlobalContext* globalCtx) {
@@ -241,19 +252,19 @@ void EnHonotrap_SetupEyeClose(EnHonotrap* this) {
 
 void EnHonotrap_EyeClose(EnHonotrap* this, GlobalContext* globalCtx) {
     this->eyeState++;
-    if (this->eyeState >= HONOTRAP_EYE_CLOSED) {
+    if (this->eyeState >= HONOTRAP_EYE_SHUT) {
         EnHonotrap_SetupEyeIdle(this);
         this->timer = 200;
     }
 }
 
-void func_80A5A378(EnHonotrap* this) {
-    this->actionFunc = func_80A5A388;
+void EnHonotrap_SetupFlame(EnHonotrap* this) {
+    this->actionFunc = EnHonotrap_Flame;
 }
 
-void func_80A5A388(EnHonotrap* this, GlobalContext* globalCtx) {
+void EnHonotrap_Flame(EnHonotrap* this, GlobalContext* globalCtx) {
     s32 pad;
-    s32 ready = Math_StepToF(&this->actor.scale.x, (this->actor.params == 1) ? 0.004f : 0.0048f, 0.0006f);
+    s32 ready = Math_StepToF(&this->actor.scale.x, (this->actor.params == HONOTRAP_FLAME_MOVE) ? 0.004f : 0.0048f, 0.0006f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     if (ready) {
@@ -313,10 +324,6 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f speed;
     s32 ready;
-    Player* player;
-    Vec3f shieldNorm;
-    Vec3f tempVel;
-    Vec3f shieldVec;
 
     Math_StepToF(&this->speedMod, 13.0f, 0.5f);
     speed.x = fabsf(this->speedMod * this->actor.velocity.x);
@@ -328,7 +335,10 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
 
     if (this->collider.tris.base.atFlags & 4) {
-        player = PLAYER;
+        Player* player = PLAYER;
+        Vec3f shieldNorm;
+        Vec3f tempVel;
+        Vec3f shieldVec;
 
         shieldVec.x = -player->shieldMf.zx;
         shieldVec.y = -player->shieldMf.zy;
@@ -364,8 +374,6 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
 
 void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player;
-    Vec3s shieldRot;
 
     Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x300);
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.1f);
@@ -378,7 +386,9 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
     if (this->collider.cyl.base.atFlags & 4) {
-        player = PLAYER;
+        Player* player = PLAYER;
+        Vec3s shieldRot;
+
         func_800D20CC(&player->shieldMf, &shieldRot, false);
         this->actor.posRot.rot.y = ((shieldRot.y * 2) - this->actor.posRot.rot.y) + 0x8000;
         EnHonotrap_SetupFlameVanish(this);
@@ -434,7 +444,7 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->collider.tris.base.acFlags & 2) {
             EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 15, 8);
             Actor_Kill(&this->actor);
-        } else if (this->eyeState < HONOTRAP_EYE_CLOSED) {
+        } else if (this->eyeState < HONOTRAP_EYE_SHUT) {
             this->collider.tris.base.acFlags &= ~2;
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.tris.base);
         }
