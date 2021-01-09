@@ -284,7 +284,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
                                        (thisx->shape.rot.z * 6) + 19);
 
             effPos.y = thisx->groundY;
-            if (thisx->groundY > -32000.0f) {
+            if (thisx->groundY > BGCHECK_Y_MIN) {
                 EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 

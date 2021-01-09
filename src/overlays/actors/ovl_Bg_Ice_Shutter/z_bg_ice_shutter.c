@@ -31,7 +31,7 @@ const ActorInit Bg_Ice_Shutter_InitVars = {
     (ActorFunc)BgIceShutter_Draw,
 };
 
-extern UNK_TYPE D_06002854;
+extern CollisionHeader D_06002854;
 extern Gfx D_06002740[];
 
 static InitChainEntry sInitChain[] = {
@@ -53,17 +53,17 @@ void func_80891AC0(BgIceShutter* this) {
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShutter* this = THIS;
     f32 sp24;
-    s32 localC;
+    CollisionHeader* colHeader;
     s32 sp28;
     f32 temp_f6;
 
-    localC = 0;
+    colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     sp28 = this->dyna.actor.params & 0xFF;
     this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
-    DynaPolyInfo_Alloc(&D_06002854, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    CollisionHeader_GetVirtual(&D_06002854, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (sp28 == 2) {
         this->dyna.actor.shape.rot.x = -0x4000;
     }
@@ -97,7 +97,7 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShutter* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {

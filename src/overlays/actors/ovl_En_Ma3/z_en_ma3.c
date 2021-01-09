@@ -83,13 +83,13 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-        if ((gSaveContext.horseRaceRecord == 0) || (gSaveContext.horseRaceRecord >= 0xB4)) {
-            gSaveContext.horseRaceRecord = 0xB4;
+        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
+            HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
         if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < gSaveContext.horseRaceRecord) {
+        } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -126,7 +126,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
                         func_8010B720(globalCtx, 0x2091);
-                    } else if (gSaveContext.horseRaceRecord == 0) {
+                    } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         func_8010B720(globalCtx, 0x2092);
                     } else {
                         func_8010B720(globalCtx, 0x2090);
@@ -144,8 +144,8 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.eventChkInf[1] |= 0x4000;
                 case 0x2004:
                 case 0x2012:
-                    if (gSaveContext.horseRaceRecord > gSaveContext.timer1Value) {
-                        gSaveContext.horseRaceRecord = gSaveContext.timer1Value;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
