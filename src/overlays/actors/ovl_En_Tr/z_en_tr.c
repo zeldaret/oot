@@ -41,53 +41,46 @@ static AnimationHeader* unused[] = {
     0x06001CDC,
 };
 
-// extern AnimationHeader* D_80B24368[];
 static AnimationHeader* D_80B24368[] = {
     0x06002BC4, // Turn to look over right shoulder
     0x06000BFC, // Turn to look over right shoulder
 };
 
-// extern AnimationHeader* D_80B24370[];
 static AnimationHeader* D_80B24370[] = {
     0x060035CC, // Looking over left shoulder
     0x060013CC, // Looking over right shoulder
 };
 
-// extern AnimationHeader* D_80B24378[];
 static AnimationHeader* D_80B24378[] = {
     0x060049C8, // Floating on broom
     0x060049C8, // Floating on broom
 };
 
-// extern AnimationHeader* D_80B24380[];
 static AnimationHeader* D_80B24380[] = {
     0x06012E1C, // Casting magic
     0x06012E1C, // Casting magic
 };
 
-// extern f32 D_80B24388[];
-f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
+static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
 
-// extern f32 D_80B243A4[];
-f32 D_80B243A4[] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
+static f32 D_80B243A4[] = { 0.0f, 30.0f, 0.0f, -30.0f, 30.0f, -30.0f, 0.0f };
 
-// extern Color_RGBA8 D_80B243C0[2][2];
-Color_RGBA8 D_80B243C0[][2] = {
-    { { 255, 200, 0, 255 }, { 255, 0, 0, 255 } },
-    { { 255, 255, 255, 255 }, { 0, 0, 255, 255 } },
+// Has to be 1-dimensional to match
+static Color_RGBA8 D_80B243C0[4] = {
+    { 255, 200, 0, 255 },
+    { 255, 0, 0, 255 },
+    { 255, 255, 255, 255 },
+    { 0, 0, 255, 255 },
 };
 
-// extern u64* D_80B243D0[];
 static u64* D_80B243D0[] = {
     0x060086D8, // Open
     0x060094D8, // Half
     0x060098D8, // Closed
 };
 
-// extern Vec3f D_80B243DC;
 static Vec3f D_80B243DC = { 2300.0f, 0.0f, -600.0f };
 
-// extern Vec3f D_80B243E8;
 static Vec3f D_80B243E8 = { 0.0f, 0.0f, 0.0f };
 
 extern AnimationHeader D_060013CC; // Looking over right shoulder
@@ -233,9 +226,9 @@ void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B23254.s")
-void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4);
-/* void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B23254.s")
+// void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4);
+void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4) {
     Vec3f sp7C;
     Vec3f sp70;
     Vec3f sp64;
@@ -249,7 +242,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
 
     sp44 = ACTIVE_CAM->eye;
     temp_s0 = Math_Vec3f_Yaw(&sp44, &this->actor.posRot.pos);
-    sp40 = - Math_Vec3f_Pitch(&sp44, &this->actor.posRot.pos);
+    sp40 = -Math_Vec3f_Pitch(&sp44, &this->actor.posRot.pos);
     sp64.z = 0.0f;
     sp64.x = 0.0f;
     sp3C = Math_SinS(temp_s0);
@@ -259,8 +252,8 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     sp70.z = Math_CosS(sp40) * (arg3 * sp3C);
     sp64.y = 0.5f;
 
-    sp54 = &D_80B243C0[this->actor.params][0];
-    sp50 = &D_80B243C0[this->actor.params][1];
+    sp54 = &D_80B243C0[2 * this->actor.params];
+    sp50 = &D_80B243C0[2 * this->actor.params + 1];
 
     sp58 = this->actor.posRot.pos;
     sp58.x -= sp70.x * 10.0f;
@@ -271,7 +264,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     sp7C.y = sp58.y + (D_80B243A4[arg2] * arg4);
     sp7C.z = sp58.z - ((D_80B24388[arg2] * arg4) * Math_SinS(temp_s0));
     func_8002829C(globalCtx, &sp7C, &sp70, &sp64, sp54, sp50, (s32)(800.0f * arg4), (s32)(80.0f * arg4));
-} */
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B234D4.s")
 void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
@@ -501,39 +494,50 @@ f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24038.s")
+void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 /* void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
-    Vec3f startPos;
-    Vec3f endPos;
-    Vec3f goalVelocity;
     f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f16;
+    f32 temp_f16_2;
+    f32 temp_f18;
+    f32 temp_f18_2;
+    f32 temp_f20;
+    f32 temp_f20_2;
+    f32 temp_f2;
+    f32 temp_f2_2;
     f32 phi_f12;
-    f32 new_var;
+    
+    temp_f2 = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
+    temp_f12 = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
+    temp_f14 = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
 
-    startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
-    startPos.y = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
-    startPos.z = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
-
-    endPos.x = globalCtx->csCtx.npcActions[actionIndex]->endPos.x;
-    endPos.y = globalCtx->csCtx.npcActions[actionIndex]->endPos.y;
-    endPos.z = globalCtx->csCtx.npcActions[actionIndex]->endPos.z;
+    temp_f16 = globalCtx->csCtx.npcActions[actionIndex]->endPos.x;
+    temp_f18 = globalCtx->csCtx.npcActions[actionIndex]->endPos.y;
+    temp_f20 = globalCtx->csCtx.npcActions[actionIndex]->endPos.z;
 
     temp_f0 = func_80B23FDC(globalCtx, actionIndex);
-    goalVelocity.x = ((((endPos.x - startPos.x) * temp_f0) + startPos.x) - this->actor.posRot.pos.x) * 0.1f;
-    goalVelocity.y = ((((endPos.y - startPos.y) * temp_f0) + startPos.y) - this->actor.posRot.pos.y) * 0.1f;
-    goalVelocity.z = ((((endPos.z - startPos.z) * temp_f0) + startPos.z) - this->actor.posRot.pos.z) * 0.1f;
-    new_var = sqrtf(SQ(endPos.x) + SQ(endPos.y) + SQ(endPos.z));
-    phi_f12 = CLAMP(new_var, 0.0f, 20.0f);
 
-    if ((new_var != phi_f12) && (new_var != 0.0f)) {
-        new_var = phi_f12 / new_var;
-        goalVelocity.x *= new_var;
-        goalVelocity.y *= new_var;
-        goalVelocity.z *= new_var;
+    temp_f16_2 = ((((temp_f16 - temp_f2) * temp_f0) + temp_f2) - this->actor.posRot.pos.x) * 0.1f;
+    temp_f18_2 = ((((temp_f18 - temp_f12) * temp_f0) + temp_f12) - this->actor.posRot.pos.y) * 0.1f;
+    temp_f20_2 = ((((temp_f20 - temp_f14) * temp_f0) + temp_f14) - this->actor.posRot.pos.z) * 0.1f;
+
+    temp_f0_2 = sqrtf(SQ(temp_f16_2) + SQ(temp_f18_2) + SQ(temp_f20_2));
+    phi_f12 = CLAMP(temp_f0_2, 0.0f, 20.0f);
+
+    if ((temp_f0_2 != phi_f12) && (temp_f0_2 != 0.0f)) {
+        temp_f2_2 = phi_f12 / temp_f0_2;
+
+        temp_f18_2 *= temp_f2_2;
+        temp_f16_2 *= temp_f2_2;
+        temp_f20_2 *= temp_f2_2;
     }
 
-    Math_StepToF(&this->actor.velocity.x, goalVelocity.x, 1.0f);
-    Math_StepToF(&this->actor.velocity.y, goalVelocity.y, 1.0f);
-    Math_StepToF(&this->actor.velocity.z, goalVelocity.z, 1.0f);
+    Math_StepToF(&this->actor.velocity.x, temp_f16_2, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, temp_f18_2, 1.0f);
+    Math_StepToF(&this->actor.velocity.z, temp_f20_2, 1.0f);
     func_8002D7EC(&this->actor);
 } */
 
