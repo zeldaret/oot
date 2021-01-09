@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot00_hanebasi.c
  * Overlay: ovl_Bg_Spot00_Hanebasi
- * Description: Hyrule Field Drawbridge Objects
+ * Description: Hyrule Field Drawbridge and Torches
  */
 
 #include "z_bg_spot00_hanebasi.h"
@@ -10,20 +10,22 @@
 
 #define THIS ((BgSpot00Hanebasi*)thisx)
 
+typedef enum { DT_CHAIN_1, DT_CHAIN_2, DT_DRAWBRIDGE = -1 } DrawbridgeType;
+
 void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808A9BE8(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
-void func_808A9E58(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
-void func_808A9D24(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
+void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
+void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
+void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
-extern Gfx D_060000C0[];
-extern UNK_TYPE D_06000280;
-extern Gfx D_06000430[];
-extern UNK_TYPE D_060005E0;
+extern Gfx D_0404D4E0[];           // torch flame
+extern Gfx D_060000C0[];           // bridge chains
+extern CollisionHeader D_06000280; // chains collision
+extern Gfx D_06000430[];           // drawbridge
+extern CollisionHeader D_060005E0; // drawbridge collision
 
 const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     ACTOR_BG_SPOT00_HANEBASI,
@@ -37,7 +39,7 @@ const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     (ActorFunc)BgSpot00Hanebasi_Draw,
 };
 
-/*static*/ f32 D_808AA7B0 = 0.0f;
+static f32 D_808AA7B0 = 0.0f;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 550, ICHAIN_CONTINUE),
@@ -55,7 +57,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
     DynaPolyActor_Init(&this->dyna.actor, 1);
 
-    if (this->dyna.actor.params == -1) {
+    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&D_060005E0, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&D_06000280, &colHeader);
@@ -63,7 +65,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.actor.params == -1) {
+    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if ((LINK_IS_ADULT) && (gSaveContext.sceneSetupIndex < 4)) {
             Actor_Kill(&this->dyna.actor);
             return;
@@ -97,31 +99,31 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
                                this->dyna.actor.posRot.pos.x + chainPos.x, this->dyna.actor.posRot.pos.y + chainPos.y,
                                this->dyna.actor.posRot.pos.z + chainPos.z,
                                ((this->dyna.actor.shape.rot.x == 0) ? 0 : 0xF020), this->dyna.actor.shape.rot.y, 0,
-                               0) == NULL) {
+                               DT_CHAIN_1) == NULL) {
             Actor_Kill(&this->dyna.actor);
         }
 
-        this->actionFunc = func_808A9BE8;
-        this->unk_168 = 40;
-    } else if (this->dyna.actor.params == 0) {
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
+        this->destAngle = 40;
+    } else if (this->dyna.actor.params == DT_CHAIN_1) {
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT00_HANEBASI,
                                this->dyna.actor.posRot.pos.x - (Math_CosS(this->dyna.actor.shape.rot.y) * 316.0f),
                                this->dyna.actor.posRot.pos.y,
                                this->dyna.actor.posRot.pos.z + (Math_SinS(this->dyna.actor.shape.rot.y) * 316.0f),
-                               this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 1) == NULL) {
+                               this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, DT_CHAIN_2) == NULL) {
             Actor_Kill(&this->dyna.actor);
             Actor_Kill(this->dyna.actor.parent);
         }
 
-        this->actionFunc = func_808A9E58;
+        this->actionFunc = BgSpot00Hanebasi_SetTorchLightInfo;
     } else {
-        this->actionFunc = func_808A9E58;
+        this->actionFunc = BgSpot00Hanebasi_SetTorchLightInfo;
     }
 
-    if (this->dyna.actor.params >= 0) {
+    if (this->dyna.actor.params >= DT_CHAIN_1) {
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-        Lights_PointGlowSetInfo(&this->lightInfo, ((this->dyna.actor.params == 0) ? 260.0f : -260.0f), 168, 690, 255,
-                                255, 0, 0);
+        Lights_PointGlowSetInfo(&this->lightInfo, ((this->dyna.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f), 168,
+                                690, 255, 255, 0, 0);
     }
 }
 
@@ -130,12 +132,12 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
-    if (this->dyna.actor.params >= 0) {
+    if (this->dyna.actor.params >= DT_CHAIN_1) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     }
 }
 
-void func_808A9BE8(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
+void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
     if ((gSaveContext.sceneSetupIndex >= 4) || (!(CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD))) ||
@@ -143,9 +145,9 @@ void func_808A9BE8(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
         (gSaveContext.eventChkInf[8] & 1)) {
         if (this->dyna.actor.shape.rot.x != 0) {
             if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && (gSaveContext.nightFlag == 0))) {
-                this->actionFunc = func_808A9D24;
-                this->unk_168 = 0;
-                child->unk_168 = 0;
+                this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
+                this->destAngle = 0;
+                child->destAngle = 0;
                 return;
             }
 
@@ -154,41 +156,41 @@ void func_808A9BE8(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
 
         if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && (LINK_IS_CHILD) &&
             (gSaveContext.nightFlag != 0)) {
-            this->actionFunc = func_808A9D24;
-            this->unk_168 = -0x4000;
-            child->unk_168 = -0xFE0;
+            this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
+            this->destAngle = -0x4000;
+            child->destAngle = -0xFE0;
         }
     }
 }
 
-void func_808A9D18(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
+void BgSpot00Hanebasi_DoNothing(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
 }
 
-void func_808A9D24(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
+void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
     BgSpot00Hanebasi* child;
     Actor* childsChild;
     s16 angle = 80;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape, this->unk_168, 80)) {
-        this->actionFunc = func_808A9BE8;
+    if (Math_ScaledStepToS(&this->dyna.actor.shape, this->destAngle, 80)) {
+        this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
     }
 
     if (this->dyna.actor.shape.rot.x >= -0x27D8) {
         child = this->dyna.actor.child;
         angle *= 0.4f;
-        Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->unk_168, angle);
+        Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
         childsChild = child->dyna.actor.child;
-        Math_ScaledStepToS(&childsChild->shape.rot.x, child->unk_168, angle);
+        Math_ScaledStepToS(&childsChild->shape.rot.x, child->destAngle, angle);
     }
 
-    if (this->unk_168 < 0) {
-        if (this->actionFunc == func_808A9BE8) {
+    if (this->destAngle < 0) {
+        if (this->actionFunc == BgSpot00Hanebasi_DrawBridgeWait) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
-        if (this->actionFunc == func_808A9BE8) {
+        if (this->actionFunc == BgSpot00Hanebasi_DrawBridgeWait) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
@@ -196,11 +198,67 @@ void func_808A9D24(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/func_808A9E58.s")
+void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
+    u8 lightColor = (u8)(Rand_ZeroOne() * 127.0f) + 128; // intensity of the red and green channels
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/BgSpot00Hanebasi_Update.s")
+    Lights_PointGlowSetInfo(&this->lightInfo, (this->dyna.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f,
+                            (5000.0f * D_808AA7B0) + 128.0f, 690, lightColor, lightColor, 0, D_808AA7B0 * 37500.0f);
+}
 
-void func_808AA2B0(Actor* thisx, GlobalContext* globalCtx2) {
+void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot00Hanebasi* this = THIS;
+    s32 pad;
+    u16 dayTime;
+    Player* player;
+    s32 tmp;
+
+    this->actionFunc(this, globalCtx);
+
+    if (this->dyna.actor.params == DT_DRAWBRIDGE) {
+        if (globalCtx->sceneNum == SCENE_SPOT00) {
+            if ((CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) && (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) &&
+                (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) && (!(gSaveContext.eventChkInf[8] & 1)) &&
+                (gSaveContext.linkAge == 1)) {
+                player = PLAYER;
+
+                if ((player->actor.posRot.pos.x > -450.0f) && (player->actor.posRot.pos.x < 450.0f) &&
+                    (player->actor.posRot.pos.z > 1080.0f) && (player->actor.posRot.pos.z < 1700.0f) &&
+                    (!(Gameplay_InCsMode(globalCtx)))) {
+                    gSaveContext.eventChkInf[8] |= 1;
+                    Flags_SetEventChkInf(0x82);
+                    this->actionFunc = BgSpot00Hanebasi_DoNothing;
+                    func_8002DF54(globalCtx, player, 8);
+                    globalCtx->nextEntranceIndex = 0x00CD;
+                    gSaveContext.nextCutsceneIndex = 0xFFF1;
+                    globalCtx->sceneLoadFlag = 0x14;
+                    globalCtx->fadeTransition = 4;
+                } else if (func_8002E12C(&this->dyna.actor, 3000.0f, 30000)) {
+                    globalCtx->envCtx.gloomySkyEvent = 1;
+                }
+            }
+        }
+
+        if (gSaveContext.sceneSetupIndex == 5) {
+            if (D_8011FB40 == 50) {
+                tmp = 0xD556;
+
+                if (gSaveContext.dayTime >= 0xD557) {
+                    tmp = 0x1D556;
+                }
+
+                D_8011FB40 = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
+            }
+
+            dayTime = gSaveContext.dayTime;
+
+            if ((dayTime >= 0x2AAC) && (dayTime < 0x3000) && (gSaveContext.sceneSetupIndex == 5)) {
+                D_8011FB40 = 0;
+            }
+        }
+    }
+}
+
+void BgSpot00Hanebasi_DrawTorches(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     f32 angle;
     s32 i;
@@ -247,7 +305,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (thisx->params == -1) {
+    if (thisx->params == DT_DRAWBRIDGE) {
         gSPDisplayList(POLY_OPA_DISP++, D_06000430);
 
         Matrix_MultVec3f(&basePos, &newPos);
@@ -262,15 +320,10 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         thisx->child->child->posRot.pos.z = newPos.z;
 
         if (gSaveContext.sceneSetupIndex != 12) {
-            if (gSaveContext.sceneSetupIndex < 4) {
-                if ((gSaveContext.linkAge != 0) && (thisx->shape.rot.x < -0x2000)) {
-                lbl:
-                    func_808AA2B0(thisx, globalCtx);
-                } else {
-                    D_808AA7B0 = 0.0f;
-                }
+            if ((gSaveContext.sceneSetupIndex >= 4) || ((LINK_IS_CHILD) && (thisx->shape.rot.x < -0x2000))) {
+                BgSpot00Hanebasi_DrawTorches(thisx, globalCtx);
             } else {
-                goto lbl;
+                D_808AA7B0 = 0.0f;
             }
         }
     } else {
