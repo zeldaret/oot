@@ -5,8 +5,8 @@ glabel BgHakaShip_Destroy
 /* 0014C 8087F24C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00150 8087F250 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00154 8087F254 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00158 8087F258 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00158 8087F258 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 0015C 8087F25C 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00160 8087F260 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00164 8087F264 0C03E27A */  jal     func_800F89E8              

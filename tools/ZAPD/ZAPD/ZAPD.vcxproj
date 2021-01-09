@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)sqlite;$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)lib\tinyxml2;$(SolutionDir)lib\elfio;$(SolutionDir)lib\assimp\include;$(SolutionDir)lib\stb;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\assimp-built;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
@@ -135,13 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\lib\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="HighLevel\HLAnimationIntermediette.cpp" />
     <ClCompile Include="HighLevel\HLModelIntermediette.cpp" />
     <ClCompile Include="HighLevel\HLTexture.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
-    <ClCompile Include="tinyxml2.cpp" />
+    <ClCompile Include="ZScalar.cpp" />
     <ClCompile Include="ZAnimation.cpp" />
     <ClCompile Include="ZBlob.cpp" />
     <ClCompile Include="ZCollision.cpp" />
@@ -179,22 +180,28 @@
     <ClCompile Include="ZRoom\ZRoom.cpp" />
     <ClCompile Include="ZRoom\ZRoomCommand.cpp" />
     <ClCompile Include="ZTexture.cpp" />
+    <ClCompile Include="ZVector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lib\elfio\elfio\elfio.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_dump.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_dynamic.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_header.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_note.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_relocation.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_section.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_segment.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_strings.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_symbols.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elfio_utils.hpp" />
+    <ClInclude Include="..\lib\elfio\elfio\elf_types.hpp" />
+    <ClInclude Include="..\lib\json\include\nlohmann\json.hpp" />
+    <ClInclude Include="..\lib\stb\stb_image.h" />
+    <ClInclude Include="..\lib\stb\stb_image_write.h" />
+    <ClInclude Include="..\lib\stb\tinyxml2.h" />
+    <ClInclude Include="..\lib\tinygtlf\tiny_gltf.h" />
     <ClInclude Include="BitConverter.h" />
     <ClInclude Include="Directory.h" />
-    <ClInclude Include="elfio\elfio.hpp" />
-    <ClInclude Include="elfio\elfio_dump.hpp" />
-    <ClInclude Include="elfio\elfio_dynamic.hpp" />
-    <ClInclude Include="elfio\elfio_header.hpp" />
-    <ClInclude Include="elfio\elfio_note.hpp" />
-    <ClInclude Include="elfio\elfio_relocation.hpp" />
-    <ClInclude Include="elfio\elfio_section.hpp" />
-    <ClInclude Include="elfio\elfio_segment.hpp" />
-    <ClInclude Include="elfio\elfio_strings.hpp" />
-    <ClInclude Include="elfio\elfio_symbols.hpp" />
-    <ClInclude Include="elfio\elfio_utils.hpp" />
-    <ClInclude Include="elfio\elf_types.hpp" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HighLevel\HLAnimation.h" />
@@ -202,17 +209,9 @@
     <ClInclude Include="HighLevel\HLFileIntermediette.h" />
     <ClInclude Include="HighLevel\HLModelIntermediette.h" />
     <ClInclude Include="HighLevel\HLTexture.h" />
-    <ClInclude Include="json.hpp" />
-    <ClInclude Include="OpenFBX\miniz.h" />
-    <ClInclude Include="OpenFBX\ofbx.h" />
     <ClInclude Include="Overlays\ZOverlay.h" />
     <ClInclude Include="Path.h" />
-    <ClInclude Include="sqlite_orm.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="StringHelper.h" />
-    <ClInclude Include="tinyxml2.h" />
-    <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="Vec3s.h" />
     <ClInclude Include="ZAnimation.h" />
     <ClInclude Include="ZBlob.h" />
@@ -220,6 +219,7 @@
     <ClInclude Include="ZCutscene.h" />
     <ClInclude Include="ZDisplayList.h" />
     <ClInclude Include="ZFile.h" />
+    <ClInclude Include="ZScalar.h" />
     <ClInclude Include="ZSkeleton.h" />
     <ClInclude Include="ZResource.h" />
     <ClInclude Include="ZRoom\ActorList.h" />
@@ -253,6 +253,7 @@
     <ClInclude Include="ZRoom\ZRoom.h" />
     <ClInclude Include="ZRoom\ZRoomCommand.h" />
     <ClInclude Include="ZTexture.h" />
+    <ClInclude Include="ZVector.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">
@@ -260,7 +261,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Libs\assimp-vc142-mt.dll">
+    <CopyFileToFolders Include="..\lib\assimp-built\assimp-vc142-mt.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>

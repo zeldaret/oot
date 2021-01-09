@@ -282,9 +282,6 @@ beginseg
     include "build/src/code/z_actor.o"
     include "build/src/code/z_actor_dlftbls.o"
     include "build/src/code/z_bgcheck.o"
-    include "build/data/z_bgcheck.data.o"
-    include "build/data/z_bgcheck.rodata.o"
-    include "build/data/z_bgcheck.bss.o"
     include "build/src/code/code_800430A0.o"
     include "build/src/code/code_80043480.o"
     include "build/src/code/z_camera.o"
@@ -3058,8 +3055,7 @@ endseg
 beginseg
     name "ovl_En_Toryo"
     include "build/src/overlays/actors/ovl_En_Toryo/z_en_toryo.o"
-    include "build/data/overlays/actors/z_en_toryo.data.o"
-    include "build/data/overlays/actors/z_en_toryo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Toryo/ovl_En_Toryo_reloc.o"
 endseg
 
 beginseg

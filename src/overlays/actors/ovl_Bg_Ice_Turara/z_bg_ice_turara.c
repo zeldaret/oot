@@ -28,7 +28,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 extern Gfx D_060023D0[];
-extern ColHeader D_06002594;
+extern CollisionHeader D_06002594;
 
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
@@ -52,16 +52,15 @@ static InitChainEntry sInitChain[] = {
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgIceTurara* this = THIS;
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06002594, &colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06002594, &colHeader);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.actor.params == TURARA_STALAGMITE) {
         this->actionFunc = BgIceTurara_Stalagmite;
     } else {
@@ -74,7 +73,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIceTurara* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -136,7 +135,7 @@ void BgIceTurara_Shiver(BgIceTurara* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z;
         Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->actionFunc = BgIceTurara_Fall;
     } else {
         sp28 = Rand_ZeroOne();
@@ -158,7 +157,7 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
         BgIceTurara_Break(this, globalCtx, 40.0f);
         if (this->dyna.actor.params == TURARA_STALACTITE_REGROW) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 120.0f;
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgIceTurara_Regrow;
         } else {
             Actor_Kill(&this->dyna.actor);

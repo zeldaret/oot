@@ -19,10 +19,13 @@ SetPathways::SetPathways(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	uint32_t currentPtr = listSegmentOffset;
 
 	if (segmentOffset != 0)
-		zRoom->parent->declarations[segmentOffset] = new Declaration(DeclarationAlignment::None, 0, "", "", false, "");
+		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
+}
 
-	//if (listSegmentOffset != 0)
-		//zRoom->declarations[listSegmentOffset] = new Declaration(DeclarationAlignment::None, 0, "");
+SetPathways::~SetPathways()
+{
+	for (PathwayEntry* entry : pathways)
+		delete entry;
 }
 
 void SetPathways::InitList(uint32_t address)

@@ -36,17 +36,17 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_0600A7E0[];
-extern UNK_TYPE D_0600E568;
+extern CollisionHeader* D_0600E568;
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
     s32 pad;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(&D_0600E568, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_0600E568, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
     this->dyna.actor.initPosRot.pos.y += 540.0f;
 }
@@ -54,7 +54,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8088F47C(BgHidanSyoku* this) {

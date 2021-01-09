@@ -523,7 +523,7 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
     sp28.y = this->actor.posRot.pos.y + 60.0f;
     sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
-    this->unk_220 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
+    this->unk_220 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp38, &sp24, &sp28);
     this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 

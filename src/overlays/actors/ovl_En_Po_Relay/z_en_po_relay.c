@@ -316,8 +316,8 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             sp60.x = this->actor.posRot.pos.x;
             sp60.y = this->actor.groundY;
             sp60.z = this->actor.posRot.pos.z;
-            if (gSaveContext.timer1Value < gSaveContext.dampeRaceTime) {
-                gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            if (gSaveContext.timer1Value < HIGH_SCORE(HS_DAMPE_RACE)) {
+                HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
             }
             if (Flags_GetCollectible(globalCtx, this->actor.params) == 0 && gSaveContext.timer1Value <= 60) {
                 Item_DropCollectible2(globalCtx, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
@@ -326,7 +326,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             }
         } else {
             Flags_SetTempClear(globalCtx, 4);
-            gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
         }
         Actor_Kill(&this->actor);
     }

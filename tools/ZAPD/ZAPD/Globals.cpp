@@ -19,11 +19,11 @@ Globals::Globals()
 	segmentRefFiles = map<int, ZFile*>();
 	genSourceFile = true;
 	testMode = false;
-	debugMessages = false;
 	profile = false;
 	includeFilePrefix = false;
 	useExternalResources = true;
 	lastScene = nullptr;
+	verbosity = VERBOSITY_SILENT;
 }
 
 string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
@@ -64,7 +64,7 @@ string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
 	return "ERROR";
 }
 
-void Globals::ReadConfigFile(string configFilePath)
+void Globals::ReadConfigFile(const std::string& configFilePath)
 {
 	XMLDocument doc;
 	XMLError eResult = doc.LoadFile(configFilePath.c_str());
@@ -93,7 +93,7 @@ void Globals::ReadConfigFile(string configFilePath)
 	}
 }
 
-void Globals::GenSymbolMap(string symbolMapPath)
+void Globals::GenSymbolMap(const std::string& symbolMapPath)
 {
 	auto symbolLines = File::ReadAllLines(symbolMapPath);
 
