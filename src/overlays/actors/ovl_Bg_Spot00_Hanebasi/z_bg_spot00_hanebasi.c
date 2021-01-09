@@ -17,13 +17,12 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808A9BE8(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 void func_808A9E58(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
-void func_808AA2B0(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 void func_808A9D24(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0404D4E0;
-extern UNK_TYPE D_060000C0;
+extern Gfx D_0404D4E0[];
+extern Gfx D_060000C0[];
 extern UNK_TYPE D_06000280;
-extern UNK_TYPE D_06000430;
+extern Gfx D_06000430[];
 extern UNK_TYPE D_060005E0;
 
 const ActorInit Bg_Spot00_Hanebasi_InitVars = {
@@ -197,12 +196,86 @@ void func_808A9D24(BgSpot00Hanebasi* this, GlobalContext* globalCtx) {
     }
 }
 
-/* static */ Vec3f D_808AA7C4 = { 158.0f, 10.0f, 400.0f };
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/func_808A9E58.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/BgSpot00Hanebasi_Update.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/func_808AA2B0.s")
+void func_808AA2B0(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    f32 angle;
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot00_Hanebasi/BgSpot00Hanebasi_Draw.s")
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 633);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    if (gSaveContext.sceneSetupIndex >= 4) {
+        D_808AA7B0 = 0.008f;
+    } else {
+        D_808AA7B0 = ((thisx->shape.rot.x * -1) - 0x2000) * (1.0f / 1024000.0f);
+    }
+
+    angle = (s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * (M_PI / 32768.0f);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+
+    for (i = 0; i < 2; i++) {
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
+                                    ((globalCtx->gameplayFrames + i) * -20) & 0x1FF, 32, 128));
+
+        Matrix_Translate((i == 0) ? 260.0f : -260.0f, 128.0f, 690.0f, 0);
+        Matrix_RotateY(angle, MTXMODE_APPLY);
+        Matrix_Scale(D_808AA7B0, D_808AA7B0, D_808AA7B0, MTXMODE_APPLY);
+
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 681);
+}
+
+void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Vec3f basePos = { 158.0f, 10.0f, 400.0f };
+    Vec3f newPos;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 698);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    if (thisx->params == -1) {
+        gSPDisplayList(POLY_OPA_DISP++, D_06000430);
+
+        Matrix_MultVec3f(&basePos, &newPos);
+        thisx->child->posRot.pos.x = newPos.x;
+        thisx->child->posRot.pos.y = newPos.y;
+        thisx->child->posRot.pos.z = newPos.z;
+        basePos.x *= -1.0f;
+
+        Matrix_MultVec3f(&basePos, &newPos);
+        thisx->child->child->posRot.pos.x = newPos.x;
+        thisx->child->child->posRot.pos.y = newPos.y;
+        thisx->child->child->posRot.pos.z = newPos.z;
+
+        if (gSaveContext.sceneSetupIndex != 12) {
+            if (gSaveContext.sceneSetupIndex < 4) {
+                if ((gSaveContext.linkAge != 0) && (thisx->shape.rot.x < -0x2000)) {
+                lbl:
+                    func_808AA2B0(thisx, globalCtx);
+                } else {
+                    D_808AA7B0 = 0.0f;
+                }
+            } else {
+                goto lbl;
+            }
+        }
+    } else {
+        gSPDisplayList(POLY_OPA_DISP++, D_060000C0);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 733);
+}
