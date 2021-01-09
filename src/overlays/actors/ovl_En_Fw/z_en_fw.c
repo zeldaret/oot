@@ -93,8 +93,8 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &player->actor.posRot.pos, &collisionPos, &poly, 1,
-                      0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &player->actor.posRot.pos, &collisionPos,
+                                &poly, 1, 0, 0, 1, &bgId)) {
         return false;
     }
 

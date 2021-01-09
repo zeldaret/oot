@@ -205,7 +205,7 @@ public:
 	uint16_t flag;
 	int16_t s, t;
 	uint8_t r, g, b, a;
-	
+
 	Vertex();
 	Vertex(int16_t nX, int16_t nY, int16_t nZ, uint16_t nFlag, int16_t nS, int16_t nT, uint8_t nR, uint8_t nG, uint8_t nB, uint8_t nA);
 	Vertex(std::vector<uint8_t> rawData, int rawDataIndex);
@@ -219,6 +219,7 @@ protected:
 	F3DZEXTexFormats lastTexFmt;
 	F3DZEXTexSizes lastTexSiz, lastTexSizTest, lastCISiz;
 	bool lastTexLoaded;
+	bool lastTexIsPalette;
 
 	//void ParseXML(tinyxml2::XMLElement* reader);
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
@@ -253,13 +254,13 @@ public:
 	static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
 
 	void TextureGenCheck(std::string prefix);
-	static bool TextureGenCheck(std::vector<uint8_t> fileData, std::map<uint32_t, ZTexture*>& textures, ZRoom* scene, ZFile* parent, std::string prefix, uint32_t texWidth, uint32_t texHeight, uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded);
+	static bool TextureGenCheck(std::vector<uint8_t> fileData, std::map<uint32_t, ZTexture*>& textures, ZRoom* scene, ZFile* parent, std::string prefix, uint32_t texWidth, uint32_t texHeight, uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded, bool texIsPalette);
 	static int GetDListLength(std::vector<uint8_t> rawData, int rawDataIndex);
 
 	std::vector<uint8_t> GetRawData();
 	int GetRawDataSize();
-	std::string GetSourceOutputHeader(std::string prefix);
-	std::string GetSourceOutputCode(std::string prefix);
-	void Save(std::string outFolder);
+	std::string GetSourceOutputHeader(const std::string& prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
+	void Save(const std::string& outFolder);
 	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
 };

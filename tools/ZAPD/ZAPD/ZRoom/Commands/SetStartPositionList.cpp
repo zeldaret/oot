@@ -26,6 +26,12 @@ SetStartPositionList::SetStartPositionList(ZRoom* nZRoom, std::vector<uint8_t> r
 	}
 }
 
+SetStartPositionList::~SetStartPositionList()
+{
+	for (ActorSpawnEntry* entry : actors)
+		delete entry;
+}
+
 string SetStartPositionList::GenerateSourceCodePass1(string roomName, int baseAddress)
 {
 	string sourceOutput = "";

@@ -121,13 +121,13 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.dayTime < 0xB888) || (!gSaveContext.nightFlag)) && !(gSaveContext.eventChkInf[8] & 1)) {
+        if (((gSaveContext.dayTime < 0xB888) || (gSaveContext.nightFlag == 0)) && !(gSaveContext.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || (gSaveContext.nightFlag) || (gSaveContext.eventChkInf[8] & 1)) {
+        if ((gSaveContext.dayTime >= 0xB889) || (gSaveContext.nightFlag != 0) || (gSaveContext.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);

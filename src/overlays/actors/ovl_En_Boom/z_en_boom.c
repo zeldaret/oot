@@ -104,8 +104,8 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     s32 pad1;
     f32 distXYZScale;
     f32 distFromLink;
-    DynaPolyActor* hitActor;
-    u32 hitDynaID;
+    Actor* hitActor;
+    s32 hitDynaID;
     Vec3f hitPoint;
     s32 pad2;
 
@@ -120,7 +120,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         pitchTarget = func_8002DB28(&this->actor, &target->posRot2.pos);
         pitchDiff = this->actor.posRot.rot.x - pitchTarget;
 
-        distXYZScale = ((200.0f - Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &target->posRot2.pos)) * 0.005f);
+        distXYZScale = (200.0f - Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &target->posRot2.pos)) * 0.005f;
         if (distXYZScale < 0.12f) {
             distXYZScale = 0.12f;
         }
@@ -142,8 +142,8 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     func_8002F974(this, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
-    collided = (this->collider.base.atFlags & 0x2);
-    collided = (!!(collided));
+    collided = this->collider.base.atFlags & 0x2;
+    collided = !!collided;
     if (collided) {
         if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
             this->grabbed = this->collider.base.at;
@@ -179,24 +179,24 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        collided = (this->collider.base.atFlags & 0x2);
-        collided = (!!(collided));
+        collided = this->collider.base.atFlags & 0x2;
+        collided = !!collided;
         if (collided) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.
             Math_Vec3f_Copy(&this->actor.posRot.pos, &this->actor.pos4);
         } else {
-            collided = func_8003DE84(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos, &hitPoint,
-                                     &this->actor.wallPoly, 1, 1, 1, 1, &hitDynaID);
+            collided = BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
+                                               &hitPoint, &this->actor.wallPoly, 1, 1, 1, 1, &hitDynaID);
 
-            if (collided != 0) {
-                // If the boomerang coolides with something and its is a Jabu Object actor with params equal to 0, then
+            if (collided) {
+                // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
-                if ((func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0) ||
-                    ((hitDynaID != 0x32) &&
-                     ((hitActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
-                     (hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (hitActor->actor.params == 0))) {
-                    collided = 0;
+                if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
+                    (hitDynaID != BGCHECK_SCENE &&
+                     ((hitActor = DynaPoly_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
+                     hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
+                    collided = false;
                 } else {
                     func_80062D60(globalCtx, &hitPoint);
                 }
@@ -205,7 +205,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 
         // If the boomerang needs to bounce back, set x and y angle accordingly.
         // Set timer to 0 and set return actor to player so it goes back to Link.
-        if (collided != 0) {
+        if (collided) {
             this->actor.posRot.rot.x = -this->actor.posRot.rot.x;
             this->actor.posRot.rot.y += 0x8000;
             this->moveTo = player;

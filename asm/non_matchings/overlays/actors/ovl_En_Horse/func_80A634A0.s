@@ -216,7 +216,7 @@ glabel func_80A634A0
 /* 08478 80A63768 AFA0001C */  sw      $zero, 0x001C($sp)
 /* 0847C 80A6376C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 08480 80A63770 AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 08484 80A63774 0C00F7A1 */  jal     func_8003DE84
+/* 08484 80A63774 0C00F7A1 */  jal     BgCheck_EntityLineTest1
 /* 08488 80A63778 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 0848C 80A6377C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 08490 80A63780 1441000A */  bne     $v0, $at, .L80A637AC
@@ -275,7 +275,7 @@ glabel func_80A634A0
 /* 08558 80A63848 00000000 */  nop
 /* 0855C 80A6384C 450301D2 */  bc1tl   .L80A63F98
 /* 08560 80A63850 8FBF0034 */  lw      $ra, 0x0034($sp)
-/* 08564 80A63854 0C0107BB */  jal     func_80041EEC
+/* 08564 80A63854 0C0107BB */  jal     SurfaceType_IsHorseBlocked
 /* 08568 80A63858 8FA60080 */  lw      $a2, 0x0080($sp)
 /* 0856C 80A6385C 544001CE */  bnel    $v0, $zero, .L80A63F98
 /* 08570 80A63860 8FBF0034 */  lw      $ra, 0x0034($sp)
@@ -321,9 +321,9 @@ glabel func_80A634A0
 .L80A638F4:
 /* 08604 80A638F4 8FA4003C */  lw      $a0, 0x003C($sp)
 .L80A638F8:
-/* 08608 80A638F8 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
-/* 0860C 80A638FC 8FA50080 */  lw      $a1, 0x0080($sp)
+/* 08608 80A638F8 0C00FAE1 */  jal     DynaPoly_GetActor
+              ## DynaPoly_GetActor
+/* 0860C 80A638FC 8FA50080 */  lw      $a1, 0x0080($sp)           
 /* 08610 80A63900 8E0301F0 */  lw      $v1, 0x01F0($s0)           ## 000001F0
 /* 08614 80A63904 00036140 */  sll     $t4, $v1,  5
 /* 08618 80A63908 05830019 */  bgezl   $t4, .L80A63970
@@ -399,7 +399,7 @@ glabel func_80A634A0
 /* 08718 80A63A08 AD6A0004 */  sw      $t2, 0x0004($t3)           ## FFFFFF94
 /* 0871C 80A63A0C 8CEC0008 */  lw      $t4, 0x0008($a3)           ## FFFFFFDC
 /* 08720 80A63A10 AD6C0008 */  sw      $t4, 0x0008($t3)           ## FFFFFF98
-/* 08724 80A63A14 0C00F250 */  jal     func_8003C940
+/* 08724 80A63A14 0C00F250 */  jal     BgCheck_EntityRaycastFloor3
 /* 08728 80A63A18 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0872C 80A63A1C 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 08730 80A63A20 44815000 */  mtc1    $at, $f10                  ## $f10 = -32000.00
@@ -511,7 +511,7 @@ glabel func_80A634A0
 /* 088D0 80A63BC0 00000000 */  nop
 /* 088D4 80A63BC4 4503000C */  bc1tl   .L80A63BF8
 /* 088D8 80A63BC8 8FAE0070 */  lw      $t6, 0x0070($sp)
-/* 088DC 80A63BCC 0C0107BB */  jal     func_80041EEC
+/* 088DC 80A63BCC 0C0107BB */  jal     SurfaceType_IsHorseBlocked
 /* 088E0 80A63BD0 8FA60080 */  lw      $a2, 0x0080($sp)
 /* 088E4 80A63BD4 14400007 */  bne     $v0, $zero, .L80A63BF4
 /* 088E8 80A63BD8 8FA4003C */  lw      $a0, 0x003C($sp)
@@ -616,7 +616,7 @@ glabel func_80A634A0
 /* 08A50 80A63D40 AF190004 */  sw      $t9, 0x0004($t8)           ## FFFFFF94
 /* 08A54 80A63D44 8DA80008 */  lw      $t0, 0x0008($t5)           ## FFFFFFDC
 /* 08A58 80A63D48 AF080008 */  sw      $t0, 0x0008($t8)           ## FFFFFF98
-/* 08A5C 80A63D4C 0C00F250 */  jal     func_8003C940
+/* 08A5C 80A63D4C 0C00F250 */  jal     BgCheck_EntityRaycastFloor3
 /* 08A60 80A63D50 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 08A64 80A63D54 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 08A68 80A63D58 44818000 */  mtc1    $at, $f16                  ## $f16 = -32000.00
@@ -645,7 +645,7 @@ glabel func_80A634A0
 /* 08AC4 80A63DB4 00000000 */  nop
 /* 08AC8 80A63DB8 4503000C */  bc1tl   .L80A63DEC
 /* 08ACC 80A63DBC 8FAC0070 */  lw      $t4, 0x0070($sp)
-/* 08AD0 80A63DC0 0C0107BB */  jal     func_80041EEC
+/* 08AD0 80A63DC0 0C0107BB */  jal     SurfaceType_IsHorseBlocked
 /* 08AD4 80A63DC4 8FA60080 */  lw      $a2, 0x0080($sp)
 /* 08AD8 80A63DC8 14400007 */  bne     $v0, $zero, .L80A63DE8
 /* 08ADC 80A63DCC 8FA4003C */  lw      $a0, 0x003C($sp)

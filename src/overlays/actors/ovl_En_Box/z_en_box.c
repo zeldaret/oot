@@ -58,7 +58,7 @@ extern Gfx D_06000AE8[]; // boss key chest base
 extern Gfx D_060010C0[]; // regular chest top
 extern Gfx D_06001678[]; // boss key chest top
 extern SkeletonHeader D_060047D8;
-extern UNK_TYPE D_06005FC8;
+extern CollisionHeader D_06005FC8;
 
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
@@ -86,14 +86,14 @@ void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
 
 void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
     f32 newY;
-    CollisionPoly* a1;
-    void* a2;
+    CollisionPoly* poly;
+    s32* bgId;
     Vec3f pos;
 
     pos = this->dyna.actor.posRot.pos;
     pos.y += 1.0f;
-    newY = func_8003C9A4(&globalCtx->colCtx, &a1, &a2, &this->dyna.actor, &pos);
-    if (newY != -32000.0f) {
+    newY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->dyna.actor, &pos);
+    if (newY != BGCHECK_Y_MIN) {
         this->dyna.actor.posRot.pos.y = newY;
     }
 }
@@ -102,21 +102,20 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     EnBox* this = THIS;
     AnimationHeader* anim;
-    s32 dynaUnk;
+    CollisionHeader* colHeader;
     f32 animFrameStart;
     f32 endFrame;
 
     animFrameStart = 0.0f;
     anim = D_809CA800[((void)0, gSaveContext.linkAge)];
-    dynaUnk = 0;
+    colHeader = NULL;
     endFrame = Animation_GetLastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06005FC8, &dynaUnk);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, dynaUnk);
-    func_8003ECA8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06005FC8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+    func_8003ECA8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
     this->type = thisx->params >> 12 & 0xF;
@@ -136,7 +135,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
         animFrameStart = endFrame;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
                !Flags_GetSwitch(globalCtx2, this->switchFlag)) {
-        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
         if (Rand_ZeroOne() < 0.5f) {
             this->movementFlags |= ENBOX_MOVE_FALL_ANGLE_SIDE;
         }
@@ -148,7 +147,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if ((this->type == ENBOX_TYPE_ROOM_CLEAR_BIG || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL) &&
                !Flags_GetClear(globalCtx2, this->dyna.actor.room)) {
         EnBox_SetupAction(this, EnBox_AppearOnRoomClear);
-        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 50.0f;
         this->alpha = 0;
@@ -156,14 +155,14 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->type == ENBOX_TYPE_9 || this->type == ENBOX_TYPE_10) {
         EnBox_SetupAction(this, func_809C9700);
         this->dyna.actor.flags |= 0x2000000;
-        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 50.0f;
         this->alpha = 0;
         this->dyna.actor.flags |= 0x10;
     } else if (this->type == ENBOX_TYPE_SWITCH_FLAG_BIG && !Flags_GetSwitch(globalCtx2, this->switchFlag)) {
         EnBox_SetupAction(this, EnBox_AppearOnSwitchFlag);
-        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 50.0f;
         this->alpha = 0;
@@ -200,7 +199,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBox* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
@@ -283,7 +282,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
     if (this->unk_1A8 >= 0) {
         EnBox_SetupAction(this, EnBox_Fall);
         this->unk_1AC = func_800800F8(globalCtx, 4500, 9999, &this->dyna.actor, 0);
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else if (this->unk_1A8 >= -11) {
         this->unk_1A8++;
     } else if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -377,7 +376,7 @@ void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
 }
 
 void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
-    func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     if (this->unk_1A8 < 0) {
         this->unk_1A8++;

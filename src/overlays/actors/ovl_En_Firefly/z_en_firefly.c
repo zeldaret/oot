@@ -501,7 +501,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
+    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == BGCHECK_Y_MIN)) {
         this->actor.dmgEffectTimer = 0;
         EnFirefly_SetupDie(this);
     } else {
