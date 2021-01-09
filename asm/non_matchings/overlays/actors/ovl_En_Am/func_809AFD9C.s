@@ -1,4 +1,4 @@
-glabel func_809AFD9C
+glabel EnAm_PostLimbDraw
 /* 01E7C 809AFD9C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01E80 809AFDA0 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 01E84 809AFDA4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

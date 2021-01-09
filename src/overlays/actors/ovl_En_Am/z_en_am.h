@@ -16,8 +16,15 @@ typedef struct EnAm {
     /* 0x0200 */ Vec3s morphTable[14];
     /* 0x0254 */ EnAmActionFunc actionFunc;
     /* 0x0258 */ s16 unk_258;
-    /* 0x025A */ char unk_25A[0x2];
-    /* 0x025C */ char unk_25C[0x18];
+    /* 0x025A */ s16 unk_25A;
+    /* 0x025C */ s16 unk_25C;
+    /* 0x025E */ s16 unk_25E;
+    /* 0x0260 */ s16 unk_260;
+    /* 0x0260 */ s16 unk_262;
+    /* 0x0264 */ s16 unk_264;
+    /* 0x0266 */ u8 unk_266;
+    /* 0x0267 */ u8 unk_267;
+    /* 0x0267 */ Vec3f unk_268;
     /* 0x0274 */ ColliderCylinder cylinder1;
     /* 0x02C0 */ ColliderCylinder cylinder2;
     /* 0x030C */ ColliderQuad hitCollider;

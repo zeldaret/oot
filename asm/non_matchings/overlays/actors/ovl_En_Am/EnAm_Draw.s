@@ -30,9 +30,9 @@ glabel EnAm_Draw
 /* 01EFC 809AFE1C 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
 /* 01F00 809AFE20 8FA40060 */  lw      $a0, 0x0060($sp)           
 /* 01F04 809AFE24 3C0FFB00 */  lui     $t7, 0xFB00                ## $t7 = FB000000
-/* 01F08 809AFE28 3C09809B */  lui     $t1, %hi(func_809AFD9C)    ## $t1 = 809B0000
+/* 01F08 809AFE28 3C09809B */  lui     $t1, %hi(EnAm_PostLimbDraw)    ## $t1 = 809B0000
 /* 01F0C 809AFE2C 8C8302C0 */  lw      $v1, 0x02C0($a0)           ## 000002C0
-/* 01F10 809AFE30 2529FD9C */  addiu   $t1, $t1, %lo(func_809AFD9C) ## $t1 = 809AFD9C
+/* 01F10 809AFE30 2529FD9C */  addiu   $t1, $t1, %lo(EnAm_PostLimbDraw) ## $t1 = 809AFD9C
 /* 01F14 809AFE34 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01F18 809AFE38 246E0008 */  addiu   $t6, $v1, 0x0008           ## $t6 = 00000008
 /* 01F1C 809AFE3C AC8E02C0 */  sw      $t6, 0x02C0($a0)           ## 000002C0
