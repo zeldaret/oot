@@ -10,8 +10,8 @@
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
 
-// From z64.h
 struct Actor;
+// From z64.h
 struct GlobalContext;
 
 // From z64light.h
@@ -22,11 +22,6 @@ typedef struct {
     Vec3s rot;
 } PosRot; // size = 0x14
 
-typedef struct {
-    /* 0x00 */ char   unk_00[0x8];
-    /* 0x08 */ Vec3s  norm;  // Normal vector
-    /* 0x0E */ s16    dist;  // Plane distance from origin
-} CollisionPoly; // size = 0x10
 
 typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
 typedef u16 (*callback1_800343CC)(struct GlobalContext*, struct Actor*);
@@ -127,9 +122,9 @@ typedef struct Actor {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly an actor is touching
-    /* 0x080 */ f32     groundY;
-    /* 0x084 */ f32     yDistToWater;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
+    /* 0x080 */ f32     groundY; // Floor poly height
+    /* 0x084 */ f32     yDistToWater; // Distance from water surface 
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     yawTowardsLink;
     /* 0x08C */ f32     xyzDistToLinkSq;
@@ -143,7 +138,7 @@ typedef struct Actor {
     /* 0x0F4 */ f32     uncullZoneForward; // amount to increase the uncull zone forward by (in projected space)
     /* 0x0F8 */ f32     uncullZoneScale; // amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32     uncullZoneDownward; // amount to increase uncull zone downward by (in projected space)
-    /* 0x100 */ Vec3f   pos4;
+    /* 0x100 */ Vec3f   pos4; // previous position
     /* 0x10C */ u8      unk_10C; // Z-Target related
     /* 0x10D */ u8      unk_10D; // Z-Target related
     /* 0x10E */ u16     textId; // Text id to pass to link/display when interacting with an actor
@@ -165,26 +160,13 @@ typedef struct Actor {
     /* 0x13C */ char    dbgPad[0x10]; // Padding that only exists in the debug rom
 } Actor; // size = 0x14C
 
-typedef struct {
-    /* 0x00 */ char unk_00[0x04];
-    /* 0x04 */ Actor* actor;
-    /* 0x08 */ void* unk_08; // Struct800417A0*
-    /* 0x0C */ char  unk_0C[0x0C];
-    /* 0x18 */ Vec3f scale1;
-    /* 0x24 */ Vec3s rot1;
-    /* 0x2C */ Vec3f pos1;
-    /* 0x38 */ Vec3f scale2;
-    /* 0x44 */ Vec3s rot2;
-    /* 0x4C */ Vec3f pos2;
-    /* 0x58 */ char  unk_58[0x0C];
-} ActorMesh; // size = 0x64
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ u32 dynaPolyId;
+typedef struct DynaPolyActor {
+    /* 0x000 */ struct Actor actor;
+    /* 0x14C */ s32 bgId;
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
-    /* 0x158 */ s16 unk_158;
+    /* 0x158 */ s16 unk_158; // y rotation?
     /* 0x15A */ u16 unk_15A;
     /* 0x15C */ u32 unk_15C;
     /* 0x160 */ u8 unk_160;

@@ -11,7 +11,7 @@ glabel BgHidanRock_Init
               
 /* 00024 8088B0A4 24A5BFB8 */  addiu   $a1, $a1, %lo(D_8088BFB8)  ## $a1 = 8088BFB8
 /* 00028 8088B0A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0002C 8088B0AC 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 0002C 8088B0AC 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00030 8088B0B0 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00034 8088B0B4 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
@@ -69,13 +69,13 @@ glabel BgHidanRock_Init
 /* 000E8 8088B168 2484CB80 */  addiu   $a0, $a0, %lo(D_0600CB80)           ## $a0 = 0600CB80
 /* 000EC 8088B16C 35AE0030 */  ori     $t6, $t5, 0x0030           ## $t6 = 00000030
 /* 000F0 8088B170 AE0E0004 */  sw      $t6, 0x0004($s0)           ## 00000004
-/* 000F4 8088B174 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000F4 8088B174 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 000F8 8088B178 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 000FC 8088B17C 10000013 */  beq     $zero, $zero, .L8088B1CC   
 /* 00100 8088B180 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L8088B184:
-/* 00104 8088B184 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00104 8088B184 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00108 8088B188 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 0010C 8088B18C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -97,8 +97,8 @@ glabel BgHidanRock_Init
 .L8088B1CC:
 /* 0014C 8088B1CC 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00150 8088B1D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00154 8088B1D4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00154 8088B1D4 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00158 8088B1D8 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 0015C 8088B1DC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00160 8088B1E0 A600016A */  sh      $zero, 0x016A($s0)         ## 0000016A

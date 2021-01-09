@@ -37,7 +37,7 @@ glabel func_809B1984
 /* 008E8 809B1A08 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 008EC 809B1A0C 26050280 */  addiu   $a1, $s0, 0x0280           ## $a1 = 00000280
 /* 008F0 809B1A10 3C06428C */  lui     $a2, 0x428C                ## $a2 = 428C0000
-/* 008F4 809B1A14 0C00F8C3 */  jal     func_8003E30C
+/* 008F4 809B1A14 0C00F8C3 */  jal     BgCheck_SphVsFirstPoly
 /* 008F8 809B1A18 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 008FC 809B1A1C 10400006 */  beq     $v0, $zero, .L809B1A38
 /* 00900 809B1A20 3C09809B */  lui     $t1, %hi(func_809B1A54)    ## $t1 = 809B0000

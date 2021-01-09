@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_pit.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x00000010
 
@@ -155,12 +156,12 @@ void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->unk_156 != 0) {
+    if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
-            case 0:
+            case EXITEM_BOMB_BAG_BOWLING:
                 gSaveContext.itemGetInf[1] |= 2;
                 break;
-            case 1:
+            case EXITEM_HEART_PIECE_BOWLING:
                 gSaveContext.itemGetInf[1] |= 4;
                 break;
         }
@@ -206,7 +207,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
             // Ah recovery! (?)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
         }
-        this->unk_156 = 0;
+        this->exItemDone = 0;
         this->status = 2;
         this->actionFunc = EnBomBowlPit_SetupDetectHit;
     }
