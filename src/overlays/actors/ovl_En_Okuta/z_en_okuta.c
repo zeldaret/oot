@@ -83,9 +83,11 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
-        thisx->groundY = func_8003C9A4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
-        if (!func_80042244(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
-                           &outWaterBox) ||
+        thisx->groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
+        //! @bug calls WaterBox_GetSurfaceImpl directly
+        if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
+                                     &outWaterBox) ||
             (ySurface <= thisx->groundY)) {
             Actor_Kill(thisx);
         } else {
@@ -176,7 +178,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
     }
-    this->jumpHeight = this->actor.yDistFromLink + 20.0f;
+    this->jumpHeight = this->actor.yDistToLink + 20.0f;
     this->jumpHeight = CLAMP_MIN(this->jumpHeight, 10.0f);
     if (this->jumpHeight > 50.0f) {
         EnOkuta_SpawnSplash(this, globalCtx);
@@ -232,7 +234,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
-    if ((this->actor.xzDistFromLink < 480.0f) && (this->actor.xzDistFromLink > 200.0f)) {
+    if ((this->actor.xzDistToLink < 480.0f) && (this->actor.xzDistToLink > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
     }
 }
@@ -241,7 +243,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->actor.xzDistFromLink < 160.0f) {
+        if (this->actor.xzDistToLink < 160.0f) {
             EnOkuta_SetupHide(this);
         } else {
             EnOkuta_SetupWaitToShoot(this);
@@ -295,12 +297,12 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
-    if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
+    if (this->actor.xzDistToLink < 160.0f || this->actor.xzDistToLink > 560.0f) {
         EnOkuta_SetupHide(this);
     } else {
         temp_v0_2 = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
-        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistFromLink < 200.0f)) {
+        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistToLink < 200.0f)) {
             EnOkuta_SetupShoot(this, globalCtx);
         }
     }
@@ -334,7 +336,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
-    if (this->actor.xzDistFromLink < 160.0f) {
+    if (this->actor.xzDistToLink < 160.0f) {
         EnOkuta_SetupHide(this);
     }
 }
@@ -432,7 +434,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == -32000.0f) {
+        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
             this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
@@ -529,8 +531,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!func_80042244(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
-                               &ySurface, &outWaterBox) ||
+            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x,
+                                         this->actor.posRot.pos.z, &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.groundY)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
@@ -552,12 +554,14 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&sp38, &this->actor.posRot.pos);
             func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                func_80042048(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly,
+                                                   this->actor.wallPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                func_80042048(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly,
+                                                   this->actor.floorPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }

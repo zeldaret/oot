@@ -32,7 +32,7 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
 };
 
 extern Gfx D_0500A880[];
-extern UNK_TYPE D_060039D4;
+extern CollisionHeader D_060039D4;
 extern Gfx D_06003898[];
 
 static ColliderJntSphItemInit sJntSphItemsInit[] = {
@@ -135,23 +135,23 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
 void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
     func_808B02D0(this, globalCtx);
-    DynaPolyInfo_Alloc(&D_060039D4, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    CollisionHeader_GetVirtual(&D_060039D4, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -164,7 +164,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
-    } else if (this->dyna.actor.xzDistFromLink < 800.0f) {
+    } else if (this->dyna.actor.xzDistToLink < 800.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

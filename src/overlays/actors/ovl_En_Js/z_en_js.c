@@ -76,7 +76,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
         this->actor.textId = textId;
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistFromLink < 100.0f) {
+        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToLink < 100.0f) {
             this->unk_284 |= 1;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -162,7 +162,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->actor.bgCheckFlags & 1) {
-        if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
+        if (SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
             Math_ApproachF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {

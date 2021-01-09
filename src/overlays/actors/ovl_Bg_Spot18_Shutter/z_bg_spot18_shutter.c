@@ -38,15 +38,15 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06000420[];
-extern UNK_TYPE D_06000534;
+extern CollisionHeader D_06000534;
 
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSpot18Shutter* this = THIS;
     s32 param = (this->dyna.actor.params >> 8) & 1;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (param == 0) {
@@ -75,14 +75,14 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    DynaPolyInfo_Alloc(&D_06000534, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    CollisionHeader_GetVirtual(&D_06000534, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Shutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {

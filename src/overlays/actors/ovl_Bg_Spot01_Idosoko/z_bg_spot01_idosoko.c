@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06003C64;
+extern CollisionHeader D_06003C64;
 
 void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -42,13 +42,13 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFun
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idosoko* this = THIS;
     s32 pad;
-    s32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(thisx, 1);
+    DynaPolyActor_Init(thisx, DPM_PLAYER);
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_Alloc(&D_06003C64, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    CollisionHeader_GetVirtual(&D_06003C64, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (LINK_IS_CHILD) {
         Actor_Kill(thisx);
     } else {
@@ -59,7 +59,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idosoko* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {

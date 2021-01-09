@@ -23,8 +23,8 @@ void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600A548[];
 extern Gfx D_0600A668[];
-extern ColHeader D_0600DE44;
-extern ColHeader D_0600DD1C;
+extern CollisionHeader D_0600DE44;
+extern CollisionHeader D_0600DD1C;
 
 static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
@@ -113,13 +113,13 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
 void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     Vec3f sp48[3];
     s32 i;
     s32 i2;
     BgHidanHamstep* step;
 
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
@@ -137,13 +137,12 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        DynaPolyInfo_Alloc(&D_0600DE44, &colHeader);
+        CollisionHeader_GetVirtual(&D_0600DE44, &colHeader);
     } else {
-        DynaPolyInfo_Alloc(&D_0600DD1C, &colHeader);
+        CollisionHeader_GetVirtual(&D_0600DD1C, &colHeader);
     }
 
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         if ((this->dyna.actor.params & 0xFF) == 0) {
@@ -184,7 +183,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHamstep* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
         Collider_DestroyTris(globalCtx, &this->collider);
@@ -300,7 +299,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
                 Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
                 Quake_SetCountdown(quakeIndex, 20);
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-                func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 255, 20, 150);
+                func_800AA000(this->dyna.actor.xyzDistToLinkSq, 255, 20, 150);
                 func_80888638(&this->dyna.actor, globalCtx);
                 osSyncPrintf("A(%d)\n", this->dyna.actor.params);
             }
