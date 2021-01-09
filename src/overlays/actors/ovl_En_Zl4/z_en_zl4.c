@@ -108,7 +108,7 @@ typedef enum {
 } EnZl4Animation;
 
 struct_80034EC0_Entry sAnimationEntries[] = {
-    /*  0 */ /* stand */ { &gChildZeldaCYAnim_000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    /*  0 */ /* standing idle */ { &gChildZeldaCYAnim_000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /*  1 */ /* moves to introduce herself */ { &gChildZeldaCYAnim_00E5C8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /*  2 */ /* introducing herself */ { &gChildZeldaCYAnim_00EBC4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
     /*  3 */ /* turns away from window surprised */ { &gChildZeldaCYAnim_010DF8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
@@ -121,13 +121,13 @@ struct_80034EC0_Entry sAnimationEntries[] = {
     /* 10 */ /* looks askew at Link */ { &gChildZeldaCYAnim_013628, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
     /* 11 */ /* crosses arms, looks to the side */ { &gChildZeldaCYAnim_013A50, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /* 12 */ /* arms crossed, looking away */ { &gChildZeldaCYAnim_013EA0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    /* 13 */  /* turns away, hands behind back, looks up */ { &gChildZeldaCYAnim_015F14, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    /* 13 */ /* turns away, hands behind back, looks up */ { &gChildZeldaCYAnim_015F14, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /* 14 */ /* turns back to link, hands on top of each other */ { &gChildZeldaCYAnim_0169B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /* 15 */ /* hands behind back looking up */ { &gChildZeldaCYAnim_016D08, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /* 16 */ /* leans toward link, looks askew */ { &gChildZeldaCYAnim_01726C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /* 17 */ /* leaning toward link, looking askew */ { &gChildZeldaCYAnim_017818, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
     /* 18 */ /* neutral, looking at Link */{ &gChildZeldaCYAnim_01805C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    /* 19 */  /* moves towards link, hands clasped */{ &gChildZeldaCYAnim_018898, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    /* 19 */ /* moves towards link, hands clasped */{ &gChildZeldaCYAnim_018898, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /* 20 */ /* facing link, hands clasped */ { &gChildZeldaCYAnim_01910C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
     /* 21 */ /* look in window */ { &gChildZeldaCYAnim_019600, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /* 22 */ /* leans forward, hands together */ { &gChildZeldaCYAnim_01991C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
@@ -168,25 +168,25 @@ void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
 
 u16 EnZl4_GetText(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 22);
-    u16 itemCount;
+    u16 stoneCount;
     s16 ret;
 
     if (faceReaction != 0) {
         return faceReaction;
     }
 
-    itemCount = 0;
+    stoneCount = 0;
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        itemCount = 1;
+        stoneCount = 1;
     }
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-        itemCount++;
+        stoneCount++;
     }
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-        itemCount++;
+        stoneCount++;
     }
 
-    if (itemCount > 1) {
+    if (stoneCount > 1) {
         ret = 0x703D;
     } else {
         ret = 0x703C;
@@ -196,9 +196,9 @@ u16 EnZl4_GetText(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80B5B9B0(GlobalContext* globalCtx, Actor* thisx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void EnZl4_UpdateFace(EnZl4* this) {
@@ -250,13 +250,13 @@ void EnZl4_UpdateFace(EnZl4* this) {
             break;
     }
     switch (this->mouthExpression) {
-        case 1:
+        case ZL4_MOUTH_HAPPY:
             this->mouthState = 1;
             break;
-        case 2:
+        case ZL4_MOUTH_WORRIED:
             this->mouthState = 2;
             break;
-        case 3:
+        case ZL4_MOUTH_SURPRISED:
             this->mouthState = 3;
             break;
         default:
@@ -300,7 +300,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, GlobalContext* globalCtx) {
     ShrinkWindow_SetVal(0x20);
     Interface_ChangeAlpha(2);
     this->talkTimer2 = 0;
-    return 1;
+    return true;
 }
 
 s32 EnZl4_InMovingAnim(EnZl4* this) {
@@ -319,9 +319,9 @@ s32 EnZl4_InMovingAnim(EnZl4* this) {
         (this->skelAnime.animation == &gChildZeldaCYAnim_01910C) ||
         (this->skelAnime.animation == &gChildZeldaCYAnim_00F0A4) ||
         (this->skelAnime.animation == &gChildZeldaCYAnim_00F894)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -370,10 +370,10 @@ void EnZl4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZl4_SetNextAnim(EnZl4* this, s32 nextAnim) {
     if (!Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-        return 0;
+        return false;
     }
     func_80034EC0(&this->skelAnime, sAnimationEntries, nextAnim);
-    return 1;
+    return true;
 }
 
 void EnZl4_ReverseAnimation(EnZl4* this) {
@@ -396,10 +396,10 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
         yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
         if ((playerx->posRot.pos.y != this->actor.posRot.pos.y) || (absYawDiff >= 0x3FFC)) {
-            return 0;
+            return false;
         } else {
             func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 60.0f);
-            return 0;
+            return false;
         }
     }
     playerx->posRot.pos = this->actor.posRot.pos;
@@ -408,7 +408,7 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
     playerx->posRot.pos.z += 56.0f * Math_CosS(rotY);
     playerx->speedXZ = 0.0f;
     player->linearVelocity = 0.0f;
-    return 1;
+    return true;
 }
 
 s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
@@ -747,9 +747,9 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             break;
     }
     if ((this->talkTimer2 == 17) && (this->talkTimer2 > 130)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
@@ -1236,10 +1236,10 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if ((limbIndex >= 3) && (limbIndex < 7)) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
-void EnZl4_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnZl4_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     EnZl4* this = THIS;
 
