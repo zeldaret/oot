@@ -14,12 +14,7 @@
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
 
-typedef enum {
-    HONOTRAP_EYE_OPEN,
-    HONOTRAP_EYE_HALF,
-    HONOTRAP_EYE_CLOSE,
-    HONOTRAP_EYE_SHUT
-} EnHonotrapEyeState;
+typedef enum { HONOTRAP_EYE_OPEN, HONOTRAP_EYE_HALF, HONOTRAP_EYE_CLOSE, HONOTRAP_EYE_SHUT } EnHonotrapEyeState;
 
 void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -264,7 +259,8 @@ void EnHonotrap_SetupFlame(EnHonotrap* this) {
 
 void EnHonotrap_Flame(EnHonotrap* this, GlobalContext* globalCtx) {
     s32 pad;
-    s32 ready = Math_StepToF(&this->actor.scale.x, (this->actor.params == HONOTRAP_FLAME_MOVE) ? 0.004f : 0.0048f, 0.0006f);
+    s32 ready =
+        Math_StepToF(&this->actor.scale.x, (this->actor.params == HONOTRAP_FLAME_MOVE) ? 0.004f : 0.0048f, 0.0006f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     if (ready) {
