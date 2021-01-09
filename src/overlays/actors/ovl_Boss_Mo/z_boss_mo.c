@@ -11,7 +11,7 @@
 
 #define THIS ((BossMo*)thisx)
 
-#define WATER_LEVEL(globalCtx) globalCtx->colCtx.stat.colHeader->waterBoxes[0].ySurface
+#define WATER_LEVEL(globalCtx) globalCtx->colCtx.colHeader->waterBoxes[0].ySurface
 
 #define HAS_LINK(tent) ((tent != NULL) && ((tent->actionState == TENT_GRAB) || (tent->actionState == TENT_SHAKE)))
 
