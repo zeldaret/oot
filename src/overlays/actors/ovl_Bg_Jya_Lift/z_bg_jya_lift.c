@@ -15,7 +15,8 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
@@ -43,17 +44,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600D7E8;
+extern CollisionHeader D_0600D7E8;
 extern Gfx D_0600CCE0[];
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag) {
     s32 pad1;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collisionHeader, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -87,7 +88,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
         sIsSpawned = false;
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

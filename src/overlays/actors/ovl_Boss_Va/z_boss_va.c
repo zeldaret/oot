@@ -3349,7 +3349,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                 if (ptr->mode < BLOOD_SPOT) {
                     sp94 = ptr->pos;
                     sp94.y -= ptr->velocity.y + 4.0f;
-                    floorY = func_8003C890(&globalCtx->colCtx, &sp90, &sp94);
+                    floorY = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &sp90, &sp94);
                     if ((sp90 != NULL) && (ptr->pos.y <= floorY)) {
                         ptr->mode = BLOOD_SPOT;
                         ptr->pos.y = floorY + 1.0f;
@@ -3383,7 +3383,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                     sp80 = ptr->pos;
                     sp80.y -= ptr->velocity.y + 4.0f;
                     ptr->rot.x += 0x1770;
-                    floorY = func_8003C890(&globalCtx->colCtx, &sp7C, &sp80);
+                    floorY = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &sp7C, &sp80);
                     if ((sp7C != NULL) && (ptr->pos.y <= floorY)) {
                         ptr->mode = GORE_FLOOR;
                         ptr->timer = 30;
