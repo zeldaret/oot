@@ -208,9 +208,6 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* g
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Hanebasi* this = THIS;
     s32 pad;
-    u16 dayTime;
-    Player* player;
-    s32 tmp;
 
     this->actionFunc(this, globalCtx);
 
@@ -219,7 +216,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
             if ((CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) && (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) &&
                 (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) && (!(gSaveContext.eventChkInf[8] & 1)) &&
                 (gSaveContext.linkAge == 1)) {
-                player = PLAYER;
+                Player* player = PLAYER;
 
                 if ((player->actor.posRot.pos.x > -450.0f) && (player->actor.posRot.pos.x < 450.0f) &&
                     (player->actor.posRot.pos.z > 1080.0f) && (player->actor.posRot.pos.z < 1700.0f) &&
@@ -239,6 +236,9 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (gSaveContext.sceneSetupIndex == 5) {
+            u16 dayTime;
+            s32 tmp;
+
             if (D_8011FB40 == 50) {
                 tmp = 0xD556;
 
