@@ -14,7 +14,12 @@
 #define HONOTRAP_AC_ACTIVE (1 << 1)
 #define HONOTRAP_OC_ACTIVE (1 << 2)
 
-typedef enum { HONOTRAP_EYE_OPEN, HONOTRAP_EYE_HALF, HONOTRAP_EYE_CLOSE, HONOTRAP_EYE_SHUT } EnHonotrapEyeState;
+typedef enum {
+    /* 0 */ HONOTRAP_EYE_OPEN,
+    /* 1 */ HONOTRAP_EYE_HALF,
+    /* 2 */ HONOTRAP_EYE_CLOSE,
+    /* 3 */ HONOTRAP_EYE_SHUT
+} EnHonotrapEyeState;
 
 void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
