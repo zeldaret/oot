@@ -22,8 +22,8 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx);
 
-extern ColHeader D_06001AF8;
-extern ColHeader D_060089E0;
+extern CollisionHeader D_06001AF8;
+extern CollisionHeader D_060089E0;
 
 const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
@@ -52,18 +52,18 @@ void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc a
     this->actionFunc = actionFunc;
 }
 
-void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
+void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                 s32 moveFlag) {
     s32 pad;
-    ColHeader* colHeader;
+    CollisionHeader* colHeader;
     s32 pad2;
 
     colHeader = NULL;
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -106,7 +106,7 @@ void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriHashira4* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {

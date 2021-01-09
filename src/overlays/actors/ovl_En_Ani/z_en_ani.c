@@ -159,14 +159,14 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B04F0);
         }
-    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistFromLink < 150.0f &&
-               -80.0f < this->actor.yDistFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToLink < 150.0f &&
+               -80.0f < this->actor.yDistToLink) {
         if (gSaveContext.itemGetInf[1] & 0x20) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToLink < 350.0f) {
         EnAni_SetText(this, globalCtx, textId);
     }
 }
@@ -185,14 +185,14 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistFromLink < 150.0f &&
-               -80.0f < this->actor.yDistFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToLink < 150.0f &&
+               -80.0f < this->actor.yDistToLink) {
         if ((gSaveContext.itemGetInf[1] & 0x20) != 0) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToLink < 350.0f) {
         if ((gSaveContext.eventChkInf[2] & 0x8000) == 0) {
             textId = 0x5052; // "...Something is happening on Death Mountain!"
         } else {

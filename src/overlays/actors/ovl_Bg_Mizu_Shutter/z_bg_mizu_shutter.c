@@ -51,9 +51,9 @@ void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->displayList = sDisplayLists[SIZE_PARAM];
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(sCollisionHeaders[SIZE_PARAM], &sp30);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(sCollisionHeaders[SIZE_PARAM], &sp30);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
     if ((SIZE_PARAM == BGMIZUSHUTTER_SMALL) || (SIZE_PARAM == BGMIZUSHUTTER_LARGE)) {
         this->closedPos = this->dyna.actor.posRot.pos;
         this->timer = 0;
@@ -82,7 +82,7 @@ void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuShutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx) {
@@ -122,7 +122,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.posRot.pos.x == this->closedPos.x) &&
             (this->dyna.actor.posRot.pos.y == this->closedPos.y) &&
             (this->dyna.actor.posRot.pos.z == this->closedPos.z)) {
-            func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }

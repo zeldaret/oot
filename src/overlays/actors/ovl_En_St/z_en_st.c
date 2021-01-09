@@ -172,8 +172,8 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     checkPos.x = this->actor.posRot.pos.x;
     checkPos.y = this->actor.posRot.pos.y + 1000.0f;
     checkPos.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0, 1, 1,
-                       &bgId)) {
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0,
+                                 1, 1, &bgId)) {
         return false;
     }
     this->unusedPos = this->actor.posRot.pos;
@@ -651,7 +651,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         // skull is spinning from damage.
         return false;
-    } else if (this->actor.xzDistFromLink > 160.0f) {
+    } else if (this->actor.xzDistToLink > 160.0f) {
         // player is more than 160 xz units from the skulltulla
         return false;
     }
