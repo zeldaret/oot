@@ -8,7 +8,7 @@ struct BgSpot18Futa;
 
 typedef struct BgSpot18Futa {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
+    /* 0x014C */ s32 bgId;
     /* 0x0150 */ u32 unk_150[0x5];
 } BgSpot18Futa; // size = 0x0154
 

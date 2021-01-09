@@ -344,7 +344,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             break;
         case 2:
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0);
-            if ((this->timers[0] == 1) && (this->actor.xzDistFromLink < 120.0f)) {
+            if ((this->timers[0] == 1) && (this->actor.xzDistToLink < 120.0f)) {
                 func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsLink, 2.0f, 0x20);
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
@@ -394,7 +394,7 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
         Animation_MorphToLoop(&this->skelAnime, &D_0600C8EC, -5.0f);
     }
     if (this->timers[0] == 0) {
-        if (this->actor.xzDistFromLink < 200.0f) {
+        if (this->actor.xzDistToLink < 200.0f) {
             BossFd2_SetupClawSwipe(this, globalCtx);
         } else {
             BossFd2_SetupBreatheFire(this, globalCtx);

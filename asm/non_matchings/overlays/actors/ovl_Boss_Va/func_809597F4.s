@@ -349,7 +349,7 @@ glabel func_809597F4
 /* 0A9BC 80959C7C C7A80098 */  lwc1    $f8, 0x0098($sp)           
 /* 0A9C0 80959C80 46065100 */  add.s   $f4, $f10, $f6             
 /* 0A9C4 80959C84 46044481 */  sub.s   $f18, $f8, $f4             
-/* 0A9C8 80959C88 0C00F224 */  jal     func_8003C890              
+/* 0A9C8 80959C88 0C00F224 */  jal     BgCheck_EntityRaycastFloor1              
 /* 0A9CC 80959C8C E7B20098 */  swc1    $f18, 0x0098($sp)          
 /* 0A9D0 80959C90 8FA80090 */  lw      $t0, 0x0090($sp)           
 /* 0A9D4 80959C94 51000028 */  beql    $t0, $zero, .L80959D38     
@@ -451,7 +451,7 @@ glabel func_809597F4
 /* 0AB3C 80959DFC E7B00084 */  swc1    $f16, 0x0084($sp)          
 /* 0AB40 80959E00 860F002A */  lh      $t7, 0x002A($s0)           ## 8095DF7A
 /* 0AB44 80959E04 25EA1770 */  addiu   $t2, $t7, 0x1770           ## $t2 = 00001770
-/* 0AB48 80959E08 0C00F224 */  jal     func_8003C890              
+/* 0AB48 80959E08 0C00F224 */  jal     BgCheck_EntityRaycastFloor1              
 /* 0AB4C 80959E0C A60A002A */  sh      $t2, 0x002A($s0)           ## 8095DF7A
 /* 0AB50 80959E10 8FB9007C */  lw      $t9, 0x007C($sp)           
 /* 0AB54 80959E14 53200022 */  beql    $t9, $zero, .L80959EA0     

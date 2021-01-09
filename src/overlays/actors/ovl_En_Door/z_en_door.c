@@ -219,7 +219,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
                 player->doorDirection = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
                 player->doorActor = &this->actor;
             }
-        } else if (doorType == DOOR_AJAR && this->actor.xzDistFromLink > DOOR_AJAR_OPEN_RANGE) {
+        } else if (doorType == DOOR_AJAR && this->actor.xzDistToLink > DOOR_AJAR_OPEN_RANGE) {
             this->actionFunc = EnDoor_AjarOpen;
         }
     }
@@ -240,13 +240,13 @@ void EnDoor_Check(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_AjarWait(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
+    if (this->actor.xzDistToLink < DOOR_AJAR_SLAM_RANGE) {
         this->actionFunc = EnDoor_AjarClose;
     }
 }
 
 void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
+    if (this->actor.xzDistToLink < DOOR_AJAR_SLAM_RANGE) {
         this->actionFunc = EnDoor_AjarClose;
     } else if (Math_ScaledStepToS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
         this->actionFunc = EnDoor_AjarWait;

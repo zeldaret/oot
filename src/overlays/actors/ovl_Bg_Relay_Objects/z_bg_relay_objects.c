@@ -53,14 +53,14 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_808A9508 = 0;
     BgRelayObjects* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = thisx->params & 0x3F;
     thisx->params = (thisx->params >> 8) & 0xFF;
-    DynaPolyInfo_SetActorMove(&this->dyna, 3);
+    DynaPolyActor_Init(&this->dyna, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
-        DynaPolyInfo_Alloc(&D_060025FC, &sp24);
+        CollisionHeader_GetVirtual(&D_060025FC, &colHeader);
         if (gSaveContext.eventChkInf[6] & 0x20) {
             thisx->posRot.rot.y = 0x400;
         } else {
@@ -77,7 +77,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_808A939C;
         }
     } else {
-        DynaPolyInfo_Alloc(&D_060003C4, &sp24);
+        CollisionHeader_GetVirtual(&D_060003C4, &colHeader);
         if (thisx->room == 0) {
             this->unk_169 = this->switchFlag - 0x33;
         } else {
@@ -107,13 +107,13 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             D_808A9508 |= 1;
         }
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgRelayObjects* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         gSaveContext.eventChkInf[6] &= ~0x20;
     }
@@ -151,7 +151,7 @@ void func_808A91AC(BgRelayObjects* this, GlobalContext* globalCtx) {
 void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += this->dyna.actor.gravity;
     if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
-        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 180, 20, 100);
+        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 180, 20, 100);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != globalCtx->roomCtx.curRoom.num) {
             func_800788CC(NA_SE_EN_PO_LAUGH);

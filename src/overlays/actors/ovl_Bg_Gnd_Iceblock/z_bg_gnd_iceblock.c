@@ -25,7 +25,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004420[];
-extern ColHeader D_06004618;
+extern CollisionHeader D_06004618;
 
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
@@ -51,15 +51,14 @@ static u8 sBlockPositions[2];
 void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06004618, &colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06004618, &colHeader);
     this->targetPos = this->dyna.actor.initPosRot.pos;
     this->actionFunc = BgGndIceblock_Idle;
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.actor.posRot.pos.x == 2792.0f) {
         this->dyna.actor.params = 0;
         sBlockPositions[0] = 7;
@@ -76,7 +75,7 @@ void BgGndIceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 /*
