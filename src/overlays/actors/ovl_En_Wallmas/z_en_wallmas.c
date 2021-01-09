@@ -138,7 +138,8 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangee = &D_0600299C;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), 2, 0.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), ANIMMODE_ONCE,
+                     0.0f);
 
     this->yTarget = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
@@ -153,7 +154,8 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegFrameCount = &D_060019CC;
     AnimationHeader* objSegChangee = &D_060019CC;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
+                     ANIMMODE_ONCE, -3.0f);
 
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
@@ -183,7 +185,8 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_GetLastFrame(objSegFrameCount),
+                     ANIMMODE_ONCE, -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
 }
@@ -246,7 +249,7 @@ void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
 }
 
 void EnWallmas_SetupStun(EnWallmas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
 
     this->actor.speedXZ = 0.0f;
     if (this->actor.colChkInfo.damageEffect == 4) {

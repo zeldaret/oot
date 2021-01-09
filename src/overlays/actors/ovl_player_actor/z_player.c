@@ -1448,23 +1448,25 @@ void func_80832924(Player* this, struct_80832924* entry) {
 }
 
 void func_80832B0C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(anim), 2, -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE,
+                         -6.0f);
 }
 
 void func_80832B78(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f, 0.0f, Animation_GetLastFrame(anim), 2, -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f, 0.0f, Animation_GetLastFrame(anim),
+                         ANIMMODE_ONCE, -6.0f);
 }
 
 void func_80832BE8(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 0, -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -6.0f);
 }
 
 void func_80832C2C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 2, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80832C6C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 0, -16.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -16.0f);
 }
 
 s32 func_80832CB0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
@@ -2022,7 +2024,7 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
         phi_f0 *= 2.0f;
     }
 
-    LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, phi_f0, phi_f12, phi_f14, 2, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, phi_f0, phi_f12, phi_f14, ANIMMODE_ONCE, 0.0f);
 
     this->stateFlags1 &= ~0x100;
 }
@@ -2154,7 +2156,7 @@ s32 func_80834758(GlobalContext* globalCtx, Player* this) {
 
         anim = func_808346C4(globalCtx, this);
         frame = Animation_GetLastFrame(anim);
-        LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, 1.0f, frame, frame, 2, 0.0f);
+        LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
         func_8002F7DC(&this->actor, NA_SE_IT_SHIELD_POSTURE);
 
         return 1;
@@ -2256,7 +2258,7 @@ s32 func_80834BD4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime2)) {
         anim = func_808346C4(globalCtx, this);
         frame = Animation_GetLastFrame(anim);
-        LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, 1.0f, frame, frame, 2, 0.0f);
+        LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
     }
 
     this->stateFlags1 |= 0x400000;
@@ -3314,7 +3316,8 @@ void func_80837704(GlobalContext* globalCtx, Player* this) {
     }
 
     func_80832318(this);
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 8.0f, Animation_GetLastFrame(anim), 2, -9.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 8.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE,
+                         -9.0f);
     func_80837530(globalCtx, this, 0x200);
 }
 
@@ -5111,7 +5114,8 @@ void func_8083BF50(Player* this, GlobalContext* globalCtx) {
         sp30 /= 12.0f;
     }
 
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(anim), 2, 4.0f * sp30);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE,
+                         4.0f * sp30);
     this->currentYaw = this->actor.shape.rot.y;
 }
 
@@ -5190,7 +5194,7 @@ s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
             }
 
             frame = Animation_GetLastFrame(anim);
-            LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, frame, frame, 2, 0.0f);
+            LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
 
             if (Player_IsChildWithHylianShield(this)) {
                 func_80832F54(globalCtx, this, 4);
@@ -5387,8 +5391,8 @@ void func_8083CB94(Player* this, GlobalContext* globalCtx) {
 
 void func_8083CBF0(Player* this, s16 yaw, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_808423EC, 1);
-    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_040024F8, 2.2f, 0.0f, Animation_GetLastFrame(&D_040024F8), 2,
-                         -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_040024F8, 2.2f, 0.0f, Animation_GetLastFrame(&D_040024F8),
+                         ANIMMODE_ONCE, -6.0f);
     this->linearVelocity = 8.0f;
     this->currentYaw = yaw;
 }
@@ -5409,7 +5413,8 @@ void func_8083CD54(GlobalContext* globalCtx, Player* this, s16 yaw) {
     func_80835C58(globalCtx, this, func_80841BA8, 1);
     this->unk_87E = 1200;
     this->unk_87E *= D_808535E8;
-    LinkAnimation_Change(globalCtx, &this->skelAnime, D_80853B84[this->modelAnimType], 1.0f, 0.0f, 0.0f, 0, -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, D_80853B84[this->modelAnimType], 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP,
+                         -6.0f);
 }
 
 void func_8083CE0C(Player* this, GlobalContext* globalCtx) {
@@ -6305,7 +6310,7 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.shape.rot.y = this->actor.wallPolyRot;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04002708, -1.0f,
-                                     Animation_GetLastFrame(&D_04002708), 0.0f, 2, 0.0f);
+                                     Animation_GetLastFrame(&D_04002708), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
                 func_800800F8(globalCtx, 0x2582, 999, NULL, 0);
             }
@@ -6780,7 +6785,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     }
 
     LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f) * D_808535E8, 0.0f,
-                         Animation_GetLastFrame(anim), 2, -6.0f);
+                         Animation_GetLastFrame(anim), ANIMMODE_ONCE, -6.0f);
 }
 
 void func_80840BC8(Player* this, GlobalContext* globalCtx) {
@@ -7700,7 +7705,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
                 if (Player_IsChildWithHylianShield(this)) {
                     func_8083A060(this, globalCtx);
                     LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04002400, 1.0f,
-                                         Animation_GetLastFrame(&D_04002400), 0.0f, 2, 0.0f);
+                                         Animation_GetLastFrame(&D_04002400), 0.0f, ANIMMODE_ONCE, 0.0f);
                     func_80832F54(globalCtx, this, 4);
                 } else {
                     if (this->itemActionParam < 0) {
@@ -7743,7 +7748,7 @@ void func_808435C4(Player* this, GlobalContext* globalCtx) {
             Player_SetModelsForHoldingShield(this);
             anim = D_80853AF4[this->modelAnimType];
             frames = Animation_GetLastFrame(anim);
-            LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, frames, frames, 2, 0.0f);
+            LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, frames, frames, ANIMMODE_ONCE, 0.0f);
         }
     }
 }
@@ -7855,10 +7860,10 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
             if (this->unk_850 == 0) {
                 if (this->stateFlags1 & 0x8000000) {
                     LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003328, 1.0f, 0.0f,
-                                         Animation_GetLastFrame(&D_04003328), 2, -16.0f);
+                                         Animation_GetLastFrame(&D_04003328), ANIMMODE_ONCE, -16.0f);
                 } else {
                     LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04002878, 1.0f, 99.0f,
-                                         Animation_GetLastFrame(&D_04002878), 2, 0.0f);
+                                         Animation_GetLastFrame(&D_04002878), ANIMMODE_ONCE, 0.0f);
                 }
                 gSaveContext.healthAccumulator = 0x140;
                 this->unk_850 = -1;
@@ -8040,7 +8045,8 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
                             this->stateFlags1 &= ~4;
                         }
 
-                        LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003020, 1.0f, 0.0f, 0.0f, 2, 8.0f);
+                        LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003020, 1.0f, 0.0f, 0.0f, ANIMMODE_ONCE,
+                                             8.0f);
                         this->unk_850 = -1;
                     }
                 } else {
@@ -8911,7 +8917,7 @@ void func_80846660(GlobalContext* globalCtx, Player* this) {
         this->unk_84F = 1;
     }
     this->stateFlags1 |= 0x20000000;
-    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003298, 2.0f / 3.0f, 0.0f, 24.0f, 2, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003298, 2.0f / 3.0f, 0.0f, 24.0f, ANIMMODE_ONCE, 0.0f);
     this->actor.posRot.pos.y += 800.0f;
 }
 
@@ -8942,7 +8948,8 @@ void func_808467D4(GlobalContext* globalCtx, Player* this) {
     this->stateFlags1 |= 0x20000000;
     Math_Vec3f_Copy(&this->actor.posRot.pos, &D_808546F4);
     this->currentYaw = this->actor.shape.rot.y = -0x8000;
-    LinkAnimation_Change(globalCtx, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f, 2, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f,
+                         ANIMMODE_ONCE, 0.0f);
     func_80832F54(globalCtx, this, 0x28F);
     if (LINK_IS_ADULT) {
         func_80846720(globalCtx, this, 0);
@@ -11051,7 +11058,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                         this->skelAnime.prevTransl = this->ageProperties->unk_62[sp68];
                         anim1 = this->ageProperties->unk_AC[sp68];
                         LinkAnimation_Change(globalCtx, &this->skelAnime, anim1, -1.0f, Animation_GetLastFrame(anim1),
-                                             0.0f, 2, 0.0f);
+                                             0.0f, ANIMMODE_ONCE, 0.0f);
                     }
                 }
                 this->unk_850 ^= 1;
@@ -11065,7 +11072,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                     } else {
                         this->skelAnime.prevTransl = this->ageProperties->unk_86[this->unk_850];
                         LinkAnimation_Change(globalCtx, &this->skelAnime, anim2, -1.0f, Animation_GetLastFrame(anim2),
-                                             0.0f, 2, 0.0f);
+                                             0.0f, ANIMMODE_ONCE, 0.0f);
                     }
                 } else {
                     this->stateFlags2 |= 0x1000;
@@ -13028,14 +13035,14 @@ void func_80850ED8(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
 
 void func_80850F1C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80832DB0(this);
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, Animation_GetLastFrame(anim), 2,
-                         -8.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, Animation_GetLastFrame(anim),
+                         ANIMMODE_ONCE, -8.0f);
     func_80832210(this);
 }
 
 void func_80850F9C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80832DB0(this);
-    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, 0.0f, 0, -8.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
     func_80832210(this);
 }
 
@@ -13207,8 +13214,8 @@ void func_808515A4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         func_80832264(globalCtx, this, anim);
     } else {
         func_80832DB0(this);
-        LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, Animation_GetLastFrame(anim), 0,
-                             -4.0f);
+        LinkAnimation_Change(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, Animation_GetLastFrame(anim),
+                             ANIMMODE_LOOP, -4.0f);
     }
 
     func_80832210(this);
@@ -13364,7 +13371,7 @@ void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 void func_80851B90(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
-    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04002860, -(2.0f / 3.0f), 12.0f, 12.0f, 2, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04002860, -(2.0f / 3.0f), 12.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
 }
 
 struct_80832924 D_808551B4[] = {
@@ -13379,7 +13386,7 @@ void func_80851BE8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     if (this->unk_850 >= 180) {
         if (this->unk_850 == 180) {
             LinkAnimation_Change(globalCtx, &this->skelAnime, &D_04003298, (2.0f / 3.0f), 10.0f,
-                                 Animation_GetLastFrame(&D_04003298), 2, -8.0f);
+                                 Animation_GetLastFrame(&D_04003298), ANIMMODE_ONCE, -8.0f);
         }
         func_80832924(this, D_808551B4);
     }
