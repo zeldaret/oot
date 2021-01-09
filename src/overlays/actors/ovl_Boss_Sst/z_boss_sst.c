@@ -808,7 +808,7 @@ void BossSst_HeadReadyCharge(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupCharge(BossSst* this) {
     Animation_Change(&this->skelAnime, &gBongoHeadAnim2, 0.5f, 0.0f, Animation_GetLastFrame(&gBongoHeadAnim2),
-                     ANIMMODE_LOOP_INTERP, -5.0f);
+                     ANIMMODE_ONCE_INTERP, -5.0f);
     BossSst_HandSetDamage(sHand[LEFT], 0x20);
     BossSst_HandSetDamage(sHand[RIGHT], 0x20);
     this->colliderJntSph.base.atFlags |= 1;

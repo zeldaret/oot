@@ -1,6 +1,6 @@
 #include "HLTexture.h"
 #include "../StringHelper.h"
-#include "../stb_image.h"
+#include <stb_image.h>
 
 using namespace std;
 

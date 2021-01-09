@@ -43,17 +43,17 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_808B9E3C);
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(&gBongoDrumCol, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, 1);
+    CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
+    this->dyna.bgId =
+        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSstFloor* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
@@ -62,7 +62,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
-    colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
+    colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
 
     if (1) {}
 
@@ -114,9 +114,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);
     Math_StepToS(&this->drumAmp, 0, 5);
 
-    colHeader->vertexArray[1].y = colHeader->vertexArray[0].y = colHeader->vertexArray[2].y =
-        colHeader->vertexArray[3].y = colHeader->vertexArray[4].y = colHeader->vertexArray[7].y =
-            colHeader->vertexArray[9].y = colHeader->vertexArray[11].y = colHeader->vertexArray[13].y =
+    colHeader->vtxList[1].y = colHeader->vtxList[0].y = colHeader->vtxList[2].y =
+        colHeader->vtxList[3].y = colHeader->vtxList[4].y = colHeader->vtxList[7].y =
+            colHeader->vtxList[9].y = colHeader->vtxList[11].y = colHeader->vtxList[13].y =
                 this->dyna.actor.initPosRot.pos.y + this->drumHeight;
 
     if (this->drumPhase != 0) {

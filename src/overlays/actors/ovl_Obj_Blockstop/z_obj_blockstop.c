@@ -42,18 +42,18 @@ void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjBlockstop* this = THIS;
-    DynaPolyActor* dynaActor;
+    Actor* dynaActor;
     Vec3f sp4C;
-    u32 sp48;
+    s32 bgId;
     s32 pad;
 
-    if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
-                      &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {
-        dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, sp48);
+    if (BgCheck_EntityLineTest2(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
+                                &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
+        dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
-        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
-            if (((dynaActor->actor.params & 0xF) == PUSHBLOCK_HUGE_START_ON) ||
-                ((dynaActor->actor.params & 0xF) == PUSHBLOCK_HUGE_START_OFF)) {
+        if (dynaActor != NULL && dynaActor->id == ACTOR_OBJ_OSHIHIKI) {
+            if ((dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
+                (dynaActor->params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

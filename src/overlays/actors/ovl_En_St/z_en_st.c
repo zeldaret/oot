@@ -172,8 +172,8 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     checkPos.x = this->actor.posRot.pos.x;
     checkPos.y = this->actor.posRot.pos.y + 1000.0f;
     checkPos.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0, 1, 1,
-                       &bgId)) {
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0,
+                                 1, 1, &bgId)) {
         return false;
     }
     this->unusedPos = this->actor.posRot.pos;

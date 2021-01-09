@@ -42,17 +42,17 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06002260[];
-extern UNK_TYPE D_0600238C;
+extern CollisionHeader D_0600238C;
 
-void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
+void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
     Actor* thisx = &this->dyna.actor;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad[2];
 
-    DynaPolyInfo_SetActorMove(thisx, flags);
-    DynaPolyInfo_Alloc(collision, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(thisx, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140,
                      thisx->id, thisx->params);
     }
@@ -61,7 +61,7 @@ void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, UNK_TYPE collis
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
-    func_808B3420(this, globalCtx, &D_0600238C, 0);
+    func_808B3420(this, globalCtx, &D_0600238C, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         func_808B3714(this);
@@ -73,7 +73,7 @@ void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B3550(BgSpot12Saku* this) {
