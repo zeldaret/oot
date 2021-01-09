@@ -218,7 +218,7 @@ static void parse_rom_spec(char *spec)
             if (currSeg != NULL)
             {
                 // ensure no duplicates (except for 'include')
-                if (stmt != STMT_include && (currSeg->fields & (1 << stmt)))
+                if (stmt != STMT_include && stmt != STMT_include_readonly && (currSeg->fields & (1 << stmt)))
                     util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
 
                 currSeg->fields |= 1 << stmt;

@@ -1,12 +1,5 @@
 #include "global.h"
-
-// To be moved to message_data_static header
-#define MESSAGE_NEWLINE '\x01'
-#define MESSAGE_END '\x02'
-// message_data_static symbols
-extern const char D_07000000[]; // start of file
-extern const char D_070380D4[]; // charset message (id 0xFFFC)
-extern const char D_0703811C[]; // end marker of last message
+#include "message_data_static.h"
 
 void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
 }
@@ -31,10 +24,10 @@ void Font_LoadOrderedFont(Font* font) {
     s32 fontBufIndex;
     s32 offset;
 
-    font->msgOffset = D_070380D4 - D_07000000;
-    len = font->msgLength = D_0703811C - D_070380D4;
-    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgOffset], len, "../z_kanfont.c",
-                        122);
+    font->msgOffset = _message_0xFFFC_nes - (const char*)_nes_message_data_staticSegmentStart;
+    len = font->msgLength = _message_0xFFFD_nes - _message_0xFFFC_nes;
+    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgOffset], len,
+                        "../z_kanfont.c", 122);
     osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, jj = len);
     len = jj;
     for (fontBufIndex = 0, codePointIndex = 0; font->msgBuf[codePointIndex] != MESSAGE_END; codePointIndex++) {

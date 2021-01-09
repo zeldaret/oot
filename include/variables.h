@@ -68,8 +68,6 @@ extern Gfx D_06025658[];
 extern Gfx D_060257B8[];
 extern Gfx D_0602A738[];
 extern Gfx D_0602CB48[];
-//extern ? D_070380D4;
-//extern ? D_0703811C;
 extern u8 D_080895C0[];
 
 //extern ? D_80000004;

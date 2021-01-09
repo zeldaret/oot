@@ -223,25 +223,29 @@ endseg
 beginseg
     name "nes_message_data_static"
     romalign 0x1000
-    include "build/baserom/nes_message_data_static.o"
+    include "build/text/nes_message_data_static.o"
+    number 07
 endseg
 
 beginseg
     name "ger_message_data_static"
     romalign 0x1000
-    include "build/baserom/ger_message_data_static.o"
+    include "build/text/ger_message_data_static.o"
+    number 07
 endseg
 
 beginseg
     name "fra_message_data_static"
     romalign 0x1000
-    include "build/baserom/fra_message_data_static.o"
+    include "build/text/fra_message_data_static.o"
+    number 07
 endseg
 
 beginseg
     name "staff_message_data_static"
     romalign 0x1000
-    include "build/baserom/staff_message_data_static.o"
+    include "build/text/staff_message_data_static.o"
+    number 07
 endseg
 
 beginseg

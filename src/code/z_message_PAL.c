@@ -1,5 +1,46 @@
 #include "global.h"
-#include "message_data_fmt.h"
+#include "message_data_static.h"
+
+/* 
+const MessageTableEntry D_8014B320[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
+    #define DECLARE_MESSAGE_FFFC
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE_FFFC
+    #undef DECLARE_MESSAGE
+    { 0xFFFF, 0, NULL },
+};
+
+const char* D_8014F548[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        _message_##textId##_ger,
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE
+    NULL,
+};
+
+const char* D_80151658[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        _message_##textId##_fra,
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE
+    NULL,
+};
+
+const MessageTableEntry D_80153768[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, staffMessage) \
+        { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_staff },
+    #include "../text/declare_messages_staff.h"
+    #undef DECLARE_MESSAGE
+    { 0xFFFF, 0, NULL },
+};
+
+const MessageTableEntry* D_801538F0[] = { &D_8014B320[0] };
+const char* D_801538F4[] = { &D_8014F548[0] };
+const char* D_801538F8[] = { &D_80151658[0] };
+const MessageTableEntry* D_801538FC[] = { &D_80153768[0] };
+ */
 
 #define NON_CONST(x, type) (*(type*)(&x))
 
@@ -25,12 +66,6 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1);
 void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p);
 
 // TODO const data / rodata
-
-typedef struct {
-    /* 0x0000 */ u16 textId;
-    /* 0x0002 */ u8 xy; // TODO name better
-    /* 0x0004 */ u32 segment;
-} MessageTableEntry; // size = 0x8
 
 typedef struct {
     s16 r,g,b;
@@ -335,7 +370,7 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
             font = &globalCtx->msgCtx.font;
             if (messageTableEntry->textId == textId) {
                 foundSeg = messageTableEntry->segment;
-                font->xy = messageTableEntry->xy;
+                font->xy = messageTableEntry->typePos;
                 messageTableEntry++;
                 nextSeg = messageTableEntry->segment;
                 font->msgOffset = foundSeg - seg;
@@ -354,7 +389,7 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
             font = &globalCtx->msgCtx.font;
             if (messageTableEntry->textId == textId) {
                 foundSeg = *languageSegmentTable;
-                font->xy = messageTableEntry->xy;
+                font->xy = messageTableEntry->typePos;
                 languageSegmentTable++;
                 nextSeg = *languageSegmentTable;
                 font->msgOffset = foundSeg - seg;
@@ -374,13 +409,13 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     messageTableEntry = D_801538F0;
     if (gSaveContext.language == LANGUAGE_ENG) {
         foundSeg = messageTableEntry->segment;
-        font->xy = messageTableEntry->xy;
+        font->xy = messageTableEntry->typePos;
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
         languageSegmentTable = (gSaveContext.language == LANGUAGE_GER) ? D_801538F4 : D_801538F8;
         foundSeg = *languageSegmentTable;
-        font->xy = messageTableEntry->xy;
+        font->xy = messageTableEntry->typePos;
         languageSegmentTable++;
         nextSeg = *languageSegmentTable;
     }
@@ -401,7 +436,7 @@ void func_80107628(GlobalContext* globalCtx, u16 textId) {
         font = &globalCtx->msgCtx.font;
         if (messageTableEntry->textId == textId) {
             foundSeg = messageTableEntry->segment;
-            font->xy = messageTableEntry->xy;
+            font->xy = messageTableEntry->typePos;
             messageTableEntry++;
             nextSeg = messageTableEntry->segment;
             font->msgOffset = foundSeg - seg;
