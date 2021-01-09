@@ -85,7 +85,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     u32 bgId;
     Vec3f collisionPos;
 
-    if (this->actor.xzDistFromLink > 300.0f) {
+    if (this->actor.xzDistToLink > 300.0f) {
         return false;
     }
 
@@ -93,8 +93,8 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &player->actor.posRot.pos, &collisionPos, &poly, 1,
-                      0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &player->actor.posRot.pos, &collisionPos,
+                                &poly, 1, 0, 0, 1, &bgId)) {
         return false;
     }
 

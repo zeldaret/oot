@@ -171,7 +171,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistFromLink > 32.0f) {
+    } else if (thisx->xzDistToLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
@@ -443,7 +443,7 @@ void EnRu1_SpawnRipple(EnRu1* this, GlobalContext* globalCtx, s16 radiusMax, s16
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->waterY;
+    pos.y = thisx->posRot.pos.y + thisx->yDistToWater;
     pos.z = thisx->posRot.pos.z;
     EffectSsGRipple_Spawn(globalCtx, &pos, 100, radiusMax, life);
 }
@@ -467,7 +467,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->waterY;
+    pos.y = thisx->posRot.pos.y + thisx->yDistToWater;
     pos.z = thisx->posRot.pos.z;
 
     EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 1, 0);
@@ -1148,7 +1148,7 @@ void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
     } else if (func_80AED084(this, 5)) {
         Animation_Change(&this->skelAnime, &D_06002990, 1.0f, 0, Animation_GetLastFrame(&D_06002990), 2, -8.0f);
         this->action = 21;
-        this->unk_27C = this->actor.xzDistFromLink;
+        this->unk_27C = this->actor.xzDistToLink;
     }
 }
 
@@ -1247,7 +1247,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->waterY > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1336,15 +1336,15 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    DynaPolyActor* dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, thisx->floorPolySource);
+    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, thisx->floorPolySource);
 
-    if ((dyna == NULL) || (dyna->actor.id == ACTOR_EN_BOX)) {
+    if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
         thisx->bgCheckFlags &= ~0x19;
     }
 }
 
 void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
-    DynaPolyActor* temp_dyna;
+    Actor* temp_dyna;
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1356,11 +1356,11 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         velocityY = &this->actor.velocity.y;
-        temp_dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
+        temp_dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
             if (temp_dyna != NULL) {
-                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
+                if (temp_dyna->id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1372,7 +1372,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
             }
             gravity = &this->actor.gravity;
             if (temp_dyna != NULL) {
-                if (temp_dyna->actor.id != ACTOR_EN_BOX) {
+                if (temp_dyna->id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1431,9 +1431,9 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    DynaPolyActor* dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
+    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
 
-    if ((dyna != NULL) && (dyna->actor.id == ACTOR_EN_BOX)) {
+    if (dyna != NULL && dyna->id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1476,7 +1476,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.waterY - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.yDistToWater - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1538,14 +1538,13 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dyna;
-    u32 floorPolySource;
-
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != 0x32)) {
+    Actor* dyna;
+    s32 floorPolySource;
+    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
         floorPolySource = this->actor.floorPolySource;
-        dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, floorPolySource);
-        if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
-            if ((((dyna->actor.params) >> 8) & 0x3F) == 0x38) {
+        dyna = DynaPoly_GetActor(&globalCtx->colCtx, floorPolySource);
+        if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
+            if (((dyna->params >> 8) & 0x3F) == 0x38) {
                 gSaveContext.infTable[20] |= 1;
                 return;
             }
@@ -1560,13 +1559,13 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaActor;
     s32 floorPolySource;
 
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != 0x32)) {
+    if ((this->actor.bgCheckFlags & 1) && this->actor.floorPolySource != BGCHECK_SCENE) {
         colCtx = &globalCtx->colCtx;
         floorPolySource =
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
-        dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
-        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
-            (!Player_InCsMode(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
+        dynaActor = DynaPoly_GetActor(colCtx, floorPolySource);
+        if (dynaActor != NULL && dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaActor->actor.params == 0 &&
+            !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1605,7 +1604,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->waterY > 0.0f) {
+        } else if (thisx->yDistToWater > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }

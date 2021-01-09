@@ -77,13 +77,14 @@ void EnNwc_ChickBgCheck(EnNwcChick* chick, GlobalContext* globalCtx) {
     outPos.x = chick->pos.x;
     outPos.y = chick->pos.y;
     outPos.z = chick->pos.z;
-    if (func_8003D464(&globalCtx->colCtx, &outPos, &chick->pos, &chick->lastPos, 10.0f, &chick->floorPoly, 20.0f)) {
+    if (BgCheck_EntitySphVsWall1(&globalCtx->colCtx, &outPos, &chick->pos, &chick->lastPos, 10.0f, &chick->floorPoly,
+                                 20.0f)) {
         chick->bgFlags |= CHICK_BG_WALL;
     }
     //! @bug The use of outPos here is totally wrong. Even if it didn't get overwritten
     //       by the wall check, it should add an offset to the y-value so the raycast
     //       doesn't go through the floor and cause the chicks to ignore all floors.
-    chick->floorY = func_8003C940(&globalCtx->colCtx, &outPoly, &bgId, &outPos);
+    chick->floorY = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &outPoly, &bgId, &outPos);
     dy = chick->floorY - chick->pos.y;
     if ((0.0f <= dy) && (dy < 40.0f)) {
         chick->pos.y = chick->floorY;
