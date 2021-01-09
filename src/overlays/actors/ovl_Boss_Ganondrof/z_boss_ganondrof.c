@@ -843,7 +843,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             func_8002D908(thisx);
             func_8002D7EC(thisx);
             Math_ApproachF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
-            if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistFromLinkSq < SQ(100.0f))) {
+            if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistToLinkSq < SQ(100.0f))) {
                 this->actionState = CHARGE_FINISH;
                 this->timers[0] = 20;
             }
