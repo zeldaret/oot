@@ -70,7 +70,7 @@ glabel func_80A32F74
 /* 00498 80A33068 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 0049C 80A3306C 2506095C */  addiu   $a2, $t0, 0x095C           ## $a2 = 0000095C
 /* 004A0 80A33070 27A70038 */  addiu   $a3, $sp, 0x0038           ## $a3 = FFFFFFF0
-/* 004A4 80A33074 0C00F82E */  jal     func_8003E0B8              
+/* 004A4 80A33074 0C00F82E */  jal     BgCheck_AnyLineTest1              
 /* 004A8 80A33078 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 004AC 80A3307C 50400004 */  beql    $v0, $zero, .L80A33090     
 /* 004B0 80A33080 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

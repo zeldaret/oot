@@ -28,10 +28,10 @@ const ActorInit En_Lightbox_InitVars = {
 };
 
 extern Gfx D_06000B70[];
-extern UNK_TYPE D_06001F10;
+extern CollisionHeader D_06001F10;
 
 void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     EnLightbox* this = THIS;
     s32 pad[4];
 
@@ -59,14 +59,14 @@ void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->unk_1F = 0;
     thisx->gravity = -2.0f;
-    DynaPolyInfo_Alloc(&D_06001F10, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    CollisionHeader_GetVirtual(&D_06001F10, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnLightbox* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {

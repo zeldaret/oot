@@ -39,8 +39,8 @@ static InitChainEntry sInitChain[] = {
 
 static Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528 };
 
-extern UNK_TYPE D_06001A38;
-extern UNK_TYPE D_06001C58;
+extern CollisionHeader D_06001A38;
+extern CollisionHeader D_06001C58;
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = THIS;
@@ -86,28 +86,27 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
 }
 
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
-    s32 sp54;
+    CollisionHeader* colHeader = NULL;
     Actor* thisx = &this->dyna.actor;
     s32 pad;
     Vec3f position;
 
-    sp54 = 0;
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         // ---- Successful bank switching!!
         osSyncPrintf("-----バンク切り換え成功！！\n");
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
         this->dyna.actor.objBankIndex = this->objBankIndex;
-        DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
-                DynaPolyInfo_Alloc(&D_06001A38, &sp54);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
+                CollisionHeader_GetVirtual(&D_06001A38, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
-                DynaPolyInfo_Alloc(&D_06001C58, &sp54);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
+                CollisionHeader_GetVirtual(&D_06001C58, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 if (gSaveContext.nightFlag == 0) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,

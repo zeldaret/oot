@@ -36,22 +36,22 @@ static Vec3f sVec = { 0, 0, 0 };
 
 extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06002FD0;
-extern UNK_TYPE D_060000C0;
+extern CollisionHeader D_060000C0;
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     s32 pad;
-    u32 temp;
+    CollisionHeader* colHeader;
     f32 frameCount;
 
-    temp = 0;
+    colHeader = NULL;
     frameCount = Animation_GetLastFrame(&D_06000444);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    DynaPolyInfo_Alloc(&D_060000C0, &temp);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060000C0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.uncullZoneScale = 500.0f;
     this->dyna.actor.uncullZoneDownward = 550.0f;
     this->dyna.actor.uncullZoneForward = 2200.0f;
@@ -64,7 +64,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {

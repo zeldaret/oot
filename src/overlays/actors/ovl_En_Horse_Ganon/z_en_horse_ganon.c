@@ -255,7 +255,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     v.y = this->actor.posRot.pos.y + 60.0f;
     v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.z;
 
-    temp_ret = func_8003C940(&globalCtx->colCtx, &col, &temp1, &v);
+    temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
     this->actor.shape.rot.x = 10430.3779f * Math_FAtan2F(this->actor.posRot.pos.y - temp_ret, 30.0f);

@@ -69,24 +69,22 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 static CamData sCameraDataList[] = { { 0, 0, 0 } };
 
-static UNK_TYPE sSurfaceTypeList[] = {
-    0x00000000,
-    0x000007C0,
-    0x00000000,
-    0x000007C2,
+static SurfaceType sSurfaceTypeList[] = {
+    { 0x00000000, 0x000007C0 },
+    { 0x00000000, 0x000007C2 },
 };
 
 static CollisionPoly sPolyList[] = {
-    { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02 }, { 32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03 }, { 32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x02, 0x00, 0x04 }, { 0, 0, -32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x04, 0x00, 0x05 }, { 0, 0, -32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x05, 0x00, 0x04, 0x00, 0x06 }, { -32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x05, 0x00, 0x06, 0x00, 0x07 }, { -32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x07, 0x00, 0x06, 0x00, 0x01 }, { 0, 0, 32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x07, 0x00, 0x01, 0x00, 0x00 }, { 0, 0, 32767 }, -60 },
-    { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x05 }, { 0, 32767, 0 }, 0 },
-    { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x05, 0x00, 0x07 }, { 0, 32767, 0 }, 0 },
+    { 0x0000, 0x0000, 0x0001, 0x0002, { 32767, 0, 0 }, -60 },
+    { 0x0000, 0x0000, 0x0002, 0x0003, { 32767, 0, 0 }, -60 },
+    { 0x0000, 0x0003, 0x0002, 0x0004, { 0, 0, -32767 }, -60 },
+    { 0x0000, 0x0003, 0x0004, 0x0005, { 0, 0, -32767 }, -60 },
+    { 0x0000, 0x0005, 0x0004, 0x0006, { -32767, 0, 0 }, -60 },
+    { 0x0000, 0x0005, 0x0006, 0x0007, { -32767, 0, 0 }, -60 },
+    { 0x0000, 0x0007, 0x0006, 0x0001, { 0, 0, 32767 }, -60 },
+    { 0x0000, 0x0007, 0x0001, 0x0000, { 0, 0, 32767 }, -60 },
+    { 0x0001, 0x0000, 0x0003, 0x0005, { 0, 32767, 0 }, 0 },
+    { 0x0001, 0x0000, 0x0005, 0x0007, { 0, 32767, 0 }, 0 },
 };
 
 static Vec3s sVtxList[] = {
@@ -105,9 +103,9 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&sColHeader, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&sColHeader, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
@@ -120,7 +118,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
@@ -169,7 +167,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             center.x = this->dyna.actor.posRot.pos.x + D_80876A68[i].x;
             center.y = this->dyna.actor.posRot.pos.y;
             center.z = this->dyna.actor.posRot.pos.z + D_80876A68[i].z;
-            if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
+            if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &center, 50.0f)) {
                 this->unwalledSides |= sSides[i];
             }
         }
