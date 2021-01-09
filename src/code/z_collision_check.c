@@ -1025,10 +1025,10 @@ void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* colChk
             }
         }
         if (AREG(24)) {
-            func_80042C3C(globalCtx, &globalCtx->colCtx);
+            BgCheck_DrawDynaCollision(globalCtx, &globalCtx->colCtx);
         }
         if (AREG(25)) {
-            func_80042FC4(globalCtx, &globalCtx->colCtx);
+            BgCheck_DrawStaticCollision(globalCtx, &globalCtx->colCtx);
         }
     }
 }
@@ -1281,13 +1281,14 @@ s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
 void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+// Blue EffectSpark
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     static EffectSparkInit D_8015D8A0;
     s32 sp24;
 
-    D_8015D8A0.position.x = (s32)v->x;
-    D_8015D8A0.position.y = (s32)v->y;
-    D_8015D8A0.position.z = (s32)v->z;
+    D_8015D8A0.position.x = (s32)pos->x;
+    D_8015D8A0.position.y = (s32)pos->y;
+    D_8015D8A0.position.z = (s32)pos->z;
     D_8015D8A0.uDiv = 5;
     D_8015D8A0.vDiv = 5;
     D_8015D8A0.colorStart[0].r = 10;
@@ -1330,13 +1331,14 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+// Green EffectSpark
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     static EffectSparkInit D_8015DD68;
     s32 sp24;
 
-    D_8015DD68.position.x = (s32)v->x;
-    D_8015DD68.position.y = (s32)v->y;
-    D_8015DD68.position.z = (s32)v->z;
+    D_8015DD68.position.x = (s32)pos->x;
+    D_8015DD68.position.y = (s32)pos->y;
+    D_8015DD68.position.z = (s32)pos->z;
     D_8015DD68.uDiv = 5;
     D_8015DD68.vDiv = 5;
     D_8015DD68.colorStart[0].r = 10;
@@ -1590,7 +1592,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                 sp60.x = rItem->dim.worldSphere.center.x;
                 sp60.y = rItem->dim.worldSphere.center.y;
                 sp60.z = rItem->dim.worldSphere.center.z;
-                if (!(fabsf(sp88) < 0.008f)) {
+                if (!IS_ZERO(sp88)) {
                     temp_f0 = rItem->dim.worldSphere.radius / sp88;
                     sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
                     sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
@@ -1639,7 +1641,7 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
             sp58.x = right->dim.pos.x;
             sp58.y = right->dim.pos.y;
             sp58.z = right->dim.pos.z;
-            if (!(fabsf(sp7C) < 0.008f)) {
+            if (!IS_ZERO(sp7C)) {
                 temp_f0 = right->dim.radius / sp7C;
                 if (temp_f0 <= 1.0f) {
                     sp70.x = ((sp64.x - sp58.x) * temp_f0) + sp58.x;
@@ -1689,7 +1691,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
             sp70.x = rItem->dim.worldSphere.center.x;
             sp70.y = rItem->dim.worldSphere.center.y;
             sp70.z = rItem->dim.worldSphere.center.z;
-            if (!(fabsf(sp98) < 0.008f)) {
+            if (!IS_ZERO(sp98)) {
                 temp_f0 = (f32)rItem->dim.worldSphere.radius / sp98;
                 if (temp_f0 <= 1.0f) {
                     sp88.x = ((sp7C.x - sp70.x) * temp_f0) + sp70.x;
@@ -1908,7 +1910,7 @@ void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     if (Math3D_CylOutsideCylDist(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
         Math_Vec3s_ToVec3f(&sp50, &left->dim.pos);
         Math_Vec3s_ToVec3f(&sp44, &right->dim.pos);
-        if (!(fabsf(sp68) < 0.008f)) {
+        if (!IS_ZERO(sp68)) {
             temp_f0 = (f32)right->dim.radius / sp68;
             sp5C.y = (f32)right->dim.pos.y + (f32)right->dim.yShift + (f32)right->dim.height * 0.5f;
             sp5C.x = ((f32)left->dim.pos.x - right->dim.pos.x) * temp_f0 + right->dim.pos.x;
@@ -2489,7 +2491,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
-    if (fabsf(totalMass) < 0.008f) {
+    if (IS_ZERO(totalMass)) {
         totalMass = (leftMass = rightMass = 1.0f) * 2;
     }
     xDelta = rightv->x - leftv->x;
@@ -2525,7 +2527,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
         }
     }
 
-    if (!(fabsf(xzDist) < 0.008f)) {
+    if (!IS_ZERO(xzDist)) {
         temp_f0 = arg6 / xzDist;
         xDelta *= temp_f0;
         zDelta *= temp_f0;

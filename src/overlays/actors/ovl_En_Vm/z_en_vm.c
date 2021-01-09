@@ -255,7 +255,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xDAC, 0);
         playerPos = player->actor.posRot.pos;
 
-        if (player->actor.groundY > -32000.0f) {
+        if (player->actor.groundY > BGCHECK_Y_MIN) {
             playerPos.y = player->actor.groundY;
         }
 
@@ -428,9 +428,9 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp74 = D_80B2EB04;
     Vec3f sp68 = D_80B2EB10;
     s32 pad;
-    Vec3f sp58;
+    Vec3f posResult;
     CollisionPoly* poly;
-    u32 buff;
+    s32 bgId;
     f32 dist;
 
     if (limbIndex == 2) {
@@ -442,11 +442,11 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
             sp80.z = (this->beamScale.z + 500.0f) * (this->actor.scale.y * 10000.0f);
             Matrix_MultVec3f(&sp80, &this->beamPos3);
 
-            if (func_8003DE84(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &sp58, &poly, 1, 1, 0, 1, &buff) ==
-                1) {
-                this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &sp58) - 5.0f;
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly, true,
+                                        true, false, true, &bgId) == true) {
+                this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &posResult) - 5.0f;
                 this->unk_260 = 4;
-                this->beamPos3 = sp58;
+                this->beamPos3 = posResult;
             }
             if (this->beamScale.z != 0.0f) {
                 dist = 100.0f;

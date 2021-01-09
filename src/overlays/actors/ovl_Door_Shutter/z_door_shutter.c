@@ -142,8 +142,8 @@ static UNK_PTR D_809982D4[] = {
     0x060065C0, 0x060035C0, 0x060055C0, 0x060045C0, 0x06000000, 0x060025C0, 0x060015C0,
 };
 
-extern ColHeader D_0601EDD0; // gohma block collision header
-extern ColHeader D_06012FD0; // phantom ganon bars collision header
+extern CollisionHeader D_0601EDD0; // gohma block collision header
+extern CollisionHeader D_06012FD0; // phantom ganon bars collision header
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -204,7 +204,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->dyna.actor.initPosRot.pos.z = this->dyna.actor.shape.unk_08;
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->doorType = (this->dyna.actor.params >> 6) & 0xF;
     phi_a3 = D_80998224[this->doorType];
     if (phi_a3 < 0) {
@@ -253,7 +253,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = (u16)this->dyna.actor.params >> 0xA;
 
@@ -266,13 +266,12 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
-            UNK_TYPE temp = 0;
+            CollisionHeader* colHeader = NULL;
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            DynaPolyInfo_Alloc((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &temp);
-            this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = -2.0f;
