@@ -96,8 +96,8 @@ extern Vec3s D_80153CC0[];
 extern Vec3s D_80153CCC[];
 extern s16 D_80153CD8;
 extern s16 D_80153CDC;
-extern const s16 D_80153CF8[];
-extern const s16 D_80153CFC[];
+extern s16 D_80153CF8;
+extern s16 D_80153CFC;
 extern s16 D_80153D00[];
 extern s16 D_80153D0C[];
 extern s16 D_80153D18[];
@@ -3162,16 +3162,17 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
 //  then they can't be const arrays so don't go in rodata
 // Doesn't match if NON_CONST_ARR(symbol) is duplicated to each site
 void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx) {
-    s16* D_80153CF8_NonConst = &NON_CONST_ARR(D_80153CF8,s16*)[0];
-    s16* D_80153CFC_NonConst = &NON_CONST_ARR(D_80153CFC,s16*)[0];
+    static s16 D_80153CF8 = 0;
+    static s16 D_80153CFC = 0;
 
     OPEN_DISPS(gfxCtx, "../z_message_PAL.c", 3485);
-    if (*D_80153CF8_NonConst != *arg0) {
-        *D_80153CF8_NonConst = *arg0;
-        *D_80153CFC_NonConst = 0x1E;
+
+    if (D_80153CF8 != *arg0) {
+        D_80153CF8 = *arg0;
+        D_80153CFC = 0x1E;
     }
-    if (*D_80153CFC_NonConst != 0) {
-        *D_80153CFC_NonConst -= 1;
+    if (D_80153CFC != 0) {
+        D_80153CFC -= 1;
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
         gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);

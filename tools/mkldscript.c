@@ -22,6 +22,7 @@ enum
     STMT_entry,
     STMT_flags,
     STMT_include,
+    STMT_include_readonly,
     STMT_name,
     STMT_number,
     STMT_romalign,
@@ -50,6 +51,7 @@ struct Segment
     uint32_t entry;
     uint32_t number;
     char **includes;
+    uint8_t *readOnlyData;
     int includesCount;
 };
 
@@ -176,6 +178,7 @@ static const char *const stmtNames[] =
     [STMT_entry]     = "entry",
     [STMT_flags]     = "flags",
     [STMT_include]   = "include",
+    [STMT_include_readonly] = "include_readonly",
     [STMT_name]      = "name",
     [STMT_number]    = "number",
     [STMT_romalign]  = "romalign",
@@ -267,8 +270,11 @@ static void parse_rom_spec(char *spec)
                         util_fatal_error("line %i: alignment is not a power of two", lineNum);
                     break;
                 case STMT_include:
+                case STMT_include_readonly:
                     currSeg->includesCount++;
                     currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+                    currSeg->readOnlyData = realloc(currSeg->readOnlyData, currSeg->includesCount * sizeof(*currSeg->readOnlyData));
+                    currSeg->readOnlyData[currSeg->includesCount - 1] = (stmt == STMT_include_readonly);
                     if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1]))
                         util_fatal_error("line %i: invalid filename", lineNum);
                     break;
@@ -358,7 +364,10 @@ static void write_ld_script(void)
         fprintf(fout, "        _%sSegmentDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
-            fprintf(fout, "            %s (.data)\n", seg->includes[j]);
+        {
+            if (seg->readOnlyData[j] == false)
+                fprintf(fout, "            %s (.data)\n", seg->includes[j]);
+        }
 
         /*
          for (j = 0; j < seg->includesCount; j++)
@@ -376,7 +385,11 @@ static void write_ld_script(void)
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
+        {
+            if (seg->readOnlyData[j] == true)
+                fprintf(fout, "            %s (.data)\n", seg->includes[j]);
             fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
+        }
 
          //fprintf(fout, "        . = ALIGN(0x10);\n");
 
