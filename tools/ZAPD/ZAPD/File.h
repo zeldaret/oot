@@ -24,7 +24,10 @@ public:
 		file.seekg(0);
 		char* data = new char[fileSize];
 		file.read(data, fileSize);
-		return std::vector<uint8_t>(data, data + fileSize);
+		std::vector<uint8_t> result = std::vector<uint8_t>(data, data + fileSize);
+		delete data;
+
+		return result;
 	};
 
 	static std::string ReadAllText(const std::string& filePath)
@@ -35,7 +38,10 @@ public:
 		char* data = new char[fileSize+1];
 		memset(data, 0, fileSize + 1);
 		file.read(data, fileSize);
-		return std::string((const char*)data);
+		std::string str = std::string((const char*)data);
+		delete data;
+
+		return str;
 	};
 
 	static std::vector<std::string> ReadAllLines(const std::string& filePath)

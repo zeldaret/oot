@@ -235,8 +235,6 @@ bool Parse(const std::string& xmlFilePath, const std::string& basePath, const st
 	if (root == nullptr)
 		return false;
 
-	//vector<ZFile*> files = vector<ZFile*>();
-
 	for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 	{
 		if (string(child->Name()) == "File")
@@ -256,10 +254,11 @@ bool Parse(const std::string& xmlFilePath, const std::string& basePath, const st
 			file->ExtractResources(outPath);
 	}
 
-	//XMLElement* element = root->FirstChildElement("File");
+	// All done, free files
+	for (ZFile* file : Globals::Instance->files)
+		delete file;
 
-	//if (element == nullptr)
-		//return false;
+	Globals::Instance->files.clear();
 
 	return true;
 }

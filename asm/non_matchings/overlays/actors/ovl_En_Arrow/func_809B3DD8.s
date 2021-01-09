@@ -71,7 +71,7 @@ glabel func_809B3DD8
 /* 005C0 809B3EE0 27A6005C */  addiu   $a2, $sp, 0x005C           ## $a2 = FFFFFFE4
 /* 005C4 809B3EE4 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFD8
 /* 005C8 809B3EE8 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024
-/* 005CC 809B3EEC 0C00F7A1 */  jal     func_8003DE84
+/* 005CC 809B3EEC 0C00F7A1 */  jal     BgCheck_EntityLineTest1
 /* 005D0 809B3EF0 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 005D4 809B3EF4 10400030 */  beq     $v0, $zero, .L809B3FB8
 /* 005D8 809B3EF8 C7A80050 */  lwc1    $f8, 0x0050($sp)

@@ -133,8 +133,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                 spawnPos.y = player->actor.groundY + 120.0f;
                 spawnPos.z = player->actor.posRot.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
-                floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
-                if (floorY <= -32000.0f) {
+                floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
                 spawnPos.y = floorY;
@@ -194,8 +194,8 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
                 spawnPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(50.0f);
                 spawnPos.y = this->actor.posRot.pos.y + 120.0f;
                 spawnPos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(50.0f);
-                floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
-                if (floorY <= -32000.0f) {
+                floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                if (floorY <= BGCHECK_Y_MIN) {
                     return;
                 }
                 spawnPos.y = floorY;
@@ -268,11 +268,11 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                 spawnPos.y = player->actor.groundY + 120.0f;
                 spawnPos.z =
                     player->actor.posRot.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
-                floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
-                if (floorY <= -32000.0f) {
+                floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
-                if ((player->actor.yDistToWater != -32000.0f) &&
+                if ((player->actor.yDistToWater != BGCHECK_Y_MIN) &&
                     (floorY < (player->actor.posRot.pos.y - player->actor.yDistToWater))) {
                     break;
                 }

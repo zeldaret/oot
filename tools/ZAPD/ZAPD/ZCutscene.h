@@ -404,6 +404,7 @@ public:
 
 	CutsceneCommands GetCommandFromID(int id);
 	ZCutscene(std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize);
+	~ZCutscene();
 
 	std::string GetSourceOutputCode(const std::string& prefix);
 	int GetRawDataSize();

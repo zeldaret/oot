@@ -35,12 +35,13 @@ typedef union ZScalarData {
 
 class ZScalar : public ZResource
 {
+friend class ZVector;
 public:
 	ZScalarData scalarData;
 	ZScalarType scalarType;
 
 	ZScalar();
-	ZScalar(const ZScalarType primitiveType);
+	ZScalar(const ZScalarType scalarType);
 
 	void ParseXML(tinyxml2::XMLElement* reader);
 	std::string GetSourceTypeName();

@@ -25,6 +25,12 @@ SetTransitionActorList::SetTransitionActorList(ZRoom* nZRoom, std::vector<uint8_
 	}
 }
 
+SetTransitionActorList::~SetTransitionActorList()
+{
+	for (TransitionActorEntry* actor : transitionActors)
+		delete actor;
+}
+
 string SetTransitionActorList::GetSourceOutputCode(std::string prefix)
 {
 	return "";

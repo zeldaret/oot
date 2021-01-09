@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <numeric>
 #include <stdarg.h>
 #include <string.h>
 
@@ -71,5 +72,14 @@ public:
 
 		output = buffer;
 		return output;
+	}
+
+	static std::string Implode(std::vector<std::string>& elements, const char* const separator)
+	{
+		return std::accumulate(std::begin(elements), std::end(elements), std::string(),
+			[separator](std::string& ss, std::string& s)
+			{
+				return ss.empty() ? s : ss + separator + s;
+			});
 	}
 };

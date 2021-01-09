@@ -244,41 +244,31 @@ assets/%.c: assets/%.xml
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
 build/%.rgba32.inc.c: %.rgba32.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt rgba32 -i $< -o $@
 
 build/%.rgb5a1.inc.c: %.rgb5a1.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt rgb5a1 -i $< -o $@
 
 build/%.i4.inc.c: %.i4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt i4 -i $< -o $@
 
 build/%.i8.inc.c: %.i8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt i8 -i $< -o $@
 
 build/%.ia4.inc.c: %.ia4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia4 -i $< -o $@
 
 build/%.ia8.inc.c: %.ia8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia8 -i $< -o $@
 
 build/%.ia16.inc.c: %.ia16.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia16 -i $< -o $@
 
-build/assets/%.ci4.inc.c: assets/%.ci4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
+build/%.ci4.inc.c: %.ci4.png
 	$(ZAPD) btex -tt ci4 -i $< -o $@
 
 build/%.ci8.inc.c: %.ci8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ci8 -i $< -o $@
 
 build/assets/%.bin.inc.c: assets/%.bin
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) bblb -i $< -o $@

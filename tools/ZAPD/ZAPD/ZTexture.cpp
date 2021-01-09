@@ -21,6 +21,7 @@ ZTexture::ZTexture() : ZResource()
 	width = 0;
 	height = 0;
 	type = TextureType::Error;
+	isPalette = false;
 }
 
 ZTexture::~ZTexture()
@@ -655,6 +656,21 @@ int ZTexture::GetWidth()
 int ZTexture::GetHeight()
 {
 	return height;
+}
+
+void ZTexture::SetWidth(int nWidth)
+{
+	width = nWidth;
+}
+
+void ZTexture::SetHeight(int nHeight)
+{
+	height = nHeight;
+}
+
+TextureType ZTexture::GetTextureType()
+{
+	return type;
 }
 
 void ZTexture::Save(const std::string& outFolder)

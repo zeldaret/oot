@@ -34,7 +34,8 @@ enum class ZResourceType
 	Blob,
 	Limb,
 	Skeleton,
-	Scalar
+	Scalar,
+	Vector
 };
 
 class ZResource

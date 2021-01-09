@@ -3,7 +3,6 @@
 #include "BitConverter.h"
 #include "StringHelper.h"
 #include "File.h"
-#include "HighLevel/HLAnimationIntermediette.h"
 #include "Globals.h"
 
 ZScalar* ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath)
@@ -107,7 +106,7 @@ std::string ZScalar::MapScalarTypeToOutputType(const ZScalarType scalarType)
 	case ZSCALAR_F64:
 		return "f64";
 	default:
-		return "char*";
+		return "";
 	}
 }
 
@@ -154,24 +153,34 @@ void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const int offset)
 	switch (scalarType) {
 	case ZSCALAR_S8:
 		scalarData.s8 = BitConverter::ToInt8BE(data, offset);
+		break;
 	case ZSCALAR_U8:
 		scalarData.u8 = BitConverter::ToUInt8BE(data, offset);
+		break;
 	case ZSCALAR_S16:
 		scalarData.s16 = BitConverter::ToInt16BE(data, offset);
+		break;
 	case ZSCALAR_U16:
 		scalarData.u16 = BitConverter::ToUInt16BE(data, offset);
+		break;
 	case ZSCALAR_S32:
 		scalarData.s32 = BitConverter::ToInt32BE(data, offset);
+		break;
 	case ZSCALAR_U32:
 		scalarData.u32 = BitConverter::ToUInt32BE(data, offset);
+		break;
 	case ZSCALAR_S64:
 		scalarData.s64 = BitConverter::ToInt64BE(data, offset);
+		break;
 	case ZSCALAR_U64:
 		scalarData.u64 = BitConverter::ToUInt64BE(data, offset);
+		break;
 	case ZSCALAR_F32:
 		scalarData.f32 = BitConverter::ToFloatBE(data, offset);
+		break;
 	case ZSCALAR_F64:
 		scalarData.f64 = BitConverter::ToDoubleBE(data, offset);
+		break;
 	}
 }
 
@@ -192,9 +201,9 @@ std::string ZScalar::GetSourceValue()
 	case ZSCALAR_U16:
 		return StringHelper::Sprintf("%hu", scalarData.u16);
 	case ZSCALAR_S32:
-		return StringHelper::Sprintf("%ld", scalarData.s32);
+		return StringHelper::Sprintf("%d", scalarData.s32);
 	case ZSCALAR_U32:
-		return StringHelper::Sprintf("%lu", scalarData.u32);
+		return StringHelper::Sprintf("%u", scalarData.u32);
 	case ZSCALAR_S64:
 		return StringHelper::Sprintf("%lld", scalarData.s64);
 	case ZSCALAR_U64:
@@ -204,16 +213,14 @@ std::string ZScalar::GetSourceValue()
 	case ZSCALAR_F64:
 		return StringHelper::Sprintf("%lf", scalarData.f64);
 	default:
-		return "\"BADTYPE!!\"";
+		return "";
 	}
 }
 
 std::string ZScalar::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
-	{
 		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(), GetSourceTypeName(), GetName(), GetSourceValue());
-	}
 
 	return "";
 }

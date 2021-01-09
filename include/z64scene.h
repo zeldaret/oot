@@ -269,68 +269,6 @@ typedef struct {
 } LightSettings;
 
 typedef struct {
-    s16 absMinX, absMinY, absMinZ;
-    s16 absMaxX, absMaxY, absMaxZ;
-    s16 numVerts;
-    s32 vtxSegmentOffset;
-    s16 numPolygons;
-    s32 polySegmentOffset;
-    s32 polyTypeDefSegmentOffset;
-    s32 camDataSegmentOffset;
-    s16 numWaterBoxes;
-    s32 waterBoxSegmentOffset;
-} ColHeader;
-
-typedef struct {
-    /* 0x0000 */ Vec3s pos;
-    /* 0x0006 */ Vec3s rot;
-    /* 0x000C */ s16 fov;
-    /* 0x000E */ s16 jfifId;
-    /* 0x0010 */ s16 unk_10;
-} CamPosData; // size = 0x12
-
-typedef struct {
-    /* 0x0000 */ s16 cameraSType;
-    /* 0x0002 */ s16 numCameras;
-    /* 0x0004 */ CamPosData* camPosDataSeg;
-} CamData; // size = 0x08
-
-typedef struct {
-    u32 unknown;
-    u32 camPosDataSeg;
-} CamPosDataEntry;
-
-
-/*
-typedef union {
-    _CamData data;
-    long long int forceStructAlignment;
-} CamData;
-*/
-
-/*
-typedef union {
-    _CamPosData data;
-    long long int forceStructAlignment;
-} CamPosData;
-*/
-
-typedef struct {
-    s16 type;
-    s16 vtxA, vtxB, vtxC;
-    s16 a, b, c, d;
-} RoomPoly;
-
-typedef struct {
-    s16 xMin;
-    s16 ySurface;
-    s16 zMin;
-    s16 xLength;
-    s16 zLength;
-    s32 properties;
-} WaterBoxHeader;
-
-typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
 } Path; // size = 0x8

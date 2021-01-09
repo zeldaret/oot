@@ -48,6 +48,12 @@ ZRoom::ZRoom() : ZResource()
 	scene = nullptr;
 }
 
+ZRoom::~ZRoom()
+{
+	for (ZRoomCommand* cmd : commands)
+		delete cmd;
+}
+
 ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int rawDataIndex, string nRelPath, ZFile* nParent, ZRoom* nScene)
 {
 	ZRoom* room = new ZRoom();
@@ -86,8 +92,8 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
 			ZDisplayList* dList = new ZDisplayList(room->rawData, address, ZDisplayList::GetDListLength(room->rawData, address));
-
 			dList->GetSourceOutputCode(room->name);
+			delete dList;
 		}
 		else if (string(child->Name()) == "BlobHint")
 		{

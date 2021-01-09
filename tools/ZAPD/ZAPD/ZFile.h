@@ -28,6 +28,7 @@ public:
 
 	ZFile(std::string nOutPath, std::string nName);
 	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, std::string nBasePath, std::string nOutPath, bool placeholderMode);
+	~ZFile();
 
 	std::string GetVarName(int address);
 	void ExtractResources(std::string outputDir);

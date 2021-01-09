@@ -167,7 +167,8 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 		}
 		else // UH OH
 		{
-			int bp = 0;
+			if (Globals::Instance->verbosity >= VERBOSITY_INFO)
+				printf("WARNING: MeshHeader FMT %i not implemented!\n", fmt);
 		}
 
 		meshHeader1->headerType = 1;
@@ -276,6 +277,15 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			"terminatorMaybe", "0x01000000");
 
 		meshHeader = meshHeader2;
+	}
+}
+
+SetMesh::~SetMesh()
+{
+	if (meshHeader != nullptr)
+	{
+		delete meshHeader;
+		meshHeader = nullptr;
 	}
 }
 

@@ -98,8 +98,7 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, const std::string& prefix, con
 		}
 
 		if (polySegmentOffset != 0) {
-			parent->AddDeclarationArray(polySegmentOffset, DeclarationAlignment::None, polygons.size() * 16, "RoomPoly", // TODO: Change this to CollisionPoly once the struct has been updated
-				StringHelper::Sprintf("%s_polygons_%08X", prefix.c_str(), polySegmentOffset), 0, declaration);
+			parent->AddDeclarationArray(polySegmentOffset, DeclarationAlignment::None, polygons.size() * 16, "CollisionPoly", StringHelper::Sprintf("%s_polygons_%08X", prefix.c_str(), polySegmentOffset), 0, declaration);
 		}
 	}
 
@@ -151,6 +150,18 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, const std::string& prefix, con
 
 	parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, DeclarationPadding::Pad16, 44, "CollisionHeader",
 		StringHelper::Sprintf("%s", prefix.c_str(), rawDataIndex), declaration);
+}
+
+ZCollisionHeader::~ZCollisionHeader()
+{
+	for (VertexEntry* vtx : vertices)
+		delete vtx;
+
+	for (PolygonEntry* poly : polygons)
+		delete poly;
+
+	for (WaterBoxHeader* waterBox : waterBoxes)
+		delete waterBox;
 }
 
 ZCollisionHeader* ZCollisionHeader::ExtractFromXML(tinyxml2::XMLElement* reader, vector<uint8_t> nRawData, int rawDataIndex)

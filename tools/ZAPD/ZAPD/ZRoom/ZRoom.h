@@ -3,7 +3,7 @@
 #include "../ZResource.h"
 #include "ZRoomCommand.h"
 #include "ZTexture.h"
-#include "../tinyxml2.h"
+#include <tinyxml2.h>
 
 #include <vector>
 #include <map>
@@ -20,6 +20,7 @@ protected:
 	void SyotesRoomHack();
 
 	ZRoom();
+	~ZRoom();
 
 public:
 	ZRoom* scene;

@@ -872,29 +872,29 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->actor.params == TEKTITE_BLUE) && (thisx->bgCheckFlags & 0x20)) {
             floorPoly = thisx->floorPoly;
             if ((((globalCtx->gameplayFrames % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (func_80042244(globalCtx, &globalCtx->colCtx, this->backRightFootPos.x, this->backRightFootPos.z,
-                               &waterSurfaceY, &waterBox)) &&
+                (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->backRightFootPos.x,
+                                         this->backRightFootPos.z, &waterSurfaceY, &waterBox)) &&
                 (this->backRightFootPos.y <= waterSurfaceY)) {
                 this->backRightFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(globalCtx, &this->backRightFootPos, 0, 220, 0);
             }
             if (((((globalCtx->gameplayFrames + 2) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (func_80042244(globalCtx, &globalCtx->colCtx, this->backLeftFootPos.x, this->backLeftFootPos.z,
-                               &waterSurfaceY, &waterBox)) &&
+                (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->backLeftFootPos.x,
+                                         this->backLeftFootPos.z, &waterSurfaceY, &waterBox)) &&
                 (this->backLeftFootPos.y <= waterSurfaceY)) {
                 this->backLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(globalCtx, &this->backLeftFootPos, 0, 220, 0);
             }
             if (((((globalCtx->gameplayFrames + 4) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (func_80042244(globalCtx, &globalCtx->colCtx, this->frontLeftFootPos.x, this->frontLeftFootPos.z,
-                               &waterSurfaceY, &waterBox)) &&
+                (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->frontLeftFootPos.x,
+                                         this->frontLeftFootPos.z, &waterSurfaceY, &waterBox)) &&
                 (this->frontLeftFootPos.y <= waterSurfaceY)) {
                 this->frontLeftFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(globalCtx, &this->frontLeftFootPos, 0, 220, 0);
             }
             if (((((globalCtx->gameplayFrames + 1) % 8) == 0) || (thisx->velocity.y < 0.0f)) &&
-                (func_80042244(globalCtx, &globalCtx->colCtx, this->frontRightFootPos.x, this->frontRightFootPos.z,
-                               &waterSurfaceY, &waterBox)) &&
+                (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->frontRightFootPos.x,
+                                         this->frontRightFootPos.z, &waterSurfaceY, &waterBox)) &&
                 (this->frontRightFootPos.y <= waterSurfaceY)) {
                 this->frontRightFootPos.y = waterSurfaceY;
                 EffectSsGRipple_Spawn(globalCtx, &this->frontRightFootPos, 0, 220, 0);

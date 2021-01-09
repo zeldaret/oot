@@ -7,6 +7,7 @@
 #include "ZSkeleton.h"
 #include "ZCollision.h"
 #include "ZScalar.h"
+#include "ZVector.h"
 #include "Path.h"
 #include "File.h"
 #include "Directory.h"
@@ -49,6 +50,12 @@ ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPa
 		outputPath = nOutPath;
 
 	ParseXML(mode, reader, placeholderMode);
+}
+
+ZFile::~ZFile()
+{
+	for (ZResource* res : resources)
+		delete res;
 }
 
 void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
@@ -254,6 +261,31 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 				resources.push_back(scalar);
 
 				rawDataIndex += scalar->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZScalar created!!");
+			}
+		}
+		else if (string(child->Name()) == "Vector")
+		{
+			ZVector* vector = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vector = ZVector::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vector != nullptr)
+			{
+				vector->parent = this;
+				resources.push_back(vector);
+
+				rawDataIndex += vector->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVector created!!");
 			}
 		}
 		else
@@ -625,6 +657,7 @@ string ZFile::ProcessDeclarations()
 
 	// Account for padding/alignment
 	int lastAddr = 0;
+	int lastSize = 0;
 
 	//printf("RANGE START: 0x%06X - RANGE END: 0x%06X\n", rangeStart, rangeEnd);
 
@@ -711,45 +744,47 @@ string ZFile::ProcessDeclarations()
 
 	// Handle unaccounted data
 	lastAddr = 0;
+	lastSize = 0;
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
-		if (lastAddr != 0 && item.first >= rangeStart && item.first < rangeEnd)
+		if (item.first >= rangeStart && item.first < rangeEnd)
 		{
-			if (lastAddr + declarations[lastAddr]->size > item.first)
+			if (lastAddr != 0 && declarations.find(lastAddr) != declarations.end() && lastAddr + declarations[lastAddr]->size > item.first)
 			{
-				// UH OH!
-				int bp = 0;
+				printf("WARNING: Intersection detected from 0x%06X:0x%06X, conflicts with 0x%06X\n", lastAddr, lastAddr + declarations[lastAddr]->size, item.first);
 			}
 
 			uint8_t* rawDataArr = rawData.data();
 
-			if (lastAddr + declarations[lastAddr]->size != item.first)
+			if (lastAddr + lastSize != item.first)
 			{
-				int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				//int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				int diff = item.first - (lastAddr + lastSize);
 
 				string src = "    ";
 
-
 				for (int i = 0; i < diff; i++)
 				{
-					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					//src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + lastSize + i]);
 
 					if ((i % 16 == 15) && (i != (diff - 1)))
 						src += "\n    ";
 				}
 
-				if (declarations.find(lastAddr + declarations[lastAddr]->size) == declarations.end())
+				if (declarations.find(lastAddr + lastSize) == declarations.end())
 				{
 					if (diff > 0)
 					{
-						AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size),
-							diff, src);
+						//AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size), diff, src);
+						AddDeclarationArray(lastAddr + lastSize, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + lastSize), diff, src);
 					}
 				}
 			}
 		}
 
 		lastAddr = item.first;
+		lastSize = item.second->size;
 	}
 
 	// TODO: THIS CONTAINS REDUNDANCIES. CLEAN THIS UP!

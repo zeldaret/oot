@@ -78,6 +78,12 @@ ZCutscene::ZCutscene(std::vector<uint8_t> nRawData, int rawDataIndex, int rawDat
 	}
 }
 
+ZCutscene::~ZCutscene()
+{
+	for (CutsceneCommand* cmd : commands)
+		delete cmd;
+}
+
 string ZCutscene::GetSourceOutputCode(const std::string& prefix)
 {
 	string output = "";

@@ -715,7 +715,7 @@ void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
     if ((Animation_OnFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
         u32 sfxId = SFX_FLAG;
 
-        sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+        sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
         Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }

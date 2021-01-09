@@ -22,6 +22,12 @@ SetPathways::SetPathways(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
 }
 
+SetPathways::~SetPathways()
+{
+	for (PathwayEntry* entry : pathways)
+		delete entry;
+}
+
 void SetPathways::InitList(uint32_t address)
 {
 	segmentOffset = address;

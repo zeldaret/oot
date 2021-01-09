@@ -219,6 +219,7 @@ protected:
 	F3DZEXTexFormats lastTexFmt;
 	F3DZEXTexSizes lastTexSiz, lastTexSizTest, lastCISiz;
 	bool lastTexLoaded;
+	bool lastTexIsPalette;
 
 	//void ParseXML(tinyxml2::XMLElement* reader);
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
@@ -253,7 +254,7 @@ public:
 	static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
 
 	void TextureGenCheck(std::string prefix);
-	static bool TextureGenCheck(std::vector<uint8_t> fileData, std::map<uint32_t, ZTexture*>& textures, ZRoom* scene, ZFile* parent, std::string prefix, uint32_t texWidth, uint32_t texHeight, uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded);
+	static bool TextureGenCheck(std::vector<uint8_t> fileData, std::map<uint32_t, ZTexture*>& textures, ZRoom* scene, ZFile* parent, std::string prefix, uint32_t texWidth, uint32_t texHeight, uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded, bool texIsPalette);
 	static int GetDListLength(std::vector<uint8_t> rawData, int rawDataIndex);
 
 	std::vector<uint8_t> GetRawData();

@@ -25,6 +25,12 @@ SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	}
 }
 
+SetRoomList::~SetRoomList()
+{
+	for (RoomEntry* entry : rooms)
+		delete entry;
+}
+
 string SetRoomList::GenerateSourceCodePass1(string roomName, int baseAddress)
 {
 	return StringHelper::Sprintf("%s 0x%02X, (u32)&%sRoomList0x%06X", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(), rooms.size(), zRoom->GetName().c_str(), segmentOffset);

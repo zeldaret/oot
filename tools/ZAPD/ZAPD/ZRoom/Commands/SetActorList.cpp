@@ -19,6 +19,14 @@ SetActorList::SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawD
 		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
 }
 
+SetActorList::~SetActorList()
+{
+	for (ActorSpawnEntry* entry : actors)
+		delete entry;
+
+	actors.clear();
+}
+
 string SetActorList::GetSourceOutputCode(std::string prefix)
 {
 	return "";

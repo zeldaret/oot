@@ -60,6 +60,8 @@ public:
 	ZTexture();
 	~ZTexture();
 
+	bool isPalette;
+
 	static ZTexture* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
 	static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath);
 	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nName, int nWidth, int nHeight);
@@ -76,6 +78,9 @@ public:
 	std::string GetIMSizFromType();
 	int GetWidth();
 	int GetHeight();
+	void SetWidth(int nWidth);
+	void SetHeight(int nHeight);
+	TextureType GetTextureType();
 	void Save(const std::string& outFolder);
 	std::string GetExternalExtension();
 };

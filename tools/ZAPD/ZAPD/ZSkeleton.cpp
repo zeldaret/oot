@@ -224,10 +224,12 @@ std::string ZSkeleton::GetSourceOutputCode(const std::string& prefix)
 			//string decl = StringHelper::Sprintf("    &_%sLimb_%04X,\n", prefix.c_str(), limb->address);
 			string decl = "";
 
-			if (parent->HasDeclaration(limb->address))
+			if (parent->HasDeclaration(limb->address)) {
 				decl = StringHelper::Sprintf("    &%s,", parent->GetDeclarationName(limb->address).c_str());
-				if (i != (limbs.size() - 1))
+				if (i != (limbs.size() - 1)) {
 				    decl += "\n";
+				}
+			}
 
 			tblStr += decl;
 		}
