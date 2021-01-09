@@ -11,9 +11,9 @@ ZCollisionHeader::ZCollisionHeader()
 
 }
 
-ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vector<uint8_t> rawData, int rawDataIndex)
+ZCollisionHeader::ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	absMinX = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 	absMinY = BitConverter::ToInt16BE(data, rawDataIndex + 2);
@@ -53,14 +53,14 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 	//if (highestPolyType > 0)
 	{
 		for (int i = 0; i < highestPolyType + 1; i++)
-			polygonTypes.push_back(BitConverter::ToInt64BE(data, polyTypeDefSegmentOffset + (i * 8)));
+			polygonTypes.push_back(BitConverter::ToUInt64BE(data, polyTypeDefSegmentOffset + (i * 8)));
 	}
 	//else
 	//{
 		//int polyTypesSize = abs(polyTypeDefSegmentOffset - camDataSegmentOffset) / 8;
 
 		//for (int i = 0; i < polyTypesSize; i++)
-			//polygonTypes.push_back(BitConverter::ToInt64BE(data, polyTypeDefSegmentOffset + (i * 8)));
+			//polygonTypes.push_back(BitConverter::ToUInt64BE(data, polyTypeDefSegmentOffset + (i * 8)));
 	//}
 
 	if (camDataSegmentOffset != 0)
@@ -82,8 +82,8 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 	}
 
 	if (waterBoxSegmentOffset != 0)
-		parent->declarations[waterBoxSegmentOffset] = new Declaration(DeclarationAlignment::None, 16 * waterBoxes.size(), "WaterBox",
-			StringHelper::Sprintf("%s_waterBoxes_%08X", prefix.c_str(), waterBoxSegmentOffset), true, declaration);
+		parent->AddDeclarationArray(waterBoxSegmentOffset, DeclarationAlignment::None, 16 * waterBoxes.size(), "WaterBox",
+			StringHelper::Sprintf("%s_waterBoxes_%08X", prefix.c_str(), waterBoxSegmentOffset), 0, declaration);
 
 	if (polygons.size() > 0)
 	{
@@ -98,8 +98,7 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 		}
 
 		if (polySegmentOffset != 0) {
-			parent->declarations[polySegmentOffset] = new Declaration(DeclarationAlignment::None, polygons.size() * 16, "RoomPoly", // TODO: Change this to CollisionPoly once the struct has been updated
-				StringHelper::Sprintf("%s_polygons_%08X", prefix.c_str(), polySegmentOffset), true, declaration);
+			parent->AddDeclarationArray(polySegmentOffset, DeclarationAlignment::None, polygons.size() * 16, "CollisionPoly", StringHelper::Sprintf("%s_polygons_%08X", prefix.c_str(), polySegmentOffset), 0, declaration);
 		}
 	}
 
@@ -111,8 +110,8 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 	}
 
 	if (polyTypeDefSegmentOffset != 0)
-		parent->declarations[polyTypeDefSegmentOffset] = new Declaration(DeclarationAlignment::None, polygonTypes.size() * 8,
-			"u32", StringHelper::Sprintf("%s_polygonTypes_%08X", prefix.c_str(), polyTypeDefSegmentOffset), true, declaration);
+		parent->AddDeclarationArray(polyTypeDefSegmentOffset, DeclarationAlignment::None, polygonTypes.size() * 8,
+			"u32", StringHelper::Sprintf("%s_polygonTypes_%08X", prefix.c_str(), polyTypeDefSegmentOffset), 0, declaration);
 
 	declaration = "";
 
@@ -128,8 +127,8 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 		}
 
 		if (vtxSegmentOffset != 0)
-			parent->declarations[vtxSegmentOffset] = new Declaration(DeclarationAlignment::None, vertices.size() * 6,
-				"Vec3s", StringHelper::Sprintf("%s_vtx_%08X", prefix.c_str(), vtxSegmentOffset), true, declaration);
+			parent->AddDeclarationArray(vtxSegmentOffset, DeclarationAlignment::None, vertices.size() * 6,
+				"Vec3s", StringHelper::Sprintf("%s_vtx_%08X", prefix.c_str(), vtxSegmentOffset), 0, declaration);
 
 		declaration = "";
 	}
@@ -149,26 +148,34 @@ ZCollisionHeader::ZCollisionHeader(ZFile* parent, std::string prefix, std::vecto
 		prefix.c_str(), polySegmentOffset, prefix.c_str(), polyTypeDefSegmentOffset,
 		prefix.c_str(), camDataSegmentOffset, numWaterBoxes, waterBoxStr);
 
-
-	/*parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, DeclarationPadding::Pad16, 44, "CollisionHeader",
-		StringHelper::Sprintf("%s_collisionHeader_%08X", prefix.c_str(), rawDataIndex), declaration);*/
-
 	parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, DeclarationPadding::Pad16, 44, "CollisionHeader",
 		StringHelper::Sprintf("%s", prefix.c_str(), rawDataIndex), declaration);
+}
+
+ZCollisionHeader::~ZCollisionHeader()
+{
+	for (VertexEntry* vtx : vertices)
+		delete vtx;
+
+	for (PolygonEntry* poly : polygons)
+		delete poly;
+
+	for (WaterBoxHeader* waterBox : waterBoxes)
+		delete waterBox;
 }
 
 ZCollisionHeader* ZCollisionHeader::ExtractFromXML(tinyxml2::XMLElement* reader, vector<uint8_t> nRawData, int rawDataIndex)
 {
 	ZCollisionHeader* col = new ZCollisionHeader();
 
-	
+
 
 	return col;
 }
 
-PolygonEntry::PolygonEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+PolygonEntry::PolygonEntry(const std::vector<uint8_t>& rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	type = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 	vtxA = BitConverter::ToInt16BE(data, rawDataIndex + 2);
@@ -180,18 +187,18 @@ PolygonEntry::PolygonEntry(std::vector<uint8_t> rawData, int rawDataIndex)
 	d = BitConverter::ToInt16BE(data, rawDataIndex + 14);
 }
 
-VertexEntry::VertexEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+VertexEntry::VertexEntry(const std::vector<uint8_t>& rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	x = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 	y = BitConverter::ToInt16BE(data, rawDataIndex + 2);
 	z = BitConverter::ToInt16BE(data, rawDataIndex + 4);
 }
 
-WaterBoxHeader::WaterBoxHeader(std::vector<uint8_t> rawData, int rawDataIndex)
+WaterBoxHeader::WaterBoxHeader(const std::vector<uint8_t>& rawData, int rawDataIndex)
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	xMin = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 	ySurface = BitConverter::ToInt16BE(data, rawDataIndex + 2);
@@ -201,7 +208,7 @@ WaterBoxHeader::WaterBoxHeader(std::vector<uint8_t> rawData, int rawDataIndex)
 	properties = BitConverter::ToInt32BE(data, rawDataIndex + 12);
 }
 
-CameraDataList::CameraDataList(ZFile* parent, std::string prefix, std::vector<uint8_t> rawData, int rawDataIndex, int polyTypeDefSegmentOffset, int polygonTypesCnt)
+CameraDataList::CameraDataList(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex, int polyTypeDefSegmentOffset, int polygonTypesCnt)
 {
 	string declaration = "";
 
@@ -267,7 +274,7 @@ CameraDataList::CameraDataList(ZFile* parent, std::string prefix, std::vector<ui
 	}
 }
 
-CameraPositionData::CameraPositionData(std::vector<uint8_t> rawData, int rawDataIndex)
+CameraPositionData::CameraPositionData(const std::vector<uint8_t>& rawData, int rawDataIndex)
 {
 	x = BitConverter::ToInt16BE(rawData, rawDataIndex + 0);
 	y = BitConverter::ToInt16BE(rawData, rawDataIndex + 2);

@@ -1,8 +1,8 @@
 <Root>
     <File Name="object_blkobj" Segment="6">
-        <DList Name="gIllusionRoomDListNormal" Offset="0x14E0"/>
-        <DList Name="gIllusionRoomDListIllusion" Offset="0x53D0"/>
-        <DList Name="gIllusionRoomDListUnusedTree" Offset="0x7EB0"/>
-        <Collision Name="gIllusionRoomColHeader" Offset="0x7564"/>
+        <DList Name="gIllusionRoomNormalDL" Offset="0x14E0"/>
+        <DList Name="gIllusionRoomIllusionDL" Offset="0x53D0"/>
+        <DList Name="gIllusionRoomTreeDL" Offset="0x7EB0"/> <!-- Unused -->
+        <Collision Name="gIllusionRoomCol" Offset="0x7564"/>
     </File>
 </Root>

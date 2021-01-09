@@ -58,17 +58,16 @@ void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&gIllusionRoomColHeader, &colHeader);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        CollisionHeader_GetVirtual(&gIllusionRoomCol, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
     }
 }
@@ -77,7 +76,7 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
@@ -115,7 +114,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
         if (this->alpha > 255) {
             this->alpha = 255;
             EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         }
     }
 }
@@ -166,11 +165,11 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->alpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomDListNormal, this->alpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomNormalDL, this->alpha);
     }
     illusionAlpha = 255 - this->alpha;
     if (illusionAlpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomDListIllusion, illusionAlpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomIllusionDL, illusionAlpha);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);

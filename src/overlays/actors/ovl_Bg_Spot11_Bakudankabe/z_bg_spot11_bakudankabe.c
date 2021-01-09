@@ -99,17 +99,16 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
     s32 pad;
-    s32 sp24;
+    CollisionHeader* colHeader = NULL;
 
-    sp24 = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
     func_808B2180(this, globalCtx);
-    DynaPolyInfo_Alloc(gBgSpot11Col, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    CollisionHeader_GetVirtual(&gBgSpot11Col, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f);
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
@@ -117,7 +116,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 

@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_torch2" Segment="6">
-        <Skeleton Name="gDarkLinkSkeleton" Type="Flex" LimbType="LOD" Offset="0x4764"/>
-        <DList Name="sDarkLinkDListUnusedSheath" Offset="0x3748"/>
+        <Skeleton Name="gDarkLinkSkel" Type="Flex" LimbType="LOD" Offset="0x4764"/>
+        <DList Name="sDarkLinkSheathDL" Offset="0x3748"/> <!-- Unused -->
     </File>
 </Root>

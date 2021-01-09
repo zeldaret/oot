@@ -30,7 +30,7 @@ const ActorInit Bg_Ingate_InitVars = {
     (ActorFunc)BgIngate_Draw,
 };
 
-extern UNK_TYPE D_060011B8;
+extern CollisionHeader D_060011B8;
 extern Gfx D_06001040[];
 
 void BgIngate_SetupAction(BgIngate* this, BgIngateActionFunc actionFunc) {
@@ -41,12 +41,12 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgIngate* this = THIS;
 
     s32 pad;
-    s32 sp32 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060011B8, &sp32);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060011B8, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp32);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((globalCtx->sceneNum != SCENE_SPOT20 || LINK_IS_CHILD) ||
         (((gSaveContext.eventChkInf[1] & 0x100)) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
@@ -66,7 +66,7 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgIngate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIngate* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80892890(BgIngate* this, GlobalContext* globalCtx) {

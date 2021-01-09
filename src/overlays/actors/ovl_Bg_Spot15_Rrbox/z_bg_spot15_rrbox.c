@@ -20,7 +20,7 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 static s16 D_808B4590 = 0;
 
-extern UNK_TYPE D_06000348;
+extern CollisionHeader D_06000348;
 extern Gfx D_06000180[];
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
@@ -52,17 +52,17 @@ static Vec3f D_808B45DC[] = {
     { 29.99f, 0.01f, 29.99f },  { 0.0f, 0.01f, 0.0f },
 };
 
-void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, UNK_TYPE* arg2, DynaPolyMoveFlag flags) {
+void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
     s32 pad;
-    UNK_TYPE temp = 0;
+    CollisionHeader* colHeader = NULL;
     u32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, flags);
-    DynaPolyInfo_Alloc(arg2, &temp);
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -75,11 +75,11 @@ void func_808B39E8(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
 }
 
 void func_808B3A34(BgSpot15Rrbox* this) {
-    this->bgId = 50;
+    this->bgId = BG_ACTOR_MAX;
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dynaPolyActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->bgId);
+    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
 
     if (dynaPolyActor != NULL &&
         Math3D_Dist2DSq(dynaPolyActor->actor.posRot.pos.x, dynaPolyActor->actor.posRot.pos.z,
@@ -134,7 +134,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_808B4590 = 0;
 }
 
@@ -155,8 +155,8 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     actorPosition.y += this->dyna.actor.pos4.y;
     actorPosition.z += this->dyna.actor.posRot.pos.z;
 
-    this->dyna.actor.groundY = func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
-                                             &this->dyna.actor, &actorPosition, chkDist);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
+                                                           &this->dyna.actor, &actorPosition, chkDist);
 
     if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
@@ -171,7 +171,7 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Vec3f scale;
     Actor* actor = &this->dyna.actor;
     f32 yIntersect;
-    f32 returnValue = -32000.0f;
+    f32 returnValue = BGCHECK_Y_MIN;
     s32 bgId;
 
     func_808B3A34(this);
@@ -186,7 +186,7 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         position.y += actor->pos4.y;
         position.z += actor->posRot.pos.z;
 
-        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
+        yIntersect = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
 
         if (returnValue < yIntersect) {
             returnValue = yIntersect;

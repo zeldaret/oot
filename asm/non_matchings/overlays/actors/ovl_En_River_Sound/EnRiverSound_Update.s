@@ -48,7 +48,7 @@ glabel EnRiverSound_Update
 /* 00640 80AE6F70 26050078 */  addiu   $a1, $s0, 0x0078           ## $a1 = 00000078
 /* 00644 80AE6F74 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFEC
 /* 00648 80AE6F78 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
-/* 0064C 80AE6F7C 0C00F269 */  jal     func_8003C9A4              
+/* 0064C 80AE6F7C 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00650 80AE6F80 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00654 80AE6F84 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 00658 80AE6F88 44812000 */  mtc1    $at, $f4                   ## $f4 = -32000.00
@@ -58,7 +58,7 @@ glabel EnRiverSound_Update
 /* 00668 80AE6F98 00000000 */  nop
 /* 0066C 80AE6F9C 45030006 */  bc1tl   .L80AE6FB8                 
 /* 00670 80AE6FA0 A200014D */  sb      $zero, 0x014D($s0)         ## 0000014D
-/* 00674 80AE6FA4 0C010830 */  jal     func_800420C0              
+/* 00674 80AE6FA4 0C010830 */  jal     SurfaceType_GetConveyorSpeed              
 /* 00678 80AE6FA8 8E050078 */  lw      $a1, 0x0078($s0)           ## 00000078
 /* 0067C 80AE6FAC 10000002 */  beq     $zero, $zero, .L80AE6FB8   
 /* 00680 80AE6FB0 A202014D */  sb      $v0, 0x014D($s0)           ## 0000014D

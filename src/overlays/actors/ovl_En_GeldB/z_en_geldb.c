@@ -1461,8 +1461,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
         { 3000.0f, 0.0f, 1600.0f },
         { 3000.0f, 6000.0f, 1600.0f },
     };
-    static u64* eyeDLists[4] = { gGerudoThiefTexEyeOpen, gGerudoThiefTexEyeHalf, gGerudoThiefTexEyeShut,
-                                 gGerudoThiefTexEyeHalf };
+    static u64* eyeDLists[4] = { gGerudoThiefEyeOpenTex, gGerudoThiefEyeHalfTex, gGerudoThiefEyeShutTex,
+                                 gGerudoThiefEyeHalfTex };
     s32 pad;
     EnGeldB* this = THIS;
 

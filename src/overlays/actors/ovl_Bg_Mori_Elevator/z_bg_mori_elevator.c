@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060035F8;
+extern CollisionHeader D_060035F8;
 extern Gfx D_06002AD0[];
 
 f32 func_808A1800(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) {
@@ -88,8 +88,7 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriElevator* this = THIS;
     s32 pad;
-    s32 localConst;
-    localConst = 0;
+    CollisionHeader* colHeader = NULL;
 
     this->unk_172 = sIsSpawned;
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
@@ -105,10 +104,9 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 sIsSpawned = true;
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-                DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
-                DynaPolyInfo_Alloc(&D_060035F8, &localConst);
-                this->dyna.dynaPolyId =
-                    DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
+                DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+                CollisionHeader_GetVirtual(&D_060035F8, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case true:
@@ -124,7 +122,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_172 == 0) {
         // Forest Temple elevator DT
         osSyncPrintf("森の神殿 elevator DT\n");
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         sIsSpawned = false;
     }
 }
