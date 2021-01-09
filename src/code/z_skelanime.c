@@ -725,7 +725,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
 }
 
 /**
- * Unpacks frame data from the object into frameTable
+ * Unpacks frame data for the animation at the given frame into frameTable
  * Used by the legacy animation format
  */
 s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frameTable) {
@@ -741,10 +741,10 @@ s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frame
      *Equivalent to the following, but the compiler optimizes the loop in a way I can't replicate
      */
 
-    // for(i = 0, dst++, key++; i < limbCount + 1; i++, key++, dst++) {
-    //     dst->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
-    //     dst->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
-    //     dst->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
+    // for(i = 0, frameTable++, key++; i < limbCount + 1; i++, key++, frameTable++) {
+    //     frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
+    //     frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
+    //     frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
     // }
 
     frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
@@ -1259,7 +1259,8 @@ void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAn
         skelAnime->morphRate = 1.0f / morphFrames;
     } else {
         LinkAnimation_SetUpdateFunction(skelAnime);
-        AnimationContext_SetLoadFrame(globalCtx, animation, (s32)startFrame, skelAnime->limbCount, skelAnime->jointTable);
+        AnimationContext_SetLoadFrame(globalCtx, animation, (s32)startFrame, skelAnime->limbCount,
+                                      skelAnime->jointTable);
         skelAnime->morphWeight = 0.0f;
     }
 
@@ -1285,8 +1286,8 @@ void LinkAnimation_PlayOnce(GlobalContext* globalCtx, SkelAnime* skelAnime, Link
  */
 void LinkAnimation_PlayOnceSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
                                     f32 playSpeed) {
-    LinkAnimation_Change(globalCtx, skelAnime, animation, playSpeed, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
-                         0.0f);
+    LinkAnimation_Change(globalCtx, skelAnime, animation, playSpeed, 0.0f, Animation_GetLastFrame(animation),
+                         ANIMMODE_ONCE, 0.0f);
 }
 
 /**
@@ -1302,8 +1303,8 @@ void LinkAnimation_PlayLoop(GlobalContext* globalCtx, SkelAnime* skelAnime, Link
  */
 void LinkAnimation_PlayLoopSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
                                     f32 playSpeed) {
-    LinkAnimation_Change(globalCtx, skelAnime, animation, playSpeed, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
-                         0.0f);
+    LinkAnimation_Change(globalCtx, skelAnime, animation, playSpeed, 0.0f, Animation_GetLastFrame(animation),
+                         ANIMMODE_LOOP, 0.0f);
 }
 
 /**

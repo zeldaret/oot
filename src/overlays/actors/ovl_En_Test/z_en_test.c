@@ -61,7 +61,6 @@ extern UNK_TYPE D_0600BE4C;
 extern UNK_TYPE D_0600C438;
 extern UNK_TYPE D_0600E2B0;
 
-
 /*
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
