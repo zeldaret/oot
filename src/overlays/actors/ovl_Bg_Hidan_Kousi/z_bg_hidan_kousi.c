@@ -40,10 +40,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80889E70[] = {
-    0x0600E2CC,
-    0x0600E380,
-    0x0600E430,
+extern CollisionHeader D_0600E2CC, D_0600E380, D_0600E430;
+
+static CollisionHeader* D_80889E70[] = {
+    &D_0600E2CC,
+    &D_0600E380,
+    &D_0600E430,
 };
 
 static s16 D_80889E7C[] = {
@@ -53,7 +55,7 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx* D_80889E84[] = {
+static Gfx (*D_80889E84[])[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -66,9 +68,9 @@ void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionF
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
     s32 pad;
-    u32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Actor_SetHeight(thisx, 50.0f);
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
@@ -78,8 +80,8 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    DynaPolyInfo_Alloc(D_80889E70[thisx->params & 0xFF], &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->posRot.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
@@ -91,7 +93,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80889ACC(BgHidanKousi* this) {

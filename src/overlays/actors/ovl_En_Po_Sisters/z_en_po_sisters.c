@@ -349,7 +349,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
         }
         sp20 = this->unk_294;
     } else if (this->unk_195 != 0) {
-        sp20 = this->actor.parent->xzDistFromLink;
+        sp20 = this->actor.parent->xzDistToLink;
     }
     this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.x;
     this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.posRot.pos.z;
@@ -600,7 +600,7 @@ void func_80ADA4A8(EnPoSisters* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
-    if (this->unk_19A == 0 || this->actor.xzDistFromLink < 200.0f) {
+    if (this->unk_19A == 0 || this->actor.xzDistToLink < 200.0f) {
         func_80AD93C4(this);
     }
 }
@@ -611,7 +611,7 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
-    if (this->actor.xzDistFromLink < 200.0f && fabsf(this->actor.yDistFromLink + 5.0f) < 30.0f) {
+    if (this->actor.xzDistToLink < 200.0f && fabsf(this->actor.yDistToLink + 5.0f) < 30.0f) {
         func_80AD943C(this);
     } else if (this->unk_19A == 0 && Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f) != 0) {
         func_80AD9368(this);
@@ -637,9 +637,9 @@ void func_80ADA6A0(EnPoSisters* this, GlobalContext* globalCtx) {
     } else {
         Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x71C);
     }
-    if (this->actor.xzDistFromLink < 160.0f && fabsf(this->actor.yDistFromLink + 5.0f) < 30.0f) {
+    if (this->actor.xzDistToLink < 160.0f && fabsf(this->actor.yDistToLink + 5.0f) < 30.0f) {
         func_80AD944C(this);
-    } else if (this->actor.xzDistFromLink > 240.0f) {
+    } else if (this->actor.xzDistToLink > 240.0f) {
         func_80AD93C4(this);
     }
 }
@@ -730,7 +730,7 @@ void func_80ADAC70(EnPoSisters* this, GlobalContext* globalCtx) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         this->unk_199 |= 2;
         func_80AD9718(this);
-    } else if (this->unk_19A == 0 && 240.0f < this->actor.xzDistFromLink) {
+    } else if (this->unk_19A == 0 && 240.0f < this->actor.xzDistToLink) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         func_80AD93C4(this);
     }
@@ -829,7 +829,7 @@ void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void func_80ADB2B8(EnPoSisters* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->actor.xzDistFromLink < 130.0f) {
+    if (this->actor.xzDistToLink < 130.0f) {
         func_80AD9DF0(this, globalCtx);
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
@@ -1022,7 +1022,7 @@ void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
 void func_80ADBBF4(EnPoSisters* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1820);
-    if (this->actor.xzDistFromLink < 240.0f && fabsf(this->actor.yDistFromLink + 5.0f) < 30.0f) {
+    if (this->actor.xzDistToLink < 240.0f && fabsf(this->actor.yDistToLink + 5.0f) < 30.0f) {
         func_80AD93C4(this);
     }
 }
@@ -1194,7 +1194,8 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             vec.x = this->actor.posRot.pos.x;
             vec.y = this->actor.posRot.pos.y + 10.0f;
             vec.z = this->actor.posRot.pos.z;
-            this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
+            this->actor.groundY =
+                BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
         }
 
         Collider_UpdateCylinder(&this->actor, &this->collider);

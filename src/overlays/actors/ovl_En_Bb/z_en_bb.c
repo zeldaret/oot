@@ -96,18 +96,108 @@ extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06001A30;
 
 static DamageTable sDamageTableBlueGreen = {
-    0xF0, 0x02, 0x01, 0xA2, 0xF0, 0xE2, 0xA2, 0xF0, 0x01, 0x02, 0x04, 0xE2, 0xC4, 0xB4, 0x00, 0x00,
-    0x00, 0x60, 0x93, 0x83, 0xA0, 0xA0, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0 , 0xF),
+    /* Deku stick    */ DMG_ENTRY(2 , 0x0),
+    /* Slingshot     */ DMG_ENTRY(1 , 0x0),
+    /* Explosive     */ DMG_ENTRY(2 , 0xA),
+    /* Boomerang     */ DMG_ENTRY(0 , 0xF),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xA),
+    /* Hookshot      */ DMG_ENTRY(0 , 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(1 , 0x0),
+    /* Master sword  */ DMG_ENTRY(2 , 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2 , 0xE),
+    /* Ice arrow     */ DMG_ENTRY(4 , 0xC),
+    /* Light arrow   */ DMG_ENTRY(4 , 0xB),
+    /* Wind arrow    */ DMG_ENTRY(0 , 0x0),
+    /* Shadow arrow  */ DMG_ENTRY(0 , 0x0),
+    /* Spirit arrow  */ DMG_ENTRY(0 , 0x0),
+    /* Fire magic    */ DMG_ENTRY(0 , 0x6),
+    /* Ice magic     */ DMG_ENTRY(3 , 0x9),
+    /* Light magic   */ DMG_ENTRY(3 , 0x8),
+    /* Shield        */ DMG_ENTRY(0 , 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
+    /* Giant spin    */ DMG_ENTRY(4 , 0x0),
+    /* Master spin   */ DMG_ENTRY(2 , 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
+    /* Giant jump    */ DMG_ENTRY(8 , 0x0),
+    /* Master jump   */ DMG_ENTRY(4 , 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x6),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
 };
 
 static DamageTable sDamageTableRed = {
-    0xD0, 0xD0, 0xD0, 0xA2, 0xD0, 0xE2, 0xA2, 0xD0, 0xD0, 0xE2, 0xE4, 0xE2, 0x94, 0xE2, 0xE4, 0xE2,
-    0xE2, 0x60, 0x93, 0x60, 0xA0, 0xA0, 0x01, 0xE4, 0xE2, 0x02, 0xE8, 0xE4, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0 , 0xD),
+    /* Deku stick    */ DMG_ENTRY(0 , 0xD),
+    /* Slingshot     */ DMG_ENTRY(0 , 0xD),
+    /* Explosive     */ DMG_ENTRY(2 , 0xA),
+    /* Boomerang     */ DMG_ENTRY(0 , 0xD),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xA),
+    /* Hookshot      */ DMG_ENTRY(0 , 0xD),
+    /* Kokiri sword  */ DMG_ENTRY(0 , 0xD),
+    /* Master sword  */ DMG_ENTRY(2 , 0xE),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xE),
+    /* Fire arrow    */ DMG_ENTRY(2 , 0xE),
+    /* Ice arrow     */ DMG_ENTRY(4 , 0x9),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xE),
+    /* Wind arrow    */ DMG_ENTRY(4 , 0xE),
+    /* Shadow arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Spirit arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Fire magic    */ DMG_ENTRY(0 , 0x6),
+    /* Ice magic     */ DMG_ENTRY(3 , 0x9),
+    /* Light magic   */ DMG_ENTRY(0 , 0x6),
+    /* Shield        */ DMG_ENTRY(0 , 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xE),
+    /* Master spin   */ DMG_ENTRY(2 , 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xE),
+    /* Master jump   */ DMG_ENTRY(4 , 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x6),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
 };
 
 static DamageTable sDamageTableWhite = {
-    0xF0, 0xE2, 0xE1, 0xA2, 0xF0, 0xE2, 0xA2, 0xF0, 0xE1, 0xE2, 0xE4, 0x54, 0xE2, 0xE2, 0xE4, 0xE2,
-    0xE2, 0x74, 0x60, 0x60, 0xA0, 0xA0, 0xE1, 0xE4, 0xE2, 0xE2, 0xE8, 0xE4, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0 , 0xF),
+    /* Deku stick    */ DMG_ENTRY(2 , 0xE),
+    /* Slingshot     */ DMG_ENTRY(1 , 0xE),
+    /* Explosive     */ DMG_ENTRY(2 , 0xA),
+    /* Boomerang     */ DMG_ENTRY(0 , 0xF),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xA),
+    /* Hookshot      */ DMG_ENTRY(0 , 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(1 , 0xE),
+    /* Master sword  */ DMG_ENTRY(2 , 0xE),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xE),
+    /* Fire arrow    */ DMG_ENTRY(4 , 0x5),
+    /* Ice arrow     */ DMG_ENTRY(2 , 0xE),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xE),
+    /* Wind arrow    */ DMG_ENTRY(4 , 0xE),
+    /* Shadow arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Spirit arrow  */ DMG_ENTRY(2 , 0xE),
+    /* Fire magic    */ DMG_ENTRY(4 , 0x7),
+    /* Ice magic     */ DMG_ENTRY(0 , 0x6),
+    /* Light magic   */ DMG_ENTRY(0 , 0x6),
+    /* Shield        */ DMG_ENTRY(0 , 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0xE),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xE),
+    /* Master spin   */ DMG_ENTRY(2 , 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0xE),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xE),
+    /* Master jump   */ DMG_ENTRY(4 , 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x6),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
 };
 
 const ActorInit En_Bb_InitVars = {
@@ -226,8 +316,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBb* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->limbDrawTbl, this->transitionDrawTbl,
-                   16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001A30, &D_06000444, this->jointTable, this->morphTable, 16);
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -485,7 +574,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             if (this->charge && (this->targetActor == NULL)) {
                 this->vMoveAngleY = this->actor.posRot.rot.y;
-                if (this->actor.xzDistFromLink < 200.0f) {
+                if (this->actor.xzDistToLink < 200.0f) {
                     Animation_PlayLoop(&this->skelAnime, &D_06000184);
                     this->vMoveAngleY = this->actor.yawTowardsLink;
                 }
@@ -499,7 +588,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = Math_SinF(this->bobPhase) * 65535.0f;
             }
         }
-        if ((this->actor.xzDistFromLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
+        if ((this->actor.xzDistToLink < 150.0f) && (this->actionState != BBBLUE_NORMAL)) {
             if (!this->charge) {
                 Animation_PlayLoop(&this->skelAnime, &D_06000184);
                 this->maxSpeed = (Rand_ZeroOne() * 1.5f) + 6.0f;
@@ -507,7 +596,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
                 this->vMoveAngleY = this->actor.yawTowardsLink;
                 this->actionState = this->charge = true; // Sets actionState to BBBLUE_AGGRO
             }
-        } else if (this->actor.xzDistFromLink < 200.0f) {
+        } else if (this->actor.xzDistToLink < 200.0f) {
             this->vMoveAngleY = this->actor.yawTowardsLink;
         }
         if (this->targetActor == NULL) {
@@ -1102,7 +1191,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                         ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                         Actor_ApplyDamage(&this->actor);
                     } else {
-                        this->collider.base.acFlags |= 2;
+                        this->collider.base.acFlags |= AC_HIT;
                     }
                 }
                 if (this->actor.colChkInfo.health == 0) {

@@ -19,7 +19,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx);
 
 extern Gfx D_060037B8[];
-extern ColHeader D_06003CE0;
+extern CollisionHeader D_06003CE0;
 
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
@@ -57,12 +57,12 @@ typedef enum {
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanJd* this = THIS;
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(thisx, DPM_PLAYER);
-    DynaPolyInfo_Alloc(&D_06003CE0, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(thisx, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_06003CE0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 
@@ -80,7 +80,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanJd* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {

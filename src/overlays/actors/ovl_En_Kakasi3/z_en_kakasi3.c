@@ -233,7 +233,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 
     angleTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!(this->actor.xzDistFromLink > 120.0f)) {
+    if (!(this->actor.xzDistToLink > 120.0f)) {
         absAngleTowardsLink = ABS(angleTowardsLink);
 
         if (absAngleTowardsLink < 0x4300) {
@@ -249,7 +249,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A915B8;
                     return;
                 }
-                if (this->actor.xzDistFromLink < 80.0f) {
+                if (this->actor.xzDistToLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
@@ -264,7 +264,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A9187C;
                     return;
                 }
-                if (this->actor.xzDistFromLink < 80.0f) {
+                if (this->actor.xzDistToLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             }

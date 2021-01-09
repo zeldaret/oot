@@ -11,8 +11,8 @@ typedef void (*EnBbActionFunc)(struct EnBb*, GlobalContext*);
 typedef struct EnBb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTbl[16];
-    /* 0x01F0 */ Vec3s transitionDrawTbl[16];
+    /* 0x0190 */ Vec3s jointTable[16];
+    /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ s32 action;
     /* 0x0254 */ s32 unk_254; // unused
     /* 0x0258 */ EnBbActionFunc actionFunc;

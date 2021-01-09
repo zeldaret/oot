@@ -200,7 +200,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.nightFlag) {
+    } else if (gSaveContext.nightFlag != 0) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
@@ -425,7 +425,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
-        if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
+        if (!(120.0f < this->actor.xzDistToLink) && (yawDiff < 0x4300)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
@@ -751,7 +751,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     if (((this->initParams != 2) && (this->initParams != 5)) ||
         ((yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)),
-          !(this->actor.xzDistFromLink > 120.0f)) &&
+          !(this->actor.xzDistToLink > 120.0f)) &&
          (yawDiff < 0x4300))) {
         func_8002F2F4(&this->actor, globalCtx);
     }

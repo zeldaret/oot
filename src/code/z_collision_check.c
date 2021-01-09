@@ -1167,10 +1167,10 @@ void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContex
             }
         }
         if (AREG(24)) {
-            func_80042C3C(globalCtx, &globalCtx->colCtx);
+            BgCheck_DrawDynaCollision(globalCtx, &globalCtx->colCtx);
         }
         if (AREG(25)) {
-            func_80042FC4(globalCtx, &globalCtx->colCtx);
+            BgCheck_DrawStaticCollision(globalCtx, &globalCtx->colCtx);
         }
     }
 }

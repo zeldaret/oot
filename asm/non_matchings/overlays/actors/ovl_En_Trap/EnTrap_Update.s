@@ -304,7 +304,7 @@ glabel EnTrap_Update
 /* 00818 80B24E78 AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 0081C 80B24E7C AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00820 80B24E80 AFB90010 */  sw      $t9, 0x0010($sp)           
-/* 00824 80B24E84 0C00F7A1 */  jal     func_8003DE84              
+/* 00824 80B24E84 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00828 80B24E88 E7A40074 */  swc1    $f4, 0x0074($sp)           
 /* 0082C 80B24E8C 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 00830 80B24E90 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

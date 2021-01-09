@@ -75,7 +75,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060066A8;
+extern CollisionHeader D_060066A8;
 extern Gfx D_06008D88[];
 extern Gfx D_06006570[];
 
@@ -86,8 +86,8 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     f32 sinRotY;
     f32 cosRotY;
-    s32 localConst = 0;
-    ColliderTrisElementInit* items;
+    CollisionHeader* colHeader = NULL;
+    ColliderTrisElementInit* triInit;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitTris(globalCtx, &this->collider);
@@ -97,13 +97,13 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = (thisx->params >> 8) & 0xFF;
 
     if (thisx->params == 0) {
-        items = &sTrisElementsInit[0];
+        triInit = &sTrisElementsInit[0];
         this->actionFunc = func_808BEFF4;
     } else {
-        items = &sTrisElementsInit[1];
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        DynaPolyInfo_Alloc(&D_060066A8, &localConst);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
+        triInit = &sTrisElementsInit[1];
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->initPosRot.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
             thisx->posRot.pos.y = thisx->initPosRot.pos.y;
@@ -117,16 +117,16 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     cosRotY = Math_CosS(thisx->shape.rot.y);
 
     for (i = 0; i < 3; i++) {
-        sp4C[i].x = (items->dim.vtx[i].x * cosRotY) + thisx->posRot.pos.x;
-        sp4C[i].y = items->dim.vtx[i].y + thisx->posRot.pos.y;
-        sp4C[i].z = thisx->posRot.pos.z - (items->dim.vtx[i].x * sinRotY);
+        sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + thisx->posRot.pos.x;
+        sp4C[i].y = triInit->dim.vtx[i].y + thisx->posRot.pos.y;
+        sp4C[i].z = thisx->posRot.pos.z - (triInit->dim.vtx[i].x * sinRotY);
     }
 
     Collider_SetTrisVertices(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
 
-    sp4C[1].x = (items->dim.vtx[2].x * cosRotY) + thisx->posRot.pos.x;
-    sp4C[1].y = items->dim.vtx[0].y + thisx->posRot.pos.y;
-    sp4C[1].z = thisx->posRot.pos.z - (items->dim.vtx[2].x * sinRotY);
+    sp4C[1].x = (triInit->dim.vtx[2].x * cosRotY) + thisx->posRot.pos.x;
+    sp4C[1].y = triInit->dim.vtx[0].y + thisx->posRot.pos.y;
+    sp4C[1].z = thisx->posRot.pos.z - (triInit->dim.vtx[2].x * sinRotY);
 
     Collider_SetTrisVertices(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
@@ -136,7 +136,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (thisx->params == 1) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

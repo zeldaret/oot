@@ -158,7 +158,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     Vec3f velocity;
 
     pos = *breakPos;
-    pos.y += this->actor.waterY;
+    pos.y += this->actor.yDistToWater;
     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
@@ -194,7 +194,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjKibako_SetupHeld(this);
-    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 19.0f)) {
+    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 19.0f)) {
         ObjKibako_WaterBreak(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
@@ -207,17 +207,17 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistFromLink > 28.0f)) {
+        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistToLink > 28.0f)) {
             this->collider.base.ocFlags |= OC_PLAYER;
         }
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            if (this->actor.xzDistFromLink < 180.0f) {
+            if (this->actor.xzDistToLink < 180.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
-        if (this->actor.xzDistFromLink < 100.0f) {
+        if (this->actor.xzDistToLink < 100.0f) {
             func_8002F580(&this->actor, globalCtx);
         }
     }

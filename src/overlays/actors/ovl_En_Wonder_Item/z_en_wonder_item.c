@@ -241,8 +241,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
 void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->actor.xzDistFromLink < 50.0f) &&
-        (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
+    if ((this->actor.xzDistToLink < 50.0f) && (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, globalCtx, true);
     }
 }
@@ -257,8 +256,7 @@ void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
 void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->actor.xzDistFromLink < 50.0f) &&
-        (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
+    if ((this->actor.xzDistToLink < 50.0f) && (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(globalCtx, this->switchFlag);
         }
@@ -326,7 +324,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
 void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->actor.xzDistFromLink < 50.0f) && (player->invincibilityTimer < 0) &&
+    if ((this->actor.xzDistToLink < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
         EnWonderItem_DropCollectible(this, globalCtx, true);
     }

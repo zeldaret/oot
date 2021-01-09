@@ -137,7 +137,7 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.xzDistFromLink < 800.0f) {
+        if (this->actor.xzDistToLink < 800.0f) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }

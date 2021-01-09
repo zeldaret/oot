@@ -256,8 +256,8 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistFromLink < 300.0f &&
-               this->actor.yDistFromLink < 60.0f) {
+    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistToLink < 300.0f &&
+               this->actor.yDistToLink < 60.0f) {
         return true;
     } else {
         return false;
@@ -326,8 +326,8 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &actor->posRot.pos, &colPoint, &colPoly, 1, 0, 0, 1,
-                      &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &actor->posRot.pos, &colPoint, &colPoly, 1,
+                                0, 0, 1, &bgId)) {
         return false;
     }
 
@@ -409,7 +409,8 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     pos.y = this->actor.posRot.pos.y;
     pos.z += this->actor.posRot.pos.z;
 
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &pos, &colPoint, &poly, 1, 0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
+                                &bgId)) {
         *runDir = -*runDir;
         return true;
     }
@@ -527,7 +528,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.shape.rot.y += (this->runDir * 0x2000);
         if (this->spinTimer == 30 && this->invincibilityTimer == 0) {
-            if (this->actor.xzDistFromLink > 160.0f) {
+            if (this->actor.xzDistToLink > 160.0f) {
                 // orange flames
                 EnFd_SpawnChildFire(this, globalCtx, 8, 0);
             } else {

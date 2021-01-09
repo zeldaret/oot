@@ -247,7 +247,7 @@ glabel EnPeehat_Update
 /* 02C7C 80AD211C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02C80 80AD2120 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002C8
 /* 02C84 80AD2124 02403825 */  or      $a3, $s2, $zero            ## $a3 = FFFFFFE8
-/* 02C88 80AD2128 0C00F7A1 */  jal     func_8003DE84              
+/* 02C88 80AD2128 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02C8C 80AD212C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02C90 80AD2130 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 02C94 80AD2134 14410018 */  bne     $v0, $at, .L80AD2198       

@@ -70,16 +70,17 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-f32 D_80898794[] = { 0.13f, 0.1f, 0.1f };
+static f32 D_80898794[] = { 0.13f, 0.1f, 0.1f };
 
-Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
+static Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
 
-Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
+static Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
 
 extern Gfx D_06000880[];
 
 void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
+
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 }
@@ -118,23 +119,28 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
 }
 
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgJyaHaheniron* this = THIS;
-    Actor_ProcessInitChain(thisx, sInitChain);
+
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
-    if (thisx->params == 0) {
+    if (this->actor.params == 0) {
         BgJyaHaheniron_ColliderInit(this, globalCtx);
-        thisx->shape.rot.z = (Rand_ZeroOne() * 65535.0f);
+        this->actor.shape.rot.z = (Rand_ZeroOne() * 65535.0f);
         BgJyaHaheniron_SetupChairCrumble(this);
-    } else if (thisx->params == 1) {
+    } else if (this->actor.params == 1) {
         BgJyaHaheniron_SetupPillarCrumble(this);
-    } else if (thisx->params == 2) {
+    } else if (this->actor.params == 2) {
         BgJyaHaheniron_SetupRubbleCollide(this);
     }
 }
 
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    if (thisx->params == 0) {
-        Collider_DestroyJntSph(globalCtx, &THIS->collider);
+    s32 pad;
+    BgJyaHaheniron* this = THIS;
+
+    if (this->actor.params == 0) {
+        Collider_DestroyJntSph(globalCtx, &this->collider);
     }
 }
 
@@ -191,17 +197,20 @@ void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx
 }
 
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgJyaHaheniron* this = THIS;
+
     this->timer++;
     this->actionFunc(this, globalCtx);
 }
 
 void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { 0x06000880, 0x06000AE0, 0x06000600 };
+    s32 pad;
     BgJyaHaheniron* this = THIS;
 
-    if (thisx->params == 0) {
+    if (this->actor.params == 0) {
         Collider_UpdateSpheres(0, &this->collider);
     }
-    Gfx_DrawDListOpa(globalCtx, dLists[thisx->params]);
+    Gfx_DrawDListOpa(globalCtx, dLists[this->actor.params]);
 }

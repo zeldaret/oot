@@ -81,7 +81,7 @@ glabel EnVali_Init
 /* 00128 80B267D8 262407C0 */  addiu   $a0, $s1, 0x07C0           ## $a0 = 000007C0
 /* 0012C 80B267DC 26050078 */  addiu   $a1, $s0, 0x0078           ## $a1 = 00000078
 /* 00130 80B267E0 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFF4
-/* 00134 80B267E4 0C00F269 */  jal     func_8003C9A4              
+/* 00134 80B267E4 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00138 80B267E8 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 0013C 80B267EC 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 00140 80B267F0 44812000 */  mtc1    $at, $f4                   ## $f4 = -32000.00

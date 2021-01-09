@@ -101,18 +101,18 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
     s32 pad;
-    CollisionPoly* sp28;
+    CollisionPoly* poly;
     Vec3f pos;
-    UNK_TYPE sp24;
+    s32 bgId;
     f32 floorY;
 
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 30.0f;
     pos.z = this->actor.posRot.pos.z;
 
-    floorY = func_8003C9A4(&globalCtx->colCtx, &sp28, &sp24, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->actor, &pos);
 
-    if (floorY > -32000.0f) {
+    if (floorY > BGCHECK_Y_MIN) {
         this->actor.posRot.pos.y = floorY + yOffset;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
         return true;
@@ -320,17 +320,17 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistFromLink > 12.0f)) {
+        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
             this->collider.base.ocFlags |= OC_PLAYER;
         }
 
-        if (this->actor.xzDistFromLink < 600.0f) {
+        if (this->actor.xzDistToLink < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-            if (this->actor.xzDistFromLink < 400.0f) {
+            if (this->actor.xzDistToLink < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                if (this->actor.xzDistFromLink < 100.0f) {
+                if (this->actor.xzDistToLink < 100.0f) {
                     func_8002F580(&this->actor, globalCtx);
                 }
             }
@@ -391,7 +391,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
     } else {
         if (this->actor.bgCheckFlags & 0x40) {
             contactPos.x = this->actor.posRot.pos.x;
-            contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+            contactPos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
             contactPos.z = this->actor.posRot.pos.z;
             EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 400);
             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);

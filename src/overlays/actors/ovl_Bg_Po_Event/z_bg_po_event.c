@@ -34,7 +34,7 @@ extern Gfx D_060079E0[];
 extern Gfx D_06006830[];
 extern Gfx D_06006D60[];
 extern Gfx D_06007230[];
-extern ColHeader D_06007860;
+extern CollisionHeader D_06007860;
 
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
@@ -160,13 +160,12 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     static s16 blockPosX[] = { 2149, 1969, 1909 };
     static s16 blockPosZ[] = { -1410, -1350, -1530 };
     Actor* newBlock;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 bgId;
 
     this->dyna.actor.flags |= 0x30;
-    DynaPolyInfo_Alloc(&D_06007860, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_06007860, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                       blockPosX[this->index], this->dyna.actor.posRot.pos.y, blockPosZ[this->index], 0,
@@ -191,8 +190,8 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
         }
     }
     this->dyna.actor.posRot.pos.y = 833.0f;
-    this->dyna.actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor,
-                                             &this->dyna.actor.posRot.pos);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId,
+                                                           &this->dyna.actor, &this->dyna.actor.posRot.pos);
     this->actionFunc = BgPoEvent_BlockWait;
 }
 
@@ -218,7 +217,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
             BgPoEvent_InitPaintings(this, globalCtx);
         }
     } else {
-        DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
         if (Flags_GetSwitch(globalCtx, thisx->params)) {
             Actor_Kill(thisx);
         } else {
@@ -234,7 +233,7 @@ void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type >= 2) {
         Collider_DestroyTris(globalCtx, &this->collider);
     } else {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
             gSaveContext.timer1State = 0xA;
         }
@@ -249,7 +248,7 @@ void BgPoEvent_BlockWait(BgPoEvent* this, GlobalContext* globalCtx) {
         }
         this->timer = 45;
         this->actionFunc = BgPoEvent_BlockShake;
-    } else if (this->dyna.actor.xzDistFromLink > 50.0f) {
+    } else if (this->dyna.actor.xzDistToLink > 50.0f) {
         if (this->type != 1) {
             sPuzzleState |= (1 << this->index);
         } else {
@@ -526,9 +525,9 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
 
     DECR(this->timer);
 
-    if (((this->timer == 0) || ((thisx->xzDistFromLink < 150.0f) && (thisx->yDistFromLink < 50.0f)) ||
-         (func_8002DD78(player) && (thisx->xzDistFromLink < 320.0f) &&
-          ((this->index != 2) ? (thisx->yDistFromLink < 100.0f) : (thisx->yDistFromLink < 0.0f)) &&
+    if (((this->timer == 0) || ((thisx->xzDistToLink < 150.0f) && (thisx->yDistToLink < 50.0f)) ||
+         (func_8002DD78(player) && (thisx->xzDistToLink < 320.0f) &&
+          ((this->index != 2) ? (thisx->yDistToLink < 100.0f) : (thisx->yDistToLink < 0.0f)) &&
           func_8002DFC8(thisx, 0x2000, globalCtx))) &&
         ((thisx->parent != NULL) || (thisx->child != NULL))) {
         /*The third condition in the || is checking if
