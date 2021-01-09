@@ -1,8 +1,59 @@
 #include "global.h"
 #include "message_data_static.h"
 
-/* 
-const MessageTableEntry D_8014B320[] = {
+// TODO move these prototypes
+
+//void func_8006EE50(MessageData*, u16, u16);
+
+void func_800ECC04(u16); // original name : Na_StartOcarinaSinglePlayCheck2
+void func_800ED93C(u8,u8);
+void func_800ED858(u8);
+SubMessageContext_E2B8* func_800EE3D4(void); // original name : Na_StopOcarinaMode
+SubMessageContext_E2B8* func_800EE3F8(void);
+void func_800F691C(u16);
+
+void func_801069B0(void);
+void func_80106AA8(GlobalContext* globalCtx);
+u8 func_80106BC8(GlobalContext* globalCtx);
+u8 func_80106C88(GlobalContext* globalCtx);
+void func_80106CCC(GlobalContext* globalCtx);
+void func_80106D40(GlobalContext* globalCtx, u8 arg1);
+void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p);
+
+typedef struct {
+    s16 r,g,b;
+} ColorRGB16; // size = 0x6
+
+typedef struct {
+    u8 len;
+    u8 notesIdx[8];
+} OcarinaSongInfo;
+
+s16 D_8014B2F0 = 0x0000;
+
+u8 D_8014B2F4 = 0x00;
+
+s16 D_8014B2F8 = 0x0000;
+
+s16 D_8014B2FC = 0x0000;
+
+u8 D_8014B300 = 0x00;
+
+u16 D_8014B304 = 0x0000;
+
+s16 D_8014B308 = 0x00;
+
+UNK_TYPE D_8014B30C = 0x00000000;
+
+s16 D_8014B310 = 0x00FF;
+
+s16 D_8014B314 = 0x0000;
+
+s16 D_8014B318 = 0x0000;
+
+u16 D_8014B31C = 0x0000;
+
+MessageTableEntry D_8014B320[] = {
     #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
         { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
     #define DECLARE_MESSAGE_FFFC
@@ -28,7 +79,7 @@ const char* D_80151658[] = {
     NULL,
 };
 
-const MessageTableEntry D_80153768[] = {
+MessageTableEntry D_80153768[] = {
     #define DECLARE_MESSAGE(textId, type, yPos, staffMessage) \
         { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_staff },
     #include "../text/declare_messages_staff.h"
@@ -36,110 +87,47 @@ const MessageTableEntry D_80153768[] = {
     { 0xFFFF, 0, NULL },
 };
 
-const MessageTableEntry* D_801538F0[] = { &D_8014B320[0] };
-const char* D_801538F4[] = { &D_8014F548[0] };
-const char* D_801538F8[] = { &D_80151658[0] };
-const MessageTableEntry* D_801538FC[] = { &D_80153768[0] };
- */
+MessageTableEntry* D_801538F0 = &D_8014B320[0];
+const char** D_801538F4 = &D_8014F548[0];
+const char** D_801538F8 = &D_80151658[0];
+MessageTableEntry* D_801538FC = &D_80153768[0];
 
-#define NON_CONST(x, type) (*(type*)(&x))
+ColorRGB16 D_80153900[] = {
+    { 0x00FF, 0x00FF, 0x00FF }, 
+    { 0x0032, 0x0014, 0x0000 }, 
+    { 0x00FF, 0x003C, 0x0000 }, 
+    { 0x00FF, 0x00FF, 0x00FF }, 
+    { 0x00FF, 0x00FF, 0x00FF }, 
+    { 0x00FF, 0x00FF, 0x00FF }, 
+    { 0x00FF, 0x00FF, 0x00FF }, 
+    { 0x00FF, 0x00FF, 0x00FF },
+};
 
-#define NON_CONST_ARR(x, type) ((type)(x))
+ColorRGB16 D_80153930[] = {
+    { 0x0000, 0x0000, 0x0000 }, 
+    { 0x00DC, 0x0096, 0x0000 }, 
+    { 0x0000, 0x0000, 0x0000 }, 
+    { 0x0000, 0x0000, 0x0000 },
+};
 
-// TODO move these prototypes
+s16 D_80153948[] = {
+    0x0001, 0x0002,
+};
 
-//void func_8006EE50(MessageData*, u16, u16);
+u8 D_8015394C[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
 
-void func_800ECC04(u16); // original name : Na_StartOcarinaSinglePlayCheck2
-void func_800ED93C(u8,u8);
-void func_800ED858(u8);
-SubMessageContext_E2B8* func_800EE3D4(void); // original name : Na_StopOcarinaMode
-SubMessageContext_E2B8* func_800EE3F8(void);
-void func_800F691C(u16);
+s16 D_80153958[] = {
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+};
 
-void func_801069B0(void);
-void func_80106AA8(GlobalContext* globalCtx);
-u8 func_80106BC8(GlobalContext* globalCtx);
-u8 func_80106C88(GlobalContext* globalCtx);
-void func_80106CCC(GlobalContext* globalCtx);
-void func_80106D40(GlobalContext* globalCtx, u8 arg1);
-void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p);
+s16 D_8015396C[] = {
+    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0008, 0x0007, 0x0006, 0x0009,
+};
 
-// TODO const data / rodata
-
-typedef struct {
-    s16 r,g,b;
-} ColorRBG16; // size = 0x6
-
-typedef struct {
-    u8 len;
-    u8 notesIdx[8];
-} OcarinaSongInfo;
-
-// external data
-extern OcarinaSongInfo D_80131C00[];
-
-// data
-extern s16 D_8014B2F0;
-extern u8 D_8014B2F4;
-extern const s16 D_8014B2F8;
-extern const s16 D_8014B2FC;
-extern u8 D_8014B300;
-extern u16 D_8014B304;
-extern const s16 D_8014B308[];
-extern s16 D_8014B310;
-extern const s16 D_8014B314[];
-extern const s16 D_8014B318[];
-extern u16 D_8014B31C;
-extern const MessageTableEntry D_8014B320[]; // English message entry table
-extern const u32 D_8014F548[]; // German message entry table
-extern const u32 D_80151658[]; // French message entry table
-extern const MessageTableEntry D_80153768[]; // ?
-extern const MessageTableEntry* D_801538F0;
-extern const u32* D_801538F4;
-extern const u32* D_801538F8;
-extern const MessageTableEntry* D_801538FC;
-extern const ColorRBG16 D_80153900[];
-extern const ColorRBG16 D_80153930[];
-extern const s16 D_80153948[];
-extern const u8 D_8015394C[];
-extern const s16 D_80153958[]; // original name : onpu_buf (note_buf)
-extern s16 D_8015396C[];
-extern const f32 D_80153980[];
-extern const s16 D_80153984[];
-extern Vec3s D_801539C8[]; // struct array where each struct is 0x6 in size
-extern Vec3s D_801539D4[]; // struct array where each struct is 0x6 in size
-extern s16 D_801539E0;
-extern s16 D_801539E4;
-extern s16 D_801539E8;
-extern s16 D_801539EC;
-extern s16 D_801539F0;
-extern s16 D_801539F4;
-extern s16 D_801539F8;
-extern s16 D_801539FC;
-extern const s16 D_80153C40[4];
-extern const s16 D_80153C48[4];
-extern const s16 D_80153C50[];
-extern const u16 D_80153C58[];
-extern s16 D_80153C68[];
-extern s16 D_80153C78[];
-extern s32 D_80153C94[];
-extern s16 D_80153CE0[];
-extern Vec3s D_80153CA8[];
-extern Vec3s D_80153CB4[];
-extern Vec3s D_80153CC0[];
-extern Vec3s D_80153CCC[];
-extern s16 D_80153CD8;
-extern s16 D_80153CDC;
-extern s16 D_80153CF8;
-extern s16 D_80153CFC;
-extern s16 D_80153D00[];
-extern s16 D_80153D0C[];
-extern s16 D_80153D18[];
-extern s16 D_80153D24[];
-extern s16 D_80153D30[];
-extern u8 D_80153D74;
-extern u16 D_80153D78;
+// claims to be a float, but clearly isn't, maybe references to this should be D_80153988 - 0x8
+u32 D_80153980 = 0x000A000B;
 
 // bss
 s32 D_801759A0;
@@ -157,28 +145,28 @@ s16 D_801759BA;
 s16 D_801759BC;
 s16 D_801759BE;
 
+// external data
+extern OcarinaSongInfo D_80131C00[];
+
 // Segment addresses
 extern UNK_TYPE D_02002E40;
 
 void func_801069B0(void) {
-    s16* D_80153958_NonConst;
-
     VREG(45) = 0xBD;
     VREG(46) = 0xB8;
     VREG(47) = 0xB3;
     VREG(48) = 0xAE;
     VREG(49) = 0xA9;
-    NON_CONST_ARR(D_8015394C, u8*)[0] = 0xFF;
-    D_80153958_NonConst = &NON_CONST_ARR(D_80153958, s16*)[0];
-    D_80153958_NonConst[8] = 0;
-    D_80153958_NonConst[7] = D_80153958_NonConst[8];
-    D_80153958_NonConst[6] = D_80153958_NonConst[8];
-    D_80153958_NonConst[5] = D_80153958_NonConst[8];
-    D_80153958_NonConst[4] = D_80153958_NonConst[8];
-    D_80153958_NonConst[3] = D_80153958_NonConst[8];
-    D_80153958_NonConst[2] = D_80153958_NonConst[8];
-    D_80153958_NonConst[1] = D_80153958_NonConst[8];
-    D_80153958_NonConst[0] = D_80153958_NonConst[8];
+    D_8015394C[0] = 0xFF;
+    D_80153958[8] = 0;
+    D_80153958[7] = D_80153958[8];
+    D_80153958[6] = D_80153958[8];
+    D_80153958[5] = D_80153958[8];
+    D_80153958[4] = D_80153958[8];
+    D_80153958[3] = D_80153958[8];
+    D_80153958[2] = D_80153958[8];
+    D_80153958[1] = D_80153958[8];
+    D_80153958[0] = D_80153958[8];
     D_801759A8 = 0x50;
     D_801759AC = 0xFF;
     D_801759AA = 0x96;
@@ -194,20 +182,20 @@ void func_801069B0(void) {
 }
 
 void func_80106AA8(GlobalContext* globalCtx) {
-    MessageContext* msgCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
 
     globalCtx->msgCtx.msgMode++;
-    msgCtx = &globalCtx->msgCtx;
+
     if (globalCtx->msgCtx.msgMode == 0x2E) {
         func_800ED858(1);
         msgCtx->unk_E2B8 = func_800EE3D4();
-        msgCtx->unk_E2B8->unk_2 = NON_CONST(D_8014B2F8, s16) = 0;
+        msgCtx->unk_E2B8->unk_2 = D_8014B2F8 = 0;
         func_800ECC04(0xA000);
         msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
     } else if (msgCtx->msgMode == 0x2C) {
         func_800ED858(6);
         msgCtx->unk_E2B8 = func_800EE3F8();
-        msgCtx->unk_E2B8->unk_2 = NON_CONST(D_8014B2F8, s16) = 0;
+        msgCtx->unk_E2B8->unk_2 = D_8014B2F8 = 0;
         func_800ED93C(0xE, 1);
         msgCtx->unk_E3E7 = 2;
     }
@@ -216,6 +204,7 @@ void func_80106AA8(GlobalContext* globalCtx) {
 
 u8 func_80106BC8(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
+
     if (CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
         CHECK_BTN_ALL(curInput->press.button, BTN_B) || 
         CHECK_BTN_ALL(curInput->press.button, BTN_CUP)) {
@@ -228,6 +217,7 @@ u8 func_80106BC8(GlobalContext* globalCtx) {
 
 u8 func_80106C88(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
+
     return CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
            CHECK_BTN_ALL(curInput->press.button, BTN_B) || 
            CHECK_BTN_ALL(curInput->press.button, BTN_CUP);
@@ -235,6 +225,7 @@ u8 func_80106C88(GlobalContext* globalCtx) {
 
 void func_80106CCC(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
+
     if (msgCtx->unk_E300 != 0) {
         msgCtx->unk_E3E7 = 2;
         msgCtx->msgMode = 0x36;
@@ -244,21 +235,21 @@ void func_80106CCC(GlobalContext* globalCtx) {
 }
 
 void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
+    static s16 D_80153984 = 0;
 
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Input* curInput = &globalCtx->state.input[0];
-    s16* D_80153984_NonConst = &NON_CONST_ARR(D_80153984,s16*)[0];
 
-    if (curInput->rel.stick_y >= 0x1E && *D_80153984_NonConst == 0) {
-        *D_80153984_NonConst = 1;
+    if (curInput->rel.stick_y >= 0x1E && D_80153984 == 0) {
+        D_80153984 = 1;
         msgCtx->choiceIndex--;
         if (msgCtx->choiceIndex >= 0x81) {
             msgCtx->choiceIndex = 0;
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
-    } else if (curInput->rel.stick_y < -0x1D && *D_80153984_NonConst == 0) {
-        *D_80153984_NonConst = 1;
+    } else if (curInput->rel.stick_y < -0x1D && D_80153984 == 0) {
+        D_80153984 = 1;
         msgCtx->choiceIndex++;
         if (msgCtx->choiceIndex > arg1) {
             msgCtx->choiceIndex = arg1;
@@ -266,11 +257,159 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     } else if (ABS(curInput->rel.stick_y) < 0x1E) {
-        *D_80153984_NonConst = 0;
+        D_80153984 = 0;
     }
     msgCtx->unk_E3D8 = XREG(66);
     msgCtx->unk_E3DA = (arg1 == 1) ? gGameInfo->data[msgCtx->choiceIndex + 0x584] : gGameInfo->data[msgCtx->choiceIndex + 0x583];
 }
+
+f32 D_80153988[] = {
+    1.20000004768f, 1.5f, 1.79999995232f, 2.0f, 2.09999990463f, 2.20000004768f, 2.09999990463f, 2.0f,
+};
+
+f32 D_801539A8[] = {
+    0.600000023842f, 0.75f, 0.899999976158f, 1.0f, 1.04999995232f, 1.10000002384f, 1.04999995232f, 1.0f,
+};
+
+Vec3s D_801539C8[] = {
+    { 0x0000, 0x00C8, 0x0050 },
+    { 0x0032, 0x00FF, 0x0082 },
+};
+
+Vec3s D_801539D4[] = {
+    { 0x0000, 0x0000, 0x0000 }, 
+    { 0x0000, 0x00FF, 0x0082 },
+};
+
+s16 D_801539E0 = 0x0000;
+
+s16 D_801539E4 = 0x00C8;
+
+s16 D_801539E8 = 0x0050;
+
+s16 D_801539EC = 0x000C;
+
+s16 D_801539F0 = 0x0000;
+
+s16 D_801539F4 = 0x0000;
+
+s16 D_801539F8 = 0x0000;
+
+s16 D_801539FC = 0x0000;
+
+UNK_TYPE D_80153A00[] = {
+    0x41000000, 0x41000000, 0x40C00000, 0x41100000, 0x41100000, 0x41600000, 0x41400000, 0x40400000,
+    0x40E00000, 0x40E00000, 0x40E00000, 0x41100000, 0x40800000, 0x40C00000, 0x40800000, 0x41100000,
+    0x41200000, 0x40A00000, 0x41100000, 0x41100000, 0x41200000, 0x41100000, 0x41100000, 0x41100000,
+    0x41100000, 0x41100000, 0x40C00000, 0x40C00000, 0x41100000, 0x41300000, 0x41100000, 0x41300000,
+    0x41500000, 0x41400000, 0x41100000, 0x41300000, 0x41300000, 0x41000000, 0x41000000, 0x41400000,
+    0x41200000, 0x40800000, 0x41000000, 0x41200000, 0x41000000, 0x41500000, 0x41300000, 0x41500000,
+    0x41100000, 0x41500000, 0x41200000, 0x41200000, 0x41100000, 0x41200000, 0x41300000, 0x41700000,
+    0x41300000, 0x41200000, 0x41200000, 0x40E00000, 0x41200000, 0x40E00000, 0x41200000, 0x41100000,
+    0x40A00000, 0x41000000, 0x41100000, 0x41000000, 0x41100000, 0x41100000, 0x40C00000, 0x41100000,
+    0x41000000, 0x40800000, 0x40C00000, 0x41000000, 0x40800000, 0x41400000, 0x41100000, 0x41100000,
+    0x41100000, 0x41100000, 0x40E00000, 0x41000000, 0x40E00000, 0x41000000, 0x41100000, 0x41400000,
+    0x41000000, 0x41100000, 0x41000000, 0x40E00000, 0x40A00000, 0x40E00000, 0x41200000, 0x41200000,
+    0x41400000, 0x40C00000, 0x41400000, 0x41400000, 0x41300000, 0x41000000, 0x41000000, 0x41000000,
+    0x40C00000, 0x40C00000, 0x41500000, 0x41500000, 0x41200000, 0x41200000, 0x41200000, 0x41100000,
+    0x41000000, 0x41000000, 0x41000000, 0x41000000, 0x41000000, 0x41100000, 0x41100000, 0x41100000,
+    0x41100000, 0x40C00000, 0x41100000, 0x41100000, 0x41100000, 0x41100000, 0x41100000, 0x41600000,
+    0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000,
+    0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000, 0x41600000,
+};
+
+s16 D_80153C40[] = {
+    0x004A, 0x004A, 0x004A, 0x0000,
+};
+
+s16 D_80153C48[] = {
+    0x0048, 0x0048, 0x0048, 0x0000,
+};
+
+s16 D_80153C50[] = {
+    0x0000, 0x0001, 0x0003, 0x0002,
+};
+
+u16 D_80153C58[] = {
+    0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0100, 0x0080,
+};
+
+s16 D_80153C68[] = {
+    0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000, 0x0199, 0x0198,
+};
+
+s16 D_80153C78[] = {
+    0x018A, 0x017E, 0x018A, 0x018B, 0x01CB, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000
+};
+
+// segment addrs
+u32 D_80153C94[] = {
+    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
+};
+
+Vec3s D_80153CA8[] = {
+    { 0x0050, 0x00FF, 0x0096 },
+    { 0x0064, 0x00FF, 0x00C8 },
+};
+
+Vec3s D_80153CB4[] = {
+    { 0x000A, 0x000A, 0x000A }, 
+    { 0x0032, 0x00FF, 0x0032 },
+};
+
+Vec3s D_80153CC0[] = {
+    { 0x00FF, 0x00FF, 0x0032 },
+    { 0x00FF, 0x00FF, 0x00B4 },
+};
+
+Vec3s D_80153CCC[] = {
+    { 0x000A, 0x000A, 0x000A },
+    { 0x006E, 0x006E, 0x0032 },
+};
+
+s16 D_80153CD8 = 0x000C;
+
+s16 D_80153CDC = 0x0001;
+
+s16 D_80153CE0[] = {
+    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049
+};
+
+s16 D_80153CF8 = 0x0000;
+
+s16 D_80153CFC = 0x0000;
+
+s16 D_80153D00[] = {
+    0x0022, 0x0022, 0x0022, 0x0022, 0x0022, 0x0022
+};
+
+s16 D_80153D0C[] = {
+    0x008E, 0x008E, 0x008E, 0x008E, 0x00AE, 0x008E
+};
+
+s16 D_80153D18[] = {
+    0x0026, 0x0026, 0x0026, 0x0026, 0x00AE, 0x0026
+};
+
+s16 D_80153D24[] = {
+    0x005A, 0x005A, 0x005A, 0x005A, 0x00AE, 0x005A
+};
+
+s16 D_80153D30[] = {
+    0x003B, 0x003B, 0x003B, 0x003B, 0x0022, 0x003B, 0x0400, 0x0400, 
+    0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 
+    0x000A, 0x107E, 0x2008, 0x2007, 0x0015, 0x0016, 0x0017, 0x0003, 
+    0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 
+    0x0014, 0x0016
+};
+
+u8 D_80153D74 = 0x00;
+
+u16 D_80153D78 = 0x0000;
+
+UNK_TYPE D_80153D7C = 0x00000000;
+
+s16 D_80153D80 = 0x0000;
 
 void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     MessageContext* msgCtx;
@@ -356,12 +495,12 @@ void func_80107244(MessageContext* msgCtx);
 #endif
 
 void func_80107448(GlobalContext* globalCtx, u16 textId) {
-    s32 foundSeg;
-    s32 nextSeg;
+    const char* foundSeg;
+    const char* nextSeg;
     MessageTableEntry* messageTableEntry;
-    u32* languageSegmentTable;
+    const char** languageSegmentTable;
     Font* font;
-    u32 seg;
+    const char* seg;
 
     messageTableEntry = D_801538F0;
     if (gSaveContext.language == LANGUAGE_ENG) {
@@ -917,7 +1056,7 @@ void func_801083F8(GlobalContext* globalCtx) {
             func_800ED858(1);
             func_800ED858(1);
             msgCtx->unk_E2B8 = func_800EE3F8();
-            NON_CONST(D_8014B2F8, s16) = NON_CONST(D_8014B2FC, s16) = 0;
+            D_8014B2F8 = D_8014B2FC = 0;
             msgCtx->unk_E2B8->unk_2 = D_8014B2F8;
             func_801069B0();
             msgCtx->unk_E3E7 = 3;
@@ -933,7 +1072,7 @@ void func_801083F8(GlobalContext* globalCtx) {
             func_800ED858(1);
             func_800ED858(1);
             msgCtx->unk_E2B8 = func_800EE3F8();
-            NON_CONST(D_8014B2F8, s16) = NON_CONST(D_8014B2FC, s16) = 0;
+            D_8014B2F8 = D_8014B2FC = 0;
             msgCtx->unk_E2B8->unk_2 = D_8014B2F8;
             func_801069B0();
             msgCtx->unk_E3E7 = 3;
@@ -972,13 +1111,13 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
     u16 phi_a0;
     u16 sp128;
     u16 phi_s2;
-    ColorRBG16* temp;
+    ColorRGB16* temp;
     Gfx *sp120 = *gfxP;
     Font* font = &globalCtx->msgCtx.font;
     MessageContext *temp_s1 = &globalCtx->msgCtx;
 
     globalCtx->msgCtx.unk_E3D8 = XREG(54);
-    if (D_8014B308[0] == 0) {
+    if (D_8014B308 == 0) {
         temp_s1->unk_E3DA = XREG(55);
     } else {
         temp_s1->unk_E3DA = YREG(1);
@@ -1092,8 +1231,8 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             *gfxP = sp120;
             return;
         case 18:
-            if ((temp_s1->msgMode == 6) && (NON_CONST_ARR(D_8014B318,s16*)[0] == 0)) {
-                NON_CONST_ARR(D_8014B318,s16*)[0] = 1;
+            if ((temp_s1->msgMode == 6) && (D_8014B318 == 0)) {
+                D_8014B318 = 1;
                 osSyncPrintf("サウンド（ＳＥ）\n"); // sfx
                 Audio_PlaySoundGeneral((temp_s1->unk_E306[phi_s2 + 1] << 8) | temp_s1->unk_E306[phi_s2 + 2], &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
@@ -1241,7 +1380,7 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
             }
             func_80106F1C(globalCtx, &((u8*)&font->xy)[sp128], &sp120);
             sp128 += 128;
-            temp_s1->unk_E3D8 += (s16)(D_80153980[temp_v0] * (XREG(57) / 100.0f));
+            temp_s1->unk_E3D8 += (s16)(D_80153988[temp_v0 - 2] * (XREG(57) / 100.0f));
             break;
         }
     }
@@ -1347,7 +1486,7 @@ void func_80109B3C(GlobalContext *globalCtx) {
                 msgCtx->unk_E3CE += 2;
             }
             msgCtx->unk_E3D4 = phi_s6;
-            if (NON_CONST_ARR(D_8014B300,u8*)[0] != 0) {
+            if (D_8014B300 != 0) {
                 msgCtx->unk_E3D2 = msgCtx->unk_E3D4;
             }
             break;
@@ -1689,12 +1828,12 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
         Interface_ChangeAlpha(5);
     }
 
-    NON_CONST_ARR(D_8014B308,s16*)[0] = 0;
-    D_8014B2F4 = NON_CONST_ARR(D_8014B300,u8*)[0] = NON_CONST_ARR(D_8014B308,s16*)[0];
-    NON_CONST_ARR(D_8014B318,s16*)[0] = NON_CONST_ARR(D_8014B308,s16*)[0] & 0xFF;
+    D_8014B308 = 0;
+    D_8014B2F4 = D_8014B300 = D_8014B308;
+    D_8014B318 = D_8014B308 & 0xFF;
 
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
-        NON_CONST_ARR(D_8014B308,s16*)[0] = 1;
+        D_8014B308 = 1;
         XREG(57) = 0x55;
         XREG(56) = 6;
         XREG(54) = 0x14;
@@ -1729,7 +1868,7 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
         gSaveContext.eventInf[0] = gSaveContext.eventInf[1] =  gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
     }
     
-    if (NON_CONST_ARR(D_8014B308,s16*)[0] != 0) {
+    if (D_8014B308 != 0) {
         func_80107628(globalCtx, textId);
         msgCtx->unk_E300 = sp30->msgLength;
         DmaMgr_SendRequest1((u32)sp30->msgBuf, 
@@ -1859,10 +1998,10 @@ void func_8010B820(GlobalContext* globalCtx, u16 ocarinaActionId) {
     }
     osSyncPrintf("ocarina_bit = %x\n", D_8014B31C);
     osSyncPrintf("\x1b[m");
-    NON_CONST(D_8014B314,s16) = CHECK_QUEST_ITEM(QUEST_SONG_SUN);
+    D_8014B314 = CHECK_QUEST_ITEM(QUEST_SONG_SUN);
     msgCtx->unk_E2B8 = func_800EE3C8();
-    msgCtx->unk_E2B8->unk_2 = NON_CONST(D_8014B2F8,s16) = 0;
-    NON_CONST(D_8014B2FC,s16) = 0;
+    msgCtx->unk_E2B8->unk_2 = D_8014B2F8 = 0;
+    D_8014B2FC = 0;
     func_801069B0();
     msgCtx->unk_E410 = 0xFF;
     D_8014B310 = msgCtx->unk_E3F2 = msgCtx->unk_E410;
@@ -1946,7 +2085,7 @@ void func_8010B820(GlobalContext* globalCtx, u16 ocarinaActionId) {
         func_800ED858(1);
         func_800ED858(1);
         msgCtx->unk_E2B8 = func_800EE3F8();
-        NON_CONST(D_8014B2F8,s16) = NON_CONST(D_8014B2FC,s16) = 0;
+        D_8014B2F8 = D_8014B2FC = 0;
         msgCtx->unk_E2B8->unk_2 = D_8014B2F8;
         func_801069B0();
         msgCtx->unk_E3E7 = 3;
@@ -3552,8 +3691,8 @@ void func_8010F6F0(GlobalContext* globalCtx);
 #endif
 
 void func_8011040C(void) {
-    NON_CONST(D_801538F0, MessageTableEntry*) = &D_8014B320;
-    NON_CONST(D_801538F4, u32*) = &D_8014F548;
-    NON_CONST(D_801538F8, u32*) = &D_80151658;
-    NON_CONST(D_801538FC, MessageTableEntry*) = &D_80153768;
+    D_801538F0 = &D_8014B320[0];
+    D_801538F4 = &D_8014F548[0];
+    D_801538F8 = &D_80151658[0];
+    D_801538FC = &D_80153768[0];
 }

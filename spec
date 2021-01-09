@@ -503,7 +503,6 @@ beginseg
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
-    include "build/data/z_message_PAL.rodata.o"
     include_readonly "build/src/code/z_message_PAL.o"
     include_readonly "build/src/code/code_80110450.o"
     include "build/src/code/z_construct.o"
