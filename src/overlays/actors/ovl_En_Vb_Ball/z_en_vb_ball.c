@@ -5,6 +5,7 @@
  */
 
 #include "z_en_vb_ball.h"
+#include "objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000030
@@ -18,8 +19,8 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx D_06009F20[];
-extern Gfx D_0600B2F8[];
+// extern Gfx gVolvagiaRockDL_009F20[];
+// extern Gfx gVolvagiaRockDL_00B2F8[];
 
 const ActorInit En_Vb_Ball_InitVars = {
     0,
@@ -295,9 +296,9 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params >= 200) {
-        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_0600B2F8));
+        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaDL_00B2F8));
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_06009F20));
+        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRockDL_009F20));
         func_80094044(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);

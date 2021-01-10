@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_vb_sima.h"
+#include "objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000000
@@ -18,8 +19,8 @@ void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern CollisionHeader D_06000D68;
-extern Gfx D_06000240[];
+// extern CollisionHeader gVolvagiaPlatformCol_000D68;
+// extern Gfx gVolvagiaPlatformDL_000240[];
 
 const ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
@@ -42,7 +43,7 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_06000D68, &colHeader);
+    CollisionHeader_GetVirtual(&gVolvagiaPlatformCol_000D68, &colHeader);
     this->dyna.bgId =
         DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
@@ -158,6 +159,6 @@ void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 291),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000240);
+    gSPDisplayList(POLY_OPA_DISP++, gVolvagiaPlatformDL_000240);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 296);
 }

@@ -4374,7 +4374,8 @@ endseg
 beginseg
     name "object_fd"
     romalign 0x1000
-    include "build/baserom/object_fd.o"
+    include "build/assets/objects/object_fd/object_fd.o"
+    number 6
 endseg
 
 beginseg

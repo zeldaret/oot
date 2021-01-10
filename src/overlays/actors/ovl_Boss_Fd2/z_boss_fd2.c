@@ -33,20 +33,20 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx);
 
-extern Gfx gHoleVolvagiaDL_004B48[];
-extern Gfx gHoleVolvagiaDL_004BC8[];
-extern Gfx gHoleVolvagiaDL_004E38[];
-extern AnimationHeader gHoleVolvagiaAnim_0073CC;
-extern AnimationHeader gHoleVolvagiaAnim_007850;
-extern AnimationHeader gHoleVolvagiaAnim_0089DC;
-extern AnimationHeader gHoleVolvagiaAnim_009194;
-extern AnimationHeader gHoleVolvagiaAnim_00A31C;
-extern AnimationHeader gHoleVolvagiaAnim_00A86C;
-extern AnimationHeader gHoleVolvagiaAnim_00AE90;
-extern AnimationHeader gHoleVolvagiaAnim_00B7A4;
-extern AnimationHeader gHoleVolvagiaAnim_00C1D0;
-extern AnimationHeader gHoleVolvagiaAnim_00C8EC;
-extern FlexSkeletonHeader gHoleVolvagiaSkel_011A78;
+// extern Gfx gHoleVolvagiaDL_004B48[];
+// extern Gfx gHoleVolvagiaDL_004BC8[];
+// extern Gfx gHoleVolvagiaDL_004E38[];
+// extern AnimationHeader gHoleVolvagiaAnim_0073CC;
+// extern AnimationHeader gHoleVolvagiaAnim_007850;
+// extern AnimationHeader gHoleVolvagiaAnim_0089DC;
+// extern AnimationHeader gHoleVolvagiaAnim_009194;
+// extern AnimationHeader gHoleVolvagiaAnim_00A31C;
+// extern AnimationHeader gHoleVolvagiaAnim_00A86C;
+// extern AnimationHeader gHoleVolvagiaAnim_00AE90;
+// extern AnimationHeader gHoleVolvagiaAnim_00B7A4;
+// extern AnimationHeader gHoleVolvagiaAnim_00C1D0;
+// extern AnimationHeader gHoleVolvagiaAnim_00C8EC;
+// extern FlexSkeletonHeader gHoleVolvagiaSkel_011A78;
 
 typedef enum {
     /* 0 */ DEATH_START,
