@@ -188,7 +188,7 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     Vec3f sp60;
     Vec3f sp54;
     f32 bounceSpeed;
-    u32 sp4C;
+    s32 bgId;
     u8 bounceCount;
 
     if (this->colliderSphere.list[1].body.bumperFlags & 0x2) {
@@ -216,10 +216,10 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     sp6C.x += (sp54.x * 24.0f);
     sp6C.y += (sp54.y * 24.0f);
     sp6C.z += (sp54.z * 24.0f);
-    if (func_8003DE84(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, 1, 1, 1, 0, &sp4C) != 0) {
-        sp60.x = sp94->norm.x * 0.00003051851f;
-        sp60.y = sp94->norm.y * 0.00003051851f;
-        sp60.z = sp94->norm.z * 0.00003051851f;
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, 1, 1, 1, 0, &bgId) != 0) {
+        sp60.x = COLPOLY_GET_NORMAL(sp94->normal.x);
+        sp60.y = COLPOLY_GET_NORMAL(sp94->normal.y);
+        sp60.z = COLPOLY_GET_NORMAL(sp94->normal.z);
         EnBubble_Vec3fNormalizedRelfect(&sp54, &sp60, &sp54);
         this->bounceDirection = sp54;
         bounceCount = this->bounceCount;

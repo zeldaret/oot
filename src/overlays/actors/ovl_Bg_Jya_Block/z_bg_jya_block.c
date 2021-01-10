@@ -36,16 +36,16 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_05004350;
 extern Gfx D_05004CD0[];
-extern UNK_TYPE D_05004E98;
+extern CollisionHeader D_05004E98;
 
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgJyaBlock* this = THIS;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_05004E98, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    DynaPolyActor_Init(&this->dyna, 0);
+    CollisionHeader_GetVirtual(&D_05004E98, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -56,7 +56,7 @@ void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBlock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx) {

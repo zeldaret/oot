@@ -20,8 +20,8 @@ glabel func_80870394
 /* 007E8 808703C8 31090003 */  andi    $t1, $t0, 0x0003           ## $t1 = 00000000
 /* 007EC 808703CC AFA90030 */  sw      $t1, 0x0030($sp)           
 /* 007F0 808703D0 8E06014C */  lw      $a2, 0x014C($s0)           ## 0000014C
-/* 007F4 808703D4 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 007F4 808703D4 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 007F8 808703D8 AFA70044 */  sw      $a3, 0x0044($sp)           
 /* 007FC 808703DC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00800 808703E0 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000

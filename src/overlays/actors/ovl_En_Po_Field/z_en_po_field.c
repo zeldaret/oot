@@ -321,7 +321,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194 -= 1;
     }
-    if (this->actor.groundY == -32000.0f) {
+    if (this->actor.groundY == BGCHECK_Y_MIN) {
         EnPoField_SetupDisappear(this);
         return;
     }
@@ -352,7 +352,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 spawnDist;
     s32 i;
-    UNK_TYPE sp88;
+    s32 bgId;
 
     if (this->actionTimer != 0) {
         this->actionTimer--;
@@ -381,9 +381,9 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.z =
                     Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
                 this->actor.posRot.pos.y = player->actor.posRot.pos.y + 1000.0f;
-                this->actor.posRot.pos.y = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp88,
-                                                         &this->actor, &this->actor.posRot.pos);
-                if (this->actor.posRot.pos.y != -32000.0f) {
+                this->actor.posRot.pos.y = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly,
+                                                                       &bgId, &this->actor, &this->actor.posRot.pos);
+                if (this->actor.posRot.pos.y != BGCHECK_Y_MIN) {
                     this->actor.shape.rot.y = func_8002DA78(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);
                 } else {

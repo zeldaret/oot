@@ -47,12 +47,12 @@ void BgHakaGate_SkullOfTruth(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx);
 
 extern Gfx D_0404D4E0[];
-extern ColHeader D_0600A938;
+extern CollisionHeader D_0600A938;
 extern Gfx D_0600F1B0[];
 extern Gfx D_06010A10[];
 extern Gfx D_06010C10[];
-extern ColHeader D_06010E10;
-extern ColHeader D_060131C4;
+extern CollisionHeader D_06010E10;
+extern CollisionHeader D_060131C4;
 
 static s16 sSkullOfTruthRotY = 0x100;
 static u8 sPuzzleState = 1;
@@ -79,12 +79,12 @@ static InitChainEntry sInitChain[] = {
 void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHakaGate* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (thisx->params == BGHAKAGATE_SKULL) {
         if (sSkullOfTruthRotY != 0x100) {
             this->actionFunc = BgHakaGate_FalseSkull;
@@ -111,7 +111,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == BGHAKAGATE_STATUE) {
-            DynaPolyInfo_Alloc(&D_060131C4, &colHeader);
+            CollisionHeader_GetVirtual(&D_060131C4, &colHeader);
             this->vTimer = 0;
             sStatueDistToLink = 0.0f;
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -120,14 +120,14 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgHakaGate_StatueIdle;
             }
         } else if (thisx->params == BGHAKAGATE_FLOOR) {
-            DynaPolyInfo_Alloc(&D_06010E10, &colHeader);
+            CollisionHeader_GetVirtual(&D_06010E10, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 this->actionFunc = BgHakaGate_FloorClosed;
             }
         } else { // BGHAKAGATE_GATE
-            DynaPolyInfo_Alloc(&D_0600A938, &colHeader);
+            CollisionHeader_GetVirtual(&D_0600A938, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_DoNothing;
                 thisx->posRot.pos.y += 80.0f;
@@ -137,7 +137,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgHakaGate_GateWait;
             }
         }
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
@@ -145,7 +145,7 @@ void BgHakaGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHakaGate* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.params == BGHAKAGATE_STATUE) {
         sSkullOfTruthRotY = 0x100;
         sPuzzleState = 1;
@@ -250,7 +250,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
             } else {
                 func_80078884(NA_SE_SY_ERROR);
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
             }
@@ -264,7 +264,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, GlobalContext* globalCtx) {
     }
     if (this->vTimer == 0) {
         if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {

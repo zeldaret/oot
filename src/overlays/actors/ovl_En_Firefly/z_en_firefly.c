@@ -164,7 +164,7 @@ void EnFirefly_SetupWait(EnFirefly* this) {
 void EnFirefly_SetupFall(EnFirefly* this) {
     this->timer = 40;
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 40);
@@ -501,7 +501,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
+    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == BGCHECK_Y_MIN)) {
         this->actor.dmgEffectTimer = 0;
         EnFirefly_SetupDie(this);
     } else {
