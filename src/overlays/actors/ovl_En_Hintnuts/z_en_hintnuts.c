@@ -71,7 +71,8 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~5;
     } else {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawFunc_Circle, 35.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsStandAnim, this->jointTable, this->morphTable, 10);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsStandAnim, this->jointTable,
+                       this->morphTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -501,8 +502,8 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actionFunc == EnHintnuts_Wait) {
             Actor_SetHeight(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
-            Actor_SetHeight(&this->actor,
-                            20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gHintNutsBurrowAnim)));
+            Actor_SetHeight(&this->actor, 20.0f - ((this->skelAnime.curFrame * 20.0f) /
+                                                   Animation_GetLastFrame(&gHintNutsBurrowAnim)));
         } else {
             Actor_SetHeight(&this->actor, 20.0f);
         }

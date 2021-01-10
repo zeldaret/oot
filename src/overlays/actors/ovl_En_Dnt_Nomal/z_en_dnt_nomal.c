@@ -150,12 +150,12 @@ void EnDntNomal_WaitForObject(EnDntNomal* this, GlobalContext* globalCtx) {
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);
         if (this->type == ENDNTNOMAL_TARGET) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable, this->morphTable,
-                           10);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable,
+                           this->morphTable, 10);
             this->actor.draw = EnDntNomal_DrawTargetScrub;
         } else {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable, this->morphTable,
-                           11);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
+                           this->morphTable, 11);
             this->actor.draw = EnDntNomal_DrawStageScrub;
         }
         this->actionFunc = EnDntNomal_SetFlower;
