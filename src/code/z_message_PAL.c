@@ -326,91 +326,6 @@ s16 D_80153C48[] = {
     0x0048, 0x0048, 0x0048, 0x0000,
 };
 
-s16 D_80153C50[] = {
-    0x0000, 0x0001, 0x0003, 0x0002,
-};
-
-u16 D_80153C58[] = {
-    0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0100, 0x0080,
-};
-
-s16 D_80153C68[] = {
-    0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000, 0x0199, 0x0198,
-};
-
-s16 D_80153C78[] = {
-    0x018A, 0x017E, 0x018A, 0x018B, 0x01CB, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000
-};
-
-// segment addrs
-u32 D_80153C94[] = {
-    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
-};
-
-Vec3s D_80153CA8[] = {
-    { 0x0050, 0x00FF, 0x0096 },
-    { 0x0064, 0x00FF, 0x00C8 },
-};
-
-Vec3s D_80153CB4[] = {
-    { 0x000A, 0x000A, 0x000A }, 
-    { 0x0032, 0x00FF, 0x0032 },
-};
-
-Vec3s D_80153CC0[] = {
-    { 0x00FF, 0x00FF, 0x0032 },
-    { 0x00FF, 0x00FF, 0x00B4 },
-};
-
-Vec3s D_80153CCC[] = {
-    { 0x000A, 0x000A, 0x000A },
-    { 0x006E, 0x006E, 0x0032 },
-};
-
-s16 D_80153CD8 = 0x000C;
-
-s16 D_80153CDC = 0x0001;
-
-s16 D_80153CE0[] = {
-    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049
-};
-
-s16 D_80153CF8 = 0x0000;
-
-s16 D_80153CFC = 0x0000;
-
-s16 D_80153D00[] = {
-    0x0022, 0x0022, 0x0022, 0x0022, 0x0022, 0x0022
-};
-
-s16 D_80153D0C[] = {
-    0x008E, 0x008E, 0x008E, 0x008E, 0x00AE, 0x008E
-};
-
-s16 D_80153D18[] = {
-    0x0026, 0x0026, 0x0026, 0x0026, 0x00AE, 0x0026
-};
-
-s16 D_80153D24[] = {
-    0x005A, 0x005A, 0x005A, 0x005A, 0x00AE, 0x005A
-};
-
-s16 D_80153D30[] = {
-    0x003B, 0x003B, 0x003B, 0x003B, 0x0022, 0x003B, 0x0400, 0x0400, 
-    0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 
-    0x000A, 0x107E, 0x2008, 0x2007, 0x0015, 0x0016, 0x0017, 0x0003, 
-    0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 
-    0x0014, 0x0016
-};
-
-u8 D_80153D74 = 0x00;
-
-u16 D_80153D78 = 0x0000;
-
-UNK_TYPE D_80153D7C = 0x00000000;
-
-s16 D_80153D80 = 0x0000;
-
 void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     MessageContext* msgCtx;
     Gfx* gfx;
@@ -455,10 +370,10 @@ void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
 #ifdef NON_MATCHING
 // regalloc only, rodata unmigrated
 void func_80107244(MessageContext *msgCtx) {
-    static const f32 D_80153988[] = {
+    static f32 D_80153988[] = {
         1.20000004768f, 1.5f, 1.79999995232f, 2.0f, 2.09999990463f, 2.20000004768f, 2.09999990463f, 2.0f,
     };
-    static const f32 D_801539A8[] = {
+    static f32 D_801539A8[] = {
         0.600000023842f, 0.75f, 0.899999976158f, 1.0f, 1.04999995232f, 1.10000002384f, 1.04999995232f, 1.0f,
     };
     f32 temp_f0;
@@ -1811,9 +1726,9 @@ void func_80109B3C(GlobalContext* globalCtx);
 #endif
 
 #ifdef NON_MATCHING
-// (ro)data loads/stores at the start, rodata unmigrated
+// Issues with %hi reuse
 void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
-    static const s16 D_80153C50[] = {
+    static s16 D_80153C50[] = {
         0x0000, 0x0001, 0x0003, 0x0002,
     };
 
@@ -1936,8 +1851,56 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
 }
 #else
 void func_8010B0C0(GlobalContext*, u16);
+s16 D_80153C50[] = {
+    0x0000, 0x0001, 0x0003, 0x0002,
+};
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B0C0.s")
 #endif
+
+u16 D_80153C58[] = {
+    0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0100, 0x0080,
+};
+
+s16 D_80153C68[] = {
+    0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000, 0x0199, 0x0198,
+};
+
+s16 D_80153C78[] = {
+    0x018A, 0x017E, 0x018A, 0x018B, 0x01CB, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000
+};
+
+// segment addrs
+u32 D_80153C94[] = {
+    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
+};
+
+Vec3s D_80153CA8[] = {
+    { 0x0050, 0x00FF, 0x0096 },
+    { 0x0064, 0x00FF, 0x00C8 },
+};
+
+Vec3s D_80153CB4[] = {
+    { 0x000A, 0x000A, 0x000A }, 
+    { 0x0032, 0x00FF, 0x0032 },
+};
+
+Vec3s D_80153CC0[] = {
+    { 0x00FF, 0x00FF, 0x0032 },
+    { 0x00FF, 0x00FF, 0x00B4 },
+};
+
+Vec3s D_80153CCC[] = {
+    { 0x000A, 0x000A, 0x000A },
+    { 0x006E, 0x006E, 0x0032 },
+};
+
+s16 D_80153CD8 = 0x000C;
+
+s16 D_80153CDC = 0x0001;
+
+s16 D_80153CE0[] = {
+    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049
+};
 
 // Message_Begin
 void func_8010B680(GlobalContext* globalCtx, u16 textId, Actor* actor) {
@@ -3330,14 +3293,11 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
 #endif
 
 // Message_DrawSetup ?
-#ifdef NON_MATCHING
-// Small regalloc
-// Matches if the NonConst temps are replaced by the symbol directly but
-//  then they can't be const arrays so don't go in rodata
-// Doesn't match if NON_CONST_ARR(symbol) is duplicated to each site
 void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx) {
     static s16 D_80153CF8 = 0;
     static s16 D_80153CFC = 0;
+
+    s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_message_PAL.c", 3485);
 
@@ -3362,10 +3322,6 @@ void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx) {
     }
     CLOSE_DISPS(gfxCtx, "../z_message_PAL.c", 3513);
 }
-#else
-void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F2CC.s")
-#endif
 
 // Message_DrawDebug ?
 void func_8010F494(GlobalContext* globalCtx, Gfx** p) {
@@ -3413,17 +3369,32 @@ void func_8010F58C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
 
+
 // Message_Update ?
 #ifdef NON_MATCHING
-// Small reorderings, regalloc, stack, data loads
+// Very small reorderings, regalloc, stack
 void func_8010F6F0(GlobalContext *globalCtx) {
-    static s16 D_80153D00[] = {0};
-    static s16 D_80153D0C[] = {0};
-    static s16 D_80153D18[] = {0};
-    static s16 D_80153D24[] = {0};
-    static s16 D_80153D30[] = {0};
-    static u8 D_80153D74 = 0;
-    static u16 D_80153D78 = 0;
+    static s16 D_80153D00[] = {
+        0x0022, 0x0022, 0x0022, 0x0022, 0x0022, 0x0022
+    };
+    static s16 D_80153D0C[] = {
+        0x008E, 0x008E, 0x008E, 0x008E, 0x00AE, 0x008E
+    };
+    static s16 D_80153D18[] = {
+        0x0026, 0x0026, 0x0026, 0x0026, 0x00AE, 0x0026
+    };
+    static s16 D_80153D24[] = {
+        0x005A, 0x005A, 0x005A, 0x005A, 0x00AE, 0x005A
+    };
+    static s16 D_80153D30[] = {
+        0x003B, 0x003B, 0x003B, 0x003B, 0x0022, 0x003B, 0x0400, 0x0400, 
+        0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 
+        0x000A, 0x107E, 0x2008, 0x2007, 0x0015, 0x0016, 0x0017, 0x0003, 
+        0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 
+        0x0014, 0x0016
+    };
+    static u8 D_80153D74 = 0x00;
+    static u16 D_80153D78 = 0x0000;
 
                                                     // globalCtx sp58 
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -3665,12 +3636,10 @@ void func_8010F6F0(GlobalContext *globalCtx) {
                         player->naviTextId = -0xE0;
                         player->naviActor->flags |= 0x10000;
                     }
-                    if (msgCtx->unk_E3F0 == 0x29) {
-                        if (globalCtx->msgCtx.unk_E3EE == 1 || globalCtx->msgCtx.unk_E3EE == 0xB) {
-                            globalCtx->msgCtx.unk_E3EE = 4;
-                            if (msgCtx->unk_E3F2 == 9) {
-                                globalCtx->msgCtx.unk_E3EE = 1;
-                            }
+                    if (msgCtx->unk_E3F0 == 0x29 && (globalCtx->msgCtx.unk_E3EE == 1 || globalCtx->msgCtx.unk_E3EE == 0xB)) {
+                        globalCtx->msgCtx.unk_E3EE = 4;
+                        if (msgCtx->unk_E3F2 == 9) {
+                            globalCtx->msgCtx.unk_E3EE = 1;
                         }
                     }
                 }
@@ -3687,6 +3656,27 @@ void func_8010F6F0(GlobalContext *globalCtx) {
 }
 #else
 void func_8010F6F0(GlobalContext* globalCtx);
+s16 D_80153D00[] = {
+    0x0022, 0x0022, 0x0022, 0x0022, 0x0022, 0x0022
+};
+s16 D_80153D0C[] = {
+    0x008E, 0x008E, 0x008E, 0x008E, 0x00AE, 0x008E
+};
+s16 D_80153D18[] = {
+    0x0026, 0x0026, 0x0026, 0x0026, 0x00AE, 0x0026
+};
+s16 D_80153D24[] = {
+    0x005A, 0x005A, 0x005A, 0x005A, 0x00AE, 0x005A
+};
+s16 D_80153D30[] = {
+    0x003B, 0x003B, 0x003B, 0x003B, 0x0022, 0x003B, 0x0400, 0x0400, 
+    0x0200, 0x0000, 0x1038, 0x0008, 0x200A, 0x088B, 0x0007, 0x0009, 
+    0x000A, 0x107E, 0x2008, 0x2007, 0x0015, 0x0016, 0x0017, 0x0003, 
+    0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 
+    0x0014, 0x0016
+};
+u8 D_80153D74 = 0x00;
+u16 D_80153D78 = 0x0000;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F6F0.s")
 #endif
 
@@ -3696,3 +3686,7 @@ void func_8011040C(void) {
     D_801538F8 = &D_80151658[0];
     D_801538FC = &D_80153768[0];
 }
+
+UNK_TYPE D_80153D7C = 0x00000000;
+
+s16 D_80153D80 = 0x0000;
