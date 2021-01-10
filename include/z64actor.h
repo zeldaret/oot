@@ -80,8 +80,8 @@ typedef struct {
     /* 0x12 */ s16 cylHeight; // Used for various purposes.
     /* 0x14 */ s16 cylYShift; // Unused. Intended purpose inferred from the Cylinder16 structure and func_80062ECC.
     /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions.
-    /* 0x17 */ u8 health;
-    /* 0x18 */ u8 damage; // Amount to decrement health by
+    /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one.
+    /* 0x18 */ u8 damage; // Amount to decrement health by.
     /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon.
     /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC.
     /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT.
@@ -91,11 +91,11 @@ typedef struct {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation.
     /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player.
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units.
-    /* 0x0C */ ActorShadowFunc shadowDrawFunc;
+    /* 0x0C */ ActorShadowFunc shadowDrawFunc; // Shadow draw function.
     /* 0x10 */ f32 shadowScale;
-    /* 0x14 */ u8 shadowAlpha;
+    /* 0x14 */ u8 shadowAlpha; // Default is 255.
     /* 0x15 */ u8 unk_15; // related to teardrop shadows
-    /* 0x18 */ Vec3f feetPos[2];
+    /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw.
 } ActorShape; // size = 0x18
 
 typedef struct Actor {
@@ -114,17 +114,17 @@ typedef struct Actor {
     /* 0x050 */ Vec3f scale; // Scale of the actor in each axis.
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis.
     /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane.
-    /* 0x06C */ f32 gravity; // Acceleration due to gravity; value is added to Y velocity every frame.
+    /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame.
     /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis.
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching.
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor.
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching.
     /* 0x07D */ u8 floorBgId; // Bg ID of the floor polygon directly below the actor.
-    /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
+    /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching.
     /* 0x080 */ f32 groundHeight; // Y position of the floor polygon directly below the actor.
-    /* 0x084 */ f32 yDistToWater; // Distance to the surface of the scene's waterbox. Negative value means above water.
+    /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water.
     /* 0x088 */ u16 bgCheckFlags; // See comments below actor struct for wip docs. TODO: macros for these flags.
-    /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
+    /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player.
     /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis.
     /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane.
     /* 0x094 */ f32 yDistToPlayer; // Dist is negative if the actor is above the player.
@@ -139,7 +139,7 @@ typedef struct Actor {
     /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player.
     /* 0x10D */ u8 unk_10D; // Z-Target related. Gets set to 40 if actor is targeted, otherwise 0.
     /* 0x10E */ u16 textId; // Text ID to pass to link/display when interacting with the actor
-    /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Decrements automatically.
+    /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically.
     /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu.
     /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically.
     /* 0x115 */ u8 isDrawn; // Set to true if the actor is currently being drawn. Always stays false for lens actors.
@@ -156,6 +156,25 @@ typedef struct Actor {
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor.
     /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom.
 } Actor; // size = 0x14C
+
+typedef enum {
+    /* 0 */ FOOT_LEFT,
+    /* 1 */ FOOT_RIGHT
+} ActorFootIndex;
+
+/*
+BgCheckFlags WIP documentation:
+& 0x001 : Standing on the ground
+& 0x002 : Has touched the ground (only active for 1 frame)
+& 0x004 : Has left the ground (only active for 1 frame)
+& 0x008 : Touching a wall
+& 0x010 : Touching a ceiling
+& 0x020 : On or below water surface (unclear what the difference is with 0x40)
+& 0x040 : On or below water surface (unclear what the difference is with 0x20)
+& 0x080 : Similar to & 0x1 but with no velocity check and is cleared every frame
+& 0x100 : Crushed between a floor and ceiling (triggers a void for player)
+& 0x200 : Unknown (only set/used by player so far)
+*/
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;

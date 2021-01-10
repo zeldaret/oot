@@ -132,7 +132,7 @@ glabel func_80B49688
 /* 05788 80B497D8 AFA70014 */  sw      $a3, 0x0014($sp)           
 /* 0578C 80B497DC 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 05790 80B497E0 2406002D */  addiu   $a2, $zero, 0x002D         ## $a2 = 0000002D
-/* 05794 80B497E4 0C00AF6C */  jal     func_8002BDB0              
+/* 05794 80B497E4 0C00AF6C */  jal     Actor_SetFeetPos              
 /* 05798 80B497E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B497EC:
 /* 0579C 80B497EC 8FA20064 */  lw      $v0, 0x0064($sp)           

@@ -352,7 +352,8 @@ void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalC
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void ActorShadow_DrawSquiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void ActorShadow_DrawTeardrop(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, Vec3f* arg3, s32 arg4, Vec3f* arg5);
+void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
+                   Vec3f* rightFootPos);
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx);
 s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag);
 void Flags_SetSwitch(GlobalContext* globalCtx, s32 flag);

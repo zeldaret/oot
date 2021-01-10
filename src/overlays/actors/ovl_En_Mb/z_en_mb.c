@@ -1304,7 +1304,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
                 func_80AA9440(&this->actor, globalCtx);
             }
         }
-        func_8002BDB0(&this->actor, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
+        Actor_SetFeetPos(&this->actor, limbIndex, 22, &D_80AA9DFC, 27, &D_80AA9DFC);
     }
     if (this->unk_328 != 0) {
         switch (limbIndex) {

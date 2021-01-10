@@ -131,7 +131,7 @@ void ActorShadow_DrawTeardrop(Actor* actor, Lights* lights, GlobalContext* globa
     }
 
     if (temp_f20 < 200.0f) {
-        phi_s7 = &actor->shape.feetPos[0];
+        phi_s7 = &actor->shape.feetPos[FOOT_LEFT];
         spAC = &spE0[0];
         temp_s6 = lights->numLights;
         temp_s6 -= 2;
@@ -202,7 +202,7 @@ void ActorShadow_DrawTeardrop(Actor* actor, Lights* lights, GlobalContext* globa
         if (!(actor->bgCheckFlags & 1)) {
             actor->shape.unk_15 = 0;
         } else if (actor->shape.unk_15 == 3) {
-            temp_f0 = actor->shape.feetPos[0].y - actor->shape.feetPos[1].y;
+            temp_f0 = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
             actor->shape.unk_15 = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
         }
 
@@ -213,11 +213,12 @@ void ActorShadow_DrawTeardrop(Actor* actor, Lights* lights, GlobalContext* globa
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/ActorShadow_DrawTeardrop.s")
 #endif
 
-void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, Vec3f* arg3, s32 arg4, Vec3f* arg5) {
-    if (arg1 == arg2) {
-        Matrix_MultVec3f(arg3, &actor->shape.feetPos[0]);
-    } else if (arg1 == arg4) {
-        Matrix_MultVec3f(arg5, &actor->shape.feetPos[1]);
+void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
+                      Vec3f* rightFootPos) {
+    if (limbIndex == leftFootIndex) {
+        Matrix_MultVec3f(leftFootPos, &actor->shape.feetPos[FOOT_LEFT]);
+    } else if (limbIndex == rightFootIndex) {
+        Matrix_MultVec3f(rightFootPos, &actor->shape.feetPos[FOOT_RIGHT]);
     }
 }
 
@@ -1142,32 +1143,32 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
     return 1;
 }
 
-CollisionPoly* D_8015BBA0;
-s32 D_8015BBA4;
+CollisionPoly* sCurCeilingPoly;
+s32 sCurCeilingBgId;
 
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
-    f32 sp34;
-    s32 bgId;
+    f32 groundheightDiff;
+    s32 floorBgId;
 
     arg2->y += 50.0f;
 
     actor->groundHeight =
-        BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &bgId, actor, arg2);
+        BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &floorBgId, actor, arg2);
     actor->bgCheckFlags &= ~0x0086;
 
     if (actor->groundHeight <= BGCHECK_Y_MIN) {
         return func_8002E234(actor, BGCHECK_Y_MIN, arg3);
     }
 
-    sp34 = actor->groundHeight - actor->world.pos.y;
-    actor->floorBgId = bgId;
+    groundheightDiff = actor->groundHeight - actor->world.pos.y;
+    actor->floorBgId = floorBgId;
 
-    if (sp34 >= 0.0f) {
+    if (groundheightDiff >= 0.0f) { // actor is on or below the ground
         actor->bgCheckFlags |= 0x80;
 
         if (actor->bgCheckFlags & 0x10) {
-            if (bgId != D_8015BBA4) {
-                if (sp34 > 15.0f) {
+            if (floorBgId != sCurCeilingBgId) {
+                if (groundheightDiff > 15.0f) {
                     actor->bgCheckFlags |= 0x100;
                 }
             } else {
@@ -1190,12 +1191,12 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
             actor->bgCheckFlags |= 0x1;
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
-    } else {
-        if ((actor->bgCheckFlags & 0x1) && (sp34 >= -11.0f)) {
+    } else { // actor is above ground
+        if ((actor->bgCheckFlags & 0x1) && (groundheightDiff >= -11.0f)) {
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
 
-        return func_8002E234(actor, sp34, arg3);
+        return func_8002E234(actor, groundheightDiff, arg3);
     }
 
     return 1;
@@ -1238,8 +1239,8 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
 
     if (arg5 & 2) {
         sp64.y = actor->prevPos.y + 10.0f;
-        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (arg4 + sp74) - 10.0f, &D_8015BBA0,
-                                       &D_8015BBA4, actor)) {
+        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (arg4 + sp74) - 10.0f, &sCurCeilingPoly,
+                                       &sCurCeilingBgId, actor)) {
             actor->bgCheckFlags |= 0x10;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {

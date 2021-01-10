@@ -1406,7 +1406,7 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &swordTip, &swordHilt);
         }
     } else {
-        func_8002BDB0(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
     }
     if (limbIndex == 19) {
         Matrix_MultVec3f(&footOffset, &this->rightFootPos);

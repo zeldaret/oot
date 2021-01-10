@@ -7408,12 +7408,12 @@ s32 func_8084269C(GlobalContext* globalCtx, Player* this) {
     Vec3f sp2C;
 
     if ((this->unk_89E == 0) || (this->unk_89E == 1)) {
-        func_8084260C(&this->actor.shape.feetPos[0], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[0].y,
-                      7.0f, 5.0f);
+        func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
+                      this->actor.groundHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(globalCtx, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
-        func_8084260C(&this->actor.shape.feetPos[1], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[1].y,
-                      7.0f, 5.0f);
-        func_800286CC(globalCtx, &this->actor.shape.feetPos[1], &D_808545B4, &D_808545C0, 50, 30);
+        func_8084260C(&this->actor.shape.feetPos[FOOT_RIGHT], &sp2C,
+                      this->actor.groundHeight - this->actor.shape.feetPos[FOOT_RIGHT].y, 7.0f, 5.0f);
+        func_800286CC(globalCtx, &this->actor.shape.feetPos[FOOT_RIGHT], &D_808545B4, &D_808545C0, 50, 30);
         return 1;
     }
 
