@@ -503,7 +503,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->jewel.type = DEMO_EFFECT_JEWEL_ZORA;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
             if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
                 Actor_Kill(&this->actor);
                 return;

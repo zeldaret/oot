@@ -85,7 +85,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
         this->actor.flags &= -2;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->initParams == 6) {
             this->actionFunc = func_80A531CC;
 

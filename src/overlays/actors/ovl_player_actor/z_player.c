@@ -1332,13 +1332,13 @@ void func_80832630(GlobalContext* globalCtx) {
 }
 
 void func_8083264C(Player* this, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         func_800AA000(arg4, arg1, arg2, arg3);
     }
 }
 
 void func_80832698(Player* this, u16 sfxId) {
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         func_8002F7DC(&this->actor, sfxId + this->ageProperties->unk_92);
     } else {
         func_800F4190(&this->actor.projectedPos, sfxId);
@@ -2030,7 +2030,7 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80834298(Player* this, GlobalContext* globalCtx) {
-    if ((this->actor.type == ACTORCAT_PLAYER) && !(this->stateFlags1 & 0x100) &&
+    if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
         (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) &&
@@ -2871,7 +2871,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
     func_80832224(this);
     func_80832698(this, NA_SE_VO_LI_DOWN);
 
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         func_800F47BC();
 
         if (Inventory_ConsumeFairy(globalCtx)) {
@@ -2955,7 +2955,7 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
 
     if (!(this->stateFlags2 & 0x60)) {
         if ((this->unk_664 != NULL) &&
-            ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.type != ACTORCAT_PLAYER))) {
+            ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y,
                                Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->head.pos), 4000);
         } else if ((this->stateFlags1 & 0x20000) && !(this->stateFlags2 & 0x60)) {
@@ -3051,17 +3051,17 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 ((this->heldItemActionParam != PLAYER_AP_FISHING_POLE) || (this->unk_860 == 0)) &&
                 CHECK_BTN_ALL(sControlInput->press.button, BTN_Z)) {
 
-                if (this->actor.type == ACTORCAT_PLAYER) {
+                if (this->actor.category == ACTORCAT_PLAYER) {
                     actorToTarget = globalCtx->actorCtx.targetCtx.arrowPointedActor;
                 } else {
                     actorToTarget = &PLAYER->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.type != ACTORCAT_PLAYER);
+                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
-                    if ((actorToTarget == this->unk_664) && (this->actor.type == ACTORCAT_PLAYER)) {
+                    if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
                         actorToTarget = globalCtx->actorCtx.targetCtx.unk_94;
                     }
 
@@ -3087,7 +3087,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_664 != NULL) {
-                if ((this->actor.type == ACTORCAT_PLAYER) && (this->unk_664 != this->unk_684) &&
+                if ((this->actor.category == ACTORCAT_PLAYER) && (this->unk_664 != this->unk_684) &&
                     func_8002F0C8(this->unk_664, this, sp1C)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= 0x40000000;
@@ -3263,7 +3263,7 @@ void func_80837530(GlobalContext* globalCtx, Player* this, s32 arg2) {
 
     this->stateFlags1 |= 0x1000;
 
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_THUNDER, this->bodyPartsPos[0].x,
                     this->bodyPartsPos[0].y, this->bodyPartsPos[0].z, 0, 0, 0, Player_GetSwordHeld(this) | arg2);
     }
@@ -3445,7 +3445,7 @@ void func_80837AFC(Player* this, s32 timer) {
 }
 
 s32 func_80837B18(GlobalContext* globalCtx, Player* this, s32 damage) {
-    if ((this->invincibilityTimer != 0) || (this->actor.type != ACTORCAT_PLAYER)) {
+    if ((this->invincibilityTimer != 0) || (this->actor.category != ACTORCAT_PLAYER)) {
         return 1;
     }
 
@@ -3551,7 +3551,7 @@ void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f
                     sp2C = &D_04002DB0;
                 }
 
-                if ((this->actor.type != ACTORCAT_PLAYER) && (this->actor.colChkInfo.health == 0)) {
+                if ((this->actor.category != ACTORCAT_PLAYER) && (this->actor.colChkInfo.health == 0)) {
                     func_80832698(this, NA_SE_VO_BL_DOWN);
                 } else {
                     func_80832698(this, NA_SE_VO_LI_FALL_L);
@@ -3984,7 +3984,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s
 
     if (1) {}
 
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         sp3C = 0;
 
         if (!(this->stateFlags1 & 0x80) && (globalCtx->sceneLoadFlag == 0) && (this->csMode == 0) &&
@@ -4210,7 +4210,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                     this->linearVelocity = 0.1f;
                 }
 
-                if (doorShutter->dyna.actor.type == ACTORCAT_DOOR) {
+                if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
                     this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(sp7C > 0) ? 0 : 1]
                                         .effects;
@@ -4287,7 +4287,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
             }
 
-            if ((this->doorType != 3) && (doorActor->type == ACTORCAT_DOOR)) {
+            if ((this->doorType != 3) && (doorActor->category == ACTORCAT_DOOR)) {
                 frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10].sides[(sp7C > 0) ? 0 : 1].room;
 
                 if ((frontRoom >= 0) && (frontRoom != globalCtx->roomCtx.curRoom.num)) {
@@ -5008,7 +5008,7 @@ void func_8083BA90(GlobalContext* globalCtx, Player* this, s32 arg2, f32 xzVeloc
 s32 func_8083BB20(Player* this) {
     if (!(this->stateFlags1 & 0x400000) && (Player_GetSwordHeld(this) != 0)) {
         if (D_80853614 ||
-            ((this->actor.type != ACTORCAT_PLAYER) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B))) {
+            ((this->actor.category != ACTORCAT_PLAYER) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B))) {
             return 1;
         }
     }
@@ -5065,7 +5065,7 @@ s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
 
         if (sp2C <= 0) {
             if (func_80833BCC(this)) {
-                if (this->actor.type != ACTORCAT_PLAYER) {
+                if (this->actor.category != ACTORCAT_PLAYER) {
                     if (sp2C < 0) {
                         func_808389E8(this, &D_04002FE0, REG(69) / 100.0f, globalCtx);
                     } else {
@@ -7908,7 +7908,7 @@ void func_80843CEC(Player* this, GlobalContext* globalCtx) {
     func_8083721C(this);
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
-        if (this->actor.type == ACTORCAT_PLAYER) {
+        if (this->actor.category == ACTORCAT_PLAYER) {
             func_80843AE8(globalCtx, this);
         }
         return;
@@ -9222,7 +9222,7 @@ f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 u8 D_80854790[] = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C };
 
 void func_808473D4(GlobalContext* globalCtx, Player* this) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) && (this->actor.type == ACTORCAT_PLAYER)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
         s32 sp24;
@@ -9258,7 +9258,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                 } else if ((this->stateFlags1 & 0x800000) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (func_8084D3E4 != this->func_674)) {
                     if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
-                        if (this->targetActor->type == ACTORCAT_NPC) {
+                        if (this->targetActor->category == ACTORCAT_NPC) {
                             doAction = 0xF;
                         } else {
                             doAction = 1;
@@ -9267,7 +9267,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                         doAction = 8;
                     }
                 } else if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
-                    if (this->targetActor->type == ACTORCAT_NPC) {
+                    if (this->targetActor->category == ACTORCAT_NPC) {
                         doAction = 0xF;
                     } else {
                         doAction = 1;
@@ -9441,7 +9441,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             }
         }
 
-        if (this->actor.type == ACTORCAT_PLAYER) {
+        if (this->actor.category == ACTORCAT_PLAYER) {
             func_800F66DC(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorBgId));
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
@@ -9632,7 +9632,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
     Actor* unk_664;
     s32 camMode;
 
-    if (this->actor.type == ACTORCAT_PLAYER) {
+    if (this->actor.category == ACTORCAT_PLAYER) {
         sp27 = 0;
 
         if (this->csMode != 0) {
@@ -10085,7 +10085,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & 0x40000)) {
             func_8083D53C(globalCtx, this);
 
-            if ((this->actor.type == ACTORCAT_PLAYER) && (gSaveContext.health == 0)) {
+            if ((this->actor.category == ACTORCAT_PLAYER) && (gSaveContext.health == 0)) {
                 if (this->stateFlags1 & 0x206000) {
                     func_80832440(globalCtx, this);
                     func_80837B9C(this, globalCtx);
@@ -10106,7 +10106,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         }
 
         if ((globalCtx->csCtx.state != 0) && (this->csMode != 6) && !(this->stateFlags1 & 0x800000) &&
-            !(this->stateFlags2 & 0x80) && (this->actor.type == ACTORCAT_PLAYER)) {
+            !(this->stateFlags2 & 0x80) && (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorAction* linkActionCsCmd = globalCtx->csCtx.linkAction;
 
             if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != 0)) {
@@ -10729,7 +10729,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     } else if (!func_8008E9C4(this) && LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (this->skelAnime.moveFlags != 0) {
             func_80832DBC(this);
-            if ((this->targetActor->type == ACTORCAT_NPC) && (this->heldItemActionParam != PLAYER_AP_FISHING_POLE)) {
+            if ((this->targetActor->category == ACTORCAT_NPC) && (this->heldItemActionParam != PLAYER_AP_FISHING_POLE)) {
                 func_808322D0(globalCtx, this, &D_040031A0);
             } else {
                 func_80832284(globalCtx, this, func_80833338(this));
@@ -13941,7 +13941,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
             if (func_808332B8(this)) {
                 func_80836898(globalCtx, this, func_8083A2F8);
                 func_80832C6C(globalCtx, this, &D_04003328);
-            } else if ((actor->type != ACTORCAT_NPC) || (this->heldItemActionParam == PLAYER_AP_FISHING_POLE)) {
+            } else if ((actor->category != ACTORCAT_NPC) || (this->heldItemActionParam == PLAYER_AP_FISHING_POLE)) {
                 func_8083A2F8(globalCtx, this);
 
                 if (!func_8008E9C4(this)) {

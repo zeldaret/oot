@@ -241,7 +241,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORCAT_ENEMY))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {

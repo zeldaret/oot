@@ -1039,10 +1039,10 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
-            if (arrowPointedActor->type == ACTORCAT_NPC) {
+            if (arrowPointedActor->category == ACTORCAT_NPC) {
                 targetSound = NA_SE_VO_NAVY_HELLO;
             } else {
-                targetSound = (arrowPointedActor->type == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                targetSound = (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
@@ -1088,7 +1088,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & 0x400) || ((YREG(15) & 0x10) && func_800BC56C(globalCtx, 2))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->type == ACTORCAT_NPC))) {
+        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->category == ACTORCAT_NPC))) {
             if (arrowPointedActor != NULL) {
                 this->unk_2C0 = 100;
                 player->stateFlags2 |= 0x100000;

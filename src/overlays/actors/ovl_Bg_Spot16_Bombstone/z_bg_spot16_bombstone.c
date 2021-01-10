@@ -389,7 +389,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         }
     } else if (player->stateFlags1 & 0x800) {
         playerHeldActor = player->heldActor;
-        if (playerHeldActor != NULL && playerHeldActor->type == ACTORCAT_EXPLOSIVES &&
+        if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVES &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
             sPlayerBomb = playerHeldActor;
         }

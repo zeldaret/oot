@@ -1806,7 +1806,7 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
     s32 frontRoom;
 
-    if (actor->type != ACTORCAT_DOOR) {
+    if (actor->category != ACTORCAT_DOOR) {
         return 0;
     }
 

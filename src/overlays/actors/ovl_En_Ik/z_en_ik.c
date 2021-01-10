@@ -160,7 +160,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Actor_SetScale(thisx, 0.012f);
         thisx->naviEnemyId = 53;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_ENEMY);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_ENEMY);
     }
 
     blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p2StartColor[0] = blureInit.p2StartColor[1] =
@@ -654,14 +654,14 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
             func_80032E24(&this->unk_308, 3, globalCtx);
         }
     } else if (this->actor.colChkInfo.health <= 10) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_LAST_DAMAGE);
         if (this->switchFlags != 0xFF) {
             Flags_SetSwitch(globalCtx, this->switchFlags);
         }
         return;
     } else if (prevHealth == 50) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
     if (this->actor.colChkInfo.health == 0) {

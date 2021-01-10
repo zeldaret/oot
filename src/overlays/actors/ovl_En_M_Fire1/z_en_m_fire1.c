@@ -37,7 +37,7 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->actor.params < 0) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);

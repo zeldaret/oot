@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s16 id;
-    /* 0x02 */ u8 type; // Classifies actor and determines when actor will execute
+    /* 0x02 */ u8 category; // Classifies actor and determines when actor will execute
     /* 0x04 */ u32 flags;
     /* 0x08 */ s16 objectId;
     /* 0x0C */ u32 instanceSize;
@@ -102,7 +102,7 @@ typedef struct {
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID.
-    /* 0x002 */ u8 type; // Actor category. Refer to the corresponding enum for values.
+    /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values.
     /* 0x003 */ s8 room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change.
     /* 0x004 */ u32 flags; // Flags used for various purposes.
     /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes.

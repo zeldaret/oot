@@ -1441,7 +1441,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
 
 s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
     if (left->actor != NULL) {
-        if (ACTORCAT_PLAYER == left->actor->type) {
+        if (ACTORCAT_PLAYER == left->actor->category) {
             if (rightBody->flags == 0) {
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);

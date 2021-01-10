@@ -58,7 +58,7 @@ glabel EnGoma_Init
 /* 0005C 80A48F1C 28410064 */  slti    $at, $v0, 0x0064
 /* 00060 80A48F20 14200017 */  bne     $at, $zero, .L80A48F80
 /* 00064 80A48F24 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
-/* 00068 80A48F28 0C00CDD2 */  jal     Actor_ChangeType
+/* 00068 80A48F28 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 0006C 80A48F2C 24070009 */  addiu   $a3, $zero, 0x0009         ## $a3 = 00000009
 /* 00070 80A48F30 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

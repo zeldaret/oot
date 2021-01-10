@@ -381,7 +381,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.type == ACTORCAT_DOOR) {
+    if (this->dyna.actor.category == ACTORCAT_DOOR) {
         Player* player = PLAYER;
         s32 sp38 = this->unk_16C;
         s32 sp34 = 0xF;
@@ -490,7 +490,7 @@ void func_80997150(DoorShutter* this, GlobalContext* globalCtx) {
             if (globalCtx->state.frames % 2 != 0) {
                 this->unk_16F++;
             }
-            if (this->dyna.actor.type == func_8005B198() || this->unk_16F == 0) {
+            if (this->dyna.actor.category == func_8005B198() || this->unk_16F == 0) {
                 this->unk_16F = 5;
             }
         } else {

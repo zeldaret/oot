@@ -77,7 +77,7 @@ glabel EnBigokuta_Init
 /* 00108 809BCD68 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0010C 809BCD6C 26651C24 */  addiu   $a1, $s3, 0x1C24           ## $a1 = 00001C24
 /* 00110 809BCD70 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00114 809BCD74 0C00CDD2 */  jal     Actor_ChangeType
+/* 00114 809BCD74 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 00118 809BCD78 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 /* 0011C 809BCD7C 0C26F4C6 */  jal     func_809BD318

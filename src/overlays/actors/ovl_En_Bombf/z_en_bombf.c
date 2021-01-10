@@ -92,7 +92,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->timer = 140;
         this->flashSpeedScale = 15;
         thisx->gravity = -1.5f;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_EXPLOSIVES);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_EXPLOSIVES);
         thisx->colChkInfo.mass = 200;
         thisx->flags &= ~1;
         EnBombf_SetupAction(this, EnBombf_Move);
@@ -146,7 +146,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
         } else if (this->bombCollider.base.acFlags & 2) {
             this->bombCollider.base.acFlags &= ~2;
 
-            if (this->bombCollider.base.ac->type != ACTORCAT_BOSS) {
+            if (this->bombCollider.base.ac->category != ACTORCAT_BOSS) {
                 bombFlower =
                     (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
                                           this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
@@ -343,7 +343,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORCAT_ENEMY))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->unk_200 = 1;
             this->timer = 0;
         } else {

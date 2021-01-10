@@ -334,7 +334,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
     if (this->infoIdx != EN_POH_INFO_COMPOSER) {
         this->actor.shape.rot.x = -0x8000;
     }
-    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 8);
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 8);
     this->unk_198 = 60;
     this->actionFunc = EnPoh_Death;
 }

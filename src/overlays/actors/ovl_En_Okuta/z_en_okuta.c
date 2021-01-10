@@ -100,7 +100,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x10;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
         this->timer = 30;
         thisx->shape.rot.y = 0;
         this->actionFunc = EnOkuta_ProjectileFly;

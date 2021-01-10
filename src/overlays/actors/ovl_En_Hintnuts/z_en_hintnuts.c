@@ -110,11 +110,11 @@ void EnHintnuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, GlobalContext* globalCtx) {
-    if (this->actor.textId != 0 && this->actor.type == ACTORCAT_ENEMY &&
+    if (this->actor.textId != 0 && this->actor.category == ACTORCAT_ENEMY &&
         ((this->actor.params == 0) || (sPuzzleCounter == 2))) {
         this->actor.flags &= ~0x5;
         this->actor.flags |= 0x9;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BG);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BG);
     }
 }
 
@@ -160,7 +160,7 @@ void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~1;
 
-    if (this->actor.params > 0 && this->actor.params < 4 && this->actor.type == ACTORCAT_ENEMY) {
+    if (this->actor.params > 0 && this->actor.params < 4 && this->actor.category == ACTORCAT_ENEMY) {
         if (sPuzzleCounter == -4) {
             sPuzzleCounter = 0;
         }
@@ -340,7 +340,7 @@ void EnHintnuts_BeginFreeze(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_CheckProximity(EnHintnuts* this, GlobalContext* globalCtx) {
-    if (this->actor.type != ACTORCAT_ENEMY) {
+    if (this->actor.category != ACTORCAT_ENEMY) {
         if ((this->collider.base.maskA & 2) || this->actor.isTargeted) {
             this->actor.flags |= 0x10000;
         } else {
@@ -394,10 +394,10 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     } else if (this->animFlagAndTimer == 0 && func_8002DBB0(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.speedXZ = 0.0f;
-        if (this->actor.type == ACTORCAT_BG) {
+        if (this->actor.category == ACTORCAT_BG) {
             this->actor.flags &= ~0x00010009;
             this->actor.flags |= 0x5;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
         }
         EnHintnuts_SetupBurrow(this);
     } else {
@@ -443,7 +443,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
             sPuzzleCounter = 3;
         }
         if (this->actor.child != NULL) {
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORCAT_PROP);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORCAT_PROP);
         }
         Actor_Kill(&this->actor);
     }
@@ -458,7 +458,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->animFlagAndTimer == 0) {
         if (sPuzzleCounter == 3) {
             if (this->actor.child != NULL) {
-                Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORCAT_PROP);
+                Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORCAT_PROP);
             }
             this->animFlagAndTimer = 1;
         } else if (sPuzzleCounter == -4) {

@@ -141,7 +141,7 @@ glabel L80A11D14
 /* 00150 80A11D70 A60B01D8 */  sh      $t3, 0x01D8($s0)           ## 000001D8
 /* 00154 80A11D74 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00158 80A11D78 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 0015C 80A11D7C 0C00CDD2 */  jal     Actor_ChangeType
+/* 0015C 80A11D7C 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00160 80A11D80 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00164 80A11D84 3C0D80A1 */  lui     $t5, %hi(func_80A12730)    ## $t5 = 80A10000

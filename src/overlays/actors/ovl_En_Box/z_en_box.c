@@ -353,7 +353,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
         func_80080480(globalCtx, &this->dyna.actor);
-        if (func_80080728(globalCtx, this->dyna.actor.type)) {
+        if (func_80080728(globalCtx, this->dyna.actor.category)) {
             this->unk_1A8 = 0;
         } else {
             this->unk_1A8 = -30;
@@ -365,7 +365,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
  * The chest is ready to appear, possibly waiting for camera/cutscene-related stuff to happen
  */
 void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->dyna.actor.type || this->unk_1A8 != 0) {
+    if (func_8005B198() == this->dyna.actor.category || this->unk_1A8 != 0) {
         EnBox_SetupAction(this, EnBox_AppearAnimation);
         this->unk_1A8 = 0;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x,

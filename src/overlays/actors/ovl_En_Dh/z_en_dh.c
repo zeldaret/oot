@@ -410,7 +410,7 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
         if ((s32)this->skelAnime.curFrame == 61) {
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         }
     }
 }

@@ -107,13 +107,13 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_BLOCK_LARGE:
         case A_OBJ_BLOCK_HUGE:
             this->dyna.bgId = 1;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
             func_8001D5C8(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
             this->dyna.bgId = 3;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
             func_8001D310(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:

@@ -233,7 +233,7 @@ glabel BossSst_Init
 /* 00344 8092C914 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00348 8092C918 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 0034C 8092C91C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00350 8092C920 0C00CDD2 */  jal     Actor_ChangeType
+/* 00350 8092C920 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 00354 8092C924 24070009 */  addiu   $a3, $zero, 0x0009         ## $a3 = 00000009
 /* 00358 8092C928 10000046 */  beq     $zero, $zero, .L8092CA44

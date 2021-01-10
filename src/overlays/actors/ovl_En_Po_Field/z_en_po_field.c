@@ -144,7 +144,7 @@ void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     this->actor.update = EnPoField_Update;
-    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
     this->actor.shape.rot.x = 0;
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionTimer = 200;
@@ -263,7 +263,7 @@ void EnPoField_SetupSoulIdle(EnPoField* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x = -0x8000;
     this->actionTimer = 60;
     this->actor.world.pos.y -= 15.0f;
-    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
     this->actionFunc = EnPoField_SoulIdle;
 }
 

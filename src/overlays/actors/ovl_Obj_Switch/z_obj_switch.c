@@ -370,7 +370,7 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorPress(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_FLOOR_3 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
@@ -426,7 +426,7 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     s16 subType = (this->dyna.actor.params >> 4 & 7);
 
     if (((subType != OBJSWITCH_SUBTYPE_FLOOR_1) && (subType != OBJSWITCH_SUBTYPE_FLOOR_3)) || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
             ObjSwitch_FloorUpInit(this);
@@ -485,7 +485,7 @@ void ObjSwitch_EyeClosingInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeClosing(ObjSwitch* this, GlobalContext* globalCtx) {
-    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->eyeTexIndex++;
         if (this->eyeTexIndex >= 3) {
             ObjSwitch_EyeClosedInit(this);
@@ -524,7 +524,7 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
 
 void ObjSwitch_EyeOpening(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_EYE_1 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
             ObjSwitch_EyeOpenInit(this);
@@ -575,7 +575,7 @@ void ObjSwitch_CrystalTurnOnInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalTurnOn(ObjSwitch* this, GlobalContext* globalCtx) {
-    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOnInit(this);
         if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_CRYSTAL_1) {
             ObjSwitch_UpdateTwoTexScrollXY(this);
@@ -619,7 +619,7 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
 
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_CRYSTAL_1 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);

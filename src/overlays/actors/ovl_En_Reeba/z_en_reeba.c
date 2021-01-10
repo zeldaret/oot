@@ -82,7 +82,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.colChkInfo.health = 20;
         this->collider.body.toucher.effect = 4;
         this->collider.body.toucher.damage = 16;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
 
     this->actor.shape.yOffset = this->unk_284 = this->scale * -27500.0f;

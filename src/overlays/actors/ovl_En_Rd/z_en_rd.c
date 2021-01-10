@@ -610,8 +610,8 @@ void func_80AE3C20(EnRd* this) {
 }
 
 void func_80AE3C98(EnRd* this, GlobalContext* globalCtx) {
-    if (this->actor.type != ACTORCAT_PROP) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+    if (this->actor.category != ACTORCAT_PROP) {
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
     }
 
     Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x7D0, 0);

@@ -245,7 +245,7 @@ void ObjLightswitch_SetupTurnOn(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->actor.type || this->toggleDelay <= 0) {
+    if (func_8005B198() == this->actor.category || this->toggleDelay <= 0) {
         if (this->timer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE_FLASH);
         }
@@ -317,7 +317,7 @@ void ObjLightswitch_SetupTurnOff(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if ((this->actor.params >> 4 & 3) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.type ||
+    if ((this->actor.params >> 4 & 3) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category ||
         this->toggleDelay <= 0) {
         this->timer--;
 
@@ -342,7 +342,7 @@ void ObjLightswitch_SetupDisappearDelay(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx) {
-    if (func_8005B198() == this->actor.type || this->toggleDelay <= 0) {
+    if (func_8005B198() == this->actor.category || this->toggleDelay <= 0) {
         ObjLightswitch_SetupDisappear(this);
     }
 }

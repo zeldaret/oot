@@ -97,7 +97,7 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
+    if ((func_8005B198() == this->actor.category) || (this->timer != 0)) {
         this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 

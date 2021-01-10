@@ -3108,7 +3108,7 @@ s32 Camera_KeepOn1(Camera* camera) {
 
     switch (camera->paramFlags & 0x18) {
         case 8:
-            if ((camera->player->actor.type == 2) && (camera->player->interactRangeActor == camera->target)) {
+            if ((camera->player->actor.category == 2) && (camera->player->interactRangeActor == camera->target)) {
                 PosRot sp54;
                 func_8002EEE4(&sp54, &camera->player->actor);
                 spC8.r = 60.0f;
@@ -5832,12 +5832,12 @@ s32 Camera_Demo5(Camera* camera) {
     }
     func_8002EEE4(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
-    D_8011D3AC = camera->target->type;
+    D_8011D3AC = camera->target->category;
     func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
-    if (camera->target->type == ACTORCAT_PLAYER) {
+    if (camera->target->category == ACTORCAT_PLAYER) {
         // camera is targeting a(the) player actor
         if (eyePlayerGeo.r > 30.0f) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
@@ -5925,7 +5925,7 @@ s32 Camera_Demo5(Camera* camera) {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
         }
-    } else if (camera->target->type == ACTORCAT_DOOR) {
+    } else if (camera->target->category == ACTORCAT_DOOR) {
         // the target is a door.
         D_8011D954[0].timerInit = camera->timer - 5;
         sp4A = 0;
@@ -6007,7 +6007,7 @@ s32 Camera_Demo5(Camera* camera) {
         player->actor.freezeTimer = camera->timer;
     } else {
         sp4A = playerhead.rot.y - playerTargetGeo.yaw;
-        if (camera->target->type == ACTORCAT_PLAYER) {
+        if (camera->target->category == ACTORCAT_PLAYER) {
             pad = camera->globalCtx->state.frames - sDemo5PrevAction12Frame;
             if (player->stateFlags1 & 0x800) {
                 // holding object over head.

@@ -58,7 +58,7 @@ glabel EnAnubice_Update
 /* 00CB0 809B1DD0 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00CB4 809B1DD4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00CB8 809B1DD8 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 00CBC 809B1DDC 0C00CDD2 */  jal     Actor_ChangeType
+/* 00CBC 809B1DDC 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00CC0 809B1DE0 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C28
 /* 00CC4 809B1DE4 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
@@ -90,7 +90,7 @@ glabel EnAnubice_Update
 /* 00D24 809B1E44 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00D28 809B1E48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00D2C 809B1E4C 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 00D30 809B1E50 0C00CDD2 */  jal     Actor_ChangeType
+/* 00D30 809B1E50 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00D34 809B1E54 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00D38 809B1E58 8E0D0004 */  lw      $t5, 0x0004($s0)           ## 00000004

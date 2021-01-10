@@ -90,7 +90,7 @@ glabel EnAm_Init
 /* 00264 809AE184 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00268 809AE188 26251C24 */  addiu   $a1, $s1, 0x1C24           ## $a1 = 00001C24
 /* 0026C 809AE18C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00270 809AE190 0C00CDD2 */  jal     Actor_ChangeType
+/* 00270 809AE190 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00274 809AE194 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00278 809AE198 0C26B92A */  jal     func_809AE4A8              

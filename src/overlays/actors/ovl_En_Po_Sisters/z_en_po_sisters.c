@@ -477,7 +477,7 @@ void func_80ADA094(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_199 = 128;
     this->unk_19A = 50;
     this->unk_234[0] = this->actor.home.pos;
-    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
     this->actionFunc = func_80ADBC88;
 }
 

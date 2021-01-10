@@ -299,8 +299,8 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     targetCtx->unk_90 = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
-    func_8002BF60(targetCtx, actor, actor->type, globalCtx);
-    func_8002BE98(targetCtx, actor->type, globalCtx);
+    func_8002BF60(targetCtx, actor, actor->category, globalCtx);
+    func_8002BE98(targetCtx, actor->category, globalCtx);
 }
 
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
@@ -402,7 +402,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
     actor = targetCtx->unk_94;
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
-        NaviColor* naviColor = &sNaviColorList[actor->type];
+        NaviColor* naviColor = &sNaviColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
@@ -451,14 +451,14 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     }
 
     if (unkActor != NULL) {
-        actorCategory = unkActor->type;
+        actorCategory = unkActor->category;
     } else {
-        actorCategory = player->actor.type;
+        actorCategory = player->actor.category;
     }
 
-    if ((unkActor != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->activeType)) {
+    if ((unkActor != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->activeCategory)) {
         targetCtx->arrowPointedActor = unkActor;
-        targetCtx->activeType = actorCategory;
+        targetCtx->activeCategory = actorCategory;
         targetCtx->unk_40 = 1.0f;
     }
 
@@ -487,7 +487,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
 
     if (actorArg != NULL) {
         if (actorArg != targetCtx->targetedActor) {
-            func_8002BE98(targetCtx, actorArg->type, globalCtx);
+            func_8002BE98(targetCtx, actorArg->category, globalCtx);
             targetCtx->targetedActor = actorArg;
 
             if (actorArg->id == ACTOR_EN_BOOM) {
@@ -2535,13 +2535,13 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
 }
 
 /**
- * Adds a given actor instance at the front of the actor list of the specified type.
- * Also sets the actor instance as being of that type.
+ * Adds a given actor instance at the front of the actor list of the specified category.
+ * Also sets the actor instance as being of that category.
  */
-void Actor_AddToTypeList(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCategory) {
+void Actor_AddToCategoryList(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCategory) {
     Actor* prevFirstActor;
 
-    actorToAdd->type = actorCategory;
+    actorToAdd->category = actorCategory;
 
     actorCtx->total++;
     actorCtx->actorList[actorCategory].length++;
@@ -2559,16 +2559,16 @@ void Actor_AddToTypeList(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCate
  * Removes a given actor instance from its actor list.
  * Also sets the temp clear flag of the current room if the actor removed was the last enemy loaded.
  */
-Actor* Actor_RemoveFromTypeList(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actorToRemove) {
+Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actorToRemove) {
     Actor* newFirstActor;
 
     actorCtx->total--;
-    actorCtx->actorList[actorToRemove->type].length--;
+    actorCtx->actorList[actorToRemove->category].length--;
 
     if (actorToRemove->prev != NULL) {
         actorToRemove->prev->next = actorToRemove->next;
     } else {
-        actorCtx->actorList[actorToRemove->type].first = actorToRemove->next;
+        actorCtx->actorList[actorToRemove->category].first = actorToRemove->next;
     }
 
     newFirstActor = actorToRemove->next;
@@ -2580,7 +2580,7 @@ Actor* Actor_RemoveFromTypeList(GlobalContext* globalCtx, ActorContext* actorCtx
     actorToRemove->next = NULL;
     actorToRemove->prev = NULL;
 
-    if ((actorToRemove->room == globalCtx->roomCtx.curRoom.num) && (actorToRemove->type == ACTORCAT_ENEMY) &&
+    if ((actorToRemove->room == globalCtx->roomCtx.curRoom.num) && (actorToRemove->category == ACTORCAT_ENEMY) &&
         (actorCtx->actorList[ACTORCAT_ENEMY].length == 0)) {
         Flags_SetTempClear(globalCtx, globalCtx->roomCtx.curRoom.num);
     }
@@ -2720,7 +2720,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
 
     if ((objBankIndex < 0) ||
-        ((actorInit->type == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
+        ((actorInit->category == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
         // Translates to: "NO DATA BANK!! <DATA BANK＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
                      objBankIndex, actorInit->objectId);
@@ -2774,7 +2774,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor->home.rot.z = rotZ;
     actor->params = params;
 
-    Actor_AddToTypeList(actorCtx, actor, actorInit->type);
+    Actor_AddToCategoryList(actorCtx, actor, actorInit->category);
 
     temp = gSegments[6];
     Actor_Init(actor, globalCtx);
@@ -2869,7 +2869,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     func_800F89E8(&actor->projectedPos);
     Actor_Destroy(actor, globalCtx);
 
-    newFirstActor = Actor_RemoveFromTypeList(globalCtx, actorCtx, actor);
+    newFirstActor = Actor_RemoveFromCategoryList(globalCtx, actorCtx, actor);
 
     ZeldaArena_FreeDebug(actor, "../z_actor.c", 7242);
 
@@ -2994,7 +2994,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
 }
 
 /**
- * Finds the first actor instance of a specified id and type if there is one.
+ * Finds the first actor instance of a specified ID and category if there is one.
  */
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
     Actor* actor = actorCtx->actorList[actorCategory].first;
@@ -3200,7 +3200,7 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 }
 
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
-    if ((collider->acFlags & 0x2) && (collider->ac->type == ACTORCAT_EXPLOSIVES)) {
+    if ((collider->acFlags & 0x2) && (collider->ac->category == ACTORCAT_EXPLOSIVES)) {
         collider->acFlags &= ~0x2;
         return collider->ac;
     }
@@ -3227,12 +3227,12 @@ Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
 }
 
 /**
- * Dynamically changes the type of a given actor instance.
- * This is done by moving it to the corresponding type list and setting its type variable accordingly.
+ * Dynamically changes the category of a given actor instance.
+ * This is done by moving it to the corresponding category list and setting its category variable accordingly.
  */
-void Actor_ChangeType(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory) {
-    Actor_RemoveFromTypeList(globalCtx, actorCtx, actor);
-    Actor_AddToTypeList(actorCtx, actor, actorCategory);
+void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory) {
+    Actor_RemoveFromCategoryList(globalCtx, actorCtx, actor);
+    Actor_AddToCategoryList(actorCtx, actor, actorCategory);
 }
 
 typedef struct {
@@ -3919,8 +3919,9 @@ u8 func_800353E8(GlobalContext* globalCtx) {
 }
 
 /**
- * Finds the first actor instance of a specified id and type within a given range from an actor if there is one.
- * If the id provided is -1, this will look for any actor of the specified type rather than a specific id.
+ * Finds the first actor instance of a specified ID and Actor_ChangeCategory within a given range from 
+ * an actor if there is one. If the ID provided is -1, this will look for any actor of the 
+ * specified category rather than a specific ID.
  */
 Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorCategory, f32 range) {
     Actor* actor = globalCtx->actorCtx.actorList[actorCategory].first;

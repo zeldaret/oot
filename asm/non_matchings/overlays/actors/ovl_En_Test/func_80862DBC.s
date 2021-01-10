@@ -34,7 +34,7 @@ glabel func_80862DBC
 /* 037E4 80862E34 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 037E8 80862E38 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 037EC 80862E3C 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 037F0 80862E40 0C00CDD2 */  jal     Actor_ChangeType
+/* 037F0 80862E40 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 037F4 80862E44 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 .L80862E48:

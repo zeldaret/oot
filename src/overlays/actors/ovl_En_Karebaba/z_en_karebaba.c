@@ -167,7 +167,7 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
-    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
+    Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
     this->actor.params = 200;
     this->actor.flags &= ~0x20;
     this->actionFunc = EnKarebaba_DeadItemDrop;
@@ -381,7 +381,7 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->actor.params == 20) {
         this->actor.flags &= ~0x10;
         this->actor.flags |= 5;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
         EnKarebaba_SetupIdle(this);
     }
 }
