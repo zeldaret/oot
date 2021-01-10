@@ -136,8 +136,7 @@ void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx) {
 
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
-                 this->dyna.actor.velocity.y);
+    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y);
 }
 
 void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx) {

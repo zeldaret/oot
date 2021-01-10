@@ -207,8 +207,8 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
             }
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsFree[i].x, sTagPointsFree[i].y, sTagPointsFree[i].z,
-                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
-                                       1.0f, 1.0f, 1.0f, 0, 255, 0, 255, 4, globalCtx->state.gfxCtx);
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
+                                       1.0f, 1.0f, 0, 255, 0, 255, 4, globalCtx->state.gfxCtx);
             }
         }
     }
@@ -277,8 +277,8 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) 
                 }
             } else if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsOrdered[i].x, sTagPointsOrdered[i].y, sTagPointsOrdered[i].z,
-                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
-                                       1.0f, 1.0f, 1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
+                                       1.0f, 1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
             }
         }
     }

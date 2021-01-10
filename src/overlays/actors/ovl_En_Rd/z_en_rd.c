@@ -148,7 +148,7 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE2630(GlobalContext* globalCtx, Actor* thisx, s32 arg2) {
-    Actor* enemyIt = globalCtx->actorCtx.actorList[ACTORCAT_ENEMY].first;
+    Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].first;
 
     while (enemyIt != NULL) {
         if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) || (enemyIt->params < 0)) {
@@ -253,8 +253,7 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y == this->actor.home.pos.y) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
         }
-        if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) ==
-            0.0f) {
+        if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) == 0.0f) {
             if (this->unk_30C != 0) {
                 this->unk_30C--;
                 Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.3f, 1.0f, 0.3f);
@@ -469,12 +468,12 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
 
             Math_SmoothStepToF(&this->actor.world.pos.x,
-                               (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.world.pos.x, 1.0f,
-                               10.0f, 0.0f);
+                               (Math_SinS(player->actor.shape.rot.y) * -25.0f) + player->actor.world.pos.x, 1.0f, 10.0f,
+                               0.0f);
             Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y, 1.0f, 10.0f, 0.0f);
             Math_SmoothStepToF(&this->actor.world.pos.z,
-                               (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.world.pos.z, 1.0f,
-                               10.0f, 0.0f);
+                               (Math_CosS(player->actor.shape.rot.y) * -25.0f) + player->actor.world.pos.z, 1.0f, 10.0f,
+                               0.0f);
             Math_SmoothStepToS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
 
             if (this->skelAnime.curFrame == 0.0f) {

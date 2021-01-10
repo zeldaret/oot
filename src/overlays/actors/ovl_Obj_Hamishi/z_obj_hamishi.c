@@ -66,10 +66,8 @@ void ObjHamishi_Shake(ObjHamishi* this) {
         Math_StepToF(&this->shakePosSize, 0.0f, 0.15f);
         Math_StepToF(&this->shakeRotSize, 0.0f, 40.0f);
 
-        this->actor.world.pos.x =
-            this->actor.home.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
-        this->actor.world.pos.z =
-            this->actor.home.pos.z + (Math_CosS(this->shakePosPhase * 7) * this->shakePosSize);
+        this->actor.world.pos.x = this->actor.home.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
+        this->actor.world.pos.z = this->actor.home.pos.z + (Math_CosS(this->shakePosPhase * 7) * this->shakePosSize);
         this->actor.shape.rot.x =
             this->actor.home.rot.x + (s16)(Math_SinS(this->shakeRotPhase * 4) * this->shakeRotSize);
         this->actor.shape.rot.z =

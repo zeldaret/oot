@@ -121,10 +121,8 @@ void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     f32 sin = Math_SinS(this->dyna.actor.world.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.world.rot.y);
     s32 flag =
-        Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos)) &
-        1;
-    flag &=
-        Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - (125.0f * sin), fabsf(sin));
+        Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos)) & 1;
+    flag &= Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);

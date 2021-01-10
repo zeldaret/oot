@@ -86,7 +86,7 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
 
-    actorIt = globalCtx->actorCtx.actorList[ACTORCAT_ITEMACTION].first;
+    actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DOOR_WARP1) && (actorIt->projectedPos.z > this->actor.projectedPos.z)) {

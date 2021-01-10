@@ -154,8 +154,8 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawTeardrop, 0.0f);
     this->actor.colChkInfo.mass = 0xFE;
     thisx->colChkInfo.health = 20;
-    thisx->colChkInfo.unk_10 = 50;
-    thisx->colChkInfo.unk_12 = 100;
+    thisx->colChkInfo.cylRadius = 50;
+    thisx->colChkInfo.cylHeight = 100;
     thisx->naviEnemyId = 0x54;
     this->keyFlag = thisx->params & 0xFF00;
     thisx->params &= 0xFF;
@@ -1298,11 +1298,9 @@ void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (this->keyFlag != 0) {
-                        key =
-                            Item_DropCollectible(globalCtx, &this->actor.world.pos, this->keyFlag | ITEM00_SMALL_KEY);
+                        key = Item_DropCollectible(globalCtx, &this->actor.world.pos, this->keyFlag | ITEM00_SMALL_KEY);
                         if (key != NULL) {
-                            key->actor.world.rot.y =
-                                Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
+                            key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
                             key->actor.speedXZ = 6.0f;
                             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);

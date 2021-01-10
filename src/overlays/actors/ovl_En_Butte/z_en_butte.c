@@ -116,8 +116,8 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809CE3C4, &sp5C);
-    func_800D1694(this->actor.head.pos.x + sp5C.x, this->actor.head.pos.y + sp5C.y,
-                  this->actor.head.pos.z + sp5C.z, &camDir);
+    func_800D1694(this->actor.head.pos.x + sp5C.x, this->actor.head.pos.y + sp5C.y, this->actor.head.pos.z + sp5C.z,
+                  &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -175,7 +175,7 @@ void func_809CD56C(EnButte* this) {
     static f32 D_809CE3EC[] = { 30.0f, 40.0f, 50.0f };
 
     this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3E0[this->flightParamsIdx] +
-                                Math_SinS(this->unk_25E) * D_809CE3EC[this->flightParamsIdx];
+                                 Math_SinS(this->unk_25E) * D_809CE3EC[this->flightParamsIdx];
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -2000.0f, 2000.0f);
 }
 
@@ -184,7 +184,7 @@ void func_809CD634(EnButte* this) {
     static f32 D_809CE404[] = { 7.5f, 10.0f, 12.5f };
 
     this->actor.shape.yOffset += Math_SinS(this->unk_25C) * D_809CE3F8[this->flightParamsIdx] +
-                                Math_SinS(this->unk_25E) * D_809CE404[this->flightParamsIdx];
+                                 Math_SinS(this->unk_25E) * D_809CE404[this->flightParamsIdx];
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -500.0f, 500.0f);
 }
 

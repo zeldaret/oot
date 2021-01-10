@@ -290,7 +290,7 @@ s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
 }
 
 s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorList[ACTORCAT_NPC].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].first;
     EnRu1* someEnRu1;
 
     while (actorIt != NULL) {
@@ -308,7 +308,7 @@ s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 DynaPolyActor* func_80AEB088(GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorList[ACTORCAT_BG].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BG].first;
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_BG_BDAN_OBJECTS && actorIt->params == 0) {
@@ -335,7 +335,7 @@ s32 func_80AEB104(EnRu1* this) {
 }
 
 Actor* func_80AEB124(GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorList[ACTORCAT_BOSS].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].first;
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == 0x15)) {
@@ -1568,8 +1568,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 1) && this->actor.floorBgId != BGCHECK_SCENE) {
         colCtx = &globalCtx->colCtx;
-        floorBgId =
-            this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
+        floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
         if (dynaActor != NULL && dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaActor->actor.params == 0 &&
             !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {

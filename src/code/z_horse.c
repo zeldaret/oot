@@ -48,10 +48,9 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(0x18) || (DREG(1) != 0))) {
-        player->rideActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, player->actor.world.pos.x,
-                        player->actor.world.pos.y, player->actor.world.pos.z, player->actor.shape.rot.x,
-                        player->actor.shape.rot.y, player->actor.shape.rot.z, 9);
+        player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, player->actor.world.pos.x,
+                                        player->actor.world.pos.y, player->actor.world.pos.z, player->actor.shape.rot.x,
+                                        player->actor.shape.rot.y, player->actor.shape.rot.z, 9);
         if (player->rideActor == NULL) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 343);
         }

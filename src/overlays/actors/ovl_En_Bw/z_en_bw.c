@@ -169,8 +169,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         this->color1.g = sp60;
     }
     if ((((globalCtx->gameplayFrames % 4) == this->actor.params) && (this->actor.speedXZ != 0.0f) &&
-         (sp64 = BgCheck_AnyLineTest2(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0,
-                                      0, 1))) ||
+         (sp64 = BgCheck_AnyLineTest2(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0,
+                                      1))) ||
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
@@ -278,8 +278,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     switch (this->unk_221) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
-            if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f) && (ABS(this->actor.yDistToPlayer) < 50.0f) &&
-                func_8002E084(&this->actor, 0x1C70)) {
+            if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
+                (ABS(this->actor.yDistToPlayer) < 50.0f) && func_8002E084(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
@@ -818,8 +818,8 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         Matrix_MultVec3f(&spAC, &this->unk_27C);
     }
 
-    Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y + ((thisx->scale.y - 0.013f) * 1000.0f),
-                     thisx->world.pos.z, MTXMODE_NEW);
+    Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y + ((thisx->scale.y - 0.013f) * 1000.0f), thisx->world.pos.z,
+                     MTXMODE_NEW);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 

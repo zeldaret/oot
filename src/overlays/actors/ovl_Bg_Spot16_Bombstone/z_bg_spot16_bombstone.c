@@ -345,7 +345,8 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s32 yawDiff;
     s32 absYawDiff;
 
-    if (this->actor.xzDistToPlayer < 130.0f && this->actor.yDistToPlayer < 160.0f && this->actor.yDistToPlayer >= -10.0f) {
+    if (this->actor.xzDistToPlayer < 130.0f && this->actor.yDistToPlayer < 160.0f &&
+        this->actor.yDistToPlayer >= -10.0f) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
@@ -378,8 +379,8 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         if (sPlayerBomb->actor.update == NULL) {
             sPlayerBomb = NULL;
         } else if (sTimer <= 0 && sPlayerBomb->actor.world.pos.y < 1400.0f &&
-                   Math3D_Dist1DSq(sPlayerBomb->actor.world.pos.x + 1579.0f,
-                                   sPlayerBomb->actor.world.pos.z + 790.0f) < SQ(400.0f) &&
+                   Math3D_Dist1DSq(sPlayerBomb->actor.world.pos.x + 1579.0f, sPlayerBomb->actor.world.pos.z + 790.0f) <
+                       SQ(400.0f) &&
                    sPlayerBomb->actor.params == 0) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {

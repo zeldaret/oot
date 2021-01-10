@@ -126,8 +126,8 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->flameCollider, &this->actor, &D_80AD70AC);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                            this->actor.home.pos.z, 255, 255, 255, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
+                            255, 255, 255, 0);
     this->actor.shape.shadowDrawFunc = ActorShadow_DrawCircle;
     EnPoField_SetupWaitForSpawn(this, globalCtx);
 }
@@ -325,10 +325,11 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupDisappear(this);
         return;
     }
-    Math_ApproachF(
-        &this->actor.home.pos.y,
-        ((player->actor.world.pos.y > this->actor.groundHeight) ? player->actor.world.pos.y : this->actor.groundHeight) + 13.0f,
-        0.2f, 5.0f);
+    Math_ApproachF(&this->actor.home.pos.y,
+                   ((player->actor.world.pos.y > this->actor.groundHeight) ? player->actor.world.pos.y
+                                                                           : this->actor.groundHeight) +
+                       13.0f,
+                   0.2f, 5.0f);
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;
 }
 
@@ -376,13 +377,11 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                     this->actor.params = EN_PO_FIELD_SMALL;
                     spawnDist = 300.0f;
                 }
-                this->actor.world.pos.x =
-                    Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.x;
-                this->actor.world.pos.z =
-                    Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.z;
+                this->actor.world.pos.x = Math_SinS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.x;
+                this->actor.world.pos.z = Math_CosS(player->actor.shape.rot.y) * spawnDist + player->actor.world.pos.z;
                 this->actor.world.pos.y = player->actor.world.pos.y + 1000.0f;
-                this->actor.world.pos.y = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly,
-                                                                       &bgId, &this->actor, &this->actor.world.pos);
+                this->actor.world.pos.y = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
+                                                                      &this->actor, &this->actor.world.pos);
                 if (this->actor.world.pos.y != BGCHECK_Y_MIN) {
                     this->actor.shape.rot.y = func_8002DA78(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);
@@ -443,10 +442,8 @@ void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     } else if (this->actor.home.pos.z - player->actor.world.pos.z < -100.0f) {
         this->actor.home.pos.z = player->actor.world.pos.z + -100.0f;
     }
-    this->actor.world.pos.x =
-        this->actor.home.pos.x - (Math_SinS(this->actor.world.rot.y) * this->scaleModifier);
-    this->actor.world.pos.z =
-        this->actor.home.pos.z - (Math_CosS(this->actor.world.rot.y) * this->scaleModifier);
+    this->actor.world.pos.x = this->actor.home.pos.x - (Math_SinS(this->actor.world.rot.y) * this->scaleModifier);
+    this->actor.world.pos.z = this->actor.home.pos.z - (Math_CosS(this->actor.world.rot.y) * this->scaleModifier);
     if (this->actionTimer == 0) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -560,8 +557,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, OBJECT_PO_FIELD, 10,
-                                 D_06004BA0);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, OBJECT_PO_FIELD, 10, D_06004BA0);
         func_80AD42B0(this);
     } else if (this->actionTimer == 0) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);

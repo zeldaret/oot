@@ -16,7 +16,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,          FLAGS,
+    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
     (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
 };
@@ -79,8 +79,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
         ((ObjOshihiki*)thisx->child)->cantMove = true;
     }
     thisx->world.rot.z = thisx->shape.rot.z = 0;
-    osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
-                 thisx->home.rot.z);
+    osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params, thisx->home.rot.z);
 }
 
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {

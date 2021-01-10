@@ -81,9 +81,8 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
 
-    if (dynaPolyActor != NULL &&
-        Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
-                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
+    if (dynaPolyActor != NULL && Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
+                                                 this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -155,8 +154,8 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     actorPosition.y += this->dyna.actor.prevPos.y;
     actorPosition.z += this->dyna.actor.world.pos.z;
 
-    this->dyna.actor.groundHeight = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
-                                                           &this->dyna.actor, &actorPosition, chkDist);
+    this->dyna.actor.groundHeight = BgCheck_EntityRaycastFloor6(
+        &globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
 
     if ((this->dyna.actor.groundHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;

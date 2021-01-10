@@ -11,7 +11,6 @@
 #define AM_FIELD_SIZE 0x27A0
 
 struct Actor;
-// From z64.h
 struct GlobalContext;
 struct Lights;
 
@@ -24,7 +23,6 @@ typedef struct {
     Vec3f pos;
     Vec3s rot;
 } PosRot; // size = 0x14
-
 
 typedef struct {
     /* 0x00 */ s16 id;
@@ -62,41 +60,41 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
+    /* 0x02 */ s16 cylRadius;
+    /* 0x04 */ s16 cylHeight;
     /* 0x06 */ u8 mass;
 } CollisionCheckInfoInit;
 
 typedef struct {
     /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
+    /* 0x02 */ s16 cylRadius;
+    /* 0x04 */ s16 cylHeight;
+    /* 0x06 */ s16 cylYShift;
     /* 0x08 */ u8 mass;
 } CollisionCheckInfoInit2;
 
 typedef struct {
     /* 0x00 */ DamageTable* damageTable;
-    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions
+    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body.
+    /* 0x10 */ s16 cylRadius; // Used for various purposes.
+    /* 0x12 */ s16 cylHeight; // Used for various purposes.
+    /* 0x14 */ s16 cylYShift; // Unused. Intended purpose inferred from the Cylinder16 structure and func_80062ECC.
+    /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions.
     /* 0x17 */ u8 health;
     /* 0x18 */ u8 damage; // Amount to decrement health by
-    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
+    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon.
+    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC.
+    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT.
 } CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ Vec3s rot; // Current actor shape rotation
+    /* 0x00 */ Vec3s rot; // Current actor shape rotation.
     /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player.
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units.
     /* 0x0C */ ActorShadowFunc shadowDrawFunc;
     /* 0x10 */ f32 shadowScale;
     /* 0x14 */ u8 shadowAlpha;
-    /* 0x15 */ u8 unk_15;
+    /* 0x15 */ u8 unk_15; // related to teardrop shadows
     /* 0x18 */ Vec3f feetPos[2];
 } ActorShape; // size = 0x18
 
@@ -108,7 +106,7 @@ typedef struct Actor {
     /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes.
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data".
     /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank".
-    /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked.
+    /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on.
     /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle.
     /* 0x024 */ PosRot world; // Position/rotation in the world.
     /* 0x038 */ PosRot head; // Target reticle focuses on this position. Can be used for other purposes.

@@ -267,8 +267,8 @@ void func_80880484(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->timer -= 1;
     }
 
-    sp24 = Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f,
-                        this->dyna.actor.velocity.y);
+    sp24 =
+        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {

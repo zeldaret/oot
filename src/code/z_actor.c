@@ -61,8 +61,6 @@ void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalC
     func_8002B200(actor, lights, globalCtx, &D_04049210, NULL);
 }
 
-
-
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     static Color_RGBA8 white = { 255, 255, 255, 255 };
 
@@ -1422,7 +1420,8 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            ret = actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            ret = actor->xyzDistToPlayerSq -
+                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
             return ret;
         }
     }
@@ -1487,8 +1486,9 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
 
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
-        (!actor->isTargeted && ((arg3 < fabsf(actor->yDistToPlayer)) ||
-                                (player->targetActorDistance < actor->xzDistToPlayer) || (arg2 < actor->xzDistToPlayer)))) {
+        (!actor->isTargeted &&
+         ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
+          (arg2 < actor->xzDistToPlayer)))) {
         return 0;
     }
 
@@ -1508,7 +1508,7 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 }
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
-    f32 var1 = 50.0f + actor->colChkInfo.unk_10;
+    f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
@@ -1980,7 +1980,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     actorCtx->absoluteSpace = NULL;
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
-    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorList[ACTORCAT_PLAYER].first, globalCtx);
+    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].first, globalCtx);
     func_8002FA60(globalCtx);
 }
 
@@ -2041,10 +2041,10 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
         sp74 = player->targetActor;
     }
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++, sp80++) {
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, sp80++) {
         unkCondition = (*sp80 & player->stateFlags1);
 
-        actor = actorCtx->actorList[i].first;
+        actor = actorCtx->actorLists[i].first;
         while (actor != NULL) {
             if (actor->world.pos.y < -25000.0f) {
                 actor->world.pos.y = -25000.0f;
@@ -2356,9 +2356,9 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6336);
 
-    actorListEntry = &actorCtx->actorList[0];
+    actorListEntry = &actorCtx->actorLists[0];
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++, actorListEntry++) {
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, actorListEntry++) {
         actor = actorListEntry->first;
 
         while (actor != NULL) {
@@ -2452,8 +2452,8 @@ void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++) {
-        actor = actorCtx->actorList[i].first;
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
+        actor = actorCtx->actorLists[i].first;
         while (actor != NULL) {
             if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
                 Actor_Kill(actor);
@@ -2470,7 +2470,7 @@ void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s3
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEnemyActorCategories); i++) {
-        actor = actorCtx->actorList[sEnemyActorCategories[i]].first;
+        actor = actorCtx->actorLists[sEnemyActorCategories[i]].first;
         while (actor != NULL) {
             actor->freezeTimer = duration;
             actor = actor->next;
@@ -2482,8 +2482,8 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++) {
-        actor = actorCtx->actorList[i].first;
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
+        actor = actorCtx->actorLists[i].first;
         while (actor != NULL) {
             if ((actor->room >= 0) && (actor->room != globalCtx->roomCtx.curRoom.num) &&
                 (actor->room != globalCtx->roomCtx.prevRoom.num)) {
@@ -2511,11 +2511,11 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     Actor* actor;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++) {
-        actor = actorCtx->actorList[i].first;
+    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
+        actor = actorCtx->actorLists[i].first;
         while (actor != NULL) {
             Actor_Delete(actorCtx, actor, globalCtx);
-            actor = actorCtx->actorList[i].first;
+            actor = actorCtx->actorLists[i].first;
         }
     }
 
@@ -2544,14 +2544,14 @@ void Actor_AddToCategoryList(ActorContext* actorCtx, Actor* actorToAdd, u8 actor
     actorToAdd->category = actorCategory;
 
     actorCtx->total++;
-    actorCtx->actorList[actorCategory].length++;
-    prevFirstActor = actorCtx->actorList[actorCategory].first;
+    actorCtx->actorLists[actorCategory].length++;
+    prevFirstActor = actorCtx->actorLists[actorCategory].first;
 
     if (prevFirstActor != NULL) {
         prevFirstActor->prev = actorToAdd;
     }
 
-    actorCtx->actorList[actorCategory].first = actorToAdd;
+    actorCtx->actorLists[actorCategory].first = actorToAdd;
     actorToAdd->next = prevFirstActor;
 }
 
@@ -2563,12 +2563,12 @@ Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* acto
     Actor* newFirstActor;
 
     actorCtx->total--;
-    actorCtx->actorList[actorToRemove->category].length--;
+    actorCtx->actorLists[actorToRemove->category].length--;
 
     if (actorToRemove->prev != NULL) {
         actorToRemove->prev->next = actorToRemove->next;
     } else {
-        actorCtx->actorList[actorToRemove->category].first = actorToRemove->next;
+        actorCtx->actorLists[actorToRemove->category].first = actorToRemove->next;
     }
 
     newFirstActor = actorToRemove->next;
@@ -2581,7 +2581,7 @@ Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* acto
     actorToRemove->prev = NULL;
 
     if ((actorToRemove->room == globalCtx->roomCtx.curRoom.num) && (actorToRemove->category == ACTORCAT_ENEMY) &&
-        (actorCtx->actorList[ACTORCAT_ENEMY].length == 0)) {
+        (actorCtx->actorLists[ACTORCAT_ENEMY].length == 0)) {
         Flags_SetTempClear(globalCtx, globalCtx->roomCtx.curRoom.num);
     }
 
@@ -2918,13 +2918,13 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     UNK_TYPE sp7C;
     Vec3f sp70;
 
-    actor = actorCtx->actorList[actorCategory].first;
+    actor = actorCtx->actorLists[actorCategory].first;
     sp84 = player->unk_664;
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) && ((actor->flags & 1) == 1)) {
-            if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) && (actor->xyzDistToPlayerSq < 250000.0f) &&
-                (actor->xyzDistToPlayerSq < D_8015BBF4)) {
+            if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) &&
+                (actor->xyzDistToPlayerSq < 250000.0f) && (actor->xyzDistToPlayerSq < D_8015BBF4)) {
                 actorCtx->targetCtx.unk_90 = actor;
                 D_8015BBF4 = actor->xyzDistToPlayerSq;
             }
@@ -2997,7 +2997,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
  * Finds the first actor instance of a specified ID and category if there is one.
  */
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
-    Actor* actor = actorCtx->actorList[actorCategory].first;
+    Actor* actor = actorCtx->actorLists[actorCategory].first;
 
     while (actor != NULL) {
         if (actorId == actor->id) {
@@ -3209,7 +3209,7 @@ Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) 
 }
 
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
-    Actor* actor = globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
 
     while (actor != NULL) {
         if ((actor == explosiveActor) || (actor->params != 1)) {
@@ -3251,7 +3251,7 @@ Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
     Vec3f sp84;
     Actor* actor;
 
-    actor = globalCtx->actorCtx.actorList[ACTORCAT_ITEMACTION].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
     while (actor != NULL) {
         if (((actor->id != ACTOR_ARMS_HOOK) && (actor->id != ACTOR_EN_ARROW)) || (actor == refActor)) {
             actor = actor->next;
@@ -3269,8 +3269,8 @@ Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
                 spA8.y = itemActor->actor.world.pos.y + deltaY;
                 spA8.z = itemActor->actor.world.pos.z + deltaZ;
 
-                if (func_80062ECC(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->world.pos,
-                                  &itemActor->actor.world.pos, &spA8, &sp90, &sp84)) {
+                if (func_80062ECC(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight, 0.0f,
+                                  &refActor->world.pos, &itemActor->actor.world.pos, &spA8, &sp90, &sp84)) {
                     return &itemActor->actor;
                 } else {
                     actor = actor->next;
@@ -3905,7 +3905,8 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002E4B4(globalCtx, actor, actor->colChkInfo.unk_12, actor->colChkInfo.unk_10, actor->colChkInfo.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
+                  actor->colChkInfo.cylRadius, 0x1D);
 
     return ret;
 }
@@ -3919,12 +3920,12 @@ u8 func_800353E8(GlobalContext* globalCtx) {
 }
 
 /**
- * Finds the first actor instance of a specified ID and Actor_ChangeCategory within a given range from 
- * an actor if there is one. If the ID provided is -1, this will look for any actor of the 
+ * Finds the first actor instance of a specified ID and Actor_ChangeCategory within a given range from
+ * an actor if there is one. If the ID provided is -1, this will look for any actor of the
  * specified category rather than a specific ID.
  */
 Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorCategory, f32 range) {
-    Actor* actor = globalCtx->actorCtx.actorList[actorCategory].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[actorCategory].first;
 
     while (actor != NULL) {
         if (actor == refActor || ((actorId != -1) && (actorId != actor->id))) {

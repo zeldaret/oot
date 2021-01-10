@@ -124,7 +124,7 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
     if (explosive != NULL) {
         this->unk_164 =
             (Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &explosive->world.pos) >= this->dyna.actor.shape.rot.y) ? 1
-                                                                                                                   : 0;
+                                                                                                                 : 0;
 
         if (((globalCtx->unk_11D30[0] == 0xFF) && (this->unk_164 == 1)) ||
             ((globalCtx->unk_11D30[1] == 0xFF) && (this->unk_164 == 0))) {
@@ -248,7 +248,8 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->colliders[1].base.maskA &= ~2;
             this->colliders[2].base.maskA &= ~2;
-            if (bomb->actor.category == ACTORCAT_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
+            if (bomb->actor.category == ACTORCAT_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM &&
+                bomb->actor.params == 0) {
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;

@@ -457,8 +457,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.flags &= ~1;
-        if ((Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) > 150.0f) ||
-            (this->retreatTimer != 0)) {
+        if ((Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) > 150.0f) || (this->retreatTimer != 0)) {
             s16 yawToHome = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
 
             Math_SmoothStepToS(&this->actor.world.rot.y, yawToHome, 1, 0x1F4, 0);
@@ -829,7 +828,7 @@ void EnDodongo_ShiftVecRadial(s16 yaw, f32 radius, Vec3f* vec) {
 }
 
 s32 EnDodongo_AteBomb(EnDodongo* this, GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
     f32 dx;
     f32 dy;
     f32 dz;

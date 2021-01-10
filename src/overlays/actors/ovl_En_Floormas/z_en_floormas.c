@@ -482,7 +482,8 @@ void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
 
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C);
 
-    if ((this->actor.xzDistToPlayer < 280.0f) && func_8002E084(&this->actor, 0x2000) && !(this->actor.bgCheckFlags & 8)) {
+    if ((this->actor.xzDistToPlayer < 280.0f) && func_8002E084(&this->actor, 0x2000) &&
+        !(this->actor.bgCheckFlags & 8)) {
         EnFloormas_SetupHover(this, globalCtx);
     } else if (this->actor.xzDistToPlayer > 400.0f) {
         EnFloormas_SetupBigWalk(this);

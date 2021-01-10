@@ -283,7 +283,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
     f32 currentMinDist;
     Vec3f flamePos;
 
-    findTorch = (ObjSyokudai*)globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    findTorch = (ObjSyokudai*)globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
     closestTorch = NULL;
     currentMinDist = 35000.0f;
 
@@ -329,8 +329,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
         if (skelanimeUpdated) {
             rand = Rand_ZeroOne();
             if (rand < 0.5f) {
-                Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.home.pos),
-                                   0x300);
+                Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.home.pos), 0x300);
             } else if (rand < 0.8f) {
                 this->actor.shape.rot.y += Rand_CenteredFloat(1536.0f);
             }
@@ -358,7 +357,8 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     }
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
+        (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         EnFirefly_SetupDiveAttack(this);
     }
 }

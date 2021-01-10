@@ -178,8 +178,8 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.world.rot.z = this->actor.home.rot.z = this->actor.shape.rot.z;
         this->actor.flags |= 0x20;
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
-                               this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                               0, this->actor.home.rot.y, 0, (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
+                               this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
+                               this->actor.home.rot.y, 0, (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
             osSyncPrintf(VT_COL(RED, WHITE));
             // Push-pull block occurrence failure
             osSyncPrintf("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452,

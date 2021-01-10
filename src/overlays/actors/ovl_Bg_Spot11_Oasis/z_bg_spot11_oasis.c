@@ -70,8 +70,7 @@ s32 func_808B280C(GlobalContext* globalCtx) {
         sp4C.z = D_808B2E10[i][1];
         sp40.x = D_808B2E10[i + 1][0];
         sp40.z = D_808B2E10[i + 1][1];
-        if (Math3D_TriChkPointParaYSlopedY(&sp58, &sp4C, &sp40, player->actor.world.pos.z,
-                                           player->actor.world.pos.x)) {
+        if (Math3D_TriChkPointParaYSlopedY(&sp58, &sp4C, &sp40, player->actor.world.pos.z, player->actor.world.pos.x)) {
             return 1;
         }
     }

@@ -145,8 +145,8 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_22E.b = 210;
     this->unk_22E.a = 255;
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                            this->actor.home.pos.z, 0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
+                            0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -261,8 +261,8 @@ void func_80AD95D8(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_060008C0, -3.0f);
     if (this->collider.base.ac != NULL) {
         this->actor.world.rot.y = (this->collider.body.acHitItem->toucher.flags & 0x1F824)
-                                       ? this->collider.base.ac->world.rot.y
-                                       : func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+                                      ? this->collider.base.ac->world.rot.y
+                                      : func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
     }
     if (this->unk_194 != 0) {
         this->actor.speedXZ = 10.0f;

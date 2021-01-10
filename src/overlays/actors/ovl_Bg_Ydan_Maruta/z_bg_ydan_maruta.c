@@ -159,10 +159,8 @@ void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
         temp *= 2;
     }
 
-    this->dyna.actor.world.pos.x =
-        (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z =
-        (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.z;
+    this->dyna.actor.world.pos.x = (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z = (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.z;
 
     func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }

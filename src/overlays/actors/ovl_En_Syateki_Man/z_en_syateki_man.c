@@ -86,7 +86,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->blinkTimer = 20;
     this->eyeState = 0;
     this->blinkFunc = EnSyatekiMan_BlinkWait;
-    this->actor.colChkInfo.unk_10 = 100;
+    this->actor.colChkInfo.cylRadius = 100;
     this->actionFunc = EnSyatekiMan_Start;
 }
 

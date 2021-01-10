@@ -121,9 +121,9 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8086C6EC;
         } else {
             if (BgBdanObjects_GetContactRu1(this, 4)) {
-                if (Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA,
-                                       thisx->home.pos.x, thisx->home.pos.y, thisx->home.pos.z, 0,
-                                       thisx->shape.rot.y + 0x8000, 0, 3) != NULL) {
+                if (Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
+                                       thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
+                                       3) != NULL) {
                     thisx->child->world.pos.z = thisx->child->home.pos.z + 263.0f;
                 }
                 thisx->world.rot.y = 0;
@@ -195,8 +195,8 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f,
-                           1.0f) < 0.1f) {
+    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f, 1.0f) <
+        0.1f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = func_8086C29C;
         this->unk_16A = 0x1E;
@@ -330,8 +330,8 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
-    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 965.0f, 0.5f, 15.0f,
-                           0.2f) < 0.01f) {
+    if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 965.0f, 0.5f, 15.0f, 0.2f) <
+        0.01f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_DoNothing;
     } else {
@@ -367,8 +367,8 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
             func_8005ACFC(globalCtx->cameraPtrs[0], 4);
         }
     }
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y -
-                                    (sinf((f32)this->unk_16A * (M_PI / 256.0f)) * 471.239990234375f); // pi * 150
+    this->dyna.actor.world.pos.y =
+        this->dyna.actor.home.pos.y - (sinf((f32)this->unk_16A * (M_PI / 256.0f)) * 471.239990234375f); // pi * 150
     if (this->unk_16A == 0) {
         this->unk_16A = 0x200;
     }

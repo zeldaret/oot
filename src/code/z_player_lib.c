@@ -1229,8 +1229,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     if (hookedActor->flags & 0x20000) {
                         hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->world.rot.y = hookedActor->shape.rot.y =
-                            this->actor.shape.rot.y + this->unk_3BC.y;
+                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {

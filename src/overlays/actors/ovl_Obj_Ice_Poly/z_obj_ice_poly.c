@@ -105,11 +105,9 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
     }
-    pos.x =
-        this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.x = this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
-    pos.z =
-        this->actor.world.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.z = this->actor.world.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 2000, 5);
     }
@@ -129,11 +127,11 @@ void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx) {
     vel.z = 0.0f;
 
     for (i = 0; i < 2; i++) {
-        pos.x = this->actor.world.pos.x +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.x =
+            this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
         pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
-        pos.z = this->actor.world.pos.z +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.z =
+            this->actor.world.pos.z + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
         func_8002829C(globalCtx, &pos, &vel, &accel, &sColorWhite, &sColorGray,
                       Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
     }

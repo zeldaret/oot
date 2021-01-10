@@ -200,7 +200,7 @@ s32 func_80A745E4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
-    Actor* prop = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    Actor* prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
 
     while (prop != NULL) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
@@ -266,7 +266,8 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
     s32 phi_a0 = (this->unk_2FB == 0) ? 0xAAA : 0x3FFC;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToPlayer < 100.0f) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
+    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToPlayer < 100.0f) &&
+        (ABS(this->actor.yDistToPlayer) < 150.0f)) {
         if ((globalCtx->gameplayFrames & 1)) {
             func_80A74E2C(this);
         } else {
@@ -318,8 +319,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     temp_a1 = this->actor.wallYaw - this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
-        temp_a1 =
-            (this->actor.yawTowardsPlayer > 0) ? this->actor.wallYaw - 0x4000 : this->actor.wallYaw + 0x4000;
+        temp_a1 = (this->actor.yawTowardsPlayer > 0) ? this->actor.wallYaw - 0x4000 : this->actor.wallYaw + 0x4000;
         Math_SmoothStepToS(&this->actor.world.rot.y, temp_a1, 1, phi_a3, 0);
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, phi_a3, 0);

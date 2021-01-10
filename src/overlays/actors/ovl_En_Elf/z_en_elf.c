@@ -327,12 +327,12 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.shadowAlpha = 0xFF;
 
-    Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255,
-                            255, 255, 0);
+    Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255, 255,
+                            255, 0);
     this->lightNodeGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
 
-    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z,
-                              255, 255, 255, 0);
+    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255,
+                              255, 255, 0);
     this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->fairyFlags = 0;
@@ -1042,7 +1042,8 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
             if (arrowPointedActor->category == ACTORCAT_NPC) {
                 targetSound = NA_SE_VO_NAVY_HELLO;
             } else {
-                targetSound = (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                targetSound =
+                    (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
@@ -1208,7 +1209,7 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     this->actor.groundHeight = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId,
-                                                      &this->actor, &this->actor.world.pos);
+                                                           &this->actor, &this->actor.world.pos);
     this->actor.shape.shadowAlpha = 0x32;
 }
 

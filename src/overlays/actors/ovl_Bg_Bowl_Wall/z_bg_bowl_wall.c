@@ -103,7 +103,7 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
             bullseye->explosionCenter = this->bullseyeCenter = this->dyna.actor.world.pos;
         }
         if (this->chuGirl == NULL) {
-            lookForGirl = globalCtx->actorCtx.actorList[ACTORCAT_NPC].first;
+            lookForGirl = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].first;
             while (lookForGirl != NULL) {
                 if (lookForGirl->id != ACTOR_EN_BOM_BOWL_MAN) {
                     lookForGirl = lookForGirl->next;

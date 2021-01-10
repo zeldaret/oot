@@ -149,8 +149,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->dyna.actor.home.rot.z == 0) &&
-        ((this->dyna.actor.home.pos.y - 5.0f) <= PLAYER->actor.world.pos.y)) {
+    if ((this->dyna.actor.home.rot.z == 0) && ((this->dyna.actor.home.pos.y - 5.0f) <= PLAYER->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
         func_800800F8(globalCtx, 0xC94, 0x48, &this->dyna.actor, 0);
     }

@@ -158,8 +158,7 @@ void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx) {
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, GlobalContext* globalCtx) {
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
 
-    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - hcParams->riseDist,
-                     hcParams->riseSpeed)) {
+    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - hcParams->riseDist, hcParams->riseSpeed)) {
         if ((this->type == 0) || (this->type == 6)) {
             Actor_Kill(&this->actor);
         } else if (this->type == 5) {
@@ -203,18 +202,15 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 1.0f);
         }
         if ((this->type == 4) || (this->type == 5)) {
-            this->actor.world.pos.y =
-                (2.0f * this->actor.home.pos.y) - hcParams->riseDist - this->actor.world.pos.y;
+            this->actor.world.pos.y = (2.0f * this->actor.home.pos.y) - hcParams->riseDist - this->actor.world.pos.y;
         }
 
         this->actionFunc(this, globalCtx);
 
         if ((this->type == 4) || (this->type == 5)) {
-            this->actor.world.pos.y =
-                (2.0f * this->actor.home.pos.y) - hcParams->riseDist - this->actor.world.pos.y;
+            this->actor.world.pos.y = (2.0f * this->actor.home.pos.y) - hcParams->riseDist - this->actor.world.pos.y;
         }
-        riseProgress =
-            (hcParams->riseDist - (this->actor.home.pos.y - this->actor.world.pos.y)) / hcParams->riseDist;
+        riseProgress = (hcParams->riseDist - (this->actor.home.pos.y - this->actor.world.pos.y)) / hcParams->riseDist;
         this->alpha = 255.0f * riseProgress;
         if (this->alpha > 50) {
             this->collider.dim.height = hcParams->height * riseProgress;

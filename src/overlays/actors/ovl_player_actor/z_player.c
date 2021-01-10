@@ -2771,7 +2771,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                  ((actionParam == PLAYER_AP_BEAN) && (AMMO(ITEM_BEAN) == 0)) ||
                  (temp = Player_ActionToExplosive(this, actionParam),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
-                                   (globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].length >= 3)))))) {
+                                   (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
                 return;
             }
@@ -2998,10 +2998,9 @@ s32 func_80836AB8(Player* this, s32 arg1) {
         this->unk_6BC = this->actor.head.rot.x;
         this->unk_6AE |= 0x41;
     } else {
-        func_808369C8(
-            &this->unk_6BC,
-            func_808369C8(&this->unk_6B6, this->actor.head.rot.x, 600, 10000, this->actor.head.rot.x, 0), 200,
-            4000, this->unk_6B6, 10000);
+        func_808369C8(&this->unk_6BC,
+                      func_808369C8(&this->unk_6B6, this->actor.head.rot.x, 600, 10000, this->actor.head.rot.x, 0), 200,
+                      4000, this->unk_6B6, 10000);
         sp36 = this->actor.head.rot.y - var;
         func_808369C8(&sp36, 0, 200, 24000, this->unk_6BE, 8000);
         var = this->actor.head.rot.y - sp36;
@@ -4720,8 +4719,8 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
 }
 
 void func_8083B010(Player* this) {
-    this->actor.head.rot.x = this->actor.head.rot.z = this->unk_6B6 = this->unk_6B8 = this->unk_6BA =
-        this->unk_6BC = this->unk_6BE = this->unk_6C0 = 0;
+    this->actor.head.rot.x = this->actor.head.rot.z = this->unk_6B6 = this->unk_6B8 = this->unk_6BA = this->unk_6BC =
+        this->unk_6BE = this->unk_6C0 = 0;
 
     this->actor.head.rot.y = this->actor.shape.rot.y;
 }
@@ -7409,9 +7408,11 @@ s32 func_8084269C(GlobalContext* globalCtx, Player* this) {
     Vec3f sp2C;
 
     if ((this->unk_89E == 0) || (this->unk_89E == 1)) {
-        func_8084260C(&this->actor.shape.feetPos[0], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[0].y, 7.0f, 5.0f);
+        func_8084260C(&this->actor.shape.feetPos[0], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[0].y,
+                      7.0f, 5.0f);
         func_800286CC(globalCtx, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
-        func_8084260C(&this->actor.shape.feetPos[1], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[1].y, 7.0f, 5.0f);
+        func_8084260C(&this->actor.shape.feetPos[1], &sp2C, this->actor.groundHeight - this->actor.shape.feetPos[1].y,
+                      7.0f, 5.0f);
         func_800286CC(globalCtx, &this->actor.shape.feetPos[1], &D_808545B4, &D_808545C0, 50, 30);
         return 1;
     }
@@ -9458,8 +9459,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
-                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId)
-                             << 10;
+                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId) << 10;
             } else {
                 D_808535F4 = 0;
             }
@@ -10729,7 +10729,8 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
     } else if (!func_8008E9C4(this) && LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (this->skelAnime.moveFlags != 0) {
             func_80832DBC(this);
-            if ((this->targetActor->category == ACTORCAT_NPC) && (this->heldItemActionParam != PLAYER_AP_FISHING_POLE)) {
+            if ((this->targetActor->category == ACTORCAT_NPC) &&
+                (this->heldItemActionParam != PLAYER_AP_FISHING_POLE)) {
                 func_808322D0(globalCtx, this, &D_040031A0);
             } else {
                 func_80832284(globalCtx, this, func_80833338(this));

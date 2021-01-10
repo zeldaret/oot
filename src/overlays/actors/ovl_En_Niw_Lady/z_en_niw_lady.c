@@ -192,7 +192,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 phi_s1;
 
     this->cuccosInPen = 0;
-    currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    currentCucco = (EnNiw*)globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
     while (currentCucco != NULL) {
         if (currentCucco->actor.id == ACTOR_EN_NIW) {
             if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&

@@ -137,7 +137,7 @@ void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
     Actor* propIt;
 
     if (this->demoGt == NULL) {
-        propIt = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+        propIt = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
         if ((this->actor.params != 0) && (this->actor.params != 1) && (this->actor.params != 2)) {
             targetParams = 2;
         } else {

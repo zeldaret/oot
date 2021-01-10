@@ -50,7 +50,7 @@ void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnWallTubo_FindGirl(EnWallTubo* this, GlobalContext* globalCtx) {
     Actor* lookForGirl;
 
-    lookForGirl = globalCtx->actorCtx.actorList[ACTORCAT_NPC].first;
+    lookForGirl = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].first;
 
     while (lookForGirl != NULL) {
         if (lookForGirl->id != ACTOR_EN_BOM_BOWL_MAN) {
@@ -74,7 +74,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
 
     if (this->chuGirl->minigamePlayStatus != 0) {
         if (globalCtx->cameraPtrs[0]->setting == 0x15) {
-            chu = (EnBomChu*)globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].first;
+            chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
 
             while (chu != NULL) {
                 if ((&chu->actor == &this->actor) || (chu->actor.id != ACTOR_EN_BOM_CHU)) {

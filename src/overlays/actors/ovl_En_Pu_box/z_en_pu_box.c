@@ -48,8 +48,8 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
     this->unk_164 = 1;
-    thisx->colChkInfo.unk_10 = 0x14;
-    thisx->colChkInfo.unk_12 = 0x32;
+    thisx->colChkInfo.cylRadius = 20;
+    thisx->colChkInfo.cylHeight = 50;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
@@ -81,7 +81,8 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.unk_12, thisx->colChkInfo.unk_10, thisx->colChkInfo.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
+                  thisx->colChkInfo.cylRadius, 0x1D);
     thisx->head.pos = thisx->world.pos;
 }
 

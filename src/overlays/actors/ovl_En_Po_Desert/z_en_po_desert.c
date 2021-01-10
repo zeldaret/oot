@@ -64,8 +64,8 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.b = 210;
     this->lightColor.a = 255;
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                              this->actor.home.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
+                              255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 37.0f);
     this->currentPathPoint = 1;
     this->actor.params = (this->actor.params >> 8) & 0xFF;

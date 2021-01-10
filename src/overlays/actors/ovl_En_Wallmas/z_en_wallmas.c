@@ -218,8 +218,8 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    EffectSsDeadDb_Spawn(globalCtx, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0,
-                         255, 1, 9, true);
+    EffectSsDeadDb_Spawn(globalCtx, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255,
+                         1, 9, true);
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;
@@ -561,7 +561,8 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
-    func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.groundHeight, this->actor.world.pos.z, &mf);
+    func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.groundHeight, this->actor.world.pos.z,
+                  &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
     if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&

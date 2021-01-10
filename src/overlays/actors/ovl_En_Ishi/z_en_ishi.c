@@ -188,8 +188,8 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 69;
             phi_v1 = -320;
         }
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i],
-                             5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i], 5,
+                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 

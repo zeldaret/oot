@@ -114,8 +114,8 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->shieldQuad.base.acFlags = 0xD;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = gSaveContext.healthCapacity >> 3;
-    this->actor.colChkInfo.unk_10 = 60;
-    this->actor.colChkInfo.unk_12 = 100;
+    this->actor.colChkInfo.cylRadius = 60;
+    this->actor.colChkInfo.cylHeight = 100;
     globalCtx->func_11D54(this, globalCtx);
 
     sActionState = ENTORCH2_WAIT;
@@ -422,8 +422,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         sStickAngle = this->actor.yawTowardsPlayer;
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
-                            (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isTargeted || !(player->stateFlags1 & 0x00400000))) {
+                            (ABS(sp5A) >= 0x7800) && (this->actor.isTargeted || !(player->stateFlags1 & 0x00400000))) {
                             EnTorch2_SwingSword(globalCtx, input, this);
                         } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
                                     ((this->actor.xzDistToPlayer <= 80.0f + sp50) && (player->swordState != 0))) &&
@@ -497,10 +496,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->invincibilityTimer = 0;
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = sSpawnPoint.y + 40.0f;
-                this->actor.world.pos.x =
-                    (Math_SinS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.x;
-                this->actor.world.pos.z =
-                    (Math_CosS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.z;
+                this->actor.world.pos.x = (Math_SinS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.x;
+                this->actor.world.pos.z = (Math_CosS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.z;
                 if (func_8002DB6C(&this->actor, &sSpawnPoint) > 800.0f) {
                     sp50 = Rand_ZeroOne() * 20.0f;
                     sp4E = Rand_CenteredFloat(4000.0f);

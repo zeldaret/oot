@@ -111,8 +111,8 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.home.pos.x,
-                        this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0,
-                        this->dyna.actor.shape.rot.y, 0, 1);
+                        this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
+                        1);
         }
         this->actionFunc = func_8087BAAC;
     }

@@ -75,8 +75,8 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.mass = 0xFF;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, thisx->world.pos.x, (s16)thisx->world.pos.y + 65, thisx->world.pos.z,
-                            0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, thisx->world.pos.x, (s16)thisx->world.pos.y + 65, thisx->world.pos.z, 0,
+                            0, 0, 0);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);

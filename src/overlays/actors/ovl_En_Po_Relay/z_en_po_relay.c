@@ -85,8 +85,8 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                              this->actor.home.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
+                              255, 255, 255, 200);
     this->lightColor.a = 255;
     temp = 1;
     if (D_80AD8D24 != 0) {
@@ -144,8 +144,7 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 }
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
-    Math_StepToF(&this->actor.home.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f,
-                 2.0f);
+    Math_StepToF(&this->actor.home.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f, 2.0f);
     this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 8.0f + this->actor.home.pos.y;
 }
 

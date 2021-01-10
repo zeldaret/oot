@@ -77,7 +77,7 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr;
     s32 i;
     Vec3f* actorPos = &this->actor.world.pos; // Required to match
-    ObjMure2* this2 = this;                    // Required to match
+    ObjMure2* this2 = this;                   // Required to match
 
     for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, actorPos);

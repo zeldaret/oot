@@ -90,8 +90,8 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     }
 
     //! @bug fairyType may be uninitialized
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x,
-                this->actor.home.pos.y, this->actor.home.pos.z, 0, 0, 0, fairyType);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x, this->actor.home.pos.y,
+                this->actor.home.pos.z, 0, 0, 0, fairyType);
 
     Actor_Kill(&this->actor);
 }
@@ -101,8 +101,8 @@ void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
         this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.home.pos.x,
-                    this->actor.home.pos.y, this->actor.home.pos.z, 0, 0, 0, 0x11);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.home.pos.x, this->actor.home.pos.y,
+                    this->actor.home.pos.z, 0, 0, 0, 0x11);
 
         func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }

@@ -84,8 +84,8 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x20;
     }
 
-    thisx->colChkInfo.unk_10 = 10.0f;
-    thisx->colChkInfo.unk_12 = 10;
+    thisx->colChkInfo.cylRadius = 10.0f;
+    thisx->colChkInfo.cylHeight = 10;
     thisx->targetMode = 0;
 
     if (thisx->params == BOMBFLOWER_BODY) {
@@ -127,9 +127,8 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
 
     if (this->flowerBombScale >= 1.0f) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
-            bombFlower =
-                (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
-                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+            bombFlower = (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                               this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
             if (bombFlower != NULL) {
                 func_8002F5C4(&this->actor, bombFlower, globalCtx);
                 this->timer = 180;

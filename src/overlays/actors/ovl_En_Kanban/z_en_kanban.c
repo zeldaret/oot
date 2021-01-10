@@ -650,7 +650,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->airTimer = 70;
             }
             if (this->bounceX == 0) {
-                Actor* bomb = globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].first;
+                Actor* bomb = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
                 f32 dx;
                 f32 dy;
                 f32 dz;
@@ -725,12 +725,12 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
-            distX = Math_SmoothStepToF(&this->actor.world.pos.x, signpost->actor.world.pos.x + offset.x, 1.0f, 3.0f,
-                                       0.0f);
-            distY = Math_SmoothStepToF(&this->actor.world.pos.y, signpost->actor.world.pos.y + offset.y, 1.0f, 3.0f,
-                                       0.0f);
-            distZ = Math_SmoothStepToF(&this->actor.world.pos.z, signpost->actor.world.pos.z + offset.z, 1.0f, 3.0f,
-                                       0.0f);
+            distX =
+                Math_SmoothStepToF(&this->actor.world.pos.x, signpost->actor.world.pos.x + offset.x, 1.0f, 3.0f, 0.0f);
+            distY =
+                Math_SmoothStepToF(&this->actor.world.pos.y, signpost->actor.world.pos.y + offset.y, 1.0f, 3.0f, 0.0f);
+            distZ =
+                Math_SmoothStepToF(&this->actor.world.pos.z, signpost->actor.world.pos.z + offset.z, 1.0f, 3.0f, 0.0f);
             pDiff = Math_SmoothStepToS(&this->actor.shape.rot.x, signpost->actor.shape.rot.x, 1, 0x200, 0);
             yDiff = Math_SmoothStepToS(&this->actor.shape.rot.y, signpost->actor.shape.rot.y, 1, 0x200, 0);
             rDiff = Math_SmoothStepToS(&this->actor.shape.rot.z, signpost->actor.shape.rot.z, 1, 0x200, 0);

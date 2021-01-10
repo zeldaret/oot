@@ -170,7 +170,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     }
     this->dyna.actor.world.pos.y = 833.0f;
     this->dyna.actor.groundHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId,
-                                                           &this->dyna.actor, &this->dyna.actor.world.pos);
+                                                                &this->dyna.actor, &this->dyna.actor.world.pos);
     this->actionFunc = BgPoEvent_BlockWait;
 }
 

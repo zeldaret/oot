@@ -323,8 +323,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
         f32 curFrame = this->skelAnime.curFrame;
 
         if (curFrame < 13.0f) {
-            this->actor.world.pos.y =
-                (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.home.pos.y;
+            this->actor.world.pos.y = (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.home.pos.y;
         }
         if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
@@ -554,14 +553,12 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
             func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly,
-                                                   this->actor.wallBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly,
-                                                   this->actor.floorBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }

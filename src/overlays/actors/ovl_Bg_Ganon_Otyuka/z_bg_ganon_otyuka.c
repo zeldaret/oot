@@ -139,7 +139,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
-            prop = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+            prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
             while (prop != NULL) {
                 if ((prop == thisx) || (prop->id != ACTOR_BG_GANON_OTYUKA)) {
                     prop = prop->next;
@@ -287,7 +287,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 702);
 
-    actor = globalCtx->actorCtx.actorList[ACTORCAT_BOSS].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].first;
     while (actor != NULL) {
         if (actor->id == ACTOR_BOSS_GANON) {
             ganondorf = (BossGanon*)actor;
@@ -307,7 +307,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, sPlatformSetupDList);
 
-    actor = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
             platform = (BgGanonOtyuka*)actor;
@@ -357,7 +357,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
-    actor = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
             platform = (BgGanonOtyuka*)actor;
@@ -371,8 +371,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                 platform->flashPrimColorB, 0);
                 gDPSetEnvColor(POLY_XLU_DISP++, platform->flashEnvColorR, platform->flashEnvColorG,
                                platform->flashEnvColorB, 128);
-                Matrix_Translate(platform->dyna.actor.world.pos.x, 0.0f, platform->dyna.actor.world.pos.z,
-                                 MTXMODE_NEW);
+                Matrix_Translate(platform->dyna.actor.world.pos.x, 0.0f, platform->dyna.actor.world.pos.z, MTXMODE_NEW);
 
                 for (i = 0; i < ARRAY_COUNT(sSides); i++) {
                     if (platform->unwalledSides & sSides[i]) {

@@ -99,9 +99,9 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
         params = ((i + 1) & 0xFF);
         params |= (this->dyna.actor.params & 0xFF00);
 
-        step = (BgHidanHamstep*)Actor_SpawnAsChild(
-            &globalCtx2->actorCtx, step, globalCtx2, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
-            this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
+        step = (BgHidanHamstep*)Actor_SpawnAsChild(&globalCtx2->actorCtx, step, globalCtx2, ACTOR_BG_HIDAN_HAMSTEP,
+                                                   pos.x, pos.y, pos.z, this->dyna.actor.world.rot.x,
+                                                   this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
 
         if (step == NULL) {
             return 0;
@@ -280,8 +280,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->dyna.actor);
 
-    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) <
-         (-20.0f - this->dyna.actor.minVelocityY)) &&
+    if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < (-20.0f - this->dyna.actor.minVelocityY)) &&
         (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
 

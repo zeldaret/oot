@@ -109,7 +109,7 @@ s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
     s32 ret;
 
     ret = 0;
-    currentActor = globalCtx->actorCtx.actorList[ACTORCAT_ITEMACTION].first;
+    currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
     bestDistance = 6400.0f;
     this->soilActor = NULL;
 
@@ -268,8 +268,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
 
-    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f ||
-        (this->unk_31A < 4)) {
+    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f || (this->unk_31A < 4)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     } else if (this->actor.child != NULL && &this->actor != this->actor.child) {
@@ -313,8 +312,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
-    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f ||
-        this->unk_31A < 4) {
+    if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f || this->unk_31A < 4) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     } else if (sp38 != 0) {

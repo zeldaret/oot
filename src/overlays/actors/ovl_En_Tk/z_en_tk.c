@@ -236,7 +236,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
     f32 dxz;
     f32 dy;
 
-    prop = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
+    prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
 
     while (prop != NULL) {
         if (prop->id != ACTOR_EN_IT) {

@@ -258,8 +258,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
         switch (this->moveMode) {
             case GSWITCH_THROW:
                 Actor_MoveForward(&this->actor);
-                if ((this->actor.velocity.y < 0.0f) &&
-                    (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f))) {
+                if ((this->actor.velocity.y < 0.0f) && (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f))) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;

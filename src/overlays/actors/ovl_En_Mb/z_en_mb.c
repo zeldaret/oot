@@ -780,10 +780,10 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->actor.world.pos.x = this->actor.world.pos.x + (Math_CosS(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_SinS(this->actor.shape.rot.y) * 89.0f);
+                                    (Math_SinS(this->actor.shape.rot.y) * 89.0f);
         sp4C = 1;
         player->actor.world.pos.z = this->actor.world.pos.z + (Math_SinS(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_CosS(this->actor.shape.rot.y) * 89.0f);
+                                    (Math_CosS(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -846,10 +846,10 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->actor.world.pos.x = this->actor.world.pos.x + (Math_CosS(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_SinS(this->actor.shape.rot.y) * 89.0f);
+                                    (Math_SinS(this->actor.shape.rot.y) * 89.0f);
         sp54 = 1;
         player->actor.world.pos.z = this->actor.world.pos.z + (Math_SinS(this->actor.shape.rot.y) * 10.0f) +
-                                     (Math_CosS(this->actor.shape.rot.y) * 89.0f);
+                                    (Math_CosS(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -971,8 +971,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
 
     sp48 = this->skelAnime.curFrame - playSpeedABS;
     playSpeedABS = ABS(this->skelAnime.playSpeed);
-    if ((this->unk_32E == 0) &&
-        (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->unk_364)) {
+    if ((this->unk_32E == 0) && (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->unk_364)) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 750, 0);
         this->actor.flags |= 1;
         if ((this->actor.xzDistToPlayer < 500.0f) && (yawDiff <= 0x1387)) {

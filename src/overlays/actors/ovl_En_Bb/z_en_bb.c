@@ -144,7 +144,7 @@ void EnBb_SetupAction(EnBb* this, EnBbActionFunc actionFunc) {
 }
 
 Actor* EnBb_FindExplosive(GlobalContext* globalCtx, EnBb* this, f32 range) {
-    Actor* explosive = globalCtx->actorCtx.actorList[ACTORCAT_EXPLOSIVES].first;
+    Actor* explosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
     f32 dist;
 
     while (explosive != NULL) {
@@ -583,8 +583,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & 8) {
         if (ABS(yawDiff) > 0x4000) {
-            this->actor.world.rot.y =
-                this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
+            this->actor.world.rot.y = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
         }
         this->actor.bgCheckFlags &= ~8;
     }
@@ -848,8 +847,7 @@ void EnBb_InitGreen(EnBb* this, GlobalContext* globalCtx) {
         EnBb_SetWaypoint(this, globalCtx);
         EnBb_FaceWaypoint(this);
     }
-    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                     MTXMODE_NEW);
+    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
     Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
     Matrix_RotateZ(this->bobPhase, MTXMODE_APPLY);
     bobOffset.y = this->bobSize;
@@ -926,8 +924,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
     if (Math_CosF(this->bobPhase) <= 0.002f) {
         this->bobSpeedMod = Rand_ZeroOne() * 0.05f;
     }
-    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                     MTXMODE_NEW);
+    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
     Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, 0, MTXMODE_APPLY);
     Matrix_RotateZ(this->bobPhase, MTXMODE_APPLY);
     bobOffset.y = this->bobSize;
@@ -1000,8 +997,7 @@ void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 8) {
         if (ABS(yawDiff) > 0x4000) {
-            this->actor.world.rot.y =
-                this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
+            this->actor.world.rot.y = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
         }
         this->actor.bgCheckFlags &= ~8;
     }

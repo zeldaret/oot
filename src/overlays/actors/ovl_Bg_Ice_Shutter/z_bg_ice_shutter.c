@@ -44,10 +44,8 @@ void func_80891AC0(BgIceShutter* this) {
     sp24 = Math_SinS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
     this->dyna.actor.world.pos.y =
         (Math_CosS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.home.pos.y;
-    this->dyna.actor.world.pos.x =
-        (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.x;
-    this->dyna.actor.world.pos.z =
-        (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.z;
+    this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.z;
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -85,11 +83,9 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (sp28 == 2) {
         temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
-        this->dyna.actor.head.pos.x =
-            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.head.pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
         this->dyna.actor.head.pos.y = this->dyna.actor.home.pos.y;
-        this->dyna.actor.head.pos.z =
-            this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
+        this->dyna.actor.head.pos.z = this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
     }

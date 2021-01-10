@@ -79,8 +79,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, GlobalCon
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
     static f32 actorYPosOffsets[] = { 0.7f, 0.0f, 0.0f };
 
-    this->dyna.actor.world.pos.y =
-        actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.home.pos.y;
+    this->dyna.actor.world.pos.y = actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.home.pos.y;
 }
 
 static InitChainEntry sInitChain[] = {
@@ -174,8 +173,8 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
 
             arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
-                                 100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -550, arg5, 15, 15, 0, arg9, 2, 16, 100,
+                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
 }
@@ -215,8 +214,8 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
                 arg5 |= 1;
             }
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -540, arg5, 20, 20, 0, arg9, 2, 32,
-                                 100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -540, arg5, 20, 20, 0, arg9, 2, 32, 100,
+                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
 }

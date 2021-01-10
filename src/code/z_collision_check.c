@@ -2700,25 +2700,25 @@ void func_80061E8C(CollisionCheckInfo* info) {
 
 void func_80061EB0(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
     info->health = init->health;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
     info->mass = init->mass;
 }
 
 void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->damageTable = damageTable;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
     info->mass = init->mass;
 }
 
 void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
     info->health = init->health;
     info->damageTable = damageTable;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
-    info->unk_14 = init->unk_06;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
+    info->cylYShift = init->cylYShift;
     info->mass = init->mass;
 }
 

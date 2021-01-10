@@ -959,9 +959,8 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
         return;
     }
 
-    effect =
-        (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
     if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.0f);
     }

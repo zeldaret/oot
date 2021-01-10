@@ -426,8 +426,7 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
-    func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y,
-                  this->actor.home.pos.z, &mf);
+    func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
     Matrix_Scale(0.15f, 1.0f, 0.15f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1029),
@@ -492,8 +491,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80026230(globalCtx, &black, 1, 2);
-    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                     MTXMODE_NEW);
+    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
 
     if (this->actionFunc != EnKarebaba_Grow) {
         scale = 0.01f;

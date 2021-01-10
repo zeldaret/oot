@@ -257,8 +257,7 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 0x8)) {
         if (1) { // Necessary to match
             this->dyna.actor.world.rot.y =
-                ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) -
-                0x8000;
+                ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
         }
         this->dyna.actor.bgCheckFlags &= ~0x8;
     }

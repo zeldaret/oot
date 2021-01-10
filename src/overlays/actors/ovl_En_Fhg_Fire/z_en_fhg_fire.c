@@ -190,8 +190,8 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y -= 200.0f;
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 500, 0,
-                                   0, 0x24);
+                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 500, 0, 0,
+                                   0x24);
 
                 ballAccel = D_80A117BC;
 

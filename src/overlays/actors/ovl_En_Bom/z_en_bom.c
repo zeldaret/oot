@@ -69,8 +69,8 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
     thisx->colChkInfo.mass = 200;
-    thisx->colChkInfo.unk_10 = 5;
-    thisx->colChkInfo.unk_12 = 0xA;
+    thisx->colChkInfo.cylRadius = 5;
+    thisx->colChkInfo.cylHeight = 10;
     this->timer = 70;
     this->flashSpeedScale = 7;
     Collider_InitCylinder(globalCtx, &this->bombCollider);
@@ -109,8 +109,7 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     // rebound bomb off the wall it hits
     if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
         if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
-            this->actor.world.rot.y =
-                ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
+            this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_BOUND);
         Actor_MoveForward(&this->actor);

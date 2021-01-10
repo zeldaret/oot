@@ -118,13 +118,11 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         sphere = &this->collider.list[i];
-        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x +
-                                           yawCosine * sphere->dim.modelSphere.center.x +
+        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
         sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.center.y;
-        sphere->dim.worldSphere.center.z =
-            (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
-            yawCosine * sphere->dim.modelSphere.center.z;
+        sphere->dim.worldSphere.center.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
+                                           yawCosine * sphere->dim.modelSphere.center.z;
     }
 
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

@@ -156,8 +156,8 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_195 = 32;
     this->visibilityTimer = Rand_S16Offset(700, 300);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                            this->actor.home.pos.z, 255, 255, 255, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
+                            255, 255, 255, 0);
     if (this->actor.params >= 4) {
         this->actor.params = EN_POH_NORMAL;
     }
