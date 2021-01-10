@@ -1,0 +1,27 @@
+<Root>
+    <File Name="object_dns" Segment="6">
+        <Skeleton Name="gDntJijiSkel" Type="Standard" LimbType="Standard" Offset="0x33E0"/>
+
+        <Animation Name="gDntJijiBurrowAnim" Offset="0x560"/>
+        <Animation Name="gDntJijiCowerAnim" Offset="0x944"/>
+        <Animation Name="gDntJijiHideAnim" Offset="0xA70"/>
+        <Animation Name="gDntJijiTalkAnim" Offset="0xBD0"/>
+        <Animation Name="gDntJijiUnburrowAnim" Offset="0xDF8"/>
+        <Animation Name="gDntJijiUpAnim" Offset="0x12B0"/>
+        <Animation Name="gDntJijiWalkAnim" Offset="0x37C0"/>
+        
+         <DList Name="gDntJijiFlowerDL" Offset="0x2310"/>
+
+        <Texture Name="gDntJijiEyeOpenTex" Format="rgb5a1" Width="8" Height="8" Offset="0x30A0"/>
+        <Texture Name="gDntJijiEyeHalfTex" Format="rgb5a1" Width="8" Height="8" Offset="0x2EA0"/>
+        <Texture Name="gDntJijiEyeShutTex" Format="rgb5a1" Width="8" Height="8" Offset="0x3020"/>
+
+        <DList Name="gDntJijiNutDL" Offset="0x2410"/>
+
+        <Animation Name="gDntJijiSpitAnim" Offset="0x400"/>
+        <Animation Name="gDntJijiDanceAnim" Offset="0x82C"/>
+        <Animation Name="gDntJijiUnkAnim" Offset="0xF98"/> <!-- This animation seems corrupted-->
+        <Animation Name="gDntJijiWaitAnim" Offset="0x364C"/>
+
+    </File>
+</Root>

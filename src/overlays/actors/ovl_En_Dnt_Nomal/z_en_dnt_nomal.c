@@ -5,10 +5,12 @@
  */
 
 #include "z_en_dnt_nomal.h"
+#include "objects/object_dnk/object_dnk.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -22,53 +24,39 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetBehavior(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetFlower(EnDntNomal* this, GlobalContext* globalCtx);
+
 void EnDntNomal_SetupTargetWait(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_SetupTargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_TargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_SetupTargetWalk(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupTargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx);
+
+void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_TargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetWalk(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetFacePlayer(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupTargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetReturn(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_TargetBurrow(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNormal_SetupStageWait(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNormal_StageWait(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupStageUp(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageUp(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupStageUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupCelebrate(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_Celebrate(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupDance(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_Dance(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupStageHide(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageAttackWait(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageSetupReturn(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_06000168;
-extern AnimationHeader D_0600031C;
-extern AnimationHeader D_06000430;
-extern AnimationHeader D_060006CC;
-extern AnimationHeader D_06000894;
-extern AnimationHeader D_06000B70;
-extern Gfx D_060014E0[];
-extern Gfx D_06001B00[];
-extern SkeletonHeader D_060023B8;
-extern AnimationHeader D_060024CC;
-extern AnimationHeader D_060026C4;
-extern SkeletonHeader D_06002AF0;
-extern AnimationHeader D_06002E1C;
-extern AnimationHeader D_06002E84;
-extern AnimationHeader D_06003128;
+void EnDntNomal_SetupStageWait(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupStageCelebrate(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupStageDance(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupStageHide(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageSetupReturn(EnDntNomal* this, GlobalContext* globalCtx);
+
+void EnDntNomal_StageWait(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageUp(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageUnburrow(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageDance(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageAttackHide(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx);
+void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
@@ -162,32 +150,32 @@ void EnDntNomal_WaitForObject(EnDntNomal* this, GlobalContext* globalCtx) {
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);
         if (this->type == ENDNTNOMAL_TARGET) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_060023B8, &D_060024CC, this->jointTable, this->morphTable,
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable, this->morphTable,
                            10);
             this->actor.draw = EnDntNomal_DrawTargetScrub;
         } else {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002AF0, &D_06000430, this->jointTable, this->morphTable,
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable, this->morphTable,
                            11);
             this->actor.draw = EnDntNomal_DrawStageScrub;
         }
-        this->actionFunc = EnDntNomal_SetBehavior;
+        this->actionFunc = EnDntNomal_SetFlower;
     }
 }
 
-void EnDntNomal_SetBehavior(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_SetFlower(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         this->flowerPos = this->actor.posRot.pos;
         if (this->type == ENDNTNOMAL_TARGET) {
             this->actionFunc = EnDntNomal_SetupTargetWait;
         } else {
-            this->actionFunc = EnDntNormal_SetupStageWait;
+            this->actionFunc = EnDntNomal_SetupStageWait;
         }
     }
 }
 
 void EnDntNomal_SetupTargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_060024CC);
-    Animation_Change(&this->skelAnime, &D_060024CC, 0.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsBurrowAnim);
+    Animation_Change(&this->skelAnime, &gHintNutsBurrowAnim, 0.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     this->skelAnime.curFrame = 8.0f;
     this->actionFunc = EnDntNomal_TargetWait;
 }
@@ -255,8 +243,8 @@ void EnDntNomal_SetupTargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx) 
     Vec3f spawnPos;
 
     if (this->timer4 == 0) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_060026C4);
-        Animation_Change(&this->skelAnime, &D_060026C4, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsUnburrowAnim);
+        Animation_Change(&this->skelAnime, &gHintNutsUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         spawnPos = this->actor.posRot.pos;
         spawnPos.y = this->actor.posRot.pos.y + 50.0f;
         EffectSsHahen_SpawnBurst(globalCtx, &spawnPos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
@@ -275,8 +263,8 @@ void EnDntNomal_TargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_SetupTargetWalk(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06003128);
-    Animation_Change(&this->skelAnime, &D_06003128, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsRunAnim);
+    Animation_Change(&this->skelAnime, &gHintNutsRunAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.speedXZ = 1.0f;
     this->actor.colChkInfo.mass = 0;
     this->actionFunc = EnDntNomal_TargetWalk;
@@ -312,8 +300,8 @@ void EnDntNomal_TargetFacePlayer(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06002E84);
-    Animation_Change(&this->skelAnime, &D_06002E84, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsTalkAnim);
+    Animation_Change(&this->skelAnime, &gHintNutsTalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0x10AF;
     func_8010B680(globalCtx, this->actor.textId, NULL);
     this->actionFunc = EnDntNomal_TargetTalk;
@@ -331,8 +319,8 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_SetupTargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000168);
-    Animation_Change(&this->skelAnime, &D_06000168, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsSpitAnim);
+    Animation_Change(&this->skelAnime, &gHintNutsSpitAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = EnDntNomal_TargetGivePrize;
 }
 
@@ -354,8 +342,8 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
     }
     if (frame >= this->endFrame) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_06003128);
-        Animation_Change(&this->skelAnime, &D_06003128, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsRunAnim);
+        Animation_Change(&this->skelAnime, &gHintNutsRunAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
         this->actionFunc = EnDntNomal_TargetReturn;
     }
 }
@@ -377,8 +365,8 @@ void EnDntNomal_TargetReturn(EnDntNomal* this, GlobalContext* globalCtx) {
     }
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if (this->actor.posRot.pos.z < -172.0f) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_060024CC);
-        Animation_Change(&this->skelAnime, &D_060024CC, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsBurrowAnim);
+        Animation_Change(&this->skelAnime, &gHintNutsBurrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->actor.posRot.pos.z = -173.0f;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = EnDntNomal_TargetBurrow;
@@ -394,24 +382,24 @@ void EnDntNomal_TargetBurrow(EnDntNomal* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDntNormal_SetupStageWait(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_SetupStageWait(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->timer3 == 0) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_06000430);
-        Animation_Change(&this->skelAnime, &D_06000430, 0.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gDntStageHideAnim);
+        Animation_Change(&this->skelAnime, &gDntStageHideAnim, 0.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->skelAnime.curFrame = 8.0f;
         this->isSolid = false;
-        this->actionFunc = EnDntNormal_StageWait;
+        this->actionFunc = EnDntNomal_StageWait;
     }
 }
 
-void EnDntNormal_StageWait(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_StageWait(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
 void EnDntNomal_SetupStageUp(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->timer3 == 0) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_06000B70);
-        Animation_Change(&this->skelAnime, &D_06000B70, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gDntStageUpAnim);
+        Animation_Change(&this->skelAnime, &gDntStageUpAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         if (this->action != DNT_ACTION_ATTACK) {
             this->rotDirection = -1;
         }
@@ -468,8 +456,8 @@ void EnDntNomal_StageUp(EnDntNomal* this, GlobalContext* globalCtx) {
 
 void EnDntNomal_SetupStageUnburrow(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->timer3 == 0) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_06000894);
-        Animation_Change(&this->skelAnime, &D_06000894, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gDntStageUnburrowAnim);
+        Animation_Change(&this->skelAnime, &gDntStageUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10,
                                  NULL);
@@ -485,23 +473,23 @@ void EnDntNomal_StageUnburrow(EnDntNomal* this, GlobalContext* globalCtx) {
     if (frame >= this->endFrame) {
         if (this->action != DNT_ACTION_DANCE) {
             this->timer3 = (s16)Rand_ZeroFloat(2.0f) + (s16)(this->type * 0.5f);
-            this->actionFunc = EnDntNomal_SetupCelebrate;
+            this->actionFunc = EnDntNomal_SetupStageCelebrate;
         } else {
             this->timer2 = 300;
-            this->actionFunc = EnDntNomal_SetupDance;
+            this->actionFunc = EnDntNomal_SetupStageDance;
         }
     }
 }
 
-void EnDntNomal_SetupCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06002E1C);
-    Animation_Change(&this->skelAnime, &D_06002E1C, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+void EnDntNomal_SetupStageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntStageWalkAnim);
+    Animation_Change(&this->skelAnime, &gDntStageWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.speedXZ = 3.0f;
     this->isSolid = true;
-    this->actionFunc = EnDntNomal_Celebrate;
+    this->actionFunc = EnDntNomal_StageCelebrate;
 }
 
-void EnDntNomal_Celebrate(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer1 == 0) && (this->timer3 == 0)) {
         f32 dx = this->targetPos.x - this->actor.posRot.pos.x;
@@ -509,7 +497,7 @@ void EnDntNomal_Celebrate(EnDntNomal* this, GlobalContext* globalCtx) {
 
         if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && func_8010BDBC(&globalCtx->msgCtx)) {
             this->action = DNT_ACTION_PRIZE;
-            this->actionFunc = EnDntNomal_SetupDance;
+            this->actionFunc = EnDntNomal_SetupStageDance;
             this->actor.speedXZ = 0.0f;
             return;
         }
@@ -535,19 +523,19 @@ void EnDntNomal_Celebrate(EnDntNomal* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDntNomal_SetupDance(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_060006CC);
-    Animation_Change(&this->skelAnime, &D_060006CC, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+void EnDntNomal_SetupStageDance(EnDntNomal* this, GlobalContext* globalCtx) {
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntStageDanceAnim);
+    Animation_Change(&this->skelAnime, &gDntStageDanceAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->isSolid = true;
     this->timer3 = (s16)Rand_ZeroFloat(20.0f) + 20.0f;
     this->rotDirection = -1;
     if (Rand_ZeroFloat(1.99f) < 1.0f) {
         this->rotDirection = 1;
     }
-    this->actionFunc = EnDntNomal_Dance;
+    this->actionFunc = EnDntNomal_StageDance;
 }
 
-void EnDntNomal_Dance(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_StageDance(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->timer2 == 0) {
         if (this->action == DNT_ACTION_DANCE) {
@@ -577,8 +565,8 @@ void EnDntNomal_SetupStageHide(EnDntNomal* this, GlobalContext* globalCtx) {
             func_80078884(NA_SE_SY_ERROR);
         }
     } else {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_06000430);
-        Animation_Change(&this->skelAnime, &D_06000430, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gDntStageHideAnim);
+        Animation_Change(&this->skelAnime, &gDntStageHideAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
         this->actionFunc = EnDntNomal_StageHide;
@@ -597,10 +585,10 @@ void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         switch (this->action) {
             case DNT_ACTION_NONE:
-                this->actionFunc = EnDntNormal_SetupStageWait;
+                this->actionFunc = EnDntNomal_SetupStageWait;
                 break;
             case DNT_ACTION_ATTACK:
-                this->actionFunc = EnDntNomal_StageAttackWait;
+                this->actionFunc = EnDntNomal_StageAttackHide;
                 break;
             case DNT_ACTION_LOW_RUPEES:
             case DNT_ACTION_HIGH_RUPEES:
@@ -620,13 +608,13 @@ void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }
                 this->action = DNT_ACTION_NONE;
-                this->actionFunc = EnDntNormal_SetupStageWait;
+                this->actionFunc = EnDntNomal_SetupStageWait;
                 break;
         }
     }
 }
 
-void EnDntNomal_StageAttackWait(EnDntNomal* this, GlobalContext* globalCtx) {
+void EnDntNomal_StageAttackHide(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToLink > 70.0f) {
         this->actionFunc = EnDntNomal_SetupStageUp;
     }
@@ -634,8 +622,8 @@ void EnDntNomal_StageAttackWait(EnDntNomal* this, GlobalContext* globalCtx) {
 
 void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
     if (this->timer3 == 0) {
-        this->endFrame = (f32)Animation_GetLastFrame(&D_0600031C);
-        Animation_Change(&this->skelAnime, &D_0600031C, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+        this->endFrame = (f32)Animation_GetLastFrame(&gDntStageSpitAnim);
+        Animation_Change(&this->skelAnime, &gDntStageSpitAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->actor.colChkInfo.mass = 0xFF;
         this->isSolid = true;
         this->timer2 = 0;
@@ -696,8 +684,8 @@ void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_StageSetupReturn(EnDntNomal* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06002E1C);
-    Animation_Change(&this->skelAnime, &D_06002E1C, 1.5f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntStageWalkAnim);
+    Animation_Change(&this->skelAnime, &gDntStageWalkAnim, 1.5f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.speedXZ = 4.0f;
     this->isSolid = false;
     this->actionFunc = EnDntNomal_StageReturn;
@@ -747,7 +735,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->blinkTimer--;
     }
     this->actor.posRot.rot.x = this->actor.shape.rot.x;
-    if (this->actionFunc != EnDntNomal_Celebrate) {
+    if (this->actionFunc != EnDntNomal_StageCelebrate) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
     }
     this->unkCounter++;
@@ -777,7 +765,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = EnDntNomal_StageSetupReturn;
                 break;
             case DNT_SIGNAL_UNUSED:
-                this->actionFunc = EnDntNomal_SetupDance;
+                this->actionFunc = EnDntNomal_SetupStageDance;
                 break;
             case DNT_SIGNAL_NONE:
                 break;
@@ -836,7 +824,7 @@ void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { 0x060027D0, 0x060025D0, 0x06002750 };
+    static void* blinkTex[] = { &gDntStageEyeOpenTex, &gDntStageEyeHalfTex, &gDntStageEyeShutTex };
     EnDntNomal* this = THIS;
     Vec3f dustScale = { 0.25f, 0.25f, 0.25f };
     s32 pad;
@@ -853,9 +841,9 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
                    sLeafColors[this->type - ENDNTNOMAL_STAGE].g, sLeafColors[this->type - ENDNTNOMAL_STAGE].b, 255);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001B00);
+    gSPDisplayList(POLY_OPA_DISP++, gDntStageFlowerDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
-    if (this->actionFunc == EnDntNomal_Celebrate) {
+    if (this->actionFunc == EnDntNomal_StageCelebrate) {
         func_80033C30(&this->actor.posRot.pos, &dustScale, 255, globalCtx);
     }
 }
@@ -871,6 +859,6 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060014E0);
+    gSPDisplayList(POLY_OPA_DISP++, gHintNutsFlowerDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1851);
 }

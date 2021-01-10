@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dnt_jiji.h"
+#include "objects/object_dns/object_dns.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "vt.h"
@@ -19,36 +20,26 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDntJiji_SetFlower(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx);
+
 void EnDntJiji_SetupWait(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_SetupUp(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_SetupUnburrow(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Unburrow(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_SetupWalk(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_SetupBurrow(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Burrow(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_SetupCower(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_SetupHide(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_SetupReturn(EnDntJiji* this, GlobalContext* globalCtx);
+
+void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_Unburrow(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx);
+void EnDntJiji_Burrow(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Cower(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_SetupTalk(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_SetupHide(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Hide(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_SetupReturn(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000560;
-extern AnimationHeader D_06000944;
-extern AnimationHeader D_06000A70;
-extern AnimationHeader D_06000BD0;
-extern AnimationHeader D_06000DF8;
-extern AnimationHeader D_060012B0;
-extern Gfx D_06002310[];
-extern SkeletonHeader D_060033E0;
-extern AnimationHeader D_060037C0;
 
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
@@ -72,7 +63,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDntJiji* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060033E0, &D_06000560, this->jointTable, this->morphTable, 13);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable, 13);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->stage = (EnDntDemo*)this->actor.parent;
@@ -101,8 +92,8 @@ void EnDntJiji_SetFlower(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupWait(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000560);
-    Animation_Change(&this->skelAnime, &D_06000560, 0.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiBurrowAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiBurrowAnim, 0.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->skelAnime.curFrame = 8.0f;
     this->isSolid = this->action = DNT_LEADER_ACTION_NONE;
     this->actionFunc = EnDntJiji_Wait;
@@ -122,8 +113,8 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupUp(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_060012B0);
-    Animation_Change(&this->skelAnime, &D_060012B0, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUpAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiUpAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Up;
@@ -138,8 +129,8 @@ void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupUnburrow(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000DF8);
-    Animation_Change(&this->skelAnime, &D_06000DF8, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUnburrowAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Unburrow;
@@ -159,8 +150,8 @@ void EnDntJiji_Unburrow(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupWalk(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_060037C0);
-    Animation_Change(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.speedXZ = 1.0f;
     this->isSolid = true;
     this->unburrow = true;
@@ -195,8 +186,8 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupBurrow(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000560);
-    Animation_Change(&this->skelAnime, &D_06000560, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiBurrowAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiBurrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
@@ -208,8 +199,8 @@ void EnDntJiji_Burrow(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupCower(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000944);
-    Animation_Change(&this->skelAnime, &D_06000944, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiCowerAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiCowerAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
 
@@ -239,8 +230,8 @@ void EnDntJiji_Cower(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupTalk(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000BD0);
-    Animation_Change(&this->skelAnime, &D_06000BD0, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiTalkAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiTalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnDntJiji_Talk;
 }
 
@@ -309,8 +300,8 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupHide(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_06000A70);
-    Animation_Change(&this->skelAnime, &D_06000A70, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiHideAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiHideAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = EnDntJiji_Hide;
 }
 
@@ -324,8 +315,8 @@ void EnDntJiji_Hide(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetupReturn(EnDntJiji* this, GlobalContext* globalCtx) {
-    this->endFrame = (f32)Animation_GetLastFrame(&D_060037C0);
-    Animation_Change(&this->skelAnime, &D_060037C0, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
+    this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
+    Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.speedXZ = 2.0f;
     this->isSolid = this->unburrow = true;
     this->actionFunc = EnDntJiji_Return;
@@ -423,7 +414,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { 0x060030A0, 0x06002EA0, 0x06003020 };
+    static void* blinkTex[] = { &gDntJijiEyeOpenTex, &gDntJijiEyeHalfTex, &gDntJijiEyeShutTex };
     EnDntJiji* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1019);
@@ -436,6 +427,6 @@ void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06002310);
+    gSPDisplayList(POLY_OPA_DISP++, gDntJijiFlowerDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_jiji.c", 1043);
 }

@@ -5536,7 +5536,8 @@ endseg
 beginseg
     name "object_hintnuts"
     romalign 0x1000
-    include "build/baserom/object_hintnuts.o"
+    include "build/assets/objects/object_hintnuts/object_hintnuts.o"
+    number 6
 endseg
 
 beginseg
@@ -5615,13 +5616,15 @@ endseg
 beginseg
     name "object_dns"
     romalign 0x1000
-    include "build/baserom/object_dns.o"
+    include "build/assets/objects/object_dns/object_dns.o"
+    number 6
 endseg
 
 beginseg
     name "object_dnk"
     romalign 0x1000
-    include "build/baserom/object_dnk.o"
+    include "build/assets/objects/object_dnk/object_dnk.o"
+    number 6
 endseg
 
 beginseg
