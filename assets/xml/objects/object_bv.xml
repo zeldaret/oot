@@ -52,7 +52,7 @@
         <DList Name="gBarinadeDL_01E5E8" Offset="0x1E5E8"/>
         <DList Name="gBarinadeDL_01F0E8" Offset="0x1F0E8"/>
 
-        <Animation Name="gBarinadeAnim_018A00" Offset="0x18A00"/>
+        <!-- <Animation Name="gBarinadeAnim_018A00" Offset="0x18A00"/>
         <Animation Name="gBarinadeAnim_015F10" Offset="0x15F10"/>
         <Animation Name="gBarinadeAnim_015D10" Offset="0x15D10"/>
         <DList Name="gBarinadeDL_008E88" Offset="0x8E88"/>
@@ -60,7 +60,7 @@
         <DList Name="gBarinadeDL_009388" Offset="0x9388"/>
         <DList Name="gBarinadeDL_0093A0" Offset="0x93A0"/>
         <DList Name="gBarinadeDL_0094F8" Offset="0x94F8"/>
-        <DList Name="gBarinadeDL_0095B0" Offset="0x95B0"/>
+        <DList Name="gBarinadeDL_0095B0" Offset="0x95B0"/> -->
 
         <Texture Name="sBarinadeTex_008F88" Format="i8" Width="32" Height="32" Offset="0x8F88"/>
         <Texture Name="sBarinadeTex_012CE0" Format="i8" Width="64" Height="32" Offset="0x12CE0"/>
