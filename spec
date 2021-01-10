@@ -3834,7 +3834,8 @@ endseg
 beginseg
     name "object_gnd"
     romalign 0x1000
-    include "build/baserom/object_gnd.o"
+    include "build/assets/objects/object_gnd/object_gnd.o"
+    number 6
 endseg
 
 beginseg
@@ -4039,6 +4040,8 @@ beginseg
     name "object_fhg"
     romalign 0x1000
     include "build/baserom/object_fhg.o"
+    // include "build/assets/objects/object_fhg/object_fhg.o"
+    // number 6
 endseg
 
 beginseg

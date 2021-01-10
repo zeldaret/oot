@@ -1,0 +1,66 @@
+<Root>
+    <File Name="object_gnd" Segment="6">
+        <DList Name="gPhantomGanonDL_004EC0" Offset="0x4EC0"/>
+        <Skeleton Name="gPhantomGanonSkel_00C710" Type="Standard" LimbType="Standard" Offset="0xC710"/>
+        <Animation Name="gPhantomGanonAnim_003CA4" Offset="0x3CA4"/>
+        <Animation Name="gPhantomGanonAnim_001144" Offset="0x1144"/>
+        <Animation Name="gPhantomGanonAnim_002684" Offset="0x2684"/>
+        <Animation Name="gPhantomGanonAnim_0019A4" Offset="0x19A4"/>
+        <Animation Name="gPhantomGanonAnim_00D99C" Offset="0xD99C"/>
+        <Animation Name="gPhantomGanonAnim_00DF80" Offset="0xDF80"/>
+        <Animation Name="gPhantomGanonAnim_00189C" Offset="0x189C"/>
+        <Animation Name="gPhantomGanonAnim_001AB0" Offset="0x1AB0"/>
+        <Animation Name="gPhantomGanonAnim_0108D8" Offset="0x108D8"/>
+        <Animation Name="gPhantomGanonAnim_000D84" Offset="0xD84"/>
+        <Animation Name="gPhantomGanonAnim_00090C" Offset="0x90C"/>
+        <Animation Name="gPhantomGanonAnim_00FAC8" Offset="0xFAC8"/>
+        <Animation Name="gPhantomGanonAnim_011BCC" Offset="0x11BCC"/>
+        <Animation Name="gPhantomGanonAnim_010060" Offset="0x10060"/>
+        <Animation Name="gPhantomGanonAnim_011F44" Offset="0x11F44"/>
+        <Animation Name="gPhantomGanonAnim_01267C" Offset="0x1267C"/>
+        <Animation Name="gPhantomGanonAnim_003080" Offset="0x3080"/>
+        <Animation Name="gPhantomGanonAnim_00EC94" Offset="0xEC94"/>
+        <Animation Name="gPhantomGanonAnim_010344" Offset="0x10344"/>
+        <Animation Name="gPhantomGanonAnim_0129E0" Offset="0x129E0"/>
+        <Animation Name="gPhantomGanonAnim_00F48C" Offset="0xF48C"/>
+        <Animation Name="gPhantomGanonAnim_010FD4" Offset="0x10FD4"/>
+        <Animation Name="gPhantomGanonAnim_011800" Offset="0x11800"/>
+
+        <Texture Name="gPhantomGanonUnknown_00B380" Format="rgb5a1" Width="16" Height="32" Offset="0xB380"/>
+        <Texture Name="gPhantomGanonUnknown_003DB0" Format="ci8" Width="32" Height="16" Offset="0x3DB0"/>
+        <Texture Name="gPhantomGanonUnknown_00A800" Format="rgb5a1" Width="8" Height="8" Offset="0xA800"/> 
+        <Texture Name="gPhantomGanonUnknown_00AE80" Format="rgb5a1" Width="8" Height="8" Offset="0xAE80"/> 
+        <Texture Name="gPhantomGanonUnknown_00AF00" Format="rgb5a1" Width="8" Height="8" Offset="0xAF00"/> 
+        <Texture Name="gPhantomGanonUnknown_00C180" Format="rgb5a1" Width="8" Height="8" Offset="0xC180"/> 
+        <Texture Name="gPhantomGanonUnknown_00C400" Format="rgb5a1" Width="8" Height="8" Offset="0xC400"/> 
+        <Texture Name="gPhantomGanonUnknown_00B980" Format="rgb5a1" Width="16" Height="8" Offset="0xB980"/> 
+        <Texture Name="gPhantomGanonUnknown_00C480" Format="rgb5a1" Width="16" Height="8" Offset="0xC480"/> 
+        <Texture Name="gPhantomGanonUnknown_00BC80" Format="rgb5a1" Width="16" Height="8" Offset="0xBC80"/> 
+        <Texture Name="gPhantomGanonUnknown_00BD80" Format="rgb5a1" Width="16" Height="8" Offset="0xBD80"/> 
+        <Texture Name="gPhantomGanonUnknown_00C080" Format="rgb5a1" Width="16" Height="8" Offset="0xC080"/> 
+        <Texture Name="gPhantomGanonUnknown_00C200" Format="rgb5a1" Width="16" Height="16" Offset="0xC200"/> 
+        <Texture Name="gPhantomGanonUnknown_00A000" Format="rgb5a1" Width="16" Height="16" Offset="0xA000"/> 
+        <Texture Name="gPhantomGanonUnknown_00A200" Format="rgb5a1" Width="16" Height="16" Offset="0xA200"/> 
+        <Texture Name="gPhantomGanonUnknown_00A400" Format="rgb5a1" Width="16" Height="16" Offset="0xA400"/> 
+        <Texture Name="gPhantomGanonUnknown_00A600" Format="rgb5a1" Width="16" Height="16" Offset="0xA600"/> 
+        <Texture Name="gPhantomGanonUnknown_00A880" Format="rgb5a1" Width="16" Height="16" Offset="0xA880"/> 
+        <Texture Name="gPhantomGanonUnknown_00B780" Format="rgb5a1" Width="16" Height="16" Offset="0xB780"/> 
+        <Texture Name="gPhantomGanonUnknown_00BA80" Format="rgb5a1" Width="16" Height="16" Offset="0xBA80"/> 
+        <Texture Name="gPhantomGanonUnknown_00BE80" Format="rgb5a1" Width="16" Height="16" Offset="0xBE80"/> 
+        <Texture Name="gPhantomGanonUnknown_00AA80" Format="rgb5a1" Width="32" Height="16" Offset="0xAA80"/> 
+        <Texture Name="gPhantomGanonUnknown_00AF80" Format="rgb5a1" Width="32" Height="16" Offset="0xAF80"/> 
+        <Texture Name="gPhantomGanonUnknown_0040B0" Format="ci8" Width="16" Height="16" Offset="0x40B0"/> 
+        <Texture Name="gPhantomGanonUnknown_003FB0" Format="ci8" Width="16" Height="16" Offset="0x3FB0"/> 
+        <!-- Unused Animations -->
+        <Animation Name="gPhantomGanonAnim_012670" Offset="0x12320"/>
+        <Animation Name="gPhantomGanonAnim_003854" Offset="0x3854"/>
+        <Animation Name="gPhantomGanonAnim_00D398" Offset="0xD398"/>
+        <Animation Name="gPhantomGanonAnim_00CC84" Offset="0xCC84"/>
+
+        <DList Name="gPhantomGanonBarsDL" Offset="0x12AB0"/>
+        <Collision Name="gPhantomGanonBarsCol" Offset="0x12FD0"/>
+        <!-- Helper textures for ZAP -->
+        <Texture Name="sPhantomGanonUnknown_003CC0" Format="rgb5a1" Width="10" Height="8" Offset="0x3CC0"/>
+        <Texture Name="sPhantomGanonUnknown_003D60" Format="rgb5a1" Width="5" Height="8" Offset="0x3D60"/>
+    </File>
+</Root>

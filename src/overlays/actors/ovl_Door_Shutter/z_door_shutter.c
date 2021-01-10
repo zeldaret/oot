@@ -6,6 +6,7 @@
 
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
+#include "objects/object_gnd/object_gnd.h"
 
 #define FLAGS 0x00000010
 
@@ -82,7 +83,7 @@ typedef struct {
 static ShutterInfo D_80998134[] = {
     { 0x060067A0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 }, { 0x06000590, 0x06006460, 0, 110, 50, 15 },
-    { 0x06012AB0, NULL, 130, 12, 50, 15 },       { 0x0601EC20, NULL, 130, 12, 50, 15 },
+    { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },       { 0x0601EC20, NULL, 130, 12, 50, 15 },
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 }, { 0x060010C0, NULL, 130, 12, 50, 15 },
     { 0x04049FE0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06010CB0, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x06011F20, 0x0404B0D0, 130, 12, 20, 15 }, { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
@@ -143,7 +144,7 @@ static UNK_PTR D_809982D4[] = {
 };
 
 extern CollisionHeader D_0601EDD0; // gohma block collision header
-extern CollisionHeader D_06012FD0; // phantom ganon bars collision header
+// extern CollisionHeader D_06012FD0; // phantom ganon bars collision header
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -270,7 +271,7 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &colHeader);
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &gPhantomGanonBarsCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
                 this->dyna.actor.velocity.y = 0.0f;

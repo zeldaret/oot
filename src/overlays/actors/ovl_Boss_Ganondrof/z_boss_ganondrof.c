@@ -5,6 +5,7 @@
  */
 
 #include "z_boss_ganondrof.h"
+#include "objects/object_gnd/object_gnd.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
@@ -69,32 +70,32 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
-extern Gfx D_06004EC0[];
-extern SkeletonHeader D_0600C710;
-extern AnimationHeader D_06003CA4;
-extern AnimationHeader D_06001144;
-extern AnimationHeader D_06002684;
-extern AnimationHeader D_060019A4;
-extern AnimationHeader D_0600D99C;
-extern AnimationHeader D_0600DF80;
-extern AnimationHeader D_0600189C;
-extern AnimationHeader D_06001AB0;
-extern AnimationHeader D_060108D8;
-extern AnimationHeader D_06000D84;
-extern AnimationHeader D_0600090C;
-extern AnimationHeader D_0600FAC8;
-extern AnimationHeader D_06011BCC;
-extern AnimationHeader D_06010060;
-extern AnimationHeader D_06011F44;
-extern AnimationHeader D_0601267C;
-extern AnimationHeader D_06003080;
-extern AnimationHeader D_0600EC94;
-extern AnimationHeader D_06010344;
-extern AnimationHeader D_060129E0;
-extern AnimationHeader D_0600F48C;
+// extern Gfx gPhantomGanonDL_004EC0[];
+// extern SkeletonHeader gPhantomGanonSkel_00C710;
+// extern AnimationHeader gPhantomGanonAnim_003CA4;
+// extern AnimationHeader gPhantomGanonAnim_001144;
+// extern AnimationHeader gPhantomGanonAnim_002684;
+// extern AnimationHeader gPhantomGanonAnim_0019A4;
+// extern AnimationHeader gPhantomGanonAnim_00D99C;
+// extern AnimationHeader gPhantomGanonAnim_00DF80;
+// extern AnimationHeader gPhantomGanonAnim_00189C;
+// extern AnimationHeader gPhantomGanonAnim_001AB0;
+// extern AnimationHeader gPhantomGanonAnim_0108D8;
+// extern AnimationHeader gPhantomGanonAnim_000D84;
+// extern AnimationHeader gPhantomGanonAnim_00090C;
+// extern AnimationHeader gPhantomGanonAnim_00FAC8;
+// extern AnimationHeader gPhantomGanonAnim_011BCC;
+// extern AnimationHeader gPhantomGanonAnim_010060;
+// extern AnimationHeader gPhantomGanonAnim_011F44;
+// extern AnimationHeader gPhantomGanonAnim_01267C;
+// extern AnimationHeader gPhantomGanonAnim_003080;
+// extern AnimationHeader gPhantomGanonAnim_00EC94;
+// extern AnimationHeader gPhantomGanonAnim_010344;
+// extern AnimationHeader gPhantomGanonAnim_0129E0;
+// extern AnimationHeader gPhantomGanonAnim_00F48C;
 
-extern UNK_TYPE D_0600B380;
-extern UNK_TYPE D_06003DB0;
+// extern UNK_TYPE gPhantomGanonUnknown_00B380;
+// extern UNK_TYPE gPhantomGanonUnknown_003DB0;
 
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
@@ -180,17 +181,17 @@ static u8 sDecayMaskTotal[16 * 16] = {
 // clang-format on
 
 // These appear to be Phantom Ganon's body textures, but I don't know which is which.
-static UNK_PTR D_80915028[] = {
-    0x0600A800, 0x0600AE80, 0x0600AF00, 0x0600C180, 0x0600C400,
+static UNK_PTR D_80915028_8x8[] = {
+    &gPhantomGanonUnknown_00A800, &gPhantomGanonUnknown_00AE80, &gPhantomGanonUnknown_00AF00, &gPhantomGanonUnknown_00C180, &gPhantomGanonUnknown_00C400,
 };
-static UNK_PTR D_8091503C[] = {
-    0x0600B980, 0x0600C480, 0x0600BC80, 0x0600BD80, 0x0600C080,
+static UNK_PTR D_8091503C_16x8[] = {
+    &gPhantomGanonUnknown_00B980, &gPhantomGanonUnknown_00C480, &gPhantomGanonUnknown_00BC80, &gPhantomGanonUnknown_00BD80, &gPhantomGanonUnknown_00C080,
 };
-static UNK_PTR D_80915050[] = {
-    0x0600C200, 0x0600A000, 0x0600A200, 0x0600A400, 0x0600A600, 0x0600A880, 0x0600B780, 0x0600BA80, 0x0600BE80,
+static UNK_PTR D_80915050_16x16[] = {
+    &gPhantomGanonUnknown_00C200, &gPhantomGanonUnknown_00A000, &gPhantomGanonUnknown_00A200, &gPhantomGanonUnknown_00A400, &gPhantomGanonUnknown_00A600, &gPhantomGanonUnknown_00A880, &gPhantomGanonUnknown_00B780, &gPhantomGanonUnknown_00BA80, &gPhantomGanonUnknown_00BE80,
 };
-static UNK_PTR D_80915074[] = { 0x0600AA80, 0x0600AF80 };
-static UNK_PTR D_8091507C[] = { 0x060040B0, 0x06003FB0 };
+static UNK_PTR D_80915074_16x32[] = { &gPhantomGanonUnknown_00AA80, &gPhantomGanonUnknown_00AF80 };
+static UNK_PTR D_8091507C_16x16[] = { &gPhantomGanonUnknown_0040B0, &gPhantomGanonUnknown_003FB0 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
@@ -241,22 +242,22 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     s16 i;
 
     for (i = 0; i < 5; i++) {
-        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(D_80915028[i]), mask, index);
-        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(D_8091503C[i]), mask, index);
+        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(D_80915028_8x8[i]), mask, index);
+        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(D_8091503C_16x8[i]), mask, index);
     }
 
     for (i = 0; i < 9; i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_80915050[i]), mask, index);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_80915050_16x16[i]), mask, index);
     }
 
     for (i = 0; i < 2; i++) {
-        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(D_80915074[i]), mask, index);
+        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(D_80915074_16x32[i]), mask, index);
     }
 
-    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(&D_0600B380), mask, index);
-    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(&D_06003DB0), mask, index);
+    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(&gPhantomGanonUnknown_00B380), mask, index);
+    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(&gPhantomGanonUnknown_003DB0), mask, index);
     for (i = 0; i < 2; i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_8091507C[i]), mask, index);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_8091507C_16x16[i]), mask, index);
     }
 }
 
@@ -273,7 +274,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600C710, &D_06003CA4, NULL, NULL, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gPhantomGanonSkel_00C710, &gPhantomGanonAnim_003CA4, NULL, NULL, 0);
     if (this->actor.params < 10) {
         this->actor.params = 1;
         this->actor.colChkInfo.health = 30;
@@ -316,7 +317,7 @@ void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupIntro(BossGanondrof* this, GlobalContext* globalCtx) {
-    Animation_PlayLoop(&this->skelAnime, &D_060019A4);
+    Animation_PlayLoop(&this->skelAnime, &gPhantomGanonAnim_0019A4);
     this->actionFunc = BossGanondrof_Intro;
     this->maskOff = true;
 }
@@ -354,23 +355,23 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (horse->bossFhgSignal == FHG_LIGHTNING) {
-        Animation_Change(&this->skelAnime, &D_06001144, 0.5f, 0.0f,
-                             Animation_GetLastFrame(&D_06001144), 3, 0.0f);
+        Animation_Change(&this->skelAnime, &gPhantomGanonAnim_001144, 0.5f, 0.0f,
+                             Animation_GetLastFrame(&gPhantomGanonAnim_001144), 3, 0.0f);
         this->timers[1] = 40;
     }
 
     if (horse->bossFhgSignal == FHG_REAR) {
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_06002684, -3.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_002684, -3.0f);
     }
 
     if (horse->bossFhgSignal == FHG_RIDE) {
-        Animation_MorphToLoop(&this->skelAnime, &D_060019A4, -13.0f);
+        Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_0019A4, -13.0f);
     }
 
     if (horse->bossFhgSignal == FHG_SPUR) {
         EnfHG* tempHorse;
 
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600D99C, -7.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00D99C, -7.0f);
         tempHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, 50, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
@@ -378,7 +379,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (horse->bossFhgSignal == FHG_FINISH) {
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600DF80, -5.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00DF80, -5.0f);
     }
 
     switch (this->eyeState) {
@@ -416,7 +417,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupPaintings(BossGanondrof* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06003CA4, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_003CA4, -5.0f);
     this->actionFunc = BossGanondrof_Paintings;
 }
 
@@ -430,18 +431,18 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     if (horse->bossFhgSignal == FHG_RAISE_SPEAR) {
         EnfHG* tmpHorse;
 
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600D99C, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00D99C, -2.0f);
         this->actor.flags |= 1;
         tmpHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
                            this->spearTip.y, this->spearTip.z, 30, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
         this->actor.child = &tmpHorse->actor;
     } else if (horse->bossFhgSignal == FHG_LIGHTNING) {
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_06003080, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_003080, -2.0f);
     } else if (horse->bossFhgSignal == FHG_RESET) {
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600DF80, -2.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00DF80, -2.0f);
     } else if (horse->bossFhgSignal == FHG_RIDE) {
-        Animation_MorphToLoop(&this->skelAnime, &D_06003CA4, -2.0f);
+        Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_003CA4, -2.0f);
         this->actor.flags &= ~1;
     }
 
@@ -467,7 +468,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06010060, arg1);
+    Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_010060, arg1);
     this->actionFunc = BossGanondrof_Neutral;
     this->actor.flags |= 1;
     this->floatSpeed = 0.0f;
@@ -613,8 +614,8 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse;
     s16 lightTime;
 
-    this->endFrame = Animation_GetLastFrame(&D_0600EC94);
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_0600EC94, -5.0f);
+    this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_00EC94);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00EC94, -5.0f);
     this->actionFunc = BossGanondrof_Throw;
     if ((Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->flyMode == FHG_FLY_NEUTRAL)) {
         this->actionState = THROW_SLOW;
@@ -643,8 +644,8 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actionState != THROW_NORMAL) && Animation_OnFrame(&this->skelAnime, 21.0f)) {
-        this->endFrame = Animation_GetLastFrame(&D_0600F48C);
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_0600F48C, 0.0f);
+        this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_00F48C);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_00F48C, 0.0f);
         this->throwFrame = 10;
     }
 
@@ -674,7 +675,7 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
-    static AnimationHeader* returnAnime[] = { 0x06010FD4, 0x06011800 };
+    static AnimationHeader* returnAnime[] = { &gPhantomGanonAnim_010FD4, &gPhantomGanonAnim_011800 };
 
     s16 rand = Rand_ZeroOne() * 1.99f;
 
@@ -709,13 +710,13 @@ void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
 
 void BossGanondrof_SetupStunned(BossGanondrof* this, GlobalContext* globalCtx) {
     if (this->actionFunc != BossGanondrof_Stunned) {
-        this->endFrame = Animation_GetLastFrame(&D_060108D8);
-        Animation_MorphToLoop(&this->skelAnime, &D_060108D8, 0.0f);
+        this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_0108D8);
+        Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_0108D8, 0.0f);
         this->timers[0] = 50;
         this->shockTimer = 60;
     } else {
-        this->endFrame = Animation_GetLastFrame(&D_0600FAC8);
-        Animation_MorphToLoop(&this->skelAnime, &D_0600FAC8, 0.0f);
+        this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_00FAC8);
+        Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_00FAC8, 0.0f);
     }
 
     this->actionFunc = BossGanondrof_Stunned;
@@ -730,8 +731,8 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
     this->actor.gravity = -0.2f;
     if (this->actor.posRot.pos.y <= 5.0f) {
         if (this->actionState == STUNNED_FALL) {
-            this->endFrame = Animation_GetLastFrame(&D_06011BCC);
-            Animation_MorphToLoop(&this->skelAnime, &D_06011BCC, -10.0f);
+            this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_011BCC);
+            Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_011BCC, -10.0f);
             this->actionState = STUNNED_GROUND;
         }
 
@@ -758,8 +759,8 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->endFrame = Animation_GetLastFrame(&D_06010344);
-    Animation_MorphToLoop(&this->skelAnime, &D_06010344, -3.0f);
+    this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_010344);
+    Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_010344, -3.0f);
     this->actionFunc = BossGanondrof_Block;
     this->timers[0] = 10;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
@@ -781,8 +782,8 @@ void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->endFrame = Animation_GetLastFrame(&D_060129E0);
-    Animation_MorphToLoop(&this->skelAnime, &D_060129E0, -3.0f);
+    this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_0129E0);
+    Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_0129E0, -3.0f);
     this->actionFunc = BossGanondrof_Charge;
     this->timers[0] = 20;
     this->actionState = CHARGE_WINDUP;
@@ -815,16 +816,16 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 this->actionState = CHARGE_START;
                 this->timers[0] = 10;
                 thisx->speedXZ = 0.0f;
-                this->endFrame = Animation_GetLastFrame(&D_06011F44);
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06011F44, 0.0f);
+                this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_011F44);
+                Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_011F44, 0.0f);
             }
 
             Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
             break;
         case CHARGE_START:
             if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
-                this->endFrame = Animation_GetLastFrame(&D_0601267C);
-                Animation_MorphToLoop(&this->skelAnime, &D_0601267C, 0.0f);
+                this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_01267C);
+                Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_01267C, 0.0f);
                 this->actionState = CHARGE_ATTACK;
             }
         case CHARGE_ATTACK:
@@ -918,8 +919,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupDeath(BossGanondrof* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600090C);
-    this->endFrame = Animation_GetLastFrame(&D_0600090C);
+    Animation_PlayOnce(&this->skelAnime, &gPhantomGanonAnim_00090C);
+    this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_00090C);
     this->actionFunc = BossGanondrof_Death;
     Audio_SetBGM(0x100100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DEAD);
@@ -983,15 +984,15 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             switch (this->actionState) {
                 case DEATH_SPASM:
                     if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
-                        this->endFrame = Animation_GetLastFrame(&D_060108D8);
-                        Animation_Change(&this->skelAnime, &D_060108D8, 0.5f, 0.0f, this->endFrame, 3, 0.0f);
+                        this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_0108D8);
+                        Animation_Change(&this->skelAnime, &gPhantomGanonAnim_0108D8, 0.5f, 0.0f, this->endFrame, 3, 0.0f);
                         this->actionState = DEATH_LIMP;
                     }
                     break;
                 case DEATH_LIMP:
                     if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
-                        this->endFrame = Animation_GetLastFrame(&D_06000D84);
-                        Animation_MorphToLoop(&this->skelAnime, &D_06000D84, -20.0f);
+                        this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_000D84);
+                        Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_000D84, -20.0f);
                         this->actionState = DEATH_HUNCHED;
                     }
                 case DEATH_HUNCHED:
@@ -1046,7 +1047,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_SCREAM;
                 this->timers[0] = 50;
-                Animation_MorphToLoop(&this->skelAnime, &D_0600189C, -10.0f);
+                Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_00189C, -10.0f);
                 this->actor.posRot.pos.x = 14.0f;
                 this->actor.posRot.pos.y = 50.0f;
                 this->actor.posRot.pos.z = -3315.0f;
@@ -1070,7 +1071,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             this->cameraAt.z = -3315.0f;
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_DISINTEGRATE;
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06001AB0, -10.0f);
+                Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_001AB0, -10.0f);
                 this->bodyDecayIndex = 0;
                 this->timers[0] = 40;
             }
@@ -1365,7 +1366,7 @@ s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
     switch (limbIndex) {
         case 14 + 1:
             if ((this->actionFunc == BossGanondrof_Intro) && this->maskOff) {
-                *dList = D_06004EC0;
+                *dList = gPhantomGanonDL_004EC0;
             }
             rot->y += this->rideRotY[limbIndex];
             rot->z += this->rideRotZ[limbIndex];
