@@ -85,7 +85,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
     this->actor.colChkInfo.mass = 0xFE;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     func_809CE9A8(this);
     this->color1.a = this->color1.r = 255;
     this->color1.g = this->color1.b = 0;
@@ -746,8 +746,8 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Collider_CylinderUpdate(thisx, &this->collider1);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     }
-    thisx->head.pos = thisx->world.pos;
-    thisx->head.pos.y += 5.0f;
+    thisx->focus.pos = thisx->world.pos;
+    thisx->focus.pos.y += 5.0f;
 }
 
 s32 EnBw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,

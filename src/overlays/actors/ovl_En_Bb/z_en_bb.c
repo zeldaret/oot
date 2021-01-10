@@ -289,7 +289,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 EnBb_InitGreen(this, globalCtx);
                 break;
         }
-        thisx->head.pos = thisx->world.pos;
+        thisx->focus.pos = thisx->world.pos;
     } else {
         EnBb_SetupFlameTrail(this);
     }
@@ -1138,7 +1138,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
             func_8002E4B4(globalCtx, &this->actor, sp34, 25.0f, 20.0f, 5);
         }
-        this->actor.head.pos = this->actor.world.pos;
+        this->actor.focus.pos = this->actor.world.pos;
         this->collider.list->dim.worldSphere.center.x = this->actor.world.pos.x;
         this->collider.list->dim.worldSphere.center.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);

@@ -335,7 +335,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->actor.head.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);

@@ -405,8 +405,8 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2);
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += (6500.0f + this->actor.shape.yOffset) * this->actor.scale.y;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += (6500.0f + this->actor.shape.yOffset) * this->actor.scale.y;
 }
 
 s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

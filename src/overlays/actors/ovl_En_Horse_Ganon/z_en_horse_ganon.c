@@ -152,9 +152,9 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawSquiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06008668, &D_06004AA4);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, D_80A691B0[0]);
@@ -268,8 +268,8 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }

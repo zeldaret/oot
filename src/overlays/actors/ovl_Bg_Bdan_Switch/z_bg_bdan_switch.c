@@ -511,7 +511,7 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_2:
             func_8086DF58(this, globalCtx, D_060061A0);
             func_800628A4(0, &this->collider);
-            Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.head.pos);
+            Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
             func_8086DF58(this, globalCtx, D_06005A20);

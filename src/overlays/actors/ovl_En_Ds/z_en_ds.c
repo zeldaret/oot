@@ -245,7 +245,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->unk_1E8 & 1) {
-        func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.head.pos);
+        func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
         Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
@@ -269,7 +269,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnDs* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sMultVec, &this->actor.head.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
     }
 }
 

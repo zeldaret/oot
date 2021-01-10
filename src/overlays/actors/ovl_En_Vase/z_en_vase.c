@@ -31,7 +31,7 @@ void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVase* this = THIS;
 
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
 }
 

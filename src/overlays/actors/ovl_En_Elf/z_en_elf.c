@@ -1228,12 +1228,12 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
             naviRefPos.z = player->bodyPartsPos[7].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.head.pos = naviRefPos;
+        this->actor.focus.pos = naviRefPos;
         this->fairyFlags &= ~0x10;
     }
 
     func_80A03AB0(this, globalCtx);
-    headCopy = this->actor.head.pos;
+    headCopy = this->actor.focus.pos;
 
     func_80A03148(this, &headCopy, 0, 20.0f, 0.2f);
 
@@ -1390,7 +1390,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_8002F194(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
-        thisx->head.pos = thisx->world.pos;
+        thisx->focus.pos = thisx->world.pos;
 
         if (thisx->textId == ElfMessage_GetCUpText(globalCtx)) {
             this->fairyFlags |= 0x80;

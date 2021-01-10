@@ -366,7 +366,7 @@ void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     if (limbIndex == 3) {
         // head
-        Matrix_MultVec3f(&zeroVec, &this->actor.head.pos);
+        Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
     }
 
     func_800628A4(limbIndex, &this->collider);

@@ -311,8 +311,8 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if ((thisx->xzDistToPlayer < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->world.pos, &player->actor.world.pos)) < 0xC000)) {
-        targetX = Math_Vec3f_Pitch(&thisx->head.pos, &player->actor.head.pos);
-        targetY = Math_Vec3f_Yaw(&thisx->head.pos, &player->actor.head.pos) - thisx->shape.rot.y;
+        targetX = Math_Vec3f_Pitch(&thisx->focus.pos, &player->actor.focus.pos);
+        targetY = Math_Vec3f_Yaw(&thisx->focus.pos, &player->actor.focus.pos) - thisx->shape.rot.y;
 
         if (targetX > 0x1000) {
             targetX = 0x1000;
@@ -367,7 +367,7 @@ void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnCow* this = THIS;
 
     if (limbIndex == 2) {
-        Matrix_MultVec3f(&D_809E010C, &this->actor.head.pos);
+        Matrix_MultVec3f(&D_809E010C, &this->actor.focus.pos);
     }
 }
 

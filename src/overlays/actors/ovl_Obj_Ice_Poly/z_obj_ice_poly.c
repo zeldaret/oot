@@ -93,7 +93,7 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
 
     if (this->colliderIce.base.acFlags & 2) {
         this->meltTimer = -this->colliderIce.body.acHitItem->toucher.damage;
-        this->actor.head.rot.y = this->actor.yawTowardsPlayer;
+        this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         func_800800F8(globalCtx, 0x1400, 40, &this->actor, 0);
         this->actionFunc = ObjIcePoly_Melt;
     } else if (this->actor.parent != NULL) {

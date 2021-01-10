@@ -454,7 +454,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 
     this->timer++;
-    this->actor.head.pos.y = 60.0f;
+    this->actor.focus.pos.y = 60.0f;
     Actor_SetHeight(&this->actor, 60.0f);
 
     switch (this->eyeMode) {
@@ -483,7 +483,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.head.pos);
+            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
             break;
     }
 

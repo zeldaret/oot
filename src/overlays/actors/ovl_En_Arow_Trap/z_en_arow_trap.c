@@ -32,7 +32,7 @@ void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01);
     this->unk_14C = 0;
     this->attackTimer = 80;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
 }
 
 void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {

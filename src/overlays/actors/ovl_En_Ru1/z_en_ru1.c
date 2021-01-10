@@ -2333,12 +2333,12 @@ void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 15) {
         vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
-        this->actor.head.pos.x = vec2.x;
-        this->actor.head.pos.y = vec2.y;
-        this->actor.head.pos.z = vec2.z;
-        this->actor.head.rot.x = this->actor.world.rot.x;
-        this->actor.head.rot.y = this->actor.world.rot.y;
-        this->actor.head.rot.z = this->actor.world.rot.z;
+        this->actor.focus.pos.x = vec2.x;
+        this->actor.focus.pos.y = vec2.y;
+        this->actor.focus.pos.z = vec2.z;
+        this->actor.focus.rot.x = this->actor.world.rot.x;
+        this->actor.focus.rot.y = this->actor.world.rot.y;
+        this->actor.focus.rot.z = this->actor.world.rot.z;
     }
 }
 

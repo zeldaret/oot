@@ -131,9 +131,9 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -3.5f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawSquiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06006B2C, &D_06007148);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
@@ -211,8 +211,8 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }

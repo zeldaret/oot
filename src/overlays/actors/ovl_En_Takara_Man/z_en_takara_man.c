@@ -59,7 +59,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->jointTable, this->morphTable, 10);
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
     this->pos = thisx->world.pos;
     thisx->world.pos.x = 133.0f;
     thisx->world.pos.y = -12.0f;
@@ -188,7 +188,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_SetHeight(&this->actor, this->height);
-    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.head.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;
         if (this->eyeTextureIdx >= 2) {

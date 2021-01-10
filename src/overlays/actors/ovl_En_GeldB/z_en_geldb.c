@@ -295,7 +295,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = 1.0f;
         this->actor.world.pos.y = this->actor.groundHeight;
         this->actor.flags |= 1;
-        this->actor.head.pos = this->actor.world.pos;
+        this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~2;
         this->actor.velocity.y = 0.0f;
         func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
@@ -1325,8 +1325,8 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
         this->actionFunc(this, globalCtx);
-        this->actor.head.pos = this->actor.world.pos;
-        this->actor.head.pos.y += 40.0f;
+        this->actor.focus.pos = this->actor.world.pos;
+        this->actor.focus.pos.y += 40.0f;
         func_80A391D8(this, globalCtx);
     }
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);

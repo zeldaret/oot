@@ -114,13 +114,13 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 
     // If the boomerang is moving toward a targeted actor, handle setting the proper x and y angle to fly toward it.
     if (target != NULL) {
-        yawTarget = func_8002DAC0(&this->actor, &target->head.pos);
+        yawTarget = func_8002DAC0(&this->actor, &target->focus.pos);
         yawDiff = this->actor.world.rot.y - yawTarget;
 
-        pitchTarget = func_8002DB28(&this->actor, &target->head.pos);
+        pitchTarget = func_8002DB28(&this->actor, &target->focus.pos);
         pitchDiff = this->actor.world.rot.x - pitchTarget;
 
-        distXYZScale = (200.0f - Math_Vec3f_DistXYZ(&this->actor.world.pos, &target->head.pos)) * 0.005f;
+        distXYZScale = (200.0f - Math_Vec3f_DistXYZ(&this->actor.world.pos, &target->focus.pos)) * 0.005f;
         if (distXYZScale < 0.12f) {
             distXYZScale = 0.12f;
         }
@@ -156,7 +156,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     // Decrement the return timer and check if its 0. If it is, check if Link can catch it and handle accordingly.
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
-        distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.head.pos);
+        distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
         this->moveTo = player;
 
         // If the boomerang is less than 40 units away from Link, he can catch it.

@@ -468,7 +468,7 @@ void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&mult, &this->actor.head.pos);
+        Matrix_MultVec3f(&mult, &this->actor.focus.pos);
     }
 }
 

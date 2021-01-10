@@ -255,7 +255,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
-        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
     }
 }
 
@@ -290,7 +290,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnFu* this = THIS;
 
     if (limbIndex == 14) {
-        Matrix_MultVec3f(&sMtxSrc, &this->actor.head.pos);
+        Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
 

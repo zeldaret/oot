@@ -944,8 +944,8 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&D_80A7B9A8, &this->actor.head.pos);
-        this->actor.head.rot = this->actor.world.rot;
+        Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
+        this->actor.focus.rot = this->actor.world.rot;
     }
     if (limbIndex == 12 && this->skelAnime.animation == &D_06014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, D_06007A20);

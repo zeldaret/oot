@@ -183,7 +183,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_156 = 0;
     ActorShape_Init(&this->actor.shape, sp34, ActorShadow_DrawCircle, sp30);
     this->actor.shape.shadowAlpha = 0xB4;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->unk_152 = 0;
 
     if (!spawnParam8000) {

@@ -550,9 +550,9 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->stateFlags & ENDAIKU_STATEFLAG_1) {
-        this->unk_244.unk_18.x = player->actor.head.pos.x;
-        this->unk_244.unk_18.y = player->actor.head.pos.y;
-        this->unk_244.unk_18.z = player->actor.head.pos.z;
+        this->unk_244.unk_18.x = player->actor.focus.pos.x;
+        this->unk_244.unk_18.y = player->actor.focus.pos.y;
+        this->unk_244.unk_18.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
             func_80034A14(&this->actor, &this->unk_244, 0, 4);
@@ -610,7 +610,7 @@ void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1323);
 
     if (limb == 15) { // head
-        Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.head.pos);
+        Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.focus.pos);
         gSPDisplayList(POLY_OPA_DISP++, hairDLists[this->actor.params & 3]);
     }
 

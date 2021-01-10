@@ -411,9 +411,9 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
             Actor_SetHeight(&this->actor, (this->actor.scale.x * 10.0f) / 0.01f);
             height = this->actor.home.pos.y + 40.0f;
-            this->actor.head.pos.x = this->actor.home.pos.x;
-            this->actor.head.pos.y = CLAMP_MAX(this->actor.head.pos.y, height);
-            this->actor.head.pos.z = this->actor.home.pos.z;
+            this->actor.focus.pos.x = this->actor.home.pos.x;
+            this->actor.focus.pos.y = CLAMP_MAX(this->actor.focus.pos.y, height);
+            this->actor.focus.pos.z = this->actor.home.pos.z;
         }
     }
 }
@@ -483,7 +483,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_OPA_DISP++, dLists[i]);
 
             if (i == 0 && this->actionFunc == EnKarebaba_Dying) {
-                Matrix_MultVec3f(&zeroVec, &this->actor.head.pos);
+                Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
             }
         }
 

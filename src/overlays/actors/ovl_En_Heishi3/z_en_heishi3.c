@@ -71,7 +71,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
 
     this->actor.gravity = -3.0f;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->actionFunc = EnHeishi3_SetupGuardType;
 }
 

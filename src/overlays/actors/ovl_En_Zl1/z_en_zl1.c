@@ -133,7 +133,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
 
-    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.head.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 
     if (this->unk_1E6 != 0) {
         if (func_8002F334(&this->actor, globalCtx)) {
@@ -322,7 +322,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         frameCount = Animation_GetLastFrame(animHeaderSeg);
         Animation_Change(&this->skelAnime, animHeaderSeg, 1.0f, 0.0f, frameCount, sp54[sp3C], -10.0f);
     }
-    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.head.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 }
 
 void func_80B4B7F4(CsCmdActorAction* npcAction, Vec3f* pos) {
@@ -395,7 +395,7 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
             }
             this->actor.velocity.z = (sp68.z - sp74.z) / actionLength;
         }
-        func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
         Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp98, &sp8C);
         Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 70.0f);
     }
@@ -539,7 +539,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.head.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 }
 
 void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -587,7 +587,7 @@ void func_80B4C400(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     EnZl1* this = THIS;
 
     if (limbIndex == 17) {
-        Matrix_MultVec3f(&vec, &this->actor.head.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 

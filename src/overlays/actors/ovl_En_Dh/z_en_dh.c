@@ -456,7 +456,7 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 45.0f, 45.0f, 0x1D);
-    this->actor.head.pos = this->headPos;
+    this->actor.focus.pos = this->headPos;
     Collider_CylinderUpdate(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {
         if (this->curAction == DH_WAIT) {

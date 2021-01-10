@@ -765,7 +765,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f vec = { 0.0f, 600.0f, 0.0f };
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&vec, &this->actor.head.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 

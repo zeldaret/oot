@@ -83,9 +83,11 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (sp28 == 2) {
         temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
-        this->dyna.actor.head.pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
-        this->dyna.actor.head.pos.y = this->dyna.actor.home.pos.y;
-        this->dyna.actor.head.pos.z = this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
+        this->dyna.actor.focus.pos.x =
+            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.focus.pos.y = this->dyna.actor.home.pos.y;
+        this->dyna.actor.focus.pos.z =
+            this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
         Actor_SetHeight(&this->dyna.actor, 50.0f);
     }

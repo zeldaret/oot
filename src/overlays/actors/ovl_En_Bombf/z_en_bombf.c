@@ -78,7 +78,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     ActorShape_Init(&thisx->shape, shapeUnk10, ActorShadow_DrawCircle, 12.0f);
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
 
     if (Actor_FindNearby(globalCtx, thisx, ACTOR_BG_DDAN_KD, ACTORCAT_BG, 10000.0f) != NULL) {
         thisx->flags |= 0x20;
@@ -410,8 +410,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    thisx->head.pos = thisx->world.pos;
-    thisx->head.pos.y += 10.0f;
+    thisx->focus.pos = thisx->world.pos;
+    thisx->focus.pos.y += 10.0f;
 
     if (thisx->params <= BOMBFLOWER_BODY) {
 

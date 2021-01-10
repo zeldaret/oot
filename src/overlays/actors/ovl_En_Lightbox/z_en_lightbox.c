@@ -51,7 +51,7 @@ void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
     thisx->colChkInfo.cylRadius = 30;
     thisx->colChkInfo.cylHeight = 50;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
@@ -108,7 +108,7 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
                   thisx->colChkInfo.cylRadius, 0x1D);
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
 }
 
 void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx) {

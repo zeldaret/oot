@@ -1336,7 +1336,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&D_801260D4, &this->actor.head.pos);
+            Matrix_MultVec3f(&D_801260D4, &this->actor.focus.pos);
         } else {
             Vec3f* vec = &D_801261E0[(0, gSaveContext.linkAge)];
 

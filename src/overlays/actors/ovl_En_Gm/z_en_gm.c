@@ -265,9 +265,9 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->timer++;
     this->actionFunc(this, globalCtx);
-    this->actor.head.rot.x = this->actor.world.rot.x;
-    this->actor.head.rot.y = this->actor.world.rot.y;
-    this->actor.head.rot.z = this->actor.world.rot.z;
+    this->actor.focus.rot.x = this->actor.world.rot.x;
+    this->actor.focus.rot.y = this->actor.world.rot.y;
+    this->actor.focus.rot.z = this->actor.world.rot.z;
     EnGm_UpdateEye(this);
     SkelAnime_Update(&this->skelAnime);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -301,8 +301,8 @@ void func_80A3E090(EnGm* this) {
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
     Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
-    Matrix_MultVec3f(&vec1, &this->actor.head.pos);
-    this->actor.head.pos.y += 100.0f;
+    Matrix_MultVec3f(&vec1, &this->actor.focus.pos);
+    this->actor.focus.pos.y += 100.0f;
 }
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {

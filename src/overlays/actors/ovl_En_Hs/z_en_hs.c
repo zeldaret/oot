@@ -232,7 +232,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->unk_2A8 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A8 &= ~1;
     } else {
         Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
@@ -277,7 +277,7 @@ void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnHs* this = THIS;
 
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&D_80A6EDFC, &this->actor.head.pos);
+        Matrix_MultVec3f(&D_80A6EDFC, &this->actor.focus.pos);
     }
 }
 

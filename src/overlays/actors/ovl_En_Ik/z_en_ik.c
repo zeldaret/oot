@@ -722,8 +722,8 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 45.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 45.0f;
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if ((this->actor.colChkInfo.health > 0) && (this->actor.colorFilterTimer == 0) && (this->unk_2F8 >= 2)) {

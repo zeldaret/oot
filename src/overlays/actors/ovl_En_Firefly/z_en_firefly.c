@@ -656,10 +656,10 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    this->actor.head.pos.x =
+    this->actor.focus.pos.x =
         (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y)) + this->actor.world.pos.x;
-    this->actor.head.pos.y = (10.0f * Math_CosS(this->actor.shape.rot.x)) + this->actor.world.pos.y;
-    this->actor.head.pos.z =
+    this->actor.focus.pos.y = (10.0f * Math_CosS(this->actor.shape.rot.x)) + this->actor.world.pos.y;
+    this->actor.focus.pos.z =
         (10.0f * Math_SinS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y)) + this->actor.world.pos.z;
 }
 

@@ -678,9 +678,9 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderAT.base);
         }
     }
-    this->actor.head.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * -30.0f;
-    this->actor.head.pos.y = this->actor.world.pos.y + 20.0f;
-    this->actor.head.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * -30.0f;
+    this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * -30.0f;
+    this->actor.focus.pos.y = this->actor.world.pos.y + 20.0f;
+    this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * -30.0f;
 }
 
 s32 EnDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

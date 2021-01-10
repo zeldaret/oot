@@ -731,8 +731,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (sJumpslashTimer != 0) {
         sJumpslashTimer--;
     }
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 20.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 20.0f;
     this->actor.shape.yOffset = sSwordJumpHeight;
 }
 #else

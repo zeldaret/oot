@@ -159,7 +159,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         Audio_PlayActorSound2(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     }
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
     Collider_CylinderUpdate(thisx, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

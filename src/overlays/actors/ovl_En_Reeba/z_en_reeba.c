@@ -65,7 +65,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.naviEnemyId = 0x47;
     this->actor.targetMode = 3;
     this->actor.gravity = -3.5f;
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTable, this->morphTable, 18);
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 4;
@@ -582,12 +582,12 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    this->actor.head.pos = this->actor.world.pos;
+    this->actor.focus.pos = this->actor.world.pos;
 
     if (!this->isBig) {
-        this->actor.head.pos.y += 15.0f;
+        this->actor.focus.pos.y += 15.0f;
     } else {
-        this->actor.head.pos.y += 30.0f;
+        this->actor.focus.pos.y += 30.0f;
     }
 
     Collider_CylinderUpdate(&this->actor, &this->collider);

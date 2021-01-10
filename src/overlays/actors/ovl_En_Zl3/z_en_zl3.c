@@ -738,12 +738,12 @@ void EnZl3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     } else if (limbIndex == 14) {
         sp24 = D_80B5A478;
         Matrix_MultVec3f(&sp24, &sp18);
-        this->actor.head.pos.x = sp18.x;
-        this->actor.head.pos.y = sp18.y;
-        this->actor.head.pos.z = sp18.z;
-        this->actor.head.rot.x = this->actor.world.rot.x;
-        this->actor.head.rot.y = this->actor.world.rot.y;
-        this->actor.head.rot.z = this->actor.world.rot.z;
+        this->actor.focus.pos.x = sp18.x;
+        this->actor.focus.pos.y = sp18.y;
+        this->actor.focus.pos.z = sp18.z;
+        this->actor.focus.rot.x = this->actor.world.rot.x;
+        this->actor.focus.rot.y = this->actor.world.rot.y;
+        this->actor.focus.rot.z = this->actor.world.rot.z;
     }
 }
 

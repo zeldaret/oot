@@ -271,7 +271,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_2A8 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A2.z = 0;
         this->unk_2A2.y = this->unk_2A2.z;
         this->unk_2A2.x = this->unk_2A2.z;
@@ -305,7 +305,7 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnAni* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sMultVec, &this->actor.head.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
     }
 }
 

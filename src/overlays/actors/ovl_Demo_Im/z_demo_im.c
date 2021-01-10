@@ -1170,12 +1170,12 @@ void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Vec3f dest;
 
         Matrix_MultVec3f(&sp28, &dest);
-        this->actor.head.pos.x = dest.x;
-        this->actor.head.pos.y = dest.y;
-        this->actor.head.pos.z = dest.z;
-        this->actor.head.rot.x = this->actor.world.rot.x;
-        this->actor.head.rot.y = this->actor.world.rot.y;
-        this->actor.head.rot.z = this->actor.world.rot.z;
+        this->actor.focus.pos.x = dest.x;
+        this->actor.focus.pos.y = dest.y;
+        this->actor.focus.pos.z = dest.z;
+        this->actor.focus.rot.x = this->actor.world.rot.x;
+        this->actor.focus.rot.y = this->actor.world.rot.y;
+        this->actor.focus.rot.z = this->actor.world.rot.z;
     }
 }
 

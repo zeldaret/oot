@@ -158,8 +158,8 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -3.5f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawSquiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     this->action = HORSE_CYCLE_ANIMATIONS;
     this->animationIdx = 0;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -542,8 +542,8 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.world.pos.z < -2400.0f) {
         this->actor.world.pos.z = -2400.0f;
     }
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);

@@ -322,9 +322,9 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if ((this->stateFlags & 8)) {
-        this->unk_1EC.unk_18.x = player->actor.head.pos.x;
-        this->unk_1EC.unk_18.y = player->actor.head.pos.y;
-        this->unk_1EC.unk_18.z = player->actor.head.pos.z;
+        this->unk_1EC.unk_18.x = player->actor.focus.pos.x;
+        this->unk_1EC.unk_18.y = player->actor.focus.pos.y;
+        this->unk_1EC.unk_18.z = player->actor.focus.pos.z;
 
         if ((this->stateFlags & 0x10)) {
             func_80034A14(thisx, &this->unk_1EC, 0, 4);
@@ -372,7 +372,7 @@ void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     switch (limbIndex) {
         case 15:
-            Matrix_MultVec3f(&sMultVec, &this->actor.head.pos);
+            Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
             break;
     }
 }

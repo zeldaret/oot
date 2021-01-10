@@ -115,8 +115,8 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawSquiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
     this->action = 1;
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06007B20, &D_06002F98);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
@@ -526,8 +526,8 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.world.pos.z = -2400.0f;
     }
 
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
 
     if ((Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
         this->unk_1EC++;

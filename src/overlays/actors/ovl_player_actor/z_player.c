@@ -2622,7 +2622,7 @@ s32 func_808359FC(Player* this, GlobalContext* globalCtx) {
         s32 yaw = (this->unk_664 != NULL) ? this->actor.shape.rot.y + 14000 : this->actor.shape.rot.y;
         EnBoom* boomerang =
             (EnBoom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOOM, posX, this->actor.world.pos.y + 30.0f,
-                                 posZ, this->actor.head.rot.x, yaw, 0, 0);
+                                 posZ, this->actor.focus.rot.x, yaw, 0, 0);
 
         this->boomerangActor = &boomerang->actor;
         if (boomerang != NULL) {
@@ -2957,7 +2957,7 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
         if ((this->unk_664 != NULL) &&
             ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                               Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->head.pos), 4000);
+                               Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos), 4000);
         } else if ((this->stateFlags1 & 0x20000) && !(this->stateFlags2 & 0x60)) {
             Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000);
         }
@@ -2994,16 +2994,16 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 
     var = this->actor.shape.rot.y;
     if (arg1 != 0) {
-        var = this->actor.head.rot.y;
-        this->unk_6BC = this->actor.head.rot.x;
+        var = this->actor.focus.rot.y;
+        this->unk_6BC = this->actor.focus.rot.x;
         this->unk_6AE |= 0x41;
     } else {
         func_808369C8(&this->unk_6BC,
-                      func_808369C8(&this->unk_6B6, this->actor.head.rot.x, 600, 10000, this->actor.head.rot.x, 0), 200,
-                      4000, this->unk_6B6, 10000);
-        sp36 = this->actor.head.rot.y - var;
+                      func_808369C8(&this->unk_6B6, this->actor.focus.rot.x, 600, 10000, this->actor.focus.rot.x, 0),
+                      200, 4000, this->unk_6B6, 10000);
+        sp36 = this->actor.focus.rot.y - var;
         func_808369C8(&sp36, 0, 200, 24000, this->unk_6BE, 8000);
-        var = this->actor.head.rot.y - sp36;
+        var = this->actor.focus.rot.y - sp36;
         func_808369C8(&this->unk_6B8, sp36 - this->unk_6BE, 200, 8000, sp36, 8000);
         func_808369C8(&this->unk_6BE, sp36, 200, 8000, this->unk_6B8, 8000);
         this->unk_6AE |= 0xD9;
@@ -3172,7 +3172,7 @@ s32 func_80837268(Player* this, f32* arg1, s16* arg2, f32 arg3, GlobalContext* g
 
         if (this->unk_664 != NULL) {
             if ((globalCtx->actorCtx.targetCtx.unk_4B != 0) && !(this->stateFlags2 & 0x40)) {
-                *arg2 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->head.pos);
+                *arg2 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos);
                 return 0;
             }
         } else if (func_80833B2C(this)) {
@@ -4719,10 +4719,10 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
 }
 
 void func_8083B010(Player* this) {
-    this->actor.head.rot.x = this->actor.head.rot.z = this->unk_6B6 = this->unk_6B8 = this->unk_6BA = this->unk_6BC =
+    this->actor.focus.rot.x = this->actor.focus.rot.z = this->unk_6B6 = this->unk_6B8 = this->unk_6BA = this->unk_6BC =
         this->unk_6BE = this->unk_6C0 = 0;
 
-    this->actor.head.rot.y = this->actor.shape.rot.y;
+    this->actor.focus.rot.y = this->actor.shape.rot.y;
 }
 
 u8 D_80854528[] = {
@@ -5716,10 +5716,10 @@ s32 func_8083DB98(Player* this, s32 arg1) {
     sp30.x = this->actor.world.pos.x;
     sp30.y = this->bodyPartsPos[7].y + 3.0f;
     sp30.z = this->actor.world.pos.z;
-    sp2E = Math_Vec3f_Pitch(&sp30, &unk_664->head.pos);
-    sp2C = Math_Vec3f_Yaw(&sp30, &unk_664->head.pos);
-    Math_SmoothStepToS(&this->actor.head.rot.y, sp2C, 4, 10000, 0);
-    Math_SmoothStepToS(&this->actor.head.rot.x, sp2E, 4, 10000, 0);
+    sp2E = Math_Vec3f_Pitch(&sp30, &unk_664->focus.pos);
+    sp2C = Math_Vec3f_Yaw(&sp30, &unk_664->focus.pos);
+    Math_SmoothStepToS(&this->actor.focus.rot.y, sp2C, 4, 10000, 0);
+    Math_SmoothStepToS(&this->actor.focus.rot.x, sp2E, 4, 10000, 0);
     this->unk_6AE |= 2;
 
     return func_80836AB8(this, arg1);
@@ -5743,7 +5743,7 @@ void func_8083DC54(Player* this, GlobalContext* globalCtx) {
     }
 
     if (D_808535E4 == 11) {
-        Math_SmoothStepToS(&this->actor.head.rot.x, -20000, 10, 4000, 800);
+        Math_SmoothStepToS(&this->actor.focus.rot.x, -20000, 10, 4000, 800);
     } else {
         sp46 = 0;
         temp1 = func_8083973C(globalCtx, this, &D_8085456C, &sp34);
@@ -5751,8 +5751,8 @@ void func_8083DC54(Player* this, GlobalContext* globalCtx) {
             temp2 = Math_Atan2S(40.0f, this->actor.world.pos.y - temp1);
             sp46 = CLAMP(temp2, -4000, 4000);
         }
-        this->actor.head.rot.y = this->actor.shape.rot.y;
-        Math_SmoothStepToS(&this->actor.head.rot.x, sp46, 14, 4000, 30);
+        this->actor.focus.rot.y = this->actor.shape.rot.y;
+        Math_SmoothStepToS(&this->actor.focus.rot.x, sp46, 14, 4000, 30);
     }
 
     func_80836AB8(this, func_8002DD78(this) || func_808334B4(this));
@@ -6474,7 +6474,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
         if (this->unk_664 != NULL) {
             func_8083DB98(this, 1);
         } else {
-            Math_SmoothStepToS(&this->actor.head.rot.x, sControlInput->rel.stick_y * 240.0f, 14, 4000, 30);
+            Math_SmoothStepToS(&this->actor.focus.rot.x, sControlInput->rel.stick_y * 240.0f, 14, 4000, 30);
             func_80836AB8(this, 1);
         }
     } else {
@@ -7673,7 +7673,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
             sp4C = 3500;
         }
 
-        sp48 = ABS(sp4C - this->actor.head.rot.x) * 0.25f;
+        sp48 = ABS(sp4C - this->actor.focus.rot.x) * 0.25f;
         if (sp48 < 100) {
             sp48 = 100;
         }
@@ -7683,8 +7683,8 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
             sp46 = 50;
         }
 
-        Math_ScaledStepToS(&this->actor.head.rot.x, sp4C, sp48);
-        this->unk_6BC = this->actor.head.rot.x;
+        Math_ScaledStepToS(&this->actor.focus.rot.x, sp4C, sp48);
+        this->unk_6BC = this->actor.focus.rot.x;
         Math_ScaledStepToS(&this->unk_6BE, sp4A, sp46);
 
         if (this->unk_84F != 0) {
@@ -9174,13 +9174,13 @@ void func_80847298(Player* this) {
     s16 sp26;
 
     if (!(this->unk_6AE & 2)) {
-        sp26 = this->actor.head.rot.y - this->actor.shape.rot.y;
+        sp26 = this->actor.focus.rot.y - this->actor.shape.rot.y;
         func_808471F4(&sp26);
-        this->actor.head.rot.y = this->actor.shape.rot.y + sp26;
+        this->actor.focus.rot.y = this->actor.shape.rot.y + sp26;
     }
 
     if (!(this->unk_6AE & 1)) {
-        func_808471F4(&this->actor.head.rot.x);
+        func_808471F4(&this->actor.focus.rot.x);
     }
 
     if (!(this->unk_6AE & 8)) {
@@ -9192,7 +9192,7 @@ void func_80847298(Player* this) {
     }
 
     if (!(this->unk_6AE & 4)) {
-        func_808471F4(&this->actor.head.rot.z);
+        func_808471F4(&this->actor.focus.rot.z);
     }
 
     if (!(this->unk_6AE & 0x10)) {
@@ -10424,7 +10424,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_6AD != 0) {
             Vec3f sp7C;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.head.pos, &sp7C);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &sp7C);
             if (sp7C.z < -4.0f) {
                 overrideLimbDraw = func_800902F0;
             }
@@ -10508,24 +10508,24 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
 
     if (!func_8002DD78(this) && !func_808334B4(this) && (arg2 == 0)) {
         temp2 = sControlInput->rel.stick_y * 240.0f;
-        Math_SmoothStepToS(&this->actor.head.rot.x, temp2, 14, 4000, 30);
+        Math_SmoothStepToS(&this->actor.focus.rot.x, temp2, 14, 4000, 30);
 
         temp2 = sControlInput->rel.stick_x * -16.0f;
         temp2 = CLAMP(temp2, -3000, 3000);
-        this->actor.head.rot.y += temp2;
+        this->actor.focus.rot.y += temp2;
     } else {
         temp1 = (this->stateFlags1 & 0x800000) ? 3500 : 14000;
         temp3 = ((sControlInput->rel.stick_y >= 0) ? 1 : -1) *
                 (s32)((1.0f - Math_CosS(sControlInput->rel.stick_y * 200)) * 1500.0f);
-        this->actor.head.rot.x += temp3;
-        this->actor.head.rot.x = CLAMP(this->actor.head.rot.x, -temp1, temp1);
+        this->actor.focus.rot.x += temp3;
+        this->actor.focus.rot.x = CLAMP(this->actor.focus.rot.x, -temp1, temp1);
 
         temp1 = 19114;
-        temp2 = this->actor.head.rot.y - this->actor.shape.rot.y;
+        temp2 = this->actor.focus.rot.y - this->actor.shape.rot.y;
         temp3 = ((sControlInput->rel.stick_x >= 0) ? 1 : -1) *
                 (s32)((1.0f - Math_CosS(sControlInput->rel.stick_x * 200)) * -1500.0f);
         temp2 += temp3;
-        this->actor.head.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
+        this->actor.focus.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }
 
     this->unk_6AE |= 2;
@@ -11463,7 +11463,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                 if (func_8002DD78(this) != 0) {
                     this->unk_6BE = func_8083DB98(this, 1) - this->actor.shape.rot.y;
                     this->unk_6BE = CLAMP(this->unk_6BE, -0x4AAA, 0x4AAA);
-                    this->actor.head.rot.y = this->actor.shape.rot.y + this->unk_6BE;
+                    this->actor.focus.rot.y = this->actor.shape.rot.y + this->unk_6BE;
                     this->unk_6BE += 5000;
                     this->unk_6AE |= 0x80;
                 } else {
@@ -12701,7 +12701,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
                 sp2C = this->actor.world.pos.y - shockwavePos.y;
 
-                Math_ScaledStepToS(&this->actor.head.rot.x, Math_Atan2S(45.0f, sp2C), 800);
+                Math_ScaledStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
 
                 if ((((this->swordAnimation == 0x16) && LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||

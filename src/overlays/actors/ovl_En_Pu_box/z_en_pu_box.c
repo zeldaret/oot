@@ -83,7 +83,7 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
                   thisx->colChkInfo.cylRadius, 0x1D);
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {

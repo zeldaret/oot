@@ -175,7 +175,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_284 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk_278.y, 0, 6, 0x1838, 0x64);
@@ -209,7 +209,7 @@ void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnJs* this = THIS;
 
     if (limbIndex == 12) {
-        Matrix_MultVec3f(&D_80A896DC, &this->actor.head.pos);
+        Matrix_MultVec3f(&D_80A896DC, &this->actor.focus.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {

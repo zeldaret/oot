@@ -157,8 +157,8 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.damageTable = sDamageTable;
     this->actionVar1 = 0; // value immediately overwritten in SetupIdle
     this->unk_2C4.unk_10 = 0;
-    thisx->head.pos = thisx->world.pos;
-    thisx->head.pos.y += 20.0f;
+    thisx->focus.pos = thisx->world.pos;
+    thisx->focus.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
     thisx->colChkInfo.mass = 0xFE;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -920,8 +920,8 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    thisx->head.pos = thisx->world.pos;
-    thisx->head.pos.y += 20.0f;
+    thisx->focus.pos = thisx->world.pos;
+    thisx->focus.pos.y += 20.0f;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

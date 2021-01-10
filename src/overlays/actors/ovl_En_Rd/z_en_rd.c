@@ -99,8 +99,8 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->unk_310 = this->unk_30E = 0;
-    thisx->head.pos = thisx->world.pos;
-    thisx->head.pos.y += 50.0f;
+    thisx->focus.pos = thisx->world.pos;
+    thisx->focus.pos.y += 50.0f;
     thisx->colChkInfo.mass = 0xFE;
     thisx->colChkInfo.health = 8;
     this->unk_314 = this->unk_31D = 0xFF;
@@ -783,8 +783,8 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.head.pos = this->actor.world.pos;
-    this->actor.head.pos.y += 50.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 50.0f;
 
     if ((this->actor.colChkInfo.health > 0) && (this->unk_31B != 8)) {
         Collider_CylinderUpdate(&this->actor, collider);

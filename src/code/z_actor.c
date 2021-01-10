@@ -277,9 +277,9 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
 
 void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
     NaviColor* naviColor = &sNaviColorList[actorCategory];
-    targetCtx->naviRefPos.x = actor->head.pos.x;
-    targetCtx->naviRefPos.y = actor->head.pos.y + (actor->arrowOffset * actor->scale.y);
-    targetCtx->naviRefPos.z = actor->head.pos.z;
+    targetCtx->naviRefPos.x = actor->focus.pos.x;
+    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->arrowOffset * actor->scale.y);
+    targetCtx->naviRefPos.z = actor->focus.pos.z;
     targetCtx->naviInner.r = naviColor->inner.r;
     targetCtx->naviInner.g = naviColor->inner.g;
     targetCtx->naviInner.b = naviColor->inner.b;
@@ -333,7 +333,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         }
 
         if (actor != NULL) {
-            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->head.pos);
+            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
             var1 = (500.0f - targetCtx->unk_44) / 420.0f;
         } else {
             targetCtx->unk_48 -= 120;
@@ -405,8 +405,8 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
-        Matrix_Translate(actor->head.pos.x, actor->head.pos.y + (actor->arrowOffset * actor->scale.y) + 17.0f,
-                         actor->head.pos.z, MTXMODE_NEW);
+        Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->arrowOffset * actor->scale.y) + 17.0f,
+                         actor->focus.pos.z, MTXMODE_NEW);
         Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
@@ -478,7 +478,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        func_8002BE04(globalCtx, &actorArg->head.pos, &sp50, &sp4C);
+        func_8002BE04(globalCtx, &actorArg->focus.pos, &sp50, &sp4C);
         if (((sp50.z <= 0.0f) || (1.0f <= fabsf(sp50.x * sp4C))) || (1.0f <= fabsf(sp50.y * sp4C))) {
             actorArg = NULL;
         }
@@ -781,13 +781,13 @@ void Actor_InitPosRot(Actor* actor) {
 }
 
 void Actor_SetHeight(Actor* actor, f32 offset) {
-    actor->head.pos.x = actor->world.pos.x;
-    actor->head.pos.y = actor->world.pos.y + offset;
-    actor->head.pos.z = actor->world.pos.z;
+    actor->focus.pos.x = actor->world.pos.x;
+    actor->focus.pos.y = actor->world.pos.y + offset;
+    actor->focus.pos.z = actor->world.pos.z;
 
-    actor->head.rot.x = actor->world.rot.x;
-    actor->head.rot.y = actor->world.rot.y;
-    actor->head.rot.z = actor->world.rot.z;
+    actor->focus.rot.x = actor->world.rot.x;
+    actor->focus.rot.y = actor->world.rot.y;
+    actor->focus.rot.z = actor->world.rot.z;
 }
 
 void func_8002D5F4(Actor* actor) {
@@ -899,7 +899,7 @@ s16 func_8002DA78(Actor* actorA, Actor* actorB) {
 }
 
 s16 func_8002DA9C(Actor* actorA, Actor* actorB) {
-    return Math_Vec3f_Yaw(&actorA->head.pos, &actorB->head.pos);
+    return Math_Vec3f_Yaw(&actorA->focus.pos, &actorB->focus.pos);
 }
 
 s16 func_8002DAC0(Actor* actor, Vec3f* arg1) {
@@ -911,7 +911,7 @@ s16 func_8002DAE0(Actor* actorA, Actor* actorB) {
 }
 
 s16 func_8002DB04(Actor* actorA, Actor* actorB) {
-    return Math_Vec3f_Pitch(&actorA->head.pos, &actorB->head.pos);
+    return Math_Vec3f_Pitch(&actorA->focus.pos, &actorB->focus.pos);
 }
 
 s16 func_8002DB28(Actor* actor, Vec3f* arg1) {
@@ -1388,7 +1388,7 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
 }
 
 PosRot* func_8002EEE4(PosRot* arg0, Actor* actor) {
-    *arg0 = actor->head;
+    *arg0 = actor->focus;
 
     return arg0;
 }
@@ -1531,7 +1531,7 @@ void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3)
     Vec3f sp1C;
     f32 sp18;
 
-    func_8002BE04(globalCtx, &actor->head.pos, &sp1C, &sp18);
+    func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
     *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
     *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
 }
@@ -2933,7 +2933,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
             if (actor != sp84) {
                 var = func_8002EFC0(actor, player, D_8015BBFC);
                 if ((var < D_8015BBF0) && func_8002F090(actor, var) && func_80032880(globalCtx, actor) &&
-                    (!BgCheck_CameraLineTest1(&globalCtx->colCtx, &player->actor.head.pos, &actor->head.pos, &sp70,
+                    (!BgCheck_CameraLineTest1(&globalCtx->colCtx, &player->actor.focus.pos, &actor->focus.pos, &sp70,
                                               &sp80, 1, 1, 1, 1, &sp7C) ||
                      SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp80, sp7C))) {
                     if (actor->unk_10D != 0) {
@@ -5453,8 +5453,8 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
     s16 sp34;
     s16 var;
 
-    sp36 = Math_Vec3f_Pitch(&actor->head.pos, arg1);
-    sp34 = Math_Vec3f_Yaw(&actor->head.pos, arg1) - actor->world.rot.y;
+    sp36 = Math_Vec3f_Pitch(&actor->focus.pos, arg1);
+    sp34 = Math_Vec3f_Yaw(&actor->focus.pos, arg1) - actor->world.rot.y;
 
     Math_SmoothStepToS(&arg2->x, sp36, 6, 2000, 1);
     arg2->x = (arg2->x < -6000) ? -6000 : ((arg2->x > 6000) ? 6000 : arg2->x);
@@ -5479,8 +5479,8 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     s16 var;
     s16 abs_var;
 
-    actor->head.pos = actor->world.pos;
-    actor->head.pos.y += arg4;
+    actor->focus.pos = actor->world.pos;
+    actor->focus.pos.y += arg4;
 
     if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
@@ -5494,7 +5494,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
-        sp2C = player->actor.head.pos;
+        sp2C = player->actor.focus.pos;
     }
 
     func_80037FC8(actor, &sp2C, arg2, arg3);
@@ -5509,7 +5509,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     s16 var;
     s16 abs_var;
 
-    actor->head.pos = arg4;
+    actor->focus.pos = arg4;
 
     if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
@@ -5523,7 +5523,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
-        sp24 = player->actor.head.pos;
+        sp24 = player->actor.focus.pos;
     }
 
     func_80037FC8(actor, &sp24, arg2, arg3);

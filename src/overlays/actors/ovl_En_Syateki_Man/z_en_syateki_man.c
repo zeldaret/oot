@@ -389,9 +389,9 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     EnSyatekiMan_SetBgm();
     this->blinkFunc(this);
-    this->actor.head.pos.y = 70.0f;
+    this->actor.focus.pos.y = 70.0f;
     Actor_SetHeight(&this->actor, 70.0f);
-    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.head.pos);
+    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
 s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

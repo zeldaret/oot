@@ -772,9 +772,9 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2E0);
     if ((this->initParams == 2) || (this->initParams == 5)) {
-        this->actor.head.pos.y = 70.0f;
+        this->actor.focus.pos.y = 70.0f;
         Actor_SetHeight(&this->actor, 70.0f);
-        func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
     }
 
     this->unk_2FC++;

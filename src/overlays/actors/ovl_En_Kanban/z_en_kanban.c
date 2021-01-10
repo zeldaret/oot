@@ -382,8 +382,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
             }
-            this->actor.head.pos = this->actor.world.pos;
-            this->actor.head.pos.y += 44.0f;
+            this->actor.focus.pos = this->actor.world.pos;
+            this->actor.focus.pos.y += 44.0f;
             Collider_CylinderUpdate(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

@@ -709,7 +709,7 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     /* Limb 16 - Jaw */
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&sp1C, &this->actor.head.pos);
+        Matrix_MultVec3f(&sp1C, &this->actor.focus.pos);
     }
 
     /* Limb 14 - Neck */

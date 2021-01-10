@@ -1152,7 +1152,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_2E0 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.head.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);
@@ -1196,7 +1196,7 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnTa* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_80B16E7C, &this->actor.head.pos);
+        Matrix_MultVec3f(&D_80B16E7C, &this->actor.focus.pos);
     }
 }
 

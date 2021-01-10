@@ -424,7 +424,7 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Vec3f vec = D_80AA16B8;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&vec, &this->actor.head.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 

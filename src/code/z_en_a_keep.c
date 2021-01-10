@@ -96,7 +96,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, sp28);
 
-    thisx->head.pos = thisx->world.pos;
+    thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = DPM_UNK;
@@ -308,8 +308,8 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->dyna.actor.head.pos = this->dyna.actor.world.pos;
-    this->dyna.actor.head.pos.y += this->unk_178;
+    this->dyna.actor.focus.pos = this->dyna.actor.world.pos;
+    this->dyna.actor.focus.pos.y += this->unk_178;
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:

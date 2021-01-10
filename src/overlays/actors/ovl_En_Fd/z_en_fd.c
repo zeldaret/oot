@@ -623,7 +623,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 
     if (limbIndex == 13) {
-        Matrix_MultVec3f(&initialPos, &this->actor.head.pos);
+        Matrix_MultVec3f(&initialPos, &this->actor.focus.pos);
     }
 
     if (limbIndex == 3 || limbIndex == 6 || limbIndex == 7 || limbIndex == 10 || limbIndex == 14 || limbIndex == 15 ||
