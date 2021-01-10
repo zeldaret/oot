@@ -207,7 +207,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {
-                Audio_PlayActorSound2(thisx, 0x28D2);
+                Audio_PlayActorSound2(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
             }
             thisx->posRot.pos.x = (this->vRadius * Math_SinS(this->vAngularPos)) + thisx->initPosRot.pos.x;
             thisx->posRot.pos.z = (this->vRadius * Math_CosS(this->vAngularPos)) + thisx->initPosRot.pos.z;
