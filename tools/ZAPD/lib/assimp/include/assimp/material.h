@@ -65,9 +65,9 @@ extern "C" {
  *  @code
  *  DiffColor0     - gray
  *  DiffTextureOp0 - aiTextureOpMultiply
- *  DiffTexture0   - 1Tex.png
+ *  DiffTexture0   - tex1.png
  *  DiffTextureOp0 - aiTextureOpAdd
- *  DiffTexture1   - 2Tex.png
+ *  DiffTexture1   - tex2.png
  *  @endcode
  *  Written as equation, the final diffuse term for a specific pixel would be:
  *  @code
