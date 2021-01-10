@@ -108,15 +108,14 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, GlobalContext* globalCtx) {
 void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjKibako2* this = THIS;
     s16 pad;
-    s32 sp2C;
+    CollisionHeader* colHeader = NULL;
     u32 bgId;
 
-    sp2C = 0;
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, globalCtx);
-    CollisionHeader_GetVirtual(&D_06000B70, &sp2C);
-    bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+    CollisionHeader_GetVirtual(&D_06000B70, &colHeader);
+    bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->collectibleFlag = this->dyna.actor.initPosRot.rot.z & 0x3F;
     this->dyna.bgId = bgId;
     this->actionFunc = ObjKibako2_Idle;
