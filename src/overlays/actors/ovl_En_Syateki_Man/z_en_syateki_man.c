@@ -96,7 +96,7 @@ void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnSyatekiMan_Start(EnSyatekiMan* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_06000338);
 
-    Animation_Change(&this->skelAnime, &D_06000338, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000338, 1.0f, 0.0f, (s16)lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnSyatekiMan_SetupIdle;
 }
 

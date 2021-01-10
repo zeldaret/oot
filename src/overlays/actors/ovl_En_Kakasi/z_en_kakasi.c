@@ -163,7 +163,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    Animation_Change(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
 
     this->actor.textId = 0x4076;
     this->unk_196 = 6;

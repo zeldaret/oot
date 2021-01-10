@@ -208,7 +208,8 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), 2, -4.0f);
+        Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), ANIMMODE_ONCE,
+                         -4.0f);
         this->unk_2AA++;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }
@@ -225,7 +226,8 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
         this->skelAnime.curFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), ANIMMODE_ONCE,
+                         0.0f);
         this->actor.shape.shadowDrawFunc = NULL;
         this->unk_2AA++;
     }
