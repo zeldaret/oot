@@ -57,9 +57,9 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectEnemyDeathFlameTex1, gEffectEnemyDeathFlameTex2,  gEffectEnemyDeathFlameTex3, gEffectEnemyDeathFlameTex4,
-    gEffectEnemyDeathFlameTex5, gEffectEnemyDeathFlameTex6,  gEffectEnemyDeathFlameTex7, gEffectEnemyDeathFlameTex8,
-    gEffectEnemyDeathFlameTex9, gEffectEnemyDeathFlameTex10,
+    gEffectEnemyDeathFlame1Tex, gEffectEnemyDeathFlame2Tex,  gEffectEnemyDeathFlame3Tex, gEffectEnemyDeathFlame4Tex,
+    gEffectEnemyDeathFlame5Tex, gEffectEnemyDeathFlame6Tex,  gEffectEnemyDeathFlame7Tex, gEffectEnemyDeathFlame8Tex,
+    gEffectEnemyDeathFlame9Tex, gEffectEnemyDeathFlame10Tex,
 };
 
 void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

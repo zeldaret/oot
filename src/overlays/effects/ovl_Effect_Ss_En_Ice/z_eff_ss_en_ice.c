@@ -128,7 +128,7 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
-    gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragmentDL2);
+    gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragment2DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
 }

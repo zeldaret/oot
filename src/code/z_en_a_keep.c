@@ -43,16 +43,16 @@ static ColliderCylinderInit sCylinderInit = {
 extern CollisionHeader D_06000730;
 
 static CollisionHeader* D_8011546C[] = {
-    &gUnknownCol1, &gUnknownCol1, &gUnknownCol4, &gUnknownCol5, &gUnknownCol6, &D_06000730,
+    &gUnknown1Col, &gUnknown1Col, &gUnknown4Col, &gUnknown5Col, &gUnknown6Col, &D_06000730,
 };
 
 static Gfx* D_80115484[] = {
-    gUnusedRockRectangularPrismDL2,
-    gUnusedRockRectangularPrismDL2,
-    gUnusedRockRectangularPrismDL2,
-    gUnusedRockRectangularPrismDL4,
-    gUnusedRockRectangularPrismDL4,
-    gUnusedRockRectangularPrismDL5,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism4DL,
+    gUnusedRockRectangularPrism4DL,
+    gUnusedRockRectangularPrism5DL,
     0x06000210,
     gUnusedGrassBladesDL,
     gUnusedTreeStumpDL,

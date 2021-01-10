@@ -66,8 +66,8 @@ glabel func_80BA3C94
 /* 012A0 80BA3D40 8E4402D0 */  lw      $a0, 0x02D0($s2)           ## 000002D0
 /* 012A4 80BA3D44 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 012A8 80BA3D48 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
-/* 012AC 80BA3D4C 3C040405 */  lui     $a0, %hi(gSunTex1)                ## $a0 = 04050000
-/* 012B0 80BA3D50 2484C160 */  addiu   $a0, $a0, %lo(gSunTex1)           ## $a0 = 0404C160
+/* 012AC 80BA3D4C 3C040405 */  lui     $a0, %hi(gSun1Tex)                ## $a0 = 04050000
+/* 012B0 80BA3D50 2484C160 */  addiu   $a0, $a0, %lo(gSun1Tex)           ## $a0 = 0404C160
 /* 012B4 80BA3D54 0004C900 */  sll     $t9, $a0,  4               
 /* 012B8 80BA3D58 AE4202D0 */  sw      $v0, 0x02D0($s2)           ## 000002D0
 /* 012BC 80BA3D5C 00194702 */  srl     $t0, $t9, 28               

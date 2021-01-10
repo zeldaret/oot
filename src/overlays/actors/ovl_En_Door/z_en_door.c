@@ -60,7 +60,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-AnimationHeader* D_809FCECC[] = { &gDoorAnim3, &gDoorAnim1, &gDoorAnim4, &gDoorAnim2 };
+AnimationHeader* D_809FCECC[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
 
 static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
@@ -82,7 +82,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gDoorSkel, &gDoorAnim3, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gDoorSkel, &gDoor3Anim, this->jointTable, this->morphTable, 5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;

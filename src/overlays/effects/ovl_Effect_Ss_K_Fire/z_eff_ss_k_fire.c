@@ -77,7 +77,7 @@ void EffectSsKFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_k_fire.c", 215),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL1);
+    gSPDisplayList(POLY_XLU_DISP++, gEffectFire1DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_k_fire.c", 220);
 }

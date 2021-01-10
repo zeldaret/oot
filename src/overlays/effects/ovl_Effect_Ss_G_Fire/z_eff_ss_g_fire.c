@@ -44,8 +44,8 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     UNK_PTR textures[] = {
-        gEffectFireFootprintTex1, gEffectFireFootprintTex2, gEffectFireFootprintTex3, gEffectFireFootprintTex4,
-        gEffectFireFootprintTex5, gEffectFireFootprintTex6, gEffectFireFootprintTex7, gEffectFireFootprintTex8,
+        gEffectFireFootprint1Tex, gEffectFireFootprint2Tex, gEffectFireFootprint3Tex, gEffectFireFootprint4Tex,
+        gEffectFireFootprint5Tex, gEffectFireFootprint6Tex, gEffectFireFootprint7Tex, gEffectFireFootprint8Tex,
     };
     s16 texIdx = (this->rgTexIdx / 100) % 7;
 

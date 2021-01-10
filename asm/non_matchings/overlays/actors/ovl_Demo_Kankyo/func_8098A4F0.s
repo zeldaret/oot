@@ -39,10 +39,10 @@ glabel func_8098A4F0
 /* 016CC 8098A54C 24070591 */  addiu   $a3, $zero, 0x0591         ## $a3 = 00000591
 /* 016D0 8098A550 0C031AB1 */  jal     Graph_OpenDisps              
 /* 016D4 8098A554 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
-/* 016D8 8098A558 3C020405 */  lui     $v0, %hi(gDustTex5)                ## $v0 = 04050000
+/* 016D8 8098A558 3C020405 */  lui     $v0, %hi(gDust5Tex)                ## $v0 = 04050000
 /* 016DC 8098A55C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 016E0 8098A560 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
-/* 016E4 8098A564 24422DB0 */  addiu   $v0, $v0, %lo(gDustTex5)           ## $v0 = 04052DB0
+/* 016E4 8098A564 24422DB0 */  addiu   $v0, $v0, %lo(gDust5Tex)           ## $v0 = 04052DB0
 /* 016E8 8098A568 0041B824 */  and     $s7, $v0, $at              
 /* 016EC 8098A56C 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 016F0 8098A570 4481F000 */  mtc1    $at, $f30                  ## $f30 = 30.00

@@ -104,8 +104,8 @@ glabel func_80BA414C
 /* 017D0 80BA4270 0000A025 */  or      $s4, $zero, $zero          ## $s4 = 00000000
 /* 017D4 80BA4274 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 017D8 80BA4278 02015821 */  addu    $t3, $s0, $at              
-/* 017DC 80BA427C 3C020405 */  lui     $v0, %hi(gDustTex5)                ## $v0 = 04050000
-/* 017E0 80BA4280 24422DB0 */  addiu   $v0, $v0, %lo(gDustTex5)           ## $v0 = 04052DB0
+/* 017DC 80BA427C 3C020405 */  lui     $v0, %hi(gDust5Tex)                ## $v0 = 04050000
+/* 017E0 80BA4280 24422DB0 */  addiu   $v0, $v0, %lo(gDust5Tex)           ## $v0 = 04052DB0
 /* 017E4 80BA4284 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 017E8 80BA4288 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 017EC 80BA428C 0041C824 */  and     $t9, $v0, $at              

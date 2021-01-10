@@ -81,9 +81,9 @@ static Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
 static Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
 
 static UNK_PTR D_80B2EB88[] = {
-    gEffectEnemyDeathFlameTex1, gEffectEnemyDeathFlameTex2,  gEffectEnemyDeathFlameTex3, gEffectEnemyDeathFlameTex4,
-    gEffectEnemyDeathFlameTex5, gEffectEnemyDeathFlameTex6,  gEffectEnemyDeathFlameTex7, gEffectEnemyDeathFlameTex8,
-    gEffectEnemyDeathFlameTex9, gEffectEnemyDeathFlameTex10,
+    gEffectEnemyDeathFlame1Tex, gEffectEnemyDeathFlame2Tex,  gEffectEnemyDeathFlame3Tex, gEffectEnemyDeathFlame4Tex,
+    gEffectEnemyDeathFlame5Tex, gEffectEnemyDeathFlame6Tex,  gEffectEnemyDeathFlame7Tex, gEffectEnemyDeathFlame8Tex,
+    gEffectEnemyDeathFlame9Tex, gEffectEnemyDeathFlame10Tex,
 };
 
 extern SkeletonHeader D_06003F60;

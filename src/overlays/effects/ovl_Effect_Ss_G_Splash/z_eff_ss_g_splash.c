@@ -90,8 +90,8 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectWaterSplashTex1, gEffectWaterSplashTex2, gEffectWaterSplashTex3, gEffectWaterSplashTex4,
-    gEffectWaterSplashTex5, gEffectWaterSplashTex6, gEffectWaterSplashTex7, gEffectWaterSplashTex8,
+    gEffectWaterSplash1Tex, gEffectWaterSplash2Tex, gEffectWaterSplash3Tex, gEffectWaterSplash4Tex,
+    gEffectWaterSplash5Tex, gEffectWaterSplash6Tex, gEffectWaterSplash7Tex, gEffectWaterSplash8Tex,
 };
 
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

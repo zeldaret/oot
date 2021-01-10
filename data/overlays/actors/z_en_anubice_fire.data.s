@@ -40,5 +40,5 @@ glabel D_809B3268
 glabel D_809B326C
  .word 0xFF0000FF
 glabel D_809B3270
- .word gDustTex4, gDustTex5, gDustTex6, gDustTex7, gDustTex8, gDustTex7, gDustTex6, gDustTex5
+ .word gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex
 

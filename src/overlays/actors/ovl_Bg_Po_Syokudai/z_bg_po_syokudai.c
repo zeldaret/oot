@@ -172,7 +172,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gEffectFireDL1);
+        gSPDisplayList(POLY_XLU_DISP++, gEffectFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
 }

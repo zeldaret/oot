@@ -17,7 +17,7 @@ static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
 };
 
 static DebugDispObjectInfo sDebugObjectInfoTable[] = {
-    { 0, gUnknownCircleTex1 }, { 0, gDebugCrossTex }, { 0, gUnknownCircleTex2 },
+    { 0, gUnknownCircle1Tex }, { 0, gDebugCrossTex }, { 0, gUnknownCircle2Tex },
     { 0, gDebugTargetTex },    { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
 };
 

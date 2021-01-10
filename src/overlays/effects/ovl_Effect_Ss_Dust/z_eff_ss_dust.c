@@ -77,7 +77,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 static UNK_PTR sTextures[] = {
-    gDustTex1, gDustTex2, gDustTex3, gDustTex4, gDustTex5, gDustTex6, gDustTex7, gDustTex8,
+    gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

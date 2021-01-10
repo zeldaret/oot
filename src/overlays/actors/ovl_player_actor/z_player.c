@@ -10360,7 +10360,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, 255);
-            gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragmentDL3);
+            gSPDisplayList(POLY_XLU_DISP++, gEffectIceFragment3DL);
         }
 
         if (this->unk_862 > 0) {

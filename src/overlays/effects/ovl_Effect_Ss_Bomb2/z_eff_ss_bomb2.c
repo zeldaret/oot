@@ -41,7 +41,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectBombExplosionDL1);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectBombExplosion1DL);
     this->life = 24;
     this->update = EffectSsBomb2_Update;
     this->draw = sDrawFuncs[initParams->drawMode];
@@ -61,8 +61,8 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 // unused in the original game. looks like EffectSsBomb but with color
 void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     static UNK_PTR textures[] = {
-        gEffectBombExplosionTex1, gEffectBombExplosionTex2, gEffectBombExplosionTex3, gEffectBombExplosionTex4,
-        gEffectBombExplosionTex5, gEffectBombExplosionTex6, gEffectBombExplosionTex7, gEffectBombExplosionTex8,
+        gEffectBombExplosion1Tex, gEffectBombExplosion2Tex, gEffectBombExplosion3Tex, gEffectBombExplosion4Tex,
+        gEffectBombExplosion5Tex, gEffectBombExplosion6Tex, gEffectBombExplosion7Tex, gEffectBombExplosion8Tex,
     };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;
@@ -101,8 +101,8 @@ void EffectSsBomb2_DrawFade(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
 void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     static UNK_PTR textures[] = {
-        gEffectBombExplosionTex1, gEffectBombExplosionTex2, gEffectBombExplosionTex3, gEffectBombExplosionTex4,
-        gEffectBombExplosionTex5, gEffectBombExplosionTex6, gEffectBombExplosionTex7, gEffectBombExplosionTex8,
+        gEffectBombExplosion1Tex, gEffectBombExplosion2Tex, gEffectBombExplosion3Tex, gEffectBombExplosion4Tex,
+        gEffectBombExplosion5Tex, gEffectBombExplosion6Tex, gEffectBombExplosion7Tex, gEffectBombExplosion8Tex,
     };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;
@@ -140,8 +140,8 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                             this->rPrimColorA);
             gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIdx]));
-            gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosionDL2);
-            gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosionDL3);
+            gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosion2DL);
+            gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosion3DL);
 
             Matrix_MtxToMtxF(mtx2, &mtx2F);
             Matrix_Put(&mtx2F);
@@ -152,7 +152,7 @@ void EffectSsBomb2_DrawLayered(GlobalContext* globalCtx, u32 index, EffectSs* th
                 Matrix_Scale(layer2Scale, layer2Scale, layer2Scale, MTXMODE_APPLY);
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_bomb2.c", 448),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosionDL3);
+                gSPDisplayList(POLY_XLU_DISP++, gEffectBombExplosion3DL);
                 layer2Scale -= 0.15f;
             }
         }

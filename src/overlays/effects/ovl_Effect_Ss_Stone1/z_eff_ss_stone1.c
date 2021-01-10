@@ -25,14 +25,14 @@ typedef struct {
 } EffStoneDrawInfo;
 
 static EffStoneDrawInfo sDrawInfo[] = {
-    { gUnknownEffectStoneTex8, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
-    { gUnknownEffectStoneTex7, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
-    { gUnknownEffectStoneTex6, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
-    { gUnknownEffectStoneTex5, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
-    { gUnknownEffectStoneTex4, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
-    { gUnknownEffectStoneTex3, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
-    { gUnknownEffectStoneTex2, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
-    { gUnknownEffectStoneTex1, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
+    { gUnknownEffectStone8Tex, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
+    { gUnknownEffectStone7Tex, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
+    { gUnknownEffectStone6Tex, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
+    { gUnknownEffectStone5Tex, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
+    { gUnknownEffectStone4Tex, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
+    { gUnknownEffectStone3Tex, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
+    { gUnknownEffectStone2Tex, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
+    { gUnknownEffectStone1Tex, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
 };
 
 u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {

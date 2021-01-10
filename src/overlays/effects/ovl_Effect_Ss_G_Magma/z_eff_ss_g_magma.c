@@ -42,8 +42,8 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 }
 
 static void* sTextures[] = {
-    gEffectMagmaBubbleTex1, gEffectMagmaBubbleTex2, gEffectMagmaBubbleTex3, gEffectMagmaBubbleTex4,
-    gEffectMagmaBubbleTex5, gEffectMagmaBubbleTex6, gEffectMagmaBubbleTex7, gEffectMagmaBubbleTex8,
+    gEffectMagmaBubble1Tex, gEffectMagmaBubble2Tex, gEffectMagmaBubble3Tex, gEffectMagmaBubble4Tex,
+    gEffectMagmaBubble5Tex, gEffectMagmaBubble6Tex, gEffectMagmaBubble7Tex, gEffectMagmaBubble8Tex,
 };
 
 void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

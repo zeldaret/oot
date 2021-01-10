@@ -79,25 +79,25 @@ static Gfx sTextureDL0[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(gEffectUnknownTex12, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffectUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 15),
     gsDPSetPrimColor(0x00, 0x00, 170, 255, 255, 255),
     gsDPSetEnvColor(0, 150, 0, 128),
     gsSPEndDisplayList(),
 };
 
-static Gfx sTextureDL1[] = {
+static Gfx sTexture1DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(gEffectUnknownTex12, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffectUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 0),
     gsDPSetPrimColor(0x00, 0x00, 255, 170, 255, 255),
     gsDPSetEnvColor(120, 0, 100, 128),
     gsSPEndDisplayList(),
 };
 
-static Gfx sTextureDL2[] = {
+static Gfx sTexture2DL[] = {
     gsDPPipeSync(),
     gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                          G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 6, 14, 1),

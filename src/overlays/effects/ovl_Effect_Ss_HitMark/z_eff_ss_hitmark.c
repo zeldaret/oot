@@ -28,14 +28,14 @@ static Color_RGB8 sColors[] = {
 };
 
 static UNK_PTR sTextures[] = {
-    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,
-    gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
-    gEffectDamageParticlesTex9,  gEffectDamageParticlesTex10, gEffectDamageParticlesTex11, gEffectDamageParticlesTex12,
-    gEffectDamageParticlesTex13, gEffectDamageParticlesTex14, gEffectDamageParticlesTex15, gEffectDamageParticlesTex16,
-    gEffectDamageParticlesTex17, gEffectDamageParticlesTex18, gEffectDamageParticlesTex19, gEffectDamageParticlesTex20,
-    gEffectDamageParticlesTex21, gEffectDamageParticlesTex22, gEffectDamageParticlesTex23, gEffectDamageParticlesTex24,
-    gEffectDamageParticlesTex1,  gEffectDamageParticlesTex2,  gEffectDamageParticlesTex3,  gEffectDamageParticlesTex4,
-    gEffectDamageParticlesTex5,  gEffectDamageParticlesTex6,  gEffectDamageParticlesTex7,  gEffectDamageParticlesTex8,
+    gEffectDamageParticles1Tex,  gEffectDamageParticles2Tex,  gEffectDamageParticles3Tex,  gEffectDamageParticles4Tex,
+    gEffectDamageParticles5Tex,  gEffectDamageParticles6Tex,  gEffectDamageParticles7Tex,  gEffectDamageParticles8Tex,
+    gEffectDamageParticles9Tex,  gEffectDamageParticles10Tex, gEffectDamageParticles11Tex, gEffectDamageParticles12Tex,
+    gEffectDamageParticles13Tex, gEffectDamageParticles14Tex, gEffectDamageParticles15Tex, gEffectDamageParticles16Tex,
+    gEffectDamageParticles17Tex, gEffectDamageParticles18Tex, gEffectDamageParticles19Tex, gEffectDamageParticles20Tex,
+    gEffectDamageParticles21Tex, gEffectDamageParticles22Tex, gEffectDamageParticles23Tex, gEffectDamageParticles24Tex,
+    gEffectDamageParticles1Tex,  gEffectDamageParticles2Tex,  gEffectDamageParticles3Tex,  gEffectDamageParticles4Tex,
+    gEffectDamageParticles5Tex,  gEffectDamageParticles6Tex,  gEffectDamageParticles7Tex,  gEffectDamageParticles8Tex,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {
