@@ -277,7 +277,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
-    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
@@ -442,7 +442,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     frameCount = this->skelAnime.curFrame;
-    gate = (BgGateShutter*)globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
+    gate = (BgGateShutter*)globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
@@ -607,7 +607,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
-    gate = (BgGateShutter*)(globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first);
+    gate = (BgGateShutter*)(globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);

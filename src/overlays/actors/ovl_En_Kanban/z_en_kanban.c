@@ -650,7 +650,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->airTimer = 70;
             }
             if (this->bounceX == 0) {
-                Actor* bomb = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
+                Actor* bomb = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].head;
                 f32 dx;
                 f32 dy;
                 f32 dz;

@@ -1981,7 +1981,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     actorCtx->absoluteSpace = NULL;
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
-    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].first, globalCtx);
+    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
     func_8002FA60(globalCtx);
 }
 
@@ -2045,7 +2045,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, sp80++) {
         unkCondition = (*sp80 & player->stateFlags1);
 
-        actor = actorCtx->actorLists[i].first;
+        actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
             if (actor->world.pos.y < -25000.0f) {
                 actor->world.pos.y = -25000.0f;
@@ -2360,7 +2360,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     actorListEntry = &actorCtx->actorLists[0];
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, actorListEntry++) {
-        actor = actorListEntry->first;
+        actor = actorListEntry->head;
 
         while (actor != NULL) {
             ActorOverlay* overlayEntry = actor->overlayEntry;
@@ -2454,7 +2454,7 @@ void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
-        actor = actorCtx->actorLists[i].first;
+        actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
             if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
                 Actor_Kill(actor);
@@ -2471,7 +2471,7 @@ void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s3
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEnemyActorCategories); i++) {
-        actor = actorCtx->actorLists[sEnemyActorCategories[i]].first;
+        actor = actorCtx->actorLists[sEnemyActorCategories[i]].head;
         while (actor != NULL) {
             actor->freezeTimer = duration;
             actor = actor->next;
@@ -2484,7 +2484,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
-        actor = actorCtx->actorLists[i].first;
+        actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
             if ((actor->room >= 0) && (actor->room != globalCtx->roomCtx.curRoom.num) &&
                 (actor->room != globalCtx->roomCtx.prevRoom.num)) {
@@ -2513,10 +2513,10 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
-        actor = actorCtx->actorLists[i].first;
+        actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
             Actor_Delete(actorCtx, actor, globalCtx);
-            actor = actorCtx->actorLists[i].first;
+            actor = actorCtx->actorLists[i].head;
         }
     }
 
@@ -2546,13 +2546,13 @@ void Actor_AddToCategoryList(ActorContext* actorCtx, Actor* actorToAdd, u8 actor
 
     actorCtx->total++;
     actorCtx->actorLists[actorCategory].length++;
-    prevFirstActor = actorCtx->actorLists[actorCategory].first;
+    prevFirstActor = actorCtx->actorLists[actorCategory].head;
 
     if (prevFirstActor != NULL) {
         prevFirstActor->prev = actorToAdd;
     }
 
-    actorCtx->actorLists[actorCategory].first = actorToAdd;
+    actorCtx->actorLists[actorCategory].head = actorToAdd;
     actorToAdd->next = prevFirstActor;
 }
 
@@ -2569,7 +2569,7 @@ Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* acto
     if (actorToRemove->prev != NULL) {
         actorToRemove->prev->next = actorToRemove->next;
     } else {
-        actorCtx->actorLists[actorToRemove->category].first = actorToRemove->next;
+        actorCtx->actorLists[actorToRemove->category].head = actorToRemove->next;
     }
 
     newFirstActor = actorToRemove->next;
@@ -2919,7 +2919,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
     UNK_TYPE sp7C;
     Vec3f sp70;
 
-    actor = actorCtx->actorLists[actorCategory].first;
+    actor = actorCtx->actorLists[actorCategory].head;
     sp84 = player->unk_664;
 
     while (actor != NULL) {
@@ -2998,7 +2998,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
  * Finds the first actor instance of a specified ID and category if there is one.
  */
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
-    Actor* actor = actorCtx->actorLists[actorCategory].first;
+    Actor* actor = actorCtx->actorLists[actorCategory].head;
 
     while (actor != NULL) {
         if (actorId == actor->id) {
@@ -3210,7 +3210,7 @@ Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) 
 }
 
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
-    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].head;
 
     while (actor != NULL) {
         if ((actor == explosiveActor) || (actor->params != 1)) {
@@ -3252,7 +3252,7 @@ Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
     Vec3f sp84;
     Actor* actor;
 
-    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     while (actor != NULL) {
         if (((actor->id != ACTOR_ARMS_HOOK) && (actor->id != ACTOR_EN_ARROW)) || (actor == refActor)) {
             actor = actor->next;
@@ -3926,7 +3926,7 @@ u8 func_800353E8(GlobalContext* globalCtx) {
  * specified category rather than a specific ID.
  */
 Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorCategory, f32 range) {
-    Actor* actor = globalCtx->actorCtx.actorLists[actorCategory].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[actorCategory].head;
 
     while (actor != NULL) {
         if (actor == refActor || ((actorId != -1) && (actorId != actor->id))) {

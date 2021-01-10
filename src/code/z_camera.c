@@ -3470,7 +3470,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     s16 angleCnt;
     s32 i;
 
-    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].first;
+    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         if (camera->globalCtx->view.unk_124 == 0) {
@@ -7560,7 +7560,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
  */
 void Camera_Finish(Camera* camera) {
     Camera* defaultCam = camera->globalCtx->cameraPtrs[0];
-    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].first;
+    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, 7);

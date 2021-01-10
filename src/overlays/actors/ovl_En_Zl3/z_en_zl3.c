@@ -116,7 +116,7 @@ void func_80B53468(void) {
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
     if (this->unk_3D4 == NULL) {
-        Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].first;
+        Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
         while (actorIt != NULL) {
             if (actorIt->id == ACTOR_BOSS_GANON2) {
@@ -1912,7 +1912,7 @@ s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B57A74(GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_EN_ENCOUNT2) {

@@ -144,7 +144,7 @@ void EnBb_SetupAction(EnBb* this, EnBbActionFunc actionFunc) {
 }
 
 Actor* EnBb_FindExplosive(GlobalContext* globalCtx, EnBb* this, f32 range) {
-    Actor* explosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
+    Actor* explosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].head;
     f32 dist;
 
     while (explosive != NULL) {

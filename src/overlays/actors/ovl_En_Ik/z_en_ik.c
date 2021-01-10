@@ -200,7 +200,7 @@ s32 func_80A745E4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
-    Actor* prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].first;
+    Actor* prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
     while (prop != NULL) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {

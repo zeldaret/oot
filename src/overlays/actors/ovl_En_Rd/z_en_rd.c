@@ -148,7 +148,7 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE2630(GlobalContext* globalCtx, Actor* thisx, s32 arg2) {
-    Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].first;
+    Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
     while (enemyIt != NULL) {
         if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) || (enemyIt->params < 0)) {

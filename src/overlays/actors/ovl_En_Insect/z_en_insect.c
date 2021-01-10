@@ -109,7 +109,7 @@ s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
     s32 ret;
 
     ret = 0;
-    currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].first;
+    currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     bestDistance = 6400.0f;
     this->soilActor = NULL;
 

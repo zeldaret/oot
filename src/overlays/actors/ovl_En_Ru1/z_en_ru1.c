@@ -290,7 +290,7 @@ s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
 }
 
 s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
     EnRu1* someEnRu1;
 
     while (actorIt != NULL) {
@@ -308,7 +308,7 @@ s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 DynaPolyActor* func_80AEB088(GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BG].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_BG_BDAN_OBJECTS && actorIt->params == 0) {
@@ -335,7 +335,7 @@ s32 func_80AEB104(EnRu1* this) {
 }
 
 Actor* func_80AEB124(GlobalContext* globalCtx) {
-    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].first;
+    Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == 0x15)) {

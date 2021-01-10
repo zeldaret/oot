@@ -62,7 +62,7 @@ void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
-    Actor* it = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].first;
+    Actor* it = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
     Actor* thisx = &this->dyna.actor;
 
     this->unk_168 = 0;

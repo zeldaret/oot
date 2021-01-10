@@ -244,7 +244,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
 }
 
 Actor* EnFd_FindBomb(EnFd* this, GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].head;
 
     while (actor != NULL) {
         if (actor->params != 0 || actor->parent != NULL) {
