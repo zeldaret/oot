@@ -94,15 +94,22 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
             sp40 = Math_SinS(thisx->posRot.rot.y);
             thisx->velocity.z = (Math_CosS(thisx->posRot.rot.y) * thisx->velocity.z) + (-sp40 * sp50);
             thisx->velocity.y = Rand_ZeroFloat(4.0f) + 4.0f;
-            thisx->posRot.rot.x = (s16) (s32) Rand_CenteredFloat(4096.0f);
-            thisx->posRot.rot.y = (s16) (s32) Rand_CenteredFloat(4096.0f);
-            thisx->posRot.rot.z = (s16) (s32) Rand_CenteredFloat(4096.0f);
+            thisx->posRot.rot.x = Rand_CenteredFloat(4096.0f);
+            thisx->posRot.rot.y = Rand_CenteredFloat(4096.0f);
+            thisx->posRot.rot.z = Rand_CenteredFloat(4096.0f);
             this->unk21A = (u16)80;
             break;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/DoorKiller_Destroy.s")
+void DoorKiller_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller *this = THIS;
+
+    if ((thisx->params & 0xFF) == 0) {
+        Collider_DestroyCylinder(globalCtx, &this->unk1C8);
+        Collider_DestroyJntSph(globalCtx, &this->unk220);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995020.s")
 
