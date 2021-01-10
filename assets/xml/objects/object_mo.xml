@@ -1,10 +1,13 @@
 <Root>
     <File Name="object_mo" Segment="6">
         <Texture Name="sMorphaTex_000000" Format="i8" Width="16" Height="16" Offset="0x0"/>
+       
         <DList Name="gMorphaDL_000550" Offset="0x550"/>
         <DList Name="gMorphaDL_000EC0" Offset="0xEC0"/>
         <DList Name="gMorphaDL_000EF8" Offset="0xEF8"/>
+        
         <Texture Name="gMorphaUnknown_001010" Format="i8" Width="128" Height="120" Offset="0x1010"/>
+        
         <DList Name="gMorphaDL_004C50" Offset="0x4C50"/>
         <DList Name="gMorphaDL_006700" Offset="0x6700"/>
         <DList Name="gMorphaDL_006838" Offset="0x6838"/>
@@ -54,5 +57,9 @@
         <DList Name="gMorphaDL_0087A8" Offset="0x87A8"/>
         <DList Name="gMorphaDL_0087F0" Offset="0x87F0"/>
         <DList Name="gMorphaDL_008838" Offset="0x8838"/>
+
+        <DList Name="gMorphaDL_007BF8" Offset="0x7BF8"/>
+        <!-- <Vertex Name="gMorphaVtx_006938" Count="14" Offset="0x6938"/> -->
+        <Blob Name="gMorphaVtx_006938" Size="0xE0" Offset="0x6938"/>
     </File>
 </Root>
