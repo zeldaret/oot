@@ -60,7 +60,7 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     this->unk191 = this->unk190 = this->unk218 = this->unk21A = 0;
 
-    switch ((thisx->params & 0xFFFF) & 0xFF){
+    switch ((u16)(thisx->params & 0xFF)){
         case 0:
             SkelAnime_InitFlex(globalCtx2, &this->unk14C, &D_06001BC8, NULL, &this->unk192, &this->unk192, 9);
             this->unk280 = &func_80995D6C;
