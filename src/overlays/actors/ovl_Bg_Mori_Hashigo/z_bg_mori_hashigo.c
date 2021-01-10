@@ -25,7 +25,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-extern ColHeader D_060037D8;
+extern CollisionHeader D_060037D8;
 extern Gfx D_060036B0[];
 extern Gfx D_06004770[];
 
@@ -70,18 +70,18 @@ static InitChainEntry sInitChainLadder[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
+void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                s32 moveFlag) {
     s32 pad;
-    ColHeader* colHeader;
+    CollisionHeader* colHeader;
     s32 pad2;
 
     colHeader = NULL;
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 164,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -177,7 +177,7 @@ void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHashigo* this = THIS;
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
     if (this->dyna.actor.params == -1) {
         Collider_DestroyJntSph(globalCtx, &this->collider);

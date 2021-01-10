@@ -160,7 +160,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 2:
-            if (!gSaveContext.nightFlag) {
+            if (gSaveContext.nightFlag == 0) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -383,7 +383,8 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
 
     switch (this->actor.params) {
         case 4:
@@ -795,7 +796,8 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
     this->actionFunc = func_80AB7328;
@@ -955,7 +957,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT03) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
     }
-    if (thisx->groundY <= -32000.0f || thisx->groundY >= 32000.0f) {
+    if (thisx->groundY <= BGCHECK_Y_MIN || thisx->groundY >= 32000.0f) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->groundY);
         cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;

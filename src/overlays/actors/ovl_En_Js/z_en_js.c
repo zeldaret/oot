@@ -86,7 +86,8 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), ANIMMODE_ONCE,
+                     -4.0f);
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
@@ -142,7 +143,8 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), ANIMMODE_ONCE,
+                     -4.0f);
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
@@ -162,7 +164,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->actor.bgCheckFlags & 1) {
-        if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
+        if (SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
             Math_ApproachF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {

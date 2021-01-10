@@ -146,10 +146,10 @@ void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaP
     s32 padding2;
 
     sp30 = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, flags);
-    DynaPolyInfo_Alloc(arg2, &sp30);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
-    if (this->dyna.dynaPolyId == 50) {
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(arg2, &sp30);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    if (this->dyna.bgId == 50) {
         // Warning : move BG Registration Failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -467,7 +467,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {

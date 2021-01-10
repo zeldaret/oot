@@ -92,7 +92,7 @@ void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->frameCount = (f32)Animation_GetLastFrame(&D_06000710);
-    Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0xC0;
     this->dialogState = 5;
     this->actionFunc = EnBomBowMan_WaitAsleep;
@@ -125,7 +125,7 @@ void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
 void EnBomBowMan_WakeUp(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->frameCount = (f32)Animation_GetLastFrame(&D_06000080);
-    Animation_Change(&this->skelAnime, &D_06000080, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000080, 1.0f, 0.0f, this->frameCount, ANIMMODE_ONCE, -10.0f);
     this->eyeMode = CHU_GIRL_EYES_OPEN_SLOWLY;
     this->actionFunc = EnBomBowMan_BlinkAwake;
 }
@@ -161,7 +161,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->frameCount = (f32)Animation_GetLastFrame(&D_060072AC);
-        Animation_Change(&this->skelAnime, &D_060072AC, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
+        Animation_Change(&this->skelAnime, &D_060072AC, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP, -10.0f);
         this->eyeMode = CHU_GIRL_EYES_AWAKE;
         this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         // Check for beaten Dodongo's Cavern
