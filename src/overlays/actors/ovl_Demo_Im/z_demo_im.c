@@ -345,7 +345,8 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
 void func_809854DC(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 2)) {
-        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
+                         0.0f);
         this->action = 2;
         this->drawConfig = 1;
         func_80985358(this, globalCtx);
@@ -362,14 +363,16 @@ void func_8098557C(DemoIm* this) {
 void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 3)) {
-        Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000710), 2, 4.0f);
+        Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000710), ANIMMODE_ONCE,
+                         4.0f);
         this->action = 4;
     }
 }
 
 void func_80985640(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_06000AFC, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AFC), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06000AFC, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AFC), ANIMMODE_LOOP,
+                         0.0f);
         this->action = 5;
     }
 }
@@ -443,7 +446,8 @@ void func_809858C8(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
     if (func_809850E8(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &D_06011C08, 1.0f, 0.0f, Animation_GetLastFrame(&D_06011C08), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_06011C08, 1.0f, 0.0f, Animation_GetLastFrame(&D_06011C08), ANIMMODE_ONCE,
+                         0.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->unk_26C = 0;
@@ -482,7 +486,8 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80985134(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &D_06012218, 1.0f, 0.0f, Animation_GetLastFrame(&D_06012218), 2, -8.0f);
+        Animation_Change(&this->skelAnime, &D_06012218, 1.0f, 0.0f, Animation_GetLastFrame(&D_06012218), ANIMMODE_ONCE,
+                         -8.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->unk_268 = kREG(5) + 10.0f;
@@ -563,7 +568,8 @@ void func_80985F54(DemoIm* this) {
 }
 
 void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
+                     0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 11;
     this->drawConfig = 1;
@@ -571,14 +577,15 @@ void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985FE8(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C), 0, -8.0f);
+        Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C), ANIMMODE_LOOP,
+                         -8.0f);
     }
 }
 
 void func_8098604C(DemoIm* this) {
     f32 frameCount = Animation_GetLastFrame(&D_06010EE0);
 
-    Animation_Change(&this->skelAnime, &D_06010EE0, 1.0f, 0.0f, frameCount, 2, -8.0f);
+    Animation_Change(&this->skelAnime, &D_06010EE0, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
     this->action = 12;
     this->drawConfig = 1;
     this->unk_2D0 = 1;
@@ -591,13 +598,15 @@ void func_809860C8(DemoIm* this) {
 
 void func_809860DC(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), 0, -8.0f);
+        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
+                         -8.0f);
         this->unk_2D0 = 0;
     }
 }
 
 void func_80986148(DemoIm* this) {
-    Animation_Change(&this->skelAnime, &D_06010EE0, -1.0f, Animation_GetLastFrame(&D_06010EE0), 0.0f, 2, -8.0f);
+    Animation_Change(&this->skelAnime, &D_06010EE0, -1.0f, Animation_GetLastFrame(&D_06010EE0), 0.0f, ANIMMODE_ONCE,
+                     -8.0f);
     this->action = 14;
     this->drawConfig = 1;
 }
@@ -615,8 +624,8 @@ void func_809861C4(DemoIm* this, GlobalContext* globalCtx) {
                     func_80986148(this);
                     break;
                 case 7:
-                    Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C), 0,
-                                     -8.0f);
+                    Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C),
+                                     ANIMMODE_LOOP, -8.0f);
                     this->action = 12;
                     break;
                 default:
@@ -750,14 +759,16 @@ void func_80986700(DemoIm* this) {
 }
 
 void func_80986710(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
+                     0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 16;
     this->drawConfig = 1;
 }
 
 void func_80986794(DemoIm* this) {
-    Animation_Change(&this->skelAnime, &D_060014E4, 1.0f, 0.0f, Animation_GetLastFrame(&D_060014E4), 2, -8.0f);
+    Animation_Change(&this->skelAnime, &D_060014E4, 1.0f, 0.0f, Animation_GetLastFrame(&D_060014E4), ANIMMODE_ONCE,
+                     -8.0f);
     this->action = 17;
     this->drawConfig = 1;
 }

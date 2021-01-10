@@ -94,7 +94,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7BF58(EnInsect* this) {
-    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
 }
 
 /**

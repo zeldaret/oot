@@ -199,7 +199,8 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
@@ -337,7 +338,8 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
     this->unk_2B0.z = 6000.0f;

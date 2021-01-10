@@ -179,7 +179,7 @@ void func_80A6DD14(EnHorseZelda* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
                      splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
