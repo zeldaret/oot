@@ -134,7 +134,7 @@ void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) != 0 || this->dyna.actor.initPosRot.rot.z != 0 ||
+    if ((this->collider.base.acFlags & 2) || this->dyna.actor.initPosRot.rot.z != 0 ||
         func_80033684(globalCtx, &this->dyna.actor) != 0) {
         ObjKibako2_Break(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
@@ -150,9 +150,8 @@ void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Kill(ObjKibako2* this, GlobalContext* globalCtx) {
-    s16 params;
+    s16 params = this->dyna.actor.params;
 
-    params = this->dyna.actor.params;
     if ((params & 0x8000) == 0) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->dyna.actor.posRot.pos.x,
                     this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
