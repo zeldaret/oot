@@ -14,6 +14,12 @@
 
 #define THIS ((EnDntDemo*)thisx)
 
+typedef enum {
+    /* 0 */ DNT_LIKE,
+    /* 1 */ DNT_HATE,
+    /* 2 */ DNT_LOVE
+} EnDntDemoResults;
+
 void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntDemo_Update(Actor* this, GlobalContext* globalCtx);
@@ -34,18 +40,26 @@ const ActorInit En_Dnt_Demo_InitVars = {
     NULL,
 };
 
+//! @bug
+//! This table is missing a column for the Mask of Truth, so it reads the first value of the next row. In the last row,
+//! it reads the first entry of sResultValues (4), which is an invalid result. The scrubs have no reaction in this case.
 static s16 sResultTable[8][7] = {
-    { 0, 1, 0, 1, 2, 0, 1 },
-    { 1, 0, 1, 0, 1, 1, 2 },
-    { 2, 1, 1, 1, 0, 0, 0 },
-    { 1, 2, 1, 1, 1, 1, 0 },
-    { 0, 0, 2, 0, 0, 0, 1 },
-    { 0, 0, 0, 2, 1, 2, 0 },
-    { 1, 1, 1, 1, 1, 1, 1 },
-    { 2, 2, 2, 2, 2, 2, 2 },
+    /* Keaton    Skull     Spooky    Bunny     Goron      Zora     Gerudo         Truth   */
+    { DNT_LIKE, DNT_HATE, DNT_LIKE, DNT_HATE, DNT_LOVE, DNT_LIKE, DNT_HATE }, /* DNT_HATE */
+    { DNT_HATE, DNT_LIKE, DNT_HATE, DNT_LIKE, DNT_HATE, DNT_HATE, DNT_LOVE }, /* DNT_LOVE */
+    { DNT_LOVE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_LIKE, DNT_LIKE, DNT_LIKE }, /* DNT_HATE */
+    { DNT_HATE, DNT_LOVE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_LIKE }, /* DNT_LIKE */
+    { DNT_LIKE, DNT_LIKE, DNT_LOVE, DNT_LIKE, DNT_LIKE, DNT_LIKE, DNT_HATE }, /* DNT_LIKE */
+    { DNT_LIKE, DNT_LIKE, DNT_LIKE, DNT_LOVE, DNT_HATE, DNT_LOVE, DNT_LIKE }, /* DNT_HATE */
+    { DNT_HATE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_HATE, DNT_HATE }, /* DNT_LOVE */
+    { DNT_LOVE, DNT_LOVE, DNT_LOVE, DNT_LOVE, DNT_LOVE, DNT_LOVE, DNT_LOVE }, /* INVALID  */
 };
 
-static s16 sResultValues[3][2] = { { 4, 3 }, { 4, 2 }, { 3, 1 }, };
+static s16 sResultValues[3][2] = {
+    /* DNT_LIKE */ { DNT_SIGNAL_HIDE, DNT_ACTION_LOW_RUPEES },
+    /* DNT_HATE */ { DNT_SIGNAL_HIDE, DNT_ACTION_ATTACK },
+    /* DNT_LOVE */ { DNT_SIGNAL_DANCE, DNT_ACTION_DANCE },
+};
 
 static Vec3f sScrubPos[] = {
     { 3810.0f, -20.0f, 1010.0f }, { 3890.0f, -20.0f, 990.0f }, { 3730.0f, -20.0f, 950.0f },
@@ -67,9 +81,9 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
     for (i = 0; i < 9; i++) {
         this->scrubPos[i] = sScrubPos[i];
-        this->scrubs[i] =
-            (EnDntNomal*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_NOMAL,
-                                            this->scrubPos[i].x, this->scrubPos[i].y, this->scrubPos[i].z, 0, 0, 0, i + 1);
+        this->scrubs[i] = (EnDntNomal*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+                                                          ACTOR_EN_DNT_NOMAL, this->scrubPos[i].x, this->scrubPos[i].y,
+                                                          this->scrubPos[i].z, 0, 0, 0, i + ENDNTNOMAL_STAGE);
         if (this->scrubs[i] != NULL) {
             // zako zako [small fries]
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
@@ -80,7 +94,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->leaderPos.y = -20.0f;
     this->leaderPos.z = 1000.0f;
     this->leader = (EnDntJiji*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DNT_JIJI,
-                                                   this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
+                                                  this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
     if (this->leader != NULL) {
         // jiji jiji jiji jiji jiji [onomatopoeia for the scrub sound?]
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
@@ -99,16 +113,16 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
     u8 ignore;
     s32 i;
 
-    if (this->unk_158 != 0) {
+    if (this->leaderSignal != DNT_SIGNAL_NONE) {
         for (i = 0; i < 9; i++) {
-            this->scrubs[i]->demoSignal = this->unk_158;
-            this->scrubs[i]->demoAction = this->action;
-            this->scrubs[i]->demoPrize = 0;
+            this->scrubs[i]->stageSignal = this->leaderSignal;
+            this->scrubs[i]->action = this->action;
+            this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;
         }
         if (this->leader->isSolid) {
-            this->leader->unk_24E = 2;
+            this->leader->stageSignal = DNT_LEADER_SIGNAL_BURROW;
         }
-        this->unk_158 = 0;
+        this->leaderSignal = DNT_SIGNAL_NONE;
         this->actionFunc = EnDntDemo_Results;
     } else if ((this->actor.xzDistToLink > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
@@ -117,7 +131,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
         if (this->judgeTimer != 0) {
             for (i = 0; i < 9; i++) {
-                this->scrubs[i]->demoSignal = 4;
+                this->scrubs[i]->stageSignal = DNT_SIGNAL_HIDE;
             }
             this->judgeTimer = 0;
         }
@@ -128,7 +142,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
             for (i = 0; i < 9; i++) {
-                this->scrubs[i]->demoSignal = 1;
+                this->scrubs[i]->stageSignal = DNT_SIGNAL_LOOK;
             }
         }
         if (this->judgeTimer > 40) {
@@ -140,13 +154,13 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             this->judgeTimer++;
         } else {
             ignore = false;
-            reaction = 0;
+            reaction = DNT_SIGNAL_NONE;
             delay = 0;
             switch (Player_GetMask(globalCtx)) {
                 case PLAYER_MASK_SKULL:
                     if (!(gSaveContext.itemGetInf[1] & 0x4000)) {
-                        reaction = 2;
-                        this->prize = 2;
+                        reaction = DNT_SIGNAL_CELEBRATE;
+                        this->prize = DNT_PRIZE_STICK;
                         Audio_SetBGM(0x3E);
                         break;
                     }
@@ -154,12 +168,12 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
-                        this->prize = 1;
-                        this->leader->unk_24E = 1;
-                        reaction = 1;
+                        this->prize = DNT_PRIZE_NUTS;
+                        this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
+                        reaction = DNT_SIGNAL_LOOK;
                         if (this->subCamera != 0) {
                             this->subCamera = 0;
-                            reaction = 1;
+                            reaction = DNT_SIGNAL_LOOK;
                             func_800800F8(globalCtx, 0x924, -0x63, &this->leader->actor, 0);
                         }
                         break;
@@ -176,7 +190,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     if (rand9 == 8) {
                         ignore = true;
                         delay = 8;
-                        reaction = 4;
+                        reaction = DNT_SIGNAL_HIDE;
                         // Special!
                         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
                     } else {
@@ -193,17 +207,17 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         reaction = sResultValues[resultIdx][0];
                         this->action = sResultValues[resultIdx][1];
                         switch (this->action) {
-                            case 3:
+                            case DNT_ACTION_LOW_RUPEES:
                                 Audio_SetBGM(0x2D);
                                 break;
-                            case 2:
+                            case DNT_ACTION_ATTACK:
                                 if (this->subCamera != 0) {
                                     this->subCamera = 0;
                                     func_800800F8(globalCtx, 0x92E, -0x63, &this->scrubs[3]->actor, 0);
                                 }
                                 Audio_SetBGM(0x81A);
                                 break;
-                            case 1:
+                            case DNT_ACTION_DANCE:
                                 Audio_SetBGM(0x55);
                                 break;
                         }
@@ -223,23 +237,23 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         break;
                     }
             }
-            if (reaction != 0) {
+            if (reaction != DNT_SIGNAL_NONE) {
                 for (i = 0; i < 9; i++) {
                     if (delay != 0) {
                         this->scrubs[i]->timer3 = delay * i;
                     }
-                    this->scrubs[i]->demoAction = this->action;
-                    this->scrubs[i]->demoSignal = reaction;
+                    this->scrubs[i]->action = this->action;
+                    this->scrubs[i]->stageSignal = reaction;
                     this->scrubs[i]->ignore = ignore;
-                    if (this->prize != 0) {
+                    if (this->prize != DNT_PRIZE_NONE) {
                         this->scrubs[i]->timer1 = 300;
-                        this->scrubs[i]->demoPrize = this->prize;
-                        this->scrubs[i]->unk_288 = this->leader->actor.posRot.pos;
-                        if (this->prize == 1) {
-                            this->leader->unk_24E = 1;
+                        this->scrubs[i]->stagePrize = this->prize;
+                        this->scrubs[i]->targetPos = this->leader->actor.posRot.pos;
+                        if (this->prize == DNT_PRIZE_NUTS) {
+                            this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         }
-                        if (this->prize == 2) {
-                            this->leader->unk_240 = 300;
+                        if (this->prize == DNT_PRIZE_STICK) {
+                            this->leader->timer = 300;
                         }
                     }
                 }
@@ -252,36 +266,36 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
 void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
-    if (this->unk_158 != 0) {
+    if (this->leaderSignal != DNT_SIGNAL_NONE) {
         for (i = 0; i < 9; i++) {
-            this->scrubs[i]->demoAction = this->action;
-            this->scrubs[i]->demoSignal = this->unk_158;
-            this->scrubs[i]->demoPrize = 0;
+            this->scrubs[i]->action = this->action;
+            this->scrubs[i]->stageSignal = this->leaderSignal;
+            this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;
         }
-        if (this->leader->unk_23E == 1) {
-            this->leader->unk_24E = 2;
-        } else if (this->leader->unk_25A) {
-            this->leader->unk_24E = 3;
+        if (this->leader->action == DNT_LEADER_ACTION_UP) {
+            this->leader->stageSignal = DNT_LEADER_SIGNAL_BURROW;
+        } else if (this->leader->unburrow) {
+            this->leader->stageSignal = DNT_LEADER_SIGNAL_RETURN;
         } else {
-            this->leader->unk_23E = 3;
+            this->leader->action = DNT_LEADER_ACTION_ATTACK;
         }
-        this->leader->unk_240 = 0;
-        this->unk_158 = this->action = 0;
+        this->leader->timer = 0;
+        this->leaderSignal = this->action = DNT_SIGNAL_NONE;
         this->actionFunc = EnDntDemo_Prize;
-    } else if (this->prize == 2) {
+    } else if (this->prize == DNT_PRIZE_STICK) {
         for (i = 0; i < 9; i++) {
-            s16 phi_s1 = -this->leader->actor.shape.rot.y;
-            Vec3f sp64 = this->leader->actor.posRot.pos;
-            f32 temp_f20;
+            s16 offsetAngle = -this->leader->actor.shape.rot.y;
+            Vec3f leaderPos = this->leader->actor.posRot.pos;
+            f32 offsetDist;
 
             if (!(i & 1)) {
-                phi_s1 -= 0x59D8;
+                offsetAngle -= 0x59D8;
             }
-            temp_f20 = ((i + 1) * 20.0f) + 20.0f;
+            offsetDist = ((i + 1) * 20.0f) + 20.0f;
             this->scrubs[i]->timer2 = 10;
-            this->scrubs[i]->unk_288.x = sp64.x + Math_SinS(phi_s1) * temp_f20;
-            this->scrubs[i]->unk_288.y = sp64.y;
-            this->scrubs[i]->unk_288.z = sp64.z + Math_CosS(phi_s1) * temp_f20;
+            this->scrubs[i]->targetPos.x = leaderPos.x + Math_SinS(offsetAngle) * offsetDist;
+            this->scrubs[i]->targetPos.y = leaderPos.y;
+            this->scrubs[i]->targetPos.z = leaderPos.z + Math_CosS(offsetAngle) * offsetDist;
         }
     }
 }
@@ -289,13 +303,13 @@ void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
 void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
-    if (this->unk_158 != 0) {
+    if (this->leaderSignal != DNT_SIGNAL_NONE) {
         for (i = 0; i < 9; i++) {
-            this->scrubs[i]->demoAction = this->action;
-            this->scrubs[i]->demoSignal = this->unk_158;
-            this->scrubs[i]->demoPrize = 0;
+            this->scrubs[i]->action = this->action;
+            this->scrubs[i]->stageSignal = this->leaderSignal;
+            this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;
         }
-        this->unk_158 = this->action = 0;
+        this->leaderSignal = this->action = DNT_SIGNAL_NONE;
     }
 }
 
