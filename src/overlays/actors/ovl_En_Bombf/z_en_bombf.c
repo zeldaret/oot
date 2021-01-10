@@ -395,7 +395,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100, 19);
 
                 effPos.y = thisx->groundY;
-                if (thisx->groundY > -32000.0f) {
+                if (thisx->groundY > BGCHECK_Y_MIN) {
                     EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
                 }
 

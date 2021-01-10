@@ -9,7 +9,7 @@ struct BgSpot00Break;
 
 typedef struct BgSpot00Break {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
+    /* 0x014C */ s32 bgId;
     /* 0x0150 */ char unk_150[0x14];
 } BgSpot00Break; // size = 0x0164
 

@@ -50,10 +50,10 @@ static Vec3f D_808B2E34[] = {
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };
 
-void func_808B27F0(GlobalContext* globalCtx, s16 arg1) {
-    WaterBox* waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[0];
+void func_808B27F0(GlobalContext* globalCtx, s16 waterSurface) {
+    WaterBox* waterBox = &globalCtx->colCtx.colHeader->waterBoxes[0];
 
-    waterBox->ySurface = arg1;
+    waterBox->ySurface = waterSurface;
 }
 
 s32 func_808B280C(GlobalContext* globalCtx) {

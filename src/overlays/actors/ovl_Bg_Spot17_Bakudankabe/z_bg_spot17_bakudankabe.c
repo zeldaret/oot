@@ -96,21 +96,22 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    DynaPolyInfo_Alloc(&gCraterBombableWallCol, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+
+    CollisionHeader_GetVirtual(&gCraterBombableWallCol, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -171,9 +171,9 @@ static u16 sCutFlags[] = {
 
 void EnKanban_SetFloorRot(EnKanban* this) {
     if (this->actor.floorPoly != NULL) {
-        f32 nx = this->actor.floorPoly->norm.x * COLPOLY_NORM_FRAC;
-        f32 ny = this->actor.floorPoly->norm.y * COLPOLY_NORM_FRAC;
-        f32 nz = this->actor.floorPoly->norm.z * COLPOLY_NORM_FRAC;
+        f32 nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
+        f32 ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+        f32 nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
 
         this->floorRot.x = -Math_FAtan2F(-nz * ny, 1.0f);
         this->floorRot.z = Math_FAtan2F(-nx * ny, 1.0f);

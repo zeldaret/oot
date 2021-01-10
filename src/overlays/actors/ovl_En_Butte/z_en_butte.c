@@ -155,7 +155,7 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
     this->unk_260 = Rand_ZeroOne() * 0xFFFF;
-    Animation_Change(&this->skelAnime, &D_05002470, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_05002470, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;

@@ -205,7 +205,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             Actor_Kill(&this->actor);
             return;
         } else {
@@ -251,7 +251,7 @@ void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->waypoint = 0;
     this->actor.speedXZ = 7.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -275,7 +275,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->skin.skelAnime.playSpeed = func_80A6B30C(this);
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         func_80A6BCEC(this);
     }
 }
@@ -307,7 +307,7 @@ void func_80A6BC48(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6BCEC(EnHorseNormal* this) {
@@ -404,7 +404,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 func_80A6BCEC(this);
             }
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -3.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -3.0f);
         } else {
             switch (D_80A6D510[this->animationIdx]) {
                 case 0:
@@ -435,10 +435,10 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
             if (phi_t0 != this->animationIdx) {
                 this->animationIdx = phi_t0;
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -3.0f);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -3.0f);
             } else {
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
             }
         }
     }
@@ -452,7 +452,7 @@ void func_80A6C4CC(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -470,7 +470,7 @@ void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
 
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
     }
 }
 
@@ -483,7 +483,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -505,7 +505,7 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
 
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 
         this->unk_1E4 &= ~1;
         this->unk_1E4 &= ~2;
@@ -524,7 +524,7 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
     sp28.y = this->actor.posRot.pos.y + 60.0f;
     sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
-    this->unk_220 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
+    this->unk_220 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp38, &sp24, &sp28);
     this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
