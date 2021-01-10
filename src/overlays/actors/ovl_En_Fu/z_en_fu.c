@@ -125,7 +125,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &D_0600057C) {
-            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04), 2, -4.0f);
+            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -144,7 +145,8 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C), 2, -4.0f);
+            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -243,7 +245,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
-                         Animation_GetLastFrame(this->skelanime.animation), 2, 0.0f);
+                         Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
