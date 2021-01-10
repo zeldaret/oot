@@ -1,4 +1,4 @@
-glabel func_80A67DFC
+glabel EnHorseGameCheck_UpdateType4
 /* 008AC 80A67DFC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 008B0 80A67E00 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 008B4 80A67E04 AFB40030 */  sw      $s4, 0x0030($sp)           
@@ -343,7 +343,7 @@ glabel func_80A67DFC
 /* 00D8C 80A682DC 10000003 */  beq     $zero, $zero, .L80A682EC   
 /* 00D90 80A682E0 AE480198 */  sw      $t0, 0x0198($s2)           ## 00000198
 .L80A682E4:
-/* 00D94 80A682E4 0C299F39 */  jal     func_80A67CE4              
+/* 00D94 80A682E4 0C299F39 */  jal     EnHorseGameCheck_FinishType4              
 /* 00D98 80A682E8 8FA5003C */  lw      $a1, 0x003C($sp)           
 .L80A682EC:
 /* 00D9C 80A682EC 8FBF0034 */  lw      $ra, 0x0034($sp)           

@@ -5,7 +5,16 @@
  */
 
 #include "z_en_horse_game_check.h"
-#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+// #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+typedef struct {
+    Actor actor;
+    char unk_14C[0xA4];
+    s32 unk_1F0;
+    char unk_1F4[0x194];
+    s32 unk_388;
+    char unk_38C[0x14];
+    s32 unk_3A0;
+} EnHorse; // Swap this out when EnHorse is merged
 
 #define FLAGS 0x00000010
 
@@ -50,17 +59,7 @@ Vec3f D_80A68490[] = { { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f
                        { 1291.0f, -44.0f, 205.0f },  { 379.0f, -21.0f, 455.0f },    { -95.0f, -21.0f, 455.0f },
                        { -939.0f, 1.0f, 455.0f },    { -1644.0f, -21.0f, -1035.0f } };
 
-typedef struct {
-    Actor actor;
-    char unk_14C[0xA4];
-    s32 unk_1F0;
-    char unk_1F4[0x194];
-    s32 unk_388;
-    char unk_38C[0x14];
-    s32 unk_3A0;
-} HorseActor;
-
-s32 func_80A67550(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_InitType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck1* this = (EnHorseGameCheck1*) thisx;
     s32 i;
 
@@ -84,11 +83,11 @@ s32 func_80A67550(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67608(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_DestroyType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-void func_80A67618(EnHorseGameCheck1* this, GlobalContext* globalCtx) {
+void EnHorseGameCheck_FinishType1(EnHorseGameCheck1* this, GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
     if (this->unk_174 == 1) {
         globalCtx->nextEntranceIndex = 0x4CE;
@@ -114,26 +113,26 @@ void func_80A67618(EnHorseGameCheck1* this, GlobalContext* globalCtx) {
     gSaveContext.timer1State = 0;
 }
 
-s32 func_80A67764(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_UpdateType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck1* this = (EnHorseGameCheck1*)thisx;
     Player* player = PLAYER;
     s32 i;
-    HorseActor* horse2;
-    HorseActor* horse;
+    EnHorse* horse2;
+    EnHorse* horse;
 
     if ((this->unk_170 > 50) && !(this->unk_150 & 2)) {
         this->unk_150 |= 2;
         func_80088B34(0);
     } else if ((this->unk_170 > 80) && (player->rideActor != NULL) && !(this->unk_150 & 1)) {
         this->unk_150 |= 1;
-        horse = (HorseActor*)player->rideActor;
+        horse = (EnHorse*)player->rideActor;
         horse->unk_388 = 1;
     } else if ((this->unk_170 > 81) && !(this->unk_150 & 4)) {
-        horse2 = (HorseActor*)this->unk_16C;
+        horse2 = (EnHorse*)this->unk_16C;
 
         horse2->unk_388 = 1;
         this->unk_150 |= 4;
-        Audio_PlaySoundGeneral(0x4835U, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 
     this->unk_170++;
@@ -165,7 +164,7 @@ s32 func_80A67764(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
                 this->unk_174 = 1;
                 this->unk_178 = 55;
                 Audio_SetBGM(0x41);
-                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
                 this->unk_154[i] = 0;
@@ -174,20 +173,20 @@ s32 func_80A67764(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
         if ((this->unk_16C != NULL) && (this->unk_160[2] == 1) && IN_SQUARE1(this->unk_16C)) {
             this->unk_180++;
             if (this->unk_180 > 0) {
-                horse2 = (HorseActor*)this->unk_16C;
+                horse2 = (EnHorse*)this->unk_16C;
 
                 this->unk_174 = 2;
                 this->unk_178 = 70;
                 horse2->unk_1F0 |= 0x800000;
                 Audio_SetBGM(0x41);
-                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
                 this->unk_160[i] = 0;
             }
         }
         if (((player2->rideActor != NULL) && IN_SQUARE2(player2->rideActor)) || IN_SQUARE2(&player2->actor)) {
-            Audio_SetBGM(0x41U);
+            Audio_SetBGM(0x41);
             this->unk_174 = 2;
             this->unk_178 = 0x14;
         }
@@ -200,13 +199,13 @@ s32 func_80A67764(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
         if (this->unk_178 > 0) {
             this->unk_178--;
         } else {
-            func_80A67618(this, globalCtx);
+            EnHorseGameCheck_FinishType1(this, globalCtx);
         }
     }
     return 1;
 }
 
-s32 func_80A67BDC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_InitType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
 
     this->base.type = HORSEGAME_TYPE2;
@@ -215,14 +214,14 @@ s32 func_80A67BDC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67BF8(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_DestroyType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67C08(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_UpdateType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
     Player* player = PLAYER;
-    HorseActor* horse = (HorseActor*)player->rideActor;
+    EnHorse* horse = (EnHorse*)player->rideActor;
 
     if (horse == NULL) {
         return 1;
@@ -236,7 +235,7 @@ s32 func_80A67C08(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67C50(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_InitType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck3* this = (EnHorseGameCheck3*)thisx;
 
     this->base.type = HORSEGAME_TYPE3;
@@ -244,15 +243,15 @@ s32 func_80A67C50(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67C68(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_DestroyType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67C78(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_UpdateType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67C88(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_InitType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
     s32 i;
 
@@ -267,11 +266,11 @@ s32 func_80A67C88(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-s32 func_80A67CD4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_DestroyType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     return 1;
 }
 
-void func_80A67CE4(EnHorseGameCheck4* this, GlobalContext* globalCtx) {
+void EnHorseGameCheck_FinishType4(EnHorseGameCheck4* this, GlobalContext* globalCtx) {
     if ((this->unk_19C == 1) || (this->unk_19C == 2)) {
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
@@ -295,11 +294,11 @@ void func_80A67CE4(EnHorseGameCheck4* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
+s32 EnHorseGameCheck_UpdateType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
     s32 i;
     Player* player = PLAYER;
-    HorseActor* horse;
+    EnHorse* horse;
 
     if (!(this->unk_154 & 0x40) && IN_SQUARE1(player->rideActor)) {
         this->unk_154 |= 0x40;
@@ -311,12 +310,12 @@ s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
         func_80088B34(0);
     } else if ((this->unk_150 > 80) && (player->rideActor != NULL) && !(this->unk_154 & 1)) {
         this->unk_154 |= 1;
-        horse = (HorseActor*)player->rideActor;
+        horse = (EnHorse*)player->rideActor;
 
         horse->unk_388 = 1;
     } else if ((this->unk_150 > 81) && !(this->unk_154 & 0x10)) {
         this->unk_154 |= 0x10;
-        Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     this->unk_150++;
     if (this->unk_19C == 0) {
@@ -326,7 +325,7 @@ s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
             if (this->unk_1A0 || (i < 8)) {
                 f32 dist = Math_Vec3f_DistXZ(&D_80A68490[i % 8], &player->rideActor->posRot.pos);
                 if ((player->rideActor != NULL) && (dist < 250.0f)) {
-                    horse = (HorseActor*)player->rideActor;
+                    horse = (EnHorse*)player->rideActor;
 
                     if (horse->unk_1F0 & 4) {
                         if ((i > 0) && (this->unk_158[i - 1] == 1)) {
@@ -355,7 +354,7 @@ s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
             } else if (this->unk_158[15] == 1) {
                 this->unk_1A0 = 2;
                 Audio_SetBGM(0x41);
-                Audio_PlaySoundGeneral(0x4835, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->unk_19C = 1;
                 this->unk_198 = 70;
                 gSaveContext.timer1State = 15;
@@ -385,26 +384,26 @@ s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
         if (this->unk_198 > 0) {
             this->unk_198--;
         } else {
-            func_80A67CE4(this, globalCtx);
+            EnHorseGameCheck_FinishType4(this, globalCtx);
         }
     }
     return 1;
 }
 #else
-s32 func_80A67DFC(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/func_80A67DFC.s")
+s32 EnHorseGameCheck_UpdateType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_UpdateType4.s")
 #endif
 
 static EnHorseGameCheckFunc sInitFuncs[] = {
-    NULL, func_80A67550, func_80A67BDC, func_80A67C50, func_80A67C88,
+    NULL, EnHorseGameCheck_InitType1, EnHorseGameCheck_InitType2, EnHorseGameCheck_InitType3, EnHorseGameCheck_InitType4,
 };
 
 static EnHorseGameCheckFunc sDestroyFuncs[] = {
-    NULL, func_80A67608, func_80A67BF8, func_80A67C68, func_80A67CD4,
+    NULL, EnHorseGameCheck_DestroyType1, EnHorseGameCheck_DestroyType2, EnHorseGameCheck_DestroyType3, EnHorseGameCheck_DestroyType4,
 };
 
 static EnHorseGameCheckFunc sUpdateFuncs[] = {
-    NULL, func_80A67764, func_80A67C08, func_80A67C78, func_80A67DFC,
+    NULL, EnHorseGameCheck_UpdateType1, EnHorseGameCheck_UpdateType2, EnHorseGameCheck_UpdateType3, EnHorseGameCheck_UpdateType4,
 };
 
 void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
