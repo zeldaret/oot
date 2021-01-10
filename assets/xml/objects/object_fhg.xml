@@ -1,12 +1,20 @@
 <Root>
     <File Name="object_fhg" Segment="6">
-        <Skeleton Name="gPhantomHorseSkel_00B098" Type="Standard" LimbType="Standard" Offset="0xB098"/>
+        <!-- <Skeleton Name="gPhantomHorseSkel" Type="Standard" LimbType="Skin" Offset="0xB098"/> --> -->
+        <Blob Name="gPhantomHorseSkel" Size="8" Offset="0xB098"/>
+
         <Animation Name="gPhantomHorseAnim_00B4C8" Offset="0xB4C8"/>
         <Animation Name="gPhantomHorseAnim_00B9D0" Offset="0xB9D0"/>
         <Animation Name="gPhantomHorseAnim_00C65C" Offset="0xC65C"/>
         <Animation Name="gPhantomHorseAnim_00CB1C" Offset="0xCB1C"/>
         <Animation Name="gPhantomHorseAnim_00DDB8" Offset="0xDDB8"/>
         <Animation Name="gPhantomHorseAnim_00E8A0" Offset="0xE8A0"/>
-        <Texture Name="gPhantomHorseUnknown_0059A0" Format="i8" Height="120" Width="128" Offset="0x59A0"/>
+        
+        <Texture Name="gPhantomGanonTitleCardTex" Format="i8" Width="128" Height="120" Offset="0x59A0"/>
+    
+        <DList Name="gPhantomWarpDL" Offset="0xFAA0"/>
+        <DList Name="gPhantomLightningBlastDL" Offset="0xFCF8"/>
+        <DList Name="gPhantomLightningDL" Offset="0x105E0"/>
+        <DList Name="gPhantomEnergyBallDL" Offset="0x12160"/>
     </File>
 </Root>

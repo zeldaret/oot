@@ -70,7 +70,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
-// extern Gfx gPhantomGanonDL_004EC0[];
+// extern Gfx gPhantomGanonFaceDL[];
 // extern SkeletonHeader gPhantomGanonSkel_00C710;
 // extern AnimationHeader gPhantomGanonAnim_003CA4;
 // extern AnimationHeader gPhantomGanonAnim_001144;
@@ -1366,7 +1366,7 @@ s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
     switch (limbIndex) {
         case 14 + 1:
             if ((this->actionFunc == BossGanondrof_Intro) && this->maskOff) {
-                *dList = gPhantomGanonDL_004EC0;
+                *dList = gPhantomGanonFaceDL;
             }
             rot->y += this->rideRotY[limbIndex];
             rot->z += this->rideRotZ[limbIndex];

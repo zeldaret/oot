@@ -4039,9 +4039,8 @@ endseg
 beginseg
     name "object_fhg"
     romalign 0x1000
-    include "build/baserom/object_fhg.o"
-    // include "build/assets/objects/object_fhg/object_fhg.o"
-    // number 6
+    include "build/assets/objects/object_fhg/object_fhg.o"
+    number 6
 endseg
 
 beginseg
