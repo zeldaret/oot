@@ -1,0 +1,62 @@
+<Root>
+    <File Name="object_bv" Segment="6">
+        <Skeleton Name="gBarinadeSkel_015B18" Type="Standard" LimbType="Standard" Offset="0x15B18"/>
+        <Skeleton Name="gBarinadeSkel_017498" Type="Flex" LimbType="Standard" Offset="0x17498"/>
+        <Skeleton Name="gBarinadeSkel_0199A0" Type="Flex" LimbType="Standard" Offset="0x199A0"/>
+        <Skeleton Name="gBarinadeSkel_018870" Type="Flex" LimbType="Standard" Offset="0x18870"/>
+        <Skeleton Name="gBarinadeSkel_004E70" Type="Standard" LimbType="Standard" Offset="0x4E70"/>
+        <Skeleton Name="gBarinadeSkel_017FC8" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
+        <Animation Name="gBarinadeAnim_005184" Offset="0x5184"/>
+        <Animation Name="gBarinadeAnim_0166A8" Offset="0x166A8"/>
+        <Animation Name="gBarinadeAnim_018D18" Offset="0x18D18"/>
+        <Animation Name="gBarinadeAnim_018150" Offset="0x18150"/>
+        <Animation Name="gBarinadeAnim_000024" Offset="0x24"/>
+        <Animation Name="gBarinadeAnim_0162AC" Offset="0x162AC"/>
+        <Animation Name="gBarinadeAnim_0164B0" Offset="0x164B0"/>
+        <Animation Name="gBarinadeAnim_017694" Offset="0x17694"/>
+        <Animation Name="gBarinadeAnim_0177F4" Offset="0x177F4"/>
+        <Animation Name="gBarinadeAnim_018A68" Offset="0x18A68"/>
+        <Animation Name="gBarinadeAnim_018B90" Offset="0x18B90"/>
+        <DList Name="gBarinadeDL_008D70" Offset="0x8D70"/>
+        <DList Name="gBarinadeDL_008BB8" Offset="0x8BB8"/>
+        <DList Name="gBarinadeDL_000FA0" Offset="0xFA0"/>
+        <DList Name="gBarinadeDL_0156A0" Offset="0x156A0"/>
+        <DList Name="gBarinadeDL_015710" Offset="0x15710"/>
+        <DList Name="gBarinadeDL_011738" Offset="0x11738"/>
+        <DList Name="gBarinadeDL_011768" Offset="0x11768"/>
+        <DList Name="gBarinadeDL_009430" Offset="0x9430"/>
+        <DList Name="gBarinadeDL_009468" Offset="0x9468"/>
+        <DList Name="gBarinadeDL_0128B8" Offset="0x128B8"/>
+        <DList Name="gBarinadeDL_012948" Offset="0x12948"/>
+        <DList Name="gBarinadeDL_012BA0" Offset="0x12BA0"/>
+        <DList Name="gBarinadeDL_012C50" Offset="0x12C50"/>
+        <DList Name="gBarinadeDL_0135B0" Offset="0x135B0"/>
+        <DList Name="gBarinadeDL_013638" Offset="0x13638"/>
+        <DList Name="gBarinadeDL_008F08" Offset="0x8F08"/>
+        <DList Name="gBarinadeDL_008F70" Offset="0x8F70"/>
+        <Texture Name="gBarinadeTitleCardTex" Format="i8" Width="128" Height="120" Offset="0x1230"/>
+        <Texture Name="gBarinadeUnknown_0096F8" Format="i8" Width="64" Height="64" Offset="0x96F8"/>
+        <Texture Name="gBarinadeUnknown_00A6F8" Format="i8" Width="64" Height="64" Offset="0xA6F8"/>
+        <Texture Name="gBarinadeUnknown_00B6F8" Format="i8" Width="64" Height="64" Offset="0xB6F8"/>
+        <Texture Name="gBarinadeUnknown_00C6F8" Format="i8" Width="64" Height="64" Offset="0xC6F8"/>
+        <Texture Name="gBarinadeUnknown_00D6F8" Format="i8" Width="64" Height="64" Offset="0xD6F8"/>
+        <Texture Name="gBarinadeUnknown_00E6F8" Format="i8" Width="64" Height="64" Offset="0xE6F8"/>
+        <Texture Name="gBarinadeUnknown_00F6F8" Format="i8" Width="64" Height="64" Offset="0xF6F8"/>
+        <Texture Name="gBarinadeUnknown_0106F8" Format="i8" Width="64" Height="64" Offset="0x106F8"/>
+        <DList Name="gBarinadeDL_01A3E8" Offset="0x1A3E8"/>
+        <DList Name="gBarinadeDL_01AEE8" Offset="0x1AEE8"/>
+        <DList Name="gBarinadeDL_01B9E8" Offset="0x1B9E8"/>
+        <DList Name="gBarinadeDL_01C4E8" Offset="0x1C4E8"/>
+        <DList Name="gBarinadeDL_01CFE8" Offset="0x1CFE8"/>
+        <DList Name="gBarinadeDL_01DAE8" Offset="0x1DAE8"/>
+        <DList Name="gBarinadeDL_01E5E8" Offset="0x1E5E8"/>
+        <DList Name="gBarinadeDL_01F0E8" Offset="0x1F0E8"/>
+
+        <Texture Name="sBarinadeTex_008F88" Format="i8" Width="32" Height="32" Offset="0x8F88"/>
+        <Texture Name="sBarinadeTex_012CE0" Format="i8" Width="64" Height="32" Offset="0x12CE0"/>
+        <Texture Name="sBarinadeTex_013660" Format="ia16" Width="64" Height="64" Offset="0x13660"/>
+        <Texture Name="sBarinadeTex_0117B8" Format="rgb5a1" Width="16" Height="16" Offset="0x117B8"/>
+        <Texture Name="sBarinadeTex_0119B8" Format="rgb5a1" Width="16" Height="16" Offset="0x119B8"/>
+        <Texture Name="sBarinadeTex_011BB8" Format="rgb5a1" Width="16" Height="16" Offset="0x11BB8"/>
+    </File>
+</Root>

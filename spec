@@ -4269,7 +4269,8 @@ endseg
 beginseg
     name "object_bv"
     romalign 0x1000
-    include "build/baserom/object_bv.o"
+    include "build/assets/objects/object_bv/object_bv.o"
+    number 6
 endseg
 
 beginseg
