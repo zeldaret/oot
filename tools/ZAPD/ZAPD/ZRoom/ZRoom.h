@@ -3,7 +3,7 @@
 #include "../ZResource.h"
 #include "ZRoomCommand.h"
 #include "ZTexture.h"
-#include "../tinyxml2.h"
+#include <tinyxml2.h>
 
 #include <vector>
 #include <map>
@@ -14,12 +14,13 @@ class ZRoom : public ZResource
 protected:
 	std::vector<ZRoomCommand*> commands;
 
-	std::string GetSourceOutputHeader(std::string prefix);
-	std::string GetSourceOutputCode(std::string prefix);
+	std::string GetSourceOutputHeader(const std::string& prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
 	void ProcessCommandSets();
 	void SyotesRoomHack();
 
 	ZRoom();
+	~ZRoom();
 
 public:
 	ZRoom* scene;
@@ -36,7 +37,7 @@ public:
 	std::vector<uint8_t> GetRawData();
 	int GetRawDataSize();
 	virtual ZResourceType GetResourceType();
-	virtual void Save(std::string outFolder);
+	virtual void Save(const std::string& outFolder);
 	virtual void PreGenSourceFiles();
 };
 
