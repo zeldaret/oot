@@ -49,7 +49,7 @@ static CollisionCheckInfoInit sColChkInfoInit = {
     0xFF,
 };
 
-UNK_PTR D_80886D04[] = {
+static UNK_PTR D_80886D04[] = {
     0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
 };
 
@@ -111,9 +111,9 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx) 
 
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
     if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
-        Math_ApproxF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
+        Math_StepToF(&this->actor.scale.y, 0.1f, 0.01f / 0.4f);
     } else {
-        if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
+        if (Math_StepToF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
             this->actor.draw = NULL;
             this->actionFunc = BgHidanFirewall_Wait;
         } else {
@@ -164,8 +164,8 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     } else {
         sp30.z = this->actor.params * 25.0f;
     }
-    sp28 = Math_Sins(this->actor.shape.rot.y);
-    temp_ret = Math_Coss(this->actor.shape.rot.y);
+    sp28 = Math_SinS(this->actor.shape.rot.y);
+    temp_ret = Math_CosS(this->actor.shape.rot.y);
     this->collider.dim.pos.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
     this->collider.dim.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
@@ -195,14 +195,14 @@ void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
 
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x14);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x01, 255, 255, 0, 150);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 255);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600DA80);
+    gSPDisplayList(POLY_XLU_DISP++, D_0600DA80);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }

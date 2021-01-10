@@ -27,7 +27,7 @@ glabel EnMm2_Update
 /* 009A0 80AAF7F0 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 009A4 80AAF7F4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009A8 80AAF7F8 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 009AC 80AAF7FC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 009AC 80AAF7FC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 009B0 80AAF800 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 009B4 80AAF804 24090064 */  addiu   $t1, $zero, 0x0064         ## $t1 = 00000064
@@ -35,7 +35,7 @@ glabel EnMm2_Update
 /* 009BC 80AAF80C 260401EA */  addiu   $a0, $s0, 0x01EA           ## $a0 = 000001EA
 /* 009C0 80AAF810 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009C4 80AAF814 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 009C8 80AAF818 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 009C8 80AAF818 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 009CC 80AAF81C 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 009D0 80AAF820 240A0064 */  addiu   $t2, $zero, 0x0064         ## $t2 = 00000064
@@ -43,7 +43,7 @@ glabel EnMm2_Update
 /* 009D8 80AAF828 260401EE */  addiu   $a0, $s0, 0x01EE           ## $a0 = 000001EE
 /* 009DC 80AAF82C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009E0 80AAF830 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 009E4 80AAF834 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 009E4 80AAF834 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 009E8 80AAF838 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 009EC 80AAF83C 240B0064 */  addiu   $t3, $zero, 0x0064         ## $t3 = 00000064
@@ -51,7 +51,7 @@ glabel EnMm2_Update
 /* 009F4 80AAF844 260401F0 */  addiu   $a0, $s0, 0x01F0           ## $a0 = 000001F0
 /* 009F8 80AAF848 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009FC 80AAF84C 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 00A00 80AAF850 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00A00 80AAF850 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00A04 80AAF854 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 00A08 80AAF858 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

@@ -7,7 +7,7 @@ glabel func_80A5A658
 /* 00A3C 80A5A66C AFB10020 */  sw      $s1, 0x0020($sp)           
 /* 00A40 80A5A670 3C054150 */  lui     $a1, 0x4150                ## $a1 = 41500000
 /* 00A44 80A5A674 24840238 */  addiu   $a0, $a0, 0x0238           ## $a0 = 00000238
-/* 00A48 80A5A678 0C01DE80 */  jal     Math_ApproxF
+/* 00A48 80A5A678 0C01DE80 */  jal     Math_StepToF
               
 /* 00A4C 80A5A67C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 00A50 80A5A680 C6020238 */  lwc1    $f2, 0x0238($s0)           ## 00000238
@@ -24,19 +24,19 @@ glabel func_80A5A658
 /* 00A7C 80A5A6AC 46081002 */  mul.s   $f0, $f2, $f8              
 /* 00A80 80A5A6B0 46000005 */  abs.s   $f0, $f0                   
 /* 00A84 80A5A6B4 E7A00068 */  swc1    $f0, 0x0068($sp)           
-/* 00A88 80A5A6B8 0C01DE80 */  jal     Math_ApproxF
+/* 00A88 80A5A6B8 0C01DE80 */  jal     Math_StepToF
               
 /* 00A8C 80A5A6BC 8E05022C */  lw      $a1, 0x022C($s0)           ## 0000022C
 /* 00A90 80A5A6C0 30510001 */  andi    $s1, $v0, 0x0001           ## $s1 = 00000000
 /* 00A94 80A5A6C4 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 00A98 80A5A6C8 8E050230 */  lw      $a1, 0x0230($s0)           ## 00000230
-/* 00A9C 80A5A6CC 0C01DE80 */  jal     Math_ApproxF
+/* 00A9C 80A5A6CC 0C01DE80 */  jal     Math_StepToF
               
 /* 00AA0 80A5A6D0 8FA60064 */  lw      $a2, 0x0064($sp)           
 /* 00AA4 80A5A6D4 02228824 */  and     $s1, $s1, $v0              
 /* 00AA8 80A5A6D8 2604002C */  addiu   $a0, $s0, 0x002C           ## $a0 = 0000002C
 /* 00AAC 80A5A6DC 8E050234 */  lw      $a1, 0x0234($s0)           ## 00000234
-/* 00AB0 80A5A6E0 0C01DE80 */  jal     Math_ApproxF
+/* 00AB0 80A5A6E0 0C01DE80 */  jal     Math_StepToF
               
 /* 00AB4 80A5A6E4 8FA60068 */  lw      $a2, 0x0068($sp)           
 /* 00AB8 80A5A6E8 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
@@ -85,7 +85,7 @@ glabel func_80A5A658
 /* 00B64 80A5A794 C60C0064 */  lwc1    $f12, 0x0064($s0)          ## 00000064
 /* 00B68 80A5A798 C60E005C */  lwc1    $f14, 0x005C($s0)          ## 0000005C
 /* 00B6C 80A5A79C 46128102 */  mul.s   $f4, $f16, $f18            
-/* 00B70 80A5A7A0 0C034199 */  jal     atan2s
+/* 00B70 80A5A7A0 0C034199 */  jal     Math_Atan2S
               
 /* 00B74 80A5A7A4 E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
 /* 00B78 80A5A7A8 A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032

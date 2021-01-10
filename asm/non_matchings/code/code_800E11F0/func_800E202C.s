@@ -40,7 +40,7 @@ glabel func_800E202C
 /* B59254 800E20B4 5420FFF8 */  bnezl $at, .L800E2098
 /* B59258 800E20B8 844A001E */   lh    $t2, 0x1e($v0)
 .L800E20BC:
-/* B5925C 800E20BC 0C037812 */  jal   func_800DE048
+/* B5925C 800E20BC 0C037812 */  jal   Audio_DiscardBank
 /* B59260 800E20C0 00C02025 */   move  $a0, $a2
 /* B59264 800E20C4 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B59268 800E20C8 27BD0018 */  addiu $sp, $sp, 0x18

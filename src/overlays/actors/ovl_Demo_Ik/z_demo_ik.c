@@ -9,6 +9,26 @@ void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600035C;
+extern UNK_TYPE D_06000380;
+extern UNK_TYPE D_06000634;
+extern UNK_TYPE D_06000660;
+extern UNK_TYPE D_060008DC;
+extern UNK_TYPE D_06000C6C;
+extern UNK_TYPE D_06000C90;
+extern UNK_TYPE D_06000F0C;
+extern UNK_TYPE D_06016BE0;
+extern UNK_TYPE D_06016CD8;
+extern UNK_TYPE D_06016F88;
+extern UNK_TYPE D_06017028;
+extern UNK_TYPE D_06017170;
+extern UNK_TYPE D_0601EE60;
+extern UNK_TYPE D_06000F30;
+extern UNK_TYPE D_0601EB14;
+extern UNK_TYPE D_0601EB40;
+extern UNK_TYPE D_0601EE34;
+extern UNK_TYPE D_06000900;
+
 /*
 const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,

@@ -6,7 +6,7 @@ glabel func_8092DCEC
 /* 0172C 8092DCFC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01730 8092DD00 24A5C9BC */  addiu   $a1, $a1, 0xC9BC           ## $a1 = 0600C9BC
 /* 01734 8092DD04 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 01738 8092DD08 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 01738 8092DD08 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 0173C 8092DD0C 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 01740 8092DD10 10000008 */  beq     $zero, $zero, .L8092DD34
 /* 01744 8092DD14 8FAF0018 */  lw      $t7, 0x0018($sp)
@@ -15,7 +15,7 @@ glabel func_8092DCEC
 /* 0174C 8092DD1C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01750 8092DD20 24A5C5B0 */  addiu   $a1, $a1, 0xC5B0           ## $a1 = 0600C5B0
 /* 01754 8092DD24 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 01758 8092DD28 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 01758 8092DD28 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 0175C 8092DD2C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01760 8092DD30 8FAF0018 */  lw      $t7, 0x0018($sp)
 .L8092DD34:

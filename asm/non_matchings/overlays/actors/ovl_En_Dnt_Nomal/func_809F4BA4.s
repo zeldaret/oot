@@ -8,17 +8,17 @@ glabel func_809F4BA4
 /* 018E8 809F4BA8 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 018EC 809F4BAC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 018F0 809F4BB0 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 018F4 809F4BB4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 018F4 809F4BB4 3C040600 */  lui     $a0, %hi(D_060006CC)                ## $a0 = 06000000
 /* 018F8 809F4BB8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 018FC 809F4BBC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 018FC 809F4BBC 0C028800 */  jal     Animation_GetLastFrame
 
-/* 01900 809F4BC0 248406CC */  addiu   $a0, $a0, 0x06CC           ## $a0 = 060006CC
+/* 01900 809F4BC0 248406CC */  addiu   $a0, $a0, %lo(D_060006CC)           ## $a0 = 060006CC
 /* 01904 809F4BC4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 01908 809F4BC8 3C01C120 */  lui     $at, 0xC120                ## $at = C1200000
 /* 0190C 809F4BCC 44819000 */  mtc1    $at, $f18                  ## $f18 = -10.00
 /* 01910 809F4BD0 468021A0 */  cvt.s.w $f6, $f4
-/* 01914 809F4BD4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 01918 809F4BD8 24A506CC */  addiu   $a1, $a1, 0x06CC           ## $a1 = 060006CC
+/* 01914 809F4BD4 3C050600 */  lui     $a1, %hi(D_060006CC)                ## $a1 = 06000000
+/* 01918 809F4BD8 24A506CC */  addiu   $a1, $a1, %lo(D_060006CC)           ## $a1 = 060006CC
 /* 0191C 809F4BDC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01920 809F4BE0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01924 809F4BE4 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
@@ -32,13 +32,13 @@ glabel func_809F4BA4
 /* 01944 809F4C04 44985000 */  mtc1    $t8, $f10                  ## $f10 = 0.00
 /* 01948 809F4C08 00000000 */  nop
 /* 0194C 809F4C0C 46805420 */  cvt.s.w $f16, $f10
-/* 01950 809F4C10 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01950 809F4C10 0C029468 */  jal     Animation_Change
 
 /* 01954 809F4C14 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 01958 809F4C18 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 0195C 809F4C1C 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 01960 809F4C20 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 01964 809F4C24 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01964 809F4C24 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 01968 809F4C28 A2190218 */  sb      $t9, 0x0218($s0)           ## 00000218
 /* 0196C 809F4C2C 4600010D */  trunc.w.s $f4, $f0
@@ -58,7 +58,7 @@ glabel func_809F4BA4
 /* 019A4 809F4C64 440D9000 */  mfc1    $t5, $f18
 /* 019A8 809F4C68 00000000 */  nop
 /* 019AC 809F4C6C A60D0264 */  sh      $t5, 0x0264($s0)           ## 00000264
-/* 019B0 809F4C70 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 019B0 809F4C70 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 019B4 809F4C74 C42C6054 */  lwc1    $f12, %lo(D_809F6054)($at)
 /* 019B8 809F4C78 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

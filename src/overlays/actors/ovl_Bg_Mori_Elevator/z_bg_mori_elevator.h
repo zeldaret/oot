@@ -1,12 +1,12 @@
 #ifndef _Z_BG_MORI_ELEVATOR_H_
 #define _Z_BG_MORI_ELEVATOR_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgMoriElevator;
 
-typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, struct GlobalCtx*);
+typedef void (*BgMoriElevatorActionFunc)(struct BgMoriElevator*, GlobalContext*);
 
 typedef struct BgMoriElevator {
     /* 0x0000 */ DynaPolyActor dyna;

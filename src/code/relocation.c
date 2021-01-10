@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {
     u32 sections[4];

@@ -5,7 +5,8 @@
  */
 
 #include "z_shot_sun.h"
-#include <vt.h>
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "vt.h"
 
 #define FLAGS 0x00000009
 
@@ -72,7 +73,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     s32 params = this->actor.params & 0xFF;
-    s32 fairyParams;
+    s32 fairyType;
 
     if (this->timer > 0) {
         this->timer--;
@@ -81,16 +82,16 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
 
     switch (params) {
         case 0x40:
-            fairyParams = 7;
+            fairyType = FAIRY_HEAL_BIG;
             break;
         case 0x41:
-            fairyParams = 7;
+            fairyType = FAIRY_HEAL_BIG;
             break;
     }
 
-    // UB: fairyParams may be uninitialized
+    //! @bug fairyType may be uninitialized
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
-                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyParams);
+                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyType);
 
     Actor_Kill(&this->actor);
 }
@@ -133,7 +134,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
                 (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
-                func_80080480(globalCtx, this);
+                func_80080480(globalCtx, &this->actor);
                 this->timer = 0;
             } else {
                 this->unk_1A4 = 0;
@@ -171,10 +172,10 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(120.0f < this->actor.xzDistFromLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
-            cylinderPos.x = player->unk_95C.x + globalCtx->envCtx.unk_04.x * 0.16666667f;
-            cylinderPos.y = player->unk_95C.y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
-            cylinderPos.z = player->unk_95C.z + globalCtx->envCtx.unk_04.z * 0.16666667f;
+        if (!(120.0f < this->actor.xzDistToLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * 0.16666667f;
+            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
+            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * 0.16666667f;
 
             this->hitboxPos = cylinderPos;
 

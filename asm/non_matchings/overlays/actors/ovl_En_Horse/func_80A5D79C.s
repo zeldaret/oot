@@ -128,7 +128,7 @@ glabel func_80A5D79C
 /* 02670 80A5D960 AE0E01F0 */  sw      $t6, 0x01F0($s0)           ## 000001F0
 /* 02674 80A5D964 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 02678 80A5D968 46083282 */  mul.s   $f10, $f6, $f8             
-/* 0267C 80A5D96C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0267C 80A5D96C 0C02927F */  jal     SkelAnime_Update
               
 /* 02680 80A5D970 E60A01C8 */  swc1    $f10, 0x01C8($s0)          ## 000001C8
 /* 02684 80A5D974 44806000 */  mtc1    $zero, $f12                ## $f12 = 0.00
@@ -169,7 +169,7 @@ glabel func_80A5D79C
 /* 02708 80A5D9F8 00000000 */  nop
 /* 0270C 80A5D9FC 4501000A */  bc1t    .L80A5DA28                 
 /* 02710 80A5DA00 00000000 */  nop
-/* 02714 80A5DA04 0C01DE0D */  jal     Math_Coss
+/* 02714 80A5DA04 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02718 80A5DA08 87A4003A */  lh      $a0, 0x003A($sp)           
 /* 0271C 80A5DA0C 3C01BF00 */  lui     $at, 0xBF00                ## $at = BF000000

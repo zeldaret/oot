@@ -81,7 +81,7 @@ const ActorInit En_GirlA_InitVars = {
     NULL,
 };
 
-char* D_80A3C590[] = {
+static char* D_80A3C590[] = {
     "デクの実×5   ",  "矢×30        ",  "矢×50        ",  "爆弾×5       ",  "デクの実×10  ",  "デクの棒      ",
     "爆弾×10      ",  "さかな        ", "赤クスリ      ", "緑クスリ      ", "青クスリ      ", "巨人のナイフ  ",
     "ハイリアの盾  ", "デクの盾      ", "ゴロンの服    ", "ゾ─ラの服    ",  "回復のハート  ", "ロンロン牛乳  ",
@@ -93,10 +93,10 @@ char* D_80A3C590[] = {
     "赤クスリ      ", "赤クスリ      ",
 };
 
-s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
-                      ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
+static s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
+                             ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
 
-u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
+static u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
 typedef struct {
     /* 0x00 */ s16 objID;
@@ -112,7 +112,7 @@ typedef struct {
     /* 0x1C */ void (*unk_1C)(GlobalContext*, EnGirlA*);
 } ShopItemEntry; // size = 0x20
 
-ShopItemEntry D_80A3C674[] = {
+static ShopItemEntry D_80A3C674[] = {
     { 0x00BB, 0x0011, func_8002ED80, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2, func_80A3ABF8, func_80A3B714,
       func_80A3BB6C },
     { 0x00D8, 0x0025, func_8002EBCC, 0x003C, 0x001E, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634,
@@ -148,9 +148,9 @@ ShopItemEntry D_80A3C674[] = {
       func_80A3BB6C },
     { 0x00DA, 0x0028, func_8002EBCC, 0x0064, 0x0001, 0x00AE, 0x0099, GI_WEIRD_EGG, func_80A3B2AC, func_80A3B968,
       func_80A3BB6C },
-    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_INVALID, func_80A3B308, func_80A3B9A4,
+    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_NONE, func_80A3B308, func_80A3B9A4,
       func_80A3BB6C },
-    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_INVALID, func_80A3B318, func_80A3B9D4,
+    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_NONE, func_80A3B318, func_80A3B9D4,
       func_80A3BB6C },
     { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
       func_80A3BC6C },
@@ -210,7 +210,7 @@ ShopItemEntry D_80A3C674[] = {
       func_80A3BB6C },
 };
 
-s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
+static s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
 
 void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
     this->actionFunc = func;
@@ -426,7 +426,7 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.equipment) && !(gBitFlags[3] & gSaveContext.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -439,7 +439,7 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.equipment) {
+    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -452,7 +452,7 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.equipment) {
+    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -468,7 +468,7 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[9] & gSaveContext.equipment) {
+    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -484,7 +484,7 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[10] & gSaveContext.equipment) {
+    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -658,7 +658,7 @@ void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this) {
     func_800849EC(globalCtx);
-    gSaveContext.bgsHitsLeft = 8;
+    gSaveContext.swordHealth = 8;
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -746,7 +746,7 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == 12) {
         if (gSaveContext.infTable[7] & 0x40) {
-            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
+            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }
     }
@@ -868,7 +868,7 @@ s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params >= 30) && (this->actor.params < 38)) {
         params = this->actor.params - 30;
-        if (INV_CONTENT(ITEM_WEIRD_EGG) == D_80A3C658[params]) {
+        if (INV_CONTENT(ITEM_TRADE_CHILD) == D_80A3C658[params]) {
             func_80A3BEAC(globalCtx, this);
         } else {
             func_80A3BD8C(globalCtx, this);
@@ -988,7 +988,7 @@ void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
         if (this->unk_1B4 != 0) {
             this->unk_1B8 += 0x1F4;
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_1B8, 0, 10, 0x7D0, 0);
+            Math_SmoothStepToS(&this->unk_1B8, 0, 10, 0x7D0, 0);
         }
     }
 }

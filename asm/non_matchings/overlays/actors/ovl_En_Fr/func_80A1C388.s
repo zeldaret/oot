@@ -15,7 +15,7 @@ glabel func_80A1C388
 .L80A1C3BC:
 /* 01A1C 80A1C3BC 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 01A20 80A1C3C0 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 01A24 80A1C3C4 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01A24 80A1C3C4 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01A28 80A1C3C8 00000000 */  nop
 /* 01A2C 80A1C3CC 4600010D */  trunc.w.s $f4, $f0                   

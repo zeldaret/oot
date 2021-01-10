@@ -18,8 +18,8 @@ glabel func_808ACA08
 /* 003E4 808ACA44 14410013 */  bne     $v0, $at, .L808ACA94       
 /* 003E8 808ACA48 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 003EC 808ACA4C AE000134 */  sw      $zero, 0x0134($s0)         ## 00000134
-/* 003F0 808ACA50 3C0C0601 */  lui     $t4, 0x0601                ## $t4 = 06010000
-/* 003F4 808ACA54 258C2D30 */  addiu   $t4, $t4, 0x2D30           ## $t4 = 06012D30
+/* 003F0 808ACA50 3C0C0601 */  lui     $t4, %hi(D_06012D30)                ## $t4 = 06010000
+/* 003F4 808ACA54 258C2D30 */  addiu   $t4, $t4, %lo(D_06012D30)           ## $t4 = 06012D30
 /* 003F8 808ACA58 24190019 */  addiu   $t9, $zero, 0x0019         ## $t9 = 00000019
 /* 003FC 808ACA5C 24080005 */  addiu   $t0, $zero, 0x0005         ## $t0 = 00000005
 /* 00400 808ACA60 24090028 */  addiu   $t1, $zero, 0x0028         ## $t1 = 00000028
@@ -31,7 +31,7 @@ glabel func_808ACA08
 /* 00418 808ACA78 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 0041C 808ACA7C AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00420 808ACA80 AFAC0024 */  sw      $t4, 0x0024($sp)           
-/* 00424 808ACA84 0C00A5E9 */  jal     func_800297A4              
+/* 00424 808ACA84 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 00428 808ACA88 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0042C 808ACA8C 10000006 */  beq     $zero, $zero, .L808ACAA8   
 /* 00430 808ACA90 8FAD0044 */  lw      $t5, 0x0044($sp)           

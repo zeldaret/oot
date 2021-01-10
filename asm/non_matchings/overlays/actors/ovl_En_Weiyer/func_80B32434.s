@@ -2,11 +2,11 @@ glabel func_80B32434
 /* 001A4 80B32434 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 001A8 80B32438 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 001AC 80B3243C 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 001B0 80B32440 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 001B4 80B32444 24A50FC0 */  addiu   $a1, $a1, 0x0FC0           ## $a1 = 06000FC0
+/* 001B0 80B32440 3C050600 */  lui     $a1, %hi(D_06000FC0)                ## $a1 = 06000000
+/* 001B4 80B32444 24A50FC0 */  addiu   $a1, $a1, %lo(D_06000FC0)           ## $a1 = 06000FC0
 /* 001B8 80B32448 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 001BC 80B3244C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 001C0 80B32450 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 001C0 80B32450 0C0294D3 */  jal     Animation_MorphToLoop
 /* 001C4 80B32454 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 001C8 80B32458 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 001CC 80B3245C 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

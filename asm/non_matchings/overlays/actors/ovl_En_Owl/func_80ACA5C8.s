@@ -1,9 +1,9 @@
 glabel func_80ACA5C8
 /* 006A8 80ACA5C8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 006AC 80ACA5CC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 006B0 80ACA5D0 3C0E0601 */  lui     $t6, 0x0601                ## $t6 = 06010000
+/* 006B0 80ACA5D0 3C0E0601 */  lui     $t6, %hi(D_0600C684)                ## $t6 = 06010000
 /* 006B4 80ACA5D4 AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 006B8 80ACA5D8 25CEC684 */  addiu   $t6, $t6, 0xC684           ## $t6 = 0600C684
+/* 006B8 80ACA5D8 25CEC684 */  addiu   $t6, $t6, %lo(D_0600C684)           ## $t6 = 0600C684
 /* 006BC 80ACA5DC 3C0580AD */  lui     $a1, %hi(func_80ACBEA0)    ## $a1 = 80AD0000
 /* 006C0 80ACA5E0 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 006C4 80ACA5E4 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
@@ -16,7 +16,7 @@ glabel func_80ACA5C8
 /* 006E0 80ACA600 8FAF0020 */  lw      $t7, 0x0020($sp)           
 /* 006E4 80ACA604 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C
 /* 006E8 80ACA608 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
-/* 006EC 80ACA60C 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 006EC 80ACA60C 0C01DF64 */  jal     Rand_S16Offset
               
 /* 006F0 80ACA610 A5E003F4 */  sh      $zero, 0x03F4($t7)         ## 000003F4
 /* 006F4 80ACA614 8FB80020 */  lw      $t8, 0x0020($sp)           

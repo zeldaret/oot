@@ -103,8 +103,8 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 897) {
-        func_80029444(globalCtx, &this->actor.posRot.pos, 100, 500, 0);
-        func_8002949C(globalCtx, &this->actor.posRot.pos, 0, 0, 1, 0);
+        EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 100, 500, 0);
+        EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, 0, 0, 1, 0);
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -119,7 +119,7 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
         ripplePos.x = 274.0f;
         ripplePos.y = -60.0f;
         ripplePos.z = 907.0f;
-        func_80029444(globalCtx, &ripplePos, 100, 500, 0);
+        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
     }
 }
 
@@ -186,7 +186,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
 
         if ((globalCtx->gameplayFrames & 13) == 0) {
-            func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }

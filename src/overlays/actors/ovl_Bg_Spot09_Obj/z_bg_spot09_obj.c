@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot09_obj.h"
+#include "objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -31,7 +32,7 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static UNK_PTR D_808B1F90[] = { NULL, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
+static CollisionHeader* D_808B1F90[] = { NULL, gBgSpot09Col1, gBgSpot09Col2, gBgSpot09Col3, gBgSpot09Col4 };
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -51,9 +52,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-static Gfx* sDLists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };
-
-extern Gfx D_06008010[];
+static Gfx* sDLists[] = { gBgSpot09DL1, gBgSpot09DL2, gBgSpot09DL3, gBgSpot09DL4, gBgSpot09DL5 };
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 carpentersRescued;
@@ -96,13 +95,13 @@ s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
 s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad[2];
 
-    if (D_808B1F90[thisx->params] != 0) {
-        DynaPolyInfo_SetActorMove(thisx, 0);
-        DynaPolyInfo_Alloc(D_808B1F90[thisx->params], &localC);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    if (D_808B1F90[thisx->params] != NULL) {
+        DynaPolyActor_Init(thisx, DPM_UNK);
+        CollisionHeader_GetVirtual(D_808B1F90[thisx->params], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
     return 1;
 }
@@ -159,7 +158,7 @@ void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot09Obj* this = THIS;
 
     if (thisx->params != 0) {
-        DynaPolyInfo_Free(globalCtx, dynaColCtx, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, dynaColCtx, this->dyna.bgId);
     }
 }
 
@@ -174,9 +173,9 @@ void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06008010);
+        gSPDisplayList(POLY_XLU_DISP++, gBgSpot09DL6);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }

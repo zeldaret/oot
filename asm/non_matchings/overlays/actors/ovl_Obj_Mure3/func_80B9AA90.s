@@ -13,11 +13,11 @@ glabel func_80B9AA90
 /* 000EC 80B9AABC F7B60018 */  sdc1    $f22, 0x0018($sp)          
 /* 000F0 80B9AAC0 F7B40010 */  sdc1    $f20, 0x0010($sp)          
 /* 000F4 80B9AAC4 00A0A825 */  or      $s5, $a1, $zero            ## $s5 = 00000000
-/* 000F8 80B9AAC8 0C01DE1C */  jal     Math_Sins
+/* 000F8 80B9AAC8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 000FC 80B9AACC 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 00100 80B9AAD0 46000606 */  mov.s   $f24, $f0                  
-/* 00104 80B9AAD4 0C01DE0D */  jal     Math_Coss
+/* 00104 80B9AAD4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00108 80B9AAD8 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 0010C 80B9AADC 3C01C220 */  lui     $at, 0xC220                ## $at = C2200000

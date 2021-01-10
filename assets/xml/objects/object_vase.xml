@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_vase" Segment="6">
+        <DList Name="gVaseDL"/>
+        <Texture Name="gVaseTopTex" Format="rgb5a1" Width="32" Height="32" Offset="0xD90"/>
+        <Texture Name="gVaseBodyTex" Format="rgb5a1" Width="32" Height="32" Offset="0x590"/>
+    </File>
+</Root>

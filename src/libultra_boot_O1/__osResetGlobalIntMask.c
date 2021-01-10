@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void __osResetGlobalIntMask(u32 mask) {
     register s32 prevInt;

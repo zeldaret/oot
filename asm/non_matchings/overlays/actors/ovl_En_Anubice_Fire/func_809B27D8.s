@@ -80,7 +80,7 @@ glabel func_809B27D8
 .L809B28F4:
 /* 00354 809B28F4 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00
 /* 00358 809B28F8 26240150 */  addiu   $a0, $s1, 0x0150           ## $a0 = 00000150
-/* 0035C 809B28FC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0035C 809B28FC 0C01E107 */  jal     Math_ApproachF
               
 /* 00360 809B2900 8E250154 */  lw      $a1, 0x0154($s1)           ## 00000154
 /* 00364 809B2904 862D015A */  lh      $t5, 0x015A($s1)           ## 0000015A
@@ -107,7 +107,7 @@ glabel func_809B27D8
 /* 003B0 809B2950 31F80004 */  andi    $t8, $t7, 0x0004           ## $t8 = 00000000
 /* 003B4 809B2954 53000035 */  beql    $t8, $zero, .L809B2A2C     
 /* 003B8 809B2958 C62A0150 */  lwc1    $f10, 0x0150($s1)          ## 00000150
-/* 003BC 809B295C 0C023C26 */  jal     func_8008F098              
+/* 003BC 809B295C 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 003C0 809B2960 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 003C4 809B2964 1040001D */  beq     $v0, $zero, .L809B29DC     
 /* 003C8 809B2968 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
@@ -185,7 +185,7 @@ glabel func_809B27D8
 /* 004D8 809B2A78 44134000 */  mfc1    $s3, $f8                   
 /* 004DC 809B2A7C 00129403 */  sra     $s2, $s2, 16               
 .L809B2A80:
-/* 004E0 809B2A80 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 004E0 809B2A80 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 004E4 809B2A84 00000000 */  nop
 /* 004E8 809B2A88 C6300150 */  lwc1    $f16, 0x0150($s1)          ## 00000150
@@ -195,7 +195,7 @@ glabel func_809B27D8
 /* 004F8 809B2A98 00000000 */  nop
 /* 004FC 809B2A9C 46125102 */  mul.s   $f4, $f10, $f18            
 /* 00500 809B2AA0 46062200 */  add.s   $f8, $f4, $f6              
-/* 00504 809B2AA4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00504 809B2AA4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00508 809B2AA8 E7A80098 */  swc1    $f8, 0x0098($sp)           
 /* 0050C 809B2AAC C62A0150 */  lwc1    $f10, 0x0150($s1)          ## 00000150
@@ -215,7 +215,7 @@ glabel func_809B27D8
 /* 00544 809B2AE4 AFB20018 */  sw      $s2, 0x0018($sp)           
 /* 00548 809B2AE8 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 0054C 809B2AEC AFBE0010 */  sw      $s8, 0x0010($sp)           
-/* 00550 809B2AF0 0C00A2EC */  jal     func_80028BB0              
+/* 00550 809B2AF0 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 00554 809B2AF4 E7AA00A0 */  swc1    $f10, 0x00A0($sp)          
 /* 00558 809B2AF8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0055C 809B2AFC 1615FFE0 */  bne     $s0, $s5, .L809B2A80       
