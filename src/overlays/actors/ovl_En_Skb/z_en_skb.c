@@ -29,6 +29,8 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
+s32 func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern SkeletonHeader D_060041F8;  // 0x60041F8
 extern AnimationHeader D_06001854; // 0x6001854
@@ -125,7 +127,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 paramOffsetArm;
 
     Actor_ProcessInitChain(&this->actor, D_80AFE0D0);
-    this->actor.colChkInfo.damageTable = &D_80AFE078;
+    this->actor.colChkInfo.damageTable = D_80AFE078;
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 0.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.colChkInfo.mass = 0xFE;
@@ -174,7 +176,7 @@ void func_80AFCD60(EnSkb* this) {
     if (gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
     } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
-               (this->actor.xzDistFromLink < (60.0f + ((f32)this->actor.params * 6.0f)))) {
+               (this->actor.xzDistToLink < (60.0f + ((f32)this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     } else {
         func_80AFD0A4(this);
@@ -281,7 +283,7 @@ void func_80AFD13C(EnSkb* this, GlobalContext* globalCtx) {
         gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
     } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
-               (this->actor.xzDistFromLink < (60.0f + (this->actor.params * 6.0f)))) {
+               (this->actor.xzDistToLink < (60.0f + (this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     }
 }
@@ -525,59 +527,50 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDD30.s")
-// void func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-//     EnSkb* this = THIS;
-//     void* sp18;
-//     Gfx* temp_v1;
-//     Gfx* temp_v1_2;
-//     s32 temp_a0;
-//     s32 temp_v0;
-//     s16 phi_a1;
+// Override limb? --> matches
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDD30.s")
+s32 func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnSkb* this = THIS;
+    s16 color;
+    s16 pad[2];
 
-//     if (limbIndex == 0xB) {
-//         if ((this->unk_283 & 2) == 0) {
-//             sp38 = globalCtx->state.gfxCtx;
-//             ;
-//             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
-//             temp_a0 = globalCtx->gameplayFrames;
-//             sp18 = globalCtx + 0x10000;
-//             if ((s32)(s16)(s32)(
-//                     Math_Sins((s16)(((((((temp_a0 * 4) - temp_a0) * 0x10) - temp_a0) * 8) - temp_a0) * 0x10)) *
-//                     95.0f) >= 0) {
-//                 phi_a1 = (s16)(s32)(Math_Sins((s16)(globalCtx->gameplayFrames * 0x1770)) * 95.0f);
-//             } else {
-//                 phi_a1 = 0 - (s16)(s32)(Math_Sins((s16)(globalCtx->gameplayFrames * 0x1770)) * 95.0f);
-//             }
-//             gDPPipeSync(POLY_OPA_DISP++);
-//             temp_v1_2 = sp38->polyOpa.p;
-//             temp_v0 = (s16)(phi_a1 + 0xA0) & 0xFF;
-//             sp38->polyOpa.p = temp_v1_2 + 8;
-//             temp_v1_2->words.w0 = 0xFB000000;
-//             temp_v1_2->words.w1 = (temp_v0 << 0x18) | (temp_v0 << 0x10) | (temp_v0 << 8) | 0xFF;
-//             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);
-//         } else {
-//         block_9:
-//             *dList = NULL;
-//         }
-//     } else if ((limbIndex == 0xC) && ((this->unk_283 & 2) != 0)) {
-//         goto block_9;
-//     }
-// }
+    if (limbIndex == 11) {
+        if ((this->unk_283 & 2) == 0) {
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
+            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 0xA0;
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 0xFF);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);
+        } else {
+            *dList = 0;
+        }
+    } else if ((limbIndex == 12) && ((this->unk_283 & 2) != 0)) {
+        *dList = 0;
+    }
+    return 0;
+}
 
+// Post limb?
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
 // void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 //     EnSkb* this = THIS;
 //     u8* temp_v0;
-//     temp_v0 = &this->unk_283;
 
 //     func_800628A4(limbIndex, &this->collider);
 //     if ((this->unk_283 ^ 1) == 0) {
-//         func_80032F54(&this->unk_28C, limbIndex, 0xB, 0xC, 0x12, dList, -1);
+//         func_80032F54(&this->unk_28C, limbIndex, 11, 12, 18, dList, -1);
 
 //     } else if ( (this->unk_283 | 4) == this->unk_283) {
-//         func_80032F54(&this->unk_28C, limbIndex, 0, 0x12, 0x12, dList, -1);
+//         func_80032F54(&this->unk_28C, limbIndex, 0, 18, 18, dList, -1);
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Draw.s")
+
+
+// Matches
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Draw.s")
+void EnSkb_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnSkb* this = THIS;
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80AFDD30, func_80AFDF24, &this->actor);
+}
