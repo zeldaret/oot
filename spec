@@ -4512,6 +4512,8 @@ beginseg
     name "object_mo"
     romalign 0x1000
     include "build/baserom/object_mo.o"
+    // include "build/assets/objects/object_mo/object_mo.o"
+    // number 6
 endseg
 
 beginseg
