@@ -5,6 +5,7 @@
  */
 
 #include "z_boss_fd2.h"
+#include "objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000035
@@ -32,20 +33,20 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx);
 
-extern Gfx D_06004B48[];
-extern Gfx D_06004BC8[];
-extern Gfx D_06004E38[];
-extern AnimationHeader D_060073CC;
-extern AnimationHeader D_06007850;
-extern AnimationHeader D_060089DC;
-extern AnimationHeader D_06009194;
-extern AnimationHeader D_0600A31C;
-extern AnimationHeader D_0600A86C;
-extern AnimationHeader D_0600AE90;
-extern AnimationHeader D_0600B7A4;
-extern AnimationHeader D_0600C1D0;
-extern AnimationHeader D_0600C8EC;
-extern FlexSkeletonHeader D_06011A78;
+extern Gfx gHoleVolvagiaDL_004B48[];
+extern Gfx gHoleVolvagiaDL_004BC8[];
+extern Gfx gHoleVolvagiaDL_004E38[];
+extern AnimationHeader gHoleVolvagiaAnim_0073CC;
+extern AnimationHeader gHoleVolvagiaAnim_007850;
+extern AnimationHeader gHoleVolvagiaAnim_0089DC;
+extern AnimationHeader gHoleVolvagiaAnim_009194;
+extern AnimationHeader gHoleVolvagiaAnim_00A31C;
+extern AnimationHeader gHoleVolvagiaAnim_00A86C;
+extern AnimationHeader gHoleVolvagiaAnim_00AE90;
+extern AnimationHeader gHoleVolvagiaAnim_00B7A4;
+extern AnimationHeader gHoleVolvagiaAnim_00C1D0;
+extern AnimationHeader gHoleVolvagiaAnim_00C8EC;
+extern FlexSkeletonHeader gHoleVolvagiaSkel_011A78;
 
 typedef enum {
     /* 0 */ DEATH_START,
@@ -227,7 +228,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0069999993f);
     this->actor.posRot.pos.y = -850.0f;
     ActorShape_Init(&this->actor.shape, -580.0f / this->actor.scale.y, NULL, 0.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011A78, &D_0600C8EC, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gHoleVolvagiaSkel_011A78, &gHoleVolvagiaAnim_00C8EC, 0, 0, 0);
     if (this->actor.params == 0) {
         BossFd2_SetupEmerge(this, globalCtx);
     } else {
@@ -251,7 +252,7 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
 
     osSyncPrintf("UP INIT 1\n");
-    Animation_PlayOnce(&this->skelAnime, &D_0600C1D0);
+    Animation_PlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_00C1D0);
     this->actionFunc = BossFd2_Emerge;
     this->skelAnime.playSpeed = 0.0f;
     temp_rand = Rand_ZeroFloat(8.9f);
@@ -326,7 +327,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->timers[0] = 10;
                 } else {
                     this->skelAnime.playSpeed = 1.0f;
-                    this->animationLength = Animation_GetLastFrame(&D_0600C1D0);
+                    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_00C1D0);
                     this->actionState = 2;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
                     this->actor.shape.rot.y = this->actor.yawTowardsLink;
@@ -362,7 +363,7 @@ void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
     s16 idleTime;
 
     osSyncPrintf("UP INIT 1\n");
-    Animation_PlayLoop(&this->skelAnime, &D_0600AE90);
+    Animation_PlayLoop(&this->skelAnime, &gHoleVolvagiaAnim_00AE90);
     this->actionFunc = BossFd2_Idle;
     health = bossFd->actor.colChkInfo.health;
     if (health == 24) {
@@ -388,10 +389,10 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
     osSyncPrintf("SW1 = %d\n", prevToLink);
     osSyncPrintf("SW2 = %d\n", this->turnToLink);
     if ((fabsf(prevToLink) <= 1000.0f) && (1000.0f < fabsf(this->turnToLink))) {
-        Animation_MorphToLoop(&this->skelAnime, &D_0600AE90, -5.0f);
+        Animation_MorphToLoop(&this->skelAnime, &gHoleVolvagiaAnim_00AE90, -5.0f);
     }
     if ((1000.0f < fabsf(prevToLink)) && (fabsf(this->turnToLink) <= 1000.0f)) {
-        Animation_MorphToLoop(&this->skelAnime, &D_0600C8EC, -5.0f);
+        Animation_MorphToLoop(&this->skelAnime, &gHoleVolvagiaAnim_00C8EC, -5.0f);
     }
     if (this->timers[0] == 0) {
         if (this->actor.xzDistToLink < 200.0f) {
@@ -405,9 +406,9 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_SetupBurrow(BossFd2* this, GlobalContext* globalCtx) {
     BossFd* bossFd = BOSSFD;
 
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06009194, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_009194, -5.0f);
     this->actionFunc = BossFd2_Burrow;
-    this->animationLength = Animation_GetLastFrame(&D_06009194);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_009194);
     bossFd->timers[4] = 30;
     this->actionState = 0;
 }
@@ -436,9 +437,9 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060073CC, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_0073CC, -5.0f);
     this->actionFunc = BossFd2_BreatheFire;
-    this->animationLength = Animation_GetLastFrame(&D_060073CC);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_0073CC);
     this->actionState = 0;
 }
 
@@ -542,9 +543,9 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_0600B7A4, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_00B7A4, -5.0f);
     this->actionFunc = BossFd2_ClawSwipe;
-    this->animationLength = Animation_GetLastFrame(&D_0600B7A4);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_00B7A4);
 }
 
 void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
@@ -559,8 +560,8 @@ void BossFd2_ClawSwipe(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupVulnerable(BossFd2* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600A31C);
-    this->animationLength = Animation_GetLastFrame(&D_0600A31C);
+    Animation_PlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_00A31C);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_00A31C);
     this->actionFunc = BossFd2_Vulnerable;
     this->actionState = 0;
 }
@@ -599,7 +600,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_LAND);
             }
             if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
-                Animation_MorphToLoop(&this->skelAnime, &D_0600A86C, -5.0f);
+                Animation_MorphToLoop(&this->skelAnime, &gHoleVolvagiaAnim_00A86C, -5.0f);
                 this->actionState = 1;
                 this->timers[0] = 60;
             }
@@ -616,8 +617,8 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupDamaged(BossFd2* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime, &D_06007850);
-    this->animationLength = Animation_GetLastFrame(&D_06007850);
+    Animation_PlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_007850);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_007850);
     this->actionFunc = BossFd2_Damaged;
     this->actionState = 0;
 }
@@ -629,8 +630,8 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
     this->disableAT = true;
     if (this->actionState == 0) {
         if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
-            Animation_PlayOnce(&this->skelAnime, &D_060089DC);
-            this->animationLength = Animation_GetLastFrame(&D_060089DC);
+            Animation_PlayOnce(&this->skelAnime, &gHoleVolvagiaAnim_0089DC);
+            this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_0089DC);
             this->actionState = 1;
         }
     } else if (this->actionState == 1) {
@@ -654,8 +655,8 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
-    this->animationLength = Animation_GetLastFrame(&D_060089DC);
-    Animation_Change(&this->skelAnime, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
+    this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaAnim_0089DC);
+    Animation_Change(&this->skelAnime, &gHoleVolvagiaAnim_0089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
     this->actionFunc = BossFd2_Death;
     this->actor.flags &= ~1;
     this->deathState = DEATH_START;
@@ -760,7 +761,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                     this->timers[0] = 50;
                 }
             } else if (Animation_OnFrame(skelAnime, 15.0f)) {
-                Animation_MorphToPlayOnce(skelAnime, &D_060089DC, -10.0f);
+                Animation_MorphToPlayOnce(skelAnime, &gHoleVolvagiaAnim_0089DC, -10.0f);
             }
             break;
         case DEATH_HANDOFF:
@@ -1054,7 +1055,7 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
             break;
     }
     if ((bossFd->faceExposed == 1) && (limbIndex == 35)) {
-        *dList = D_06004E38;
+        *dList = gHoleVolvagiaDL_004E38;
     }
 
     if ((limbIndex == 32) || (limbIndex == 35) || (limbIndex == 36)) {
@@ -1185,7 +1186,7 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06004BC8);
+        gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaDL_004BC8);
     }
     Matrix_Pull();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2503);
@@ -1206,7 +1207,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06004B48);
+    gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaDL_004B48);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->centerManeColor, 0, 255);
     BossFd2_UpdateMane(this, globalCtx, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,
@@ -1224,7 +1225,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* eyeDisplayLists[] = { 0x06002B08, 0x06002708, 0x06002F08 };
+    static u64* eyeTextures[] = { gHoleVolvagiaUnknown_002B08, gHoleVolvagiaUnknown_002708, gHoleVolvagiaUnknown_002F08 };
     s32 pad;
     BossFd2* this = THIS;
 
@@ -1235,7 +1236,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->damageFlashTimer & 2) {
             POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 0x384, 0x44B);
         }
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeDisplayLists[this->eyeState]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeState]));
 
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1x, (s16)this->bodyTex1y, 0x20, 0x20,

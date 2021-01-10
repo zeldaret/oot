@@ -4422,7 +4422,8 @@ endseg
 beginseg
     name "object_fd2"
     romalign 0x1000
-    include "build/baserom/object_fd2.o"
+    include "build/assets/objects/object_fd2/object_fd2.o"
+    number 6
 endseg
 
 beginseg
