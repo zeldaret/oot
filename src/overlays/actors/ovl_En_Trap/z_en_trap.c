@@ -317,7 +317,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                 // If returning to origin:
             } else {
                 // Of the four real world compass directions, get the one which is closest to the movement direction of
-                // the returning spike note that this is different from the previous usages of vClosestDirection
+                // the returning spike. Note that this is different from the previous usages of vClosestDirection
                 this->vClosestDirection =
                     (Math_Vec3f_Yaw(&thisx->posRot.pos, &thisx->initPosRot.pos) + 0x2000) & 0xC000;
                 switch (this->vClosestDirection) {
