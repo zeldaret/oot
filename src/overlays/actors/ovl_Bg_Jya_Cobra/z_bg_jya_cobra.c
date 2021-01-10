@@ -141,15 +141,14 @@ void func_808958F0(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
 }
 
 void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flags) {
-    s32 padding;
-    s32 sp30;
-    s32 padding2;
+    s32 pad;
+    CollisionHeader* colHeader = NULL;
+    s32 pad2;
 
-    sp30 = 0;
     DynaPolyActor_Init(&this->dyna, flags);
-    CollisionHeader_GetVirtual(arg2, &sp30);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
-    if (this->dyna.bgId == 50) {
+    CollisionHeader_GetVirtual(arg2, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG Registration Failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -226,7 +225,7 @@ void func_80895A70(BgJyaCobra* this) {
 
 void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 padding;
+    s32 pad;
     Vec3f sp2C;
 
     func_808958F0(&sp2C, &this->unk_174, Math_SinS(this->unk_170), Math_CosS(this->unk_170));
@@ -461,7 +460,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // (jya cobra)
     osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-                 ((s8*)this) + 0x194, ALIGN16((s32)(&this->unk_194)));
+                 &this->unk_194, ALIGN16((s32)(&this->unk_194)));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -480,7 +479,7 @@ void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {
 void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (0.001f < this->dyna.unk_150) {
+    if (this->dyna.unk_150 > 0.001f) {
         this->unk_168++;
         if (this->unk_168 >= 15) {
             func_808969F8(this, globalCtx);
@@ -489,7 +488,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
         this->unk_168 = 0;
     }
 
-    if (0.001f < fabsf(this->dyna.unk_150)) {
+    if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
     }
@@ -568,8 +567,10 @@ void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 temp_v0;
 
     this->actionFunc(this, globalCtx);
+
     func_80895C74(this, globalCtx);
     func_80895A70(this);
+
     temp_v0 = this->dyna.actor.params & 3;
     if (temp_v0 == 0 || temp_v0 == 2) {
         func_80895EF0(this);
@@ -646,15 +647,11 @@ void func_80896EE4(BgJyaCobra* this, GlobalContext* globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ALIGN16((s32)(&this->unk_194)));
-    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(POLY_XLU_DISP++);
-    gDPLoadBlock(POLY_XLU_DISP++, G_TX_LOADTILE, 0, 0, 2047, 256);
-    gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 0, 0, 0x00FC, 0x00FC);
+
+    gDPLoadTextureBlock(POLY_XLU_DISP++, ALIGN16((s32)(&this->unk_194)), G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+
     gSPDisplayList(POLY_XLU_DISP++, D_808972B0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 1006);
