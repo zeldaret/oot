@@ -386,7 +386,8 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupFlee(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_0600ADF8, -2.0f, Animation_GetLastFrame(&D_0600ADF8), 0.0f, 3, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600ADF8, -2.0f, Animation_GetLastFrame(&D_0600ADF8), 0.0f,
+                     ANIMMODE_ONCE_INTERP, -4.0f);
     this->timer = 20;
     this->invisible = false;
     this->actionState = GELDB_WAIT;
@@ -477,7 +478,8 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060024E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060024E8), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060024E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060024E8),
+                     ANIMMODE_LOOP_INTERP, -4.0f);
     this->actionState = GELDB_ADVANCE;
     EnGeldB_SetupAction(this, EnGeldB_Advance);
 }
@@ -560,7 +562,8 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupRollForward(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, ANIMMODE_ONCE,
+                     -3.0f);
     this->timer = 0;
     this->invisible = true;
     this->actionState = GELDB_ROLL_FORWARD;
@@ -633,7 +636,8 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupCircle(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814),
+                     ANIMMODE_LOOP_INTERP, 0.0f);
     this->actor.speedXZ = Rand_CenteredFloat(12.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->skelAnime.playSpeed = -this->actor.speedXZ * 0.5f;
@@ -736,7 +740,8 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
     Player* player = PLAYER;
 
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814),
+                     ANIMMODE_LOOP_INTERP, 0.0f);
     sp3E = player->actor.shape.rot.y;
     if (Math_SinS(sp3E - this->actor.shape.rot.y) > 0.0f) {
         this->actor.speedXZ = -10.0f;
@@ -888,7 +893,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupSpinAttack(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000F5C), 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000F5C), ANIMMODE_ONCE_INTERP, 0.0f);
     this->swordCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
     this->actionState = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
@@ -1073,7 +1078,8 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupJump(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06001390, -1.0f, Animation_GetLastFrame(&D_06001390), 0.0f, ANIMMODE_ONCE,
+                     -3.0f);
     this->timer = 0;
     this->invisible = false;
     this->actionState = GELDB_JUMP;
@@ -1114,7 +1120,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
     this->actor.speedXZ = 0.0f;
     this->actionState = GELDB_BLOCK;
     this->timer = (s32)Rand_CenteredFloat(10.0f) + 10;
-    Animation_Change(&this->skelAnime, &D_06001578, 0.0f, 0.0f, lastFrame, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06001578, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     EnGeldB_SetupAction(this, EnGeldB_Block);
 }
 
@@ -1175,7 +1181,8 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 linkAngle;
     Player* player;
 
-    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814), 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A814),
+                     ANIMMODE_LOOP_INTERP, 0.0f);
     player = PLAYER;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     linkAngle = player->actor.shape.rot.y;
@@ -1550,7 +1557,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {
-            Animation_Change(&this->skelAnime, &D_06000F5C, 0.5f, 0.0f, 12.0f, 3, 4.0f);
+            Animation_Change(&this->skelAnime, &D_06000F5C, 0.5f, 0.0f, 12.0f, ANIMMODE_ONCE_INTERP, 4.0f);
             this->spinAttackState++;
             thisx->posRot.rot.y = thisx->shape.rot.y = thisx->yawTowardsLink;
         } else {

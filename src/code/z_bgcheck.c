@@ -3390,8 +3390,9 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
             continue;
         }
         bgActor->boundingSphere.radius -= (s16)radius;
-        if (BgCheck_SphVsDynaWallInBgActor(colCtx, xpFlags, &colCtx->dyna, &(colCtx->dyna.bgActors + i)->dynaLookup.wall,
-                                           outX, outZ, outPoly, outBgId, &resultPos, radius, i)) {
+        if (BgCheck_SphVsDynaWallInBgActor(colCtx, xpFlags, &colCtx->dyna,
+                                           &(colCtx->dyna.bgActors + i)->dynaLookup.wall, outX, outZ, outPoly, outBgId,
+                                           &resultPos, radius, i)) {
             resultPos.x = *outX;
             resultPos.z = *outZ;
             result = true;
