@@ -51,7 +51,7 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
 
 extern Gfx D_05005AD0[]; // floor switch, rusty
-extern ColHeader D_05005FB8;
+extern CollisionHeader D_05005FB8;
 
 // rgba16 32x32 textures
 extern UNK_TYPE D_050144B0[]; // red plasma/cloud
@@ -59,7 +59,7 @@ extern UNK_TYPE D_05014CB0[]; // blue plasma/cloud
 
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
-    ACTORTYPE_SWITCH,
+    ACTORCAT_SWITCH,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjSwitch),
@@ -134,18 +134,17 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
     dest->z = src->z * c - src->x * s;
 }
 
-void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, ColHeader* collision,
+void ObjSwitch_InitDynapoly(ObjSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision,
                             DynaPolyMoveFlag moveFlag) {
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 50) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG registration failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -157,9 +156,9 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, Col
 
     Collider_InitJntSph(globalCtx, colliderJntSph);
     Collider_SetJntSph(globalCtx, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
-    func_800D1694(this->dyna.actor.posRot.pos.x,
-                  this->dyna.actor.posRot.pos.y + this->dyna.actor.shape.unk_08 * this->dyna.actor.scale.y,
-                  this->dyna.actor.posRot.pos.z, &this->dyna.actor.shape.rot);
+    func_800D1694(this->dyna.actor.world.pos.x,
+                  this->dyna.actor.world.pos.y + this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
+                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
     func_800628A4(0, colliderJntSph);
 }
@@ -175,8 +174,8 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, Colli
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
-            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->list[i].dim.vtx[j], this->dyna.actor.initPosRot.rot.y);
-            Math_Vec3f_Sum(&pos[j], &this->dyna.actor.posRot.pos, &pos[j]);
+            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->list[i].dim.vtx[j], this->dyna.actor.home.rot.y);
+            Math_Vec3f_Sum(&pos[j], &this->dyna.actor.world.pos, &pos[j]);
         }
 
         func_800627A0(colliderTris, i, &pos[0], &pos[1], &pos[2]);
@@ -186,9 +185,9 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, Colli
 Actor* ObjSwitch_SpawnIce(ObjSwitch* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    return Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_ICE_POLY, thisx->posRot.pos.x,
-                              thisx->posRot.pos.y, thisx->posRot.pos.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
-                              thisx->posRot.rot.z, (this->dyna.actor.params >> 8 & 0x3F) << 8);
+    return Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_ICE_POLY, thisx->world.pos.x,
+                              thisx->world.pos.y, thisx->world.pos.z, thisx->world.rot.x, thisx->world.rot.y,
+                              thisx->world.rot.z, (this->dyna.actor.params >> 8 & 0x3F) << 8);
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
@@ -240,13 +239,13 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     type = (this->dyna.actor.params & 7);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynapoly(this, globalCtx, &D_05005FB8, 1);
+        ObjSwitch_InitDynapoly(this, globalCtx, &D_05005FB8, DPM_PLAYER);
     }
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 1.0f;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 1.0f;
     }
 
     Actor_SetHeight(&this->dyna.actor, sHeights[type]);
@@ -261,7 +260,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
         this->dyna.actor.flags |= 1;
-        this->dyna.actor.unk_1F = 4;
+        this->dyna.actor.targetMode = 4;
     }
 
     this->dyna.actor.colChkInfo.mass = 0xFF;
@@ -304,7 +303,7 @@ void ObjSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params & 7)) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             break;
     }
 
@@ -376,7 +375,7 @@ void ObjSwitch_FloorPress(ObjSwitch* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 120, 20, 10);
+            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
 }
@@ -433,7 +432,7 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
             ObjSwitch_FloorUpInit(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             if (subType == OBJSWITCH_SUBTYPE_FLOOR_1) {
-                func_800AA000(this->dyna.actor.xyzDistToLinkSq, 120, 20, 10);
+                func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             }
         }
     }
@@ -446,7 +445,7 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     if ((this->tris.col.base.acFlags & 2) && !(this->unk_17F & 2)) {
         collidingActor = this->tris.col.base.ac;
         if (collidingActor != NULL) {
-            yawDiff = collidingActor->posRot.rot.y - this->dyna.actor.shape.rot.y;
+            yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {
                 return 1;
             }

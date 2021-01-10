@@ -22,7 +22,7 @@ extern UNK_TYPE D_06000C68;
 /*
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_TP,
     sizeof(EnTp),

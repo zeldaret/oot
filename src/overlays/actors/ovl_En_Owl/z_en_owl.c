@@ -22,7 +22,7 @@ extern UNK_TYPE D_060100B0;
 /*
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OWL,
     sizeof(EnOwl),

@@ -14,7 +14,7 @@ extern UNK_TYPE D_0600FAA0;
 /*
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FHG,
     sizeof(DemoExt),

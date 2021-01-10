@@ -73,8 +73,8 @@ glabel func_80A70E34
 /* 0193C 80A70EEC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01940 80A70EF0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01944 80A70EF4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 01948 80A70EF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0194C 80A70EFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 01948 80A70EF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0194C 80A70EFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 01950 80A70F00 44050000 */  mfc1    $a1, $f0
 /* 01954 80A70F04 44070000 */  mfc1    $a3, $f0
 /* 01958 80A70F08 0C00AC78 */  jal     ActorShape_Init

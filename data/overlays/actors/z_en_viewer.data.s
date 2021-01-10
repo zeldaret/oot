@@ -27,7 +27,7 @@ glabel D_80B2CFB0
 .word func_80B2A300
 .word func_80B2A448
 glabel D_80B2CFC0
- .word 0x00000000, ActorShadow_DrawFunc_Circle, ActorShadow_DrawFunc_Squiggly
+ .word 0x00000000, ActorShadow_DrawCircle, ActorShadow_DrawSquiggly
 glabel D_80B2CFCC
  .word 0x00000000
 glabel D_80B2CFD0

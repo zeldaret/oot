@@ -135,7 +135,7 @@ glabel L80863848
 /* 04204 80863854 24E74510 */  addiu   $a3, $a3, %lo(D_80864510)  ## $a3 = 80864510
 /* 04208 80863858 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 0420C 8086385C 8E0501A8 */  lw      $a1, 0x01A8($s0)           ## 000001A8
-/* 04210 80863860 0C02950A */  jal     SkelAnime_CopyVec3sTrue
+/* 04210 80863860 0C02950A */  jal     SkelAnime_CopyFrameTableTrue
 /* 04214 80863864 8E0604C8 */  lw      $a2, 0x04C8($s0)           ## 000004C8
 /* 04218 80863868 10000023 */  beq     $zero, $zero, .L808638F8
 /* 0421C 8086386C 92180114 */  lbu     $t8, 0x0114($s0)           ## 00000114
@@ -167,13 +167,13 @@ glabel L80863884
 /* 04278 808638C8 8E0701A8 */  lw      $a3, 0x01A8($s0)           ## 000001A8
 /* 0427C 808638CC 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
 /* 04280 808638D0 46086281 */  sub.s   $f10, $f12, $f8
-/* 04284 808638D4 0C028B9C */  jal     SkelAnime_InterpVec3s
+/* 04284 808638D4 0C028B9C */  jal     SkelAnime_InterpFrameTable
 /* 04288 808638D8 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 0428C 808638DC 3C078086 */  lui     $a3, %hi(D_80864510)       ## $a3 = 80860000
 /* 04290 808638E0 24E74510 */  addiu   $a3, $a3, %lo(D_80864510)  ## $a3 = 80864510
 /* 04294 808638E4 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 04298 808638E8 8E0501A8 */  lw      $a1, 0x01A8($s0)           ## 000001A8
-/* 0429C 808638EC 0C02950A */  jal     SkelAnime_CopyVec3sTrue
+/* 0429C 808638EC 0C02950A */  jal     SkelAnime_CopyFrameTableTrue
 /* 042A0 808638F0 8E0604C8 */  lw      $a2, 0x04C8($s0)           ## 000004C8
 glabel L808638F4
 .L808638F4:
@@ -288,11 +288,11 @@ glabel L808638F4
 /* 04410 80863A60 55600011 */  bnel    $t3, $zero, .L80863AA8
 /* 04414 80863A64 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 04418 80863A68 918D1C27 */  lbu     $t5, 0x1C27($t4)           ## 00001C27
-/* 0441C 80863A6C 3C188003 */  lui     $t8, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 0441C 80863A6C 3C188003 */  lui     $t8, %hi(ActorShadow_DrawTeardrop)
 /* 04420 80863A70 51A00008 */  beql    $t5, $zero, .L80863A94
 /* 04424 80863A74 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
 /* 04428 80863A78 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
-/* 0442C 80863A7C 2718B8C4 */  addiu   $t8, %lo(ActorShadow_DrawFunc_Teardrop)
+/* 0442C 80863A7C 2718B8C4 */  addiu   $t8, %lo(ActorShadow_DrawTeardrop)
 /* 04430 80863A80 AE1800C0 */  sw      $t8, 0x00C0($s0)           ## 000000C0
 /* 04434 80863A84 35CF0081 */  ori     $t7, $t6, 0x0081           ## $t7 = 00000081
 /* 04438 80863A88 10000006 */  beq     $zero, $zero, .L80863AA4

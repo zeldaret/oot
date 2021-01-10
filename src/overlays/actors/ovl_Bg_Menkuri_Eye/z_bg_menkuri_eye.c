@@ -17,7 +17,7 @@ void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriEye),
@@ -54,9 +54,9 @@ void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y;
-    this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.list->dim.worldSphere.center.x = this->actor.world.pos.x;
+    this->collider.list->dim.worldSphere.center.y = this->actor.world.pos.y;
+    this->collider.list->dim.worldSphere.center.z = this->actor.world.pos.z;
     colliderList = this->collider.list;
     colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
@@ -86,7 +86,7 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if ((this->collider.base.acFlags & 2) &&
-        (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
+        (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~0x2;
         if (this->framesUntilDisable == -1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
@@ -118,8 +118,8 @@ void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 255);
     }
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

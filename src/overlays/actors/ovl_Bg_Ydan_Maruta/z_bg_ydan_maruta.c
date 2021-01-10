@@ -23,7 +23,7 @@ void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanMaruta),
@@ -54,7 +54,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060066A8;
+extern CollisionHeader D_060066A8;
 extern Gfx D_06008D88[];
 extern Gfx D_06006570[];
 
@@ -65,7 +65,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     f32 sinRotY;
     f32 cosRotY;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
     ColliderTrisItemInit* items;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -80,12 +80,12 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_808BEFF4;
     } else {
         items = &sTrisItemInit[1];
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        DynaPolyInfo_Alloc(&D_060066A8, &localConst);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
-        thisx->initPosRot.pos.y += -280.0f;
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        thisx->home.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
-            thisx->posRot.pos.y = thisx->initPosRot.pos.y;
+            thisx->world.pos.y = thisx->home.pos.y;
             this->actionFunc = BgYdanMaruta_DoNothing;
         } else {
             this->actionFunc = func_808BF078;
@@ -96,16 +96,16 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     cosRotY = Math_CosS(thisx->shape.rot.y);
 
     for (i = 0; i < 3; i++) {
-        sp4C[i].x = (items->dim.vtx[i].x * cosRotY) + thisx->posRot.pos.x;
-        sp4C[i].y = items->dim.vtx[i].y + thisx->posRot.pos.y;
-        sp4C[i].z = thisx->posRot.pos.z - (items->dim.vtx[i].x * sinRotY);
+        sp4C[i].x = (items->dim.vtx[i].x * cosRotY) + thisx->world.pos.x;
+        sp4C[i].y = items->dim.vtx[i].y + thisx->world.pos.y;
+        sp4C[i].z = thisx->world.pos.z - (items->dim.vtx[i].x * sinRotY);
     }
 
     func_800627A0(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
 
-    sp4C[1].x = (items->dim.vtx[2].x * cosRotY) + thisx->posRot.pos.x;
-    sp4C[1].y = items->dim.vtx[0].y + thisx->posRot.pos.y;
-    sp4C[1].z = thisx->posRot.pos.z - (items->dim.vtx[2].x * sinRotY);
+    sp4C[1].x = (items->dim.vtx[2].x * cosRotY) + thisx->world.pos.x;
+    sp4C[1].y = items->dim.vtx[0].y + thisx->world.pos.y;
+    sp4C[1].z = thisx->world.pos.z - (items->dim.vtx[2].x * sinRotY);
 
     func_800627A0(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
@@ -115,7 +115,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (thisx->params == 1) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
@@ -159,17 +159,17 @@ void func_808BF108(BgYdanMaruta* this, GlobalContext* globalCtx) {
         temp *= 2;
     }
 
-    this->dyna.actor.posRot.pos.x =
-        (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z =
-        (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.world.pos.x =
+        (Math_CosS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z =
+        (Math_SinS(this->dyna.actor.shape.rot.y) * temp) + this->dyna.actor.home.pos.z;
 
     func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
 }
 
 void func_808BF1EC(BgYdanMaruta* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y += 1.0f;
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_LADDER_DOUND);
         this->actionFunc = BgYdanMaruta_DoNothing;
     }

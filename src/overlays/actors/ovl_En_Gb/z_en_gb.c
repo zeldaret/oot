@@ -18,7 +18,7 @@ extern UNK_TYPE D_0600C8EC;
 /*
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_PS,
     sizeof(EnGb),

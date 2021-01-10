@@ -61,7 +61,7 @@ extern UNK_TYPE D_06015470;
 /*
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FISH,
     sizeof(Fishing),

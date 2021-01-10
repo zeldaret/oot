@@ -20,7 +20,7 @@ extern UNK_TYPE D_06001400;
 /*
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_TRAP,
     sizeof(EnTrap),

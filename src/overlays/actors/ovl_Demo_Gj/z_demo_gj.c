@@ -30,7 +30,7 @@ extern UNK_TYPE D_06003AF0;
 /*
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GJ,
     sizeof(DemoGj),

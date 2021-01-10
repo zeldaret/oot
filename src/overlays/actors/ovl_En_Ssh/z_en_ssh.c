@@ -57,7 +57,7 @@ static Gfx D_80B04400[] = {
 
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SSH,
     sizeof(EnSsh),
@@ -102,9 +102,9 @@ void EnSsh_SpawnShockwave(EnSsh* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.groundY;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.groundHeight;
+    pos.z = this->actor.world.pos.z;
     EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
@@ -133,15 +133,15 @@ s32 EnSsh_CreateBlureEffect(GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_CheckCeilingPos(EnSsh* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp4C;
-    u32 sp48;
-    Vec3f sp3C;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posB;
 
-    sp3C.x = this->actor.posRot.pos.x;
-    sp3C.y = this->actor.posRot.pos.y + 1000.0f;
-    sp3C.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->ceilingPos, &sp4C, 0, 0, 1, 1,
-                       &sp48)) {
+    posB.x = this->actor.world.pos.x;
+    posB.y = this->actor.world.pos.y + 1000.0f;
+    posB.z = this->actor.world.pos.z;
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &posB, &this->ceilingPos, &poly, false,
+                                 false, true, true, &bgId)) {
         return false;
     } else {
         return true;
@@ -221,7 +221,7 @@ void EnSsh_SetReturnAnimation(EnSsh* this) {
 }
 
 void EnSsh_SetLandAnimation(EnSsh* this) {
-    this->actor.posRot.pos.y = this->groundYoffset + this->actor.groundY;
+    this->actor.world.pos.y = this->groundYoffset + this->actor.groundHeight;
     this->animTimer = EnSsh_SetAnimation(this, SSH_ANIM_LAND);
 }
 
@@ -236,7 +236,7 @@ void EnSsh_SetStunned(EnSsh* this) {
     if (this->stunTimer == 0) {
         this->stateFlags |= SSH_STATE_ATTACKED;
         this->stunTimer = 120;
-        this->actor.dmgEffectTimer = 0;
+        this->actor.colorFilterTimer = 0;
     }
 }
 
@@ -292,18 +292,18 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
         this->hitTimer--;
     }
     if (DECR(this->spinTimer) != 0) {
-        this->actor.posRot.rot.y += 10000.0f * (this->spinTimer / 30.0f);
+        this->actor.world.rot.y += 10000.0f * (this->spinTimer / 30.0f);
     } else if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 4, 0x2710, 1);
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate, 1);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer ^ 0x8000, 4, this->maxTurnRate, 1);
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->stunTimer < 30) {
         if (this->stunTimer & 1) {
             this->actor.shape.rot.y += 0x7D0;
@@ -347,16 +347,16 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->actor.xzDistToLink > 160.0f) {
+    if (this->actor.xzDistToPlayer > 160.0f) {
         return false;
     }
 
-    yDist = this->actor.posRot.pos.y - player->actor.posRot.pos.y;
+    yDist = this->actor.world.pos.y - player->actor.world.pos.y;
     if (yDist < 0.0f || yDist > 400.0f) {
         return false;
     }
 
-    if (player->actor.posRot.pos.y < this->actor.groundY) {
+    if (player->actor.world.pos.y < this->actor.groundHeight) {
         return false;
     }
     return true;
@@ -364,9 +364,9 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
 
 s32 EnSsh_IsCloseToHome(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if (nextY >= this->actor.initPosRot.pos.y) {
+    if (nextY >= this->actor.home.pos.y) {
         return 1;
     }
     return 0;
@@ -374,9 +374,9 @@ s32 EnSsh_IsCloseToHome(EnSsh* this) {
 
 s32 EnSsh_IsCloseToGround(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if ((nextY - this->actor.groundY) <= this->groundYoffset) {
+    if ((nextY - this->actor.groundHeight) <= this->groundYoffset) {
         return 1;
     }
     return 0;
@@ -396,18 +396,18 @@ void EnSsh_Sway(EnSsh* this) {
         }
         temp = this->swayTimer * (1.0f / 6);
         swayAngle = temp * (0x10000 / 360.0f) * Math_SinS(this->swayAngle);
-        temp = this->actor.posRot.pos.y - this->ceilingPos.y;
+        temp = this->actor.world.pos.y - this->ceilingPos.y;
         swayVecBase.x = Math_SinS(swayAngle) * temp;
         swayVecBase.y = Math_CosS(swayAngle) * temp;
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_MultVec3f(&swayVecBase, &swayVec);
         Matrix_Pull();
         this->actor.shape.rot.z = -(swayAngle * 2);
-        this->actor.posRot.pos.x = swayVec.x;
-        this->actor.posRot.pos.z = swayVec.z;
+        this->actor.world.pos.x = swayVec.x;
+        this->actor.world.pos.z = swayVec.z;
     }
 }
 
@@ -449,7 +449,7 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
     globalCtx->damagePlayer(globalCtx, -8);
-    func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsLink, 6.0f);
+    func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
     this->hitCount--;
     return true;
 }
@@ -528,7 +528,7 @@ void EnSsh_SetBodyCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_SetLegsCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
-    s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
+    s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
         Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
@@ -549,7 +549,7 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        cylPos = this->actor.posRot.pos;
+        cylPos = this->actor.world.pos;
         cyloffsets[i].x *= this->colliderScale;
         cyloffsets[i].y *= this->colliderScale;
         cyloffsets[i].z *= this->colliderScale;
@@ -596,9 +596,9 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTable, this->morphTable, 30);
-    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
     this->stateFlags = 0;
@@ -610,7 +610,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnSsh_SetColliderScale(this, 0.75f, 1.0f);
     }
     this->actor.gravity = 0.0f;
-    this->initialYaw = this->actor.posRot.rot.y;
+    this->initialYaw = this->actor.world.rot.y;
     EnSsh_SetupAction(this, EnSsh_Start);
 }
 
@@ -707,7 +707,7 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
         EnSsh_SetAnimation(this, SSH_ANIM_WAIT);
     }
-    if ((this->actor.groundY + this->groundYoffset) <= this->actor.posRot.pos.y) {
+    if ((this->actor.groundHeight + this->groundYoffset) <= this->actor.world.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);

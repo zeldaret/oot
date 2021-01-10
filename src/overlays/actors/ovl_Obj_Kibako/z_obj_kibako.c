@@ -28,7 +28,7 @@ extern Gfx D_05005380[];
 
 const ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjKibako),
@@ -58,7 +58,7 @@ void ObjKibako_SpawnCollectible(ObjKibako* this, GlobalContext* globalCtx) {
 
     collectible = this->actor.params & 0x1F;
     if ((collectible >= 0) && (collectible <= 0x19)) {
-        Item_DropCollectible(globalCtx, &this->actor.posRot.pos,
+        Item_DropCollectible(globalCtx, &this->actor.world.pos,
                              collectible | (((this->actor.params >> 8) & 0x3F) << 8));
     }
 }
@@ -102,7 +102,7 @@ void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s16 angle;
     s32 i;
-    Vec3f* breakPos = &this->actor.posRot.pos;
+    Vec3f* breakPos = &this->actor.world.pos;
     Vec3f pos;
     Vec3f velocity;
 
@@ -133,13 +133,13 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
-    func_80033480(globalCtx, &this->actor.posRot.pos, 40.0f, 3, 50, 140, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 40.0f, 3, 50, 140, 1);
 }
 
 void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s16 angle;
     s32 i;
-    Vec3f* breakPos = &this->actor.posRot.pos;
+    Vec3f* breakPos = &this->actor.world.pos;
     Vec3f pos;
     Vec3f velocity;
 
@@ -180,30 +180,30 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         ObjKibako_SetupHeld(this);
     } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 19.0f)) {
         ObjKibako_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->collider.base.acFlags & 2) {
         ObjKibako_AirBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistToLink > 28.0f)) {
+        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.maskA |= 8;
         }
-        if (this->actor.xzDistToLink < 600.0f) {
+        if (this->actor.xzDistToPlayer < 600.0f) {
             ColliderCylinder* collider = &this->collider;
 
             Collider_CylinderUpdate(&this->actor, collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
-            if (this->actor.xzDistToLink < 180.0f) {
+            if (this->actor.xzDistToPlayer < 180.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
             }
         }
-        if (this->actor.xzDistToLink < 100.0f) {
+        if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F580(&this->actor, globalCtx);
         }
     }
@@ -232,8 +232,8 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
 }
 
 void ObjKibako_SetupThrown(ObjKibako* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
     this->actor.colChkInfo.mass = 240;
     this->actionFunc = ObjKibako_Thrown;
 }
@@ -243,12 +243,12 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
 
     if ((thisx->bgCheckFlags & 0xB) || (this->collider.base.atFlags & 2)) {
         ObjKibako_AirBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &thisx->world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(thisx);
     } else if (this->actor.bgCheckFlags & 0x40) {
         ObjKibako_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &thisx->world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(thisx);
     } else {

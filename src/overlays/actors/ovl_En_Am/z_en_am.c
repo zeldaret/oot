@@ -24,7 +24,7 @@ extern UNK_TYPE D_06005B3C;
 /*
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_AM,
     sizeof(EnAm),

@@ -24,7 +24,7 @@ extern UNK_TYPE D_02014F80;
 /*
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgBreakwall),

@@ -14,7 +14,7 @@ extern UNK_TYPE D_06000880;
 /*
 const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JYA_IRON,
     sizeof(BgJyaIronobj),

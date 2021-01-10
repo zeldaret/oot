@@ -27,7 +27,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ANE,
     sizeof(EnNiwLady),
@@ -102,7 +102,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
                 this->unk_275 = 1;
             case 9:
                 frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 0:
             case 1:
@@ -117,7 +117,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 24:
             case 29:
                 frames = Animation_GetLastFrame(&D_06009F94);
-                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 7:
             case 20:
@@ -127,11 +127,11 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 27:
             case 28:
                 frames = Animation_GetLastFrame(&D_06000718);
-                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
                 frames = Animation_GetLastFrame(&D_0600A630);
-                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -151,20 +151,20 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
-        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 20.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 20.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
                     frames = Animation_GetLastFrame(&D_0600A630);
-                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
                     frames = Animation_GetLastFrame(&D_060007D0);
-                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -174,7 +174,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 return;
             case 1:
                 frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -192,11 +192,11 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 phi_s1;
 
     this->cuccosInPen = 0;
-    currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
     while (currentCucco != NULL) {
         if (currentCucco->actor.id == ACTOR_EN_NIW) {
-            if ((fabsf(currentCucco->actor.posRot.pos.x - 330.0f) < 90.0f) &&
-                (fabsf(currentCucco->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
+            if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
+                (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
                     gSaveContext.infTable[25] |= D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
@@ -481,9 +481,9 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Actor_SetHeight(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.posRot.pos;
+    this->unk_288.unk_18 = player->actor.world.pos;
     if (LINK_IS_CHILD) {
-        this->unk_288.unk_18.y = player->actor.posRot.pos.y - 10.0f;
+        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
     }
     func_80034A14(thisx, &this->unk_288, 2, 4);
     this->unk_254 = this->unk_288.unk_08;

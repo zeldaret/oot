@@ -74,8 +74,8 @@ glabel EnDaikuKakariko_Init
 /* 001B0 809E44D0 35AE0008 */  ori     $t6, $t5, 0x0008           ## $t6 = 00000008
 /* 001B4 809E44D4 A60E0200 */  sh      $t6, 0x0200($s0)           ## 00000200
 .L809E44D8:
-/* 001B8 809E44D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 001B8 809E44D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 001C0 809E44E0 0C00AC78 */  jal     ActorShape_Init
 
 /* 001C4 809E44E4 3C074220 */  lui     $a3, 0x4220                ## $a3 = 42200000

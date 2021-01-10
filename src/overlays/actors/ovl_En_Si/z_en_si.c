@@ -32,7 +32,7 @@ static CollisionCheckInfoInit2 D_80AFBADC = {
 
 const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_ST,
     sizeof(EnSi),
@@ -51,7 +51,7 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
     this->actionFunc = func_80AFB768;
-    this->actor.shape.unk_08 = 42.0f;
+    this->actor.shape.yOffset = 42.0f;
 }
 
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {

@@ -33,7 +33,7 @@ typedef enum {
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_MIR_RAY,
     sizeof(MirRay),
@@ -109,12 +109,12 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
     Vec3f reflectionPt;
     Vec3s lightPt;
 
-    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.posRot.pos.x,
-                              player->actor.posRot.pos.y + 30.0f, player->actor.posRot.pos.z, this->sourceEndRad,
+    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.world.pos.x,
+                              player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
         if (dataEntry->params & 8) { // Light beams from mirrors
-            Math_Vec3f_Diff(&player->actor.posRot.pos, &this->sourcePt, &reflectionPt);
+            Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
         }
@@ -313,7 +313,7 @@ void MirRay_SetupReflectionPolys(MirRay* this, GlobalContext* globalCtx, MirRayS
         posB.x = sp60.x + posA.x;
         posB.y = sp60.y + posA.y;
         posB.z = sp60.z + posA.z;
-        if (func_8003E0B8(&globalCtx->colCtx, &posA, &posB, &posResult, &outPoly, 1)) {
+        if (BgCheck_AnyLineTest1(&globalCtx->colCtx, &posA, &posB, &posResult, &outPoly, 1)) {
             reflection[i].reflectionPoly = outPoly;
         } else {
             reflection[i].reflectionPoly = NULL;
@@ -330,9 +330,9 @@ void MirRay_RemoveSimilarReflections(MirRayShieldReflection* reflection) {
         for (j = i + 1; j < 6; j++) {
             if (reflection[i].reflectionPoly != NULL) {
                 if ((reflection[j].reflectionPoly != NULL) &&
-                    (ABS(reflection[i].reflectionPoly->norm.x - reflection[j].reflectionPoly->norm.x) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->norm.y - reflection[j].reflectionPoly->norm.y) < 100) &&
-                    (ABS(reflection[i].reflectionPoly->norm.z - reflection[j].reflectionPoly->norm.z) < 100) &&
+                    (ABS(reflection[i].reflectionPoly->normal.x - reflection[j].reflectionPoly->normal.x) < 100) &&
+                    (ABS(reflection[i].reflectionPoly->normal.y - reflection[j].reflectionPoly->normal.y) < 100) &&
+                    (ABS(reflection[i].reflectionPoly->normal.z - reflection[j].reflectionPoly->normal.z) < 100) &&
                     (reflection[i].reflectionPoly->dist == reflection[j].reflectionPoly->dist)) {
                     reflection[j].reflectionPoly = NULL;
                 }
@@ -386,9 +386,9 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
     for (i = 0; i < 6; i++) {
         currentReflection = &reflection[i];
         if (currentReflection->reflectionPoly != NULL) {
-            normalVec.x = currentReflection->reflectionPoly->norm.x * COLPOLY_NORM_FRAC;
-            normalVec.y = currentReflection->reflectionPoly->norm.y * COLPOLY_NORM_FRAC;
-            normalVec.z = currentReflection->reflectionPoly->norm.z * COLPOLY_NORM_FRAC;
+            normalVec.x = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.x);
+            normalVec.y = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.y);
+            normalVec.z = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.z);
 
             if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, currentReflection->reflectionPoly->dist,
                                       &vecB, &vecD, &sp118, 1)) {

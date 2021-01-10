@@ -62,7 +62,7 @@ extern UNK_TYPE D_0600F778;
 /*
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnViewer),

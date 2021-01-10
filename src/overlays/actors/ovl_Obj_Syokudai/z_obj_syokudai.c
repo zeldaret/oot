@@ -20,7 +20,7 @@ extern Gfx D_0404D4E0[];
 
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(ObjSyokudai),
@@ -69,8 +69,8 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.colChkInfo.mass = 0xFF;
 
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f,
-                            this->actor.posRot.pos.z, 255, 255, 180, -1);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y + 70.0f,
+                            this->actor.world.pos.z, 255, 255, 180, -1);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
 
     if ((this->actor.params & 0x400) || ((torchType != 2) && Flags_GetSwitch(globalCtx, this->actor.params & 0x3F))) {
@@ -114,9 +114,9 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (torchCount == 10) {
         torchCount = 24;
     }
-    if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &waterSurface,
-                      &dummy) &&
-        ((waterSurface - this->actor.posRot.pos.y) > 52.0f)) {
+    if (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+                                &waterSurface, &dummy) &&
+        ((waterSurface - this->actor.world.pos.y) > 52.0f)) {
         this->litTimer = 0;
         if (torchType == 1) {
             Flags_UnsetSwitch(globalCtx, switchFlag);
@@ -150,7 +150,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 interactionType = 1;
             }
         } else if (player->heldItemActionParam == 6) {
-            Math_Vec3f_Diff(&player->swordInfo[0].tip, &this->actor.posRot.pos, &tipToFlame);
+            Math_Vec3f_Diff(&player->swordInfo[0].tip, &this->actor.world.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
             if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {
                 interactionType = -1;

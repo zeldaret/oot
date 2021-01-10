@@ -48,7 +48,7 @@ static ColliderTrisInit sTrisInit = {
 
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),
@@ -61,14 +61,13 @@ const ActorInit Bg_Bombwall_InitVars = {
 void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_050041B0, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_050041B0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
                      this->dyna.actor.params);
@@ -116,9 +115,9 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
                 BgBombwall_RotateVec(&vecs[j], &sp80, sin, cos);
 
-                vecs[j].x += this->dyna.actor.posRot.pos.x;
-                vecs[j].y += this->dyna.actor.posRot.pos.y;
-                vecs[j].z += this->dyna.actor.posRot.pos.z;
+                vecs[j].x += this->dyna.actor.world.pos.x;
+                vecs[j].y += this->dyna.actor.world.pos.y;
+                vecs[j].z += this->dyna.actor.world.pos.z;
             }
             func_800627A0(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
         }
@@ -133,7 +132,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgBombwall_DestroyCollision(BgBombwall* this, GlobalContext* globalCtx) {
     if (this->unk_2A2 & 2) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->unk_2A2 &= ~2;
     }
 
@@ -160,7 +159,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
     s32 i;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     f32 temp;
     f32 new_var;
 
@@ -192,7 +191,7 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~2;
         func_8086EDFC(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

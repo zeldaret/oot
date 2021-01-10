@@ -41,7 +41,7 @@ extern UNK_TYPE D_0601D934;
 /*
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_KINGDODONGO,
     sizeof(BossDodongo),

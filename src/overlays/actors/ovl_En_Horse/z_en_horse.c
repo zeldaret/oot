@@ -16,7 +16,7 @@ extern UNK_TYPE D_06006530;
 /*
 const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE,
     sizeof(EnHorse),

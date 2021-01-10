@@ -18,7 +18,7 @@ extern UNK_TYPE D_06002920;
 /*
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceShelter),

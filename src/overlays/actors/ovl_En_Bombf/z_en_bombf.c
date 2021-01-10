@@ -24,7 +24,7 @@ void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
 const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOMBF,
     sizeof(EnBombf),
@@ -77,22 +77,22 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         shapeUnk10 = 1000.0f;
     }
 
-    ActorShape_Init(&thisx->shape, shapeUnk10, ActorShadow_DrawFunc_Circle, 12.0f);
-    thisx->posRot2.pos = thisx->posRot.pos;
+    ActorShape_Init(&thisx->shape, shapeUnk10, ActorShadow_DrawCircle, 12.0f);
+    thisx->head.pos = thisx->world.pos;
 
-    if (Actor_FindNearby(globalCtx, thisx, ACTOR_BG_DDAN_KD, ACTORTYPE_BG, 10000.0f) != NULL) {
+    if (Actor_FindNearby(globalCtx, thisx, ACTOR_BG_DDAN_KD, ACTORCAT_BG, 10000.0f) != NULL) {
         thisx->flags |= 0x20;
     }
 
     thisx->colChkInfo.unk_10 = 10.0f;
     thisx->colChkInfo.unk_12 = 10;
-    thisx->unk_1F = 0;
+    thisx->targetMode = 0;
 
     if (thisx->params == BOMBFLOWER_BODY) {
         this->timer = 140;
         this->flashSpeedScale = 15;
         thisx->gravity = -1.5f;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_EXPLOSIVES);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_EXPLOSIVES);
         thisx->colChkInfo.mass = 200;
         thisx->flags &= ~1;
         EnBombf_SetupAction(this, EnBombf_Move);
@@ -128,8 +128,8 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
     if (this->flowerBombScale >= 1.0f) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
             bombFlower =
-                (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
             if (bombFlower != NULL) {
                 func_8002F5C4(&this->actor, bombFlower, globalCtx);
                 this->timer = 180;
@@ -146,10 +146,10 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
         } else if (this->bombCollider.base.acFlags & 2) {
             this->bombCollider.base.acFlags &= ~2;
 
-            if (this->bombCollider.base.ac->type != ACTORTYPE_BOSS) {
+            if (this->bombCollider.base.ac->type != ACTORCAT_BOSS) {
                 bombFlower =
-                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                          this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
                     bombFlower->unk_200 = 1;
                     bombFlower->timer = 0;
@@ -159,10 +159,10 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            if (Player_IsBurningStickInRange(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
+            if (Player_IsBurningStickInRange(globalCtx, &this->actor.world.pos, 30.0f, 50.0f)) {
                 bombFlower =
-                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
-                                          this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                    (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
                     bombFlower->timer = 100;
                     this->timer = 180;
@@ -178,7 +178,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                     player->interactRangeActor = NULL;
                     this->actor.parent = NULL;
                     player->stateFlags1 &= ~0x800;
-                    this->actor.posRot.pos = this->actor.initPosRot.pos;
+                    this->actor.world.pos = this->actor.home.pos;
                 }
             }
         }
@@ -196,7 +196,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
             player->interactRangeActor = NULL;
             this->actor.parent = NULL;
             player->stateFlags1 &= ~0x800;
-            this->actor.posRot.pos = this->actor.initPosRot.pos;
+            this->actor.world.pos = this->actor.home.pos;
         }
     }
 }
@@ -241,7 +241,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
 
     if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
     this->explosionCollider.list->dim.modelSphere.radius += 8;
@@ -304,7 +304,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((!this->bumpOn) && (!Actor_HasParent(thisx, globalCtx)) &&
-        ((thisx->xzDistToLink >= 20.0f) || (ABS(thisx->yDistToLink) >= 80.0f))) {
+        ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f))) {
         this->bumpOn = true;
     }
 
@@ -329,9 +329,9 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         // rebound bomb off the wall it hits
         if ((thisx->speedXZ != 0.0f) && (thisx->bgCheckFlags & 8)) {
 
-            if (ABS((s16)(thisx->wallPolyRot - thisx->posRot.rot.y)) > 0x4000) {
+            if (ABS((s16)(thisx->wallYaw - thisx->world.rot.y)) > 0x4000) {
                 if (1) {}
-                thisx->posRot.rot.y = ((thisx->wallPolyRot - thisx->posRot.rot.y) + thisx->wallPolyRot) - 0x8000;
+                thisx->world.rot.y = ((thisx->wallYaw - thisx->world.rot.y) + thisx->wallYaw) - 0x8000;
             }
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_BOUND);
             Actor_MoveForward(thisx);
@@ -343,19 +343,19 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORCAT_ENEMY))) {
             this->unk_200 = 1;
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->world.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
 
         if (this->unk_200 != 0) {
             dustAccel.y = 0.2f;
-            effPos = thisx->posRot.pos;
+            effPos = thisx->world.pos;
             effPos.y += 25.0f;
             if (this->timer < 127) {
                 // spawn spark effect on even frames
@@ -384,7 +384,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if (this->timer == 0) {
-                effPos = thisx->posRot.pos;
+                effPos = thisx->world.pos;
 
                 effPos.y += 10.0f;
 
@@ -394,8 +394,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100, 19);
 
-                effPos.y = thisx->groundY;
-                if (thisx->groundY > -32000.0f) {
+                effPos.y = thisx->groundHeight;
+                if (thisx->groundHeight > BGCHECK_Y_MIN) {
                     EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
                 }
 
@@ -411,8 +411,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    thisx->posRot2.pos = thisx->posRot.pos;
-    thisx->posRot2.pos.y += 10.0f;
+    thisx->head.pos = thisx->world.pos;
+    thisx->head.pos.y += 10.0f;
 
     if (thisx->params <= BOMBFLOWER_BODY) {
 

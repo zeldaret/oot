@@ -19,7 +19,7 @@ extern UNK_TYPE D_06007128;
 /*
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkj),

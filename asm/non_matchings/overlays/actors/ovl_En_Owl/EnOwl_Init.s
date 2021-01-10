@@ -70,8 +70,8 @@ glabel EnOwl_Init
 /* 00018 80AC9F38 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(D_80ACD61C)  ## $a1 = 80ACD61C
-/* 00020 80AC9F40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00024 80AC9F44 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00020 80AC9F40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00024 80AC9F44 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00028 80AC9F48 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 80AC9F4C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 80AC9F50 0C00AC78 */  jal     ActorShape_Init

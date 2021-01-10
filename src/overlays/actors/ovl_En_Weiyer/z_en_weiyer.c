@@ -23,7 +23,7 @@ extern UNK_TYPE D_06003410;
 /*
 const ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_EI,
     sizeof(EnWeiyer),

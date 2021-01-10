@@ -389,7 +389,7 @@ void func_8008EDF0(Player* this) {
 
 void func_8008EE08(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
-        (!(this->stateFlags1 & 0xC0000) && ((this->actor.posRot.pos.y - this->actor.groundY) < 100.0f))) {
+        (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.groundHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
     } else if (!(this->stateFlags1 & 0x2C0000)) {
         this->stateFlags1 |= 0x80000;
@@ -741,7 +741,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
         footprintPos.y += 15.0f;
 
-        sp80 = func_8003C9A4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
+        sp80 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
 
         if (sp98.y < sp80) {
             sp70 = sp98.x - spA4.x;
@@ -783,7 +783,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
             temp3 = func_80041D4C(&globalCtx->colCtx, sp88, sp84);
 
-            if ((temp3 >= 2) && (temp3 < 4) && !func_80042108(&globalCtx->colCtx, sp88, sp84)) {
+            if ((temp3 >= 2) && (temp3 < 4) && !SurfaceType_IsWallDamage(&globalCtx->colCtx, sp88, sp84)) {
                 footprintPos.y = sp80;
                 EffectSsGFire_Spawn(globalCtx, &footprintPos);
             }
@@ -1084,7 +1084,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
 
     if (1) {}
 
-    if (func_8003E188(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &sp98)) {
+    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &sp98)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2572);
 
         OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
@@ -1215,11 +1215,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &hookedActor->posRot.rot, 0);
-                    hookedActor->shape.rot = hookedActor->posRot.rot;
+                    func_800D20CC(&sp14C, &hookedActor->world.rot, 0);
+                    hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
                     Vec3s spB8;
 
@@ -1227,9 +1227,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     func_800D20CC(&sp14C, &spB8, 0);
 
                     if (hookedActor->flags & 0x20000) {
-                        hookedActor->posRot.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->posRot.rot.y = hookedActor->shape.rot.y =
+                        hookedActor->world.rot.y = hookedActor->shape.rot.y =
                             this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
@@ -1298,11 +1298,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     MtxF sp44;
                     s32 pad;
 
-                    Matrix_MultVec3f(&D_80126190, &heldActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    func_800D20CC(&sp44, &heldActor->posRot.rot, 0);
-                    heldActor->shape.rot = heldActor->posRot.rot;
+                    func_800D20CC(&sp44, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
@@ -1322,7 +1322,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 }
 
                 if (this->unk_862 == 0) {
-                    Math_Vec3f_Copy(&heldActor->posRot.pos, &sGetItemRefPos);
+                    Math_Vec3f_Copy(&heldActor->world.pos, &sGetItemRefPos);
                 }
             }
         }
@@ -1337,7 +1337,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&D_801260D4, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&D_801260D4, &this->actor.head.pos);
         } else {
             Vec3f* vec = &D_801261E0[(0, gSaveContext.linkAge)];
 

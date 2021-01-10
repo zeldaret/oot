@@ -46,7 +46,7 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SHOPNUTS,
     sizeof(EnDns),
@@ -104,8 +104,8 @@ DnsItemEntry* D_809F0500[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 78, ICHAIN_CONTINUE),
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(arrowOffset, 30, ICHAIN_STOP),
 };
 
 typedef struct {
@@ -144,7 +144,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 35.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 35.0f);
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.colChkInfo.mass = 0xFF;
@@ -311,17 +311,17 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 2000, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
-        if ((this->collider.base.maskA & 2) || (this->actor.unk_10C != 0)) {
+        if ((this->collider.base.maskA & 2) || this->actor.isTargeted) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;
         }
-        if (this->actor.xzDistToLink < 130.0f) {
+        if (this->actor.xzDistToPlayer < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
         }
     }
@@ -431,7 +431,7 @@ void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
-        this->yInitPos = this->actor.posRot.pos.y;
+        this->yInitPos = this->actor.world.pos.y;
     }
 }
 
@@ -440,20 +440,20 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx) {
     Vec3f initPos;
     s32 i;
 
-    depth = this->yInitPos - this->actor.posRot.pos.y;
+    depth = this->yInitPos - this->actor.world.pos.y;
     if ((this->dustTimer & 3) == 0) {
-        initPos.x = this->actor.posRot.pos.x;
+        initPos.x = this->actor.world.pos.x;
         initPos.y = this->yInitPos;
-        initPos.z = this->actor.posRot.pos.z;
+        initPos.z = this->actor.world.pos.z;
         func_80028990(globalCtx, 20.0f, &initPos);
     }
     this->actor.shape.rot.y += 0x2000;
     // Drops only if you bought its item
     if (depth > 400.0f) {
         if (this->dropCollectible) {
-            initPos.x = this->actor.posRot.pos.x;
+            initPos.x = this->actor.world.pos.x;
             initPos.y = this->yInitPos;
-            initPos.z = this->actor.posRot.pos.z;
+            initPos.z = this->actor.world.pos.z;
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(globalCtx, &initPos, ITEM00_HEART);
             }

@@ -14,7 +14,7 @@ extern UNK_TYPE D_06000DE0;
 /*
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnFireRock),

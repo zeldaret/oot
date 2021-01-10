@@ -19,7 +19,7 @@ void func_80A89304(EnJs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_JS,
     sizeof(EnJs),
@@ -57,8 +57,8 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     En_Js_SetupAction(this, func_80A89304);
     this->unk_284 = 0;
     this->actor.gravity = -1.0f;
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.posRot.pos.x,
-                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_JSJUTAN, this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -74,9 +74,9 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
         return 1;
     } else {
         this->actor.textId = textId;
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToLink < 100.0f) {
+        if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToPlayer < 100.0f) {
             this->unk_284 |= 1;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -86,7 +86,8 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), ANIMMODE_ONCE,
+                     -4.0f);
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
@@ -142,7 +143,8 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), ANIMMODE_ONCE,
+                     -4.0f);
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
@@ -162,18 +164,18 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->actor.bgCheckFlags & 1) {
-        if (func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) == 1) {
-            Math_ApproachF(&this->actor.shape.unk_08, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
+        if (SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 1) {
+            Math_ApproachF(&this->actor.shape.yOffset, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {
-        Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, (sREG(81) / 10.0f) + 50.0f);
+        Math_ApproachZeroF(&this->actor.shape.yOffset, 1.0f, (sREG(81) / 10.0f) + 50.0f);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_284 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_278, &this->unk_27E, this->actor.head.pos);
     } else {
         Math_SmoothStepToS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk_278.y, 0, 6, 0x1838, 0x64);
@@ -207,7 +209,7 @@ void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnJs* this = THIS;
 
     if (limbIndex == 12) {
-        Matrix_MultVec3f(&D_80A896DC, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A896DC, &this->actor.head.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {

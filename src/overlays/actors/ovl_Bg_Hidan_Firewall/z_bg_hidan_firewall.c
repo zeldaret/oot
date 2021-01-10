@@ -26,7 +26,7 @@ extern Gfx D_0600DA80[];
 
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFirewall),
@@ -65,7 +65,7 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    this->collider.dim.pos.y = this->actor.posRot.pos.y;
+    this->collider.dim.pos.y = this->actor.world.pos.y;
 
     func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
@@ -83,7 +83,7 @@ s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalC
     Vec3f distance;
 
     player = PLAYER;
-    func_8002DBD0(&this->actor, &distance, &player->actor.posRot.pos);
+    func_8002DBD0(&this->actor, &distance, &player->actor.world.pos);
 
     if (fabsf(distance.x) < 100.0f && fabsf(distance.z) < 120.0f) {
         return 1;
@@ -142,7 +142,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
 
     player = PLAYER;
 
-    func_8002DBD0(&this->actor, &sp30, &player->actor.posRot.pos);
+    func_8002DBD0(&this->actor, &sp30, &player->actor.world.pos);
     if (sp30.x < -70.0f) {
         sp30.x = -70.0f;
     } else {
@@ -166,8 +166,8 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     }
     sp28 = Math_SinS(this->actor.shape.rot.y);
     temp_ret = Math_CosS(this->actor.shape.rot.y);
-    this->collider.dim.pos.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
-    this->collider.dim.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
+    this->collider.dim.pos.x = this->actor.world.pos.x + sp30.x * temp_ret + sp30.z * sp28;
+    this->collider.dim.pos.z = this->actor.world.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
 
 void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {

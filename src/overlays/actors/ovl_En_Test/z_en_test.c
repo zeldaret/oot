@@ -64,7 +64,7 @@ extern UNK_TYPE D_0600E2B0;
 /*
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SK2,
     sizeof(EnTest),

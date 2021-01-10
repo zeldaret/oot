@@ -21,7 +21,7 @@ extern Gfx D_06000EB0[];
 
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkjneedle),
@@ -38,8 +38,8 @@ static ColliderCylinderInit_Set3 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(arrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -48,7 +48,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 20.0f);
     thisx->flags &= ~0x1;
     Actor_SetScale(&this->actor, 0.01f);
 }

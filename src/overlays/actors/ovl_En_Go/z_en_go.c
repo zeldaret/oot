@@ -22,7 +22,7 @@ extern UNK_TYPE D_06010590;
 /*
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGo),

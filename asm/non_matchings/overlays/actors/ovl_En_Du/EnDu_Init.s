@@ -4,8 +4,8 @@ glabel EnDu_Init
 /* 00584 809FE1B4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00588 809FE1B8 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0058C 809FE1BC AFA5004C */  sw      $a1, 0x004C($sp)
-/* 00590 809FE1C0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00594 809FE1C4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00590 809FE1C0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00594 809FE1C4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00598 809FE1C8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0059C 809FE1CC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 005A0 809FE1D0 0C00AC78 */  jal     ActorShape_Init

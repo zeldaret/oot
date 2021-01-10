@@ -19,7 +19,7 @@ void func_80A6F1A4(EnHs2* this, GlobalContext* globalCtx);
 
 const ActorInit En_Hs2_InitVars = {
     ACTOR_EN_HS2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_HS,
     sizeof(EnHs2),
@@ -42,7 +42,7 @@ void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHs2* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
     Animation_PlayLoop(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -52,7 +52,7 @@ void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
     this->actionFunc = func_80A6F1A4;
     this->unk_2A8 = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 }
 
 void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -68,8 +68,8 @@ s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2Action
     }
 
     this->actor.textId = textId;
-    if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x2151 &&
-        this->actor.xzDistToLink < 100.0f) {
+    if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2151 &&
+        this->actor.xzDistToPlayer < 100.0f) {
         this->unk_2A8 |= 0x1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -107,7 +107,7 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_2A8 & 0x1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.head.pos);
         this->unk_2A8 &= ~1;
     } else {
         Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
@@ -144,7 +144,7 @@ void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnHs2* this = THIS;
 
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&D_80A6F4CC, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A6F4CC, &this->actor.head.pos);
     }
 }
 

@@ -33,7 +33,7 @@ void func_80B31CC0(EnWeatherTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWeatherTag),
@@ -330,8 +330,8 @@ void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

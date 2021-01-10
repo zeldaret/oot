@@ -17,7 +17,7 @@ extern UNK_TYPE D_06005848;
 /*
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BL,
     sizeof(EnBili),

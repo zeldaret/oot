@@ -18,7 +18,7 @@ extern UNK_TYPE D_06001C80;
 /*
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_PEEHAT,
     sizeof(EnPeehat),

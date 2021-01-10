@@ -26,7 +26,7 @@ extern Gfx D_05000530[];
 
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKowarerukabe),
@@ -50,18 +50,17 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    static ColHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
+    static CollisionHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     if (collisionHeaders[this->dyna.actor.params & 0xFF] != NULL) {
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        DynaPolyInfo_Alloc(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     } else {
-        this->dyna.dynaPolyId = -1;
+        this->dyna.bgId = BGACTOR_NEG_ONE;
     }
 }
 
@@ -80,8 +79,8 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, GlobalCon
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
     static f32 actorYPosOffsets[] = { 0.7f, 0.0f, 0.0f };
 
-    this->dyna.actor.posRot.pos.y =
-        actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.world.pos.y =
+        actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.home.pos.y;
 }
 
 static InitChainEntry sInitChain[] = {
@@ -121,7 +120,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKowarerukabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -129,14 +128,14 @@ void BgHidanKowarerukabe_SpawnDust(BgHidanKowarerukabe* this, GlobalContext* glo
     s32 pad;
     Vec3f pos;
 
-    pos = this->dyna.actor.posRot.pos;
+    pos = this->dyna.actor.world.pos;
     pos.y += 10.0f;
 
     func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 1);
 
-    pos.x = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.x;
-    pos.y = (Rand_ZeroOne() * 100.0f) + this->dyna.actor.posRot.pos.y;
-    pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.posRot.pos.z;
+    pos.x = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.world.pos.x;
+    pos.y = (Rand_ZeroOne() * 100.0f) + this->dyna.actor.world.pos.y;
+    pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.world.pos.z;
 
     func_80033480(globalCtx, &pos, 100.0f, 4, 200, 250, 1);
 }
@@ -154,15 +153,15 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
     f32 tmp2;
     s16 arg9;
 
-    pos.y = thisx->posRot.pos.y + 10.0f;
+    pos.y = thisx->world.pos.y + 10.0f;
 
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 5; j++) {
             tmp1 = 24 * (i - 2);
             tmp2 = 24 * (j - 2);
 
-            pos.x = (tmp2 * sin) + (tmp1 * cos) + thisx->posRot.pos.x;
-            pos.z = (tmp2 * cos) - (tmp1 * sin) + thisx->posRot.pos.z;
+            pos.x = (tmp2 * sin) + (tmp1 * cos) + thisx->world.pos.x;
+            pos.z = (tmp2 * cos) - (tmp1 * sin) + thisx->world.pos.z;
 
             tmp1 = 8.0f * Rand_ZeroOne() * (i - 2);
             tmp2 = 8.0f * Rand_ZeroOne() * (j - 2);
@@ -175,7 +174,7 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
 
             arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -550, arg5, 15, 15, 0, arg9, 2, 16,
                                  100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
@@ -195,12 +194,12 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     s16 arg9;
 
     for (i = 0; i < 5; i++) {
-        pos.y = (20 * i) + thisx->posRot.pos.y;
+        pos.y = (20 * i) + thisx->world.pos.y;
         for (j = 0; j < 5; j++) {
             tmp1 = 16 * (j - 2);
 
-            pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
-            pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
+            pos.x = (tmp1 * cos) + thisx->world.pos.x;
+            pos.z = -(tmp1 * sin) + thisx->world.pos.z;
 
             tmp1 = 3.0f * Rand_ZeroOne() * (j - 2);
             tmp2 = 6.0f * Rand_ZeroOne();
@@ -216,7 +215,7 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
                 arg5 |= 1;
             }
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot.pos, -540, arg5, 20, 20, 0, arg9, 2, 32,
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -540, arg5, 20, 20, 0, arg9, 2, 32,
                                  100, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
@@ -236,12 +235,12 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     s16 arg9;
 
     for (i = 0; i < 5; i++) {
-        pos.y = (24 * i) + thisx->posRot.pos.y;
+        pos.y = (24 * i) + thisx->world.pos.y;
         for (j = 0; j < 5; j++) {
             tmp1 = 28 * (j - 2);
 
-            pos.x = (tmp1 * cos) + thisx->posRot.pos.x;
-            pos.z = -(tmp1 * sin) + thisx->posRot.pos.z;
+            pos.x = (tmp1 * cos) + thisx->world.pos.x;
+            pos.z = -(tmp1 * sin) + thisx->world.pos.z;
 
             tmp1 = 6.0f * Rand_ZeroOne() * (j - 2);
             tmp2 = 6.0f * Rand_ZeroOne();
@@ -257,7 +256,7 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
                 arg5 |= 1;
             }
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->posRot, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
                                  KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
         }
     }
@@ -288,9 +287,9 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
 
         if ((this->dyna.actor.params & 0xFF) == 0) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_EXPLOSION);
+            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
         } else {
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);

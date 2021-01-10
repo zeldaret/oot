@@ -21,7 +21,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOMBIWA,
     sizeof(ObjBombiwa),
@@ -74,11 +74,11 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Rand_ZeroFloat(65536.0f);
-            thisx->posRot.rot.y = rand;
+            thisx->world.rot.y = rand;
             thisx->shape.rot.y = rand;
         }
-        thisx->shape.unk_08 = -200.0f;
-        thisx->posRot.pos.y = thisx->initPosRot.pos.y + 20.0f;
+        thisx->shape.yOffset = -200.0f;
+        thisx->world.pos.y = thisx->home.pos.y + 20.0f;
     }
 }
 
@@ -99,9 +99,9 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 
     dlist = D_060009E0;
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
-        pos.x = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.x;
-        pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.initPosRot.pos.y) + 8.0f;
-        pos.z = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.z;
+        pos.x = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.home.pos.x;
+        pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.home.pos.y) + 8.0f;
+        pos.z = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.home.pos.z;
         velocity.x = (Rand_ZeroOne() - 0.5f) * 15.0f;
         velocity.y = (Rand_ZeroOne() * 16.0f) + 5.0f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
@@ -110,7 +110,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, 10, 2, 0, scale, 1, 0, 80, KAKERA_COLOR_NONE,
                              OBJECT_BOMBIWA, dlist);
     }
-    func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 8, 100, 160, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 8, 100, 160, 1);
 }
 
 void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -121,14 +121,14 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         ((this->collider.base.acFlags & 2) != 0 && (this->collider.body.acHitItem->toucher.flags & 0x40000040) != 0)) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (((this->actor.params >> 0xF) & 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);
     } else {
         this->collider.base.acFlags &= ~0x2;
-        if (this->actor.xzDistToLink < 800.0f) {
+        if (this->actor.xzDistToPlayer < 800.0f) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }

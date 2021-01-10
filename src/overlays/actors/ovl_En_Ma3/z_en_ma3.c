@@ -27,7 +27,7 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MA2,
     sizeof(EnMa3),
@@ -83,13 +83,13 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-        if ((gSaveContext.horseRaceRecord == 0) || (gSaveContext.horseRaceRecord >= 0xB4)) {
-            gSaveContext.horseRaceRecord = 0xB4;
+        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
+            HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
         if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < gSaveContext.horseRaceRecord) {
+        } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -126,7 +126,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
                         func_8010B720(globalCtx, 0x2091);
-                    } else if (gSaveContext.horseRaceRecord == 0) {
+                    } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         func_8010B720(globalCtx, 0x2092);
                     } else {
                         func_8010B720(globalCtx, 0x2090);
@@ -144,8 +144,8 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.eventChkInf[1] |= 0x4000;
                 case 0x2004:
                 case 0x2012:
-                    if (gSaveContext.horseRaceRecord > gSaveContext.timer1Value) {
-                        gSaveContext.horseRaceRecord = gSaveContext.timer1Value;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
@@ -186,7 +186,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = 0.0f;
     func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
 }
@@ -240,7 +240,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -335,7 +335,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.head.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
@@ -353,7 +353,7 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 

@@ -41,7 +41,7 @@ extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TK,
     sizeof(EnTk),
@@ -170,7 +170,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.0f;
@@ -179,7 +179,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(240, 240);
 }
@@ -187,7 +187,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), ANIMMODE_LOOP, -10.0f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -215,7 +215,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.xyzDistToLinkSq > 10000.0f) {
+    if (this->actor.xyzDistToPlayerSq > 10000.0f) {
         return 0;
     }
 
@@ -223,7 +223,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     v0 -= this->h_21E;
     v0 -= this->headRot;
 
-    v1 = this->actor.yawTowardsLink - v0;
+    v1 = this->actor.yawTowardsPlayer - v0;
     if (ABS(v1) < 0x1554) {
         return 1;
     } else {
@@ -236,7 +236,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
     f32 dxz;
     f32 dy;
 
-    prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    prop = globalCtx->actorCtx.actorList[ACTORCAT_PROP].first;
 
     while (prop != NULL) {
         if (prop->id != ACTOR_EN_IT) {
@@ -249,7 +249,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.groundY;
+        dy = prop->world.pos.y - this->actor.groundHeight;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.0f || dy > 10.0f) {
             prop = prop->next;
@@ -268,7 +268,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
+        dy = this->currentSpot->world.pos.y - this->actor.groundHeight;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.0f || dy > 10.0f) {
             this->currentSpot = NULL;
@@ -317,11 +317,11 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     point = SEGMENTED_TO_VIRTUAL(path->points);
     point += this->currentWaypoint;
 
-    dx = point->x - this->actor.posRot.pos.x;
-    dz = point->z - this->actor.posRot.pos.z;
+    dx = point->x - this->actor.world.pos.x;
+    dz = point->z - this->actor.world.pos.z;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
-    this->actor.posRot.rot = this->actor.shape.rot;
+    this->actor.world.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
         this->currentWaypoint++;
@@ -485,10 +485,11 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTk* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 24.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
-    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP,
+                     0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -503,7 +504,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actor.gravity = -0.1f;
     this->currentReward = -1;
     this->currentSpot = NULL;
@@ -523,7 +524,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     if (this->h_1E0 != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         if (this->h_1E0 == 2) {
             EnTk_DigAnim(this, globalCtx);
@@ -537,7 +538,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
@@ -545,7 +546,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
         this->h_1E0 = 1;
@@ -604,9 +605,9 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             Matrix_RotateY(this->actor.shape.rot.y, MTXMODE_NEW);
             Matrix_MultVec3f(&rewardOrigin, &rewardPos);
 
-            rewardPos.x += this->actor.posRot.pos.x;
-            rewardPos.y += this->actor.posRot.pos.y;
-            rewardPos.z += this->actor.posRot.pos.z;
+            rewardPos.x += this->actor.world.pos.x;
+            rewardPos.y += this->actor.world.pos.y;
+            rewardPos.z += this->actor.world.pos.z;
 
             this->currentReward = EnTk_ChooseReward(this);
             if (this->currentReward == 3) {
@@ -708,7 +709,7 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     /* Limb 16 - Jaw */
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&sp1C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sp1C, &this->actor.head.pos);
     }
 
     /* Limb 14 - Neck */

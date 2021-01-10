@@ -40,7 +40,7 @@ static DemoGoDrawFunc D_8097D468[] = {
 
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),
@@ -81,7 +81,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     Vec3f* sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->posRot.pos, &sp20, &sp1C);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
         Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
@@ -123,14 +123,14 @@ void func_8097CA30(DemoGo* this, GlobalContext* globalCtx) {
 
 void func_8097CA78(DemoGo* this, GlobalContext* globalCtx) {
     s16 pad;
-    Vec3f vec = this->actor.posRot.pos;
+    Vec3f vec = this->actor.world.pos;
     func_80033480(globalCtx, &vec, kREG(11) + 100.0f, kREG(12) + 0xA, kREG(13) + 0x12C, kREG(14), 0);
     func_8097C9B8(this);
 }
 
 void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    PosRot* posRot = &thisx->posRot;
+    PosRot* world = &thisx->world;
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* npcAction;
     f32 temp_ret;
@@ -148,10 +148,10 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
             endPos.x = npcAction->endPos.x;
             endPos.y = npcAction->endPos.y;
             endPos.z = npcAction->endPos.z;
-            posRot->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
-            posRot->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
-            posRot->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
-            posRot->rot.y = thisx->shape.rot.y = npcAction->rot.y;
+            world->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
+            world->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
+            world->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
+            world->rot.y = thisx->shape.rot.y = npcAction->rot.y;
         }
     }
 }
@@ -180,7 +180,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
-            thisRotY = thisx->posRot.rot.y;
+            thisRotY = thisx->world.rot.y;
             rotYDelta = npcAction->rot.y - thisRotY;
             if ((rotYDelta > -(kREG(16) + 0x96)) && (rotYDelta < kREG(16) + 0x96)) {
                 newRotY = npcAction->rot.y;
@@ -190,7 +190,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
                 newRotY = (thisRotY - kREG(16)) - 0x96;
             }
             thisx->shape.rot.y = newRotY;
-            thisx->posRot.rot.y = newRotY;
+            thisx->world.rot.y = newRotY;
         }
     }
 }
@@ -245,7 +245,8 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     AnimationHeader* animation = &D_060029A8;
     if (arg2 != 0) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, -8.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         -8.0f);
         this->action = 5;
         this->unk_19C = 0.0f;
     }
@@ -317,9 +318,9 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
     AnimationHeader* animation = &D_06004930;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->action = 0;
 }
 

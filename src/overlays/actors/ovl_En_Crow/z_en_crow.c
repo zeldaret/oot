@@ -24,7 +24,7 @@ static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_CROW,
     sizeof(EnCrow),
@@ -58,7 +58,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 88, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 2000, ICHAIN_STOP),
+    ICHAIN_F32(arrowOffset, 2000, ICHAIN_STOP),
 };
 
 static Vec3f sHeadVec[] = { 2500.0f, 0.0f, 0.0f };
@@ -72,7 +72,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
     this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
+    ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
     sDeathCount = 0;
     EnCrow_SetupWait(this);
 }
@@ -102,22 +102,22 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_CosS(this->actor.posRot.rot.x);
+    this->actor.speedXZ *= Math_CosS(this->actor.world.rot.x);
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
-    this->actor.posRot.pos.y += 20.0f * scale;
+    this->actor.world.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~1;
-    this->actor.shape.unk_08 = 0.0f;
-    this->actor.unk_4C = 0.0f;
+    this->actor.shape.yOffset = 0.0f;
+    this->actor.arrowOffset = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
     if (this->actor.colChkInfo.damageEffect == 3) {
         func_8003426C(&this->actor, 0, 255, 0, 40);
         for (i = 0; i < 8; i++) {
-            iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.x;
-            iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.y;
-            iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.z;
+            iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
+            iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.y;
+            iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.z;
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
@@ -125,7 +125,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
 
         for (i = 0; i < 4; i++) {
-            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot, 50.0f * scale, 0, 0, i);
+            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.world, 50.0f * scale, 0, 0, i);
         }
     } else {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
@@ -142,7 +142,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_SetupDie(EnCrow* this) {
-    this->actor.dmgEffectTimer = 0;
+    this->actor.colorFilterTimer = 0;
     this->actionFunc = EnCrow_Die;
 }
 
@@ -150,7 +150,7 @@ void func_809E06E8(EnCrow* this) {
     this->timer = 100;
     this->actor.speedXZ = 3.5f;
     this->aimRotX = -0x1000;
-    this->aimRotY = this->actor.yawTowardsLink + 0x8000;
+    this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
     func_8003426C(&this->actor, 0, 255, 0, 5);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -168,12 +168,12 @@ void func_809E0770(EnCrow* this) {
     }
 
     Animation_PlayLoop(&this->skelAnime, &D_060000F0);
-    Math_Vec3f_Copy(&this->actor.posRot, &this->actor.initPosRot);
+    Math_Vec3f_Copy(&this->actor.world, &this->actor.home);
     this->actor.shape.rot.x = 0;
     this->actor.shape.rot.z = 0;
     this->timer = 300;
-    this->actor.shape.unk_08 = 2000;
-    this->actor.unk_4C = 2000.0f;
+    this->actor.shape.yOffset = 2000;
+    this->actor.arrowOffset = 2000.0f;
     this->actor.draw = NULL;
     this->actionFunc = func_809E10A8;
 }
@@ -188,14 +188,14 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & 8) {
-        this->aimRotY = this->actor.wallPolyRot;
-    } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot) > 300.0f) {
-        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
+        this->aimRotY = this->actor.wallYaw;
+    } else if (func_8002DBB0(&this->actor, &this->actor.home) > 300.0f) {
+        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.home);
     }
 
     if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
         (Rand_ZeroOne() < 0.1f)) {
-        var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
+        var = func_8002DAC0(&this->actor, &this->actor.home) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
         } else {
@@ -206,15 +206,15 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.yDistToWater > -40.0f) {
         this->aimRotX = -0x1000;
-    } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
+    } else if (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
-    } else if (this->actor.posRot.pos.y > (this->actor.initPosRot.pos.y + 50.0f)) {
+    } else if (this->actor.world.pos.y > (this->actor.home.pos.y + 50.0f)) {
         this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
     if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
         (Rand_ZeroOne() < 0.1f)) {
-        if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
+        if (this->actor.home.pos.y < this->actor.world.pos.y) {
             this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;
         } else {
             this->aimRotX += (0x400 * Rand_ZeroOne()) + 0x400;
@@ -229,7 +229,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistToLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
         (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
@@ -249,9 +249,9 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     yaw = func_8002E084(&this->actor, 0x2800);
 
     if (yaw != 0) {
-        pos.x = player->actor.posRot.pos.x;
-        pos.y = player->actor.posRot.pos.y + 20.0f;
-        pos.z = player->actor.posRot.pos.z;
+        pos.x = player->actor.world.pos.x;
+        pos.y = player->actor.world.pos.y + 20.0f;
+        pos.z = player->actor.world.pos.z;
         target = func_8002DB28(&this->actor, &pos);
         if (target > 0x3000) {
             target = 0x3000;
@@ -261,8 +261,8 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
-    if ((yaw != 0) || (this->actor.xzDistToLink > 80.0f)) {
-        Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
+    if ((yaw != 0) || (this->actor.xzDistToPlayer > 80.0f)) {
+        Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 4, 0xC00);
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
@@ -278,15 +278,15 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
 
 void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
-    this->actor.dmgEffectTimer = 40;
+    this->actor.colorFilterTimer = 40;
 
     if (!(this->actor.flags & 0x8000)) {
-        if (this->actor.dmgEffectParams & 0x4000) {
+        if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundHeight == BGCHECK_Y_MIN)) {
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.world, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
         }
@@ -305,9 +305,9 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->actor.scale, 0.0f, step)) {
         if (this->actor.params == 0) {
             sDeathCount++;
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world, 0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world, ITEM00_RUPEE_RED);
         }
         func_809E0770(this);
     }
@@ -319,9 +319,9 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & 8) {
-        this->aimRotY = this->actor.wallPolyRot;
+        this->aimRotY = this->actor.wallYaw;
     } else {
-        this->aimRotY = this->actor.yawTowardsLink + 0x8000;
+        this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     }
 
     Math_ApproachS(&this->actor.shape.rot.y, this->aimRotY, 3, 0xC00);
@@ -386,8 +386,8 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809E1174(this, globalCtx);
     this->actionFunc(this, globalCtx);
     scale = this->actor.scale.x * 100.0f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->actor.posRot.rot.x = -this->actor.shape.rot.x;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.x = -this->actor.shape.rot.x;
 
     if (this->actionFunc != func_809E10A8) {
         if (this->actor.colChkInfo.health != 0) {
@@ -402,9 +402,9 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         height = 0.0f;
     }
 
-    this->collider.list[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + height;
-    this->collider.list[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.list[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+    this->collider.list[0].dim.worldSphere.center.y = this->actor.world.pos.y + height;
+    this->collider.list[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
     if (this->actionFunc == func_809E0C8C) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);

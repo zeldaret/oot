@@ -12,7 +12,7 @@ void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GOMA,
     sizeof(BossGoma),

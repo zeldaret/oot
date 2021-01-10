@@ -22,7 +22,7 @@ extern UNK_TYPE D_06001000;
 /*
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_KIBAKO2,
     sizeof(ObjKibako2),

@@ -21,7 +21,7 @@ void func_80A6DC7C(EnHorseZelda* this);
 
 const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE_ZELDA,
     sizeof(EnHorseZelda),
@@ -93,22 +93,22 @@ void func_80A6D918(EnHorseZelda* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     func_80A6D8D0(D_80A6E240, this->unk_1EC, &sp28);
-    if (Math3D_Vec3f_DistXYZ(&sp28, &this->actor.posRot.pos) <= 400.0f) {
+    if (Math3D_Vec3f_DistXYZ(&sp28, &this->actor.world.pos) <= 400.0f) {
         this->unk_1EC++;
         if (this->unk_1EC >= 14) {
             this->unk_1EC = 0;
             func_80A6D8D0(D_80A6E240, 0, &sp28);
         }
     }
-    yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp28) - this->actor.posRot.rot.y;
+    yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &sp28) - this->actor.world.rot.y;
     if (yawDiff >= 0x12D) {
-        this->actor.posRot.rot.y += 0x12C;
+        this->actor.world.rot.y += 0x12C;
     } else if (yawDiff < -0x12C) {
-        this->actor.posRot.rot.y -= 0x12C;
+        this->actor.world.rot.y -= 0x12C;
     } else {
-        this->actor.posRot.rot.y += yawDiff;
+        this->actor.world.rot.y += yawDiff;
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (func_8002DB8C(&this->actor, &PLAYER->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
@@ -129,11 +129,11 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0115f);
     this->actor.gravity = -3.5f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawSquiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.head.pos = this->actor.world.pos;
     this->action = 0;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.head.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06006B2C, &D_06007148);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
@@ -179,7 +179,7 @@ void func_80A6DD14(EnHorseZelda* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
                      splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
@@ -191,16 +191,16 @@ void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
 
 void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
     s32 pad;
-    CollisionPoly* sp38;
+    CollisionPoly* poly;
     s32 pad2;
-    Vec3f sp28;
-    f32 sp24;
+    Vec3f pos;
+    s32 bgId;
 
-    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 60.0f;
-    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
-    this->unk_1F4 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
+    pos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y + 60.0f;
+    pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
+    this->unk_1F4 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &pos);
+    this->actor.shape.rot.x = Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
 }
 
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -211,8 +211,8 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.head.pos = this->actor.world.pos;
+    this->actor.head.pos.y += 70.0f;
     Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }

@@ -12,7 +12,7 @@ void BgSstFloor_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SST,
     sizeof(BgSstFloor),

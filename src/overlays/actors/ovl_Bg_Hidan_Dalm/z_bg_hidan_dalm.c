@@ -20,7 +20,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanDalm),
@@ -62,18 +62,17 @@ static InitChainEntry sInitChain[] = {
 
 extern Gfx D_0600BBF0[];
 extern Gfx D_0600BDF0[];
-extern UNK_TYPE D_0600DA10;
+extern CollisionHeader D_0600DA10;
 
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
     s32 pad;
-    u32 dynaUnk;
+    CollisionHeader* colHeader = NULL;
 
-    dynaUnk = 0;
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    DynaPolyInfo_Alloc(&D_0600DA10, &dynaUnk);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, dynaUnk);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_0600DA10, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->colliderItems);
 
@@ -89,7 +88,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 
@@ -100,12 +99,12 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
         this->collider.base.acFlags &= ~2;
         if (this->collider.list[0].body.bumperFlags & 2 || this->collider.list[1].body.bumperFlags & 2) {
-            this->dyna.actor.posRot.rot.y -= 0x4000;
+            this->dyna.actor.world.rot.y -= 0x4000;
         } else {
-            this->dyna.actor.posRot.rot.y += 0x4000;
+            this->dyna.actor.world.rot.y += 0x4000;
         }
-        this->dyna.actor.posRot.pos.x += 32.5f * Math_SinS(this->dyna.actor.posRot.rot.y);
-        this->dyna.actor.posRot.pos.z += 32.5f * Math_CosS(this->dyna.actor.posRot.rot.y);
+        this->dyna.actor.world.pos.x += 32.5f * Math_SinS(this->dyna.actor.world.rot.y);
+        this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
         this->dyna.actor.flags |= 0x10;
@@ -134,13 +133,13 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.scale.y = this->dyna.actor.scale.z = this->dyna.actor.scale.x;
 
-    pos.x = this->dyna.actor.posRot.pos.x;
-    pos.y = this->dyna.actor.posRot.pos.y + this->dyna.actor.scale.x * 160.0f;
-    pos.z = this->dyna.actor.posRot.pos.z;
+    pos.x = this->dyna.actor.world.pos.x;
+    pos.y = this->dyna.actor.world.pos.y + this->dyna.actor.scale.x * 160.0f;
+    pos.z = this->dyna.actor.world.pos.z;
 
     for (i = 0; i < 4; i++) {
-        velocity.x = 5.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.z = 5.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.x = 5.0f * Math_SinS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_CosS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
         velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
         EffectSsKiraKira_SpawnSmallYellow(globalCtx, &pos, &velocity, &accel);
     }

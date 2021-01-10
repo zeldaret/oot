@@ -15,7 +15,7 @@ extern UNK_TYPE D_05006810;
 /*
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnHonotrap),

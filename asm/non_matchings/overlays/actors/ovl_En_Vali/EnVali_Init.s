@@ -9,8 +9,8 @@ glabel EnVali_Init
 /* 0001C 80B266CC 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00020 80B266D0 24A58944 */  addiu   $a1, $a1, %lo(D_80B28944)  ## $a1 = 80B28944
-/* 00024 80B266D4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00028 80B266D8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00024 80B266D4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00028 80B266D8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0002C 80B266DC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80B266E0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00034 80B266E4 0C00AC78 */  jal     ActorShape_Init
@@ -81,7 +81,7 @@ glabel EnVali_Init
 /* 00128 80B267D8 262407C0 */  addiu   $a0, $s1, 0x07C0           ## $a0 = 000007C0
 /* 0012C 80B267DC 26050078 */  addiu   $a1, $s0, 0x0078           ## $a1 = 00000078
 /* 00130 80B267E0 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFF4
-/* 00134 80B267E4 0C00F269 */  jal     func_8003C9A4              
+/* 00134 80B267E4 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00138 80B267E8 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 0013C 80B267EC 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 00140 80B267F0 44812000 */  mtc1    $at, $f4                   ## $f4 = -32000.00

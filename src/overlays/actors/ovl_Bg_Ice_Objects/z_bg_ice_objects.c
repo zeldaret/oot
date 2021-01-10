@@ -21,7 +21,7 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000190[];
-extern ColHeader D_060003F0;
+extern CollisionHeader D_060003F0;
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sGray = { 180, 180, 180, 255 };
@@ -29,7 +29,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceObjects),
@@ -46,15 +46,14 @@ InitChainEntry sInitChain[] = {
 void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgIceObjects* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060003F0, &colHeader);
-    Math_Vec3f_Copy(&this->targetPos, &this->dyna.actor.initPosRot.pos);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060003F0, &colHeader);
+    Math_Vec3f_Copy(&this->targetPos, &this->dyna.actor.home.pos);
     this->actionFunc = BgIceObjects_Idle;
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.params = 0;
 }
 
@@ -62,7 +61,7 @@ void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgIceObjects* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 static s16 sXStarts[] = {
@@ -90,7 +89,7 @@ void BgIceObjects_SetNextTarget(BgIceObjects* this, GlobalContext* globalCtx) {
     s32 i;
 
     if ((this->dyna.unk_158 == 0) || (this->dyna.unk_158 == -0x8000)) {
-        x16 = this->dyna.actor.posRot.pos.x;
+        x16 = this->dyna.actor.world.pos.x;
         for (i = 0; i < 7; i++) {
             if (x16 == sXStarts[i]) {
                 z16 = (this->dyna.unk_158 == 0) ? sZStops[i][0] : sZStops[i][1];
@@ -100,7 +99,7 @@ void BgIceObjects_SetNextTarget(BgIceObjects* this, GlobalContext* globalCtx) {
         }
         this->targetPos.z = (this->dyna.unk_158 == 0) ? -340 : -1260;
     } else {
-        z16 = this->dyna.actor.posRot.pos.z;
+        z16 = this->dyna.actor.world.pos.z;
         for (i = 0; i < 7; i++) {
             if (z16 == sZStarts[i]) {
                 x16 = (this->dyna.unk_158 == 0x4000) ? sXStops[i][0] : sXStops[i][1];
@@ -118,17 +117,17 @@ void BgIceObjects_SetNextTarget(BgIceObjects* this, GlobalContext* globalCtx) {
 void BgIceObjects_CheckPits(BgIceObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if ((thisx->velocity.y > 0.0f) || ((thisx->posRot.pos.x <= -1660.0f) && (thisx->posRot.pos.z <= -1060.0f)) ||
-        ((thisx->posRot.pos.x <= -1580.0f) && (thisx->posRot.pos.z >= -420.0f)) ||
-        ((thisx->posRot.pos.x >= -980.0f) && (thisx->posRot.pos.z <= -1180.0f)) ||
-        ((thisx->posRot.pos.x >= -860.0f) && (thisx->posRot.pos.z >= -700.0f))) {
+    if ((thisx->velocity.y > 0.0f) || ((thisx->world.pos.x <= -1660.0f) && (thisx->world.pos.z <= -1060.0f)) ||
+        ((thisx->world.pos.x <= -1580.0f) && (thisx->world.pos.z >= -420.0f)) ||
+        ((thisx->world.pos.x >= -980.0f) && (thisx->world.pos.z <= -1180.0f)) ||
+        ((thisx->world.pos.x >= -860.0f) && (thisx->world.pos.z >= -700.0f))) {
 
         thisx->velocity.y += 1.0f;
-        if (Math_StepToF(&thisx->posRot.pos.y, -300.0f, thisx->velocity.y)) {
+        if (Math_StepToF(&thisx->world.pos.y, -300.0f, thisx->velocity.y)) {
             thisx->velocity.y = 0.0f;
-            thisx->posRot.pos.x = thisx->initPosRot.pos.x;
-            thisx->posRot.pos.y = thisx->initPosRot.pos.y - 60.0f;
-            thisx->posRot.pos.z = thisx->initPosRot.pos.z;
+            thisx->world.pos.x = thisx->home.pos.x;
+            thisx->world.pos.y = thisx->home.pos.y - 60.0f;
+            thisx->world.pos.z = thisx->home.pos.z;
             if (thisx->params != 0) {
                 func_8002DF54(globalCtx, thisx, 7);
             }
@@ -167,39 +166,39 @@ void BgIceObjects_Slide(BgIceObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_StepToF(&thisx->posRot.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_StepToF(&thisx->posRot.pos.z, this->targetPos.z, thisx->speedXZ);
+    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
+    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speedXZ);
     if (atTarget) {
         thisx->speedXZ = 0.0f;
-        this->targetPos.x = thisx->posRot.pos.x;
-        this->targetPos.z = thisx->posRot.pos.z;
+        this->targetPos.x = thisx->world.pos.x;
+        this->targetPos.z = thisx->world.pos.z;
         if (thisx->velocity.y <= 0.0f) {
             thisx->flags &= ~0x10;
         }
         thisx->params = 0;
         func_8002DF54(globalCtx, thisx, 7);
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
-        if ((fabsf(thisx->posRot.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->posRot.pos.z + 260.0f) < 1.0f)) {
+        if ((fabsf(thisx->world.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->world.pos.z + 260.0f) < 1.0f)) {
             this->actionFunc = BgIceObjects_Stuck;
         } else {
             this->actionFunc = BgIceObjects_Idle;
         }
-    } else if ((thisx->speedXZ > 6.0f) && (thisx->posRot.pos.y >= 0.0f)) {
+    } else if ((thisx->speedXZ > 6.0f) && (thisx->world.pos.y >= 0.0f)) {
         spread = Rand_CenteredFloat(120.0f);
         velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
         velocity.z = -(1.5f + Rand_ZeroOne()) * Math_CosS(this->dyna.unk_158);
         pos.x =
-            thisx->posRot.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) - (Math_CosS(this->dyna.unk_158) * spread);
+            thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) - (Math_CosS(this->dyna.unk_158) * spread);
         pos.z =
-            thisx->posRot.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) + (Math_SinS(this->dyna.unk_158) * spread);
-        pos.y = thisx->posRot.pos.y;
+            thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) + (Math_SinS(this->dyna.unk_158) * spread);
+        pos.y = thisx->world.pos.y;
         func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         spread = Rand_CenteredFloat(120.0f);
         pos.x =
-            thisx->posRot.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
+            thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
         pos.z =
-            thisx->posRot.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
+            thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
         func_8002829C(globalCtx, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }
@@ -214,9 +213,9 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
     }
-    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 1.0f)) {
+    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
         thisx->flags &= ~0x10;
-        Math_Vec3f_Copy(&this->targetPos, &thisx->initPosRot.pos);
+        Math_Vec3f_Copy(&this->targetPos, &thisx->home.pos);
         this->actionFunc = BgIceObjects_Idle;
         thisx->speedXZ = 0.0f;
     }

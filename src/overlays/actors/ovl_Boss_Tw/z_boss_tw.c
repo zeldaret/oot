@@ -86,7 +86,7 @@ extern UNK_TYPE D_0603A2D0;
 /*
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_TW,
     sizeof(BossTw),

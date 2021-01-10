@@ -21,7 +21,7 @@ extern UNK_TYPE D_06004574;
 /*
 const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SHOPNUTS,
     sizeof(EnShopnuts),

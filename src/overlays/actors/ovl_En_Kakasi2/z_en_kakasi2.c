@@ -33,7 +33,7 @@ extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_KA,
     sizeof(EnKakasi2),
@@ -55,11 +55,11 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->switchFlag = this->actor.params & 0x3F;
     spawnRangeY = (this->actor.params >> 6) & 0xFF;
-    spawnRangeXZ = this->actor.posRot.rot.z;
+    spawnRangeXZ = this->actor.world.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.unk_1F = 4;
+    this->actor.targetMode = 4;
     this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
     this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 
@@ -90,7 +90,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_80A9062C;
     } else {
         this->actionFunc = func_80A90264;
-        this->actor.shape.unk_08 = -8000.0f;
+        this->actor.shape.yOffset = -8000.0f;
     }
 }
 
@@ -106,8 +106,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
-        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y)) {
+    if ((BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
+        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
@@ -123,8 +123,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         this->actionFunc = func_80A904D8;
-    } else if ((this->actor.xzDistToLink < this->maxSpawnDistance.x) &&
-               (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y) &&
+    } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
+               (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y) &&
                (gSaveContext.eventChkInf[9] & 0x1000)) {
 
         this->unk_194 = 0;
@@ -150,7 +150,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    Animation_Change(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
 }
@@ -166,18 +166,18 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y += 0x800;
-    Math_ApproachZeroF(&this->actor.shape.unk_08, 0.5f, 500.0f);
+    Math_ApproachZeroF(&this->actor.shape.yOffset, 0.5f, 500.0f);
 
-    if (this->actor.shape.unk_08 > -100.0f) {
+    if (this->actor.shape.yOffset > -100.0f) {
         this->actionFunc = func_80A9062C;
-        this->actor.shape.unk_08 = 0.0f;
+        this->actor.shape.yOffset = 0.0f;
     }
 }
 
 void func_80A9062C(EnKakasi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06000214);
 
-    Animation_Change(&this->skelAnime, &D_06000214, 0.0f, 0.0f, (s16)frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000214, 0.0f, 0.0f, (s16)frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A906C4;
 }
 
@@ -193,12 +193,12 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
 
-    this->actor.posRot.rot = this->actor.shape.rot;
+    this->actor.world.rot = this->actor.shape.rot;
     Actor_SetHeight(&this->actor, this->height);
     this->actionFunc(this, globalCtx2);
     Actor_MoveForward(&this->actor);
 
-    if (this->actor.shape.unk_08 == 0.0f) {
+    if (this->actor.shape.yOffset == 0.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
@@ -206,20 +206,20 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST,
-                         this->actor.xzDistToLink);
+                         this->actor.xzDistToPlayer);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
             osSyncPrintf("\n\n");
         }
         if (this->actor.draw == NULL) {
             if (this->unk_194 != 0) {
                 if ((this->unk_194 % 2) == 0) {
-                    DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                           this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
+                    DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                           this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
                                            1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx2->state.gfxCtx);
                 }
             } else {
-                DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                       this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
+                DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
                                        1.0f, 1.0f, 1.0f, 0, 255, 255, 255, 4, globalCtx2->state.gfxCtx);
             }
         }

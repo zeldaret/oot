@@ -21,7 +21,7 @@ extern UNK_TYPE D_06006F70;
 /*
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaZou),
