@@ -118,9 +118,27 @@ void func_80995020(Actor *thisx, GlobalContext *globalCtx) {
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x1C1, thisx->posRot.pos.x + 3.72f, thisx->posRot.pos.y + 85.1f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, 4);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995020.s")
+void func_809951C4(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller *this = THIS;
+    
+    thisx->velocity.y = thisx->velocity.y + thisx->gravity;
+    if (thisx->velocity.y < thisx->minVelocityY) {
+        thisx->velocity.y = thisx->minVelocityY;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809951C4.s")
+    thisx->velocity.x *= 0.98f;
+    thisx->velocity.z *= 0.98f;
+    thisx->shape.rot.x += thisx->posRot.rot.x;
+    thisx->shape.rot.y += thisx->posRot.rot.y;
+    thisx->shape.rot.z += thisx->posRot.rot.z;
+    
+    if (this->unk21A != 0) {
+        this->unk21A--;
+    } else {
+        Actor_Kill(thisx);
+    }
+    func_8002D7EC(thisx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995284.s")
 
