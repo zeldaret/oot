@@ -157,8 +157,89 @@ void func_809952B8(DoorKiller *this, GlobalContext *globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk220.base);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995318.s")
+void func_80995318(Actor *thisx, GlobalContext *globalCtx) {
+    s32 flag = (thisx->params >> 8) & 0x3F;
+    
+    if (flag != 0x3F) {
+        Flags_SetSwitch(globalCtx, flag);
+    }
+    Actor_Kill(thisx);
+}
 
+/*
+void func_80995368(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller* this = THIS;
+    f32 temp_f6;
+    s16 temp_a0_2;
+    s32 temp_a0;
+    s32 temp_v1;
+    u16 temp_t1;
+    u16 temp_v0;
+    u16 temp_v0_2;
+    u16 temp_v0_4;
+    void *temp_v0_3;
+    void *temp_v0_5;
+    void *temp_v0_6;
+    s16 phi_a0;
+    void *phi_v0;
+    s32 phi_v1;
+    f32 phi_f6;
+    void *phi_return;
+
+    temp_v0 = this->unk21A;
+    if ((s32) temp_v0 <= 0) {
+        this->unk280 = &func_80995A84;
+        this->unk21A = (u16)0x10U;
+        func_809952B8(this, globalCtx);
+        return;
+    }
+    this->unk21A = (u16) (temp_v0 - 1);
+    temp_v0_2 = this->unk21A;
+    if ((s32) temp_v0_2 >= 8) {
+        thisx->shape.rot.y = (s16) ((temp_v0_2 << 0xB) - 0x4000);
+    } else {
+        thisx->shape.rot.y = (u16)0;
+    }
+    if ((s32) this->unk21A >= 0xC) {
+        phi_a0 = (s16) (((0 - (0 - (s32) this->unk21A)) * 0x1F4) - 0x1F40);
+    } else if ((s32) this->unk21A >= 8) {
+        phi_a0 = (u16)-0x7D0;
+    } else {
+        phi_a0 = (u16)0;
+        if ((s32) this->unk21A >= 5) {
+            phi_a0 = (s16) (((0 - (s32) this->unk21A) * 0x1F4) + 0x7D0);
+        }
+    }
+    phi_v0 = thisx + 0xC; //&thisx->initPosRot.pos.y;
+    phi_v1 = 2;
+    for (temp_v1 = 2, temp_v1 < 9; temp_v1++){
+        phi_v1 = phi_v1 + 1;
+        *((s16*)(phi_v1*6 + 190)) = 0 - phi_a0;
+    }
+    temp_v0_4 = this->unk21A;
+    phi_return = (void *) temp_v0_4;
+    if ((s32) temp_v0_4 < 8) {
+        temp_a0 = (s32) (temp_v0_4 << 0x1D) >> 0x10;
+        temp_t1 = this->unk21A;
+        temp_f6 = (f32) temp_t1;
+        phi_f6 = temp_f6;
+        if ((s32) temp_t1 < 0) {
+            phi_f6 = temp_f6 + (f32)0x100000000;
+        }
+        temp_v0_5 = thisx + 0xC;
+        temp_a0_2 = (s16) (s32) (Math_SinS((s16) temp_a0) * phi_f6 * 100.0f);
+        temp_v0_5->unk194 = temp_a0_2;
+        temp_v0_5->unk19A = temp_a0_2;
+        temp_v0_5->unk1A0 = temp_a0_2;
+        temp_v0_6 = thisx + (5 * 6);
+        temp_v0_6->unk19A = temp_a0_2;
+        temp_v0_6->unk1A0 = temp_a0_2;
+        temp_v0_6->unk1A6 = temp_a0_2;
+        temp_v0_6->unk194 = temp_a0_2;
+    }
+    return;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995368.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995518.s")
