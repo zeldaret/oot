@@ -493,53 +493,51 @@ f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
     return phi_f2;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24038.s")
-void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
-/* void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
+#ifdef NON_MATCHING
+// Major ordering issues, not making the three 0.1fs separate rodata, etc.
+void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
+    Vec3f startPos;
+    Vec3f endPos;
+    Vec3f goalVel;
     f32 temp_f0;
     f32 temp_f0_2;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f16;
-    f32 temp_f16_2;
-    f32 temp_f18;
-    f32 temp_f18_2;
-    f32 temp_f20;
-    f32 temp_f20_2;
-    f32 temp_f2;
     f32 temp_f2_2;
     f32 phi_f12;
-    
-    temp_f2 = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
-    temp_f12 = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
-    temp_f14 = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
 
-    temp_f16 = globalCtx->csCtx.npcActions[actionIndex]->endPos.x;
-    temp_f18 = globalCtx->csCtx.npcActions[actionIndex]->endPos.y;
-    temp_f20 = globalCtx->csCtx.npcActions[actionIndex]->endPos.z;
+    
+    startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
+    startPos.y = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
+    startPos.z = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
+
+    endPos.x = globalCtx->csCtx.npcActions[actionIndex]->endPos.x;
+    endPos.y = globalCtx->csCtx.npcActions[actionIndex]->endPos.y;
+    endPos.z = globalCtx->csCtx.npcActions[actionIndex]->endPos.z;
 
     temp_f0 = func_80B23FDC(globalCtx, actionIndex);
 
-    temp_f16_2 = ((((temp_f16 - temp_f2) * temp_f0) + temp_f2) - this->actor.posRot.pos.x) * 0.1f;
-    temp_f18_2 = ((((temp_f18 - temp_f12) * temp_f0) + temp_f12) - this->actor.posRot.pos.y) * 0.1f;
-    temp_f20_2 = ((((temp_f20 - temp_f14) * temp_f0) + temp_f14) - this->actor.posRot.pos.z) * 0.1f;
+    goalVel.x = ((((endPos.x - startPos.x) * temp_f0) + startPos.x) - this->actor.posRot.pos.x) * 0.1f;
+    goalVel.y = ((((endPos.y - startPos.y) * temp_f0) + startPos.y) - this->actor.posRot.pos.y) * 0.1f;
+    goalVel.z = ((((endPos.z - startPos.z) * temp_f0) + startPos.z) - this->actor.posRot.pos.z) * 0.1f;
 
-    temp_f0_2 = sqrtf(SQ(temp_f16_2) + SQ(temp_f18_2) + SQ(temp_f20_2));
+    temp_f0_2 = sqrtf(SQ(goalVel.x) + SQ(goalVel.y) + SQ(goalVel.z));
     phi_f12 = CLAMP(temp_f0_2, 0.0f, 20.0f);
 
     if ((temp_f0_2 != phi_f12) && (temp_f0_2 != 0.0f)) {
         temp_f2_2 = phi_f12 / temp_f0_2;
 
-        temp_f18_2 *= temp_f2_2;
-        temp_f16_2 *= temp_f2_2;
-        temp_f20_2 *= temp_f2_2;
+        goalVel.x *= temp_f2_2;
+        goalVel.y *= temp_f2_2;
+        goalVel.z *= temp_f2_2;
     }
 
-    Math_StepToF(&this->actor.velocity.x, temp_f16_2, 1.0f);
-    Math_StepToF(&this->actor.velocity.y, temp_f18_2, 1.0f);
-    Math_StepToF(&this->actor.velocity.z, temp_f20_2, 1.0f);
+    Math_StepToF(&this->actor.velocity.x, goalVel.x, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, goalVel.y, 1.0f);
+    Math_StepToF(&this->actor.velocity.z, goalVel.z, 1.0f);
     func_8002D7EC(&this->actor);
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24038.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24230.s")
 void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
