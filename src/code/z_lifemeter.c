@@ -133,18 +133,17 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
     sBeatingHeartsDDEnv[0][2] = sBeatingHeartsDDEnv[1][2] = HEARTS_DD_ENV_B;
 }
 
-#ifdef NON_MATCHING
-// Far from matching, but is equivalent. The for loop needs to become unrolled somehow in order to match.
 void HealthMeter_Update(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 factor = interfaceCtx->unk_1FE * 0.1f;
+    f32 ddfactor;
+    s32 type = 0;
+    s32 ddtype;
     s16 rFactor;
     s16 gFactor;
     s16 bFactor;
-    s16 i;
-    s16* prim;
-    s16* env;
 
+    if (interfaceCtx) {}
     if (interfaceCtx->unk_200 != 0) {
         interfaceCtx->unk_1FE--;
         if (interfaceCtx->unk_1FE <= 0) {
@@ -159,6 +158,8 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
         }
     }
 
+    ddfactor = factor;
+
     interfaceCtx->heartsPrimR[0] = HEARTS_PRIM_R;
     interfaceCtx->heartsPrimG[0] = HEARTS_PRIM_G;
     interfaceCtx->heartsPrimB[0] = HEARTS_PRIM_B;
@@ -167,29 +168,32 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     interfaceCtx->heartsEnvG[0] = HEARTS_ENV_G;
     interfaceCtx->heartsEnvB[0] = HEARTS_ENV_B;
 
-    interfaceCtx->heartsPrimR[1] = sHeartsPrimColors[0][0];
-    interfaceCtx->heartsPrimG[1] = sHeartsPrimColors[0][1];
-    interfaceCtx->heartsPrimB[1] = sHeartsPrimColors[0][2];
+    interfaceCtx->heartsPrimR[1] = sHeartsPrimColors[type][0];
+    interfaceCtx->heartsPrimG[1] = sHeartsPrimColors[type][1];
+    interfaceCtx->heartsPrimB[1] = sHeartsPrimColors[type][2];
 
-    interfaceCtx->heartsEnvR[1] = sHeartsEnvColors[0][0];
-    interfaceCtx->heartsEnvG[1] = sHeartsEnvColors[0][1];
-    interfaceCtx->heartsEnvB[1] = sHeartsEnvColors[0][2];
+    interfaceCtx->heartsEnvR[1] = sHeartsEnvColors[type][0];
+    interfaceCtx->heartsEnvG[1] = sHeartsEnvColors[type][1];
+    interfaceCtx->heartsEnvB[1] = sHeartsEnvColors[type][2];
 
     rFactor = sHeartsPrimFactors[0][0] * factor;
     gFactor = sHeartsPrimFactors[0][1] * factor;
     bFactor = sHeartsPrimFactors[0][2] * factor;
 
-    interfaceCtx->beatingHeartPrim[0] = (u8)(s32)(rFactor + HEARTS_PRIM_R) & 0xFF;
-    interfaceCtx->beatingHeartPrim[1] = (u8)(s32)(gFactor + HEARTS_PRIM_G) & 0xFF;
-    interfaceCtx->beatingHeartPrim[2] = (u8)(s32)(bFactor + HEARTS_PRIM_B) & 0xFF;
+    interfaceCtx->beatingHeartPrim[0] = (u8)(rFactor + HEARTS_PRIM_R) & 0xFF;
+    interfaceCtx->beatingHeartPrim[1] = (u8)(gFactor + HEARTS_PRIM_G) & 0xFF;
+    interfaceCtx->beatingHeartPrim[2] = (u8)(bFactor + HEARTS_PRIM_B) & 0xFF;
 
     rFactor = sHeartsEnvFactors[0][0] * factor;
     gFactor = sHeartsEnvFactors[0][1] * factor;
     bFactor = sHeartsEnvFactors[0][2] * factor;
 
-    interfaceCtx->beatingHeartEnv[0] = (u8)(s32)(rFactor + HEARTS_ENV_R) & 0xFF;
-    interfaceCtx->beatingHeartEnv[1] = (u8)(s32)(gFactor + HEARTS_ENV_G) & 0xFF;
-    interfaceCtx->beatingHeartEnv[2] = (u8)(s32)(bFactor + HEARTS_ENV_B) & 0xFF;
+    if (1) {}
+    ddtype = type;
+
+    interfaceCtx->beatingHeartEnv[0] = (u8)(rFactor + HEARTS_ENV_R) & 0xFF;
+    interfaceCtx->beatingHeartEnv[1] = (u8)(gFactor + HEARTS_ENV_G) & 0xFF;
+    interfaceCtx->beatingHeartEnv[2] = (u8)(bFactor + HEARTS_ENV_B) & 0xFF;
 
     sBeatingHeartsDDPrim[0][0] = HEARTS_DD_PRIM_R;
     sBeatingHeartsDDPrim[0][1] = HEARTS_DD_PRIM_G;
@@ -199,30 +203,30 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     sBeatingHeartsDDEnv[0][1] = HEARTS_DD_ENV_G;
     sBeatingHeartsDDEnv[0][2] = HEARTS_DD_ENV_B;
 
-    for (prim = &sBeatingHeartsDDPrim[1][0], env = &sBeatingHeartsDDEnv[1][0], i = 0; i < 3; i++) {
-        prim[i] = sHeartsDDPrimColors[0][i];
-        env[i] = sHeartsDDEnvColors[0][i];
-    }
+    sBeatingHeartsDDPrim[1][0] = sHeartsDDPrimColors[ddtype][0];
+    sBeatingHeartsDDPrim[1][1] = sHeartsDDPrimColors[ddtype][1];
+    sBeatingHeartsDDPrim[1][2] = sHeartsDDPrimColors[ddtype][2];
 
-    rFactor = sHeartsDDPrimFactors[0][0] * factor;
-    gFactor = sHeartsDDPrimFactors[0][1] * factor;
-    bFactor = sHeartsDDPrimFactors[0][2] * factor;
+    sBeatingHeartsDDEnv[1][0] = sHeartsDDEnvColors[ddtype][0];
+    sBeatingHeartsDDEnv[1][1] = sHeartsDDEnvColors[ddtype][1];
+    sBeatingHeartsDDEnv[1][2] = sHeartsDDEnvColors[ddtype][2];
 
-    sHeartsDDPrim[0] = (u8)(s32)(rFactor + HEARTS_DD_PRIM_R) & 0xFF;
-    sHeartsDDPrim[1] = (u8)(s32)(gFactor + HEARTS_DD_PRIM_G) & 0xFF;
-    sHeartsDDPrim[2] = (u8)(s32)(bFactor + HEARTS_DD_PRIM_B) & 0xFF;
+    rFactor = sHeartsDDPrimFactors[ddtype][0] * ddfactor;
+    gFactor = sHeartsDDPrimFactors[ddtype][1] * ddfactor;
+    bFactor = sHeartsDDPrimFactors[ddtype][2] * ddfactor;
 
-    rFactor = sHeartsDDEnvFactors[0][0] * factor;
-    gFactor = sHeartsDDEnvFactors[0][1] * factor;
-    bFactor = sHeartsDDEnvFactors[0][2] * factor;
+    sHeartsDDPrim[0] = (u8)(rFactor + HEARTS_DD_PRIM_R) & 0xFF;
+    sHeartsDDPrim[1] = (u8)(gFactor + HEARTS_DD_PRIM_G) & 0xFF;
+    sHeartsDDPrim[2] = (u8)(bFactor + HEARTS_DD_PRIM_B) & 0xFF;
 
-    sHeartsDDEnv[0] = (u8)(s32)(rFactor + HEARTS_DD_ENV_R) & 0xFF;
-    sHeartsDDEnv[1] = (u8)(s32)(gFactor + HEARTS_DD_ENV_G) & 0xFF;
-    sHeartsDDEnv[2] = (u8)(s32)(bFactor + HEARTS_DD_ENV_B) & 0xFF;
+    rFactor = sHeartsDDEnvFactors[ddtype][0] * ddfactor;
+    gFactor = sHeartsDDEnvFactors[ddtype][1] * ddfactor;
+    bFactor = sHeartsDDEnvFactors[ddtype][2] * ddfactor;
+
+    sHeartsDDEnv[0] = (u8)(rFactor + HEARTS_DD_ENV_R) & 0xFF;
+    sHeartsDDEnv[1] = (u8)(gFactor + HEARTS_DD_ENV_G) & 0xFF;
+    sHeartsDDEnv[2] = (u8)(bFactor + HEARTS_DD_ENV_B) & 0xFF;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/HealthMeter_Update.s")
-#endif
 
 s32 func_80078E18(GlobalContext* globalCtx) {
     gSaveContext.health = globalCtx->interfaceCtx.unk_226;
