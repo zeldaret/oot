@@ -101,15 +101,14 @@ void ObjTimeblock_ToggleSwitchFlag(GlobalContext* globalCtx, s32 flag) {
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjTimeblock* this = THIS;
     s32 pad;
-    UNK_PTR colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    DynaPolyInfo_Alloc(&D_06000B30, &colHeader);
+    CollisionHeader_GetVirtual(&D_06000B30, &colHeader);
 
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].scale);
@@ -146,7 +145,7 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjTimeblock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
@@ -326,9 +325,9 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->isVisible) {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

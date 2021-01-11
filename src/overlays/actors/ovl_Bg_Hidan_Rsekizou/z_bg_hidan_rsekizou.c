@@ -63,21 +63,21 @@ static InitChainEntry sInitChain[] = {
 static UNK_PTR D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
                                 0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
 
-extern UNK_TYPE D_0600D5C0; // Dynapoly Data in Object
-extern Gfx D_0600AD00[];    // Display List
-extern Gfx D_0600DC30[];    // Display List
+extern CollisionHeader D_0600D5C0;
+extern Gfx D_0600AD00[]; // Display List
+extern Gfx D_0600DC30[]; // Display List
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
     s32 i;
     s32 pad;
-    s32 polyID;
+    CollisionHeader* colHeader;
 
-    polyID = 0;
+    colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_0600D5C0, &polyID);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, polyID);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_0600D5C0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
@@ -90,7 +90,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

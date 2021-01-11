@@ -3082,7 +3082,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->flag == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        Health_Draw(globalCtx);
+        HealthMeter_Draw(globalCtx);
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -4035,7 +4035,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    Health_HandleCriticalAlarm(globalCtx);
+    HealthMeter_HandleCriticalAlarm(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
@@ -4048,7 +4048,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    Health_UpdateData(globalCtx);
+    HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
         (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&

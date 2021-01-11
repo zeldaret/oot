@@ -13,14 +13,14 @@ ZBlob::ZBlob() : ZResource()
 
 }
 
-ZBlob::ZBlob(std::vector<uint8_t> nRawData, int nRawDataIndex, int size, std::string nName) : ZBlob()
+ZBlob::ZBlob(const std::vector<uint8_t>& nRawData, int nRawDataIndex, int size, std::string nName) : ZBlob()
 {
 	rawDataIndex = nRawDataIndex;
 	rawData = vector<uint8_t>(nRawData.data() + rawDataIndex, nRawData.data() + rawDataIndex + size);
-	name = nName;
+	name = std::move(nName);
 }
 
-ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int nRawDataIndex, string nRelPath)
+ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, const vector<uint8_t>& nRawData, int nRawDataIndex, string nRelPath)
 {
 	ZBlob* blob = new ZBlob();
 
@@ -29,12 +29,12 @@ ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int n
 	blob->ParseXML(reader);
 	int size = strtol(reader->Attribute("Size"), NULL, 16);
 	blob->rawData = vector<uint8_t>(nRawData.data() + blob->rawDataIndex, nRawData.data() + blob->rawDataIndex + size);
-	blob->relativePath = nRelPath;
+	blob->relativePath = std::move(nRelPath);
 
 	return blob;
 }
 
-ZBlob* ZBlob::BuildFromXML(XMLElement* reader, string inFolder, bool readFile)
+ZBlob* ZBlob::BuildFromXML(XMLElement* reader, const std::string& inFolder, bool readFile)
 {
 	ZBlob* blob = new ZBlob();
 
@@ -46,7 +46,7 @@ ZBlob* ZBlob::BuildFromXML(XMLElement* reader, string inFolder, bool readFile)
 	return blob;
 }
 
-ZBlob* ZBlob::FromFile(string filePath)
+ZBlob* ZBlob::FromFile(const std::string& filePath)
 {
 	int comp;
 	ZBlob* blob = new ZBlob();
@@ -56,7 +56,7 @@ ZBlob* ZBlob::FromFile(string filePath)
 	return blob;
 }
 
-string ZBlob::GetSourceOutputCode(std::string prefix)
+string ZBlob::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
 	//sourceOutput += StringHelper::Sprintf("u8 %s_%s[] = \n{\n", prefix.c_str(), name.c_str());
@@ -77,12 +77,12 @@ string ZBlob::GetSourceOutputCode(std::string prefix)
 	return sourceOutput;
 }
 
-string ZBlob::GetSourceOutputHeader(std::string prefix)
+string ZBlob::GetSourceOutputHeader(const std::string& prefix)
 {
 	return StringHelper::Sprintf("extern u8 %s[];\n", name.c_str());
 }
 
-void ZBlob::Save(string outFolder)
+void ZBlob::Save(const std::string& outFolder)
 {
 	//printf("NAME = %s\n", name.c_str());
 	File::WriteAllBytes(outFolder + "/" + name + ".bin", rawData);

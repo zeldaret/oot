@@ -21,6 +21,7 @@ class SetTransitionActorList : public ZRoomCommand
 {
 public:
 	SetTransitionActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	~SetTransitionActorList();
 
 	std::string GetSourceOutputCode(std::string prefix);
 	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
