@@ -192,43 +192,58 @@ void func_809B15CC(EnAnubice* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+// float register allocation differences
+void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx) {
+    f32 pad;
+    f32 xzdist;
+    f32 xRatio;
+    f32 zRatio;
+    f32 posX;
+    f32 x;
+    f32 posZ;
+    f32 z2;
+    f32 z;
+
+    SkelAnime_Update(&this->skelAnime);
+    Math_ApproachF(&this->actor.shape.unk_08, -4230.0f, 0.5f, 300.0f);
+    Math_ApproachZeroF(&this->unk_27C, 0.5f, 5.0f);
+
+    if (this->unk_262 == 0) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
+    }
+
+    posX = this->actor.posRot.pos.x;
+    x = this->unk_298.x - posX;
+    if (fabsf(x) > 3.0f) {
+        posZ = this->actor.posRot.pos.z;
+        z = this->unk_298.z - posZ;
+        if (fabsf(z) > 3.0f) {
+            z2 = z;
+            xzdist = sqrtf(SQ(x) + SQ(z2));
+            xRatio = x / xzdist;
+            if (1) {
+                if (1) {}
+                zRatio = z2 / xzdist;
+            }
+            this->actor.posRot.pos.x = (xRatio * 8) + posX;
+            this->actor.posRot.pos.z = (zRatio * 8.0f) + posZ;
+            return;
+        }
+    }
+
+    if (&z) {}
+
+    if (this->actor.shape.unk_08 < -4220.0f) {
+        this->actor.shape.unk_08 = -4230.0f;
+        this->unk_25E = this->unk_260 = 0;
+        this->actionFunc = func_809B142C;
+        this->actor.gravity = 0.0f;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B16AC.s")
-// void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx) {
-//     f32 xzdist;
-//     f32 x;
-//     f32 z;
-//     f32 zRatio;
-//     f32 xRatio;
-
-//     SkelAnime_Update(&this->skelAnime);
-//     Math_ApproachF(&this->actor.shape.unk_08, -4230.0f, 0.5f, 300.0f);
-//     Math_ApproachZeroF(&this->unk_27C, 0.5f, 5.0f);
-
-//     if (this->unk_262 == 0) {
-//         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 3000, 0);
-//     }
-
-//     x = this->unk_298.x - this->actor.posRot.pos.x;
-//     if (fabsf(x) > 3.0f) {
-//         z = this->unk_298.z - this->actor.posRot.pos.z;
-//         if (fabsf(z) > 3.0f) {
-//             xzdist = sqrtf(SQ(x) + SQ(z));
-//             zRatio = z / xzdist;
-//             xRatio = x / xzdist;
-//             this->actor.posRot.pos.x += (xRatio * 8.0f);
-//             this->actor.posRot.pos.z += (zRatio * 8.0f);
-//             return;
-//         }
-//     }
-
-//     if (this->actor.shape.unk_08 < -4220.0f) {
-//         this->actor.shape.unk_08 = -4230.0f;
-//         this->unk_260 = 0;
-//         this->actionFunc = func_809B142C;
-//         this->unk_25E = this->unk_260;
-//         this->actor.gravity = 0.0f;
-//     }
-// }
+#endif
 
 void func_809B17FC(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_0600078C);
