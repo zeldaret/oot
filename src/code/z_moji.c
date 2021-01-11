@@ -67,7 +67,8 @@ void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sFontColorRed, sFontColorGreen, sFontColorBlue, sFontColorAlpha);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gFontFF, G_IM_FMT_CI, 16, 128, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gFontFF, G_IM_FMT_CI, 16, 128, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     D_8015FFC0 = -1;
 

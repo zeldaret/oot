@@ -138,8 +138,10 @@ static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock_4b(tex0, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 14, 14),
-    gsDPLoadMultiBlock_4b(tex1, 0x100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 1, 14),
+    gsDPLoadTextureBlock_4b(tex0, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR,
+                            6, 6, 14, 14),
+    gsDPLoadMultiBlock_4b(tex1, 0x100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+                          G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 1, 14),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, 0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
     gsDPSetRenderMode(AA_EN | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_OPA | FORCE_BL |
