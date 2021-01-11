@@ -5,16 +5,7 @@
  */
 
 #include "z_en_horse_game_check.h"
-// #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
-typedef struct {
-    Actor actor;
-    char unk_14C[0xA4];
-    s32 unk_1F0;
-    char unk_1F4[0x194];
-    s32 unk_388;
-    char unk_38C[0x14];
-    s32 unk_3A0;
-} EnHorse; // Swap this out when EnHorse is merged
+#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #define FLAGS 0x00000010
 
