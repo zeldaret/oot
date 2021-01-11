@@ -1,8 +1,7 @@
 <Root>
     <File Name="object_spot17_obj" Segment="6">
         <Texture Name="gCraterRockPaletteTex" OutName="crater_rock_palette" Format="rgb5a1" Width="4" Height="4" Offset="0x00000000"/>
-        <!-- commented this out for now because ZAPD seems to have trouble with CI textures -->
-        <!-- <Texture Name="gCraterRockTex" OutName="crater_rock" Format="ci4" Width="64" Height="64" Offset="0x00000020"/> --> 
+        <Texture Name="gCraterRockTex" OutName="crater_rock" Format="ci4" Width="64" Height="64" Offset="0x00000020"/>
         <DList Name="gCraterBombableWallDL" Offset="0x000008A0"/>
         <DList Name="gCraterBombableWallCracksDL" Offset="0x00000960"/>
         <Collision Name="gCraterBombableWallCol" Offset="0x00000A38"/>

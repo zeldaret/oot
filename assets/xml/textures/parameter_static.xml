@@ -1,5 +1,5 @@
 <Root>
-    <File Name="parameter_static">
+    <File Name="parameter_static" Segment="2">
         <Texture Name="gInterfaceHeartEmptyTex" OutName="interface_heart_empty" Format="ia8" Width="16" Height="16"/>
         <Texture Name="gInterfaceHeartQuarterTex" OutName="interface_heart_quarter" Format="ia8" Width="16" Height="16"/>
         <Texture Name="gInterfaceHeartHalfTex" OutName="interface_heart_half" Format="ia8" Width="16" Height="16"/>

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "textures/parameter_static/parameter_static.h"
 
 /*
  * These are the colors for the hearts in the interface. The prim color is the red color of the heart
@@ -260,15 +261,25 @@ s32 func_80078E84(GlobalContext* globalCtx) {
     return 0;
 }
 
+u64* sHeartTextures[] = {
+    gInterfaceHeartFullTex,         gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,
+    gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,
+    gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,
+    gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,         gInterfaceHeartThreeQuarterTex,
+    gInterfaceHeartThreeQuarterTex, gInterfaceHeartThreeQuarterTex, gInterfaceHeartThreeQuarterTex,
+    gInterfaceHeartThreeQuarterTex,
+};
+
+u64* sDDHeartTextures[] = {
+    gInterfaceDefenseHeartFullTex,         gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,
+    gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,
+    gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,
+    gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartThreeQuarterTex,
+    gInterfaceDefenseHeartThreeQuarterTex, gInterfaceDefenseHeartThreeQuarterTex, gInterfaceDefenseHeartThreeQuarterTex,
+    gInterfaceDefenseHeartThreeQuarterTex,
+};
+
 void HealthMeter_Draw(GlobalContext* globalCtx) {
-    static UNK_PTR sHeartTextures[] = {
-        0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
-        0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
-    };
-    static UNK_PTR sDDHeartTextures[] = {
-        0x02000900, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000700, 0x02000700,
-        0x02000700, 0x02000700, 0x02000700, 0x02000800, 0x02000800, 0x02000800, 0x02000800, 0x02000800,
-    };
     s32 pad[5];
     UNK_PTR heartBgImg;
     u32 curColorSet;
