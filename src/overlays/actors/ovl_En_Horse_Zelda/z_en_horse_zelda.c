@@ -179,7 +179,7 @@ void func_80A6DD14(EnHorseZelda* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
                      splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
@@ -191,15 +191,15 @@ void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
 
 void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
     s32 pad;
-    CollisionPoly* sp38;
+    CollisionPoly* poly;
     s32 pad2;
-    Vec3f sp28;
-    f32 sp24;
+    Vec3f pos;
+    s32 bgId;
 
-    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 60.0f;
-    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
-    this->unk_1F4 = func_8003C940(&globalCtx->colCtx, &sp38, &sp24, &sp28);
+    pos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+    pos.y = this->actor.posRot.pos.y + 60.0f;
+    pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+    this->unk_1F4 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &pos);
     this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_1F4, 30.0f) * (0x8000 / M_PI);
 }
 

@@ -21,7 +21,7 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000190[];
-extern ColHeader D_060003F0;
+extern CollisionHeader D_060003F0;
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sGray = { 180, 180, 180, 255 };
@@ -46,15 +46,14 @@ InitChainEntry sInitChain[] = {
 void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgIceObjects* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060003F0, &colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060003F0, &colHeader);
     Math_Vec3f_Copy(&this->targetPos, &this->dyna.actor.initPosRot.pos);
     this->actionFunc = BgIceObjects_Idle;
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.params = 0;
 }
 
@@ -62,7 +61,7 @@ void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgIceObjects* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 static s16 sXStarts[] = {

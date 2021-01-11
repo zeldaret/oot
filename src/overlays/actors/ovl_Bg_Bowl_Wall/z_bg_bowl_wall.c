@@ -50,18 +50,17 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
     s32 pad1;
     s32 pad2;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyInfo_Alloc(&gBowlCol1, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlCol1, &colHeader);
     } else {
-        DynaPolyInfo_Alloc(&gBowlCol2, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlCol2, &colHeader);
     }
 
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->initPos = this->dyna.actor.posRot.pos;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n" VT_RST, this->dyna.actor.params);
@@ -72,7 +71,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {

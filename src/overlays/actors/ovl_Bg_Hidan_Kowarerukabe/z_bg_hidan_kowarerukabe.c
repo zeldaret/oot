@@ -50,18 +50,17 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    static ColHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
+    static CollisionHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     if (collisionHeaders[this->dyna.actor.params & 0xFF] != NULL) {
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        DynaPolyInfo_Alloc(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     } else {
-        this->dyna.dynaPolyId = -1;
+        this->dyna.bgId = BGACTOR_NEG_ONE;
     }
 }
 
@@ -121,7 +120,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKowarerukabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

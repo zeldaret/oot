@@ -90,7 +90,7 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06000378);
-    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
 }
@@ -130,7 +130,8 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), ANIMMODE_LOOP,
+                     -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
