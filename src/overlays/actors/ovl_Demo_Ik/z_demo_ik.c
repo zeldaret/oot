@@ -55,17 +55,17 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* DemoIk_GetNpcAction(GlobalContext* globalCtx, s32 index) {
+CsCmdActorAction* DemoIk_GetCue(GlobalContext* globalCtx, s32 index) {
     if (globalCtx->csCtx.state != 0) {
         return globalCtx->csCtx.npcActions[index];
     }
     return NULL;
 }
 
-s32 DemoIk_CheckNpcAction(GlobalContext* globalCtx, u16 action, s32 index) {
-    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, index);
+s32 DemoIk_CheckCue(GlobalContext* globalCtx, u16 action, s32 index) {
+    CsCmdActorAction* cue = DemoIk_GetCue(globalCtx, index);
 
-    if ((npcAction != NULL) && (npcAction->action == action)) {
+    if ((cue != NULL) && (cue->action == action)) {
         return 1;
     }
     return 0;
@@ -139,7 +139,7 @@ void DemoIk_SpawnDeadDb(DemoIk* this, GlobalContext* globalCtx) {
     s32 i;
     s32 index = DemoIk_GetIndexFromParams(this->actor.params);
 
-    if (DemoIk_CheckNpcAction(globalCtx, 5, index)) {
+    if (DemoIk_CheckCue(globalCtx, 5, index)) {
         Vec3f pos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         s32 startIndex;
@@ -165,13 +165,13 @@ void DemoIk_SpawnDeadDb(DemoIk* this, GlobalContext* globalCtx) {
 }
 
 void DemoIk_MoveToStartPos(DemoIk* this, GlobalContext* globalCtx, s32 index) {
-    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, index);
+    CsCmdActorAction* cue = DemoIk_GetCue(globalCtx, index);
 
-    if (npcAction != NULL) {
-        this->actor.posRot.pos.x = npcAction->startPos.x;
-        this->actor.posRot.pos.y = npcAction->startPos.y;
-        this->actor.posRot.pos.z = npcAction->startPos.z;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.posRot.pos.x = cue->startPos.x;
+        this->actor.posRot.pos.y = cue->startPos.y;
+        this->actor.posRot.pos.z = cue->startPos.z;
+        this->actor.posRot.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -226,14 +226,14 @@ void func_809839AC(DemoIk* this) {
 }
 
 void func_809839D0(DemoIk* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
+    CsCmdActorAction* cue = DemoIk_GetCue(globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
 
-    if (npcAction != NULL) {
-        s32 newAction = npcAction->action;
-        s32 action = this->npcAction;
+    if (cue != NULL) {
+        s32 nextCsAction = cue->action;
+        s32 csAction = this->csAction;
 
-        if (newAction != action) {
-            switch (newAction) {
+        if (nextCsAction != csAction) {
+            switch (nextCsAction) {
                 case 1:
                     func_8098393C(this);
                     break;
@@ -253,7 +253,7 @@ void func_809839D0(DemoIk* this, GlobalContext* globalCtx) {
                     // there is no such action
                     osSyncPrintf("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->npcAction = newAction;
+            this->csAction = nextCsAction;
         }
     }
 }
@@ -378,14 +378,14 @@ void func_8098402C(DemoIk* this) {
 }
 
 void func_80984048(DemoIk* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = DemoIk_GetNpcAction(globalCtx, 4);
+    CsCmdActorAction* cue = DemoIk_GetCue(globalCtx, 4);
 
-    if (npcAction != NULL) {
-        s32 newAction = npcAction->action;
-        s32 action = this->npcAction;
+    if (cue != NULL) {
+        s32 nextCsAction = cue->action;
+        s32 csAction = this->csAction;
 
-        if (newAction != action) {
-            switch (newAction) {
+        if (nextCsAction != csAction) {
+            switch (nextCsAction) {
                 case 1:
                     func_80983FDC(this);
                     break;
@@ -402,7 +402,7 @@ void func_80984048(DemoIk* this, GlobalContext* globalCtx) {
                     // there is no such action
                     osSyncPrintf("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->npcAction = newAction;
+            this->csAction = nextCsAction;
         }
     }
 }
