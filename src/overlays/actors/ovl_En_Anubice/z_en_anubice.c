@@ -276,7 +276,7 @@ void func_809B1984(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.x = 0.0f;
     this->actor.gravity = -1.0f;
 
-    if (func_8003E30C(&globalCtx->colCtx, &this->unk_280, 70.0f) != 0) {
+    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->unk_280, 70.0f) != 0) {
         this->unk_256 = 1;
         this->unk_258 = this->actor.shape.rot.x - 0x7F00;
     }

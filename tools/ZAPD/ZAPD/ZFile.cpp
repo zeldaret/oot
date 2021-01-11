@@ -6,6 +6,8 @@
 #include "ZAnimation.h"
 #include "ZSkeleton.h"
 #include "ZCollision.h"
+#include "ZScalar.h"
+#include "ZVector.h"
 #include "Path.h"
 #include "File.h"
 #include "Directory.h"
@@ -50,6 +52,12 @@ ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPa
 	ParseXML(mode, reader, placeholderMode);
 }
 
+ZFile::~ZFile()
+{
+	for (ZResource* res : resources)
+		delete res;
+}
+
 void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 {
 	name = reader->Attribute("Name");
@@ -90,7 +98,8 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 		if (child->Attribute("Offset") != NULL)
 			rawDataIndex = strtol(StringHelper::Split(child->Attribute("Offset"), "0x")[1].c_str(), NULL, 16);
 
-		printf("%s: 0x%06X\n", child->Attribute("Name"), rawDataIndex);
+		if (Globals::Instance->verbosity >= VERBOSITY_INFO)
+			printf("%s: 0x%06X\n", child->Attribute("Name"), rawDataIndex);
 
 		if (string(child->Name()) == "Texture")
 		{
@@ -239,25 +248,50 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 
 			resources.push_back(res);
 		}
-		else if (string(child->Name()) == "Vec3s")
+		else if (string(child->Name()) == "Scalar")
 		{
-			
-		}
-		else if (string(child->Name()) == "Vec3f")
-		{
+			ZScalar* scalar = nullptr;
 
-		}
-		else if (string(child->Name()) == "Vec3i")
-		{
+			if (mode == ZFileMode::Extract)
+				scalar = ZScalar::ExtractFromXML(child, rawData, rawDataIndex, folderName);
 
-		}
-		else if (string(child->Name()) == "String")
-		{
+			if (scalar != nullptr)
+			{
+				scalar->parent = this;
+				resources.push_back(scalar);
 
+				rawDataIndex += scalar->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZScalar created!!");
+			}
+		}
+		else if (string(child->Name()) == "Vector")
+		{
+			ZVector* vector = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vector = ZVector::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vector != nullptr)
+			{
+				vector->parent = this;
+				resources.push_back(vector);
+
+				rawDataIndex += vector->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVector created!!");
+			}
 		}
 		else
 		{
-			
+			if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+				printf("Encountered unknown resource type: %s\n", string(child->Name()).c_str());
 		}
 	}
 }
@@ -328,7 +362,9 @@ void ZFile::ExtractResources(string outputDir)
 
 	for (ZResource* res : resources)
 	{
-		printf("Saving resource %s\n", res->GetName().c_str());
+		if (Globals::Instance->verbosity >= VERBOSITY_INFO)
+			printf("Saving resource %s\n", res->GetName().c_str());
+		
 		res->CalcHash(); // TEST
 		res->Save(outputPath);
 	}
@@ -621,6 +657,7 @@ string ZFile::ProcessDeclarations()
 
 	// Account for padding/alignment
 	int lastAddr = 0;
+	int lastSize = 0;
 
 	//printf("RANGE START: 0x%06X - RANGE END: 0x%06X\n", rangeStart, rangeEnd);
 
@@ -707,45 +744,47 @@ string ZFile::ProcessDeclarations()
 
 	// Handle unaccounted data
 	lastAddr = 0;
+	lastSize = 0;
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
-		if (lastAddr != 0 && item.first >= rangeStart && item.first < rangeEnd)
+		if (item.first >= rangeStart && item.first < rangeEnd)
 		{
-			if (lastAddr + declarations[lastAddr]->size > item.first)
+			if (lastAddr != 0 && declarations.find(lastAddr) != declarations.end() && lastAddr + declarations[lastAddr]->size > item.first)
 			{
-				// UH OH!
-				int bp = 0;
+				printf("WARNING: Intersection detected from 0x%06X:0x%06X, conflicts with 0x%06X\n", lastAddr, lastAddr + declarations[lastAddr]->size, item.first);
 			}
 
 			uint8_t* rawDataArr = rawData.data();
 
-			if (lastAddr + declarations[lastAddr]->size != item.first)
+			if (lastAddr + lastSize != item.first)
 			{
-				int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				//int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				int diff = item.first - (lastAddr + lastSize);
 
 				string src = "    ";
 
-
 				for (int i = 0; i < diff; i++)
 				{
-					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					//src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + lastSize + i]);
 
 					if ((i % 16 == 15) && (i != (diff - 1)))
 						src += "\n    ";
 				}
 
-				if (declarations.find(lastAddr + declarations[lastAddr]->size) == declarations.end())
+				if (declarations.find(lastAddr + lastSize) == declarations.end())
 				{
 					if (diff > 0)
 					{
-						AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size),
-							diff, src);
+						//AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size), diff, src);
+						AddDeclarationArray(lastAddr + lastSize, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + lastSize), diff, src);
 					}
 				}
 			}
 		}
 
 		lastAddr = item.first;
+		lastSize = item.second->size;
 	}
 
 	// TODO: THIS CONTAINS REDUNDANCIES. CLEAN THIS UP!
@@ -780,6 +819,30 @@ string ZFile::ProcessDeclarations()
 		return lhs.first < rhs.first;
 	});
 
+	// First, handle the prototypes (static only for now)
+	int protoCnt = 0;
+	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
+	{
+		if (item.second->includePath == "" && StringHelper::StartsWith(item.second->varType, "static ") && !StringHelper::StartsWith(item.second->varName, "unaccounted_"))
+		{
+			if (item.second->isArray)
+			{
+				if (item.second->arrayItemCnt == 0)
+					output += StringHelper::Sprintf("%s %s[];\n", item.second->varType.c_str(), item.second->varName.c_str());
+				else
+					output += StringHelper::Sprintf("%s %s[%i];\n", item.second->varType.c_str(), item.second->varName.c_str(), item.second->arrayItemCnt);
+			}
+			else
+				output += StringHelper::Sprintf("%s %s;\n", item.second->varType.c_str(), item.second->varName.c_str());
+
+			protoCnt++;
+		}
+	}
+
+	if (protoCnt > 0)
+		output += "\n";
+
+	// Next, output the actual declarations
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
 		if (item.second->includePath != "")

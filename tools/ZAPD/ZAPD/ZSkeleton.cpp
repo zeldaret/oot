@@ -50,16 +50,16 @@ ZLimbStandard* ZLimbStandard::FromRawData(std::vector<uint8_t> nRawData, int raw
 	limb->transX = BitConverter::ToInt16BE(nRawData, rawDataIndex + 0);
 	limb->transY = BitConverter::ToInt16BE(nRawData, rawDataIndex + 2);
 	limb->transZ = BitConverter::ToInt16BE(nRawData, rawDataIndex + 4);
-	
+
 	limb->childIndex = nRawData[rawDataIndex + 6];
 	limb->siblingIndex = nRawData[rawDataIndex + 7];
-	
+
 	limb->dListPtr = BitConverter::ToInt32BE(nRawData, rawDataIndex + 8) & 0x00FFFFFF;
 
 	return limb;
 }
 
-string ZLimbStandard::GetSourceOutputCode(string prefix)
+string ZLimbStandard::GetSourceOutputCode(const std::string& prefix)
 {
 	string dListStr = dListPtr == 0 ? "NULL" : StringHelper::Sprintf("%s", parent->GetVarName(dListPtr).c_str());
 
@@ -154,7 +154,7 @@ ZSkeleton* ZSkeleton::FromXML(XMLElement* reader, vector<uint8_t> nRawData, int 
 	return skeleton;
 }
 
-std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
+std::string ZSkeleton::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
 	{
@@ -164,7 +164,7 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 		for (int i = 0; i < limbs.size(); i++)
 		{
 			ZLimbStandard* limb = limbs[i];
-			
+
 			string defaultDLName = StringHelper::Sprintf("%sLimbDL_%06X", defaultPrefix.c_str(), limb->dListPtr);
 			string dListStr = limb->dListPtr == 0 ? "NULL" : StringHelper::Sprintf("%s", parent->GetDeclarationName(limb->dListPtr, defaultDLName).c_str());
 
@@ -224,10 +224,12 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 			//string decl = StringHelper::Sprintf("    &_%sLimb_%04X,\n", prefix.c_str(), limb->address);
 			string decl = "";
 
-			if (parent->HasDeclaration(limb->address))
+			if (parent->HasDeclaration(limb->address)) {
 				decl = StringHelper::Sprintf("    &%s,", parent->GetDeclarationName(limb->address).c_str());
-				if (i != (limbs.size() - 1))
+				if (i != (limbs.size() - 1)) {
 				    decl += "\n";
+				}
+			}
 
 			tblStr += decl;
 		}
@@ -257,7 +259,7 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 	return "";
 }
 
-void ZSkeleton::Save(string outFolder)
+void ZSkeleton::Save(const std::string& outFolder)
 {
 
 }
@@ -286,7 +288,7 @@ ZLimbLOD* ZLimbLOD::FromRawData(vector<uint8_t> nRawData, int rawDataIndex)
 	return limb;
 }
 
-string ZLimbLOD::GetSourceOutputCode(string prefix)
+string ZLimbLOD::GetSourceOutputCode(const std::string& prefix)
 {
 	return std::string();
 }

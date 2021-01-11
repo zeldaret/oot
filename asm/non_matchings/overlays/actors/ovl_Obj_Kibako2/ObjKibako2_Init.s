@@ -11,7 +11,7 @@ glabel ObjKibako2_Init
 /* 00330 80B95D00 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00334 80B95D04 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00338 80B95D08 AFA0002C */  sw      $zero, 0x002C($sp)         
-/* 0033C 80B95D0C 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 0033C 80B95D0C 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00340 80B95D10 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00344 80B95D14 3C0580B9 */  lui     $a1, %hi(D_80B95FFC)       ## $a1 = 80B90000
@@ -24,14 +24,14 @@ glabel ObjKibako2_Init
 /* 0035C 80B95D2C 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 00360 80B95D30 3C040600 */  lui     $a0, %hi(D_06000B70)                ## $a0 = 06000000
 /* 00364 80B95D34 24840B70 */  addiu   $a0, $a0, %lo(D_06000B70)           ## $a0 = 06000B70
-/* 00368 80B95D38 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00368 80B95D38 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0036C 80B95D3C 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 00370 80B95D40 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00374 80B95D44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00378 80B95D48 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 0037C 80B95D4C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 0037C 80B95D4C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00380 80B95D50 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00384 80B95D54 A60000B4 */  sh      $zero, 0x00B4($s0)         ## 000000B4
 /* 00388 80B95D58 860F0018 */  lh      $t7, 0x0018($s0)           ## 00000018

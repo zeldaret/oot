@@ -54,7 +54,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060066A8;
+extern CollisionHeader D_060066A8;
 extern Gfx D_06008D88[];
 extern Gfx D_06006570[];
 
@@ -65,7 +65,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     f32 sinRotY;
     f32 cosRotY;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
     ColliderTrisItemInit* items;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -80,9 +80,9 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_808BEFF4;
     } else {
         items = &sTrisItemInit[1];
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        DynaPolyInfo_Alloc(&D_060066A8, &localConst);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->initPosRot.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
             thisx->posRot.pos.y = thisx->initPosRot.pos.y;
@@ -115,7 +115,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (thisx->params == 1) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

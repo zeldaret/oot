@@ -97,7 +97,8 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
+                         0.0f);
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
