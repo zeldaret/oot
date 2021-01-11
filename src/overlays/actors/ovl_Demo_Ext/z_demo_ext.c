@@ -66,9 +66,8 @@ void DemoExt_SetupWait(DemoExt* this) {
 }
 
 void DemoExt_SetupMaintainVortex(DemoExt* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorAction* npcAction = DemoExt_GetNpcCsAction(globalCtx, 5);
 
-    npcAction = DemoExt_GetNpcCsAction(globalCtx, 5);
     if (npcAction != NULL) {
         this->actor.posRot.pos.x = npcAction->startPos.x;
         this->actor.posRot.pos.y = npcAction->startPos.y;
@@ -165,11 +164,16 @@ void DemoExt_DispellVortex(DemoExt* this, GlobalContext* globalCtx) {
     DemoExt_FinishClosing(this);
 }
 
+static DemoExtActionFunc sActionFuncs[] = {
+    DemoExt_Wait,
+    DemoExt_MaintainVortex,
+    DemoExt_DispellVortex,
+};
+
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static DemoExtActionFunc sActionFuncs[] = { DemoExt_Wait, DemoExt_MaintainVortex, DemoExt_DispellVortex };
     DemoExt* this = THIS;
 
-    if ((this->action < 0) || (this->action >= 3) || sActionFuncs[this->action] == NULL) {
+    if ((this->action < EXT_WAIT) || (this->action >= EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // Main mode is abnormal!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
@@ -182,7 +186,6 @@ void DemoExt_DrawNothing(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     DemoExt* this = THIS;
-
     Mtx* mtx;
     GraphicsContext* gfxCtx;
     s16* curScroll;
@@ -190,7 +193,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
 
     scales = &this->scales;
     gfxCtx = globalCtx->state.gfxCtx;
-    mtx = Graph_Alloc(gfxCtx, 0x40);
+    mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
@@ -216,11 +219,15 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_ext.c", 512);
 }
 
+static DemoExtDrawFunc sDrawFuncs[] = {
+    DemoExt_DrawNothing,
+    DemoExt_DrawVortex,
+};
+
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static DemoExtDrawFunc sDrawFuncs[] = { DemoExt_DrawNothing, DemoExt_DrawVortex };
     DemoExt* this = THIS;
 
-    if ((this->drawMode < 0) || (this->drawMode >= 2) || sDrawFuncs[this->drawMode] == NULL) {
+    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode >= EXT_DRAW_VORTEX) || sDrawFuncs[this->drawMode] == NULL) {
         // Draw mode is abnormal!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
