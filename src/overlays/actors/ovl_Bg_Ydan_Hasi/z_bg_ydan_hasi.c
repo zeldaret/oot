@@ -39,23 +39,23 @@ static InitChainEntry sInitChain[] = {
 
 static Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
 
-extern UNK_TYPE D_06005780;
-extern UNK_TYPE D_06007798;
+extern CollisionHeader D_06005780;
+extern CollisionHeader D_06007798;
 extern Gfx* D_06005DE0[];
 
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
     BgYdanHasi* this = THIS;
-    s32 localConst;
+    CollisionHeader* colHeader;
     WaterBox* waterBox;
     s32 pad2;
 
-    localConst = 0;
+    colHeader = NULL;
     Actor_ProcessInitChain(thisx, sInitChain);
     this->unk_168 = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
-    waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes + 0x1;
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (thisx->params == 1) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         thisx->initPosRot.pos.y = (thisx->initPosRot.pos.y + -5.0f);
@@ -65,19 +65,19 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         if (thisx->params == 0) {
             // Moving platform on the water in B1
-            DynaPolyInfo_Alloc(&D_06007798, &localConst);
+            CollisionHeader_GetVirtual(&D_06007798, &colHeader);
             thisx->scale.z = 0.15f;
             thisx->scale.x = 0.15f;
             thisx->posRot.pos.y = (waterBox->ySurface + 20.0f);
             this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
         } else {
             // 3 platforms on 2F
-            DynaPolyInfo_Alloc(&D_06005780, &localConst);
+            CollisionHeader_GetVirtual(&D_06005780, &colHeader);
             thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
             Actor_SetHeight(thisx, 40.0f);
         }
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localConst);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
     this->timer = 0;
 }
@@ -85,7 +85,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanHasi* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
@@ -99,7 +99,7 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
         ((Math_SinS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.x);
     this->dyna.actor.posRot.pos.z =
         ((Math_CosS(this->dyna.actor.posRot.rot.y) * framesAfterMath) + this->dyna.actor.initPosRot.pos.z);
-    waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[1];
+    waterBox = &globalCtx->colCtx.colHeader->waterBoxes[1];
     this->dyna.actor.posRot.pos.y = waterBox->ySurface + 20.0f;
     if (this->timer != 0) {
         this->timer--;
@@ -133,8 +133,8 @@ WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
-    waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes;
-    globalCtx->colCtx.stat.colHeader->waterBoxes[1].ySurface = this->dyna.actor.posRot.pos.y;
+    waterBox = globalCtx->colCtx.colHeader->waterBoxes;
+    globalCtx->colCtx.colHeader->waterBoxes[1].ySurface = this->dyna.actor.posRot.pos.y;
     if (1) {}
     return waterBox + 0x1;
 }

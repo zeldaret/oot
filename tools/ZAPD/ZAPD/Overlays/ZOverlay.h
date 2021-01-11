@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ZResource.h"
-#include "../tinyxml2.h"
+#include <tinyxml2.h>
 #include <elfio/elfio.hpp>
 
 enum SectionType
@@ -28,9 +28,9 @@ public:
 	RelocationType relocationType;
 	int32_t offset;
 
-	RelocationEntry(SectionType nSecType, RelocationType nRelType, int32_t nOffset) 
+	RelocationEntry(SectionType nSecType, RelocationType nRelType, int32_t nOffset)
 	{
-		sectionType = nSecType; 
+		sectionType = nSecType;
 		relocationType = nRelType;
 		offset = nOffset;
 	}
@@ -55,7 +55,7 @@ public:
 	ZOverlay(std::string nName);
 	~ZOverlay();
 	static ZOverlay* FromBuild(std::string buildPath, std::string cfgFolderPath);
-	std::string GetSourceOutputCode(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
 
 private:
 	std::vector<RelocationEntry*> entries;

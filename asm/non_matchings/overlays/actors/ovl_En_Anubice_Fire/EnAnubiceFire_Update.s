@@ -120,7 +120,7 @@ glabel EnAnubiceFire_Update
 /* 008F8 809B2E98 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 008FC 809B2E9C 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00900 809B2EA0 3C0641F0 */  lui     $a2, 0x41F0                ## $a2 = 41F00000
-/* 00904 809B2EA4 0C00F8C3 */  jal     func_8003E30C              
+/* 00904 809B2EA4 0C00F8C3 */  jal     BgCheck_SphVsFirstPoly              
 /* 00908 809B2EA8 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 0090C 809B2EAC 5040000B */  beql    $v0, $zero, .L809B2EDC     
 /* 00910 809B2EB0 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -41,20 +41,19 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600E710;
+extern CollisionHeader D_0600E710;
 extern Gfx D_0600E490[];
 extern Gfx D_0600EDC0[];
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
     s16 pad1;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(&this->dyna, flag);
+    CollisionHeader_GetVirtual(arg2, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
 
         // Warning: move BG registration failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
@@ -78,7 +77,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      thisx->params & 0x3F);
         osSyncPrintf(VT_SGR());
     }
-    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, 0);
+    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, DPM_UNK);
     BgJyaBombiwa_InitCollider(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill(thisx);
@@ -93,7 +92,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
