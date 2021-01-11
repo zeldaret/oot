@@ -1,6 +1,20 @@
 <Root>
     <File Name="ganontika_scene">
-        <Scene Name="ganontika_scene"/>
+        <Scene Name="ganontika_scene">
+            <CutsceneHint Offset="0x1A8E0"/>
+            <CutsceneHint Offset="0x1C6B0"/>
+            <CutsceneHint Offset="0x1BC80"/>
+            <CutsceneHint Offset="0x1B2B0"/>
+            <CutsceneHint Offset="0x1D080"/>
+            <CutsceneHint Offset="0x19EE0"/>
+            <CutsceneHint Offset="0x1DA50"/>
+            <CutsceneHint Offset="0x1DF90"/>
+            <CutsceneHint Offset="0x1E3E0"/>
+            <CutsceneHint Offset="0x1E790"/>
+            <CutsceneHint Offset="0x1EB40"/>
+            <CutsceneHint Offset="0x1EF70"/>
+            <CutsceneHint Offset="0x21380"/>
+        </Scene>
     </File>
     <File Name="ganontika_room_0">
         <Room Name="ganontika_room_0"/>

@@ -11,13 +11,13 @@ void DemoKekkai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8098D71C(Actor* thisx, GlobalContext* globalCtx);
 void func_8098D87C(Actor* thisx, GlobalContext* globalCtx);
-void func_8098D9C0(DemoKekkai* this, GlobalContext* globalCtx);
+void func_8098D9C0(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8098D4D4(DemoKekkai* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004930[];
 extern Gfx D_06004F00[];
-extern UNK_TYPE D_06004FD0;
+extern Vtx D_06004FD0[];
 extern Gfx D_06005A30[];
 extern Gfx D_06005CB0[];
 
@@ -39,8 +39,13 @@ static ColliderCylinderInit D_8098E0B0 = {
     { 680, 220, 120, { 0, 0, 0 } },
 };
 
-s32 D_8098E0DC[] = {
-    0xAAFFFF00, 0x32FFFFFF, 0xAAC8FF00, 0xFFFFAAC8, 0x0000FFAA, 0xFF6400C8, 0xFFFFAAFF, 0x7800FFFF, 0xAA00C800,
+static u8 D_8098E0DC[] = {
+    /* 1 */ /* prim */ 170, 255, 255, /* env */ 0,   50,  255,
+    /* 2 */ /* prim */ 255, 255, 170, /* env */ 200, 255, 0,
+    /* 3 */ /* prim */ 255, 255, 170, /* env */ 200, 0,   0,
+    /* 4 */ /* prim */ 255, 170, 255, /* env */ 100, 0,   200,
+    /* 5 */ /* prim */ 255, 255, 170, /* env */ 255, 120, 0,
+    /* 6 */ /* prim */ 255, 255, 170, /* env */ 0,   200, 0,
 };
 
 s32 func_8098CFD0(s32 params) {
@@ -159,7 +164,7 @@ void func_8098D4D4(DemoKekkai* this, GlobalContext* globalCtx) {
         }
     }
     if (!(this->unk_1F6 & 1)) {
-        func_8002F974(&this->actor, 0x20EE);
+        func_8002F974(&this->actor, NA_SE_EV_TOWER_BARRIER - SFX_FLAG);
     }
 }
 
@@ -201,13 +206,13 @@ void func_8098D71C(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->unk_1F4 < 50) {
         this->unk_1E8 = 2.0f;
     } else if (this->unk_1F4 == 50) {
-        Audio_PlayActorSound2(&this->actor, 0x1842);
+        Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         func_8098D280(this, globalCtx);
     } else {
         this->unk_1E8 = 0.0f;
     }
     if (this->unk_1E8 != 0.0f) {
-        func_8002F974(&this->actor, 0x20ED);
+        func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
     }
     this->unk_1F4++;
 }
@@ -226,7 +231,7 @@ void func_8098D87C(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     if (this->collider2.base.acFlags & 2) {
-        func_80078884(0x4802);
+        func_80078884(NA_SE_SY_CORRECT_CHIME);
         // I got it
         LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
         this->actor.update = func_8098D71C;
@@ -235,16 +240,61 @@ void func_8098D87C(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
-    func_8002F974(&this->actor, 0x20ED);
+    func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
 }
 
-s32 D_8098E168[] = {
-    0x01010000, 0x02020202, 0x02020202, 0x02020202, 0x01010000, 0x00010202, 0x02020202, 0x01000001, 0x02020101,
-    0x02020202, 0x02020202, 0x02020101, 0x00000001, 0x01000202, 0x02020202, 0x02020202, 0x02020202, 0x01010000,
-    0x00010100, 0x02020202, 0x02020202, 0x02020100, 0x01000202, 0x02020202, 0x02010102, 0x00000000,
-};
+void func_8098D9C0(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    s32 sp118 = globalCtx->gameplayFrames & 0xFFFF;
+    u8 spB0[102] = {
+        1, 1, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 1, 2, 2,
+        1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        1, 1, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 1, 0, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 0, 0,
+    };
+    s32 spAC;
+    DemoKekkai* this = THIS;
+    u8 spA4[3];
+    Vtx* temp_a2 = SEGMENTED_TO_VIRTUAL(D_06004FD0);
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kekkai/func_8098D9C0.s")
+    if (this->unk_1E8 != 0.0f) {
+        if (1) {}
+        spA4[2] = (s32)(this->unk_1E4 * 202.0f);
+        spA4[1] = (s32)(this->unk_1E4 * 126.0f);
+        spA4[0] = 0;
+        for (i = 0; i < 102; i++) {
+            temp_a2[i].v.cn[3] = spA4[spB0[i]];
+        }
+        spAC = (this->actor.params - 1) * 6;
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 632);
+        func_80093D84(globalCtx->state.gfxCtx);
+        Matrix_Push();
+        Matrix_Translate(0.0f, 1200.0f, 0.0f, 1);
+        Matrix_Scale(this->unk_1E8, this->unk_1E8, this->unk_1E8, 1);
+        Matrix_Translate(0.0f, -1200.0f, 0.0f, 1);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 639), 2);
+        gSPSegment(POLY_XLU_DISP++, 0x09,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, sp118 * 5, sp118 * -10, 0x20, 0x20, 1, sp118 * 5,
+                                    sp118 * -10, 0x20, 0x20));
+        gSPDisplayList(POLY_XLU_DISP++, D_06005CB0);
+        Matrix_Pull();
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 656), 2);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 50, 0, 100, 255);
+        gSPSegment(POLY_XLU_DISP++, 0x0A,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, sp118, sp118, 0x20, 0x20));
+        gSPDisplayList(POLY_XLU_DISP++, D_06004F00);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, D_8098E0DC[spAC + 0], D_8098E0DC[spAC + 1], D_8098E0DC[spAC + 2],
+                        255);
+        gDPSetEnvColor(POLY_XLU_DISP++, D_8098E0DC[spAC + 3], D_8098E0DC[spAC + 4], D_8098E0DC[spAC + 5], 128);
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, sp118 * 5, sp118 * -10, 0x20, 0x20, 1, sp118 * 5,
+                                    sp118 * -10, 0x20, 0x40));
+        gSPDisplayList(POLY_XLU_DISP++, D_06005A30);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 696);
+    }
+}
 
 void DemoKekkai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;

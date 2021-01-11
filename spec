@@ -1542,7 +1542,7 @@ endseg
 beginseg
     name "ovl_Demo_Kekkai"
     include "build/src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.o"
-    include "build/data/overlays/actors/z_demo_kekkai.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Kekkai/ovl_Demo_Kekkai_reloc.o"
 endseg
 
 beginseg
