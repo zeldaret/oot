@@ -245,7 +245,8 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     AnimationHeader* animation = &D_060029A8;
     if (arg2 != 0) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, -8.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         -8.0f);
         this->action = 5;
         this->unk_19C = 0.0f;
     }
@@ -319,7 +320,7 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->action = 0;
 }
 

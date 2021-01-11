@@ -180,7 +180,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->jointTable, this->morphTable, 5);
-    Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, 2, 0.0f);
+    Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, ANIMMODE_ONCE, 0.0f);
 
     switch (this->type) {
         case ENBOX_TYPE_SMALL:
@@ -409,7 +409,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
         linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
         frameCount = Animation_GetLastFrame(anim);
-        Animation_Change(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
+        Animation_Change(&this->skelanime, anim, 1.5f, 0, frameCount, ANIMMODE_ONCE, 0.0f);
         EnBox_SetupAction(this, EnBox_Open);
         if (this->unk_1F4 > 0) {
             switch (this->type) {
