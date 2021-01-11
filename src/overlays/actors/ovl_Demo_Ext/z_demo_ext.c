@@ -53,7 +53,7 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
     }
 }
 
-CsCmdActorAction* DemoExt_GetNpcCsAction(GlobalContext* globalCtx, s32 npcActionIndex) {
+CsCmdActorAction* DemoExt_GetNpcAction(GlobalContext* globalCtx, s32 npcActionIndex) {
     if (globalCtx->csCtx.state != 0) {
         return globalCtx->csCtx.npcActions[npcActionIndex];
     }
@@ -66,7 +66,7 @@ void DemoExt_SetupWait(DemoExt* this) {
 }
 
 void DemoExt_SetupMaintainVortex(DemoExt* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = DemoExt_GetNpcCsAction(globalCtx, 5);
+    CsCmdActorAction* npcAction = DemoExt_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
         this->actor.posRot.pos.x = npcAction->startPos.x;
@@ -91,7 +91,7 @@ void DemoExt_FinishClosing(DemoExt* this) {
 }
 
 void DemoExt_CheckCsMode(DemoExt* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* csCmdNPCAction = DemoExt_GetNpcCsAction(globalCtx, 5);
+    CsCmdActorAction* csCmdNPCAction = DemoExt_GetNpcAction(globalCtx, 5);
     s32 csAction;
     s32 previousCsAction;
 
@@ -173,7 +173,7 @@ static DemoExtActionFunc sActionFuncs[] = {
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoExt* this = THIS;
 
-    if ((this->action < EXT_WAIT) || (this->action >= EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
+    if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // Main mode is abnormal!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
@@ -227,7 +227,7 @@ static DemoExtDrawFunc sDrawFuncs[] = {
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoExt* this = THIS;
 
-    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode >= EXT_DRAW_VORTEX) || sDrawFuncs[this->drawMode] == NULL) {
+    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) || sDrawFuncs[this->drawMode] == NULL) {
         // Draw mode is abnormal!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
