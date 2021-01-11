@@ -167,7 +167,7 @@ void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A53278;
 }
 
@@ -186,7 +186,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.nightFlag) {
+    } else if (gSaveContext.nightFlag != 0) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
@@ -266,7 +266,7 @@ void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53638;
 }
 
@@ -302,7 +302,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -338,7 +338,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A5399C;
 }
 
@@ -411,7 +411,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
-        if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
+        if (!(120.0f < this->actor.xzDistToLink) && (yawDiff < 0x4300)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
@@ -432,7 +432,7 @@ void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53D0C;
 }
 
@@ -469,7 +469,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -595,7 +595,7 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->audioFlag = 0;
     this->actionFunc = func_80A543A0;
 }
@@ -737,7 +737,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     if (((this->initParams != 2) && (this->initParams != 5)) ||
         ((yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)),
-          !(this->actor.xzDistFromLink > 120.0f)) &&
+          !(this->actor.xzDistToLink > 120.0f)) &&
          (yawDiff < 0x4300))) {
         func_8002F2F4(&this->actor, globalCtx);
     }
@@ -746,7 +746,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A549E8;
 }
 

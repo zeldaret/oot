@@ -89,7 +89,7 @@ void func_80B43AD4(EnYukabyun* this, GlobalContext* globalCtx) {
 
 void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += this->unk_150;
-    if (this->actor.xzDistFromLink > 5000.0f) {
+    if (this->actor.xzDistToLink > 5000.0f) {
         Actor_Kill(&this->actor);
         return;
     }

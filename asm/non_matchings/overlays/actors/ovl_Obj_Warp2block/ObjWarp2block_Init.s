@@ -61,19 +61,19 @@ glabel ObjWarp2block_Init
 /* 0061C 80BA240C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00620 80BA2410 AE000134 */  sw      $zero, 0x0134($s0)         ## 00000134
 .L80BA2414:
-/* 00624 80BA2414 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00624 80BA2414 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00628 80BA2418 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0062C 80BA241C 3C040600 */  lui     $a0, %hi(D_06000B30)                ## $a0 = 06000000
 /* 00630 80BA2420 24840B30 */  addiu   $a0, $a0, %lo(D_06000B30)           ## $a0 = 06000B30
-/* 00634 80BA2424 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00634 80BA2424 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00638 80BA2428 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 0063C 80BA242C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00640 80BA2430 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00644 80BA2434 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00648 80BA2438 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00648 80BA2438 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 0064C 80BA243C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00650 80BA2440 10000003 */  beq     $zero, $zero, .L80BA2450   
 /* 00654 80BA2444 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

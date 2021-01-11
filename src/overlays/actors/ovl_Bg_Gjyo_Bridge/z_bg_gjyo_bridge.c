@@ -37,27 +37,27 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06000600[];
-extern UNK_TYPE D_06000DB8;
+extern CollisionHeader D_06000DB8;
 extern CutsceneData D_02002640[];
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
     s32 pad;
-    s32 local_c;
+    CollisionHeader* colHeader;
 
-    local_c = 0;
+    colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000DB8, &local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000DB8, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (gSaveContext.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->actionFunc = BgGjyoBridge_TriggerCutscene;
     }
 }
@@ -65,7 +65,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {
@@ -89,7 +89,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[2] != NULL) &&
         (globalCtx->csCtx.npcActions[2]->action == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         gSaveContext.eventChkInf[4] |= 0x2000;
     }
 }

@@ -48,7 +48,7 @@ static f32 D_808718FC[] = { 0.0f, 5.0f };
 static f32 D_80871904[] = { 0.0f };
 static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-extern UNK_TYPE D_06004F30;
+extern CollisionHeader D_06004F30;
 extern Gfx D_060048A8[];
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
@@ -58,17 +58,17 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    DynaPolyInfo_Alloc(&D_06004F30, &sp24);
+    CollisionHeader_GetVirtual(&D_06004F30, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
@@ -81,7 +81,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 

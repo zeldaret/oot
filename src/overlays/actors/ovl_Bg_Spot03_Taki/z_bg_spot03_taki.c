@@ -33,7 +33,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000C98;
+extern CollisionHeader D_06000C98;
 
 // These are identical vertex data for the waterfall.
 extern Vtx* D_06000800[]; // Vertex buffer 0
@@ -55,12 +55,12 @@ void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
     s16 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000C98, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000C98, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
@@ -72,7 +72,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
@@ -91,7 +91,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (this->openingAlpha > 0) {
             this->openingAlpha -= 5;
             if (this->openingAlpha <= 0.0f) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->timer = 400;
                 this->state = WATERFALL_OPENED;
                 this->openingAlpha = 0;
@@ -106,7 +106,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (this->openingAlpha < 255.0f) {
             this->openingAlpha += 5.0f;
             if (this->openingAlpha >= 255.0f) {
-                func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->state = WATERFALL_CLOSED;
                 this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(globalCtx, this->switchFlag);

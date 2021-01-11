@@ -254,7 +254,7 @@ void EnDodongo_SetupIdle(EnDodongo* this) {
 void EnDodongo_SetupWalk(EnDodongo* this) {
     f32 frames = Animation_GetLastFrame(&D_06008B1C);
 
-    Animation_Change(&this->skelAnime, &D_06008B1C, 0.0f, 0.0f, frames, 0, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06008B1C, 0.0f, 0.0f, frames, ANIMMODE_LOOP, -4.0f);
     this->actor.speedXZ = 1.5f;
     this->timer = Rand_S16Offset(50, 70);
     this->rightFootStep = true;
@@ -277,7 +277,7 @@ void EnDodongo_SetupEndBreatheFire(EnDodongo* this) {
 }
 
 void EnDodongo_SetupSwallowBomb(EnDodongo* this) {
-    Animation_Change(&this->skelAnime, &D_060028F0, -1.0f, 35.0f, 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060028F0, -1.0f, 35.0f, 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = DODONGO_SWALLOW_BOMB;
     this->timer = 25;
     this->actor.speedXZ = 0.0f;
@@ -285,7 +285,7 @@ void EnDodongo_SetupSwallowBomb(EnDodongo* this) {
 }
 
 void EnDodongo_SetupStunned(EnDodongo* this) {
-    Animation_Change(&this->skelAnime, &D_060028F0, 0.0f, 25.0f, 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060028F0, 0.0f, 25.0f, 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = DODONGO_STUNNED;
     this->actor.speedXZ = 0.0f;
     if (this->damageEffect == 0xF) {
@@ -452,7 +452,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 400.0f) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x1F4, 0);
         this->actor.flags |= 1;
-        if ((this->actor.xzDistFromLink < 100.0f) && (yawDiff < 0x1388) && (this->actor.yDistFromLink < 60.0f)) {
+        if ((this->actor.xzDistToLink < 100.0f) && (yawDiff < 0x1388) && (this->actor.yDistToLink < 60.0f)) {
             EnDodongo_SetupBreatheFire(this);
         }
     } else {

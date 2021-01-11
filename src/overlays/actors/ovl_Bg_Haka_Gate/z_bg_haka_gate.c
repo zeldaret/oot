@@ -47,16 +47,16 @@ void BgHakaGate_SkullOfTruth(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx);
 
 extern Gfx D_0404D4E0[];
-extern ColHeader D_0600A938;
+extern CollisionHeader D_0600A938;
 extern Gfx D_0600F1B0[];
 extern Gfx D_06010A10[];
 extern Gfx D_06010C10[];
-extern ColHeader D_06010E10;
-extern ColHeader D_060131C4;
+extern CollisionHeader D_06010E10;
+extern CollisionHeader D_060131C4;
 
 static s16 sSkullOfTruthRotY = 0x100;
 static u8 sPuzzleState = 1;
-static f32 sStatueDistFromLink = 0;
+static f32 sStatueDistToLink = 0;
 
 static s16 sStatueRotY;
 
@@ -79,12 +79,12 @@ static InitChainEntry sInitChain[] = {
 void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHakaGate* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (thisx->params == BGHAKAGATE_SKULL) {
         if (sSkullOfTruthRotY != 0x100) {
             this->actionFunc = BgHakaGate_FalseSkull;
@@ -111,23 +111,23 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == BGHAKAGATE_STATUE) {
-            DynaPolyInfo_Alloc(&D_060131C4, &colHeader);
+            CollisionHeader_GetVirtual(&D_060131C4, &colHeader);
             this->vTimer = 0;
-            sStatueDistFromLink = 0.0f;
+            sStatueDistToLink = 0.0f;
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_StatueInactive;
             } else {
                 this->actionFunc = BgHakaGate_StatueIdle;
             }
         } else if (thisx->params == BGHAKAGATE_FLOOR) {
-            DynaPolyInfo_Alloc(&D_06010E10, &colHeader);
+            CollisionHeader_GetVirtual(&D_06010E10, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 this->actionFunc = BgHakaGate_FloorClosed;
             }
         } else { // BGHAKAGATE_GATE
-            DynaPolyInfo_Alloc(&D_0600A938, &colHeader);
+            CollisionHeader_GetVirtual(&D_0600A938, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actionFunc = BgHakaGate_DoNothing;
                 thisx->posRot.pos.y += 80.0f;
@@ -137,7 +137,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgHakaGate_GateWait;
             }
         }
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
@@ -145,7 +145,7 @@ void BgHakaGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHakaGate* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (this->dyna.actor.params == BGHAKAGATE_STATUE) {
         sSkullOfTruthRotY = 0x100;
         sPuzzleState = 1;
@@ -172,7 +172,7 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
     if (this->dyna.unk_150 != 0.0f) {
         if (this->vTimer == 0) {
             this->vInitTurnAngle = this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsLink;
-            sStatueDistFromLink = this->dyna.actor.xzDistFromLink;
+            sStatueDistToLink = this->dyna.actor.xzDistToLink;
             forceDirection = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
             linkDirection = ((s16)(this->dyna.actor.yawTowardsLink - player->actor.shape.rot.y) > 0) ? -1 : 1;
             this->vTurnDirection = linkDirection * forceDirection;
@@ -203,15 +203,15 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
     this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
-    if ((player->stateFlags2 & 0x10) && (sStatueDistFromLink > 0.0f)) {
+    if ((player->stateFlags2 & 0x10) && (sStatueDistToLink > 0.0f)) {
         player->actor.posRot.pos.x =
             this->dyna.actor.initPosRot.pos.x +
-            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToLink);
         player->actor.posRot.pos.z =
             this->dyna.actor.initPosRot.pos.z +
-            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistFromLink);
+            (Math_CosS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToLink);
     } else {
-        sStatueDistFromLink = 0.0f;
+        sStatueDistToLink = 0.0f;
     }
     sStatueRotY = this->dyna.actor.shape.rot.y;
     if (turnFinished) {
@@ -227,7 +227,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
-    if ((sStatueDistFromLink > 1.0f) && (sStatueRotY != 0)) {
+    if ((sStatueDistToLink > 1.0f) && (sStatueRotY != 0)) {
         Player* player = PLAYER;
         f32 radialDist;
         f32 angDist;
@@ -242,7 +242,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
         if ((radialDist > 110.0f) || (fabsf(angDist) > 40.0f)) {
             s16 yawDiff = sSkullOfTruthRotY - sStatueRotY;
 
-            sStatueDistFromLink = 0.0f;
+            sStatueDistToLink = 0.0f;
             if (ABS(yawDiff) < 0x80) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 sPuzzleState = SKULL_OF_TRUTH_FOUND;
@@ -250,7 +250,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
             } else {
                 func_80078884(NA_SE_SY_ERROR);
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
             }
@@ -264,7 +264,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, GlobalContext* globalCtx) {
     }
     if (this->vTimer == 0) {
         if (Math_ScaledStepToS(&this->vOpenAngle, 0, 0x800)) {
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgHakaGate_FloorClosed;
         }
     } else {

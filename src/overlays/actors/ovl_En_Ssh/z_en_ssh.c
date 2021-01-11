@@ -133,15 +133,15 @@ s32 EnSsh_CreateBlureEffect(GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_CheckCeilingPos(EnSsh* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp4C;
-    u32 sp48;
-    Vec3f sp3C;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posB;
 
-    sp3C.x = this->actor.posRot.pos.x;
-    sp3C.y = this->actor.posRot.pos.y + 1000.0f;
-    sp3C.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->ceilingPos, &sp4C, 0, 0, 1, 1,
-                       &sp48)) {
+    posB.x = this->actor.posRot.pos.x;
+    posB.y = this->actor.posRot.pos.y + 1000.0f;
+    posB.z = this->actor.posRot.pos.z;
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &posB, &this->ceilingPos, &poly, false,
+                                 false, true, true, &bgId)) {
         return false;
     } else {
         return true;
@@ -347,7 +347,7 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->actor.xzDistFromLink > 160.0f) {
+    if (this->actor.xzDistToLink > 160.0f) {
         return false;
     }
 
@@ -598,7 +598,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTable, this->morphTable, 30);
-    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
     this->stateFlags = 0;

@@ -54,19 +54,19 @@ glabel BgSpot06Objects_Init
               
 /* 00080 808AE800 24A5F964 */  addiu   $a1, $a1, %lo(D_808AF964)  ## $a1 = 808AF964
 /* 00084 808AE804 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00088 808AE808 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00088 808AE808 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0008C 808AE80C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00090 808AE810 3C040600 */  lui     $a0, %hi(D_06000EE8)                ## $a0 = 06000000
 /* 00094 808AE814 24840EE8 */  addiu   $a0, $a0, %lo(D_06000EE8)           ## $a0 = 06000EE8
-/* 00098 808AE818 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00098 808AE818 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0009C 808AE81C 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4
 /* 000A0 808AE820 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000A4 808AE824 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A8 808AE828 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 000AC 808AE82C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 000AC 808AE82C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 000B0 808AE830 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000B4 808AE834 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 000B8 808AE838 2463E660 */  addiu   $v1, %lo(gSaveContext)
@@ -259,19 +259,19 @@ glabel BgSpot06Objects_Init
               
 /* 00368 808AEAE8 24A5F964 */  addiu   $a1, $a1, %lo(D_808AF964)  ## $a1 = 808AF964
 /* 0036C 808AEAEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00370 808AEAF0 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00370 808AEAF0 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00374 808AEAF4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00378 808AEAF8 3C040600 */  lui     $a0, %hi(D_06001238)                ## $a0 = 06000000
 /* 0037C 808AEAFC 24841238 */  addiu   $a0, $a0, %lo(D_06001238)           ## $a0 = 06001238
-/* 00380 808AEB00 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00380 808AEB00 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00384 808AEB04 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4
 /* 00388 808AEB08 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0038C 808AEB0C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00390 808AEB10 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 00394 808AEB14 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00394 808AEB14 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00398 808AEB18 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0039C 808AEB1C 3C0A808B */  lui     $t2, %hi(func_808AEE00)    ## $t2 = 808B0000
 /* 003A0 808AEB20 3C038016 */  lui     $v1, %hi(gSaveContext)

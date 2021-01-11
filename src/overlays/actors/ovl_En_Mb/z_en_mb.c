@@ -316,7 +316,8 @@ void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA6974(EnMb* this) {
-    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, Animation_GetLastFrame(&D_06009FC0), 0, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, Animation_GetLastFrame(&D_06009FC0), ANIMMODE_LOOP,
+                     -4.0f);
     this->actor.speedXZ = 0.59999996f;
     this->unk_32A = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
@@ -332,7 +333,7 @@ void func_80AA6A18(EnMb* this) {
     this->unk_32A = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->unk_320 = 9;
-    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, frameCount, 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, -4.0f);
     EnMb_SetupAction(this, func_80AA8AEC);
 }
 
@@ -369,7 +370,7 @@ void func_80AA6BF0(EnMb* this) {
 
     frames = Animation_GetLastFrame(&D_0600B4BC);
     this->unk_320 = 10;
-    Animation_Change(&this->skelAnime, &D_0600B4BC, 3.0f, 0.0f, frames, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600B4BC, 3.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk_32E = 1;
     yawDiff = (this->actor.posRot.rot.y - this->actor.yawTowardsLink);
 
@@ -416,7 +417,7 @@ void func_80AA6DA4(EnMb* this) {
 
     frameCount = Animation_GetLastFrame(&D_0600EBE4);
     this->unk_320 = 11;
-    Animation_Change(&this->skelAnime, &D_0600EBE4, 5.0f, 0.0f, frameCount, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600EBE4, 5.0f, 0.0f, frameCount, ANIMMODE_ONCE_INTERP, 0.0f);
     EnMb_SetupAction(this, func_80AA7478);
 }
 
@@ -436,7 +437,7 @@ void func_80AA6E7C(EnMb* this) {
     this->unk_320 = 2;
     this->unk_32A = 0;
     this->unk_32E = 6;
-    Animation_Change(&this->skelAnime, &D_0600D5D4, 1.0f, 4.0f, frames, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600D5D4, 1.0f, 4.0f, frames, ANIMMODE_ONCE_INTERP, 0.0f);
     EnMb_SetupAction(this, func_80AA840C);
 }
 
@@ -528,12 +529,12 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
         this->unk_32A--;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x3E8, 0);
     }
-    yDist = this->actor.yDistFromLink;
+    yDist = this->actor.yDistToLink;
     yDistAbs = ABS(yDist);
     if ((yDistAbs <= 20.0f) && func_80AA652C(this, globalCtx)) {
         yawDiff = this->actor.shape.rot.y - this->actor.yawTowardsLink;
         yawDiffAbs = ABS(yawDiff);
-        if ((yawDiffAbs <= 0x4000) || (func_8002DDE4(globalCtx) != 0) && (this->actor.xzDistFromLink < 160.0f)) {
+        if ((yawDiffAbs <= 0x4000) || (func_8002DDE4(globalCtx) != 0) && (this->actor.xzDistToLink < 160.0f)) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);
@@ -552,8 +553,8 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
         if (this->unk_32A == 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
-                Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, Animation_GetLastFrame(&D_06002C10), 0.0f, 2,
-                                 0.0f);
+                Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, Animation_GetLastFrame(&D_06002C10), 0.0f,
+                                 ANIMMODE_ONCE, 0.0f);
                 this->unk_32A = 1;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -597,17 +598,17 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
             if (this->unk_32E == 0) {
                 yawDiff = this->actor.shape.rot.y - this->actor.yawTowardsLink;
 
-                if ((ABS(this->actor.yDistFromLink) <= 20.0f) && (func_80AA652C(this, globalCtx) != 0) &&
-                    (ABS(yawDiff) <= 0x4000) && (this->actor.xzDistFromLink <= 200.0f)) {
+                if ((ABS(this->actor.yDistToLink) <= 20.0f) && (func_80AA652C(this, globalCtx) != 0) &&
+                    (ABS(yawDiff) <= 0x4000) && (this->actor.xzDistToLink <= 200.0f)) {
                     func_80AA6AC8(this);
                 } else {
                     endFrame = Animation_GetLastFrame(&D_06002C10);
-                    Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, endFrame, 0.0f, 2, 0.0f);
+                    Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, endFrame, 0.0f, ANIMMODE_ONCE, 0.0f);
                     this->actor.speedXZ = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
 
-            } else if (this->actor.xzDistFromLink <= 160.0f) {
+            } else if (this->actor.xzDistToLink <= 160.0f) {
                 this->actor.speedXZ = -5.0f;
             } else {
                 this->actor.speedXZ = 0.0f;
@@ -616,7 +617,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
         if (SkelAnime_Update(&this->skelAnime) != 0) {
             if (this->unk_32A == 0) {
                 endFrame = Animation_GetLastFrame(&D_06002F10);
-                Animation_Change(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, endFrame, 1, 0.0f);
+                Animation_Change(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, endFrame, ANIMMODE_LOOP_INTERP, 0.0f);
                 this->unk_32A = 1;
             } else {
                 yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos) - this->actor.yawTowardsLink;
@@ -692,7 +693,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
                 }
             }
 
-            func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistFromLink) * 0.04f) + 4.0f,
+            func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistToLink) * 0.04f) + 4.0f,
                           this->actor.posRot.rot.y, 8.0f);
 
             player->invincibilityTimer = oldInvincibilityTimer;
@@ -703,13 +704,13 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
                 f32 pad1 = Animation_GetLastFrame(&D_0600ABE0);
-                Animation_Change(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, pad1, 3, 0.0f);
+                Animation_Change(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, pad1, ANIMMODE_ONCE_INTERP, 0.0f);
             }
         } else {
             sp74 = this->effSpawnPos;
             sp74.y = this->actor.groundY;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
-            func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+            func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
             func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
@@ -884,7 +885,7 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
         if (this->unk_32E != 0) {
             Animation_PlayOnce(&this->skelAnime, &D_0600E18C);
             this->unk_32E = 0;
-            func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+            func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
             Camera_AddQuake(&globalCtx->mainCamera, 2, 25, 5);
         } else {
             func_80AA6898(this);
@@ -900,13 +901,13 @@ void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
                 if (this->unk_32A == 0) {
-                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C), 3,
-                                     0.0f);
+                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C),
+                                     ANIMMODE_ONCE_INTERP, 0.0f);
                     this->unk_32A = 1;
                     this->unk_32E = 6;
                 } else {
-                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C), 3,
-                                     0.0f);
+                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C),
+                                     ANIMMODE_ONCE_INTERP, 0.0f);
                 }
             }
         } else {
@@ -943,7 +944,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else if (((s32)this->skelAnime.curFrame == 15) || ((s32)this->skelAnime.curFrame == 22)) {
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
         func_80033260(globalCtx, &this->actor, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
@@ -974,7 +975,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364)) {
         Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
         this->actor.flags |= 1;
-        if ((this->actor.xzDistFromLink < 500.0f) && (yawDiff <= 0x1387)) {
+        if ((this->actor.xzDistToLink < 500.0f) && (yawDiff <= 0x1387)) {
             func_80AA6AC8(this);
         }
     } else {
@@ -1030,11 +1031,11 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     }
     this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_330, 1, 0x5DC, 0);
-    yDistAbs = (this->actor.yDistFromLink >= 0.0f) ? this->actor.yDistFromLink : -this->actor.yDistFromLink;
+    yDistAbs = (this->actor.yDistToLink >= 0.0f) ? this->actor.yDistToLink : -this->actor.yDistToLink;
     if (yDistAbs <= 20.0f && func_80AA652C(this, globalCtx) != 0) {
         yawDiff = (this->actor.shape.rot.y - this->actor.yawTowardsLink);
         yawDiffAbs = ABS(yawDiff);
-        if (yawDiffAbs <= 0x4000 || func_8002DDE4(globalCtx) != 0 && this->actor.xzDistFromLink < 160.0f) {
+        if (yawDiffAbs <= 0x4000 || func_8002DDE4(globalCtx) != 0 && this->actor.xzDistToLink < 160.0f) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);

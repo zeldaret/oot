@@ -153,7 +153,7 @@ glabel func_80A16A64
 /* 019BC 80A16C3C E610002C */  swc1    $f16, 0x002C($s0)          ## 0000002C
 /* 019C0 80A16C40 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 019C4 80A16C44 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 019C8 80A16C48 0C00F269 */  jal     func_8003C9A4              
+/* 019C8 80A16C48 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 019CC 80A16C4C 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 019D0 80A16C50 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 019D4 80A16C54 8FBF0024 */  lw      $ra, 0x0024($sp)           
