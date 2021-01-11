@@ -113,7 +113,7 @@ void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80ABCD40(EnNy* this) {
     f32 temp;
 
-    temp = (this->actor.waterY > 0.0f) ? 0.7f : 1.0f;
+    temp = (this->actor.yDistToWater > 0.0f) ? 0.7f : 1.0f;
     this->unk_1E8 = 2.8f * temp;
 }
 
@@ -149,7 +149,7 @@ void func_80ABCE38(EnNy* this) {
 }
 
 void func_80ABCE50(EnNy* this, GlobalContext* globalCtx) {
-    if (this->actor.xyzDistFromLinkSq <= 25600.0f) {
+    if (this->actor.xyzDistToLinkSq <= 25600.0f) {
         func_80ABCD94(this);
     }
 }
@@ -182,10 +182,10 @@ void func_80ABCEEC(EnNy* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx) {
-    f32 sp2C;
+    f32 yawDiff;
     s32 temp;
 
-    if (!(this->unk_1F0 < this->actor.waterY)) {
+    if (!(this->unk_1F0 < this->actor.yDistToWater)) {
         func_8002F974(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
     }
     func_80ABCD40(this);
@@ -197,10 +197,10 @@ void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, this->unk_1F4, 0);
         Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        sp2C = Math_FAtan2F(this->actor.yDistFromLink, this->actor.xzDistFromLink);
-        this->actor.speedXZ = fabsf(cosf(sp2C) * this->unk_1E8);
-        if (this->unk_1F0 < this->actor.waterY) {
-            this->unk_1EC = sinf(sp2C) * this->unk_1E8;
+        yawDiff = Math_FAtan2F(this->actor.yDistToLink, this->actor.xzDistToLink);
+        this->actor.speedXZ = fabsf(cosf(yawDiff) * this->unk_1E8);
+        if (this->unk_1F0 < this->actor.yDistToWater) {
+            this->unk_1EC = sinf(yawDiff) * this->unk_1E8;
         }
     }
 }
@@ -213,7 +213,7 @@ void func_80ABD05C(EnNy* this, GlobalContext* globalCtx) {
     if (phi_f0 <= 0.25f) {
         phi_f0 = 0.25f;
         if (this->actor.bgCheckFlags & 2) {
-            if (!(this->unk_1F0 < this->actor.waterY)) {
+            if (!(this->unk_1F0 < this->actor.yDistToWater)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             this->actor.bgCheckFlags &= ~2;
@@ -246,27 +246,26 @@ void func_80ABD11C(EnNy* this, GlobalContext* globalCtx) {
     this->unk_1D8 = phi_v1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABD190.s")
-s32 func_80ABD190(EnNy* this, GlobalContext* globalCtx) { // Collision Check
+s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
     u8 sp3F;
     Vec3f effectPos;
 
     sp3F = 0;
     this->unk_1CC = 0;
-    if ((this->collider.base.atFlags & 4) != 0) {
-        this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFB;
+    if (this->collider.base.atFlags & 4) {
+        this->collider.base.atFlags &= ~4;
         this->unk_1CC = 1;
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actor.speedXZ = -4.0f;
         return 0;
     }
-    if ((this->collider.base.atFlags & 2) != 0) {
-        this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFD;
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
         this->unk_1CC = 1;
         return 0;
     } else {
-        if ((this->collider.base.acFlags & 2) != 0) {
-            this->collider.base.acFlags = this->collider.base.acFlags & 0xFFFD;
+        if (this->collider.base.acFlags & 2) {
+            this->collider.base.acFlags &= ~2;
             effectPos.x = this->collider.list[0].body.bumper.unk_06.x;
             effectPos.y = this->collider.list[0].body.bumper.unk_06.y;
             effectPos.z = this->collider.list[0].body.bumper.unk_06.z;
@@ -292,7 +291,7 @@ s32 func_80ABD190(EnNy* this, GlobalContext* globalCtx) { // Collision Check
             this->unk_1DC = 0;
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.shape.unk_14 = 0;
-                this->actor.flags = this->actor.flags & ~1;
+                this->actor.flags &= ~1;
                 this->unk_1D0 = sp3F;
                 func_80032C7C(globalCtx, &this->actor);
                 return 1;
@@ -307,9 +306,9 @@ s32 func_80ABD190(EnNy* this, GlobalContext* globalCtx) { // Collision Check
 void func_80ABD3B8(EnNy* this, f32 arg1, f32 arg2) {
     if (this->unk_1E8 == 0.0f) {
         this->actor.gravity = -0.4f;
-    } else if (!(arg1 < this->actor.waterY)) {
+    } else if (!(arg1 < this->actor.yDistToWater)) {
         this->actor.gravity = -0.4f;
-    } else if (arg2 < this->actor.waterY) {
+    } else if (arg2 < this->actor.yDistToWater) {
         this->actor.gravity = 0.0;
         if (this->unk_1EC < this->actor.velocity.y) {
             this->actor.velocity.y -= 0.4f;
@@ -338,19 +337,19 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetHeight(thisx, 0.0f);
     Actor_SetScale(thisx, 0.01f);
-    this->collider.list->dim.scale = (1.33f * temp_f20) + 1.0f;
+    this->collider.list[0].dim.scale = (1.33f * temp_f20) + 1.0f;
     temp_f22 = (24.0f * temp_f20) + 12.0f;
     thisx->shape.rot.x = thisx->shape.rot.x + (s16)(this->unk_1E8 * 1000.0f);
     func_80ABD3B8(this, temp_f22 + 10.0f, temp_f22 - 10.0f);
     Actor_MoveForward(thisx);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
-    this->actionFunc(thisx, globalCtx);
+    this->actionFunc(this, globalCtx);
     thisx->pos4.y -= temp_f22;
     thisx->posRot.pos.y -= temp_f22;
     func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
     this->unk_1F0 = temp_f22;
     thisx->posRot.pos.y = thisx->posRot.pos.y + temp_f22;
-    if (func_80ABD190(this, globalCtx) != 0) {
+    if (EnNy_CollisionCheck(this, globalCtx) != 0) {
         for (i = 0; i < 8; i++) {
             this->unk_1F8[i].x = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.x);
             this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.y);
@@ -363,29 +362,28 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (this->unk_1E0 > 0.25f) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABD728.s")
 void func_80ABD728(EnNy* this, GlobalContext* globalCtx) {
-    s32 temp;
+    s32 effectScale;
     s32 i;
     Vec3f effectPos;
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f };
 
     if (this->unk_1C8 >= 2) {
-        if (this->actor.waterY > 0.0f) {
+        if (this->actor.yDistToWater > 0.0f) {
             for (i = 0; i < 10; i++) {
                 effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
                 effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.y;
                 effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
-                temp = Rand_S16Offset(0x50, 0x64);
-                EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel,
-                                                   temp, 0x19, 0, 1);
+                effectScale = Rand_S16Offset(0x50, 0x64);
+                EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale,
+                                                   0x19, 0, 1);
             }
             for (i = 0; i < 0x14; i++) {
                 effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
@@ -406,13 +404,42 @@ void func_80ABD728(EnNy* this, GlobalContext* globalCtx) {
             Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 8);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_DEAD);
-        this->actionFunc = &func_80ABD9AC;
+        this->actionFunc = func_80ABD9AC;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABD9AC.s")
+void func_80ABD9AC(EnNy* this, GlobalContext* globalCtx) {
+    s32 i;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABDBB8.s")
+    if (this->actor.yDistToWater > 0.0f) {
+        for (i = 0; i < 8; i += 1) {
+            this->unk_1F8[i].x += this->unk_1F8[i + 8].x;
+            this->unk_1F8[i].y += this->unk_1F8[i + 8].y;
+            this->unk_1F8[i].z += this->unk_1F8[i + 8].z;
+            Math_StepToF(&this->unk_1F8[i + 8].x, 0.0f, 0.1f);
+            Math_StepToF(&this->unk_1F8[i + 8].y, -1.0f, 0.4f);
+            Math_StepToF(&this->unk_1F8[i + 8].z, 0.0f, 0.1f);
+        }
+        if (this->unk_1C8 >= 0x1F) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    } else {
+        for (i = 0; i < 8; i += 1) {
+            this->unk_1F8[i].x += this->unk_1F8[i + 8].x;
+            this->unk_1F8[i].y += this->unk_1F8[i + 8].y;
+            this->unk_1F8[i].z += this->unk_1F8[i + 8].z;
+            Math_StepToF(&this->unk_1F8[i + 8].x, 0.0f, 0.15f);
+            Math_StepToF(&this->unk_1F8[i + 8].y, -1.0f, 0.6f);
+            Math_StepToF(&this->unk_1F8[i + 8].z, 0.0f, 0.15f);
+        }
+        if (this->unk_1C8 >= 0x10) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    }
+}
+
 void func_80ABDBB8(Actor* thisx, GlobalContext* globalCtx) {
     EnNy* this = THIS;
 
@@ -423,14 +450,37 @@ void func_80ABDBB8(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ny/func_80ABDBF8.s")
+void func_80ABDBF8(Actor* thisx, GlobalContext* globalCtx2) {
+    EnNy* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
+    f32 sp3C;
+    f32 temp_f0;
 
-Vec3f sOffset[] = {
+    sp3C = this->unk_1E0 - 0.25f;
+    this->unk_1C8++;
+    Actor_SetHeight(&this->actor, 0.0f);
+    Actor_SetScale(&this->actor, 0.01f);
+    temp_f0 = (24.0f * sp3C) + 12.0f;
+    thisx->pos4.y -= temp_f0;
+    thisx->posRot.pos.y -= temp_f0;
+
+    func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
+    this->unk_1F0 = temp_f0;
+    thisx->posRot.pos.y += temp_f0;
+
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    Actor_MoveForward(thisx);
+    Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
+}
+
+static Vec3f sOffset[] = {
     { 5.0f, 0.0f, 0.0f },
     { -5.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 5.0f },
     { 0.0f, 0.0f, -5.0f },
 };
+
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNy* this = THIS;
@@ -478,7 +528,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
 void func_80ABE040(Actor* thisx, GlobalContext* globalCtx) {
     EnNy* this = THIS;
     Vec3f* temp;
-    f32 temp_f12;
+    f32 scale;
     s32 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 900);
@@ -487,11 +537,11 @@ void func_80ABE040(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gDPPipeSync(POLY_OPA_DISP++);
     for (i = 0; i < 8; i++) {
-        if (this->unk_1C8 < (i + 0x16)) {
+        if (this->unk_1C8 < (i + 22)) {
             temp = &this->unk_1F8[i];
             Matrix_Translate(temp->x, temp->y, temp->z, MTXMODE_NEW);
-            temp_f12 = thisx->scale.x * 0.4f * (1.0f + (i * 0.04f));
-            Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
+            scale = thisx->scale.x * 0.4f * (1.0f + (i * 0.04f));
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 912),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06001DD0);
@@ -502,6 +552,7 @@ void func_80ABE040(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f tempVec;
         Vec3f* offset;
         s16 temp;
+
         temp = this->unk_1CA - 1;
         thisx->dmgEffectTimer++;
         if ((temp & 1) == 0) {
