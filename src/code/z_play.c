@@ -292,13 +292,15 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     Gameplay_SpawnScene(
-        globalCtx, (&gEntranceTable[(((void)0, gSaveContext.entranceIndex)) + (((void)0, gSaveContext.sceneSetupIndex))])->scene,
-        (&gEntranceTable[(((void)0, gSaveContext.sceneSetupIndex)) + (((void)0, gSaveContext.entranceIndex))])->spawn);
+        globalCtx,
+        gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].scene,
+        gEntranceTable[((void)0, gSaveContext.sceneSetupIndex) + ((void)0, gSaveContext.entranceIndex)].spawn);
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneSetupIndex);
 
     // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) && gSaveContext.sceneSetupIndex == 6) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
+        gSaveContext.sceneSetupIndex == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)())0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
