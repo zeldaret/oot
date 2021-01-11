@@ -12,6 +12,9 @@ void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx);
 
 //prototypes
 void func_80995D6C();
+void func_80995A50();
+void func_809958E4();
+void func_80995318();
 
 extern FlexSkeletonHeader D_06001BC8;
 
@@ -139,7 +142,70 @@ void func_809951C4(Actor *thisx, GlobalContext *globalCtx) {
     }
     func_8002D7EC(thisx);
 }
+/*
+void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller *this = THIS;
+    void *sp3C;
+    Vec3f sp30;
+    s16 temp_v0_2;
+    s32 temp_v0;
+    Player *player;
+    s32 phi_v0;
+    s32 phi_v1;
 
+    player = PLAYER;
+    sp3C = player;
+    func_8002DBD0(thisx, &sp30, &player->actor.posRot.pos);
+    if (this->unk191 != 0) {
+        this->unk280 = &func_80995A50;
+        this->unk21A = (u16)0xA;
+        this->unk191 = (u8)0U;
+        return;
+    }
+    sp3C = player;
+    if (func_80995284(thisx, globalCtx) != 0) {
+        temp_v0 = this->unk1C8.body.acHitItem->toucher.flags;
+        if ((temp_v0 & 0x1FFA6) != 0) {
+            this->unk21A = (u16)0x10;
+            this->unk280 = &func_809958E4;
+        } else if ((temp_v0 & 0x48) != 0) {
+            func_80995020(thisx, globalCtx);
+            this->unk280 = &func_80995318;
+            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
+        }
+    } else {
+        sp3C = player;
+        if (Actor_GetCollidedExplosive(globalCtx, &this->unk220.base) != 0) {
+            func_80995020(thisx, globalCtx);
+            this->unk280 = &func_80995318;
+            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
+        } else {
+            sp3C = player;
+            if ((Player_InCsMode(globalCtx) == 0) && (fabsf(sp30.y) < 20.0f) && (fabsf(sp30.x) < 20.0f) && (sp30.z < 50.0f) && (sp30.z > 0.0f)) {
+                temp_v0_2 = player->actor.shape.rot.y - thisx->shape.rot.y;
+                phi_v0 = (s32) temp_v0_2;
+                if (sp30.z > 0.0f) {
+                    phi_v0 = (s32) (s16) (0x8000 - temp_v0_2);
+                }
+                phi_v1 = 0 - phi_v0;
+                if (phi_v0 >= 0) {
+                    phi_v1 = phi_v0;
+                }
+                if (phi_v1 < 0x3000) {
+                    player->doorType = (u8)3;
+                    if (sp30.z >= 0.0f) {
+                        player->doorDirection = (s8) (s32) 1.0f;
+                    } else {
+                        player->doorDirection = (s8) (s32) -1.0f;
+                    }
+                    player->doorActor = thisx;
+                }
+            }
+        }
+    }
+    func_809952B8(thisx, globalCtx);
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995284.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809952B8.s")
