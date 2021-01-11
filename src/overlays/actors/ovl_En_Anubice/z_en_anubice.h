@@ -26,15 +26,13 @@ typedef struct EnAnubice {
     /* 0x0264 */ s16 unk_264;
     /* 0x0266 */ char unk_266[0x2];
     /* 0x0268 */ f32 unk_268;
-    /* 0x026C */ f32 unk_26C;
+    /* 0x026C */ f32 animLastFrame;
     /* 0x0270 */ f32 unk_270;
     /* 0x0274 */ f32 unk_274;
     /* 0x0278 */ f32 unk_278;
     /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ Vec3f unk_280;
-    /* 0x028C */ f32 unk_28C;
-    /* 0x0290 */ f32 unk_290;
-    /* 0x0294 */ char unk_294[0x4];
+    /* 0x0280 */ Vec3f fireballPos;
+    /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f unk_298;
     /* 0x02A4 */ Vec3f unk_2A4;
     /* 0x02B0 */ BgHidanCurtain* unk_2B0[4];

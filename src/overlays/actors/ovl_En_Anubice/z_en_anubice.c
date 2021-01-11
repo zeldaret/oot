@@ -22,9 +22,9 @@ void func_809B142C(EnAnubice* this, GlobalContext* globalCtx);
 void func_809B1524(EnAnubice* this, GlobalContext* globalCtx);
 void func_809B15CC(EnAnubice* this, GlobalContext* globalCtx);
 void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx);
-void func_809B17FC(EnAnubice* this, GlobalContext* globalCtx);
-void func_809B1884(EnAnubice* this, GlobalContext* globalCtx);
-void func_809B1A54(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000348;
 extern AnimationHeader D_0600078C;
@@ -69,20 +69,20 @@ void func_809B1120(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = Math_SinS(this->unk_268);
 }
 
-void func_809B11C0(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
     f32 xzdist;
     f32 x;
     f32 y;
     f32 z;
     Player* player = PLAYER;
 
-    x = player->actor.posRot.pos.x - this->unk_280.x;
-    y = player->actor.posRot.pos.y + 10.0f - this->unk_280.y;
-    z = player->actor.posRot.pos.z - this->unk_280.z;
+    x = player->actor.posRot.pos.x - this->fireballPos.x;
+    y = player->actor.posRot.pos.y + 10.0f - this->fireballPos.y;
+    z = player->actor.posRot.pos.z - this->fireballPos.z;
     xzdist = sqrtf(SQ(x) + SQ(z));
 
-    this->unk_28C = 0 - (s16)(Math_FAtan2F(y, xzdist) * 10430.378f);
-    this->unk_290 = (s16)(Math_FAtan2F(x, z) * 10430.378f);
+    this->fireballRot.x = 0 - (s16)(Math_FAtan2F(y, xzdist) * 10430.378f);
+    this->fireballRot.y = (s16)(Math_FAtan2F(x, z) * 10430.378f);
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -183,7 +183,7 @@ void func_809B15CC(EnAnubice* this, GlobalContext* globalCtx) {
         this->actor.shape.unk_08 = 0.0f;
 
         if (player->swordState != 0) {
-            this->actionFunc = &func_809B17FC;
+            this->actionFunc = &EnAnubis_SetupShootFireball;
         } else if (this->unk_260 != 0) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
@@ -245,17 +245,19 @@ void func_809B16AC(EnAnubice* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/func_809B16AC.s")
 #endif
 
-void func_809B17FC(EnAnubice* this, GlobalContext* globalCtx) {
+// 809B17FC
+void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_0600078C);
 
-    this->unk_26C = lastFrame;
+    this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, lastFrame, 2, -10.0f);
-    this->actionFunc = &func_809B1884;
+    this->actionFunc = &EnAnubis_ShootFireball;
     this->actor.velocity.z = 0.0f;
     this->actor.velocity.x = 0.0f;
 }
 
-void func_809B1884(EnAnubice* this, GlobalContext* globalCtx) {
+// 809B1884
+void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
 
     curFrame = this->skelAnime.curFrame;
@@ -266,22 +268,23 @@ void func_809B1884(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xBB8, 0);
     }
 
-    func_809B11C0(this, globalCtx);
+    EnAnubice_SetFireballRot(this, globalCtx);
 
     if (curFrame == 12.0f) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->unk_280.x, this->unk_280.y + 15.0f,
-                    this->unk_280.z, this->unk_28C, this->unk_290, 0, 0);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->fireballPos.x,
+                    this->fireballPos.y + 15.0f, this->fireballPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
     }
 
-    if (this->unk_26C <= curFrame) {
+    if (this->animLastFrame <= curFrame) {
         this->actionFunc = func_809B1524;
     }
 }
 
-void func_809B1984(EnAnubice* this, GlobalContext* globalCtx) {
+// 809B1984
+void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_06000348);
 
-    this->unk_26C = lastFrame;
+    this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &D_06000348, 1.0f, 0.0f, lastFrame, 2, -20.0f);
 
     this->unk_256 = 0;
@@ -291,23 +294,24 @@ void func_809B1984(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.x = 0.0f;
     this->actor.gravity = -1.0f;
 
-    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->unk_280, 70.0f) != 0) {
+    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->fireballPos, 70.0f) != 0) {
         this->unk_256 = 1;
         this->unk_258 = this->actor.shape.rot.x - 0x7F00;
     }
 
-    this->actionFunc = &func_809B1A54;
+    this->actionFunc = &EnAnubice_Die;
 }
 
-void func_809B1A54(EnAnubice* this, GlobalContext* globalCtx) {
+// 809B1A54
+void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
     f32 phi_f2;
     Vec3f sp4C;
-    Vec3f sp40;
+    Vec3f fireEffectPos;
     s32 pad;
 
     sp4C = D_809B231C;
-    sp40 = D_809B2328;
+    fireEffectPos = D_809B2328;
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.unk_10, 0.4f, 0.25f);
@@ -326,14 +330,14 @@ void func_809B1A54(EnAnubice* this, GlobalContext* globalCtx) {
     Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
     Matrix_RotateX((phi_f2 / 32768.0f) * M_PI, MTXMODE_APPLY);
     sp4C.y = Rand_CenteredFloat(10.0f) + 30.0f;
-    Matrix_MultVec3f(&sp4C, &sp40);
-    sp40.x += this->actor.posRot.pos.x + Rand_CenteredFloat(40.0f);
-    sp40.y += this->actor.posRot.pos.y + Rand_CenteredFloat(40.0f);
-    sp40.z += this->actor.posRot.pos.z + Rand_CenteredFloat(30.0f);
+    Matrix_MultVec3f(&sp4C, &fireEffectPos);
+    fireEffectPos.x += this->actor.posRot.pos.x + Rand_CenteredFloat(40.0f);
+    fireEffectPos.y += this->actor.posRot.pos.y + Rand_CenteredFloat(40.0f);
+    fireEffectPos.z += this->actor.posRot.pos.z + Rand_CenteredFloat(30.0f);
     func_8003426C(&this->actor, 0x4000, 0x80, 0, 8);
-    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &sp40, 100, 0, 0, -1);
+    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &fireEffectPos, 100, 0, 0, -1);
 
-    if (this->unk_26C <= curFrame && (this->actor.bgCheckFlags & 1)) {
+    if (this->animLastFrame <= curFrame && (this->actor.bgCheckFlags & 1)) {
         Math_ApproachF(&this->actor.shape.unk_08, -4230.0f, 0.5f, 300.0f);
         if (this->actor.shape.unk_08 < -2000.0f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
@@ -350,7 +354,8 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp3C;
     EnAnubice* this = THIS;
 
-    if (this->actionFunc != func_809B1984 && this->actionFunc != func_809B1A54 && this->actor.shape.unk_08 == 0.0f) {
+    if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die &&
+        this->actor.shape.unk_08 == 0.0f) {
         func_809B1120(this, globalCtx);
         for (i = 0; i < 5; i++) {
             hidanCurtain = this->unk_2B0[i];
@@ -362,7 +367,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.flags &= ~1;
                 func_80032C7C(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
-                this->actionFunc = func_809B1984;
+                this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
         }
@@ -374,7 +379,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.flags &= ~1;
                 func_80032C7C(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
-                this->actionFunc = func_809B1984;
+                this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
 
@@ -440,7 +445,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1C);
     }
 
-    if (this->actionFunc != func_809B1984 && this->actionFunc != func_809B1A54) {
+    if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die) {
         Actor_SetHeight(&this->actor, this->unk_27C);
         Collider_CylinderUpdate(&this->actor, &this->col);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
@@ -451,7 +456,9 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_809B2104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+// 809B2104
+s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                              void* thisx) {
     EnAnubice* this = THIS;
 
     if (limbIndex == 0xD) {
@@ -461,7 +468,8 @@ s32 func_809B2104(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_809B2150(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+// 809B2150
+void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnAnubice* this = THIS;
     Vec3f sp38;
 
@@ -472,7 +480,7 @@ void func_809B2150(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, &D_06003468);
-        Matrix_MultVec3f(&sp38, &this->unk_280);
+        Matrix_MultVec3f(&sp38, &this->fireballPos);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 868);
     }
@@ -482,6 +490,6 @@ void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = THIS;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, &func_809B2104, &func_809B2150,
-                      this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, &EnAnubis_OverrideLimbDraw,
+                      &EnAnubis_PostLimbDraw, this);
 }
