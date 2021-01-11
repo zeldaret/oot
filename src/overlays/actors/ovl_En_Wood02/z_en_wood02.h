@@ -27,7 +27,7 @@ typedef enum {
     /* 0x04 */ WOOD_TREE_CONICAL_SPAWNED,
     /* 0x05 */ WOOD_TREE_OVAL_GREEN,
     /* 0x06 */ WOOD_TREE_OVAL_YELLOW_SPAWNER,
-    /* 0x07 */ WOOD_TREE_OVAL_YELLOW_SPAWNED, // Used as a single in Hyrule Field as well
+    /* 0x07 */ WOOD_TREE_OVAL_YELLOW_SPAWNED,
     /* 0x08 */ WOOD_TREE_OVAL_GREEN_SPAWNER,
     /* 0x09 */ WOOD_TREE_OVAL_GREEN_SPAWNED,
     /* 0x0A */ WOOD_TREE_KAKARIKO_ADULT,
