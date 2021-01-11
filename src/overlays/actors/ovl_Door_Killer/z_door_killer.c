@@ -69,8 +69,8 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->unk280 = &func_80995D6C;
             func_80995D6C(thisx, globalCtx2);
             this->unk198 = this->unk19C = 0x4000;
-            Collider_InitCylinder(globalCtx, &this->unk1C8);
-            Collider_SetCylinder(globalCtx, &this->unk1C8, thisx, &D_80995FB0);
+            Collider_InitCylinder(globalCtx, &this->collider);
+            Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80995FB0);
             Collider_InitJntSph(globalCtx, &this->unk220);
             Collider_SetJntSph(globalCtx, &this->unk220, thisx, &D_80996000, &this->unk240);
             this->unk220.list[0].dim.worldSphere.radius = 80;
@@ -109,7 +109,7 @@ void DoorKiller_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     DoorKiller *this = THIS;
 
     if ((thisx->params & 0xFF) == 0) {
-        Collider_DestroyCylinder(globalCtx, &this->unk1C8);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
         Collider_DestroyJntSph(globalCtx, &this->unk220);
     }
 }
@@ -142,73 +142,20 @@ void func_809951C4(Actor *thisx, GlobalContext *globalCtx) {
     }
     func_8002D7EC(thisx);
 }
-/*
-void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
-    DoorKiller *this = THIS;
-    void *sp3C;
-    Vec3f sp30;
-    s16 temp_v0_2;
-    s32 temp_v0;
-    Player *player;
-    s32 phi_v0;
-    s32 phi_v1;
 
-    player = PLAYER;
-    sp3C = player;
-    func_8002DBD0(thisx, &sp30, &player->actor.posRot.pos);
-    if (this->unk191 != 0) {
-        this->unk280 = &func_80995A50;
-        this->unk21A = (u16)0xA;
-        this->unk191 = (u8)0U;
-        return;
+s32 func_80995284(Actor* thisx, GlobalContext* globalCtx){
+    DoorKiller* this = THIS;
+    if (((this->collider.base.acFlags & 2) != 0) && (this->collider.body.acHitItem != NULL)) {
+        return 1;
     }
-    sp3C = player;
-    if (func_80995284(thisx, globalCtx) != 0) {
-        temp_v0 = this->unk1C8.body.acHitItem->toucher.flags;
-        if ((temp_v0 & 0x1FFA6) != 0) {
-            this->unk21A = (u16)0x10;
-            this->unk280 = &func_809958E4;
-        } else if ((temp_v0 & 0x48) != 0) {
-            func_80995020(thisx, globalCtx);
-            this->unk280 = &func_80995318;
-            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
-        }
-    } else {
-        sp3C = player;
-        if (Actor_GetCollidedExplosive(globalCtx, &this->unk220.base) != 0) {
-            func_80995020(thisx, globalCtx);
-            this->unk280 = &func_80995318;
-            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
-        } else {
-            sp3C = player;
-            if ((Player_InCsMode(globalCtx) == 0) && (fabsf(sp30.y) < 20.0f) && (fabsf(sp30.x) < 20.0f) && (sp30.z < 50.0f) && (sp30.z > 0.0f)) {
-                temp_v0_2 = player->actor.shape.rot.y - thisx->shape.rot.y;
-                phi_v0 = (s32) temp_v0_2;
-                if (sp30.z > 0.0f) {
-                    phi_v0 = (s32) (s16) (0x8000 - temp_v0_2);
-                }
-                phi_v1 = 0 - phi_v0;
-                if (phi_v0 >= 0) {
-                    phi_v1 = phi_v0;
-                }
-                if (phi_v1 < 0x3000) {
-                    player->doorType = (u8)3;
-                    if (sp30.z >= 0.0f) {
-                        player->doorDirection = (s8) (s32) 1.0f;
-                    } else {
-                        player->doorDirection = (s8) (s32) -1.0f;
-                    }
-                    player->doorActor = thisx;
-                }
-            }
-        }
-    }
-    func_809952B8(thisx, globalCtx);
+    return 0;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995284.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809952B8.s")
+void func_809952B8(DoorKiller *this, GlobalContext *globalCtx) {
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk220.base);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995318.s")
 
@@ -220,7 +167,52 @@ void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995A50.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995A84.s")
+void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
+    Player *player;
+    Vec3f sp30;
+    s32 temp_v0;
+    s16 angleToFacingPlayer;
+    DoorKiller *this = THIS;
+
+    player = PLAYER;
+    func_8002DBD0(thisx, &sp30, &player->actor.posRot.pos);
+    if (this->unk191 != 0) {
+        this->unk280 = &func_80995A50;
+        this->unk21A = 10;
+        this->unk191 = 0;
+        return;
+    }
+    if (func_80995284(thisx, globalCtx) != 0) {
+        temp_v0 = this->collider.body.acHitItem->toucher.flags;
+        if ((temp_v0 & 0x1FFA6) != 0) {
+            this->unk21A = (u16)0x10;
+            this->unk280 = &func_809958E4;
+        } else if ((temp_v0 & 0x48) != 0) {
+            func_80995020(thisx, globalCtx);
+            this->unk280 = &func_80995318;
+            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
+        }
+    } else {
+        if (Actor_GetCollidedExplosive(globalCtx, &this->unk220.base) != 0) {
+            func_80995020(thisx, globalCtx);
+            this->unk280 = &func_80995318;
+            Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, (u16)0x39DDU);
+        } else {
+            if ((Player_InCsMode(globalCtx) == 0) && (fabsf(sp30.y) < 20.0f) && (fabsf(sp30.x) < 20.0f) && (sp30.z < 50.0f) && (sp30.z > 0.0f)) {
+                angleToFacingPlayer = player->actor.shape.rot.y - thisx->shape.rot.y;
+                if (sp30.z > 0.0f) {
+                    angleToFacingPlayer = 0x8000 - angleToFacingPlayer;
+                }
+                if (ABS(angleToFacingPlayer) < 0x3000) {
+                    player->doorType = 3;
+                    player->doorDirection = (sp30.z >= 0.0f) ? 1.0f : -1.0f;
+                    player->doorActor = thisx;
+                }
+            }
+        }
+    }
+    func_809952B8(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995CDC.s")
 

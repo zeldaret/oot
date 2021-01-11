@@ -22,7 +22,7 @@ typedef struct DoorKiller {
     /* 0x019A */ char unk19A[0x2];
     /* 0x019C */ s16 unk19C;
     /* 0x019E */ char unk19E[0x2A];
-    /* 0x01C8 */ ColliderCylinder unk1C8;
+    /* 0x01C8 */ ColliderCylinder collider;
     /* 0x0214 */ s32 *unk214;
     /* 0x0218 */ u16 unk218;
     /* 0x021A */ u16 unk21A;
@@ -30,8 +30,7 @@ typedef struct DoorKiller {
     /* 0x021D */ u8 unk21D;
     /* 0x021E */ char unk_21E[0x2];
     /* 0x0220 */ ColliderJntSph unk220;
-    /* 0x0240 */ ColliderJntSphItem* unk240;
-    /* 0x0244 */ char unk_244[0x3C];
+    /* 0x0240 */ ColliderJntSphItem unk240;
     /* 0x0280 */ void *unk280;
 } DoorKiller; // size = 0x0284
 
