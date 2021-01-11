@@ -10,24 +10,19 @@
 
 #define THIS ((EnTr*)thisx)
 
-typedef enum {
-    /* 0 */ TR_KOUME,
-    /* 1 */ TR_KOTAKE
-} TwinrovaType;
-
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B22F1C(EnTr* this, GlobalContext* globalCtx);
-void func_80B234D4(EnTr* this, GlobalContext* globalCtx);
-void func_80B23820(EnTr* this, GlobalContext* globalCtx);
-void func_80B23A88(EnTr* this, GlobalContext* globalCtx);
+void EnTr_DoNothing(EnTr* this, GlobalContext* globalCtx);
+void EnTr_ShrinkVanish(EnTr* this, GlobalContext* globalCtx);
+void EnTr_WaitToReappear(EnTr* this, GlobalContext* globalCtx);
+void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx);
 
-void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
+void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
-void func_80B242B4(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
+void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
@@ -102,7 +97,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTr* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    EnTr_SetupAction(this, func_80B22F1C);
+    EnTr_SetupAction(this, EnTr_DoNothing);
     this->unk_2D4 = 0; // Set and not used
     this->actor.child = NULL;
     Actor_SetScale(&this->actor, 0.01f);
@@ -113,7 +108,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
                                this->morphTable, 27);
             Animation_PlayOnce(&this->skelAnime, &D_06003FC8);
             this->animation = NULL;
-            EnTr_SetupAction(this, func_80B23A88);
+            EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 3;
             break;
 
@@ -122,7 +117,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
                                this->morphTable, 27);
             Animation_PlayOnce(&this->skelAnime, &D_06001CDC);
             this->animation = NULL;
-            EnTr_SetupAction(this, func_80B23A88);
+            EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 2;
             break;
 
@@ -135,8 +130,9 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B22E6C(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_CrySpellcast(EnTr* this, GlobalContext* globalCtx) {
     if (this->timer == 11) {
+        // Both cry in the title screen cutscene, but only Kotake in the in-game cutscene
         if ((this->actor.params != TR_KOUME) || (gSaveContext.sceneSetupIndex == 6)) {
             Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
@@ -151,17 +147,17 @@ void func_80B22E6C(EnTr* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void func_80B22F1C(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_DoNothing(EnTr* this, GlobalContext* globalCtx) {
 }
 
-void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_ChooseAction2(EnTr* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if (globalCtx->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (globalCtx->csCtx.npcActions[this->actionIndex]->action) {
 
                 case 4:
                     Actor_SetScale(&this->actor, 0.01f);
-                    EnTr_SetupAction(this, func_80B234D4);
+                    EnTr_SetupAction(this, EnTr_ShrinkVanish);
                     this->timer = 24;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD2);
                     break;
@@ -169,7 +165,7 @@ void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
                 case 6:
                     Animation_Change(&this->skelAnime, D_80B24380[this->actor.params], 1.0f, 0.0f,
                                      Animation_GetLastFrame(D_80B24380[this->actor.params]), ANIMMODE_ONCE, -5.0f);
-                    EnTr_SetupAction(this, func_80B22E6C);
+                    EnTr_SetupAction(this, EnTr_CrySpellcast);
                     this->animation = D_80B24378[this->actor.params];
                     this->timer = 39;
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K,
@@ -180,7 +176,7 @@ void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
 
                 default:
                     func_80B24038(this, globalCtx, this->actionIndex);
-                    func_80B24230(this, globalCtx, this->actionIndex);
+                    EnTr_UpdateRotation(this, globalCtx, this->actionIndex);
                     break;
             }
             func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
@@ -188,7 +184,7 @@ void func_80B22F28(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_FlyKidnapCutscene(EnTr* this, GlobalContext* globalCtx) {
     Vec3f originalPos;
     s16 actionIndex;
 
@@ -203,7 +199,7 @@ void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 10, 0x400, 0x100);
                 this->actor.posRot.rot.y = this->actor.shape.rot.y;
             } else {
-                func_80B242B4(this, globalCtx, actionIndex);
+                EnTr_SetStartPosRot(this, globalCtx, actionIndex);
                 this->actor.posRot.pos.x += Math_SinS(this->timer) * 150.0f;
                 this->actor.posRot.pos.y += -100.0f;
                 this->actor.posRot.pos.z += Math_CosS(this->timer) * 150.0f;
@@ -223,45 +219,45 @@ void func_80B230D8(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 arg4) {
-    Vec3f sp7C;
-    Vec3f sp70;
-    Vec3f sp64;
+void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32 scale) {
+    Vec3f pos;
+    Vec3f velocity;
+    Vec3f accel;
     Vec3f sp58;
-    Color_RGBA8* sp54;
-    Color_RGBA8* sp50;
-    Vec3f sp44;
-    s16 temp_s0;
-    s16 sp40;
+    Color_RGBA8* primColor;
+    Color_RGBA8* envColor;
+    Vec3f cameraEye;
+    s16 yaw;
+    s16 reversePitch;
     f32 sp3C;
 
-    sp44 = ACTIVE_CAM->eye;
-    temp_s0 = Math_Vec3f_Yaw(&sp44, &this->actor.posRot.pos);
-    sp40 = -Math_Vec3f_Pitch(&sp44, &this->actor.posRot.pos);
-    sp64.z = 0.0f;
-    sp64.x = 0.0f;
-    sp3C = Math_SinS(temp_s0);
-    sp70.x = Math_CosS(sp40) * (arg3 * sp3C);
-    sp70.y = Math_SinS(sp40) * arg3;
-    sp3C = Math_CosS(temp_s0);
-    sp70.z = Math_CosS(sp40) * (arg3 * sp3C);
-    sp64.y = 0.5f;
+    cameraEye = ACTIVE_CAM->eye;
+    yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.posRot.pos);
+    reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.posRot.pos);
+    accel.z = 0.0f;
+    accel.x = 0.0f;
+    sp3C = Math_SinS(yaw);
+    velocity.x = Math_CosS(reversePitch) * (arg3 * sp3C);
+    velocity.y = Math_SinS(reversePitch) * arg3;
+    sp3C = Math_CosS(yaw);
+    velocity.z = Math_CosS(reversePitch) * (arg3 * sp3C);
+    accel.y = 0.5f;
 
-    sp54 = &D_80B243C0[2 * this->actor.params];
-    sp50 = &D_80B243C0[2 * this->actor.params + 1];
+    primColor = &D_80B243C0[2 * this->actor.params];
+    envColor = &D_80B243C0[2 * this->actor.params + 1];
 
     sp58 = this->actor.posRot.pos;
-    sp58.x -= sp70.x * 10.0f;
-    sp58.y -= sp70.y * 10.0f;
-    sp58.z -= sp70.z * 10.0f;
+    sp58.x -= velocity.x * 10.0f;
+    sp58.y -= velocity.y * 10.0f;
+    sp58.z -= velocity.z * 10.0f;
 
-    sp7C.x = sp58.x + ((D_80B24388[arg2] * arg4) * Math_CosS(temp_s0));
-    sp7C.y = sp58.y + (D_80B243A4[arg2] * arg4);
-    sp7C.z = sp58.z - ((D_80B24388[arg2] * arg4) * Math_SinS(temp_s0));
-    func_8002829C(globalCtx, &sp7C, &sp70, &sp64, sp54, sp50, (s32)(800.0f * arg4), (s32)(80.0f * arg4));
+    pos.x = sp58.x + ((D_80B24388[arg2] * scale) * Math_CosS(yaw));
+    pos.y = sp58.y + (D_80B243A4[arg2] * scale);
+    pos.z = sp58.z - ((D_80B24388[arg2] * scale) * Math_SinS(yaw));
+    func_8002829C(globalCtx, &pos, &velocity, &accel, primColor, envColor, (s32)(800.0f * scale), (s32)(80.0f * scale));
 }
 
-void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_ShrinkVanish(EnTr* this, GlobalContext* globalCtx) {
     s32 temp_hi;
 
     if (this->timer >= 17) {
@@ -277,7 +273,7 @@ void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
             this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
         } else {
-            EnTr_SetupAction(this, func_80B23820);
+            EnTr_SetupAction(this, EnTr_WaitToReappear);
             this->actor.draw = NULL;
         }
     }
@@ -291,7 +287,7 @@ void func_80B234D4(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B23690(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_Reappear(EnTr* this, GlobalContext* globalCtx) {
     s32 temp_hi;
 
     if (this->timer >= 31) {
@@ -306,7 +302,7 @@ void func_80B23690(EnTr* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y += this->timer * 0x1A6;
         Actor_SetScale(&this->actor, (this->actor.scale.x * 0.8f) + 0.002f);
     } else {
-        EnTr_SetupAction(this, func_80B22F28);
+        EnTr_SetupAction(this, EnTr_ChooseAction2);
         Actor_SetScale(&this->actor, 0.01f);
     }
 
@@ -316,15 +312,15 @@ void func_80B23690(EnTr* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
 }
 
-void func_80B23820(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_WaitToReappear(EnTr* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if ((globalCtx->csCtx.npcActions[this->actionIndex] != NULL) &&
             ((globalCtx->csCtx.npcActions[this->actionIndex]->action == 3) ||
              (globalCtx->csCtx.npcActions[this->actionIndex]->action == 5))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
             this->timer = 34;
-            func_80B242B4(this, globalCtx, this->actionIndex);
-            EnTr_SetupAction(this, func_80B23690);
+            EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
+            EnTr_SetupAction(this, EnTr_Reappear);
             Animation_PlayLoop(&this->skelAnime, &D_060049C8);
             this->animation = NULL;
             Actor_SetScale(&this->actor, 0.003f);
@@ -332,7 +328,7 @@ void func_80B23820(EnTr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B238E0(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_TakeOff(EnTr* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24378[this->actor.params]);
 
     if (globalCtx->csCtx.state != 0) {
@@ -341,12 +337,12 @@ void func_80B238E0(EnTr* this, GlobalContext* globalCtx) {
             Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP,
                              -10.0f);
             this->animation = NULL;
-            EnTr_SetupAction(this, func_80B22F28);
+            EnTr_SetupAction(this, EnTr_ChooseAction2);
         }
     }
 }
 
-void func_80B239A8(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_TurnLookOverShoulder(EnTr* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24368[this->actor.params]);
 
     if (globalCtx->csCtx.state != 0) {
@@ -355,36 +351,36 @@ void func_80B239A8(EnTr* this, GlobalContext* globalCtx) {
             Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE,
                              -4.0f);
             this->animation = D_80B24370[this->actor.params];
-            EnTr_SetupAction(this, func_80B238E0);
+            EnTr_SetupAction(this, EnTr_TakeOff);
         }
     }
 }
 
-void func_80B23A88(EnTr* this, GlobalContext* globalCtx) {
+void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
     u32 frames = globalCtx->gameplayFrames;
 
     if (globalCtx->csCtx.state != 0) {
         if (globalCtx->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (globalCtx->csCtx.npcActions[this->actionIndex]->action) {
                 case 1:
-                    func_80B242B4(this, globalCtx, this->actionIndex);
-                    EnTr_SetupAction(this, func_80B239A8);
+                    EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
+                    EnTr_SetupAction(this, EnTr_TurnLookOverShoulder);
                     break;
 
                 case 3:
-                    func_80B242B4(this, globalCtx, this->actionIndex);
-                    EnTr_SetupAction(this, func_80B22F28);
+                    EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
+                    EnTr_SetupAction(this, EnTr_ChooseAction2);
                     Animation_PlayLoop(&this->skelAnime, &D_060049C8);
                     this->animation = NULL;
                     break;
 
                 case 4:
-                    EnTr_SetupAction(this, func_80B23820);
+                    EnTr_SetupAction(this, EnTr_WaitToReappear);
                     this->actor.draw = NULL;
                     break;
 
                 case 7:
-                    EnTr_SetupAction(this, func_80B230D8);
+                    EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
                     Animation_PlayLoop(&this->skelAnime, &D_060049C8);
                     this->animation = NULL;
                     this->timer = ((this->actor.params != TR_KOUME) ? ((u8)frames << 10) + 0x8000 : (u8)frames << 10);
@@ -411,7 +407,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             } else if (this->animation == &D_060049C8) {
-                EnTr_SetupAction(this, func_80B22F28);
+                EnTr_SetupAction(this, EnTr_ChooseAction2);
                 Animation_Change(&this->skelAnime, &D_060049C8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060049C8),
                                  ANIMMODE_LOOP, -5.0f);
             } else {
@@ -523,34 +519,33 @@ void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24038.s")
 #endif
 
-void func_80B24230(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
-    s16 temp_a3;
-    // s32 temp_v1;
-    s32 phi_v1;
-    s32 phi_v0;
+void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
+    s16 rotY;
+    s32 rotDiff;
+    s32 rotSign;
 
-    temp_a3 = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
-    phi_v1 = this->actor.posRot.rot.y - temp_a3;
+    rotY = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
+    rotDiff = this->actor.posRot.rot.y - rotY;
 
-    if (phi_v1 < 0) {
-        phi_v1 = 0 - phi_v1;
-        phi_v0 = 1;
+    if (rotDiff < 0) {
+        rotDiff = 0 - rotDiff;
+        rotSign = 1;
     } else {
-        phi_v0 = -1;
+        rotSign = -1;
     }
 
-    if (phi_v1 >= 0x8000) {
-        phi_v0 = 0 - phi_v0;
-        phi_v1 = 0x10000 - phi_v1;
+    if (rotDiff >= 0x8000) {
+        rotSign = 0 - rotSign;
+        rotDiff = 0x10000 - rotDiff;
     }
 
-    phi_v1 *= 0.1f;
+    rotDiff *= 0.1f;
 
-    this->actor.posRot.rot.y += phi_v1 * phi_v0;
+    this->actor.posRot.rot.y += rotDiff * rotSign;
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
-void func_80B242B4(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
+void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
     Vec3f startPos;
 
     startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;

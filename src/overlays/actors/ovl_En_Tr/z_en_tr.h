@@ -24,4 +24,9 @@ typedef struct EnTr {
 
 extern const ActorInit En_Tr_InitVars;
 
+typedef enum {
+    /* 0 */ TR_KOUME,
+    /* 1 */ TR_KOTAKE
+} TwinrovaType;
+
 #endif
