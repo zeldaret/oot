@@ -2,11 +2,6 @@
     <File Name="gameplay_keep" Segment="4">
         <Texture Name="gReflection1Tex" OutName="reflection_1" Format="rgb5a1" Width="16" Height="16" Offset="0x00000000"/>
         <Texture Name="gReflection2Tex" OutName="reflection_2" Format="rgb5a1" Width="16" Height="16" Offset="0x00000200"/>
-        <Blob Name="blob_04002040" Offset="0x00002040" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_040020D0" Offset="0x000020D0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_04002160" Offset="0x00002160" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_040021F0" Offset="0x000021F0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_04002280" Offset="0x00002280" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
         <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgb5a1" Width="32" Height="64" Offset="0x00000400"/>
         <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgb5a1" Width="32" Height="16" Offset="0x00001400"/>
         <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgb5a1" Width="16" Height="16" Offset="0x00001800"/>
@@ -15,9 +10,13 @@
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x00001C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x00001D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x00001F40"/>
-        <PlayerAnimation Name="gPlayer1Anim" Offset="0x00002300"/>
-        <PlayerAnimation Name="gPlayer2Anim"/>
-        <PlayerAnimation Name="gPlayer3Anim"/>
+        <Blob Name="blob_04002040" Offset="0x00002040" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <Blob Name="blob_040020D0" Offset="0x000020D0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <Blob Name="blob_04002160" Offset="0x00002160" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <Blob Name="blob_040021F0" Offset="0x000021F0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <Blob Name="blob_04002280" Offset="0x00002280" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <!-- TODO: these start at 3 when they should really start at 1 -->
+        <PlayerAnimation Name="gPlayer3Anim" Offset="0x00002310"/>
         <PlayerAnimation Name="gPlayer4Anim"/>
         <PlayerAnimation Name="gPlayer5Anim"/>
         <PlayerAnimation Name="gPlayer6Anim"/>
