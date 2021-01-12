@@ -266,7 +266,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
     } else {
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
-        if (this->actor.xzDistFromLink < targetDist) {
+        if (this->actor.xzDistToLink < targetDist) {
             this->actor.flags |= 0x10000;
             func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
@@ -280,7 +280,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
         return true;
     } else {
         this->actor.textId = textId;
-        if (this->actor.xzDistFromLink < 120.0f) {
+        if (this->actor.xzDistToLink < 120.0f) {
             func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
         }
 
@@ -825,7 +825,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x20;
-    if (this->actor.xzDistFromLink > 6000.0f && !(this->actionFlags & 0x80)) {
+    if (this->actor.xzDistToLink > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);
     }
 
@@ -910,7 +910,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if (this->actor.xzDistFromLink < 50.0f) {
+    if (this->actor.xzDistToLink < 50.0f) {
         if (!Gameplay_InCsMode(globalCtx)) {
             owlType = (this->actor.params & 0xFC0) >> 6;
             osSyncPrintf(VT_FGCOL(CYAN));
