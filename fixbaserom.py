@@ -24,51 +24,51 @@ elif path.exists("baserom_original.n64"):
     romFileName = "baserom_original.n64"
 elif path.exists("baserom_original.v64"):
     romFileName = "baserom_original.v64"
+else:
+    print("Error: Could not find baserom_original.z64/baserom_original.n64/baserom_original.v64.")
+    sys.exit(1)
 
 # Read in the original ROM
-if romFileName != "":
-    print("File '" + romFileName + "' found.")
-    with open(romFileName, mode="rb") as file:
-        fileContent = bytearray(file.read())
+print("File '" + romFileName + "' found.")
+with open(romFileName, mode="rb") as file:
+    fileContent = bytearray(file.read())
+fileContentLen = len(fileContent)
 
-        # Check if ROM needs to be word swapped
-        if fileContent[0] == 0x40:
-            # Word Swap ROM
-            # TODO: This is pretty slow at the moment. Look into optimizing it later...
-            print("ROM needs to be word swapped...")
-            i = 0
-            while i < len(fileContent):
-                tmp = struct.unpack_from("BBBB", fileContent, i)
-                struct.pack_into("BBBB", fileContent, i + 0, tmp[3], tmp[2], tmp[1], tmp[0])
-                i += 4
+# Check if ROM needs to be byte/word swapped
+# Little-endian
+if fileContent[0] == 0x40:
+    # Word Swap ROM
+    # TODO: This is pretty slow at the moment. Look into optimizing it later...
+    print("ROM needs to be word swapped...")
+    i = 0
+    while i < fileContentLen:
+        tmp = struct.unpack_from("BBBB", fileContent, i)
+        struct.pack_into("BBBB", fileContent, i + 0, tmp[3], tmp[2], tmp[1], tmp[0])
+        i += 4
 
-                perc = float(i) / float(len(fileContent))
+        perc = float(i) / float(fileContentLen)
 
-                if i % (1024 * 1024 * 4) == 0:
-                    print(str(perc * 100) + "%")
-        
-            print("Word swapping done.")
+        if i % (1024 * 1024 * 4) == 0:
+            print(str(perc * 100) + "%")
 
-        # Check if ROM needs to be byte swapped
-        elif fileContent[0] == 0x37:
-            # Byte Swap ROM
-            # TODO: This is pretty slow at the moment. Look into optimizing it later...
-            print("ROM needs to be byte swapped...")
-            i = 0
-            while i < len(fileContent):
-                tmp = struct.unpack_from("BB", fileContent, i)
-                struct.pack_into("BB", fileContent, i + 0, tmp[1], tmp[0])
-                i += 2
+    print("Word swapping done.")
+# Byte-swapped
+elif fileContent[0] == 0x37:
+    # Byte Swap ROM
+    # TODO: This is pretty slow at the moment. Look into optimizing it later...
+    print("ROM needs to be byte swapped...")
+    i = 0
+    while i < fileContentLen:
+        tmp = struct.unpack_from("BB", fileContent, i)
+        struct.pack_into("BB", fileContent, i + 0, tmp[1], tmp[0])
+        i += 2
 
-                perc = float(i) / float(len(fileContent))
+        perc = float(i) / float(fileContentLen)
 
-                if i % (1024 * 1024 * 4) == 0:
-                    print(str(perc * 100) + "%")
+        if i % (1024 * 1024 * 4) == 0:
+            print(str(perc * 100) + "%")
 
-            print("Byte swapping done.")
-else:
-    print("Error: Could not find baserom_original.z64/baserom_original.n64.")
-    sys.exit(1)
+    print("Byte swapping done.")
     
 # Strip the overdump
 print("Stripping overdump...")
