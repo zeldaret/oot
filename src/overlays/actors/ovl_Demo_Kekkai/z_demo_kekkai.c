@@ -16,9 +16,9 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx);
 
-extern Gfx gGanonsCastleBarrierDL[];
+extern Gfx gTowerBarrierDL[];
 extern Gfx gTrialBarrierFloorDL[];
-extern Vtx gGanonsCastleBarrierVtx_004FD0[];
+extern Vtx gTowerBarrierVtx_004FD0[];
 extern Gfx gTrialBarrierEnergyDL[];
 extern Gfx gTrialBarrierOrbDL[];
 
@@ -254,7 +254,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
     s32 colorIndex;
     DemoKekkai* this = THIS;
     u8 alphas[3];
-    Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gGanonsCastleBarrierVtx_004FD0);
+    Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gTowerBarrierVtx_004FD0);
     s32 i;
 
     if (this->orbScale != 0.0f) {
@@ -313,6 +313,6 @@ void DemoKekkai_DrawTowerBarrier(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * -4, 0x20, 0x40, 1, scroll * 2,
                                 scroll * -4, 0x20, 0x40));
-    gSPDisplayList(POLY_XLU_DISP++, gGanonsCastleBarrierDL);
+    gSPDisplayList(POLY_XLU_DISP++, gTowerBarrierDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 722);
 }

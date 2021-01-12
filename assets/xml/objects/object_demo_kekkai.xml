@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_demo_kekkai" Segment="6">
         <!-- Demo_Kekkai -->
-        <DList Name="gGanonsCastleBarrierDL" Offset="0x4930"/>
+        <DList Name="gTowerBarrierDL" Offset="0x4930"/>
         <DList Name="gTrialBarrierFloorDL" Offset="0x4F00"/>
-        <!-- <Vtx Name="gGanonsCastleBarrierVtx_004FD0" Count="102" Offset="0x4FD0"/> -->
+        <!-- <Vtx Name="gTowerBarrierVtx_004FD0" Count="102" Offset="0x4FD0"/> -->
         <DList Name="gTrialBarrierEnergyDL" Offset="0x5A30"/>
         <DList Name="gTrialBarrierOrbDL" Offset="0x5CB0"/>
 
