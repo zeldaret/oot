@@ -35,10 +35,6 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     NULL,
 };
 
-extern Gfx gShadowTrialPathDL[];
-extern Gfx gClearBlockDL[];
-extern CollisionHeader gClearBlockCol;
-
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 2) {
         if (this->timer1 == 0) {

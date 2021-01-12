@@ -1,5 +1,12 @@
+/**
+ * File: z_demo_kekkai.c
+ * Overlay: ovl_Demo_Kekkai
+ * Description: Ganon's castle barriers
+ */
+
 #include "z_demo_kekkai.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "scenes/dungeons/ganontika/ganontika_scene.h"
 
 #define FLAGS 0x00000030
 
@@ -16,11 +23,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx);
 
-extern Gfx gTowerBarrierDL[];
-extern Gfx gTrialBarrierFloorDL[];
 extern Vtx gTowerBarrierVtx_004FD0[];
-extern Gfx gTrialBarrierEnergyDL[];
-extern Gfx gTrialBarrierOrbDL[];
 
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
@@ -217,8 +220,13 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 static CutsceneData* sSageCutscenes[] = {
-    NULL, 0x0201A8E0, 0x0201C6B0, 0x0201BC80, 0x0201B2B0, 0x0201D080, 0x02019EE0,
-    /* Ruto, Rauru, Darunia, Impa, Nabooru, Saria */
+    NULL,
+    gWaterTrialSageCs,
+    gLightTrialSageCs,
+    gFireTrialSageCs,
+    gShadowTrialSageCs,
+    gSpiritTrialSageCs,
+    gForestTrialSageCs,
 };
 
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, GlobalContext* globalCtx) {

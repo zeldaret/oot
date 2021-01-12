@@ -25,9 +25,6 @@ void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
 
-extern Gfx gWaterTrialIceBlockDL[];
-extern CollisionHeader gWaterTrialIceBlockCol;
-
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORTYPE_PROP,
