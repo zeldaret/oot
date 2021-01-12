@@ -171,64 +171,47 @@ void func_80995318(Actor *thisx, GlobalContext *globalCtx) {
     Actor_Kill(thisx);
 }
 
-/*
-void func_80995368(Actor *thisx, GlobalContext *globalCtx) {
-    DoorKiller* this = THIS;
-    f32 temp_f6;
-    s16 temp_a0_2;
-    s32 temp_a0;
-    s32 temp_v1;
+void func_80995368(DoorKiller *this, GlobalContext *globalCtx) {
     s32 i;
-    u16 temp_t1;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_4;
-    void *temp_v0_3;
-    u32 temp_v0_5;
-    u32 temp_v0_6;
     s16 phi_a0;
-    void *phi_v0;
-    s32 phi_v1;
-    f32 phi_f6;
-    void *phi_return;
 
-    if (this->unk21A <= 0) {
+    if (this->unk21A > 0) {
+        this->unk21A--;
+    } else {
         this->unk280 = &func_80995A84;
-        this->unk21A = 0x10;
+        this->unk21A = 16;
         func_809952B8(this, globalCtx);
         return;
     }
-    this->unk21A--;
-    thisx->shape.rot.y = (this->unk21A >= 8) ? ((this->unk21A << 0xB) - 0x4000) : 0;
+
+    if (this->unk21A >= 8){
+        this->actor.shape.rot.x = (this->unk21A << 0xB) - 0x4000;
+    }else{
+        this->actor.shape.rot.x = 0;
+    }
 
     if (this->unk21A >= 12) {
-        phi_a0 = (-this->unk21A * -0x1F4) - 0x1F40;
+        phi_a0 = (-this->unk21A * -500) - 0x1F40;
     } else if (this->unk21A >= 8) {
-        phi_a0 = -0x7D0;
+        phi_a0 = -2000;
     } else if (this->unk21A >= 5) {
-        phi_a0 = (-this->unk21A * 0x1F4) + 0x7D0;
+        phi_a0 = (this->unk21A * -500) + 2000;
     } else{
         phi_a0 = 0;
     }
 
-    for (temp_v1 = 1; temp_v1 < 9; temp_v1++){
-        this->unk192[temp_v1].z = -phi_a0;
+    for (i = 2; i < 9; i++){
+        this->unk192[i].z = -phi_a0;
     }
+
     if (this->unk21A < 8) {
-        temp_a0 = (this->unk21A << 0x1D) >> 0x10;
-        phi_f6 = this->unk21A;
-        if (this->unk21A < 0) {
-            phi_f6 += (f32)0x100000000;
-        }
-        temp_a0_2 = (Math_SinS(temp_a0) * phi_f6 * 100.0f);
+       phi_a0 = Math_SinS(this->unk21A << 0xD) * this->unk21A * 100.0f;
         for (i = 2; i < 9; i++){
-            this->unk192[i].y = temp_a0_2;
+            this->unk192[i].y = phi_a0;
         }
     }
     return;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995368.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995518.s")
 
