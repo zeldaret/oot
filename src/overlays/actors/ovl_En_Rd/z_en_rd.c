@@ -216,7 +216,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
         }
 
         this->unk_305 = 0;
-        if ((this->actor.xzDistFromLink <= 150.0f) && func_8002DDE4(globalCtx)) {
+        if ((this->actor.xzDistToLink <= 150.0f) && func_8002DDE4(globalCtx)) {
             if ((this->actor.params != 2) && (this->unk_305 == 0)) {
                 func_80AE37BC(this);
             } else {
@@ -231,7 +231,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2970(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), 0, -6.0f);
+    Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), ANIMMODE_LOOP, -6.0f);
     this->unk_31B = 0xB;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
@@ -266,7 +266,8 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, Animation_GetLastFrame(&D_0600EFDC),
+                     ANIMMODE_LOOP_INTERP, -4.0f);
     this->actor.speedXZ = 0.4f;
     this->unk_31B = 4;
     EnRd_SetupAction(this, func_80AE2C1C);
@@ -298,7 +299,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
                     player->actor.freezeTimer = 40;
                     func_8008EEAC(globalCtx, &this->actor);
                     PLAYER->unk_684 = &this->actor;
-                    func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+                    func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
                 }
                 this->unk_306 = 0x3C;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
@@ -333,7 +334,8 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
+                     -4.0f);
     this->unk_31B = 2;
     EnRd_SetupAction(this, func_80AE2FD0);
 }
@@ -381,7 +383,8 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE31DC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
+                     -4.0f);
     this->unk_31B = 3;
     this->unk_305 = 1;
     EnRd_SetupAction(this, func_80AE3260);
@@ -447,15 +450,15 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Animation_PlayLoop(&this->skelAnime, &D_06004268);
             this->unk_304++;
             globalCtx->damagePlayer(globalCtx, -8);
-            func_800AA000(this->actor.xzDistFromLink, 0xFF, 1, 0xC);
+            func_800AA000(this->actor.xzDistToLink, 0xFF, 1, 0xC);
             this->unk_319 = 0x14;
         case 0:
             Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
             if (!(player->stateFlags2 & 0x80)) {
-                Animation_Change(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, Animation_GetLastFrame(&D_060046F8), 3,
-                                 0.0f);
+                Animation_Change(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, Animation_GetLastFrame(&D_060046F8),
+                                 ANIMMODE_ONCE_INTERP, 0.0f);
                 this->unk_304++;
                 this->unk_31B = 4;
                 return;
@@ -481,7 +484,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 
             if (this->unk_319 == 0) {
                 globalCtx->damagePlayer(globalCtx, -8);
-                func_800AA000(this->actor.xzDistFromLink, 0xF0, 1, 0xC);
+                func_800AA000(this->actor.xzDistToLink, 0xF0, 1, 0xC);
                 this->unk_319 = 0x14;
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
             }
@@ -505,7 +508,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE37BC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, Animation_GetLastFrame(&D_06004F94), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, Animation_GetLastFrame(&D_06004F94), ANIMMODE_ONCE,
+                     0.0f);
     this->unk_31B = 7;
     EnRd_SetupAction(this, func_80AE3834);
 }
@@ -520,7 +524,7 @@ void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
     if (ABS(temp_v0) < 0x2008) {
         if (!(this->unk_312 & 0x80)) {
             player->actor.freezeTimer = 60;
-            func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+            func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
             func_8008EEAC(globalCtx, &this->actor);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
@@ -545,7 +549,8 @@ void func_80AE3978(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE39D4(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06008040, -1.0f, Animation_GetLastFrame(&D_06008040), 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06008040, -1.0f, Animation_GetLastFrame(&D_06008040), 0.0f, ANIMMODE_ONCE,
+                     -4.0f);
     this->unk_31B = 6;
     EnRd_SetupAction(this, func_80AE3A54);
 }

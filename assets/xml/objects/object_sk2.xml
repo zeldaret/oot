@@ -29,7 +29,7 @@
         <Limb Name="gStalfosJawLimb" Type="Standard" Offset="0x78D4"/>
         <Limb Name="gStalfosHeadLimb" Type="Standard" Offset="0x78E0"/>
         <Limb Name="gStalfosEntryFirstVertebLimb" Type="Standard" Offset="0x78EC"/>
-        <Hierarchy Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28"/>
+        <Skeleton Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28"/>
         <Animation Name="gStalfosBackDamageAnim" Offset="0x444"/>
         <Animation Name="gStalfosBackDownAnim" Offset="0x1420"/>
         <Animation Name="gStalfosBackJumpAnim" Offset="0x1978"/>

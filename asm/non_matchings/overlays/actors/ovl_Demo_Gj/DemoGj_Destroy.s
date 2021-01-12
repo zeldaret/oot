@@ -7,8 +7,8 @@ glabel DemoGj_Destroy
 /* 00170 80978AA0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00174 80978AA4 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 00178 80978AA8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 0017C 80978AAC 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 0017C 80978AAC 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00180 80978AB0 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00184 80978AB4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00188 80978AB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

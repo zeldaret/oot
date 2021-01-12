@@ -104,7 +104,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ *= Math_CosS(this->actor.posRot.rot.x);
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.posRot.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~1;
@@ -204,7 +204,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
-    if (this->actor.waterY > -40.0f) {
+    if (this->actor.yDistToWater > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
@@ -229,8 +229,8 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistFromLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
-        (this->actor.waterY < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+    if ((this->timer == 0) && (this->actor.xzDistToLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
 }
@@ -261,12 +261,12 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
-    if ((yaw != 0) || (this->actor.xzDistFromLink > 80.0f)) {
+    if ((yaw != 0) || (this->actor.xzDistToLink > 80.0f)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
-        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.waterY > -40.0f)) {
+        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & 2) {
             this->collider.base.atFlags &= ~2;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
@@ -285,7 +285,7 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == BGCHECK_Y_MIN)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);

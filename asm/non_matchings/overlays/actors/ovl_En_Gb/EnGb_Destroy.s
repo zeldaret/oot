@@ -18,8 +18,8 @@ glabel EnGb_Destroy
 /* 00464 80A2F5E4 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00468 80A2F5E8 8FAF0018 */  lw      $t7, 0x0018($sp)           
 /* 0046C 80A2F5EC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00470 80A2F5F0 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00470 80A2F5F0 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00474 80A2F5F4 8DE6014C */  lw      $a2, 0x014C($t7)           ## 0000014C
 /* 00478 80A2F5F8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0047C 80A2F5FC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

@@ -9,8 +9,8 @@ glabel BgHakaZou_Destroy
 /* 00300 808828C0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00304 808828C4 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 00308 808828C8 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 0030C 808828CC 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 0030C 808828CC 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00310 808828D0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00314 808828D4 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00318 808828D8 8FA4001C */  lw      $a0, 0x001C($sp)           

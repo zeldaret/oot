@@ -39,7 +39,7 @@ glabel func_80882A70
 /* 00524 80882AE4 24846F70 */  addiu   $a0, $a0, %lo(D_06006F70)           ## $a0 = 06006F70
 /* 00528 80882AE8 14400013 */  bne     $v0, $zero, .L80882B38     
 /* 0052C 80882AEC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 00530 80882AF0 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00530 80882AF0 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00534 80882AF4 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFFC
 /* 00538 80882AF8 860B01B2 */  lh      $t3, 0x01B2($s0)           ## 000001B2
@@ -63,7 +63,7 @@ glabel func_80882A70
 /* 0057C 80882B3C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00580 80882B40 3C040600 */  lui     $a0, %hi(D_06005E30)                ## $a0 = 06000000
 /* 00584 80882B44 24845E30 */  addiu   $a0, $a0, %lo(D_06005E30)           ## $a0 = 06005E30
-/* 00588 80882B48 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00588 80882B48 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0058C 80882B4C 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFFC
 /* 00590 80882B50 240FFFCE */  addiu   $t7, $zero, 0xFFCE         ## $t7 = FFFFFFCE
@@ -71,7 +71,7 @@ glabel func_80882A70
 /* 00598 80882B58 A60F01B0 */  sh      $t7, 0x01B0($s0)           ## 000001B0
 .L80882B5C:
 /* 0059C 80882B5C 24840C2C */  addiu   $a0, $a0, 0x0C2C           ## $a0 = 00000C2C
-/* 005A0 80882B60 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 005A0 80882B60 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 005A4 80882B64 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFFC
 /* 005A8 80882B68 24180037 */  addiu   $t8, $zero, 0x0037         ## $t8 = 00000037
@@ -82,8 +82,8 @@ glabel func_80882A70
 /* 005B8 80882B78 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 005BC 80882B7C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 005C0 80882B80 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 005C4 80882B84 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 005C4 80882B84 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 005C8 80882B88 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 005CC 80882B8C 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
 /* 005D0 80882B90 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

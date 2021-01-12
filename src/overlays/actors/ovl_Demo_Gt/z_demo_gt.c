@@ -11,8 +11,8 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06005CB8;
-extern UNK_TYPE D_060091E4;
+extern CollisionHeader D_06005CB8;
+extern CollisionHeader D_060091E4;
 
 extern Gfx D_06009970[];
 extern Gfx D_06007630[];
@@ -27,7 +27,7 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
 
     if ((this->dyna.actor.params == 1) || (this->dyna.actor.params == 2)) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
@@ -462,26 +462,25 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, UNK_PTR arg0) {
+void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, CollisionHeader* collision) {
     s32 pad[3];
-    ColHeader* localC;
+    CollisionHeader* colHeader;
 
-    if (arg0 != NULL) {
+    if (collision != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        localC = NULL;
-        DynaPolyInfo_Alloc(arg0, &localC);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        colHeader = NULL;
+        CollisionHeader_GetVirtual(collision, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
 }
 
-u8 func_8097EE44(DemoGt* this, GlobalContext* globalCtx, s32 arg0, s32 arg1, UNK_PTR arg2) {
+u8 func_8097EE44(DemoGt* this, GlobalContext* globalCtx, s32 updateMode, s32 drawConfig, CollisionHeader* colHeader) {
 
     if (func_8097ED94()) {
-        this->updateMode = arg0;
-        this->drawConfig = arg1;
-        func_8097EDD8(this, globalCtx, arg2);
+        this->updateMode = updateMode;
+        this->drawConfig = drawConfig;
+        func_8097EDD8(this, globalCtx, colHeader);
         return true;
     } else {
         Actor_Kill(&this->dyna.actor);
