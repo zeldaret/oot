@@ -5670,7 +5670,8 @@ endseg
 beginseg
     name "object_demo_kekkai"
     romalign 0x1000
-    include "build/baserom/object_demo_kekkai.o"
+    include "build/assets/objects/object_demo_kekkai/object_demo_kekkai.o"
+    number 6
 endseg
 
 beginseg

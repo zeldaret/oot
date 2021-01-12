@@ -6,21 +6,31 @@
 
 struct DemoKekkai;
 
-typedef void (*DemoKekkaiActionFunc)(struct DemoKekkai* this, GlobalContext* globalCtx);
+typedef void (*DemoKekkaiUpdateFunc)(struct DemoKekkai* this, GlobalContext* globalCtx);
 
 typedef struct DemoKekkai {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider1;
     /* 0x0198 */ ColliderCylinder collider2;
-    /* 0x01E4 */ f32 unk_1E4;
-    /* 0x01E8 */ f32 unk_1E8;
-    /* 0x01EC */ f32 unk_1EC;
-    /* 0x01F0 */ f32 unk_1F0;
-    /* 0x01F4 */ u16 unk_1F4;
-    /* 0x01F6 */ u16 unk_1F6;
-    /* 0x01F8 */ DemoKekkaiActionFunc unk_1F8;
+    /* 0x01E4 */ f32 energyAlpha;
+    /* 0x01E8 */ f32 orbScale;
+    /* 0x01EC */ f32 barrierScroll;
+    /* 0x01F0 */ f32 barrierScrollRate;
+    /* 0x01F4 */ u16 timer;
+    /* 0x01F6 */ u16 sfxFlag;
+    /* 0x01F8 */ DemoKekkaiUpdateFunc updateFunc;
 } DemoKekkai; // size = 0x01FC
 
 extern const ActorInit Demo_Kekkai_InitVars;
+
+typedef enum {
+    /* 0 */ KEKKAI_TOWER,
+    /* 1 */ KEKKAI_WATER,
+    /* 2 */ KEKKAI_LIGHT,
+    /* 3 */ KEKKAI_FIRE,
+    /* 4 */ KEKKAI_SHADOW,
+    /* 5 */ KEKKAI_SPIRIT,
+    /* 6 */ KEKKAI_FOREST
+} DemoKekkaiType;
 
 #endif

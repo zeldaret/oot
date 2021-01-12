@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_gnd_nisekabe.h"
+#include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS 0x00000010
 
@@ -27,8 +28,6 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     (ActorFunc)BgGndNisekabe_Draw,
 };
 
-static Gfx* sDLists[] = { 0x06009230, 0x0600A390, 0x0600B4A0 };
-
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = THIS;
 
@@ -45,17 +44,22 @@ void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= 0x80;
     } else {
-        this->actor.flags &= 0xFFFFFF7F;
+        this->actor.flags &= ~0x80;
     }
 }
 
 void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* dLists[] = {
+        gLightTrialFakeWallDL,
+        gGanonsCastleUnusedFakeWallDL,
+        gGanonsCastleScrubsFakeWallDL,
+    };
     BgGndNisekabe* this = THIS;
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {
-        Gfx_DrawDListXlu(globalCtx, sDLists[index]);
+        Gfx_DrawDListXlu(globalCtx, dLists[index]);
     } else {
-        Gfx_DrawDListOpa(globalCtx, sDLists[index]);
+        Gfx_DrawDListOpa(globalCtx, dLists[index]);
     }
 }
