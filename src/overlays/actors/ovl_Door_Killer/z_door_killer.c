@@ -15,6 +15,9 @@ void func_80995D6C();
 void func_80995A50();
 void func_809958E4();
 void func_80995318();
+void func_80995A84(Actor *thisx, GlobalContext *globalCtx);
+void func_80995EC4(Actor* thisx, GlobalContext* globalCtx);
+void func_80995F1C(Actor* thisx, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_06001BC8;
 
@@ -25,6 +28,8 @@ extern UNK_TYPE D_80996014;
 extern ColliderCylinderInit D_80995FB0;
 
 extern ColliderJntSphInit D_80996000;
+
+extern Gfx* D_80996048[];
 
 /*
 const ActorInit Door_Killer_InitVars = {
@@ -65,10 +70,10 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     switch ((u16)(thisx->params & 0xFF)){
         case 0:
-            SkelAnime_InitFlex(globalCtx2, &this->unk14C, &D_06001BC8, NULL, &this->unk192, &this->unk192, 9);
+            SkelAnime_InitFlex(globalCtx2, &this->unk14C, &D_06001BC8, NULL, this->unk192, this->unk192, 9);
             this->unk280 = &func_80995D6C;
             func_80995D6C(thisx, globalCtx2);
-            this->unk198 = this->unk19C = 0x4000;
+            this->unk192[1].x = this->unk192[1].z = 0x4000;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80995FB0);
             Collider_InitJntSph(globalCtx, &this->unk220);
@@ -173,69 +178,52 @@ void func_80995368(Actor *thisx, GlobalContext *globalCtx) {
     s16 temp_a0_2;
     s32 temp_a0;
     s32 temp_v1;
+    s32 i;
     u16 temp_t1;
     u16 temp_v0;
     u16 temp_v0_2;
     u16 temp_v0_4;
     void *temp_v0_3;
-    void *temp_v0_5;
-    void *temp_v0_6;
+    u32 temp_v0_5;
+    u32 temp_v0_6;
     s16 phi_a0;
     void *phi_v0;
     s32 phi_v1;
     f32 phi_f6;
     void *phi_return;
 
-    temp_v0 = this->unk21A;
-    if ((s32) temp_v0 <= 0) {
+    if (this->unk21A <= 0) {
         this->unk280 = &func_80995A84;
-        this->unk21A = (u16)0x10U;
+        this->unk21A = 0x10;
         func_809952B8(this, globalCtx);
         return;
     }
-    this->unk21A = (u16) (temp_v0 - 1);
-    temp_v0_2 = this->unk21A;
-    if ((s32) temp_v0_2 >= 8) {
-        thisx->shape.rot.y = (s16) ((temp_v0_2 << 0xB) - 0x4000);
-    } else {
-        thisx->shape.rot.y = (u16)0;
+    this->unk21A--;
+    thisx->shape.rot.y = (this->unk21A >= 8) ? ((this->unk21A << 0xB) - 0x4000) : 0;
+
+    if (this->unk21A >= 12) {
+        phi_a0 = (-this->unk21A * -0x1F4) - 0x1F40;
+    } else if (this->unk21A >= 8) {
+        phi_a0 = -0x7D0;
+    } else if (this->unk21A >= 5) {
+        phi_a0 = (-this->unk21A * 0x1F4) + 0x7D0;
+    } else{
+        phi_a0 = 0;
     }
-    if ((s32) this->unk21A >= 0xC) {
-        phi_a0 = (s16) (((0 - (0 - (s32) this->unk21A)) * 0x1F4) - 0x1F40);
-    } else if ((s32) this->unk21A >= 8) {
-        phi_a0 = (u16)-0x7D0;
-    } else {
-        phi_a0 = (u16)0;
-        if ((s32) this->unk21A >= 5) {
-            phi_a0 = (s16) (((0 - (s32) this->unk21A) * 0x1F4) + 0x7D0);
+
+    for (temp_v1 = 1; temp_v1 < 9; temp_v1++){
+        this->unk192[temp_v1].z = -phi_a0;
+    }
+    if (this->unk21A < 8) {
+        temp_a0 = (this->unk21A << 0x1D) >> 0x10;
+        phi_f6 = this->unk21A;
+        if (this->unk21A < 0) {
+            phi_f6 += (f32)0x100000000;
         }
-    }
-    phi_v0 = thisx + 0xC; //&thisx->initPosRot.pos.y;
-    phi_v1 = 2;
-    for (temp_v1 = 2, temp_v1 < 9; temp_v1++){
-        phi_v1 = phi_v1 + 1;
-        *((s16*)(phi_v1*6 + 190)) = 0 - phi_a0;
-    }
-    temp_v0_4 = this->unk21A;
-    phi_return = (void *) temp_v0_4;
-    if ((s32) temp_v0_4 < 8) {
-        temp_a0 = (s32) (temp_v0_4 << 0x1D) >> 0x10;
-        temp_t1 = this->unk21A;
-        temp_f6 = (f32) temp_t1;
-        phi_f6 = temp_f6;
-        if ((s32) temp_t1 < 0) {
-            phi_f6 = temp_f6 + (f32)0x100000000;
+        temp_a0_2 = (Math_SinS(temp_a0) * phi_f6 * 100.0f);
+        for (i = 2; i < 9; i++){
+            this->unk192[i].y = temp_a0_2;
         }
-        temp_v0_5 = thisx + 0xC;
-        temp_a0_2 = (s16) (s32) (Math_SinS((s16) temp_a0) * phi_f6 * 100.0f);
-        temp_v0_5->unk194 = temp_a0_2;
-        temp_v0_5->unk19A = temp_a0_2;
-        temp_v0_5->unk1A0 = temp_a0_2;
-        temp_v0_6 = thisx + (5 * 6);
-        temp_v0_6->unk19A = temp_a0_2;
-        temp_v0_6->unk1A0 = temp_a0_2;
-        temp_v0_6->unk1A6 = temp_a0_2;
-        temp_v0_6->unk194 = temp_a0_2;
     }
     return;
 }
@@ -246,7 +234,16 @@ void func_80995368(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809958E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995A50.s")
+void func_80995A50(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller* this = THIS;
+
+    if (this->unk21A > 0) {
+        this->unk21A--;
+    }else{
+        this->unk21A = 16;
+        this->unk280 = &func_809958E4;
+    }
+}
 
 void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
     Player *player;
@@ -295,14 +292,63 @@ void func_80995A84(Actor *thisx, GlobalContext *globalCtx) {
     func_809952B8(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995CDC.s")
+void func_80995CDC(Actor *thisx, GlobalContext* globalCtx) {
+    DoorKiller *this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995D6C.s")
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk21C].segment);
+    this->unk214 = SEGMENTED_TO_VIRTUAL(this->unk214);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[thisx->objBankIndex].segment);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/DoorKiller_Update.s")
+void func_80995D6C(Actor *thisx, GlobalContext* globalCtx) {
+    DoorKiller* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995E40.s")
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk21C)) {
+        func_80995CDC(thisx, globalCtx);
+        switch(thisx->params & 0xFF){
+            case 0:
+                this->unk280 = &func_80995A84;
+                thisx->draw = &func_80995EC4;
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                this->unk280 = &func_809951C4;
+                thisx->draw = &func_80995F1C;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995EC4.s")
+void DoorKiller_Update(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller* this = THIS;
+    
+    this->unk280(thisx, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995F1C.s")
+void func_80995E40(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller* this = THIS;
+    s32 temp = this->unk214;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_killer.c", 883);
+    gSPSegment(POLY_OPA_DISP++, 0x08, temp);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_killer.c", 885);
+}
+
+void func_80995EC4(Actor *thisx, GlobalContext *globalCtx) {
+    DoorKiller* this = THIS;
+
+    func_800943C8(globalCtx->state.gfxCtx);
+    func_80995E40(thisx, globalCtx);
+    SkelAnime_DrawFlexOpa(globalCtx, this->unk14C.skeleton, this->unk14C.jointTable, this->unk14C.dListCount, NULL, NULL, NULL);
+}
+
+void func_80995F1C(Actor *thisx, GlobalContext *globalCtx) {
+    s32 dlistIndex = (thisx->params & 0xFF) - 1;
+    DoorKiller* this = THIS;
+
+    if ((this->unk21A >= 0x14) || ((this->unk21A & 1) == 0)) {
+        func_80995E40(thisx, globalCtx);
+        Gfx_DrawDListOpa(globalCtx, D_80996048[dlistIndex]);
+    }
+}
