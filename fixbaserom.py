@@ -32,6 +32,11 @@ else:
 print("File '" + romFileName + "' found.")
 with open(romFileName, mode="rb") as file:
     fileContent = bytearray(file.read())
+
+# Strip the overdump
+print("Stripping overdump...")
+fileContent = fileContent[0:0x3600000]
+
 fileContentLen = len(fileContent)
 
 # Check if ROM needs to be byte/word swapped
@@ -69,17 +74,13 @@ elif fileContent[0] == 0x37:
             print(str(perc * 100) + "%")
 
     print("Byte swapping done.")
-    
-# Strip the overdump
-print("Stripping overdump...")
-strippedContent = list(fileContent[0:0x3600000])
 
 # Patch the header
 print("Patching header...")
-strippedContent[0x3E] = 0x50
+fileContent[0x3E] = 0x50
 
 # Check to see if the ROM is a "vanilla" Debug ROM
-str_hash = get_str_hash(bytearray(strippedContent))
+str_hash = get_str_hash(bytearray(fileContent))
 if str_hash != "f0b7f35375f9cc8ca1b2d59d78e35405":
     print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str_hash + ". " +
           "The baserom has probably been tampered, find a new one")
@@ -88,6 +89,6 @@ if str_hash != "f0b7f35375f9cc8ca1b2d59d78e35405":
 # Write out our new ROM
 print("Writing new ROM 'baserom.z64'.")
 with open("baserom.z64", mode="wb") as file:
-    file.write(bytes(strippedContent))
+    file.write(bytes(fileContent))
 
 print("Done!")
