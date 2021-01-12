@@ -1,8 +1,7 @@
 /*
  * File: z_oceff_wipe.c
  * Overlay: ovl_Oceff_Wipe
- * Description: Ocarina playback effect for Zelda's Lullaby (param 0) and Song
- * of Time (param nonzero).
+ * Description: Zelda's Lullaby and Song of Time Ocarina Effect
  */
 
 #include "z_oceff_wipe.h"
@@ -112,7 +111,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params) {
+    if (this->actor.params) { //Params nonzero == Song of Time
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 128);
     } else {

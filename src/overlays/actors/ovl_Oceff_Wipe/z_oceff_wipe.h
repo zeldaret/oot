@@ -4,6 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum {
+    /* 0x00 */ OCEFF_WIPE_ZELDAS,
+    /* 0x01 */ OCEFF_WIPE_TIME
+} OceffWipe_Type;
+
 struct OceffWipe;
 
 typedef struct OceffWipe {

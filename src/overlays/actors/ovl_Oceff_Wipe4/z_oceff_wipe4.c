@@ -1,7 +1,7 @@
 /*
  * File: z_oceff_wipe4.c
  * Overlay: ovl_Oceff_Wipe4
- * Description: Scarecrow's Song effect. Unused alternate version if param == 1.
+ * Description: Scarecrow's Song and an unused Ocarina Effect
  */
 
 #include "z_oceff_wipe4.h"
@@ -94,7 +94,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params == 1) {
+    if (this->actor.params == OCEFF_WIPE4_UNUSED) {
         gSPDisplayList(POLY_XLU_DISP++, sTextureDL1);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, sTextureDL0);
