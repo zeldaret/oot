@@ -9,19 +9,19 @@ void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80ABDBF8(Actor* thisx, GlobalContext* globalCtx);
-void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx);
-void func_80ABD9AC(EnNy* this, GlobalContext* globalCtx);
+void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx);
+void EnNy_Move(EnNy* this, GlobalContext* globalCtx);
+void EnNy_Die(EnNy* this, GlobalContext* globalCtx);
 void func_80ABCD40(EnNy* this);
 void func_80ABCDBC(EnNy* this);
-void func_80ABD05C(EnNy* this, GlobalContext* globalCtx);
+void EnNy_TurnToStone(EnNy* this, GlobalContext* globalCtx);
 void func_80ABD11C(EnNy* this, GlobalContext* globalCtx);
 void func_80ABCE50(EnNy* this, GlobalContext* globalCtx);
 void func_80ABCE90(EnNy* this, GlobalContext* globalCtx);
 void func_80ABCEEC(EnNy* this, GlobalContext* globalCtx);
-void func_80ABDBB8(Actor* thisx, GlobalContext* GlobalContext);
-void func_80ABD728(EnNy* this, GlobalContext* globalCtx);
-void func_80ABE040(Actor* thisx, GlobalContext* GlobalContext);
+void EnNy_UpdateDeath(Actor* thisx, GlobalContext* GlobalContext);
+void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx);
+void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* GlobalContext);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
 extern Gfx* D_06001DD0[];
@@ -79,7 +79,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->speedXZ = 0.0f;
     thisx->shape.rot.y = 0;
     thisx->gravity = -0.4f;
-    this->unk_1CC = 0;
+    this->hitLink = 0;
     this->unk_1CE = 2;
     thisx->velocity.y = 0.0f;
     this->unk_1D4 = 0xFF;
@@ -98,10 +98,10 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         // Dummy new initials
         osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", thisx->params);
-        osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", func_80ABDBF8);
+        osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         thisx->colChkInfo.mass = 0xFF;
         this->collider.base.type = COLTYPE_METAL_SHIELD;
-        thisx->update = &func_80ABDBF8;
+        thisx->update = EnNy_UpdateUnused;
     }
 }
 
@@ -122,7 +122,7 @@ void func_80ABCD84(EnNy* this) {
 }
 
 void func_80ABCD94(EnNy* this) {
-    this->unk_1DC = 0x14;
+    this->stoneTimer = 0x14;
     this->actionFunc = func_80ABCE90;
 }
 
@@ -133,18 +133,18 @@ void func_80ABCDAC(EnNy* this) {
 void func_80ABCDBC(EnNy* this) {
     this->unk_1F4 = 0.0f;
     func_80ABCD40(this);
-    this->unk_1DC = 0xB4;
-    this->actionFunc = func_80ABCF4C;
+    this->stoneTimer = 180;
+    this->actionFunc = EnNy_Move;
 }
 
-void func_80ABCDFC(EnNy* this) {
+void EnNy_SetupTurnToStone(EnNy* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_HIT_STOP);
-    this->actionFunc = func_80ABD05C;
+    this->actionFunc = EnNy_TurnToStone;
     this->unk_1E8 = 0.0f;
 }
 
 void func_80ABCE38(EnNy* this) {
-    this->unk_1DC = 0x3C;
+    this->stoneTimer = 0x3C;
     this->actionFunc = func_80ABD11C;
 }
 
@@ -181,18 +181,18 @@ void func_80ABCEEC(EnNy* this, GlobalContext* globalCtx) {
     this->unk_1E0 = phi_f0;
 }
 
-void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx) {
+void EnNy_Move(EnNy* this, GlobalContext* globalCtx) {
     f32 yawDiff;
-    s32 temp;
+    s32 stoneTimer;
 
     if (!(this->unk_1F0 < this->actor.yDistToWater)) {
         func_8002F974(&this->actor, NA_SE_EN_NYU_MOVE - SFX_FLAG);
     }
     func_80ABCD40(this);
-    temp = this->unk_1DC;
-    this->unk_1DC--;
-    if ((temp <= 0) || (this->unk_1CC != 0)) {
-        func_80ABCDFC(this);
+    stoneTimer = this->stoneTimer;
+    this->stoneTimer--;
+    if ((stoneTimer <= 0) || (this->hitLink != false)) {
+        EnNy_SetupTurnToStone(this);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, this->unk_1F4, 0);
         Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
@@ -205,7 +205,7 @@ void func_80ABCF4C(EnNy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80ABD05C(EnNy* this, GlobalContext* globalCtx) {
+void EnNy_TurnToStone(EnNy* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
     phi_f0 = this->unk_1E0;
@@ -236,8 +236,8 @@ void func_80ABD11C(EnNy* this, GlobalContext* globalCtx) {
     if (phi_v0 >= 0xFF) {
         phi_v0 = 0xFF;
         phi_v1 = 0;
-        if (this->unk_1DC != 0) {
-            this->unk_1DC--;
+        if (this->stoneTimer != 0) {
+            this->stoneTimer--;
         } else {
             func_80ABCD84(this);
         }
@@ -251,17 +251,17 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
 
     sp3F = 0;
-    this->unk_1CC = 0;
+    this->hitLink = 0;
     if (this->collider.base.atFlags & 4) {
         this->collider.base.atFlags &= ~4;
-        this->unk_1CC = 1;
+        this->hitLink = 1;
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         this->actor.speedXZ = -4.0f;
         return 0;
     }
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
-        this->unk_1CC = 1;
+        this->hitLink = 1;
         return 0;
     } else {
         if (this->collider.base.acFlags & 2) {
@@ -288,7 +288,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
                         break;
                 }
             }
-            this->unk_1DC = 0;
+            this->stoneTimer = 0;
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.shape.unk_14 = 0;
                 this->actor.flags &= ~1;
@@ -330,7 +330,7 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 temp_f22;
     s32 i;
 
-    this->unk_1C8++;
+    this->timer++;
     temp_f20 = this->unk_1E0 - 0.25f;
     if (this->unk_1CA != 0) {
         this->unk_1CA--;
@@ -355,10 +355,10 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.y);
             this->unk_1F8[i].z = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.z);
         }
-        this->unk_1C8 = 0;
-        thisx->update = func_80ABDBB8;
-        thisx->draw = func_80ABE040;
-        this->actionFunc = func_80ABD728;
+        this->timer = 0;
+        thisx->update = EnNy_UpdateDeath;
+        thisx->draw = EnNy_DrawDeathEffect;
+        this->actionFunc = EnNy_SetupDie;
         return;
     }
     if (this->unk_1E0 > 0.25f) {
@@ -368,14 +368,14 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-void func_80ABD728(EnNy* this, GlobalContext* globalCtx) {
+void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx) {
     s32 effectScale;
     s32 i;
     Vec3f effectPos;
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f };
 
-    if (this->unk_1C8 >= 2) {
+    if (this->timer >= 2) {
         if (this->actor.yDistToWater > 0.0f) {
             for (i = 0; i < 10; i++) {
                 effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
@@ -397,18 +397,18 @@ void func_80ABD728(EnNy* this, GlobalContext* globalCtx) {
             this->unk_1F8[i + 8].z = Rand_CenteredFloat(10.0f);
             this->unk_1F8[i + 8].y = Rand_ZeroFloat(4.0f) + 4.0f;
         }
-        this->unk_1C8 = 0;
+        this->timer = 0;
         if (this->unk_1D0 == 0) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xA0);
         } else {
             Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 8);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_DEAD);
-        this->actionFunc = func_80ABD9AC;
+        this->actionFunc = EnNy_Die;
     }
 }
 
-void func_80ABD9AC(EnNy* this, GlobalContext* globalCtx) {
+void EnNy_Die(EnNy* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->actor.yDistToWater > 0.0f) {
@@ -420,7 +420,7 @@ void func_80ABD9AC(EnNy* this, GlobalContext* globalCtx) {
             Math_StepToF(&this->unk_1F8[i + 8].y, -1.0f, 0.4f);
             Math_StepToF(&this->unk_1F8[i + 8].z, 0.0f, 0.1f);
         }
-        if (this->unk_1C8 >= 0x1F) {
+        if (this->timer >= 0x1F) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -433,31 +433,31 @@ void func_80ABD9AC(EnNy* this, GlobalContext* globalCtx) {
             Math_StepToF(&this->unk_1F8[i + 8].y, -1.0f, 0.6f);
             Math_StepToF(&this->unk_1F8[i + 8].z, 0.0f, 0.15f);
         }
-        if (this->unk_1C8 >= 0x10) {
+        if (this->timer >= 0x10) {
             Actor_Kill(&this->actor);
             return;
         }
     }
 }
 
-void func_80ABDBB8(Actor* thisx, GlobalContext* globalCtx) {
+void EnNy_UpdateDeath(Actor* thisx, GlobalContext* globalCtx) {
     EnNy* this = THIS;
 
-    this->unk_1C8++;
+    this->timer++;
     if (this->unk_1CA != 0) {
         this->unk_1CA--;
     }
     this->actionFunc(this, globalCtx);
 }
 
-void func_80ABDBF8(Actor* thisx, GlobalContext* globalCtx2) {
+void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     EnNy* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
     f32 sp3C;
     f32 temp_f0;
 
     sp3C = this->unk_1E0 - 0.25f;
-    this->unk_1C8++;
+    this->timer++;
     Actor_SetHeight(&this->actor, 0.0f);
     Actor_SetScale(&this->actor, 0.01f);
     temp_f0 = (24.0f * sp3C) + 12.0f;
@@ -523,9 +523,8 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 }
-// Draw Effect?
 
-void func_80ABE040(Actor* thisx, GlobalContext* globalCtx) {
+void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
     EnNy* this = THIS;
     Vec3f* temp;
     f32 scale;
@@ -537,7 +536,7 @@ void func_80ABE040(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gDPPipeSync(POLY_OPA_DISP++);
     for (i = 0; i < 8; i++) {
-        if (this->unk_1C8 < (i + 22)) {
+        if (this->timer < (i + 22)) {
             temp = &this->unk_1F8[i];
             Matrix_Translate(temp->x, temp->y, temp->z, MTXMODE_NEW);
             scale = thisx->scale.x * 0.4f * (1.0f + (i * 0.04f));
