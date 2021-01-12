@@ -59,9 +59,9 @@ elif fileContent[0] == 0x37:
     print("ROM needs to be byte swapped...")
     i = 0
     while i < fileContentLen:
-        tmp = struct.unpack_from("BB", fileContent, i)
-        struct.pack_into("BB", fileContent, i + 0, tmp[1], tmp[0])
-        i += 2
+        tmp = struct.unpack_from("BBBB", fileContent, i)
+        struct.pack_into("BBBB", fileContent, i + 0, tmp[1], tmp[0], tmp[3], tmp[2])
+        i += 4
 
         perc = float(i) / float(fileContentLen)
 
