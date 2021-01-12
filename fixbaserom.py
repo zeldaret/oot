@@ -47,13 +47,13 @@ if fileContent[0] == 0x40:
     print("ROM needs to be word swapped...")
     i = 0
     while i < fileContentLen:
-        tmp = struct.unpack_from("BBBB", fileContent, i)
-        struct.pack_into("BBBB", fileContent, i + 0, tmp[3], tmp[2], tmp[1], tmp[0])
-        i += 4
+        tmp = struct.unpack_from("BBBBBBBB", fileContent, i)
+        struct.pack_into("BBBBBBBB", fileContent, i + 0, tmp[3], tmp[2], tmp[1], tmp[0], tmp[4+3], tmp[4+2], tmp[4+1], tmp[4+0])
+        i += 8
 
         perc = float(i) / float(fileContentLen)
 
-        if i % (1024 * 1024 * 4) == 0:
+        if i % (1024 * 128 * 27) == 0:
             print(str(perc * 100) + "%")
 
     print("Word swapping done.")
@@ -64,13 +64,13 @@ elif fileContent[0] == 0x37:
     print("ROM needs to be byte swapped...")
     i = 0
     while i < fileContentLen:
-        tmp = struct.unpack_from("BBBB", fileContent, i)
-        struct.pack_into("BBBB", fileContent, i + 0, tmp[1], tmp[0], tmp[3], tmp[2])
-        i += 4
+        tmp = struct.unpack_from("BBBBBBBB", fileContent, i)
+        struct.pack_into("BBBBBBBB", fileContent, i + 0, tmp[1], tmp[0], tmp[3], tmp[2], tmp[4+1], tmp[4+0], tmp[4+3], tmp[4+2])
+        i += 8
 
         perc = float(i) / float(fileContentLen)
 
-        if i % (1024 * 1024 * 4) == 0:
+        if i % (1024 * 128 * 27) == 0:
             print(str(perc * 100) + "%")
 
     print("Byte swapping done.")
