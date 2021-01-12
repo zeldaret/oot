@@ -170,7 +170,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.0f;
@@ -179,7 +179,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(240, 240);
 }
@@ -187,7 +187,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), ANIMMODE_LOOP, -10.0f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -488,7 +488,8 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
-    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP,
+                     0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

@@ -104,7 +104,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ *= Math_CosS(this->actor.posRot.rot.x);
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.posRot.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~1;
@@ -285,7 +285,7 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == BGCHECK_Y_MIN)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);

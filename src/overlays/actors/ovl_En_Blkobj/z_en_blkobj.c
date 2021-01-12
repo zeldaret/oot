@@ -51,7 +51,7 @@ static Gfx sSetupXluDL[] = {
 
 extern Gfx D_060014E0[];
 extern Gfx D_060053D0[];
-extern ColHeader D_06007564;
+extern CollisionHeader D_06007564;
 
 void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -61,17 +61,16 @@ void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&D_06007564, &colHeader);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        CollisionHeader_GetVirtual(&D_06007564, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
     }
 }
@@ -80,7 +79,7 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
@@ -118,7 +117,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
         if (this->alpha > 255) {
             this->alpha = 255;
             EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         }
     }
 }

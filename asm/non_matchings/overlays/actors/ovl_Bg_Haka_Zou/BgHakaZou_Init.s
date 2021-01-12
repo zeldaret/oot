@@ -137,7 +137,7 @@ glabel BgHakaZou_Init
               
 /* 001B8 80882778 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 001BC 8088277C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001C0 80882780 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 001C0 80882780 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 001C4 80882784 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001C8 80882788 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

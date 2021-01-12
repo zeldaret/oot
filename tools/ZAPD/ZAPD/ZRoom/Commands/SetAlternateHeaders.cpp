@@ -44,8 +44,8 @@ string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, int baseAdd
 			declaration += StringHelper::Sprintf("\t(u32)&%sSet%04XCmd00,\n", roomName.c_str(), headers[i] & 0x00FFFFFF);
 	}
 
-	zRoom->parent->declarations[segmentOffset] = new Declaration(DeclarationAlignment::None, headers.size() * 4, 
-		"u32", StringHelper::Sprintf("%sAlternateHeaders0x%06X", roomName.c_str(), segmentOffset), true, declaration);
+	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, headers.size() * 4, 
+		"u32", StringHelper::Sprintf("%sAlternateHeaders0x%06X", roomName.c_str(), segmentOffset), 0, declaration);
 
 	return sourceOutput;
 }

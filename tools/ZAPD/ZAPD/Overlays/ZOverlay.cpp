@@ -41,14 +41,14 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	vector<RelocationEntry*> dataRelocs;
 	vector<RelocationEntry*> rodataRelocs;
 
-	
+
 	// get the elf files
 	vector<elfio*> readers;
-	for (int i = 1; i < cfgLines.size(); i++) 
+	for (int i = 1; i < cfgLines.size(); i++)
 	{
 		string elfPath = buildPath + "/" + cfgLines[i].substr(0, cfgLines[i].size()-2) + ".o";
 		elfio* reader = new elfio();
-		
+
 		if (!reader->load(elfPath))
 		{
 			// not all files were compiled
@@ -59,7 +59,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 			delete ovl;
 			return nullptr;
 		}
-		
+
 		readers.push_back(reader);
 	}
 
@@ -108,7 +108,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 						{
 							if (curSymShndx != SHN_UNDEF)
 								break;
-								
+
 							if (reader == curReader)
 								continue;
 
@@ -158,7 +158,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 				}
 			}
 		}
-		
+
 		// increase section offsets
 		for (int i = 0; i < sec_num; i++)
 		{
@@ -177,7 +177,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 		ovl->entries.push_back(reloc);
 	for (auto reloc : rodataRelocs)
 		ovl->entries.push_back(reloc);
-	
+
 	for (auto r: readers)
 		delete r;
 	readers.clear();
@@ -185,7 +185,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	return ovl;
 }
 
-string ZOverlay::GetSourceOutputCode(std::string prefix)
+string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 {
 	string output = "";
 
@@ -226,6 +226,6 @@ SectionType ZOverlay::GetSectionTypeFromStr(string sectionName)
 		return SectionType::RoData;
 	else if (sectionName == ".rel.bss" || sectionName == ".bss")
 		return SectionType::Bss;
-		
+
 	return SectionType::ERROR;
 }
