@@ -23,7 +23,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx);
 
-extern Vtx gTowerBarrierVtx_004FD0[];
+extern Vtx gTrialBarrierEnergyVtx[];
 
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
@@ -262,7 +262,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
     s32 colorIndex;
     DemoKekkai* this = THIS;
     u8 alphas[3];
-    Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gTowerBarrierVtx_004FD0);
+    Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gTrialBarrierEnergyVtx);
     s32 i;
 
     if (this->orbScale != 0.0f) {
