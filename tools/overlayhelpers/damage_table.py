@@ -146,7 +146,7 @@ def hex_parse(s):
 
 parser = argparse.ArgumentParser(description = "Converts raw bytes into a formatted damage table")
 parser.add_argument('-a', metavar='address', dest='address', help="VRam or Rom address of the damage table", type=hex_parse)
-parser.add_argument('-f', metavar='file', dest='src', help='C file with unformatted damage tables')
+parser.add_argument('-f', metavar='file', dest='file', help='C file with unformatted damage tables')
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     repo = script_dir + os.sep +  ".." + os.sep + ".."
     if(args.address):
         print(get_damage_bytes(args.address, repo))
-    elif(args.file)
+    elif(args.file):
         replace_damage_table(args.file)
     else:
         print('Error: address or file required. Use -h for more detail.')
