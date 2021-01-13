@@ -73,7 +73,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 12, 44, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, MASS_IMMOBILE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, MASS_IMMOVABLE };
 
 static Vec3f D_80A9C23C[] = {
     { 0.0f, 0.7071f, 0.7071f },

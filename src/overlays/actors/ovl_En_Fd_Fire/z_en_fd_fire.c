@@ -47,7 +47,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 12, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 0, 0, 0, MASS_IMMOBILE };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),

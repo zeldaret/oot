@@ -24,15 +24,6 @@ typedef enum {
     /* 16 */ GELDB_SPIN_DODGE
 } EnGeldBActionState;
 
-typedef enum {
-    /* 0x0 */ GELDB_DAMAGE_NORMAL,
-    /* 0x1 */ GELDB_DAMAGE_STUN,
-    /* 0x6 */ GELDB_DAMAGE_UNK6 = 0x6,
-    /* 0xD */ GELDB_DAMAGE_UNKD = 0xD,
-    /* 0xE */ GELDB_DAMAGE_UNKE,
-    /* 0xF */ GELDB_DAMAGE_FREEZE
-} EnGeldBDamageEffects;
-
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -176,39 +167,48 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
+typedef enum {
+    /* 0x0 */ GELDB_DMG_NORMAL,
+    /* 0x1 */ GELDB_DMG_STUN,
+    /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,
+    /* 0xD */ GELDB_DMG_UNK_D = 0xD,
+    /* 0xE */ GELDB_DMG_UNK_E,
+    /* 0xF */ GELDB_DMG_FREEZE
+} EnGeldBDamageEffects;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
-    /* Ice arrow     */ DMG_ENTRY(2, 0xF),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Wind arrow    */ DMG_ENTRY(2, 0x0),
-    /* Shadow arrow  */ DMG_ENTRY(2, 0x0),
-    /* Spirit arrow  */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0xE),
-    /* Ice magic     */ DMG_ENTRY(0, 0x6),
-    /* Light magic   */ DMG_ENTRY(3, 0xD),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(4, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, GELDB_DMG_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
+    /* Explosive     */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, GELDB_DMG_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, GELDB_DMG_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Ice arrow     */ DMG_ENTRY(2, GELDB_DMG_FREEZE),
+    /* Light arrow   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Wind arrow    */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Shadow arrow  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Spirit arrow  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Fire magic    */ DMG_ENTRY(4, GELDB_DMG_UNK_E),
+    /* Ice magic     */ DMG_ENTRY(0, GELDB_DMG_UNK_6),
+    /* Light magic   */ DMG_ENTRY(3, GELDB_DMG_UNK_D),
+    /* Shield        */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
+    /* Mirror Ray    */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
+    /* Kokiri spin   */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, GELDB_DMG_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
+    /* Unblockable   */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
+    /* Hammer jump   */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
+    /* Unknown 2     */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -893,7 +893,8 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SetupSpinAttack(EnGeldB* this) {
-    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000F5C), ANIMMODE_ONCE_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000F5C),
+                     ANIMMODE_ONCE_INTERP, 0.0f);
     this->swordCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
     this->actionState = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
@@ -1003,10 +1004,10 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = 0.0f;
     }
-    if ((this->damageEffect != GELDB_DAMAGE_FREEZE) || (this->actionState == GELDB_SPIN_ATTACK)) {
+    if ((this->damageEffect != GELDB_DMG_FREEZE) || (this->actionState == GELDB_SPIN_ATTACK)) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06002280, 0.0f);
     }
-    if (this->damageEffect == GELDB_DAMAGE_FREEZE) {
+    if (this->damageEffect == GELDB_DMG_FREEZE) {
         this->iceTimer = 36;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -1361,12 +1362,12 @@ void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->actionState >= GELDB_READY) &&
                (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != GELDB_DAMAGE_UNK6) {
+        if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             func_80035650(&this->actor, &this->bodyCollider.info, 1);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
-            if ((this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_STUN) ||
-                (this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_FREEZE)) {
+            if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
+                (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
                 if (this->actionState != GELDB_STUNNED) {
                     func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
@@ -1401,7 +1402,7 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGeldB* this = THIS;
 
     func_80A392D8(this, globalCtx);
-    if (this->actor.colChkInfo.damageEffect != GELDB_DAMAGE_UNK6) {
+    if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
         this->actionFunc(this, globalCtx);

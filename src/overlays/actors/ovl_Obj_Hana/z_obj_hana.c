@@ -47,7 +47,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 8, 10, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOBILE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 typedef struct {
     /* 0x00 */ Gfx* dList;

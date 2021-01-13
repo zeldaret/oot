@@ -26,15 +26,16 @@ typedef enum {
 } EnRrReachState;
 
 typedef enum {
-    /* 0x1 */ RR_DAMAGE_STUN = 1,
-    /* 0x2 */ RR_DAMAGE_FIRE,
-    /* 0x3 */ RR_DAMAGE_ICE,
-    /* 0x4 */ RR_DAMAGE_LIGHT_MAGIC,
-    /* 0xB */ RR_DAMAGE_LIGHT_ARROW = 11,
-    /* 0xC */ RR_DAMAGE_UNK_ARROW_1,
-    /* 0xD */ RR_DAMAGE_UNK_ARROW_2,
-    /* 0xE */ RR_DAMAGE_UNK_ARROW_3,
-    /* 0xF */ RR_DAMAGE_NORMAL
+    /* 0x0 */ RR_DMG_NONE,
+    /* 0x1 */ RR_DMG_STUN,
+    /* 0x2 */ RR_DMG_FIRE,
+    /* 0x3 */ RR_DMG_ICE,
+    /* 0x4 */ RR_DMG_LIGHT_MAGIC,
+    /* 0xB */ RR_DMG_LIGHT_ARROW = 11,
+    /* 0xC */ RR_DMG_SHDW_ARROW,
+    /* 0xD */ RR_DMG_WIND_ARROW,
+    /* 0xE */ RR_DMG_SPRT_ARROW,
+    /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
 typedef enum {
@@ -122,38 +123,38 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x0),
-    /* Deku stick    */ DMG_ENTRY(2, 0xF),
-    /* Slingshot     */ DMG_ENTRY(1, 0xF),
-    /* Explosive     */ DMG_ENTRY(2, 0xF),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0xF),
-    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
-    /* Light arrow   */ DMG_ENTRY(15, 0xB),
-    /* Wind arrow    */ DMG_ENTRY(4, 0xD),
-    /* Shadow arrow  */ DMG_ENTRY(15, 0xC),
-    /* Spirit arrow  */ DMG_ENTRY(15, 0xE),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(3, 0x3),
-    /* Light magic   */ DMG_ENTRY(10, 0x4),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
-    /* Giant spin    */ DMG_ENTRY(4, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
-    /* Giant jump    */ DMG_ENTRY(8, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(10, 0xE),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Explosive     */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, RR_DMG_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, RR_DMG_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(4, RR_DMG_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, RR_DMG_ICE),
+    /* Light arrow   */ DMG_ENTRY(15, RR_DMG_LIGHT_ARROW),
+    /* Wind arrow    */ DMG_ENTRY(4, RR_DMG_WIND_ARROW),
+    /* Shadow arrow  */ DMG_ENTRY(15, RR_DMG_SHDW_ARROW),
+    /* Spirit arrow  */ DMG_ENTRY(15, RR_DMG_SPRT_ARROW),
+    /* Fire magic    */ DMG_ENTRY(4, RR_DMG_FIRE),
+    /* Ice magic     */ DMG_ENTRY(3, RR_DMG_ICE),
+    /* Light magic   */ DMG_ENTRY(10, RR_DMG_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, RR_DMG_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(10, RR_DMG_SPRT_ARROW),
+    /* Unblockable   */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, RR_DMG_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -422,7 +423,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
         hitPos.x = this->collider2.info.bumper.hitPos.x;
         hitPos.y = this->collider2.info.bumper.hitPos.y;
         hitPos.z = this->collider2.info.bumper.hitPos.z;
-        CollisionCheck_ShieldParticlesMetal2(globalCtx, &hitPos);
+        CollisionCheck_SpawnShieldParticlesMetal2(globalCtx, &hitPos);
     } else {
         if (this->collider1.base.acFlags & AC_HIT) {
             u8 dropType = RR_DROP_RANDOM_RUPEE;
@@ -435,15 +436,15 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 CollisionCheck_BlueBlood(globalCtx, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
-                case RR_DAMAGE_LIGHT_ARROW:
+                case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
-                case RR_DAMAGE_UNK_ARROW_1:
+                case RR_DMG_SHDW_ARROW:
                     dropType++; // flexible
-                case RR_DAMAGE_UNK_ARROW_2:
+                case RR_DMG_WIND_ARROW:
                     dropType++; // arrow
-                case RR_DAMAGE_UNK_ARROW_3:
+                case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
-                case RR_DAMAGE_NORMAL:
+                case RR_DMG_NORMAL:
                     // ouch
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
@@ -461,7 +462,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                         EnRr_SetupDeath(this);
                     }
                     return;
-                case RR_DAMAGE_FIRE: // Fire Arrow and Din's Fire
+                case RR_DMG_FIRE: // Fire Arrow and Din's Fire
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -470,7 +471,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_ICE: // Ice Arrow and unused ice magic
+                case RR_DMG_ICE: // Ice Arrow and unused ice magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -481,7 +482,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     }
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_LIGHT_MAGIC: // Unused light magic
+                case RR_DMG_LIGHT_MAGIC: // Unused light magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
@@ -489,7 +490,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     func_8003426C(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_STUN: // Boomerang and Hookshot
+                case RR_DMG_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);

@@ -1934,14 +1934,14 @@ s32 func_80833CDC(GlobalContext* globalCtx, s32 index) {
 }
 
 void func_80833DF8(Player* this, GlobalContext* globalCtx) {
-    s32 ocFlagsctionParam;
+    s32 maskActionParam;
     s32 item;
     s32 i;
 
     if (this->currentMask != PLAYER_MASK_NONE) {
-        ocFlagsctionParam = this->currentMask - 1 + PLAYER_AP_MASK_KEATON;
-        if (!func_80833C98(C_BTN_ITEM(0), ocFlagsctionParam) && !func_80833C98(C_BTN_ITEM(1), ocFlagsctionParam) &&
-            !func_80833C98(C_BTN_ITEM(2), ocFlagsctionParam)) {
+        maskActionParam = this->currentMask - 1 + PLAYER_AP_MASK_KEATON;
+        if (!func_80833C98(C_BTN_ITEM(0), maskActionParam) && !func_80833C98(C_BTN_ITEM(1), maskActionParam) &&
+            !func_80833C98(C_BTN_ITEM(2), maskActionParam)) {
             this->currentMask = PLAYER_MASK_NONE;
         }
     }
@@ -7583,7 +7583,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                             sp48 = func_80041F10(&globalCtx->colCtx, sp78, sp74);
 
                             if (sp48 == 0xA) {
-                                CollisionCheck_ShieldParticlesWood(globalCtx, &sp5C, &this->actor.projectedPos);
+                                CollisionCheck_SpawnShieldParticlesWood(globalCtx, &sp5C, &this->actor.projectedPos);
                             } else {
                                 CollisionCheck_SpawnShieldParticles(globalCtx, &sp5C);
                                 if (sp48 == 0xB) {

@@ -437,7 +437,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             hitPoint.x = this->collider.info.bumper.hitPos.x;
             hitPoint.y = this->collider.info.bumper.hitPos.y;
             hitPoint.z = this->collider.info.bumper.hitPos.z;
-            CollisionCheck_ShieldParticlesMetal2(globalCtx, &hitPoint);
+            CollisionCheck_SpawnShieldParticlesMetal2(globalCtx, &hitPoint);
         }
     }
 

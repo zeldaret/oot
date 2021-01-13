@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 55, 70, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOBILE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),

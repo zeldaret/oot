@@ -121,7 +121,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 80, 130, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, MASS_IMMOBILE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),

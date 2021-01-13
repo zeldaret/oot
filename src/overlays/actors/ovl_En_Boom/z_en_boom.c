@@ -212,7 +212,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                      hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
                     collided = false;
                 } else {
-                    CollisionCheck_ShieldParticlesMetal(globalCtx, &hitPoint);
+                    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &hitPoint);
                 }
             }
         }

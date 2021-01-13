@@ -34,7 +34,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 10, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOBILE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_It_InitVars = {
     ACTOR_EN_IT,

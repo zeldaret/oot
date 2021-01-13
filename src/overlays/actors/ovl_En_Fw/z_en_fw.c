@@ -57,7 +57,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOBILE };
+static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry D_80A1FBA0[] = {
     { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },

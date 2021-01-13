@@ -3559,7 +3559,7 @@ void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
 }
 
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
-    CollisionCheck_ShieldParticlesMetal(globalCtx, arg1);
+    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {

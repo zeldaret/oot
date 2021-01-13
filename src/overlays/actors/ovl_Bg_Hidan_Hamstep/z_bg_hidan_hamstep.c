@@ -195,7 +195,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             while (step != NULL) {
                 Actor_Kill(&step->dyna.actor);
-                step = (BgHidanHamstep*) step->dyna.actor.child;
+                step = (BgHidanHamstep*)step->dyna.actor.child;
             }
         }
     }
@@ -234,13 +234,13 @@ void func_808884C8(BgHidanHamstep* step, GlobalContext* globalCtx) {
 }
 
 void func_80888638(BgHidanHamstep* this, GlobalContext* globalCtx) {
-    BgHidanHamstep* child = (BgHidanHamstep*) this->dyna.actor.child;
+    BgHidanHamstep* child = (BgHidanHamstep*)this->dyna.actor.child;
 
     while (child != NULL) {
         if ((child->dyna.actor.params & 0xFF) != 0) {
             func_808884C8(child, globalCtx);
         }
-        child = (BgHidanHamstep*) child->dyna.actor.child;
+        child = (BgHidanHamstep*)child->dyna.actor.child;
     }
 }
 
@@ -255,18 +255,18 @@ void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent) {
         }
     }
 
-    child = (BgHidanHamstep*) this->dyna.actor.child;
+    child = (BgHidanHamstep*)this->dyna.actor.child;
 
     while (child != NULL) {
         if (this->dyna.actor.posRot.pos.y < child->dyna.actor.posRot.pos.y) {
             child->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y;
         }
-        child = (BgHidanHamstep*) child->dyna.actor.child;
+        child = (BgHidanHamstep*)child->dyna.actor.child;
     }
 }
 
 void func_80888734(BgHidanHamstep* this) {
-    BgHidanHamstep* parent = (BgHidanHamstep*) this->dyna.actor.parent;
+    BgHidanHamstep* parent = (BgHidanHamstep*)this->dyna.actor.parent;
     f32 factor = SREG(30) * 0.5f;
 
     if (parent != NULL) {
@@ -330,7 +330,7 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx) {
 
 void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanHamstep* parent = (BgHidanHamstep*) this->dyna.actor.parent;
+    BgHidanHamstep* parent = (BgHidanHamstep*)this->dyna.actor.parent;
 
     func_80888734(this);
 

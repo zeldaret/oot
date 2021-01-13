@@ -720,7 +720,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
         if (this->unk_2FD != 0) {
-            CollisionCheck_ShieldParticlesMetal(globalCtx, &sp38);
+            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sp38);
         }
         return;
     }

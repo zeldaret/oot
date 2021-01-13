@@ -81,7 +81,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
     sColliderJntSphElementInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOBILE };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static UNK_PTR faceTextures[] = { D_06000C20, D_06000420, D_06001420 };
 

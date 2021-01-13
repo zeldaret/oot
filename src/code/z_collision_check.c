@@ -14,12 +14,12 @@ typedef struct {
 } HitInfo; // size = 0x2
 
 typedef enum {
-    /* 0 */ NO_BLOOD,
-    /* 1 */ BLUE_BLOOD,
-    /* 2 */ GREEN_BLOOD,
-    /* 3 */ WATER_BURST,
-    /* 4 */ RED_BLOOD,
-    /* 5 */ RED_BLOOD2
+    /* 0 */ BLOOD_NONE,
+    /* 1 */ BLOOD_BLUE,
+    /* 2 */ BLOOD_GREEN,
+    /* 3 */ BLOOD_WATER,
+    /* 4 */ BLOOD_RED,
+    /* 5 */ BLOOD_RED2
 } ColChkBloodType;
 
 typedef enum {
@@ -155,12 +155,12 @@ s32 Collider_SetBase(GlobalContext* globalCtx, Collider* collider, Actor* actor,
 
 void Collider_ResetATBase(GlobalContext* globalCtx, Collider* collider) {
     collider->at = NULL;
-    collider->atFlags &= ~AT_HIT & ~AT_BOUNCED;
+    collider->atFlags &= ~(AT_HIT | AT_BOUNCED);
 }
 
 void Collider_ResetACBase(GlobalContext* globalCtx, Collider* collider) {
     collider->ac = NULL;
-    collider->acFlags &= ~AC_HIT & ~AC_BOUNCED;
+    collider->acFlags &= ~(AC_HIT | AC_BOUNCED);
 }
 
 void Collider_ResetOCBase(GlobalContext* globalCtx, Collider* collider) {
@@ -1605,9 +1605,9 @@ void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Colli
     } else if (flags == TOUCH_SFX_NORMAL) { // collider->colType == COLTYPE_METAL
         EffectSsHitMark_SpawnFixedScale(globalCtx, EFFECT_HITMARK_METAL, hitPos);
         if (collider->actor == NULL) {
-            CollisionCheck_ShieldParticlesMetal(globalCtx, hitPos);
+            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, hitPos);
         } else {
-            CollisionCheck_ShieldParticlesMetalSound(globalCtx, hitPos, &collider->actor->projectedPos);
+            CollisionCheck_SpawnShieldParticlesMetalSound(globalCtx, hitPos, &collider->actor->projectedPos);
         }
     } else if (flags == TOUCH_SFX_HARD) {
         EffectSsHitMark_SpawnFixedScale(globalCtx, EFFECT_HITMARK_WHITE, hitPos);
@@ -1655,10 +1655,10 @@ static ColChkBloodFunc sBloodFuncs[] = {
     CollisionCheck_WaterBurst, CollisionCheck_RedBlood,  CollisionCheck_RedBloodUnused,
 };
 static HitInfo sHitInfo[] = {
-    { BLUE_BLOOD, HIT_WHITE }, { NO_BLOOD, HIT_DUST },  { GREEN_BLOOD, HIT_DUST },  { NO_BLOOD, HIT_WHITE },
-    { WATER_BURST, HIT_NONE }, { NO_BLOOD, HIT_RED },   { GREEN_BLOOD, HIT_WHITE }, { RED_BLOOD, HIT_WHITE },
-    { BLUE_BLOOD, HIT_RED },   { NO_BLOOD, HIT_SOLID }, { NO_BLOOD, HIT_NONE },     { NO_BLOOD, HIT_SOLID },
-    { NO_BLOOD, HIT_SOLID },   { NO_BLOOD, HIT_WOOD },
+    { BLOOD_BLUE, HIT_WHITE }, { BLOOD_NONE, HIT_DUST },  { BLOOD_GREEN, HIT_DUST },  { BLOOD_NONE, HIT_WHITE },
+    { BLOOD_WATER, HIT_NONE }, { BLOOD_NONE, HIT_RED },   { BLOOD_GREEN, HIT_WHITE }, { BLOOD_RED, HIT_WHITE },
+    { BLOOD_BLUE, HIT_RED },   { BLOOD_NONE, HIT_SOLID }, { BLOOD_NONE, HIT_NONE },   { BLOOD_NONE, HIT_SOLID },
+    { BLOOD_NONE, HIT_SOLID }, { BLOOD_NONE, HIT_WOOD },
 };
 
 /**
@@ -1683,7 +1683,7 @@ void CollisionCheck_HitEffects(GlobalContext* globalCtx, Collider* at, ColliderI
                 CollisionCheck_SpawnShieldParticles(globalCtx, hitPos);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                CollisionCheck_ShieldParticlesWood(globalCtx, hitPos, &at->actor->projectedPos);
+                CollisionCheck_SpawnShieldParticlesWood(globalCtx, hitPos, &at->actor->projectedPos);
             }
         } else if (sHitInfo[ac->colType].effect != HIT_NONE) {
             EffectSsHitMark_SpawnFixedScale(globalCtx, sHitInfo[ac->colType].effect, hitPos);
@@ -2669,7 +2669,7 @@ void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
  * colliders.
  */
 s32 CollisionCheck_GetMassType(u8 mass) {
-    if (mass == MASS_IMMOBILE) {
+    if (mass == MASS_IMMOVABLE) {
         return MASSTYPE_IMMOBILE;
     }
     if (mass == MASS_HEAVY) {
@@ -2750,7 +2750,7 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
             inverseTotalMass = 1 / totalMass;
             leftDispRatio = rightMass * inverseTotalMass;
             rightDispRatio = leftMass * inverseTotalMass;
-        } else { // leftMassType == MASS_HEAVY | MASS_IMMOBILE
+        } else { // leftMassType == MASS_HEAVY | MASS_IMMOVABLE
             leftDispRatio = 1;
             rightDispRatio = 0;
         }
@@ -3264,7 +3264,7 @@ void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f
 }
 
 /**
- * Sets the specified ColliderTrisElement's dim usig the values in src
+ * Sets the specified ColliderTrisElement's dim using the values in src
  */
 void Collider_SetTrisDim(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisElementDimInit* src) {
     ColliderTrisElement* element = &collider->elements[index];
@@ -3414,7 +3414,7 @@ void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
  * Spawns streaks of light from hits against solid objects
  */
 void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v) {
-    static EffectShieldParticleInit sInitMetal = {
+    static EffectShieldParticleInit initMetal = {
         16,
         { 0, 0, 0 },
         { 0, 200, 255, 255 },
@@ -3430,22 +3430,22 @@ void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v) {
         { 0, 0, 0, { 0, 128, 255 }, false, 300 },
         true,
     };
-    s32 shield;
+    s32 shieldIndex;
 
-    sInitMetal.position.x = v->x;
-    sInitMetal.position.y = v->y;
-    sInitMetal.position.z = v->z;
-    sInitMetal.lightPoint.x = sInitMetal.position.x;
-    sInitMetal.lightPoint.y = sInitMetal.position.y;
-    sInitMetal.lightPoint.z = sInitMetal.position.z;
+    initMetal.position.x = v->x;
+    initMetal.position.y = v->y;
+    initMetal.position.z = v->z;
+    initMetal.lightPoint.x = initMetal.position.x;
+    initMetal.lightPoint.y = initMetal.position.y;
+    initMetal.lightPoint.z = initMetal.position.z;
 
-    Effect_Add(globalCtx, &shield, EFFECT_SHIELD_PARTICLE, 0, 1, &sInitMetal);
+    Effect_Add(globalCtx, &shieldIndex, EFFECT_SHIELD_PARTICLE, 0, 1, &initMetal);
 }
 
 /**
  * Spawns streaks of light and makes a metallic sound
  */
-void CollisionCheck_ShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v) {
+void CollisionCheck_SpawnShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v) {
     CollisionCheck_SpawnShieldParticles(globalCtx, v);
     Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
@@ -3453,23 +3453,23 @@ void CollisionCheck_ShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v) {
 /**
  * Spawns streaks of light and makes a metallic sound at the specified position
  */
-void CollisionCheck_ShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos) {
+void CollisionCheck_SpawnShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* pos) {
     CollisionCheck_SpawnShieldParticles(globalCtx, v);
-    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, actorPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
 /**
  * Spawns streaks of light and makes a metallic sound
  */
-void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v) {
-    CollisionCheck_ShieldParticlesMetal(globalCtx, v);
+void CollisionCheck_SpawnShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v) {
+    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, v);
 }
 
 /**
  * Spawns streaks of light and makes a wooden sound
  */
-void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos) {
-    static EffectShieldParticleInit init = {
+void CollisionCheck_SpawnShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos) {
+    static EffectShieldParticleInit initWood = {
         16,
         { 0, 0, 0 },
         { 0, 200, 255, 255 },
@@ -3487,14 +3487,14 @@ void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3
     };
     s32 shield;
 
-    init.position.x = v->x;
-    init.position.y = v->y;
-    init.position.z = v->z;
-    init.lightPoint.x = init.position.x;
-    init.lightPoint.y = init.position.y;
-    init.lightPoint.z = init.position.z;
+    initWood.position.x = v->x;
+    initWood.position.y = v->y;
+    initWood.position.z = v->z;
+    initWood.lightPoint.x = initWood.position.x;
+    initWood.lightPoint.y = initWood.position.y;
+    initWood.lightPoint.z = initWood.position.z;
 
-    Effect_Add(globalCtx, &shield, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
+    Effect_Add(globalCtx, &shield, EFFECT_SHIELD_PARTICLE, 0, 1, &initWood);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, actorPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 

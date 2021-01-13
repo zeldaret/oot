@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOBILE,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {

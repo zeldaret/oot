@@ -825,10 +825,10 @@ void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider);
 void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v);
-void CollisionCheck_ShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v);
-void CollisionCheck_ShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos);
-void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
-void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
+void CollisionCheck_SpawnShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos);
+void CollisionCheck_SpawnShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
