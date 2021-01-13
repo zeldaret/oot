@@ -29,8 +29,6 @@
 #define _SHIFTR(v, s, w)    \
     ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
-#define _SHIFT _SHIFTL  /* old, for compatibility only */
-
 #define G_ON    (1)
 #define G_OFF   (0)
 
