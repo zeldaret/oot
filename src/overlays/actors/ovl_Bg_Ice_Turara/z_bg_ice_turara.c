@@ -151,8 +151,8 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
     if ((this->collider.base.atFlags & 2) || (this->dyna.actor.bgCheckFlags & 1)) {
         this->collider.base.atFlags &= ~2;
         this->dyna.actor.bgCheckFlags &= ~1;
-        if (this->dyna.actor.world.pos.y < this->dyna.actor.groundHeight) {
-            this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+        if (this->dyna.actor.world.pos.y < this->dyna.actor.floorHeight) {
+            this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         }
         BgIceTurara_Break(this, globalCtx, 40.0f);
         if (this->dyna.actor.params == TURARA_STALACTITE_REGROW) {

@@ -299,7 +299,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
         if ((player->swordState == 0 || player->swordAnimation >= 24) &&
-            player->actor.world.pos.y - player->actor.groundHeight < 1.0f) {
+            player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
             Math_StepToF(&this->unk_294, 110.0f, 3.0f);
         } else {
             Math_StepToF(&this->unk_294, 170.0f, 10.0f);
@@ -1154,7 +1154,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             vec.x = this->actor.world.pos.x;
             vec.y = this->actor.world.pos.y + 10.0f;
             vec.z = this->actor.world.pos.z;
-            this->actor.groundHeight =
+            this->actor.floorHeight =
                 BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
         }
 

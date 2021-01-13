@@ -129,7 +129,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.world.pos.y = player->actor.world.pos.y;
-    this->actor.groundHeight = player->actor.groundHeight;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.draw = EnWallmas_Draw;
     this->actionFunc = EnWallmas_WaitToDrop;
 }
@@ -144,7 +144,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     this->yTarget = player->actor.world.pos.y;
     this->actor.world.pos.y = player->actor.world.pos.y + 300.0f;
     this->actor.world.rot.y = player->actor.shape.rot.y + 0x8000;
-    this->actor.groundHeight = player->actor.groundHeight;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.flags |= 1;
     this->actor.flags &= ~0x20;
     this->actionFunc = EnWallmas_Drop;
@@ -268,7 +268,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Vec3f* playerPos = &player->actor.world.pos;
 
     this->actor.world.pos = *playerPos;
-    this->actor.groundHeight = player->actor.groundHeight;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.floorPoly = player->actor.floorPoly;
 
     if (this->timer != 0) {
@@ -561,7 +561,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
-    func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.groundHeight, this->actor.world.pos.z,
+    func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z,
                   &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 

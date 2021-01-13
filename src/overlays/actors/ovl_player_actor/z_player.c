@@ -7409,10 +7409,10 @@ s32 func_8084269C(GlobalContext* globalCtx, Player* this) {
 
     if ((this->unk_89E == 0) || (this->unk_89E == 1)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
-                      this->actor.groundHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
+                      this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
         func_800286CC(globalCtx, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
         func_8084260C(&this->actor.shape.feetPos[FOOT_RIGHT], &sp2C,
-                      this->actor.groundHeight - this->actor.shape.feetPos[FOOT_RIGHT].y, 7.0f, 5.0f);
+                      this->actor.floorHeight - this->actor.shape.feetPos[FOOT_RIGHT].y, 7.0f, 5.0f);
         func_800286CC(globalCtx, &this->actor.shape.feetPos[FOOT_RIGHT], &D_808545B4, &D_808545C0, 50, 30);
         return 1;
     }
@@ -8061,7 +8061,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
                         if ((this->wallHeight >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
                             func_8083EC18(this, globalCtx, D_808535F0);
                         } else if ((this->unk_88C >= 2) && (this->wallHeight < 150.0f) &&
-                                   (((this->actor.world.pos.y - this->actor.groundHeight) + this->wallHeight) >
+                                   (((this->actor.world.pos.y - this->actor.floorHeight) + this->wallHeight) >
                                     (70.0f * this->ageProperties->unk_08))) {
                             AnimationContext_DisableQueue(globalCtx);
                             if (this->stateFlags1 & 4) {
@@ -9419,7 +9419,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         this->actor.velocity.y = 0.0f;
     }
 
-    D_80853600 = this->actor.world.pos.y - this->actor.groundHeight;
+    D_80853600 = this->actor.world.pos.y - this->actor.floorHeight;
     D_808535F4 = 0;
 
     spC0 = this->actor.floorPoly;
@@ -10441,7 +10441,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
             func_800D1694(this->actor.world.pos.x,
-                          (this->actor.groundHeight + (this->actor.groundHeight - this->actor.world.pos.y)) +
+                          (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
                               (this->actor.shape.yOffset * this->actor.scale.y),
                           this->actor.world.pos.z, &this->actor.shape.rot);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
@@ -11044,7 +11044,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                         func_80832264(globalCtx, this, this->ageProperties->unk_AC[sp68]);
                     }
                 } else {
-                    if ((this->actor.world.pos.y - this->actor.groundHeight) < 15.0f) {
+                    if ((this->actor.world.pos.y - this->actor.floorHeight) < 15.0f) {
                         if (this->unk_84F != 0) {
                             func_8083FB7C(this, globalCtx);
                         } else {
@@ -12898,7 +12898,7 @@ void func_80850AEC(Player* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.world.pos);
         func_80847BA0(globalCtx, this);
 
-        temp = this->actor.world.pos.y - this->actor.groundHeight;
+        temp = this->actor.world.pos.y - this->actor.floorHeight;
         if (temp > 20.0f) {
             temp = 20.0f;
         }

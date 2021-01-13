@@ -389,7 +389,7 @@ void func_8008EDF0(Player* this) {
 
 void func_8008EE08(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
-        (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.groundHeight) < 100.0f))) {
+        (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
     } else if (!(this->stateFlags1 & 0x2C0000)) {
         this->stateFlags1 |= 0x80000;

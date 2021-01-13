@@ -117,8 +117,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     thisx->velocity.y = 0.5f;
                 }
 
-                thisx->groundHeight = thisx->home.pos.y - 225.0f;
-                this->unk_16A = (thisx->groundHeight + 50.0f) - 25.0f;
+                thisx->floorHeight = thisx->home.pos.y - 225.0f;
+                this->unk_16A = (thisx->floorHeight + 50.0f) - 25.0f;
 
                 this->colliderCylinder.dim.radius = 10;
                 this->colliderCylinder.dim.height = 40;
@@ -335,7 +335,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.world.pos.z;
 
-    tempf20 = this->dyna.actor.groundHeight;
+    tempf20 = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
         temp = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor,

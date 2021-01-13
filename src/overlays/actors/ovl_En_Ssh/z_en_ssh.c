@@ -103,7 +103,7 @@ void EnSsh_SpawnShockwave(EnSsh* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.groundHeight;
+    pos.y = this->actor.floorHeight;
     pos.z = this->actor.world.pos.z;
     EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
@@ -221,7 +221,7 @@ void EnSsh_SetReturnAnimation(EnSsh* this) {
 }
 
 void EnSsh_SetLandAnimation(EnSsh* this) {
-    this->actor.world.pos.y = this->groundYoffset + this->actor.groundHeight;
+    this->actor.world.pos.y = this->groundYoffset + this->actor.floorHeight;
     this->animTimer = EnSsh_SetAnimation(this, SSH_ANIM_LAND);
 }
 
@@ -356,7 +356,7 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (player->actor.world.pos.y < this->actor.groundHeight) {
+    if (player->actor.world.pos.y < this->actor.floorHeight) {
         return false;
     }
     return true;
@@ -376,7 +376,7 @@ s32 EnSsh_IsCloseToGround(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
     f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if ((nextY - this->actor.groundHeight) <= this->groundYoffset) {
+    if ((nextY - this->actor.floorHeight) <= this->groundYoffset) {
         return 1;
     }
     return 0;
@@ -707,7 +707,7 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
         EnSsh_SetAnimation(this, SSH_ANIM_WAIT);
     }
-    if ((this->actor.groundHeight + this->groundYoffset) <= this->actor.world.pos.y) {
+    if ((this->actor.floorHeight + this->groundYoffset) <= this->actor.world.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);

@@ -130,7 +130,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                 }
 
                 spawnPos.x = player->actor.world.pos.x + Math_SinS(spawnAngle) * spawnDist;
-                spawnPos.y = player->actor.groundHeight + 120.0f;
+                spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z = player->actor.world.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
                 floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
@@ -265,7 +265,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                 }
                 spawnPos.x =
                     player->actor.world.pos.x + (Math_SinS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
-                spawnPos.y = player->actor.groundHeight + 120.0f;
+                spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z =
                     player->actor.world.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
                 floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);

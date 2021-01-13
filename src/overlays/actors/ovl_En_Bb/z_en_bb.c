@@ -443,8 +443,8 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
     Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
-    if (this->actor.groundHeight > -32000.0f) {
-        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.groundHeight + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
+    if (this->actor.floorHeight > -32000.0f) {
+        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
                            0.0f);
     }
     SkelAnime_Update(&this->skelAnime);
@@ -1133,7 +1133,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_MoveForward(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {
-            if ((this->actor.world.pos.y - 20.0f) <= this->actor.groundHeight) {
+            if ((this->actor.world.pos.y - 20.0f) <= this->actor.floorHeight) {
                 sp34 = 20.0f;
             }
             func_8002E4B4(globalCtx, &this->actor, sp34, 25.0f, 20.0f, 5);

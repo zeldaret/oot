@@ -83,12 +83,12 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
-        thisx->groundHeight =
+        thisx->floorHeight =
             BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->world.pos);
         //! @bug calls WaterBox_GetSurfaceImpl directly
         if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
                                      &outWaterBox) ||
-            (ySurface <= thisx->groundHeight)) {
+            (ySurface <= thisx->floorHeight)) {
             Actor_Kill(thisx);
         } else {
             thisx->home.pos.y = ySurface;
@@ -433,7 +433,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundHeight == BGCHECK_Y_MIN) {
+        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.floorHeight == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
             this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
@@ -532,7 +532,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             EnOkuta_ColliderCheck(this, globalCtx2);
             if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.world.pos.x,
                                          this->actor.world.pos.z, &ySurface, &outWaterBox) ||
-                (ySurface < this->actor.groundHeight)) {
+                (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
                     return;

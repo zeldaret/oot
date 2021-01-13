@@ -616,7 +616,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Mtx* mtx1;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
         s16 cloneRotY;
-        f32 distFromGround = this->actor.world.pos.y - this->actor.groundHeight;
+        f32 distFromGround = this->actor.world.pos.y - this->actor.floorHeight;
         f32 temp_f0_4;
 
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {

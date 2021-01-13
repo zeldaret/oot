@@ -151,7 +151,7 @@ ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, GlobalContext* globalC
     Actor* dyna;
 
     if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
-        (fabsf(this->dyna.actor.groundHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
+        (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
         dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
         if ((dyna != NULL) && (dyna->id == ACTOR_OBJ_OSHIHIKI)) {
             return (ObjOshihiki*)dyna;
@@ -380,14 +380,14 @@ void ObjOshihiki_SetGround(ObjOshihiki* this, GlobalContext* globalCtx) {
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetFloors(this, globalCtx);
     this->highestFloor = ObjOshihiki_GetHighestFloor(this);
-    this->dyna.actor.groundHeight = this->floorHeights[this->highestFloor];
+    this->dyna.actor.floorHeight = this->floorHeights[this->highestFloor];
 }
 
 s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, GlobalContext* globalCtx) {
     ObjOshihiki_SetGround(this, globalCtx);
 
-    if ((this->dyna.actor.groundHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return 1;
     }
 
@@ -402,8 +402,8 @@ s32 ObjOshihiki_CheckGround(ObjOshihiki* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return 0;
     }
-    if ((this->dyna.actor.groundHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return 1;
     }
     return 0;
@@ -547,7 +547,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
             if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
                 func_800434A8(dynaActor);
                 func_80043538(dynaActor);
-                this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+                this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, globalCtx);
             }

@@ -18,7 +18,7 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
     MtxF sp60;
 
     if (actor->floorPoly != NULL) {
-        temp1 = actor->world.pos.y - actor->groundHeight;
+        temp1 = actor->world.pos.y - actor->floorHeight;
 
         if (temp1 >= -50.0f && temp1 < 500.0f) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1553);
@@ -38,7 +38,7 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
             }
 
-            func_80038A28(actor->floorPoly, actor->world.pos.x, actor->groundHeight, actor->world.pos.z, &sp60);
+            func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
             Matrix_Put(&sp60);
 
             if (dlist != D_04049210) {
@@ -118,7 +118,7 @@ void ActorShadow_DrawTeardrop(Actor* actor, Lights* lights, GlobalContext* globa
     s32 phi_s1;
     s32 phi_s2;
 
-    temp_f20 = actor->world.pos.y - actor->groundHeight;
+    temp_f20 = actor->world.pos.y - actor->floorHeight;
 
     if (temp_f20 > 20.0f) {
         temp_10 = actor->shape.shadowScale;
@@ -1147,28 +1147,28 @@ CollisionPoly* sCurCeilingPoly;
 s32 sCurCeilingBgId;
 
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
-    f32 groundheightDiff;
+    f32 floorHeightDiff;
     s32 floorBgId;
 
     arg2->y += 50.0f;
 
-    actor->groundHeight =
+    actor->floorHeight =
         BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &floorBgId, actor, arg2);
     actor->bgCheckFlags &= ~0x0086;
 
-    if (actor->groundHeight <= BGCHECK_Y_MIN) {
+    if (actor->floorHeight <= BGCHECK_Y_MIN) {
         return func_8002E234(actor, BGCHECK_Y_MIN, arg3);
     }
 
-    groundheightDiff = actor->groundHeight - actor->world.pos.y;
+    floorHeightDiff = actor->floorHeight - actor->world.pos.y;
     actor->floorBgId = floorBgId;
 
-    if (groundheightDiff >= 0.0f) { // actor is on or below the ground
+    if (floorHeightDiff >= 0.0f) { // actor is on or below the ground
         actor->bgCheckFlags |= 0x80;
 
         if (actor->bgCheckFlags & 0x10) {
             if (floorBgId != sCurCeilingBgId) {
-                if (groundheightDiff > 15.0f) {
+                if (floorHeightDiff > 15.0f) {
                     actor->bgCheckFlags |= 0x100;
                 }
             } else {
@@ -1177,7 +1177,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
             }
         }
 
-        actor->world.pos.y = actor->groundHeight;
+        actor->world.pos.y = actor->floorHeight;
 
         if (actor->velocity.y <= 0.0f) {
             if (!(actor->bgCheckFlags & 0x1)) {
@@ -1192,11 +1192,11 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
     } else { // actor is above ground
-        if ((actor->bgCheckFlags & 0x1) && (groundheightDiff >= -11.0f)) {
+        if ((actor->bgCheckFlags & 0x1) && (floorHeightDiff >= -11.0f)) {
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
 
-        return func_8002E234(actor, groundheightDiff, arg3);
+        return func_8002E234(actor, floorHeightDiff, arg3);
     }
 
     return 1;
@@ -3155,7 +3155,7 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     s32 i;
 
     var = (Rand_ZeroOne() - 0.5f) * 6.28f;
-    pos.y = actor->groundHeight;
+    pos.y = actor->floorHeight;
     accel.y += (Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {

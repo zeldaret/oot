@@ -127,7 +127,7 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
     f32 scaleMod;
 
     spreadAngle = (Rand_ZeroOne() - 0.5f) * 6.28f;
-    pos.y = this->actor.groundHeight;
+    pos.y = this->actor.floorHeight;
     pos.x = (Math_SinF(spreadAngle) * spread) + spawnPos->x;
     pos.z = (Math_CosF(spreadAngle) * spread) + spawnPos->z;
     accel.x = (Rand_ZeroOne() - 0.5f) * accelXZ;

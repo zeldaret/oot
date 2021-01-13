@@ -393,7 +393,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     pos.z = this->dyna.actor.home.pos.z;
     raycastResult =
         BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
-    this->dyna.actor.groundHeight = raycastResult;
+    this->dyna.actor.floorHeight = raycastResult;
 
     if (this->dyna.actor.home.pos.y <= raycastResult) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4);

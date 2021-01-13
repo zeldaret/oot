@@ -537,7 +537,7 @@ void EnFloormas_Slide(EnFloormas* this, GlobalContext* globalCtx) {
 
     pos.x = this->actor.world.pos.x;
     pos.z = this->actor.world.pos.z;
-    pos.y = this->actor.groundHeight;
+    pos.y = this->actor.floorHeight;
 
     velocity.y = 2.0f;
     velocity.x = Math_SinS(this->actor.shape.rot.y + 0x6000) * 7.0f;
@@ -563,9 +563,9 @@ void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 15.0f, SQ(this->actor.speedXZ) * (1.0f / 3.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x1680, 0x140);
 
-    distFromGround = this->actor.world.pos.y - this->actor.groundHeight;
+    distFromGround = this->actor.world.pos.y - this->actor.floorHeight;
     if (distFromGround < 10.0f) {
-        this->actor.world.pos.y = this->actor.groundHeight + 10.0f;
+        this->actor.world.pos.y = this->actor.floorHeight + 10.0f;
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     }
@@ -604,7 +604,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 2.0f);
     }
 
-    if ((this->actor.speedXZ > 0.0f) && ((this->actor.world.pos.y - this->actor.groundHeight) < 12.0f)) {
+    if ((this->actor.speedXZ > 0.0f) && ((this->actor.world.pos.y - this->actor.floorHeight) < 12.0f)) {
         EnFloormas_Slide(this, globalCtx);
     }
 

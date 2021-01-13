@@ -150,7 +150,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
     s32 i;
 
     pos = this->actor.world.pos;
-    pos.y = this->actor.groundHeight + 2.0f;
+    pos.y = this->actor.floorHeight + 2.0f;
     angle = ((Rand_ZeroOne() - 0.5f) * 0x10000);
     i = dustCnt;
     while (i >= 0) {

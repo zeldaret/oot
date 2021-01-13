@@ -149,7 +149,7 @@ void EnFd_SpawnDot(EnFd* this, GlobalContext* globalCtx) {
 
     if (this->actionFunc == EnFd_Run || this->actionFunc == EnFd_SpinAndSpawnFire) {
         pos.x = this->actor.world.pos.x;
-        pos.y = this->actor.groundHeight + 4.0f;
+        pos.y = this->actor.floorHeight + 4.0f;
         pos.z = this->actor.world.pos.z;
         accel.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
         accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;

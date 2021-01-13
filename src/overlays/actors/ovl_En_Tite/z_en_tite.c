@@ -245,8 +245,8 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
                 // Snap to ground or water, then lunge into the air with some initial speed
                 this->vAttackState = TEKTITE_MID_LUNGE;
                 if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & 0x20)) {
-                    if (this->actor.groundHeight > BGCHECK_Y_MIN) {
-                        this->actor.world.pos.y = this->actor.groundHeight;
+                    if (this->actor.floorHeight > BGCHECK_Y_MIN) {
+                        this->actor.world.pos.y = this->actor.floorHeight;
                     }
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
                 } else {
@@ -266,8 +266,8 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
                     if (this->actor.velocity.y <= 0.0f) {
                         this->vAttackState = TEKTITE_LANDED;
                         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & 0x20)) {
-                            if (BGCHECK_Y_MIN < this->actor.groundHeight) {
-                                this->actor.world.pos.y = this->actor.groundHeight;
+                            if (BGCHECK_Y_MIN < this->actor.floorHeight) {
+                                this->actor.world.pos.y = this->actor.floorHeight;
                             }
                             this->actor.velocity.y = 0.0f;
                             this->actor.speedXZ = 0.0f;
@@ -507,8 +507,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & 0x20)) {
-            if (this->actor.groundHeight > BGCHECK_Y_MIN) {
-                this->actor.world.pos.y = this->actor.groundHeight;
+            if (this->actor.floorHeight > BGCHECK_Y_MIN) {
+                this->actor.world.pos.y = this->actor.floorHeight;
             }
         } else if (this->actor.bgCheckFlags & 0x40) {
             Vec3f ripplePos = this->actor.world.pos;
@@ -593,8 +593,8 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
     if (((this->actor.bgCheckFlags & 3) || (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & 0x20))) &&
         (this->actor.velocity.y <= 0.0f)) {
         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & 0x20)) {
-            if (this->actor.groundHeight > BGCHECK_Y_MIN) {
-                this->actor.world.pos.y = this->actor.groundHeight;
+            if (this->actor.floorHeight > BGCHECK_Y_MIN) {
+                this->actor.world.pos.y = this->actor.floorHeight;
             }
         } else {
             this->actor.velocity.y = 0.0f;
@@ -663,8 +663,8 @@ void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
          ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & 0x20))) &&
         (this->actor.velocity.y <= 0.0f)) {
         if (((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & 0x20))) {
-            if (this->actor.groundHeight > BGCHECK_Y_MIN) {
-                this->actor.world.pos.y = this->actor.groundHeight;
+            if (this->actor.floorHeight > BGCHECK_Y_MIN) {
+                this->actor.world.pos.y = this->actor.floorHeight;
             }
         } else {
             this->actor.velocity.y = 0.0f;
@@ -804,7 +804,7 @@ void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx) {
         func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
         func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         this->actor.shape.yOffset = 0.0f;
-        this->actor.world.pos.y = this->actor.groundHeight;
+        this->actor.world.pos.y = this->actor.floorHeight;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         EnTite_SetupIdle(this);
     }

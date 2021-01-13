@@ -255,8 +255,8 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xDAC, 0);
         playerPos = player->actor.world.pos;
 
-        if (player->actor.groundHeight > BGCHECK_Y_MIN) {
-            playerPos.y = player->actor.groundHeight;
+        if (player->actor.floorHeight > BGCHECK_Y_MIN) {
+            playerPos.y = player->actor.floorHeight;
         }
 
         dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);

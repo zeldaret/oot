@@ -249,7 +249,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->world.pos.y - this->actor.groundHeight;
+        dy = prop->world.pos.y - this->actor.floorHeight;
         dxz = func_8002DB8C(&this->actor, prop);
         if (dxz > 40.0f || dy > 10.0f) {
             prop = prop->next;
@@ -268,7 +268,7 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->world.pos.y - this->actor.groundHeight;
+        dy = this->currentSpot->world.pos.y - this->actor.floorHeight;
         dxz = func_8002DB8C(&this->actor, this->currentSpot);
         if (dxz > 40.0f || dy > 10.0f) {
             this->currentSpot = NULL;

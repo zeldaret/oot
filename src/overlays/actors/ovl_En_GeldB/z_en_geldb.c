@@ -284,7 +284,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->invisible && !Flags_GetSwitch(globalCtx, this->actor.home.rot.z)) ||
         this->actor.xzDistToPlayer > 300.0f) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.world.pos.y = this->actor.groundHeight + 120.0f;
+        this->actor.world.pos.y = this->actor.floorHeight + 120.0f;
     } else {
         this->invisible = false;
         this->actor.shape.shadowScale = 90.0f;
@@ -293,7 +293,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 2) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         this->skelAnime.playSpeed = 1.0f;
-        this->actor.world.pos.y = this->actor.groundHeight;
+        this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.flags |= 1;
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~2;
@@ -326,7 +326,7 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
-        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.groundHeight + 300.0f, 1.0f, 20.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 300.0f, 1.0f, 20.5f, 0.0f);
         this->timer--;
         if (this->timer == 0) {
             Actor_Kill(&this->actor);
@@ -1023,7 +1023,7 @@ void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.y = 0.0f;
-        this->actor.world.pos.y = this->actor.groundHeight;
+        this->actor.world.pos.y = this->actor.floorHeight;
         if (!func_80033AB8(globalCtx, &this->actor)) {
             EnGeldB_SetupSlash(this);
         } else {

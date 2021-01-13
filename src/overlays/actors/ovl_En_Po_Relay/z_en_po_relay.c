@@ -313,7 +313,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
         if (this->hookshotSlotFull != 0) {
             sp60.x = this->actor.world.pos.x;
-            sp60.y = this->actor.groundHeight;
+            sp60.y = this->actor.floorHeight;
             sp60.z = this->actor.world.pos.z;
             if (gSaveContext.timer1Value < HIGH_SCORE(HS_DAMPE_RACE)) {
                 HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;

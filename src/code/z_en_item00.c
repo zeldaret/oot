@@ -492,7 +492,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (sp3A || D_80157D94) {
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
-            if (this->actor.groundHeight <= -10000.0f) {
+            if (this->actor.floorHeight <= -10000.0f) {
                 Actor_Kill(&this->actor);
                 return;
             }

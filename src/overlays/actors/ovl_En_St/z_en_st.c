@@ -105,7 +105,7 @@ void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     s32 i;
 
     yAngle = (Rand_ZeroOne() - 0.5f) * 65536.0f;
-    dustPos.y = this->actor.groundHeight;
+    dustPos.y = this->actor.floorHeight;
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
         dustAccel.x = (Rand_ZeroOne() - 0.5f) * 4.0f;
         dustAccel.z = (Rand_ZeroOne() - 0.5f) * 4.0f;
@@ -120,7 +120,7 @@ void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f blastPos;
 
     blastPos.x = this->actor.world.pos.x;
-    blastPos.y = this->actor.groundHeight;
+    blastPos.y = this->actor.floorHeight;
     blastPos.z = this->actor.world.pos.z;
 
     EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
@@ -216,7 +216,7 @@ void EnSt_SetReturnToCeilingAnimation(EnSt* this) {
 }
 
 void EnSt_SetLandAnimation(EnSt* this) {
-    this->actor.world.pos.y = this->actor.groundHeight + this->groundYOffset;
+    this->actor.world.pos.y = this->actor.floorHeight + this->groundYOffset;
     func_80034EC0(&this->skelAnime, sAnimations, 4);
     this->sfxTimer = 0;
     this->animFrames = this->skelAnime.animLength;
@@ -663,7 +663,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (player->actor.world.pos.y < this->actor.groundHeight) {
+    if (player->actor.world.pos.y < this->actor.floorHeight) {
         // player is below the Skulltulla's ground position
         return false;
     }
@@ -684,7 +684,7 @@ s32 EnSt_IsCloseToGround(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.world.pos.y + (velY * 2.0f);
 
-    if (checkY - this->actor.groundHeight <= this->groundYOffset) {
+    if (checkY - this->actor.floorHeight <= this->groundYOffset) {
         return true;
     }
     return false;
@@ -839,7 +839,7 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DOWN_SET);
     }
 
-    if ((this->actor.groundHeight + this->groundYOffset) < this->actor.world.pos.y) {
+    if ((this->actor.floorHeight + this->groundYOffset) < this->actor.world.pos.y) {
         // the skulltulla has hit the ground.
         this->sfxTimer = 0;
         EnSt_SetupAction(this, EnSt_WaitOnGround);

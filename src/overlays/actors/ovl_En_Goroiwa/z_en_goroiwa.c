@@ -712,7 +712,7 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
                 break;
             case 0:
-                this->actor.groundHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly,
+                this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly,
                                                                        &sp30, &this->actor, &this->actor.world.pos);
                 break;
         }

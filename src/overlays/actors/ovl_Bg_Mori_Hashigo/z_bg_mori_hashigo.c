@@ -253,7 +253,7 @@ void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this) {
     this->actionFunc = NULL;
     this->dyna.actor.gravity = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+    this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
 }
 
 void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx) {

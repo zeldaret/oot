@@ -490,7 +490,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         case ENTORCH2_DAMAGE:
             this->swordState = 0;
             input->cur.stick_x = input->cur.stick_y = 0;
-            if ((this->invincibilityTimer > 0) && (this->actor.world.pos.y < (this->actor.groundHeight - 160.0f))) {
+            if ((this->invincibilityTimer > 0) && (this->actor.world.pos.y < (this->actor.floorHeight - 160.0f))) {
                 this->stateFlags3 &= ~1;
                 this->actor.flags |= 1;
                 this->invincibilityTimer = 0;
@@ -509,7 +509,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         (Math_CosS(this->actor.world.rot.y + sp4E) * (25.0f + sp50)) + sSpawnPoint.z;
                     this->actor.world.pos.y = sSpawnPoint.y;
                 } else {
-                    this->actor.world.pos.y = this->actor.groundHeight;
+                    this->actor.world.pos.y = this->actor.floorHeight;
                 }
                 Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
                 globalCtx->func_11D54(this, globalCtx);

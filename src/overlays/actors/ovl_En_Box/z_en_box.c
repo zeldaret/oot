@@ -256,7 +256,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
         }
         if (this->dyna.actor.velocity.y < 5.5f) {
             this->dyna.actor.shape.rot.z = 0;
-            this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+            this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnBox_SetupAction(this, EnBox_WaitOpen);
             func_800803F0(globalCtx, this->unk_1AC);
         }
@@ -264,7 +264,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
                                &D_801333E8);
         EnBox_SpawnDust(this, globalCtx);
     }
-    yDiff = this->dyna.actor.world.pos.y - this->dyna.actor.groundHeight;
+    yDiff = this->dyna.actor.world.pos.y - this->dyna.actor.floorHeight;
     if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
         this->dyna.actor.shape.rot.z = yDiff * 50.0f;
     } else {

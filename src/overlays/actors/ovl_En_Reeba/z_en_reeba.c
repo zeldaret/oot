@@ -138,7 +138,7 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
     }
 
     this->actor.flags &= ~0x08000000;
-    this->actor.world.pos.y = this->actor.groundHeight;
+    this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->isBig) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);

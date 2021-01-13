@@ -542,7 +542,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 20.0f) {
-            this->dyna.actor.groundHeight = this->dyna.actor.home.pos.y;
+            this->dyna.actor.floorHeight = this->dyna.actor.home.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);

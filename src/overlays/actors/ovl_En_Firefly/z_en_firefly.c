@@ -334,7 +334,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y += Rand_CenteredFloat(1536.0f);
             }
             // Climb if too close to ground
-            if (this->actor.world.pos.y < (this->actor.groundHeight + 20.0f)) {
+            if (this->actor.world.pos.y < (this->actor.floorHeight + 20.0f)) {
                 this->targetPitch = 0x954;
                 // Descend if above maxAltitude
             } else if (this->maxAltitude < this->actor.world.pos.y) {
@@ -501,7 +501,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.groundHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         EnFirefly_SetupDie(this);
     } else {

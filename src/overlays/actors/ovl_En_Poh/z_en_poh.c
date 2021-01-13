@@ -972,7 +972,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     vec.x = this->actor.world.pos.x;
     vec.y = this->actor.world.pos.y + 20.0f;
     vec.z = this->actor.world.pos.z;
-    this->actor.groundHeight =
+    this->actor.floorHeight =
         BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &vec);
     func_80AE089C(this);
     this->actor.shape.shadowAlpha = this->lightColor.a;

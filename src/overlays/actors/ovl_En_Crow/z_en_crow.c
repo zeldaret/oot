@@ -285,7 +285,7 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundHeight == BGCHECK_Y_MIN)) {
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.world, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);

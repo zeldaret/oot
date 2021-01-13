@@ -321,13 +321,13 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194 -= 1;
     }
-    if (this->actor.groundHeight == BGCHECK_Y_MIN) {
+    if (this->actor.floorHeight == BGCHECK_Y_MIN) {
         EnPoField_SetupDisappear(this);
         return;
     }
     Math_ApproachF(&this->actor.home.pos.y,
-                   ((player->actor.world.pos.y > this->actor.groundHeight) ? player->actor.world.pos.y
-                                                                           : this->actor.groundHeight) +
+                   ((player->actor.world.pos.y > this->actor.floorHeight) ? player->actor.world.pos.y
+                                                                           : this->actor.floorHeight) +
                        13.0f,
                    0.2f, 5.0f);
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;

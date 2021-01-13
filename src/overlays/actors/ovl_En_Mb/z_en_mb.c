@@ -708,7 +708,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             }
         } else {
             sp74 = this->effSpawnPos;
-            sp74.y = this->actor.groundHeight;
+            sp74.y = this->actor.floorHeight;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);

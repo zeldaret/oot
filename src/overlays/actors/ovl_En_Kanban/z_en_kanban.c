@@ -424,7 +424,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             tempBgFlags = this->actor.bgCheckFlags;
             tempYDistToWater = this->actor.yDistToWater;
 
-            this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.groundHeight) * -50.0f) / 100.0f;
+            this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
             EnKanban_SetFloorRot(this);
 
@@ -488,7 +488,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->actor.gravity = 0.0f;
                 osSyncPrintf(" WAT  Y  = %f\n", this->actor.yDistToWater);
                 osSyncPrintf(" POS  Y  = %f\n", this->actor.world.pos.y);
-                osSyncPrintf(" GROUND Y  = %f\n", this->actor.groundHeight);
+                osSyncPrintf(" GROUND Y  = %f\n", this->actor.floorHeight);
                 break;
             }
 
@@ -547,7 +547,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 accel.x = 0.0f;
                 accel.y = 0.1f;
                 accel.z = 0.0f;
-                pos.y = this->actor.groundHeight + 3.0f;
+                pos.y = this->actor.floorHeight + 3.0f;
                 dustCount = this->partCount * 0.5f;
                 for (j = 0; j < dustCount + 3; j++) {
                     pos.x = this->actor.world.pos.x + Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
@@ -851,7 +851,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if ((this->actor.projectedPos.z <= 400.0f) && (this->actor.projectedPos.z > 0.0f) &&
-        (this->actor.groundHeight > -3000.0f)) {
+        (this->actor.floorHeight > -3000.0f)) {
         if ((this->bounceX != 0) || (this->bounceZ != 0)) {
             u16 dayTime = gSaveContext.dayTime;
             f32 shadowAlpha;
@@ -868,10 +868,10 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((this->actionState == ENKANBAN_SIGN) && (gSaveContext.linkAge == 1)) {
                 zShift = 0.0f;
             } else {
-                zShift = ((this->actor.world.pos.y - this->actor.groundHeight) * -50.0f) / 100.0f;
+                zShift = ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
             }
 
-            Matrix_Translate(this->actor.world.pos.x, this->actor.groundHeight, this->actor.world.pos.z + zShift,
+            Matrix_Translate(this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z + zShift,
                              MTXMODE_NEW);
             Matrix_RotateX(this->floorRot.x, MTXMODE_APPLY);
             Matrix_RotateZ(this->floorRot.z, MTXMODE_APPLY);

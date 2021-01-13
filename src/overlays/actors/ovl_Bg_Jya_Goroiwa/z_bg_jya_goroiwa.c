@@ -199,7 +199,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x;
         pos.y = this->actor.world.pos.y + 59.5f;
         pos.z = this->actor.world.pos.z;
-        this->actor.groundHeight =
+        this->actor.floorHeight =
             BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
         func_80897970(this);
         if (this->collider.base.atFlags & 1) {

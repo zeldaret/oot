@@ -154,11 +154,11 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     actorPosition.y += this->dyna.actor.prevPos.y;
     actorPosition.z += this->dyna.actor.world.pos.z;
 
-    this->dyna.actor.groundHeight = BgCheck_EntityRaycastFloor6(
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor6(
         &globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
 
-    if ((this->dyna.actor.groundHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
-        this->dyna.actor.world.pos.y = this->dyna.actor.groundHeight;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return true;
     }
     return false;
@@ -301,12 +301,12 @@ void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.gravity = -1.0f;
-    this->dyna.actor.groundHeight = func_808B3DDC(this, globalCtx);
+    this->dyna.actor.floorHeight = func_808B3DDC(this, globalCtx);
     this->actionFunc = func_808B43D0;
 }
 
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    f32 groundHeight;
+    f32 floorHeight;
     Player* player = PLAYER;
     Actor* actor = &this->dyna.actor;
 
@@ -326,10 +326,10 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         return;
     }
 
-    groundHeight = actor->groundHeight;
+    floorHeight = actor->floorHeight;
 
-    if ((groundHeight - actor->world.pos.y) >= -0.001f) {
-        actor->world.pos.y = groundHeight;
+    if ((floorHeight - actor->world.pos.y) >= -0.001f) {
+        actor->world.pos.y = floorHeight;
         func_808B4084(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
     }

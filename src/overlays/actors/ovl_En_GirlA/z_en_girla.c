@@ -965,7 +965,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.25f);
         this->actor.shape.yOffset = 24.0f;
         this->actor.shape.shadowScale = 4.0f;
-        this->actor.groundHeight = this->actor.home.pos.y;
+        this->actor.floorHeight = this->actor.home.pos.y;
         this->actor.gravity = 0.0f;
         func_80A3A750(this, func_80A3BD80);
         this->unk_19C = 1;
