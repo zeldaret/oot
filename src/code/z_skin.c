@@ -3,6 +3,17 @@
 MtxF D_801600C0[60];
 char D_80160FC0[0x10];
 
+typedef struct {
+    char unk_0[0x8];
+    s32 unk_8;
+    Gfx* unk_C;
+} Struct_800A5F60;
+
+typedef struct {
+    char unk_0[0x4];
+    MtxF unk_4;
+} Struct_800A6408;
+
 void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx* arg3, Vec3f* arg4) {
     Vtx* temp_s2;
     Struct_800A57C0* phi_s1;
