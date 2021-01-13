@@ -6748,7 +6748,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     s32 sp34;
 
     if ((this->unk_664 != NULL) ||
-        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
+        (!(heathIsCritical = HealthMeter_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
         this->stateFlags2 &= ~0x10000000;
         anim = func_80833338(this);
     } else {

@@ -7160,26 +7160,24 @@ s32 Camera_CheckWater(Camera* camera) {
         if (camera->unk_150 > 0) {
             camera->unk_150--;
             camera->unk_152 |= 8;
-            return;
         } else if (camera->globalCtx->sceneNum == 0x49) {
             camera->unk_152 |= 0x10;
-            return;
         } else {
             camera->unk_152 |= 2;
-            return;
         }
-    }
-    if (camera->unk_14C & 0x100) {
-        camera->unk_14C &= ~0x100;
-        osSyncPrintf("kankyo changed water off, sound off\n");
-        func_800706A0(camera->globalCtx);
-        if (*quakeId != 0) {
-            Quake_RemoveFromIdx(*quakeId);
+    } else {
+        if (camera->unk_14C & 0x100) {
+            camera->unk_14C &= ~0x100;
+            osSyncPrintf("kankyo changed water off, sound off\n");
+            func_800706A0(camera->globalCtx);
+            if (*quakeId != 0) {
+                Quake_RemoveFromIdx(*quakeId);
+            }
+            camera->unk_150 = 0;
+            camera->unk_152 = 0;
         }
-        camera->unk_150 = 0;
-        camera->unk_152 = 0;
+        func_800F6828(0);
     }
-    func_800F6828(0);
     // @BUG: doesn't always return a value, but sometimes does.
 }
 

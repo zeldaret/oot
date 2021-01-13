@@ -188,22 +188,17 @@ void Gameplay_Destroy(GameState* thisx) {
     Fault_RemoveClient(&D_801614B8);
 }
 
-#ifdef NON_MATCHING
-// regalloc and stack usage differences
-// also missing some extra duplicated instructions
 void Gameplay_Init(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
-    GraphicsContext* gfxCtx;
-    void* zAlloc; // 0x84
-    void* zAllocAligned;
-    u32 zAllocSize; // 0x7C
-    Player* player; // 0x78
-    EntranceInfo* spawnEntrance;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    u32 zAlloc;
+    u32 zAllocAligned;
+    size_t zAllocSize;
+    Player* player;
     s32 playerStartCamId;
-    u8 tempSetupIndex; // 0x6F
     s32 i;
-
-    gfxCtx = globalCtx->state.gfxCtx;
+    u8 tempSetupIndex;
+    s32 pad[2];
 
     if (gSaveContext.entranceIndex == -1) {
         gSaveContext.entranceIndex = 0;
@@ -227,8 +222,8 @@ void Gameplay_Init(GameState* thisx) {
     Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STAT_ACTIVE);
 
     for (i = 0; i < 3; i++) {
-        Camera_Init(&globalCtx->subCameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->subCameras[i + 1], 0x100);
+        Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], 0x100);
     }
 
     globalCtx->cameraPtrs[0] = &globalCtx->mainCamera;
@@ -260,7 +255,7 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.environmentTime = gSaveContext.nextDayTime;
     }
 
-    if ((gSaveContext.dayTime >= 0xC001) || (gSaveContext.dayTime < 0x4555)) {
+    if (gSaveContext.dayTime > 0xC000 || gSaveContext.dayTime < 0x4555) {
         gSaveContext.nightFlag = 1;
     } else {
         gSaveContext.nightFlag = 0;
@@ -268,45 +263,44 @@ void Gameplay_Init(GameState* thisx) {
 
     Cutscene_HandleConditionalTriggers(globalCtx);
 
-    if ((gSaveContext.gameMode != 0) || (gSaveContext.cutsceneIndex >= 0xFFF0)) {
+    if (gSaveContext.gameMode != 0 || gSaveContext.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
         func_800876C8(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
-    } else if (LINK_IS_CHILD && (gSaveContext.nightFlag == 0)) {
+    } else if (LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
         gSaveContext.sceneSetupIndex = 0;
-    } else if (LINK_IS_CHILD && (gSaveContext.nightFlag != 0)) {
+    } else if (LINK_IS_CHILD && gSaveContext.nightFlag != 0) {
         gSaveContext.sceneSetupIndex = 1;
-    } else if (LINK_IS_ADULT && (gSaveContext.nightFlag == 0)) {
+    } else if (LINK_IS_ADULT && gSaveContext.nightFlag == 0) {
         gSaveContext.sceneSetupIndex = 2;
     } else {
         gSaveContext.sceneSetupIndex = 3;
     }
 
     tempSetupIndex = gSaveContext.sceneSetupIndex;
-    if ((gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
-        (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
+        gSaveContext.sceneSetupIndex < 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
             gSaveContext.sceneSetupIndex = 1;
         } else {
             gSaveContext.sceneSetupIndex = 0;
         }
-    } else if ((gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
-               (gSaveContext.sceneSetupIndex < 4)) {
-        if (gSaveContext.eventChkInf[4] & 0x100) {
-            gSaveContext.sceneSetupIndex = 3;
-        } else {
-            gSaveContext.sceneSetupIndex = 2;
-        }
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
+               gSaveContext.sceneSetupIndex < 4) {
+        gSaveContext.sceneSetupIndex = (gSaveContext.eventChkInf[4] & 0x100) ? 3 : 2;
     }
 
-    spawnEntrance = &gEntranceTable[gSaveContext.entranceIndex + gSaveContext.sceneSetupIndex];
-    Gameplay_SpawnScene(globalCtx, spawnEntrance->scene, spawnEntrance->spawn);
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", gSaveContext.entranceIndex, gSaveContext.sceneSetupIndex);
+    Gameplay_SpawnScene(
+        globalCtx,
+        gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].scene,
+        gEntranceTable[((void)0, gSaveContext.sceneSetupIndex) + ((void)0, gSaveContext.entranceIndex)].spawn);
+    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneSetupIndex);
 
     // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_SPOT09) && (gSaveContext.sceneSetupIndex == 6)) {
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
+        gSaveContext.sceneSetupIndex == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)())0x81000000)();
         osSyncPrintf("出戻り？\n"); // "Return?"
@@ -351,7 +345,7 @@ void Gameplay_Init(GameState* thisx) {
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransition == 0xFF) {
             globalCtx->fadeTransition =
-                (gEntranceTable[gSaveContext.entranceIndex + tempSetupIndex].field >> 7) & 0x7F; // Fade In
+                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F; // Fade In
         } else {
             globalCtx->fadeTransition = gSaveContext.nextTransition;
             gSaveContext.nextTransition = 0xFF;
@@ -372,10 +366,10 @@ void Gameplay_Init(GameState* thisx) {
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);
     zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
-    zAllocAligned = (void*)(((u32)zAlloc + 8) & ~0xF);
-    ZeldaArena_Init(zAllocAligned, zAllocSize - (u32)zAllocAligned + (u32)zAlloc);
+    zAllocAligned = (zAlloc + 8) & ~0xF;
+    ZeldaArena_Init(zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
-                 (s32)((u32)zAllocAligned + zAllocSize) - (s32)((u32)zAllocAligned - (u32)zAlloc)); // "Zelda Heap"
+                 (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc)); // "Zelda Heap"
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     func_800304DC(globalCtx, &globalCtx->actorCtx, globalCtx->linkActorEntry);
@@ -394,9 +388,9 @@ void Gameplay_Init(GameState* thisx) {
         Camera_ChangeDataIdx(&globalCtx->mainCamera, playerStartCamId);
     }
 
-    if (YREG(15) == 0x20) {
+    if (YREG(15) == 32) {
         globalCtx->unk_1242B = 2;
-    } else if (YREG(15) == 0x10) {
+    } else if (YREG(15) == 16) {
         globalCtx->unk_1242B = 1;
     } else {
         globalCtx->unk_1242B = 0;
@@ -413,12 +407,9 @@ void Gameplay_Init(GameState* thisx) {
     if (dREG(95) != 0) {
         D_8012D1F0 = D_801614D0;
         osSyncPrintf("\nkawauso_data=[%x]", D_8012D1F0);
-        DmaMgr_DMARomToRam(0x03FEB000, (u32)D_8012D1F0, 0x5000);
+        DmaMgr_DMARomToRam(0x03FEB000, (u32)D_8012D1F0, sizeof(D_801614D0));
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Init.s")
-#endif
 
 #ifdef NON_MATCHING
 // regalloc and stack usage differences

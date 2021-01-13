@@ -59,6 +59,15 @@ string SetPathways::GenerateSourceCodePass1(string roomName, int baseAddress)
 		currentPtr += 6;
 	}
 
+	if (numPoints == 0) // Hack for SharpOcarina
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			PathwayEntry* entry = new PathwayEntry();
+			pathways.push_back(entry);
+		}
+	}
+
 	return "";
 }
 
@@ -82,7 +91,11 @@ string SetPathways::GenerateSourceCodePass2(string roomName, int baseAddress)
 		int index = 0;
 		for (PathwayEntry* entry : pathways)
 		{
-			declaration += StringHelper::Sprintf("{ %i, %i, %i }, //0x%06X \n", entry->x, entry->y, entry->z, listSegmentOffset + (index * 6));
+			declaration += StringHelper::Sprintf("    { %i, %i, %i }, //0x%06X", entry->x, entry->y, entry->z, listSegmentOffset + (index * 6));
+
+			if (index < pathways.size() - 1)
+				declaration += "\n";
+			
 			index++;
 		}
 
@@ -111,4 +124,11 @@ string SetPathways::GetCommandCName()
 RoomCommand SetPathways::GetRoomCommand()
 {
 	return RoomCommand::SetPathways;
+}
+
+PathwayEntry::PathwayEntry()
+{
+	x = 0;
+	y = 0;
+	z = 0;
 }
