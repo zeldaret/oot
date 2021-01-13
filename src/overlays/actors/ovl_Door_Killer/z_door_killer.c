@@ -18,6 +18,8 @@ void func_80995318();
 void func_80995A84(Actor *thisx, GlobalContext *globalCtx);
 void func_80995EC4(Actor* thisx, GlobalContext* globalCtx);
 void func_80995F1C(Actor* thisx, GlobalContext* globalCtx);
+void func_80995518(Actor* thisx, GlobalContext* globalCtx);
+
 
 extern FlexSkeletonHeader D_06001BC8;
 
@@ -28,6 +30,10 @@ extern UNK_TYPE D_80996014;
 extern ColliderCylinderInit D_80995FB0;
 
 extern ColliderJntSphInit D_80996000;
+
+extern Vec3f D_80996030;
+
+extern Vec3f D_8099603C;
 
 extern Gfx* D_80996048[];
 
@@ -213,9 +219,108 @@ void func_80995368(DoorKiller *this, GlobalContext *globalCtx) {
     return;
 }
 
+/*
+void func_80995518(DoorKiller *this, GlobalContext *globalCtx) {
+    s32 i;
+    s32 j;
+    Vec3f sp84;
+    Vec3f sp78;
+    Vec3f sp6C;
+    Vec3f sp58;
+    f32 randF;
+    s16 phi_v1;
+
+    if (this->unk21A > 0) {
+        this->unk21A--;
+    } else {
+        if (this);
+        this->unk280 = &func_80995368;
+        this->unk21A = 16;
+        return;
+    }
+
+    this->actor.shape.rot.x = (this->unk21A >= 4) ? (-this->unk21A << 0xC) + 0x8000 : 0x4000;
+
+    if (this->unk21A >= 6) {
+        phi_v1 = (-this->unk21A * -0x1F4) - 0xFA0;
+    } else if (this->unk21A >= 4) {
+        phi_v1 = -0x3E8;
+    }else if (this->unk21A >= 3) {
+        phi_v1 = (this->unk21A * -0x1F4) + 0x3E8;
+    } else {
+        phi_v1 = 0;
+    }
+
+    for (i = 5; i < 9; i++){
+        this->unk192[i].z = phi_v1;
+    }
+    
+    if ((this->unk21A & 0xFFFFu) == 4) {
+        sp84 = D_80996030;
+        sp78 = D_8099603C;
+
+        for (j = 0; j != 20; j++){
+            sp6C.y = 0.0f;
+            randF = Rand_CenteredFloat(40.0f);
+            sp6C.z = Rand_ZeroFloat(100.0f);
+            sp6C.x = (Math_CosS(this->actor.posRot.rot.y) * randF) + (Math_SinS(this->actor.posRot.rot.y) * sp6C.z);
+            sp6C.z = (Math_CosS(this->actor.posRot.rot.y) * sp6C.z) - (Math_SinS(this->actor.posRot.rot.y) * randF);
+            sp84.x = sp6C.x * 0.2f;
+            sp84.z = sp6C.z * 0.2f;
+            sp78.x = -(sp6C.x * 0.2f) * 0.1f;
+            sp78.z = -(sp6C.z * 0.2f) * 0.1f;
+            sp6C.x = sp6C.x * 0.2f + this->actor.posRot.pos.x;
+            sp6C.y = sp6C.y + this->actor.posRot.pos.y;
+            sp6C.z = sp6C.z + this->actor.posRot.pos.z;
+            func_8002865C(globalCtx, &sp6C, &sp84, &sp78, 0x12C, 0x1E);
+        }
+    }
+    if ((this->unk218 & 1) == 0) {
+        Player* player = PLAYER;
+        func_8002DBD0(&this->actor, &sp58, &player->actor.posRot.pos);
+        if ((fabsf(sp58.y) < 20.0f) && (fabsf(sp58.x) < 20.0f) && (sp58.z < 100.0f) && (sp58.z > 0.0f)) {
+            this->unk218 |= 1;
+            func_8002F6D4(globalCtx, &this->actor, 6.0f, &this->actor.yawTowardsLink, 6.0f, 0x10);
+            Audio_PlayActorSound2(&this->actor, 0x39DC);
+            func_8002F7DC(&player->actor, 0x83E);
+        }
+    }
+    if (((this->unk218 & 1) == 0) && (this->unk21A == 2)) {
+        this->unk218 |= 1;
+        Audio_PlayActorSound2(&this->actor, 0x39DE);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_80995518.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809958E4.s")
+void func_809958E4(DoorKiller *this, GlobalContext *globalCtx) {
+    s16 temp1;
+    s16 temp2;
+    s32 i;
+
+    if ((this->unk21A == 0x10) || (this->unk21A == 8)) {
+        Audio_PlayActorSound2(this, 0x39DB);
+    }
+
+    if (this->unk21A > 0) {
+        this->unk21A--;
+    } else {
+        this->unk280 = &func_80995518;
+        this->unk21A = 8;
+        this->unk218 &= ~1;
+        return;
+    }
+
+    temp1 = Math_SinS(this->unk21A << 0xD) * this->unk21A * 100.0f;
+    for (i = 2; i < 9; i++){
+        this->unk192[i].y = temp1;
+    }
+    temp1 =  (u16)(s16)(-Math_CosS(this->unk21A << 0xC) * 1000.0f) + 1000;
+    for (i = 2; i < 9; i++){
+        this->unk192[i].z = temp1;
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Killer/func_809958E4.s")
 
 void func_80995A50(Actor *thisx, GlobalContext *globalCtx) {
     DoorKiller* this = THIS;
