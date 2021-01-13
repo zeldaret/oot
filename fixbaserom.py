@@ -43,35 +43,24 @@ fileContentLen = len(fileContent)
 # Little-endian
 if fileContent[0] == 0x40:
     # Word Swap ROM
-    # TODO: This is pretty slow at the moment. Look into optimizing it later...
     print("ROM needs to be word swapped...")
-    i = 0
-    while i < fileContentLen:
-        tmp = struct.unpack_from("<IIII", fileContent, i)
-        struct.pack_into(">IIII", fileContent, i + 0, *tmp)
-        i += 4*4
-
-        perc = float(i) / float(fileContentLen)
-
-        if i % (1024 * 128 * 27) == 0:
-            print(str(perc * 100) + "%")
+    words = str(int(fileContentLen/4))
+    little_byte_format = "<" + words + "I"
+    big_byte_format = ">" + words + "I"
+    tmp = struct.unpack_from(little_byte_format, fileContent, 0)
+    struct.pack_into(big_byte_format, fileContent, 0, *tmp)
 
     print("Word swapping done.")
+
 # Byte-swapped
 elif fileContent[0] == 0x37:
     # Byte Swap ROM
-    # TODO: This is pretty slow at the moment. Look into optimizing it later...
     print("ROM needs to be byte swapped...")
-    i = 0
-    while i < fileContentLen:
-        tmp = struct.unpack_from("<HHHHHHHH", fileContent, i)
-        struct.pack_into(">HHHHHHHH", fileContent, i + 0, *tmp)
-        i += 4*4
-
-        perc = float(i) / float(fileContentLen)
-
-        if i % (1024 * 128 * 27) == 0:
-            print(str(perc * 100) + "%")
+    halfwords = str(int(fileContentLen/2))
+    little_byte_format = "<" + halfwords + "H"
+    big_byte_format = ">" + halfwords + "H"
+    tmp = struct.unpack_from(little_byte_format, fileContent, 0)
+    struct.pack_into(big_byte_format, fileContent, 0, *tmp)
 
     print("Byte swapping done.")
 
