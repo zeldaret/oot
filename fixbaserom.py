@@ -47,9 +47,9 @@ if fileContent[0] == 0x40:
     print("ROM needs to be word swapped...")
     i = 0
     while i < fileContentLen:
-        tmp = struct.unpack_from("BBBBBBBB", fileContent, i)
-        struct.pack_into("BBBBBBBB", fileContent, i + 0, tmp[3], tmp[2], tmp[1], tmp[0], tmp[4+3], tmp[4+2], tmp[4+1], tmp[4+0])
-        i += 8
+        tmp = struct.unpack_from("<IIII", fileContent, i)
+        struct.pack_into(">IIII", fileContent, i + 0, *tmp)
+        i += 4*4
 
         perc = float(i) / float(fileContentLen)
 
@@ -64,9 +64,9 @@ elif fileContent[0] == 0x37:
     print("ROM needs to be byte swapped...")
     i = 0
     while i < fileContentLen:
-        tmp = struct.unpack_from("BBBBBBBB", fileContent, i)
-        struct.pack_into("BBBBBBBB", fileContent, i + 0, tmp[1], tmp[0], tmp[3], tmp[2], tmp[4+1], tmp[4+0], tmp[4+3], tmp[4+2])
-        i += 8
+        tmp = struct.unpack_from("<HHHHHHHH", fileContent, i)
+        struct.pack_into(">HHHHHHHH", fileContent, i + 0, *tmp)
+        i += 4*4
 
         perc = float(i) / float(fileContentLen)
 
