@@ -1580,8 +1580,7 @@ endseg
 beginseg
     name "ovl_Door_Killer"
     include "build/src/overlays/actors/ovl_Door_Killer/z_door_killer.o"
-    include "build/data/overlays/actors/z_door_killer.data.o"
-    include "build/data/overlays/actors/z_door_killer.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Killer/ovl_Door_Killer_reloc.o"
 endseg
 
 beginseg

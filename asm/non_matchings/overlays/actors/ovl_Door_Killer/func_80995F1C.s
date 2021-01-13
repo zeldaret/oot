@@ -1,4 +1,4 @@
-glabel func_80995F1C
+glabel DoorKiller_DrawRubble
 /* 012CC 80995F1C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 012D0 80995F20 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 012D4 80995F24 AFA50024 */  sw      $a1, 0x0024($sp)           

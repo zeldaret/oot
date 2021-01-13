@@ -39,17 +39,17 @@ glabel func_80995D6C
 /* 01184 80995DD4 00000000 */  nop
 glabel L80995DD8
 /* 01188 80995DD8 3C188099 */  lui     $t8, %hi(func_80995A84)    ## $t8 = 80990000
-/* 0118C 80995DDC 3C198099 */  lui     $t9, %hi(func_80995EC4)    ## $t9 = 80990000
+/* 0118C 80995DDC 3C198099 */  lui     $t9, %hi(DoorKiller_DrawDoor)    ## $t9 = 80990000
 /* 01190 80995DE0 27185A84 */  addiu   $t8, $t8, %lo(func_80995A84) ## $t8 = 80995A84
-/* 01194 80995DE4 27395EC4 */  addiu   $t9, $t9, %lo(func_80995EC4) ## $t9 = 80995EC4
+/* 01194 80995DE4 27395EC4 */  addiu   $t9, $t9, %lo(DoorKiller_DrawDoor) ## $t9 = 80995EC4
 /* 01198 80995DE8 ACD80280 */  sw      $t8, 0x0280($a2)           ## 00000280
 /* 0119C 80995DEC 10000007 */  beq     $zero, $zero, .L80995E0C   
 /* 011A0 80995DF0 ACD90134 */  sw      $t9, 0x0134($a2)           ## 00000134
 glabel L80995DF4
-/* 011A4 80995DF4 3C088099 */  lui     $t0, %hi(func_809951C4)    ## $t0 = 80990000
-/* 011A8 80995DF8 3C098099 */  lui     $t1, %hi(func_80995F1C)    ## $t1 = 80990000
-/* 011AC 80995DFC 250851C4 */  addiu   $t0, $t0, %lo(func_809951C4) ## $t0 = 809951C4
-/* 011B0 80995E00 25295F1C */  addiu   $t1, $t1, %lo(func_80995F1C) ## $t1 = 80995F1C
+/* 011A4 80995DF4 3C088099 */  lui     $t0, %hi(DoorKiller_RubbleFall)    ## $t0 = 80990000
+/* 011A8 80995DF8 3C098099 */  lui     $t1, %hi(DoorKiller_DrawRubble)    ## $t1 = 80990000
+/* 011AC 80995DFC 250851C4 */  addiu   $t0, $t0, %lo(DoorKiller_RubbleFall) ## $t0 = 809951C4
+/* 011B0 80995E00 25295F1C */  addiu   $t1, $t1, %lo(DoorKiller_DrawRubble) ## $t1 = 80995F1C
 /* 011B4 80995E04 ACC80280 */  sw      $t0, 0x0280($a2)           ## 00000280
 /* 011B8 80995E08 ACC90134 */  sw      $t1, 0x0134($a2)           ## 00000134
 .L80995E0C:
