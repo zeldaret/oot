@@ -4,32 +4,15 @@
 
 #define THIS ((BgYdanSp*)thisx)
 
-//typedef struct {
-//    u32 data[2];
-//} SurfaceType;
-
-//typedef struct {
-//    /* 0x00 */ Vec3s minBounds; // colAbsMin
-//    /* 0x06 */ Vec3s maxBounds; // colAbsMax
-//    /* 0x0C */ u16 nbVertices;
-//    /* 0x10 */ Vec3s* vtxList; // vertexArray
-//    /* 0x14 */ u16 nbPolygons;
-//    /* 0x18 */ CollisionPoly* polyList; // polygonArray
-//    /* 0x1C */ SurfaceType* polygonTypes;
-//    /* 0x20 */ CamData* cameraDataList;
-//    /* 0x24 */ u16 nbWaterBoxes;
-//    /* 0x28 */ WaterBox* waterBoxes;
-//} CollisionHeader2; // BGDataInfo
-
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808BF97C(BgYdanSp* thisx, GlobalContext* globalCtx);
-void func_808BFE50(BgYdanSp* thisx, GlobalContext* globalCtx);
-void func_808C012C(BgYdanSp* thisx, GlobalContext* globalCtx);
-void func_808C0464(BgYdanSp* thisx, GlobalContext* globalCtx);
+void BgYdanSp_BurnFloorWeb(BgYdanSp* thisx, GlobalContext* globalCtx);
+void BgYdanSp_FloorWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx);
+void BgYdanSp_BurnWallWeb(BgYdanSp* thisx, GlobalContext* globalCtx);
+void BgYdanSp_WallWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx);
 
 extern Gfx D_060061B0[];
 extern Gfx D_06003850[];
@@ -37,6 +20,11 @@ extern Gfx D_06005F40[];
 
 extern CollisionHeader D_06006050;
 extern CollisionHeader D_06006460;
+
+typedef enum {
+    WEB_FLOOR,
+    WEB_WALL,
+} BgYdanSpType;
 
 const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
@@ -57,7 +45,7 @@ static ColliderTrisItemInit sTrisItemsInit[2] = {
     },
     {
         { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-        { { { 140.0f, 288.79998779296875f, 0.0f }, { -140.0f, 288.0f, 0.0f }, { -140.0f, 0.0f, 0.0f } } },
+        { { { 140.0f, 288.8f, 0.0f }, { -140.0f, 288.0f, 0.0f }, { -140.0f, 0.0f, 0.0f } } },
     },
 };
 
@@ -85,15 +73,15 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk168 = thisx->params & 0x3F;
-    this->unk169 = (thisx->params >> 6) & 0x3F;
+    this->isDestroyedSwitchFlag = thisx->params & 0x3F;
+    this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
     thisx->params = (thisx->params >> 0xC) & 0xF;
     DynaPolyActor_Init((DynaPolyActor*)thisx, DPM_PLAYER);
     Collider_InitTris(globalCtx, &this->trisCollider);
     Collider_SetTris(globalCtx, &this->trisCollider, thisx, &sTrisInit, this->trisColliderItems);
-    if (thisx->params == 0) {
+    if (thisx->params == WEB_FLOOR) {
         CollisionHeader_GetVirtual(&D_06006460, &colHeader);
-        this->actionFunc = &func_808BFE50;
+        this->actionFunc = &BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
             tri[i].x = ti0->dim.vtx[i].x + thisx->posRot.pos.x;
@@ -109,7 +97,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     else {
         CollisionHeader_GetVirtual(&D_06006050, &colHeader);
-        this->actionFunc = &func_808C0464;
+        this->actionFunc = &BgYdanSp_WallWebIdle;
         Actor_SetHeight(thisx, 30.0f);
         sinsY = Math_SinS(thisx->shape.rot.y);
         cossY = Math_CosS(thisx->shape.rot.y);
@@ -130,8 +118,8 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_800627A0(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    this->unk16A = 0;
-    if (Flags_GetSwitch(globalCtx, this->unk168)) {
+    this->timer = 0;
+    if (Flags_GetSwitch(globalCtx, this->isDestroyedSwitchFlag)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -142,7 +130,7 @@ void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyTris(globalCtx, &this->trisCollider);
 }
 
-void* func_808BF83C(BgYdanSp* thisx) {
+void* BgYdanSp_UpdateFloorWebCollision(BgYdanSp* thisx) {
     s16 newY;
     CollisionHeader* colHeader;
 
@@ -159,157 +147,147 @@ void* func_808BF83C(BgYdanSp* thisx) {
     colHeader->vtxList[0].y = newY;
 }
 
-void func_808BF90C(BgYdanSp* thisx, GlobalContext* globalCtx) {
-    thisx->unk16A = 30;
+void BgYdanSp_BurnWeb(BgYdanSp* thisx, GlobalContext* globalCtx) {
+    thisx->timer = 30;
     thisx = thisx;
     func_80078884(NA_SE_SY_CORRECT_CHIME);
-    Flags_SetSwitch(globalCtx, thisx->unk168);
-    if (thisx->dyna.actor.params == 0) {
-        thisx->actionFunc = &func_808BF97C;
+    Flags_SetSwitch(globalCtx, thisx->isDestroyedSwitchFlag);
+    if (thisx->dyna.actor.params == WEB_FLOOR) {
+        thisx->actionFunc = &BgYdanSp_BurnFloorWeb;
         return;
     }
-    thisx->actionFunc = &func_808C012C;
+    thisx->actionFunc = &BgYdanSp_BurnWallWeb;
 }
 
-static Vec3f D_808C09BC = { 0 };
 
-// spawn ? particles?
-void func_808BF97C(BgYdanSp* thisx, GlobalContext* globalCtx) {
-    Vec3f spCC;
-    Vec3f spC0;
-
+void BgYdanSp_BurnFloorWeb(BgYdanSp* thisx, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0 };
+    Vec3f velocity;
+    Vec3f pos2;
     f32 distXZ;
     f32 sins;
     f32 coss;
-    s16 temp_s0;
-    s16 phi_s2;
+    s16 rot;
+    s16 rot2;
     s32 i;
 
-    if (thisx->unk16A != 0) {
-        thisx->unk16A--;
-    }
-    if (thisx->unk16A == 0) {
+    DECR(thisx->timer);
+
+    if (thisx->timer == 0) {
         Actor_Kill(&thisx->dyna.actor);
         return;
     }
-    if ((thisx->unk16A % 3) == 0) {
-        phi_s2 = (s16)(Rand_ZeroOne() * 10922.0f);
-        spCC.y = 0.0f;
-        spC0.y = thisx->dyna.actor.posRot.pos.y;
+    if ((thisx->timer % 3) == 0) {
+        rot2 = (s16)(Rand_ZeroOne() * 0x2AAA);
+        velocity.y = 0.0f;
+        pos2.y = thisx->dyna.actor.posRot.pos.y;
 
         for (i = 0; i < 6; i++) {
-            temp_s0 = (s16)(Rand_CenteredFloat(10240.0f) + phi_s2);
-            sins = Math_SinS(temp_s0);
-            coss = Math_CosS(temp_s0);
-            spC0.x = thisx->dyna.actor.posRot.pos.x + (120.0f * sins);
-            spC0.z = thisx->dyna.actor.posRot.pos.z + (120.0f * coss);
-            distXZ = Math_Vec3f_DistXZ(&thisx->dyna.actor.initPosRot.pos, &spC0) * (1.0f / 120.0f);
+            rot = (s16)(Rand_CenteredFloat(0x2800) + rot2);
+            sins = Math_SinS(rot);
+            coss = Math_CosS(rot);
+            pos2.x = thisx->dyna.actor.posRot.pos.x + (120.0f * sins);
+            pos2.z = thisx->dyna.actor.posRot.pos.z + (120.0f * coss);
+            distXZ = Math_Vec3f_DistXZ(&thisx->dyna.actor.initPosRot.pos, &pos2) * (1.0f / 120.0f);
             if (distXZ < 0.7f) {
-                sins = Math_SinS((s16)(temp_s0 + 0x8000));
-                coss = Math_CosS((s16)(temp_s0 + 0x8000));
-                spC0.x = thisx->dyna.actor.posRot.pos.x + (120.0f * sins);
-                spC0.z = thisx->dyna.actor.posRot.pos.z + (120.0f * coss);
-                distXZ = Math_Vec3f_DistXZ(&thisx->dyna.actor.initPosRot.pos, &spC0) * (1.0f / 120.0f);
+                sins = Math_SinS((s16)(rot + 0x8000));
+                coss = Math_CosS((s16)(rot + 0x8000));
+                pos2.x = thisx->dyna.actor.posRot.pos.x + (120.0f * sins);
+                pos2.z = thisx->dyna.actor.posRot.pos.z + (120.0f * coss);
+                distXZ = Math_Vec3f_DistXZ(&thisx->dyna.actor.initPosRot.pos, &pos2) * (1.0f / 120.0f);
             }
-            spCC.x = (7.0f * sins) * distXZ;
-            spCC.y = 0.0f;
-            spCC.z = (7.0f * coss) * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &thisx->dyna.actor.initPosRot.pos, &spCC, &D_808C09BC, 0x3C, 6, 0xFF, 0xFF, 0x96,
-                0xAA, 0xFF, 0, 0, 1, 0xE, 1);
-            phi_s2 += 0x2AAA;
+            velocity.x = (7.0f * sins) * distXZ;
+            velocity.y = 0.0f;
+            velocity.z = (7.0f * coss) * distXZ;
+            EffectSsDeadDb_Spawn(globalCtx, &thisx->dyna.actor.initPosRot.pos, &velocity, &accel, 60, 6, 255, 255, 150,
+                170, 255, 0, 0, 1, 0xE, 1);
+            rot2 += 0x2AAA;
         }
     }
 }
 
-void func_808BFC50(BgYdanSp* thisx, GlobalContext* globalCtx) {
-    if (thisx->unk16A != 0) {
-        thisx->unk16A--;
-    }
-    if (thisx->unk16A == 0) {
+void BgYdanSp_FloorWebBroken(BgYdanSp* thisx, GlobalContext* globalCtx) {
+    DECR(thisx->timer);
+
+    if (thisx->timer == 0) {
         Actor_Kill(&thisx->dyna.actor);
     }
 }
 
-static Color_RGBA8 D_808C09C8 = { 250, 250, 250, 255 }; // prim color
-static Color_RGBA8 D_808C09CC = { 180, 180, 180, 255 }; // env color
-static Vec3f D_808C09D0 = { 0 };
 
-void func_808BFC90(BgYdanSp* thisx, GlobalContext* globalCtx) {
-    s32 pad;
-    Vec3f sp68; // s4
-    s16 phi_s0;
-    s32 phi_s1;
+void BgYdanSp_FloorWebBreaking(BgYdanSp* thisx, GlobalContext* globalCtx) {
+    static Color_RGBA8 primColor = { 250, 250, 250, 255 }; // prim color
+    static Color_RGBA8 envColor = { 180, 180, 180, 255 }; // env color
+    static Vec3f zeroVec = { 0 };
+    s32 i;
+    Vec3f pos;
+    s16 rot;
 
-    if (thisx->unk16A != 0) {
-        thisx->unk16A--;
-    }
+    DECR(thisx->timer);
     thisx->dyna.actor.posRot.pos.y =
-        (sinf((f32)thisx->unk16A * (M_PI / 20.0f)) * thisx->unk16C) + thisx->dyna.actor.initPosRot.pos.y;
-    if (190.0f < thisx->dyna.actor.initPosRot.pos.y - thisx->dyna.actor.posRot.pos.y) {
+        (sinf((f32)thisx->timer * (M_PI / 20.0f)) * thisx->unk16C) + thisx->dyna.actor.initPosRot.pos.y;
+    if ( thisx->dyna.actor.initPosRot.pos.y - thisx->dyna.actor.posRot.pos.y > 190.0f) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, thisx->dyna.bgId);
-        thisx->unk16A = 40;
+        thisx->timer = 40;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Flags_SetSwitch(globalCtx, thisx->unk168);
-        thisx->actionFunc = &func_808BFC50;
-        sp68.y = thisx->dyna.actor.posRot.pos.y - 60.0f;
-        phi_s0 = 0;
-        for (phi_s1 = 0; phi_s1 < 6; phi_s1++) {
-            sp68.x = Math_SinS(phi_s0) * 60.0f + thisx->dyna.actor.posRot.pos.x;
-            sp68.z = Math_CosS(phi_s0) * 60.0f + thisx->dyna.actor.posRot.pos.z;
-            func_8002829C(globalCtx, &sp68, &D_808C09D0, &D_808C09D0, &D_808C09C8, &D_808C09CC, 1000, 10);
+        Flags_SetSwitch(globalCtx, thisx->isDestroyedSwitchFlag);
+        thisx->actionFunc = &BgYdanSp_FloorWebBroken;
+        pos.y = thisx->dyna.actor.posRot.pos.y - 60.0f;
+        rot = 0;
+        for (i = 0; i < 6; i++) {
+            pos.x = Math_SinS(rot) * 60.0f + thisx->dyna.actor.posRot.pos.x;
+            pos.z = Math_CosS(rot) * 60.0f + thisx->dyna.actor.posRot.pos.z;
+            func_8002829C(globalCtx, &pos, &zeroVec, &zeroVec, &primColor, &envColor, 1000, 10);
 
-            phi_s0 += 0x2AAA;
+            rot += 0x2AAA;
         }
     }
-    func_808BF83C(thisx);
+    BgYdanSp_UpdateFloorWebCollision(thisx);
 }
 
-void func_808BFE50(BgYdanSp* thisx, GlobalContext* globalCtx) {
+void BgYdanSp_FloorWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx) {
     Player* player;
-    Vec3f sp30;
-    f32 temp_f0;
-    f32 temp_f2_2;
-
-    f32 phi_f12;
+    Vec3f webPos;
+    f32 sqrtFallDistance;
+    f32 unk;
 
     player = PLAYER;
-    sp30.x = thisx->dyna.actor.posRot.pos.x;
-    sp30.y = thisx->dyna.actor.posRot.pos.y - 50.0f;
-    sp30.z = thisx->dyna.actor.posRot.pos.z;
-    if (Player_IsBurningStickInRange(globalCtx, &sp30, 70.0f, 50.0f) != 0) {
+    webPos.x = thisx->dyna.actor.posRot.pos.x;
+    webPos.y = thisx->dyna.actor.posRot.pos.y - 50.0f;
+    webPos.z = thisx->dyna.actor.posRot.pos.z;
+    if (Player_IsBurningStickInRange(globalCtx, &webPos, 70.0f, 50.0f) != 0) {
         thisx->dyna.actor.initPosRot.pos.x = player->swordInfo[0].tip.x;
         thisx->dyna.actor.initPosRot.pos.z = player->swordInfo[0].tip.z;
-        func_808BF90C(thisx, globalCtx);
+        BgYdanSp_BurnWeb(thisx, globalCtx);
         return;
     }
     if ((thisx->trisCollider.base.acFlags & 2) != 0) {
-        func_808BF90C(thisx, globalCtx);
+        BgYdanSp_BurnWeb(thisx, globalCtx);
         return;
     }
-    if (func_8004356C((DynaPolyActor*)thisx) != 0) {
-        phi_f12 = CLAMP_MIN(player->fallDistance, 0.0f);
-        temp_f0 = sqrtf(phi_f12);
-        if (750.0f < player->fallDistance) {
+    if (func_8004356C((DynaPolyActor*)thisx)) {
+        sqrtFallDistance = sqrtf(CLAMP_MIN(player->fallDistance, 0.0f));
+        if (player->fallDistance > 750.0f) {
             if (thisx->dyna.actor.xzDistToLink < 80.0f) {
                 thisx->unk16C = 200.0f;
                 thisx->dyna.actor.room = -1;
                 thisx->dyna.actor.flags |= 0x10;
-                thisx->unk16A = 40;
+                thisx->timer = 40;
                 Audio_PlayActorSound2((Actor*)thisx, NA_SE_EV_WEB_BROKEN);
-                thisx->actionFunc = func_808BFC90;
+                thisx->actionFunc = BgYdanSp_FloorWebBreaking;
                 return;
             }
         }
-        temp_f2_2 = temp_f0 + temp_f0;
-        if (thisx->unk16C < temp_f2_2) {
-            if (2.0f < temp_f2_2) {
-                thisx->unk16C = temp_f2_2;
-                thisx->unk16A = 14;
+        unk = sqrtFallDistance + sqrtFallDistance;
+        if (thisx->unk16C < unk) {
+            if (unk > 2.0f) {
+                thisx->unk16C = unk;
+                thisx->timer = 14;
             }
         }
-        if (0.0f != player->actor.speedXZ) {
+        if (player->actor.speedXZ != 0.0f) {
             if (thisx->unk16C < 0.1f) {
-                thisx->unk16A = 14;
+                thisx->timer = 14;
             }
             if (thisx->unk16C < 2.0f) {
                 thisx->unk16C = 2.0f;
@@ -319,95 +297,92 @@ void func_808BFE50(BgYdanSp* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    if (thisx->unk16A != 0) {
-        thisx->unk16A--;
-    }
-    if (thisx->unk16A == 0) {
-        thisx->unk16A = 14;
+
+    DECR(thisx->timer);
+    if (thisx->timer == 0) {
+        thisx->timer = 14;
     }
     thisx->dyna.actor.posRot.pos.y =
-        (f32)((sinf((f32)thisx->unk16A * (M_PI / 7.0f)) * thisx->unk16C) + thisx->dyna.actor.initPosRot.pos.y);
+        (f32)((sinf((f32)thisx->timer * (M_PI / 7.0f)) * thisx->unk16C) + thisx->dyna.actor.initPosRot.pos.y);
     Math_ApproachZeroF(&thisx->unk16C, 1.0f, 0.8f);
-    if (thisx->unk16A == 13) {
-        if (3.0f < thisx->unk16C) {
+    if (thisx->timer == 13) {
+        if (thisx->unk16C > 3.0f) {
             Audio_PlayActorSound2((Actor*)thisx, NA_SE_EV_WEB_VIBRATION);
         }
         else {
             func_800F8D04(NA_SE_EV_WEB_VIBRATION);
         }
     }
-    func_808BF83C(thisx);
+    BgYdanSp_UpdateFloorWebCollision(thisx);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &thisx->trisCollider.base);
 }
 
-static Vec3f D_808C09DC = { 0 };
-void func_808C012C(BgYdanSp* thisx, GlobalContext* globalCtx) {
-    Vec3f spD4;
+void BgYdanSp_BurnWallWeb(BgYdanSp* thisx, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0 };
+    Vec3f velocity;
     Vec3f spC8;
-    f32 temp_f12;
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f24;
-    s16 temp_s2;
-    s16 phi_s3;
+    f32 distXYZ;
+    f32 sins;
+    f32 coss;
+    f32 coss2;
+    s16 rot;
+    s16 rot2;
     s32 i;
 
-    if (thisx->unk16A != 0) {
-        thisx->unk16A--;
-    }
-    if (thisx->unk16A == 0) {
+    DECR(thisx->timer);
+    if (thisx->timer == 0) {
         Actor_Kill(&thisx->dyna.actor);
         return;
     }
-    if ((thisx->unk16A % 3) == 0) {
-        phi_s3 = (s16)(Rand_ZeroOne() * 10922.0f);
+    if ((thisx->timer % 3) == 0) {
+        rot2 = (s16)(Rand_ZeroOne() * 0x2AAA);
 
         for (i = 0; i < 6; i++) {
-            temp_s2 = (s16)(Rand_CenteredFloat(10240.0f) + phi_s3);
-            temp_f20 = Math_SinS(temp_s2);
-            temp_f22 = Math_CosS(temp_s2);
-            temp_f24 = Math_CosS(thisx->dyna.actor.shape.rot.y) * temp_f20;
-            temp_f20 *= Math_SinS(thisx->dyna.actor.shape.rot.y);
+            rot = (s16)(Rand_CenteredFloat(0x2800) + rot2);
+            sins = Math_SinS(rot);
+            coss = Math_CosS(rot);
+            coss2 = Math_CosS(thisx->dyna.actor.shape.rot.y) * sins;
+            sins *= Math_SinS(thisx->dyna.actor.shape.rot.y);
 
-            spC8.x = thisx->dyna.actor.posRot.pos.x + (140.0f * temp_f24);
-            spC8.y = thisx->dyna.actor.posRot.pos.y + (140.0f * (1.0f + temp_f22));
-            spC8.z = thisx->dyna.actor.posRot.pos.z - (140.0f * temp_f20);
-            temp_f12 = Math_Vec3f_DistXYZ(&thisx->dyna.actor.initPosRot.pos, &spC8) * (1.0f / 140.0f);
-            if (temp_f12 < 0.65f) {
-                temp_f20 = Math_SinS((s16)(temp_s2 + 0x8000));
-                temp_f22 = Math_CosS((s16)(temp_s2 + 0x8000));
-                temp_f24 = Math_CosS(thisx->dyna.actor.shape.rot.y) * temp_f20;
-                temp_f20 *= Math_SinS(thisx->dyna.actor.shape.rot.y);
-                spC8.x = thisx->dyna.actor.posRot.pos.x + (140.0f * temp_f24);
-                spC8.y = thisx->dyna.actor.posRot.pos.y + (140.0f * (1.0f + temp_f22));
-                spC8.z = thisx->dyna.actor.posRot.pos.z - (140.0f * temp_f20);
-                temp_f12 = Math_Vec3f_DistXYZ(&thisx->dyna.actor.initPosRot.pos, &spC8) * (1.0f / 140.0f);
+            spC8.x = thisx->dyna.actor.posRot.pos.x + (140.0f * coss2);
+            spC8.y = thisx->dyna.actor.posRot.pos.y + (140.0f * (1.0f + coss));
+            spC8.z = thisx->dyna.actor.posRot.pos.z - (140.0f * sins);
+            distXYZ = Math_Vec3f_DistXYZ(&thisx->dyna.actor.initPosRot.pos, &spC8) * (1.0f / 140.0f);
+            if (distXYZ < 0.65f) {
+                sins = Math_SinS((s16)(rot + 0x8000));
+                coss = Math_CosS((s16)(rot + 0x8000));
+                coss2 = Math_CosS(thisx->dyna.actor.shape.rot.y) * sins;
+                sins *= Math_SinS(thisx->dyna.actor.shape.rot.y);
+                spC8.x = thisx->dyna.actor.posRot.pos.x + (140.0f * coss2);
+                spC8.y = thisx->dyna.actor.posRot.pos.y + (140.0f * (1.0f + coss));
+                spC8.z = thisx->dyna.actor.posRot.pos.z - (140.0f * sins);
+                distXYZ = Math_Vec3f_DistXYZ(&thisx->dyna.actor.initPosRot.pos, &spC8) * (1.0f / 140.0f);
             }
-            spD4.x = (6.5f * temp_f24) * temp_f12;
-            spD4.y = (6.5f * temp_f22) * temp_f12;
-            spD4.z = (-6.5f * temp_f20) * temp_f12;
-            EffectSsDeadDb_Spawn(globalCtx, &thisx->dyna.actor.initPosRot.pos, &spD4, &D_808C09DC, 0x50, 6, 0xFF, 0xFF, 0x96,
-                0xAA, 0xFF, 0, 0, 1, 0xE, 1);
-            phi_s3 += 0x2AAA;
+            velocity.x = (6.5f * coss2) * distXYZ;
+            velocity.y = (6.5f * coss) * distXYZ;
+            velocity.z = (-6.5f * sins) * distXYZ;
+            EffectSsDeadDb_Spawn(globalCtx, &thisx->dyna.actor.initPosRot.pos, &velocity, &accel, 80, 6, 255, 255, 150,
+                170, 255, 0, 0, 1, 0xE, 1);
+            rot2 += 0x2AAA;
         }
     }
 }
 
-void func_808C0464(BgYdanSp* thisx, GlobalContext* globalCtx) {
+void BgYdanSp_WallWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx) {
     Player* player;
     Vec3f sp30;
 
     player = PLAYER;
-    if (Flags_GetSwitch(globalCtx, thisx->unk169) || (thisx->trisCollider.base.acFlags & 2)) {
+    if (Flags_GetSwitch(globalCtx, thisx->burnSwitchFlag) || (thisx->trisCollider.base.acFlags & 2)) {
         thisx->dyna.actor.initPosRot.pos.y = thisx->dyna.actor.posRot.pos.y + 80.0f;
-        func_808BF90C(thisx, globalCtx);
+        BgYdanSp_BurnWeb(thisx, globalCtx);
     }
-    else if (player->heldItemActionParam == 6 && player->unk_860 != 0) {
+    else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
         func_8002DBD0((Actor*)thisx, &sp30, &player->swordInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             func_800800F8(globalCtx, 0xBCC, 0x28, &thisx->dyna.actor, 0);
             Math_Vec3f_Copy(&thisx->dyna.actor.initPosRot.pos, &player->swordInfo[0].tip);
-            func_808BF90C(thisx, globalCtx);
+            BgYdanSp_BurnWeb(thisx, globalCtx);
         }
     }
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &thisx->trisCollider.base);
@@ -425,14 +400,14 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
     func_80093D84(globalCtx->state.gfxCtx);
-    if (thisx->params == 1) {
+    if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
             G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_06005F40);
     }
-    else if (this->actionFunc == &func_808BFC50) {
+    else if (this->actionFunc == &BgYdanSp_FloorWebBroken) {
         Matrix_Get(&mtxF);
-        if (this->unk16A == 0x28) {
+        if (this->timer == 40) {
             Matrix_Translate(0.0f, (thisx->initPosRot.pos.y - thisx->posRot.pos.y) * 10.0f, 0.0f, MTXMODE_APPLY);
             Matrix_Scale(1.0f, ((thisx->initPosRot.pos.y - thisx->posRot.pos.y) + 10.0f) * 0.1f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 808),
