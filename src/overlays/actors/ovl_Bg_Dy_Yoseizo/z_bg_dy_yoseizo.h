@@ -36,7 +36,7 @@ typedef struct BgDyYoseizo {
     /* 0x02E5 */ u8 giveDefenseHearts;
     /* 0x02E6 */ u8 unk_2E6;
     /* 0x02E8 */ s16 vanishTimer;
-    /* 0x02EA */ s16 unk_2EA;
+    /* 0x02EA */ s16 givingSpell;
     /* 0x02EC */ s16 fountainType;
     /* 0x02EE */ s16 dialogState;
     /* 0x02F0 */ s16 absoluteTimer;

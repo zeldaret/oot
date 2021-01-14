@@ -47,10 +47,11 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-// s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+// s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*
+// thisx);
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx);
-void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel, Color_RGB8* primColor, Color_RGB8* envColor,
-                   f32 scale, s16 life, s16 type);
+void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
+                              Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type);
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx);
 
@@ -120,7 +121,6 @@ extern AnimationHeader D_06008698; // Spin-grow to cross-legged
 extern FlexSkeletonHeader D_0601C450;
 extern AnimationHeader D_0601D514; // Cross-legged, resting on right arm
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/BgDyYoseizo_Init.s")
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgDyYoseizo* this = THIS;
@@ -149,11 +149,9 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc = BgDyYoseizo_CheckMagicAcquired;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/BgDyYoseizo_Destroy.s")
 void BgDyYoseizo_Destroy(Actor* this, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80872960.s")
 void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16 type) {
     Vec3f particleInitVelocity;
     Vec3f particleAccel;
@@ -179,7 +177,8 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
                 particleScale = 0.4f;
                 particleLife = 90;
                 particleInitPos.x = this->actor.posRot.pos.x;
-                particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
+                particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation +
+                                    ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
                 particleInitPos.z = this->actor.posRot.pos.z + 30.0f;
             } else {
                 particleLife = 50;
@@ -188,12 +187,12 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
                 particleInitPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(10.0f);
 
                 if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                    particleInitPos.y =
-                        this->actor.posRot.pos.y + spawnPosVariation + 50.0f + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation + 50.0f +
+                                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
                     particleInitPos.z = this->actor.posRot.pos.z + 30.0f;
                 } else {
-                    particleInitPos.y =
-                        this->actor.posRot.pos.y + spawnPosVariation - 30.0f + ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation - 30.0f +
+                                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
                     particleInitPos.z = this->actor.posRot.pos.z + 60.0f;
                 }
 
@@ -208,17 +207,17 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
             particleEnvColor.r = sParticleEnvColors[particleType].r;
             particleEnvColor.g = sParticleEnvColors[particleType].g;
             particleEnvColor.b = sParticleEnvColors[particleType].b;
-            BgDyYoseizo_ParticleInit(this, &particleInitPos, &particleInitVelocity, &particleAccel, &particlePrimColor, &particleEnvColor, particleScale, particleLife, particleType);
+            BgDyYoseizo_ParticleInit(this, &particleInitPos, &particleInitVelocity, &particleAccel, &particlePrimColor,
+                                     &particleEnvColor, particleScale, particleLife, particleType);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80872C58.s")
 void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->unk_31C = this->unk_30C + this->unk_320;
     Math_ApproachF(&this->actor.posRot.pos.y, this->unk_31C, 0.1f, 10.0f);
     Math_ApproachF(&this->unk_320, 10.0f, 0.1f, 0.5f);
-    
+
     if (globalCtx->csCtx.state == 0) {
         this->actor.velocity.y = Math_SinS(this->unk_324);
     } else {
@@ -226,16 +225,15 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80872D20.s")
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, 0x38) != 0) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if ((gSaveContext.magicAcquired == 0) && (this->fountainType != 0)) {
+            if (!(gSaveContext.magicAcquired) && (this->fountainType != FAIRY_REWARD_MAGIC)) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (gSaveContext.magicAcquired == 0) {
+        } else if (!(gSaveContext.magicAcquired)) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -244,7 +242,6 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx)
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80872DE4.s")
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     s32 givingReward;
 
@@ -274,26 +271,26 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         switch (this->fountainType) {
             case FAIRY_REWARD_MAGIC:
-                if ((gSaveContext.magicAcquired == 0) || BREG(2)) {
+                if (!(gSaveContext.magicAcquired) || BREG(2)) {
                     // Spin Attack speed UP
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
-                    this->unk_2EA = 1;
+                    this->givingSpell = true;
                     givingReward = true;
                 }
                 break;
             case FAIRY_REWARD_DOUBLE_MAGIC:
-                if (gSaveContext.doubleMagic == 0) {
+                if (!(gSaveContext.doubleMagic)) {
                     // Magic Meter doubled
                     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
-                    this->unk_2EA = 1;
+                    this->givingSpell = true;
                     givingReward = true;
                 }
                 break;
             case FAIRY_REWARD_DOUBLE_DEFENSE:
-                if (gSaveContext.doubleDefense == 0) {
+                if (!(gSaveContext.doubleDefense)) {
                     // Damage halved
                     osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
-                    this->unk_2EA = 1;
+                    this->givingSpell = true;
                     givingReward = true;
                 }
                 break;
@@ -351,7 +348,6 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_8087328C;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _8087328C.s")
 void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_06008698);
@@ -366,7 +362,6 @@ void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80873380;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873380.s")
 void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     Math_ApproachF(&this->actor.posRot.pos.y, this->unk_30C, this->unk_314, 100.0f);
@@ -389,7 +384,6 @@ void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _808734DC.s")
 void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 frame = this->skelAnime.curFrame;
 
@@ -406,7 +400,6 @@ void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _8087358C.s")
 void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, (u8)1U);
 
@@ -425,7 +418,6 @@ void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808736A4;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _808736A4.s")
 void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     this->unk_324 = this->skelAnime.curFrame * 1273.0f;
@@ -446,7 +438,6 @@ void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873780.s")
 void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_060069E8);
@@ -461,7 +452,6 @@ void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80873868;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873868.s")
 void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 temp_f2 = this->skelAnime.curFrame;
@@ -486,7 +476,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
         this->unk_302 = 150;
         this->unk_2FC = 1;
-        if (this->unk_2EA == 0) {
+        if (!(this->givingSpell)) {
             beamPos.x = player->actor.posRot.pos.x;
             beamPos.y = player->actor.posRot.pos.y + 200.0f;
             beamPos.z = player->actor.posRot.pos.z;
@@ -516,10 +506,10 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
         (this->unk_306 == 1)) {
         this->unk_302--;
         if (this->unk_302 == 90) {
-            if (this->unk_2EA == 0) {
+            if (!(this->givingSpell)) {
                 this->beam->unk_152 = 1;
             }
-            this->unk_2EA = 0;
+            this->givingSpell = 0;
         }
     }
 
@@ -533,7 +523,6 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_Bob(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873B3C.s")
 void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->unk_324 = this->skelAnime.curFrame * 1400.0f;
 
@@ -554,7 +543,6 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873C14.s")
 void BgDyYoseizo_TransitionToSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_06005E60);
@@ -572,7 +560,6 @@ void BgDyYoseizo_TransitionToSpinShrink(BgDyYoseizo* this, GlobalContext* global
     this->actionFunc = BgDyYoseizo_SpinShrink;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873D14.s")
 void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->vanishTimer == 0) {
@@ -590,7 +577,6 @@ void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873E04.s")
 void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Actor* findOcarinaSpot;
 
@@ -613,7 +599,6 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873EA4.s")
 void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
@@ -635,7 +620,6 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80873FD8.s")
 void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_f0 = this->skelAnime.curFrame;
 
@@ -690,7 +674,6 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80874304.s")
 void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_f2 = this->skelAnime.curFrame;
     Player* player = PLAYER;
@@ -833,7 +816,6 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_Bob(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/BgDyYoseizo_Update.s")
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgDyYoseizo* this = THIS;
@@ -899,8 +881,8 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetScale(&this->actor, this->unk_308);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80874B7C.s")
-s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 void* thisx) {
     BgDyYoseizo* this = THIS;
 
     if (limbIndex == 8) { // Torso
@@ -913,7 +895,6 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80874BE0.s")
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgDyYoseizo* this = THIS;
 
@@ -923,7 +904,8 @@ void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState]));
 
-        // This was probably intended to allow this actor to wink, but segment 09 is not used in the dList for the head, so it can only blink
+        // This was probably intended to allow this actor to wink, but segment 09 is not used in the dList for the head,
+        // so it can only blink
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState2]));
 
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthState]));
@@ -935,9 +917,8 @@ void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgDyYoseizo_ParticleDraw(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80874D9C.s")
-void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel, Color_RGB8* primColor, Color_RGB8* envColor,
-                   f32 scale, s16 life, s16 type) {
+void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
+                              Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type) {
     BgDyYoseizoParticle* particle;
     s16 i;
 
@@ -963,7 +944,6 @@ void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelo
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _80874EAC.s")
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizoParticle* particle = this->particles;
     Player* player = PLAYER;
@@ -1028,7 +1008,6 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dy_Yoseizo/func _808751A0.s")
 void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 phi_s3 = 0;
