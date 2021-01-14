@@ -90,17 +90,17 @@ void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
-    CollisionPoly* sp34;
-    Vec3f sp28;
-    UNK_TYPE sp24;
-    f32 temp_f0;
+    CollisionPoly* poly;
+    Vec3f pos;
+    s32 bgId;
+    f32 floorY;
 
-    sp28.x = this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 30.0f;
-    sp28.z = this->actor.posRot.pos.z;
-    temp_f0 = func_8003C9A4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, &sp28);
-    if (temp_f0 > -32000.0f) {
-        this->actor.posRot.pos.y = temp_f0 + arg2;
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.posRot.pos.y + 30.0f;
+    pos.z = this->actor.posRot.pos.z;
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->actor, &pos);
+    if (floorY > BGCHECK_Y_MIN) {
+        this->actor.posRot.pos.y = floorY + arg2;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
         return true;
     } else {
@@ -340,13 +340,13 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
-    } else if (this->actor.xzDistFromLink < 600.0f) {
+    } else if (this->actor.xzDistToLink < 600.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         this->collider.base.acFlags &= ~2;
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if (this->actor.xzDistFromLink < 400.0f) {
+        if (this->actor.xzDistToLink < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-            if (this->actor.xzDistFromLink < 90.0f) {
+            if (this->actor.xzDistToLink < 90.0f) {
                 if (type == ROCK_LARGE) {
                     func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
                 } else {
@@ -411,14 +411,14 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
             Quake_SetCountdown(quakeIdx, 7);
-            func_800AA000(this->actor.xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
+            func_800AA000(this->actor.xyzDistToLinkSq, 0xFF, 0x14, 0x96);
         }
         Actor_Kill(&this->actor);
         return;
     }
     if (this->actor.bgCheckFlags & 0x40) {
         contactPos.x = this->actor.posRot.pos.x;
-        contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+        contactPos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.posRot.pos.z;
         EffectSsGSplash_Spawn(globalCtx, &contactPos, 0, 0, 0, 350);
         if (type == ROCK_SMALL) {

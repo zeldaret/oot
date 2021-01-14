@@ -44,7 +44,7 @@ glabel func_80B8EFF4
 /* 00618 80B8F098 AFA50054 */  sw      $a1, 0x0054($sp)
 /* 0061C 80B8F09C AFA60074 */  sw      $a2, 0x0074($sp)
 /* 00620 80B8F0A0 0C01DF97 */  jal     Math_Vec3s_ToVec3f
-              ## Vec3f_CopyVec3s
+              ## Vec3f_CopyFrameTable
 /* 00624 80B8F0A4 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 00628 80B8F0A8 260501D8 */  addiu   $a1, $s0, 0x01D8           ## $a1 = 000001D8
 /* 0062C 80B8F0AC AFA50028 */  sw      $a1, 0x0028($sp)

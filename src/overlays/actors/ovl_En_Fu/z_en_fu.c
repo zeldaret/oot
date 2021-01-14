@@ -111,7 +111,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
     this->actor.textId = textID;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToLink < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
@@ -125,7 +125,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &D_0600057C) {
-            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04), 2, -4.0f);
+            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -144,7 +145,8 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C), 2, -4.0f);
+            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -225,7 +227,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
-        if (this->actor.xzDistFromLink < 100.0f) {
+        if (this->actor.xzDistToLink < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
             player->stateFlags2 |= 0x800000;
@@ -243,7 +245,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
-                         Animation_GetLastFrame(this->skelanime.animation), 2, 0.0f);
+                         Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {

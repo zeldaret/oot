@@ -1052,7 +1052,7 @@ void DemoEc_FishingManPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
                                    Gfx** gfx) {
     DemoEc* this = THIS;
 
-    if ((limbIndex == 8) && !(gSaveContext.unk_EC0 & 0x1000)) {
+    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(D_060074C8));
     }
 }

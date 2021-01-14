@@ -48,7 +48,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
 static s16 sHasParent = false;
 
 extern Gfx D_60013500[];
-extern UNK_TYPE D_06001DDC;
+extern CollisionHeader D_06001DDC;
 
 void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -84,12 +84,12 @@ static s32 D_80872824;
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     s32 pad;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06001DDC, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06001DDC, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -112,7 +112,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
     Collider_DestroyCylinder(globalCtx, &this->colliders[1]);
     Collider_DestroyCylinder(globalCtx, &this->colliders[2]);

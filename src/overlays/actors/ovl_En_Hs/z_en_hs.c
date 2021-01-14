@@ -99,7 +99,7 @@ s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFu
 
     this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToLink < 100.0f)) {
         this->unk_2A8 |= 1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -165,7 +165,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -177,7 +178,8 @@ void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
-        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     if (this->unk_2AA > 0) {
@@ -198,7 +200,8 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
-            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304), 0, 8.0f);
+            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304),
+                             ANIMMODE_LOOP, 8.0f);
             this->unk_2AA = 40;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
@@ -208,7 +211,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
-        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToLink < 100.0f)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, 7);
         }
     }

@@ -161,7 +161,7 @@ void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->actor.xzDistFromLink < 60.0f) {
+    if (this->actor.xzDistToLink < 60.0f) {
         Vec3f tempPos;
         tempPos.x = Math_SinS(this->actor.yawTowardsLink + 0x8000) * 40.0f + player->actor.posRot.pos.x;
         tempPos.y = player->actor.posRot.pos.y;
@@ -186,7 +186,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
         func_8002F434(&this->actor, globalCtx, 0x7E, 60.0f, 100.0f);
     }
 
-    if (this->actor.xzDistFromLink < 200.0f) {
+    if (this->actor.xzDistToLink < 200.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     func_8002F8F0(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);

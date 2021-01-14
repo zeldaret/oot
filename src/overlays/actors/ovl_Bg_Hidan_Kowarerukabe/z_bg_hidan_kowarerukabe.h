@@ -7,8 +7,9 @@
 struct BgHidanKowarerukabe;
 
 typedef struct BgHidanKowarerukabe {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x78];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ ColliderJntSph collider;
+    /* 0x0184 */ ColliderJntSphItem colliderItems[1];
 } BgHidanKowarerukabe; // size = 0x01C4
 
 extern const ActorInit Bg_Hidan_Kowarerukabe_InitVars;

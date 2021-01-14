@@ -86,7 +86,8 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), ANIMMODE_LOOP,
+                         0.0f);
 
         this->actor.draw = EnGuest_Draw;
         this->actor.update = func_80A505CC;
@@ -130,7 +131,7 @@ void func_80A5046C(EnGuest* this) {
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A5057C;
-    } else if (this->actor.xzDistFromLink < 100.0f) {
+    } else if (this->actor.xzDistToLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
 }
