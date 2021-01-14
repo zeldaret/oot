@@ -408,8 +408,12 @@ public:
 
 	std::string GetSourceOutputCode(const std::string& prefix);
 	int GetRawDataSize();
-private:
+
+	static ZCutscene* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath);
+protected:
 	int numCommands;
 	int endFrame;
 	std::vector<CutsceneCommand*> commands;
+
+	void ParseRawData();
 };
