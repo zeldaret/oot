@@ -167,7 +167,7 @@ void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void func_800A60D8(SkinActor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6, s32 arg7) {
     s32 i;
     s32 dataType;
@@ -208,21 +208,21 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-void func_800A6330(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4) {
+void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4) {
     func_800A60D8(this, globalCtx, skin, callback, NULL, arg4, 0, 0);
 }
 
-void func_800A6360(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A6360(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, 0, 0);
 }
 
-void func_800A6394(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A6394(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, 0);
 }
 
-void func_800A63CC(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6, s32 arg7) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, arg7);
 }

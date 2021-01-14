@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 #include "macros.h"
+#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 void func_800A6460(GlobalContext* globalCtx, PSkinAwb* skin, s32 limbIndex) {
     s32 phi_t1;
@@ -131,7 +132,7 @@ s32 func_800A698C(PSkinAwb* skin, SkinLimb** skeleton, MtxF* mf, u8 mtxIndex, u8
 #ifdef NON_MATCHING
 // Matches except for an `addiu s0, s0, 0`, which obviously does nothing.
 // Likely some indexing optimization I can't figure out.
-s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, SkinActor* actor, s32 arg3) {
+s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     s32 i;
     u32 zero = 0;
     f32 temp_f14;
@@ -158,7 +159,9 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, SkinActor* actor, s32 arg3) {
         temp_s0 += zero;
         
         if (arg3 == 0x23) {
-            temp_f14 += actor->skin.skelAnime.baseTransl.y;
+            EnfHG* horse = (EnfHG*) actor;
+
+            temp_f14 += horse->turnRot;
         }
         SkinMatrix_SetRotateRPYTranslate(arg1, temp_f16, temp_f14, temp_f18, temp_f6, temp_f4, temp_f8);
     } else {
@@ -179,9 +182,9 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, SkinActor* actor, s32 arg3) {
     }
 
     SkinMatrix_SetScaleRotateYRPTranslate(
-        &skin->mtx, actor->actor.scale.x, actor->actor.scale.y, actor->actor.scale.z, actor->actor.shape.rot.x,
-        actor->actor.shape.rot.y, actor->actor.shape.rot.z, actor->actor.posRot.pos.x,
-        actor->actor.posRot.pos.y + (actor->actor.shape.unk_08 * actor->actor.scale.y), actor->actor.posRot.pos.z);
+        &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x,
+        actor->shape.rot.y, actor->shape.rot.z, actor->posRot.pos.x,
+        actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y), actor->posRot.pos.z);
     temp_ret = func_800A698C(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), arg1, 0xFF, 0);
     if (temp_ret == 0) {
         return temp_ret;
