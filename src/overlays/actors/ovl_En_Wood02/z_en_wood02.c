@@ -15,8 +15,10 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/** WOOD_SPAWN_SPAWNER is also used by some individual trees: EnWood02_Update also checks for parent before running any
- * despawning code. */
+/**
+ * WOOD_SPAWN_SPAWNER is also used by some individual trees: EnWood02_Update also checks for parent before running any
+ * despawning code.
+ *  */
 typedef enum {
     /* 0 */ WOOD_SPAWN_NORMAL,
     /* 1 */ WOOD_SPAWN_SPAWNED,
@@ -254,7 +256,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
         floorY =
             BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &outPoly, &bgId, &this->actor, &this->actor.posRot.pos);
 
-        if ((floorY > BGCHECK_Y_MIN)) {
+        if (floorY > BGCHECK_Y_MIN) {
             this->actor.posRot.pos.y = floorY;
         } else {
             Actor_Kill(&this->actor);
