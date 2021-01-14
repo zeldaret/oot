@@ -90,8 +90,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     this->timer = 0;
     this->hasHitPlayerOrGround = 0;
-    this->unused = 0;
-    this->queuedWobble = 0;
+    this->animStyle = 0;
+    this->playerIsOpening = 0;
 
     switch ((u8)(this->actor.params & 0xFF)) {
         case DOOR_KILLER_DOOR:
@@ -173,6 +173,9 @@ void DoorKiller_SpawnRubble(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_4);
 }
 
+/**
+ * action function for the individual door pieces that spawn and fall down when the door is destroyed
+ */
 void DoorKiller_FallAsRubble(DoorKiller* this, GlobalContext* globalCtx) {
     this->actor.velocity.y += this->actor.gravity;
     if (this->actor.velocity.y < this->actor.minVelocityY) {
@@ -235,7 +238,7 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->actor.shape.rot.x = (this->timer >= 8) ? (this->timer << 0xB) - 0x4000 : 0;
+    this->actor.shape.rot.x = (this->timer >= 8) ? (this->timer * 0x800) - 0x4000 : 0;
 
     if (this->timer >= 12) {
         rotation = (-this->timer * -500) - 8000;
@@ -252,7 +255,7 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer < 8) {
-        rotation = Math_SinS(this->timer << 0xD) * this->timer * 100.0f;
+        rotation = Math_SinS(this->timer * 0x2000) * this->timer * 100.0f;
         for (i = 2; i < 9; i++) {
             this->jointTable[i].y = rotation;
         }
@@ -261,7 +264,7 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 /**
- * After wobbling, fall over and slam onto the floor, damaging the player if they are in the way.
+ * After wobbling, fall over and slam onto the floor, damaging the player if they are in the way. Uses manual distance check for damaging player, not AT system.
  */
 void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
     s32 i;
@@ -275,7 +278,7 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->actor.shape.rot.x = (this->timer >= 4) ? (-this->timer << 0xC) + 0x8000 : 0x4000;
+    this->actor.shape.rot.x = (this->timer >= 4) ? 0x8000 + (-this->timer * 0x1000) : 0x4000;
 
     if (this->timer >= 6) {
         rotation = (-this->timer * -500) - 4000;
@@ -292,7 +295,7 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 4) {
-        // spawn 20 dust particles just before slamming down
+        // spawn 20 random dust particles just before slamming down
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 1.0f, 0.0f };
         Vec3f pos;
@@ -334,7 +337,7 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Wobble around, signifying the door is about to fall over.
+ * Wobble around, signifying the door is about to fall over. Does not set AC and so cannot be destroyed during this.
  */
 void DoorKiller_Wobble(DoorKiller* this, GlobalContext* globalCtx) {
     s16 rotation;
@@ -353,18 +356,18 @@ void DoorKiller_Wobble(DoorKiller* this, GlobalContext* globalCtx) {
         return;
     }
 
-    rotation = Math_SinS(this->timer << 0xD) * this->timer * 100.0f;
+    rotation = Math_SinS(this->timer * 0x2000) * this->timer * 100.0f;
     for (i = 2; i < 9; i++) {
         this->jointTable[i].y = rotation;
     }
-    rotation = (u16)(s16)(-Math_CosS(this->timer << 0xC) * 1000.0f) + 1000;
+    rotation = (u16)(s16)(-Math_CosS(this->timer * 0x1000) * 1000.0f) + 1000;
     for (i = 2; i < 9; i++) {
         this->jointTable[i].z = rotation;
     }
 }
 
 /**
- * Unused, idle until timer runs out and then begin to wobble
+ * Idle while the player attempts to open the door and then begin to wobble
  */
 void DoorKiller_WaitBeforeWobble(DoorKiller* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
@@ -382,15 +385,15 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.posRot.pos);
-    // queuedWobble is initialised to 0 and never set so the action function here goes unused. Setting this condition
-    // in init would make the door auotmatically wobble and fall over after 10 frames of spawning
-    if (this->queuedWobble != 0) {
+    // playerIsOpening is set from the player overlay when the player opens the door
+    if (this->playerIsOpening != 0) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
         this->timer = 10;
-        this->queuedWobble = 0;
+        this->playerIsOpening = 0;
         return;
     }
     if (DoorKiller_IsHit(&this->actor, globalCtx)) {
+        // AC cylinder: wobble if hit by most weapons, die if hit by hammer
         if ((this->colliderCylinder.body.acHitItem->toucher.flags & 0x1FFA6) != 0) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
@@ -400,18 +403,20 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
         }
     } else if (Actor_GetCollidedExplosive(globalCtx, &this->colliderJntSph.base) != NULL) {
-            DoorKiller_SpawnRubble(&this->actor, globalCtx);
-            this->actionFunc = DoorKiller_Die;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
+        // AC sphere: die if hit by explosive
+        DoorKiller_SpawnRubble(&this->actor, globalCtx);
+        this->actionFunc = DoorKiller_Die;
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
     } else if (!Player_InCsMode(globalCtx) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
             (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
             (playerPosRelToDoor.z > 0.0f)) {
+        // Set player properties to make the door openable if within range
         angleToFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if (playerPosRelToDoor.z > 0.0f) {
             angleToFacingPlayer = 0x8000 - angleToFacingPlayer;
         }
         if (ABS(angleToFacingPlayer) < 0x3000) {
-            player->doorType = 3;
+            player->doorType = PLAYER_DOORTYPE_FAKE;
             player->doorDirection = (playerPosRelToDoor.z >= 0.0f) ? 1.0f : -1.0f;
             player->doorActor = &this->actor;
         }
