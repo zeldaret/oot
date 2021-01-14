@@ -2902,9 +2902,7 @@ endseg
 beginseg
     name "ovl_En_Sda"
     include "build/src/overlays/actors/ovl_En_Sda/z_en_sda.o"
-    include "build/data/overlays/actors/z_en_sda.data.o"
-    include "build/data/overlays/actors/z_en_sda.bss.o"
-    include "build/data/overlays/actors/z_en_sda.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Sda/ovl_En_Sda_reloc.o"
 endseg
 
 beginseg
