@@ -47,7 +47,7 @@ void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx*
     }
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // Regalloc, Stack
 void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3) {
     SkinLimb** limbs;
@@ -62,6 +62,7 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
     Vtx* spEC;
     Vec3f spDC;
     Vec3f spD0;
+    Struct_800A598C_2* phi_s0;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 254);
 
@@ -83,17 +84,18 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
             spAC.z = temp_s3[0].z;
             SkinMatrix_Vec3fMtxFMultXYZ(&D_801600C0[temp_s3[0].unk_0], &spAC, &spDC);
         } else if (arg3 == 1) {
-            Struct_800A598C_2* temp_s0 = &temp_s3[phi_s6->unk_4];
             Vec3f spA0;
-            spA0.x = temp_s0->x;
-            spA0.y = temp_s0->y;
-            spA0.z = temp_s0->z;
-            SkinMatrix_Vec3fMtxFMultXYZ(&D_801600C0[temp_s0->unk_0], &spA0, &spDC);
+            phi_s0 = &temp_s3[phi_s6->unk_4];
+            
+            spA0.x = phi_s0->x;
+            spA0.y = phi_s0->y;
+            spA0.z = phi_s0->z;
+            SkinMatrix_Vec3fMtxFMultXYZ(&D_801600C0[phi_s0->unk_0], &spA0, &spDC);
         } else {
-            Struct_800A598C_2* phi_s0 = &temp_s3[0];
             f32 phi_f26 = 0.0f;
             f32 phi_f24 = 0.0f;
             f32 phi_f22 = 0.0f;
+            phi_s0 = &temp_s3[0];
             while (phi_s0 < &temp_s3[temp_a0_2]) {
                 Vec3f sp88;
                 f32 temp_f20 = phi_s0->unk_8 * 0.01f;
