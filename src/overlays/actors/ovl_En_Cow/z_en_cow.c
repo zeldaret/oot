@@ -158,10 +158,10 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_060001CC), 2, 1.0f);
+                         Animation_GetLastFrame(&D_060001CC), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistToLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_060001CC) {
             this->unk_278 = 0;
@@ -250,7 +250,7 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistFromLink < 150.0f) &&
+                if ((this->actor.xzDistToLink < 150.0f) &&
                     (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
@@ -274,10 +274,10 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_06004348), 2, 1.0f);
+                         Animation_GetLastFrame(&D_06004348), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistFromLink < 150.0f) &&
+    if ((this->actor.xzDistToLink < 150.0f) &&
         (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_06004348) {
@@ -301,13 +301,15 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistFromLink < 150.0f) &&
+    if ((thisx->xzDistToLink < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
         targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;
@@ -338,9 +340,11 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_06004348) {
-            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);

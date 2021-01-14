@@ -282,7 +282,8 @@ void func_8098EA68(DemoSa* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[4];
         if ((npcAction != NULL) && (npcAction->action == 3)) {
-            Animation_Change(&this->skelAnime, &D_0600DF80, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600DF80), 2, -4.0f);
+            Animation_Change(&this->skelAnime, &D_0600DF80, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600DF80),
+                             ANIMMODE_ONCE, -4.0f);
             this->action = 4;
         }
     }
@@ -290,7 +291,8 @@ void func_8098EA68(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098EB00(DemoSa* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_0600E500, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600E500), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_0600E500, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600E500), ANIMMODE_LOOP,
+                         0.0f);
         this->action = 5;
     }
 }
@@ -349,7 +351,7 @@ void func_8098ECF4(DemoSa* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06001334);
 
     SkelAnime_InitFlex(globalCtx, skelAnime, &D_0600B1A0, NULL, NULL, NULL, 0);
-    Animation_Change(skelAnime, &D_06001334, 1.0f, 0.0f, frameCount, 2, 0.0f);
+    Animation_Change(skelAnime, &D_06001334, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
     this->action = 7;
     this->actor.shape.unk_14 = 0;
     func_8098E508(this, 2);

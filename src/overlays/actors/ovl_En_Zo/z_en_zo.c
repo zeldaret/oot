@@ -73,7 +73,7 @@ void EnZo_Bubble(EnZo* this, Vec3f* pos) {
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (1) {}
         if (effect->type == ENZO_EFFECT_NONE) {
-            waterSurface = this->actor.posRot.pos.y + this->actor.waterY;
+            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
             if (!(waterSurface <= pos->y)) {
                 effect->type = ENZO_EFFECT_BUBBLE;
                 effect->pos = *pos;
@@ -142,7 +142,7 @@ void EnZo_UpdateBubbles(EnZo* this) {
             effect->pos.y += effect->vel.y;
 
             // Bubbles turn into ripples when they reach the surface
-            waterSurface = this->actor.posRot.pos.y + this->actor.waterY;
+            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
             if (waterSurface <= effect->pos.y) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -173,7 +173,7 @@ void EnZo_UpdateSplashes(EnZo* this) {
             }
 
             // Splash particles turn into ripples when they hit the surface
-            waterSurface = this->actor.posRot.pos.y + this->actor.waterY;
+            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
             if (effect->pos.y < waterSurface) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -286,7 +286,7 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
     pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y + this->actor.waterY;
+    pos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
     pos.z = this->actor.posRot.pos.z;
     EnZo_Ripple(this, &pos, scale, targetScale, alpha);
 }
@@ -336,7 +336,7 @@ void EnZo_SpawnSplashes(EnZo* this) {
         pos = this->actor.posRot.pos;
         pos.x += vel.x * 6.0f;
         pos.z += vel.z * 6.0f;
-        pos.y += this->actor.waterY;
+        pos.y += this->actor.yDistToWater;
         EnZo_Splash(this, &pos, &vel, 0.08f);
     }
 }
@@ -511,7 +511,7 @@ s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
     f32 hDist;
 
     surfacePos.x = this->actor.posRot.pos.x;
-    surfacePos.y = this->actor.posRot.pos.y + this->actor.waterY;
+    surfacePos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
     surfacePos.z = this->actor.posRot.pos.z;
 
     hDist = Math_Vec3f_DistXZ(&surfacePos, &player->actor.posRot.pos);
@@ -576,7 +576,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_194.unk_00 = 0;
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f, 5);
 
-    if (this->actor.waterY < 54.0f || (this->actor.params & 0x3F) == 8) {
+    if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
         this->actor.shape.unk_10 = 24.0f;
         func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -622,7 +622,7 @@ void EnZo_Submerged(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
-    if (this->actor.waterY < 54.0f) {
+    if (this->actor.yDistToWater < 54.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         func_80034EC0(&this->skelAnime, sAnimations, 3);
@@ -630,7 +630,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
         this->alpha = 255.0f;
-    } else if (this->actor.waterY < 80.0f) {
+    } else if (this->actor.yDistToWater < 80.0f) {
         Math_ApproachF(&this->actor.velocity.y, 2.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 255.0f, 0.3f, 10.0f);
     }
@@ -645,7 +645,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
     }
     EnZo_SetAnimation(this);
 
-    Math_ApproachF(&this->actor.velocity.y, this->actor.waterY < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
+    Math_ApproachF(&this->actor.velocity.y, this->actor.yDistToWater < 54.0f ? -0.6f : 0.6f, 0.3f, 0.2f);
     if (this->rippleTimer != 0) {
         this->rippleTimer--;
         if ((this->rippleTimer == 3) || (this->rippleTimer == 6)) {
@@ -685,7 +685,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.waterY > 80.0f || this->actor.bgCheckFlags & 1) {
+    if (this->actor.yDistToWater > 80.0f || this->actor.bgCheckFlags & 1) {
         Math_ApproachF(&this->actor.velocity.y, -1.0f, 0.4f, 0.6f);
         Math_ApproachF(&this->alpha, 0.0f, 0.3f, 10.0f);
     }

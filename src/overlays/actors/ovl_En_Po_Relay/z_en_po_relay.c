@@ -5,6 +5,7 @@
  */
 
 #include "z_en_po_relay.h"
+#include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 
 #define FLAGS 0x00011019
 
@@ -154,7 +155,7 @@ void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnPoRelay_Talk;
-    } else if (this->actor.xzDistFromLink < 250.0f) {
+    } else if (this->actor.xzDistToLink < 250.0f) {
         this->actor.flags |= 0x10000;
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, globalCtx, 250.0f);
@@ -196,7 +197,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
                         Math_CosS(this->unk_19A) * speed + this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                         Math_SinS(this->unk_19A) * speed + this->actor.posRot.pos.z, 0,
-                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
+                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_FLAME_DROP);
         }
     }
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
@@ -210,16 +211,16 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.posRot.pos.x,
                                     player->actor.posRot.pos.z) != 0)) {
             speed = (this->hookshotSlotFull) ? player->actor.speedXZ * 1.4f : player->actor.speedXZ * 1.2f;
-        } else if (this->actor.xzDistFromLink < 150.0f) {
+        } else if (this->actor.xzDistToLink < 150.0f) {
             speed = (this->hookshotSlotFull) ? player->actor.speedXZ * 1.2f : player->actor.speedXZ;
-        } else if (this->actor.xzDistFromLink < 300.0f) {
+        } else if (this->actor.xzDistToLink < 300.0f) {
             speed = (this->hookshotSlotFull) ? player->actor.speedXZ : player->actor.speedXZ * 0.8f;
         } else if (this->hookshotSlotFull) {
             speed = 4.5f;
         } else {
             speed = 3.5f;
         }
-        multiplier = 250.0f - this->actor.xzDistFromLink;
+        multiplier = 250.0f - this->actor.xzDistToLink;
         multiplier = CLAMP_MIN(multiplier, 0.0f);
         speed += multiplier * 0.02f + 1.0f;
         Math_ApproachF(&this->actor.speedXZ, speed, 0.5f, 1.5f);
@@ -316,8 +317,8 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             sp60.x = this->actor.posRot.pos.x;
             sp60.y = this->actor.groundY;
             sp60.z = this->actor.posRot.pos.z;
-            if (gSaveContext.timer1Value < gSaveContext.dampeRaceTime) {
-                gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            if (gSaveContext.timer1Value < HIGH_SCORE(HS_DAMPE_RACE)) {
+                HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
             }
             if (Flags_GetCollectible(globalCtx, this->actor.params) == 0 && gSaveContext.timer1Value <= 60) {
                 Item_DropCollectible2(globalCtx, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
@@ -326,7 +327,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             }
         } else {
             Flags_SetTempClear(globalCtx, 4);
-            gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
         }
         Actor_Kill(&this->actor);
     }

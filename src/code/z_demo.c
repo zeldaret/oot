@@ -364,7 +364,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             gSaveContext.unk_1422 = 1;
             break;
         case 34:
-            if (!gSaveContext.nightFlag) {
+            if (gSaveContext.nightFlag == 0) {
                 gSaveContext.dayTime -= D_8011FB40;
             } else {
                 gSaveContext.dayTime -= D_8011FB40 * 2;
