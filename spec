@@ -670,7 +670,7 @@ endseg
 beginseg
     name "ovl_Bg_Dy_Yoseizo"
     include "build/src/overlays/actors/ovl_Bg_Dy_Yoseizo/z_bg_dy_yoseizo.o"
-    include "build/data/overlays/actors/z_bg_dy_yoseizo.data.o"
+    //include "build/data/overlays/actors/z_bg_dy_yoseizo.data.o"
     include "build/data/overlays/actors/z_bg_dy_yoseizo.reloc.o"
 endseg
 
