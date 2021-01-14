@@ -10,13 +10,6 @@
 
 #define THIS ((BgJyaBigmirror*)thisx)
 
-#define BIGMIR_PUZZLE_COBRA1_SOLVED 1 << 0
-#define BIGMIR_PUZZLE_COBRA2_SOLVED 1 << 1
-#define BIGMIR_PUZZLE_BOMBIWA_DESTROYED 1 << 2
-#define BIGMIR_PUZZLE_IN_STATUE_ROOM 1 << 3
-#define BIGMIR_PUZZLE_IN_1ST_TOP_ROOM 1 << 4
-#define BIGMIR_PUZZLE_IN_2ND_TOP_ROOM 1 << 5
-
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);

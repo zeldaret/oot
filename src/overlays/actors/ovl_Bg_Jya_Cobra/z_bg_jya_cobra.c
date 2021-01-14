@@ -113,10 +113,8 @@ Vec3f D_808974DC[] = {
     { -30.0f, 21.3000011f, -2.5f }, { 12.0f, 21.3000011f, -2.5f },
 };
 
-s32 D_80897518[] = { 0x00000080, 0x000000A0, 0x000000A0, 0x00000080 };
+s32 D_80897518[] = { 0x80, 0xA0, 0xA0, 0x80 };
 
-extern InitChainEntry D_80897528[];
-// D_80897528
 InitChainEntry D_80897528[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -134,13 +132,13 @@ Vec3f D_80897548[] = {
     { 0.1f, 0.1f, 0.132f },
 };
 
-void func_808958F0(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
-    arg0->x = (arg1->z * arg2) + (arg1->x * arg3);
-    arg0->y = arg1->y;
-    arg0->z = (arg1->z * arg3) - (arg1->x * arg2);
+void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
+    dest->x = (src->z * arg2) + (src->x * arg3);
+    dest->y = src->y;
+    dest->z = (src->z * arg3) - (src->x * arg2);
 }
 
-void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flags) {
+void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -155,7 +153,7 @@ void func_8089593C(BgJyaCobra* this, GlobalContext* globalCtx, void* arg2, DynaP
     }
 }
 
-void func_808959C4(BgJyaCobra* this, GlobalContext* globalCtx) {
+void BgJyaCobra_SpawnRay(BgJyaCobra* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.posRot.pos.x,
                        this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
@@ -238,16 +236,16 @@ void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
 // Small stack diffs
 void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     s16 phi_v0;
-    s32 temp_v0 = this->dyna.actor.params;
+    s32 params = this->dyna.actor.params;
     BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
     f32 phi_f0;
 
-    if ((temp_v0 & 3) == 2 && parent != NULL && (!(parent->puzzleFlags & 4) || !(parent->puzzleFlags & 1))) {
+    if ((params & 3) == 2 && parent != NULL && (!(parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) || !(parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
     } else {
         this->unk_18C = 1.0f;
-        if (D_80897310[(temp_v0 & 3)] != 0) {
-            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[(temp_v0 & 3)];
+        if (D_80897310[(params & 3)] != 0) {
+            phi_v0 = this->dyna.actor.shape.rot.y - D_80897314[(params & 3)];
             phi_v0 = ABS(phi_v0);
             if (phi_v0 < 0x2000 && phi_v0 != -0x8000) {
                 this->unk_18C += ((phi_v0 - 0x2000) * 0.00018310547f);
@@ -262,21 +260,21 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     this->unk_180.y = this->dyna.actor.posRot.pos.y + 57.0f;
     this->unk_180.z = this->dyna.actor.posRot.pos.z;
 
-    if (!(temp_v0 & 3)) {
+    if (!(params & 3)) {
         this->unk_190 = 0.1f;
-    } else if ((temp_v0 & 3) == 1) {
+    } else if ((params & 3) == 1) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->puzzleFlags & 4)) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
                 phi_f0 = 0.34f;
             }
         }
         Math_StepToF(&this->unk_190, phi_f0, 0.04f);
-    } else if ((temp_v0 & 3) == 2) {
+    } else if ((params & 3) == 2) {
         phi_f0 = 0.1f;
         phi_v0 = this->dyna.actor.shape.rot.y - 0x8000;
         if (phi_v0 < 0x500 && phi_v0 > -0x500) {
@@ -294,11 +292,14 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895C74.s")
 #endif
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 // Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
-// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) get close but are obviously
+// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are obviously
 // wrong.
-void func_80895EF0(BgJyaCobra* this) {
+/*
+ * Updates the shadow with light coming from the side of the mirror
+ */
+void BgJyaCobra_UpdateShadow_Side(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
@@ -312,7 +313,7 @@ void func_80895EF0(BgJyaCobra* this) {
     s32 k;
     s32 l;
 
-    temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->unk_194));
+    temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->shadowTexture));
     Lib_MemSet((u8*)temp_s2, 0x1000, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
@@ -385,12 +386,15 @@ void func_80895EF0(BgJyaCobra* this) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadow_Side.s")
 #endif
 
 #ifdef NON_MATCHING
 // minor register and stack diffs
-void func_80896518(BgJyaCobra* this) {
+/*
+ * Updates the shadow with light coming from above the mirror
+ */
+void BgJyaCobra_UpdateShadow_Top(BgJyaCobra* this) {
     f32 sp58[0x40];
     f32 temp_f12;
     f32 temp_f2;
@@ -405,7 +409,7 @@ void func_80896518(BgJyaCobra* this) {
         sp58[i] = SQ(i - 31.5f);
     }
 
-    temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
+    temp_s0 = (u8*)ALIGN16((s32)(&this->shadowTexture));
     phi_a3 = temp_s0;
     Lib_MemSet(temp_s0, 0x1000, 0);
 
@@ -432,20 +436,20 @@ void func_80896518(BgJyaCobra* this) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadow_Top.s")
 #endif
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
 
-    func_8089593C(this, globalCtx, &D_0601167C, DPM_UNK);
+    BgJyaCobra_InitDynapoly(this, globalCtx, &D_0601167C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, D_80897528);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(globalCtx, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
         this->dyna.actor.posRot.rot.y = this->dyna.actor.initPosRot.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
 
     if (!(this->dyna.actor.params & 3)) {
-        func_808959C4(this, globalCtx);
+        BgJyaCobra_SpawnRay(this, globalCtx);
     }
 
     func_80896918(this, globalCtx);
@@ -455,12 +459,12 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 3) == 1) {
-        func_80896518(this);
+        BgJyaCobra_UpdateShadow_Top(this);
     }
 
     // (jya cobra)
     osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-                 &this->unk_194, ALIGN16((s32)(&this->unk_194)));
+                 &this->shadowTexture, ALIGN16((s32)(&this->shadowTexture)));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -573,7 +577,7 @@ void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     temp_v0 = this->dyna.actor.params & 3;
     if (temp_v0 == 0 || temp_v0 == 2) {
-        func_80895EF0(this);
+        BgJyaCobra_UpdateShadow_Side(this);
     }
 }
 
@@ -609,46 +613,47 @@ void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
 }
 
-void func_80896EE4(BgJyaCobra* this, GlobalContext* globalCtx) {
+void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     u32 pad;
-    s16 sp72;
+    s16 params;
     Vec3f sp64;
     Vec3s* phi_a3;
 
     if (1) {}
 
-    sp72 = this->dyna.actor.params & 3;
+    params = this->dyna.actor.params & 3;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 
     func_80094044(globalCtx->state.gfxCtx);
 
-    if (sp72 == 0) {
+    if (params == 0) {
         sp64.x = this->dyna.actor.posRot.pos.x - 50.0f;
         sp64.y = this->dyna.actor.posRot.pos.y;
         sp64.z = this->dyna.actor.posRot.pos.z;
         phi_a3 = &D_80897538;
     } else {
         phi_a3 = &this->dyna.actor.shape.rot;
-        if (sp72 == 2) {
+        if (params == 2) {
             sp64.x = this->dyna.actor.posRot.pos.x + 70.0f;
             sp64.y = this->dyna.actor.posRot.pos.y;
             sp64.z = this->dyna.actor.posRot.pos.z;
             phi_a3 = &D_80897540;
+        // params == 1
         } else {
             Math_Vec3f_Copy(&sp64, &this->dyna.actor.posRot.pos);
         }
     }
     func_800D1694(sp64.x, sp64.y, sp64.z, phi_a3);
 
-    Matrix_Scale(D_80897548[sp72].x, D_80897548[sp72].y, D_80897548[sp72].z, MTXMODE_APPLY);
+    Matrix_Scale(D_80897548[params].x, D_80897548[params].y, D_80897548[params].z, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, 40.0f, MTXMODE_APPLY);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, ALIGN16((s32)(&this->unk_194)), G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, ALIGN16((s32)(&this->shadowTexture)), G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 
@@ -669,10 +674,10 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params & 3) == 2) {
         BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
-        if (parent != NULL && (parent->puzzleFlags & 4) && (parent->puzzleFlags & 1)) {
-            func_80896EE4(this, globalCtx);
+        if (parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) && (parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
+            BgJyaCobra_DrawShadow(this, globalCtx);
         }
     } else {
-        func_80896EE4(this, globalCtx);
+        BgJyaCobra_DrawShadow(this, globalCtx);
     }
 }
