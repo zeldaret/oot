@@ -99,7 +99,7 @@ glabel func_80BA1958
 /* 00D54 80BA1AB4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D58 80BA1AB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D5C 80BA1ABC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00D60 80BA1AC0 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00D64 80BA1AC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D68 80BA1AC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

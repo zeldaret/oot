@@ -188,7 +188,7 @@ glabel EnZf_Update
 /* 054A8 80B494F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 054AC 80B494FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 054B0 80B49500 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 054B4 80B49504 00812821 */  addu    $a1, $a0, $at              
 .L80B49508:
 /* 054B8 80B49508 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

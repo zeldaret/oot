@@ -15,7 +15,7 @@ glabel EnDu_Update
 /* 0111C 809FED4C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01120 809FED50 02212821 */  addu    $a1, $s1, $at              
 /* 01124 809FED54 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01128 809FED58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0112C 809FED5C 8E0F0154 */  lw      $t7, 0x0154($s0)           ## 00000154
 /* 01130 809FED60 3C0E0600 */  lui     $t6, %hi(D_060041F4)                ## $t6 = 06000000

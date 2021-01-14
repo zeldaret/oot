@@ -70,7 +70,7 @@ glabel func_8089107C
 /* 00A34 80891174 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00A38 80891178 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 00000168
 /* 00A3C 8089117C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A40 80891180 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00A44 80891184 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00A48 80891188 8FA4003C */  lw      $a0, 0x003C($sp)           

@@ -21,7 +21,7 @@ glabel EnMm_Update
 /* 00F18 80AAE688 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F1C 80AAE68C 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00F20 80AAE690 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00F24 80AAE694 00812821 */  addu    $a1, $a0, $at              
 /* 00F28 80AAE698 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00F2C 80AAE69C 8FB00018 */  lw      $s0, 0x0018($sp)           

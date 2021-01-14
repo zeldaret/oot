@@ -41,7 +41,7 @@ glabel EnShopnuts_Update
 /* 00A98 80AFB1B8 02212821 */  addu    $a1, $s1, $at              
 /* 00A9C 80AFB1BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00AA0 80AFB1C0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00AA4 80AFB1C4 26060270 */  addiu   $a2, $s0, 0x0270           ## $a2 = 00000270
 /* 00AA8 80AFB1C8 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190
 /* 00AAC 80AFB1CC 3C0A80B0 */  lui     $t2, %hi(func_80AFAA7C)    ## $t2 = 80B00000

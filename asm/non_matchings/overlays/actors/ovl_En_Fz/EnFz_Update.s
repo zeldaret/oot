@@ -72,7 +72,7 @@ glabel EnFz_Update
 /* 013F0 80A211B0 02212821 */  addu    $a1, $s1, $at              
 /* 013F4 80A211B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 013F8 80A211B8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 013FC 80A211BC 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 01400 80A211C0 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
 .L80A211C4:

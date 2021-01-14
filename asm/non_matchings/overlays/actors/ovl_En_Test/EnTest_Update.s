@@ -232,7 +232,7 @@ glabel L808638F4
 /* 04358 808639A8 00812821 */  addu    $a1, $a0, $at
 /* 0435C 808639AC AFA50038 */  sw      $a1, 0x0038($sp)
 /* 04360 808639B0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 04364 808639B4 8FA60034 */  lw      $a2, 0x0034($sp)
 /* 04368 808639B8 920C07C8 */  lbu     $t4, 0x07C8($s0)           ## 000007C8
 /* 0436C 808639BC 2981000A */  slti    $at, $t4, 0x000A

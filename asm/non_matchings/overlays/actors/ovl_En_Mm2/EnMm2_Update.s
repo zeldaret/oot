@@ -71,7 +71,7 @@ glabel EnMm2_Update
 /* 00A38 80AAF888 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00A3C 80AAF88C 02212821 */  addu    $a1, $s1, $at              
 /* 00A40 80AAF890 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A44 80AAF894 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A48 80AAF898 0C00B638 */  jal     Actor_MoveForward
               

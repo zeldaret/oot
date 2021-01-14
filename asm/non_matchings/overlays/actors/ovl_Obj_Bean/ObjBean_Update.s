@@ -64,7 +64,7 @@ glabel ObjBean_Update
 /* 02100 80B90B80 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 02104 80B90B84 02212821 */  addu    $a1, $s1, $at              
 /* 02108 80B90B88 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0210C 80B90B8C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02110 80B90B90 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B90B94:

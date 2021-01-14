@@ -143,7 +143,7 @@ glabel func_80922D30
 /* 07420 80922F20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80922F24:
 /* 07424 80922F24 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 07428 80922F28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0742C 80922F2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80922F30:

@@ -523,7 +523,7 @@ glabel func_80940D48
 /* 08754 80941424 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 08758 80941428 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 0875C 8094142C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 08760 80941430 8FA6004C */  lw      $a2, 0x004C($sp)           
 /* 08764 80941434 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 08768 80941438 24100002 */  addiu   $s0, $zero, 0x0002         ## $s0 = 00000002

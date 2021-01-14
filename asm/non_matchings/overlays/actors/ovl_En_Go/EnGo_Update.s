@@ -15,7 +15,7 @@ glabel EnGo_Update
 /* 0290C 80A40E7C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02910 80A40E80 02212821 */  addu    $a1, $s1, $at              
 /* 02914 80A40E84 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02918 80A40E88 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0291C 80A40E8C 0C02927F */  jal     SkelAnime_Update
               

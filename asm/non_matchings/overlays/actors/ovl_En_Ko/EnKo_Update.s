@@ -90,7 +90,7 @@ glabel EnKo_Update
 /* 02A90 80A99840 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02A94 80A99844 02212821 */  addu    $a1, $s1, $at              
 /* 02A98 80A99848 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02A9C 80A9984C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02AA0 80A99850 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02AA4 80A99854 8FB0001C */  lw      $s0, 0x001C($sp)           

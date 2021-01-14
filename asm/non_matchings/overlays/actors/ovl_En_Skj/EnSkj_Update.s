@@ -113,7 +113,7 @@ glabel EnSkj_Update
 /* 02658 80B00908 02212821 */  addu    $a1, $s1, $at              
 /* 0265C 80B0090C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02660 80B00910 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02664 80B00914 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02668 80B00918 0C02927F */  jal     SkelAnime_Update
               

@@ -70,7 +70,7 @@ glabel EnCs_Update
 /* 00C60 809E2510 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00C64 809E2514 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00C68 809E2518 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00C6C 809E251C 00812821 */  addu    $a1, $a0, $at              
 /* 00C70 809E2520 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
 /* 00C74 809E2524 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

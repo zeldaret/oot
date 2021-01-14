@@ -121,7 +121,7 @@ glabel EnEiyer_Update
 /* 01770 80A01710 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01774 80A01714 00812821 */  addu    $a1, $a0, $at              
 /* 01778 80A01718 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0177C 80A0171C 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80A01720:
 /* 01780 80A01720 8E0F0004 */  lw      $t7, 0x0004($s0)           ## 00000004

@@ -119,7 +119,7 @@ glabel EnBili_Update
 .L809C0DDC:
 /* 0153C 809C0DDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01540 809C0DE0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01544 809C0DE4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01548 809C0DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0154C 809C0DEC 0C00B56E */  jal     Actor_SetHeight

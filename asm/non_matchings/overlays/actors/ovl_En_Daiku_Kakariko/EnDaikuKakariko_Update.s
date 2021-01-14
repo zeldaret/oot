@@ -48,7 +48,7 @@ glabel EnDaikuKakariko_Update
 /* 00CC4 809E4FE4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00CC8 809E4FE8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00CCC 809E4FEC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00CD0 809E4FF0 00812821 */  addu    $a1, $a0, $at              
 /* 00CD4 809E4FF4 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
 /* 00CD8 809E4FF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

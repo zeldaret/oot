@@ -156,7 +156,7 @@ glabel EnGoma_Update
 /* 01DBC 80A4AC7C AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 01DC0 80A4AC80 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01DC4 80A4AC84 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01DC8 80A4AC88 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01DCC 80A4AC8C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01DD0 80A4AC90 8FA50030 */  lw      $a1, 0x0030($sp)           
