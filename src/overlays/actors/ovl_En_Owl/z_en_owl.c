@@ -1328,14 +1328,14 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 }
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* textures[] = { 0x060089A8, 0x06008DA8, 0x060091A8 };
+    static u64* eyeTextures[] = { 0x060089A8, 0x06008DA8, 0x060091A8 };
     EnOwl* this = THIS;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
 
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(textures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->jointTable,
                           this->curSkelAnime->dListCount, EnOwl_OverrideLimbDraw, EnOwl_PostLimbUpdate, this);
 
