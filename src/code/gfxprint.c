@@ -150,19 +150,8 @@ void GfxPrint_InitDlist(GfxPrint* this) {
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
     gDPSetCombineMode(this->dlist++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-
-    gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 1, sGfxPrintFontData);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(this->dlist++);
-    gDPLoadBlock(this->dlist++, G_TX_LOADTILE, 0, 0, (((width) * (height) + G_IM_SIZ_4b_INCR) >> G_IM_SIZ_4b_SHIFT) - 1,
-                 CALC_DXT(width, G_IM_SIZ_4b_BYTES));
-    gDPPipeSync(this->dlist++);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(this->dlist++, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,
-                   ((height)-1) << G_TEXTURE_IMAGE_FRAC);
-
+    gDPLoadTextureBlock_4b(this->dlist++, sGfxPrintFontData, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gDPLoadTLUT(this->dlist++, 64, 256, sGfxPrintFontTLUT);
 
     for (i = 1; i < 4; i++) {
@@ -173,15 +162,8 @@ void GfxPrint_InitDlist(GfxPrint* this) {
 
     gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
 
-    gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, sGfxPrintUnkData);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 3,
-               G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-    gDPLoadSync(this->dlist++);
-    gDPLoadTile(this->dlist++, G_TX_LOADTILE, 0, 0, 2, 28);
-    gDPPipeSync(this->dlist++);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, 1, 4, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOLOD,
-               G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-    gDPSetTileSize(this->dlist++, 1, 0, 0, 4, 28);
+    gDPLoadMultiTile_4b(this->dlist++, sGfxPrintUnkData, 0, 1, G_IM_FMT_CI, 2, 8, 0, 0, 1, 7, 4,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 1, 3, G_TX_NOLOD, G_TX_NOLOD);
 
     gDPLoadTLUT(this->dlist++, 16, 320, sGfxPrintUnkTLUT);
 
