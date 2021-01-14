@@ -3173,9 +3173,7 @@ endseg
 beginseg
     name "ovl_En_Wood02"
     include "build/src/overlays/actors/ovl_En_Wood02/z_en_wood02.o"
-    include "build/data/overlays/actors/z_en_wood02.data.o"
-    include "build/data/overlays/actors/z_en_wood02.bss.o"
-    include "build/data/overlays/actors/z_en_wood02.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wood02/ovl_En_Wood02_reloc.o"
 endseg
 
 beginseg
