@@ -129,10 +129,11 @@ s32 func_800A698C(PSkinAwb* skin, SkinLimb** skeleton, MtxF* mf, u8 mtxIndex, u8
 }
 
 #ifdef NON_MATCHING
-// Inexplicable `addiu s0, s0, 0` and some saved registers swapped around.
+// Matches except for an `addiu s0, s0, 0`, which obviously does nothing.
+// Likely some indexing optimization I can't figure out.
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, SkinActor* actor, s32 arg3) {
     s32 i;
-    Vec3s* temp_s0;
+    u32 zero = 0;
     f32 temp_f14;
     f32 temp_f16;
     f32 temp_f18;
@@ -140,21 +141,22 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, SkinActor* actor, s32 arg3) {
     f32 temp_f4;
     f32 temp_f6;
     f32 temp_f8;
-    SkinLimb** skeleton;
+    SkinLimb** skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
+    Vec3s* temp_s0 = &skin->skelAnime.jointTable[0];
 
-    skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    temp_s0 = &skin->skelAnime.jointTable[0];
-
-    temp_f16 = temp_s0[1].x;
-    temp_f14 = temp_s0[1].y;
-    temp_f18 = temp_s0[1].z;
     temp_s0++;
+    temp_f16 = temp_s0[0].x;
+    temp_f14 = temp_s0[0].y;
+    temp_f18 = temp_s0[0].z;
+    
     if (arg3 != 0) {
-        Vec3s* transl = &temp_s0[-1];
 
-        temp_f6 = transl->x;
-        temp_f4 = transl->y;
-        temp_f8 = transl->z;
+        temp_f6 = temp_s0[-1].x;
+        temp_f4 = temp_s0[-1].y;
+        temp_f8 = temp_s0[-1].z;
+        
+        temp_s0 += zero;
+        
         if (arg3 == 0x23) {
             temp_f14 += actor->skin.skelAnime.baseTransl.y;
         }
