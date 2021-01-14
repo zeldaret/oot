@@ -20,7 +20,7 @@ typedef struct DemoExt {
     /* 0x016C */ f32 alphaTimer;
     /* 0x0170 */ s32 primAlpha;
     /* 0x0174 */ s32 envAlpha;
-    /* 0x0178 */ Vec3f scales;
+    /* 0x0178 */ Vec3f scale;
 } DemoExt; // size = 0x0184
 
 extern const ActorInit Demo_Ext_InitVars;

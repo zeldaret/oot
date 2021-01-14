@@ -39,11 +39,11 @@ void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->scrollIncr[1] = 40;
     this->scrollIncr[2] = 5;
     this->scrollIncr[3] = 30;
-    this->primAlpha = kREG(28) + 0xFF;
-    this->envAlpha = kREG(32) + 0xFF;
-    this->scales.x = kREG(19) + 400.0f;
-    this->scales.y = kREG(20) + 100.0f;
-    this->scales.z = kREG(21) + 400.0f;
+    this->primAlpha = kREG(28) + 255;
+    this->envAlpha = kREG(32) + 255;
+    this->scale.x = kREG(19) + 400.0f;
+    this->scale.y = kREG(20) + 100.0f;
+    this->scale.z = kREG(21) + 400.0f;
 }
 
 void DemoExt_PlayVortexSFX(DemoExt* this) {
@@ -132,7 +132,7 @@ void DemoExt_SetScrollAndRotation(DemoExt* this) {
 }
 
 void DemoExt_SetColorsAndScales(DemoExt* this) {
-    Vec3f* scales = &this->scales;
+    Vec3f* scale = &this->scale;
     f32 shrinkFactor;
 
     shrinkFactor = ((kREG(35) + 40.0f) - this->alphaTimer) / (kREG(35) + 40.0f);
@@ -140,11 +140,11 @@ void DemoExt_SetColorsAndScales(DemoExt* this) {
         shrinkFactor = 0.0f;
     }
 
-    this->primAlpha = (u32)(kREG(28) + 0xFF) * shrinkFactor;
-    this->envAlpha = (u32)(kREG(32) + 0xFF) * shrinkFactor;
-    scales->x = (kREG(19) + 400.0f) * shrinkFactor;
-    scales->y = (kREG(20) + 100.0f) * shrinkFactor;
-    scales->z = (kREG(21) + 400.0f) * shrinkFactor;
+    this->primAlpha = (u32)(kREG(28) + 255) * shrinkFactor;
+    this->envAlpha = (u32)(kREG(32) + 255) * shrinkFactor;
+    scale->x = (kREG(19) + 400.0f) * shrinkFactor;
+    scale->y = (kREG(20) + 100.0f) * shrinkFactor;
+    scale->z = (kREG(21) + 400.0f) * shrinkFactor;
 }
 
 void DemoExt_Wait(DemoExt* this, GlobalContext* globalCtx) {
@@ -189,15 +189,15 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     Mtx* mtx;
     GraphicsContext* gfxCtx;
     s16* curScroll;
-    Vec3f* scales;
+    Vec3f* scale;
 
-    scales = &this->scales;
+    scale = &this->scale;
     gfxCtx = globalCtx->state.gfxCtx;
     mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
-    Matrix_Scale(scales->x, scales->y, scales->z, MTXMODE_APPLY);
+    Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
     Matrix_RotateRPY((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
