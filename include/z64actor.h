@@ -173,6 +173,13 @@ typedef struct DynaPolyActor {
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
+typedef struct SkinActor {
+    Actor actor;
+    s32 action;
+    s32 animation;
+    PSkinAwb skin;
+} SkinActor;
+
 typedef struct {
     /* 0x00 */ MtxF* unk_00;
     /* 0x04 */ s16* unk_04;

@@ -266,11 +266,12 @@ typedef struct SkelAnime {
 
 typedef struct {
     /* 0x000 */ u16 unk_0;
-    /* 0x002 */ char unk_2[0x4];
+    /* 0x002 */ s16 unk_2;
+    /* 0x004 */ s16 unk_4;
     /* 0x006 */ s8 unk_6;
     /* 0x007 */ s8 unk_7;
     /* 0x008 */ s8 unk_8;
-    /* 0x009 */ char unk_9[0x1];
+    /* 0x009 */ u8 unk_9;
 } Struct_800A57C0; // size = 0xA
 
 typedef struct {
