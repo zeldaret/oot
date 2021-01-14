@@ -4,16 +4,23 @@
 
 #define THIS ((DoorKiller*)thisx)
 
+typedef enum{
+    /* 0 */ DOOR_KILLER_DOOR,
+    /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
+    /* 2 */ DOOR_KILLER_RUBBLE_PIECE_2,
+    /* 3 */ DOOR_KILLER_RUBBLE_PIECE_3,
+    /* 4 */ DOOR_KILLER_RUBBLE_PIECE_4
+} DoorKillerBehaviour; // size 0x8
 
 void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx);
 
 //prototypes
-void func_80995D6C();
-void func_809958E4();
-void func_80995318();
-void func_80995A84(DoorKiller *this, GlobalContext *globalCtx);
+void DoorKiller_SetupDrawProperties();
+void DoorKiller_Wobble();
+void DoorKiller_Die();
+void DoorKiller_Wait(DoorKiller *this, GlobalContext *globalCtx);
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx);
 
@@ -83,17 +90,18 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.01f);
     this->timer = 0;
-    this->unkFlag = 0;
+    this->hasHitPlayerOrGround = 0;
     this->unused = 0;
-    this->unkCond = 0;
+    this->wobbleOnSpawn = 0;
 
     switch ((u8)(this->actor.params & 0xFF)){
-        case 0:
-            // door
-            SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06001BC8, NULL, this->unk192, this->unk192, 9);
-            this->actionFunc = &func_80995D6C;
-            func_80995D6C(&this->actor, globalCtx2);
-            this->unk192[1].x = this->unk192[1].z = 0x4000;
+        case DOOR_KILLER_DOOR:
+            // `jointTable` is used for both the `jointTable` and `morphTable` args here. 
+            // Because this actor doesn't play any animations it does not cause problems, but it would need to be changed otherwise.
+            SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06001BC8, NULL, this->jointTable, this->jointTable, 9);
+            this->actionFunc = &DoorKiller_SetupDrawProperties;
+            DoorKiller_SetupDrawProperties(&this->actor, globalCtx2);
+            this->jointTable[1].x = this->jointTable[1].z = 0x4000;
             Collider_InitCylinder(globalCtx2, &this->colliderCylinder);
             Collider_SetCylinder(globalCtx2, &this->colliderCylinder, &this->actor, &sCylinderInit);
             Collider_InitJntSph(globalCtx2, &this->colliderJntSph);
@@ -106,13 +114,13 @@ void DoorKiller_Init(Actor *thisx, GlobalContext *globalCtx) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 1: 
-        case 2:
-        case 3:
-        case 4:
+        case DOOR_KILLER_RUBBLE_PIECE_1: 
+        case DOOR_KILLER_RUBBLE_PIECE_2:
+        case DOOR_KILLER_RUBBLE_PIECE_3:
+        case DOOR_KILLER_RUBBLE_PIECE_4:
             // Rubble pieces
-            this->actionFunc = &func_80995D6C;
-            func_80995D6C(&this->actor, globalCtx2);
+            this->actionFunc = &DoorKiller_SetupDrawProperties;
+            DoorKiller_SetupDrawProperties(&this->actor, globalCtx2);
             
             this->actor.gravity = -0.6f;
             this->actor.minVelocityY = -6.0f;
@@ -141,17 +149,14 @@ void DoorKiller_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-// SpawnRubble broken door particles
-void func_80995020(Actor *thisx, GlobalContext *globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x, thisx->posRot.pos.y + 9.0f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, 1);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 7.88f, thisx->posRot.pos.y + 39.8f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, 2);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x - 15.86f, thisx->posRot.pos.y + 61.98f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, 3);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 3.72f, thisx->posRot.pos.y + 85.1f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, 4);
+void DoorKiller_SpawnRubble(Actor *thisx, GlobalContext *globalCtx) {
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x, thisx->posRot.pos.y + 9.0f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_1);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 7.88f, thisx->posRot.pos.y + 39.8f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_2);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x - 15.86f, thisx->posRot.pos.y + 61.98f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_3);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 3.72f, thisx->posRot.pos.y + 85.1f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_4);
 }
 
-// Generally fall and slowly decelerate in x,z (possibly for the broken pieces)
-void DoorKiller_RubbleFall(DoorKiller *this, GlobalContext *globalCtx) {
-    
+void DoorKiller_FallAsRubble(DoorKiller *this, GlobalContext *globalCtx) {
     this->actor.velocity.y += this->actor.gravity;
     if (this->actor.velocity.y < this->actor.minVelocityY) {
         this->actor.velocity.y = this->actor.minVelocityY;
@@ -171,9 +176,9 @@ void DoorKiller_RubbleFall(DoorKiller *this, GlobalContext *globalCtx) {
     func_8002D7EC(&this->actor);
 }
 
-s32 func_80995284(Actor* thisx, GlobalContext* globalCtx){
+s32 DoorKiller_IsHit(Actor* thisx, GlobalContext* globalCtx){
     DoorKiller* this = THIS;
-    if (((this->colliderCylinder.base.acFlags & 2) != 0) && (this->colliderCylinder.body.acHitItem != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.body.acHitItem != NULL)) {
         return 1;
     }
     return 0;
@@ -185,7 +190,7 @@ void func_809952B8(DoorKiller *this, GlobalContext *globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
 }
 
-void func_80995318(DoorKiller *this, GlobalContext *globalCtx) {
+void DoorKiller_Die(DoorKiller *this, GlobalContext *globalCtx) {
     s32 flags = (this->actor.params >> 8) & 0x3F;
     
     if (flags != 0x3F) {
@@ -194,14 +199,14 @@ void func_80995318(DoorKiller *this, GlobalContext *globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void func_80995368(DoorKiller *this, GlobalContext *globalCtx) {
+void DoorKiller_RiseBackUp(DoorKiller *this, GlobalContext *globalCtx) {
     s32 i;
     s16 phi_a0;
 
     if (this->timer > 0) {
         this->timer--;
     } else {
-        this->actionFunc = &func_80995A84;
+        this->actionFunc = &DoorKiller_Wait;
         this->timer = 16;
         func_809952B8(this, globalCtx);
         return;
@@ -220,19 +225,19 @@ void func_80995368(DoorKiller *this, GlobalContext *globalCtx) {
     }
 
     for (i = 2; i < 9; i++){
-        this->unk192[i].z = -phi_a0;
+        this->jointTable[i].z = -phi_a0;
     }
 
     if (this->timer < 8) {
        phi_a0 = Math_SinS(this->timer << 0xD) * this->timer * 100.0f;
         for (i = 2; i < 9; i++){
-            this->unk192[i].y = phi_a0;
+            this->jointTable[i].y = phi_a0;
         }
     }
     return;
 }
 
-void func_80995518(DoorKiller *this, GlobalContext *globalCtx) {
+void DoorKiller_FallOver(DoorKiller *this, GlobalContext *globalCtx) {
     s32 i;
     s32 j;
     Vec3f velocity;
@@ -245,7 +250,7 @@ void func_80995518(DoorKiller *this, GlobalContext *globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        this->actionFunc = &func_80995368;
+        this->actionFunc = &DoorKiller_RiseBackUp;
         this->timer = 16;
         return;
     }
@@ -263,7 +268,7 @@ void func_80995518(DoorKiller *this, GlobalContext *globalCtx) {
     }
 
     for (i = 2; i < 9; i++){
-        this->unk192[i].z = phi_v1;
+        this->jointTable[i].z = phi_v1;
     }
     
     if (this->timer == 4) {
@@ -285,25 +290,24 @@ void func_80995518(DoorKiller *this, GlobalContext *globalCtx) {
             func_8002865C(globalCtx, &pos, &velocity, &accel, 300, 30);
         }
     }
-    if (!(this->unkFlag & 1)) {
+    if (!(this->hasHitPlayerOrGround & 1)) {
         Player* player = PLAYER;
         func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.posRot.pos);
         if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
-            this->unkFlag |= 1;
+            this->hasHitPlayerOrGround |= 1;
             func_8002F6D4(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f, 0x10);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_HIT);
             func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
-    if ((!(this->unkFlag & 1)) && (this->timer == 2)) {
-        this->unkFlag |= 1;
+    if (!(this->hasHitPlayerOrGround & 1) && (this->timer == 2)) {
+        this->hasHitPlayerOrGround |= 1;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_HIT_GND);
     }
 }
 
-// DoorKiller MakeNoise?
-void func_809958E4(DoorKiller *this, GlobalContext *globalCtx) {
-    s16 temp;
+void DoorKiller_Wobble(DoorKiller *this, GlobalContext *globalCtx) {
+    s16 rotation;
     s32 i;
 
     if ((this->timer == 0x10) || (this->timer == 8)) {
@@ -313,69 +317,71 @@ void func_809958E4(DoorKiller *this, GlobalContext *globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        this->actionFunc = &func_80995518;
+        this->actionFunc = &DoorKiller_FallOver;
         this->timer = 8;
-        this->unkFlag &= ~1;
+        this->hasHitPlayerOrGround &= ~1;
         return;
     }
 
-    temp = Math_SinS(this->timer << 0xD) * this->timer * 100.0f;
+    rotation = Math_SinS(this->timer << 0xD) * this->timer * 100.0f;
     for (i = 2; i < 9; i++){
-        this->unk192[i].y = temp;
+        this->jointTable[i].y = rotation;
     }
-    temp = (u16)(s16)(-Math_CosS(this->timer << 0xC) * 1000.0f) + 1000;
+    rotation = (u16)(s16)(-Math_CosS(this->timer << 0xC) * 1000.0f) + 1000;
     for (i = 2; i < 9; i++){
-        this->unk192[i].z = temp;
+        this->jointTable[i].z = rotation;
     }
 }
 
-void func_80995A50(DoorKiller *this, GlobalContext *globalCtx) {
+/**
+ * Unused, idle until timer runs out and then begin to wobble (and attack) completely unprovoked.
+ */
+void DoorKiller_WaitBeforeWobble(DoorKiller *this, GlobalContext *globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     }else{
         this->timer = 16;
-        this->actionFunc = &func_809958E4;
+        this->actionFunc = &DoorKiller_Wobble;
     }
 }
 
-void func_80995A84(DoorKiller *this, GlobalContext *globalCtx) {
+void DoorKiller_Wait(DoorKiller *this, GlobalContext *globalCtx) {
     Player *player;
-    Vec3f sp30;
-    s32 temp_v0;
+    Vec3f playerPosRelToDoor;
     s16 angleToFacingPlayer;
 
     player = PLAYER;
-    func_8002DBD0(&this->actor, &sp30, &player->actor.posRot.pos);
-    if (this->unkCond != 0) {
-        this->actionFunc = &func_80995A50;
+    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.posRot.pos);
+    // wobbleOnSpawn is initialised to 0 and never set, so the action function here goes unused. Setting this condition in init would make the door auotmatically wobble and fall over after 10 frames
+    if (this->wobbleOnSpawn != 0) { 
+        this->actionFunc = &DoorKiller_WaitBeforeWobble;
         this->timer = 10;
-        this->unkCond = 0;
+        this->wobbleOnSpawn = 0;
         return;
     }
-    if (func_80995284(&this->actor, globalCtx) != 0) {
-        temp_v0 = this->colliderCylinder.body.acHitItem->toucher.flags;
-        if ((temp_v0 & 0x1FFA6) != 0) {
-            this->timer = (u16)0x10;
-            this->actionFunc = &func_809958E4;
-        } else if ((temp_v0 & 0x48) != 0) {
-            func_80995020(&this->actor, globalCtx);
-            this->actionFunc = &func_80995318;
+    if (DoorKiller_IsHit(&this->actor, globalCtx)) {
+        if ((this->colliderCylinder.body.acHitItem->toucher.flags & 0x1FFA6) != 0) {
+            this->timer = 16;
+            this->actionFunc = &DoorKiller_Wobble;
+        } else if ((this->colliderCylinder.body.acHitItem->toucher.flags & 0x48) != 0) {
+            DoorKiller_SpawnRubble(&this->actor, globalCtx);
+            this->actionFunc = &DoorKiller_Die;
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x14, (u16)0x39DDU);
         }
     } else {
         if (Actor_GetCollidedExplosive(globalCtx, &this->colliderJntSph.base) != 0) {
-            func_80995020(&this->actor, globalCtx);
-            this->actionFunc = &func_80995318;
+            DoorKiller_SpawnRubble(&this->actor, globalCtx);
+            this->actionFunc = &DoorKiller_Die;
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x14, (u16)0x39DDU);
         } else {
-            if ((Player_InCsMode(globalCtx) == 0) && (fabsf(sp30.y) < 20.0f) && (fabsf(sp30.x) < 20.0f) && (sp30.z < 50.0f) && (sp30.z > 0.0f)) {
+            if ((Player_InCsMode(globalCtx) == 0) && (fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) && (playerPosRelToDoor.z > 0.0f)) {
                 angleToFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
-                if (sp30.z > 0.0f) {
+                if (playerPosRelToDoor.z > 0.0f) {
                     angleToFacingPlayer = 0x8000 - angleToFacingPlayer;
                 }
                 if (ABS(angleToFacingPlayer) < 0x3000) {
                     player->doorType = 3;
-                    player->doorDirection = (sp30.z >= 0.0f) ? 1.0f : -1.0f;
+                    player->doorDirection = (playerPosRelToDoor.z >= 0.0f) ? 1.0f : -1.0f;
                     player->doorActor = &this->actor;
                 }
             }
@@ -387,8 +393,7 @@ void func_80995A84(DoorKiller *this, GlobalContext *globalCtx) {
 /**
  * Grabs the virtual address of the texture from the relevant door object
  */
-// updateDoorTexture? getDoorTexture?
-void func_80995CDC(Actor *thisx, GlobalContext* globalCtx) {
+void DoorKiller_UpdateTexture(Actor *thisx, GlobalContext* globalCtx) {
     DoorKiller *this = THIS;
     
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->doorObjBankIndex].segment);
@@ -396,20 +401,23 @@ void func_80995CDC(Actor *thisx, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[thisx->objBankIndex].segment);
 }
 
-// update/get the door texture and 
-void func_80995D6C(DoorKiller *this, GlobalContext* globalCtx) {
+/**
+ * Gets the correct texture and defines the appropriate draw function
+ */
+// update/get the door texture and setup next action based on params
+void DoorKiller_SetupDrawProperties(DoorKiller *this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->doorObjBankIndex)) {
-        func_80995CDC(&this->actor, globalCtx);
+        DoorKiller_UpdateTexture(&this->actor, globalCtx);
         switch(this->actor.params & 0xFF){
             case 0:
-                this->actionFunc = &func_80995A84;
+                this->actionFunc = &DoorKiller_Wait;
                 this->actor.draw = &DoorKiller_DrawDoor;
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
-                this->actionFunc = &DoorKiller_RubbleFall;
+                this->actionFunc = &DoorKiller_FallAsRubble;
                 this->actor.draw = &DoorKiller_DrawRubble;
                 break;
         }
@@ -422,7 +430,7 @@ void DoorKiller_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_80995E40(Actor *thisx, GlobalContext *globalCtx) {
+void DoorKiller_SetTexture(Actor *thisx, GlobalContext *globalCtx) {
     DoorKiller* this = THIS;
     s32 doorTexture = this->texture;
 
@@ -435,7 +443,7 @@ void DoorKiller_DrawDoor(Actor *thisx, GlobalContext *globalCtx) {
     DoorKiller* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    func_80995E40(thisx, globalCtx);
+    DoorKiller_SetTexture(thisx, globalCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL, NULL, NULL);
 }
 
@@ -444,7 +452,7 @@ void DoorKiller_DrawRubble(Actor *thisx, GlobalContext *globalCtx) {
     DoorKiller* this = THIS;
 
     if ((this->timer >= 0x14) || ((this->timer & 1) == 0)) {
-        func_80995E40(thisx, globalCtx);
+        DoorKiller_SetTexture(thisx, globalCtx);
         Gfx_DrawDListOpa(globalCtx, D_80996048[texturesIndex]);
     }
 }
