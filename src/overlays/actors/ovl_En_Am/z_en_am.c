@@ -557,50 +557,49 @@ void func_809AF0DC(EnAm* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Am/func_809AF30C.s")
-// void func_809AF30C(EnAm* this, GlobalContext* globalCtx) {
-//     Player* player = PLAYER;
-//     f32 temp158f;
-//     s16 moveDir;
+void func_809AF30C(EnAm* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    f32 temp158f = this->dyna.unk_158;
+    s16 moveDir = 0;
 
-//     //if (this->unk_258){}
-//     temp158f = this->dyna.unk_158;
-//     moveDir = 0;
-//     if (this->dyna.unk_158 == 0) {
-//         if (this->dyna.unk_150 != 0.0f) {
-//             this->unk_258 = -0x8000;
-//         }
-//     } else {
-//         this->unk_258 -= 0x800;
-//         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    if (this->unk_258 == 0) {
+        if (this->dyna.unk_150 != 0.0f) {
+            this->unk_258 = -0x8000;
+        }
+    } else {
+        this->unk_258 -= 0x800;
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 
-//         if (this->dyna.unk_150 < 0.0f) {
-//             temp158f = this->dyna.unk_158 + 0x8000;
-//         }
+        if (this->dyna.unk_150 < 0.0f) {
+            temp158f = this->dyna.unk_158 + 0x8000;
+        }
 
-//         if ((this->cylinder1.base.maskA & 2) != 0) {
-//             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.posRot, &this->cylinder1.base.oc->posRot) - temp158f;
-//         }
+        if (this->cylinder1.base.maskA & 2) {
+            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos.x, &this->cylinder1.base.oc->posRot.pos.x) - temp158f;
+        }
 
-//         if (((this->dyna.unk_150 != 0.0f) && (this->unk_258 != 0) && (this->dyna.actor.bgCheckFlags & 1) &&
-//              !func_800435D8(globalCtx, this, 0x14,
-//                             (Math_SinS((s32)this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA)) ||
-//             ((this->cylinder1.base.maskA & 2) && (ABS(moveDir) <= 0x2000))) {
-//             this->unk_258 = 0;
-//             player->stateFlags2 &= ~0x151;
-//             this->dyna.unk_150 = this->dyna.unk_154 = player->actor.speedXZ = 0.0f; // chained? wrong order?
-//         }
+        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
+            !func_800435D8(globalCtx, &this->dyna, 0x14,
+                           (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
+            ((this->cylinder1.base.maskA & 2) && (ABS(moveDir) <= 0x2000))) {
 
-//         this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
-//         this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
-//     }
+            this->unk_258 = 0;
+            player->stateFlags2 &= ~0x151;
+            player->actor.speedXZ = 0.0f;
+            this->dyna.unk_150 = 0.0f;
+            this->dyna.unk_154 = 0.0f;
+        }
 
-//     if (this->dyna.actor.bgCheckFlags & 2) {
-//         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-//     }
+        this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
+        this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
+    }
 
-//     this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
-// }
+    if (this->dyna.actor.bgCheckFlags & 2) {
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+    }
+
+    this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
+}
 
 void func_809AF558(EnAm* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_06005B3C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06005B3C), ANIMMODE_ONCE,
@@ -676,62 +675,60 @@ void func_809AF7CC(Actor* thisx, GlobalContext* globalCtx) {
                   &this->hitCollider.dim.quad[2], &this->hitCollider.dim.quad[3]);
 }
 
-void func_809AF864(EnAm* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Am/func_809AF864.s")
-// void func_809AF864(EnAm* this, GlobalContext* globalCtx) {
-//     Vec3f sp20;
+void func_809AF864(EnAm* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f sp20;
 
-//     if (this->unk_260 == 0) {
-//         if (this->cylinder2.base.acFlags & 0x80) {
-//             this->cylinder2.base.acFlags &= ~0x82;
-//             this->cylinder1.base.acFlags &= ~2;
-//             if (this->unk_1A8 >= 5) {
-//                 func_809AE7F4(globalCtx, this);
-//             }
-//         } else {
-//             if ((this->cylinder1.base.acFlags & 2) && (this->unk_1A8 >= 5)) {
-//                 this->cylinder1.base.acFlags &= ~2;
+    if (this->unk_260 == 0) {
+        if (this->cylinder2.base.acFlags & 0x80) {
+            this->cylinder2.base.acFlags &= ~0x82;
+            this->cylinder1.base.acFlags &= ~2;
+            if (this->unk_1A8 >= 5) {
+                func_809AE7F4(this, globalCtx);
+            }
+        } else {
+            if ((this->cylinder1.base.acFlags & 2) && (this->unk_1A8 >= 5)) {
+                this->cylinder1.base.acFlags &= ~2;
 
-//                 if (this->dyna.actor.colChkInfo.damageEffect != 0xE) {
-//                     this->unk_264 = 0;
-//                     this->unk_267 = this->dyna.actor.colChkInfo.damageEffect;
-//                     func_80035650(this, &this->cylinder1.body, 0);
+                if (this->dyna.actor.colChkInfo.damageEffect != 0xE) {
+                    this->unk_264 = 0;
+                    this->unk_267 = this->dyna.actor.colChkInfo.damageEffect;
+                    func_80035650(this, &this->cylinder1.body, 0);
 
-//                     if ((this->dyna.actor.colChkInfo.damageEffect == 1) ||
-//                         (this->dyna.actor.colChkInfo.damageEffect == 6) ||
-//                         (this->dyna.actor.colChkInfo.damageEffect == 0xD)) {
-//                         if (this->unk_1A8 != 6) {
-//                             func_809AF558(this, globalCtx);
+                    if ((this->dyna.actor.colChkInfo.damageEffect == 1) ||
+                        (this->dyna.actor.colChkInfo.damageEffect == 6) ||
+                        (this->dyna.actor.colChkInfo.damageEffect == 0xD)) {
+                        if (this->unk_1A8 != 6) {
+                            func_809AF558(this, globalCtx);
 
-//                             if (this->dyna.actor.colChkInfo.damage != 0) {
-//                                 this->dyna.actor.colChkInfo.health = 0;
-//                             }
-//                         } else if (this->dyna.actor.colChkInfo.damageEffect == 6) {
+                            if (this->dyna.actor.colChkInfo.damage != 0) {
+                                this->dyna.actor.colChkInfo.health = 0;
+                            }
+                        } else if (this->dyna.actor.colChkInfo.damageEffect == 6) {
 
-//                             sp20 = this->dyna.actor.posRot.pos;
-//                             sp20.y += 50.0f;
-//                             func_80062D60(globalCtx, &sp20);
-//                         }
-//                     } else {
-//                         if ((this->dyna.actor.colChkInfo.damageEffect == 0xF) || (this->unk_1A8 == 6)) {
-//                             this->dyna.actor.colChkInfo.health = 0;
+                            sp20 = this->dyna.actor.posRot.pos;
+                            sp20.y += 50.0f;
+                            func_80062D60(globalCtx, &sp20);
+                        }
+                    } else {
+                        if ((this->dyna.actor.colChkInfo.damageEffect == 0xF) || (this->unk_1A8 == 6)) {
+                            this->dyna.actor.colChkInfo.health = 0;
 
-//                             func_809AE71C(this, globalCtx, globalCtx, this);
-//                         } else {
-//                             func_809AE7F4(this, globalCtx);
-//                         }
-
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+                            func_809AE71C(this, globalCtx);
+                        } else {
+                            func_809AE7F4(this, globalCtx);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f zeroVec[] = { 0.0f, 0.0f, 0.0f };
-    static Color_RGBA8 dustPrimColor[] = { 150, 150, 150, 255 };
-    static Color_RGBA8 dustEnvColor[] = { 100, 100, 100, 150 };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
+    static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
     s32 pad;
     EnAm* this = THIS;
     EnBom* bomb;
@@ -772,7 +769,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
                     dustPos.y = (Rand_CenteredFloat(10.0f) * 6.0f) + (this->dyna.actor.posRot.pos.y + 40.0f);
                     dustPos.z = (cosf(dustPosScale) * 7.0f) + this->dyna.actor.posRot.pos.z;
 
-                    func_8002836C(globalCtx, &dustPos, zeroVec, zeroVec, dustPrimColor, dustEnvColor, 200, 45, 12);
+                    func_8002836C(globalCtx, &dustPos, &zeroVec, &zeroVec, &dustPrimColor, &dustEnvColor, 200, 45, 12);
                     dustPosScale += 60.0f;
                 }
 
