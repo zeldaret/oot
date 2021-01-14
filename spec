@@ -2444,8 +2444,7 @@ endseg
 beginseg
     name "ovl_En_Honotrap"
     include "build/src/overlays/actors/ovl_En_Honotrap/z_en_honotrap.o"
-    include "build/data/overlays/actors/z_en_honotrap.data.o"
-    include "build/data/overlays/actors/z_en_honotrap.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Honotrap/ovl_En_Honotrap_reloc.o"
 endseg
 
 beginseg
