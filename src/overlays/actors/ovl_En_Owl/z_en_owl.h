@@ -4,12 +4,12 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct EnOwl EnOwl;
+struct EnOwl;
 
-typedef void (*EnOwlActionFunc)(EnOwl* this, GlobalContext* globalCtx);
-typedef void (*OwlFunc)(EnOwl* this);
+typedef void (*EnOwlActionFunc)(struct EnOwl*, GlobalContext*);
+typedef void (*OwlFunc)(struct EnOwl*);
 
-typedef struct EnOwl{
+typedef struct EnOwl {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
@@ -24,8 +24,8 @@ typedef struct EnOwl{
     /* 0x03EE */ s16 unk_3EE;
     /* 0x03F0 */ s16 unk_3F0;
     /* 0x03F2 */ s16 unk_3F2;
-    /* 0x03F4 */ s16 curDlistIdx;
-    /* 0x03F6 */ s16 nextDlistIdx;
+    /* 0x03F4 */ s16 eyeTexIndex;
+    /* 0x03F6 */ s16 blinkTimer;
     /* 0x03F8 */ f32 unk_3F8;
     /* 0x03FC */ u16 actionFlags;
     /* 0x03FE */ u16 unk_3FE;
@@ -41,7 +41,7 @@ typedef struct EnOwl{
     /* 0x040B */ u8 unk_40B;
     /* 0x040C */ EnOwlActionFunc actionFunc;
     /* 0x0410 */ OwlFunc unk_410;
-}; // size = 0x0414
+} EnOwl; // size = 0x0414
 
 extern const ActorInit En_Owl_InitVars;
 
