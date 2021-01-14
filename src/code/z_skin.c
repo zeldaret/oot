@@ -47,58 +47,66 @@ void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx*
     }
 }
 
-#ifndef NON_MATCHING
-// Regalloc, Stack
 void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3) {
+    s32 pad1;
     SkinLimb** limbs;
     SkinLimb* limb;
     Struct_800A5E28* data;
     Struct_800A598C* phi_s6;
-    s32 temp_a0_2;
     SkinAvb* avb;
-    Struct_800A598C* new_var;
+    s32 temp_a0_2;
+    f32 temp_f20;
     Struct_800A57C0* temp_v0;
     Struct_800A598C_2* temp_s3;
     Vtx* spEC;
+    Struct_800A598C* pad2;
     Vec3f spDC;
     Vec3f spD0;
     Struct_800A598C_2* phi_s0;
+    
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 254);
 
     limbs = (SkinLimb**)SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    limb = (SkinLimb*)SEGMENTED_TO_VIRTUAL(limbs[limbIndex]);
-    data = (Struct_800A5E28*)SEGMENTED_TO_VIRTUAL(limb->segment);
-    phi_s6 = &((Struct_800A598C*)SEGMENTED_TO_VIRTUAL(data->unk_4))[0];
+    data = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(limbs[limbIndex]))->segment);
+    pad2 = (Struct_800A598C*)SEGMENTED_TO_VIRTUAL(data->unk_4);
+    
     avb = &skin->avbTbl[limbIndex];
+    
     spEC = avb->buf[avb->unk_0];
-    new_var = &phi_s6[data->unk_2];
-    while (phi_s6 < new_var) {
+    pad1 = data->unk_2;
+    
+    for (phi_s6 = pad2; phi_s6 < pad2 + pad1; phi_s6++) {
         temp_a0_2 = phi_s6->unk_2;
         temp_v0 = (Struct_800A57C0*)SEGMENTED_TO_VIRTUAL(phi_s6->unk_8);
         temp_s3 = (Struct_800A598C_2*)SEGMENTED_TO_VIRTUAL(phi_s6->unk_C);
+
         if (temp_a0_2 == 1) {
             Vec3f spAC;
+            
             spAC.x = temp_s3[0].x;
             spAC.y = temp_s3[0].y;
             spAC.z = temp_s3[0].z;
             SkinMatrix_Vec3fMtxFMultXYZ(&D_801600C0[temp_s3[0].unk_0], &spAC, &spDC);
         } else if (arg3 == 1) {
             Vec3f spA0;
+
             phi_s0 = &temp_s3[phi_s6->unk_4];
-            
+
             spA0.x = phi_s0->x;
             spA0.y = phi_s0->y;
             spA0.z = phi_s0->z;
             SkinMatrix_Vec3fMtxFMultXYZ(&D_801600C0[phi_s0->unk_0], &spA0, &spDC);
         } else {
-            f32 phi_f26 = 0.0f;
-            f32 phi_f24 = 0.0f;
-            f32 phi_f22 = 0.0f;
-            phi_s0 = &temp_s3[0];
-            while (phi_s0 < &temp_s3[temp_a0_2]) {
-                Vec3f sp88;
-                f32 temp_f20 = phi_s0->unk_8 * 0.01f;
+            Vec3f phi_f20;
+            Vec3f sp88;
+
+            phi_f20.x = phi_f20.y = phi_f20.z = 0.0f;
+
+            
+            for (phi_s0 = &temp_s3[0]; phi_s0 < &temp_s3[temp_a0_2]; phi_s0++) {
+                temp_f20 = phi_s0->unk_8 * 0.01f;
+                
                 sp88.x = phi_s0->x;
                 sp88.y = phi_s0->y;
                 sp88.z = phi_s0->z;
@@ -106,30 +114,22 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
                 spD0.x *= temp_f20;
                 spD0.y *= temp_f20;
                 spD0.z *= temp_f20;
-                phi_f26 += spD0.x;
-                phi_f24 += spD0.y;
-                phi_f22 += spD0.z;
-                phi_s0++;
+                phi_f20.x += spD0.x;
+                phi_f20.y += spD0.y;
+                phi_f20.z += spD0.z;
             }
-            spDC.x = phi_f26;
-            spDC.y = phi_f24;
-            spDC.z = phi_f22;
+            spDC.x = phi_f20.x;
+            spDC.y = phi_f20.y;
+            spDC.z = phi_f20.z;
         }
         func_800A57C0(&D_801600C0[temp_s3[phi_s6->unk_4].unk_0], temp_v0, phi_s6, spEC, &spDC);
-        phi_s6++;
     }
     gSPSegment(POLY_OPA_DISP++, 0x08, avb->buf[avb->unk_0]);
-    if (avb->unk_0 == 0) {
-        avb->unk_0 = 1;
-    } else {
-        avb->unk_0 = 0;
-    }
+
+    avb->unk_0 = (avb->unk_0 == 0) ? 1 : 0;
 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 344);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin/func_800A598C.s")
-#endif
 
 void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 arg4) {
     SkinLimb** limbs;
@@ -167,7 +167,7 @@ void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* 
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 433);
 }
 
-void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A60D8(SkinActor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6, s32 arg7) {
     s32 i;
     s32 dataType;
@@ -208,21 +208,21 @@ close_disps:
     CLOSE_DISPS(gfxCtx, "../z_skin.c", 534);
 }
 
-void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4) {
+void func_800A6330(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4) {
     func_800A60D8(this, globalCtx, skin, callback, NULL, arg4, 0, 0);
 }
 
-void func_800A6360(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A6360(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, 0, 0);
 }
 
-void func_800A6394(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A6394(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, 0);
 }
 
-void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+void func_800A63CC(SkinActor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
                    s32 arg5, s32 arg6, s32 arg7) {
     func_800A60D8(this, globalCtx, skin, callback, arg4, arg5, arg6, arg7);
 }
