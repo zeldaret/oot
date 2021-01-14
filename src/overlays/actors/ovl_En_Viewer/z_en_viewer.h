@@ -46,5 +46,3 @@ typedef struct EnViewer {
 extern const ActorInit En_Viewer_InitVars;
 
 #endif
-
-

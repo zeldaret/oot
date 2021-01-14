@@ -37,7 +37,7 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
 extern Mtx D_01000000;
-extern Gfx* D_0404D4E0;
+extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000450;
 extern AnimationHeader D_060005B4;
 extern AnimationHeader D_060008A0;
@@ -74,12 +74,12 @@ extern AnimationHeader D_06007148;
 extern UNK_TYPE D_06007210;
 extern FlexSkeletonHeader D_06008668;
 extern UNK_TYPE D_0600A4E0;
-extern Gfx* D_0600BE90;
-extern Gfx* D_0600C410;
-extern Gfx* D_0600D0D8;
-extern Gfx* D_0600DE08;
+extern Gfx D_0600BE90[];
+extern Gfx D_0600C410[];
+extern Gfx D_0600D0D8[];
+extern Gfx D_0600DE08[];
 extern SkeletonHeader D_0600E038;
-extern Gfx* D_0600E1A8;
+extern Gfx D_0600E1A8[];
 extern UNK_TYPE D_0600F178;
 extern UNK_TYPE D_0600F378;
 extern UNK_TYPE D_0600F578;
@@ -136,11 +136,7 @@ static void* sActorShadowDrawFunc[] = {
 // timer
 s16 D_80B2CFCC = 0;
 
-Vec3f D_80B2CFD0 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+Vec3f D_80B2CFD0 = { 0.0f, 0.0f, 0.0f };
 
 static EnViewerDrawFunc sDrawFuncs[] = {
     func_80B2B4A8,
@@ -173,7 +169,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E6 = false;
     if (params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
         sGanonCape = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
-                                       0.0f, 0, 0, 0, 35);
+                                        0.0f, 0, 0, 0, 35);
     }
 }
 
@@ -184,7 +180,8 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
-    s16 params = this->actor.params >> 8;;
+    s16 params = this->actor.params >> 8;
+    ;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
         SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
@@ -192,7 +189,7 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
         SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     if (params == 3 || params == 7 || params == 8 || params == 9) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 1.0f);
     } else {
@@ -203,7 +200,7 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader*
 void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
     SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
 }
 
@@ -238,7 +235,7 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x40;
         return;
     }
-    
+
     this->unk_1E6 = true;
     this->actor.objBankIndex = objIndex;
     Actor_SetObjectDependency(globalCtx, &this->actor);
@@ -325,7 +322,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (D_80B2CFCC) {
+    if (D_80B2CFCC != 0) {
         D_80B2CFCC--;
     }
 
@@ -532,18 +529,18 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = THIS;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     this->actionFunc(this, globalCtx);
 }
 
 s32 func_80B2B2F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         if (globalCtx->csCtx.frames >= 400 && limbIndex == 5) {
-            *dList = &D_0600E1A8;
+            *dList = D_0600E1A8;
         }
     } else {
         if (globalCtx->csCtx.frames >= 1510 && globalCtx->csCtx.frames < 1651 && limbIndex == 5) {
-            *dList = &D_0600E1A8;
+            *dList = D_0600E1A8;
         }
     }
     return 0;
@@ -555,7 +552,7 @@ void func_80B2B364(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         func_80093D84(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1370),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_0600BE90));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0600BE90));
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1372);
     }
 }
@@ -623,7 +620,7 @@ void func_80B2B8FC(EnViewer* this, GlobalContext* globalCtx) {
 s32 func_80B2B928(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (globalCtx->sceneNum == SCENE_SPOT00) { // Hyrule Field
         if (limbIndex == 2) {
-            *dList = &D_0600C410;
+            *dList = D_0600C410;
         }
         if (limbIndex == 7) {
             *dList = NULL;
@@ -649,7 +646,7 @@ void func_80B2B9A4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (globalCtx->sceneNum == SCENE_TOKINOMA && limbIndex == 16) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1568);
-        gSPDisplayList(POLY_OPA_DISP++, &D_0600DE08);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600DE08);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1570);
     }
 }
@@ -703,7 +700,7 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx) {
 
 s32 func_80B2C10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 16) {
-        *dList = &D_0600D0D8;
+        *dList = D_0600D0D8;
     }
     return 0;
 }
@@ -879,7 +876,7 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2027),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, &D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
