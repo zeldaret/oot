@@ -32,7 +32,7 @@ typedef enum {
 } ColChkHitType;
 
 typedef enum {
-    /* 0 */ MASSTYPE_IMMOBILE,
+    /* 0 */ MASSTYPE_IMMOVABLE,
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL
 } ColChkMassType;
@@ -1063,9 +1063,9 @@ void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext
     OcLine** line;
 
     if (!(colChkCtx->sacFlags & 1)) {
-        colChkCtx->colATcount = 0;
-        colChkCtx->colACcount = 0;
-        colChkCtx->colOCcount = 0;
+        colChkCtx->colATCount = 0;
+        colChkCtx->colACCount = 0;
+        colChkCtx->colOCCount = 0;
         colChkCtx->colLineCount = 0;
         for (col = colChkCtx->colAT; col < colChkCtx->colAT + COLLISION_CHECK_AT_MAX; col++) {
             *col = NULL;
@@ -1149,17 +1149,17 @@ void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContex
 
     if (AREG(15)) {
         if (AREG(21)) {
-            for (i = 0; i < colChkCtx->colATcount; i++) {
+            for (i = 0; i < colChkCtx->colATCount; i++) {
                 Collider_Draw(globalCtx, colChkCtx->colAT[i]);
             }
         }
         if (AREG(22)) {
-            for (i = 0; i < colChkCtx->colACcount; i++) {
+            for (i = 0; i < colChkCtx->colACCount; i++) {
                 Collider_Draw(globalCtx, colChkCtx->colAC[i]);
             }
         }
         if (AREG(23)) {
-            for (i = 0; i < colChkCtx->colOCcount; i++) {
+            for (i = 0; i < colChkCtx->colOCCount; i++) {
                 collider = colChkCtx->colOC[i];
                 if (collider->ocFlags & OC_ON) {
                     Collider_Draw(globalCtx, collider);
@@ -1199,7 +1199,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->colATcount >= COLLISION_CHECK_AT_MAX) {
+    if (colChkCtx->colATCount >= COLLISION_CHECK_AT_MAX) {
         // Index exceeded and cannot add more
         osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
         return -1;
@@ -1207,8 +1207,8 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = colChkCtx->colATcount;
-    colChkCtx->colAT[colChkCtx->colATcount++] = collider;
+    index = colChkCtx->colATCount;
+    colChkCtx->colAT[colChkCtx->colATCount++] = collider;
     return index;
 }
 
@@ -1231,20 +1231,20 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
         return -1;
     }
     if (colChkCtx->sacFlags & 1) {
-        if (!(index < colChkCtx->colATcount)) {
+        if (!(index < colChkCtx->colATCount)) {
             // You are trying to register a location that is larger than the total number of data.
             osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
             return -1;
         }
         colChkCtx->colAT[index] = collider;
     } else {
-        if (!(colChkCtx->colATcount < COLLISION_CHECK_AT_MAX)) {
+        if (!(colChkCtx->colATCount < COLLISION_CHECK_AT_MAX)) {
             // Index exceeded and cannot add more
             osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
             return -1;
         }
-        index = colChkCtx->colATcount;
-        colChkCtx->colAT[colChkCtx->colATcount++] = collider;
+        index = colChkCtx->colATCount;
+        colChkCtx->colAT[colChkCtx->colATCount++] = collider;
     }
     return index;
 }
@@ -1273,7 +1273,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->colACcount >= COLLISION_CHECK_AC_MAX) {
+    if (colChkCtx->colACCount >= COLLISION_CHECK_AC_MAX) {
         // Index exceeded and cannot add more
         osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
         return -1;
@@ -1281,8 +1281,8 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = colChkCtx->colACcount;
-    colChkCtx->colAC[colChkCtx->colACcount++] = collider;
+    index = colChkCtx->colACCount;
+    colChkCtx->colAC[colChkCtx->colACCount++] = collider;
     return index;
 }
 
@@ -1305,20 +1305,20 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
         return -1;
     }
     if (colChkCtx->sacFlags & 1) {
-        if (!(index < colChkCtx->colACcount)) {
+        if (!(index < colChkCtx->colACCount)) {
             // You are trying to register a location that is larger than the total number of data.
             osSyncPrintf("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
             return -1;
         }
         colChkCtx->colAC[index] = collider;
     } else {
-        if (!(colChkCtx->colACcount < COLLISION_CHECK_AC_MAX)) {
+        if (!(colChkCtx->colACCount < COLLISION_CHECK_AC_MAX)) {
             // Index exceeded and cannot add more
             osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
             return -1;
         }
-        index = colChkCtx->colACcount;
-        colChkCtx->colAC[colChkCtx->colACcount++] = collider;
+        index = colChkCtx->colACCount;
+        colChkCtx->colAC[colChkCtx->colACCount++] = collider;
     }
     return index;
 }
@@ -1347,7 +1347,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->colOCcount >= COLLISION_CHECK_OC_MAX) {
+    if (colChkCtx->colOCCount >= COLLISION_CHECK_OC_MAX) {
         // Index exceeded and cannot add more
         osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
         return -1;
@@ -1355,8 +1355,8 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = colChkCtx->colOCcount;
-    colChkCtx->colOC[colChkCtx->colOCcount++] = collider;
+    index = colChkCtx->colOCCount;
+    colChkCtx->colOC[colChkCtx->colOCCount++] = collider;
     return index;
 }
 
@@ -1379,7 +1379,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
         return -1;
     }
     if (colChkCtx->sacFlags & 1) {
-        if (!(index < colChkCtx->colOCcount)) {
+        if (!(index < colChkCtx->colOCCount)) {
             // You are trying to register a location that is larger than the total number of data.
             osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
             return -1;
@@ -1387,13 +1387,13 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
         //! @bug Should be colOC
         colChkCtx->colAT[index] = collider;
     } else {
-        if (!(colChkCtx->colOCcount < COLLISION_CHECK_OC_MAX)) {
+        if (!(colChkCtx->colOCCount < COLLISION_CHECK_OC_MAX)) {
             // Index exceeded and cannot add more
             osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
             return -1;
         }
-        index = colChkCtx->colOCcount;
-        colChkCtx->colOC[colChkCtx->colOCcount++] = collider;
+        index = colChkCtx->colOCCount;
+        colChkCtx->colOC[colChkCtx->colOCCount++] = collider;
     }
     return index;
 }
@@ -1462,7 +1462,7 @@ void CollisionCheck_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f*
  */
 void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
-    s32 bloodIndex;
+    s32 effectIndex;
 
     D_8015D8A0.position.x = v->x;
     D_8015D8A0.position.y = v->y;
@@ -1506,7 +1506,7 @@ void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3
     D_8015D8A0.speed = 8.0f;
     D_8015D8A0.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015D8A0);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
 /**
@@ -1515,7 +1515,7 @@ void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3
  */
 void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
-    s32 bloodIndex;
+    s32 effectIndex;
 
     D_8015DD68.position.x = v->x;
     D_8015DD68.position.y = v->y;
@@ -1559,7 +1559,7 @@ void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec
     D_8015DD68.speed = 8.0f;
     D_8015DD68.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015DD68);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
 /**
@@ -1593,7 +1593,7 @@ void CollisionCheck_RedBloodUnused(GlobalContext* globalCtx, Collider* collider,
 void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Collider* collider, Vec3f* hitPos) {
     s32 flags;
 
-    flags = info->toucherFlags & (3 << 3);
+    flags = info->toucherFlags & TOUCH_SFX_NONE;
     if (flags == TOUCH_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
         EffectSsHitMark_SpawnFixedScale(globalCtx, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
@@ -2593,7 +2593,7 @@ static ColChkApplyFunc sColChkApplyFuncs[] = {
 void CollisionCheck_SetHitEffects(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
 
-    for (col = colChkCtx->colAC; col < colChkCtx->colAC + colChkCtx->colACcount; col++) {
+    for (col = colChkCtx->colAC; col < colChkCtx->colAC + colChkCtx->colACCount; col++) {
         Collider* colAC = *col;
 
         if (colAC != NULL && colAC->acFlags & AC_ON) {
@@ -2622,7 +2622,7 @@ static ColChkVsFunc sACVsFuncs[4][4] = {
 void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT) {
     Collider** col;
 
-    for (col = colChkCtx->colAC; col < colChkCtx->colAC + colChkCtx->colACcount; col++) {
+    for (col = colChkCtx->colAC; col < colChkCtx->colAC + colChkCtx->colACCount; col++) {
         Collider* colAC = *col;
 
         if (colAC != NULL && colAC->acFlags & AC_ON) {
@@ -2648,10 +2648,10 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
 void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
 
-    if (colChkCtx->colATcount == 0 || colChkCtx->colACcount == 0) {
+    if (colChkCtx->colATCount == 0 || colChkCtx->colACCount == 0) {
         return;
     }
-    for (col = colChkCtx->colAT; col < colChkCtx->colAT + colChkCtx->colATcount; col++) {
+    for (col = colChkCtx->colAT; col < colChkCtx->colAT + colChkCtx->colATCount; col++) {
         Collider* colAT = *col;
 
         if (colAT != NULL && colAT->atFlags & AT_ON) {
@@ -2670,7 +2670,7 @@ void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
  */
 s32 CollisionCheck_GetMassType(u8 mass) {
     if (mass == MASS_IMMOVABLE) {
-        return MASSTYPE_IMMOBILE;
+        return MASSTYPE_IMMOVABLE;
     }
     if (mass == MASS_HEAVY) {
         return MASSTYPE_HEAVY;
@@ -2727,15 +2727,15 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     zDelta = rightPos->z - leftPos->z;
     xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
 
-    if (rightMassType == MASSTYPE_IMMOBILE) {
-        if (leftMassType == MASSTYPE_IMMOBILE) {
+    if (rightMassType == MASSTYPE_IMMOVABLE) {
+        if (leftMassType == MASSTYPE_IMMOVABLE) {
             return;
         } else { // leftMassType == MASS_HEAVY | MASS_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
     } else if (rightMassType == MASSTYPE_HEAVY) {
-        if (leftMassType == MASSTYPE_IMMOBILE) {
+        if (leftMassType == MASSTYPE_IMMOVABLE) {
             leftDispRatio = 1;
             rightDispRatio = 0;
         } else if (leftMassType == MASSTYPE_HEAVY) {
@@ -2914,11 +2914,11 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     Collider** right;
     ColChkVsFunc vsFunc;
 
-    for (left = colChkCtx->colOC; left < colChkCtx->colOC + colChkCtx->colOCcount; left++) {
+    for (left = colChkCtx->colOC; left < colChkCtx->colOC + colChkCtx->colOCCount; left++) {
         if (*left == NULL || CollisionCheck_SkipOC(*left) == 1) {
             continue;
         }
-        for (right = left + 1; right < colChkCtx->colOC + colChkCtx->colOCcount; right++) {
+        for (right = left + 1; right < colChkCtx->colOC + colChkCtx->colOCCount; right++) {
             if (*right == NULL || CollisionCheck_SkipOC(*right) == 1 ||
                 CollisionCheck_Incompatible(*left, *right) == 1) {
                 continue;
@@ -3081,7 +3081,7 @@ void CollisionCheck_ApplyDamageQuad(GlobalContext* globalCtx, CollisionCheckCont
     CollisionCheck_ApplyDamage(globalCtx, colChkCtx, &quad->base, &quad->info);
 }
 
-static ColChkApplyFunc sDamageApplyFuncs[4] = {
+static ColChkApplyFunc sApplyDamageFuncs[4] = {
     CollisionCheck_ApplyDamageJntSph,
     CollisionCheck_ApplyDamageCyl,
     CollisionCheck_ApplyDamageTris,
@@ -3095,7 +3095,7 @@ static ColChkApplyFunc sDamageApplyFuncs[4] = {
 void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     s32 i;
 
-    for (i = 0; i < colChkCtx->colACcount; i++) {
+    for (i = 0; i < colChkCtx->colACCount; i++) {
         Collider* collider = colChkCtx->colAC[i];
 
         if (collider == NULL) {
@@ -3104,7 +3104,7 @@ void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colC
         if (collider->acFlags & AC_NO_DAMAGE) {
             continue;
         }
-        sDamageApplyFuncs[collider->shape](globalCtx, colChkCtx, collider);
+        sApplyDamageFuncs[collider->shape](globalCtx, colChkCtx, collider);
     }
 }
 
@@ -3169,7 +3169,7 @@ s32 CollisionCheck_LineOC(GlobalContext* globalCtx, CollisionCheckContext* colCh
     s32 exclude;
     s32 result = 0;
 
-    for (col = colChkCtx->colOC; col < colChkCtx->colOC + colChkCtx->colOCcount; col++) {
+    for (col = colChkCtx->colOC; col < colChkCtx->colOC + colChkCtx->colOCCount; col++) {
         if (CollisionCheck_SkipOC(*col) == 1) {
             continue;
         }
@@ -3310,7 +3310,7 @@ void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider) {
  */
 void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
-    s32 bloodIndex;
+    s32 effectIndex;
 
     D_8015CF10.position.x = v->x;
     D_8015CF10.position.y = v->y;
@@ -3354,7 +3354,7 @@ void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     D_8015CF10.speed = 8.0f;
     D_8015CF10.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &bloodIndex, EFFECT_SPARK, 0, 1, &D_8015CF10);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 
 /**
@@ -3363,7 +3363,7 @@ void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
  */
 void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
-    s32 waterIndex;
+    s32 effectIndex;
 
     D_8015D3D8.position.x = v->x;
     D_8015D3D8.position.y = v->y;
@@ -3407,7 +3407,7 @@ void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     D_8015D3D8.speed = 8.0f;
     D_8015D3D8.gravity = -1.0f;
 
-    Effect_Add(globalCtx, &waterIndex, EFFECT_SPARK, 0, 1, &D_8015D3D8);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
 
 /**
@@ -3430,7 +3430,7 @@ void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v) {
         { 0, 0, 0, { 0, 128, 255 }, false, 300 },
         true,
     };
-    s32 shieldIndex;
+    s32 effectIndex;
 
     initMetal.position.x = v->x;
     initMetal.position.y = v->y;
@@ -3439,7 +3439,7 @@ void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v) {
     initMetal.lightPoint.y = initMetal.position.y;
     initMetal.lightPoint.z = initMetal.position.z;
 
-    Effect_Add(globalCtx, &shieldIndex, EFFECT_SHIELD_PARTICLE, 0, 1, &initMetal);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SHIELD_PARTICLE, 0, 1, &initMetal);
 }
 
 /**
@@ -3485,7 +3485,7 @@ void CollisionCheck_SpawnShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v,
         { 0, 0, 0, { 0, 128, 255 }, false, 300 },
         false,
     };
-    s32 shield;
+    s32 effectIndex;
 
     initWood.position.x = v->x;
     initWood.position.y = v->y;
@@ -3494,7 +3494,7 @@ void CollisionCheck_SpawnShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v,
     initWood.lightPoint.y = initWood.position.y;
     initWood.lightPoint.z = initWood.position.z;
 
-    Effect_Add(globalCtx, &shield, EFFECT_SHIELD_PARTICLE, 0, 1, &initWood);
+    Effect_Add(globalCtx, &effectIndex, EFFECT_SHIELD_PARTICLE, 0, 1, &initWood);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, actorPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 

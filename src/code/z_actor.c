@@ -1431,12 +1431,12 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     return actor->xyzDistToLinkSq;
 }
 
-#define TARGET_RANGE(range, leash) \
-    { SQ(range), (f32)range / leash }
-
 typedef struct {
-    f32 rangeSq, leashMod;
+    /* 0x0 */ f32 rangeSq;
+    /* 0x4 */ f32 leashScale;
 } TargetRangeParams; // size = 0x8
+
+#define TARGET_RANGE(range, leash) { SQ(range), (f32)range / leash }
 
 TargetRangeParams D_80115FF8[] = {
     TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
@@ -1467,7 +1467,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
             dist = actor->xyzDistToLinkSq;
         }
 
-        return !func_8002F090(actor, D_80115FF8[actor->unk_1F].leashMod * dist);
+        return !func_8002F090(actor, D_80115FF8[actor->unk_1F].leashScale * dist);
     }
 
     return 0;

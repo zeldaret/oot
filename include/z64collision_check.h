@@ -9,7 +9,7 @@
 // From z64.h
 struct Actor;
 
-typedef struct Collider {
+typedef struct {
     /* 0x00 */ struct Actor* actor; // Attached actor
     /* 0x04 */ struct Actor* at; // Actor attached to what it collided with as an AT collider.
     /* 0x08 */ struct Actor* ac; // Actor attached to what it collided with as an AC collider.
@@ -22,7 +22,7 @@ typedef struct Collider {
     /* 0x15 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } Collider; // size = 0x18
 
-typedef struct ColliderInit {
+typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
@@ -31,7 +31,7 @@ typedef struct ColliderInit {
     /* 0x05 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInit; // size = 0x06
 
-typedef struct ColliderInitType1 {
+typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
@@ -39,7 +39,7 @@ typedef struct ColliderInitType1 {
     /* 0x04 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInitType1; // size = 0x05
 
-typedef struct ColliderInitToActor {
+typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ u8 atFlags; // Information flags for AT collisions.
     /* 0x05 */ u8 acFlags; // Information flags for AC collisions.
@@ -47,20 +47,20 @@ typedef struct ColliderInitToActor {
     /* 0x07 */ u8 shape;   // JntSph, Cylinder, Tris, or Quad
 } ColliderInitToActor; // size = 0x08
 
-typedef struct ColliderTouch {
+typedef struct {
     /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage or Stun Timer
 } ColliderTouch; // size = 0x08
 
-typedef struct ColliderBump {
+typedef struct {
     /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderBump; // size = 0x0C
 
-typedef struct ColliderBumpInit {
+typedef struct {
     /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
@@ -79,7 +79,7 @@ typedef struct ColliderInfo {
     /* 0x24 */ struct ColliderInfo* acHitInfo; // element that hit the AC collider
 } ColliderInfo; // size = 0x28
 
-typedef struct ColliderInfoInit {
+typedef struct {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x04 */ ColliderTouch toucher; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderBumpInit bumper; // Damage properties when acting as an AC collider
@@ -88,144 +88,144 @@ typedef struct ColliderInfoInit {
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions
 } ColliderInfoInit; // size = 0x18
 
-typedef struct ColliderJntSphElementDim {
+typedef struct {
     /* 0x00 */ Sphere16 modelSphere; // model space sphere
     /* 0x08 */ Sphere16 worldSphere; // world space sphere
     /* 0x10 */ f32 scale;          // world space sphere = model * scale * 0.01
     /* 0x14 */ u8 limb;           // attached limb
 } ColliderJntSphElementDim; // size = 0x18
 
-typedef struct ColliderJntSphElementDimInit {
+typedef struct {
     /* 0x00 */ u8 limb; // attached limb
     /* 0x02 */ Sphere16 modelSphere; // model space sphere
     /* 0x0A */ s16 scale; // world space sphere = model * scale * 0.01
 } ColliderJntSphElementDimInit; // size = 0x0C
 
-typedef struct ColliderJntSphElement {
+typedef struct {
     /* 0x00 */ ColliderInfo info;
     /* 0x28 */ ColliderJntSphElementDim dim;
 } ColliderJntSphElement; // size = 0x40
 
-typedef struct ColliderJntSphElementInit {
+typedef struct {
     /* 0x00 */ ColliderInfoInit info;
     /* 0x18 */ ColliderJntSphElementDimInit dim;
 } ColliderJntSphElementInit; // size = 0x24
 
-typedef struct ColliderJntSph {
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderJntSphElement* elements;
 } ColliderJntSph; // size = 0x20
 
-typedef struct ColliderJntSphInit {
+typedef struct {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInit; // size = 0x10
 
-typedef struct ColliderJntSphInitType1 {
+typedef struct {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInitType1; // size = 0x10
 
-typedef struct ColliderJntSphInitToActor {
+typedef struct {
     /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInitToActor; // size = 0x10
 
-typedef struct ColliderCylinder {
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderInfo info;
     /* 0x40 */ Cylinder16 dim;
 } ColliderCylinder; // size = 0x4C
 
-typedef struct ColliderCylinderInit {
+typedef struct {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit; // size = 0x2C
 
-typedef struct ColliderCylinderInitType1 {
+typedef struct {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInitType1; // size = 0x2C
 
-typedef struct ColliderCylinderInitToActor {
+typedef struct {
     /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInitToActor; // size = 0x2C
 
-typedef struct ColliderTrisElementDimInit {
+typedef struct {
     /* 0x00 */ Vec3f vtx[3];
 } ColliderTrisElementDimInit; // size = 0x24
 
-typedef struct ColliderTrisElement {
+typedef struct {
     /* 0x00 */ ColliderInfo info;
     /* 0x28 */ TriNorm dim;
 } ColliderTrisElement; // size = 0x5C
 
-typedef struct ColliderTrisElementInit {
+typedef struct {
     /* 0x00 */ ColliderInfoInit info;
     /* 0x18 */ ColliderTrisElementDimInit dim;
 } ColliderTrisElementInit; // size 0x3C
 
-typedef struct ColliderTris {
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTrisElement* elements;
 } ColliderTris; // size = 0x20
 
-typedef struct ColliderTrisInit {
+typedef struct {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisElementInit* elements;
 } ColliderTrisInit; // size = 0x10
 
-typedef struct ColliderTrisInitType1 {
+typedef struct {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisElementInit* elements;
 } ColliderTrisInitType1; // size = 0x10
 
-typedef struct ColliderQuadDim {
+typedef struct {
     /* 0x00 */ Vec3f quad[4];
     /* 0x30 */ Vec3s dcMid; // midpoint of vectors d, c
     /* 0x36 */ Vec3s baMid; // midpoint of vectors b, a
     /* 0x3C */ f32 acDist; // distance to nearest AC collision this frame.
 } ColliderQuadDim; // size = 0x40
 
-typedef struct ColliderQuadDimInit {
+typedef struct {
     /* 0x00 */ Vec3f quad[4];
 } ColliderQuadDimInit; // size = 0x30
 
-typedef struct ColliderQuadElement {
+typedef struct {
     /* 0x00 */ ColliderInfo info;
     /* 0x24 */ ColliderQuadDim dim;
 } ColliderQuadElement; // size = 0x68
 
-typedef struct ColliderQuad {
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderInfo info;
     /* 0x40 */ ColliderQuadDim dim;
 } ColliderQuad; // size = 0x80
 
-typedef struct ColliderQuadInit {
+typedef struct {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ ColliderQuadDimInit dim;
 } ColliderQuadInit; // size = 0x50
 
-typedef struct ColliderQuadInitType1 {
+typedef struct {
     /* 0x00 */ ColliderInitType1 base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ ColliderQuadDimInit dim;
 } ColliderQuadInitType1; // size = 0x50
 
-typedef struct OcLine {
+typedef struct {
     /* 0x00 */ Linef line;
     /* 0x18 */ u16 ocFlags;
 } OcLine; // size = 0x1C
@@ -359,41 +359,41 @@ typedef enum ElementType {
 #define DMG_SLINGSHOT    (1 << 0x02)
 #define DMG_EXPLOSIVE    (1 << 0x03)
 #define DMG_BOOMERANG    (1 << 0x04)
-#define DMG_NORMAL_ARROW (1 << 0x05)
+#define DMG_ARROW_NORMAL (1 << 0x05)
 #define DMG_HAMMER_SWING (1 << 0x06)
 #define DMG_HOOKSHOT     (1 << 0x07)
-#define DMG_KOKIRI_SLASH (1 << 0x08)
-#define DMG_MASTER_SLASH (1 << 0x09)
-#define DMG_GIANT_SLASH  (1 << 0x0A)
-#define DMG_FIRE_ARROW   (1 << 0x0B)
-#define DMG_ICE_ARROW    (1 << 0x0C)
-#define DMG_LIGHT_ARROW  (1 << 0x0D)
-#define DMG_WIND_ARROW   (1 << 0x0E)
-#define DMG_SHADOW_ARROW (1 << 0x0F)
-#define DMG_SPIRIT_ARROW (1 << 0x10)
-#define DMG_FIRE_MAGIC   (1 << 0x11)
-#define DMG_ICE_MAGIC    (1 << 0x12)
-#define DMG_LIGHT_MAGIC  (1 << 0x13)
+#define DMG_SLASH_KOKIRI (1 << 0x08)
+#define DMG_SLASH_MASTER (1 << 0x09)
+#define DMG_SLASH_GIANT  (1 << 0x0A)
+#define DMG_ARROW_FIRE   (1 << 0x0B)
+#define DMG_ARROW_ICE    (1 << 0x0C)
+#define DMG_ARROW_LIGHT  (1 << 0x0D)
+#define DMG_ARROW_WIND   (1 << 0x0E)
+#define DMG_ARROW_SHADOW (1 << 0x0F)
+#define DMG_ARROW_SPIRIT (1 << 0x10)
+#define DMG_MAGIC_FIRE   (1 << 0x11)
+#define DMG_MAGIC_ICE    (1 << 0x12)
+#define DMG_MAGIC_LIGHT  (1 << 0x13)
 #define DMG_SHIELD       (1 << 0x14)
 #define DMG_MIR_RAY      (1 << 0x15)
-#define DMG_KOKIRI_SPIN  (1 << 0x16)
-#define DMG_GIANT_SPIN   (1 << 0x17)
-#define DMG_MASTER_SPIN  (1 << 0x18)
-#define DMG_KOKIRI_JUMP  (1 << 0x19)
-#define DMG_GIANT_JUMP   (1 << 0x1A)
-#define DMG_MASTER_JUMP  (1 << 0x1B)
+#define DMG_SPIN_KOKIRI  (1 << 0x16)
+#define DMG_SPIN_GIANT   (1 << 0x17)
+#define DMG_SPIN_MASTER  (1 << 0x18)
+#define DMG_JUMP_KOKIRI  (1 << 0x19)
+#define DMG_JUMP_GIANT   (1 << 0x1A)
+#define DMG_JUMP_MASTER  (1 << 0x1B)
 #define DMG_UNKNOWN_1    (1 << 0x1C)
 #define DMG_UNBLOCKABLE  (1 << 0x1D)
 #define DMG_HAMMER_JUMP  (1 << 0x1E)
 #define DMG_UNKNOWN_2    (1 << 0x1F)
 
-#define DMG_SLASH (DMG_KOKIRI_SLASH | DMG_MASTER_SLASH | DMG_GIANT_SLASH)
-#define DMG_SPIN_ATTACK (DMG_KOKIRI_SPIN | DMG_MASTER_SPIN | DMG_GIANT_SPIN)
-#define DMG_JUMP_SLASH (DMG_KOKIRI_JUMP | DMG_MASTER_JUMP | DMG_GIANT_JUMP)
+#define DMG_SLASH (DMG_SLASH_KOKIRI | DMG_SLASH_MASTER | DMG_SLASH_GIANT)
+#define DMG_SPIN_ATTACK (DMG_SPIN_KOKIRI | DMG_SPIN_MASTER | DMG_SPIN_GIANT)
+#define DMG_JUMP_SLASH (DMG_JUMP_KOKIRI | DMG_JUMP_MASTER | DMG_JUMP_GIANT)
 #define DMG_SWORD (DMG_SLASH | DMG_SPIN_ATTACK | DMG_JUMP_SLASH)
 #define DMG_HAMMER (DMG_HAMMER_SWING | DMG_HAMMER_JUMP)
-#define DMG_FIRE (DMG_FIRE_ARROW | DMG_FIRE_MAGIC)
-#define DMG_ARROW (DMG_NORMAL_ARROW | DMG_FIRE_ARROW | DMG_ICE_ARROW | DMG_LIGHT_ARROW | DMG_UNK_ARROW_1 | DMG_UNK_ARROW_2 | DMG_UNK_ARROW_3)
+#define DMG_FIRE (DMG_ARROW_FIRE | DMG_MAGIC_FIRE)
+#define DMG_ARROW (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_UNK_ARROW_1 | DMG_UNK_ARROW_2 | DMG_UNK_ARROW_3)
 #define DMG_RANGED (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
 #define DMG_DEFAULT ~(DMG_SHIELD | DMG_MIR_RAY)
 
