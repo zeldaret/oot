@@ -32,6 +32,7 @@ const ActorInit Oceff_Wipe4_InitVars = {
 
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.posRot.pos = ACTIVE_CAM->eye;
@@ -40,11 +41,13 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     func_800876C8(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+    
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
