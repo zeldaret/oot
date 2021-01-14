@@ -17,7 +17,7 @@ typedef struct DoorKiller {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ u8 unused; // Set to 0 in init, otherwise unused.
-    /* 0x0191 */ u8 wobbleOnSpawn; // If set in init, door will wobble 10 frames after spawning.
+    /* 0x0191 */ u8 queuedWobble; // If set, door will wobble 10 frames after spawning.
     /* 0x0192 */ Vec3s jointTable[9];
     /* 0x01C8 */ ColliderCylinder colliderCylinder;
     /* 0x0214 */ Gfx* texture;
