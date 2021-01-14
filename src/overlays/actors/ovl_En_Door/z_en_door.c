@@ -199,7 +199,8 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(globalCtx)) {
-        if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f && fabsf(playerPosRelToDoor.z) < 50.0f) {
+        if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
+            fabsf(playerPosRelToDoor.z) < 50.0f) {
             phi_v0 = player->actor.shape.rot.y - this->actor.shape.rot.y;
             if (playerPosRelToDoor.z > 0.0f) {
                 phi_v0 = 0x8000 - phi_v0;

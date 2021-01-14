@@ -4225,11 +4225,14 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                     func_800304B0(globalCtx);
                 }
             } else {
-                // This actor can be either EnDoor or DoorKiller
-                // Don't try to access any struct vars other than `animType` and `playerIsOpening`! These two variables are common across the two actors' structs however most other variables are not!
+                // This actor can be either EnDoor or DoorKiller.
+                // Don't try to access any struct vars other than `animStyle` and `playerIsOpening`! These two variables
+                // are common across the two actors' structs however most other variables are not!
                 door = (EnDoor*)doorActor;
 
-                door->animStyle = (doorDirection < 0.0f) ? ((LINK_IS_ADULT) ? HANDLE_ON_LEFT_ADULT : HANDLE_ON_LEFT_CHILD) : ((LINK_IS_ADULT) ? HANDLE_ON_RIGHT_ADULT : HANDLE_ON_RIGHT_CHILD);
+                door->animStyle = (doorDirection < 0.0f)
+                                      ? ((LINK_IS_ADULT) ? HANDLE_ON_LEFT_ADULT : HANDLE_ON_LEFT_CHILD)
+                                      : ((LINK_IS_ADULT) ? HANDLE_ON_RIGHT_ADULT : HANDLE_ON_RIGHT_CHILD);
 
                 if (door->animStyle == HANDLE_ON_LEFT_ADULT) {
                     sp5C = D_808539EC[this->modelAnimType];
@@ -4269,7 +4272,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                     doorDirection = -doorDirection;
                 }
 
-                door->playerIsOpening = 1; // door is opening
+                door->playerIsOpening = 1;
 
                 if (this->doorType != PLAYER_DOORTYPE_FAKE) {
                     this->stateFlags1 |= 0x20000000;
@@ -4297,7 +4300,9 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->type == ACTORTYPE_DOOR)) {
-                frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
+                frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                                .sides[(doorDirection > 0) ? 0 : 1]
+                                .room;
 
                 if ((frontRoom >= 0) && (frontRoom != globalCtx->roomCtx.curRoom.num)) {
                     func_8009728C(globalCtx, &globalCtx->roomCtx, frontRoom);

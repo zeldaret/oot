@@ -2,7 +2,7 @@
  * File: z_door_killer.c
  * Overlay: ovl_Door_Killer
  * Description: Fake doors which attack player
- * 
+ *
  * Associated switch flags: (params >> 8) & 0x3F
  * ((params >> 8) & 0x3F) == 0x3F means no switch flags are checked / set
  */
@@ -114,7 +114,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->colliderJntSph.list[0].dim.worldSphere.center.x = (s16)this->actor.posRot.pos.x;
             this->colliderJntSph.list[0].dim.worldSphere.center.y = (s16)this->actor.posRot.pos.y + 50;
             this->colliderJntSph.list[0].dim.worldSphere.center.z = (s16)this->actor.posRot.pos.z;
-            
+
             // If tied to a switch flag and that switch flag is already set, kill the actor.
             if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&
                 Flags_GetSwitch(globalCtx2, ((this->actor.params >> 8) & 0x3F))) {
@@ -264,7 +264,8 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 /**
- * After wobbling, fall over and slam onto the floor, damaging the player if they are in the way. Uses manual distance check for damaging player, not AT system.
+ * After wobbling, fall over and slam onto the floor, damaging the player if they are in the way. Uses manual distance
+ * check for damaging player, not AT system.
  */
 void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
     s32 i;
@@ -408,8 +409,8 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
         this->actionFunc = DoorKiller_Die;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
     } else if (!Player_InCsMode(globalCtx) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
-            (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
-            (playerPosRelToDoor.z > 0.0f)) {
+               (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
+               (playerPosRelToDoor.z > 0.0f)) {
         // Set player properties to make the door openable if within range
         angleToFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if (playerPosRelToDoor.z > 0.0f) {
