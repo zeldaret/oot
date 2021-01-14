@@ -237,7 +237,7 @@ void EnHonotrap_EyeOpen(EnHonotrap* this, GlobalContext* globalCtx) {
 
 void EnHonotrap_SetupEyeAttack(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_EyeAttack;
-    this->eyeState = 0;
+    this->eyeState = HONOTRAP_EYE_OPEN;
 }
 
 void EnHonotrap_EyeAttack(EnHonotrap* this, GlobalContext* globalCtx) {
