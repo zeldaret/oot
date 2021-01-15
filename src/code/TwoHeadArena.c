@@ -99,19 +99,19 @@ void* THA_AllocEnd(TwoHeadArena* tha, u32 size) {
         mask = (size >= 0x10) ? ~0xF : 0;
     }
 
-    tha->tail = ((((u32)tha->tail & mask) - size) & mask);
+    tha->tail = (((u32)tha->tail & mask) - size) & mask;
     return tha->tail;
 }
 
 void* THA_AllocEndAlign16(TwoHeadArena* tha, u32 size) {
     u32 mask = ~0xF;
 
-    tha->tail = ((((u32)tha->tail & mask) - size) & (u64)mask);
+    tha->tail = (((u32)tha->tail & mask) - size) & (u64)mask;
     return tha->tail;
 }
 
 void* THA_AllocEndAlign(TwoHeadArena* tha, u32 size, u32 mask) {
-    tha->tail = ((((u32)tha->tail & mask) - size) & mask);
+    tha->tail = (((u32)tha->tail & mask) - size) & mask;
     return tha->tail;
 }
 
