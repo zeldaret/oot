@@ -99,7 +99,7 @@ void* THA_AllocEnd(TwoHeadArena* tha, u32 size) {
         mask = (size >= 0x10) ? ~0xF : 0;
     }
 
-    tha->tail = (u32)((((u32)tha->tail & mask) - size) & mask);
+    tha->tail = ((((u32)tha->tail & mask) - size) & mask);
     return tha->tail;
 }
 
