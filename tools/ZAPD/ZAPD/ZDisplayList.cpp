@@ -531,6 +531,9 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					int32_t texAddress = SEG2FILESPACE(data);
 					Declaration* texDecl = nullptr;
 
+					if (segmentNumber == 0x80) // Is this texture defined in code?
+						texAddress -= SEG2FILESPACE(parent->baseAddress);
+
 					if (parent != nullptr)
 					{
 						if (Globals::Instance->HasSegment(segmentNumber))

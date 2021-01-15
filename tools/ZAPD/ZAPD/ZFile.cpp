@@ -433,11 +433,6 @@ Declaration* ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment a
 	}
 #endif
 
-	if (address == 0x680 && body == "")
-	{
-		int bp = 0;
-	}
-
 	AddDeclarationDebugChecks(address);
 
 	declarations[address] = new Declaration(alignment, size, varType, varName, true, arrayItemCnt, body);
@@ -830,7 +825,7 @@ string ZFile::ProcessDeclarations()
 
 			uint8_t* rawDataArr = rawData.data();
 
-			if (lastAddr + lastSize != item.first)
+			if (lastAddr + lastSize != item.first && lastAddr >= rangeStart && lastAddr + lastSize < rangeEnd)
 			{
 				//int diff = item.first - (lastAddr + declarations[lastAddr]->size);
 				int diff = item.first - (lastAddr + lastSize);
