@@ -90,7 +90,6 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->actor.params < 3) {
-
             if (this->actor.params == 1) {
                 blureNormal.elemDuration = 4;
             } else {
@@ -130,15 +129,6 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnArrow_SetupAction(this, func_809B3BD4);
 }
-
-s32 D_809B4E5C[] = { 0x010A010B, 0x010C010A, 0x010A010A };
-s32 D_809B4E68[] = { 0x00000000, 0x3F000000, 0x00000000 };
-s32 D_809B4E74[] = { 0x00000000, 0x3F000000, 0x00000000 };
-s32 D_809B4E80[] = { 0xFFFF64FF };
-s32 D_809B4E84[] = { 0xFF320000 };
-s32 D_809B4E88[] = { 0x00000000, 0x43C80000, 0x44BB8000 };
-s32 D_809B4E94[] = { 0x00000000, 0xC3C80000, 0x44BB8000 };
-s32 D_809B4EA0[] = { 0x00000000, 0x00000000, 0xC3960000, 0x00000000 };
 
 void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnArrow* this = THIS;
@@ -181,35 +171,82 @@ void func_809B3BD4(EnArrow* this, GlobalContext* globalCtx) {
         }
 
         EnArrow_SetupAction(this, func_809B3FDC);
-        Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot);
+        Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
 
         if (this->actor.params >= 9) {
             func_8002D9A4(this, 80.0f);
             this->timer = 15;
             this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
         } else {
-            func_8002D9A4(this, 150.0f);
+            func_8002D9A4(&this->actor, 150.0f);
             this->timer = 12;
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3CEC.s")
-/*
-void func_809B3CEC(GlobalContext *globalCtx, EnArrow *this) {
+void func_809B3CEC(GlobalContext* globalCtx, EnArrow* this) {
     EnArrow_SetupAction(this, func_809B4640);
     Animation_PlayOnce(&this->skelAnime, &D_04004310);
-    this->actor.posRot.rot.y += (s32)((Rand_ZeroOne() - 0.5f) * 24576.0f) + 0x8000;
-    this->actor.velocity.y = this->actor.velocity.y + (this->actor.speedXZ * (0.4f + (0.4f * Rand_ZeroOne())));
-    this->actor.speedXZ = this->actor.speedXZ * (0.04f + 0.3f * Rand_ZeroOne());
-    this->timer = 0x32;
+    this->actor.posRot.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
+    this->actor.velocity.y += (this->actor.speedXZ * (0.4f + (0.4f * Rand_ZeroOne())));
+    this->actor.speedXZ *= (0.04f + 0.3f * Rand_ZeroOne());
+    this->timer = 50;
     this->actor.gravity = -1.5f;
-
 }
-*/
 
 void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3DD8.s")
+// void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
+//     ? sp74;
+//     f32 sp68;
+//     f32 sp5C;
+//     f32 sp50;
+//     f32 sp4C;
+//     ? sp44;
+//     Actor* temp_v0;
+//     f32 temp_f0;
+//     f32 temp_f12;
+//     f32 phi_f0;
+//     f32 phi_f0_2;
+//     f32 phi_f0_3;
+
+//     Math_Vec3f_Diff(&this->actor.posRot, &this->unk_210, &sp68);
+//     temp_v0 = this->hitActor;
+//     temp_f12 = ((this->actor.posRot.pos.x - temp_v0->posRot.pos.x) * sp68) +
+//                ((this->actor.posRot.pos.y - temp_v0->posRot.pos.y) * sp6C) +
+//                ((this->actor.posRot.pos.z - temp_v0->posRot.pos.z) * sp70);
+//     if (!(temp_f12 < 0.0f)) {
+//         sp4C = temp_f12;
+//         temp_f0 = Math3D_Vec3fMagnitudeSq(&sp68);
+//         if (!(temp_f0 < 1.0f)) {
+//             Math_Vec3f_Scale(&sp68, temp_f12 / temp_f0);
+//             Math_Vec3f_Sum(&this->hitActor->posRot, &sp68, &sp5C);
+//             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->posRot, &sp5C, &sp50, &sp74, 1, 1, 1, 1,
+//                                         &sp44) != 0) {
+//                 if (sp5C <= sp50) {
+//                     phi_f0 = 1.0f;
+//                 } else {
+//                     phi_f0 = -1.0f;
+//                 }
+//                 this->hitActor->posRot.pos.x = phi_f0 + sp50;
+//                 if (sp60 <= sp54) {
+//                     phi_f0_2 = 1.0f;
+//                 } else {
+//                     phi_f0_2 = -1.0f;
+//                 }
+//                 this->hitActor->posRot.pos.y = phi_f0_2 + sp54;
+//                 if (sp64 <= sp58) {
+//                     phi_f0_3 = 1.0f;
+//                 } else {
+//                     phi_f0_3 = -1.0f;
+//                 }
+//                 this->hitActor->posRot.pos.z = phi_f0_3 + sp58;
+//                 return;
+//             }
+//             Math_Vec3f_Copy(&this->hitActor->posRot, &sp5C);
+//         }
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
 
@@ -274,7 +311,8 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
 //             if ((cond != 0) && (atHit->flags != 4)) {
 //                 hitActor = this->collider.base.at;
 
-//                 if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & 4)) && (hitActor->flags & 0x4000)) {
+//                 if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & 4)) && (hitActor->flags & 0x4000))
+//                 {
 //                     this->hitActor = hitActor;
 //                     func_809B3DD8(this, globalCtx);
 //                     Math_Vec3f_Diff(&hitActor->posRot, &this->actor.posRot, &this->unk_250);
@@ -325,7 +363,8 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
 //             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
 //             Math_Vec3f_Sum(&this->actor.posRot, &this->unk_250, &sp54);
 
-//             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &sp94, 1, 1, 1, 1, &bgId) != 0) {
+//             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &sp94, 1, 1, 1, 1, &bgId) != 0)
+//             {
 //                 this->hitActor->posRot.pos.x = hitPoint.x + (sp54.x <= hitPoint.x) ? 1.0f : -1.0f;
 //                 this->hitActor->posRot.pos.y = hitPoint.y + (sp54.y <= hitPoint.y) ? 1.0f : -1.0f;
 //                 this->hitActor->posRot.pos.z = hitPoint.z + (sp54.z <= hitPoint.z) ? 1.0f : -1.0f;
@@ -347,12 +386,152 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B45E0.s")
+void func_809B45E0(EnArrow* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B4640.s")
+    if (DECR(this->timer) == 0) {
+        Actor_Kill(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Update.s")
+void func_809B4640(EnArrow* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
+    Actor_MoveForward(&this->actor);
+
+    if (DECR(this->timer) == 0) {
+        Actor_Kill(&this->actor);
+    }
+}
+
+void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnArrow* this = THIS;
+    Player* player = PLAYER;
+
+    if ((this->unk_24B != 0) || ((this->actor.params >= 0) && (player->unk_A73 != 0)) ||
+        !Player_InBlockingCsMode(globalCtx, player)) {
+        this->actionFunc(this, globalCtx);
+    }
+
+    if ((this->actor.params >= 3) && (this->actor.params < 9)) {
+        s16 elementalActorIds[] = { ACTOR_ARROW_FIRE, ACTOR_ARROW_ICE,  ACTOR_ARROW_LIGHT,
+                                    ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE };
+
+        if (this->actor.child == NULL) {
+            Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, elementalActorIds[this->actor.params - 3],
+                               this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                               0);
+        }
+    } else if (this->actor.params == 0) {
+        static Vec3f velocity = { 0.0f, 0.5f, 0.0f };
+        static Vec3f accel = { 0.0f, 0.5f, 0.0f };
+        static Color_RGBA8 primColor = { 255, 255, 100, 255 };
+        static Color_RGBA8 envColor = { 255, 50, 0, 0 };
+
+        func_8002836C(globalCtx, this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
+    }
+}
+
+s32 D_809B4E88[] = { 0x00000000, 0x43C80000, 0x44BB8000 };
+s32 D_809B4E94[] = { 0x00000000, 0xC3C80000, 0x44BB8000 };
+s32 D_809B4EA0[] = { 0x00000000, 0x00000000, 0xC3960000, 0x00000000 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B4800.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Draw.s")
+void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnArrow* this = THIS;
+    u8 sp6F;
+    f32 sp68;
+    GraphicsContext* sp64;
+    Gfx* sp54;
+    Gfx* sp40;
+    Gfx* temp_v0;
+    Gfx* temp_v0_2;
+    Gfx* temp_v0_3;
+    Gfx* temp_v0_4;
+    Gfx* temp_v0_5;
+    Gfx* temp_v0_6;
+    GraphicsContext* temp_a1;
+    f32 temp_f6;
+    s32 temp_t7;
+    u8 temp_a0;
+    s32 lod;
+    f32 phi_f12;
+    f32 phi_f6;
+
+    if (this->actor.params < 9) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        lod = 1;
+        if (this->actor.projectedPos.z < MREG(95)) {
+            lod = 0;
+        }
+        SkelAnime_DrawLod(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this, lod);
+    } else if (this->actor.speedXZ != 0.0f) {
+        temp_a0 = this->timer;
+        sp6F = (Math_CosS(((((((temp_a0 * 4) + temp_a0) * 8) - temp_a0) * 0x10) + temp_a0) * 8) * 127.5f) + 127.5f;
+        temp_a1 = globalCtx->state.gfxCtx;
+        sp64 = temp_a1;
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1346);
+
+        func_80093C14(globalCtx->state.gfxCtx);
+
+        if (this->actor.params == 9) {
+            temp_v0 = sp64->polyXlu.p;
+            sp64->polyXlu.p = temp_v0 + 8;
+            temp_v0->words.w1 = -1;
+            temp_v0->words.w0 = 0xFA000000;
+            temp_v0_2 = sp64->polyXlu.p;
+            sp64->polyXlu.p = temp_v0_2 + 8;
+            temp_v0_2->words.w0 = 0xFB000000;
+            temp_v0_2->words.w1 = sp6F | 0xFFFF00;
+            sp68 = 50.0f;
+        } else {
+            temp_v0_3 = sp64->polyXlu.p;
+            sp64->polyXlu.p = temp_v0_3 + 8;
+            temp_v0_3->words.w1 = 0xC0000FF;
+            temp_v0_3->words.w0 = 0xFA000000;
+            temp_v0_4 = sp64->polyXlu.p;
+            sp64->polyXlu.p = temp_v0_4 + 8;
+            temp_v0_4->words.w0 = 0xFB000000;
+            temp_v0_4->words.w1 = sp6F | 0xFAFA0000;
+            sp68 = 150.0f;
+        }
+        sp64 = sp64;
+        Matrix_Push();
+        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+
+        if (this->actor.speedXZ == 0.0f) {
+            phi_f12 = 0.0f;
+        } else {
+            temp_t7 = (globalCtx->gameplayFrames & 0xFF) * 0xFA0;
+            temp_f6 = temp_t7;
+            phi_f6 = temp_f6;
+            if (temp_t7 < 0) {
+                phi_f6 = temp_f6 + 4294967296.0f;
+            }
+            phi_f12 = phi_f6 * 0.0000958738f;
+        }
+
+        sp64 = sp64;
+        Matrix_RotateZ(phi_f12, MTXMODE_APPLY);
+        Matrix_Scale(sp68, sp68, sp68, MTXMODE_APPLY);
+        temp_v0_5 = sp64->polyXlu.p;
+        sp64->polyXlu.p = temp_v0_5 + 8;
+        temp_v0_5->words.w0 = 0xDA380003;
+        sp64 = sp64;
+        sp40 = temp_v0_5;
+        sp40->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374);
+        temp_v0_6 = sp64->polyXlu.p;
+        sp64->polyXlu.p = temp_v0_6 + 8;
+        temp_v0_6->words.w1 = &D_04037880;
+        temp_v0_6->words.w0 = 0xDE000000;
+        Matrix_Pull();
+        Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
+        
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);
+    }
+
+    func_809B4800(this, globalCtx);
+}
