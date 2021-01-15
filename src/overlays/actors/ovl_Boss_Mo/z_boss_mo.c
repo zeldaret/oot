@@ -5,6 +5,7 @@
  */
 
 #include "z_boss_mo.h"
+#include "objects/object_mo/object_mo.h"
 #include "vt.h"
 
 #define FLAGS 0x00000035
@@ -79,26 +80,26 @@ typedef enum {
 } BossMoCsState;
 
 // boss title card
-extern UNK_TYPE D_06001010[];
+// extern UNK_TYPE gMorphaTitleCardTex[];
 
-// water
-extern Gfx D_06004C50[];
+// // water
+// extern Gfx gMorphaWaterDL[];
 
-// core
-extern Gfx D_06006700[];
-extern Gfx D_06006838[];
+// // core
+// extern Gfx gMorphaCoreMembraneDL[];
+// extern Gfx gMorphaCoreNucleusDL[];
 
-// tentacle base
-extern Gfx D_06007C00[];
+// // tentacle base
+// extern Gfx gMorphaTentacleBaseDL[];
 
 // particles
 extern Gfx D_0401A0B0[];
 extern Gfx D_040254B0[];
 extern UNK_TYPE D_04051DB0[];
-extern Gfx D_06000140[];
-extern Gfx D_06000F20[];
-extern Gfx D_06000F70[];
-extern Gfx D_06000FC8[];
+// extern Gfx gMorphaBubbleDL[];
+// extern Gfx gMorphaDropletSetupDL[];
+// extern Gfx gMorphaDropletVtxDL[];
+// extern Gfx gMorphaWetSpotVtxDL[];
 
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
@@ -531,7 +532,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y = WATER_LEVEL(globalCtx);
     }
     if ((this->actionState == MO_TENT_READY) || (this->actionState >= MO_TENT_DEATH_START) ||
-        (this->actionState == MO_TENT_RETREAT) || (this->actionState == MO_TENT_SWING) || (this->actionState == MO_TENT_SHAKE)) {
+        (this->actionState == MO_TENT_RETREAT) || (this->actionState == MO_TENT_SWING) ||
+        (this->actionState == MO_TENT_SHAKE)) {
         if (this->actionState == MO_TENT_READY) {
             if (sMorphaCore->cutsceneState != MO_BATTLE) {
                 maxSwingRateX = 2000.0f;
@@ -1480,8 +1482,8 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x1B);
             }
             if (this->timers[2] == 130) {
-                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06001010), 0xA0,
-                                       0xB4, 0x80, 0x28);
+                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                       SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 gSaveContext.eventChkInf[7] |= 0x10;
             }
             break;
@@ -1618,7 +1620,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                 }
                 this->drawActor = false;
                 this->actor.flags &= ~1;
-                Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_JUMP);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
                 Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
             }
             if (this->timers[0] == 0) {
@@ -2121,7 +2123,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         this->timers[1] = 2;
-                        Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_LAND);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_LAND);
                         for (i = 0; i < 10; i++) {
                             spA4.x = Rand_CenteredFloat(4.0f);
                             spA4.y = Rand_ZeroFloat(2.0f) + 3.0f;
@@ -2141,7 +2143,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             } else if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
                 this->actor.velocity.y = BossMo_OnLand(&this->actor.posRot.pos, 40.0f) ? 15.0f : 6.0f;
                 if ((this->actor.posRot.pos.y + 15.0f) >= WATER_LEVEL(globalCtx)) {
-                    Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_JUMP);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
                 }
             }
         } else if (this->actionState >= MO_CORE_MOVE) {
@@ -2175,7 +2177,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             if (this->timers[0] == 0) {
                                 this->waitUnderwater = false;
                                 this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 20;
-                                Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_MOVE_WT);
+                                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_MOVE_WT);
                             }
                             break;
                     }
@@ -2206,9 +2208,9 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) && (WATER_LEVEL(globalCtx) <= this->actor.pos4.y)) {
         if (this->actor.velocity.y < -5.0f) {
-            Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_JUMP);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
         } else {
-            Audio_PlayActorSound2(&this->actor,NA_SE_EN_MOFER_CORE_SMJUMP);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_SMJUMP);
         }
         if ((this->timers[3] != 0) || ((sMorphaTent1->tentMaxStretch > 0.2f) &&
                                        (fabsf(this->actor.posRot.pos.x - sMorphaTent1->actor.posRot.pos.x) < 30.0f) &&
@@ -2398,7 +2400,7 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             i = 0;
             if (this->actionState < MO_TENT_CUT) {
-                func_80078914(&this->tentTipPos,NA_SE_EN_MOFER_CORE_ROLL - SFX_FLAG);
+                func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CORE_ROLL - SFX_FLAG);
             }
         }
         sp70.x = this->tentPos[i].x + sp7C.x;
@@ -2413,7 +2415,8 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawActor) {
         BossMo_TentCollisionCheck(this, globalCtx);
-        if ((this->invincibilityTimer == 0) && (this->actionState != MO_TENT_GRAB) && (this->actionState != MO_TENT_SHAKE)) {
+        if ((this->invincibilityTimer == 0) && (this->actionState != MO_TENT_GRAB) &&
+            (this->actionState != MO_TENT_SHAKE)) {
             BossMo* otherTent = (BossMo*)this->otherTent;
             if (!HAS_LINK(otherTent) && (this->cutIndex == 0)) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderTent.base);
@@ -2444,11 +2447,15 @@ void BossMo_UpdateTentColliders(BossMo* this, s32 item, ColliderJntSph* collider
 }
 
 static Gfx* sTentDLists[41] = {
-    0x06007C78, 0x06007D38, 0x06007D88, 0x06007DD0, 0x06007E18, 0x06007E60, 0x06007EA8, 0x06007EF0, 0x06007F38,
-    0x06007F80, 0x06007FC8, 0x06008010, 0x06008058, 0x060080A0, 0x060080E8, 0x06008130, 0x06008178, 0x060081C0,
-    0x06008208, 0x06008250, 0x06008298, 0x060082E0, 0x06008328, 0x06008370, 0x060083B8, 0x06008400, 0x06008448,
-    0x06008490, 0x060084D8, 0x06008520, 0x06008568, 0x060085B0, 0x060085F8, 0x06008640, 0x06008688, 0x060086D0,
-    0x06008718, 0x06008760, 0x060087A8, 0x060087F0, 0x06008838,
+    gMorphaTentacle0DL,  gMorphaTentacle1DL,  gMorphaTentacle2DL,  gMorphaTentacle3DL,  gMorphaTentacle4DL,
+    gMorphaTentacle5DL,  gMorphaTentacle6DL,  gMorphaTentacle7DL,  gMorphaTentacle8DL,  gMorphaTentacle9DL,
+    gMorphaTentacle10DL, gMorphaTentacle11DL, gMorphaTentacle12DL, gMorphaTentacle13DL, gMorphaTentacle14DL,
+    gMorphaTentacle15DL, gMorphaTentacle16DL, gMorphaTentacle17DL, gMorphaTentacle18DL, gMorphaTentacle19DL,
+    gMorphaTentacle20DL, gMorphaTentacle21DL, gMorphaTentacle22DL, gMorphaTentacle23DL, gMorphaTentacle24DL,
+    gMorphaTentacle25DL, gMorphaTentacle26DL, gMorphaTentacle27DL, gMorphaTentacle28DL, gMorphaTentacle29DL,
+    gMorphaTentacle30DL, gMorphaTentacle31DL, gMorphaTentacle32DL, gMorphaTentacle33DL, gMorphaTentacle34DL,
+    gMorphaTentacle35DL, gMorphaTentacle36DL, gMorphaTentacle37DL, gMorphaTentacle38DL, gMorphaTentacle39DL,
+    gMorphaTentacle40DL,
 };
 
 void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
@@ -2520,7 +2527,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
         }
 
         if (i == 0) {
-            gSPDisplayList(POLY_XLU_DISP++, D_06007C00);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaTentacleBaseDL);
         } else {
             gSPDisplayList(POLY_XLU_DISP++, sTentDLists[i]);
         }
@@ -2546,7 +2553,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6511),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_OPA_DISP++, D_06000140);
+            gSPDisplayList(POLY_OPA_DISP++, gMorphaBubbleDL);
 
             Matrix_Pull();
         }
@@ -2559,6 +2566,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
             MtxF sp98;
             Vec3f sp8C = { -16.0f, 13.0f, 30.0f };
             Vec3s sp84;
+
             Matrix_Push();
             if (this->linkToLeft) {
                 sp8C.x *= -1.0f;
@@ -2605,7 +2613,7 @@ void BossMo_DrawWater(BossMo* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6675),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06004C50);
+    gSPDisplayList(POLY_XLU_DISP++, gMorphaWaterDL);
 
     Matrix_Pull();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6680);
@@ -2639,7 +2647,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
 
         func_8002ED80(&this->actor, globalCtx, 0);
 
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06006700));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gMorphaCoreMembraneDL));
 
         gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2649,7 +2657,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
         }
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06006838));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gMorphaCoreNucleusDL));
 
         if ((this->drawShadow && (this->actor.posRot.pos.y >= 0.0f)) ||
             (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx))) {
@@ -2730,7 +2738,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6941),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_XLU_DISP++, &D_06004C50);
+        gSPDisplayList(POLY_XLU_DISP++, gMorphaWaterDL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6945);
 
@@ -2897,6 +2905,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                             particle->stretch = (particle->scale * 15.0f) * 0.15f;
                         } else if (particle->pos.y <= WATER_LEVEL(globalCtx)) {
                             Vec3f sp78 = particle->pos;
+
                             sp78.y = WATER_LEVEL(globalCtx);
                             if (particle->type == MO_SPLASH) {
                                 BossMo_SpawnRipples(globalCtx->unk_11E10, &sp78, 60.0f, 160.0f, 80, 290,
@@ -2976,7 +2985,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
-                gSPDisplayList(POLY_XLU_DISP++, D_06000F20);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
                 flag++;
@@ -2991,7 +3000,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06000F70);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletVtxDL);
         }
     }
 
@@ -3004,7 +3013,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
-                gSPDisplayList(POLY_XLU_DISP++, D_06000F20);
+                gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
 
                 flag++;
             }
@@ -3017,7 +3026,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06000FC8);
+            gSPDisplayList(POLY_XLU_DISP++, gMorphaWetSpotVtxDL);
         }
     }
 
@@ -3041,7 +3050,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7476),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_OPA_DISP++, D_06000140);
+            gSPDisplayList(POLY_OPA_DISP++, gMorphaBubbleDL);
         }
     }
 
