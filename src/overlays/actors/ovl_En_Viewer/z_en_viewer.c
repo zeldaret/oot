@@ -181,7 +181,6 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
     s16 params = this->actor.params >> 8;
-    ;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
         SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
