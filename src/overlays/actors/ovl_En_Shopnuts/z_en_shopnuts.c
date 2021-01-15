@@ -121,11 +121,10 @@ void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
 }
 
 void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
-    s32 hasSlowPlaybackSpeed;
+    s32 hasSlowPlaybackSpeed = false;
 
-    hasSlowPlaybackSpeed = 0;
     if (this->skelAnime.playSpeed < 0.5f) {
-        hasSlowPlaybackSpeed = 1;
+        hasSlowPlaybackSpeed = true;
     }
     if (hasSlowPlaybackSpeed && (this->animFlagAndTimer != 0)) {
         this->animFlagAndTimer--;
@@ -254,6 +253,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnShopnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
     EnShopnuts* this = THIS;
+
     if ((limbIndex == 9) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         *dList = NULL;
     }

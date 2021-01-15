@@ -219,11 +219,10 @@ void EnHintnuts_SetupFreeze(EnHintnuts* this) {
 }
 
 void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
-    s32 hasSlowPlaybackSpeed;
+    s32 hasSlowPlaybackSpeed = false;
 
-    hasSlowPlaybackSpeed = 0;
     if (this->skelAnime.playSpeed < 0.5f) {
-        hasSlowPlaybackSpeed = 1;
+        hasSlowPlaybackSpeed = true;
     }
     if (hasSlowPlaybackSpeed && (this->animFlagAndTimer != 0)) {
         this->animFlagAndTimer--;
@@ -536,6 +535,7 @@ s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 
 void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHintnuts* this = THIS;
+
     if (this->actor.params == 0xA) {
         Gfx_DrawDListOpa(globalCtx, D_060014E0);
     } else {
