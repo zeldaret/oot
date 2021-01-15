@@ -154,10 +154,10 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     curBgCheckFlags = this->dyna.actor.bgCheckFlags;
 
     sin = Math_SinS(yaw) * distance;
-    cos = Math_CosS(yaw);
+    cos = Math_CosS(yaw) * distance;
 
     this->dyna.actor.posRot.pos.x += sin;
-    this->dyna.actor.posRot.pos.z += (cos * distance);
+    this->dyna.actor.posRot.pos.z += cos;
 
     func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
 
