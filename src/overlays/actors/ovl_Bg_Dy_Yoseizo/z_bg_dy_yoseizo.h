@@ -32,9 +32,9 @@ typedef struct BgDyYoseizo {
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ Vec3s jointTable[28];
     /* 0x023C */ Vec3s morphTable[28];
-    /* 0x02E4 */ u8 unk_2E4;
+    /* 0x02E4 */ u8 lightBallSpawned;
     /* 0x02E5 */ u8 giveDefenseHearts;
-    /* 0x02E6 */ u8 unk_2E6;
+    /* 0x02E6 */ u8 healing;
     /* 0x02E8 */ s16 vanishTimer;
     /* 0x02EA */ s16 givingSpell;
     /* 0x02EC */ s16 fountainType;
@@ -46,12 +46,12 @@ typedef struct BgDyYoseizo {
     /* 0x02F8 */ s16 blinkTimer;
     /* 0x02FA */ s16 unusedTimer;
     /* 0x02FC */ s16 unk_2FC;
-    /* 0x02FE */ s16 unk_2FE;
-    /* 0x02FE */ s16 unk_300;
+    /* 0x02FE */ s16 finishedSpinGrow;
+    /* 0x02FE */ s16 itemSpawned;
     /* 0x0302 */ s16 unk_302;
-    /* 0x0304 */ s16 unk_304;
+    /* 0x0304 */ s16 warpEffectSpawned;
     /* 0x0306 */ s16 unk_306;
-    /* 0x0308 */ f32 unk_308;
+    /* 0x0308 */ f32 scale;
     /* 0x030C */ f32 unk_30C;
     /* 0x0310 */ f32 unk_310;
     /* 0x0314 */ f32 unk_314;

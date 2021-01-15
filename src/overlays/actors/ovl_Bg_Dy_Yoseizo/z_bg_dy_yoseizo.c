@@ -32,20 +32,20 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx);
 // void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_TransitionToSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_NoRewardAction3(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SetupSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx);
-void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
 
 // s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*
 // thisx);
@@ -166,8 +166,8 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
 
     particleInitVelocity = sZeroVector;
 
-    if (!(this->unk_308 < 0.01f)) {
-        spawnPosVariation = this->unk_308 * 3500.0f;
+    if (!(this->scale < 0.01f)) {
+        spawnPosVariation = this->scale * 3500.0f;
         particleAccel.x = Rand_ZeroOne() - 0.5f;
         particleAccel.y = Rand_ZeroOne() - 0.5f;
         particleAccel.z = Rand_ZeroOne() - 0.5f;
@@ -331,7 +331,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        this->actionFunc = func_80873EA4;
+        this->actionFunc = BgDyYoseizo_SetupSpinGrow_Reward;
         return;
     }
 
@@ -345,10 +345,11 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
     this->actor.draw = BgDyYoseizo_Draw;
-    this->actionFunc = func_8087328C;
+    this->actionFunc = BgDyYoseizo_SetupSpinGrow_NoReward;
 }
 
-void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
+// Sets animations for spingrow
+void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_06008698);
         Animation_Change(&this->skelAnime, &D_06008698, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -359,21 +360,24 @@ void func_8087328C(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
     func_8002DF54(globalCtx, &this->actor, 1);
-    this->actionFunc = func_80873380;
+    this->actionFunc = BgDyYoseizo_SpinGrow_NoReward;
 }
 
-void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
+//
+void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     Math_ApproachF(&this->actor.posRot.pos.y, this->unk_30C, this->unk_314, 100.0f);
-    Math_ApproachF(&this->unk_308, 0.035f, this->unk_318, 0.005f);
+    Math_ApproachF(&this->scale, 0.035f, this->unk_318, 0.005f);
     Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
     Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
-    if (this->unk_308 >= 0.034f) {
+    // Finished growing
+    if (this->scale >= 0.034f) {
         if ((this->actor.shape.rot.y > -8000) && (this->actor.shape.rot.y < 1000)) {
             SkelAnime_Update(&this->skelAnime);
+            // Turn to front
             Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 5, 1000, 0);
             if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                this->actionFunc = func_808734DC;
+                this->actionFunc = BgDyYoseizo_NoRewardAction3;
             }
         } else {
             this->actor.shape.rot.y += 3000;
@@ -384,7 +388,7 @@ void func_80873380(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_NoRewardAction3(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 frame = this->skelAnime.curFrame;
 
     func_8002DF54(globalCtx, &this->actor, 1);
@@ -395,12 +399,12 @@ void func_808734DC(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= frame) && (this->unk_2FC == 0)) {
-        this->actionFunc = func_8087358C;
+    if ((this->frameCount <= frame) && !(this->unk_2FC)) {
+        this->actionFunc = BgDyYoseizo_SetupGreetPlayer_NoReward;
     }
 }
 
-void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, (u8)1U);
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
@@ -415,10 +419,10 @@ void func_8087358C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->dialogState = 5;
     func_8010B680(globalCtx, this->actor.textId, NULL);
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
-    this->actionFunc = func_808736A4;
+    this->actionFunc = BgDyYoseizo_GreetPlayer_NoReward;
 }
 
-void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
     this->unk_324 = this->skelAnime.curFrame * 1273.0f;
 
@@ -431,14 +435,14 @@ void func_808736A4(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         Interface_ChangeAlpha(5);
-        this->actionFunc = func_80873780;
+        this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
 
     BgDyYoseizo_Bob(this, globalCtx);
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_060069E8);
         Animation_Change(&this->skelAnime, &D_060069E8, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -449,10 +453,10 @@ void func_80873780(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_SMILE_0);
     this->mouthState = 1;
-    this->actionFunc = func_80873868;
+    this->actionFunc = BgDyYoseizo_HealPlayer_NoReward;
 }
 
-void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 temp_f2 = this->skelAnime.curFrame;
     Vec3f beamPos;
@@ -466,7 +470,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->frameCount <= temp_f2) && (this->unk_2FC == 0)) {
+    if ((this->frameCount <= temp_f2) && !(this->unk_2FC)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->frameCount = Animation_GetLastFrame(&D_06007CA8);
             Animation_Change(&this->skelAnime, &D_06007CA8, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -475,7 +479,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
             Animation_Change(&this->skelAnime, &D_06004344, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
         }
         this->unk_302 = 150;
-        this->unk_2FC = 1;
+        this->unk_2FC = true;
         if (!(this->givingSpell)) {
             beamPos.x = player->actor.posRot.pos.x;
             beamPos.y = player->actor.posRot.pos.y + 200.0f;
@@ -488,7 +492,7 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
                                                beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, phi_v0);
         }
     }
-    if (this->unk_306 >= 2) {
+    if (this->unk_306 > 1) {
         this->unk_306--;
     }
 
@@ -517,13 +521,13 @@ void func_80873868(BgDyYoseizo* this, GlobalContext* globalCtx) {
         this->actor.textId = 0xDA;
         this->dialogState = 5;
         func_8010B720(globalCtx, this->actor.textId);
-        this->actionFunc = func_80873B3C;
+        this->actionFunc = BgDyYoseizo_SayFarewell_NoReward;
         return;
     }
     BgDyYoseizo_Bob(this, globalCtx);
 }
 
-void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->unk_324 = this->skelAnime.curFrame * 1400.0f;
 
     if (this->unk_324 >= (this->frameCount * 1400.0f)) {
@@ -535,7 +539,7 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->mouthState = 0;
-        this->actionFunc = BgDyYoseizo_TransitionToSpinShrink;
+        this->actionFunc = BgDyYoseizo_SetupSpinShrink;
         func_8005B1A4(ACTIVE_CAM);
     }
 
@@ -543,7 +547,7 @@ void func_80873B3C(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void BgDyYoseizo_TransitionToSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SetupSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_06005E60);
         Animation_Change(&this->skelAnime, &D_06005E60, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -563,13 +567,13 @@ void BgDyYoseizo_TransitionToSpinShrink(BgDyYoseizo* this, GlobalContext* global
 void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->vanishTimer == 0) {
-        if (this->unk_308 < 0.003f) {
+        if (this->scale < 0.003f) {
             this->vanishTimer = 30;
             this->actionFunc = BgDyYoseizo_Vanish;
             return;
         }
         Math_ApproachF(&this->actor.posRot.pos.y, this->unk_310, this->unk_314, 100.0f);
-        Math_ApproachZeroF(&this->unk_308, this->unk_318, 0.005f);
+        Math_ApproachZeroF(&this->scale, this->unk_318, 0.005f);
         Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
         Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
         this->actor.shape.rot.y += 3000;
@@ -599,12 +603,12 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
             this->actor.draw = BgDyYoseizo_Draw;
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->unk_2FE = 0;
+            this->finishedSpinGrow = false;
 
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&D_06008698);
@@ -615,25 +619,27 @@ void func_80873EA4(BgDyYoseizo* this, GlobalContext* globalCtx) {
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
-            this->actionFunc = func_80873FD8;
+            this->actionFunc = BgDyYoseizo_SpinGrowSetupGive_Reward;
         }
     }
 }
 
-void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_f0 = this->skelAnime.curFrame;
 
-    if (this->unk_2FE == 0) {
+    if (!(this->finishedSpinGrow)) {
         Math_ApproachF(&this->actor.posRot.pos.y, this->unk_30C, this->unk_314, 100.0f);
-        Math_ApproachF(&this->unk_308, 0.035f, this->unk_318, 0.005f);
+        Math_ApproachF(&this->scale, 0.035f, this->unk_318, 0.005f);
         Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
         Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
-        if (this->unk_308 >= 0.034f) {
+        // Finished growing
+        if (this->scale >= 0.034f) {
             if ((this->actor.shape.rot.y > -8000) && (this->actor.shape.rot.y < 1000)) {
                 SkelAnime_Update(&this->skelAnime);
+                // Spin until facing front
                 Math_ApproachS(&this->actor.shape.rot.y, 0, 5, 1000);
                 if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                    this->unk_2FE = 1;
+                    this->finishedSpinGrow = true;
                 }
             } else {
                 this->actor.shape.rot.y += 3000;
@@ -644,7 +650,7 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         SkelAnime_Update(&this->skelAnime);
 
-        if ((this->frameCount <= temp_f0) && (this->unk_2FC == 0)) {
+        if ((this->frameCount <= temp_f0) && !(this->unk_2FC)) {
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&D_0601D514);
                 Animation_Change(&this->skelAnime, &D_0601D514, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -652,13 +658,12 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 this->frameCount = Animation_GetLastFrame(&D_06001DF0);
                 Animation_Change(&this->skelAnime, &D_06001DF0, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
             }
-            this->unk_2FC = 1;
+            this->unk_2FC = true;
         }
 
         if (globalCtx->csCtx.state != 0) {
             if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3)) {
-                this->unk_2FC = 0;
-                this->unk_2FE = this->unk_2FC;
+                this->finishedSpinGrow = this->unk_2FC = false;
                 if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                     this->frameCount = Animation_GetLastFrame(&D_060069E8);
                     Animation_Change(&this->skelAnime, &D_060069E8, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -667,21 +672,21 @@ void func_80873FD8(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     Animation_Change(&this->skelAnime, &D_06005810, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
                 }
                 this->mouthState = 1;
-                this->actionFunc = func_80874304;
+                this->actionFunc = BgDyYoseizo_Give_Reward;
             }
         }
     }
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 temp_f2 = this->skelAnime.curFrame;
     Player* player = PLAYER;
     s16 actionIndex;
     s16 demoEffectParams;
     Vec3f itemPos;
 
-    if (this->unk_2FC != 0) {
+    if (this->unk_2FC) {
         this->unk_324 = this->skelAnime.curFrame * 1400.0f;
         if ((this->frameCount * 1400.0f) <= this->unk_324) {
             this->unk_324 = 0.0f;
@@ -689,7 +694,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= temp_f2) && (this->unk_2FC == 0)) {
+    if ((this->frameCount <= temp_f2) && !(this->unk_2FC)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->frameCount = Animation_GetLastFrame(&D_06007CA8);
             Animation_Change(&this->skelAnime, &D_06007CA8, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -697,11 +702,11 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
             this->frameCount = Animation_GetLastFrame(&D_06004344);
             Animation_Change(&this->skelAnime, &D_06004344, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
         }
-        this->unk_2FC = 1;
+        this->unk_2FC = true;
     }
 
-    if (globalCtx->csCtx.npcActions[0]->action == 0xD) {
-        this->actionFunc = BgDyYoseizo_TransitionToSpinShrink;
+    if (globalCtx->csCtx.npcActions[0]->action == 13) {
+        this->actionFunc = BgDyYoseizo_SetupSpinShrink;
         return;
     }
 
@@ -711,19 +716,19 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
             actionIndex++;
             BgDyYoseizo_SpawnParticles(this, globalCtx, actionIndex);
 
-        } else if (this->unk_2E4 == 0) {
-            demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | 0x12);
+        } else if (!(this->lightBallSpawned)) {
+            demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, (s32)demoEffectParams);
-            this->unk_2E4 = 1;
+            this->lightBallSpawned = true;
         }
     } else {
         BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
     }
 
-    if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action >= 0xA) &&
-        (globalCtx->csCtx.npcActions[0]->action < 0xD)) {
-        actionIndex = globalCtx->csCtx.npcActions[0]->action - 0xA;
+    if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action >= 10) &&
+        (globalCtx->csCtx.npcActions[0]->action < 13)) {
+        actionIndex = globalCtx->csCtx.npcActions[0]->action - 10;
 
         switch (actionIndex) {
             case FAIRY_REWARD_MAGIC:
@@ -746,20 +751,20 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        if (!(this->unk_2E6)) {
+        if (!(this->healing)) {
             gSaveContext.healthAccumulator = 0x140;
-            this->unk_2E6 = true;
+            this->healing = true;
             if (actionIndex == 2) {
                 Magic_Fill(globalCtx);
             }
         }
     }
 
-    if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action >= 0xE) &&
-        (globalCtx->csCtx.npcActions[0]->action < 0x11)) {
-        actionIndex = globalCtx->csCtx.npcActions[0]->action - 0xE;
+    if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action >= 14) &&
+        (globalCtx->csCtx.npcActions[0]->action < 17)) {
+        actionIndex = globalCtx->csCtx.npcActions[0]->action - 14;
 
-        if (this->unk_300 == 0) {
+        if (!(this->itemSpawned)) {
             itemPos.x = player->actor.posRot.pos.x;
             itemPos.y = ((LINK_IS_ADULT) ? player->actor.posRot.pos.y + 73.0f : player->actor.posRot.pos.y + 53.0f);
             itemPos.z = player->actor.posRot.pos.z;
@@ -775,7 +780,7 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     Magic_Fill(globalCtx);
                 }
 
-                this->unk_300 = 1;
+                this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeAlpha(9);
                 gSaveContext.itemGetInf[1] |= sItemGetFlags[actionIndex];
@@ -790,13 +795,13 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 0x11) &&
+    if ((globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 17) &&
         (this->item != NULL)) {
         Actor_Kill(&this->item->actor);
         this->item = NULL;
     }
 
-    if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 0x12)) {
+    if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action == 18)) {
         this->giveDefenseHearts = true;
     }
 
@@ -806,12 +811,12 @@ void func_80874304(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->csCtx.npcActions[0]->action >= 0x13) && (globalCtx->csCtx.npcActions[0]->action < 0x16) &&
-        (this->unk_304 == 0)) {
-        actionIndex = globalCtx->csCtx.npcActions[0]->action - 0xB;
+    if ((globalCtx->csCtx.npcActions[0]->action >= 19) && (globalCtx->csCtx.npcActions[0]->action < 22) &&
+        !(this->warpEffectSpawned)) {
+        actionIndex = globalCtx->csCtx.npcActions[0]->action - 11;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, player->actor.posRot.pos.x,
                     player->actor.posRot.pos.y, player->actor.posRot.pos.z, 0, 0, 0, actionIndex);
-        this->unk_304 = 1;
+        this->warpEffectSpawned = true;
     }
     BgDyYoseizo_Bob(this, globalCtx);
 }
@@ -863,7 +868,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    if ((this->blinkTimer == 0) && (this->actionFunc != func_80873868)) {
+    if ((this->blinkTimer == 0) && (this->actionFunc != BgDyYoseizo_HealPlayer_NoReward)) {
         this->eyeState++;
         this->eyeState2++;
         if (this->eyeState >= 3) {
@@ -873,12 +878,12 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     Actor_MoveForward(&this->actor);
-    this->heightOffset = this->unk_308 * 7500.0f;
+    this->heightOffset = this->scale * 7500.0f;
     Actor_SetHeight(&this->actor, this->heightOffset);
     this->actor.posRot2.pos.y = this->heightOffset;
     func_80038290(globalCtx, &this->actor, &this->headRot, &this->torsoRot, this->actor.posRot2.pos);
     BgDyYoseizo_ParticleUpdate(this, globalCtx);
-    Actor_SetScale(&this->actor, this->unk_308);
+    Actor_SetScale(&this->actor, this->scale);
 }
 
 s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
