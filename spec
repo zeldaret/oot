@@ -2910,8 +2910,7 @@ endseg
 beginseg
     name "ovl_En_Shopnuts"
     include "build/src/overlays/actors/ovl_En_Shopnuts/z_en_shopnuts.o"
-    include "build/data/overlays/actors/z_en_shopnuts.data.o"
-    include "build/data/overlays/actors/z_en_shopnuts.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Shopnuts/ovl_En_Shopnuts_reloc.o"
 endseg
 
 beginseg
