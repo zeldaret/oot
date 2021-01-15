@@ -471,9 +471,9 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (D_80157D90 != globalCtx->gameplayFrames) {
                 D_80157D90_ = globalCtx->gameplayFrames;
                 D_80157D94 = 0;
-                for (i = 0; i < 50; i++) {
-                    if (globalCtx->colCtx.dyna.flags[i] & 1) {
-                        dynaActor = globalCtx->colCtx.dyna.actorMeshArr[i].actor;
+                for (i = 0; i < BG_ACTOR_MAX; i++) {
+                    if (globalCtx->colCtx.dyna.bgActorFlags[i] & 1) {
+                        dynaActor = globalCtx->colCtx.dyna.bgActors[i].actor;
                         if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
                             ((dynaActor->posRot.pos.x != dynaActor->pos4.x) ||
                              (dynaActor->posRot.pos.y != dynaActor->pos4.y) ||

@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-UNK_TYPE D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
+CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
@@ -53,15 +53,15 @@ void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, UNK_TYPE arg2, DynaPolyMoveFlag moveFlags) {
+void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag moveFlags) {
     s32 pad;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad2[2];
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlags);
-    DynaPolyInfo_Alloc(arg2, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(&this->dyna, moveFlags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -78,7 +78,7 @@ void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHsblock* this = THIS;
 
-    func_80B93B68(this, globalCtx, D_80B940DC[thisx->params & 3], 0);
+    func_80B93B68(this, globalCtx, D_80B940DC[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, globalCtx);
 
@@ -103,7 +103,7 @@ void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHsblock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80B93D90(ObjHsblock* this) {

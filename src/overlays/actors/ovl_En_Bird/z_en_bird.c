@@ -73,7 +73,7 @@ void func_809C1CAC(EnBird* this, s16 params) {
     AnimationHeader* anim = &D_0600006C;
 
     this->unk_198 = Rand_S16Offset(5, 0x23);
-    Animation_Change(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     EnBird_SetupAction(this, func_809C1D60);
 }
 

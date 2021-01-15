@@ -224,11 +224,11 @@ void func_80A68B20(EnHorseGanon* this) {
     if (animationChanged == 1) {
         Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, -3.0f);
+                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, -3.0f);
     } else {
         Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, 0.0f);
+                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, 0.0f);
     }
 }
 
@@ -255,7 +255,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     v.y = this->actor.posRot.pos.y + 60.0f;
     v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.z;
 
-    temp_ret = func_8003C940(&globalCtx->colCtx, &col, &temp1, &v);
+    temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
     this->actor.shape.rot.x = 10430.3779f * Math_FAtan2F(this->actor.posRot.pos.y - temp_ret, 30.0f);

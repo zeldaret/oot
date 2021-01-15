@@ -1,4 +1,5 @@
 #include "ZAnimation.h"
+#include <utility>
 #include "ZFile.h"
 #include "BitConverter.h"
 #include "StringHelper.h"
@@ -15,13 +16,13 @@ ZAnimation::ZAnimation() : ZResource()
 
 void ZAnimation::ParseRawData()
 {
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	// Read the header
 	frameCount = BitConverter::ToInt16BE(data, rawDataIndex + 0);
 }
 
-void ZAnimation::Save(string outFolder)
+void ZAnimation::Save(const std::string& outFolder)
 {
 	if (Globals::Instance->testMode)
 	{
@@ -40,7 +41,7 @@ void ZAnimation::ParseXML(tinyxml2::XMLElement* reader)
 	name = reader->Attribute("Name");
 }
 
-string ZAnimation::GetSourceOutputCode(string prefix)
+string ZAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
 }
@@ -52,7 +53,7 @@ ZNormalAnimation::ZNormalAnimation() : ZAnimation()
 	limit = 0;
 }
 
-std::string ZNormalAnimation::GetSourceOutputCode(std::string prefix)
+std::string ZNormalAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
 	{
@@ -61,7 +62,7 @@ std::string ZNormalAnimation::GetSourceOutputCode(std::string prefix)
 
 		string headerStr = StringHelper::Sprintf("{ %i }, %sFrameData, %sJointIndices, %i",
 			frameCount, defaultPrefix.c_str(), defaultPrefix.c_str(), limit);
-		parent->declarations[rawDataIndex] = new Declaration(DeclarationAlignment::None, 16, "AnimationHeader", StringHelper::Sprintf("%s", name.c_str()), false, headerStr);
+		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, 16, "AnimationHeader", StringHelper::Sprintf("%s", name.c_str()), headerStr);
 
 		string indicesStr = "";
 		string valuesStr = "    ";
@@ -99,10 +100,10 @@ int ZNormalAnimation::GetRawDataSize()
 	return 16;
 }
 
-ZNormalAnimation* ZNormalAnimation::ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath)
+ZNormalAnimation* ZNormalAnimation::ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, const std::string& nRelPath)
 {
 	ZNormalAnimation* anim = new ZNormalAnimation();
-	anim->rawData = nRawData;
+	anim->rawData = std::move(nRawData);
 	anim->rawDataIndex = rawDataIndex;
 	anim->ParseXML(reader);
 	anim->ParseRawData();
@@ -114,7 +115,7 @@ void ZNormalAnimation::ParseRawData()
 {
 	ZAnimation::ParseRawData();
 
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	rotationValuesSeg = BitConverter::ToInt32BE(data, rawDataIndex + 4) & 0x00FFFFFF;
 	rotationIndicesSeg = BitConverter::ToInt32BE(data, rawDataIndex + 8) & 0x00FFFFFF;
@@ -144,14 +145,14 @@ ZLinkAnimation::ZLinkAnimation() : ZAnimation()
 	segmentAddress = 0;
 }
 
-std::string ZLinkAnimation::GetSourceOutputCode(std::string prefix)
+std::string ZLinkAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
 	{
 		string segSymbol = segmentAddress == 0 ? "NULL" : parent->GetDeclarationName(segmentAddress, StringHelper::Sprintf("%sSeg%06X", name.c_str(), segmentAddress));
 		string headerStr = StringHelper::Sprintf("{ %i }, 0x%08X",
 			frameCount, segmentAddress);
-		parent->declarations[rawDataIndex] = new Declaration(DeclarationAlignment::None, 16, "LinkAnimationHeader", StringHelper::Sprintf("%s", name.c_str()), false, headerStr);
+		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, 16, "LinkAnimationHeader", StringHelper::Sprintf("%s", name.c_str()), headerStr);
 	}
 
 	return "";
@@ -162,10 +163,10 @@ int ZLinkAnimation::GetRawDataSize()
 	return 8;
 }
 
-ZLinkAnimation* ZLinkAnimation::ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath)
+ZLinkAnimation* ZLinkAnimation::ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, const std::string& nRelPath)
 {
 	ZLinkAnimation* anim = new ZLinkAnimation();
-	anim->rawData = nRawData;
+	anim->rawData = std::move(nRawData);
 	anim->rawDataIndex = rawDataIndex;
 	anim->ParseXML(reader);
 	anim->ParseRawData();
@@ -177,7 +178,7 @@ void ZLinkAnimation::ParseRawData()
 {
 	ZAnimation::ParseRawData();
 
-	uint8_t* data = rawData.data();
+	const uint8_t* data = rawData.data();
 
 	//segmentAddress = SEG2FILESPACE(BitConverter::ToInt32BE(data, rawDataIndex + 4));
 	segmentAddress = (BitConverter::ToInt32BE(data, rawDataIndex + 4));
