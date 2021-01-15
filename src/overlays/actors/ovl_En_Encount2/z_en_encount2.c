@@ -63,7 +63,7 @@ void func_80A07A4C(EnEncount2* this, GlobalContext *globalCtx) {
     } else {
         if ((this->actor.xzDistToLink < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
             if ((globalCtx->sceneNum == 0x4F) || (globalCtx->sceneNum == 0x1A) || (globalCtx->sceneNum == 0xE) || (globalCtx->sceneNum == 0xF)) {
-                if (this->unk15C == 0) {
+                if (this->unk_15C == 0) {
                     phi_v1 = 2;
                 }
             }
