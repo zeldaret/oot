@@ -160,7 +160,18 @@ typedef struct Actor {
     /* 0x13C */ char    dbgPad[0x10]; // Padding that only exists in the debug rom
 } Actor; // size = 0x14C
 
+/*
+colorFilterParams Docs (use defines later)
 
+params & 0x8000 : white
+params & 0x4000 : red
+if neither of the above are set : blue
+
+(params & 0x1F00 >> 5) | 7 : color intensity
+
+params & 0x2000 : translucent, else opaque
+
+*/
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
     /* 0x14C */ s32 bgId;
