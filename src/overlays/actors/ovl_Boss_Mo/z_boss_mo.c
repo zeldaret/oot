@@ -79,27 +79,10 @@ typedef enum {
     /* 150 */ MO_DEATH_MO_CORE_BURST = 150
 } BossMoCsState;
 
-// boss title card
-// extern UNK_TYPE gMorphaTitleCardTex[];
-
-// // water
-// extern Gfx gMorphaWaterDL[];
-
-// // core
-// extern Gfx gMorphaCoreMembraneDL[];
-// extern Gfx gMorphaCoreNucleusDL[];
-
-// // tentacle base
-// extern Gfx gMorphaTentacleBaseDL[];
-
 // particles
 extern Gfx D_0401A0B0[];
 extern Gfx D_040254B0[];
-extern UNK_TYPE D_04051DB0[];
-// extern Gfx gMorphaBubbleDL[];
-// extern Gfx gMorphaDropletSetupDL[];
-// extern Gfx gMorphaDropletVtxDL[];
-// extern Gfx gMorphaWetSpotVtxDL[];
+extern u64 D_04051DB0[];
 
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,

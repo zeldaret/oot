@@ -62,7 +62,7 @@
         <!-- <Vtx Name="gMorphaVtx_006938" Count="14" Offset="0x6938"/> -->
         <Blob Name="gMorphaVtx_006938" Size="0xE0" Offset="0x6938"/>
         <!-- <Vtx Name="gMorphaVtx_006938" Count="4" Offset="0x7BB8"/> -->
-        <Blob Name="gMorphaVtx_006938" Size="0x40" Offset="0x7BB8"/>
+        <Blob Name="gMorphaVtx_007BB8" Size="0x40" Offset="0x7BB8"/>
 
         <Texture Name="sMorphaTex_000000" Format="i8" Width="16" Height="16" Offset="0x0"/>
     </File>
