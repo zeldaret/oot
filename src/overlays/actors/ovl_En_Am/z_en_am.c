@@ -25,7 +25,7 @@ void EnAm_RotateToHome(EnAm* this, GlobalContext* globalCtx);
 void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx);
 void EnAm_RotateToInit(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx);
-void func_809AF718(EnAm* this, GlobalContext* globalCtx);
+void EnAm_Ricochet(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Stunned(EnAm* this, GlobalContext* globalCtx);
 void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx);
 
@@ -38,7 +38,7 @@ typedef enum {
     /* 05 */ AM_BEHAVIOR_5, // unused
     /* 06 */ AM_BEHAVIOR_STUNNED,
     /* 07 */ AM_BEHAVIOR_GO_HOME,
-    /* 08 */ AM_BEHAVIOR_8,
+    /* 08 */ AM_BEHAVIOR_RICOCHET,
     /* 09 */ AM_BEHAVIOR_9, // unused
     /* 10 */ AM_BEHAVIOR_AGRO
 } ArmosBehavior;
@@ -328,7 +328,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
     EnAm_SetupAction(this, EnAm_RecoilFromDamage);
 }
 
-void func_809AE7F4(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_SetupRicochet(EnAm* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_0600033C, 1.0f, 0.0f, 8.0f, ANIMMODE_ONCE, 0.0f);
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
 
@@ -339,8 +339,8 @@ void func_809AE7F4(EnAm* this, GlobalContext* globalCtx) {
     this->unk_264 = 0;
     this->unk_258 = 0;
     this->cooldownTimer = 5;
-    this->behavior = 8;
-    EnAm_SetupAction(this, func_809AF718);
+    this->behavior = AM_BEHAVIOR_RICOCHET;
+    EnAm_SetupAction(this, EnAm_Ricochet);
 }
 
 void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
@@ -536,7 +536,7 @@ void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
 
 /**
  * After doing 3 lunges, wait for 2 seconds before attacking again.
- * Turn toward the player before lunging.
+ * Turn toward the player before lunging again.
  */
 void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
     s16 yawDiff = this->dyna.actor.yawTowardsLink - this->dyna.actor.posRot.rot.y;
@@ -726,7 +726,7 @@ void EnAm_Stunned(EnAm* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809AF718(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_Ricochet(EnAm* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.speedXZ < 0.0f) {
         this->dyna.actor.speedXZ += 0.5f;
     }
@@ -742,7 +742,7 @@ void func_809AF718(EnAm* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809AF7CC(Actor* thisx, GlobalContext* globalCtx) {
+void EnAm_TransformSwordHitbox(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_809B0074 = { 2500.0f, 7000.0f, 0.0f };
     static Vec3f D_809B0080 = { -2500.0f, 0.0f, 0.0f };
     static Vec3f D_809B008C = { 2500.0f, 7000.0f, 4000.0f };
@@ -768,7 +768,7 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             this->cylinder1.base.acFlags &= ~2;
 
             if (this->behavior >= 5) {
-                func_809AE7F4(this, globalCtx);
+                EnAm_SetupRicochet(this, globalCtx);
             }
         } else {
             if ((this->cylinder1.base.acFlags & 2) && (this->behavior >= 5)) {
@@ -800,7 +800,7 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
 
                             EnAm_SetupRecoilFromDamage(this, globalCtx);
                         } else {
-                            func_809AE7F4(this, globalCtx);
+                            EnAm_SetupRicochet(this, globalCtx);
                         }
                     }
                 }
@@ -897,7 +897,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 this->hitCollider.base.atFlags &= ~6;
                 this->hitCollider.base.at = NULL;
-                func_809AE7F4(this, globalCtx);
+                EnAm_SetupRicochet(this, globalCtx);
             }
         }
     } else {
@@ -912,7 +912,7 @@ void EnAm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnAm* this = THIS;
 
     if ((limbIndex == 1) && (this->unk_264 != 0)) {
-        func_809AF7CC(&this->dyna.actor, globalCtx);
+        EnAm_TransformSwordHitbox(&this->dyna.actor, globalCtx);
     }
 }
 
