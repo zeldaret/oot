@@ -224,11 +224,11 @@ void func_80A68B20(EnHorseGanon* this) {
     if (animationChanged == 1) {
         Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, -3.0f);
+                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, -3.0f);
     } else {
         Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, 0.0f);
+                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, 0.0f);
     }
 }
 
