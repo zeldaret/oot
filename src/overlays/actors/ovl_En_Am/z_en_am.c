@@ -22,12 +22,26 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx);
 void EnAm_RotateToHome(EnAm* this, GlobalContext* globalCtx);
-void func_809AED8C(EnAm* this, GlobalContext* globalCtx);
+void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx);
 void EnAm_RotateToInit(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx);
 void func_809AF718(EnAm* this, GlobalContext* globalCtx);
-void func_809AF644(EnAm* this, GlobalContext* globalCtx);
-void func_809AEF00(EnAm* this, GlobalContext* globalCtx);
+void EnAm_Stunned(EnAm* this, GlobalContext* globalCtx);
+void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx);
+
+typedef enum {
+    /* 00 */ AM_BEHAVIOR_NONE,
+    /* 01 */ AM_BEHAVIOR_DAMAGED,
+    /* 02 */ AM_BEHAVIOR_2, // unused
+    /* 03 */ AM_BEHAVIOR_DO_NOTHING,
+    /* 04 */ AM_BEHAVIOR_4, // unused
+    /* 05 */ AM_BEHAVIOR_5, // unused
+    /* 06 */ AM_BEHAVIOR_STUNNED,
+    /* 07 */ AM_BEHAVIOR_GO_HOME,
+    /* 08 */ AM_BEHAVIOR_8,
+    /* 09 */ AM_BEHAVIOR_9, // unused
+    /* 10 */ AM_BEHAVIOR_AGRO
+} ArmosBehavior;
 
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
@@ -59,9 +73,48 @@ ColliderQuadInit D_809AFFD8 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-DamageTable D_809B0028 = {
-    0x10, 0x02, 0x01, 0xF2, 0x60, 0xF2, 0xF2, 0x60, 0x01, 0xF2, 0xF4, 0xF2, 0xD4, 0xF2, 0x02, 0x02,
-    0x02, 0xE0, 0xD3, 0xE0, 0x00, 0x00, 0x01, 0xF4, 0xF2, 0x02, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
+typedef enum {
+    /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
+    /* 01 */ AM_DMGEFF_NUT,
+    /* 06 */ AM_DMGEFF_STUN = 6, // doesnt include deku nuts
+    /* 13 */ AM_DMGEFF_ICE = 13,
+    /* 14 */ AM_DMGEFF_NON_ICE_MAGIC,
+    /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
+} ArmosDamageEffect;
+
+static DamageTable D_809B0028 = {
+    /* Deku nut      */ 0x10,
+    /* Deku stick    */ 0x02,
+    /* Slingshot     */ 0x01,
+    /* Explosive     */ 0xF2,
+    /* Boomerang     */ 0x60,
+    /* Normal arrow  */ 0xF2,
+    /* Hammer swing  */ 0xF2,
+    /* Hookshot      */ 0x60,
+    /* Kokiri sword  */ 0x01,
+    /* Master sword  */ 0xF2,
+    /* Giant's Knife */ 0xF4,
+    /* Fire arrow    */ 0xF2,
+    /* Ice arrow     */ 0xD4,
+    /* Light arrow   */ 0xF2,
+    /* Wind arrow    */ 0x02,
+    /* Shadow arrow  */ 0x02,
+    /* Spirit arrow  */ 0x02,
+    /* Fire magic    */ 0xE0,
+    /* Ice magic     */ 0xD3,
+    /* Light magic   */ 0xE0,
+    /* Shield        */ 0x00,
+    /* Mirror Ray    */ 0x00,
+    /* Kokiri spin   */ 0x01,
+    /* Giant spin    */ 0xF4,
+    /* Master spin   */ 0xF2,
+    /* Kokiri jump   */ 0x02,
+    /* Giant jump    */ 0xF8,
+    /* Master jump   */ 0xF4,
+    /* Unknown 1     */ 0x00,
+    /* Unblockable   */ 0x00,
+    /* Hammer jump   */ 0xF4,
+    /* Unknown 2     */ 0x00,
 };
 
 InitChainEntry D_809B0048[] = {
@@ -80,20 +133,34 @@ void EnAm_SetupAction(EnAm* this, EnAmActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-s32 func_809ADF28(EnAm* this, GlobalContext* globalCtx, f32 arg1, s16 yaw) {
+/**
+ * Checks bgCheckFlags in the direction of current yaw at the specified distance.
+ *
+ * Returns true if the armos would land on the ground in the resulting position.
+ *
+ * If it won't land on the ground, it will return true anyway if the floor the armos will be on
+ * is 20 units higher than the home position. This is a convoluted way of making sure
+ * the Armos can move down slight slopes but not steep ones (or complete drop offs).
+ */
+s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     s16 ret;
     s16 curBgCheckFlags;
     f32 sin;
     f32 cos;
     Vec3f curPos;
 
+    // save current position and bgCheckFlags to restore later
     curPos = this->dyna.actor.posRot.pos;
     curBgCheckFlags = this->dyna.actor.bgCheckFlags;
-    sin = Math_SinS(yaw) * arg1;
+
+    sin = Math_SinS(yaw) * distance;
     cos = Math_CosS(yaw);
+
     this->dyna.actor.posRot.pos.x += sin;
-    this->dyna.actor.posRot.pos.z += (cos * arg1);
+    this->dyna.actor.posRot.pos.z += (cos * distance);
+
     func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+
     this->dyna.actor.posRot.pos = curPos;
 
     ret = this->dyna.actor.bgCheckFlags & 1;
@@ -180,10 +247,10 @@ void EnAm_SetupSleep(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_0600033C);
 
     Animation_Change(&this->skelAnime, &D_0600033C, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->unk_1A8 = 3;
+    this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
 
-    if (this->textureBlend == 0xFF) {
+    if (this->textureBlend == 255) {
         this->unk_258 = 0;
     } else {
         this->unk_258 = 1;
@@ -197,7 +264,7 @@ void EnAm_SetupStatue(EnAm* this) {
 
     Animation_Change(&this->skelAnime, &D_0600033C, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->dyna.actor.flags &= ~1;
-    this->unk_1A8 = 3;
+    this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
 }
@@ -205,7 +272,7 @@ void EnAm_SetupStatue(EnAm* this) {
 void EnAm_SetupLunge(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
     this->unk_258 = 3;
-    this->unk_1A8 = 0xA;
+    this->behavior = AM_BEHAVIOR_AGRO;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Lunge);
@@ -214,24 +281,24 @@ void EnAm_SetupLunge(EnAm* this) {
 void EnAm_SetupCooldown(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
     this->unk_258 = 3;
-    this->unk_25A = 40;
-    this->unk_1A8 = 0xA;
+    this->cooldownTimer = 40;
+    this->behavior = AM_BEHAVIOR_AGRO;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Cooldown);
 }
 
-void func_809AE608(EnAm* this) {
+void EnAm_SetupMoveToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
-    this->unk_1A8 = 7;
+    this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speedXZ = 0.0f;
-    EnAm_SetupAction(this, func_809AED8C);
+    EnAm_SetupAction(this, EnAm_MoveToHome);
 }
 
-void func_809AE664(EnAm* this) {
+void EnAm_SetupRotateToInit(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
-    this->unk_1A8 = 7;
+    this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speedXZ = 0.0f;
     EnAm_SetupAction(this, EnAm_RotateToInit);
@@ -239,40 +306,40 @@ void func_809AE664(EnAm* this) {
 
 void EnAm_SetupRotateToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
-    this->unk_1A8 = 7;
+    this->behavior = AM_BEHAVIOR_GO_HOME;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_RotateToHome);
 }
 
-void func_809AE71C(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_06005B3C, 1.0f, 4.0f, Animation_GetLastFrame(&D_06005B3C) - 6.0f,
                      ANIMMODE_ONCE, 0.0f);
-    this->unk_1A8 = 1;
+    this->behavior = AM_BEHAVIOR_DAMAGED;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
 
-    if (func_809ADF28(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
+    if (EnAm_CanMove(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = -6.0f;
     }
 
     this->dyna.actor.dmgEffectTimer = 0;
     func_80032C7C(globalCtx, &this->dyna.actor);
-    EnAm_SetupAction(this, func_809AEF00);
+    EnAm_SetupAction(this, EnAm_RecoilFromDamage);
 }
 
 void func_809AE7F4(EnAm* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_0600033C, 1.0f, 0.0f, 8.0f, ANIMMODE_ONCE, 0.0f);
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
 
-    if (func_809ADF28(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
+    if (EnAm_CanMove(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = -6.0f;
     }
 
     this->unk_264 = 0;
     this->unk_258 = 0;
-    this->unk_25A = 5;
-    this->unk_1A8 = 8;
+    this->cooldownTimer = 5;
+    this->behavior = 8;
     EnAm_SetupAction(this, func_809AF718);
 }
 
@@ -295,11 +362,12 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
 
         if (this->textureBlend >= 240) {
             this->attackTimer = 200;
-            this->textureBlend = 0xFF;
+            this->textureBlend = 255;
             this->dyna.actor.flags |= 1;
             this->dyna.actor.shape.unk_08 = 0.0f;
             EnAm_SetupLunge(this);
         } else {
+            // shake randomly about the origin while waking up
             rand = (Rand_ZeroOne() - 0.5f) * 10.0f;
 
             cos = Math_CosS(this->dyna.actor.shape.rot.y) * rand;
@@ -307,7 +375,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
 
             this->dyna.actor.posRot.pos.x = this->shakeOrigin.x + cos;
             this->dyna.actor.posRot.pos.z = this->shakeOrigin.z + sin;
-            
+
             this->textureBlend += 20;
             this->unk_258 = 1;
         }
@@ -365,7 +433,7 @@ void EnAm_RotateToHome(EnAm* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_258 == 0) {
-        func_809AE608(this);
+        EnAm_SetupMoveToHome(this);
     }
 
     this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y;
@@ -412,15 +480,14 @@ void EnAm_RotateToInit(EnAm* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y;
 }
 
-// move back home
-void func_809AED8C(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
     s16 yawToHome = Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &this->dyna.actor.initPosRot.pos);
 
     if (this->skelAnime.curFrame == 8.0f) {
         this->dyna.actor.velocity.y = 12.0f;
         this->dyna.actor.speedXZ = 6.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if ((this->dyna.actor.bgCheckFlags & 1) == 0) {
+        if (!(this->dyna.actor.bgCheckFlags & 1)) {
             this->skelAnime.curFrame = 11;
         } else {
             Math_SmoothStepToS(&this->dyna.actor.posRot.rot.y, yawToHome, 1, 0xBB8, 0);
@@ -435,11 +502,12 @@ void func_809AED8C(EnAm* this, GlobalContext* globalCtx) {
             EnAm_SpawnEffects(this, globalCtx);
 
             if (func_8002DB6C(&this->dyna.actor, &this->dyna.actor.initPosRot.pos) < 80.0f) {
-                func_809AE664(this);
+                EnAm_SetupRotateToInit(this);
             }
         }
     }
 
+    // turn away from a wall if touching one
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
         this->dyna.actor.posRot.rot.y = this->dyna.actor.wallPolyRot;
         Actor_MoveForward(&this->dyna.actor);
@@ -450,20 +518,19 @@ void func_809AED8C(EnAm* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y;
 }
 
-void func_809AEF00(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.speedXZ < 0.0f) {
         this->dyna.actor.speedXZ += 0.5f;
     }
 
-    if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !func_809ADF28(this, globalCtx, -8.0f, this->dyna.actor.posRot.rot.y)) {
+    if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, globalCtx, -8.0f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
         EnAm_SetupLunge(this);
         this->deathTimer = 64;
-        this->unk_262 = 0;
+        this->panicSpinRot = 0;
     }
 }
 
@@ -478,8 +545,8 @@ void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
         yawDiff = -yawDiff;
     }
 
-    if (this->unk_25A != 0) {
-        this->unk_25A--;
+    if (this->cooldownTimer != 0) {
+        this->cooldownTimer--;
     } else {
         if (this->skelAnime.curFrame == 8.0f) {
             Math_SmoothStepToS(&this->dyna.actor.posRot.rot.y, this->dyna.actor.yawTowardsLink, 1, 0x1F40, 0);
@@ -488,7 +555,7 @@ void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
             if (!(this->dyna.actor.bgCheckFlags & 1)) {
                 this->skelAnime.curFrame = 11;
             } else {
-                if (yawDiff < 0xDAC) {
+                if (yawDiff < 3500) {
                     this->unk_258 = 0;
                 }
                 this->dyna.actor.velocity.y = 0.0f;
@@ -517,7 +584,7 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
         if (this->skelAnime.curFrame == 8.0f) {
             this->dyna.actor.velocity.y = 12.0f;
 
-            if (func_809ADF28(this, globalCtx, 80.0f, this->dyna.actor.posRot.rot.y)) {
+            if (EnAm_CanMove(this, globalCtx, 80.0f, this->dyna.actor.posRot.rot.y)) {
                 this->dyna.actor.speedXZ = 6.0f;
             } else {
                 this->dyna.actor.speedXZ = 0.0f;
@@ -549,6 +616,7 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
             }
         }
 
+        // turn and move away from a wall if contact is made with one
         if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
             this->dyna.actor.posRot.rot.y =
                 (this->dyna.actor.wallPolyRot - this->dyna.actor.posRot.rot.y) + this->dyna.actor.wallPolyRot;
@@ -565,10 +633,10 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
         if (this->deathTimer == 0) {
             this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y;
         } else {
-            if (this->unk_262 < 8000) {
-                this->unk_262 += 800;
+            if (this->panicSpinRot < 8000) {
+                this->panicSpinRot += 800;
             }
-            this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_262;
+            this->dyna.actor.shape.rot.y += this->panicSpinRot;
         }
     }
 }
@@ -591,7 +659,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
         }
 
         if (this->cylinder1.base.maskA & 2) {
-            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos.x, &this->cylinder1.base.oc->posRot.pos.x) - temp158f;
+            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &this->cylinder1.base.oc->posRot.pos) - temp158f;
         }
 
         if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
@@ -617,36 +685,35 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
     this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
 }
 
-void func_809AF558(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_SetupStunned(EnAm* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_06005B3C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06005B3C), ANIMMODE_ONCE,
                      0.0f);
 
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
 
-    if (func_809ADF28(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
+    if (EnAm_CanMove(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = -6.0f;
     }
 
     func_8003426C(&this->dyna.actor, 0, 120, 0, 100);
 
-    if (this->unk_267 == 0xD) {
-        this->unk_25E = 0x30;
+    if (this->damageEffect == AM_DMGEFF_ICE) {
+        this->iceTimer = 48;
     }
 
-    this->unk_1A8 = 6;
+    this->behavior = AM_BEHAVIOR_STUNNED;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
-    EnAm_SetupAction(this, func_809AF644);
+    EnAm_SetupAction(this, EnAm_Stunned);
 }
 
-void func_809AF644(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_Stunned(EnAm* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.posRot.rot.y, 1, 0xFA0, 0);
 
     if (this->dyna.actor.speedXZ < 0.0f) {
         this->dyna.actor.speedXZ += 0.5f;
     }
 
-    if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !func_809ADF28(this, globalCtx, -9.0f, this->dyna.actor.posRot.rot.y)) {
+    if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, globalCtx, -9.0f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = 0.0f;
     }
 
@@ -654,7 +721,7 @@ void func_809AF644(EnAm* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.colChkInfo.health != 0) {
             EnAm_SetupLunge(this);
         } else {
-            func_809AE71C(this, globalCtx);
+            EnAm_SetupRecoilFromDamage(this, globalCtx);
         }
     }
 }
@@ -665,7 +732,7 @@ void func_809AF718(EnAm* this, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !func_809ADF28(this, globalCtx, this->dyna.actor.speedXZ * 1.5f, this->dyna.actor.posRot.rot.y)) {
+        !EnAm_CanMove(this, globalCtx, this->dyna.actor.speedXZ * 1.5f, this->dyna.actor.posRot.rot.y)) {
         this->dyna.actor.speedXZ = 0.0f;
     }
 
@@ -691,46 +758,47 @@ void func_809AF7CC(Actor* thisx, GlobalContext* globalCtx) {
                   &this->hitCollider.dim.quad[2], &this->hitCollider.dim.quad[3]);
 }
 
-void func_809AF864(EnAm* this, GlobalContext* globalCtx) {
+void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
     s32 pad;
-    Vec3f sp20;
+    Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
         if (this->cylinder2.base.acFlags & 0x80) {
             this->cylinder2.base.acFlags &= ~0x82;
             this->cylinder1.base.acFlags &= ~2;
-            if (this->unk_1A8 >= 5) {
+
+            if (this->behavior >= 5) {
                 func_809AE7F4(this, globalCtx);
             }
         } else {
-            if ((this->cylinder1.base.acFlags & 2) && (this->unk_1A8 >= 5)) {
+            if ((this->cylinder1.base.acFlags & 2) && (this->behavior >= 5)) {
                 this->cylinder1.base.acFlags &= ~2;
 
-                if (this->dyna.actor.colChkInfo.damageEffect != 0xE) {
+                if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_NON_ICE_MAGIC) {
                     this->unk_264 = 0;
-                    this->unk_267 = this->dyna.actor.colChkInfo.damageEffect;
-                    func_80035650(this, &this->cylinder1.body, 0);
+                    this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
+                    func_80035650(&this->dyna.actor, &this->cylinder1.body, 0);
 
-                    if ((this->dyna.actor.colChkInfo.damageEffect == 1) ||
-                        (this->dyna.actor.colChkInfo.damageEffect == 6) ||
-                        (this->dyna.actor.colChkInfo.damageEffect == 0xD)) {
-                        if (this->unk_1A8 != 6) {
-                            func_809AF558(this, globalCtx);
+                    if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
+                        (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
+                        (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
+                        if (this->behavior != AM_BEHAVIOR_STUNNED) {
+                            EnAm_SetupStunned(this, globalCtx);
 
                             if (this->dyna.actor.colChkInfo.damage != 0) {
                                 this->dyna.actor.colChkInfo.health = 0;
                             }
-                        } else if (this->dyna.actor.colChkInfo.damageEffect == 6) {
-
-                            sp20 = this->dyna.actor.posRot.pos;
-                            sp20.y += 50.0f;
-                            func_80062D60(globalCtx, &sp20);
+                        } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
+                            sparkPos = this->dyna.actor.posRot.pos;
+                            sparkPos.y += 50.0f;
+                            func_80062D60(globalCtx, &sparkPos);
                         }
                     } else {
-                        if ((this->dyna.actor.colChkInfo.damageEffect == 0xF) || (this->unk_1A8 == 6)) {
+                        if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
+                            (this->behavior == AM_BEHAVIOR_STUNNED)) {
                             this->dyna.actor.colChkInfo.health = 0;
 
-                            func_809AE71C(this, globalCtx);
+                            EnAm_SetupRecoilFromDamage(this, globalCtx);
                         } else {
                             func_809AE7F4(this, globalCtx);
                         }
@@ -754,10 +822,10 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
-        func_809AF864(this, globalCtx);
+        EnAm_UpdateDamage(this, globalCtx);
     }
 
-    if (this->dyna.actor.colChkInfo.damageEffect != 0xE) {
+    if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_NON_ICE_MAGIC) {
         if (this->attackTimer != 0) {
             this->attackTimer--;
         }
@@ -768,11 +836,12 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->deathTimer--;
 
             if (this->deathTimer == 0) {
-                dustPosScale = globalCtx->gameplayFrames * 0xA;
+                dustPosScale = globalCtx->gameplayFrames * 10;
 
                 EnAm_SpawnEffects(this, globalCtx);
                 bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->dyna.actor.posRot.pos.x,
-                                           this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, 0, 2, 0);
+                                           this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, 0, 2,
+                                           BOMB_BODY);
                 if (bomb != NULL) {
                     bomb->timer = 0;
                 }
@@ -815,7 +884,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder1.base);
 
-        if ((this->unk_1A8 >= 4) && (this->unk_264 > 0)) {
+        if ((this->behavior >= 4) && (this->unk_264 > 0)) {
             if (!(this->hitCollider.base.atFlags & 4)) {
                 if (this->hitCollider.base.atFlags & 2) {
                     Player* player = PLAYER;
@@ -843,7 +912,7 @@ void EnAm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnAm* this = THIS;
 
     if ((limbIndex == 1) && (this->unk_264 != 0)) {
-        func_809AF7CC(this, globalCtx);
+        func_809AF7CC(&this->dyna.actor, globalCtx);
     }
 }
 
@@ -864,21 +933,22 @@ void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->textureBlend);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnAm_PostLimbDraw, this);
 
-    if (this->unk_25E != 0) {
+    if (this->iceTimer != 0) {
         this->dyna.actor.dmgEffectTimer++;
         if (1) {};
-        this->unk_25E--;
+        this->iceTimer--;
 
-        if ((this->unk_25E & 3) == 0) {
+        if ((this->iceTimer & 3) == 0) {
             s32 index;
 
-            index = this->unk_25E >> 2;
+            index = this->iceTimer >> 2;
 
             sp68.x = this->dyna.actor.posRot.pos.x + sIcePosOffsets[index].x;
             sp68.y = this->dyna.actor.posRot.pos.y + sIcePosOffsets[index].y;
             sp68.z = this->dyna.actor.posRot.pos.z + sIcePosOffsets[index].z;
 
-            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, this, &sp68, 150, 150, 150, 250, 235, 245, 255, 1.4f);
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->dyna.actor, &sp68, 150, 150, 150, 250, 235, 245, 255,
+                                           1.4f);
         }
     }
 
