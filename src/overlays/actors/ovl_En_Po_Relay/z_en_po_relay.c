@@ -5,6 +5,7 @@
  */
 
 #include "z_en_po_relay.h"
+#include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 
 #define FLAGS 0x00011019
 
@@ -196,7 +197,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
                         Math_CosS(this->unk_19A) * speed + this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                         Math_SinS(this->unk_19A) * speed + this->actor.posRot.pos.z, 0,
-                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
+                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_FLAME_DROP);
         }
     }
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
@@ -316,8 +317,8 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             sp60.x = this->actor.posRot.pos.x;
             sp60.y = this->actor.groundY;
             sp60.z = this->actor.posRot.pos.z;
-            if (gSaveContext.timer1Value < gSaveContext.dampeRaceTime) {
-                gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            if (gSaveContext.timer1Value < HIGH_SCORE(HS_DAMPE_RACE)) {
+                HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
             }
             if (Flags_GetCollectible(globalCtx, this->actor.params) == 0 && gSaveContext.timer1Value <= 60) {
                 Item_DropCollectible2(globalCtx, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
@@ -326,7 +327,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             }
         } else {
             Flags_SetTempClear(globalCtx, 4);
-            gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
+            HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
         }
         Actor_Kill(&this->actor);
     }

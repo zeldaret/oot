@@ -51,7 +51,7 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
 };
 
 extern Gfx D_06000420[];
-extern UNK_TYPE D_0600075C;
+extern CollisionHeader D_0600075C;
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
     func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
@@ -146,14 +146,14 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 s32 BgSpot01Idohashira_NotInCsMode(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 CsCmdActorAction* BgSpot01Idohashira_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
@@ -215,12 +215,12 @@ s32 func_808AB29C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
         thisPos->z = ((endZ - initPos.z) * temp_f0) + initPos.z;
 
         if (temp_f0 >= 1.0f) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
-    return 0;
+    return false;
 }
 
 void func_808AB3E8(BgSpot01Idohashira* this) {
@@ -298,13 +298,13 @@ void BgSpot01Idohashira_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad[2];
     BgSpot01Idohashira* this = THIS;
-    s32 localC;
+    CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    localC = 0;
-    DynaPolyInfo_Alloc(&D_0600075C, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    colHeader = NULL;
+    CollisionHeader_GetVirtual(&D_0600075C, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (gSaveContext.sceneSetupIndex < 4) {
         if ((gSaveContext.eventChkInf[5] & 0x10) && LINK_IS_ADULT) {

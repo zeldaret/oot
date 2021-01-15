@@ -34,24 +34,24 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000368;
+extern CollisionHeader D_06000368;
 extern Gfx D_06000150[];
 
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
     s32 pad;
-    u32 sp1C = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&D_06000368, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000368, &colHeader);
+    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
     Actor_ProcessInitChain(&this->actor, sInitChain);
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {

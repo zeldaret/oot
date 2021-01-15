@@ -25,7 +25,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
 
-extern ColHeader D_05004E98;
+extern CollisionHeader D_05004E98;
 extern UNK_TYPE D_05003350;
 extern UNK_TYPE D_05003B50;
 extern UNK_TYPE D_05004350;
@@ -90,18 +90,17 @@ static Vec2f sFaceDirection[] = {
     { -1.0f, -1.0f },
 };
 
-void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, ColHeader* collision,
+void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, CollisionHeader* collision,
                               DynaPolyMoveFlag moveFlag) {
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 50) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG registration failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -144,17 +143,17 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(this->floorBgIds); i++) {
-        this->floorBgIds[i] = 50;
+        this->floorBgIds[i] = BGCHECK_SCENE;
     }
 }
 
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dyna;
+    Actor* dyna;
 
-    if ((this->floorBgIds[this->highestFloor] != 50) &&
+    if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
         (fabsf(this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) < 0.001f)) {
-        dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
-        if ((dyna != NULL) && (dyna->actor.id == ACTOR_OBJ_OSHIHIKI)) {
+        dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
+        if ((dyna != NULL) && (dyna->id == ACTOR_OBJ_OSHIHIKI)) {
             return (ObjOshihiki*)dyna;
         }
     }
@@ -319,7 +318,7 @@ void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjOshihiki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -341,8 +340,8 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
 
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
-        this->floorHeights[i] =
-            func_8003CA64(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+        this->floorHeights[i] = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor,
+                                                            &colCheckPoint, 0.0f);
     }
 }
 
@@ -353,24 +352,24 @@ s16 ObjOshihiki_GetHighestFloor(ObjOshihiki* this) {
 
     if (phi_f0 > this->floorHeights[highestFloor]) {
         highestFloor = temp;
-    } else if ((this->floorBgIds[temp] == 50) && ((phi_f0 - this->floorHeights[highestFloor]) > -0.001f)) {
+    } else if ((this->floorBgIds[temp] == BGCHECK_SCENE) && ((phi_f0 - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp;
     }
     if (this->floorHeights[temp + 1] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 1;
-    } else if ((this->floorBgIds[temp + 1] == 50) &&
+    } else if ((this->floorBgIds[temp + 1] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 1] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 1;
     }
     if (this->floorHeights[temp + 2] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 2;
-    } else if ((this->floorBgIds[temp + 2] == 50) &&
+    } else if ((this->floorBgIds[temp + 2] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 2] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 2;
     }
     if (this->floorHeights[temp + 3] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 3;
-    } else if ((this->floorBgIds[temp + 3] == 50) &&
+    } else if ((this->floorBgIds[temp + 3] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 3] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 3;
     }
@@ -421,7 +420,7 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         Vec3f faceVtxNext;
         Vec3f posResult;
         Vec3f faceVtxOffset;
-        u32 bgId;
+        s32 bgId;
         CollisionPoly* outPoly;
 
         faceVtxOffset.x = (sFaceVtx[i].x * this->dyna.actor.scale.x * 10.0f) + sFaceDirection[i].x;
@@ -434,8 +433,8 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         faceVtxNext.x = faceVtx.x + maxDist * sn;
         faceVtxNext.y = faceVtx.y;
         faceVtxNext.z = faceVtx.z + maxDist * cs;
-        if (func_8003DFA0(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
-                          &this->dyna.actor, 0.0f)) {
+        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
+                                    &this->dyna.actor, 0.0f)) {
             return 1;
         }
     }
@@ -512,10 +511,10 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
 
     if (ObjOshihiki_CheckFloor(this, globalCtx)) {
         bgId = this->floorBgIds[this->highestFloor];
-        if (bgId == 50) {
+        if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
-            dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
             if (dynaActor != NULL) {
                 func_800434A8(dynaActor);
                 func_80043538(dynaActor);
@@ -540,10 +539,10 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         }
     } else {
         bgId = this->floorBgIds[this->highestFloor];
-        if (bgId == 50) {
+        if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupFall(this, globalCtx);
         } else {
-            dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
             if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
                 func_800434A8(dynaActor);
@@ -597,7 +596,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx) {
         this->pushDist = 0.0f;
         this->pushSpeed = 0.0f;
         this->timer = 10;
-        if (this->floorBgIds[this->highestFloor] == 50) {
+        if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
             ObjOshihiki_SetupOnActor(this, globalCtx);
@@ -624,15 +623,16 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx) {
     }
     Actor_MoveForward(&this->dyna.actor);
     if (ObjOshihiki_CheckGround(this, globalCtx)) {
-        if (this->floorBgIds[this->highestFloor] == 50) {
+        if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
             ObjOshihiki_SetupOnActor(this, globalCtx);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSound2(&this->dyna.actor, func_80041F34(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
-                                                               this->floorBgIds[this->highestFloor]) +
-                                                     SFX_FLAG);
+        Audio_PlayActorSound2(&this->dyna.actor,
+                              SurfaceType_GetSfx(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
+                                                 this->floorBgIds[this->highestFloor]) +
+                                  SFX_FLAG);
     }
 }
 
