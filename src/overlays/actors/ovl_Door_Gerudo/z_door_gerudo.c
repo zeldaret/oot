@@ -37,17 +37,17 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06000040[];
-extern UNK_TYPE D_06000170;
+extern CollisionHeader D_06000170;
 extern UNK_TYPE D_80994B70;
 
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DoorGerudo* this = THIS;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_Alloc(&D_06000170, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    CollisionHeader_GetVirtual(&D_06000170, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         this->actionFunc = func_8099485C;
@@ -61,7 +61,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorGerudo* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {
@@ -104,7 +104,7 @@ s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
 void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
     if (this->unk_164 != 0) {
         this->actionFunc = func_8099496C;
-        gSaveContext.dungeonKeys[gSaveContext.mapIndex] -= 1;
+        gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
@@ -113,10 +113,10 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
         if (direction != 0) {
             Player* player = PLAYER;
 
-            if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                player->naviMessageId = -0x203;
+            if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                player->naviTextId = -0x203;
             } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
-                player->naviMessageId = -0x225;
+                player->naviTextId = -0x225;
             } else {
                 player->doorType = 2;
                 player->doorDirection = direction;
@@ -135,8 +135,8 @@ void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx) {
 }
 
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
+    Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
+    Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
                  this->dyna.actor.velocity.y);
 }
 
@@ -153,13 +153,13 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000040);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000040);
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
-        func_80033F54(globalCtx, this->unk_166, 0);
+        Actor_DrawDoorLock(globalCtx, this->unk_166, 0);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 377);

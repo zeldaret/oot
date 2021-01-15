@@ -41,7 +41,7 @@ For macOS, use homebrew to install the following dependencies:
 * python3
 ```bash
 brew update
-brew install coreutils make python3
+brew install coreutils make python3 md5sha1sum
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
@@ -94,7 +94,7 @@ git clone https://github.com/zeldaret/oot.git
 #### 4. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64" or "baserom_original.n64", depending on the original extension.
+Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
 
 #### 5. Setup the ROM and build process
 

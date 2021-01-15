@@ -85,7 +85,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
-        if (this->actor.xyzDistFromLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
+        if (this->actor.xyzDistToLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~0x10;
         }
@@ -114,7 +114,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
     s32 destinationIdx;
 
     player = PLAYER;
-    if (Math_ApproxF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
+    if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
@@ -129,8 +129,8 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             DoorAna_SetupAction(this, DoorAna_GrabLink);
         } else {
             if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
-                this->actor.xzDistFromLink <= 15.0f && -50.0f <= this->actor.yDistFromLink &&
-                this->actor.yDistFromLink <= 15.0f) {
+                this->actor.xzDistToLink <= 15.0f && -50.0f <= this->actor.yDistToLink &&
+                this->actor.yDistToLink <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;
                 this->actor.unk_1F = 1;
             } else {
@@ -145,10 +145,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->actor.yDistFromLink <= 0.0f && 15.0f < this->actor.xzDistFromLink) {
+    if (this->actor.yDistToLink <= 0.0f && 15.0f < this->actor.xzDistToLink) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_Sins(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_Coss(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.posRot.pos.x = Math_SinS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
+        player->actor.posRot.pos.z = Math_CosS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
     }
 }
 
@@ -157,16 +157,16 @@ void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
 }
 
 void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_05001390);
+    gSPDisplayList(POLY_XLU_DISP++, D_05001390);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

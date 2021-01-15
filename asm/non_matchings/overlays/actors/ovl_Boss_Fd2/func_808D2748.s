@@ -49,7 +49,7 @@ glabel func_808D2748
 /* 00190 808D2800 E4A80008 */  swc1    $f8, 0x0008($a1)           ## 00000008
 /* 00194 808D2804 87AD0032 */  lh      $t5, 0x0032($sp)           
 /* 00198 808D2808 A4AD002A */  sh      $t5, 0x002A($a1)           ## 0000002A
-/* 0019C 808D280C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0019C 808D280C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 001A0 808D2810 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 001A4 808D2814 8FA5001C */  lw      $a1, 0x001C($sp)           

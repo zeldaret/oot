@@ -30,20 +30,20 @@ ColliderQuadInit sQuadInit = {
     { 0 },
 };
 
-Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
-Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
+static Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
+static Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
 
-Color_RGB8 sUnusedColors[] = {
+static Color_RGB8 sUnusedColors[] = {
     { 255, 255, 100 },
     { 255, 255, 50 },
 };
 
-Vec3f D_80865B70 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80865B7C = { 0.0f, 0.0f, 900.0f };
-Vec3f D_80865B88 = { 0.0f, 500.0f, -3000.0f };
-Vec3f D_80865B94 = { 0.0f, -500.0f, -3000.0f };
-Vec3f D_80865BA0 = { 0.0f, 500.0f, 1200.0f };
-Vec3f D_80865BAC = { 0.0f, -500.0f, 1200.0f };
+static Vec3f D_80865B70 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80865B7C = { 0.0f, 0.0f, 900.0f };
+static Vec3f D_80865B88 = { 0.0f, 500.0f, -3000.0f };
+static Vec3f D_80865B94 = { 0.0f, -500.0f, -3000.0f };
+static Vec3f D_80865BA0 = { 0.0f, 500.0f, 1200.0f };
+static Vec3f D_80865BAC = { 0.0f, -500.0f, 1200.0f };
 
 extern Gfx D_0602B288[];
 extern Gfx D_0602AFF0[];
@@ -142,7 +142,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 sp90;
     s32 pad;
     CollisionPoly* poly;
-    u32 dynaPolyID;
+    s32 bgId;
     Vec3f sp78;
     Vec3f prevFrameDiff;
     Vec3f sp60;
@@ -236,7 +236,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         } else {
             Math_Vec3f_Diff(&bodyDistDiffVec, &newPos, &player->actor.velocity);
             player->actor.posRot.rot.x =
-                atan2s(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
+                Math_Atan2S(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
         }
 
         if (phi_f16 < 50.0f) {
@@ -254,21 +254,21 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         Math_Vec3f_Diff(&this->actor.posRot.pos, &this->actor.pos4, &prevFrameDiff);
         Math_Vec3f_Sum(&this->unk_1E8, &prevFrameDiff, &this->unk_1E8);
-        this->actor.shape.rot.x = atan2s(this->actor.speedXZ, -this->actor.velocity.y);
+        this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
-        if (func_8003DE84(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &dynaPolyID) != 0) {
-            if (func_8002F9EC(globalCtx, &this->actor, poly, dynaPolyID, &sp78) == 0) {
-                sp5C = poly->norm.x * (1 / SHT_MAX);
-                sp58 = poly->norm.z * (1 / SHT_MAX);
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &bgId) != 0) {
+            if (func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78) == false) {
+                sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
+                sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
                 Math_Vec3f_Copy(&this->actor.posRot.pos, &sp78);
                 this->actor.posRot.pos.x += 10.0f * sp5C;
                 this->actor.posRot.pos.z += 10.0f * sp58;
                 this->timer = 0;
-                if (func_80041FE8(&globalCtx->colCtx, poly, dynaPolyID) != 0) {
-                    if (dynaPolyID != 0x32) {
-                        dynaPolyActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, dynaPolyID);
+                if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId) != 0) {
+                    if (bgId != BGCHECK_SCENE) {
+                        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
                         if (dynaPolyActor != NULL) {
                             ArmsHook_AttachHookToActor(this, &dynaPolyActor->actor);
                         }
@@ -284,9 +284,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-
-        if ((globalCtx->state.input[0].press.in.button &
-             (A_BUTTON | B_BUTTON | R_TRIG | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))) {
+        if ((CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
+                           (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
             this->timer = 0;
         }
     }
@@ -326,19 +325,19 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             func_80090480(globalCtx, &this->collider, &this->hookInfo, &sp6C, &sp60);
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_0602B288);
+            gSPDisplayList(POLY_OPA_DISP++, D_0602B288);
             Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
             Math_Vec3f_Diff(&player->unk_3C8, &this->actor.posRot.pos, &sp78);
             sp58 = SQ(sp78.x) + SQ(sp78.z);
             sp5C = sqrtf(sp58);
-            Matrix_RotateY(Math_atan2f(sp78.x, sp78.z), MTXMODE_APPLY);
-            Matrix_RotateX(Math_atan2f(-sp78.y, sp5C), MTXMODE_APPLY);
+            Matrix_RotateY(Math_FAtan2F(sp78.x, sp78.z), MTXMODE_APPLY);
+            Matrix_RotateX(Math_FAtan2F(-sp78.y, sp5C), MTXMODE_APPLY);
             Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_0602AFF0);
+            gSPDisplayList(POLY_OPA_DISP++, D_0602AFF0);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 913);
         }

@@ -15,6 +15,8 @@ void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06003510;
+
 /*
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,

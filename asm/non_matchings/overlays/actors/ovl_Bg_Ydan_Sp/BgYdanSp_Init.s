@@ -21,7 +21,7 @@ glabel BgYdanSp_Init
 /* 00048 808BF458 A2080169 */  sb      $t0, 0x0169($s0)           ## 00000169
 /* 0004C 808BF45C A60B001C */  sh      $t3, 0x001C($s0)           ## 0000001C
 /* 00050 808BF460 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00054 808BF464 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00054 808BF464 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00058 808BF468 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 0005C 808BF46C 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
@@ -37,13 +37,13 @@ glabel BgYdanSp_Init
 /* 00084 808BF494 0C0172EB */  jal     Collider_SetTris              
 /* 00088 808BF498 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0008C 808BF49C 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C
-/* 00090 808BF4A0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00094 808BF4A4 24846050 */  addiu   $a0, $a0, 0x6050           ## $a0 = 06006050
+/* 00090 808BF4A0 3C040600 */  lui     $a0, %hi(D_06006050)                ## $a0 = 06000000
+/* 00094 808BF4A4 24846050 */  addiu   $a0, $a0, %lo(D_06006050)           ## $a0 = 06006050
 /* 00098 808BF4A8 15A00040 */  bne     $t5, $zero, .L808BF5AC     
 /* 0009C 808BF4AC 00000000 */  nop
-/* 000A0 808BF4B0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 000A4 808BF4B4 24846460 */  addiu   $a0, $a0, 0x6460           ## $a0 = 06006460
-/* 000A8 808BF4B8 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000A0 808BF4B0 3C040600 */  lui     $a0, %hi(D_06006460)                ## $a0 = 06000000
+/* 000A4 808BF4B4 24846460 */  addiu   $a0, $a0, %lo(D_06006460)           ## $a0 = 06006460
+/* 000A8 808BF4B8 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 000AC 808BF4BC 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFCC
 /* 000B0 808BF4C0 3C0E808C */  lui     $t6, %hi(func_808BFE50)    ## $t6 = 808C0000
@@ -108,7 +108,7 @@ glabel BgYdanSp_Init
 /* 00194 808BF5A4 10000080 */  beq     $zero, $zero, .L808BF7A8   
 /* 00198 808BF5A8 E606016C */  swc1    $f6, 0x016C($s0)           ## 0000016C
 .L808BF5AC:
-/* 0019C 808BF5AC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0019C 808BF5AC 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 001A0 808BF5B0 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFCC
 /* 001A4 808BF5B4 3C19808C */  lui     $t9, %hi(func_808C0464)    ## $t9 = 808C0000
@@ -118,20 +118,20 @@ glabel BgYdanSp_Init
 /* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetHeight
               
 /* 001B8 808BF5C8 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
-/* 001BC 808BF5CC 0C01DE1C */  jal     Math_Sins
+/* 001BC 808BF5CC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001C0 808BF5D0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 001C4 808BF5D4 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 001C8 808BF5D8 0C01DE0D */  jal     Math_Coss
+/* 001C8 808BF5D8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001CC 808BF5DC E7A00040 */  swc1    $f0, 0x0040($sp)           
 /* 001D0 808BF5E0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
-/* 001D4 808BF5E4 0C01DE1C */  jal     Math_Sins
+/* 001D4 808BF5E4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 001D8 808BF5E8 E7A00044 */  swc1    $f0, 0x0044($sp)           
 /* 001DC 808BF5EC 46000387 */  neg.s   $f14, $f0                  
 /* 001E0 808BF5F0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
-/* 001E4 808BF5F4 0C01DE0D */  jal     Math_Coss
+/* 001E4 808BF5F4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 001E8 808BF5F8 E7AE0038 */  swc1    $f14, 0x0038($sp)          
 /* 001EC 808BF5FC 3C03808C */  lui     $v1, %hi(D_808C096C)       ## $v1 = 808C0000
@@ -247,8 +247,8 @@ glabel BgYdanSp_Init
 /* 00398 808BF7A8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0039C 808BF7AC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003A0 808BF7B0 8FA7004C */  lw      $a3, 0x004C($sp)           
-/* 003A4 808BF7B4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 003A4 808BF7B4 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 003A8 808BF7B8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 003AC 808BF7BC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 003B0 808BF7C0 A600016A */  sh      $zero, 0x016A($s0)         ## 0000016A

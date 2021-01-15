@@ -98,25 +98,25 @@ void EffectSsKiraKira_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotY, &mfTrans11DA0RotY);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0RotY, &mfScale, &mfResult);
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093C14(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         (((s8)((55.0f / this->rLifespan) * this->life) + 200)));
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_kirakira.c", 301);
 }
 
 void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
     this->rEnvColorA += this->rAlphaStep;
 
     if (this->rEnvColorA < 0) {
@@ -133,8 +133,8 @@ void func_809AABF0(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->velocity.x *= 0.95f;
     this->velocity.z *= 0.95f;
-    this->accel.x = Math_Rand_CenteredFloat(0.2f);
-    this->accel.z = Math_Rand_CenteredFloat(0.2f);
+    this->accel.x = Rand_CenteredFloat(0.2f);
+    this->accel.z = Rand_CenteredFloat(0.2f);
     this->rEnvColorA += this->rAlphaStep;
 
     if (this->rEnvColorA < 0) {
@@ -149,5 +149,5 @@ void func_809AACAC(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809AAD6C(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->rScale = this->rEnvColorA * Math_Sins((32768.0f / this->rLifespan) * this->life);
+    this->rScale = this->rEnvColorA * Math_SinS((32768.0f / this->rLifespan) * this->life);
 }

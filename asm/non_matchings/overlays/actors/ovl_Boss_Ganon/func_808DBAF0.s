@@ -5,10 +5,10 @@ glabel func_808DBAF0
 /* 0528C 808DBAFC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 05290 808DBB00 0C235C4B */  jal     func_808D712C
 /* 05294 808DBB04 2406017C */  addiu   $a2, $zero, 0x017C         ## $a2 = 0000017C
-/* 05298 808DBB08 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 0529C 808DBB0C 24A59A14 */  addiu   $a1, $a1, 0x9A14           ## $a1 = 06009A14
+/* 05298 808DBB08 3C050601 */  lui     $a1, %hi(D_06009A14)                ## $a1 = 06010000
+/* 0529C 808DBB0C 24A59A14 */  addiu   $a1, $a1, %lo(D_06009A14)           ## $a1 = 06009A14
 /* 052A0 808DBB10 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
-/* 052A4 808DBB14 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 052A4 808DBB14 0C0294D3 */  jal     Animation_MorphToLoop
 /* 052A8 808DBB18 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 052AC 808DBB1C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 052B0 808DBB20 3C0E808E */  lui     $t6, %hi(func_808DBB78)    ## $t6 = 808E0000
@@ -16,7 +16,7 @@ glabel func_808DBAF0
 /* 052B8 808DBB28 25CEBB78 */  addiu   $t6, $t6, %lo(func_808DBB78) ## $t6 = 808DBB78
 /* 052BC 808DBB2C 44816000 */  mtc1    $at, $f12                  ## $f12 = 64.00
 /* 052C0 808DBB30 AE0E0194 */  sw      $t6, 0x0194($s0)           ## 00000194
-/* 052C4 808DBB34 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 052C4 808DBB34 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 052C8 808DBB38 E60401C8 */  swc1    $f4, 0x01C8($s0)           ## 000001C8
 /* 052CC 808DBB3C 4600018D */  trunc.w.s $f6, $f0

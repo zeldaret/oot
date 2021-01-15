@@ -75,12 +75,12 @@ u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
         this->update = EffectSsDeadDd_Update;
 
         for (i = initParams->randIter; i > 0; i--) {
-            this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
-            this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
-            this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
-            this->accel.x = this->velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            this->accel.y = this->velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            this->accel.z = this->velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->pos.x = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
+            this->pos.y = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
+            this->pos.z = ((Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
+            this->accel.x = this->velocity.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.y = this->velocity.y = (Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.z = this->velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
     } else {
         osSyncPrintf("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
@@ -109,14 +109,13 @@ void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (mtx != NULL) {
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                        this->rAlpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rAlpha);
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gDPSetCombineLERP(oGfxCtx->polyXlu.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
-                          0, PRIMITIVE, 0);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037730);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rAlpha);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                          PRIMITIVE, 0);
+        gSPDisplayList(POLY_XLU_DISP++, D_04037730);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 259);

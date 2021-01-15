@@ -1,10 +1,10 @@
 glabel func_80AF603C
 /* 00ADC 80AF603C 8C820154 */  lw      $v0, 0x0154($a0)           ## 00000154
-/* 00AE0 80AF6040 3C0E0601 */  lui     $t6, 0x0601                ## $t6 = 06010000
-/* 00AE4 80AF6044 25CEBAEC */  addiu   $t6, $t6, 0xBAEC           ## $t6 = 0600BAEC
+/* 00AE0 80AF6040 3C0E0601 */  lui     $t6, %hi(D_0600BAEC)                ## $t6 = 06010000
+/* 00AE4 80AF6044 25CEBAEC */  addiu   $t6, $t6, %lo(D_0600BAEC)           ## $t6 = 0600BAEC
 /* 00AE8 80AF6048 11C20006 */  beq     $t6, $v0, .L80AF6064       
-/* 00AEC 80AF604C 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
-/* 00AF0 80AF6050 25EF1D50 */  addiu   $t7, $t7, 0x1D50           ## $t7 = 06001D50
+/* 00AEC 80AF604C 3C0F0600 */  lui     $t7, %hi(D_06001D50)                ## $t7 = 06000000
+/* 00AF0 80AF6050 25EF1D50 */  addiu   $t7, $t7, %lo(D_06001D50)           ## $t7 = 06001D50
 /* 00AF4 80AF6054 51E20004 */  beql    $t7, $v0, .L80AF6068       
 /* 00AF8 80AF6058 849801E0 */  lh      $t8, 0x01E0($a0)           ## 000001E0
 /* 00AFC 80AF605C 03E00008 */  jr      $ra                        

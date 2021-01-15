@@ -27,7 +27,7 @@ glabel EnKo_Update
 /* 029B8 80A99768 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 029BC 80A9976C 01616021 */  addu    $t4, $t3, $at              
 /* 029C0 80A99770 3C018016 */  lui     $at, %hi(gSegments+0x18)
-/* 029C4 80A99774 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 029C4 80A99774 0C02927F */  jal     SkelAnime_Update
               
 /* 029C8 80A99778 AC2C6FC0 */  sw      $t4, %lo(gSegments+0x18)($at)
 /* 029CC 80A9977C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

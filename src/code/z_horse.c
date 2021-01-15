@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 s32 func_8006CFC0(s32 scene) {
     s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20 };
@@ -247,7 +246,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     sp54.y = player->actor.posRot.pos.y + 100.0f;
                     sp54.z = player->actor.posRot.pos.z;
 
-                    func_800C04D8(globalCtx, globalCtx->activeCamera, &player->actor.posRot.pos, &sp54);
+                    Gameplay_CameraSetAtEye(globalCtx, globalCtx->activeCamera, &player->actor.posRot.pos, &sp54);
                 } else {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, D_8011F9B8[i].pos.x,
                                 D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0, D_8011F9B8[i].angle, 0,

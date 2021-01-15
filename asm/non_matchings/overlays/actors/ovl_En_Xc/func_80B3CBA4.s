@@ -60,8 +60,8 @@ glabel func_80B3CBA4
 /* 00A90 80B3CC70 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00A94 80B3CC74 1440001C */  bne     $v0, $zero, .L80B3CCE8     
 /* 00A98 80B3CC78 8FA6001C */  lw      $a2, 0x001C($sp)           
-/* 00A9C 80B3CC7C 3C020200 */  lui     $v0, 0x0200                ## $v0 = 02000000
-/* 00AA0 80B3CC80 244245D0 */  addiu   $v0, $v0, 0x45D0           ## $v0 = 020045D0
+/* 00A9C 80B3CC7C 3C020200 */  lui     $v0, %hi(D_020045D0)                ## $v0 = 02000000
+/* 00AA0 80B3CC80 244245D0 */  addiu   $v0, $v0, %lo(D_020045D0)           ## $v0 = 020045D0
 /* 00AA4 80B3CC84 00027900 */  sll     $t7, $v0,  4               
 /* 00AA8 80B3CC88 000FC702 */  srl     $t8, $t7, 28               
 /* 00AAC 80B3CC8C 0018C880 */  sll     $t9, $t8,  2               

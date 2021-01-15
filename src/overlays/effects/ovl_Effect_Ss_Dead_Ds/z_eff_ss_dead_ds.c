@@ -60,8 +60,8 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     scale = this->rScale * 0.01f;
     func_80094BC4(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, this->rAlpha);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, this->rAlpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     pos = this->pos;
 
     if (this->rTimer == 0) {
@@ -72,12 +72,12 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         sp44.y = pos.y - this->velocity.y;
         sp44.z = pos.z - this->velocity.z;
 
-        if (func_8003D464(&globalCtx->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
+        if (BgCheck_EntitySphVsWall1(&globalCtx->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
             func_80038A28(floorPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
             Matrix_Put(&mf);
         } else {
             pos.y++;
-            temp = func_8003C890(&globalCtx->colCtx, &floorPoly, &pos);
+            temp = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &floorPoly, &pos);
 
             if (floorPoly != NULL) {
                 func_80038A28(floorPoly, this->pos.x, temp + 1.5f, this->pos.z, &mf);
@@ -100,11 +100,11 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_RotateRPY(this->rRoll, this->rPitch, this->rYaw, MTXMODE_APPLY);
     Matrix_RotateX(1.57f, MTXMODE_APPLY);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 246),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 246),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetCombineLERP(oGfxCtx->polyXlu.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+    gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037730);
+    gSPDisplayList(POLY_XLU_DISP++, D_04037730);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 255);
 }

@@ -57,7 +57,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rEnvColorG = initParams->envColor.g;
         this->rEnvColorB = initParams->envColor.b;
         this->rAlphaMode = 1;
-        this->rPitch = Math_Rand_CenteredFloat(65536.0f);
+        this->rPitch = Rand_CenteredFloat(65536.0f);
     } else if (initParams->type == 1) {
         this->pos = initParams->pos;
         this->vec = initParams->pos;
@@ -68,7 +68,7 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->update = EffectSsEnIce_Update;
         this->rLifespan = initParams->life;
         this->rScale = initParams->scale * 100.0f;
-        this->rYaw = atan2s(initParams->velocity.z, initParams->velocity.x);
+        this->rYaw = Math_Atan2S(initParams->velocity.z, initParams->velocity.x);
         this->rPitch = 0;
         this->rPrimColorR = initParams->primColor.r;
         this->rPrimColorG = initParams->primColor.g;
@@ -114,7 +114,7 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(this->rYaw * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.0000958738f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_en_ice.c", 261),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_en_ice.c", 261),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     hiliteLightDir.x = 89.8f;
@@ -123,13 +123,13 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002EB44(&this->pos, &globalCtx->view.eye, &hiliteLightDir, globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames & 0xFF, 0x20, 0x10, 1, 0,
                                 (gameplayFrames * 2) & 0xFF, 0x40, 0x20));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     this->rPrimColorA);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033818);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
+    gSPDisplayList(POLY_XLU_DISP++, D_04033818);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
 }
@@ -144,18 +144,16 @@ void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* t
             this->pos.z = this->actor->posRot.pos.z + this->vec.z;
             this->life++;
         } else if (this->life == 9) {
-            this->accel.x =
-                Math_Sins(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
-            this->accel.z =
-                Math_Coss(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }
     } else {
         if (this->life >= 9) {
-            rand = Math_Rand_CenteredFloat(65535.0f);
-            this->accel.x = Math_Sins(rand) * (Math_Rand_ZeroOne() + 1.0f);
-            this->accel.z = Math_Coss(rand) * (Math_Rand_ZeroOne() + 1.0f);
+            rand = Rand_CenteredFloat(65535.0f);
+            this->accel.x = Math_SinS(rand) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(rand) * (Rand_ZeroOne() + 1.0f);
             this->life = 8;
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;

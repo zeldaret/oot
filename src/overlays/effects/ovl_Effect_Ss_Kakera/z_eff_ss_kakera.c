@@ -62,8 +62,8 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->vec = initParams->unk_18;
     this->rReg0 = initParams->unk_2C;
     this->rGravity = initParams->gravity;
-    this->rPitch = Math_Rand_ZeroOne() * 32767.0f;
-    this->rYaw = Math_Rand_ZeroOne() * 32767.0f;
+    this->rPitch = Rand_ZeroOne() * 32767.0f;
+    this->rYaw = Rand_ZeroOne() * 32767.0f;
     this->rReg4 = initParams->unk_26;
     this->rReg5 = initParams->unk_28;
     this->rReg6 = initParams->unk_2A;
@@ -82,7 +82,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
         osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
 
-    temp_f2 = Math_Rand_ZeroOne() * arg1;
+    temp_f2 = Rand_ZeroOne() * arg1;
     return ((temp_f2 * 2.0f) - arg1) + arg0;
 }
 
@@ -100,9 +100,9 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
         } else {
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
         }
     }
 
@@ -112,27 +112,25 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 268),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 268),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
-                            255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     } else {
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
-                            255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
+        gSPDisplayList(POLY_OPA_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_kakera.c", 302);
@@ -375,7 +373,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 break;
             case 1:
                 if (this->velocity.y < 0.0f) {
-                    if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {
+                    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {
                         this->velocity.x *= func_809A9818(0.9f, 0.2f);
                         this->velocity.y *= -0.8f;
                         this->velocity.z *= func_809A9818(0.9f, 0.2f);
@@ -387,7 +385,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 2:
-                if (func_8003E30C(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {}
+                if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, D_809AA5B0[(this->rReg4 >> 2) & 3])) {}
                 break;
         }
     }

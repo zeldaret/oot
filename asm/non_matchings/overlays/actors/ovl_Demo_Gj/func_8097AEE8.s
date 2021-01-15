@@ -6,11 +6,11 @@ glabel func_8097AEE8
 /* 025C8 8097AEF8 AFA40038 */  sw      $a0, 0x0038($sp)           
 /* 025CC 8097AEFC 84840032 */  lh      $a0, 0x0032($a0)           ## 00000032
 /* 025D0 8097AF00 AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 025D4 8097AF04 0C01DE0D */  jal     Math_Coss
+/* 025D4 8097AF04 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 025D8 8097AF08 A7A40022 */  sh      $a0, 0x0022($sp)           
 /* 025DC 8097AF0C 87A40022 */  lh      $a0, 0x0022($sp)           
-/* 025E0 8097AF10 0C01DE1C */  jal     Math_Sins
+/* 025E0 8097AF10 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 025E4 8097AF14 E7A0001C */  swc1    $f0, 0x001C($sp)           
 /* 025E8 8097AF18 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000

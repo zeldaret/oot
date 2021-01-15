@@ -51,7 +51,7 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-extern SkeletonHeader D_060086D0;
+extern FlexSkeletonHeader D_060086D0;
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
@@ -165,7 +165,7 @@ void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx += 1;
         if (this->eyeIdx >= 3) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
         }
     }
@@ -176,7 +176,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     Player* player = PLAYER;
     s16 sp32;
     s16 sp30;
-    f32 xzDistFromLink;
+    f32 xzDistToLink;
     f32 yaw;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
@@ -191,7 +191,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     yaw -= this->actor.shape.rot.y;
-    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistFromLink < 265.0f)) {
+    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistToLink < 265.0f)) {
         this->actor.flags &= ~1;
         return 0;
     }
@@ -203,13 +203,13 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
         return 0;
     }
 
-    xzDistFromLink = this->actor.xzDistFromLink;
-    this->actor.xzDistFromLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
+    xzDistToLink = this->actor.xzDistToLink;
+    this->actor.xzDistToLink = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     if (func_8002F2CC(&this->actor, globalCtx, unkf) == 0) {
-        this->actor.xzDistFromLink = xzDistFromLink;
+        this->actor.xzDistToLink = xzDistToLink;
         return 0;
     }
-    this->actor.xzDistFromLink = xzDistFromLink;
+    this->actor.xzDistToLink = xzDistToLink;
     this->actor.textId = callback1(globalCtx, this);
 
     return 0;
@@ -268,8 +268,8 @@ s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (Math_atan2f(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA,
-                            0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA, 0x3E8,
+                       1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 10.0f) {
         this->waypoint++;
@@ -304,8 +304,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -361,7 +360,7 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
@@ -377,7 +376,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         func_80034EC0(&this->skelanime, sAnimations, 1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
@@ -386,7 +385,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
-    if (this->skelanime.animCurrentFrame == 13.0f) {
+    if (this->skelanime.curFrame == 13.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_KZ_MOVE);
     }
 }
@@ -418,8 +417,8 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemID = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
-        yRange = fabsf(this->actor.yDistFromLink) + 1.0f;
-        xzRange = this->actor.xzDistFromLink + 1.0f;
+        yRange = fabsf(this->actor.yDistToLink) + 1.0f;
+        xzRange = this->actor.xzDistToLink + 1.0f;
         func_8002F434(&this->actor, globalCtx, getItemID, xzRange, yRange);
     }
 }
@@ -444,7 +443,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveForward(&this->actor);
     if (this->actionFunc != EnKz_StartTimer) {
@@ -453,22 +452,23 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    s32 limb = limbIndex;
+s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnKz* this = THIS;
 
-    if (limb == 8 || limb == 9 || limb == 10) {
-        rot->y += Math_Sins(THIS->unk_2A6[limb]) * 200.0f;
-        rot->z += Math_Coss(THIS->unk_2BE[limb]) * 200.0f;
+    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
+        rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
     }
-    return 0;
+    if (limbIndex) {}
+    return false;
 }
 
-void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    s32 limb = limbIndex;
+void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnKz* this = THIS;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
-    if (limb == 11) {
-        Matrix_MultVec3f(&mult, &THIS->actor.posRot2.pos);
+    if (limbIndex == 11) {
+        Matrix_MultVec3f(&mult, &this->actor.posRot2.pos);
     }
 }
 
@@ -482,10 +482,10 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                     EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
+                          EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

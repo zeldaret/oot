@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x02, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
@@ -104,13 +104,13 @@ void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     s16 yAngle;
     s32 i;
 
-    yAngle = (Math_Rand_ZeroOne() - 0.5f) * 65536.0f;
+    yAngle = (Rand_ZeroOne() - 0.5f) * 65536.0f;
     dustPos.y = this->actor.groundY;
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
-        dustAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        dustAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        dustPos.x = this->actor.posRot.pos.x + (Math_Sins(yAngle) * 22.0f);
-        dustPos.z = this->actor.posRot.pos.z + (Math_Coss(yAngle) * 22.0f);
+        dustAccel.x = (Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.z = (Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustPos.x = this->actor.posRot.pos.x + (Math_SinS(yAngle) * 22.0f);
+        dustPos.z = this->actor.posRot.pos.z + (Math_CosS(yAngle) * 22.0f);
         func_8002836C(globalCtx, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
     }
 }
@@ -130,9 +130,9 @@ void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f firePos;
 
-    firePos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
-    firePos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.x = this->actor.posRot.pos.x + ((Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Rand_ZeroOne() - 0.5f) * 45.0f);
+    firePos.z = this->actor.posRot.pos.z + ((Rand_ZeroOne() - 0.5f) * 60.0f);
     EffectSsDeadDb_Spawn(globalCtx, &firePos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 }
 
@@ -172,8 +172,8 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     checkPos.x = this->actor.posRot.pos.x;
     checkPos.y = this->actor.posRot.pos.y + 1000.0f;
     checkPos.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0, 1, 1,
-                       &bgId)) {
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &checkPos, &this->ceilingPos, &poly, 0, 0,
+                                 1, 1, &bgId)) {
         return false;
     }
     this->unusedPos = this->actor.posRot.pos;
@@ -219,13 +219,13 @@ void EnSt_SetLandAnimation(EnSt* this) {
     this->actor.posRot.pos.y = this->actor.groundY + this->groundYOffset;
     func_80034EC0(&this->skelAnime, sAnimations, 4);
     this->sfxTimer = 0;
-    this->animFrames = this->skelAnime.totalFrames;
+    this->animFrames = this->skelAnime.animLength;
 }
 
 void EnSt_SetDropAnimAndVel(EnSt* this) {
     if (this->takeDamageSpinTimer == 0) {
         func_80034EC0(&this->skelAnime, sAnimations, 4);
-        this->animFrames = this->skelAnime.totalFrames;
+        this->animFrames = this->skelAnime.animLength;
     }
     this->sfxTimer = 0;
     this->actor.velocity.y = -10.0f;
@@ -247,7 +247,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x3F8F9;
+    this->colCylinder[0].body.bumper.flags = 0x0003F8F9;
     this->colCylinder[1].body.bumper.flags = 0xFFC00706;
     this->colCylinder[2].base.type = 9;
     this->colCylinder[2].body.bumperFlags = 0xD;
@@ -414,7 +414,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     this->swayTimer = this->stunTimer = 0;
     this->gaveDamageSpinTimer = 1;
     func_80034EC0(&this->skelAnime, sAnimations, 3);
-    this->takeDamageSpinTimer = this->skelAnime.totalFrames;
+    this->takeDamageSpinTimer = this->skelAnime.animLength;
     func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
@@ -453,7 +453,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
-        // player has hit the backside ofthe skulltulla
+        // player has hit the backside of the skulltulla
         return true;
     }
 
@@ -506,9 +506,9 @@ s32 EnSt_SetTeethColor(EnSt* this, s16 redTarget, s16 greenTarget, s16 blueTarge
         minMaxStep = 1;
     }
 
-    Math_SmoothScaleMaxMinS(&red, redTarget, 1, minMaxStep, minMaxStep);
-    Math_SmoothScaleMaxMinS(&green, greenTarget, 1, minMaxStep, minMaxStep);
-    Math_SmoothScaleMaxMinS(&blue, blueTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&red, redTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&green, greenTarget, 1, minMaxStep, minMaxStep);
+    Math_SmoothStepToS(&blue, blueTarget, 1, minMaxStep, minMaxStep);
     this->teethR = red;
     this->teethG = green;
     this->teethB = blue;
@@ -581,8 +581,8 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         rot = this->actor.shape.rot;
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
-        if (ABS(yawDiff) < 0x4001) {
-            Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
+        if (ABS(yawDiff) <= 0x4000) {
+            Math_SmoothStepToS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
         }
@@ -641,7 +641,7 @@ void EnSt_Bob(EnSt* this, GlobalContext* globalCtx) {
     if ((globalCtx->state.frames & 8) != 0) {
         ySpeedTarget *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, ySpeedTarget, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.velocity.y, ySpeedTarget, 0.4f, 1000.0f, 0.0f);
 }
 
 s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
@@ -651,7 +651,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         // skull is spinning from damage.
         return false;
-    } else if (this->actor.xzDistFromLink > 160.0f) {
+    } else if (this->actor.xzDistToLink > 160.0f) {
         // player is more than 160 xz units from the skulltulla
         return false;
     }
@@ -710,7 +710,7 @@ void EnSt_Sway(EnSt* this) {
         }
 
         swayAmt = this->swayTimer * (7.0f / 15.0f);
-        rotAngle = Math_Sins(this->swayAngle) * (swayAmt * (65536.0f / 360.0f));
+        rotAngle = Math_SinS(this->swayAngle) * (swayAmt * (65536.0f / 360.0f));
 
         if (this->absPrevSwayAngle >= ABS(rotAngle) && this->playSwayFlag == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_WAVE);
@@ -722,8 +722,8 @@ void EnSt_Sway(EnSt* this) {
         }
 
         this->absPrevSwayAngle = ABS(rotAngle);
-        amtToTranslate.x = Math_Sins(rotAngle) * -200.0f;
-        amtToTranslate.y = Math_Coss(rotAngle) * -200.0f;
+        amtToTranslate.x = Math_SinS(rotAngle) * -200.0f;
+        amtToTranslate.y = Math_CosS(rotAngle) * -200.0f;
         amtToTranslate.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
@@ -741,7 +741,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTable, this->morphTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
@@ -844,7 +844,7 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
         this->sfxTimer = 0;
         EnSt_SetupAction(this, EnSt_WaitOnGround);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.3f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 1.0f, 0.0f);
     }
 }
 
@@ -872,7 +872,7 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
-    f32 animPctDone = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
+    f32 animPctDone = this->skelAnime.curFrame / (this->skelAnime.animLength - 1.0f);
 
     if (animPctDone == 1.0f) {
         EnSt_SetReturnToCeilingAnimation(this);
@@ -907,7 +907,7 @@ void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx) {
         this->actor.gravity = -2.0f;
         EnSt_SetupAction(this, EnSt_FinishBouncing);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 400.0f, 0.4f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.unk_08, 400.0f, 0.4f, 10000.0f, 0.0f);
     }
 }
 
@@ -929,9 +929,9 @@ void EnSt_FinishBouncing(EnSt* this, GlobalContext* globalCtx) {
         this->setTargetYawTimer = 8;
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, 0x3FFC, 4, 0x2710, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.z, 0, 4, 0x2710, 1);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->deathYawTarget, 0xA, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.x, 0x3FFC, 4, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.z, 0, 4, 0x2710, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->deathYawTarget, 0xA, 0x2710, 1);
 
     this->actor.shape.rot = this->actor.posRot.rot;
 
@@ -970,12 +970,12 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & 0x8000) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.
 
         if (this->stunTimer == 0) {
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
         }
 
         if (this->swayTimer == 0 && this->stunTimer == 0) {
@@ -1026,12 +1026,12 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
         case 4:
             // teeth
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->teethR, this->teethG, this->teethB, 0);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
-    return 0;
+    return false;
 }
 
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
-                   EnSt_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSt_OverrideLimbDraw,
+                      EnSt_PostLimbDraw, this);
 }

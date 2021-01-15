@@ -1,15 +1,17 @@
 #ifndef _Z_EN_HORSE_H_
 #define _Z_EN_HORSE_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnHorse;
 
 typedef struct EnHorse {
     /* 0x000 */ Actor actor;
     /* 0x014C */ s32 unk_14C;
-    /* 0x0150 */ char unk_150[0x0A0];
+    /* 0x0150 */ char unk_150[0x008];
+    /* 0x0150 */ s32 unk_158;
+    /* 0x0150 */ char unk_15C[0x094];
     /* 0x01F0 */ u32 unk_1F0;
     /* 0x01F4 */ char unk_1F4[0x01C];
     /* 0x0210 */ s32 unk_210;
@@ -39,6 +41,11 @@ typedef struct EnHorse {
       !((horseActor)->unk_1F0 & 0x80000) && !((horseActor)->unk_1F0 & 0x2000000))                       \
          ? true                                                                                         \
          : false)
+
+#define EN_HORSE_CHECK_5(horseActor) \
+    (((horseActor)->unk_1F0 & 0x4) \
+        ? true                       \
+        : false)
 
 extern const ActorInit En_Horse_InitVars;
 

@@ -5,11 +5,11 @@ glabel func_80B32D30
 /* 00AAC 80B32D3C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00AB0 80B32D40 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00AB4 80B32D44 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00AB8 80B32D48 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00AB8 80B32D48 0C02927F */  jal     SkelAnime_Update
               
 /* 00ABC 80B32D4C AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 00AC0 80B32D50 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00AC4 80B32D54 0C0295B2 */  jal     func_800A56C8              
+/* 00AC4 80B32D54 0C0295B2 */  jal     Animation_OnFrame              
 /* 00AC8 80B32D58 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00ACC 80B32D5C 10400003 */  beq     $v0, $zero, .L80B32D6C     
 /* 00AD0 80B32D60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -19,12 +19,12 @@ glabel func_80B32D30
 .L80B32D6C:
 /* 00ADC 80B32D6C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00AE0 80B32D70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00AE4 80B32D74 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00AE4 80B32D74 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00AE8 80B32D78 24060800 */  addiu   $a2, $zero, 0x0800         ## $a2 = 00000800
 /* 00AEC 80B32D7C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00AF0 80B32D80 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 00AF4 80B32D84 0C01DE80 */  jal     Math_ApproxF
+/* 00AF4 80B32D84 0C01DE80 */  jal     Math_StepToF
               
 /* 00AF8 80B32D88 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00AFC 80B32D8C 86030194 */  lh      $v1, 0x0194($s0)           ## 00000194

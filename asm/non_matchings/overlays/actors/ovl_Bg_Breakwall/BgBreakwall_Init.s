@@ -13,7 +13,7 @@ glabel BgBreakwall_Init
               
 /* 00034 8086FC14 24A507E0 */  addiu   $a1, $a1, %lo(D_808707E0)  ## $a1 = 808707E0
 /* 00038 8086FC18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0003C 8086FC1C 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 0003C 8086FC1C 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00040 8086FC20 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00044 8086FC24 8FA8002C */  lw      $t0, 0x002C($sp)           

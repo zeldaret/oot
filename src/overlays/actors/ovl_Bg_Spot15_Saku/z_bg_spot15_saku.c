@@ -32,16 +32,16 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
 };
 
 extern Gfx D_060003C0[];
-extern UNK_TYPE D_060004D0;
+extern CollisionHeader D_060004D0;
 
 void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
     s32 pad[2];
-    s32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(thisx, 0);
-    DynaPolyInfo_Alloc(&D_060004D0, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyActor_Init(thisx, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060004D0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
@@ -57,7 +57,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
@@ -99,9 +99,9 @@ void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060003C0);
+    gSPDisplayList(POLY_XLU_DISP++, D_060003C0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }

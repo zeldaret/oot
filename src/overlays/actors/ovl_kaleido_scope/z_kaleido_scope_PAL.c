@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_8081F1F0.s")
 
@@ -47,16 +47,16 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
-    pauseCtx->inputX = input->rel.in.x;
-    pauseCtx->inputY = input->rel.in.y;
+    pauseCtx->inputX = input->rel.stick_x;
+    pauseCtx->inputY = input->rel.stick_y;
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, interfaceCtx->parameterSegment);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x07, pauseCtx->unk_13C);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, pauseCtx->unk_128);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, pauseCtx->unk_12C);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, pauseCtx->unk_138);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, pauseCtx->unk_130);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, pauseCtx->unk_134);
+    gSPSegment(POLY_OPA_DISP++, 0x02, interfaceCtx->parameterSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->unk_13C);
+    gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->unk_128);
+    gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->unk_12C);
+    gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->unk_138);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->unk_130);
+    gSPSegment(POLY_OPA_DISP++, 0x0D, pauseCtx->unk_134);
 
     if (pauseCtx->flag == 0) {
         func_80823994(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
@@ -65,7 +65,7 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
         func_80820434(globalCtx, globalCtx->state.gfxCtx);
         func_800949A8(globalCtx->state.gfxCtx);
 
-        gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+        gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
         func_80823994(pauseCtx, 0.0f, 0.0f, 64.0f);

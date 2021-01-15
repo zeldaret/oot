@@ -119,9 +119,9 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     }
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.08f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.08f);
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 1.0f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
         if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -3.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.3f;
@@ -147,7 +147,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
 
     if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
     }
 
     this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
@@ -215,7 +215,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
     }
 
-    if ((thisx->xzDistFromLink >= 20.0f) || (ABS(thisx->yDistFromLink) >= 80.0f)) {
+    if ((thisx->xzDistToLink >= 20.0f) || (ABS(thisx->yDistToLink) >= 80.0f)) {
         this->bumpOn = true;
     }
 
@@ -263,9 +263,9 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         } else {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         }
 
         if (this->timer < 3) {
@@ -284,7 +284,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
                                        (thisx->shape.rot.z * 6) + 19);
 
             effPos.y = thisx->groundY;
-            if (thisx->groundY > -32000.0f) {
+            if (thisx->groundY > BGCHECK_Y_MIN) {
                 EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
@@ -292,7 +292,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (globalCtx) {};
             globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
             globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
-            func_8005AA1C(&globalCtx->mainCamera, 2, 0xB, 8);
+            Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
             thisx->flags |= 0x20;
@@ -314,7 +314,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
-        if (thisx->waterY >= 20.0f) {
+        if (thisx->yDistToWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
@@ -340,16 +340,16 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_8002EBCC(thisx, globalCtx, 0);
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007A50);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007A50);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007860);
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007860);
         func_800628A4(0, &this->explosionCollider);
     }
 

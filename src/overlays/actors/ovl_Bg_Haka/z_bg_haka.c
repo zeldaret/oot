@@ -38,26 +38,26 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000428;
+extern CollisionHeader D_06000428;
 extern Gfx D_060001B0[];
 extern Gfx D_060002A8[];
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000428, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000428, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;
 }
 
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087B758(BgHaka* this, Player* player) {
@@ -99,11 +99,11 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.speedXZ += 0.05f;
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
-    sp38 = Math_ApproxF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
+    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
     this->dyna.actor.posRot.pos.x =
-        Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
+        Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
+        Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
@@ -157,13 +157,13 @@ void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060001B0);
+    gSPDisplayList(POLY_OPA_DISP++, D_060001B0);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060002A8);
+    gSPDisplayList(POLY_XLU_DISP++, D_060002A8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka.c", 421);
 }

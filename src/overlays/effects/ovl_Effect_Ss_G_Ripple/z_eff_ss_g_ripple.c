@@ -56,7 +56,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->rEnvColorG = 255;
     this->rEnvColorB = 255;
     this->rEnvColorA = 255;
-    this->rWaterBoxNum = func_8004239C(globalCtx, &globalCtx->colCtx, &initParams->pos, 3.0f, &waterBox);
+    this->rWaterBoxNum = WaterBox_GetSurface2(globalCtx, &globalCtx->colCtx, &initParams->pos, 3.0f, &waterBox);
 
     return 1;
 }
@@ -77,8 +77,8 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
 
     radius = this->rRadius * 0.0025f;
 
-    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.stat.colHeader->nbWaterBoxes)) {
-        yPos = (this->rWaterBoxNum + globalCtx->colCtx.stat.colHeader->waterBoxes)->unk_02;
+    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.colHeader->nbWaterBoxes)) {
+        yPos = (this->rWaterBoxNum + globalCtx->colCtx.colHeader->waterBoxes)->ySurface;
     } else {
         yPos = this->pos.y;
     }
@@ -90,14 +90,14 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         this->rPrimColorA);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
-        gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+        gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 247);
@@ -116,14 +116,14 @@ void EffectSsGRipple_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
     if (DECR(this->rLifespan) == 0) {
         radius = this->rRadius;
-        Math_SmoothScaleMaxMinF(&radius, this->rRadiusMax, 0.2f, 30.0f, 1.0f);
+        Math_SmoothStepToF(&radius, this->rRadiusMax, 0.2f, 30.0f, 1.0f);
         this->rRadius = radius;
 
         primAlpha = this->rPrimColorA;
         envAlpha = this->rEnvColorA;
 
-        Math_SmoothScaleMaxMinF(&primAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
-        Math_SmoothScaleMaxMinF(&envAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+        Math_SmoothStepToF(&primAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+        Math_SmoothStepToF(&envAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
 
         this->rPrimColorA = primAlpha;
         this->rEnvColorA = envAlpha;

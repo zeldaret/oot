@@ -65,20 +65,20 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        gDPPipeSync(POLY_XLU_DISP++);
         func_80094C50(gfxCtx);
         color = this->life * 12.75f;
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, color, color, color, color);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, color, color, color, color);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
+        gDPPipeSync(POLY_XLU_DISP++);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb.c", 214);
@@ -92,6 +92,6 @@ void EffectSsBomb_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         this->rTexIdx = 3;
     }
 
-    this->accel.x = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
-    this->accel.z = ((Math_Rand_ZeroOne() * 0.4f) - 0.2f);
+    this->accel.x = ((Rand_ZeroOne() * 0.4f) - 0.2f);
+    this->accel.z = ((Rand_ZeroOne() * 0.4f) - 0.2f);
 }

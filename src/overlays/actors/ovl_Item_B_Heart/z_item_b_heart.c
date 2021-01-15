@@ -70,12 +70,12 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
     f32 temp;
 
     this->unk_164 += 1;
-    temp = ((Math_Sins(this->unk_164 * 1548) * 5.0f) + 20.0f);
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + temp, 0.1f, this->unk_158);
-    Math_SmoothScaleMaxF(&this->unk_158, 2.0f, 1.0f, 0.1f);
+    temp = ((Math_SinS(this->unk_164 * 1548) * 5.0f) + 20.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + temp, 0.1f, this->unk_158);
+    Math_ApproachF(&this->unk_158, 2.0f, 1.0f, 0.1f);
     this->actor.shape.rot.y += 0x400;
 
-    Math_SmoothScaleMaxF(&this->actor.scale.x, 0.4f, 0.1f, 0.01f);
+    Math_ApproachF(&this->actor.scale.x, 0.4f, 0.1f, 0.01f);
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
@@ -99,16 +99,16 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (flag) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001290);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001470);
+        gSPDisplayList(POLY_XLU_DISP++, D_06001290);
+        gSPDisplayList(POLY_XLU_DISP++, D_06001470);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001290);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001470);
+        gSPDisplayList(POLY_OPA_DISP++, D_06001290);
+        gSPDisplayList(POLY_OPA_DISP++, D_06001470);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);

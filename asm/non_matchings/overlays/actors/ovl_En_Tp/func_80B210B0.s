@@ -74,7 +74,7 @@ glabel func_80B210B0
 /* 003E0 80B211C0 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028
 /* 003E4 80B211C4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 003E8 80B211C8 44053000 */  mfc1    $a1, $f6                   
-/* 003EC 80B211CC 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 003EC 80B211CC 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 003F0 80B211D0 00000000 */  nop
 /* 003F4 80B211D4 8E0201D4 */  lw      $v0, 0x01D4($s0)           ## 000001D4
@@ -92,11 +92,11 @@ glabel func_80B210B0
 /* 00424 80B21204 00042100 */  sll     $a0, $a0,  4               
 /* 00428 80B21208 00042400 */  sll     $a0, $a0, 16               
 /* 0042C 80B2120C 00042403 */  sra     $a0, $a0, 16               
-/* 00430 80B21210 0C01DE1C */  jal     Math_Sins
+/* 00430 80B21210 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00434 80B21214 A7A40034 */  sh      $a0, 0x0034($sp)           
 /* 00438 80B21218 E7A0002C */  swc1    $f0, 0x002C($sp)           
-/* 0043C 80B2121C 0C01DE1C */  jal     Math_Sins
+/* 0043C 80B2121C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00440 80B21220 87A40036 */  lh      $a0, 0x0036($sp)           
 /* 00444 80B21224 C608016C */  lwc1    $f8, 0x016C($s0)           ## 0000016C
@@ -107,11 +107,11 @@ glabel func_80B210B0
 /* 00458 80B21238 46105482 */  mul.s   $f18, $f10, $f16           
 /* 0045C 80B2123C 46049180 */  add.s   $f6, $f18, $f4             
 /* 00460 80B21240 E6060024 */  swc1    $f6, 0x0024($s0)           ## 00000024
-/* 00464 80B21244 0C01DE1C */  jal     Math_Sins
+/* 00464 80B21244 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00468 80B21248 87A40034 */  lh      $a0, 0x0034($sp)           
 /* 0046C 80B2124C E7A0002C */  swc1    $f0, 0x002C($sp)           
-/* 00470 80B21250 0C01DE0D */  jal     Math_Coss
+/* 00470 80B21250 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00474 80B21254 87A40036 */  lh      $a0, 0x0036($sp)           
 /* 00478 80B21258 C608016C */  lwc1    $f8, 0x016C($s0)           ## 0000016C

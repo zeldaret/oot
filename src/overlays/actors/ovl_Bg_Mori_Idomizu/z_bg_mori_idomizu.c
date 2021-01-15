@@ -22,7 +22,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx);
 
 extern Gfx D_060049D0[];
 
-static s16 sAlreadyLoaded = false;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
@@ -41,18 +41,18 @@ void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc acti
 }
 
 void BgMoriIdomizu_SetWaterLevel(GlobalContext* globalCtx, s16 waterLevel) {
-    WaterBox* waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes;
+    WaterBox* waterBox = globalCtx->colCtx.colHeader->waterBoxes;
 
-    waterBox[2].unk_02 = waterLevel;
-    waterBox[3].unk_02 = waterLevel;
-    waterBox[4].unk_02 = waterLevel;
+    waterBox[2].ySurface = waterLevel;
+    waterBox[3].ySurface = waterLevel;
+    waterBox[4].ySurface = waterLevel;
 }
 
 void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriIdomizu* this = THIS;
 
-    if (sAlreadyLoaded) {
+    if (sIsSpawned) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -78,7 +78,7 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
-    sAlreadyLoaded = true;
+    sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
     // Forest Temple well water
@@ -90,7 +90,7 @@ void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriIdomizu* this = THIS;
 
     if (this->isLoaded) {
-        sAlreadyLoaded = false;
+        sIsSpawned = false;
     }
 }
 
@@ -132,7 +132,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
     this->drainTimer--;
     if ((roomNum == 7) || (roomNum == 8) || (roomNum == 9)) {
         if (this->drainTimer < 70) {
-            Math_ApproxF(&thisx->posRot.pos.y, this->targetWaterLevel, 3.5f);
+            Math_StepToF(&thisx->posRot.pos.y, this->targetWaterLevel, 3.5f);
             BgMoriIdomizu_SetWaterLevel(globalCtx, thisx->posRot.pos.y);
             if (this->drainTimer > 0) {
                 if (switchFlagSet) {
@@ -169,18 +169,18 @@ void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 128);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 128);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
+    gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - (gameplayFrames & 0x7F), gameplayFrames % 0x80, 0x20,
                                 0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80, 0x20, 0x20));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060049D0);
+    gSPDisplayList(POLY_XLU_DISP++, D_060049D0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 382);
 }

@@ -9,10 +9,10 @@ glabel EnDekunuts_Draw
 /* 01580 809EAAE0 15E10007 */  bne     $t7, $at, .L809EAB00       
 /* 01584 809EAAE4 8FB80020 */  lw      $t8, 0x0020($sp)           
 /* 01588 809EAAE8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 0158C 809EAAEC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 0158C 809EAAEC 3C050600 */  lui     $a1, %hi(D_06002298)                ## $a1 = 06000000
 /* 01590 809EAAF0 0C00D498 */  jal     Gfx_DrawDListOpa
               
-/* 01594 809EAAF4 24A52298 */  addiu   $a1, $a1, 0x2298           ## $a1 = 06002298
+/* 01594 809EAAF4 24A52298 */  addiu   $a1, $a1, %lo(D_06002298)           ## $a1 = 06002298
 /* 01598 809EAAF8 10000009 */  beq     $zero, $zero, .L809EAB20   
 /* 0159C 809EAAFC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809EAB00:
@@ -21,7 +21,7 @@ glabel EnDekunuts_Draw
 /* 015A8 809EAB08 3C07809F */  lui     $a3, %hi(func_809EA98C)    ## $a3 = 809F0000
 /* 015AC 809EAB0C 24E7A98C */  addiu   $a3, $a3, %lo(func_809EA98C) ## $a3 = 809EA98C
 /* 015B0 809EAB10 AFB80014 */  sw      $t8, 0x0014($sp)           
-/* 015B4 809EAB14 0C028572 */  jal     SkelAnime_Draw
+/* 015B4 809EAB14 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 015B8 809EAB18 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 015BC 809EAB1C 8FBF001C */  lw      $ra, 0x001C($sp)           

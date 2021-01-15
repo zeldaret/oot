@@ -923,8 +923,8 @@ glabel L800EEEB4
 /* B661AC 800EF00C 31180002 */  andi  $t8, $t0, 2
 /* B661B0 800EF010 0018C843 */  sra   $t9, $t8, 1
 /* B661B4 800EF014 310A0001 */  andi  $t2, $t0, 1
-/* B661B8 800EF018 3C158013 */  lui   $s5, %hi(D_801333A8) # $s5, 0x8013
-/* B661BC 800EF01C 26B533A8 */  addiu $s5, %lo(D_801333A8) # addiu $s5, $s5, 0x33a8
+/* B661B8 800EF018 3C158013 */  lui   $s5, %hi(gSoundBanks) # $s5, 0x8013
+/* B661BC 800EF01C 26B533A8 */  addiu $s5, %lo(gSoundBanks) # addiu $s5, $s5, 0x33a8
 /* B661C0 800EF020 001E6080 */  sll   $t4, $fp, 2
 /* B661C4 800EF024 02AC9021 */  addu  $s2, $s5, $t4
 /* B661C8 800EF028 8E4D0000 */  lw    $t5, ($s2)
@@ -1176,9 +1176,9 @@ glabel L800EF3F0
 /* B66594 800EF3F4 4481B000 */  mtc1  $at, $f22
 /* B66598 800EF3F8 3C018015 */  lui   $at, %hi(D_8014A4C0)
 /* B6659C 800EF3FC 3C168017 */  lui   $s6, %hi(D_8016E1B8) # $s6, 0x8017
-/* B665A0 800EF400 3C158013 */  lui   $s5, %hi(D_801333A8) # $s5, 0x8013
+/* B665A0 800EF400 3C158013 */  lui   $s5, %hi(gSoundBanks) # $s5, 0x8013
 /* B665A4 800EF404 0000F025 */  move  $fp, $zero
-/* B665A8 800EF408 26B533A8 */  addiu $s5, %lo(D_801333A8) # addiu $s5, $s5, 0x33a8
+/* B665A8 800EF408 26B533A8 */  addiu $s5, %lo(gSoundBanks) # addiu $s5, $s5, 0x33a8
 /* B665AC 800EF40C 26D6E1B8 */  addiu $s6, %lo(D_8016E1B8) # addiu $s6, $s6, -0x1e48
 /* B665B0 800EF410 C434A4C0 */  lwc1  $f20, %lo(D_8014A4C0)($at)
 /* B665B4 800EF414 00009025 */  move  $s2, $zero
@@ -3280,8 +3280,8 @@ glabel L800F12F0
 /* B68560 800F13C0 24050003 */  li    $a1, 3
 /* B68564 800F13C4 0C03ED07 */  jal   GfxPrint_SetPos
 /* B68568 800F13C8 24060006 */   li    $a2, 6
-/* B6856C 800F13CC 3C148013 */  lui   $s4, %hi(D_80131BE8) # $s4, 0x8013
-/* B68570 800F13D0 26941BE8 */  addiu $s4, %lo(D_80131BE8) # addiu $s4, $s4, 0x1be8
+/* B6856C 800F13CC 3C148013 */  lui   $s4, %hi(gScarecrowSpawnSongPtr) # $s4, 0x8013
+/* B68570 800F13D0 26941BE8 */  addiu $s4, %lo(gScarecrowSpawnSongPtr) # addiu $s4, $s4, 0x1be8
 /* B68574 800F13D4 3C058015 */  lui   $a1, %hi(D_8014A2C0) # $a1, 0x8015
 /* B68578 800F13D8 24A5A2C0 */  addiu $a1, %lo(D_8014A2C0) # addiu $a1, $a1, -0x5d40
 /* B6857C 800F13DC 8E860000 */  lw    $a2, ($s4)
