@@ -123,8 +123,8 @@ void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
     Struct_800A5E28* temp_t9;
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 364);
-    skeleton = (SkinLimb**)SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
-    temp_t9 = (Struct_800A5E28*)SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
+    skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
+    temp_t9 = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
     if (!(arg4 & 1)) {
         func_800A598C(gfxCtx, skin, limbIndex, arg3);
     }
