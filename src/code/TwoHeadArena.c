@@ -125,7 +125,7 @@ u32 THA_IsCrash(TwoHeadArena* tha) {
 
 void THA_Init(TwoHeadArena* tha) {
     tha->head = tha->bufp;
-    tha->tail = (u32)tha->bufp + (u32)tha->size;
+    tha->tail = (u32)tha->bufp + tha->size;
 }
 
 void THA_Ct(TwoHeadArena* tha, void* ptr, u32 size) {
