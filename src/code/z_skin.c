@@ -52,19 +52,18 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
     Vec3f spDC;
     Vec3f spD0;
     Struct_800A598C_2* phi_s0;
-    
 
     OPEN_DISPS(gfxCtx, "../z_skin.c", 254);
 
     skeleton = (SkinLimb**)SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     data = SEGMENTED_TO_VIRTUAL(((SkinLimb*)SEGMENTED_TO_VIRTUAL(skeleton[limbIndex]))->segment);
     temp_2 = (Struct_800A598C*)SEGMENTED_TO_VIRTUAL(data->unk_4);
-    
+
     avb = &skin->avbTbl[limbIndex];
-    
+
     spEC = avb->buf[avb->unk_0];
     temp_1 = data->unk_2;
-    
+
     for (phi_s6 = temp_2; phi_s6 < temp_2 + temp_1; phi_s6++) {
         temp_a0_2 = phi_s6->unk_2;
         temp_v0 = (Struct_800A57C0*)SEGMENTED_TO_VIRTUAL(phi_s6->unk_8);
@@ -72,7 +71,7 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
 
         if (temp_a0_2 == 1) {
             Vec3f spAC;
-            
+
             spAC.x = temp_s3[0].x;
             spAC.y = temp_s3[0].y;
             spAC.z = temp_s3[0].z;
@@ -92,10 +91,9 @@ void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 a
 
             phi_f20.x = phi_f20.y = phi_f20.z = 0.0f;
 
-            
             for (phi_s0 = &temp_s3[0]; phi_s0 < &temp_s3[temp_a0_2]; phi_s0++) {
                 temp_f20 = phi_s0->unk_8 * 0.01f;
-                
+
                 sp88.x = phi_s0->x;
                 sp88.y = phi_s0->y;
                 sp88.z = phi_s0->z;

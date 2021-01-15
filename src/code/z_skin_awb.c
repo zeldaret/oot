@@ -53,7 +53,7 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
             avbEntry->buf[0] = NULL;
             avbEntry->buf[1] = NULL;
         } else {
-            Struct_800A5E28* temp_s1 = SEGMENTED_TO_VIRTUAL(((void) 0, limb->segment));
+            Struct_800A5E28* temp_s1 = SEGMENTED_TO_VIRTUAL(((void)0, limb->segment));
 
             avbEntry->unk_0 = 0;
             avbEntry->buf[0] = ZeldaArena_MallocDebug(temp_s1->unk_0 * sizeof(Vtx), "../z_skin_awb.c", 235);
@@ -143,17 +143,17 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     xRot = jointRot[0].x;
     yRot = jointRot[0].y;
     zRot = jointRot[0].z;
-    
+
     if (arg3 != 0) {
 
         xTransl = jointRot[-1].x;
         yTransl = jointRot[-1].y;
         zTransl = jointRot[-1].z;
-        
+
         jointRot += zero;
-        
+
         if (arg3 == 0x23) {
-            EnfHG* horse = (EnfHG*) actor;
+            EnfHG* horse = (EnfHG*)actor;
 
             yRot += horse->turnRot;
         }
@@ -176,10 +176,10 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     }
 
     SkinMatrix_SetScaleRotateYRPTranslate(
-        &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x,
-        actor->shape.rot.y, actor->shape.rot.z, actor->posRot.pos.x,
-        actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y), actor->posRot.pos.z);
-    
+        &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x, actor->shape.rot.y,
+        actor->shape.rot.z, actor->posRot.pos.x, actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y),
+        actor->posRot.pos.z);
+
     temp_ret = func_800A698C(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), arg1, 0xFF, 0);
     if (!temp_ret) { // func_800A698C only returns false
         return temp_ret;
