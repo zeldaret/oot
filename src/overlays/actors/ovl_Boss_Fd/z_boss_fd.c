@@ -262,17 +262,17 @@ void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
     if (this->introCamera != 0) {
         Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
-                             this->cameraEyeVel.x * this->cameraSpeedMod);
+                       this->cameraEyeVel.x * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
-                             this->cameraEyeVel.y * this->cameraSpeedMod);
+                       this->cameraEyeVel.y * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
-                             this->cameraEyeVel.z * this->cameraSpeedMod);
+                       this->cameraEyeVel.z * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
-                             this->cameraAtVel.x * this->cameraSpeedMod);
+                       this->cameraAtVel.x * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                             this->cameraAtVel.y * this->cameraSpeedMod);
+                       this->cameraAtVel.y * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
-                             this->cameraAtVel.z * this->cameraSpeedMod);
+                       this->cameraAtVel.z * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         this->cameraAt.y += this->cameraYMod;
         Gameplay_CameraSetAtEye(globalCtx, this->introCamera, &this->cameraAt, &this->cameraEye);
@@ -595,8 +595,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     Audio_SetBGM(0x6B);
                 }
                 if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&gVolvagiaUnknown_00D700),
-                                           0xA0, 0xB4, 0x80, 0x28);
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                           SEGMENTED_TO_VIRTUAL(&gVolvagiaUnknown_00D700), 0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->timers[3] <= 100) {
                     this->cameraEyeVel.x = this->cameraEyeVel.y = this->cameraEyeVel.z = 2.0f;
@@ -892,8 +892,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                         sp164.y = 0.03f;
 
-                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Rand_ZeroFloat(20.0f) + 40,
-                                            0x64);
+                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Rand_ZeroFloat(20.0f) + 40, 0x64);
 
                         for (i2 = 0; i2 < 15; i2++) {
                             sp170.x = Rand_CenteredFloat(20.0f);
@@ -904,8 +903,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             sp158.x = Rand_CenteredFloat(0.5f);
                             sp158.z = Rand_CenteredFloat(0.5f);
 
-                            BossFd_SpawnEmber(this->particles, &sp188, &sp170, &sp158,
-                                              (s16)Rand_ZeroFloat(3.0f) + 8);
+                            BossFd_SpawnEmber(this->particles, &sp188, &sp170, &sp158, (s16)Rand_ZeroFloat(3.0f) + 8);
                         }
                     }
                 }
@@ -970,8 +968,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             sp12C.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
                             sp12C.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
                             sp12C.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
-                            BossFd_SpawnDust(this->particles, &sp12C, &sp144, &sp138,
-                                             Rand_ZeroFloat(100.0f) + 300);
+                            BossFd_SpawnDust(this->particles, &sp12C, &sp144, &sp138, Rand_ZeroFloat(100.0f) + 300);
                         }
                     }
                 } else {
@@ -1219,16 +1216,14 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
     } else if (this->fogMode == 2) {
         this->fogMode--;
         globalCtx->envCtx.unk_BF = 0;
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.55f + 0.05f * Math_SinS(this->varianceTimer * 0x3E00), 1.0f,
-                             0.15f);
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.55f + 0.05f * Math_SinS(this->varianceTimer * 0x3E00), 1.0f, 0.15f);
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 3;
         globalCtx->envCtx.unk_BE = 0;
     } else if (this->fogMode == 10) {
         this->fogMode = 1;
         globalCtx->envCtx.unk_BF = 0;
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.21f + 0.07f * Math_SinS(this->varianceTimer * 0xC00), 1.0f,
-                             0.05f);
+        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.21f + 0.07f * Math_SinS(this->varianceTimer * 0xC00), 1.0f, 0.05f);
         globalCtx->envCtx.unk_DC = 2;
         globalCtx->envCtx.unk_BD = 3;
         globalCtx->envCtx.unk_BE = 0;
@@ -1335,8 +1330,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
             spawnPos1.y = Rand_ZeroFloat(40.0f) + 100.0f;
             spawnPos1.z = Rand_CenteredFloat(60.0) + this->holePosition.z;
 
-            BossFd_SpawnEmber(this->particles, &spawnPos1, &spawnVel1, &spawnAccel1,
-                              (s16)Rand_ZeroFloat(1.5f) + 6);
+            BossFd_SpawnEmber(this->particles, &spawnPos1, &spawnVel1, &spawnAccel1, (s16)Rand_ZeroFloat(1.5f) + 6);
         }
     }
 
@@ -1389,8 +1383,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
             spawnAccel2.y = (spawnVel2.y * -10) / 100;
             spawnAccel2.z = (spawnVel2.z * -10) / 100;
 
-            BossFd_SpawnEmber(this->particles, &this->headPos, &spawnVel2, &spawnAccel2,
-                              (s16)Rand_ZeroFloat(2.0f) + 8);
+            BossFd_SpawnEmber(this->particles, &this->headPos, &spawnVel2, &spawnAccel2, (s16)Rand_ZeroFloat(2.0f) + 8);
         }
     }
 
@@ -1923,11 +1916,14 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-static u64* sEyeTextures[] = { &gVolvagiaUnknown_0038A8, &gVolvagiaUnknown_0034A8, &gVolvagiaUnknown_003CA8 };
+static u64* sEyeTextures[] = { gVolvagiaUnknown_0038A8, gVolvagiaUnknown_0034A8, gVolvagiaUnknown_003CA8 };
 
-static Gfx* sBodyDLists[] = { &gVolvagiaDL_0079A0, &gVolvagiaDL_007AC0, &gVolvagiaDL_007B70, &gVolvagiaDL_007BD0, &gVolvagiaDL_007C30, &gVolvagiaDL_007C90,
-                              &gVolvagiaDL_007CF0, &gVolvagiaDL_007D50, &gVolvagiaDL_007DB0, &gVolvagiaDL_007E10, &gVolvagiaDL_007E70, &gVolvagiaDL_007ED0,
-                              &gVolvagiaDL_007F30, &gVolvagiaDL_007F90, &gVolvagiaDL_007FF0, &gVolvagiaDL_008038, &gVolvagiaDL_008080, &gVolvagiaDL_0080D8 };
+static Gfx* sBodyDLists[] = {
+    gVolvagiaDL_0079A0, gVolvagiaDL_007AC0, gVolvagiaDL_007B70, gVolvagiaDL_007BD0, gVolvagiaDL_007C30,
+    gVolvagiaDL_007C90, gVolvagiaDL_007CF0, gVolvagiaDL_007D50, gVolvagiaDL_007DB0, gVolvagiaDL_007E10,
+    gVolvagiaDL_007E70, gVolvagiaDL_007ED0, gVolvagiaDL_007F30, gVolvagiaDL_007F90, gVolvagiaDL_007FF0,
+    gVolvagiaDL_008038, gVolvagiaDL_008080, gVolvagiaDL_0080D8,
+};
 
 void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     s16 segIndex;

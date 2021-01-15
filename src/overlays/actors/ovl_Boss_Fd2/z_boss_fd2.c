@@ -650,17 +650,17 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
     if (this->deathCamera != 0) {
         Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
-                             this->cameraEyeVel.x * this->cameraSpeedMod);
+                       this->cameraEyeVel.x * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
-                             this->cameraEyeVel.y * this->cameraSpeedMod);
+                       this->cameraEyeVel.y * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
-                             this->cameraEyeVel.z * this->cameraSpeedMod);
+                       this->cameraEyeVel.z * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
-                             this->cameraAtVel.x * this->cameraSpeedMod);
+                       this->cameraAtVel.x * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                             this->cameraAtVel.y * this->cameraSpeedMod);
+                       this->cameraAtVel.y * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
-                             this->cameraAtVel.z * this->cameraSpeedMod);
+                       this->cameraAtVel.z * this->cameraSpeedMod);
         Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         this->cameraAt.y += this->cameraYMod;
         Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
@@ -1229,8 +1229,8 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                         BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
         POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     }

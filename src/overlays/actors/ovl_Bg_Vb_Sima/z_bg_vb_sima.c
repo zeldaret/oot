@@ -34,7 +34,9 @@ const ActorInit Bg_Vb_Sima_InitVars = {
     (ActorFunc)BgVbSima_Draw,
 };
 
-static InitChainEntry sInitChain[] = { ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP), };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
 void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -44,8 +46,7 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gVolvagiaPlatformCol_000D68, &colHeader);
-    this->dyna.bgId =
-        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
