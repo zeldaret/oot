@@ -29,6 +29,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
+void func_80AFD968(EnSkb* this, GlobalContext* globalCtx);
 s32 func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
@@ -273,7 +274,7 @@ void func_80AFD13C(EnSkb* this, GlobalContext* globalCtx) {
         playSpeed = -this->skelAnime.playSpeed;
     }
     if (thisKeyFrame != (s32)this->skelAnime.curFrame) {
-        if ((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8) ||
+        if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8)) ||
             !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
 
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
@@ -440,67 +441,66 @@ void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD968.s")
-// void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
-//     Vec3f flamePos;
-//     s16 flameScale;
-//     s32 i;
-//     s32 phi_v1;
-//     Player* player = PLAYER;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD968.s")
+void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
+    s16 pad;
+    s32 i;
+    Vec3f flamePos;
+    s16 scale;
+    s16 phi_v1;
+    Player* player;
 
-//     if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & 0x60) && (this->actor.waterY >= 40.0f)) {
-//         this->actor.colChkInfo.health = 0;
-//         this->unk_281 = 0;
-//         func_80AFD7B4(this, globalCtx);
-//     } else if (this->unk_280 >= 3) {
-//         if ((this->collider.base.acFlags & 2) != 0) {
-//             this->collider.base.acFlags &= 0xFFFD;
-//             if (this->actor.colChkInfo.damageEffect != 6) {
-//                 this->unk_282 = this->actor.colChkInfo.damageEffect;
-//                 func_80035650(&this->actor, &this->collider.list->body, 1);
-//                 this->unk_281 = 0;
-//                 if (this->actor.colChkInfo.damageEffect == 1) {
-//                     if (this->unk_280 != 6) {
-//                         func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
-//                         Actor_ApplyDamage(&this->actor);
-//                         func_80AFD540(this);
-//                     }
-//                 } else {
-//                     phi_v1 = 8;
-//                     if (this->actor.colChkInfo.damageEffect == 7) {
-//                         flameScale = (this->actor.scale.y * 7500.0f);
-//                         for (i = 0; i < 4; i++) {
-//                             flamePos = this->actor.posRot.pos;
-//                             flamePos.x += Rand_CenteredFloat(20.0f);
-//                             flamePos.y += Rand_CenteredFloat(20.0f);
-//                             flamePos.z += (Rand_ZeroOne() * 25.0f);
-//                             // This is odd, likely fake?
-//                             if(!player->swordAnimation){}
-//                             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &flamePos, flameScale, 0, 0, -1);
-//                         }
-//                         phi_v1 = 25;
-//                     }
-//                     func_8003426C(&this->actor, 0x4000, 0xFF, 0, phi_v1);
-//                     if (Actor_ApplyDamage(&this->actor) == 0) {
-//                         func_80AFD7B4(this, globalCtx);
-//                         return;
-//                     }
-//                     if (this->unk_283 == 0) {
-//                         if (this->actor.colChkInfo.damageEffect == 0xE) {
-//                             if (this->actor.colChkInfo.damageEffect != 13 || (player->swordAnimation < 4) ||
-//                                 !(player->swordAnimation >= 12) || (player->swordAnimation == 20) ||
-//                                 (player->swordAnimation == 21)) {
-//                                 func_80032E24(&this->unk_28C, 2, globalCtx);
-//                                 this->unk_283 = 1;
-//                             }
-//                         }
-//                     }
-//                     func_80AFD644(this);
-//                 }
-//             }
-//         }
-//     }
-// }
+    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & 0x60) && (this->actor.yDistToWater >= 40.0f)) {
+        this->actor.colChkInfo.health = 0;
+        this->unk_281 = 0;
+        func_80AFD7B4(this, globalCtx);
+    } else if (this->unk_280 >= 3) {
+        if ((this->collider.base.acFlags & 2) != 0) {
+            this->collider.base.acFlags &= 0xFFFD;
+            if (this->actor.colChkInfo.damageEffect != 6) {
+                this->unk_282 = this->actor.colChkInfo.damageEffect;
+                func_80035650(&this->actor, &this->collider.list[1].body, 1);
+                this->unk_281 = 0;
+                if (this->actor.colChkInfo.damageEffect == 1) {
+                    if (this->unk_280 != 6) {
+                        func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                        Actor_ApplyDamage(&this->actor);
+                        func_80AFD540(this);
+                    }
+                } else {
+                    phi_v1 = 8;
+                    if (this->actor.colChkInfo.damageEffect == 7) {
+                        scale = this->actor.scale.y * 7500.0f;
+                        for (i = 4; i >= 0; i--) {
+                            flamePos = this->actor.posRot.pos;
+                            flamePos.x += Rand_CenteredFloat(20.0f);
+                            flamePos.y += Rand_CenteredFloat(20.0f);
+                            flamePos.z += (Rand_ZeroOne() * 25.0f);
+                            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &flamePos, scale, 0, 0, -1);
+                        }
+                        phi_v1 = 25;
+                    }
+                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, phi_v1);
+                    if (!Actor_ApplyDamage(&this->actor)) {
+                        func_80AFD7B4(this, globalCtx);
+                        return;
+                    }
+                    player = PLAYER;
+                    if (this->unk_283 == 0) {
+                        if ((this->actor.colChkInfo.damageEffect == 0xD) ||
+                            ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                             ((player->swordAnimation >= 4 && player->swordAnimation <= 11) ||
+                              (player->swordAnimation == 20 || player->swordAnimation == 21)))) {
+                            func_80032E24(&this->unk_28C, 2, globalCtx);
+                            this->unk_283 = 1;
+                        }
+                    }
+                    func_80AFD644(this);
+                }
+            }
+        }
+    }
+}
 
 // matches
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Update.s")
@@ -551,26 +551,23 @@ s32 func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // Post limb?
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
-// void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-//     EnSkb* this = THIS;
-//     u8* temp_v0;
-
-//     func_800628A4(limbIndex, &this->collider);
-//     if ((this->unk_283 ^ 1) == 0) {
-//         func_80032F54(&this->unk_28C, limbIndex, 11, 12, 18, dList, -1);
-
-//     } else if ( (this->unk_283 | 4) == this->unk_283) {
-//         func_80032F54(&this->unk_28C, limbIndex, 0, 18, 18, dList, -1);
-//     }
-// }
-
-
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
+void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnSkb* this = THIS;
+    u8* temp_v0;
+    func_800628A4(limbIndex, &this->collider);
+    if (!(this->unk_283 ^ 1)) {
+        func_80032F54(&this->unk_28C, limbIndex, 11, 12, 18, dList, -1);
+    } else if ( (this->unk_283 | 4) == this->unk_283) {
+        func_80032F54(&this->unk_28C, limbIndex, 0, 18, 18, dList, -1);
+    }
+}
 
 // Matches
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Draw.s")
-void EnSkb_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80AFDD30, func_80AFDF24, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80AFDD30, func_80AFDF24,
+                      &this->actor);
 }
