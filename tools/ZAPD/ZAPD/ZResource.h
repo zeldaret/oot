@@ -16,6 +16,8 @@
 #define SEG2FILESPACE(x) (x & 0x00FFFFFF)
 #define GETSEGNUM(x) ((x >> 24) & 0xFF)
 
+typedef uint32_t segptr_t;
+
 class ZFile;
 class HLFileIntermediette;
 
@@ -108,6 +110,7 @@ public:
 	std::string includePath;
 	bool isArray;
 	int arrayItemCnt;
+	std::vector<uint32_t> references;
 
 	Declaration(DeclarationAlignment nAlignment, uint32_t nSize, std::string nVarType, std::string nVarName, bool nIsArray, std::string nText);
 	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize, std::string nVarType, std::string nVarName, bool nIsArray, std::string nText);
