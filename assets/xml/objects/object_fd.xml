@@ -43,11 +43,6 @@
         <DList Name="gVolvagiaDL_008080" Offset="0x8080"/>
         <DList Name="gVolvagiaDL_0080D8" Offset="0x80D8"/>
 
-        <Texture Name="sVolvagiaTex_009208" Format="i8" Width="16" Height="16" Offset="0x9208"/>
-        <Texture Name="sVolvagiaTex_00A918" Format="i8" Width="16" Height="16" Offset="0xA918"/>
-        <Texture Name="sVolvagiaTex_00D170" Format="rgb5a1" Width="16" Height="16" Offset="0xD170"/>
-        <Texture Name="sVolvagiaTex_00D438" Format="rgb5a1" Width="16" Height="16" Offset="0xD438"/>
-
         <Animation Name="gVolvagiaAnim_0061D8" Offset="0x61D8"/>
         <Texture Name="gVolvagiaTex_008128" Format="rgb5a1" Width="32" Height="64" Offset="0x8128"/>
         <Skeleton Name="gVolvagiaSkel_011454" Type="Flex" LimbType="Standard" Offset="0x11420"/>

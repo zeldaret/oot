@@ -1,30 +1,30 @@
 <Root>
     <File Name="object_fd2" Segment="6">
-        <DList Name="gHoleVolvagiaDL_004B48" Offset="0x4B48"/>
-        <DList Name="gHoleVolvagiaDL_004BC8" Offset="0x4BC8"/>
-        <DList Name="gHoleVolvagiaDL_004E38" Offset="0x4E38"/>
-        <Animation Name="gHoleVolvagiaAnim_0073CC" Offset="0x73CC"/>
-        <Animation Name="gHoleVolvagiaAnim_007850" Offset="0x7850"/>
-        <Animation Name="gHoleVolvagiaAnim_0089DC" Offset="0x89DC"/>
-        <Animation Name="gHoleVolvagiaAnim_009194" Offset="0x9194"/>
-        <Animation Name="gHoleVolvagiaAnim_00A31C" Offset="0xA31C"/>
-        <Animation Name="gHoleVolvagiaAnim_00A86C" Offset="0xA86C"/>
-        <Animation Name="gHoleVolvagiaAnim_00AE90" Offset="0xAE90"/>
-        <Animation Name="gHoleVolvagiaAnim_00B7A4" Offset="0xB7A4"/>
-        <Animation Name="gHoleVolvagiaAnim_00C1D0" Offset="0xC1D0"/>
-        <Animation Name="gHoleVolvagiaAnim_00C8EC" Offset="0xC8EC"/>
+        <Skeleton Name="gHoleVolvagiaSkel" Type="Flex" LimbType="Standard" Offset="0x11A78"/>
 
-        <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/>
+        <DList Name="gHoleVolvagiaManeSetupDL" Offset="0x4B48"/>
+        <DList Name="gHoleVolvagiaManeVtxDL" Offset="0x4BC8"/>
+        <DList Name="gHoleVolvagiaBrokenFaceDL" Offset="0x4E38"/>
 
-        <Skeleton Name="gHoleVolvagiaSkel_011A78" Type="Flex" LimbType="Standard" Offset="0x11A78"/>
-        <Texture Name="gHoleVolvagiaUnknown_002708" Format="i8" Width="32" Height="32" Offset="0x2708"/>
-        <Texture Name="gHoleVolvagiaUnknown_002B08" Format="i8" Width="32" Height="32" Offset="0x2B08"/>
-        <Texture Name="gHoleVolvagiaUnknown_002F08" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
+        <Animation Name="gHoleVolvagiaBreatheFireAnim" Offset="0x73CC"/>
+        <Animation Name="gHoleVolvagiaHitAnim" Offset="0x7850"/>
+        <Animation Name="gHoleVolvagiaDamagedAnim" Offset="0x89DC"/>
+        <Animation Name="gHoleVolvagiaBurrowAnim" Offset="0x9194"/>
+        <Animation Name="gHoleVolvagiaKnockoutAnim" Offset="0xA31C"/>
+        <Animation Name="gHoleVolvagiaVulnerableAnim" Offset="0xA86C"/>
+        <Animation Name="gHoleVolvagiaTurnAnim" Offset="0xAE90"/>
+        <Animation Name="gHoleVolvagiaClawSwipeAnim" Offset="0xB7A4"/>
+        <Animation Name="gHoleVolvagiaEmergeAnim" Offset="0xC1D0"/>
+        <Animation Name="gHoleVolvagiaIdleAnim" Offset="0xC8EC"/>
 
-        <Texture Name="sHoleVolvagiaUnknown_004BE8" Format="i8" Width="16" Height="16" Offset="0x4BE8"/>
+        <Texture Name="gHoleVolvagiaEyeHalfTex" Format="i8" Width="32" Height="32" Offset="0x2708"/>
+        <Texture Name="gHoleVolvagiaEyeOpenTex" Format="i8" Width="32" Height="32" Offset="0x2B08"/>
+        <Texture Name="gHoleVolvagiaEyeShutTex" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
         
+        <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/>
         <!-- <Vertex Name="gHoleVolvagiaVtx_00DD80" Count="154" Offset="0xDD80"/> -->
+        <Blob Name="gHoleVolvagiaVtx_00DD80" Size="0x9A0" Offset="0xDD80"/>
         <!-- <Vertex Name="gHoleVolvagiaVtx_00D000" Count="150" Offset="0xD000"/> -->
-
+        <Blob Name="gHoleVolvagiaVtx_00D000" Size="0x960" Offset="0xD000"/>
     </File>
 </Root>
