@@ -240,7 +240,9 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
     f32 phi_f0;
 
-    if ((params & 3) == 2 && parent != NULL && (!(parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) || !(parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
+    if ((params & 3) == 2 && parent != NULL &&
+        (!(parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) ||
+         !(parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED))) {
         Math_StepToF(&this->unk_18C, 0.0f, 0.05f);
     } else {
         this->unk_18C = 1.0f;
@@ -269,7 +271,8 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
             phi_f0 = 0.34f;
         } else {
             phi_v0 = this->dyna.actor.shape.rot.y - 0x4000;
-            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
+            if (phi_v0 < 0x500 && phi_v0 > -0x500 && parent != NULL &&
+                (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED)) {
                 phi_f0 = 0.34f;
             }
         }
@@ -294,8 +297,8 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
-// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are obviously
-// wrong.
+// Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are
+// obviously wrong.
 /*
  * Updates the shadow with light coming from the side of the mirror
  */
@@ -639,7 +642,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
             sp64.y = this->dyna.actor.posRot.pos.y;
             sp64.z = this->dyna.actor.posRot.pos.z;
             phi_a3 = &D_80897540;
-        // params == 1
+            // params == 1
         } else {
             Math_Vec3f_Copy(&sp64, &this->dyna.actor.posRot.pos);
         }
@@ -674,7 +677,8 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params & 3) == 2) {
         BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
-        if (parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) && (parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
+        if (parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&
+            (parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
             BgJyaCobra_DrawShadow(this, globalCtx);
         }
     } else {
