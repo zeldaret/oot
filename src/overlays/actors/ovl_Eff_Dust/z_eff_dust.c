@@ -25,7 +25,13 @@ const ActorInit Eff_Dust_InitVars = {
 };
 */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D0.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D0.s")
+
+void func_8099D8D0(void *arg0, s32 arg1) {
+    //arg0->unk560 = arg1;
+    *((s32*)arg0 + 0x0560/4) = arg1;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D8.s")
 
