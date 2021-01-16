@@ -1,4 +1,5 @@
 #include "z_en_ny.h"
+#include "objects/object_ny/object_ny.h"
 
 #define FLAGS 0x00000005
 
@@ -24,9 +25,9 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx);
 void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* GlobalContext);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
-extern Gfx* D_06001DD0[];
-extern Gfx* D_06001EA8[];
-extern Gfx* D_06001FC8[];
+//extern Gfx* D_06001DD0[];
+//extern Gfx* D_06001EA8[];
+//extern Gfx* D_06001FC8[];
 
 const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
@@ -95,7 +96,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_1E0 = 1.0f;
         func_80ABCDBC(this);
     } else {
-
+        //@Bug this block is never reached because params is never set to anything other than 0
         // Dummy new initials
         osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", thisx->params);
         osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
@@ -494,18 +495,18 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_1D8);
-    gSPDisplayList(POLY_XLU_DISP++, D_06001EA8);
+    gSPDisplayList(POLY_XLU_DISP++, gNyDlist3);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_1D4);
-    gSPDisplayList(POLY_XLU_DISP++, D_06001DD0);
+    gSPDisplayList(POLY_XLU_DISP++, gNyDlist2);
     if (this->unk_1E0 > 0.25f) {
         Matrix_Scale(this->unk_1E0, this->unk_1E0, this->unk_1E0, MTXMODE_APPLY);
         func_8002EBCC(&this->actor, globalCtx, 1);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 868),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001FC8);
+        gSPDisplayList(POLY_OPA_DISP++, gNyDlist4);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 872);
     if (this->unk_1CA != 0) {
@@ -543,7 +544,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 912),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_06001DD0);
+            gSPDisplayList(POLY_OPA_DISP++, gNyDlist2);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 919);
