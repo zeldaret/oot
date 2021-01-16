@@ -2062,7 +2062,6 @@ endseg
 beginseg
     name "ovl_En_Daiku_Kakariko"
     include "build/src/overlays/actors/ovl_En_Daiku_Kakariko/z_en_daiku_kakariko.o"
-    include "build/data/overlays/actors/z_en_daiku_kakariko.data.o"
     include "build/data/overlays/actors/z_en_daiku_kakariko.reloc.o"
 endseg
 
