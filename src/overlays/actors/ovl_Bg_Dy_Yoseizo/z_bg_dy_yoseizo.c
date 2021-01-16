@@ -21,7 +21,7 @@ typedef enum {
 typedef enum {
     /* 0 */ FAIRY_SPELL_FARORES_WIND,
     /* 1 */ FAIRY_SPELL_DINS_FIRE,
-    /* 2 */ FAIRY_SPELL_BLUE_DIMOND
+    /* 2 */ FAIRY_SPELL_NAYRUS_LOVE
 } BgDyYoseizoSpellType;
 
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -51,7 +51,7 @@ void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelo
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-static s32 unused[] = { 0x0000005D, 0x0000005E, 0x0000005C };
+static s32 unused[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
@@ -206,9 +206,11 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx)
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (!(gSaveContext.magicAcquired)) {
-            Actor_Kill(&this->actor);
-            return;
+        } else {
+            if (!(gSaveContext.magicAcquired)) {
+                Actor_Kill(&this->actor);
+                return;
+            }
         }
         func_8002DF54(globalCtx, &this->actor, 1);
         this->actionFunc = BgDyYoseizo_ChooseType;
@@ -235,7 +237,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     givingReward = true;
                 }
                 break;
-            case FAIRY_SPELL_BLUE_DIMOND:
+            case FAIRY_SPELL_NAYRUS_LOVE:
                 if (!(gSaveContext.itemGetInf[1] & 0x400)) {
                     givingReward = true;
                 }
@@ -282,7 +284,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02001020);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
-                    case FAIRY_SPELL_BLUE_DIMOND:
+                    case FAIRY_SPELL_NAYRUS_LOVE:
                         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02001F40);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
@@ -633,19 +635,18 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
             this->animationChanged = true;
         }
 
-        if (globalCtx->csCtx.state != 0) {
-            if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3)) {
-                this->finishedSpinGrow = this->animationChanged = false;
-                if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                    this->frameCount = Animation_GetLastFrame(&D_060069E8);
-                    Animation_Change(&this->skelAnime, &D_060069E8, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
-                } else {
-                    this->frameCount = Animation_GetLastFrame(&D_06005810);
-                    Animation_Change(&this->skelAnime, &D_06005810, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
-                }
-                this->mouthState = 1;
-                this->actionFunc = BgDyYoseizo_Give_Reward;
+        if ((globalCtx->csCtx.state != 0) &&
+            ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3))) {
+            this->finishedSpinGrow = this->animationChanged = false;
+            if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
+                this->frameCount = Animation_GetLastFrame(&D_060069E8);
+                Animation_Change(&this->skelAnime, &D_060069E8, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+            } else {
+                this->frameCount = Animation_GetLastFrame(&D_06005810);
+                Animation_Change(&this->skelAnime, &D_06005810, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
             }
+            this->mouthState = 1;
+            this->actionFunc = BgDyYoseizo_Give_Reward;
         }
     }
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
