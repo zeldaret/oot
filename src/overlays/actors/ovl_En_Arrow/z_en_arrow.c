@@ -194,16 +194,14 @@ void func_809B3CEC(GlobalContext* globalCtx, EnArrow* this) {
     this->actor.gravity = -1.5f;
 }
 
-// void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3DD8.s")
 void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
     CollisionPoly* hitPoly;
-    Vec3f posDiffLastFrame; // sp68
-    Vec3f actorNextPos;     // sp5C
-    Vec3f hitPos;           // sp50
+    Vec3f posDiffLastFrame;
+    Vec3f actorNextPos;
+    Vec3f hitPos;
     f32 temp_f12;
-    f32 magnitude;
-    s32 bgId; // sp44
+    f32 scale;
+    s32 bgId;
 
     Math_Vec3f_Diff(&this->actor.posRot.pos, &this->unk_210, &posDiffLastFrame);
 
@@ -212,11 +210,12 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
                ((this->actor.posRot.pos.z - this->hitActor->posRot.pos.z) * posDiffLastFrame.z);
 
     if (!(temp_f12 < 0.0f)) {
-        magnitude = Math3D_Vec3fMagnitudeSq(&posDiffLastFrame);
+        scale = Math3D_Vec3fMagnitudeSq(&posDiffLastFrame);
 
-        if (!(magnitude < 1.0f)) {
-            Math_Vec3f_Scale(&posDiffLastFrame, temp_f12 / magnitude);
-            Math_Vec3f_Sum(&this->hitActor->posRot, &posDiffLastFrame, &actorNextPos);
+        if (!(scale < 1.0f)) {
+            scale = temp_f12 / scale;
+            Math_Vec3f_Scale(&posDiffLastFrame, scale);
+            Math_Vec3f_Sum(&this->hitActor->posRot.pos, &posDiffLastFrame, &actorNextPos);
 
             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->posRot.pos, &actorNextPos, &hitPos,
                                         &hitPoly, true, true, true, true, &bgId)) {
@@ -224,7 +223,7 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
                 this->hitActor->posRot.pos.y = hitPos.y + ((actorNextPos.y <= hitPos.y) ? 1.0f : -1.0f);
                 this->hitActor->posRot.pos.z = hitPos.z + ((actorNextPos.z <= hitPos.z) ? 1.0f : -1.0f);
             } else {
-                Math_Vec3f_Copy(&this->hitActor->posRot, &actorNextPos);
+                Math_Vec3f_Copy(&this->hitActor->posRot.pos, &actorNextPos);
             }
         }
     }
