@@ -72,8 +72,8 @@ static ColliderJntSphInit sColliderJntSphInit = {
     {
         COLTYPE_NONE,
         AT_OFF,
-        AC_PLAYER | AC_ON,
-        OC_ALL | OC_ON,
+        AC_ON | AC_PLAYER,
+        OC_ON | OC_ALL,
         OT_TYPE2,
         COLSHAPE_JNTSPH,
     },

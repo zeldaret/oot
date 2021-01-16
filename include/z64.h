@@ -70,9 +70,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ u8*    bufp;
-    /* 0x0008 */ u8*    head;
-    /* 0x000C */ u8*    tail;
+    /* 0x0004 */ void*  bufp;
+    /* 0x0008 */ void*  head;
+    /* 0x000C */ void*  tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
