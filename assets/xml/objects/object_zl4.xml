@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_zl4" Segment="6">
-        <!-- Zelda's skeleton -->
+        <!-- Child Zelda's skeleton -->
         <Skeleton Name="gChildZeldaSkel" Type="Flex" LimbType="Standard" Offset="0xE038"/>
 
-        <!-- Zelda's animations -->
+        <!-- Child Zelda's animations -->
         <Animation Name="gChildZeldaAnim_000654" Offset="0x654"/>
         <Animation Name="gChildZeldaAnim_00E5C8" Offset="0xE5C8"/>
         <Animation Name="gChildZeldaAnim_00EBC4" Offset="0xEBC4"/>
@@ -38,13 +38,13 @@
         <Animation Name="gChildZeldaAnim_00F0A4" Offset="0xF0A4"/>
         <Animation Name="gChildZeldaAnim_00F894" Offset="0xF894"/>
 
-        <!-- Zelda's mouth textures -->
+        <!-- Child Zelda's mouth textures -->
         <Texture Name="gChildZeldaMouthNeutralTex" Format="i8" Width="32" Height="32" Offset="0x46F0"/>
         <Texture Name="gChildZeldaMouthHappyTex" Format="i8" Width="32" Height="32" Offset="0x4AF0"/>
         <Texture Name="gChildZeldaMouthWorriedTex" Format="i8" Width="32" Height="32" Offset="0x4EF0"/>
         <Texture Name="gChildZeldaMouthSurprisedTex" Format="i8" Width="32" Height="32" Offset="0x52F0"/>
         
-        <!-- Zelda's eye textures -->
+        <!-- Child Zelda's eye textures -->
         <Texture Name="gChildZeldaEyeOpenTex" Format="i8" Width="32" Height="32" Offset="0x2AF0"/>
         <Texture Name="gChildZeldaEyeBlinkTex" Format="i8" Width="32" Height="32" Offset="0x2EF0"/>
         <Texture Name="gChildZeldaEyeShutTex" Format="i8" Width="32" Height="32" Offset="0x32F0"/>
@@ -53,8 +53,8 @@
         <Texture Name="gChildZeldaEyeOutTex" Format="i8" Width="32" Height="32" Offset="0x3EF0"/>
         <Texture Name="gChildZeldaEyeInTex" Format="i8" Width="32" Height="32" Offset="0x42F0"/>
 
-        <!-- Unused Content -->
-        <DList Name="gChildZeldaDLHint1" Offset="0xC410"/>
-        <DList Name="gChildZeldaDLHint2" Offset="0xDE08"/>
+        <!-- Child Zelda's cutscene DLists (used by EnViewer)-->
+        <DList Name="gChildZeldaCutsceneDressDL" Offset="0xC410"/>
+        <DList Name="gChildZeldaOcarinaOfTimeDL" Offset="0xDE08"/>
     </File>
 </Root>
