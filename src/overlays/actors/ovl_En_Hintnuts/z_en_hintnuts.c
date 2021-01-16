@@ -219,39 +219,27 @@ void EnHintnuts_SetupFreeze(EnHintnuts* this) {
 }
 
 void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
-    s32 hasSlowPlaybackSpeed;
-    f32 boundedCurrentFrame;
-    f32 boundedCurrentFrameTemp;
+    s32 hasSlowPlaybackSpeed = false;
 
-    hasSlowPlaybackSpeed = 0;
     if (this->skelAnime.playSpeed < 0.5f) {
-        hasSlowPlaybackSpeed = 1;
+        hasSlowPlaybackSpeed = true;
     }
-    if (hasSlowPlaybackSpeed && this->animFlagAndTimer != 0) {
+    if (hasSlowPlaybackSpeed && (this->animFlagAndTimer != 0)) {
         this->animFlagAndTimer--;
     }
-    if (Animation_OnFrame(&this->skelAnime, 9.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= 1;
-    } else if (Animation_OnFrame(&this->skelAnime, 8.0f) != 0) {
+    } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     }
-    if (this->skelAnime.curFrame < 9.0f) {
-        boundedCurrentFrame = 9.0f;
-    } else {
-        if (this->skelAnime.curFrame > 12.0f) {
-            boundedCurrentFrameTemp = 12.0f;
-        } else {
-            boundedCurrentFrameTemp = this->skelAnime.curFrame;
-        }
-        boundedCurrentFrame = boundedCurrentFrameTemp;
-    }
-    this->collider.dim.height = (((boundedCurrentFrame - 9.0f) * 9.0f) + 5.0f);
+
+    this->collider.dim.height = 5.0f + ((CLAMP(this->skelAnime.curFrame, 9.0f, 12.0f) - 9.0f) * 9.0f);
     if (!hasSlowPlaybackSpeed && (this->actor.xzDistToLink < 120.0f)) {
         EnHintnuts_SetupBurrow(this);
-    } else if (SkelAnime_Update(&this->skelAnime) != 0) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.xzDistToLink < 120.0f) {
             EnHintnuts_SetupBurrow(this);
-        } else if ((this->animFlagAndTimer == 0) && (320.0f < this->actor.xzDistToLink)) {
+        } else if ((this->animFlagAndTimer == 0) && (this->actor.xzDistToLink > 320.0f)) {
             EnHintnuts_SetupLookAround(this);
         } else {
             EnHintnuts_SetupStand(this);
@@ -265,7 +253,7 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_LookAround(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0 && this->animFlagAndTimer != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
     if ((this->actor.xzDistToLink < 120.0f) || (this->animFlagAndTimer == 0)) {
@@ -275,7 +263,7 @@ void EnHintnuts_LookAround(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_Stand(EnHintnuts* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0 && this->animFlagAndTimer != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
     if (!(this->animFlagAndTimer & 0x1000)) {
@@ -294,12 +282,12 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
     if (this->actor.xzDistToLink < 120.0f) {
         EnHintnuts_SetupBurrow(this);
-    } else if (SkelAnime_Update(&this->skelAnime) != 0) {
+    } else if (SkelAnime_Update(&this->skelAnime)) {
         EnHintnuts_SetupStand(this);
-    } else if (Animation_OnFrame(&this->skelAnime, 6.0f) != 0) {
-        nutPos.x = (Math_SinS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.x;
+    } else if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
+        nutPos.x = this->actor.posRot.pos.x + (Math_SinS(this->actor.shape.rot.y) * 23.0f);
         nutPos.y = this->actor.posRot.pos.y + 12.0f;
-        nutPos.z = (Math_CosS(this->actor.shape.rot.y) * 23.0f) + this->actor.posRot.pos.z;
+        nutPos.z = this->actor.posRot.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
@@ -308,16 +296,12 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
-    f32 boundedCurrentFrame;
-
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnHintnuts_SetupWait(this);
     } else {
-        boundedCurrentFrame =
-            this->skelAnime.curFrame < 1.0f ? 1.0f : this->skelAnime.curFrame > 3.0f ? 3.0f : this->skelAnime.curFrame;
-        this->collider.dim.height = (((3.0f - boundedCurrentFrame) * 12.0f) + 5.0f);
+        this->collider.dim.height = 5.0f + ((3.0f - CLAMP(this->skelAnime.curFrame, 1.0f, 3.0f)) * 12.0f);
     }
-    if (Animation_OnFrame(&this->skelAnime, 4.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
         this->collider.base.acFlags &= ~1;
     }
 
@@ -326,7 +310,7 @@ void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_BeginRun(EnHintnuts* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_196 = this->actor.yawTowardsLink + 0x8000;
         EnHintnuts_SetupRun(this);
     }
@@ -334,7 +318,7 @@ void EnHintnuts_BeginRun(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_BeginFreeze(EnHintnuts* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnHintnuts_SetupFreeze(this);
     }
 }
@@ -364,7 +348,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     if (temp_ret != 0 && this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
-    if ((temp_ret != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f) != 0)) {
+    if ((temp_ret != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
 
@@ -420,7 +404,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->animFlagAndTimer != 0) {
         this->animFlagAndTimer--;
     }
-    if ((Animation_OnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f) != 0)) {
+    if ((Animation_OnFrame(&this->skelAnime, 0.0f)) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & 8) {
@@ -452,7 +436,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
     this->actor.dmgEffectTimer = 1;
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
     }
     if (this->animFlagAndTimer == 0) {
@@ -551,6 +535,7 @@ s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 
 void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHintnuts* this = THIS;
+
     if (this->actor.params == 0xA) {
         Gfx_DrawDListOpa(globalCtx, D_060014E0);
     } else {
