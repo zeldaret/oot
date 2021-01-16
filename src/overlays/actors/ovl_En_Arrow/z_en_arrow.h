@@ -13,9 +13,9 @@ typedef struct EnArrow {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ ColliderQuad collider;
     /* 0x0210 */ Vec3f unk_210;
-    /* 0x021C */ char unk_21C[0xC];
-    /* 0x0228 */ u32 effectIndex;
-    /* 0x022C */ char unk_22C[0x1C];
+    /* 0x021C */ Vec3f unk_21C;
+    /* 0x0228 */ s32 effectIndex;
+    /* 0x022C */ WeaponInfo weaponInfo;
     /* 0x0248 */ u8 timer; // used for dissapearing when flying or hitting a wall
     /* 0x0249 */ u8 hitFlags;
     /* 0x024A */ u8 hitPoly;

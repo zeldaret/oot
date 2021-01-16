@@ -47,7 +47,7 @@ InitChainEntry D_809B4DA0[] = {
 extern SkeletonHeader D_04006010;
 extern AnimationHeader D_0400436C;
 extern AnimationHeader D_04004310;
-extern UNK_TYPE D_04037880;
+extern Gfx D_04037880[];
 
 void EnArrow_SetupAction(EnArrow* this, EnArrowActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -76,7 +76,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     };
     EnArrow* this = THIS;
 
-    Actor_ProcessInitChain(this, D_809B4DA0);
+    Actor_ProcessInitChain(&this->actor, D_809B4DA0);
 
     if (this->actor.params == -10) {
         this->unk_24B = 1;
@@ -112,7 +112,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Collider_InitQuad(globalCtx, &this->collider);
-        Collider_SetQuad(globalCtx, &this->collider, this, &D_809B4D50);
+        Collider_SetQuad(globalCtx, &this->collider, &this->actor, &D_809B4D50);
 
         if (this->actor.params < 3) {
             this->collider.body.toucherFlags = this->collider.body.toucherFlags &= ~0x18;
@@ -150,23 +150,23 @@ void func_809B3BD4(EnArrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.parent == NULL) {
         if ((this->actor.params != 0xA) && (player->unk_A73 == 0)) {
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
             return;
         }
 
         switch (this->actor.params) {
             case 9:
-                func_8002F7DC(player, NA_SE_IT_SLING_SHOT);
+                func_8002F7DC(&player->actor, NA_SE_IT_SLING_SHOT);
                 break;
             case 0:
             case 1:
             case 2:
-                func_8002F7DC(player, NA_SE_IT_ARROW_SHOT);
+                func_8002F7DC(&player->actor, NA_SE_IT_ARROW_SHOT);
                 break;
             case 3:
             case 4:
             case 5:
-                func_8002F7DC(player, NA_SE_IT_MAGIC_ARROW_SHOT);
+                func_8002F7DC(&player->actor, NA_SE_IT_MAGIC_ARROW_SHOT);
                 break;
         }
 
@@ -174,7 +174,7 @@ void func_809B3BD4(EnArrow* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
 
         if (this->actor.params >= 9) {
-            func_8002D9A4(this, 80.0f);
+            func_8002D9A4(&this->actor, 80.0f);
             this->timer = 15;
             this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
         } else {
@@ -194,62 +194,43 @@ void func_809B3CEC(GlobalContext* globalCtx, EnArrow* this) {
     this->actor.gravity = -1.5f;
 }
 
-void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3DD8.s")
-// void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
-//     ? sp74;
-//     f32 sp68;
-//     f32 sp5C;
-//     f32 sp50;
-//     f32 sp4C;
-//     ? sp44;
-//     Actor* temp_v0;
-//     f32 temp_f0;
-//     f32 temp_f12;
-//     f32 phi_f0;
-//     f32 phi_f0_2;
-//     f32 phi_f0_3;
+// void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3DD8.s")
+void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
+    CollisionPoly* hitPoly;
+    Vec3f posDiffLastFrame; // sp68
+    Vec3f actorNextPos;     // sp5C
+    Vec3f hitPos;           // sp50
+    f32 temp_f12;
+    f32 magnitude;
+    s32 bgId; // sp44
 
-//     Math_Vec3f_Diff(&this->actor.posRot, &this->unk_210, &sp68);
-//     temp_v0 = this->hitActor;
-//     temp_f12 = ((this->actor.posRot.pos.x - temp_v0->posRot.pos.x) * sp68) +
-//                ((this->actor.posRot.pos.y - temp_v0->posRot.pos.y) * sp6C) +
-//                ((this->actor.posRot.pos.z - temp_v0->posRot.pos.z) * sp70);
-//     if (!(temp_f12 < 0.0f)) {
-//         sp4C = temp_f12;
-//         temp_f0 = Math3D_Vec3fMagnitudeSq(&sp68);
-//         if (!(temp_f0 < 1.0f)) {
-//             Math_Vec3f_Scale(&sp68, temp_f12 / temp_f0);
-//             Math_Vec3f_Sum(&this->hitActor->posRot, &sp68, &sp5C);
-//             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->posRot, &sp5C, &sp50, &sp74, 1, 1, 1, 1,
-//                                         &sp44) != 0) {
-//                 if (sp5C <= sp50) {
-//                     phi_f0 = 1.0f;
-//                 } else {
-//                     phi_f0 = -1.0f;
-//                 }
-//                 this->hitActor->posRot.pos.x = phi_f0 + sp50;
-//                 if (sp60 <= sp54) {
-//                     phi_f0_2 = 1.0f;
-//                 } else {
-//                     phi_f0_2 = -1.0f;
-//                 }
-//                 this->hitActor->posRot.pos.y = phi_f0_2 + sp54;
-//                 if (sp64 <= sp58) {
-//                     phi_f0_3 = 1.0f;
-//                 } else {
-//                     phi_f0_3 = -1.0f;
-//                 }
-//                 this->hitActor->posRot.pos.z = phi_f0_3 + sp58;
-//                 return;
-//             }
-//             Math_Vec3f_Copy(&this->hitActor->posRot, &sp5C);
-//         }
-//     }
-// }
+    Math_Vec3f_Diff(&this->actor.posRot.pos, &this->unk_210, &posDiffLastFrame);
+
+    temp_f12 = ((this->actor.posRot.pos.x - this->hitActor->posRot.pos.x) * posDiffLastFrame.x) +
+               ((this->actor.posRot.pos.y - this->hitActor->posRot.pos.y) * posDiffLastFrame.y) +
+               ((this->actor.posRot.pos.z - this->hitActor->posRot.pos.z) * posDiffLastFrame.z);
+
+    if (!(temp_f12 < 0.0f)) {
+        magnitude = Math3D_Vec3fMagnitudeSq(&posDiffLastFrame);
+
+        if (!(magnitude < 1.0f)) {
+            Math_Vec3f_Scale(&posDiffLastFrame, temp_f12 / magnitude);
+            Math_Vec3f_Sum(&this->hitActor->posRot, &posDiffLastFrame, &actorNextPos);
+
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->posRot.pos, &actorNextPos, &hitPos,
+                                        &hitPoly, true, true, true, true, &bgId)) {
+                this->hitActor->posRot.pos.x = hitPos.x + ((actorNextPos.x <= hitPos.x) ? 1.0f : -1.0f);
+                this->hitActor->posRot.pos.y = hitPos.y + ((actorNextPos.y <= hitPos.y) ? 1.0f : -1.0f);
+                this->hitActor->posRot.pos.z = hitPos.z + ((actorNextPos.z <= hitPos.z) ? 1.0f : -1.0f);
+            } else {
+                Math_Vec3f_Copy(&this->hitActor->posRot, &actorNextPos);
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
-
 // void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
 //     Vec3f sp94;
 //     u32 bgId;
@@ -342,7 +323,7 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx);
 //             }
 //         }
 //     } else {
-//         Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot);
+//         Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
 //         Actor_MoveForward(&this->actor);
 //         this->hitPoly = BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
 //                                                    &hitPoint, &this->actor.wallPoly, true, true, true, true, &bgId);
@@ -418,7 +399,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
                                     ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE };
 
         if (this->actor.child == NULL) {
-            Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, elementalActorIds[this->actor.params - 3],
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, elementalActorIds[this->actor.params - 3],
                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                0);
         }
@@ -428,108 +409,86 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         static Color_RGBA8 primColor = { 255, 255, 100, 255 };
         static Color_RGBA8 envColor = { 255, 50, 0, 0 };
 
-        func_8002836C(globalCtx, this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
+        func_8002836C(globalCtx, &this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
     }
 }
 
-s32 D_809B4E88[] = { 0x00000000, 0x43C80000, 0x44BB8000 };
-s32 D_809B4E94[] = { 0x00000000, 0xC3C80000, 0x44BB8000 };
-s32 D_809B4EA0[] = { 0x00000000, 0x00000000, 0xC3960000, 0x00000000 };
+void func_809B4800(EnArrow* this, GlobalContext* globalCtx) {
+    static Vec3f D_809B4E88 = { 0.0f, 400.0f, 1500.0f };
+    static Vec3f D_809B4E94 = { 0.0f, -400.0f, 1500.0f };
+    static Vec3f D_809B4EA0 = { 0.0f, 0.0f, -300.0f };
+    Vec3f sp44;
+    Vec3f sp38;
+    s32 addBlureVertex;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B4800.s")
+    Matrix_MultVec3f(&D_809B4EA0, &this->unk_21C);
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Draw.s")
+    if (func_809B3FDC == this->actionFunc) {
+        Matrix_MultVec3f(&D_809B4E88, &sp44);
+        Matrix_MultVec3f(&D_809B4E94, &sp38);
+
+        if (this->actor.params < 0xA) {
+            addBlureVertex = this->actor.params < 6;
+
+            if (this->hitActor == NULL) {
+                addBlureVertex &= func_80090480(globalCtx, &this->collider, &this->weaponInfo, &sp44, &sp38);
+            } else {
+                if (addBlureVertex) {
+                    if ((sp44.x == this->weaponInfo.tip.x) && (sp44.y == this->weaponInfo.tip.y) &&
+                        (sp44.z == this->weaponInfo.tip.z) && (sp38.x == this->weaponInfo.base.x) &&
+                        (sp38.y == this->weaponInfo.base.y) && (sp38.z == this->weaponInfo.base.z)) {
+                        addBlureVertex = false;
+                    }
+                }
+            }
+
+            if (addBlureVertex) {
+                EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp44, &sp38);
+            }
+        }
+    }
+}
+
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnArrow* this = THIS;
     u8 sp6F;
-    f32 sp68;
-    GraphicsContext* sp64;
-    Gfx* sp54;
-    Gfx* sp40;
-    Gfx* temp_v0;
-    Gfx* temp_v0_2;
-    Gfx* temp_v0_3;
-    Gfx* temp_v0_4;
-    Gfx* temp_v0_5;
-    Gfx* temp_v0_6;
-    GraphicsContext* temp_a1;
-    f32 temp_f6;
-    s32 temp_t7;
-    u8 temp_a0;
-    s32 lod;
-    f32 phi_f12;
-    f32 phi_f6;
+    f32 scale;
 
     if (this->actor.params < 9) {
         func_80093D18(globalCtx->state.gfxCtx);
-        lod = 1;
-        if (this->actor.projectedPos.z < MREG(95)) {
-            lod = 0;
-        }
-        SkelAnime_DrawLod(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this, lod);
+        SkelAnime_DrawLod(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this,
+                          (this->actor.projectedPos.z < MREG(95)) ? 0 : 1);
     } else if (this->actor.speedXZ != 0.0f) {
-        temp_a0 = this->timer;
-        sp6F = (Math_CosS(((((((temp_a0 * 4) + temp_a0) * 8) - temp_a0) * 0x10) + temp_a0) * 8) * 127.5f) + 127.5f;
-        temp_a1 = globalCtx->state.gfxCtx;
-        sp64 = temp_a1;
+        sp6F = (Math_CosS(this->timer * 5000) * 127.5f) + 127.5f;
+
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1346);
 
         func_80093C14(globalCtx->state.gfxCtx);
 
         if (this->actor.params == 9) {
-            temp_v0 = sp64->polyXlu.p;
-            sp64->polyXlu.p = temp_v0 + 8;
-            temp_v0->words.w1 = -1;
-            temp_v0->words.w0 = 0xFA000000;
-            temp_v0_2 = sp64->polyXlu.p;
-            sp64->polyXlu.p = temp_v0_2 + 8;
-            temp_v0_2->words.w0 = 0xFB000000;
-            temp_v0_2->words.w1 = sp6F | 0xFFFF00;
-            sp68 = 50.0f;
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, sp6F);
+            scale = 50.0f;
         } else {
-            temp_v0_3 = sp64->polyXlu.p;
-            sp64->polyXlu.p = temp_v0_3 + 8;
-            temp_v0_3->words.w1 = 0xC0000FF;
-            temp_v0_3->words.w0 = 0xFA000000;
-            temp_v0_4 = sp64->polyXlu.p;
-            sp64->polyXlu.p = temp_v0_4 + 8;
-            temp_v0_4->words.w0 = 0xFB000000;
-            temp_v0_4->words.w1 = sp6F | 0xFAFA0000;
-            sp68 = 150.0f;
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 12, 0, 0, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 0, sp6F);
+            scale = 150.0f;
         }
-        sp64 = sp64;
+
         Matrix_Push();
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-
-        if (this->actor.speedXZ == 0.0f) {
-            phi_f12 = 0.0f;
-        } else {
-            temp_t7 = (globalCtx->gameplayFrames & 0xFF) * 0xFA0;
-            temp_f6 = temp_t7;
-            phi_f6 = temp_f6;
-            if (temp_t7 < 0) {
-                phi_f6 = temp_f6 + 4294967296.0f;
-            }
-            phi_f12 = phi_f6 * 0.0000958738f;
-        }
-
-        sp64 = sp64;
-        Matrix_RotateZ(phi_f12, MTXMODE_APPLY);
-        Matrix_Scale(sp68, sp68, sp68, MTXMODE_APPLY);
-        temp_v0_5 = sp64->polyXlu.p;
-        sp64->polyXlu.p = temp_v0_5 + 8;
-        temp_v0_5->words.w0 = 0xDA380003;
-        sp64 = sp64;
-        sp40 = temp_v0_5;
-        sp40->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374);
-        temp_v0_6 = sp64->polyXlu.p;
-        sp64->polyXlu.p = temp_v0_6 + 8;
-        temp_v0_6->words.w1 = &D_04037880;
-        temp_v0_6->words.w0 = 0xDE000000;
+        // redundant check because this is contained in an if block for non-zero speed
+        Matrix_RotateZ((this->actor.speedXZ == 0.0f) ? 0.0f
+                                                     : ((globalCtx->gameplayFrames & 0xFF) * 4000) * (M_PI / 32768),
+                       MTXMODE_APPLY);
+        Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, D_04037880);
         Matrix_Pull();
-        Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
-        
+        Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);
     }
 
