@@ -285,121 +285,97 @@ void func_809E4B14(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku_Kakariko/func_809E4BC4.s")
-/*
-void func_809E4BC4(EnDaikuKakariko *this, GlobalContext *globalCtx) {
-    f32 sp4C;
-    void *sp40;
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f2;
-    s16 temp_a1;
-    s16 temp_v0_3;
-    s32 temp_t2;
-    s32 temp_t4;
-    s32 temp_v1;
-    s32 temp_v1_3;
-    u16 temp_v0_2;
-    u16 temp_v0_4;
-    u8 temp_v1_2;
-    void *temp_s1;
-    void *temp_v0;
-    s32 phi_s2;
-    s32 phi_v1;
+void func_809E4BC4(EnDaikuKakariko* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Path* path;
+    Vec3s* pathPos;
+    f32 xDist;
+    f32 zDist;
+    s16 walkAngle;
+    f32 walkDist;
+    s16 angleStepDiff;
+    s32 unk_loop_temp;
 
-    sp40 = globalCtx + 0x10000;
-loop_1:
-    temp_s1 = sp40->unk1E08 + (((this->actor.params >> 8) & 0xFF) * 8);
-    temp_v1 = temp_s1->unk4;
-    temp_v0 = gSegments[(temp_v1 * 0x10) >> 0x1C] + (temp_v1 & 0xFFFFFF) + (this->unk_1E4 * 6) + 0x80000000;
-    temp_f20 = temp_v0->unk0 - this->actor.posRot.pos.x;
-    temp_f22 = temp_v0->unk4 - this->actor.posRot.pos.z;
-    temp_f2 = sqrtf((temp_f20 * temp_f20) + (temp_f22 * temp_f22));
-    temp_a1 = Math_FAtan2F(temp_f20, temp_f22) * 10430.378f;
-    phi_s2 = 0;
-    if (temp_f2 <= 10.0f) {
-        if (this->unk_1F8 == 0) {
-            temp_t4 = this->unk_1E4 + 1;
-            this->unk_1E4 = temp_t4;
-            temp_v1_2 = temp_s1->unk0;
-            if (temp_t4 >= temp_v1_2) {
-                temp_v0_2 = this->unk_200;
-                if ((temp_v0_2 & 0x20) != 0) {
-                    this->unk_1E4 = temp_v1_2 - 2;
-                    this->unk_1F8 = 1;
-                    this->unk_1FC = 0;
-                    phi_s2 = 0;
-                    if ((temp_v0_2 & 0x400) != 0) {
+    do {
+        path = &globalCtx->setupPathList[(this->actor.params >> 8) & 0xFF];
+        pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_1E4];
+        xDist = pathPos->x - this->actor.posRot.pos.x;
+        zDist = pathPos->z - this->actor.posRot.pos.z;
+        walkAngle = Math_FAtan2F(xDist, zDist) * (32768.0f / M_PI);
+        walkDist = sqrtf((xDist * xDist) + (zDist * zDist));
+
+        unk_loop_temp = 0;
+
+        if (walkDist <= 10.0f) {
+            if (this->unk_1F8 == 0) {
+                this->unk_1E4++;
+
+                if (this->unk_1E4 >= path->count) {
+                    if (this->unk_200 & 0x20) {
+                        this->unk_1E4 = path->count - 2;
+                        this->unk_1F8 = 1;
+                        this->unk_1FC = unk_loop_temp = 0;
+
+                        if (this->unk_200 & 0x400) {
+                            this->unk_2F8 = 2;
+                            func_809E4320(this, 0, &this->unk_1EC);
+                            this->actionFunc = func_809E4B14;
+                            return;
+                        }
+                    } else {
+                        this->unk_1E4 = 0;
+                        unk_loop_temp = 1;
+                    }
+                } else {
+                    this->unk_1FC = unk_loop_temp = 1;
+                }
+            } else {
+                this->unk_1E4--;
+
+                if (this->unk_1E4 < 0) {
+                    this->unk_1E4 = 1;
+                    this->unk_1F8 = 0;
+                    this->unk_1FC = unk_loop_temp = 0;
+
+                    if (this->unk_200 & 0x400) {
                         this->unk_2F8 = 2;
                         func_809E4320(this, 0, &this->unk_1EC);
                         this->actionFunc = func_809E4B14;
                         return;
                     }
                 } else {
-                    this->unk_1E4 = 0;
-block_12:
-                    phi_s2 = 1;
+                    unk_loop_temp = 1;
                 }
-            } else {
-                this->unk_1FC = 1;
-                phi_s2 = 1;
-            }
-        } else {
-            temp_t2 = this->unk_1E4 - 1;
-            this->unk_1E4 = temp_t2;
-            if (temp_t2 < 0) {
-                this->unk_1E4 = 1;
-                this->unk_1F8 = 0;
-                this->unk_1FC = 0;
-                phi_s2 = 0;
-                if ((this->unk_200 & 0x400) != 0) {
-                    this->unk_2F8 = 2;
-                    func_809E4320(this, 0, &this->unk_1EC);
-                    this->actionFunc = func_809E4B14;
-                    return;
-                }
-            } else {
-                goto block_12;
             }
         }
-    }
-    if (phi_s2 != 0) {
-        goto loop_1;
-    }
+    } while (unk_loop_temp != 0);
 
-    sp4C = temp_f2;
-    temp_v0_3 = Math_SmoothStepToS(&this->actor.shape.rot.y, temp_a1, 1, 5000, 0);
+    angleStepDiff = Math_SmoothStepToS(&this->actor.shape.rot.y, walkAngle, 1, 5000, 0);
 
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
-    phi_v1 = this->unk_1FC;
-
     if (this->unk_1FC == 0) {
-        if (temp_v0_3 == 0) {
+        if (angleStepDiff == 0) {
             this->unk_1FC = 1;
-            phi_v1 = 1;
         } else {
             this->actor.speedXZ = 0.0f;
-            phi_v1 = this->unk_1FC;
         }
     }
 
-    if (phi_v1 == 1) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1E8, 0.8f, temp_f2, 0.0f);
+    if (this->unk_1FC == 1) {
+        Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1E8, 0.8f, walkDist, 0.0f);
     }
 
-
-    // ******************** GOOD!!!!! ****************
     Actor_MoveForward(&this->actor);
 
     if (this->unk_200 & 0x40) {
         func_8002E4B4(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
     } else if (this->unk_200 & 0x80) {
-        this->unk_200 &= ~0x0080;
         this->unk_202 |= 1;
+        this->unk_200 &= ~0x0080;
     } else if (this->unk_202 & 1) {
         func_8002E4B4(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
-        this->unk_202 = this->unk_202 & ~1;
+        this->unk_202 &= ~1;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -411,7 +387,6 @@ block_12:
         this->actionFunc = func_809E49A8;
     }
 }
-*/
 
 void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDaikuKakariko* this = THIS;
