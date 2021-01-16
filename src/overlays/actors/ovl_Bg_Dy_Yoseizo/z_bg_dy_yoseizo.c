@@ -33,7 +33,7 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx)
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_Wait_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -349,7 +349,7 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) 
             // Turn to front
             Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 5, 1000, 0);
             if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                this->actionFunc = BgDyYoseizo_Wait_NoReward;
+                this->actionFunc = BgDyYoseizo_CompleteSpinGrow_NoReward;
             }
         } else {
             this->actor.shape.rot.y += 3000;
@@ -360,7 +360,7 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) 
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void BgDyYoseizo_Wait_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 curFrame = this->skelAnime.curFrame;
 
     func_8002DF54(globalCtx, &this->actor, 1);
