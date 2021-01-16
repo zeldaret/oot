@@ -70,9 +70,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ void*  bufp;
-    /* 0x0008 */ void*  head;
-    /* 0x000C */ void*  tail;
+    /* 0x0004 */ u8*    bufp;
+    /* 0x0008 */ u8*    head;
+    /* 0x000C */ u8*    tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
@@ -513,10 +513,12 @@ typedef struct {
     /* 0x2B */ s8       unk_2B;
     /* 0x2C */ s8       unk_2C;
     /* 0x2D */ char     unk_2D[0x5E];
-    /* 0x8C */ s16      unk_8C[3][3];
-    /* 0x9E */ s16      unk_9E;
-    /* 0xA0 */ s16      unk_A0;
-    /* 0xA2 */ char     unk_A2[0x06];
+    /* 0x8C */ s16      adjAmbientColor[3];
+    /* 0x92 */ s16      adjLight1Color[3];
+    /* 0x98 */ s16      adjFogColor[3];
+    /* 0x9E */ s16      adjFogNear;
+    /* 0xA0 */ s16      adjFogFar;
+    /* 0xA2 */ char unk_A2[0x06];
     /* 0xA8 */ s16      unk_A8;
     /* 0xAA */ s16      unk_AA;
     /* 0xAC */ s16      unk_AC;

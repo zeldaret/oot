@@ -236,64 +236,27 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
 
 void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2* this = THIS;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f12;
-    f32 temp_f2;
-    f32 temp_f8;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    u8 temp_t8;
-    f32 phi_f8;
-    f32 phi_return;
+    GlobalContext* globalCtx2 = globalCtx;
 
-    temp_v0 = this->unk154;
-    if (this->unk154 != 0) {
-        this->unk154--;
-    }
-    temp_v0_2 = this->unk156;
-    if (this->unk156 != 0) {
-        this->unk156--;
-    }
-    temp_v0_3 = this->unk15E;
-    if (this->unk15E != 0) {
-        this->unk15E--;
-    }
-    this->unk14C(this, globalCtx);
-    phi_return = func_80A08748(this, globalCtx);
+    DECR(this->unk154);
+    DECR(this->unk156);
+    DECR(this->unk15E);
+    this->unk14C(this, globalCtx2);
+    func_80A08748(this, globalCtx2);
     if (this->unk15A == 0) {
-        temp_f0 = (f32) this->unk178 / 60.0f;
-        temp_f2 = temp_f0 * -50.0f;
-        this->unk17C = temp_f0;
-        this->unk160 = temp_f2;
-        globalCtx->unk10AB0 = (s16) (s32) ((f32) (s16) (s32) temp_f2 * -1.5f);
-        temp_v1 = (s16) (s32) this->unk160;
-        globalCtx->unk10AB4 = temp_v1;
-        globalCtx->unk10AB2 = temp_v1;
-        temp_f12 = this->unk17C * -20.0f;
-        this->unk168 = temp_f12;
-        globalCtx->unk10AB6 = (s16) (s32) ((f32) (s16) (s32) temp_f12 * -1.5f);
-        temp_v1_2 = (s16) (s32) this->unk168;
-        globalCtx->unk10ABA = temp_v1_2;
-        globalCtx->unk10AB8 = temp_v1_2;
-        temp_f0_2 = this->unk17C * -50.0f;
-        this->unk170 = temp_f0_2;
-        globalCtx->unk10AC2 = (s16) (s32) temp_f0_2;
-        temp_t8 = globalCtx->unk10AF3;
-        temp_f8 = (f32) temp_t8;
-        phi_f8 = temp_f8;
-        if ((s32) temp_t8 < 0) {
-            phi_f8 = temp_f8 + 4294967296.0f;
-        }
-        globalCtx->unk10ABC = (s16) ((u32) ((160.0f - phi_f8) * this->unk17C) & 0xFF);
-        globalCtx->unk10ABE = (s16) ((u32) ((160.0f - (f32) (u32) globalCtx->unk10AF4) * this->unk17C) & 0xFF);
-        globalCtx->unk10AC0 = (s16) ((u32) ((150.0f - (f32) (u32) globalCtx->unk10AF5) * this->unk17C) & 0xFF);
-        phi_return = temp_f0_2;
+        this->unk17C = this->unk178 / 60.0f;
+        this->unk160 = this->unk17C * -50.0f;
+        globalCtx2->envCtx.adjAmbientColor[0] = (s16)this->unk160 * -1.5f;
+        globalCtx2->envCtx.adjAmbientColor[1] = globalCtx2->envCtx.adjAmbientColor[2] = this->unk160;
+        this->unk168 = this->unk17C * -20.0f;
+        globalCtx2->envCtx.adjLight1Color[0] = (s16)this->unk168 * -1.5f;
+        globalCtx2->envCtx.adjLight1Color[1] = globalCtx2->envCtx.adjLight1Color[2] = this->unk168;
+        this->unk170 = this->unk17C * -50.0f;
+        globalCtx2->envCtx.adjFogNear = this->unk170;
+        globalCtx2->envCtx.adjFogColor[0] = (u8)((160.0f - globalCtx2->envCtx.unk_CF[0]) * this->unk17C);
+        globalCtx2->envCtx.adjFogColor[1] = (u8)((160.0f - globalCtx2->envCtx.unk_CF[1]) * this->unk17C);
+        globalCtx2->envCtx.adjFogColor[2] = (u8)((150.0f - globalCtx2->envCtx.unk_CF[2]) * this->unk17C);
     }
-    return phi_return;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Update.s")

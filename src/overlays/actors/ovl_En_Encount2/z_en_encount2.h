@@ -29,7 +29,9 @@ typedef struct EnEncount2 {
     /* 0x0160 */ f32 unk160;
     /* 0x0164 */ char unk164[0x4];
     /* 0x0168 */ f32 unk168;
-    /* 0x016C */ char unk16C[0xC];
+    /* 0x016C */ char unk16C[0x4];
+    /* 0x0178 */ f32 unk170;
+    /* 0x0174 */ char unk174[0x4];
     /* 0x0178 */ s16 unk178;
     /* 0x017A */ char unk17A[0x2];
     /* 0x017C */ f32 unk17C;
