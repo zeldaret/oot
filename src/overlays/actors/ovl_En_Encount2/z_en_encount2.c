@@ -1,4 +1,5 @@
 #include "z_en_encount2.h"
+#include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -11,6 +12,7 @@ void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A07A4C(EnEncount2* this, GlobalContext* globalCtx);
 void func_80A07CA4(EnEncount2* this, GlobalContext* globalCtx);
+void func_80A08694(EnEncount2* this, Vec3f* arg1, f32 arg2);
 
 extern UNK_TYPE D_06000DE0;
 
@@ -101,13 +103,158 @@ void func_80A07A4C(EnEncount2* this, GlobalContext *globalCtx) {
     return;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A07CA4.s")
+void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    EnFireRock* temp_v0_2;
+    f32 tempVec1X;
+    f32 tempVec1Y;
+    f32 tempVec1Z;
+    f32 magnitude;
+    f32 tempVec2X;
+    f32 tempVec2Y;
+    f32 tempVec2Z;
+    f32 randTemp;
+    Vec3f particlePos;
+    s16 sp62;
+    s16 sp60;
+    s16 sp5E;
+
+    this->unk178++;
+    if (this->unk178 > 0x3C) {
+        this->unk178 = 0x3C;
+    }
+    sp60 = 0;
+    if (this->unk15A == 0) {
+        if (this->unk154 == 0) {
+            this->unk154 = 0x64;
+            this->unk14C = &func_80A07A4C;
+            return;
+        }
+        if (player->actor.posRot.pos.y > 1500.0f) {
+            if ((player->actor.posRot.pos.x > -700.0f) && (player->actor.posRot.pos.x < 100.0f)) {
+                if ((player->actor.posRot.pos.z < -1290.0f) && (player->actor.posRot.pos.z > -3860.0f)) {
+                    sp5E = 2;
+                    sp60 = 1;
+                }
+            }
+        }
+        Audio_PlayActorSound2(this, 0x2049);
+    } else {
+        if (this->actor.xzDistToLink < 700.0f) {
+            if (Flags_GetSwitch(globalCtx, 0x37) != 0) {
+                if ((globalCtx->sceneNum == 0x4F) || (globalCtx->sceneNum == 0x1A) || (globalCtx->sceneNum == 0xE) || (globalCtx->sceneNum == 0xF)) {
+                    if (this->unk_15C == 0) {
+                        sp5E = 1;
+                        sp60 = 2;
+                    }
+                }
+            }
+        }
+    }
+    if (sp60 != 0) {
+        // Direction vector for the direction the camera is facing
+        tempVec1X = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
+        tempVec1Y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
+        tempVec1Z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+
+        // Normalised direction vector for the direction the camera is facing
+        magnitude = sqrtf(SQ(tempVec1X) + SQ(tempVec1Y) + SQ(tempVec1Z));
+        tempVec2X = tempVec1X / magnitude;
+        tempVec2Y = tempVec1Y / magnitude;
+        tempVec2Z = tempVec1Z / magnitude;
+
+        // Some position between 160 and 300 units ahead of camera depending on pitch of camera, plus a 400 unit offset in Y
+        // Pitch: 160 at +/-90 degrees pitch, 300 at 0 degrees pitch)
+        // Plus a 400 unit offset in Y
+        tempVec1X = globalCtx->view.eye.x + (tempVec2X * 300.0f);
+        tempVec1Y = globalCtx->view.eye.y + (tempVec2Y * 160.0f) + 400.0f;
+        tempVec1Z = globalCtx->view.eye.z + (tempVec2Z * 300.0f);
+
+        // Similar to above, but only roughly 200 units ahead and slightly randomised
+        particlePos.x = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 200.0f));
+        particlePos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
+        particlePos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
+
+        randTemp = Rand_CenteredFloat(0.005f) + 0.007f;
+        if (sp60 == 1) {
+            func_80A08694(this, &particlePos, randTemp);
+        } else if (this->unk15E == 0) {
+            func_80A08694(this, &particlePos, randTemp);
+            this->unk15E = 5;
+        }
+        
+        if ((this->unk158 < sp5E) && (this->unk156 == 0)) {
+            if (sp60 == 1) {
+                this->unk156 = 4;
+                sp62 = 0;
+                if ((Rand_ZeroFloat(1.99f) < 1.0f) && (gSaveContext.linkAge != 0)) {
+                    // rock spawn pos X,Z near player
+                    tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.x;
+                    tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.z;
+                } else {
+                    if (player->linearVelocity != 0.0f) {
+                        // rock spawn pos X,Y closer to the Z than the X axis??
+                        // rock spawn pos ahead of the camera random around further in Z than in X
+                        tempVec2X = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 300.0f));
+                        tempVec2Z = Rand_CenteredFloat(50.0f) + (globalCtx->view.eye.z + (tempVec2Z * 600.0f));
+                    } else {
+                        // rock spawn pos X,Z near player
+                        tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.x;
+                        tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.z;
+                    }
+                    sp62 = 3;
+                }
+            } else {
+                this->unk156 = 0x32;
+                sp62 = 3;
+                // rock spawn pos X,Z at a random position roughly 300 units ahead of camera
+                tempVec2X = Rand_CenteredFloat(100.0f) + tempVec1X;
+                tempVec2Z = Rand_CenteredFloat(100.0f) + tempVec1Z;
+                if (Rand_ZeroFloat(3.99f) < 1.0f) {
+                    tempVec2X = Rand_CenteredFloat(70.0f) + player->actor.posRot.pos.x;
+                    tempVec2Z = Rand_CenteredFloat(70.0f) + player->actor.posRot.pos.z;
+                }
+            }
+            temp_v0_2 = (EnFireRock*)Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_FIRE_ROCK, tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, sp62);
+            if (temp_v0_2 != NULL) {
+                temp_v0_2->spawner = this;
+                this->unk158++;
+                return;
+            }
+            // "☆☆☆☆☆ Can't occur! ☆☆☆☆☆"
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n" VT_RST);
+        }
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A07CA4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Draw.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A08694.s")
+void func_80A08694(EnEncount2* this, Vec3f* arg1, f32 arg2) {
+    unkStruct* struc = this->unk188;
+    s16 i;
+
+    for (i = 0; i < ARRAY_COUNT(this->unk188); i++, struc++){
+        if (struc->unk10 == 0){
+            struc->unk0 = *arg1;
+            struc->unkC = arg2;
+            struc->unk20.x = 0.0f;
+            struc->unk20.y = 0.0f;
+            struc->unk20.z = 0.0f;
+            struc->unk14.x = Rand_CenteredFloat(20.0f);
+            struc->unk14.y = -20.0f;
+            struc->unk14.z = Rand_CenteredFloat(20.0f);
+            struc->unk10 = 1;
+            break;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A08748.s")
 
