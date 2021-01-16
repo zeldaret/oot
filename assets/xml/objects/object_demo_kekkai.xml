@@ -35,7 +35,5 @@
 
         <!-- Door_Shutter -->
         <DList Name="gGanonsCastleDoorDL" Offset="0x20D0"/>
-
-        <Texture Name="sGanonBarrierHintTex1" Format="i8" Width="32" Height="64" Offset="0x0"/>
     </File>
 </Root>
