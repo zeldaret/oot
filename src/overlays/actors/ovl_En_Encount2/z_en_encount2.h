@@ -18,7 +18,7 @@ typedef struct {
 
 typedef struct EnEncount2 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnEncount2ActionFunc* unk14C;
+    /* 0x014C */ EnEncount2ActionFunc unk14C;
     /* 0x0150 */ char unk150[0x4];
     /* 0x0154 */ s16 unk154;
     /* 0x0156 */ s16 unk156;
@@ -26,9 +26,13 @@ typedef struct EnEncount2 {
     /* 0x015A */ s16 unk15A;
     /* 0x015C */ s16 unk_15C;
     /* 0x015E */ s16 unk15E;
-    /* 0x0160 */ char unk160[0x18];
+    /* 0x0160 */ f32 unk160;
+    /* 0x0164 */ char unk164[0x4];
+    /* 0x0168 */ f32 unk168;
+    /* 0x016C */ char unk16C[0xC];
     /* 0x0178 */ s16 unk178;
-    /* 0x017A */ char unk17A[0x6];
+    /* 0x017A */ char unk17A[0x2];
+    /* 0x017C */ f32 unk17C;
     /* 0x0180 */ u64 unk180;
     /* 0x0188 */ unkStruct unk188[0x32];
 } EnEncount2; // size = 0x0A20

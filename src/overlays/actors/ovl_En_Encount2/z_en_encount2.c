@@ -152,6 +152,8 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
         }
     }
     if (sp60 != 0) {
+        // TODO: Some of this is incorrect and will need going over
+
         // Direction vector for the direction the camera is facing
         tempVec1X = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         tempVec1Y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
@@ -164,13 +166,13 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
         tempVec2Z = tempVec1Z / magnitude;
 
         // Some position between 160 and 300 units ahead of camera depending on pitch of camera, plus a 400 unit offset in Y
-        // Pitch: 160 at +/-90 degrees pitch, 300 at 0 degrees pitch)
-        // Plus a 400 unit offset in Y
+        // distance = 160 at +/-90 degrees pitch, 300 at 0 degrees pitch
         tempVec1X = globalCtx->view.eye.x + (tempVec2X * 300.0f);
         tempVec1Y = globalCtx->view.eye.y + (tempVec2Y * 160.0f) + 400.0f;
         tempVec1Z = globalCtx->view.eye.z + (tempVec2Z * 300.0f);
 
-        // Similar to above, but only roughly 200 units ahead and slightly randomised
+        // Position between 160 and 200 units ahead of camera depending on camera pitch, plus a 400 unit offset in Y, plus random variation
+        // distance = 160 at +/-90 degrees pitch, 200 at 0 degrees pitch (plus some random variation)
         particlePos.x = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 200.0f));
         particlePos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
         particlePos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
@@ -187,14 +189,15 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
             if (sp60 == 1) {
                 this->unk156 = 4;
                 sp62 = 0;
-                if ((Rand_ZeroFloat(1.99f) < 1.0f) && (gSaveContext.linkAge != 0)) {
+                if ((Rand_ZeroFloat(1.99f) < 1.0f) && (LINK_IS_CHILD)) {
                     // rock spawn pos X,Z near player
                     tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.x;
                     tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.z;
                 } else {
                     if (player->linearVelocity != 0.0f) {
-                        // rock spawn pos X,Y closer to the Z than the X axis??
-                        // rock spawn pos ahead of the camera random around further in Z than in X
+                        // rock spawn pos is between 300 and 600 units from the camera depending on the camera yaw.
+                        // Rocks will be spawn to camera if spawning along the X axis, and further if spawning along the Z axis.
+                        // But also position is weird if camera faces away from a cardinal. The position shifts along +Z or -Z slightly?
                         tempVec2X = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 300.0f));
                         tempVec2Z = Rand_CenteredFloat(50.0f) + (globalCtx->view.eye.z + (tempVec2Z * 600.0f));
                     } else {
@@ -230,9 +233,70 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A07CA4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Update.s")
+void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnEncount2* this = THIS;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f12;
+    f32 temp_f2;
+    f32 temp_f8;
+    s16 temp_v0;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 temp_v1;
+    s16 temp_v1_2;
+    u8 temp_t8;
+    f32 phi_f8;
+    f32 phi_return;
+
+    temp_v0 = this->unk154;
+    if (this->unk154 != 0) {
+        this->unk154--;
+    }
+    temp_v0_2 = this->unk156;
+    if (this->unk156 != 0) {
+        this->unk156--;
+    }
+    temp_v0_3 = this->unk15E;
+    if (this->unk15E != 0) {
+        this->unk15E--;
+    }
+    this->unk14C(this, globalCtx);
+    phi_return = func_80A08748(this, globalCtx);
+    if (this->unk15A == 0) {
+        temp_f0 = (f32) this->unk178 / 60.0f;
+        temp_f2 = temp_f0 * -50.0f;
+        this->unk17C = temp_f0;
+        this->unk160 = temp_f2;
+        globalCtx->unk10AB0 = (s16) (s32) ((f32) (s16) (s32) temp_f2 * -1.5f);
+        temp_v1 = (s16) (s32) this->unk160;
+        globalCtx->unk10AB4 = temp_v1;
+        globalCtx->unk10AB2 = temp_v1;
+        temp_f12 = this->unk17C * -20.0f;
+        this->unk168 = temp_f12;
+        globalCtx->unk10AB6 = (s16) (s32) ((f32) (s16) (s32) temp_f12 * -1.5f);
+        temp_v1_2 = (s16) (s32) this->unk168;
+        globalCtx->unk10ABA = temp_v1_2;
+        globalCtx->unk10AB8 = temp_v1_2;
+        temp_f0_2 = this->unk17C * -50.0f;
+        this->unk170 = temp_f0_2;
+        globalCtx->unk10AC2 = (s16) (s32) temp_f0_2;
+        temp_t8 = globalCtx->unk10AF3;
+        temp_f8 = (f32) temp_t8;
+        phi_f8 = temp_f8;
+        if ((s32) temp_t8 < 0) {
+            phi_f8 = temp_f8 + 4294967296.0f;
+        }
+        globalCtx->unk10ABC = (s16) ((u32) ((160.0f - phi_f8) * this->unk17C) & 0xFF);
+        globalCtx->unk10ABE = (s16) ((u32) ((160.0f - (f32) (u32) globalCtx->unk10AF4) * this->unk17C) & 0xFF);
+        globalCtx->unk10AC0 = (s16) ((u32) ((150.0f - (f32) (u32) globalCtx->unk10AF5) * this->unk17C) & 0xFF);
+        phi_return = temp_f0_2;
+    }
+    return phi_return;
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Draw.s")
 
