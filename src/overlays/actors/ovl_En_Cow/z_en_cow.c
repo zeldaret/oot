@@ -158,7 +158,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_060001CC), 2, 1.0f);
+                         Animation_GetLastFrame(&D_060001CC), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToLink < 150.0f) && (!(this->unk_276 & 2))) {
@@ -274,7 +274,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_06004348), 2, 1.0f);
+                         Animation_GetLastFrame(&D_06004348), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToLink < 150.0f) &&
@@ -301,9 +301,11 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
@@ -338,9 +340,11 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_06004348) {
-            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);

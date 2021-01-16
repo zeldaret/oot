@@ -87,18 +87,18 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
     s32 pad;
-    CollisionPoly* sp28;
+    CollisionPoly* poly;
     Vec3f pos;
-    UNK_TYPE sp24;
+    s32 bgId;
     f32 floorY;
 
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 30.0f;
     pos.z = this->actor.posRot.pos.z;
 
-    floorY = func_8003C9A4(&globalCtx->colCtx, &sp28, &sp24, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->actor, &pos);
 
-    if (floorY > -32000.0f) {
+    if (floorY > BGCHECK_Y_MIN) {
         this->actor.posRot.pos.y = floorY + yOffset;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
         return true;

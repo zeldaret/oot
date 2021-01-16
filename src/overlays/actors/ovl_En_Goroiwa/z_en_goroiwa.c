@@ -367,7 +367,8 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
                 sp5C.x = this->actor.posRot.pos.x;
                 sp5C.y = this->actor.posRot.pos.y + 50.0f;
                 sp5C.z = this->actor.posRot.pos.z;
-                temp_f0_2 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
+                temp_f0_2 =
+                    BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
                 // temp needed to match
                 temp = temp_f0_2 - (this->actor.posRot.pos.y - 59.5f);
                 if (fabsf(temp) < 15.0f) {
@@ -386,8 +387,8 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y = nextPointY - ((this->actor.posRot.pos.y - nextPointY) * 0.3f);
     }
     if (this->unk_1C6 == 0 &&
-        func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface,
-                      &waterBox) &&
+        WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
+                                &ySurface, &waterBox) &&
         this->actor.posRot.pos.y <= ySurface) {
         this->unk_1D3 |= 0x10;
         if (ySurface < thisY) {
@@ -711,8 +712,8 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
                 break;
             case 0:
-                this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor,
-                                                    &this->actor.posRot.pos);
+                this->actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,
+                                                                  &this->actor, &this->actor.posRot.pos);
                 break;
         }
         func_80A4CED8(this, globalCtx);

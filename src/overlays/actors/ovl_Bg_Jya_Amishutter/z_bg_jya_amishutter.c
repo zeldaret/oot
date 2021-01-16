@@ -46,15 +46,15 @@ static InitChainEntry sInitChain[] = {
 
 void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision,
                                   DynaPolyMoveFlag flag) {
-    s16 pad1;
-    u32 localConst = 0;
-    s16 pad2;
+    s32 pad1;
+    CollisionHeader* colHeader = NULL;
+    s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, flag);
-    DynaPolyInfo_Alloc(collision, &localConst);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(&this->dyna, flag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId =
+        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
@@ -71,7 +71,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
