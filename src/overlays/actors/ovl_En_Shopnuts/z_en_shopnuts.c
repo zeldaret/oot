@@ -147,8 +147,7 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
             EnShopnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed &&
-        ((this->actor.xzDistToLink > 160.0f) && (fabsf(this->actor.yDistToLink) < 120.0f)) &&
+    if (hasSlowPlaybackSpeed && ((this->actor.xzDistToLink > 160.0f) && (fabsf(this->actor.yDistToLink) < 120.0f)) &&
         ((this->animFlagAndTimer == 0) || (this->actor.xzDistToLink < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
