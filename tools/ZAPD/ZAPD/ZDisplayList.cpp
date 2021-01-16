@@ -345,22 +345,20 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 				if (parent != nullptr)
 					dListDecl = parent->GetDeclaration(SEG2FILESPACE(data));
 
-				// TEST
-				if (segNum != 8 && scene != nullptr && scene->parent->GetDeclarationName(data & 0x00FFFFFF) != "ERROR_COULD_NOT_FIND_DECLARATION")
-				{
-					int bp = 0;
-				}
-
 				if (pp != 0)
 				{
-					if (dListDecl != nullptr)
+					if (!Globals::Instance->HasSegment(segNum))
+						sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
+					else if (dListDecl != nullptr)
 						sprintf(line, "gsSPBranchList(%s),", dListDecl->varName.c_str());
 					else
 						sprintf(line, "gsSPBranchList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
 				}
 				else
 				{
-					if (dListDecl != nullptr)
+					if (!Globals::Instance->HasSegment(segNum))
+						sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
+					else if (dListDecl != nullptr)
 						sprintf(line, "gsSPDisplayList(%s),", dListDecl->varName.c_str());
 					else
 						sprintf(line, "gsSPDisplayList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
@@ -531,6 +529,9 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					int32_t texAddress = SEG2FILESPACE(data);
 					Declaration* texDecl = nullptr;
 
+					if (segmentNumber == 0x80) // Is this texture defined in code?
+						texAddress -= SEG2FILESPACE(parent->baseAddress);
+
 					if (parent != nullptr)
 					{
 						if (Globals::Instance->HasSegment(segmentNumber))
@@ -552,7 +553,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 						//}
 						//else
 						{
-							sprintf(texStr, "0x%08lX", data);
+							sprintf(texStr, "0x%08lX", data & 0xFFFFFFFF);
 						}
 					}
 
@@ -1277,7 +1278,7 @@ bool ZDisplayList::TextureGenCheck(vector<uint8_t> fileData, map<uint32_t, ZText
 	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
 		printf("TextureGenCheck seg=%i width=%i height=%i ispal=%i addr=0x%06X\n", segmentNumber, texWidth, texHeight, texIsPalette, texAddr);
 
-	if (texAddr != 0 && texWidth != 0 && texHeight != 0 && texLoaded && Globals::Instance->HasSegment(segmentNumber))
+	if ((texSeg != 0 || texAddr != 0) && texWidth != 0 && texHeight != 0 && texLoaded && Globals::Instance->HasSegment(segmentNumber))
 	{
 		if (segmentNumber != 2) // Not from a scene file
 		{

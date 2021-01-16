@@ -16,7 +16,7 @@
 #define SEG2FILESPACE(x) (x & 0x00FFFFFF)
 #define GETSEGNUM(x) ((x >> 24) & 0xFF)
 
-typedef uint32_t segptr;
+typedef uint32_t segptr_t;
 
 class ZFile;
 class HLFileIntermediette;
