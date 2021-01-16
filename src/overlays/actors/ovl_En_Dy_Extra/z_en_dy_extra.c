@@ -16,8 +16,8 @@ void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx);
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx);
+void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx);
+void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
@@ -51,21 +51,21 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -0.2f;
     this->unk_158 = 1.0f;
     this->timer = 60;
-    this->actionFunc = func_809FF7AC;
+    this->actionFunc = EnDyExtra_WaitForTrigger;
 }
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
+void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->actor.posRot.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
-    if (this->timer == 0 && this->unk_152 != 0) {
+    if (this->timer == 0 && this->trigger != 0) {
         this->timer = 200;
-        this->actionFunc = func_809FF840;
+        this->actionFunc = EnDyExtra_FallAndKill;
     }
 }
 
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
+void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->timer == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
@@ -80,7 +80,9 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
 
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
     this->actor.scale.x = this->scale.x;
     this->actor.scale.y = this->scale.y;
     this->actor.scale.z = this->scale.z;

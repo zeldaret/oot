@@ -13,9 +13,9 @@
 #define THIS ((BgDyYoseizo*)thisx)
 
 typedef enum {
-    /* 0 */ FAIRY_REWARD_MAGIC,
-    /* 1 */ FAIRY_REWARD_DOUBLE_MAGIC,
-    /* 2 */ FAIRY_REWARD_DOUBLE_DEFENSE
+    /* 0 */ FAIRY_UPGRADE_SPIN_ATTACK,
+    /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
+    /* 2 */ FAIRY_UPGRADE_HALF_DAMAGE
 } BgDyYoseizoRewardType;
 
 typedef enum {
@@ -27,14 +27,13 @@ typedef enum {
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDyYoseizo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16 type);
-// void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_NoRewardAction3(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_Wait_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -47,9 +46,6 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCt
 void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-// s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*
-// thisx);
-void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
                               Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type);
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -67,37 +63,6 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
     (ActorFunc)BgDyYoseizo_Destroy,
     (ActorFunc)BgDyYoseizo_Update,
     NULL,
-};
-
-static Color_RGB8 sParticlePrimColors[] = {
-    { 255, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
-    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
-};
-
-static Color_RGB8 sParticleEnvColors[] = {
-    { 155, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 100, 255 },
-    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 100, 255, 255 },
-};
-
-static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
-
-static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIGHT_RED, DEMO_EFFECT_LIGHT_BLUE };
-
-static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC_DARK };
-
-static s16 sItemGetFlags[] = { 0x100, 0x200, 0x400 };
-
-static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
-
-static u64* sEyeTextures[] = {
-    0x06017930, // Open
-    0x06018130, // Half
-    0x06018930, // Closed
-};
-
-static u64* sMouthTextures[] = {
-    0x06019130, // Closed
-    0x0601A130, // Open
 };
 
 extern CutsceneData D_02000130;
@@ -131,8 +96,8 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->fountainType = 0;
     }
 
-    this->unk_310 = this->actor.posRot.pos.y;
-    this->unk_30C = this->unk_310 + 40.0f;
+    this->vanishHeight = this->actor.posRot.pos.y;
+    this->grownHeight = this->vanishHeight + 40.0f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
@@ -152,8 +117,18 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
 void BgDyYoseizo_Destroy(Actor* this, GlobalContext* globalCtx) {
 }
 
+static Color_RGB8 sParticlePrimColors[] = {
+    { 255, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
+    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
+};
+
+static Color_RGB8 sParticleEnvColors[] = {
+    { 155, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 100, 255 },
+    { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 100, 255, 255 },
+};
+
 void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16 type) {
-    Vec3f particleInitVelocity;
+    Vec3f particleInitVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f particleAccel;
     Vec3f particleInitPos;
     Color_RGB8 particlePrimColor;
@@ -163,8 +138,6 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
     f32 particleScale;
     s32 i;
     s16 particleLife;
-
-    particleInitVelocity = sZeroVector;
 
     if (!(this->scale < 0.01f)) {
         spawnPosVariation = this->scale * 3500.0f;
@@ -214,22 +187,22 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
 }
 
 void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    this->unk_31C = this->unk_30C + this->unk_320;
-    Math_ApproachF(&this->actor.posRot.pos.y, this->unk_31C, 0.1f, 10.0f);
-    Math_ApproachF(&this->unk_320, 10.0f, 0.1f, 0.5f);
+    this->targetHeight = this->grownHeight + this->bobOffset;
+    Math_ApproachF(&this->actor.posRot.pos.y, this->targetHeight, 0.1f, 10.0f);
+    Math_ApproachF(&this->bobOffset, 10.0f, 0.1f, 0.5f);
 
     if (globalCtx->csCtx.state == 0) {
-        this->actor.velocity.y = Math_SinS(this->unk_324);
+        this->actor.velocity.y = Math_SinS(this->bobTimer);
     } else {
-        this->actor.velocity.y = Math_SinS(this->unk_324) * 0.4f;
+        this->actor.velocity.y = Math_SinS(this->bobTimer) * 0.4f;
     }
 }
 
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, 0x38) != 0) {
+    if (Flags_GetSwitch(globalCtx, 0x38)) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if (!(gSaveContext.magicAcquired) && (this->fountainType != FAIRY_REWARD_MAGIC)) {
+            if (!(gSaveContext.magicAcquired) && (this->fountainType != FAIRY_UPGRADE_SPIN_ATTACK)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -270,7 +243,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
     } else {
         switch (this->fountainType) {
-            case FAIRY_REWARD_MAGIC:
+            case FAIRY_UPGRADE_SPIN_ATTACK:
                 if (!(gSaveContext.magicAcquired) || BREG(2)) {
                     // Spin Attack speed UP
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
@@ -278,7 +251,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     givingReward = true;
                 }
                 break;
-            case FAIRY_REWARD_DOUBLE_MAGIC:
+            case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!(gSaveContext.doubleMagic)) {
                     // Magic Meter doubled
                     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
@@ -286,7 +259,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     givingReward = true;
                 }
                 break;
-            case FAIRY_REWARD_DOUBLE_DEFENSE:
+            case FAIRY_UPGRADE_HALF_DAMAGE:
                 if (!(gSaveContext.doubleDefense)) {
                     // Damage halved
                     osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
@@ -316,15 +289,15 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
             } else {
                 switch (this->fountainType) {
-                    case FAIRY_REWARD_MAGIC:
+                    case FAIRY_UPGRADE_SPIN_ATTACK:
                         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000130);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
-                    case FAIRY_REWARD_DOUBLE_MAGIC:
+                    case FAIRY_UPGRADE_DOUBLE_MAGIC:
                         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_020013E0);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
-                    case FAIRY_REWARD_DOUBLE_DEFENSE:
+                    case FAIRY_UPGRADE_HALF_DAMAGE:
                         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_020025D0);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
@@ -363,13 +336,12 @@ void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* global
     this->actionFunc = BgDyYoseizo_SpinGrow_NoReward;
 }
 
-//
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
-    Math_ApproachF(&this->actor.posRot.pos.y, this->unk_30C, this->unk_314, 100.0f);
-    Math_ApproachF(&this->scale, 0.035f, this->unk_318, 0.005f);
-    Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
-    Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->grownHeight, this->heightFraction, 100.0f);
+    Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
+    Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
+    Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
     // Finished growing
     if (this->scale >= 0.034f) {
         if ((this->actor.shape.rot.y > -8000) && (this->actor.shape.rot.y < 1000)) {
@@ -377,7 +349,7 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) 
             // Turn to front
             Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 5, 1000, 0);
             if (fabsf(this->actor.shape.rot.y) < 50.0f) {
-                this->actionFunc = BgDyYoseizo_NoRewardAction3;
+                this->actionFunc = BgDyYoseizo_Wait_NoReward;
             }
         } else {
             this->actor.shape.rot.y += 3000;
@@ -388,18 +360,18 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) 
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
-void BgDyYoseizo_NoRewardAction3(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    f32 frame = this->skelAnime.curFrame;
+void BgDyYoseizo_Wait_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
+    f32 curFrame = this->skelAnime.curFrame;
 
     func_8002DF54(globalCtx, &this->actor, 1);
 
-    if ((this->frameCount * 1273.0f) <= this->unk_324) {
-        this->unk_324 = 0.0f;
+    if ((this->frameCount * 1273.0f) <= this->bobTimer) {
+        this->bobTimer = 0.0f;
     }
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= frame) && !(this->unk_2FC)) {
+    if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
         this->actionFunc = BgDyYoseizo_SetupGreetPlayer_NoReward;
     }
 }
@@ -424,10 +396,10 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glo
 
 void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
-    this->unk_324 = this->skelAnime.curFrame * 1273.0f;
+    this->bobTimer = this->skelAnime.curFrame * 1273.0f;
 
-    if ((this->frameCount * 1273.0f) <= this->unk_324) {
-        this->unk_324 = 0.0f;
+    if ((this->frameCount * 1273.0f) <= this->bobTimer) {
+        this->bobTimer = 0.0f;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -458,19 +430,19 @@ void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glob
 
 void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 temp_f2 = this->skelAnime.curFrame;
+    f32 curFrame = this->skelAnime.curFrame;
     Vec3f beamPos;
-    s16 phi_v0;
+    s16 beamParams;
 
-    if (this->unk_2FC != 0) {
-        this->unk_324 = this->skelAnime.curFrame * 1300.0f;
-        if ((this->frameCount * 1300.0f) <= this->unk_324) {
-            this->unk_324 = 0.0f;
+    if (this->animationChanged) {
+        this->bobTimer = this->skelAnime.curFrame * 1300.0f;
+        if ((this->frameCount * 1300.0f) <= this->bobTimer) {
+            this->bobTimer = 0.0f;
         }
     }
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->frameCount <= temp_f2) && !(this->unk_2FC)) {
+    if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->frameCount = Animation_GetLastFrame(&D_06007CA8);
             Animation_Change(&this->skelAnime, &D_06007CA8, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -478,46 +450,46 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
             this->frameCount = Animation_GetLastFrame(&D_06004344);
             Animation_Change(&this->skelAnime, &D_06004344, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
         }
-        this->unk_302 = 150;
-        this->unk_2FC = true;
+        this->healingTimer = 150;
+        this->animationChanged = true;
         if (!(this->givingSpell)) {
             beamPos.x = player->actor.posRot.pos.x;
             beamPos.y = player->actor.posRot.pos.y + 200.0f;
             beamPos.z = player->actor.posRot.pos.z;
 
-            phi_v0 = ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) ? 0 : 1);
+            beamParams = ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) ? 0 : 1);
 
             this->beam =
                 (EnDyExtra*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DY_EXTRA,
-                                               beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, phi_v0);
+                                               beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, beamParams);
         }
     }
-    if (this->unk_306 > 1) {
-        this->unk_306--;
+    if (this->refillTimer > 1) {
+        this->refillTimer--;
     }
 
-    if (this->unk_302 >= 110) {
-        this->unk_302--;
+    if (this->healingTimer >= 110) {
+        this->healingTimer--;
     }
 
-    if (this->unk_302 == 110) {
+    if (this->healingTimer == 110) {
         gSaveContext.healthAccumulator = 0x140;
         Magic_Fill(globalCtx);
-        this->unk_306 = 200;
+        this->refillTimer = 200;
     }
 
     if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.unk_13F4)) ||
-        (this->unk_306 == 1)) {
-        this->unk_302--;
-        if (this->unk_302 == 90) {
+        (this->refillTimer == 1)) {
+        this->healingTimer--;
+        if (this->healingTimer == 90) {
             if (!(this->givingSpell)) {
-                this->beam->unk_152 = 1;
+                this->beam->trigger = 1;
             }
-            this->givingSpell = 0;
+            this->givingSpell = false;
         }
     }
 
-    if (this->unk_302 == 1) {
+    if (this->healingTimer == 1) {
         this->actor.textId = 0xDA;
         this->dialogState = 5;
         func_8010B720(globalCtx, this->actor.textId);
@@ -528,10 +500,10 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
 }
 
 void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    this->unk_324 = this->skelAnime.curFrame * 1400.0f;
+    this->bobTimer = this->skelAnime.curFrame * 1400.0f;
 
-    if (this->unk_324 >= (this->frameCount * 1400.0f)) {
-        this->unk_324 = 0.0f;
+    if (this->bobTimer >= (this->frameCount * 1400.0f)) {
+        this->bobTimer = 0.0f;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -557,8 +529,8 @@ void BgDyYoseizo_SetupSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 
     this->vanishTimer = 5;
-    this->unk_318 = 0.0f;
-    this->unk_314 = 0.0f;
+    this->scaleFraction = 0.0f;
+    this->heightFraction = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_VANISH);
     this->actionFunc = BgDyYoseizo_SpinShrink;
@@ -572,10 +544,10 @@ void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
             this->actionFunc = BgDyYoseizo_Vanish;
             return;
         }
-        Math_ApproachF(&this->actor.posRot.pos.y, this->unk_310, this->unk_314, 100.0f);
-        Math_ApproachZeroF(&this->scale, this->unk_318, 0.005f);
-        Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
-        Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
+        Math_ApproachF(&this->actor.posRot.pos.y, this->vanishHeight, this->heightFraction, 100.0f);
+        Math_ApproachZeroF(&this->scale, this->scaleFraction, 0.005f);
+        Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
+        Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
         this->actor.shape.rot.y += 3000;
         BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
     }
@@ -625,13 +597,13 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCt
 }
 
 void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    f32 temp_f0 = this->skelAnime.curFrame;
+    f32 curFrame = this->skelAnime.curFrame;
 
     if (!(this->finishedSpinGrow)) {
-        Math_ApproachF(&this->actor.posRot.pos.y, this->unk_30C, this->unk_314, 100.0f);
-        Math_ApproachF(&this->scale, 0.035f, this->unk_318, 0.005f);
-        Math_ApproachF(&this->unk_314, 0.8f, 0.1f, 0.02f);
-        Math_ApproachF(&this->unk_318, 0.2f, 0.03f, 0.05f);
+        Math_ApproachF(&this->actor.posRot.pos.y, this->grownHeight, this->heightFraction, 100.0f);
+        Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
+        Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
+        Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
         // Finished growing
         if (this->scale >= 0.034f) {
             if ((this->actor.shape.rot.y > -8000) && (this->actor.shape.rot.y < 1000)) {
@@ -650,7 +622,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
     } else {
         SkelAnime_Update(&this->skelAnime);
 
-        if ((this->frameCount <= temp_f0) && !(this->unk_2FC)) {
+        if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&D_0601D514);
                 Animation_Change(&this->skelAnime, &D_0601D514, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -658,12 +630,12 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
                 this->frameCount = Animation_GetLastFrame(&D_06001DF0);
                 Animation_Change(&this->skelAnime, &D_06001DF0, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
             }
-            this->unk_2FC = true;
+            this->animationChanged = true;
         }
 
         if (globalCtx->csCtx.state != 0) {
             if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3)) {
-                this->finishedSpinGrow = this->unk_2FC = false;
+                this->finishedSpinGrow = this->animationChanged = false;
                 if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                     this->frameCount = Animation_GetLastFrame(&D_060069E8);
                     Animation_Change(&this->skelAnime, &D_060069E8, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -679,22 +651,30 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
 }
 
+static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIGHT_RED, DEMO_EFFECT_LIGHT_BLUE };
+
+static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC_DARK };
+
+static s16 sItemGetFlags[] = { 0x100, 0x200, 0x400 };
+
+static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
+
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    f32 temp_f2 = this->skelAnime.curFrame;
+    f32 curFrame = this->skelAnime.curFrame;
     Player* player = PLAYER;
     s16 actionIndex;
     s16 demoEffectParams;
     Vec3f itemPos;
 
-    if (this->unk_2FC) {
-        this->unk_324 = this->skelAnime.curFrame * 1400.0f;
-        if ((this->frameCount * 1400.0f) <= this->unk_324) {
-            this->unk_324 = 0.0f;
+    if (this->animationChanged) {
+        this->bobTimer = this->skelAnime.curFrame * 1400.0f;
+        if ((this->frameCount * 1400.0f) <= this->bobTimer) {
+            this->bobTimer = 0.0f;
         }
     }
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= temp_f2) && !(this->unk_2FC)) {
+    if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->frameCount = Animation_GetLastFrame(&D_06007CA8);
             Animation_Change(&this->skelAnime, &D_06007CA8, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -702,7 +682,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
             this->frameCount = Animation_GetLastFrame(&D_06004344);
             Animation_Change(&this->skelAnime, &D_06004344, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
         }
-        this->unk_2FC = true;
+        this->animationChanged = true;
     }
 
     if (globalCtx->csCtx.npcActions[0]->action == 13) {
@@ -731,12 +711,12 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 10;
 
         switch (actionIndex) {
-            case FAIRY_REWARD_MAGIC:
+            case FAIRY_UPGRADE_SPIN_ATTACK:
                 gSaveContext.magicAcquired = true;
                 gSaveContext.unk_13F6 = 0x30;
                 Interface_ChangeAlpha(9);
                 break;
-            case FAIRY_REWARD_DOUBLE_MAGIC:
+            case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!(gSaveContext.magicAcquired)) {
                     gSaveContext.magicAcquired = true;
                 }
@@ -745,7 +725,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 gSaveContext.magicLevel = 0;
                 Interface_ChangeAlpha(9);
                 break;
-            case FAIRY_REWARD_DOUBLE_DEFENSE:
+            case FAIRY_UPGRADE_HALF_DAMAGE:
                 gSaveContext.doubleDefense = true;
                 Interface_ChangeAlpha(9);
                 break;
@@ -899,6 +879,17 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     }
     return 0;
 }
+
+static u64* sEyeTextures[] = {
+    0x06017930, // Open
+    0x06018130, // Half
+    0x06018930, // Closed
+};
+
+static u64* sMouthTextures[] = {
+    0x06019130, // Closed
+    0x0601A130, // Open
+};
 
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgDyYoseizo* this = THIS;
