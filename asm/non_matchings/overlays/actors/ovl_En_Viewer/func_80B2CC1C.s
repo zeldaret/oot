@@ -21,8 +21,8 @@ glabel func_80B2CC1C
 /* 02A4C 80B2CC4C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 02A50 80B2CC50 44811000 */  mtc1    $at, $f2                   ## $f2 = 10.00
 /* 02A54 80B2CC54 87191340 */  lh      $t9, 0x1340($t8)           ## 00001340
-/* 02A58 80B2CC58 3C1080B3 */  lui     $s0, %hi(D_80B2D440)       ## $s0 = 80B30000
-/* 02A5C 80B2CC5C 2610D440 */  addiu   $s0, $s0, %lo(D_80B2D440)  ## $s0 = 80B2D440
+/* 02A58 80B2CC58 3C1080B3 */  lui     $s0, %hi(sGanonCape)       ## $s0 = 80B30000
+/* 02A5C 80B2CC5C 2610D440 */  addiu   $s0, $s0, %lo(sGanonCape)  ## $s0 = 80B2D440
 /* 02A60 80B2CC60 44992000 */  mtc1    $t9, $f4                   ## $f4 = 0.00
 /* 02A64 80B2CC64 8E080000 */  lw      $t0, 0x0000($s0)           ## 80B2D440
 /* 02A68 80B2CC68 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
