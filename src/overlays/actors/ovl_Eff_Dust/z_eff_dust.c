@@ -33,7 +33,13 @@ void func_8099D8D0(void *arg0, s32 arg1) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D8.s")
+
+void func_8099D8D8(void *arg0, s32 arg1) {
+    //arg0->unk564 = arg1;
+    *((s32*)arg0 + 0x0564/4) = arg1;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8E0.s")
 
