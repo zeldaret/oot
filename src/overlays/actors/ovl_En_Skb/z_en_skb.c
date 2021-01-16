@@ -474,8 +474,8 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                         for (i = 4; i >= 0; i--) {
                             flamePos = this->actor.posRot.pos;
                             flamePos.x += Rand_CenteredFloat(20.0f);
-                            flamePos.y += Rand_CenteredFloat(20.0f);
-                            flamePos.z += (Rand_ZeroOne() * 25.0f);
+                            flamePos.z += Rand_CenteredFloat(20.0f);
+                            flamePos.y += (Rand_ZeroOne() * 25.0f);
                             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &flamePos, scale, 0, 0, -1);
                         }
                         phi_v1 = 25;
@@ -551,17 +551,20 @@ s32 func_80AFDD30(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // Post limb?
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
-void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
-    u8* temp_v0;
-    func_800628A4(limbIndex, &this->collider);
-    if (!(this->unk_283 ^ 1)) {
-        func_80032F54(&this->unk_28C, limbIndex, 11, 12, 18, dList, -1);
-    } else if ( (this->unk_283 | 4) == this->unk_283) {
-        func_80032F54(&this->unk_28C, limbIndex, 0, 18, 18, dList, -1);
-    }
-}
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
+// void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+//     EnSkb* this = THIS;
+//     u8 temp_v0 = this->unk_283;
+
+//     func_800628A4(limbIndex, &this->collider);
+//     // temp_v0 = this->unk_283;
+//     if (!(this->unk_283 ^ 1)) {
+//         func_80032F54(&this->unk_28C, limbIndex, 11, 12, 18, dList, -1);
+//     } else if ((this->unk_283 | 4) == this->unk_283) {
+//         func_80032F54(&this->unk_28C, limbIndex, 0, 18, 18, dList, -1);
+//     }
+// }
+
 
 // Matches
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Draw.s")
