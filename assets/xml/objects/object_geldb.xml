@@ -1,7 +1,9 @@
 <Root>
     <File Name="object_geldb" Segment="6">
+        <!-- Red-clothed Gerudo skeleton -->
         <Skeleton Name="gGerudoRedSkel" Type="Flex" LimbType="Standard" Offset="0xA458"/>
 
+        <!-- Red-clothed Gerudo animations -->
         <Animation Name="gGerudoRedJumpAnim" Offset="0xADF8"/>
         <Animation Name="gGerudoRedNeutralAnim" Offset="0xB6D4"/>
         <Animation Name="gGerudoRedSidestepAnim" Offset="0xA814"/>
@@ -14,6 +16,7 @@
         <Animation Name="gGerudoRedBlockAnim" Offset="0x1578"/>
         <Animation Name="gGerudoRedStandAnim" Offset="0xB07C"/>
 
+        <!-- Red-clothed Gerudo eye textures -->
         <Texture Name="gGerudoRedEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x5FE8"/>
         <Texture Name="gGerudoRedEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x65A8"/>
         <Texture Name="gGerudoRedEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x6D28"/>
