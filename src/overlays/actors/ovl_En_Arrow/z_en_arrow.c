@@ -231,7 +231,7 @@ void EnArrow_CarryActor(EnArrow* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     CollisionPoly* hitPoly; // sp94
     s32 bgId;
@@ -242,7 +242,6 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     Actor* hitActor;
     Vec3f sp60;
     Vec3f sp54;
-    s32 pad;
 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
@@ -367,9 +366,9 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
-#endif
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
+// #endif
 
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
