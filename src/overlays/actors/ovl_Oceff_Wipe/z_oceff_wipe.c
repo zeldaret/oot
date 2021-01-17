@@ -1,7 +1,7 @@
 /*
  * File: z_oceff_wipe.c
  * Overlay: ovl_Oceff_Wipe
- * Description: Zelda's Lullaby Effect
+ * Description: Zelda's Lullaby and Song of Time Ocarina Effect
  */
 
 #include "z_oceff_wipe.h"
@@ -37,6 +37,7 @@ u8 sOceffWipeAlphaIndices[] = {
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.posRot.pos = ACTIVE_CAM->eye;
@@ -55,6 +56,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
+
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 100) {
         this->counter++;
@@ -111,7 +113,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params) {
+    if (this->actor.params != OCEFF_WIPE_ZL) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 128);
     } else {

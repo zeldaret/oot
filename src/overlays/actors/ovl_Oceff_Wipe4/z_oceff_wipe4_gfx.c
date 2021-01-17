@@ -75,7 +75,7 @@ static Vtx vertices[] = {
     VTX(143, -46, 0, 410, 1024, 0xFF, 0xFF, 0xFF, 0x00),   VTX(243, -176, 1000, 307, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx sTextureDL0[] = {
+static Gfx sTexture0DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
