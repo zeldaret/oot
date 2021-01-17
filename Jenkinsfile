@@ -6,7 +6,7 @@ def cancelRedundantBuilds() {
     for (def build : currentJob.builds) {
         def exec = build.getExecutor()
 
-        if (build.isBuilding() && build.number.toInteger() != buildNumber && exec != null) {
+        if (build.isBuilding() && build.number.toInteger() < buildNumber && exec != null) {
             exec.interrupt(
                 Result.ABORTED,
                 new CauseOfInterruption.UserInterruption("Job aborted by #${currentBuild.number}")
@@ -73,3 +73,4 @@ pipeline {
         }
     }
 }
+
