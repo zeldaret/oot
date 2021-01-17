@@ -39,7 +39,7 @@ const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     (ActorFunc)BgSpot00Hanebasi_Draw,
 };
 
-static f32 D_808AA7B0 = 0.0f;
+static f32 sTorchFlameScale = 0.0f;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 550, ICHAIN_CONTINUE),
@@ -202,7 +202,8 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* g
     u8 lightColor = (u8)(Rand_ZeroOne() * 127.0f) + 128; // intensity of the red and green channels
 
     Lights_PointGlowSetInfo(&this->lightInfo, (this->dyna.actor.params == DT_CHAIN_1) ? 260.0f : -260.0f,
-                            (5000.0f * D_808AA7B0) + 128.0f, 690, lightColor, lightColor, 0, D_808AA7B0 * 37500.0f);
+                            (5000.0f * sTorchFlameScale) + 128.0f, 690, lightColor, lightColor, 0,
+                            sTorchFlameScale * 37500.0f);
 }
 
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -268,9 +269,9 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, GlobalContext* globalCtx2) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     if (gSaveContext.sceneSetupIndex >= 4) {
-        D_808AA7B0 = 0.008f;
+        sTorchFlameScale = 0.008f;
     } else {
-        D_808AA7B0 = ((thisx->shape.rot.x * -1) - 0x2000) * (1.0f / 1024000.0f);
+        sTorchFlameScale = ((thisx->shape.rot.x * -1) - 0x2000) * (1.0f / 1024000.0f);
     }
 
     angle = (s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * (M_PI / 32768.0f);
@@ -284,7 +285,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, GlobalContext* globalCtx2) {
 
         Matrix_Translate((i == 0) ? 260.0f : -260.0f, 128.0f, 690.0f, 0);
         Matrix_RotateY(angle, MTXMODE_APPLY);
-        Matrix_Scale(D_808AA7B0, D_808AA7B0, D_808AA7B0, MTXMODE_APPLY);
+        Matrix_Scale(sTorchFlameScale, sTorchFlameScale, sTorchFlameScale, MTXMODE_APPLY);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -323,7 +324,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((gSaveContext.sceneSetupIndex >= 4) || ((LINK_IS_CHILD) && (thisx->shape.rot.x < -0x2000))) {
                 BgSpot00Hanebasi_DrawTorches(thisx, globalCtx);
             } else {
-                D_808AA7B0 = 0.0f;
+                sTorchFlameScale = 0.0f;
             }
         }
     } else {
