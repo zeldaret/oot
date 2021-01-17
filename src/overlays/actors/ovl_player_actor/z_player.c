@@ -2087,7 +2087,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
                 magicArrowType = arrowType - 3;
 
                 if (this->unk_860 >= 0) {
-                    if ((magicArrowType >= ARROW_UNK_0) && (magicArrowType <= ARROW_NORMAL) &&
+                    if ((magicArrowType >= ARROW_NORMAL_LIT) && (magicArrowType <= ARROW_NORMAL) &&
                         !func_80087708(globalCtx, sMagicArrowCosts[magicArrowType], 0)) {
                         arrowType = ARROW_NORMAL;
                     }

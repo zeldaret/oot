@@ -27,9 +27,9 @@ typedef struct EnArrow {
 
 typedef enum {
     /* -10 */ ARROW_CS_NUT = -10, // cutscene deku nuts are allowed to update in blocking mode
-    /* -1  */ ARROW_UNK_NEG1 = -1,
-    /*  0  */ ARROW_UNK_0, 
-    /*  1  */ ARROW_NORMAL_HORSE, // arrows spawned while riding a horse
+    /* -1  */ ARROW_NORMAL_SILENT = -1, // does not make a sound when being shot
+    /*  0  */ ARROW_NORMAL_LIT, // arrow that is lit on fire
+    /*  1  */ ARROW_NORMAL_HORSE, // arrow shot while riding a horse
     /*  2  */ ARROW_NORMAL,
     /*  3  */ ARROW_FIRE,
     /*  4  */ ARROW_ICE,

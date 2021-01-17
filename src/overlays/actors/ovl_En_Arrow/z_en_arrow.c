@@ -159,7 +159,7 @@ void EnArrow_Shoot(EnArrow* this, GlobalContext* globalCtx) {
                 func_8002F7DC(&player->actor, NA_SE_IT_SLING_SHOT);
                 break;
 
-            case ARROW_UNK_0:
+            case ARROW_NORMAL_LIT:
             case ARROW_NORMAL_HORSE:
             case ARROW_NORMAL:
                 func_8002F7DC(&player->actor, NA_SE_IT_ARROW_SHOT);
@@ -253,7 +253,7 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
         this->actor.gravity = -0.4f;
     }
 
-    atTouched = this->actor.params != ARROW_UNK_0;
+    atTouched = this->actor.params != ARROW_NORMAL_LIT;
 
     if (atTouched) {
         atTouched = this->actor.params <= ARROW_SEED;
@@ -313,7 +313,7 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
                 EnArrow_SetupAction(this, func_809B45E0);
                 Animation_PlayOnce(&this->skelAnime, &D_0400436C);
 
-                if (this->actor.params >= ARROW_UNK_0) {
+                if (this->actor.params >= ARROW_NORMAL_LIT) {
                     this->timer = 60;
                 } else {
                     this->timer = 20;
@@ -393,7 +393,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnArrow* this = THIS;
     Player* player = PLAYER;
 
-    if (this->isCsNut || ((this->actor.params >= ARROW_UNK_0) && (player->unk_A73 != 0)) ||
+    if (this->isCsNut || ((this->actor.params >= ARROW_NORMAL_LIT) && (player->unk_A73 != 0)) ||
         !Player_InBlockingCsMode(globalCtx, player)) {
         this->actionFunc(this, globalCtx);
     }
@@ -407,7 +407,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                0);
         }
-    } else if (this->actor.params == ARROW_UNK_0) {
+    } else if (this->actor.params == ARROW_NORMAL_LIT) {
         static Vec3f velocity = { 0.0f, 0.5f, 0.0f };
         static Vec3f accel = { 0.0f, 0.5f, 0.0f };
         static Color_RGBA8 primColor = { 255, 255, 100, 255 };
