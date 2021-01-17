@@ -84,7 +84,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
         Collider_CylinderUpdate(thisx, &this->collider);
 
-        DynaPolyInfo_SetActorMove(thisx, 0);
+        DynaPolyActor_Init(thisx, 0);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
             thisx->uncullZoneForward = 2000.0f;
@@ -116,7 +116,7 @@ void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaZou* this = THIS;
 
     if (this->dyna.actor.params != STA_UNKNOWN) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
