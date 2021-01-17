@@ -43,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 5, 60, 0, { 0, 0, 0 } },
 };
 
-static Vec3f sEffectVec = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
@@ -142,7 +142,7 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
         effectPos.y = this->dyna.actor.posRot.pos.y + (60.0f * rand);
         effectPos.z = this->dyna.actor.posRot.pos.z + (112.0f * rand);
 
-        func_800286CC(globalCtx, &effectPos, &effectVelocity, &sEffectVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 100);
+        func_800286CC(globalCtx, &effectPos, &effectVelocity, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 100);
     }
 }
 
@@ -233,7 +233,7 @@ void func_80882CC4(BgHakaZou* this, GlobalContext* globalCtx) {
 
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y,
                         actorSpawnPos.z, 0, this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
-            func_800286CC(globalCtx, &actorSpawnPos, &sEffectVec, &sEffectVec, 1000, 50);
+            func_800286CC(globalCtx, &actorSpawnPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
@@ -255,7 +255,7 @@ void func_80882E54(BgHakaZou* this, GlobalContext* globalCtx) {
             effectPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
             effectPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
             EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 10, 10, 4, 141, 40, D_06000A10);
-            func_800286CC(globalCtx, &effectPos, &sEffectVec, &sEffectVec, 1000, 50);
+            func_800286CC(globalCtx, &effectPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
@@ -307,7 +307,7 @@ void func_80883144(BgHakaZou* this, GlobalContext* globalCtx) {
         effectPos.y = (Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.y;
         effectPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.posRot.pos.z + 56.0f);
 
-        EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &sEffectVec, &sEffectVec, 150, 70);
+        EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &sZeroVec, &sZeroVec, 150, 70);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
@@ -353,8 +353,7 @@ void func_80883328(BgHakaZou* this, GlobalContext* globalCtx) {
 
             for (i = 0; i < 4; i++) {
                 effectPos.z -= (i == 2) ? 550.0f : 50.0f;
-                func_800286CC(globalCtx, &effectPos, &sEffectVec, &sEffectVec, (Rand_ZeroOne() * 200.0f) + 1000.0f,
-                              200);
+                func_800286CC(globalCtx, &effectPos, &sZeroVec, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 200);
             }
         }
 

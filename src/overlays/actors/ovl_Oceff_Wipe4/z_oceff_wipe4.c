@@ -1,7 +1,7 @@
 /*
  * File: z_oceff_wipe4.c
  * Overlay: ovl_Oceff_Wipe4
- * Description: Song of Time effect
+ * Description: Scarecrow's Song and an unused Ocarina Effect
  */
 
 #include "z_oceff_wipe4.h"
@@ -32,6 +32,7 @@ const ActorInit Oceff_Wipe4_InitVars = {
 
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.posRot.pos = ACTIVE_CAM->eye;
@@ -40,11 +41,13 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     func_800876C8(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+    
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
@@ -94,7 +97,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params == 1) {
+    if (this->actor.params == OCEFF_WIPE4_UNUSED) {
         gSPDisplayList(POLY_XLU_DISP++, sTextureDL1);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, sTextureDL0);

@@ -25,7 +25,7 @@ struct ZLimbStandard : public ZResource
 	ZLimbStandard();
 	static ZLimbStandard* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* parent);
 	static ZLimbStandard* FromRawData(std::vector<uint8_t> nRawData, int rawDataIndex);
-	std::string GetSourceOutputCode(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
 	virtual int GetRawDataSize();
 };
 
@@ -36,7 +36,7 @@ struct ZLimbLOD : ZLimbStandard
 	ZLimbLOD();
 	//static ZLimbLOD* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* parent);
 	static ZLimbLOD* FromRawData(std::vector<uint8_t> nRawData, int rawDataIndex);
-	std::string GetSourceOutputCode(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
 	virtual int GetRawDataSize();
 };
 
@@ -58,7 +58,7 @@ public:
 	ZSkeleton();
 	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
 	static ZSkeleton* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* nParent);
-	void Save(std::string outFolder);
+	void Save(const std::string& outFolder);
 
-	std::string GetSourceOutputCode(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix);
 };

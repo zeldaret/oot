@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\OpenFBX">
-      <UniqueIdentifier>{c5d86b0a-fff0-47cf-83af-807dd8267ad1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Libraries">
       <UniqueIdentifier>{02148456-5068-4613-8478-f10addc58e70}</UniqueIdentifier>
     </Filter>
@@ -144,7 +141,7 @@
     <ClCompile Include="ZRoom\Commands\SetCutscenes.cpp">
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="tinyxml2.cpp">
+    <ClCompile Include="..\lib\tinyxml2\tinyxml2.cpp">
       <Filter>Source Files\Libraries</Filter>
     </ClCompile>
     <ClCompile Include="ZAnimation.cpp">
@@ -190,6 +187,12 @@
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
     <ClCompile Include="ZCollision.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZScalar.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZVector.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,40 +251,40 @@
     <ClInclude Include="ZRoom\Commands\SetStartPositionList.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elf_types.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elf_types.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_dump.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_dump.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_dynamic.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_dynamic.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_header.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_header.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_note.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_note.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_relocation.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_relocation.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_section.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_section.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_segment.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_segment.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_strings.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_strings.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_symbols.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_symbols.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
-    <ClInclude Include="elfio\elfio_utils.hpp">
+    <ClInclude Include="..\lib\elfio\elfio\elfio_utils.hpp">
       <Filter>Header Files\Libraries\elfio</Filter>
     </ClInclude>
     <ClInclude Include="StringHelper.h">
@@ -335,25 +338,16 @@
     <ClInclude Include="Vec3s.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenFBX\ofbx.h">
-      <Filter>Header Files\OpenFBX</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenFBX\miniz.h">
-      <Filter>Header Files\OpenFBX</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
+    <ClInclude Include="..\lib\json\include\nlohmann\json.hpp">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="..\lib\stb\stb_image.h">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image_write.h">
+    <ClInclude Include="..\lib\stb\stb_image_write.h">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="tiny_gltf.h">
-      <Filter>Header Files\Libraries</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyxml2.h">
+    <ClInclude Include="..\lib\tinygtlf\tiny_gltf.h">
       <Filter>Header Files\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="Overlays\ZOverlay.h">
@@ -404,11 +398,17 @@
     <ClInclude Include="ZRoom\Commands\ZRoomCommandUnk.h">
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="sqlite_orm.h">
-      <Filter>Header Files\Libraries</Filter>
-    </ClInclude>
     <ClInclude Include="ZCollision.h">
       <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZScalar.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZVector.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\stb\tinyxml2.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,7 +417,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Libs\assimp-vc142-mt.dll">
+    <CopyFileToFolders Include="..\lib\assimp-built\assimp-vc142-mt.dll">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>

@@ -41,7 +41,7 @@ void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc acti
 }
 
 void BgMoriIdomizu_SetWaterLevel(GlobalContext* globalCtx, s16 waterLevel) {
-    WaterBox* waterBox = globalCtx->colCtx.stat.colHeader->waterBoxes;
+    WaterBox* waterBox = globalCtx->colCtx.colHeader->waterBoxes;
 
     waterBox[2].ySurface = waterLevel;
     waterBox[3].ySurface = waterLevel;
