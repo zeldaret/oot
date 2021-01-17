@@ -1,7 +1,32 @@
+def cancelRedundantBuilds() {
+    def jobName = env.JOB_NAME
+    def buildNumber = env.BUILD_NUMBER.toInteger()
+    def currentJob = Jenkins.instance.getItemByFullName(jobName)
+
+    for (def build : currentJob.builds) {
+        def exec = build.getExecutor()
+
+        if (build.isBuilding() && build.number.toInteger() != buildNumber && exec != null) {
+            exec.interrupt(
+                Result.ABORTED,
+                new CauseOfInterruption.UserInterruption("Job aborted by #${currentBuild.number}")
+            )
+            println("Job aborted previously running build#${build.number}")
+        }
+    }
+}
+
 pipeline {
     agent any
 
     stages {
+        stage('Cancel redundant builds') {
+            steps {
+                script {
+                    cancelRedundantBuilds()
+                }
+            }
+        }
         stage('Check for unused asm') {
             steps {
                 sh './tools/find_unused_asm.sh'
