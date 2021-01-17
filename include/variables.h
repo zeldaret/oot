@@ -238,7 +238,7 @@ extern u16 D_8011FB40;
 //extern ? D_8011FED0;
 extern s32 gZeldaArenaLogSeverity;
 extern s16 D_80120130;
-//extern ? D_80120134;
+extern s16 D_80120134;
 //extern ? D_80120138;
 //extern ? D_8012013C;
 //extern ? D_8012021C;
