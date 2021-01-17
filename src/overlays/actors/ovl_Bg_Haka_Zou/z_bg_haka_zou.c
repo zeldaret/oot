@@ -116,7 +116,7 @@ void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaZou* this = THIS;
 
     if (this->dyna.actor.params != STA_UNKNOWN) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
@@ -179,8 +179,7 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
             this->collider.dim.height = 20;
         }
 
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
         if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actionFunc = BgHakaZou_Do_Nothing;
