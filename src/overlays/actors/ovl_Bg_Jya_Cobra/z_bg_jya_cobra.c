@@ -302,7 +302,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
 /*
  * Updates the shadow with light coming from the side of the mirror
  */
-void BgJyaCobra_UpdateShadow_Side(BgJyaCobra* this) {
+void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
@@ -389,7 +389,7 @@ void BgJyaCobra_UpdateShadow_Side(BgJyaCobra* this) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadow_Side.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadowFromSide.s")
 #endif
 
 #ifdef NON_MATCHING
@@ -397,7 +397,7 @@ void BgJyaCobra_UpdateShadow_Side(BgJyaCobra* this) {
 /*
  * Updates the shadow with light coming from above the mirror
  */
-void BgJyaCobra_UpdateShadow_Top(BgJyaCobra* this) {
+void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     f32 sp58[0x40];
     f32 temp_f12;
     f32 temp_f2;
@@ -439,7 +439,7 @@ void BgJyaCobra_UpdateShadow_Top(BgJyaCobra* this) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadow_Top.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadowFromTop.s")
 #endif
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -462,7 +462,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 3) == 1) {
-        BgJyaCobra_UpdateShadow_Top(this);
+        BgJyaCobra_UpdateShadowFromTop(this);
     }
 
     // (jya cobra)
@@ -571,16 +571,16 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
 
 void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
-    s32 temp_v0;
+    s32 params;
 
     this->actionFunc(this, globalCtx);
 
     func_80895C74(this, globalCtx);
     func_80895A70(this);
 
-    temp_v0 = this->dyna.actor.params & 3;
-    if (temp_v0 == 0 || temp_v0 == 2) {
-        BgJyaCobra_UpdateShadow_Side(this);
+    params = this->dyna.actor.params & 3;
+    if (params == 0 || params == 2) {
+        BgJyaCobra_UpdateShadowFromSide(this);
     }
 }
 

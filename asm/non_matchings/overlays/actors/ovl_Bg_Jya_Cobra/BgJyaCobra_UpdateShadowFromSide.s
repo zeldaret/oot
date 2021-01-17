@@ -13,7 +13,7 @@ glabel D_80897730
     .float 0.2
 
 .text
-glabel BgJyaCobra_UpdateShadow_Side
+glabel BgJyaCobra_UpdateShadowFromSide
 /* 00600 80895EF0 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 00604 80895EF4 AFB20048 */  sw      $s2, 0x0048($sp)           
 /* 00608 80895EF8 AFB00040 */  sw      $s0, 0x0040($sp)           
@@ -82,10 +82,10 @@ glabel BgJyaCobra_UpdateShadow_Side
 /* 006F8 80895FE8 4481B000 */  mtc1    $at, $f22                  ## $f22 = 0.50
 /* 006FC 80895FEC 3C018089 */  lui     $at, %hi(D_8089772C)       ## $at = 80890000
 /* 00700 80895FF0 3C148089 */  lui     $s4, %hi(D_808973A4)       ## $s4 = 80890000
-/* 00704 80895FF4 3C178089 */  lui     $s7, %hi(D_808973A4)       ## $s7 = 80890000
+/* 00704 80895FF4 3C178089 */  lui     $s7, %hi(D_808973A4 + 0xC)       ## $s7 = 80890000
 /* 00708 80895FF8 3C108089 */  lui     $s0, %hi(D_8089731C)       ## $s0 = 80890000
 /* 0070C 80895FFC 2610731C */  addiu   $s0, $s0, %lo(D_8089731C)  ## $s0 = 8089731C
-/* 00710 80896000 26F773B0 */  addiu   $s7, $s7, %lo(D_808973A4) + 0xC  ## $s7 = 808973B0
+/* 00710 80896000 26F773B0 */  addiu   $s7, $s7, %lo(D_808973A4 + 0xC)  ## $s7 = 808973B0
 /* 00714 80896004 269473A4 */  addiu   $s4, $s4, %lo(D_808973A4)  ## $s4 = 808973A4
 /* 00718 80896008 C434772C */  lwc1    $f20, %lo(D_8089772C)($at) 
 /* 0071C 8089600C 27BE00C8 */  addiu   $s8, $sp, 0x00C8           ## $s8 = FFFFFFE8
