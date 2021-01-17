@@ -1,4 +1,4 @@
-glabel func_809E1E90
+glabel EnCs_GetPathPoint
 /* 005E0 809E1E90 000670C0 */  sll     $t6, $a2,  3               
 /* 005E4 809E1E94 008E7821 */  addu    $t7, $a0, $t6              
 /* 005E8 809E1E98 8DE80004 */  lw      $t0, 0x0004($t7)           ## 00000004

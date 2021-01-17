@@ -60,14 +60,14 @@ glabel EnCs_Init
 /* 001F4 809E1AA4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 001F8 809E1AA8 0C00B92D */  jal     func_8002E4B4
 /* 001FC 809E1AAC E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 00200 809E1AB0 3C03809E */  lui     $v1, %hi(D_809E2918)       ## $v1 = 809E0000
-/* 00204 809E1AB4 24632918 */  addiu   $v1, $v1, %lo(D_809E2918)  ## $v1 = 809E2918
+/* 00200 809E1AB0 3C03809E */  lui     $v1, %hi(sAnimations)       ## $v1 = 809E0000
+/* 00204 809E1AB4 24632918 */  addiu   $v1, $v1, %lo(sAnimations)  ## $v1 = 809E2918
 /* 00208 809E1AB8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0020C 809E1ABC 8C640000 */  lw      $a0, 0x0000($v1)           ## 809E2918
 /* 00210 809E1AC0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
-/* 00214 809E1AC4 3C03809E */  lui     $v1, %hi(D_809E2918)       ## $v1 = 809E0000
-/* 00218 809E1AC8 24632918 */  addiu   $v1, $v1, %lo(D_809E2918)  ## $v1 = 809E2918
+/* 00214 809E1AC4 3C03809E */  lui     $v1, %hi(sAnimations)       ## $v1 = 809E0000
+/* 00218 809E1AC8 24632918 */  addiu   $v1, $v1, %lo(sAnimations)  ## $v1 = 809E2918
 /* 0021C 809E1ACC 468021A0 */  cvt.s.w $f6, $f4
 /* 00220 809E1AD0 90690008 */  lbu     $t1, 0x0008($v1)           ## 809E2920
 /* 00224 809E1AD4 C468000C */  lwc1    $f8, 0x000C($v1)           ## 809E2924

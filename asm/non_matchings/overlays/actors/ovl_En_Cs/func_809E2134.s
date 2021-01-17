@@ -115,7 +115,7 @@ glabel func_809E2134
 /* 00A04 809E22B4 00000000 */  nop
 /* 00A08 809E22B8 E4F2020C */  swc1    $f18, 0x020C($a3)          ## 0000020C
 .L809E22BC:
-/* 00A0C 809E22BC 0C2787C8 */  jal     func_809E1F20              
+/* 00A0C 809E22BC 0C2787C8 */  jal     EnCs_HandleRunning              
 /* 00A10 809E22C0 8FA5001C */  lw      $a1, 0x001C($sp)           
 .L809E22C4:
 /* 00A14 809E22C4 8FBF0014 */  lw      $ra, 0x0014($sp)           

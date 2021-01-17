@@ -5,7 +5,7 @@ glabel D_809E29D0
  .word 0x41270A3D
 
 .text
-glabel func_809E1F20
+glabel EnCs_HandleRunning
 /* 00670 809E1F20 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00674 809E1F24 AFBF004C */  sw      $ra, 0x004C($sp)           
 /* 00678 809E1F28 AFB20048 */  sw      $s2, 0x0048($sp)           
@@ -23,7 +23,7 @@ glabel func_809E1F20
 /* 006A8 809E1F58 8E241E08 */  lw      $a0, 0x1E08($s1)           ## 00001E08
 /* 006AC 809E1F5C 02402825 */  or      $a1, $s2, $zero            ## $a1 = FFFFFFEC
 /* 006B0 809E1F60 8E0701FC */  lw      $a3, 0x01FC($s0)           ## 000001FC
-/* 006B4 809E1F64 0C2787A4 */  jal     func_809E1E90              
+/* 006B4 809E1F64 0C2787A4 */  jal     EnCs_GetPathPoint              
 /* 006B8 809E1F68 8E0601F4 */  lw      $a2, 0x01F4($s0)           ## 000001F4
 /* 006BC 809E1F6C C7A40064 */  lwc1    $f4, 0x0064($sp)           
 /* 006C0 809E1F70 C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
@@ -62,7 +62,7 @@ glabel func_809E1F20
 /* 00740 809E1FF0 8E0501F4 */  lw      $a1, 0x01F4($s0)           ## 000001F4
 /* 00744 809E1FF4 25090001 */  addiu   $t1, $t0, 0x0001           ## $t1 = 00000001
 /* 00748 809E1FF8 AE0901FC */  sw      $t1, 0x01FC($s0)           ## 000001FC
-/* 0074C 809E1FFC 0C2787A0 */  jal     func_809E1E80              
+/* 0074C 809E1FFC 0C2787A0 */  jal     EnCs_GetPathPointCount              
 /* 00750 809E2000 8E241E08 */  lw      $a0, 0x1E08($s1)           ## 00001E08
 /* 00754 809E2004 8E0701FC */  lw      $a3, 0x01FC($s0)           ## 000001FC
 /* 00758 809E2008 02402825 */  or      $a1, $s2, $zero            ## $a1 = FFFFFFEC
@@ -75,7 +75,7 @@ glabel func_809E1F20
 /* 00770 809E2020 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00774 809E2024 8E241E08 */  lw      $a0, 0x1E08($s1)           ## 00001E08
 .L809E2028:
-/* 00778 809E2028 0C2787A4 */  jal     func_809E1E90              
+/* 00778 809E2028 0C2787A4 */  jal     EnCs_GetPathPoint              
 /* 0077C 809E202C 8E0601F4 */  lw      $a2, 0x01F4($s0)           ## 000001F4
 /* 00780 809E2030 C7B00064 */  lwc1    $f16, 0x0064($sp)          
 /* 00784 809E2034 C6120024 */  lwc1    $f18, 0x0024($s0)          ## 00000024
