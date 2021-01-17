@@ -229,142 +229,142 @@ void func_809B3DD8(EnArrow* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
-// void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
-//     Vec3f sp94;
-//     u32 bgId;
-//     Vec3f hitPoint; // sp84
-//     Vec3f posCopy;
-//     Vec3f sp60;
-//     Vec3f sp54;
-//     Actor* hitActor;
-//     ColliderBody* atHit;
-//     s32 cond;
-//     u16 sfxId;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
+void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
+    Vec3f sp94;
+    u32 bgId;
+    Vec3f hitPoint; // sp84
+    Vec3f posCopy;
+    Vec3f sp60;
+    Vec3f sp54;
+    Actor* hitActor;
+    ColliderBody* atHit;
+    s32 cond;
+    u16 sfxId;
 
-//     if (DECR(this->timer) == 0) {
-//         Actor_Kill(this);
-//         return;
-//     }
+    if (DECR(this->timer) == 0) {
+        Actor_Kill(this);
+        return;
+    }
 
-//     if (this->timer < 7.2f) {
-//         this->actor.gravity = -0.4f;
-//     }
+    if (this->timer < 7.2f) {
+        this->actor.gravity = -0.4f;
+    }
 
-//     cond = this->actor.params != 0;
+    cond = this->actor.params != 0;
 
-//     if (cond) {
-//         cond = this->actor.params < 0xA;
-//         if (cond) {
-//             cond = (this->collider.base.atFlags & 2) != 0;
-//         }
-//     }
+    if (cond) {
+        cond = this->actor.params < 0xA;
+        if (cond) {
+            cond = (this->collider.base.atFlags & 2) != 0;
+        }
+    }
 
-//     if ((cond) || (this->hitPoly)) {
-//         if (this->actor.params >= 9) {
-//             if (cond) {
-//                 this->actor.posRot.pos.x = (this->actor.posRot.pos.x + this->actor.pos4.x) * 0.5f;
-//                 this->actor.posRot.pos.y = (this->actor.posRot.pos.y + this->actor.pos4.y) * 0.5f;
-//                 this->actor.posRot.pos.z = (this->actor.posRot.pos.z + this->actor.pos4.z) * 0.5f;
-//             }
+    if ((cond) || (this->hitPoly)) {
+        if (this->actor.params >= 9) {
+            if (cond) {
+                this->actor.posRot.pos.x = (this->actor.posRot.pos.x + this->actor.pos4.x) * 0.5f;
+                this->actor.posRot.pos.y = (this->actor.posRot.pos.y + this->actor.pos4.y) * 0.5f;
+                this->actor.posRot.pos.z = (this->actor.posRot.pos.z + this->actor.pos4.z) * 0.5f;
+            }
 
-//             // sfx is weird
-//             if (this->actor.params == 0xA) {
-//                 iREG(50) = -1;
-//                 sfxId = NA_SE_IT_SLING_REFLECT;
-//                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_FIRE1, this->actor.posRot.pos.x,
-//                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+            // sfx is weird
+            if (this->actor.params == 0xA) {
+                iREG(50) = -1;
+                sfxId = NA_SE_IT_SLING_REFLECT;
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_FIRE1, this->actor.posRot.pos.x,
+                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
 
-//             } else {
-//                 sfxId = NA_SE_IT_DEKU;
-//             }
+            } else {
+                sfxId = NA_SE_IT_DEKU;
+            }
 
-//             EffectSsStone1_Spawn(globalCtx, &this->actor.posRot, 0);
-//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, sfxId);
-//             Actor_Kill(this);
-//         } else {
-//             EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.posRot);
+            EffectSsStone1_Spawn(globalCtx, &this->actor.posRot, 0);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, sfxId);
+            Actor_Kill(this);
+        } else {
+            EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.posRot);
 
-//             // might need to do this in the if?
-//             atHit = this->collider.body.atHitItem;
+            // might need to do this in the if?
+            atHit = this->collider.body.atHitItem;
 
-//             if ((cond != 0) && (atHit->flags != 4)) {
-//                 hitActor = this->collider.base.at;
+            if ((cond != 0) && (atHit->flags != 4)) {
+                hitActor = this->collider.base.at;
 
-//                 if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & 4)) && (hitActor->flags & 0x4000))
-//                 {
-//                     this->hitActor = hitActor;
-//                     func_809B3DD8(this, globalCtx);
-//                     Math_Vec3f_Diff(&hitActor->posRot, &this->actor.posRot, &this->unk_250);
-//                     hitActor->flags |= 0x8000;
-//                     this->collider.base.atFlags &= ~2;
-//                     this->actor.speedXZ *= 0.5f;
-//                     this->actor.velocity.y *= 0.5f;
-//                 } else {
-//                     this->hitFlags |= 1;
-//                     this->hitFlags |= 2;
+                if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & 4)) && (hitActor->flags & 0x4000))
+                {
+                    this->hitActor = hitActor;
+                    func_809B3DD8(this, globalCtx);
+                    Math_Vec3f_Diff(&hitActor->posRot, &this->actor.posRot, &this->unk_250);
+                    hitActor->flags |= 0x8000;
+                    this->collider.base.atFlags &= ~2;
+                    this->actor.speedXZ *= 0.5f;
+                    this->actor.velocity.y *= 0.5f;
+                } else {
+                    this->hitFlags |= 1;
+                    this->hitFlags |= 2;
 
-//                     if (atHit->bumperFlags & 2) {
-//                         this->actor.posRot.pos.x = atHit->bumper.unk_06.x;
-//                         this->actor.posRot.pos.y = atHit->bumper.unk_06.y;
-//                         this->actor.posRot.pos.z = atHit->bumper.unk_06.z;
-//                     }
+                    if (atHit->bumperFlags & 2) {
+                        this->actor.posRot.pos.x = atHit->bumper.unk_06.x;
+                        this->actor.posRot.pos.y = atHit->bumper.unk_06.y;
+                        this->actor.posRot.pos.z = atHit->bumper.unk_06.z;
+                    }
 
-//                     func_809B3CEC(globalCtx, this);
-//                     Audio_PlayActorSound2(this, NA_SE_IT_ARROW_STICK_CRE);
-//                 }
-//             } else if (this->hitPoly) {
-//                 EnArrow_SetupAction(this, func_809B45E0);
-//                 Animation_PlayOnce(&this->skelAnime, &D_0400436C);
-//                 this->timer = (this->actor.params >= 0) ? 60 : 20;
-//                 Audio_PlayActorSound2(this, NA_SE_IT_ARROW_STICK_OBJ);
-//                 this->hitFlags |= 1;
-//             }
-//         }
-//     } else {
-//         Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
-//         Actor_MoveForward(&this->actor);
-//         this->hitPoly = BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
-//                                                    &hitPoint, &this->actor.wallPoly, true, true, true, true, &bgId);
-//         // !! ?
-//         if (this->hitPoly) {
-//             func_8002F9EC(globalCtx, this, this->actor.wallPoly, bgId, &hitPoint);
-//             Math_Vec3f_Copy(&posCopy, &this->actor.posRot);
-//             Math_Vec3f_Copy(&this->actor.posRot, &hitPoint);
-//         }
+                    func_809B3CEC(globalCtx, this);
+                    Audio_PlayActorSound2(this, NA_SE_IT_ARROW_STICK_CRE);
+                }
+            } else if (this->hitPoly) {
+                EnArrow_SetupAction(this, func_809B45E0);
+                Animation_PlayOnce(&this->skelAnime, &D_0400436C);
+                this->timer = (this->actor.params >= 0) ? 60 : 20;
+                Audio_PlayActorSound2(this, NA_SE_IT_ARROW_STICK_OBJ);
+                this->hitFlags |= 1;
+            }
+        }
+    } else {
+        Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
+        Actor_MoveForward(&this->actor);
+        this->hitPoly = BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
+                                                   &hitPoint, &this->actor.wallPoly, true, true, true, true, &bgId);
+        // !! ?
+        if (this->hitPoly) {
+            func_8002F9EC(globalCtx, this, this->actor.wallPoly, bgId, &hitPoint);
+            Math_Vec3f_Copy(&posCopy, &this->actor.posRot);
+            Math_Vec3f_Copy(&this->actor.posRot, &hitPoint);
+        }
 
-//         if (this->actor.params < 9) {
-//             this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
-//         }
-//     }
+        if (this->actor.params < 9) {
+            this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
+        }
+    }
 
-//     if (this->hitActor != NULL) {
-//         if (this->hitActor->update != NULL) {
-//             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
-//             Math_Vec3f_Sum(&this->actor.posRot, &this->unk_250, &sp54);
+    if (this->hitActor != NULL) {
+        if (this->hitActor->update != NULL) {
+            Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
+            Math_Vec3f_Sum(&this->actor.posRot, &this->unk_250, &sp54);
 
-//             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &sp94, 1, 1, 1, 1, &bgId) != 0)
-//             {
-//                 this->hitActor->posRot.pos.x = hitPoint.x + (sp54.x <= hitPoint.x) ? 1.0f : -1.0f;
-//                 this->hitActor->posRot.pos.y = hitPoint.y + (sp54.y <= hitPoint.y) ? 1.0f : -1.0f;
-//                 this->hitActor->posRot.pos.z = hitPoint.z + (sp54.z <= hitPoint.z) ? 1.0f : -1.0f;
-//                 Math_Vec3f_Diff(&this->hitActor->posRot, &this->actor.posRot, &this->unk_250);
-//                 this->hitActor->flags &= ~0x8000;
-//                 this->hitActor = NULL;
-//             } else {
-//                 Math_Vec3f_Sum(&this->actor.posRot, &this->unk_250, &this->hitActor->posRot);
-//             }
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &sp94, 1, 1, 1, 1, &bgId) != 0)
+            {
+                this->hitActor->posRot.pos.x = hitPoint.x + (sp54.x <= hitPoint.x) ? 1.0f : -1.0f;
+                this->hitActor->posRot.pos.y = hitPoint.y + (sp54.y <= hitPoint.y) ? 1.0f : -1.0f;
+                this->hitActor->posRot.pos.z = hitPoint.z + (sp54.z <= hitPoint.z) ? 1.0f : -1.0f;
+                Math_Vec3f_Diff(&this->hitActor->posRot, &this->actor.posRot, &this->unk_250);
+                this->hitActor->flags &= ~0x8000;
+                this->hitActor = NULL;
+            } else {
+                Math_Vec3f_Sum(&this->actor.posRot, &this->unk_250, &this->hitActor->posRot);
+            }
 
-//             if ((this->hitPoly) && (this->hitActor != NULL)) {
-//                 this->hitActor->flags &= ~0x8000;
-//                 this->hitActor = NULL;
-//             }
+            if ((this->hitPoly) && (this->hitActor != NULL)) {
+                this->hitActor->flags &= ~0x8000;
+                this->hitActor = NULL;
+            }
 
-//         } else {
-//             this->hitActor = NULL;
-//         }
-//     }
-// }
+        } else {
+            this->hitActor = NULL;
+        }
+    }
+}
 
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
