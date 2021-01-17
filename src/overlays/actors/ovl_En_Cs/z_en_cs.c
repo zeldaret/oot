@@ -9,15 +9,14 @@ void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809E2134(EnCs* this, GlobalContext* globalCtx);
-void func_809E2360(EnCs* this, GlobalContext* globalCtx);
-void func_809E22D4(EnCs* this, GlobalContext* globalCtx);
-void func_809E2134(EnCs* this, GlobalContext* globalCtx);
+void EnCs_Walk(EnCs* this, GlobalContext* globalCtx);
+void EnCs_Talk(EnCs* this, GlobalContext* globalCtx);
+void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-extern UNK_TYPE D_06008540;
-extern Gfx D_0602AF70[];
+extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
+extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -48,7 +47,7 @@ static struct_D_80AA1678 sAnimations[] = {
     { 0x0600195C, 1.0f, 2, -10.0f },
 };
 
-void func_809E18B0(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
+void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
     f32 transitionRate;
 
     if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
@@ -95,15 +94,15 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.unk_1F = 6;
     this->path = this->actor.params & 0xFF;
-    this->unk_1EC = 0;
+    this->unk_1EC = 0; // This variable is unused anywhere else
     this->talkState = 0;
     this->currentAnimIndex = -1;
     this->actor.gravity = -1.0f;
 
-    func_809E18B0(this, 0, &this->currentAnimIndex);
+    EnCs_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
 
-    this->actionFunc = func_809E2134;
-    this->runSpeed = 1.0f;
+    this->actionFunc = EnCs_Walk;
+    this->walkSpeed = 1.0f;
 }
 
 void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -112,7 +111,7 @@ void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-s32 func_809E1B8C(EnCs* this, GlobalContext* globalCtx) {
+s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
     s32 talkState = 1;
@@ -122,11 +121,11 @@ s32 func_809E1B8C(EnCs* this, GlobalContext* globalCtx) {
             if (func_80106BC8(globalCtx) != 0) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
-                    func_809E18B0(this, 3, &this->currentAnimIndex);
+                    EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
                     talkState = 2;
                 } else {
                     this->actor.textId = 0x2024;
-                    func_809E18B0(this, 1, &this->currentAnimIndex);
+                    EnCs_SetAnimFromIndex(this, 1, &this->currentAnimIndex);
                     talkState = 2;
                 }
             }
@@ -156,7 +155,7 @@ s32 func_809E1B8C(EnCs* this, GlobalContext* globalCtx) {
     return talkState;
 }
 
-s32 func_809E1CB8(EnCs* this, GlobalContext* globalCtx) {
+s32 EnCs_GetTextID(EnCs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 textId = Text_GetFaceReaction(globalCtx, 15);
 
@@ -175,7 +174,7 @@ s32 func_809E1CB8(EnCs* this, GlobalContext* globalCtx) {
     return textId;
 }
 
-void func_809E1D38(EnCs* this, GlobalContext* globalCtx) {
+void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 sp2A;
     s16 sp28;
@@ -184,14 +183,14 @@ void func_809E1D38(EnCs* this, GlobalContext* globalCtx) {
         func_8010B720(globalCtx, this->actor.textId);
         this->talkState = 1;
     } else if (this->talkState == 1) {
-        this->talkState = func_809E1B8C(this, globalCtx);
+        this->talkState = EnCs_GetTalkState(this, globalCtx);
     } else if (func_8002F194(&this->actor, globalCtx)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
-            func_809E18B0(this, 3, &this->currentAnimIndex);
+            EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
         }
 
         if ((this->actor.textId == 0x2023) || (this->actor.textId == 0x2028)) {
-            func_809E18B0(this, 1, &this->currentAnimIndex);
+            EnCs_SetAnimFromIndex(this, 1, &this->currentAnimIndex);
         }
 
         if (this->actor.textId == 0x2023) {
@@ -203,12 +202,12 @@ void func_809E1D38(EnCs* this, GlobalContext* globalCtx) {
         func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (func_8002F2CC(this, globalCtx, 100.0f))) {
-            this->actor.textId = func_809E1CB8(this, globalCtx);
+            this->actor.textId = EnCs_GetTextID(this, globalCtx);
         }
     }
 }
 
-s32 EnCs_GetPathPointCount(Path* pathList, s32 pathIndex) {
+s32 EnCs_GetwaypointCount(Path* pathList, s32 pathIndex) {
     Path* path = &pathList[pathIndex];
 
     return path->count;
@@ -228,104 +227,53 @@ s32 EnCs_GetPathPoint(Path* pathList, Vec3f* dest, s32 pathIndex, s32 waypoint) 
     return 0;
 }
 
-s32 EnCs_HandleRunning(EnCs* this, GlobalContext* globalCtx) {
+s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
     f32 xDiff;
     f32 zDiff;
     Vec3f pathPos;
-    s32 pathPointCount;
-    s16 angle1;
-    s16 angle2;
+    s32 waypointCount;
+    s16 walkAngle1;
+    s16 walkAngle2;
 
     EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.posRot.pos.x;
     zDiff = pathPos.z - this->actor.posRot.pos.z;
-    angle1 = Math_FAtan2F(xDiff, zDiff) * 10430.378f;
-    this->unk_204 = angle1;
-    this->runDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
+    walkAngle1 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+    this->walkAngle = walkAngle1;
+    this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
 
-    while (this->runDist <= 10.44f) {
+    while (this->walkDist <= 10.44f) {
         this->waypoint++;
-        pathPointCount = EnCs_GetPathPointCount(globalCtx->setupPathList, this->path);
+        waypointCount = EnCs_GetwaypointCount(globalCtx->setupPathList, this->path);
 
-        if ((this->waypoint < 0) || (!(this->waypoint < pathPointCount))) {
+        if ((this->waypoint < 0) || (!(this->waypoint < waypointCount))) {
             this->waypoint = 0;
         }
 
         EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.posRot.pos.x;
         zDiff = pathPos.z - this->actor.posRot.pos.z;
-        angle2 = Math_FAtan2F(xDiff, zDiff) * 10430.378f;
-        this->unk_204 = angle2;
-        this->runDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
+        walkAngle2 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+        this->walkAngle = walkAngle2;
+        this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
     }
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_204, 1, 2500, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->walkAngle, 1, 2500, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->actor.speedXZ = this->runSpeed;
+    this->actor.speedXZ = this->walkSpeed;
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     return 0;
 }
 
-// void func_809E2134(EnCs* this, GlobalContext* globalCtx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cs/func_809E2134.s")
-void func_809E2134(EnCs* this, GlobalContext* globalCtx) {
-    s32 phi_v0;
-    s32 phi_a1;
-
-    if (this->talkState != 0) {
-        this->actionFunc = func_809E2360;
-        return;
-    }
-
-    if (SkelAnime_Update(&this->skelAnime)) {
-        phi_a1 = this->currentAnimIndex;
-
-        if (this->talkState == 0) {
-            if (gSaveContext.itemGetInf[3] & 0x400) {
-                phi_v0 = Rand_ZeroOne() * 10.0f;
-            } else {
-                phi_v0 = Rand_ZeroOne() * 5.0f;
-            }
-
-            phi_a1 = 0;
-
-            if (phi_v0 == 0) {
-                phi_a1 = 2;
-
-                if (gSaveContext.itemGetInf[3] & 0x400) {
-                    phi_a1 = 2.0f * Rand_ZeroOne();
-                    phi_a1 = (phi_a1 == 0) ? 2 : 1;
-                }
-
-                this->actionFunc = func_809E22D4;
-            }
-        }
-
-        func_809E18B0(this, phi_a1, &this->currentAnimIndex);
-    }
-
-    if (this->talkState == 0) {
-        if (((s32)this->skelAnime.curFrame < 8) || ((s32)this->skelAnime.curFrame >= 16)) {
-            if (((s32)this->skelAnime.curFrame < 23) || ((s32)this->skelAnime.curFrame >= 30)) {
-                if ((s32)this->skelAnime.curFrame != 0) {
-                    this->runSpeed = 1.0f;
-                }
-            } else {
-                this->runSpeed = 0.0f;
-            }
-        }
-
-        EnCs_HandleRunning(this, globalCtx);
-    }
-}
-
-void func_809E22D4(EnCs* this, GlobalContext* globalCtx) {
+void EnCs_Walk(EnCs* this, GlobalContext* globalCtx) {
+    s32 rnd;
     s32 animIndex;
+    s32 curAnimFrame;
 
     if (this->talkState != 0) {
-        this->actionFunc = func_809E2360;
+        this->actionFunc = EnCs_Talk;
         return;
     }
 
@@ -333,24 +281,73 @@ void func_809E22D4(EnCs* this, GlobalContext* globalCtx) {
         animIndex = this->currentAnimIndex;
 
         if (this->talkState == 0) {
-            if (this->unk_200 > 0) {
-                this->unk_200--;
-                animIndex = this->currentAnimIndex;
+            if (gSaveContext.itemGetInf[3] & 0x400) {
+                rnd = Rand_ZeroOne() * 10.0f;
+            } else {
+                rnd = Rand_ZeroOne() * 5.0f;
+            }
+
+            if (rnd == 0) {
+                if (gSaveContext.itemGetInf[3] & 0x400) {
+                    animIndex = 2.0f * Rand_ZeroOne();
+                    animIndex = (animIndex == 0) ? 2 : 1;
+                } else {
+                    animIndex = 2;
+                }
+
+                this->actionFunc = EnCs_Wait;
             } else {
                 animIndex = 0;
-                this->actionFunc = func_809E2134;
             }
         }
 
-        func_809E18B0(this, animIndex, &this->currentAnimIndex);
+        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+    }
+
+    if (this->talkState == 0) {
+        curAnimFrame = this->skelAnime.curFrame;
+
+        if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
+            (curAnimFrame == 0)) {
+            this->walkSpeed = 0.0f;
+        } else {
+            this->walkSpeed = 1.0f;
+        }
+
+        EnCs_HandleWalking(this, globalCtx);
     }
 }
 
-void func_809E2360(EnCs* this, GlobalContext* globalCtx) {
+void EnCs_Wait(EnCs* this, GlobalContext* globalCtx) {
+    s32 animIndex;
+
+    if (this->talkState != 0) {
+        this->actionFunc = EnCs_Talk;
+        return;
+    }
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        animIndex = this->currentAnimIndex;
+
+        if (this->talkState == 0) {
+            if (this->animLoopCount > 0) {
+                this->animLoopCount--;
+                animIndex = this->currentAnimIndex;
+            } else {
+                animIndex = 0;
+                this->actionFunc = EnCs_Walk;
+            }
+        }
+
+        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+    }
+}
+
+void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        func_809E18B0(this, this->currentAnimIndex, &this->currentAnimIndex);
+        EnCs_SetAnimFromIndex(this, this->currentAnimIndex, &this->currentAnimIndex);
     }
 
     this->flag |= 1;
@@ -360,8 +357,8 @@ void func_809E2360(EnCs* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->npcInfo, 0, 4);
 
     if (this->talkState == 0) {
-        func_809E18B0(this, 0, &this->currentAnimIndex);
-        this->actionFunc = func_809E2134;
+        EnCs_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+        this->actionFunc = EnCs_Walk;
         this->flag &= ~1;
     }
 }
@@ -388,7 +385,7 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    func_809E1D38(this, globalCtx);
+    EnCs_HandleTalking(this, globalCtx);
 
     this->eyeBlinkTimer--;
 
@@ -404,7 +401,7 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u32* eyeTextures[] = { 0x06002130, 0x06002930, 0x06003130 };
+    static u64* eyeTextures[] = { 0x06002130, 0x06002930, 0x06003130 };
     EnCs* this = THIS;
     s32 pad;
 
@@ -419,6 +416,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.itemGetInf[3] & 0x400) {
         s32 childLinkObjectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
 
+        // Handle attaching the Spooky Mask to the boy's face
         if (childLinkObjectIndex >= 0) {
             Mtx* mtx;
 
