@@ -29,14 +29,14 @@ extern Gfx D_8099EB60[];
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D0.s")
 
-void func_8099D8D0(EffDust* this, void (*callback)()) {
+void func_8099D8D0(EffDust* this, EffDustActionFunc callback) {
     this->unk_0560 = callback;
 }
 
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D8.s")
 
-void func_8099D8D8(EffDust* this, void (*callback)()) {
+void func_8099D8D8(EffDust* this, EffDustActionFunc callback) {
     this->unk_0564 = callback;
 }
 
@@ -56,18 +56,24 @@ void EffDust_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DB28.s")
 
+f32 func_8099DB28(EffDust* this, GlobalContext* globalCtx);
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DD74.s")
 
+f32 func_8099DD74(EffDust* this, GlobalContext* globalCtx);
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DFC0.s")
+
+f32 func_8099DFC0(EffDust* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E4F4.s")
 
-void func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
+f32 func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E784.s")
 
-void func_8099E784(EffDust* this, GlobalContext* globalCtx);
+f32 func_8099E784(EffDust* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Draw.s")
