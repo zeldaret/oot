@@ -32,20 +32,16 @@ const ActorInit Eff_Dust_InitVars = {
 };
 
 static Gfx *D_8099EB60[] = {
- 0xDF000000, 0x00000000, 0x00000000, 0x00000000
+    0xDF000000, 0x00000000, 0x00000000, 0x00000000
 };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D0.s")
 
-void func_8099D8D0(EffDust* this, EffDustActionFunc callback) {
-    this->unk_0560 = callback;
+void EffDust_setUpdateFunc(EffDust* this, EffDustActionFunc callback_updateFunc) {
+    this->updateFunc = callback_updateFunc;
 }
 
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8D8.s")
-
-void func_8099D8D8(EffDust* this, EffDustActionFunc callback) {
-    this->unk_0564 = callback;
+void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
+    this->drawFunc = callback_drawFunc;
 }
 
 
@@ -62,8 +58,8 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     switch(sp20){
     case 0:
-        func_8099D8D0(this, func_8099DB28);
-        func_8099D8D8(this, func_8099E4F4);
+        EffDust_setUpdateFunc(this, func_8099DB28);
+        EffDust_setDrawFunc(this, func_8099E4F4);
         this->unk_0554 = 0.8f;
         this->unk_0558 = 0.8f;
         this->unk_0550 = 1.0f;
@@ -71,8 +67,8 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         break;
 
     case 1:
-        func_8099D8D0(this, func_8099DD74);
-        func_8099D8D8(this, func_8099E4F4);
+        EffDust_setUpdateFunc(this, func_8099DD74);
+        EffDust_setDrawFunc(this, func_8099E4F4);
         this->unk_0550 = 0.8f;
         this->unk_0558 = 0.8f;
         this->unk_0554 = 1.0f;
@@ -80,22 +76,22 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         break;
 
     case 2:
-        func_8099D8D0(this, func_8099DFC0);
-        func_8099D8D8(this, func_8099E784);
+        EffDust_setUpdateFunc(this, func_8099DFC0);
+        EffDust_setDrawFunc(this, func_8099E784);
         this->unk_0550 = 0.5f;
         this->unk_055C = 15.0f;
         break;
 
     case 3:
-        func_8099D8D0(this, func_8099DFC0);
-        func_8099D8D8(this, func_8099E784);
+        EffDust_setUpdateFunc(this, func_8099DFC0);
+        EffDust_setDrawFunc(this, func_8099E784);
         this->unk_0550 = 0.5f;
         this->unk_055C = 10.0f;
         break;
 
     case 4:
-        func_8099D8D0(this, func_8099DFC0);
-        func_8099D8D8(this, func_8099E784);
+        EffDust_setUpdateFunc(this, func_8099DFC0);
+        EffDust_setDrawFunc(this, func_8099E784);
         this->actor.room = -1;
         this->unk_0550 = 0.5f;
         this->unk_055C = 20.0f;
@@ -111,10 +107,7 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Destroy.s")
-
 void EffDust_Destroy(Actor *thisx, GlobalContext *globalCtx) {
-
 }
 
 
@@ -124,10 +117,16 @@ void EffDust_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DFC0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Update.s")
+void EffDust_Update(Actor *thisx, GlobalContext *globalCtx) {
+    EffDust *this = THIS;
+    this->updateFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E4F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E784.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Draw.s")
+void EffDust_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EffDust *this = THIS;
+    this->drawFunc(this, globalCtx);
+}

@@ -17,8 +17,8 @@ typedef struct EffDust {
     /* 0x0554 */ f32 unk_0554;
     /* 0x0558 */ f32 unk_0558;
     /* 0x055C */ f32 unk_055C;
-    /* 0x0560 */ EffDustActionFunc unk_0560;
-    /* 0x0560 */ EffDustActionFunc unk_0564;
+    /* 0x0560 */ EffDustActionFunc updateFunc;
+    /* 0x0560 */ EffDustActionFunc drawFunc;
 } EffDust; // size = 0x0568
 
 extern const ActorInit Eff_Dust_InitVars;
