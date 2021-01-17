@@ -160,7 +160,7 @@ glabel func_809B3FDC
 /* 008E0 809B4200 92090249 */  lbu     $t1, 0x0249($s0)           ## 00000249
 /* 008E4 809B4204 AE02024C */  sw      $v0, 0x024C($s0)           ## 0000024C
 /* 008E8 809B4208 AFA2006C */  sw      $v0, 0x006C($sp)
-/* 008EC 809B420C 0C26CF76 */  jal     func_809B3DD8
+/* 008EC 809B420C 0C26CF76 */  jal     EnArrow_CarryActor
 /* 008F0 809B4210 8FA5009C */  lw      $a1, 0x009C($sp)
 /* 008F4 809B4214 8FA2006C */  lw      $v0, 0x006C($sp)
 /* 008F8 809B4218 8FA50044 */  lw      $a1, 0x0044($sp)

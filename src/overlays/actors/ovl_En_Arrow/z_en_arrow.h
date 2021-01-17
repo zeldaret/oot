@@ -18,7 +18,7 @@ typedef struct EnArrow {
     /* 0x022C */ WeaponInfo weaponInfo;
     /* 0x0248 */ u8 timer; // used for dissapearing when flying or hitting a wall
     /* 0x0249 */ u8 hitFlags;
-    /* 0x024A */ u8 hitPoly;
+    /* 0x024A */ u8 touchedPoly;
     /* 0x024B */ u8 unk_24B;
     /* 0x024C */ Actor* hitActor;
     /* 0x0250 */ Vec3f unk_250;
