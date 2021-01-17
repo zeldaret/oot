@@ -45,7 +45,12 @@ void func_8099D8D8(void *arg0, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Destroy.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Destroy.s")
+
+void EffDust_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DB28.s")
 
