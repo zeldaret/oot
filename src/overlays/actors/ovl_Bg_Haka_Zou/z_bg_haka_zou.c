@@ -30,7 +30,7 @@ void func_80883144(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883254(BgHakaZou* this, GlobalContext* globalCtx);
 void func_80883328(BgHakaZou* this, GlobalContext* globalCtx);
 void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx);
-void BgHakaZou_Do_Nothing(BgHakaZou* this, GlobalContext* globalCtx);
+void BgHakaZou_DoNothing(BgHakaZou* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000A10[];
 extern CollisionHeader D_06005E30;
@@ -182,7 +182,7 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
         if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->actionFunc = BgHakaZou_Do_Nothing;
+            this->actionFunc = BgHakaZou_DoNothing;
             return;
         }
 
@@ -375,11 +375,11 @@ void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
 
     if (this->timer == 0) {
-        this->actionFunc = BgHakaZou_Do_Nothing;
+        this->actionFunc = BgHakaZou_DoNothing;
     }
 }
 
-void BgHakaZou_Do_Nothing(BgHakaZou* this, GlobalContext* globalCtx) {
+void BgHakaZou_DoNothing(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
