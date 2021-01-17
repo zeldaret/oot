@@ -10,7 +10,11 @@
 
 #define THIS ((BgSpot00Hanebasi*)thisx)
 
-typedef enum { DT_CHAIN_1, DT_CHAIN_2, DT_DRAWBRIDGE = -1 } DrawbridgeType;
+typedef enum {
+    DT_CHAIN_1,
+    DT_CHAIN_2,
+    DT_DRAWBRIDGE = -1,
+} DrawbridgeType;
 
 void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
