@@ -163,7 +163,7 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
         colHeader = NULL;
 
         if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
-            DynaPolyInfo_Alloc(&D_06006F70, &colHeader);
+            CollisionHeader_GetVirtual(&D_06006F70, &colHeader);
             this->collider.dim.radius = 80;
             this->collider.dim.height = 100;
             this->collider.dim.yShift = -30;
@@ -171,15 +171,15 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
             this->collider.dim.pos.z += 56;
             this->dyna.actor.uncullZoneScale = 1500.0f;
         } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
-            DynaPolyInfo_Alloc(&D_06005E30, &colHeader);
+            CollisionHeader_GetVirtual(&D_06005E30, &colHeader);
             this->collider.dim.yShift = -50;
         } else {
-            DynaPolyInfo_Alloc(&D_06000C2C, &colHeader);
+            CollisionHeader_GetVirtual(&D_06000C2C, &colHeader);
             this->collider.dim.radius = 55;
             this->collider.dim.height = 20;
         }
 
-        this->dyna.bgId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
         if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actionFunc = BgHakaZou_Do_Nothing;
