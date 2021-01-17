@@ -1582,7 +1582,7 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
 
     if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
         sfxId = 0x800;
-        sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+        sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
         func_80078914(&this->actor.projectedPos, sfxId);
     }
 }

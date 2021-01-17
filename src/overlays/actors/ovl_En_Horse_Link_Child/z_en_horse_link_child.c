@@ -181,7 +181,7 @@ void func_80A6993C(EnHorseLinkChild* this, s32 newAnimationIdx) {
     if (this->animationIdx != newAnimationIdx) {
         this->animationIdx = newAnimationIdx;
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
     }
 }
 
@@ -199,10 +199,10 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
             if (this->animationIdx != newAnimationIdx) {
                 this->animationIdx = newAnimationIdx;
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
             } else {
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0);
             }
         }
     }
@@ -213,7 +213,7 @@ void func_80A69B7C(EnHorseLinkChild* this) {
     this->animationIdx = 0;
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -259,10 +259,10 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         if (this->animationIdx != newAnimationIdx) {
             this->animationIdx = newAnimationIdx;
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
         } else {
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         }
     }
 }
@@ -272,7 +272,7 @@ void func_80A69EC0(EnHorseLinkChild* this) {
     this->animationIdx = 0;
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -389,7 +389,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     if ((this->animationIdx != newAnimationIdx) || (animationEnded == true)) {
         this->animationIdx = newAnimationIdx;
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
     } else {
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this),
                          this->skin.skelAnime.curFrame, Animation_GetLastFrame(sAnimations[this->animationIdx]), 2,
@@ -402,7 +402,7 @@ void func_80A6A4DC(EnHorseLinkChild* this) {
     this->animationIdx = Rand_ZeroOne() > 0.5f ? 0 : 1;
     DREG(53) = 0;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -425,7 +425,7 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
             if (Math_CosS(yawDiff) < 0.0f) {
                 this->animationIdx = 2;
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], D_80A6AF64[this->animationIdx],
-                                 0.0f, Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                                 0.0f, Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
             } else {
                 func_80A6A4DC(this);
             }
@@ -440,7 +440,7 @@ void func_80A6A724(EnHorseLinkChild* this) {
     this->unk_1E8 = false;
     this->actor.speedXZ = 2.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -500,10 +500,10 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         if (this->animationIdx != newAnimationIdx) {
             this->animationIdx = newAnimationIdx;
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -5.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
         } else {
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         }
     }
 }

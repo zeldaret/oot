@@ -205,7 +205,8 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (rotDelta > 0) {
         Animation_MorphToPlayOnce(&this->skelAnime, &D_06002158, -3.0f);
     } else {
-        Animation_Change(&this->skelAnime, &D_06002158, -1.0f, Animation_GetLastFrame(&D_06002158), 0.0f, 2, -3.0f);
+        Animation_Change(&this->skelAnime, &D_06002158, -1.0f, Animation_GetLastFrame(&D_06002158), 0.0f, ANIMMODE_ONCE,
+                         -3.0f);
     }
 
     if (this->actor.scale.x > 0.004f) {
@@ -218,7 +219,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
 }
 
 void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009520, 3.0f, 0, Animation_GetLastFrame(&D_06009520), 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06009520, 3.0f, 0, Animation_GetLastFrame(&D_06009520), ANIMMODE_ONCE, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -235,7 +236,7 @@ void EnFloormas_SetupCharge(EnFloormas* this) {
 }
 
 void EnFloormas_SetupLand(EnFloormas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, 42.0f, 2, 5.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, 42.0f, ANIMMODE_ONCE, 5.0f);
     if ((this->actor.speedXZ < 0.0f) || (this->actionFunc != EnFloormas_Charge)) {
         this->actionTimer = 30;
     } else {
@@ -257,7 +258,8 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
     this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, Animation_GetLastFrame(&D_060019CC), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, Animation_GetLastFrame(&D_060019CC), ANIMMODE_ONCE,
+                     0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.body.bumperFlags &= ~4;
@@ -297,13 +299,13 @@ void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_SetupSlaveJumpAtMaster(EnFloormas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 2.0f, 0.0f, 41.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 2.0f, 0.0f, 41.0f, ANIMMODE_ONCE, 0.0f);
     this->actionFunc = EnFloormas_SmSlaveJumpAtMaster;
     this->actor.speedXZ = 0.0f;
 }
 
 void EnFloormas_SetupJumpAtLink(EnFloormas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 2.0f, 0.0f, 41.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 2.0f, 0.0f, 41.0f, ANIMMODE_ONCE, 0.0f);
     this->actionFunc = EnFloormas_JumpAtLink;
     this->actor.speedXZ = 0.0f;
 }
@@ -312,7 +314,7 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     f32 yDelta;
     f32 xzDelta;
 
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 36.0f, 45.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.0f, 36.0f, 45.0f, ANIMMODE_ONCE, -3.0f);
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -376,7 +378,7 @@ void EnFloormas_SetupRecover(EnFloormas* this) {
 }
 
 void EnFloormas_SetupFreeze(EnFloormas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
     this->actor.speedXZ = 0.0f;
     if (this->actor.colChkInfo.damageEffect == 4) {
         func_8003426C(&this->actor, -0x8000, 0xFF, 0, 0x50);

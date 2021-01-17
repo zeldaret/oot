@@ -36,23 +36,23 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 
 extern Gfx D_060088B0[];
 extern Gfx D_0600BEC0[];
-extern ColHeader D_0600C080;
+extern CollisionHeader D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 2) {
         if (this->timer1 == 0) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             this->actionFlags &= ~2;
         }
     } else if (this->timer1 != 0) {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->actionFlags |= 2;
     }
 }
 
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     BgGndDarkmeiro* this = THIS;
 
     this->updateFunc = BgGndDarkmeiro_Noop;
@@ -63,9 +63,8 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.flags |= 0x80;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
-            DynaPolyInfo_Alloc(&D_0600C080, &colHeader);
-            this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+            CollisionHeader_GetVirtual(&D_0600C080, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
@@ -74,7 +73,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
                 this->updateFunc = BgGndDarkmeiro_UpdateSwitchBlock;
                 if (!Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F)) {
-                    func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+                    func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
                 } else {
                     this->timer1 = 64;
                     this->actionFlags |= 2;
@@ -108,7 +107,7 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params & 0xFF) == 1) {
         if (1) {}
-        DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
     }
 }
 

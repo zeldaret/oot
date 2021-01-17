@@ -87,7 +87,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
 static Gfx* sDLists[] = {
     0x06001A30, 0x06002390, 0x06001CD0, 0x06002090, 0x06001770,
 };
-static ColHeader* sColHeaders[] = {
+static CollisionHeader* sColHeaders[] = {
     0x06001C58, 0x060025A4, 0x06001DE8, 0x06001DE8, 0x06001DE8,
 };
 
@@ -107,20 +107,19 @@ void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos) {
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuBwall* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089D854);
     this->yRot = this->dyna.actor.posRot.pos.y;
     this->dList = sDLists[(u16)this->dyna.actor.params & 0xF];
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(sColHeaders[(u16)this->dyna.actor.params & 0xF], &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(sColHeaders[(u16)this->dyna.actor.params & 0xF], &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     switch ((u16)this->dyna.actor.params & 0xF) {
         case MIZUBWALL_FLOOR:
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
@@ -155,7 +154,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case MIZUBWALL_RUTO_ROOM:
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
@@ -191,7 +190,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case MIZUBWALL_UNUSED:
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
@@ -229,7 +228,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case MIZUBWALL_STINGER_ROOM_1:
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
@@ -267,7 +266,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case MIZUBWALL_STINGER_ROOM_2:
             if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F)) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->dList = NULL;
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
@@ -310,15 +309,15 @@ void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuBwall* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 
 void BgMizuBwall_SetAlpha(BgMizuBwall* this, GlobalContext* globalCtx) {
-    f32 waterLevel = globalCtx->colCtx.stat.colHeader->waterBoxes[2].ySurface;
+    f32 waterLevel = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
     s32 alphaMod;
 
-    if (globalCtx->colCtx.stat.colHeader->waterBoxes) {}
+    if (globalCtx->colCtx.colHeader->waterBoxes) {}
 
     if (waterLevel < -15.0f) {
         this->scrollAlpha1 = 255;
@@ -404,7 +403,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~2;
         Flags_SetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F);
         this->breakTimer = 1;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);

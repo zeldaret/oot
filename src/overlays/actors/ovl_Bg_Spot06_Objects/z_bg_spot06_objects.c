@@ -45,13 +45,13 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000120[];     // Lake Hylia lowered water
-extern Gfx D_06000470[];     // Lake Hylia raised water
-extern Gfx D_06000E10[];     // Water Temple entrance gate
-extern ColHeader D_06000EE8; // Water Temple entrance gate collision
-extern Gfx D_06001160[];     // Zora's Domain entrance block of ice
-extern ColHeader D_06001238; // Zora's Domain entrance block of ice collision
-extern Gfx D_06002490[];     // Water Temple entrance lock
+extern Gfx D_06000120[];           // Lake Hylia lowered water
+extern Gfx D_06000470[];           // Lake Hylia raised water
+extern Gfx D_06000E10[];           // Water Temple entrance gate
+extern CollisionHeader D_06000EE8; // Water Temple entrance gate collision
+extern Gfx D_06001160[];           // Zora's Domain entrance block of ice
+extern CollisionHeader D_06001238; // Zora's Domain entrance block of ice collision
+extern Gfx D_06002490[];           // Water Temple entrance lock
 
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
@@ -89,7 +89,7 @@ static InitChainEntry sInitChainWaterPlane[] = {
 void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot06Objects* this = THIS;
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     this->switchFlag = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
@@ -99,9 +99,9 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyInfo_SetActorMove(thisx, 0);
-            DynaPolyInfo_Alloc(&D_06000EE8, &colHeader);
-            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+            DynaPolyActor_Init(thisx, DPM_UNK);
+            CollisionHeader_GetVirtual(&D_06000EE8, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
             if (LINK_IS_ADULT && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y + 120.0f;
@@ -146,11 +146,11 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200)) {
                 if (gSaveContext.sceneSetupIndex < 4) {
                     this->lakeHyliaWaterLevel = -681.0f;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
+                    globalCtx->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
                         WATER_LEVEL_RIVER_LOWERED;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].zMin -= 50;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = WATER_LEVEL_LOWERED;
-                    globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = WATER_LEVEL_LOWERED;
+                    globalCtx->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].zMin -= 50;
+                    globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = WATER_LEVEL_LOWERED;
+                    globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = WATER_LEVEL_LOWERED;
                     this->actionFunc = BgSpot06Objects_DoNothing;
                 } else {
                     thisx->posRot.pos.y = this->lakeHyliaWaterLevel = -681.0f;
@@ -164,9 +164,9 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case LHO_ICE_BLOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
-            DynaPolyInfo_SetActorMove(thisx, 0);
-            DynaPolyInfo_Alloc(&D_06001238, &colHeader);
-            this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+            DynaPolyActor_Init(thisx, DPM_UNK);
+            CollisionHeader_GetVirtual(&D_06001238, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;
 
             if (LINK_IS_CHILD) {
@@ -182,7 +182,7 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
         case LHO_ICE_BLOCK:
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Collider_DestroyJntSph(globalCtx, &this->collider.base);
@@ -494,10 +494,9 @@ void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext
         this->actionFunc = BgSpot06Objects_DoNothing;
     } else {
         Math_SmoothStepToF(&this->lakeHyliaWaterLevel, 1.0f, 0.1f, 1.0f, 0.001f);
-        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
-            WATER_LEVEL_RIVER_LOWERED;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.posRot.pos.y;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.posRot.pos.y;
+        globalCtx->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface = WATER_LEVEL_RIVER_LOWERED;
+        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.posRot.pos.y;
+        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.posRot.pos.y;
     }
 
     func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);

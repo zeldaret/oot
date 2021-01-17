@@ -30,7 +30,7 @@ const ActorInit Bg_Pushbox_InitVars = {
 };
 
 extern Gfx D_06000000[];
-extern UNK_TYPE D_06000350;
+extern CollisionHeader D_06000350;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
@@ -43,13 +43,13 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPushbox* this = THIS;
     s32 pad;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000350, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000350, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     BgPushbox_SetupAction(this, func_808A8BAC);
 }
@@ -57,7 +57,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgPushbox* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {

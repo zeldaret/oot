@@ -23,7 +23,7 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06002154;
+extern CollisionHeader D_06002154;
 extern Gfx D_060018B0[];
 
 const ActorInit Bg_Spot18_Basket_InitVars = {
@@ -114,13 +114,13 @@ static InitChainEntry sInitChain[] = {
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
     Actor* actor = &this->dyna.actor;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
     func_808B7710(this, globalCtx);
-    DynaPolyInfo_Alloc(&D_06002154, &colHeader);
+    CollisionHeader_GetVirtual(&D_06002154, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, actor, colHeader);
 
     Actor_ProcessInitChain(actor, sInitChain);
     ActorShape_Init(&actor->shape, 0.0f, ActorShadow_DrawFunc_Circle, 15.0f);
@@ -148,7 +148,7 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
 }
 
@@ -208,7 +208,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
                                     this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.pos.x) < SQ(32.0f)) {
                     func_800800F8(globalCtx, 4210, 240, this, 0);
                     func_808B7D38(this);
-                    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 }
             }
         }
@@ -316,7 +316,7 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx) {
             this->dyna.actor.shape.rot.y = arrayValue;
 
             func_808B818C(this);
-            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         }
     }
 
@@ -413,8 +413,8 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_216++;
     this->actionFunc(this, globalCtx);
-    this->dyna.actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &temp, &this->dyna.actor,
-                                             &this->dyna.actor.posRot);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &temp,
+                                                           &this->dyna.actor, &this->dyna.actor.posRot);
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         if (this->actionFunc != func_808B7B6C) {

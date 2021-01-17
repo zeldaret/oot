@@ -47,10 +47,10 @@ static Gfx* sDLists[] = {
     0x06002B70,
 };
 
-extern UNK_TYPE D_060054B8;
-extern UNK_TYPE D_06003490;
-extern UNK_TYPE D_060043D0;
-extern UNK_TYPE D_06006078;
+extern CollisionHeader D_060054B8;
+extern CollisionHeader D_06003490;
+extern CollisionHeader D_060043D0;
+extern CollisionHeader D_06006078;
 extern Gfx D_04049FE0[]; // display list for studded dungeon door
 extern Gfx D_06000AE8[];
 extern Gfx D_06001678[];
@@ -62,7 +62,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 t6;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
 
     switchFlagParam = this->dyna.actor.params & 0x3F;
     t6 = this->dyna.actor.params & 0x4000;
@@ -110,11 +110,11 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s32 sp2C;
+    CollisionHeader* colHeader;
 
     if ((Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx)) &&
         (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx)) &&
@@ -138,23 +138,22 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
             }
         } else {
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-            sp2C = 0;
+            colHeader = NULL;
             this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
             if (this->dyna.actor.params == 0) {
                 this->actionFunc = func_808A3C8C;
-                DynaPolyInfo_Alloc(&D_060054B8, &sp2C);
+                CollisionHeader_GetVirtual(&D_060054B8, &colHeader);
             } else if (this->dyna.actor.params == 1) {
                 this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
-                DynaPolyInfo_Alloc(&D_06003490, &sp2C);
+                CollisionHeader_GetVirtual(&D_06003490, &colHeader);
             } else if (this->dyna.actor.params == 2) {
                 this->actionFunc = BgMoriHineri_DoNothing;
-                DynaPolyInfo_Alloc(&D_060043D0, &sp2C);
+                CollisionHeader_GetVirtual(&D_060043D0, &colHeader);
             } else {
                 this->actionFunc = func_808A3C8C;
-                DynaPolyInfo_Alloc(&D_06006078, &sp2C);
+                CollisionHeader_GetVirtual(&D_06006078, &colHeader);
             }
-            this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp2C);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         }
     }
 }
