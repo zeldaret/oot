@@ -21,7 +21,6 @@ typedef struct EnDodojr {
     /* 0x0200 */ s16 timer2;
     /* 0x0202 */ s16 timer3;
     /* 0x0204 */ s16 timer4;
-    /* 0x0206 */ s16 unk_206;
     /* 0x0208 */ f32 rootScale; // scale used with the root limb
     /* 0x020C */ Vec3s jointTable[15];
     /* 0x0266 */ Vec3s morphTable[15];
