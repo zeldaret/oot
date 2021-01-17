@@ -1,0 +1,22 @@
+<Root>
+    <File Name="object_mb" Segment="6">
+        <Skeleton Name="gEnMbSkel_008F38" Type="Flex" LimbType="Standard" Offset="0x8F38"/>
+        <Skeleton Name="gEnMbSkel_014190" Type="Flex" LimbType="Standard" Offset="0x14190"/>
+        <Animation Name="gEnMbAnim_0028E0" Offset="0x28E0"/>
+        <Animation Name="gEnMbAnim_00EBE4" Offset="0xEBE4"/>
+        <Animation Name="gEnMbAnim_0041A8" Offset="0x41A8"/>
+        <Animation Name="gEnMbAnim_009FC0" Offset="0x9FC0"/>
+        <Animation Name="gEnMbAnim_002C10" Offset="0x2C10"/>
+        <Animation Name="gEnMbAnim_002F10" Offset="0x2F10"/>
+        <Animation Name="gEnMbAnim_009280" Offset="0x9280"/>
+        <Animation Name="gEnMbAnim_001950" Offset="0x1950"/>
+        <Animation Name="gEnMbAnim_00BE58" Offset="0xBE58"/>
+        <Animation Name="gEnMbAnim_00D5D4" Offset="0xD5D4"/>
+        <Animation Name="gEnMbAnim_00E18C" Offset="0xE18C"/>
+        <Animation Name="gEnMbAnim_00B4BC" Offset="0xB4BC"/>
+        <Animation Name="gEnMbAnim_00ABE0" Offset="0xABE0"/>
+        <Animation Name="gEnMbAnim_00095C" Offset="0x95C"/>
+        <Animation Name="gEnMbAnim_0016B4" Offset="0x16B4"/>
+        <Animation Name="gEnMbAnim_00C44C" Offset="0xC44C"/>
+    </File>
+</Root>

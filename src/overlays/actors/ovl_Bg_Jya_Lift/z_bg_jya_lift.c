@@ -45,12 +45,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600D7E8;
-extern Gfx D_0600CCE0[];
-
 void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
                             DynaPolyMoveFlag moveFlag) {
-    s32 pad1;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
@@ -60,8 +57,8 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, Collision
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
-    this->isSpawned = false;
 
+    this->isSpawned = false;
     if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
