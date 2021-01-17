@@ -147,7 +147,7 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
-    ColHeader* colHeader;
+    CollisionHeader* colHeader;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
