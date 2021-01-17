@@ -1612,7 +1612,6 @@ endseg
 beginseg
     name "ovl_Eff_Dust"
     include "build/src/overlays/actors/ovl_Eff_Dust/z_eff_dust.o"
-    include "build/data/overlays/actors/z_eff_dust.data.o"
     include "build/data/overlays/actors/z_eff_dust.reloc.o"
 endseg
 
