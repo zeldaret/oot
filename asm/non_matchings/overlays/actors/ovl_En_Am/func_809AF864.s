@@ -83,7 +83,7 @@ glabel func_809AF864
 /* 01A78 809AF998 ACB80008 */  sw      $t8, 0x0008($a1)           ## FFFFFFF8
 /* 01A7C 809AF99C C7A40024 */  lwc1    $f4, 0x0024($sp)           
 /* 01A80 809AF9A0 46062200 */  add.s   $f8, $f4, $f6              
-/* 01A84 809AF9A4 0C018B58 */  jal     func_80062D60              
+/* 01A84 809AF9A4 0C018B58 */  jal     CollisionCheck_SpawnShieldParticlesMetal              
 /* 01A88 809AF9A8 E7A80024 */  swc1    $f8, 0x0024($sp)           
 /* 01A8C 809AF9AC 10000010 */  beq     $zero, $zero, .L809AF9F0   
 /* 01A90 809AF9B0 8FBF0014 */  lw      $ra, 0x0014($sp)           

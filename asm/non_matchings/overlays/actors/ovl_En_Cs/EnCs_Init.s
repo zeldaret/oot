@@ -13,8 +13,8 @@ glabel EnCs_Init
 /* 00148 809E19F8 10000056 */  beq     $zero, $zero, .L809E1B54
 /* 0014C 809E19FC 8FBF002C */  lw      $ra, 0x002C($sp)
 .L809E1A00:
-/* 00150 809E1A00 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00154 809E1A04 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00150 809E1A00 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00154 809E1A04 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00158 809E1A08 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0015C 809E1A0C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00160 809E1A10 0C00AC78 */  jal     ActorShape_Init
@@ -49,7 +49,7 @@ glabel EnCs_Init
 /* 001C8 809E1A78 3C06809E */  lui     $a2, %hi(D_809E28EC)       ## $a2 = 809E0000
 /* 001CC 809E1A7C 24C628EC */  addiu   $a2, $a2, %lo(D_809E28EC)  ## $a2 = 809E28EC
 /* 001D0 809E1A80 24A528F8 */  addiu   $a1, $a1, %lo(D_809E28F8)  ## $a1 = 809E28F8
-/* 001D4 809E1A84 0C0187BF */  jal     func_80061EFC
+/* 001D4 809E1A84 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 001D8 809E1A88 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 001DC 809E1A8C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 001E0 809E1A90 24080004 */  addiu   $t0, $zero, 0x0004         ## $t0 = 00000004
@@ -58,7 +58,7 @@ glabel EnCs_Init
 /* 001EC 809E1A9C 44070000 */  mfc1    $a3, $f0
 /* 001F0 809E1AA0 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001F4 809E1AA4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 001F8 809E1AA8 0C00B92D */  jal     func_8002E4B4
+/* 001F8 809E1AA8 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 001FC 809E1AAC E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00200 809E1AB0 3C03809E */  lui     $v1, %hi(D_809E2918)       ## $v1 = 809E0000
 /* 00204 809E1AB4 24632918 */  addiu   $v1, $v1, %lo(D_809E2918)  ## $v1 = 809E2918

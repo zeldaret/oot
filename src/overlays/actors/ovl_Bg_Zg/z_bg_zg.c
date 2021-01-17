@@ -38,7 +38,7 @@ static BgZgDrawFunc sDrawFuncs[] = {
 
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ZG,
     sizeof(BgZg),
@@ -85,8 +85,8 @@ void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
 void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    thisx->posRot.pos.y += (kREG(16) + 20.0f) * 1.2f;
-    if ((((kREG(17) + 200.0f) * 1.2f) + thisx->initPosRot.pos.y) <= thisx->posRot.pos.y) {
+    thisx->world.pos.y += (kREG(16) + 20.0f) * 1.2f;
+    if ((((kREG(17) + 200.0f) * 1.2f) + thisx->home.pos.y) <= thisx->world.pos.y) {
         Actor_Kill(thisx);
     }
 }

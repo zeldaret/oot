@@ -13,7 +13,7 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaCobra),

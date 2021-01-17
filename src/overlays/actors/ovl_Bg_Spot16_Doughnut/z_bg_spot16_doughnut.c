@@ -21,7 +21,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_EFC_DOUGHNUT,
     sizeof(BgSpot16Doughnut),

@@ -12,7 +12,7 @@ typedef struct EnBom {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder bombCollider;
     /* 0x0198 */ ColliderJntSph explosionCollider;
-    /* 0x01B8 */ ColliderJntSphItem explosionColliderItems[1];
+    /* 0x01B8 */ ColliderJntSphElement explosionColliderItems[1];
     /* 0x01F8 */ s16 timer;
     /* 0x01FA */ s16 flashSpeedScale;
     /* 0x01FC */ f32 flashIntensity;

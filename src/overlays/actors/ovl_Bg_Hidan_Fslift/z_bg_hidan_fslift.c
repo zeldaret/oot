@@ -24,7 +24,7 @@ extern CollisionHeader D_0600E1E8;
 
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFslift),
@@ -51,8 +51,8 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(thisx, DPM_PLAYER);
     CollisionHeader_GetVirtual(&D_0600E1E8, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
-                           thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x,
+                           thisx->world.pos.y + 40.0f, thisx->world.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
         return;
     }
@@ -63,9 +63,9 @@ void func_80886F24(BgHidanFslift* this) {
     Actor* thisx = &this->dyna.actor;
 
     if (thisx->child != NULL && thisx->child->update != NULL) {
-        thisx->child->posRot.pos.x = thisx->posRot.pos.x;
-        thisx->child->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
-        thisx->child->posRot.pos.z = thisx->posRot.pos.z + -28.0f;
+        thisx->child->world.pos.x = thisx->world.pos.x;
+        thisx->child->world.pos.y = thisx->world.pos.y + 40.0f;
+        thisx->child->world.pos.z = thisx->world.pos.z + -28.0f;
         return;
     }
     thisx->child = NULL;
@@ -90,7 +90,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
 
     if (this->unk_168 == 0) {
         heightBool = false;
-        if ((thisx->posRot.pos.y - thisx->initPosRot.pos.y) < 0.5f) {
+        if ((thisx->world.pos.y - thisx->home.pos.y) < 0.5f) {
             heightBool = true;
         }
         if (func_80043590(thisx)) {
@@ -108,7 +108,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 4.0f)) {
+    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 4.0f)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
@@ -121,7 +121,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (func_80043590(thisx)) {
-        if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 790.0f, 4.0f)) {
+        if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {

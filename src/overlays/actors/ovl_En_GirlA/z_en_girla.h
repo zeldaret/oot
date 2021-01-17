@@ -40,6 +40,6 @@ typedef struct EnGirlA {
     /* 0x01D0 */ EnGirlA3Func unk_1D0;
 } EnGirlA; // size = 0x01D4
 
-extern const ActorInit En_Girla_InitVars;
+extern const ActorInit En_GirlA_InitVars;
 
 #endif
