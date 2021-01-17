@@ -13,10 +13,11 @@ void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80A07A4C(EnEncount2* this, GlobalContext* globalCtx);
 void func_80A07CA4(EnEncount2* this, GlobalContext* globalCtx);
 void func_80A08694(EnEncount2* this, Vec3f* arg1, f32 arg2);
+void func_80A0891C(Actor* thisx, GlobalContext* globalCtx);
+void func_80A08748(EnEncount2* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06000DE0;
+extern Gfx* D_06000DE0[];
 
-/*
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORTYPE_ENEMY,
@@ -28,7 +29,6 @@ const ActorInit En_Encount2_InitVars = {
     (ActorFunc)EnEncount2_Update,
     (ActorFunc)EnEncount2_Draw,
 };
-*/
 
 void EnEncount2_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnEncount2* this = THIS;
@@ -138,7 +138,7 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
                 }
             }
         }
-        Audio_PlayActorSound2(this, 0x2049);
+        Audio_PlayActorSound2(&this->actor, 0x2049);
     } else {
         if (this->actor.xzDistToLink < 700.0f) {
             if (Flags_GetSwitch(globalCtx, 0x37) != 0) {
@@ -218,7 +218,7 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
                     tempVec2Z = Rand_CenteredFloat(70.0f) + player->actor.posRot.pos.z;
                 }
             }
-            temp_v0_2 = (EnFireRock*)Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_EN_FIRE_ROCK, tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, sp62);
+            temp_v0_2 = (EnFireRock*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FIRE_ROCK, tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, sp62);
             if (temp_v0_2 != NULL) {
                 temp_v0_2->spawner = this;
                 this->unk158++;
@@ -259,9 +259,10 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Update.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/EnEncount2_Draw.s")
+void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnEncount2* this = THIS;
+    func_80A0891C(&this->actor, globalCtx);
+}
 
 void func_80A08694(EnEncount2* this, Vec3f* arg1, f32 arg2) {
     unkStruct* struc = this->unk188;
@@ -283,6 +284,63 @@ void func_80A08694(EnEncount2* this, Vec3f* arg1, f32 arg2) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A08748.s")
+void func_80A08748(EnEncount2* this, GlobalContext* globalCtx) {
+    s16 i;
+    unkStruct* struc = this->unk188;
+    Player* player = PLAYER;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Encount2/func_80A0891C.s")
+    for (i = 0; i < ARRAY_COUNT(this->unk188); struc++, i++){
+        if (struc->unk10 != 0) {
+            struc->unk20.x += (Rand_ZeroOne() * 500.0f);
+            struc->unk20.y += (Rand_ZeroOne() * 500.0f);
+            struc->unk20.z += (Rand_ZeroOne() * 500.0f);
+            temp1 = (struc->unk0.x + struc->unk14.x);
+            temp2 = (struc->unk0.y + struc->unk14.y);
+            temp3 = (struc->unk0.z + struc->unk14.z);
+            Math_ApproachF(&struc->unk0.x, temp1, 0.3f, 30.0f);
+            Math_ApproachF(&struc->unk0.y, temp2, 0.8f, 250.0f);
+            Math_ApproachF(&struc->unk0.z, temp3, 0.3f, 30.0f);
+            Math_ApproachF(&struc->unk14.y, -20.0f, 0.9f, 1.0f);
+            if (globalCtx->sceneNum != 0x60) {
+                if (struc->unk0.y < (player->actor.groundY - 50.0f)) {
+                    struc->unk10 = 0;
+                }
+            } else if (struc->unk0.y < 1500.0f) {
+                struc->unk10 = 0;
+            }
+        }
+    }
+}
+
+void func_80A0891C(Actor* thisx, GlobalContext* globalCtx) {
+    EnEncount2* this = THIS;
+    unkStruct* struc = this->unk188;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s16 i;
+    s32 objBankIndex;
+
+    OPEN_DISPS(gfxCtx, "../z_en_encount2.c", 642);
+    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_EFC_STAR_FIELD);
+    if (objBankIndex >= 0) {
+        
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+        for (i = 0; i < ARRAY_COUNT(this->unk188); struc++, i++){
+            if (struc->unk10 != 0) {
+                Matrix_Translate(struc->unk0.x, struc->unk0.y, struc->unk0.z, 0);
+                Matrix_RotateX(struc->unk20.x * (M_PI/180), 1);
+                Matrix_RotateY(struc->unk20.y * (M_PI/180), 1);
+                Matrix_RotateZ(struc->unk20.z * (M_PI/180), 1);
+                Matrix_Scale(struc->unkC, struc->unkC, struc->unkC, 1);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0xFF, 0x9B, 0x37, 0xFF);
+                gDPSetEnvColor(POLY_OPA_DISP++, 0x9B, 0xFF, 0x37, 0xFF);
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_encount2.c", 669), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_OPA_DISP++, D_06000DE0);
+            }
+        }
+    }
+    CLOSE_DISPS(gfxCtx, "../z_en_encount2.c", 678);
+}
