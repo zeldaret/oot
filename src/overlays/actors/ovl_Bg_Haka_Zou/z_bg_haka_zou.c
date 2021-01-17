@@ -347,13 +347,15 @@ void func_80883328(BgHakaZou* this, GlobalContext* globalCtx) {
         effectPos.x = this->dyna.actor.posRot.pos.x;
         effectPos.y = this->dyna.actor.posRot.pos.y;
 
-        for (j = 0; j < 2; effectPos.x -= 112.0f, j++) {
+        for (j = 0; j < 2; j++) {
             effectPos.z = this->dyna.actor.posRot.pos.z;
 
             for (i = 0; i < 4; i++) {
                 effectPos.z -= (i == 2) ? 550.0f : 50.0f;
                 func_800286CC(globalCtx, &effectPos, &sZeroVec, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 200);
             }
+
+            effectPos.x -= 112.0f;
         }
 
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
@@ -390,8 +392,13 @@ void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { 0x060064E0, 0x06005CE0, 0x06000A10, 0x06005CE0 };
+static Gfx* sDisplayLists[] = {
+    0x060064E0,
+    0x06005CE0,
+    0x06000A10,
+    0x06005CE0,
+};
 
-    Gfx_DrawDListOpa(globalCtx, displayLists[thisx->params]);
+void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, sDisplayLists[thisx->params]);
 }
