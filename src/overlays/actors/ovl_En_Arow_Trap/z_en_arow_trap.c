@@ -5,7 +5,7 @@
  */
 
 #include "z_en_arow_trap.h"
-
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #define FLAGS 0x00000010
 
 #define THIS ((EnArowTrap*)thisx)
@@ -47,7 +47,7 @@ void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->attackTimer == 0) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.shape.rot.x,
-                        this->actor.shape.rot.y, this->actor.shape.rot.z, 0xFFFFFFFF);
+                        this->actor.shape.rot.y, this->actor.shape.rot.z, ARROW_UNK_NEG1);
             this->attackTimer = 80;
         }
     }

@@ -10,6 +10,7 @@
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
@@ -2047,13 +2048,13 @@ s32 func_80834380(GlobalContext* globalCtx, Player* this, s32* itemPtr, s32* typ
     if (LINK_IS_ADULT) {
         *itemPtr = ITEM_BOW;
         if (this->stateFlags1 & 0x800000) {
-            *typePtr = 1;
+            *typePtr = ARROW_NORMAL_HORSE;
         } else {
             *typePtr = this->heldItemActionParam - 6;
         }
     } else {
         *itemPtr = ITEM_SLINGSHOT;
-        *typePtr = 9;
+        *typePtr = ARROW_SEED;
     }
 
     if (gSaveContext.minigameState == 1) {
@@ -2086,9 +2087,9 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
                 magicArrowType = arrowType - 3;
 
                 if (this->unk_860 >= 0) {
-                    if ((magicArrowType >= 0) && (magicArrowType < 3) &&
+                    if ((magicArrowType >= ARROW_UNK_0) && (magicArrowType <= ARROW_NORMAL) &&
                         !func_80087708(globalCtx, sMagicArrowCosts[magicArrowType], 0)) {
-                        arrowType = 2;
+                        arrowType = ARROW_NORMAL;
                     }
 
                     this->heldActor = Actor_SpawnAsChild(

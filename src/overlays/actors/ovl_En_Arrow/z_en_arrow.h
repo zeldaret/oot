@@ -19,17 +19,18 @@ typedef struct EnArrow {
     /* 0x0248 */ u8 timer; // used for dissapearing when flying or hitting a wall
     /* 0x0249 */ u8 hitFlags;
     /* 0x024A */ u8 touchedPoly;
-    /* 0x024B */ u8 unk_24B;
+    /* 0x024B */ u8 isCsNut;
     /* 0x024C */ Actor* hitActor;
     /* 0x0250 */ Vec3f unk_250;
     /* 0x025C */ EnArrowActionFunc actionFunc;
 } EnArrow; // size = 0x0260
 
 typedef enum {
-    /* -10 */ //ARROW_NUT_NO_COLLIDER = -10,
-    /*  0  */ ARROW_NUT_UNK = 0, // confirm
-    /*  1  */ ARROW_EPONA, // confirm
-    /*  2  */ ARROW_NORMAL, // confirm
+    /* -10 */ ARROW_CS_NUT = -10, // cutscene deku nuts are allowed to update in blocking mode
+    /* -1  */ ARROW_UNK_NEG1 = -1,
+    /*  0  */ ARROW_UNK_0, 
+    /*  1  */ ARROW_NORMAL_HORSE, // arrows spawned while riding a horse
+    /*  2  */ ARROW_NORMAL,
     /*  3  */ ARROW_FIRE,
     /*  4  */ ARROW_ICE,
     /*  5  */ ARROW_LIGHT,
@@ -38,7 +39,6 @@ typedef enum {
     /*  8  */ ARROW_0E,
     /*  9  */ ARROW_SEED,
     /*  10 */ ARROW_NUT
-
 } ArrowType;
 
 extern const ActorInit En_Arrow_InitVars;
