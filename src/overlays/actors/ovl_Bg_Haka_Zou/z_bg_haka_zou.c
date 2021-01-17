@@ -33,9 +33,9 @@ void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx);
 void BgHakaZou_Do_Nothing(BgHakaZou* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000A10[];
-extern ColHeader D_06005E30;
-extern ColHeader D_06006F70;
-extern ColHeader D_06000C2C;
+extern CollisionHeader D_06005E30;
+extern CollisionHeader D_06006F70;
+extern CollisionHeader D_06000C2C;
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
