@@ -122,7 +122,7 @@ InitChainEntry D_80897528[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3s D_80897538 = { 0, 0xC000, 0 };
+Vec3s D_80897538 = { 0, -0x4000, 0 };
 
 Vec3s D_80897540 = { 0, 0x4000, 0 };
 
