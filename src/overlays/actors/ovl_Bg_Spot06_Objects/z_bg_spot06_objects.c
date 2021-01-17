@@ -182,7 +182,7 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
         case LHO_ICE_BLOCK:
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Collider_DestroyJntSph(globalCtx, &this->collider.base);
