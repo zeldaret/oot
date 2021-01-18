@@ -376,7 +376,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case FAIRY_HEAL_BIG:
             this->fairyFlags |= FAIRY_FLAG_BIG;
-            thisx->shape.shadowDrawFunc = ActorShadow_DrawWhiteCircle;
+            thisx->shape.shadowDraw = ActorShadow_DrawWhiteCircle;
         case FAIRY_HEAL_TIMED:
             this->fairyFlags |= FAIRY_FLAG_TIMED;
         case FAIRY_HEAL:

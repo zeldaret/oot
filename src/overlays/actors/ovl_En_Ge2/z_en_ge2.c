@@ -24,6 +24,26 @@ const ActorInit En_Ge2_InitVars = {
     (ActorFunc)EnGe2_Update,
     (ActorFunc)EnGe2_Draw,
 };
+
+static ColliderCylinderInit D_80A34310 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x000007A2, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 60, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/func_80A32BD0.s")
 

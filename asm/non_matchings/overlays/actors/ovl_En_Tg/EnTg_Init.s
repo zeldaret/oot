@@ -36,7 +36,7 @@ glabel EnTg_Init
 /* 001CC 80B1852C 3C0680B2 */  lui     $a2, %hi(D_80B1893C)       ## $a2 = 80B20000
 /* 001D0 80B18530 24C6893C */  addiu   $a2, $a2, %lo(D_80B1893C)  ## $a2 = 80B1893C
 /* 001D4 80B18534 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 001D8 80B18538 0C0187BF */  jal     func_80061EFC
+/* 001D8 80B18538 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 001DC 80B1853C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001E0 80B18540 240E0006 */  addiu   $t6, $zero, 0x0006         ## $t6 = 00000006
 /* 001E4 80B18544 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

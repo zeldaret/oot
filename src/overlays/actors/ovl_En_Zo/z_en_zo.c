@@ -292,12 +292,26 @@ void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
 }
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 0x1A, 0x40, 0, { 0, 0, 0 } },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 26, 64, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
@@ -560,7 +574,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInit);
 
     if (LINK_IS_ADULT && ((this->actor.params & 0x3F) == 8)) {
         Actor_Kill(&this->actor);
@@ -577,7 +591,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f, 5);
 
     if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawCircle;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
         func_80034EC0(&this->skelAnime, sAnimations, 1);
         this->canSpeak = true;
@@ -724,7 +738,7 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((s32)this->alpha != 0) {
-        Collider_CylinderUpdate(thisx, &this->collider);
+        Collider_UpdateCylinder(thisx, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 

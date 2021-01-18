@@ -43,29 +43,64 @@ const ActorInit Bg_Haka_Trap_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x0D, 0x09, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisItemInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00020000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00020000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f }, { 1800.0f, 0.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_TRIS,
+    },
     2,
-    sTrisItemsInit,
+    sTrisElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0064, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -137,8 +172,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.body.toucherFlags = this->colliderCylinder.body.toucherFlags;
-                this->colliderCylinder.body.toucherFlags |= 0x10;
+                this->colliderCylinder.info.toucherFlags = this->colliderCylinder.info.toucherFlags;
+                this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -151,7 +186,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -212,7 +247,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     func_8087FFC0(this, globalCtx);
 
-    if (this->colliderSpikes.base.acFlags & 2) {
+    if (this->colliderSpikes.base.acFlags & AC_HIT) {
         this->timer = 20;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;
@@ -475,13 +510,13 @@ void func_80880D68(BgHakaTrap* this) {
     Vec3f vec2;
     Vec3f vec1;
 
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[0], &vec1);
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[1], &vec2);
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[2], &vec3);
-    func_800627A0(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[0], &vec1);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[1], &vec2);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[2], &vec3);
+    Collider_SetTrisVertices(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
 
-    Matrix_MultVec3f(&sTrisItemsInit[1].dim.vtx[2], &vec2);
-    func_800627A0(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
+    Matrix_MultVec3f(&sTrisElementsInit[1].dim.vtx[2], &vec2);
+    Collider_SetTrisVertices(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
 }
 
 void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -390,7 +390,7 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiMan_SetBgm();
     this->blinkFunc(this);
     this->actor.focus.pos.y = 70.0f;
-    Actor_SetHeight(&this->actor, 70.0f);
+    Actor_SetFocusToWorld(&this->actor, 70.0f);
     func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 

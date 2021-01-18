@@ -47,7 +47,7 @@ glabel EnBili_Init
 /* 000A0 809BF940 3C06809C */  lui     $a2, %hi(D_809C166C)       ## $a2 = 809C0000
 /* 000A4 809BF944 24C6166C */  addiu   $a2, $a2, %lo(D_809C166C)  ## $a2 = 809C166C
 /* 000A8 809BF948 24A51678 */  addiu   $a1, $a1, %lo(D_809C1678)  ## $a1 = 809C1678
-/* 000AC 809BF94C 0C0187BF */  jal     func_80061EFC              
+/* 000AC 809BF94C 0C0187BF */  jal     CollisionCheck_SetInfo2              
 /* 000B0 809BF950 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000B4 809BF954 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
 /* 000B8 809BF958 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF

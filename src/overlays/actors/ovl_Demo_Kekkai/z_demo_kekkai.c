@@ -27,6 +27,26 @@ const ActorInit Demo_Kekkai_InitVars = {
     (ActorFunc)DemoKekkai_Update,
     (ActorFunc)DemoKekkai_Draw,
 };
+
+static ColliderCylinderInit D_8098E0B0 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x07, 0x04 },
+        { 0x00002000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 680, 220, 120, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kekkai/func_8098CFD0.s")
 

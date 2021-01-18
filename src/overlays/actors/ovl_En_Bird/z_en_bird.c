@@ -33,7 +33,7 @@ const ActorInit En_Bird_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(arrowOffset, 5600, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 
 extern AnimationHeader D_0600006C;

@@ -109,7 +109,7 @@ glabel func_80A70E34
 /* 019C0 80A70F70 3C0680A7 */  lui     $a2, %hi(D_80A71EEC)       ## $a2 = 80A70000
 /* 019C4 80A70F74 24C61EEC */  addiu   $a2, $a2, %lo(D_80A71EEC)  ## $a2 = 80A71EEC
 /* 019C8 80A70F78 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 019CC 80A70F7C 0C0187BF */  jal     func_80061EFC
+/* 019CC 80A70F7C 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 019D0 80A70F80 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 019D4 80A70F84 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C
 /* 019D8 80A70F88 3C0680A7 */  lui     $a2, %hi(D_80A722E3)       ## $a2 = 80A70000

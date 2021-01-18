@@ -20,9 +20,22 @@ void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
@@ -93,14 +106,14 @@ void func_80B533B0(Actor* thisx, GlobalContext* globalCtx) {
     EnZl3* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80B533FC(EnZl3* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
     s32 pad[4];
 
-    Collider_CylinderUpdate(&this->actor, collider);
+    Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
 }
 
@@ -2322,7 +2335,7 @@ void func_80B58DB0(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B58E10(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2424,7 +2437,7 @@ void func_80B5922C(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2436,7 +2449,7 @@ void func_80B592A8(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2449,7 +2462,7 @@ void func_80B59340(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2463,7 +2476,7 @@ void func_80B593D0(EnZl3* this, GlobalContext* globalCtx) {
     func_80B57298(this);
     func_80B5366C(this, globalCtx);
     func_80B56E38(this, globalCtx);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
     func_80B534CC(this);
     EnZl3_FrameUpdateMatrix(this);
     func_80B58C08(this, globalCtx);

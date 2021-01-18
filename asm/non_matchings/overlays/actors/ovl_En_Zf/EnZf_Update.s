@@ -171,7 +171,7 @@ glabel EnZf_Update
 /* 05468 80B494B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0546C 80B494BC 15810024 */  bne     $t4, $at, .L80B49550       
 /* 05470 80B494C0 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
-/* 05474 80B494C4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 05474 80B494C4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 05478 80B494C8 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 0547C 80B494CC C6060080 */  lwc1    $f6, 0x0080($s0)           ## 00000080
@@ -188,7 +188,7 @@ glabel EnZf_Update
 /* 054A8 80B494F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 054AC 80B494FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 054B0 80B49500 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 054B4 80B49504 00812821 */  addu    $a1, $a0, $at              
 .L80B49508:
 /* 054B8 80B49508 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

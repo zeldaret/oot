@@ -38,7 +38,7 @@ const ActorInit En_Attack_Niw_InitVars = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(arrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -171,7 +171,7 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
     s16 sp1E;
     s16 sp1C;
 
-    Actor_SetHeight(&this->actor, this->unk_2E4);
+    Actor_SetFocusToWorld(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
     if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) ||
         (sp1C > SCREEN_HEIGHT)) {
@@ -206,7 +206,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.world.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
     Math_ApproachF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
 
-    Actor_SetHeight(&this->actor, this->unk_2E4);
+    Actor_SetFocusToWorld(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp4E, &sp4C);
 
     if (this->actor.bgCheckFlags & 8) {

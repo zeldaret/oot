@@ -95,7 +95,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocusToWorld(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
     // (4 pillars of the Forest Temple) Bank danger
     osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);

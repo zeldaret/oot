@@ -982,7 +982,7 @@ void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowScale = 4.0f;
     func_80A3BF54(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 5.0f);
+    Actor_SetFocusToWorld(&this->actor, 5.0f);
     this->actor.shape.rot.x = 0.0f;
     if (this->actor.params != 38) {
         if (this->unk_1B4 != 0) {

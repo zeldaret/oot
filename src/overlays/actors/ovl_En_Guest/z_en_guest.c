@@ -32,15 +32,21 @@ const ActorInit En_Guest_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 60, 0, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
-    ICHAIN_F32(arrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
 static UNK_PTR D_80A50BA4[] = {
@@ -93,9 +99,9 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = func_80A505CC;
 
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-        Actor_SetHeight(&this->actor, 60.0f);
+        Actor_SetFocusToWorld(&this->actor, 60.0f);
 
         this->unk_30E = 0;
         this->unk_30D = 0;
@@ -168,9 +174,9 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
     SkelAnime_Update(&this->skelAnime);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

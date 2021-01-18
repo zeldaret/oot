@@ -5,9 +5,9 @@
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc* shadowDrawFunc, f32 shadowScale) {
+void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc* shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
-    shape->shadowDrawFunc = shadowDrawFunc;
+    shape->shadowDraw = shadowDraw;
     shape->shadowScale = shadowScale;
     shape->shadowAlpha = 255;
 }
@@ -278,7 +278,7 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
 void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
     NaviColor* naviColor = &sNaviColorList[actorCategory];
     targetCtx->naviRefPos.x = actor->focus.pos.x;
-    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->arrowOffset * actor->scale.y);
+    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     targetCtx->naviRefPos.z = actor->focus.pos.z;
     targetCtx->naviInner.r = naviColor->inner.r;
     targetCtx->naviInner.g = naviColor->inner.g;
@@ -405,7 +405,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
-        Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->arrowOffset * actor->scale.y) + 17.0f,
+        Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
         Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
@@ -468,7 +468,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     if (Math_StepToF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
         temp1 = 0.25f / targetCtx->unk_40;
         temp2 = unkActor->world.pos.x - targetCtx->naviRefPos.x;
-        temp3 = (unkActor->world.pos.y + (unkActor->arrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
+        temp3 = (unkActor->world.pos.y + (unkActor->targetArrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
         temp4 = unkActor->world.pos.z - targetCtx->naviRefPos.z;
         targetCtx->naviRefPos.x += temp2 * temp1;
         targetCtx->naviRefPos.y += temp3 * temp1;
@@ -776,13 +776,13 @@ void Actor_Kill(Actor* actor) {
     actor->flags &= ~0x1;
 }
 
-void Actor_InitPosRot(Actor* actor) {
+void Actor_SetWorldToHome(Actor* actor) {
     actor->world = actor->home;
 }
 
-void Actor_SetHeight(Actor* actor, f32 offset) {
+void Actor_SetFocusToWorld(Actor* actor, f32 yOffset) {
     actor->focus.pos.x = actor->world.pos.x;
-    actor->focus.pos.y = actor->world.pos.y + offset;
+    actor->focus.pos.y = actor->world.pos.y + yOffset;
     actor->focus.pos.z = actor->world.pos.z;
 
     actor->focus.rot.x = actor->world.rot.x;
@@ -790,11 +790,11 @@ void Actor_SetHeight(Actor* actor, f32 offset) {
     actor->focus.rot.z = actor->world.rot.z;
 }
 
-void func_8002D5F4(Actor* actor) {
+void Actor_SetWorldRotToShape(Actor* actor) {
     actor->world.rot = actor->shape.rot;
 }
 
-void func_8002D610(Actor* actor) {
+void Actor_SetShapeRotToWorld(Actor* actor) {
     actor->shape.rot = actor->world.rot;
 }
 
@@ -809,9 +809,9 @@ void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
-    Actor_InitPosRot(actor);
-    func_8002D610(actor);
-    Actor_SetHeight(actor, 0.0f);
+    Actor_SetWorldToHome(actor);
+    Actor_SetShapeRotToWorld(actor);
+    Actor_SetFocusToWorld(actor, 0.0f);
     Math_Vec3f_Copy(&actor->prevPos, &actor->world.pos);
     Actor_SetScale(actor, 0.01f);
     actor->targetMode = 3;
@@ -821,7 +821,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
     actor->uncullZoneDownward = 700.0f;
-    func_80061E48(&actor->colChkInfo);
+    CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorBgId = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
@@ -1387,19 +1387,19 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-PosRot* func_8002EEE4(PosRot* arg0, Actor* actor) {
-    *arg0 = actor->focus;
+PosRot* Actor_GetFocus(PosRot* dest, Actor* actor) {
+    *dest = actor->focus;
 
-    return arg0;
+    return dest;
 }
 
-PosRot* func_8002EF14(PosRot* arg0, Actor* actor) {
-    *arg0 = actor->world;
+PosRot* Actor_GetWorld(PosRot* dest, Actor* actor) {
+    *dest = actor->world;
 
-    return arg0;
+    return dest;
 }
 
-PosRot* func_8002EF44(PosRot* arg0, Actor* actor) {
+PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
     PosRot sp1C;
 
     Math_Vec3f_Copy(&sp1C.pos, &actor->world.pos);
@@ -1435,17 +1435,21 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
 }
 
 typedef struct {
-    f32 unk_0, unk_4;
-} struct_80115FF8; // size = 0x8
+    /* 0x0 */ f32 rangeSq;
+    /* 0x4 */ f32 leashScale;
+} TargetRangeParams; // size = 0x8
 
-struct_80115FF8 D_80115FF8[] = {
-    { 4900.0f, 0.5f },         { 28900.0f, 0.6666667f },   { 78400.0f, 0.05f },       { 122500.0f, 0.6666667f },
-    { 490000.0f, 0.6666667f }, { 1000000.0f, 0.6666667f }, { 10000.0f, 0.94905096f }, { 19600.0f, 0.85714287f },
-    { 57600.0f, 0.41666666f }, { 78400.0f, 0.001f },
+#define TARGET_RANGE(range, leash) \
+    { SQ(range), (f32)range / leash }
+
+TargetRangeParams D_80115FF8[] = {
+    TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
+    TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
+    TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
 };
 
 u32 func_8002F090(Actor* actor, f32 arg1) {
-    return arg1 < D_80115FF8[actor->targetMode].unk_0;
+    return arg1 < D_80115FF8[actor->targetMode].rangeSq;
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
@@ -1467,7 +1471,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
             dist = actor->xyzDistToPlayerSq;
         }
 
-        return !func_8002F090(actor, D_80115FF8[actor->targetMode].unk_4 * dist);
+        return !func_8002F090(actor, D_80115FF8[actor->targetMode].leashScale * dist);
     }
 
     return 0;
@@ -1725,7 +1729,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
         globalCtx->unk_11D30[0] = 1;
-        func_8005DFAC(globalCtx, NULL, pos);
+        CollisionCheck_BlueBlood(globalCtx, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
     }
@@ -2066,7 +2070,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->naviActor) &&
                         (actor != player->heldActor) && (&player->actor != actor->parent))) {
-                func_80061E8C(&actor->colChkInfo);
+                CollisionCheck_ResetDamage(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
                 if (!actor->isDrawn) {
@@ -2103,7 +2107,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     func_8003F8EC(globalCtx, &globalCtx->colCtx.dyna, actor);
                 }
 
-                func_80061E8C(&actor->colChkInfo);
+                CollisionCheck_ResetDamage(&actor->colChkInfo);
 
                 actor = actor->next;
             }
@@ -2215,8 +2219,8 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
         }
     }
 
-    if (actor->shape.shadowDrawFunc != NULL) {
-        actor->shape.shadowDrawFunc(actor, lights, globalCtx);
+    if (actor->shape.shadowDraw != NULL) {
+        actor->shape.shadowDraw(actor, lights, globalCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6119);
@@ -2443,7 +2447,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
-        CollisionCheck_Draw(globalCtx, &globalCtx->colChkCtx);
+        CollisionCheck_DrawCollision(globalCtx, &globalCtx->colChkCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6563);
@@ -2501,7 +2505,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
+    CollisionCheck_ClearContext(globalCtx, &globalCtx->colChkCtx);
     actorCtx->flags.tempClear = 0;
     actorCtx->flags.tempSwch &= 0xFFFFFF;
     globalCtx->msgCtx.unk_E3F4 = 0;
@@ -2539,29 +2543,29 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
  * Adds a given actor instance at the front of the actor list of the specified category.
  * Also sets the actor instance as being of that category.
  */
-void Actor_AddToCategoryList(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCategory) {
-    Actor* prevFirstActor;
+void Actor_AddToCategory(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCategory) {
+    Actor* prevHead;
 
     actorToAdd->category = actorCategory;
 
     actorCtx->total++;
     actorCtx->actorLists[actorCategory].length++;
-    prevFirstActor = actorCtx->actorLists[actorCategory].head;
+    prevHead = actorCtx->actorLists[actorCategory].head;
 
-    if (prevFirstActor != NULL) {
-        prevFirstActor->prev = actorToAdd;
+    if (prevHead != NULL) {
+        prevHead->prev = actorToAdd;
     }
 
     actorCtx->actorLists[actorCategory].head = actorToAdd;
-    actorToAdd->next = prevFirstActor;
+    actorToAdd->next = prevHead;
 }
 
 /**
  * Removes a given actor instance from its actor list.
  * Also sets the temp clear flag of the current room if the actor removed was the last enemy loaded.
  */
-Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actorToRemove) {
-    Actor* newFirstActor;
+Actor* Actor_RemoveFromCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actorToRemove) {
+    Actor* newHead;
 
     actorCtx->total--;
     actorCtx->actorLists[actorToRemove->category].length--;
@@ -2572,10 +2576,10 @@ Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* acto
         actorCtx->actorLists[actorToRemove->category].head = actorToRemove->next;
     }
 
-    newFirstActor = actorToRemove->next;
+    newHead = actorToRemove->next;
 
-    if (newFirstActor != NULL) {
-        newFirstActor->prev = actorToRemove->prev;
+    if (newHead != NULL) {
+        newHead->prev = actorToRemove->prev;
     }
 
     actorToRemove->next = NULL;
@@ -2586,7 +2590,7 @@ Actor* Actor_RemoveFromCategoryList(GlobalContext* globalCtx, ActorContext* acto
         Flags_SetTempClear(globalCtx, globalCtx->roomCtx.curRoom.num);
     }
 
-    return newFirstActor;
+    return newHead;
 }
 
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
@@ -2775,7 +2779,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor->home.rot.z = rotZ;
     actor->params = params;
 
-    Actor_AddToCategoryList(actorCtx, actor, actorInit->category);
+    Actor_AddToCategory(actorCtx, actor, actorInit->category);
 
     temp = gSegments[6];
     Actor_Init(actor, globalCtx);
@@ -2837,7 +2841,7 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalCo
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx) {
     char* name;
     Player* player;
-    Actor* newFirstActor;
+    Actor* newHead;
     ActorOverlay* overlayEntry;
 
     player = PLAYER;
@@ -2870,7 +2874,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     func_800F89E8(&actor->projectedPos);
     Actor_Destroy(actor, globalCtx);
 
-    newFirstActor = Actor_RemoveFromCategoryList(globalCtx, actorCtx, actor);
+    newHead = Actor_RemoveFromCategory(globalCtx, actorCtx, actor);
 
     ZeldaArena_FreeDebug(actor, "../z_actor.c", 7242);
 
@@ -2892,7 +2896,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         Actor_FreeOverlay(overlayEntry);
     }
 
-    return newFirstActor;
+    return newHead;
 }
 
 s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
@@ -2954,8 +2958,8 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
 }
 
 u8 D_801160A0[] = {
-    ACTORCAT_BOSS,  ACTORCAT_ENEMY,  ACTORCAT_BG,   ACTORCAT_EXPLOSIVES, ACTORCAT_NPC,  ACTORCAT_ITEMACTION,
-    ACTORCAT_CHEST, ACTORCAT_SWITCH, ACTORCAT_PROP, ACTORCAT_MISC,       ACTORCAT_DOOR, ACTORCAT_SWITCH,
+    ACTORCAT_BOSS,  ACTORCAT_ENEMY,  ACTORCAT_BG,   ACTORCAT_EXPLOSIVE, ACTORCAT_NPC,  ACTORCAT_ITEMACTION,
+    ACTORCAT_CHEST, ACTORCAT_SWITCH, ACTORCAT_PROP, ACTORCAT_MISC,      ACTORCAT_DOOR, ACTORCAT_SWITCH,
 };
 
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player) {
@@ -3201,8 +3205,8 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 }
 
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
-    if ((collider->acFlags & 0x2) && (collider->ac->category == ACTORCAT_EXPLOSIVES)) {
-        collider->acFlags &= ~0x2;
+    if ((collider->acFlags & AC_HIT) && (collider->ac->category == ACTORCAT_EXPLOSIVE)) {
+        collider->acFlags &= ~AC_HIT;
         return collider->ac;
     }
 
@@ -3210,7 +3214,7 @@ Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) 
 }
 
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
-    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].head;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
     while (actor != NULL) {
         if ((actor == explosiveActor) || (actor->params != 1)) {
@@ -3232,8 +3236,8 @@ Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
  * This is done by moving it to the corresponding category list and setting its category variable accordingly.
  */
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory) {
-    Actor_RemoveFromCategoryList(globalCtx, actorCtx, actor);
-    Actor_AddToCategoryList(actorCtx, actor, actorCategory);
+    Actor_RemoveFromCategory(globalCtx, actorCtx, actor);
+    Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
 
 typedef struct {
@@ -3270,8 +3274,9 @@ Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
                 spA8.y = itemActor->actor.world.pos.y + deltaY;
                 spA8.z = itemActor->actor.world.pos.z + deltaZ;
 
-                if (func_80062ECC(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight, 0.0f,
-                                  &refActor->world.pos, &itemActor->actor.world.pos, &spA8, &sp90, &sp84)) {
+                if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight,
+                                                    0.0f, &refActor->world.pos, &itemActor->actor.world.pos, &spA8,
+                                                    &sp90, &sp84)) {
                     return &itemActor->actor;
                 } else {
                     actor = actor->next;
@@ -3558,7 +3563,7 @@ void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
 }
 
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
-    func_80062D60(globalCtx, arg1);
+    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
@@ -3921,7 +3926,7 @@ u8 func_800353E8(GlobalContext* globalCtx) {
 }
 
 /**
- * Finds the first actor instance of a specified ID and Actor_ChangeCategory within a given range from
+ * Finds the first actor instance of a specified ID and category within a given range from
  * an actor if there is one. If the ID provided is -1, this will look for any actor of the
  * specified category rather than a specific ID.
  */
@@ -3990,7 +3995,7 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
-    if ((collider->acFlags & 0x08) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return 1;
     } else {
         return 0;
@@ -4007,27 +4012,27 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
-    if (colBody->acHitItem == NULL) {
+void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
+    if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (colBody->acHitItem->toucher.flags & 0x10060000)) {
-        actor->freezeTimer = colBody->acHitItem->toucher.damage;
+    } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+        actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->dropFlag = 0x00;
-    } else if (colBody->acHitItem->toucher.flags & 0x0800) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
         actor->dropFlag = 0x01;
-    } else if (colBody->acHitItem->toucher.flags & 0x1000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
         actor->dropFlag = 0x02;
-    } else if (colBody->acHitItem->toucher.flags & 0x4000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
         actor->dropFlag = 0x04;
-    } else if (colBody->acHitItem->toucher.flags & 0x8000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
         actor->dropFlag = 0x08;
-    } else if (colBody->acHitItem->toucher.flags & 0x10000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
         actor->dropFlag = 0x10;
-    } else if (colBody->acHitItem->toucher.flags & 0x2000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
         actor->dropFlag = 0x20;
-    } else if (colBody->acHitItem->toucher.flags & 0x80000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
         if (freezeFlag) {
-            actor->freezeTimer = colBody->acHitItem->toucher.damage;
+            actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         }
         actor->dropFlag = 0x40;
     } else {
@@ -4036,34 +4041,34 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
 }
 
 void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
-    ColliderBody* curColBody;
+    ColliderInfo* curColInfo;
     s32 flag;
     s32 i;
 
     actor->dropFlag = 0x00;
 
     for (i = jntSph->count - 1; i >= 0; i--) {
-        curColBody = &jntSph->list[i].body;
-        if (curColBody->acHitItem == NULL) {
+        curColInfo = &jntSph->elements[i].info;
+        if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColBody->acHitItem->toucher.flags & 0x10060000)) {
-            actor->freezeTimer = curColBody->acHitItem->toucher.damage;
+        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+            actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
-        } else if (curColBody->acHitItem->toucher.flags & 0x0800) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
             flag = 0x01;
-        } else if (curColBody->acHitItem->toucher.flags & 0x1000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
             flag = 0x02;
-        } else if (curColBody->acHitItem->toucher.flags & 0x4000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
             flag = 0x04;
-        } else if (curColBody->acHitItem->toucher.flags & 0x8000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
             flag = 0x08;
-        } else if (curColBody->acHitItem->toucher.flags & 0x10000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
             flag = 0x10;
-        } else if (curColBody->acHitItem->toucher.flags & 0x2000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
             flag = 0x20;
-        } else if (curColBody->acHitItem->toucher.flags & 0x80000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
             if (freezeFlag) {
-                actor->freezeTimer = curColBody->acHitItem->toucher.damage;
+                actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }
             flag = 0x40;
         } else {

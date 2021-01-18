@@ -945,7 +945,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                  Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -955,12 +955,12 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         return 0;
     } else {
         if (collider != NULL) {
-            func_80062734(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
+            Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -972,22 +972,22 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 
 void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_WOODEN_SHIELD,
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_METAL_SHIELD,
+        COLTYPE_METAL,
+        COLTYPE_WOOD,
+        COLTYPE_METAL,
+        COLTYPE_METAL,
     };
 
     if (this->stateFlags1 & 0x400000) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.type = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
         Matrix_MultVec3f(&quadSrc[2], &quadDest[2]);
         Matrix_MultVec3f(&quadSrc[3], &quadDest[3]);
-        func_80062734(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
+        Collider_SetQuadVertices(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
 
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);

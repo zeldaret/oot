@@ -241,7 +241,7 @@ void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_158--;
     }
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, this->height);
+    Actor_SetFocusToWorld(&this->actor, this->height);
 
     if (BREG(0) != 0) {
         if (this->unk_15A != 0) {

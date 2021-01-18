@@ -69,8 +69,22 @@ const ActorInit En_Heishi2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
@@ -80,7 +94,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.colChkInfo.mass = 255;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
@@ -770,10 +784,10 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
     s32 i;
 
-    Actor_SetHeight(&this->actor, this->unk_2E0);
+    Actor_SetFocusToWorld(&this->actor, this->unk_2E0);
     if ((this->initParams == 2) || (this->initParams == 5)) {
         this->actor.focus.pos.y = 70.0f;
-        Actor_SetHeight(&this->actor, 70.0f);
+        Actor_SetFocusToWorld(&this->actor, 70.0f);
         func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
     }
 
@@ -793,8 +807,8 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             break;
     }
 }

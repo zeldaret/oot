@@ -33,15 +33,29 @@ const ActorInit En_Po_Desert_InitVars = {
 };
 
 static ColliderCylinderInit sColliderInit = {
-    { COLTYPE_UNK3, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 25, 50, 20, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(arrowOffset, 3200, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
 };
 
 extern SkeletonHeader D_06006A30;
@@ -187,14 +201,14 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
-    Actor_SetHeight(&this->actor, 42.0f);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Actor_SetFocusToWorld(&this->actor, 42.0f);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (globalCtx->actorCtx.unk_03) {
         this->actor.flags |= 0x81;
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawCircle;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {
-        this->actor.shape.shadowDrawFunc = NULL;
+        this->actor.shape.shadowDraw = NULL;
         this->actor.flags &= ~0x81;
     }
 }

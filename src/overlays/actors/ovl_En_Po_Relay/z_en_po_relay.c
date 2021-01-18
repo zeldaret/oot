@@ -5,6 +5,7 @@
  */
 
 #include "z_en_po_relay.h"
+#include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 
 #define FLAGS 0x00011019
 
@@ -46,8 +47,22 @@ const ActorInit En_Po_Relay_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
@@ -55,7 +70,7 @@ static s32 D_80AD8D24 = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x4F, ICHAIN_CONTINUE),
-    ICHAIN_F32(arrowOffset, 1500, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
 };
 
 static Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
@@ -113,7 +128,7 @@ void EnPoRelay_SetupIdle(EnPoRelay* this) {
     this->actor.room = -1;
     this->actor.shape.rot.y = 0;
     this->actor.world.rot.y = -0x8000;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actionFunc = EnPoRelay_Idle;
 }
 
@@ -195,7 +210,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
                         Math_CosS(this->unk_19A) * speed + this->actor.world.pos.x, this->actor.world.pos.y,
                         Math_SinS(this->unk_19A) * speed + this->actor.world.pos.z, 0,
-                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
+                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_FLAME_DROP);
         }
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_19A, 2, 0x1000, 0x100);
@@ -343,9 +358,9 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     EnPoRelay_CorrectY(this);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_SetHeight(&this->actor, 50.0f);
+    Actor_SetFocusToWorld(&this->actor, 50.0f);
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }

@@ -114,7 +114,7 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.z = (Rand_ZeroOne() - 0.5f) * 3.0f;
 
     if (this->actor != NULL) {
-        if ((this->actor->category == ACTORCAT_EXPLOSIVES) && (this->actor->update != NULL)) {
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
             this->pos.x = this->actor->world.pos.x + this->vec.x;
             this->pos.y = this->actor->world.pos.y + this->vec.y;
             this->pos.z = this->actor->world.pos.z + this->vec.z;
@@ -133,7 +133,7 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 // with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
-        if ((this->actor->category == ACTORCAT_EXPLOSIVES) && (this->actor->update != NULL)) {
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
             this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speedXZ);
             this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speedXZ);
         }

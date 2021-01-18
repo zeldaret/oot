@@ -39,8 +39,22 @@ const ActorInit Bg_Jya_1flift_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 70, 80, -82, { 0, 0, 0 } },
 };
 
@@ -77,7 +91,7 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -186,8 +200,8 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         this->isLinkRiding = tempIsRiding;
-        Collider_CylinderUpdate(thisx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        Collider_UpdateCylinder(thisx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     } else {
         Actor_Kill(thisx);
     }

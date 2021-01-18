@@ -93,7 +93,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 270.0f;
     }
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocusToWorld(&this->dyna.actor, 50.0f);
     BgMoriBigst_SetupWaitForMoriTex(this, globalCtx);
 }
 
@@ -230,7 +230,7 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriBigst* this = THIS;
 
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocusToWorld(&this->dyna.actor, 50.0f);
     if (this->waitTimer > 0) {
         this->waitTimer--;
     }

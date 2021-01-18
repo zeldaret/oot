@@ -65,7 +65,7 @@ glabel func_80A16C68
 /* 01AB8 80A16D38 45000003 */  bc1f    .L80A16D48                 
 /* 01ABC 80A16D3C 00000000 */  nop
 /* 01AC0 80A16D40 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01AC4 80A16D44 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 .L80A16D48:
 /* 01AC8 80A16D48 3C0180A1 */  lui     $at, %hi(D_80A171EC)       ## $at = 80A10000
@@ -74,7 +74,7 @@ glabel func_80A16C68
 /* 01AD4 80A16D54 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01AD8 80A16D58 46105482 */  mul.s   $f18, $f10, $f16           
 /* 01ADC 80A16D5C 44059000 */  mfc1    $a1, $f18                  
-/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetHeight
+/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetFocusToWorld
               
 /* 01AE4 80A16D64 00000000 */  nop
 /* 01AE8 80A16D68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

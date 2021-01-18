@@ -74,21 +74,49 @@ static u8 sLowerRiverSpawned = false;
 static u8 sUpperRiverSpawned = false;
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x01, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 15, 25, 4, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 15, 25, 4, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(arrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 extern FlexSkeletonHeader D_06002530;
@@ -199,7 +227,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 0xA:
-            this->actor.colChkInfo.mass = 0xFF;
+            this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         case 0xD:
         case 0xE:
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit2);
@@ -835,8 +863,8 @@ void func_80AB7420(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->unk_2A8 == 0 && this->actor.params != 0xA && this->actionFunc != func_80AB6450 &&
-        this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->sfxTimer1 = 30;
         if (this->unk_2A4 > 0 && D_80AB85E0 == 0) {
             this->unk_2A4--;
@@ -948,7 +976,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->shape.rot = thisx->world.rot;
     thisx->shape.shadowScale = 15.0f;
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, this->unk_304);
+    Actor_SetFocusToWorld(&this->actor, this->unk_304);
     Actor_MoveForward(&this->actor);
 
     if (this->actionFunc != func_80AB6EB4 && this->actionFunc != func_80AB6450 && globalCtx->sceneNum != SCENE_SPOT03) {
@@ -1071,15 +1099,15 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_2A8 == 0) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         if (thisx->params != 0xA && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 4) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 &&
             this->actionFunc != func_80AB6324 && this->actionFunc != func_80AB63A8 &&
             this->actionFunc != func_80AB6450) {
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }

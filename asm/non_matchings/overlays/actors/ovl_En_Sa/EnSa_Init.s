@@ -50,7 +50,7 @@ glabel EnSa_Init
 /* 00CDC 80AF623C 3C0680AF */  lui     $a2, %hi(D_80AF728C)       ## $a2 = 80AF0000
 /* 00CE0 80AF6240 24C6728C */  addiu   $a2, $a2, %lo(D_80AF728C)  ## $a2 = 80AF728C
 /* 00CE4 80AF6244 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00CE8 80AF6248 0C0187BF */  jal     func_80061EFC
+/* 00CE8 80AF6248 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 00CEC 80AF624C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00CF0 80AF6250 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00CF4 80AF6254 0C2BD77F */  jal     func_80AF5DFC

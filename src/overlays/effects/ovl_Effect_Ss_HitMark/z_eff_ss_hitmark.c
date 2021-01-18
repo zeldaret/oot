@@ -44,7 +44,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->pos = initParams->pos;
     this->gfx = SEGMENTED_TO_VIRTUAL(D_04021770);
 
-    if (initParams->type == 1) {
+    if (initParams->type == EFFECT_HITMARK_DUST) {
         this->life = 16;
     } else {
         this->life = 8;
@@ -101,7 +101,7 @@ void EffectSsHitMark_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 void EffectSsHitMark_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 colorIdx;
 
-    if (this->rType == 1) {
+    if (this->rType == EFFECT_HITMARK_DUST) {
         this->rTexIdx = (15 - this->life) / 2;
     } else {
         this->rTexIdx = 7 - this->life;

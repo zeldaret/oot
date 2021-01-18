@@ -27,6 +27,26 @@ const ActorInit En_Vb_Ball_InitVars = {
     (ActorFunc)EnVbBall_Update,
     (ActorFunc)EnVbBall_Draw,
 };
+
+static ColliderCylinderInit D_80B2A000 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK6,
+        { 0x00100700, 0x00, 0x20 },
+        { 0x00100700, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 30, 10, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vb_Ball/EnVbBall_Init.s")
 

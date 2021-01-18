@@ -80,7 +80,7 @@ glabel func_808705D8
 /* 00AF4 808706D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000016C
 /* 00AF8 808706D8 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFAC
 /* 00AFC 808706DC 27A60058 */  addiu   $a2, $sp, 0x0058           ## $a2 = FFFFFFB8
-/* 00B00 808706E0 0C0189CD */  jal     func_80062734              
+/* 00B00 808706E0 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 00B04 808706E4 27A70064 */  addiu   $a3, $sp, 0x0064           ## $a3 = FFFFFFC4
 /* 00B08 808706E8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00B0C 808706EC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60

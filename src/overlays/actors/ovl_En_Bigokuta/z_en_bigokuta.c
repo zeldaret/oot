@@ -28,6 +28,53 @@ const ActorInit En_Bigokuta_InitVars = {
     (ActorFunc)EnBigokuta_Update,
     (ActorFunc)EnBigokuta_Draw,
 };
+
+static ColliderJntSphElementInit D_809BF3D4[1] = {
+    {
+        {
+            ELEMTYPE_UNK1,
+            { 0x20000000, 0x00, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 45, -30 }, 75 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809BF3F8 = {
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    D_809BF3D4,
+};
+
+static ColliderCylinderInit D_809BF408 = {
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x20000000, 0x00, 0x08 },
+        { 0xFFCFFFE7, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 50, 100, 0, { 30, 0, 12 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Init.s")
 

@@ -86,7 +86,7 @@ void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Audio_PlaySoundAtPosition(globalCtx, &thisx->world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
-        Actor_SetHeight(thisx, 50.0f);
+        Actor_SetFocusToWorld(thisx, 50.0f);
         func_80080480(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808AE630;
         thisx->speedXZ = 0.5f;

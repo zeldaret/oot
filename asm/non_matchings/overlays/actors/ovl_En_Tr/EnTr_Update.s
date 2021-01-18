@@ -95,7 +95,7 @@ glabel EnTr_Update
 .L80B23D00:
 /* 01010 80B23D00 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B23D04:
-/* 01014 80B23D04 0C00B56E */  jal     Actor_SetHeight
+/* 01014 80B23D04 0C00B56E */  jal     Actor_SetFocusToWorld
 
 /* 01018 80B23D08 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0101C 80B23D0C 860302E2 */  lh      $v1, 0x02E2($s0)           ## 000002E2

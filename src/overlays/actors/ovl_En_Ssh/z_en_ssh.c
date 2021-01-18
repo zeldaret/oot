@@ -68,30 +68,72 @@ const ActorInit En_Ssh_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 void EnSsh_SetupAction(EnSsh* this, EnSshActionFunc actionFunc) {
@@ -183,14 +225,14 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x0003F8E9;
-    this->colCylinder[1].body.bumper.flags = 0xFFC00716;
-    this->colCylinder[2].base.type = 9;
-    this->colCylinder[2].body.bumperFlags = 0xD;
-    this->colCylinder[2].body.flags = 2;
-    this->colCylinder[2].body.bumper.flags = 0xFFCC0716;
+    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8E9;
+    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00716;
+    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0716;
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
     Collider_InitJntSph(globalCtx, &this->colSph);
     Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphElements);
@@ -221,7 +263,7 @@ void EnSsh_SetReturnAnimation(EnSsh* this) {
 }
 
 void EnSsh_SetLandAnimation(EnSsh* this) {
-    this->actor.world.pos.y = this->groundYoffset + this->actor.floorHeight;
+    this->actor.world.pos.y = this->floorHeightOffset + this->actor.floorHeight;
     this->animTimer = EnSsh_SetAnimation(this, SSH_ANIM_LAND);
 }
 
@@ -246,9 +288,9 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 yShift;
     s32 i;
 
-    radius = this->colSph.list[0].dim.modelSphere.radius;
+    radius = this->colSph.elements[0].dim.modelSphere.radius;
     radius *= scale;
-    this->colSph.list[0].dim.modelSphere.radius = radius;
+    this->colSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
         yShift = this->colCylinder[i].dim.yShift;
@@ -263,7 +305,7 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
         this->colCylinder[i].dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scale);
-    this->groundYoffset = 40.0f * scale;
+    this->floorHeightOffset = 40.0f * scale;
     this->colliderScale = scale * 1.5f;
 }
 
@@ -376,7 +418,7 @@ s32 EnSsh_IsCloseToGround(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
     f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if ((nextY - this->actor.floorHeight) <= this->groundYoffset) {
+    if ((nextY - this->actor.floorHeight) <= this->floorHeightOffset) {
         return 1;
     }
     return 0;
@@ -412,17 +454,17 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
-    ColliderBody* body = &this->colCylinder[0].body;
+    ColliderInfo* info0 = &this->colCylinder[0].info;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        body->bumper.flags |= 2;
-        this->colCylinder[1].body.bumper.flags &= ~2;
-        this->colCylinder[2].body.bumper.flags &= ~2;
+        info0->bumper.dmgFlags |= 2;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        body->bumper.flags &= ~2;
-        this->colCylinder[1].body.bumper.flags |= 2;
-        this->colCylinder[2].body.bumper.flags |= 2;
+        info0->bumper.dmgFlags &= ~2;
+        this->colCylinder[1].info.bumper.dmgFlags |= 2;
+        this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 
@@ -434,8 +476,8 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.maskB & 1) {
-            this->colCylinder[i + 3].base.maskB &= ~1;
+        if (this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
             hit = true;
         }
     }
@@ -460,10 +502,10 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
     if (this->colCylinder[2].base.acFlags) {} // Needed for matching
     acFlags = this->colCylinder[2].base.acFlags;
 
-    if (!!(acFlags & 2) == 0) {
+    if (!!(acFlags & AC_HIT) == 0) {
         return 0;
     } else {
-        this->colCylinder[2].base.acFlags &= ~2;
+        this->colCylinder[2].base.acFlags &= ~AC_HIT;
         this->invincibilityTimer = 8;
         if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
             this->swayTimer = 60;
@@ -476,13 +518,13 @@ s32 EnSsh_CheckHitBack(EnSsh* this, GlobalContext* globalCtx) {
     ColliderCylinder* cyl = &this->colCylinder[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {
@@ -523,7 +565,7 @@ s32 EnSsh_CollisionCheck(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_SetBodyCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->colCylinder[0]);
+    Collider_UpdateCylinder(&this->actor, &this->colCylinder[0]);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[0].base);
 }
 
@@ -531,10 +573,10 @@ void EnSsh_SetLegsCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
     s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[2]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[2].base);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[1]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[1]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[1].base);
     }
 }
@@ -707,7 +749,7 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
         EnSsh_SetAnimation(this, SSH_ANIM_WAIT);
     }
-    if ((this->actor.floorHeight + this->groundYoffset) <= this->actor.world.pos.y) {
+    if ((this->actor.floorHeight + this->floorHeightOffset) <= this->actor.world.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
@@ -807,7 +849,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->blinkState = 0;
     }
     EnSsh_SetColliders(this, globalCtx);
-    Actor_SetHeight(&this->actor, 0.0f);
+    Actor_SetFocusToWorld(&this->actor, 0.0f);
 }
 
 s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -845,7 +887,7 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = THIS;
 
-    func_800628A4(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {

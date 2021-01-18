@@ -45,8 +45,22 @@ const ActorInit En_Ani_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0 } },
 };
 
@@ -77,7 +91,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
     } else {
@@ -211,7 +225,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), ANIMMODE_ONCE,
                          -4.0f);
         this->unk_2AA++;
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawCircle;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     }
 }
 
@@ -228,7 +242,7 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
         Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), ANIMMODE_ONCE,
                          0.0f);
-        this->actor.shape.shadowDrawFunc = NULL;
+        this->actor.shape.shadowDraw = NULL;
         this->unk_2AA++;
     }
 }
@@ -237,8 +251,8 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad[2];
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {

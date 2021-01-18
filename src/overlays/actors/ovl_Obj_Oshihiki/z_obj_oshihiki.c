@@ -306,7 +306,7 @@ void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ObjOshihiki_SetScale(this, globalCtx);
     ObjOshihiki_SetTexture(this, globalCtx);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
     ObjOshihiki_SetColor(this, globalCtx);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, globalCtx);

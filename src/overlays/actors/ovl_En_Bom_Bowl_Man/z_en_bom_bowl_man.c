@@ -238,7 +238,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
         if ((globalCtx->bombchuBowlingStatus == -1) &&
-            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVES].length == 0) && (this->bowlPit->status == 0) &&
+            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // Bombchu lost
@@ -455,7 +455,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->timer++;
     this->actor.focus.pos.y = 60.0f;
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocusToWorld(&this->actor, 60.0f);
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:

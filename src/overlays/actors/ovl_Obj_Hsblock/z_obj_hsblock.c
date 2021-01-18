@@ -142,7 +142,7 @@ void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
-    Actor_SetHeight(thisx, D_80B940C0[thisx->params & 3]);
+    Actor_SetFocusToWorld(thisx, D_80B940C0[thisx->params & 3]);
 }
 
 void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {

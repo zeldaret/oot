@@ -39,7 +39,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
     Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Actor_SetScale(&this->actor, 0.013f);
 

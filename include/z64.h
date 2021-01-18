@@ -70,9 +70,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ u8*    bufp;
-    /* 0x0008 */ u8*    head;
-    /* 0x000C */ u8*    tail;
+    /* 0x0004 */ void*  bufp;
+    /* 0x0008 */ void*  head;
+    /* 0x000C */ void*  tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
@@ -363,10 +363,14 @@ typedef struct {
     /* 0x01FC */ s16    unk_1FC;
     /* 0x01FE */ s16    unk_1FE;
     /* 0x0200 */ s16    unk_200;
-    /* 0x0202 */ s16    unk_202[3];
-    /* 0x0208 */ s16    unk_208[3];
-    /* 0x020E */ s16    unk_20E[6];
-    /* 0x021A */ s16    unk_21A[6];
+    /* 0x0202 */ s16    beatingHeartPrim[3];
+    /* 0x0208 */ s16    beatingHeartEnv[3];
+    /* 0x020E */ s16    heartsPrimR[2];
+    /* 0x0212 */ s16    heartsPrimG[2];
+    /* 0x0216 */ s16    heartsPrimB[2];
+    /* 0x021A */ s16    heartsEnvR[2];
+    /* 0x021E */ s16    heartsEnvG[2];
+    /* 0x0222 */ s16    heartsEnvB[2];
     /* 0x0226 */ s16    unk_226;
     /* 0x0228 */ s16    unk_228;
     /* 0x022A */ s16    unk_22A;
@@ -663,15 +667,15 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x000 */ s16 colAtCount;
+    /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;
-    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
-    /* 0x0CC */ s32 colAcCount;
-    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
-    /* 0x1C0 */ s32 colOcCount;
-    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
-    /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colACCount;
+    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOCCount;
+    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colLineCount;
+    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {

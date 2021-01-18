@@ -89,7 +89,7 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.focus.pos.z =
             this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
-        Actor_SetHeight(&this->dyna.actor, 50.0f);
+        Actor_SetFocusToWorld(&this->dyna.actor, 50.0f);
     }
 }
 

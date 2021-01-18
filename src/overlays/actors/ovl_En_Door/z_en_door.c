@@ -128,7 +128,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.world.pos.x -= xOffset;
         this->actor.world.pos.z += zOffset;
     }
-    Actor_SetHeight(&this->actor, 70.0f);
+    Actor_SetFocusToWorld(&this->actor, 70.0f);
 }
 
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {

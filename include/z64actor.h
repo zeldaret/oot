@@ -9,6 +9,8 @@
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
+#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC collisions
+#define MASS_HEAVY 0xFE // Can only be pushed by OC collisions with IMMOVABLE and HEAVY objects.
 
 struct Actor;
 struct GlobalContext;
@@ -26,7 +28,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s16 id;
-    /* 0x02 */ u8 category; // Classifies actor and determines when actor will execute
+    /* 0x02 */ u8 category; // Classifies actor and determines when it will update or draw
     /* 0x04 */ u32 flags;
     /* 0x08 */ s16 objectId;
     /* 0x0C */ u32 instanceSize;
@@ -36,10 +38,10 @@ typedef struct {
     /* 0x1C */ ActorFunc draw; // Draw function
 } ActorInit; // size = 0x20
 
-typedef enum { 
-    /* 0 */ ALLOCTYPE_NORMAL, 
-    /* 1 */ ALLOCTYPE_ABSOLUTE, 
-    /* 2 */ ALLOCTYPE_PERMANENT 
+typedef enum {
+    /* 0 */ ALLOCTYPE_NORMAL,
+    /* 1 */ ALLOCTYPE_ABSOLUTE,
+    /* 2 */ ALLOCTYPE_PERMANENT
 } AllocType;
 
 typedef struct {
@@ -91,7 +93,7 @@ typedef struct {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation.
     /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player.
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units.
-    /* 0x0C */ ActorShadowFunc shadowDrawFunc; // Shadow draw function.
+    /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function.
     /* 0x10 */ f32 shadowScale;
     /* 0x14 */ u8 shadowAlpha; // Default is 255.
     /* 0x15 */ u8 unk_15; // related to teardrop shadows
@@ -99,62 +101,62 @@ typedef struct {
 } ActorShape; // size = 0x18
 
 typedef struct Actor {
-    /* 0x000 */ s16 id; // Actor ID.
-    /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values.
-    /* 0x003 */ s8 room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change.
-    /* 0x004 */ u32 flags; // Flags used for various purposes.
-    /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes.
-    /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data".
-    /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank".
-    /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on.
-    /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle.
-    /* 0x024 */ PosRot world; // Position/rotation in the world.
-    /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head position.
-    /* 0x04C */ f32 arrowOffset; // Height offset of the target arrow relative to `head` position.
-    /* 0x050 */ Vec3f scale; // Scale of the actor in each axis.
-    /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis.
-    /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane.
-    /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame.
-    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis.
-    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching.
-    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor.
-    /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching.
-    /* 0x07D */ u8 floorBgId; // Bg ID of the floor polygon directly below the actor.
-    /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching.
-    /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor.
-    /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water.
-    /* 0x088 */ u16 bgCheckFlags; // See comments below actor struct for wip docs. TODO: macros for these flags.
-    /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player.
-    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis.
-    /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane.
-    /* 0x094 */ f32 yDistToPlayer; // Dist is negative if the actor is above the player.
-    /* 0x098 */ CollisionCheckInfo colChkInfo; // Variables related to the Collision Check system.
-    /* 0x0B4 */ ActorShape shape; // Variables related to the physical shape of the actor.
-    /* 0x0E4 */ Vec3f projectedPos; // Position of the actor in projected space.
-    /* 0x0F0 */ f32 projectedW; // w component of the projected actor position.
-    /* 0x0F4 */ f32 uncullZoneForward; // Amount to increase the uncull zone forward by (in projected space).
-    /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space).
-    /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space).
-    /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle.
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player.
-    /* 0x10D */ u8 unk_10D; // Z-Target related. Gets set to 40 if actor is targeted, otherwise 0.
+    /* 0x000 */ s16 id; // Actor ID
+    /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values
+    /* 0x003 */ s8 room; // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
+    /* 0x004 */ u32 flags; // Flags used for various purposes
+    /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes
+    /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
+    /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
+    /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
+    /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
+    /* 0x024 */ PosRot world; // Position/rotation in the world
+    /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
+    /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `head` position
+    /* 0x050 */ Vec3f scale; // Scale of the actor in each axis
+    /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
+    /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane
+    /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
+    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
+    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
+    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
+    /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching
+    /* 0x07D */ u8 floorBgId; // Bg ID of the floor polygon directly below the actor
+    /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
+    /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor
+    /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
+    /* 0x088 */ u16 bgCheckFlags; // See comments below actor struct for wip docs. TODO: macros for these flags
+    /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
+    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis
+    /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane
+    /* 0x094 */ f32 yDistToPlayer; // Dist is negative if the actor is above the player
+    /* 0x098 */ CollisionCheckInfo colChkInfo; // Variables related to the Collision Check system
+    /* 0x0B4 */ ActorShape shape; // Variables related to the physical shape of the actor
+    /* 0x0E4 */ Vec3f projectedPos; // Position of the actor in projected space
+    /* 0x0F0 */ f32 projectedW; // w component of the projected actor position
+    /* 0x0F4 */ f32 uncullZoneForward; // Amount to increase the uncull zone forward by (in projected space)
+    /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
+    /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
+    /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
+    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
+    /* 0x10D */ u8 unk_10D; // Z-Target related. Gets set to 40 if actor is targeted, otherwise 0
     /* 0x10E */ u16 textId; // Text ID to pass to link/display when interacting with the actor
-    /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically.
-    /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu.
-    /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically.
-    /* 0x115 */ u8 isDrawn; // Set to true if the actor is currently being drawn. Always stays false for lens actors.
-    /* 0x116 */ u8 dropFlag; // Configures what item is dropped by the actor from `Item_DropCollectibleRandom`.
-    /* 0x117 */ u8 naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF.
-    /* 0x118 */ struct Actor* parent; // Usage is actor specific. Set if actor is spwaned via `Actor_SpawnAsChild`.
-    /* 0x11C */ struct Actor* child; // Usage is actor specific. Set if actor is spwaned via `Actor_SpawnAsChild`.
-    /* 0x120 */ struct Actor* prev; // Previous actor of this caetgory.
-    /* 0x124 */ struct Actor* next; // Next actor of this category.
-    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by `Actor_Init` or `Actor_UpdateAll`.
-    /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by `Actor_Destroy`.
-    /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`.
-    /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`.
-    /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor.
-    /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom.
+    /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
+    /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
+    /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically
+    /* 0x115 */ u8 isDrawn; // Set to true if the actor is currently being drawn. Always stays false for lens actors
+    /* 0x116 */ u8 dropFlag; // Configures what item is dropped by the actor from `Item_DropCollectibleRandom`
+    /* 0x117 */ u8 naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
+    /* 0x118 */ struct Actor* parent; // Usage is actor specific. Set if actor is spawned via `Actor_SpawnAsChild`
+    /* 0x11C */ struct Actor* child; // Usage is actor specific. Set if actor is spawned via `Actor_SpawnAsChild`
+    /* 0x120 */ struct Actor* prev; // Previous actor of this category
+    /* 0x124 */ struct Actor* next; // Next actor of this category
+    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by `Actor_Init` or `Actor_UpdateAll`
+    /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by `Actor_Destroy`
+    /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
+    /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
+    /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
+    /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom
 } Actor; // size = 0x14C
 
 typedef enum {
@@ -174,6 +176,16 @@ BgCheckFlags WIP documentation:
 & 0x080 : Similar to & 0x1 but with no velocity check and is cleared every frame
 & 0x100 : Crushed between a floor and ceiling (triggers a void for player)
 & 0x200 : Unknown (only set/used by player so far)
+*/
+
+/*
+colorFilterParams WIP documentation
+& 0x8000 : white
+& 0x4000 : red
+if neither of the above are set : blue
+
+(& 0x1F00 >> 5) | 7 : color intensity
+0x2000 : translucent, else opaque
 */
 
 typedef struct DynaPolyActor {
@@ -280,7 +292,7 @@ typedef enum {
     /* 0x00 */ ACTORCAT_SWITCH,
     /* 0x01 */ ACTORCAT_BG,
     /* 0x02 */ ACTORCAT_PLAYER,
-    /* 0x03 */ ACTORCAT_EXPLOSIVES,
+    /* 0x03 */ ACTORCAT_EXPLOSIVE,
     /* 0x04 */ ACTORCAT_NPC,
     /* 0x05 */ ACTORCAT_ENEMY,
     /* 0x06 */ ACTORCAT_PROP,
