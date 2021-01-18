@@ -60,11 +60,23 @@ typedef enum BossVaSparkMode {
     SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum BossVaBloodMode { /* 0 */ BLOOD_DROPLET, /* 1 */ BLOOD_SPLATTER, /* 2 */ BLOOD_SPOT } BossVaBloodMode;
+typedef enum BossVaBloodMode {
+    /* 0 */ BLOOD_DROPLET,
+    /* 1 */ BLOOD_SPLATTER,
+    /* 2 */ BLOOD_SPOT
+} BossVaBloodMode;
 
-typedef enum BossVaTumorMode { /* 0 */ TUMOR_UNUSED, /* 1 */ TUMOR_BODY, /* 2 */ TUMOR_ARM } BossVaTumorMode;
+typedef enum BossVaTumorMode {
+    /* 0 */ TUMOR_UNUSED,
+    /* 1 */ TUMOR_BODY,
+    /* 2 */ TUMOR_ARM
+} BossVaTumorMode;
 
-typedef enum BossVaGoreMode { /* 0 */ GORE_PERMANENT, /* 1 */ GORE_FLOOR, /* 2 */ GORE_FADING } BossVaGoreMode;
+typedef enum BossVaGoreMode {
+    /* 0 */ GORE_PERMANENT,
+    /* 1 */ GORE_FLOOR,
+    /* 2 */ GORE_FADING
+} BossVaGoreMode;
 
 typedef enum BossVaCutscene {
     INTRO_UNUSED_START = -5,
@@ -1062,7 +1074,7 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags & ~AT_HIT;
+        this->colliderBody.base.atFlags &= ~AT_HIT;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsLink, 8.0f);
         }
@@ -1151,7 +1163,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags & ~AT_HIT;
+        this->colliderBody.base.atFlags &= ~AT_HIT;
 
         sPhase2Timer = (sPhase2Timer + 0x18) & 0xFFF0;
         if (this->colliderBody.base.at == &player->actor) {
@@ -1228,7 +1240,7 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     this->unk_1B0 += 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
     if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags & ~AT_HIT;
+        this->colliderBody.base.atFlags &= ~AT_HIT;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsLink, 8.0f);
             this->actor.posRot.rot.y += (s16)Rand_CenteredFloat(12000.0f) + 0x8000;
@@ -1349,7 +1361,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     this->unk_1B0 = (this->unk_1B0 + (s16)((sFightProgress - PHASE_4 + 1) * 1000.0f)) + 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
     if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags & ~AT_HIT;
+        this->colliderBody.base.atFlags &= ~AT_HIT;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsLink, 8.0f);
             this->actor.posRot.rot.y += (s16)Rand_CenteredFloat(12000.0f) + 0x8000;
@@ -2552,8 +2564,8 @@ void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
             this->colliderLightning.base.at = NULL;
         }
 
-        this->colliderLightning.base.atFlags & ~AT_HIT;
-        this->colliderSph.base.atFlags & ~AT_HIT;
+        this->colliderLightning.base.atFlags &= ~AT_HIT;
+        this->colliderSph.base.atFlags &= ~AT_HIT;
     }
 
     if (this->colliderSph.base.acFlags & AC_HIT) {
@@ -2647,8 +2659,8 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
             this->colliderLightning.base.at = NULL;
         }
 
-        this->colliderLightning.base.atFlags & ~AT_HIT;
-        this->colliderSph.base.atFlags & ~AT_HIT;
+        this->colliderLightning.base.atFlags &= ~AT_HIT;
+        this->colliderSph.base.atFlags &= ~AT_HIT;
     }
 
     Math_SmoothStepToF(&this->actor.posRot.pos.y, 4.0f, 1.0f, 2.0f, 0.0f);
