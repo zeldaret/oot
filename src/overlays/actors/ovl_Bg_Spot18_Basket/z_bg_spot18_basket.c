@@ -84,7 +84,7 @@ void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
     Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit,
                        &this->ColliderJntSphElements);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {

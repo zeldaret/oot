@@ -98,7 +98,7 @@ void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Collider_InitQuad(globalCtx, &this->colliderQuad);
     Collider_SetQuad(globalCtx, &this->colliderQuad, &this->actor, &sQuadInit);
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
     thisx->uncullZoneDownward = 2000.0f;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {

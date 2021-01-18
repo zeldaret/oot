@@ -78,7 +78,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->rot = this->actor.posRot.rot;
     this->actor.flags |= 0x400;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Actor_SetScale(&this->actor, 0.01f);
     this->actionFunc = func_80A8F660;

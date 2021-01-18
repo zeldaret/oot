@@ -95,7 +95,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_PlayLoop(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     if (LINK_IS_CHILD) {
         this->actionFunc = EnFu_WaitChild;

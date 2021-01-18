@@ -152,7 +152,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_278 = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
             break;
     }
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_276 = 0;
 }

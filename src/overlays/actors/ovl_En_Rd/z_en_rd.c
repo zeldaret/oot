@@ -145,7 +145,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_310 = this->unk_30E = 0;
     thisx->posRot2.pos = thisx->posRot.pos;
     thisx->posRot2.pos.y += 50.0f;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     thisx->colChkInfo.health = 8;
     this->unk_314 = this->unk_31D = 0xFF;
     this->unk_312 = (thisx->params & 0xFF00) >> 8;

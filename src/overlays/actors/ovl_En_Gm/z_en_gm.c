@@ -117,7 +117,7 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->eyeTexIndex = 0;
         this->blinkTimer = 20;
         this->actor.textId = 0x3049;

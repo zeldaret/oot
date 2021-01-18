@@ -204,7 +204,7 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->posRot2.pos = thisx->posRot.pos;
     thisx->posRot2.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
     this->unk_2DC = 0x1D;

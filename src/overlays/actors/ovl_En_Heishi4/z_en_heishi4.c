@@ -67,7 +67,7 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->pos = thisx->posRot.pos;
     thisx->unk_1F = 6;
     if (this->type == HEISHI4_AT_MARKET_DYING) {

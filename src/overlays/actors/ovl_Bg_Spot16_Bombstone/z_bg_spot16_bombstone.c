@@ -179,7 +179,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
     Actor_SetScale(&this->actor, 0.4f);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     func_808B4C4C(this, globalCtx);
     func_808B4D04(this, globalCtx);
     this->sinRotation = Math_SinS(this->actor.shape.rot.y);

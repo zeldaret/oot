@@ -226,7 +226,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->axeCollider, thisx, &sQuadInit);
 
     thisx->colChkInfo.damageTable = &sDamageTable;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     this->unk_2FC = 0;
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;

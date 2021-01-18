@@ -230,7 +230,7 @@ typedef struct {
     /* 0x18 */ u16 ocFlags;
 } OcLine; // size = 0x1C
 
-typedef enum ColliderType {
+typedef enum {
     /* 0  */ COLTYPE_HIT0, // Blue blood, white hitmark
     /* 1  */ COLTYPE_HIT1, // No blood, dust hitmark
     /* 2  */ COLTYPE_HIT2, // Green blood, dust hitmark
@@ -247,7 +247,7 @@ typedef enum ColliderType {
     /* 13 */ COLTYPE_TREE
 } ColliderType;
 
-typedef enum ColliderShape {
+typedef enum {
     /* 0 */ COLSHAPE_JNTSPH,
     /* 1 */ COLSHAPE_CYLINDER,
     /* 2 */ COLSHAPE_TRIS,
@@ -261,7 +261,7 @@ typedef enum ColliderShape {
  * are == or !=. Will probably need more actors decomped to truly 
  * understand what this is.
  */
-typedef enum ElementType {
+typedef enum {
     /* 0 */ ELEMTYPE_UNK0,
     /* 1 */ ELEMTYPE_UNK1,
     /* 2 */ ELEMTYPE_UNK2,
@@ -306,9 +306,9 @@ typedef enum ElementType {
 #define OC2_HIT_PLAYER (1 << 0) // Had an OC collision with OC type player
 #define OC2_UNK1 (1 << 1) // Prevents OC collisions with OC2_UNK2. Some horses and toki_sword have it.
 #define OC2_UNK2 (1 << 2) // Prevents OC collisions with OC2_UNK1. Nothing has it.
-#define OC2_TYPE_PLAYER (1 << 3) // Has OC type player
-#define OC2_TYPE_1 (1 << 4) // Has OC type 1
-#define OC2_TYPE_2 (1 << 5) // Has OC type 2
+#define OC2_TYPE_PLAYER OC1_TYPE_PLAYER // Has OC type player
+#define OC2_TYPE_1 OC1_TYPE_1 // Has OC type 1
+#define OC2_TYPE_2 OC1_TYPE_2 // Has OC type 2
 #define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
 #define TOUCH_NONE 0 // No flags set. Cannot have AT collisions

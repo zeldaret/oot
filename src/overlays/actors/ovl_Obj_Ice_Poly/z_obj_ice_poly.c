@@ -94,7 +94,7 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->colliderHard, thisx, &sCylinderInitHard);
     Collider_UpdateCylinder(thisx, &this->colliderIce);
     Collider_UpdateCylinder(thisx, &this->colliderHard);
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->alpha = 255;
     this->colliderIce.dim.radius *= thisx->scale.x;
     this->colliderIce.dim.height *= thisx->scale.y;

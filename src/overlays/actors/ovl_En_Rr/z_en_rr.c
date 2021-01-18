@@ -178,7 +178,7 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetHeight(&this->actor, 30.0f);
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.velocity.y = this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.4f;
     this->actionTimer = 0;

@@ -66,7 +66,7 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         sCylinderInit.base.actor = thisx; // thisx required to match here
         Collider_SetCylinderToActor(globalCtx, &this->collider, &sCylinderInit);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.textId = func_80037C30(globalCtx, 0xF);
         Actor_SetScale(&this->actor, 0.4f);
     }

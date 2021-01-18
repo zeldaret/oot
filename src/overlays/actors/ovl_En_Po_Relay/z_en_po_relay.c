@@ -128,7 +128,7 @@ void EnPoRelay_SetupIdle(EnPoRelay* this) {
     this->actor.room = -1;
     this->actor.shape.rot.y = 0;
     this->actor.posRot.rot.y = -0x8000;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actionFunc = EnPoRelay_Idle;
 }
 

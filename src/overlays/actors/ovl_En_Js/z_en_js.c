@@ -66,7 +66,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &D_0600045C);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     En_Js_SetupAction(this, func_80A89304);
     this->unk_284 = 0;

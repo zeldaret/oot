@@ -319,7 +319,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.unk_1F = 4;
     }
 
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->dyna.actor.params >> 7 & 1) && (ObjSwitch_SpawnIce(this, globalCtx) == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));

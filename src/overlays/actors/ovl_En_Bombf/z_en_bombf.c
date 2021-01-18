@@ -125,7 +125,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags &= ~1;
         EnBombf_SetupAction(this, EnBombf_Move);
     } else {
-        thisx->colChkInfo.mass = 0xFF;
+        thisx->colChkInfo.mass = MASS_IMMOVABLE;
         this->bumpOn = true;
         this->flowerBombScale = 1.0f;
         EnBombf_SetupGrowBomb(this, thisx->params);

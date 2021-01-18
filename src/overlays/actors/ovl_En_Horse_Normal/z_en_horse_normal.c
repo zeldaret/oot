@@ -591,9 +591,9 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if (this->actor.speedXZ == 0.0f) {
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     } else {
-        this->actor.colChkInfo.mass = 0xFE;
+        this->actor.colChkInfo.mass = MASS_HEAVY;
     }
 }
 

@@ -231,7 +231,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 46.0f);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     Collider_InitCylinder(globalCtx, &this->collider1);
     Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylinderInit);
@@ -245,7 +245,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTable,
                                this->morphTable, 28);
             this->actor.colChkInfo.health = 2;
-            this->actor.colChkInfo.mass = 0xFE;
+            this->actor.colChkInfo.mass = MASS_HEAVY;
             this->unk_360 = 1000.0f;
             this->unk_364 = 1750.0f;
             func_80AA6830(this);
@@ -254,7 +254,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTable,
                                this->morphTable, 28);
             this->actor.colChkInfo.health = 6;
-            this->actor.colChkInfo.mass = 0xFF;
+            this->actor.colChkInfo.mass = MASS_IMMOVABLE;
             this->actor.colChkInfo.damageTable = &sBigMoblinDamageTable;
             Actor_SetScale(&this->actor, 0.02f);
             this->collider1.dim.height = 170;
@@ -284,7 +284,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.params = 1;
             this->waypoint = 0;
             this->actor.colChkInfo.health = 1;
-            this->actor.colChkInfo.mass = 0xFE;
+            this->actor.colChkInfo.mass = MASS_HEAVY;
             this->unk_360 = 350.0f;
             this->unk_364 = 1750.0f;
             this->actor.flags &= ~1;

@@ -279,7 +279,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     this->actor.initPosRot.rot.y = 0;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {

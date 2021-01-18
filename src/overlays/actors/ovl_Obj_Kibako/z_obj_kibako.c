@@ -186,7 +186,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
 
 void ObjKibako_SetupIdle(ObjKibako* this) {
     this->actionFunc = ObjKibako_Idle;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
 }
 
 void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {

@@ -86,7 +86,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flameColor = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0x3F;
 
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, (s16)thisx->posRot.pos.y + 65, thisx->posRot.pos.z,

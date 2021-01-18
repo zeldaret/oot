@@ -112,7 +112,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitCapturableFlame);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     EnIceHono_SetupActionCapturableFlame(this);
 }
 

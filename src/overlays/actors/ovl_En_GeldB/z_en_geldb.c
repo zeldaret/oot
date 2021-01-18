@@ -231,7 +231,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Teardrop, 0.0f);
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     thisx->colChkInfo.health = 20;
     thisx->colChkInfo.unk_10 = 50;
     thisx->colChkInfo.unk_12 = 100;

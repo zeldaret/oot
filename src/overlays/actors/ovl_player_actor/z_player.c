@@ -10278,7 +10278,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     Math_Vec3f_Copy(&this->unk_A88, &this->bodyPartsPos[0]);
 
     if (this->stateFlags1 & 0x30000080) {
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     } else {
         this->actor.colChkInfo.mass = 50;
     }

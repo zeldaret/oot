@@ -95,7 +95,7 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->colliderFlame);
     Collider_SetCylinder(globalCtx, &this->colliderFlame, &this->actor, &sCylInitFlame);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f,
                             this->actor.posRot.pos.z, 255, 255, 180, -1);

@@ -91,7 +91,7 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
