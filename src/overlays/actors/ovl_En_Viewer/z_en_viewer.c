@@ -167,8 +167,8 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E5 = 0;
     this->unk_1E6 = false;
     if (params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        sGanonCape = (EnGanonMant*) Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
-                                        0.0f, 0, 0, 0, 35);
+        sGanonCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+                                                      ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0, 0, 35);
     }
 }
 
