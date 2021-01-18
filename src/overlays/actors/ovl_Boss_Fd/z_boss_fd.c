@@ -309,10 +309,10 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 void BossFd_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
@@ -439,20 +439,20 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
         Audio_SetBGM(0x6B);
     }
 
-    this->actor.posRot.pos.z = 0.0f;
-    this->actor.posRot.pos.x = 0.0f;
-    this->actor.posRot.pos.y = -200.0f;
+    this->actor.world.pos.z = 0.0f;
+    this->actor.world.pos.x = 0.0f;
+    this->actor.world.pos.y = -200.0f;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->elements);
 
     for (i = 0; i < 100; i++) {
-        this->bodySegsPos[i].x = this->actor.posRot.pos.x;
-        this->bodySegsPos[i].y = this->actor.posRot.pos.y;
-        this->bodySegsPos[i].z = this->actor.posRot.pos.z;
+        this->bodySegsPos[i].x = this->actor.world.pos.x;
+        this->bodySegsPos[i].y = this->actor.world.pos.y;
+        this->bodySegsPos[i].z = this->actor.world.pos.z;
         if (i < 30) {
-            this->centerMane.pos[i].x = this->actor.posRot.pos.x;
-            this->centerMane.pos[i].y = this->actor.posRot.pos.y;
-            this->centerMane.pos[i].z = this->actor.posRot.pos.z;
+            this->centerMane.pos[i].x = this->actor.world.pos.x;
+            this->centerMane.pos[i].y = this->actor.world.pos.y;
+            this->centerMane.pos[i].z = this->actor.world.pos.z;
         }
     }
 
@@ -470,8 +470,8 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                            0xFFFF);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.world.pos.x,
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, this->introState);
     }
 }
 
@@ -486,7 +486,7 @@ void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BossFd_IsFacingLink(BossFd* this) {
-    return ABS((s16)(this->actor.yawTowardsLink - this->actor.posRot.rot.y)) < 0x2000;
+    return ABS((s16)(this->actor.yawTowardsPlayer - this->actor.world.rot.y)) < 0x2000;
 }
 
 void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
@@ -534,9 +534,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnimeHead);
     SkelAnime_Update(&this->skelAnimeRightArm);
     SkelAnime_Update(&this->skelAnimeLeftArm);
-    dx = this->targetPosition.x - this->actor.posRot.pos.x;
-    dy = this->targetPosition.y - this->actor.posRot.pos.y;
-    dz = this->targetPosition.z - this->actor.posRot.pos.z;
+    dx = this->targetPosition.x - this->actor.world.pos.x;
+    dy = this->targetPosition.y - this->actor.world.pos.y;
+    dz = this->targetPosition.z - this->actor.world.pos.z;
     dx += Math_SinS(this->movementTimer * (2096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     dy += Math_SinS(this->movementTimer * (1096.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
     dz += Math_SinS(this->movementTimer * (1796.0f + this->flightWobbleRate)) * this->flightWobbleAmplitude;
@@ -562,8 +562,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->targetPosition.z = 0.0;
                 this->maxTurnRate = 10000.0f;
                 this->actionState = FD_WAIT_INTRO;
-                if ((fabsf(player2->actor.posRot.pos.z) < 80.0f) &&
-                    (fabsf(player2->actor.posRot.pos.x - 340.0f) < 60.0f)) {
+                if ((fabsf(player2->actor.world.pos.z) < 80.0f) &&
+                    (fabsf(player2->actor.world.pos.x - 340.0f) < 60.0f)) {
 
                     this->introState = INTRO_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
@@ -571,23 +571,23 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introCamera = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
                     Gameplay_ChangeCameraStatus(globalCtx, this->introCamera, 7);
-                    player2->actor.posRot.pos.x = 380.0f;
-                    player2->actor.posRot.pos.y = 100.0f;
-                    player2->actor.posRot.pos.z = 0.0f;
-                    player2->actor.shape.rot.y = player2->actor.posRot.rot.y = -0x4000;
+                    player2->actor.world.pos.x = 380.0f;
+                    player2->actor.world.pos.y = 100.0f;
+                    player2->actor.world.pos.z = 0.0f;
+                    player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
                     player2->actor.speedXZ = 0.0f;
-                    this->cameraEye.x = player2->actor.posRot.pos.x - 70.0f;
-                    this->cameraEye.y = player2->actor.posRot.pos.y + 40.0f;
-                    this->cameraEye.z = player2->actor.posRot.pos.z + 70.0f;
-                    this->cameraAt.x = player2->actor.posRot.pos.x;
-                    this->cameraAt.y = player2->actor.posRot.pos.y + 30.0f;
-                    this->cameraAt.z = player2->actor.posRot.pos.z;
-                    this->cameraNextEye.x = player2->actor.posRot.pos.x - 50.0f + 18.0f;
-                    this->cameraNextEye.y = player2->actor.posRot.pos.y + 40;
-                    this->cameraNextEye.z = player2->actor.posRot.pos.z + 50.0f - 18.0f;
-                    this->cameraNextAt.x = player2->actor.posRot.pos.x;
-                    this->cameraNextAt.y = player2->actor.posRot.pos.y + 50.0f;
-                    this->cameraNextAt.z = player2->actor.posRot.pos.z;
+                    this->cameraEye.x = player2->actor.world.pos.x - 70.0f;
+                    this->cameraEye.y = player2->actor.world.pos.y + 40.0f;
+                    this->cameraEye.z = player2->actor.world.pos.z + 70.0f;
+                    this->cameraAt.x = player2->actor.world.pos.x;
+                    this->cameraAt.y = player2->actor.world.pos.y + 30.0f;
+                    this->cameraAt.z = player2->actor.world.pos.z;
+                    this->cameraNextEye.x = player2->actor.world.pos.x - 50.0f + 18.0f;
+                    this->cameraNextEye.y = player2->actor.world.pos.y + 40;
+                    this->cameraNextEye.z = player2->actor.world.pos.z + 50.0f - 18.0f;
+                    this->cameraNextAt.x = player2->actor.world.pos.x;
+                    this->cameraNextAt.y = player2->actor.world.pos.y + 50.0f;
+                    this->cameraNextAt.z = player2->actor.world.pos.z;
                     BossFd_SetCameraSpeed(this, 1.0f);
                     this->cameraAtMaxVel.x = this->cameraAtMaxVel.y = this->cameraAtMaxVel.z = 0.05f;
                     this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.05f;
@@ -596,9 +596,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->cameraAccel = 0.0f;
                     if (gSaveContext.eventChkInf[7] & 8) {
                         this->introState = INTRO_EMERGE;
-                        this->cameraNextEye.x = player2->actor.posRot.pos.x + 100.0f + 300.0f - 600.0f;
-                        this->cameraNextEye.y = player2->actor.posRot.pos.y + 100.0f - 50.0f;
-                        this->cameraNextEye.z = player2->actor.posRot.pos.z + 200.0f - 150.0f;
+                        this->cameraNextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                        this->cameraNextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                        this->cameraNextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
                         this->cameraNextAt.x = 0.0f;
                         this->cameraNextAt.y = 120.0f;
                         this->cameraNextAt.z = 0.0f;
@@ -613,7 +613,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                         this->timers[0] = 50;
                         this->actionState = FD_EMERGE;
-                        this->actor.posRot.rot.x = 0x4000;
+                        this->actor.world.rot.x = 0x4000;
                         this->movementTimer = 0;
                         this->timers[3] = 250;
                         this->timers[2] = 470;
@@ -628,11 +628,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = INTRO_LOOK_LINK;
                 }
             case INTRO_LOOK_LINK:
-                player2->actor.posRot.pos.x = 380.0f;
-                player2->actor.posRot.pos.y = 100.0f;
-                player2->actor.posRot.pos.z = 0.0f;
+                player2->actor.world.pos.x = 380.0f;
+                player2->actor.world.pos.y = 100.0f;
+                player2->actor.world.pos.z = 0.0f;
                 player2->actor.speedXZ = 0.0f;
-                player2->actor.shape.rot.y = player2->actor.posRot.rot.y = -0x4000;
+                player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
                 if (this->timers[0] == 50) {
                     this->fogMode = 1;
                 }
@@ -647,7 +647,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 0) {
                     this->introState = INTRO_LOOK_GROUND;
-                    this->cameraNextAt.y = player2->actor.posRot.pos.y + 10.0f;
+                    this->cameraNextAt.y = player2->actor.world.pos.y + 10.0f;
                     this->cameraAtMaxVel.y = 0.2f;
                     this->cameraSpeedMod = 0.0f;
                     this->cameraAccel = 0.02f;
@@ -662,12 +662,12 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                        &D_801333E0, &D_801333E8);
                 if (this->timers[0] == 0) {
                     this->introState = INTRO_COLLAPSE;
-                    this->cameraNextEye.x = player2->actor.posRot.pos.x + 100.0f + 300.0f;
-                    this->cameraNextEye.y = player2->actor.posRot.pos.y + 100.0f;
-                    this->cameraNextEye.z = player2->actor.posRot.pos.z + 200.0f;
-                    this->cameraNextAt.x = player2->actor.posRot.pos.x;
-                    this->cameraNextAt.y = player2->actor.posRot.pos.y - 150.0f;
-                    this->cameraNextAt.z = player2->actor.posRot.pos.z - 50.0f;
+                    this->cameraNextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f;
+                    this->cameraNextEye.y = player2->actor.world.pos.y + 100.0f;
+                    this->cameraNextEye.z = player2->actor.world.pos.z + 200.0f;
+                    this->cameraNextAt.x = player2->actor.world.pos.x;
+                    this->cameraNextAt.y = player2->actor.world.pos.y - 150.0f;
+                    this->cameraNextAt.z = player2->actor.world.pos.z - 50.0f;
                     BossFd_SetCameraSpeed(this, 0.1f);
                     this->timers[0] = 170;
                     this->cameraSpeedMod = 0.0f;
@@ -687,9 +687,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[0] == 0) {
                     this->introState = INTRO_EMERGE;
                     this->cameraSpeedMod = 0.0f;
-                    this->cameraNextEye.x = ((player2->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
-                    this->cameraNextEye.y = (player2->actor.posRot.pos.y + 100.0f) - 50.0f;
-                    this->cameraNextEye.z = (player2->actor.posRot.pos.z + 200.0f) - 150.0f;
+                    this->cameraNextEye.x = ((player2->actor.world.pos.x + 100.0f) + 300.0f) - 600.0f;
+                    this->cameraNextEye.y = (player2->actor.world.pos.y + 100.0f) - 50.0f;
+                    this->cameraNextEye.z = (player2->actor.world.pos.z + 200.0f) - 150.0f;
                     this->cameraNextAt.x = 0.0f;
                     this->cameraNextAt.y = 120.0f;
                     this->cameraNextAt.z = 0.0f;
@@ -704,7 +704,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                     this->timers[0] = 50;
                     this->actionState = FD_EMERGE;
-                    this->actor.posRot.rot.x = 0x4000;
+                    this->actor.world.rot.x = 0x4000;
                     this->movementTimer = 0;
                     this->timers[3] = 250;
                     this->timers[2] = 470;
@@ -724,8 +724,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->collapsePlatform = 2;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
-                if (this->actor.posRot.pos.y > 120.0f) {
-                    this->cameraNextAt = this->actor.posRot.pos;
+                if (this->actor.world.pos.y > 120.0f) {
+                    this->cameraNextAt = this->actor.world.pos;
                     this->cameraAtVel.x = 190.0f;
                     this->cameraAtVel.y = 85.56f;
                     this->cameraAtVel.z = 25.0f;
@@ -742,9 +742,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[3] <= 100) {
                     this->cameraEyeVel.x = this->cameraEyeVel.y = this->cameraEyeVel.z = 2.0f;
-                    this->cameraNextEye.x = player2->actor.posRot.pos.x + 50.0f;
-                    this->cameraNextEye.y = player2->actor.posRot.pos.y + 50.0f;
-                    this->cameraNextEye.z = player2->actor.posRot.pos.z + 50.0f;
+                    this->cameraNextEye.x = player2->actor.world.pos.x + 50.0f;
+                    this->cameraNextEye.y = player2->actor.world.pos.y + 50.0f;
+                    this->cameraNextEye.z = player2->actor.world.pos.z + 50.0f;
                 }
                 if (this->actionState == FD_FLY_HOLE) {
                     switch (this->introFlyState) {
@@ -866,9 +866,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             break;
         case FD_EMERGE:
             if ((this->timers[0] == 0) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f)) {
-                this->actor.posRot.pos = this->targetPosition;
+                this->actor.world.pos = this->targetPosition;
                 this->actionState = FD_FLY_MAIN;
-                this->actor.posRot.rot.x = 0x4000;
+                this->actor.world.rot.x = 0x4000;
                 this->targetPosition.y = sHoleLocations[this->holeIndex].y + 200.0f;
                 this->timers[4] = 80;
                 this->maxTurnRate = 1000.0f;
@@ -891,7 +891,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->targetPosition.z = -300.0f;
             this->flightWobbleAmplitude = 200.0f;
             this->maxTurnRate = 3000.0f;
-            if (this->actor.posRot.pos.y > 700.0f) {
+            if (this->actor.world.pos.y > 700.0f) {
                 this->actionState = FD_DROP_ROCKS;
                 this->timers[0] = 25;
                 this->timers[2] = 150;
@@ -912,7 +912,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->ceilingTargetIndex = 0;
                 }
             }
-            func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 2);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 2);
             if (this->timers[1] == 0) {
                 osSyncPrintf("BGCHECKKKKKKKKKKKKKKKKKKKKKKK\n");
                 if (this->actor.bgCheckFlags & 0x10) {
@@ -937,9 +937,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->actor.flags |= 0x1000000;
             temp_y = Math_SinS(this->movementTimer * 2396.0f) * 30.0f;
             temp_y = temp_y + this->targetLinkYOffset;
-            this->targetPosition.x = player->actor.posRot.pos.x;
-            this->targetPosition.y = player->actor.posRot.pos.y + temp_y + 30.0f;
-            this->targetPosition.z = player->actor.posRot.pos.z;
+            this->targetPosition.x = player->actor.world.pos.x;
+            this->targetPosition.y = player->actor.world.pos.y + temp_y + 30.0f;
+            this->targetPosition.z = player->actor.world.pos.z;
             this->flightWobbleAmplitude = 0.0f;
             if (((this->timers[0] % 64) == 0) && (this->timers[0] < 450)) {
                 this->roarTimer = 40;
@@ -947,7 +947,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->fireBreathTimer = 20;
                 }
             }
-            if ((this->damageFlashTimer != 0) || (this->timers[0] == 0) || (player->actor.posRot.pos.y < 70.0f)) {
+            if ((this->damageFlashTimer != 0) || (this->timers[0] == 0) || (player->actor.world.pos.y < 70.0f)) {
                 this->actionState = FD_FLY_MAIN;
                 this->timers[0] = 0;
                 this->startAttack = false;
@@ -965,8 +965,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.x = Rand_CenteredFloat(200.0f);
                     this->targetPosition.y = 390.0f;
                     this->targetPosition.z = Rand_CenteredFloat(200.0f);
-                    temp_x = this->targetPosition.x - this->actor.posRot.pos.x;
-                    temp_z = this->targetPosition.z - this->actor.posRot.pos.z;
+                    temp_x = this->targetPosition.x - this->actor.world.pos.x;
+                    temp_z = this->targetPosition.z - this->actor.world.pos.z;
                     if (sqrtf(SQ(temp_x) + SQ(temp_z)) > 100.0f) {
                         break;
                     }
@@ -1061,9 +1061,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->actionState = FD_SKULL_PAUSE;
                 this->timers[0] = 15;
                 this->ceilingTargetIndex = 0;
-                player->actor.posRot.pos.y = 90.0f;
-                player->actor.posRot.pos.x = 40.0f;
-                player->actor.posRot.pos.z = 150.0f;
+                player->actor.world.pos.y = 90.0f;
+                player->actor.world.pos.x = 40.0f;
+                player->actor.world.pos.z = 150.0f;
             }
             break;
         case FD_SKULL_PAUSE:
@@ -1077,17 +1077,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0;
 
             if (this->timers[0] == 1) {
-                this->actor.posRot.pos.x = 0;
-                this->actor.posRot.pos.y = 900.0f;
-                this->actor.posRot.pos.z = 150.0f;
-                this->actor.posRot.rot.x = this->actor.posRot.rot.y = 0;
+                this->actor.world.pos.x = 0;
+                this->actor.world.pos.y = 900.0f;
+                this->actor.world.pos.z = 150.0f;
+                this->actor.world.rot.x = this->actor.world.rot.y = 0;
                 this->actor.shape.rot.z = 0x1200;
                 this->actor.velocity.x = 0;
                 this->actor.velocity.z = 0;
             }
             if (this->timers[0] == 0) {
-                if (this->actor.posRot.pos.y <= 110.0f) {
-                    this->actor.posRot.pos.y = 110.0f;
+                if (this->actor.world.pos.y <= 110.0f) {
+                    this->actor.world.pos.y = 110.0f;
                     this->actor.velocity.y = 0;
                     if (this->ceilingTargetIndex == 0) {
                         this->ceilingTargetIndex++;
@@ -1107,9 +1107,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                             sp138.y = 0.3f;
 
-                            sp12C.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-                            sp12C.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                            sp12C.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+                            sp12C.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+                            sp12C.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
+                            sp12C.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
                             BossFd_SpawnDust(this->particles, &sp12C, &sp144, &sp138, Rand_ZeroFloat(100.0f) + 300);
                         }
                     }
@@ -1126,7 +1126,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             break;
         case FD_SKULL_BURN:
             this->actor.velocity.y = 0.0f;
-            this->actor.posRot.pos.y = 110.0f;
+            this->actor.world.pos.y = 110.0f;
             this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0.0f;
 
             if ((50 > this->timers[0]) && (this->timers[0] > 0)) {
@@ -1137,9 +1137,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
 
-                sp120.x = Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.x;
-                sp120.y = (Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y) - 10.0f;
-                sp120.z = (Rand_CenteredFloat(40.0f) + this->actor.posRot.pos.z) + 5.0f;
+                sp120.x = Rand_CenteredFloat(40.0f) + this->actor.world.pos.x;
+                sp120.y = (Rand_CenteredFloat(10.0f) + this->actor.world.pos.y) - 10.0f;
+                sp120.z = (Rand_CenteredFloat(40.0f) + this->actor.world.pos.z) + 5.0f;
 
                 sp108.y = 0.03f;
 
@@ -1151,11 +1151,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 0) {
                 this->actionFunc = BossFd_Wait;
-                this->actor.posRot.pos.y -= 1000.0f;
+                this->actor.world.pos.y -= 1000.0f;
             }
             if (this->timers[0] == 7) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x,
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
             }
             break;
         case FD_WAIT_INTRO:
@@ -1175,15 +1175,15 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         f32 padB0;
         f32 padAC;
 
-        Math_ApproachS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
+        Math_ApproachS(&this->actor.world.rot.y, angleToTarget, 0xA, this->turnRate);
 
         if (((this->actionState == FD_FLY_CHASE) || (this->actionState == FD_FLY_UNUSED)) &&
-            (this->actor.posRot.pos.y < 110.0f) && (pitchToTarget < 0)) {
+            (this->actor.world.pos.y < 110.0f) && (pitchToTarget < 0)) {
             pitchToTarget = 0;
-            Math_ApproachF(&this->actor.posRot.pos.y, 110.0f, 1.0f, 5.0f);
+            Math_ApproachF(&this->actor.world.pos.y, 110.0f, 1.0f, 5.0f);
         }
 
-        Math_ApproachS(&this->actor.posRot.rot.x, pitchToTarget, 0xA, this->turnRate);
+        Math_ApproachS(&this->actor.world.rot.x, pitchToTarget, 0xA, this->turnRate);
         Math_ApproachF(&this->turnRate, this->maxTurnRate, 1.0f, 20000.0f);
         Math_ApproachF(&this->actor.speedXZ, this->flightSpeed, 1.0f, 0.1f);
         if (this->actionState < FD_SKULL_FALL) {
@@ -1196,12 +1196,12 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->leadBodySeg = 0;
         }
         i4 = this->leadBodySeg;
-        this->bodySegsPos[i4].x = this->actor.posRot.pos.x;
-        this->bodySegsPos[i4].y = this->actor.posRot.pos.y;
-        this->bodySegsPos[i4].z = this->actor.posRot.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.posRot.rot.x / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.posRot.rot.z / (f32)0x8000) * M_PI;
+        this->bodySegsPos[i4].x = this->actor.world.pos.x;
+        this->bodySegsPos[i4].y = this->actor.world.pos.y;
+        this->bodySegsPos[i4].z = this->actor.world.pos.z;
+        this->bodySegsRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
 
         this->leadManeSeg++;
         if (this->leadManeSeg >= 30) {
@@ -1212,27 +1212,27 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightMane.scale[i4] = (Math_SinS(this->movementTimer * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->movementTimer * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
-        this->fireManeRot[i4].x = (this->actor.posRot.rot.x / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.posRot.rot.z / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
         this->rightMane.pos[i4] = this->rightMane.head;
         this->leftMane.pos[i4] = this->leftMane.head;
 
-        if ((0x3000 > this->actor.posRot.rot.x) && (this->actor.posRot.rot.x > -0x3000)) {
+        if ((0x3000 > this->actor.world.rot.x) && (this->actor.world.rot.x > -0x3000)) {
             Math_ApproachF(&this->flattenMane, 1.0f, 1.0f, 0.05f);
         } else {
             Math_ApproachF(&this->flattenMane, 0.5f, 1.0f, 0.05f);
         }
 
         if (this->actionState < FD_SKULL_FALL) {
-            if ((this->actor.pos4.y < 90.0f) && (90.0f <= this->actor.posRot.pos.y)) {
+            if ((this->actor.prevPos.y < 90.0f) && (90.0f <= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
                 func_80033E1C(globalCtx, 1, 80, 0x5000);
                 this->roarTimer = 40;
                 this->maneEmbersTimer = 30;
                 this->holeSplashTimer = 10;
             }
-            if ((this->actor.pos4.y > 90.0f) && (90.0f >= this->actor.posRot.pos.y)) {
+            if ((this->actor.prevPos.y > 90.0f) && (90.0f >= this->actor.world.pos.y)) {
                 this->timers[4] = 80;
                 func_80033E1C(globalCtx, 1, 80, 0x5000);
                 this->maneEmbersTimer = 30;
@@ -1310,7 +1310,7 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
         this->targetPosition.x = sHoleLocations[this->holeIndex].x;
         this->targetPosition.y = sHoleLocations[this->holeIndex].y - 200.0f;
         this->targetPosition.z = sHoleLocations[this->holeIndex].z;
-        this->actor.posRot.pos = this->targetPosition;
+        this->actor.world.pos = this->targetPosition;
         this->timers[0] = 10;
         this->actionState = FD_EMERGE;
         this->startAttack = true;
@@ -1322,7 +1322,7 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
         this->targetPosition.x = sHoleLocations[1].x;
         this->targetPosition.y = sHoleLocations[1].y - 200.0f;
         this->targetPosition.z = sHoleLocations[1].z;
-        this->actor.posRot.pos = this->targetPosition;
+        this->actor.world.pos = this->targetPosition;
         this->timers[0] = 10;
         this->actionState = FD_EMERGE;
     }
@@ -1417,7 +1417,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         if (this->holeSplashTimer != 0) {
             this->holeSplashTimer--;
             if ((this->actor.colChkInfo.health == 0) ||
-                ((this->introState == INTRO_EMERGE) && (this->actor.posRot.rot.x > 0x3000))) {
+                ((this->introState == INTRO_EMERGE) && (this->actor.world.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
                     globalCtx->envCtx.unk_D8 = 0.0f;
                 }
@@ -1493,15 +1493,15 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                                &D_801333E8);
         spawnPos2 = this->headPos;
 
-        spawnAngleY = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
-        spawnAngleX = (((-this->actor.posRot.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
+        spawnAngleY = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
+        spawnAngleX = (((-this->actor.world.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
         Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
         Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
 
         BossFd_SpawnFireBreath(this->particles, &spawnPos2, &spawnVel2, &spawnAccel2,
                                50.0f * Math_SinS(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
-                               this->actor.posRot.rot.y);
+                               this->actor.world.rot.y);
 
         spawnPos2.x += spawnVel2.x * 0.5f;
         spawnPos2.y += spawnVel2.y * 0.5f;
@@ -1509,7 +1509,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
 
         BossFd_SpawnFireBreath(this->particles, &spawnPos2, &spawnVel2, &spawnAccel2,
                                50.0f * Math_SinS(this->varianceTimer * 0x2000) + 300.0f, breathOpacity,
-                               this->actor.posRot.rot.y);
+                               this->actor.world.rot.y);
         spawnSpeed2.x = 0.0f;
         spawnSpeed2.z = 0.0f;
         spawnSpeed2.y = 17.0f;
@@ -1529,7 +1529,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.posRot.pos.y < 90.0f) || (700.0f < this->actor.posRot.pos.y) ||
+    if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) ||
         (this->actionFunc == BossFd_Wait)) {
         this->actor.flags &= ~1;
     } else {
@@ -1612,17 +1612,17 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->rockTimer--;
         if ((this->rockTimer % 16) == 0) {
             EnVbBall* bossFdRock = (EnVbBall*)Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL, this->actor.posRot.pos.x, 1000.0f,
-                this->actor.posRot.pos.z, 0, 0, (s16)Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL, this->actor.world.pos.x, 1000.0f,
+                this->actor.world.pos.z, 0, 0, (s16)Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != NULL) {
                 for (i = 0; i < 10; i++) {
                     Vec3f debrisVel = { 0.0f, 0.0f, 0.0f };
                     Vec3f debrisAccel = { 0.0f, -1.0f, 0.0f };
                     Vec3f debrisPos;
 
-                    debrisPos.x = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.x;
-                    debrisPos.y = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.y;
-                    debrisPos.z = Rand_CenteredFloat(300.0f) + bossFdRock->actor.posRot.pos.z;
+                    debrisPos.x = Rand_CenteredFloat(300.0f) + bossFdRock->actor.world.pos.x;
+                    debrisPos.y = Rand_CenteredFloat(300.0f) + bossFdRock->actor.world.pos.y;
+                    debrisPos.z = Rand_CenteredFloat(300.0f) + bossFdRock->actor.world.pos.z;
 
                     BossFd_SpawnDebris(this->particles, &debrisPos, &debrisVel, &debrisAccel,
                                        (s16)Rand_ZeroFloat(15.0f) + 0x14);
@@ -1722,9 +1722,9 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                     particle->timer2++;
                 }
             } else if (particle->type == FD_FIRE_BREATH) {
-                diff.x = player->actor.posRot.pos.x - particle->pos.x;
-                diff.y = (player->actor.posRot.pos.y + 30.0f) - particle->pos.y;
-                diff.z = player->actor.posRot.pos.z - particle->pos.z;
+                diff.x = player->actor.world.pos.x - particle->pos.x;
+                diff.y = (player->actor.world.pos.y + 30.0f) - particle->pos.y;
+                diff.z = player->actor.world.pos.z - particle->pos.z;
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, particle->kbAngle, 0.0f, 0x30);
@@ -2053,7 +2053,7 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     BossFd* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&targetMod, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
         Matrix_MultVec3f(&headMod, &this->headPos);
     }
 }

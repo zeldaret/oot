@@ -63,7 +63,7 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params >= 200) { // Volvagia's bones
         this->yRotVel = Rand_CenteredFloat(0x300);
         this->xRotVel = Rand_CenteredFloat(0x300);
-        angle = Math_FAtan2F(this->actor.posRot.pos.x, this->actor.posRot.pos.z);
+        angle = Math_FAtan2F(this->actor.world.pos.x, this->actor.world.pos.z);
         this->actor.velocity.y = Rand_ZeroFloat(3.0f);
         this->actor.velocity.x = 2.0f * sinf(angle);
         this->actor.velocity.z = 2.0f * cosf(angle);
@@ -71,7 +71,7 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else { // Volvagia's rocks
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        Actor_SetScale(&this->actor, this->actor.posRot.rot.z / 10000.0f);
+        Actor_SetScale(&this->actor, this->actor.world.rot.z / 10000.0f);
         this->collider.dim.radius = this->actor.scale.y * 3000.0f;
         this->collider.dim.height = this->actor.scale.y * 5000.0f;
         this->collider.dim.yShift = this->actor.scale.y * -2500.0f;
@@ -132,11 +132,11 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     f32 angle;
     s16 i;
 
-    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
     if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
         this->xRotVel = Rand_CenteredFloat((f32)0x4000);
         this->yRotVel = Rand_CenteredFloat((f32)0x4000);
-        angle = Math_FAtan2F(this->actor.posRot.pos.x, this->actor.posRot.pos.z);
+        angle = Math_FAtan2F(this->actor.world.pos.x, this->actor.world.pos.z);
         this->actor.velocity.x = sinf(angle) * 10.0f;
         this->actor.velocity.z = cosf(angle) * 10.0f;
         this->actor.velocity.y *= -0.5f;
@@ -155,15 +155,15 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
 
             dustAcc.y = 0.3f;
 
-            dustPos.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-            dustPos.y = this->actor.groundY + 10.0f;
-            dustPos.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+            dustPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+            dustPos.y = this->actor.floorHeight + 10.0f;
+            dustPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
 
             EnVbBall_SpawnDust(globalCtx, bossFd->particles, &dustPos, &dustVel, &dustAcc,
                                Rand_ZeroFloat(80.0f) + 200.0f);
         }
     }
-    if (this->actor.posRot.pos.y < 50.0f) {
+    if (this->actor.world.pos.y < 50.0f) {
         Actor_Kill(&this->actor);
     }
 }
@@ -189,9 +189,9 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Math_ApproachF(&this->shadowOpacity, 175.0f, 1.0f, 40.0f);
         radius = this->actor.scale.y * 1700.0f;
-        this->actor.posRot.pos.y -= radius;
-        func_8002E4B4(globalCtx2, &this->actor, 50.0f, 50.0f, 100.0f, 4);
-        this->actor.posRot.pos.y += radius;
+        this->actor.world.pos.y -= radius;
+        Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+        this->actor.world.pos.y += radius;
         if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
             if ((this->actor.params == 100) || (this->actor.params == 101)) {
                 Actor_Kill(&this->actor);
@@ -217,10 +217,10 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                         spawnOffset.z = Rand_CenteredFloat(10.0f);
                     }
                     newActor = (EnVbBall*)Actor_SpawnAsChild(&globalCtx2->actorCtx, &this->actor, globalCtx2,
-                                                             ACTOR_EN_VB_BALL, this->actor.posRot.pos.x + spawnOffset.x,
-                                                             this->actor.posRot.pos.y + spawnOffset.y,
-                                                             this->actor.posRot.pos.z + spawnOffset.z, 0, 0,
-                                                             this->actor.posRot.rot.z * 0.5f, this->actor.params + 1);
+                                                             ACTOR_EN_VB_BALL, this->actor.world.pos.x + spawnOffset.x,
+                                                             this->actor.world.pos.y + spawnOffset.y,
+                                                             this->actor.world.pos.z + spawnOffset.z, 0, 0,
+                                                             this->actor.world.rot.z * 0.5f, this->actor.params + 1);
                     if (newActor != NULL) {
                         if ((i == 0) && (this->actor.params == 100)) {
                             Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROCK, &newActor->actor.projectedPos, 4,
@@ -244,9 +244,9 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisVel1.y = Rand_ZeroFloat(5.0f) + 8;
                     debrisVel1.z = Rand_CenteredFloat(25.0f);
 
-                    debrisPos1.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-                    debrisPos1.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                    debrisPos1.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+                    debrisPos1.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+                    debrisPos1.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
+                    debrisPos1.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
 
                     EnVbBall_SpawnDebris(globalCtx2, bossFd->particles, &debrisPos1, &debrisVel1, &debrisAcc1,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
@@ -262,9 +262,9 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                     dustAcc.y = 1.0f / 2;
 
-                    dustPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
-                    dustPos.y = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.y;
-                    dustPos.z = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
+                    dustPos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
+                    dustPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
+                    dustPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
 
                     EnVbBall_SpawnDust(globalCtx2, bossFd->particles, &dustPos, &dustVel, &dustAcc,
                                        Rand_ZeroFloat(100.0f) + 350.0f);
@@ -279,9 +279,9 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisVel2.y = Rand_ZeroFloat(3.0f) + 3.0f;
                     debrisVel2.z = Rand_CenteredFloat(10.0f);
 
-                    debrisPos2.x = Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.x;
-                    debrisPos2.y = Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.y;
-                    debrisPos2.z = Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.z;
+                    debrisPos2.x = Rand_CenteredFloat(5.0f) + this->actor.world.pos.x;
+                    debrisPos2.y = Rand_CenteredFloat(5.0f) + this->actor.world.pos.y;
+                    debrisPos2.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
 
                     EnVbBall_SpawnDebris(globalCtx2, bossFd->particles, &debrisPos2, &debrisVel2, &debrisAcc2,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
@@ -316,7 +316,7 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80094044(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
-        Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
+        Matrix_Translate(this->actor.world.pos.x, 100.0f, this->actor.world.pos.z, MTXMODE_NEW);
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 626),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

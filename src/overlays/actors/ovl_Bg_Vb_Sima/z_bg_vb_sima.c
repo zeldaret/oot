@@ -96,8 +96,8 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         colPlat = bossFd->collapsePlatform;
         if (colPlat == 1) {
-            Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
-            this->dyna.actor.posRot.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
+            Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
+            this->dyna.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_SinS(this->shakeTimer * 0x7000) * 0x37;
             this->dyna.actor.shape.rot.z = (s16)Math_SinS(this->shakeTimer * 0x5000) * 0x37;
             Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
@@ -127,9 +127,9 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashAcc.x = splashVel.x;
                 splashAcc.z = splashVel.z;
 
-                splashPos.x = this->dyna.actor.posRot.pos.x + edgeX;
+                splashPos.x = this->dyna.actor.world.pos.x + edgeX;
                 splashPos.y = -80.0f;
-                splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;
+                splashPos.z = this->dyna.actor.world.pos.z + edgeZ;
 
                 func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
                               (s16)Rand_ZeroFloat(100.0f) + 500, 10, 20);

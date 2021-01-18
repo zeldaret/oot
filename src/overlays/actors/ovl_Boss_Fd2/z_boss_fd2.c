@@ -177,10 +177,10 @@ static Vec3f sHoleLocations[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
@@ -284,7 +284,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.0069999993f);
-    this->actor.posRot.pos.y = -850.0f;
+    this->actor.world.pos.y = -850.0f;
     ActorShape_Init(&this->actor.shape, -580.0f / this->actor.scale.y, NULL, 0.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gHoleVolvagiaSkel, &gHoleVolvagiaIdleAnim, 0, 0, 0);
     if (this->actor.params == 0) {
@@ -314,8 +314,8 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
     this->actionFunc = BossFd2_Emerge;
     this->skelAnime.playSpeed = 0.0f;
     temp_rand = Rand_ZeroFloat(8.9f);
-    this->actor.posRot.pos.x = sHoleLocations[temp_rand].x;
-    this->actor.posRot.pos.z = sHoleLocations[temp_rand].z;
+    this->actor.world.pos.x = sHoleLocations[temp_rand].x;
+    this->actor.world.pos.z = sHoleLocations[temp_rand].z;
     this->actionState = 0;
     osSyncPrintf("UP INIT 2\n");
     this->timers[0] = 10;
@@ -348,15 +348,15 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             osSyncPrintf("UP time %d \n", this->timers[0]);
             osSyncPrintf("PL time %x \n", player);
             osSyncPrintf("MT time %x \n", bossFd);
-            if ((this->timers[0] == 0) && (player->actor.posRot.pos.y > 70.0f)) {
+            if ((this->timers[0] == 0) && (player->actor.world.pos.y > 70.0f)) {
                 osSyncPrintf("UP 1.6 \n");
                 bossFd->faceExposed = 0;
-                bossFd->holePosition.x = this->actor.posRot.pos.x;
-                bossFd->holePosition.z = this->actor.posRot.pos.z;
+                bossFd->holePosition.x = this->actor.world.pos.x;
+                bossFd->holePosition.z = this->actor.world.pos.z;
                 func_80033E1C(globalCtx, 1, 0x32, 0x5000);
                 this->actionState = 1;
                 this->holeCounter++;
-                this->actor.posRot.pos.y = -200.0f;
+                this->actor.world.pos.y = -200.0f;
                 health = bossFd->actor.colChkInfo.health;
                 if (health == 24) {
                     holeTime = 30;
@@ -379,8 +379,8 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                 if (this->fakeoutCount != 0) {
                     this->fakeoutCount--;
                     i = Rand_ZeroFloat(8.9f);
-                    this->actor.posRot.pos.x = sHoleLocations[i].x;
-                    this->actor.posRot.pos.z = sHoleLocations[i].z;
+                    this->actor.world.pos.x = sHoleLocations[i].x;
+                    this->actor.world.pos.z = sHoleLocations[i].z;
                     this->actionState = 0;
                     this->timers[0] = 10;
                 } else {
@@ -388,9 +388,9 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->animationLength = Animation_GetLastFrame(&gHoleVolvagiaEmergeAnim);
                     this->actionState = 2;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROAR);
-                    this->actor.shape.rot.y = this->actor.yawTowardsLink;
+                    this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                     this->timers[0] = 15;
-                    this->actor.posRot.pos.y = 150.0f;
+                    this->actor.world.pos.y = 150.0f;
                     for (i = 0; i < 10; i++) {
                         this->rightMane.pos[i].x += Rand_CenteredFloat(100.0f);
                         this->rightMane.pos[i].z += Rand_CenteredFloat(100.0f);
@@ -402,9 +402,9 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0);
-            if ((this->timers[0] == 1) && (this->actor.xzDistToLink < 120.0f)) {
-                func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsLink, 2.0f, 0x20);
+            Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0);
+            if ((this->timers[0] == 1) && (this->actor.xzDistToPlayer < 120.0f)) {
+                func_8002F6D4(globalCtx, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 2.0f, 0x20);
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
             if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
@@ -443,7 +443,7 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     prevToLink = this->turnToLink;
-    this->turnToLink = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x7D0, 0);
+    this->turnToLink = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x7D0, 0);
     osSyncPrintf("SW1 = %d\n", prevToLink);
     osSyncPrintf("SW2 = %d\n", this->turnToLink);
     if ((fabsf(prevToLink) <= 1000.0f) && (1000.0f < fabsf(this->turnToLink))) {
@@ -453,7 +453,7 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
         Animation_MorphToLoop(&this->skelAnime, &gHoleVolvagiaIdleAnim, -5.0f);
     }
     if (this->timers[0] == 0) {
-        if (this->actor.xzDistToLink < 200.0f) {
+        if (this->actor.xzDistToPlayer < 200.0f) {
             BossFd2_SetupClawSwipe(this, globalCtx);
         } else {
             BossFd2_SetupBreatheFire(this, globalCtx);
@@ -481,7 +481,7 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
             this->timers[0] = 25;
         }
     } else {
-        Math_ApproachF(&this->actor.posRot.pos.y, -100.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->actor.world.pos.y, -100.0f, 1.0f, 10.0f);
         if (this->timers[0] == 0) {
             if ((this->holeCounter >= 3) && ((s8)bossFd->actor.colChkInfo.health < 24)) {
                 this->holeCounter = 0;
@@ -528,9 +528,9 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         } else {
             breathOpacity = 255;
         }
-        toLink.x = player->actor.posRot.pos.x - this->headPos.x;
-        toLink.y = player->actor.posRot.pos.y - this->headPos.y;
-        toLink.z = player->actor.posRot.pos.z - this->headPos.z;
+        toLink.x = player->actor.world.pos.x - this->headPos.x;
+        toLink.y = player->actor.world.pos.y - this->headPos.y;
+        toLink.z = player->actor.world.pos.z - this->headPos.z;
         angleY = Math_Atan2S(toLink.z, toLink.x);
         angleX = -Math_Atan2S(sqrtf(SQ(toLink.x) + SQ(toLink.z)), toLink.y);
         angleY -= this->actor.shape.rot.y;
@@ -648,9 +648,9 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
 
                     spawnAccel.y = 0.5f;
 
-                    spawnPos.x = Rand_CenteredFloat(10.0f) + this->actor.posRot2.pos.x;
-                    spawnPos.y = Rand_CenteredFloat(10.0f) + this->actor.posRot2.pos.y;
-                    spawnPos.z = Rand_CenteredFloat(10.0f) + this->actor.posRot2.pos.z;
+                    spawnPos.x = Rand_CenteredFloat(10.0f) + this->actor.focus.pos.x;
+                    spawnPos.y = Rand_CenteredFloat(10.0f) + this->actor.focus.pos.y;
+                    spawnPos.z = Rand_CenteredFloat(10.0f) + this->actor.focus.pos.z;
 
                     BossFd2_SpawnDust(bossFd->particles, &spawnPos, &spawnVel, &spawnAccel,
                                       Rand_ZeroFloat(100.0f) + 300.0f);
@@ -704,7 +704,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
             this->timers[0] = 25;
         }
     } else {
-        Math_ApproachF(&this->actor.posRot.pos.y, -100.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->actor.world.pos.y, -100.0f, 1.0f, 10.0f);
         if (this->timers[0] == 0) {
             this->actionFunc = BossFd2_Wait;
             bossFd->handoffSignal = 1;
@@ -797,18 +797,18 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_ApproachF(&this->skelAnime.playSpeed, retreatSpeed, 1.0f, 1.0f);
-            Matrix_RotateY(((this->actor.yawTowardsLink / (f32)0x8000) * M_PI) + 0.2f, MTXMODE_NEW);
+            Matrix_RotateY(((this->actor.yawTowardsPlayer / (f32)0x8000) * M_PI) + 0.2f, MTXMODE_NEW);
             sp70.x = 0.0f;
             sp70.y = 0.0f;
             sp70.z = 250.0f;
             Matrix_MultVec3f(&sp70, &sp64);
-            this->cameraNextEye.x = this->actor.posRot.pos.x + sp64.x;
+            this->cameraNextEye.x = this->actor.world.pos.x + sp64.x;
             this->cameraNextEye.y = 140.0f;
-            this->cameraNextEye.z = this->actor.posRot.pos.z + sp64.z;
-            if (this->actor.posRot2.pos.y >= 90.0f) {
-                this->cameraNextAt.y = this->actor.posRot2.pos.y;
-                this->cameraNextAt.x = this->actor.posRot2.pos.x;
-                this->cameraNextAt.z = this->actor.posRot2.pos.z;
+            this->cameraNextEye.z = this->actor.world.pos.z + sp64.z;
+            if (this->actor.focus.pos.y >= 90.0f) {
+                this->cameraNextAt.y = this->actor.focus.pos.y;
+                this->cameraNextAt.x = this->actor.focus.pos.x;
+                this->cameraNextAt.z = this->actor.focus.pos.z;
             }
             if (this->timers[0] == 0) {
                 if (Animation_OnFrame(skelAnime, 20.0f)) {
@@ -830,23 +830,23 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->actionState = 0;
                 this->cameraSpeedMod = 0.0f;
             } else {
-                Math_ApproachF(&this->actor.posRot.pos.y, -100.0f, 1.0f, 5.0f);
+                Math_ApproachF(&this->actor.world.pos.y, -100.0f, 1.0f, 5.0f);
             }
             break;
         case DEATH_FD_BODY:
-            if (bossFd->actor.posRot.pos.y < 80.0f) {
-                if (bossFd->actor.posRot.rot.x > 0x3000) {
-                    this->cameraNextAt = bossFd->actor.posRot.pos;
+            if (bossFd->actor.world.pos.y < 80.0f) {
+                if (bossFd->actor.world.rot.x > 0x3000) {
+                    this->cameraNextAt = bossFd->actor.world.pos;
                     this->cameraNextAt.y = 80.0f;
-                    this->cameraNextEye.x = bossFd->actor.posRot.pos.x;
+                    this->cameraNextEye.x = bossFd->actor.world.pos.x;
                     this->cameraNextEye.y = 150.0f;
-                    this->cameraNextEye.z = bossFd->actor.posRot.pos.z + 300.0f;
+                    this->cameraNextEye.z = bossFd->actor.world.pos.z + 300.0f;
                 }
             } else {
-                this->cameraNextAt = bossFd->actor.posRot.pos;
-                this->cameraNextEye.x = this->actor.posRot.pos.x;
+                this->cameraNextAt = bossFd->actor.world.pos;
+                this->cameraNextEye.x = this->actor.world.pos.x;
                 Math_ApproachF(&this->cameraNextEye.y, 200.0f, 1.0f, 2.0f);
-                Math_ApproachF(&this->cameraNextEye.z, bossFd->actor.posRot.pos.z + 200.0f, 1.0f, 3.0f);
+                Math_ApproachF(&this->cameraNextEye.z, bossFd->actor.world.pos.z + 200.0f, 1.0f, 3.0f);
                 if (this->actionState == 0) {
                     this->actionState++;
                     this->cameraSpeedMod = 0.0f;
@@ -859,7 +859,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->cameraSpeedMod = 0.0f;
                 this->cameraAccel = 0.02f;
                 this->cameraNextEye.y = 150.0f;
-                this->cameraNextEye.z = bossFd->actor.posRot.pos.z + 300.0f;
+                this->cameraNextEye.z = bossFd->actor.world.pos.z + 300.0f;
             }
             break;
         case DEATH_FD_SKULL:
@@ -956,9 +956,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     debrisVel.y = Rand_ZeroFloat(5.0f) + 8.0f;
                     debrisVel.z = Rand_CenteredFloat(10.0f);
 
-                    debrisPos.x = this->actor.posRot2.pos.x;
-                    debrisPos.y = this->actor.posRot2.pos.y;
-                    debrisPos.z = this->actor.posRot2.pos.z;
+                    debrisPos.x = this->actor.focus.pos.x;
+                    debrisPos.y = this->actor.focus.pos.y;
+                    debrisPos.z = this->actor.focus.pos.z;
 
                     BossFd2_SpawnDebris(globalCtx, bossFd->particles, &debrisPos, &debrisVel, &debrisAccel,
                                         (s16)Rand_ZeroFloat(10.0) + 10);
@@ -1010,9 +1010,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     pieceVel.y = Rand_ZeroFloat(4.0f) + 6.0f;
                     pieceVel.z = Rand_CenteredFloat(6.0f);
 
-                    piecePos.x = this->actor.posRot2.pos.x;
-                    piecePos.y = this->actor.posRot2.pos.y;
-                    piecePos.z = this->actor.posRot2.pos.z;
+                    piecePos.x = this->actor.focus.pos.x;
+                    piecePos.y = this->actor.focus.pos.y;
+                    piecePos.z = this->actor.focus.pos.z;
 
                     BossFd2_SpawnSkullPiece(globalCtx, bossFd->particles, &piecePos, &pieceVel, &pieceAccel,
                                             (s16)Rand_ZeroFloat(6.0f) + 10);
@@ -1088,7 +1088,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->bodyTex1y = 120.0f;
     this->bodyTex2x += 3.0f;
     this->bodyTex2y -= 2.0f;
-    if (this->actor.posRot2.pos.y < 90.0f) {
+    if (this->actor.focus.pos.y < 90.0f) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 1;
@@ -1143,7 +1143,7 @@ void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     BossFd2* this = THIS;
 
     if (limbIndex == 35) {
-        Matrix_MultVec3f(&targetMod, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
         Matrix_MultVec3f(&headMod, &this->headPos);
         Matrix_MultVec3f(&centerManeMod, &this->centerMane.head);
         Matrix_MultVec3f(&rightManeMod, &this->rightMane.head);
