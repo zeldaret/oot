@@ -107,7 +107,7 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->flameTexScroll = (s32)(Rand_ZeroOne() * 20.0f);
     sLitTorchCount = 0;
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
 }
 
 void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {

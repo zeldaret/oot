@@ -331,11 +331,11 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (Actor_WorldDistToPointXYZ(&player->actor, &this->actor.home.pos) >= 150.0f) {
+    if (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) >= 150.0f) {
         func_80AE2F50(this, globalCtx);
     }
 
-    if ((ABS(sp32) < 0x1554) && (Actor_WorldDistToActorXYZ(&this->actor, &player->actor) <= 150.0f)) {
+    if ((ABS(sp32) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
         if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80)) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
@@ -354,7 +354,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 
     DECR(this->unk_307);
 
-    if ((this->unk_307 == 0) && (Actor_WorldDistToActorXYZ(&this->actor, &player->actor) <= 45.0f) &&
+    if ((this->unk_307 == 0) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
         (func_8002E084(&this->actor, 0x38E3))) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
@@ -388,7 +388,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 targetY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
 
-    if (Actor_WorldDistToPointXYZ(&this->actor, &this->actor.home.pos) >= 5.0f) {
+    if (Actor_WorldDistXYZToPoint(&this->actor, &this->actor.home.pos) >= 5.0f) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, targetY, 1, 0x1C2, 0);
     } else {
         this->actor.speedXZ = 0.0f;
@@ -407,7 +407,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80) &&
-        (Actor_WorldDistToPointXYZ(&player->actor, &this->actor.home.pos) < 150.0f)) {
+        (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.targetMode = 0;
         func_80AE2B90(this, globalCtx);
     } else if (this->actor.params > 0) {
@@ -443,7 +443,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, targetY, 1, 0xFA, 0);
 
-        if (Actor_WorldDistToPointXYZ(&this->actor, &thisPos) >= 45.0f) {
+        if (Actor_WorldDistXYZToPoint(&this->actor, &thisPos) >= 45.0f) {
             this->actor.speedXZ = 0.4f;
         } else {
             this->actor.speedXZ = 0.0f;
@@ -632,7 +632,7 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
 
         if (this->actor.parent != NULL) {
             func_80AE31DC(this);
-        } else if (Actor_WorldDistToPointXYZ(&player->actor, &this->actor.home.pos) >= 150.0f) {
+        } else if (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) >= 150.0f) {
             func_80AE2F50(this, globalCtx);
         } else {
             func_80AE2B90(this, globalCtx);

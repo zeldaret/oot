@@ -144,7 +144,7 @@ void BgIceObjects_Idle(BgIceObjects* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if ((this->dyna.unk_150 > 0.0f) && !Player_InCsMode(globalCtx)) {
             BgIceObjects_SetNextTarget(this, globalCtx);
-            if (Actor_WorldDistToPointXZ(thisx, &this->targetPos) > 1.0f) {
+            if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
                 thisx->flags |= 0x10;
                 func_8002DF54(globalCtx, thisx, 8);
                 thisx->params = 1;

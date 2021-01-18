@@ -175,7 +175,7 @@ glabel func_80A5B61C
 /* 00574 80A5B864 8FB90074 */  lw      $t9, 0x0074($sp)           
 .L80A5B868:
 /* 00578 80A5B868 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0057C 80A5B86C 0C00B6E3 */  jal     Actor_WorldDistToActorXZ              
+/* 0057C 80A5B86C 0C00B6E3 */  jal     Actor_WorldDistXZToActor              
 /* 00580 80A5B870 8F251C44 */  lw      $a1, 0x1C44($t9)           ## 00001C44
 /* 00584 80A5B874 8FB80074 */  lw      $t8, 0x0074($sp)           
 /* 00588 80A5B878 E7A00050 */  swc1    $f0, 0x0050($sp)           

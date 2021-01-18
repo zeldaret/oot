@@ -116,7 +116,7 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->framesUntilDisable == -1) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    Actor_SetFocusToWorld(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
 void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -74,7 +74,7 @@ glabel func_80A16C68
 /* 01AD4 80A16D54 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01AD8 80A16D58 46105482 */  mul.s   $f18, $f10, $f16           
 /* 01ADC 80A16D5C 44059000 */  mfc1    $a1, $f18                  
-/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetFocus
               
 /* 01AE4 80A16D64 00000000 */  nop
 /* 01AE8 80A16D68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

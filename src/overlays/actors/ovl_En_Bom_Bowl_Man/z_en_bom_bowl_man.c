@@ -455,7 +455,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->timer++;
     this->actor.focus.pos.y = 60.0f;
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:

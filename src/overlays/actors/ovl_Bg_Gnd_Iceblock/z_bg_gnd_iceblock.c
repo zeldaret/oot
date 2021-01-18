@@ -242,7 +242,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.unk_150 > 0.0f) {
             BgGndIceblock_SetNextPosition(this);
-            if (Actor_WorldDistToPointXZ(&this->dyna.actor, &this->targetPos) > 1.0f) {
+            if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->targetPos) > 1.0f) {
                 func_8002DF54(globalCtx, &this->dyna.actor, 8);
                 this->actionFunc = BgGndIceblock_Slide;
             }

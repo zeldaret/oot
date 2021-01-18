@@ -27,7 +27,7 @@ glabel func_80B4781C
 /* 03808 80B47858 000F7880 */  sll     $t7, $t7,  2
 /* 0380C 80B4785C 2718A090 */  addiu   $t8, $t8, %lo(D_80B4A090)  ## $t8 = 80B4A090
 /* 03810 80B47860 C434A388 */  lwc1    $f20, %lo(D_80B4A388)($at)
-/* 03814 80B47864 0C00B6EC */  jal     Actor_WorldDistToPointXZ
+/* 03814 80B47864 0C00B6EC */  jal     Actor_WorldDistXZToPoint
 /* 03818 80B47868 01F82821 */  addu    $a1, $t7, $t8
 /* 0381C 80B4786C E7A00074 */  swc1    $f0, 0x0074($sp)
 /* 03820 80B47870 8E1903E4 */  lw      $t9, 0x03E4($s0)           ## 000003E4

@@ -2335,7 +2335,7 @@ void func_80B58DB0(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B58E10(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2437,7 +2437,7 @@ void func_80B5922C(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2449,7 +2449,7 @@ void func_80B592A8(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2462,7 +2462,7 @@ void func_80B59340(EnZl3* this, GlobalContext* globalCtx) {
     func_80B54DE0(this, globalCtx);
     func_80B536C4(this);
     func_80B57298(this);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     func_80B533FC(this, globalCtx);
     func_80B5366C(this, globalCtx);
     func_80B534CC(this);
@@ -2476,7 +2476,7 @@ void func_80B593D0(EnZl3* this, GlobalContext* globalCtx) {
     func_80B57298(this);
     func_80B5366C(this, globalCtx);
     func_80B56E38(this, globalCtx);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     func_80B534CC(this);
     EnZl3_FrameUpdateMatrix(this);
     func_80B58C08(this, globalCtx);

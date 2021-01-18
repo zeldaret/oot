@@ -255,12 +255,12 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (this->actionFunc == EnShopnuts_Wait) {
-        Actor_SetFocusToWorld(&this->actor, this->skelAnime.curFrame);
+        Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
-        Actor_SetFocusToWorld(&this->actor,
+        Actor_SetFocus(&this->actor,
                               20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
     } else {
-        Actor_SetFocusToWorld(&this->actor, 20.0f);
+        Actor_SetFocus(&this->actor, 20.0f);
     }
 }
 

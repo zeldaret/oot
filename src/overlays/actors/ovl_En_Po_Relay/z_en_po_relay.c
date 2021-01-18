@@ -241,7 +241,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }
     EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
-    if (Actor_WorldDistToPointXZ(&this->actor, &vec) < 40.0f) {
+    if (Actor_WorldDistXZToPoint(&this->actor, &vec) < 40.0f) {
         this->pathIndex++;
         EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
         if (this->pathIndex == 28) {
@@ -360,7 +360,7 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_SetFocusToWorld(&this->actor, 50.0f);
+    Actor_SetFocus(&this->actor, 50.0f);
     if (this->unk_195 != 0) {
         this->unk_195 -= 1;
     }

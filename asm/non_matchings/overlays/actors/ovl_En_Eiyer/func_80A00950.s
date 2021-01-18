@@ -14,7 +14,7 @@ glabel func_80A00950
 /* 009C8 80A00968 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 009CC 80A0096C 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 009D0 80A00970 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 009D4 80A00974 0C00B6EC */  jal     Actor_WorldDistToPointXZ              
+/* 009D4 80A00974 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 009D8 80A00978 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 009DC 80A0097C 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 009E0 80A00980 44812000 */  mtc1    $at, $f4                   ## $f4 = 100.00

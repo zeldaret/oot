@@ -304,7 +304,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 1.0f;
     }
 
-    Actor_SetFocusToWorld(&this->dyna.actor, sHeights[type]);
+    Actor_SetFocus(&this->dyna.actor, sHeights[type]);
 
     if (type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitTrisCollider(this, globalCtx, &sRustyFloorTrisInit);

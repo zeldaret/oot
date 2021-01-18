@@ -26,7 +26,7 @@ glabel func_80933554
 .L809335B4:
 /* 06FE4 809335B4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FE8 809335B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 06FEC 809335BC 0C00B6EC */  jal     Actor_WorldDistToPointXZ
+/* 06FEC 809335BC 0C00B6EC */  jal     Actor_WorldDistXZToPoint
 /* 06FF0 809335C0 24A503C8 */  addiu   $a1, $a1, 0x03C8           ## $a1 = 000003C8
 /* 06FF4 809335C4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FF8 809335C8 E60003C4 */  swc1    $f0, 0x03C4($s0)           ## 000003C4

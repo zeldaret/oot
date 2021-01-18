@@ -199,7 +199,7 @@ void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.speedXZ)) {
-        Actor_SetFocusToWorld(&this->dyna.actor, 50.0f);
+        Actor_SetFocus(&this->dyna.actor, 50.0f);
         this->actionFunc = func_8087E34C;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);

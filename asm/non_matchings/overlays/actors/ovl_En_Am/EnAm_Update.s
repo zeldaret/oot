@@ -198,7 +198,7 @@ glabel EnAm_Update
 /* 01D8C 809AFCAC 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01D90 809AFCB0 46062202 */  mul.s   $f8, $f4, $f6              
 /* 01D94 809AFCB4 44054000 */  mfc1    $a1, $f8                   
-/* 01D98 809AFCB8 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01D98 809AFCB8 0C00B56E */  jal     Actor_SetFocus
               
 /* 01D9C 809AFCBC 00000000 */  nop
 /* 01DA0 809AFCC0 924B0114 */  lbu     $t3, 0x0114($s2)           ## 00000114

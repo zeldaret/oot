@@ -40,7 +40,7 @@ glabel EnDodojr_Update
 /* 0195C 809F7D1C 0040F809 */  jalr    $ra, $v0                   
 /* 01960 809F7D20 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 01964 809F7D24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01968 809F7D28 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01968 809F7D28 0C00B56E */  jal     Actor_SetFocus
               
 /* 0196C 809F7D2C 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 01970 809F7D30 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

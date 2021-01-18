@@ -122,7 +122,7 @@ glabel EnBili_Update
               ## CollisionCheck_setOC
 /* 01544 809C0DE4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01548 809C0DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0154C 809C0DEC 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 0154C 809C0DEC 0C00B56E */  jal     Actor_SetFocus
               
 /* 01550 809C0DF0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01554 809C0DF4 8FBF0024 */  lw      $ra, 0x0024($sp)           

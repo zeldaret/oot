@@ -169,7 +169,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     this->activeTimer += 1;
-    Actor_SetFocusToWorld(&this->actor, 20.0f);
+    Actor_SetFocus(&this->actor, 20.0f);
     this->actor.targetArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
     SkelAnime_Update(&this->skelAnime);

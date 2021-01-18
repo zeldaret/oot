@@ -82,7 +82,7 @@ glabel EnDntJiji_Update
 .L809F2D04:
 /* 01224 809F2D04 51E00004 */  beql    $t7, $zero, .L809F2D18     
 /* 01228 809F2D08 8618024E */  lh      $t8, 0x024E($s0)           ## 0000024E
-/* 0122C 809F2D0C 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 0122C 809F2D0C 0C00B56E */  jal     Actor_SetFocus
               
 /* 01230 809F2D10 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 01234 809F2D14 8618024E */  lh      $t8, 0x024E($s0)           ## 0000024E

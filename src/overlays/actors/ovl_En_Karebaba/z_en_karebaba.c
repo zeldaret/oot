@@ -437,7 +437,7 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
             }
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
-            Actor_SetFocusToWorld(&this->actor, (this->actor.scale.x * 10.0f) / 0.01f);
+            Actor_SetFocus(&this->actor, (this->actor.scale.x * 10.0f) / 0.01f);
             height = this->actor.home.pos.y + 40.0f;
             this->actor.focus.pos.x = this->actor.home.pos.x;
             this->actor.focus.pos.y = CLAMP_MAX(this->actor.focus.pos.y, height);

@@ -187,7 +187,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTimer--;
     }
 
-    Actor_SetFocusToWorld(&this->actor, this->height);
+    Actor_SetFocus(&this->actor, this->height);
     func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;

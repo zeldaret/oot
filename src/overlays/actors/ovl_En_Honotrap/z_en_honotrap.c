@@ -183,7 +183,7 @@ void EnHonotrap_InitEye(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetTrisVertices(&this->collider.tris, i, &triangle[0], &triangle[1], &triangle[2]);
     }
     EnHonotrap_SetupEyeIdle(this);
-    Actor_SetFocusToWorld(thisx, 0.0f);
+    Actor_SetFocus(thisx, 0.0f);
 }
 
 void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
@@ -347,7 +347,7 @@ void EnHonotrap_SetupFlameMove(EnHonotrap* this) {
 
     this->actionFunc = EnHonotrap_FlameMove;
 
-    distFrac = 1.0f / (Actor_WorldDistToPointXYZ(&this->actor, &this->targetPos) + 1.0f);
+    distFrac = 1.0f / (Actor_WorldDistXYZToPoint(&this->actor, &this->targetPos) + 1.0f);
     this->actor.velocity.x = (this->targetPos.x - this->actor.world.pos.x) * distFrac;
     this->actor.velocity.y = (this->targetPos.y - this->actor.world.pos.y) * distFrac;
     this->actor.velocity.z = (this->targetPos.z - this->actor.world.pos.z) * distFrac;
@@ -472,7 +472,7 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->colChkFlags = 0;
         this->bobPhase += 0x640;
         this->actor.shape.yOffset = (Math_SinS(this->bobPhase) * 1000.0f) + 600.0f;
-        Actor_SetFocusToWorld(&this->actor, 5.0f);
+        Actor_SetFocus(&this->actor, 5.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
     }
     this->actionFunc(this, globalCtx);

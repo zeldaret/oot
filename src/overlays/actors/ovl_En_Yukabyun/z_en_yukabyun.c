@@ -144,7 +144,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    Actor_SetFocusToWorld(&this->actor, 4.0f);
+    Actor_SetFocus(&this->actor, 4.0f);
 }
 
 void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {

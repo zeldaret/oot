@@ -642,7 +642,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         }
-        Actor_SetFocusToWorld(&this->actor, 15.0f);
+        Actor_SetFocus(&this->actor, 15.0f);
         if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
             EnOkuta_SpawnRipple(this, globalCtx2);
         }

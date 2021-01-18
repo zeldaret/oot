@@ -75,7 +75,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
             CollisionHeader_GetVirtual(&D_06005780, &colHeader);
             thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
-            Actor_SetFocusToWorld(thisx, 40.0f);
+            Actor_SetFocus(thisx, 40.0f);
         }
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }

@@ -239,14 +239,14 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (!Flags_GetSwitch(globalCtx2, this->dyna.actor.params & 0x3F)) {
             this->unk_16E = 10;
         }
-        Actor_SetFocusToWorld(&this->dyna.actor, 60.0f);
+        Actor_SetFocus(&this->dyna.actor, 60.0f);
     } else if (phi_a3 == 4) {
         Actor_SetScale(&this->dyna.actor, 0.1f);
         this->unk_166 = 100;
         this->dyna.actor.uncullZoneScale = 200.0f;
-        Actor_SetFocusToWorld(&this->dyna.actor, 0.0f);
+        Actor_SetFocus(&this->dyna.actor, 0.0f);
     } else {
-        Actor_SetFocusToWorld(&this->dyna.actor, 60.0f);
+        Actor_SetFocus(&this->dyna.actor, 60.0f);
     }
 }
 

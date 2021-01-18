@@ -346,7 +346,7 @@ void func_80AD42B0(EnPoField* this) {
 
 void func_80AD4384(EnPoField* this) {
     this->actor.home.pos.y = this->actor.world.pos.y;
-    Actor_SetFocusToWorld(&this->actor, -10.0f);
+    Actor_SetFocus(&this->actor, -10.0f);
     this->collider.dim.radius = 13;
     this->collider.dim.height = 30;
     this->collider.dim.yShift = 0;
@@ -519,7 +519,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (Actor_WorldDistToPointXZ(&this->actor, &sFieldMiddle) > 3000.0f) {
+    if (Actor_WorldDistXZToPoint(&this->actor, &sFieldMiddle) > 3000.0f) {
         phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000) *
                  0.2f;
     } else {
@@ -687,7 +687,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         this->unk_194 = 32;
     }
     this->collider.dim.pos.y = this->actor.world.pos.y - 20.0f;
-    Actor_SetFocusToWorld(&this->actor, -10.0f);
+    Actor_SetFocus(&this->actor, -10.0f);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->lightInfo.params.point.color[0],
                               this->lightInfo.params.point.color[1], this->lightInfo.params.point.color[2],
@@ -873,7 +873,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
-        Actor_SetFocusToWorld(&this->actor, 42.0f);
+        Actor_SetFocus(&this->actor, 42.0f);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
         func_80AD619C(this);
         func_80AD6330(this);

@@ -236,7 +236,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallYaw;
-    } else if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 300.0f) {
+    } else if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 300.0f) {
         this->aimRotY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
 
@@ -466,7 +466,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    Actor_SetFocusToWorld(&this->actor, height);
+    Actor_SetFocus(&this->actor, height);
 
     if (this->actor.colChkInfo.health != 0 && Animation_OnFrame(&this->skelAnime, 3.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);

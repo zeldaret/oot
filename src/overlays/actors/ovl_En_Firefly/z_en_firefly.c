@@ -299,8 +299,8 @@ s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if (Actor_WorldDistToPointXZ(&player->actor, &this->actor.home.pos) > 300.0f) {
-        distFromHome = Actor_WorldDistToPointXYZ(&this->actor, &this->actor.home.pos);
+    if (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) > 300.0f) {
+        distFromHome = Actor_WorldDistXYZToPoint(&this->actor, &this->actor.home.pos);
 
         if (distFromHome < 5.0f) {
             EnFirefly_SetupPerch(this);
@@ -336,7 +336,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
 
     while (findTorch != NULL) {
         if ((findTorch->actor.id == ACTOR_OBJ_SYOKUDAI) && (findTorch->litTimer != 0)) {
-            torchDist = Actor_WorldDistToActorXYZ(&this->actor, &findTorch->actor);
+            torchDist = Actor_WorldDistXYZToActor(&this->actor, &findTorch->actor);
             if (torchDist < currentMinDist) {
                 currentMinDist = torchDist;
                 closestTorch = findTorch;
@@ -349,7 +349,7 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
         flamePos.x = closestTorch->actor.world.pos.x;
         flamePos.y = closestTorch->actor.world.pos.y + 52.0f + 15.0f;
         flamePos.z = closestTorch->actor.world.pos.z;
-        if (Actor_WorldDistToPointXYZ(&this->actor, &flamePos) < 15.0f) {
+        if (Actor_WorldDistXYZToPoint(&this->actor, &flamePos) < 15.0f) {
             EnFirefly_Ignite(this);
             return 1;
         } else {

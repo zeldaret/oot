@@ -24,7 +24,7 @@ glabel EnFz_Update
 /* 0134C 80A2110C 2448FFFF */  addiu   $t0, $v0, 0xFFFF           ## $t0 = FFFFFFFF
 /* 01350 80A21110 A2080263 */  sb      $t0, 0x0263($s0)           ## 00000263
 .L80A21114:
-/* 01354 80A21114 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01354 80A21114 0C00B56E */  jal     Actor_SetFocus
               
 /* 01358 80A21118 3C054248 */  lui     $a1, 0x4248                ## $a1 = 42480000
 /* 0135C 80A2111C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -109,7 +109,7 @@ glabel ObjBean_Update
 .L80B90C20:
 /* 021A0 80B90C20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B90C24:
-/* 021A4 80B90C24 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 021A4 80B90C24 0C00B56E */  jal     Actor_SetFocus
               
 /* 021A8 80B90C28 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 021AC 80B90C2C 920B01F7 */  lbu     $t3, 0x01F7($s0)           ## 000001F7

@@ -146,7 +146,7 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.world.pos.z += this->actor.velocity.z;
     } else {
         func_80037D98(globalCtx, &this->actor, 0xF, &this->unk_1A0);
-        Actor_SetFocusToWorld(&this->actor, 40.0f);
+        Actor_SetFocus(&this->actor, 40.0f);
     }
 }
 

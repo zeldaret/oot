@@ -345,7 +345,7 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->updateFunc(this, globalCtx);
 
     if (this->wonderMode == WONDERITEM_UNUSED) {
-        Actor_SetFocusToWorld(&this->actor, this->unkHeight);
+        Actor_SetFocus(&this->actor, this->unkHeight);
     }
     if ((this->wonderMode == WONDERITEM_INTERACT_SWITCH) || (this->wonderMode == WONDERITEM_BOMB_SOLDIER)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

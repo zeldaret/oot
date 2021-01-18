@@ -175,7 +175,7 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetCylinderType1(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
     Collider_InitCylinder(globalCtx, &this->collider2);
     Collider_SetCylinderType1(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
-    Actor_SetFocusToWorld(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -782,7 +782,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->effectTimer--;
     }
 
-    Actor_SetFocusToWorld(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     EnRr_UpdateBodySegments(this, globalCtx);
     if (!this->isDead && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
         EnRr_CollisionCheck(this, globalCtx);

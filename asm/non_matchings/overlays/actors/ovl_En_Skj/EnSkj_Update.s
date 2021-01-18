@@ -61,7 +61,7 @@ glabel EnSkj_Update
 /* 025A8 80B00858 1000003E */  beq     $zero, $zero, .L80B00954   
 /* 025AC 80B0085C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B00860:
-/* 025B0 80B00860 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 025B0 80B00860 0C00B56E */  jal     Actor_SetFocus
               
 /* 025B4 80B00864 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 025B8 80B00868 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

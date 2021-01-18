@@ -577,7 +577,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetFocusToWorld(&this->actor, 25.0f);
+    Actor_SetFocus(&this->actor, 25.0f);
 
     if (this->actionFunc == EnWallmas_TakeDamage) {
         return;

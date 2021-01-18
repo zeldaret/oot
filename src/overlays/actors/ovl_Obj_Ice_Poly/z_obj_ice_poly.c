@@ -100,7 +100,7 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->colliderIce.dim.height *= thisx->scale.y;
     this->colliderHard.dim.radius *= thisx->scale.x;
     this->colliderHard.dim.height *= thisx->scale.y;
-    Actor_SetFocusToWorld(thisx, thisx->scale.y * 30.0f);
+    Actor_SetFocus(thisx, thisx->scale.y * 30.0f);
     this->actionFunc = ObjIcePoly_Idle;
 }
 

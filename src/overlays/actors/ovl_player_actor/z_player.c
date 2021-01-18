@@ -9063,7 +9063,7 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
     this->skelAnime2.baseTransl = D_80854730;
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawTeardrop, this->ageProperties->unk_04);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
     this->unk_46C = -1;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
@@ -13519,7 +13519,7 @@ void func_80851FB0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     } else if (this->unk_850 == 0) {
         func_80832924(this, D_808551BC);
         if (LinkAnimation_OnFrame(&this->skelAnime, 240.0f)) {
-            this->actor.shape.shadowDraw = ActorShadow_DrawTeardrop;
+            this->actor.shape.shadowDraw = ActorShadow_DrawFeet;
         }
     }
 }

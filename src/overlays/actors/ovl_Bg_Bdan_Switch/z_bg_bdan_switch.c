@@ -154,7 +154,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.scale.x = 0.1f;
     }
     this->dyna.actor.scale.y = 0.0f;
-    Actor_SetFocusToWorld(&this->dyna.actor, 10.0f);
+    Actor_SetFocus(&this->dyna.actor, 10.0f);
 
     switch (type) {
         case BLUE:

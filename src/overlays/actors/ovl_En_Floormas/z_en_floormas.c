@@ -732,7 +732,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
         }
 
         Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primaryFloormas), 0x38E);
-        if (Actor_WorldDistToActorXZ(&this->actor, primaryFloormas) < 80.0f) {
+        if (Actor_WorldDistXZToActor(&this->actor, primaryFloormas) < 80.0f) {
             EnFloormas_SetupSlaveJumpAtMaster(this);
         }
     } else {
@@ -1078,7 +1078,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        Actor_SetFocusToWorld(&this->actor, this->actor.scale.x * 2500.0f);
+        Actor_SetFocus(&this->actor, this->actor.scale.x * 2500.0f);
 
         if (this->collider.base.colType == COLTYPE_HARD) {
             if (this->actionTarget != 0) {

@@ -573,7 +573,7 @@ glabel EnClearTag_Update
 /* 00E0C 809D43BC 0C00B5FB */  jal     func_8002D7EC              
 /* 00E10 809D43C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E14 809D43C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00E18 809D43C8 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 00E18 809D43C8 0C00B56E */  jal     Actor_SetFocus
               
 /* 00E1C 809D43CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00E20 809D43D0 240F0014 */  addiu   $t7, $zero, 0x0014         ## $t7 = 00000014

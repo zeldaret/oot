@@ -49,7 +49,7 @@ glabel func_80AC73B4
 /* 047C4 80AC7464 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 047C8 80AC7468 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 047CC 80AC746C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 047D0 80AC7470 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 047D0 80AC7470 0C00B56E */  jal     Actor_SetFocus
               
 /* 047D4 80AC7474 3C0542B4 */  lui     $a1, 0x42B4                ## $a1 = 42B40000
 /* 047D8 80AC7478 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C

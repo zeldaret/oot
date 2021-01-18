@@ -180,7 +180,7 @@ void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        Actor_SetFocusToWorld(&this->dyna.actor, -50.0f);
+        Actor_SetFocus(&this->dyna.actor, -50.0f);
         BgJyaMegami_SetupDetectLight(this);
     }
 }

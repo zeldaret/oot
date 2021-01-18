@@ -121,7 +121,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->songObserverFunc = ObjTimeblock_WaitForOcarina;
 
-    Actor_SetFocusToWorld(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].height);
+    Actor_SetFocus(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].height);
 
     this->unk_174 = (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) ? true : false;
     this->unk_175 = ((this->dyna.actor.params >> 15) & 1) ? true : false;

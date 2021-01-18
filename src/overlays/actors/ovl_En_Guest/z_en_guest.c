@@ -101,7 +101,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-        Actor_SetFocusToWorld(&this->actor, 60.0f);
+        Actor_SetFocus(&this->actor, 60.0f);
 
         this->unk_30E = 0;
         this->unk_30D = 0;
@@ -174,7 +174,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
     SkelAnime_Update(&this->skelAnime);
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

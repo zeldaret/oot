@@ -13,7 +13,7 @@ glabel func_80ABDBF8
 /* 01074 80ABDC24 E7A8003C */  swc1    $f8, 0x003C($sp)           
 /* 01078 80ABDC28 848E01C8 */  lh      $t6, 0x01C8($a0)           ## 000001C8
 /* 0107C 80ABDC2C 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
-/* 01080 80ABDC30 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01080 80ABDC30 0C00B56E */  jal     Actor_SetFocus
               
 /* 01084 80ABDC34 A48F01C8 */  sh      $t7, 0x01C8($a0)           ## 000001C8
 /* 01088 80ABDC38 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

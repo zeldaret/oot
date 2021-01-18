@@ -849,7 +849,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->blinkState = 0;
     }
     EnSsh_SetColliders(this, globalCtx);
-    Actor_SetFocusToWorld(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
 s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

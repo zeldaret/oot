@@ -90,7 +90,7 @@ void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
-        Actor_SetFocusToWorld(&this->dyna.actor, 70.0f);
+        Actor_SetFocus(&this->dyna.actor, 70.0f);
         func_80080480(globalCtx, this);
         this->actionFunc = func_808B9698;
     }
@@ -98,7 +98,7 @@ void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 
 void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[16] & 0x200) {
-        Actor_SetFocusToWorld(&this->dyna.actor, 70.0f);
+        Actor_SetFocus(&this->dyna.actor, 70.0f);
         if (((this->dyna.actor.params >> 8) & 1) == 0) {
             this->actionFunc = func_808B9698;
         } else {

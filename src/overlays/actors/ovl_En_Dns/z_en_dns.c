@@ -481,7 +481,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dustTimer++;
     this->actor.textId = D_809F040C[this->actor.params];
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);

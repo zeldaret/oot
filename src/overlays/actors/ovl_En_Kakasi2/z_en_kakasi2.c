@@ -208,7 +208,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     this->actor.world.rot = this->actor.shape.rot;
-    Actor_SetFocusToWorld(&this->actor, this->height);
+    Actor_SetFocus(&this->actor, this->height);
     this->actionFunc(this, globalCtx2);
     Actor_MoveForward(&this->actor);
 

@@ -128,7 +128,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.world.pos.x -= xOffset;
         this->actor.world.pos.z += zOffset;
     }
-    Actor_SetFocusToWorld(&this->actor, 70.0f);
+    Actor_SetFocus(&this->actor, 70.0f);
 }
 
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -159,7 +159,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
+            if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }

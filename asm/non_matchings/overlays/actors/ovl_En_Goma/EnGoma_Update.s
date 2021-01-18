@@ -111,7 +111,7 @@ glabel EnGoma_Update
 /* 01D1C 80A4ABDC 0C292A59 */  jal     func_80A4A964              
 /* 01D20 80A4ABE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01D24 80A4ABE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01D28 80A4ABE8 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01D28 80A4ABE8 0C00B56E */  jal     Actor_SetFocus
               
 /* 01D2C 80A4ABEC 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 /* 01D30 80A4ABF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

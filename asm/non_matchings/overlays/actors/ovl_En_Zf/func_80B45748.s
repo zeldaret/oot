@@ -129,7 +129,7 @@ glabel func_80B45748
 /* 0189C 80B458EC 01495023 */  subu    $t2, $t2, $t1              
 /* 018A0 80B458F0 000A5080 */  sll     $t2, $t2,  2               
 /* 018A4 80B458F4 014B2821 */  addu    $a1, $t2, $t3              
-/* 018A8 80B458F8 0C00B6EC */  jal     Actor_WorldDistToPointXZ              
+/* 018A8 80B458F8 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 018AC 80B458FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 018B0 80B45900 C7A60044 */  lwc1    $f6, 0x0044($sp)           
 /* 018B4 80B45904 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

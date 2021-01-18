@@ -19,7 +19,7 @@ glabel func_80B37830
 /* 03BC4 80B37874 00063403 */  sra     $a2, $a2, 16               
 /* 03BC8 80B37878 A60F0032 */  sh      $t7, 0x0032($s0)           ## 00000032
 /* 03BCC 80B3787C A7A60022 */  sh      $a2, 0x0022($sp)           
-/* 03BD0 80B37880 0C00B6DB */  jal     Actor_WorldDistToPointXYZ              
+/* 03BD0 80B37880 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 03BD4 80B37884 24E50024 */  addiu   $a1, $a3, 0x0024           ## $a1 = 00000024
 /* 03BD8 80B37888 87A60022 */  lh      $a2, 0x0022($sp)           
 /* 03BDC 80B3788C 46000086 */  mov.s   $f2, $f0                   

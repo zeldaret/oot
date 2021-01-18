@@ -448,7 +448,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
 void BgBdanObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgBdanObjects* this = THIS;
 
-    Actor_SetFocusToWorld(thisx, 50.0f);
+    Actor_SetFocus(thisx, 50.0f);
     this->actionFunc(this, globalCtx);
 }
 

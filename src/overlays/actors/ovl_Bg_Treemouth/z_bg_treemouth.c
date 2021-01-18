@@ -69,7 +69,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&D_06000E94, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    Actor_SetFocusToWorld(thisx, 50.0f);
+    Actor_SetFocus(thisx, 50.0f);
 
     if ((gSaveContext.sceneSetupIndex < 4) && LINK_IS_CHILD) {
         BgTreemouth_SetupAction(this, func_808BC8B8);

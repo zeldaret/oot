@@ -209,7 +209,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->unk_280 = 30.0f;
-    Actor_SetFocusToWorld(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
         this->unk_2D4.unk_18 = player->actor.world.pos;
         if (LINK_IS_CHILD) {

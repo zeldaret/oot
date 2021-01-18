@@ -63,7 +63,7 @@ glabel EnDivingGame_Update
 /* 013F4 809EEC64 0320F809 */  jalr    $ra, $t9                   
 /* 013F8 809EEC68 00000000 */  nop
 /* 013FC 809EEC6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01400 809EEC70 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 01400 809EEC70 0C00B56E */  jal     Actor_SetFocus
               
 /* 01404 809EEC74 3C0542A0 */  lui     $a1, 0x42A0                ## $a1 = 42A00000
 /* 01408 809EEC78 8FAB003C */  lw      $t3, 0x003C($sp)           

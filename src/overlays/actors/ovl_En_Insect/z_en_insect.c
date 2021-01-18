@@ -782,7 +782,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        Actor_SetFocusToWorld(&this->actor, 0.0f);
+        Actor_SetFocus(&this->actor, 0.0f);
     }
 }
 

@@ -172,7 +172,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 removeSelf = false;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Actor_SetFocusToWorld(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
     if (switchFlagSet) {
         if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN) {
             removeSelf = true;
@@ -390,7 +390,7 @@ void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.pos.x = this->actor.child->world.pos.x;
             this->actor.world.pos.y = this->actor.child->world.pos.y + 60.0f;
             this->actor.world.pos.z = this->actor.child->world.pos.z;
-            Actor_SetFocusToWorld(&this->actor, 0.0f);
+            Actor_SetFocus(&this->actor, 0.0f);
         }
 
         this->prevFrameACflags = this->collider.base.acFlags;

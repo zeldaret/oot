@@ -121,7 +121,7 @@ glabel func_809EA240
 /* 00E80 809EA3E0 1500001D */  bne     $t0, $zero, .L809EA458     
 /* 00E84 809EA3E4 A61900B6 */  sh      $t9, 0x00B6($s0)           ## 000000B6
 /* 00E88 809EA3E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00E8C 809EA3EC 0C00B6EC */  jal     Actor_WorldDistToPointXZ              
+/* 00E8C 809EA3EC 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 00E90 809EA3F0 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00E94 809EA3F4 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00E98 809EA3F8 44815000 */  mtc1    $at, $f10                  ## $f10 = 20.00

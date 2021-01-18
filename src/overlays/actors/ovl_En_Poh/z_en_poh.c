@@ -428,7 +428,7 @@ void func_80ADE6D4(EnPoh* this) {
 
 void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.home.pos.y = this->actor.world.pos.y;
-    Actor_SetFocusToWorld(&this->actor, -10.0f);
+    Actor_SetFocus(&this->actor, -10.0f);
     this->colliderCyl.dim.radius = 13;
     this->colliderCyl.dim.height = 30;
     this->colliderCyl.dim.yShift = 0;
@@ -487,7 +487,7 @@ void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADEA5C(EnPoh* this) {
-    if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 400.0f) {
+    if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 400.0f) {
         this->unk_19C = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
     Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_19C, 0x71C);
@@ -808,7 +808,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->unk_195 = 32;
     }
     this->colliderCyl.dim.pos.y = this->actor.world.pos.y - 20.0f;
-    Actor_SetFocusToWorld(&this->actor, -10.0f);
+    Actor_SetFocus(&this->actor, -10.0f);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->info->lightColor.r, this->info->lightColor.g,
                               this->info->lightColor.b, this->lightColor.a * 0.78431373f);
@@ -1023,7 +1023,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
-    Actor_SetFocusToWorld(&this->actor, 42.0f);
+    Actor_SetFocus(&this->actor, 42.0f);
     if (this->actionFunc != func_80ADEECC && this->actionFunc != func_80ADF574) {
         if (this->actionFunc == func_80ADF894) {
             this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;

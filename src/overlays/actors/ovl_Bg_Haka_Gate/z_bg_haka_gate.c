@@ -133,7 +133,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->world.pos.y += 80.0f;
             } else {
                 thisx->flags |= 0x10;
-                Actor_SetFocusToWorld(thisx, 30.0f);
+                Actor_SetFocus(thisx, 30.0f);
                 this->actionFunc = BgHakaGate_GateWait;
             }
         }

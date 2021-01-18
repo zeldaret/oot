@@ -103,7 +103,7 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     this->actor.home.pos.x = pathPoint->x;
     this->actor.home.pos.y = pathPoint->y;
     this->actor.home.pos.z = pathPoint->z;
-    this->initDistToNextPoint = Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos);
+    this->initDistToNextPoint = Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos);
     this->initDistToNextPoint = CLAMP_MIN(this->initDistToNextPoint, 1.0f);
     this->currentPathPoint++;
     this->yDiff = this->actor.home.pos.y - this->actor.world.pos.y;
@@ -165,7 +165,7 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }
-    temp_f20 = Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos);
+    temp_f20 = Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos);
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
@@ -201,7 +201,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
-    Actor_SetFocusToWorld(&this->actor, 42.0f);
+    Actor_SetFocus(&this->actor, 42.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (globalCtx->actorCtx.unk_03) {

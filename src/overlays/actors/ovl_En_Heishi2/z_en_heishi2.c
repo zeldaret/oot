@@ -784,10 +784,10 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
     s32 i;
 
-    Actor_SetFocusToWorld(&this->actor, this->unk_2E0);
+    Actor_SetFocus(&this->actor, this->unk_2E0);
     if ((this->initParams == 2) || (this->initParams == 5)) {
         this->actor.focus.pos.y = 70.0f;
-        Actor_SetFocusToWorld(&this->actor, 70.0f);
+        Actor_SetFocus(&this->actor, 70.0f);
         func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
     }
 

@@ -415,7 +415,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.xyzDistToPlayerSq < 5000.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
-        Actor_SetFocusToWorld(&this->actor, this->actor.shape.yOffset * this->actor.scale.y);
+        Actor_SetFocus(&this->actor, this->actor.shape.yOffset * this->actor.scale.y);
     }
 }
 

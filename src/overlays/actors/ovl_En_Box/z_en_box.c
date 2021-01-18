@@ -188,11 +188,11 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
         case ENBOX_TYPE_ROOM_CLEAR_SMALL:
         case ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL:
             Actor_SetScale(&this->dyna.actor, 0.005f);
-            Actor_SetFocusToWorld(&this->dyna.actor, 20.0f);
+            Actor_SetFocus(&this->dyna.actor, 20.0f);
             break;
         default:
             Actor_SetScale(&this->dyna.actor, 0.01f);
-            Actor_SetFocusToWorld(&this->dyna.actor, 40.0f);
+            Actor_SetFocus(&this->dyna.actor, 40.0f);
     }
 }
 
@@ -538,10 +538,10 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
         case ENBOX_TYPE_6:
         case ENBOX_TYPE_ROOM_CLEAR_SMALL:
         case ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL:
-            Actor_SetFocusToWorld(&this->dyna.actor, 20.0f);
+            Actor_SetFocus(&this->dyna.actor, 20.0f);
             break;
         default:
-            Actor_SetFocusToWorld(&this->dyna.actor, 40.0f);
+            Actor_SetFocus(&this->dyna.actor, 40.0f);
     }
 
     if ((this->dyna.actor.params >> 5 & 0x7F) == 0x7C && this->actionFunc == EnBox_Open &&

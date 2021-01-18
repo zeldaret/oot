@@ -522,7 +522,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGs* this = THIS;
 
-    Actor_SetFocusToWorld(&this->actor, 23.0f);
+    Actor_SetFocus(&this->actor, 23.0f);
     if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
         if (globalCtx) {};

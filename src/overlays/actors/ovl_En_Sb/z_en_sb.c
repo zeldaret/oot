@@ -463,7 +463,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        Actor_SetFocusToWorld(&this->actor, 20.0f);
+        Actor_SetFocus(&this->actor, 20.0f);
         Actor_SetScale(&this->actor, 0.006f);
         Actor_MoveForward(&this->actor);
         this->actionFunc(this, globalCtx);

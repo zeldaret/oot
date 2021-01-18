@@ -74,7 +74,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanCurtainParams* hcParams;
 
     osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
-    Actor_SetFocusToWorld(&this->actor, 20.0f);
+    Actor_SetFocus(&this->actor, 20.0f);
     this->type = (thisx->params >> 0xC) & 0xF;
     if (this->type > 6) {
         // Type is not set

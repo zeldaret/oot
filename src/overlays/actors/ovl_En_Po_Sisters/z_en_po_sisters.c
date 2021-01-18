@@ -623,7 +623,7 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x71C);
-    } else if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 300.0f) {
+    } else if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 300.0f) {
         Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x71C);
     }
@@ -849,7 +849,7 @@ void func_80ADB338(EnPoSisters* this, GlobalContext* globalCtx) {
     EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
     if (this->unk_195 == 0) {
-        if (Actor_WorldDistToPointXZ(&player->actor, &this->actor.home.pos) < 600.0f) {
+        if (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) < 600.0f) {
             if (this->unk_19C != 0) {
                 this->unk_19C--;
             }
@@ -881,7 +881,7 @@ void func_80ADB4B0(EnPoSisters* this, GlobalContext* globalCtx) {
     }
     func_80AD97C8(this, globalCtx);
     this->actor.world.pos.y += 1.0f;
-    Actor_SetFocusToWorld(&this->actor, 40.0f);
+    Actor_SetFocus(&this->actor, 40.0f);
 }
 
 void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
@@ -932,7 +932,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
         }
     }
     func_80AD97C8(this, globalCtx);
-    Actor_SetFocusToWorld(&this->actor, 40.0f);
+    Actor_SetFocus(&this->actor, 40.0f);
 }
 
 void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
@@ -967,7 +967,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_199 &= ~0x40;
         }
     }
-    if (Actor_WorldDistToPointXZ(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
+    if (Actor_WorldDistXZToPoint(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
         this->unk_199 &= ~0x40;
         func_80AD9C24(this, globalCtx);
     } else if (this->unk_19A == 0) {
@@ -1013,12 +1013,12 @@ void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 3 && Animation_OnFrame(&this->skelAnime, 1.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
     }
-    Actor_SetFocusToWorld(&this->actor, 40.0f);
+    Actor_SetFocus(&this->actor, 40.0f);
 }
 
 void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) < 10.0f) {
+    if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 10.0f) {
         func_80ADA028(this);
     } else {
         Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
@@ -1223,7 +1223,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actionFunc != func_80ADB338) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
-        Actor_SetFocusToWorld(&this->actor, 40.0f);
+        Actor_SetFocus(&this->actor, 40.0f);
         if (this->actionFunc == func_80ADAC70) {
             this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
         } else if (this->unk_199 & 2) {

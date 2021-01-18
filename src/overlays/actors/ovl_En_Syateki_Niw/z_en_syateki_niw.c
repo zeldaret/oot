@@ -504,7 +504,7 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp26;
     s16 sp24;
 
-    Actor_SetFocusToWorld(&this->actor, this->unk_2D4);
+    Actor_SetFocus(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
@@ -524,7 +524,7 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp2C;
     f32 tmpf2;
 
-    Actor_SetFocusToWorld(&this->actor, this->unk_2D4);
+    Actor_SetFocus(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
     if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
         (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {

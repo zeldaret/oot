@@ -335,7 +335,7 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->height = 60.0f;
-    Actor_SetFocusToWorld(&this->actor, this->height);
+    Actor_SetFocus(&this->actor, this->height);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);

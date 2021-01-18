@@ -1048,7 +1048,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         EnSt_SetTeethColor(this, color.r, color.g, color.b, 8);
         EnSt_UpdateCylinders(this, globalCtx);
-        Actor_SetFocusToWorld(&this->actor, 0.0f);
+        Actor_SetFocus(&this->actor, 0.0f);
     }
 }
 

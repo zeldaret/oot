@@ -246,7 +246,7 @@ glabel EnAnubice_Update
 /* 00F5C 809B207C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00F60 809B2080 1182001B */  beq     $t4, $v0, .L809B20F0       
 /* 00F64 809B2084 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F68 809B2088 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 00F68 809B2088 0C00B56E */  jal     Actor_SetFocus
               
 /* 00F6C 809B208C 8E05027C */  lw      $a1, 0x027C($s0)           ## 0000027C
 /* 00F70 809B2090 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8

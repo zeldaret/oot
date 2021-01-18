@@ -218,7 +218,7 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
     s32 pad;
 
-    Actor_SetFocusToWorld(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     this->unk_274 += 1;
     if (this->caughtTimer != 0) {
         this->caughtTimer -= 1;

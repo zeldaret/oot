@@ -21,7 +21,7 @@ glabel func_80A5F890
 /* 045B8 80A5F8A8 A5C005BE */  sh      $zero, 0x05BE($t6)         ## 801605BE
 /* 045BC 80A5F8AC 8FAF0044 */  lw      $t7, 0x0044($sp)
 /* 045C0 80A5F8B0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 045C4 80A5F8B4 0C00B6E3 */  jal     Actor_WorldDistToActorXZ
+/* 045C4 80A5F8B4 0C00B6E3 */  jal     Actor_WorldDistXZToActor
 /* 045C8 80A5F8B8 8DE51C44 */  lw      $a1, 0x1C44($t7)           ## 00001C44
 /* 045CC 80A5F8BC E7A0003C */  swc1    $f0, 0x003C($sp)
 /* 045D0 80A5F8C0 8E020370 */  lw      $v0, 0x0370($s0)           ## 00000370

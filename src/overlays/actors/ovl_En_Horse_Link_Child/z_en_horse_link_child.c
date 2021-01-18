@@ -224,7 +224,7 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distFromLink;
     s32 newAnimationIdx;
 
-    distFromLink = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if ((distFromLink < 1000.0f) && (distFromLink > 70.0f)) {
@@ -271,7 +271,7 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        distFromLink = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
+        distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
         if (distFromLink > 1000.0f) {
             func_80A6993C(this, 0);
@@ -350,7 +350,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     func_80A69F5C(this, globalCtx);
     player = PLAYER;
-    distFromLink = Actor_WorldDistToActorXZ(&this->actor, &player->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -498,7 +498,7 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (!this->unk_1E8) {
-            dist = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
+            dist = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
         } else {
             dist = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         }

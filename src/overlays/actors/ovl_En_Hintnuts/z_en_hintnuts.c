@@ -384,7 +384,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         EnHintnuts_SetupTalk(this);
-    } else if (this->animFlagAndTimer == 0 && Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) < 20.0f &&
+    } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.speedXZ = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {
@@ -504,12 +504,12 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (this->actionFunc == EnHintnuts_Wait) {
-            Actor_SetFocusToWorld(&this->actor, this->skelAnime.curFrame);
+            Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
-            Actor_SetFocusToWorld(&this->actor,
+            Actor_SetFocus(&this->actor,
                                   20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_060024CC)));
         } else {
-            Actor_SetFocusToWorld(&this->actor, 20.0f);
+            Actor_SetFocus(&this->actor, 20.0f);
         }
     }
 }

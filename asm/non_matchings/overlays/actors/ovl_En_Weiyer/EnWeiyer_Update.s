@@ -52,7 +52,7 @@ glabel EnWeiyer_Update
 /* 01590 80B33820 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01594 80B33824 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01598 80B33828 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0159C 80B3382C 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 0159C 80B3382C 0C00B56E */  jal     Actor_SetFocus
               
 /* 015A0 80B33830 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 015A4 80B33834 92020294 */  lbu     $v0, 0x0294($s0)           ## 00000294

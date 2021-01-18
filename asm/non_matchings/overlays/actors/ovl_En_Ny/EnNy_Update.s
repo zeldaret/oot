@@ -27,7 +27,7 @@ glabel EnNy_Update
 /* 0093C 80ABD4EC A49801CA */  sh      $t8, 0x01CA($a0)           ## 000001CA
 .L80ABD4F0:
 /* 00940 80ABD4F0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 00944 80ABD4F4 0C00B56E */  jal     Actor_SetFocusToWorld
+/* 00944 80ABD4F4 0C00B56E */  jal     Actor_SetFocus
               
 /* 00948 80ABD4F8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0094C 80ABD4FC 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

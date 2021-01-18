@@ -245,7 +245,7 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x20000000)) {
         this->actionFunc(this, globalCtx);
-        Actor_SetFocusToWorld(&this->actor, 0.0f);
+        Actor_SetFocus(&this->actor, 0.0f);
         this->activeTimer = this->activeTimer + 1;
     }
 }

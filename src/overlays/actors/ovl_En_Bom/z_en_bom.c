@@ -327,7 +327,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetFocusToWorld(thisx, 20.0f);
+    Actor_SetFocus(thisx, 20.0f);
 
     if (thisx->params <= BOMB_BODY) {
         Collider_UpdateCylinder(thisx, &this->bombCollider);

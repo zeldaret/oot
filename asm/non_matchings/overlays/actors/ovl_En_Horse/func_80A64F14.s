@@ -10,7 +10,7 @@ glabel func_80A64F14
 /* 09C30 80A64F20 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 09C34 80A64F24 00C08025 */  or      $s0, $a2, $zero            ## $s0 = 00000000
 /* 09C38 80A64F28 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 09C3C 80A64F2C 0C00B6E3 */  jal     Actor_WorldDistToActorXZ              
+/* 09C3C 80A64F2C 0C00B6E3 */  jal     Actor_WorldDistXZToActor              
 /* 09C40 80A64F30 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 09C44 80A64F34 3C014296 */  lui     $at, 0x4296                ## $at = 42960000
 /* 09C48 80A64F38 44812000 */  mtc1    $at, $f4                   ## $f4 = 75.00

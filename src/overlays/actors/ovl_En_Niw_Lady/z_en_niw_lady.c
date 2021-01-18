@@ -494,7 +494,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwLady* this = THIS;
     Player* player = PLAYER;
 
-    Actor_SetFocusToWorld(thisx, 60.0f);
+    Actor_SetFocus(thisx, 60.0f);
     this->unk_288.unk_18 = player->actor.world.pos;
     if (LINK_IS_CHILD) {
         this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;

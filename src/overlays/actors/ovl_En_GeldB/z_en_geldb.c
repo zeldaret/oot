@@ -230,7 +230,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawTeardrop, 0.0f);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFeet, 0.0f);
     this->actor.colChkInfo.mass = MASS_HEAVY;
     thisx->colChkInfo.health = 20;
     thisx->colChkInfo.cylRadius = 50;
@@ -315,7 +315,7 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     } else if ((bomb = Actor_FindNearby(globalCtx, thisx, -1, ACTORCAT_EXPLOSIVE, 80.0f)) != NULL) {
         thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
         if (((thisx->bgCheckFlags & 8) && (angleToWall < 0x2EE0)) || (bomb->id == ACTOR_EN_BOM_CHU)) {
-            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistToActorXYZ(thisx, bomb) < 80.0f) &&
+            if ((bomb->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(thisx, bomb) < 80.0f) &&
                 ((s16)(thisx->shape.rot.y - (bomb->world.rot.y - 0x8000)) < 0x3E80)) {
                 EnGeldB_SetupJump(this);
                 return true;
@@ -1617,9 +1617,9 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
 
         angleToFacing = Actor_WorldYawTowardActor(&this->actor, actor) - this->actor.shape.rot.y;
         this->actor.world.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
-        dist = Actor_WorldDistToPointXYZ(&this->actor, &actor->world.pos);
+        dist = Actor_WorldDistXYZToPoint(&this->actor, &actor->world.pos);
         //! @bug
-        // Actor_WorldDistToPointXYZ already sqrtfs the distance, so this actually checks for a
+        // Actor_WorldDistXYZToPoint already sqrtfs the distance, so this actually checks for a
         // distance of 360000. Also it's a double calculation because no f on sqrt.
         if ((ABS(angleToFacing) < 0x2EE0) && (sqrt(dist) < 600.0)) {
             if (actor->id == ACTOR_ARMS_HOOK) {

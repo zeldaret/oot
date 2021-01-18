@@ -350,7 +350,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->world.pos.x = this->pos.x;
     thisx->world.pos.y = this->pos.y;
     thisx->world.pos.z = this->pos.z;
-    Actor_SetFocusToWorld(thisx, this->height);
+    Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
         this->unk_28C.unk_18 = player->actor.world.pos;
         if (LINK_IS_CHILD) {

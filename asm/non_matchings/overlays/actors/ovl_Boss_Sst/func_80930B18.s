@@ -20,7 +20,7 @@ glabel func_80930B18
 /* 04590 80930B60 3C058094 */  lui     $a1, %hi(D_80938C90)       ## $a1 = 80940000
 /* 04594 80930B64 8CA58C90 */  lw      $a1, %lo(D_80938C90)($a1)
 /* 04598 80930B68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0459C 80930B6C 0C00B6EC */  jal     Actor_WorldDistToPointXZ
+/* 0459C 80930B6C 0C00B6EC */  jal     Actor_WorldDistXZToPoint
 /* 045A0 80930B70 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 80940024
 /* 045A4 80930B74 E60003C4 */  swc1    $f0, 0x03C4($s0)           ## 000003C4
 /* 045A8 80930B78 3C048094 */  lui     $a0, %hi(D_80938C90)       ## $a0 = 80940000

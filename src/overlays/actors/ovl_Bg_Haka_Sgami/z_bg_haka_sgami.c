@@ -178,7 +178,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->requiredObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ICE_OBJECTS);
         this->colliderScytheCenter.dim.radius = 30;
         this->colliderScytheCenter.dim.height = 70;
-        Actor_SetFocusToWorld(thisx, 40.0f);
+        Actor_SetFocus(thisx, 40.0f);
     }
 
     if (this->requiredObjBankIndex < 0) {

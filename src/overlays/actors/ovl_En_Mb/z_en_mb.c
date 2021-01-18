@@ -271,7 +271,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = thisx->world.rot.y;
                 this->actor.world.pos.z = thisx->world.pos.z + 600.0f;
             }
-            ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawTeardrop, 90.0f);
+            ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
             this->actor.flags &= ~1;
             this->actor.naviEnemyId++;
             func_80AA6898(this);
@@ -1374,7 +1374,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         Actor_MoveForward(thisx);
         Actor_UpdateBgCheckInfo(globalCtx, thisx, 40.0f, 40.0f, 70.0f, 0x1D);
-        Actor_SetFocusToWorld(thisx, thisx->scale.x * 4500.0f);
+        Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
         Collider_UpdateCylinder(thisx, &this->collider1);
         if (thisx->colChkInfo.health <= 0) {
             this->collider1.dim.pos.x += (Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
