@@ -33,7 +33,7 @@ typedef enum {
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_MIR_RAY,
     sizeof(MirRay),
@@ -136,12 +136,12 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
     Vec3f reflectionPt;
     Vec3s lightPt;
 
-    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.posRot.pos.x,
-                              player->actor.posRot.pos.y + 30.0f, player->actor.posRot.pos.z, this->sourceEndRad,
+    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.world.pos.x,
+                              player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
         if (dataEntry->params & 8) { // Light beams from mirrors
-            Math_Vec3f_Diff(&player->actor.posRot.pos, &this->sourcePt, &reflectionPt);
+            Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
         }

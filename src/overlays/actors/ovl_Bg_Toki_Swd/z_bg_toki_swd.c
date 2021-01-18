@@ -27,7 +27,7 @@ extern CutsceneData D_808BBD90[];
 
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),
@@ -70,7 +70,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->actor.shape.unk_08 = 800.0f;
+    this->actor.shape.yOffset = 800.0f;
     BgTokiSwd_SetupAction(thisx, func_808BAF40);
 
     if (LINK_IS_ADULT) {

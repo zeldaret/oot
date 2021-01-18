@@ -19,7 +19,7 @@ extern UNK_TYPE D_060020E0;
 /*
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DODOJR,
     sizeof(EnDodojr),

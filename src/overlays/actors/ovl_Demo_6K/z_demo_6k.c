@@ -19,7 +19,7 @@ extern UNK_TYPE D_060039D0;
 /*
 const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(Demo6K),

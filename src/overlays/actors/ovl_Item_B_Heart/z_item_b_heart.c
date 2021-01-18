@@ -22,7 +22,7 @@ extern Gfx D_06001470[];
 
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
-    ACTORTYPE_MISC,
+    ACTORCAT_MISC,
     FLAGS,
     OBJECT_GI_HEARTS,
     sizeof(ItemBHeart),
@@ -57,7 +57,7 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = THIS;
 
     func_80B85264(this, globalCtx);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if (Actor_HasParent(&this->actor, globalCtx)) {
         Flags_SetCollectible(globalCtx, 0x1F);
         Actor_Kill(&this->actor);
@@ -71,7 +71,7 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
 
     this->unk_164 += 1;
     temp = ((Math_SinS(this->unk_164 * 1548) * 5.0f) + 20.0f);
-    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + temp, 0.1f, this->unk_158);
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y + temp, 0.1f, this->unk_158);
     Math_ApproachF(&this->unk_158, 2.0f, 1.0f, 0.1f);
     this->actor.shape.rot.y += 0x400;
 
@@ -86,7 +86,7 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
 
-    actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
+    actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DOOR_WARP1) && (actorIt->projectedPos.z > this->actor.projectedPos.z)) {

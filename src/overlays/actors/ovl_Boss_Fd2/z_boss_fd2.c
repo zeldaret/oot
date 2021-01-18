@@ -12,7 +12,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_FD2,
     sizeof(BossFd2),

@@ -22,7 +22,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_BOJ,
     sizeof(EnGuest),
@@ -45,8 +45,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 6, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
 static UNK_PTR D_80A50BA4[] = {
@@ -101,7 +101,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-        Actor_SetHeight(&this->actor, 60.0f);
+        Actor_SetFocus(&this->actor, 60.0f);
 
         this->unk_30E = 0;
         this->unk_30D = 0;
@@ -137,7 +137,7 @@ void func_80A5046C(EnGuest* this) {
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A5057C;
-    } else if (this->actor.xzDistToLink < 100.0f) {
+    } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
 }
@@ -161,7 +161,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     func_80A5046C(this);
     this->actionFunc(this, globalCtx);
 
-    this->unk_2A0.unk_18 = player->actor.posRot.pos;
+    this->unk_2A0.unk_18 = player->actor.world.pos;
     if (LINK_IS_ADULT) {
         this->unk_2A0.unk_14 = 10.0f;
     } else {
@@ -174,7 +174,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
     SkelAnime_Update(&this->skelAnime);
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

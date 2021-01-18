@@ -123,7 +123,7 @@ glabel EnBigokuta_Update
 /* 01F18 809BEB78 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 01F1C 809BEB7C 460A4402 */  mul.s   $f16, $f8, $f10
 /* 01F20 809BEB80 44058000 */  mfc1    $a1, $f16
-/* 01F24 809BEB84 0C00B56E */  jal     Actor_SetHeight
+/* 01F24 809BEB84 0C00B56E */  jal     Actor_SetFocus
 
 /* 01F28 809BEB88 00000000 */  nop
 /* 01F2C 809BEB8C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000

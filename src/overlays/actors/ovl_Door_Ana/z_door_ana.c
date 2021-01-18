@@ -21,7 +21,7 @@ void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),
@@ -82,7 +82,7 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
     }
-    this->actor.unk_1F = 0;
+    this->actor.targetMode = 0;
 }
 
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -99,7 +99,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
     if (!(this->actor.params & 0x200)) {
         // opening with song of storms
-        if (this->actor.xyzDistToLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
+        if (this->actor.xyzDistToPlayerSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~0x10;
         }
@@ -129,26 +129,26 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
+        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
-            gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.posRot.pos.y;
-            gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.initPosRot.rot.y;
+            gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
+            gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.home.rot.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].data = this->actor.params & 0xFFFF;
             if (destinationIdx < 0) {
-                destinationIdx = this->actor.initPosRot.rot.z + 1;
+                destinationIdx = this->actor.home.rot.z + 1;
             }
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, DoorAna_GrabLink);
         } else {
             if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
-                this->actor.xzDistToLink <= 15.0f && -50.0f <= this->actor.yDistToLink &&
-                this->actor.yDistToLink <= 15.0f) {
+                this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
+                this->actor.yDistToPlayer <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;
-                this->actor.unk_1F = 1;
+                this->actor.targetMode = 1;
             } else {
-                this->actor.unk_1F = 0;
+                this->actor.targetMode = 0;
             }
         }
     }
@@ -159,10 +159,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->actor.yDistToLink <= 0.0f && 15.0f < this->actor.xzDistToLink) {
+    if (this->actor.yDistToPlayer <= 0.0f && 15.0f < this->actor.xzDistToPlayer) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_SinS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_CosS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.world.pos.x = Math_SinS(this->actor.yawTowardsPlayer) * 15.0f + this->actor.world.pos.x;
+        player->actor.world.pos.z = Math_CosS(this->actor.yawTowardsPlayer) * 15.0f + this->actor.world.pos.z;
     }
 }
 

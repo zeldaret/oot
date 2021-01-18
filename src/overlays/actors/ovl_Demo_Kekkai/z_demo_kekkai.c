@@ -27,7 +27,7 @@ extern Vtx gTrialBarrierEnergyVtx[];
 
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(DemoKekkai),
@@ -150,9 +150,9 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, GlobalContext* globalCtx) {
         vel.z = Math_CosS(yaw) * Math_CosS(roll) * Rand_ZeroFloat(8.0f);
         vel.y = Math_SinS(roll) * Rand_ZeroFloat(3.0f);
 
-        pos.x = (vel.x * 7.0f) + this->actor.posRot.pos.x;
-        pos.y = (vel.y * 20.0f) + this->actor.posRot.pos.y + 120.0f;
-        pos.z = (vel.z * 7.0f) + this->actor.posRot.pos.z;
+        pos.x = (vel.x * 7.0f) + this->actor.world.pos.x;
+        pos.y = (vel.y * 20.0f) + this->actor.world.pos.y + 120.0f;
+        pos.z = (vel.z * 7.0f) + this->actor.world.pos.z;
 
         EffectSsKiraKira_SpawnFocused(globalCtx, &pos, &vel, &accel, &lightYellow, &darkRed, 3000,
                                       (s32)Rand_ZeroFloat(40.0f) + 45);
@@ -190,7 +190,7 @@ void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->energyAlpha > 0.99f) {
         if ((this->collider1.base.atFlags & AT_HIT) || (this->collider2.base.atFlags & AT_HIT)) {
-            func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f);
+            func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
         }
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
@@ -248,7 +248,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, GlobalContext* globalCtx) {
     DemoKekkai* this = THIS;
 
     if (this->collider1.base.atFlags & AT_HIT) {
-        func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsLink, 5.0f);
+        func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 5.0f);
     }
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);

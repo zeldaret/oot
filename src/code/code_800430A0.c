@@ -22,9 +22,9 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
                 colCtx->dyna.bgActors[bgId].curTransform.rot.x, colCtx->dyna.bgActors[bgId].curTransform.rot.y,
                 colCtx->dyna.bgActors[bgId].curTransform.rot.z, colCtx->dyna.bgActors[bgId].curTransform.pos.x,
                 colCtx->dyna.bgActors[bgId].curTransform.pos.y, colCtx->dyna.bgActors[bgId].curTransform.pos.z);
-            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &actor->posRot.pos, &tempPos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &actor->world.pos, &tempPos);
             SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
-            actor->posRot.pos = pos;
+            actor->world.pos = pos;
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 
@@ -52,7 +52,7 @@ void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         }
 
         actor->shape.rot.y += rot;
-        actor->posRot.rot.y += rot;
+        actor->world.rot.y += rot;
     }
 }
 
