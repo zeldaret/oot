@@ -16,7 +16,7 @@ typedef struct EnFireRock {
     /* 0x017C */ Vec3f unk17C;
     /* 0x0188 */ char unk_188[0x4];
     /* 0x018C */ s16 unk18C;
-    /* 0x0190 */ char unk_190[0x4];
+    /* 0x0190 */ Actor* unk190;
     /* 0x0194 */ ColliderCylinder unk194;
 } EnFireRock; // size = 0x01E0
 

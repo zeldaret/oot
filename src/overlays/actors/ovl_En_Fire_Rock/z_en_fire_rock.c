@@ -1,4 +1,5 @@
 #include "z_en_fire_rock.h"
+#include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -105,9 +106,24 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Init.s")
+void EnFireRock_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnFireRock* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Destroy.s")
+    if (this->actor.parent != NULL){
+        if (this->actor.parent == this->unk190){
+            EnEncount2* spawner = (EnEncount2 *)thisx->parent;
+            if (spawner->actor.update != NULL){
+                if (spawner->unk158 > 0){
+                    spawner->unk158--;
+                    osSyncPrintf("\n\n");
+                    osSyncPrintf("\x1b[32m☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n\x1b[m", spawner->unk158);
+                    osSyncPrintf("\n\n");
+                }
+            }
+        }
+    }
+    Collider_DestroyCylinder(globalCtx, &this->unk194);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/func_80A120CC.s")
 
