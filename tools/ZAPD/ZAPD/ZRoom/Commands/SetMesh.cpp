@@ -47,6 +47,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			{
 				entry->opaqueDList = new ZDisplayList(rawData, entry->opaqueDListAddr, ZDisplayList::GetDListLength(rawData, entry->opaqueDListAddr));
 				entry->opaqueDList->scene = zRoom->scene;
+				entry->opaqueDList->parent = zRoom->parent;
 				GenDListDeclarations(rawData, entry->opaqueDList);
 			}
 
@@ -54,6 +55,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			{
 				entry->translucentDList = new ZDisplayList(rawData, entry->translucentDListAddr, ZDisplayList::GetDListLength(rawData, entry->translucentDListAddr));
 				entry->translucentDList->scene = zRoom->scene;
+				entry->translucentDList->parent = zRoom->parent;
 				GenDListDeclarations(rawData, entry->translucentDList);
 			}
 
@@ -206,6 +208,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			{
 				entry->opaqueDList = new ZDisplayList(rawData, entry->opaqueDListAddr, ZDisplayList::GetDListLength(rawData, entry->opaqueDListAddr));
 				entry->opaqueDList->scene = zRoom->scene;
+				entry->opaqueDList->parent = zRoom->parent;
 				GenDListDeclarations(rawData, entry->opaqueDList); // HOTSPOT
 			}
 
@@ -213,6 +216,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			{
 				entry->translucentDList = new ZDisplayList(rawData, entry->translucentDListAddr, ZDisplayList::GetDListLength(rawData, entry->translucentDListAddr));
 				entry->translucentDList->scene = zRoom->scene;
+				entry->translucentDList->parent = zRoom->parent;
 				GenDListDeclarations(rawData, entry->translucentDList); // HOTSPOT
 			}
 
@@ -291,16 +295,17 @@ SetMesh::~SetMesh()
 
 void SetMesh::GenDListDeclarations(std::vector<uint8_t> rawData, ZDisplayList* dList)
 {
-	string sourceOutput = dList->GetSourceOutputCode(zRoom->GetName()); // HOTSPOT
-
 	string srcVarName = "";
 
-	if (Globals::Instance->includeFilePrefix)
+	//if (Globals::Instance->includeFilePrefix)
 		srcVarName = StringHelper::Sprintf("%s%s", zRoom->GetName().c_str(), dList->GetName().c_str());
-	else
-		srcVarName = StringHelper::Sprintf("%s", dList->GetName().c_str());
+	//else
+		//srcVarName = StringHelper::Sprintf("%s", dList->GetName().c_str());
 
-	zRoom->parent->AddDeclarationArray(dList->GetRawDataIndex(), DeclarationAlignment::None, dList->GetRawDataSize(), "static Gfx", srcVarName, dList->GetRawDataSize() / 8, sourceOutput);
+	dList->SetName(srcVarName);
+	string sourceOutput = dList->GetSourceOutputCode(zRoom->GetName()); // HOTSPOT
+
+	//zRoom->parent->AddDeclarationArray(dList->GetRawDataIndex(), DeclarationAlignment::None, dList->GetRawDataSize(), "static Gfx", srcVarName, dList->GetRawDataSize() / 8, sourceOutput);
 
 	for (ZDisplayList* otherDList : dList->otherDLists)
 		GenDListDeclarations(rawData, otherDList);
@@ -324,7 +329,7 @@ void SetMesh::GenDListDeclarations(std::vector<uint8_t> rawData, ZDisplayList* d
 
 		zRoom->parent->AddDeclarationIncludeArray(texEntry.first, StringHelper::Sprintf("%s/%s.%s.inc.c",
 			Globals::Instance->outputPath.c_str(), Path::GetFileNameWithoutExtension(zRoom->textures[texEntry.first]->GetName()).c_str(), zRoom->textures[texEntry.first]->GetExternalExtension().c_str()), 
-			zRoom->textures[texEntry.first]->GetRawDataSize(), "u64", StringHelper::Sprintf("%sTex_%06X", zRoom->textures[texEntry.first]->GetName().c_str(), texEntry.first), 0);
+			zRoom->textures[texEntry.first]->GetRawDataSize(), "u64", StringHelper::Sprintf("%s", zRoom->textures[texEntry.first]->GetName().c_str(), texEntry.first), 0);
 	}
 }
 

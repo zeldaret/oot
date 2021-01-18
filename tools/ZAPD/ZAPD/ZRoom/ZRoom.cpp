@@ -81,8 +81,10 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 
 	for (XMLElement* child = reader->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 	{
+		// TODO: Bunch of repeated code between all of these that needs to be combined.
 		if (string(child->Name()) == "DListHint")
 		{
+			string name = "";
 			string comment = "";
 
 			if (child->Attribute("Comment") != NULL)
@@ -92,11 +94,18 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
 			ZDisplayList* dList = new ZDisplayList(room->rawData, address, ZDisplayList::GetDListLength(room->rawData, address));
-			dList->GetSourceOutputCode(room->name);
+
+			if (child->Attribute("Name") != NULL)
+				name = string(child->Attribute("Name"));
+			else
+				name = room->name;
+
+			dList->GetSourceOutputCode(name);
 			delete dList;
 		}
 		else if (string(child->Name()) == "BlobHint")
 		{
+			string name = "";
 			string comment = "";
 
 			if (child->Attribute("Comment") != NULL)
@@ -109,10 +118,18 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			int size = strtol(StringHelper::Split(sizeStr, "0x")[1].c_str(), NULL, 16);
 
 			ZBlob* blob = new ZBlob(room->rawData, address, size, StringHelper::Sprintf("%sBlob0x%06X", room->name.c_str(), address));
-			room->parent->AddDeclarationArray(address, DeclarationAlignment::None, blob->GetRawDataSize(), "u8", StringHelper::Sprintf("%s_%s", room->name.c_str(), blob->GetName().c_str()), 0, blob->GetSourceOutputCode(room->name));
+			
+			if (child->Attribute("Name") != NULL)
+				name = string(child->Attribute("Name"));
+			else
+				name = StringHelper::Sprintf("%s_%s", room->name.c_str(), blob->GetName().c_str());
+			
+			room->parent->AddDeclarationArray(address, DeclarationAlignment::None, blob->GetRawDataSize(), "u8", name, 0, blob->GetSourceOutputCode(room->name));
+			delete blob;
 		}
 		else if (string(child->Name()) == "CutsceneHint")
 		{
+			string name = "";
 			string comment = "";
 
 			if (child->Attribute("Comment") != NULL)
@@ -123,11 +140,18 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 
 			ZCutscene* cutscene = new ZCutscene(room->rawData, address, 9999);
 
+			if (child->Attribute("Name") != NULL)
+				name = string(child->Attribute("Name"));
+			else
+				name = StringHelper::Sprintf("%sCutsceneData0x%06X", room->name.c_str(), cutscene->segmentOffset);
+
 			room->parent->AddDeclarationArray(address, DeclarationAlignment::None, DeclarationPadding::Pad16, cutscene->GetRawDataSize(), "s32",
-				StringHelper::Sprintf("%sCutsceneData0x%06X", room->name.c_str(), cutscene->segmentOffset), 0, cutscene->GetSourceOutputCode(room->name));
+				name, 0, cutscene->GetSourceOutputCode(room->name));
+			delete cutscene;
 		}
 		else if (string(child->Name()) == "AltHeaderHint")
 		{
+			string name = "";
 			string comment = "";
 
 			if (child->Attribute("Comment") != NULL)
@@ -180,6 +204,7 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			ZTexture* tex = ZTexture::FromBinary(ZTexture::GetTextureTypeFromString(typeStr), room->rawData, address, StringHelper::Sprintf("%sTex_%06X", room->name.c_str(), address), width, height);
 			room->parent->AddDeclarationArray(address, DeclarationAlignment::None, tex->GetRawDataSize(), "u64", StringHelper::Sprintf("%s", tex->GetName().c_str()), 0,
 				tex->GetSourceOutputCode(room->name));
+			delete tex;
 		}
 	}
 
@@ -533,6 +558,7 @@ Declaration::Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPa
 	isArray = false;
 	arrayItemCnt = 0;
 	includePath = "";
+	references = vector<uint32_t>();
 }
 
 Declaration::Declaration(DeclarationAlignment nAlignment, uint32_t nSize, string nVarType, string nVarName, bool nIsArray, string nText) : Declaration(nAlignment, DeclarationPadding::None, nSize, nText)
