@@ -38,15 +38,31 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
 
 static Gfx* sBreakableWallDLists[] = { 0x0600B9C0, 0x0600C038, 0x0600B900 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = { {
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-    { 0, { { 0, 0, 0 }, 100 }, 100 },
-} };
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
+        { 0, { { 0, 0, 0 }, 100 }, 100 },
+    },
+};
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    sJntSphElementsInit,
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
@@ -72,8 +88,8 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, GlobalCon
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 
-    this->collider.list[0].dim.modelSphere.radius = sphereRadii[this->dyna.actor.params & 0xFF];
-    this->collider.list[0].dim.modelSphere.center.y = sphereYPositions[this->dyna.actor.params & 0xFF];
+    this->collider.elements[0].dim.modelSphere.radius = sphereRadii[this->dyna.actor.params & 0xFF];
+    this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[this->dyna.actor.params & 0xFF];
 }
 
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
@@ -311,7 +327,7 @@ void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sBreakableWallDLists[this->dyna.actor.params & 0xFF]);
 
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 573);
 }

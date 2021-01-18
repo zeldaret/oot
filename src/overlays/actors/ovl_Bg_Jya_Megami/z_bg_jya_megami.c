@@ -39,17 +39,31 @@ const ActorInit Bg_Jya_Megami_InitVars = {
     (ActorFunc)BgJyaMegami_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-        { 0x00, { { 0x0000, 0xFDA8, 0xFF38 }, 0x003C }, 0x0064 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00200000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
+        { 0, { { 0, -600, -200 }, 60 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static BgJyaMegamiPieceInit sPiecesInit[] = {
@@ -185,9 +199,9 @@ void BgJyaMegami_SetupDetectLight(BgJyaMegami* this) {
 }
 
 void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 0x2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->lightTimer++;
-        this->collider.base.acFlags &= ~0x2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (globalCtx->gameplayFrames % 4 == 0) {
             func_8089A41C(this, globalCtx, (this->crumbleIndex * 0.04f) + 0.05f);
         }
@@ -334,7 +348,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     if (this->actionFunc == BgJyaMegami_Explode) {
         BgJyaMegami_DrawExplode(this, globalCtx);
     } else {

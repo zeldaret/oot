@@ -26,15 +26,16 @@ typedef enum {
 } EnRrReachState;
 
 typedef enum {
-    /* 0x1 */ RR_DAMAGE_STUN = 1,
-    /* 0x2 */ RR_DAMAGE_FIRE,
-    /* 0x3 */ RR_DAMAGE_ICE,
-    /* 0x4 */ RR_DAMAGE_LIGHT_MAGIC,
-    /* 0xB */ RR_DAMAGE_LIGHT_ARROW = 11,
-    /* 0xC */ RR_DAMAGE_UNK_ARROW_1,
-    /* 0xD */ RR_DAMAGE_UNK_ARROW_2,
-    /* 0xE */ RR_DAMAGE_UNK_ARROW_3,
-    /* 0xF */ RR_DAMAGE_NORMAL
+    /* 0x0 */ RR_DMG_NONE,
+    /* 0x1 */ RR_DMG_STUN,
+    /* 0x2 */ RR_DMG_FIRE,
+    /* 0x3 */ RR_DMG_ICE,
+    /* 0x4 */ RR_DMG_LIGHT_MAGIC,
+    /* 0xB */ RR_DMG_LIGHT_ARROW = 11,
+    /* 0xC */ RR_DMG_SHDW_ARROW,
+    /* 0xD */ RR_DMG_WIND_ARROW,
+    /* 0xE */ RR_DMG_SPRT_ARROW,
+    /* 0xF */ RR_DMG_NORMAL
 } EnRrDamageEffect;
 
 typedef enum {
@@ -83,21 +84,77 @@ static char* sDropNames[] = {
     "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit1 = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x09, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit1 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 30, 55, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit2 = {
-    { COLTYPE_UNK10, 0x00, 0x0D, 0x0D, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit2 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 20, -10, { 0, 0, 0 } },
 };
 
 static DamageTable sDamageTable = {
-    0x00, 0xF2, 0xF1, 0xF2, 0x10, 0xF2, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0x24, 0x34, 0xBF, 0xD4, 0xCF,
-    0xEF, 0x24, 0x33, 0x4A, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0xEA, 0x00, 0x00, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Explosive     */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, RR_DMG_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, RR_DMG_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(4, RR_DMG_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, RR_DMG_ICE),
+    /* Light arrow   */ DMG_ENTRY(15, RR_DMG_LIGHT_ARROW),
+    /* Unk arrow 1   */ DMG_ENTRY(4, RR_DMG_WIND_ARROW),
+    /* Unk arrow 2   */ DMG_ENTRY(15, RR_DMG_SHDW_ARROW),
+    /* Unk arrow 3   */ DMG_ENTRY(15, RR_DMG_SPRT_ARROW),
+    /* Fire magic    */ DMG_ENTRY(4, RR_DMG_FIRE),
+    /* Ice magic     */ DMG_ENTRY(3, RR_DMG_ICE),
+    /* Light magic   */ DMG_ENTRY(10, RR_DMG_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, RR_DMG_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, RR_DMG_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, RR_DMG_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, RR_DMG_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(10, RR_DMG_SPRT_ARROW),
+    /* Unblockable   */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, RR_DMG_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, RR_DMG_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -115,13 +172,13 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider1);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
+    Collider_SetCylinderType1(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
     Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
+    Collider_SetCylinderType1(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
     Actor_SetHeight(&this->actor, 30.0f);
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.velocity.y = this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.4f;
     this->actionTimer = 0;
@@ -359,35 +416,35 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
     Vec3f hitPos;
     Player* player = PLAYER;
 
-    if (this->collider2.base.acFlags & 2) {
-        this->collider2.base.acFlags &= ~2;
+    if (this->collider2.base.acFlags & AC_HIT) {
+        this->collider2.base.acFlags &= ~AC_HIT;
         // Kakin (not sure what this means)
         osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
-        hitPos.x = this->collider2.body.bumper.unk_06.x;
-        hitPos.y = this->collider2.body.bumper.unk_06.y;
-        hitPos.z = this->collider2.body.bumper.unk_06.z;
-        func_80062DF4(globalCtx, &hitPos);
+        hitPos.x = this->collider2.info.bumper.hitPos.x;
+        hitPos.y = this->collider2.info.bumper.hitPos.y;
+        hitPos.z = this->collider2.info.bumper.hitPos.z;
+        CollisionCheck_SpawnShieldParticlesMetal2(globalCtx, &hitPos);
     } else {
-        if (this->collider1.base.acFlags & 2) {
+        if (this->collider1.base.acFlags & AC_HIT) {
             u8 dropType = RR_DROP_RANDOM_RUPEE;
 
-            this->collider1.base.acFlags &= ~2;
+            this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                hitPos.x = this->collider1.body.bumper.unk_06.x;
-                hitPos.y = this->collider1.body.bumper.unk_06.y;
-                hitPos.z = this->collider1.body.bumper.unk_06.z;
-                func_8005DFAC(globalCtx, NULL, &hitPos);
+                hitPos.x = this->collider1.info.bumper.hitPos.x;
+                hitPos.y = this->collider1.info.bumper.hitPos.y;
+                hitPos.z = this->collider1.info.bumper.hitPos.z;
+                CollisionCheck_BlueBlood(globalCtx, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
-                case RR_DAMAGE_LIGHT_ARROW:
+                case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
-                case RR_DAMAGE_UNK_ARROW_1:
+                case RR_DMG_SHDW_ARROW:
                     dropType++; // flexible
-                case RR_DAMAGE_UNK_ARROW_2:
+                case RR_DMG_WIND_ARROW:
                     dropType++; // arrow
-                case RR_DAMAGE_UNK_ARROW_3:
+                case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
-                case RR_DAMAGE_NORMAL:
+                case RR_DMG_NORMAL:
                     // ouch
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
@@ -405,7 +462,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                         EnRr_SetupDeath(this);
                     }
                     return;
-                case RR_DAMAGE_FIRE: // Fire Arrow and Din's Fire
+                case RR_DMG_FIRE: // Fire Arrow and Din's Fire
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -414,7 +471,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_ICE: // Ice Arrow and unused ice magic
+                case RR_DMG_ICE: // Ice Arrow and unused ice magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -425,7 +482,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     }
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_LIGHT_MAGIC: // Unused light magic
+                case RR_DMG_LIGHT_MAGIC: // Unused light magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
@@ -433,7 +490,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     func_8003426C(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_STUN: // Boomerang and Hookshot
+                case RR_DMG_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
@@ -441,9 +498,10 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             }
         }
         if ((this->ocTimer == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
-            !(player->stateFlags2 & 0x80) && ((this->collider1.base.maskA & 2) || (this->collider2.base.maskA & 2))) {
-            this->collider1.base.maskA &= ~2;
-            this->collider2.base.maskA &= ~2;
+            !(player->stateFlags2 & 0x80) &&
+            ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
+            this->collider1.base.ocFlags1 &= ~OC1_HIT;
+            this->collider2.base.ocFlags1 &= ~OC1_HIT;
             // catch
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
@@ -737,7 +795,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
     Actor_MoveForward(&this->actor);
-    Collider_CylinderUpdate(&this->actor, &this->collider1);
+    Collider_UpdateCylinder(&this->actor, &this->collider1);
     this->collider2.dim.pos.x = this->mouthPos.x;
     this->collider2.dim.pos.y = this->mouthPos.y;
     this->collider2.dim.pos.z = this->mouthPos.z;
@@ -749,10 +807,10 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     } else {
-        this->collider2.base.maskA &= ~2;
-        this->collider2.base.acFlags &= ~2;
-        this->collider1.base.maskA &= ~2;
-        this->collider1.base.acFlags &= ~2;
+        this->collider2.base.ocFlags1 &= ~OC1_HIT;
+        this->collider2.base.acFlags &= ~AC_HIT;
+        this->collider1.base.ocFlags1 &= ~OC1_HIT;
+        this->collider1.base.acFlags &= ~AC_HIT;
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {

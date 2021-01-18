@@ -43,7 +43,7 @@ typedef struct BossVa {
     /* 0x0280 */ Vec3f unk_280; // Unused body position
     /* 0x028C */ ColliderCylinder colliderBody;
     /* 0x02D8 */ ColliderJntSph colliderSph;
-    /* 0x02F8 */ ColliderJntSphItem elements[1];
+    /* 0x02F8 */ ColliderJntSphInit elements[1];
     /* 0x0338 */ ColliderQuad colliderLightning;
 } BossVa; // size = 0x03B8
 
