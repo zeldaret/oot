@@ -23,7 +23,7 @@ extern UNK_TYPE D_04037880;
 /*
 const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArrow),

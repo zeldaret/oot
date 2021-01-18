@@ -21,7 +21,7 @@ void BgHakaMegane_DoNothing(BgHakaMegane* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaMegane),

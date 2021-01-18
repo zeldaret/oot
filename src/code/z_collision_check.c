@@ -1632,7 +1632,7 @@ void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Colli
  * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
-    if (at->actor != NULL && at->actor->type == ACTORTYPE_PLAYER) {
+    if (at->actor != NULL && at->actor->category == ACTORCAT_PLAYER) {
         if (acInfo->elemType == ELEMTYPE_UNK0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &at->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
@@ -2962,8 +2962,8 @@ void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
  */
 void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
     info->health = init->health;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
     info->mass = init->mass;
 }
 
@@ -2973,8 +2973,8 @@ void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionChec
 void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->damageTable = damageTable;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
     info->mass = init->mass;
 }
 
@@ -2984,9 +2984,9 @@ void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, 
 void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
     info->health = init->health;
     info->damageTable = damageTable;
-    info->unk_10 = init->unk_02;
-    info->unk_12 = init->unk_04;
-    info->unk_14 = init->unk_06;
+    info->cylRadius = init->cylRadius;
+    info->cylHeight = init->cylHeight;
+    info->cylYShift = init->cylYShift;
     info->mass = init->mass;
 }
 
@@ -3218,9 +3218,9 @@ s32 CollisionCheck_LineOCCheck(GlobalContext* globalCtx, CollisionCheckContext* 
  * Moves the ColliderCylinder's position to the actor's position
  */
 void Collider_UpdateCylinder(Actor* actor, ColliderCylinder* collider) {
-    collider->dim.pos.x = actor->posRot.pos.x;
-    collider->dim.pos.y = actor->posRot.pos.y;
-    collider->dim.pos.z = actor->posRot.pos.z;
+    collider->dim.pos.x = actor->world.pos.x;
+    collider->dim.pos.y = actor->world.pos.y;
+    collider->dim.pos.z = actor->world.pos.z;
 }
 
 /**

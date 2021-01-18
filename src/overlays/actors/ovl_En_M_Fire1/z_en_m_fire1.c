@@ -16,7 +16,7 @@ void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
-    ACTORTYPE_MISC,
+    ACTORCAT_MISC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMFire1),
@@ -49,7 +49,7 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->actor.params < 0) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ITEMACTION);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);

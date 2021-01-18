@@ -26,7 +26,7 @@ static EnEgActionFunc sActionFuncs[] = {
 
 const ActorInit En_Eg_InitVars = {
     ACTOR_EN_EG,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_ZL2,
     sizeof(EnEg),

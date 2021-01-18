@@ -115,7 +115,7 @@ glabel BgYdanSp_Init
 /* 001A8 808BF5B8 27390464 */  addiu   $t9, $t9, %lo(func_808C0464) ## $t9 = 808C0464
 /* 001AC 808BF5BC AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 /* 001B0 808BF5C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetHeight
+/* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetFocus
               
 /* 001B8 808BF5C8 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 001BC 808BF5CC 0C01DE1C */  jal     Math_SinS

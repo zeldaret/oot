@@ -28,7 +28,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx);
 
 const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_COW,
     sizeof(EnCow),
@@ -85,17 +85,17 @@ void func_809DEE9C(EnCow* this) {
     vec.x = 0.0f;
     vec.z = 30.0f;
     func_809DEE00(&vec, this->actor.shape.rot.y);
-    this->colliders[0].dim.pos.x = this->actor.posRot.pos.x + vec.x;
-    this->colliders[0].dim.pos.y = this->actor.posRot.pos.y;
-    this->colliders[0].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+    this->colliders[0].dim.pos.x = this->actor.world.pos.x + vec.x;
+    this->colliders[0].dim.pos.y = this->actor.world.pos.y;
+    this->colliders[0].dim.pos.z = this->actor.world.pos.z + vec.z;
 
     vec.x = 0.0f;
     vec.y = 0.0f;
     vec.z = -20.0f;
     func_809DEE00(&vec, this->actor.shape.rot.y);
-    this->colliders[1].dim.pos.x = this->actor.posRot.pos.x + vec.x;
-    this->colliders[1].dim.pos.y = this->actor.posRot.pos.y;
-    this->colliders[1].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+    this->colliders[1].dim.pos.x = this->actor.world.pos.x + vec.x;
+    this->colliders[1].dim.pos.y = this->actor.world.pos.y;
+    this->colliders[1].dim.pos.z = this->actor.world.pos.z + vec.z;
 }
 
 void func_809DEF94(EnCow* this) {
@@ -104,16 +104,16 @@ void func_809DEF94(EnCow* this) {
     VEC_SET(vec, 0.0f, 57.0f, -36.0f);
 
     func_809DEE00(&vec, this->actor.shape.rot.y);
-    this->actor.posRot.pos.x += vec.x;
-    this->actor.posRot.pos.y += vec.y;
-    this->actor.posRot.pos.z += vec.z;
+    this->actor.world.pos.x += vec.x;
+    this->actor.world.pos.y += vec.y;
+    this->actor.world.pos.z += vec.z;
 }
 
 void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 72.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 72.0f);
     switch (this->actor.params) {
         case 0:
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->jointTable, this->morphTable, 6);
@@ -134,11 +134,11 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     return;
                 }
             }
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
-                               this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.world.pos.x,
+                               this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, 1);
             this->unk_278 = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;
-            this->actor.unk_1F = 6;
+            this->actor.targetMode = 6;
             DREG(53) = 0;
             break;
         case 1:
@@ -175,7 +175,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&D_060001CC), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistToLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistToPlayer < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_060001CC) {
             this->unk_278 = 0;
@@ -264,8 +264,8 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistToLink < 150.0f) &&
-                    (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
+                if ((this->actor.xzDistToPlayer < 150.0f) &&
+                    (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
@@ -291,8 +291,8 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&D_06004348), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistToLink < 150.0f) &&
-        (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistToPlayer < 150.0f) &&
+        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &D_06004348) {
             this->unk_278 = 0;
@@ -311,7 +311,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx) {} // necessary to match
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
@@ -323,10 +323,10 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistToLink < 150.0f) &&
-        (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
-        targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
-        targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;
+    if ((thisx->xzDistToPlayer < 150.0f) &&
+        (ABS(Math_Vec3f_Yaw(&thisx->world.pos, &player->actor.world.pos)) < 0xC000)) {
+        targetX = Math_Vec3f_Pitch(&thisx->focus.pos, &player->actor.focus.pos);
+        targetY = Math_Vec3f_Yaw(&thisx->focus.pos, &player->actor.focus.pos) - thisx->shape.rot.y;
 
         if (targetX > 0x1000) {
             targetX = 0x1000;
@@ -381,7 +381,7 @@ void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnCow* this = THIS;
 
     if (limbIndex == 2) {
-        Matrix_MultVec3f(&D_809E010C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_809E010C, &this->actor.focus.pos);
     }
 }
 

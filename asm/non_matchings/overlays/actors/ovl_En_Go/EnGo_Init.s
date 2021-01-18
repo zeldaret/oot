@@ -20,8 +20,8 @@ glabel EnGo_Init
 /* 01604 80A3FB74 AD0B0000 */  sw      $t3, 0x0000($t0)           ## FFFFFFE0
 /* 01608 80A3FB78 8D2B0008 */  lw      $t3, 0x0008($t1)           ## 80A41BB0
 /* 0160C 80A3FB7C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 01610 80A3FB80 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 01614 80A3FB84 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 01610 80A3FB80 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 01614 80A3FB84 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 01618 80A3FB88 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0161C 80A3FB8C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01620 80A3FB90 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000

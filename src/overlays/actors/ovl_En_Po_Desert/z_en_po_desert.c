@@ -22,7 +22,7 @@ void EnPoDesert_Disappear(EnPoDesert* this, GlobalContext* globalCtx);
 
 const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_PO_FIELD,
     sizeof(EnPoDesert),
@@ -55,7 +55,7 @@ static ColliderCylinderInit sColliderInit = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
 };
 
 extern SkeletonHeader D_06006A30;
@@ -78,12 +78,12 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.b = 210;
     this->lightColor.a = 255;
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
-                              this->actor.initPosRot.pos.z, 255, 255, 255, 200);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 37.0f);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
+                              255, 255, 255, 200);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 37.0f);
     this->currentPathPoint = 1;
     this->actor.params = (this->actor.params >> 8) & 0xFF;
-    this->targetY = this->actor.posRot.pos.y;
+    this->targetY = this->actor.world.pos.y;
     EnPoDesert_SetNextPathPoint(this, globalCtx);
 }
 
@@ -100,13 +100,13 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
 
     Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     pathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPathPoint];
-    this->actor.initPosRot.pos.x = pathPoint->x;
-    this->actor.initPosRot.pos.y = pathPoint->y;
-    this->actor.initPosRot.pos.z = pathPoint->z;
-    this->initDistToNextPoint = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
+    this->actor.home.pos.x = pathPoint->x;
+    this->actor.home.pos.y = pathPoint->y;
+    this->actor.home.pos.z = pathPoint->z;
+    this->initDistToNextPoint = Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos);
     this->initDistToNextPoint = CLAMP_MIN(this->initDistToNextPoint, 1.0f);
     this->currentPathPoint++;
-    this->yDiff = this->actor.initPosRot.pos.y - this->actor.posRot.pos.y;
+    this->yDiff = this->actor.home.pos.y - this->actor.world.pos.y;
     this->actor.speedXZ = 0.0f;
     if (path->count == this->currentPathPoint) {
         this->currentPathPoint = 0;
@@ -134,12 +134,12 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
     if (this->speedModifier != 0) {
         this->speedModifier--;
     }
-    this->actor.posRot.pos.y = Math_SinS(this->speedModifier * 0x800) * 13.0f + this->targetY;
+    this->actor.world.pos.y = Math_SinS(this->speedModifier * 0x800) * 13.0f + this->targetY;
 }
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    if (this->actor.xzDistToLink < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
+    if (this->actor.xzDistToPlayer < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
         if (this->currentPathPoint == 2) {
             if (Gameplay_InCsMode(globalCtx)) {
                 this->actor.shape.rot.y += 0x800;
@@ -160,17 +160,17 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     temp_f20 = sinf(this->actionTimer * (M_PI / 20.0f)) * 5.0f;
-    this->actor.posRot.pos.x += temp_f20 * Math_CosS(this->actor.shape.rot.y);
-    this->actor.posRot.pos.z += temp_f20 * Math_SinS(this->actor.shape.rot.y);
+    this->actor.world.pos.x += temp_f20 * Math_CosS(this->actor.shape.rot.y);
+    this->actor.world.pos.z += temp_f20 * Math_SinS(this->actor.shape.rot.y);
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }
-    temp_f20 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
-    this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
-    Math_ApproachS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
+    temp_f20 = Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    this->targetY = this->actor.initPosRot.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
+    this->targetY = this->actor.home.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
     if (temp_f20 < 40.0f) {
         if (this->currentPathPoint != 0) {
             EnPoDesert_SetNextPathPoint(this, globalCtx);
@@ -186,7 +186,7 @@ void EnPoDesert_Disappear(EnPoDesert* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y += 0x2000;
     this->lightColor.a = this->actionTimer * 15.9375f;
-    this->actor.shape.unk_14 = this->lightColor.a;
+    this->actor.shape.shadowAlpha = this->lightColor.a;
     if (this->actionTimer == 0) {
         Actor_Kill(&this->actor);
     }
@@ -200,15 +200,15 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
-    Actor_SetHeight(&this->actor, 42.0f);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+    Actor_SetFocus(&this->actor, 42.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (globalCtx->actorCtx.unk_03) {
         this->actor.flags |= 0x81;
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {
-        this->actor.shape.shadowDrawFunc = NULL;
+        this->actor.shape.shadowDraw = NULL;
         this->actor.flags &= ~0x81;
     }
 }

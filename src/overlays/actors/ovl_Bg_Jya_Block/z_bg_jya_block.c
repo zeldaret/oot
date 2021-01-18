@@ -17,7 +17,7 @@ void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgJyaBlock),

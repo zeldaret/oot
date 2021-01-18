@@ -19,7 +19,7 @@ void ItemInbox_Wait(ItemInbox* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Inbox_InitVars = {
     ACTOR_ITEM_INBOX,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemInbox),

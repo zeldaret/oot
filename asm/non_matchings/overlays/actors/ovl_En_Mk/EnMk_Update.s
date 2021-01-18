@@ -31,7 +31,7 @@ glabel EnMk_Update
 /* 00A24 80AAD324 44070000 */  mfc1    $a3, $f0                   
 /* 00A28 80AAD328 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00A2C 80AAD32C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A30 80AAD330 0C00B92D */  jal     func_8002E4B4              
+/* 00A30 80AAD330 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A34 80AAD334 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00A38 80AAD338 960F027E */  lhu     $t7, 0x027E($s0)           ## 0000027E
 /* 00A3C 80AAD33C 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
