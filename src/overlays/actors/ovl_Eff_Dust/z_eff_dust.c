@@ -9,7 +9,7 @@ void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_8099D8E0(EffDust* this);
+void func_8099D8E0(EffDust* this);
 
 f32 func_8099DB28(EffDust* this, GlobalContext* globalCtx);
 f32 func_8099DD74(EffDust* this, GlobalContext* globalCtx);
@@ -45,7 +45,19 @@ void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099D8E0.s")
+void func_8099D8E0(EffDust *this) {
+    s32 i;
+    for (i = 0; i != 0x40; i++) {
+        this->unk_024C[i].z = 0.0f;
+        this->unk_024C[i].y = 0.0f;
+        this->unk_024C[i].x = 0.0f;
+
+        this->unk_014C[i] = 1.0f;
+    }
+
+    this->unk_054C = 0;
+}
+
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Init.s")
 
