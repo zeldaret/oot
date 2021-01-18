@@ -10,12 +10,39 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnHorseGameCheckBase*)thisx)
-#define IN_SQUARE1(actor)                                                                                      \
-    (Math3D_PointInSquare2D(D_80A68464[0], D_80A68464[1], D_80A68464[2], D_80A68464[3], (actor)->posRot.pos.x, \
+#define AT_FINISH_LINE(actor)                                                                                      \
+    (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->posRot.pos.x, \
                             (actor)->posRot.pos.z))
-#define IN_SQUARE2(actor)                                                                                      \
-    (Math3D_PointInSquare2D(D_80A68474[0], D_80A68474[1], D_80A68474[2], D_80A68474[3], (actor)->posRot.pos.x, \
+#define AT_RANCH_EXIT(actor)                                                                                   \
+    (Math3D_PointInSquare2D(sRanchExit[0], sRanchExit[1], sRanchExit[2], sRanchExit[3], (actor)->posRot.pos.x, \
                             (actor)->posRot.pos.z))
+
+#define INGORACE_PLAYER_MOVE (1 << 0)
+#define INGORACE_SET_TIMER (1 << 1)
+#define INGORACE_INGO_MOVE (1 << 2)
+
+typedef enum {
+    /* 0 */ INGORACE_NO_RESULT,
+    /* 1 */ INGORACE_PLAYER_WIN,
+    /* 2 */ INGORACE_INGO_WIN,
+    /* 3 */ INGORACE_TIME_UP
+} HorseGameIngoRaceResult;
+
+#define MALONRACE_PLAYER_MOVE (1 << 0)
+#define MALONRACE_SET_TIMER (1 << 1)
+#define MALONRACE_SECOND_LAP (1 << 2)
+#define MALONRACE_BROKE_RULE (1 << 3)
+#define MALONRACE_START_SFX (1 << 4)
+#define MALONRACE_PLAYER_START (1 << 5)
+#define MALONRACE_PLAYER_ON_MARK (1 << 6)
+
+typedef enum {
+    /* 0 */ MALONRACE_NO_RESULT,
+    /* 1 */ MALONRACE_SUCCESS,
+    /* 2 */ MALONRACE_TIME_UP,
+    /* 3 */ MALONRACE_UNUSED,
+    /* 4 */ MALONRACE_FAILURE
+} HorseGameMalonRaceResult;
 
 void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,53 +61,55 @@ const ActorInit En_Horse_Game_Check_InitVars = {
     (ActorFunc)EnHorseGameCheck_Draw,
 };
 
-static Vec3f D_80A68440[] = {
+static Vec3f sIngoRaceCheckpoints[] = {
     { 1700.0f, 1.0f, -540.0f },
     { 117.0f, 1.0f, 488.0f },
     { -1700.0f, 1.0f, -540.0f },
 };
 
-f32 D_80A68464[] = { -200.0f, 80.0f, -2300.0f, -1470.0f };
+static f32 sFinishLine[4] = { -200.0f, 80.0f, -2300.0f, -1470.0f };
 
-static f32 D_80A68474[] = { 800.0f, 1000.0f, -2900.0f, -2700.0f };
+static f32 sRanchExit[4] = { 800.0f, 1000.0f, -2900.0f, -2700.0f };
 
-static Vec3f D_80A68484 = { 0.0f, 0.0f, 0.0f };
+static Vec3f sUnusedZeroVec = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80A68490[] = { { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f }, { 1655.0f, -44.0f, -396.0f },
-                       { 1291.0f, -44.0f, 205.0f },  { 379.0f, -21.0f, 455.0f },    { -95.0f, -21.0f, 455.0f },
-                       { -939.0f, 1.0f, 455.0f },    { -1644.0f, -21.0f, -1035.0f } };
+static Vec3f sFencePos[] = {
+    { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f },  { 1655.0f, -44.0f, -396.0f },
+    { 1291.0f, -44.0f, 205.0f },  { 379.0f, -21.0f, 455.0f },     { -95.0f, -21.0f, 455.0f },
+    { -939.0f, 1.0f, 455.0f },    { -1644.0f, -21.0f, -1035.0f },
+};
 
-s32 EnHorseGameCheck_InitType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck1* this = (EnHorseGameCheck1*) thisx;
+s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckIngoRace* this = (EnHorseGameCheckIngoRace*)base;
     s32 i;
 
-    this->base.type = HORSEGAME_TYPE1;
-    this->unk_150 = 0;
+    this->base.type = HORSEGAME_INGO_RACE;
+    this->startFlags = 0;
     for (i = 0; i < 3; i++) {
-        this->unk_154[i] = 0;
+        this->playerCheck[i] = 0;
     }
-    this->unk_16C =
+    this->ingoHorse =
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -250.0f, 1.0f, -1650.0f, 0, 0x4000, 0, 0x8003);
 
-    if (this->unk_16C == NULL) {
+    if (this->ingoHorse == NULL) {
         LogUtils_HungupThread("../z_en_horse_game_check.c", 385);
     }
-    this->unk_170 = 0;
-    this->unk_178 = 0;
-    this->unk_174 = 0;
-    this->unk_17C = 0;
-    this->unk_180 = 0;
+    this->startTimer = 0;
+    this->finishTimer = 0;
+    this->result = INGORACE_NO_RESULT;
+    this->playerFinish = 0;
+    this->ingoFinish = 0;
 
-    return 1;
+    return true;
 }
 
-s32 EnHorseGameCheck_DestroyType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    return 1;
+s32 EnHorseGameCheck_DestroyIngoRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    return true;
 }
 
-void EnHorseGameCheck_FinishType1(EnHorseGameCheck1* this, GlobalContext* globalCtx) {
+void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
-    if (this->unk_174 == 1) {
+    if (this->result == INGORACE_PLAYER_WIN) {
         globalCtx->nextEntranceIndex = 0x4CE;
         if (gSaveContext.eventInf[0] & 0x40) {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 6;
@@ -104,170 +133,170 @@ void EnHorseGameCheck_FinishType1(EnHorseGameCheck1* this, GlobalContext* global
     gSaveContext.timer1State = 0;
 }
 
-s32 EnHorseGameCheck_UpdateType1(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck1* this = (EnHorseGameCheck1*)thisx;
+s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckIngoRace* this = (EnHorseGameCheckIngoRace*)base;
     Player* player = PLAYER;
     s32 i;
-    EnHorse* horse2;
+    EnHorse* ingoHorse;
     EnHorse* horse;
 
-    if ((this->unk_170 > 50) && !(this->unk_150 & 2)) {
-        this->unk_150 |= 2;
+    if ((this->startTimer > 50) && !(this->startFlags & INGORACE_SET_TIMER)) {
+        this->startFlags |= INGORACE_SET_TIMER;
         func_80088B34(0);
-    } else if ((this->unk_170 > 80) && (player->rideActor != NULL) && !(this->unk_150 & 1)) {
-        this->unk_150 |= 1;
+    } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->startFlags & INGORACE_PLAYER_MOVE)) {
+        this->startFlags |= INGORACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
         horse->unk_388 = 1;
-    } else if ((this->unk_170 > 81) && !(this->unk_150 & 4)) {
-        horse2 = (EnHorse*)this->unk_16C;
+    } else if ((this->startTimer > 81) && !(this->startFlags & INGORACE_INGO_MOVE)) {
+        ingoHorse = (EnHorse*)this->ingoHorse;
 
-        horse2->unk_388 = 1;
-        this->unk_150 |= 4;
+        ingoHorse->unk_388 = 1;
+        this->startFlags |= INGORACE_INGO_MOVE;
         Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 
-    this->unk_170++;
+    this->startTimer++;
 
     for (i = 0; i < 3; i++) {
         if ((player->rideActor != NULL) &&
-            (Math3D_Vec3f_DistXYZ(&D_80A68440[i], &player->rideActor->posRot.pos) < 400.0f)) {
-            if ((i > 0) && (this->unk_154[i - 1] == 1)) {
-                this->unk_154[i] = 1;
+            (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->posRot.pos) < 400.0f)) {
+            if ((i > 0) && (this->playerCheck[i - 1] == 1)) {
+                this->playerCheck[i] = 1;
             } else if (i == 0) {
-                this->unk_154[i] = 1;
+                this->playerCheck[i] = 1;
             }
         }
-        if (Math3D_Vec3f_DistXYZ(&D_80A68440[i], &this->unk_16C->posRot.pos) < 400.0f) {
-            if ((i > 0) && (this->unk_160[i - 1] == 1)) {
-                this->unk_160[i] = 1;
+        if (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &this->ingoHorse->posRot.pos) < 400.0f) {
+            if ((i > 0) && (this->ingoCheck[i - 1] == 1)) {
+                this->ingoCheck[i] = 1;
             } else if (i == 0) {
-                this->unk_160[i] = 1;
+                this->ingoCheck[i] = 1;
             }
         }
     }
 
-    if (this->unk_174 == 0) {
+    if (this->result == INGORACE_NO_RESULT) {
         Player* player2 = player;
 
-        if ((player2->rideActor != NULL) && (this->unk_154[2] == 1) && IN_SQUARE1(player2->rideActor)) {
-            this->unk_17C++;
-            if (this->unk_17C > 0) {
-                this->unk_174 = 1;
-                this->unk_178 = 55;
+        if ((player2->rideActor != NULL) && (this->playerCheck[2] == 1) && AT_FINISH_LINE(player2->rideActor)) {
+            this->playerFinish++;
+            if (this->playerFinish > 0) {
+                this->result = INGORACE_PLAYER_WIN;
+                this->finishTimer = 55;
                 Audio_SetBGM(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
-                this->unk_154[i] = 0;
+                this->playerCheck[i] = 0;
             }
         }
-        if ((this->unk_16C != NULL) && (this->unk_160[2] == 1) && IN_SQUARE1(this->unk_16C)) {
-            this->unk_180++;
-            if (this->unk_180 > 0) {
-                horse2 = (EnHorse*)this->unk_16C;
+        if ((this->ingoHorse != NULL) && (this->ingoCheck[2] == 1) && AT_FINISH_LINE(this->ingoHorse)) {
+            this->ingoFinish++;
+            if (this->ingoFinish > 0) {
+                ingoHorse = (EnHorse*)this->ingoHorse;
 
-                this->unk_174 = 2;
-                this->unk_178 = 70;
-                horse2->unk_1F0 |= 0x800000;
+                this->result = INGORACE_INGO_WIN;
+                this->finishTimer = 70;
+                ingoHorse->unk_1F0 |= 0x800000;
                 Audio_SetBGM(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
-                this->unk_160[i] = 0;
+                this->ingoCheck[i] = 0;
             }
         }
-        if (((player2->rideActor != NULL) && IN_SQUARE2(player2->rideActor)) || IN_SQUARE2(&player2->actor)) {
+        if (((player2->rideActor != NULL) && AT_RANCH_EXIT(player2->rideActor)) || AT_RANCH_EXIT(&player2->actor)) {
             Audio_SetBGM(0x41);
-            this->unk_174 = 2;
-            this->unk_178 = 0x14;
+            this->result = INGORACE_INGO_WIN;
+            this->finishTimer = 20;
         }
-        if ((gSaveContext.timer1Value >= 180) && (this->unk_150 & 2)) {
+        if ((gSaveContext.timer1Value >= 180) && (this->startFlags & 2)) {
             Audio_SetBGM(0x41);
-            this->unk_174 = 3;
-            this->unk_178 = 0x14;
+            this->result = INGORACE_TIME_UP;
+            this->finishTimer = 20;
         }
     } else {
-        if (this->unk_178 > 0) {
-            this->unk_178--;
+        if (this->finishTimer > 0) {
+            this->finishTimer--;
         } else {
-            EnHorseGameCheck_FinishType1(this, globalCtx);
+            EnHorseGameCheck_FinishIngoRace(this, globalCtx);
         }
     }
-    return 1;
+    return true;
 }
 
-s32 EnHorseGameCheck_InitType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
+s32 EnHorseGameCheck_InitGerudoArchery(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckGerudoArchery* this = (EnHorseGameCheckGerudoArchery*)base;
 
-    this->base.type = HORSEGAME_TYPE2;
+    this->base.type = HORSEGAME_GERUDO_ARCHERY;
     this->unk_150 = 0;
-    this->unk_154= 0;
-    return 1;
+    this->startTimer = 0;
+    return true;
 }
 
-s32 EnHorseGameCheck_DestroyType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    return 1;
+s32 EnHorseGameCheck_DestroyGerudoArchery(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    return true;
 }
 
-s32 EnHorseGameCheck_UpdateType2(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck2* this = (EnHorseGameCheck2*)thisx;
+s32 EnHorseGameCheck_UpdateGerudoArchery(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckGerudoArchery* this = (EnHorseGameCheckGerudoArchery*)base;
     Player* player = PLAYER;
     EnHorse* horse = (EnHorse*)player->rideActor;
 
     if (horse == NULL) {
-        return 1;
+        return true;
     }
 
-    if (this->unk_154 > 90) {
+    if (this->startTimer > 90) {
         if (globalCtx) {}
         horse->unk_3A0 = 1;
     }
-    this->unk_154++;
-    return 1;
+    this->startTimer++;
+    return true;
 }
 
-s32 EnHorseGameCheck_InitType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck3* this = (EnHorseGameCheck3*)thisx;
+s32 EnHorseGameCheck_InitType3(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheck3* this = (EnHorseGameCheck3*)base;
 
     this->base.type = HORSEGAME_TYPE3;
     this->unk_150 = 0;
-    return 1;
+    return true;
 }
 
-s32 EnHorseGameCheck_DestroyType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    return 1;
+s32 EnHorseGameCheck_DestroyType3(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    return true;
 }
 
-s32 EnHorseGameCheck_UpdateType3(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    return 1;
+s32 EnHorseGameCheck_UpdateType3(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    return true;
 }
 
-s32 EnHorseGameCheck_InitType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
+s32 EnHorseGameCheck_InitMalonRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckMalonRace* this = (EnHorseGameCheckMalonRace*)base;
     s32 i;
 
-    this->base.type = HORSEGAME_TYPE4;
-    this->unk_154 = 0;
-    this->unk_198 = 0;
-    this->unk_19C = 0;
+    this->base.type = HORSEGAME_MALON_RACE;
+    this->raceFlags = 0;
+    this->finishTimer = 0;
+    this->result = MALONRACE_NO_RESULT;
     for (i = 0; i < 16; i++) {
-        this->unk_158[i] = 0;
+        this->fenceCheck[i] = 0;
     }
-    this->unk_1A0 = 0;
-    return 1;
+    this->lapCount = 0;
+    return true;
 }
 
-s32 EnHorseGameCheck_DestroyType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    return 1;
+s32 EnHorseGameCheck_DestroyMalonRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    return true;
 }
 
-void EnHorseGameCheck_FinishType4(EnHorseGameCheck4* this, GlobalContext* globalCtx) {
-    if ((this->unk_19C == 1) || (this->unk_19C == 2)) {
+void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalContext* globalCtx) {
+    if ((this->result == MALONRACE_SUCCESS) || (this->result == MALONRACE_TIME_UP)) {
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
         globalCtx->fadeTransition = 0x2E;
         globalCtx->sceneLoadFlag = 0x14;
-    } else if (this->unk_19C == 4) {
+    } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timer1Value = 240;
         gSaveContext.timer1State = 0xF;
         gSaveContext.cutsceneIndex = 0;
@@ -284,117 +313,126 @@ void EnHorseGameCheck_FinishType4(EnHorseGameCheck4* this, GlobalContext* global
     }
 }
 
-#ifdef NON_MATCHING
-s32 EnHorseGameCheck_UpdateType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx) {
-    EnHorseGameCheck4* this = (EnHorseGameCheck4*)thisx;
+s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* globalCtx) {
+    EnHorseGameCheckMalonRace* this = (EnHorseGameCheckMalonRace*)base;
     s32 i;
     Player* player = PLAYER;
     EnHorse* horse;
 
-    if (!(this->unk_154 & 0x40) && IN_SQUARE1(player->rideActor)) {
-        this->unk_154 |= 0x40;
-    } else if ((this->unk_154 & 0x40) && !(this->unk_154 & 0x20) && !IN_SQUARE1(player->rideActor)) {
-        this->unk_154 |= 0x20;
+    if (!(this->raceFlags & MALONRACE_PLAYER_ON_MARK) && AT_FINISH_LINE(player->rideActor)) {
+        this->raceFlags |= MALONRACE_PLAYER_ON_MARK;
+    } else if ((this->raceFlags & MALONRACE_PLAYER_ON_MARK) && !(this->raceFlags & MALONRACE_PLAYER_START) && !AT_FINISH_LINE(player->rideActor)) {
+        this->raceFlags |= MALONRACE_PLAYER_START;
     }
-    if ((this->unk_150 > 50) && !(this->unk_154 & 2)) {
-        this->unk_154 |= 2;
+    if ((this->startTimer > 50) && !(this->raceFlags & MALONRACE_SET_TIMER)) {
+        this->raceFlags |= MALONRACE_SET_TIMER;
         func_80088B34(0);
-    } else if ((this->unk_150 > 80) && (player->rideActor != NULL) && !(this->unk_154 & 1)) {
-        this->unk_154 |= 1;
+    } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->raceFlags & MALONRACE_PLAYER_MOVE)) {
+        this->raceFlags |= MALONRACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
 
         horse->unk_388 = 1;
-    } else if ((this->unk_150 > 81) && !(this->unk_154 & 0x10)) {
-        this->unk_154 |= 0x10;
+    } else if ((this->startTimer > 81) && !(this->raceFlags & MALONRACE_START_SFX)) {
+        this->raceFlags |= MALONRACE_START_SFX;
         Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
-    this->unk_150++;
-    if (this->unk_19C == 0) {
+
+    this->startTimer++;
+    if (this->result == MALONRACE_NO_RESULT) {
+        Player* player2 = player;
+        f32 dist;
 
         for (i = 0; i < 16; i++) {
+            if ((this->lapCount == 0) && (i >= 8)) {
+                break;
+            }
+            dist = Math_Vec3f_DistXZ(&sFencePos[i % 8], &player2->rideActor->posRot.pos);
+            if ((player->rideActor != NULL) && (dist < 250.0f)) {
+                horse = (EnHorse*)player2->rideActor;
 
-            if (this->unk_1A0 || (i < 8)) {
-                f32 dist = Math_Vec3f_DistXZ(&D_80A68490[i % 8], &player->rideActor->posRot.pos);
-                if ((player->rideActor != NULL) && (dist < 250.0f)) {
-                    horse = (EnHorse*)player->rideActor;
+                if (horse->unk_1F0 & 4) {
+                    if ((i > 0) && (this->fenceCheck[i - 1] == 1)) {
+                        this->fenceCheck[i] = 1;
+                    } else if (i == 0) {
+                        this->fenceCheck[i] = 1;
+                    }
 
-                    if (horse->unk_1F0 & 4) {
-                        if ((i > 0) && (this->unk_158[i - 1] == 1)) {
-                            this->unk_158[i] = 1;
-                        } else if (i == 0) {
-                            this->unk_158[i] = 1;
-                        }
-
-                        if ((this->unk_158[i - 1] == 0) && !(this->unk_154 & 8)) {
-                            this->unk_154 |= 8;
-                            func_8010B680(globalCtx, 0x208C, NULL);
-                            this->unk_19C = 4;
-                            this->unk_198 = 30;
-                        }
-                        if (1) {}
+                    if ((this->fenceCheck[i - 1] == 0) && !(this->raceFlags & MALONRACE_BROKE_RULE)) {
+                        this->raceFlags |= MALONRACE_BROKE_RULE;
+                        func_8010B680(globalCtx, 0x208C, NULL);
+                        this->result = 4;
+                        this->finishTimer = 30;
                     }
                 }
             }
         }
-        if ((player->rideActor != NULL) && (this->unk_154 & 0x20) && IN_SQUARE1(player->rideActor)) {
-            if ((this->unk_1A0 == 1) && (this->unk_158[15] == 0) && (player->rideActor->pos4.x < -200.0f)) {
-                this->unk_154 |= 8;
+        if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START) && AT_FINISH_LINE(player2->rideActor)) {
+            if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->pos4.x < -200.0f)) {
+                this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
-                this->unk_19C = 4;
-                this->unk_198 = 30;
-            } else if (this->unk_158[15] == 1) {
-                this->unk_1A0 = 2;
+                this->result = MALONRACE_FAILURE;
+                this->finishTimer = 30;
+            } else if (this->fenceCheck[15] == 1) {
+                this->lapCount = 2;
                 Audio_SetBGM(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->unk_19C = 1;
-                this->unk_198 = 70;
-                gSaveContext.timer1State = 15;
-            } else if ((this->unk_158[7] == 1) && !(this->unk_154 & 4)) {
-                this->unk_1A0 = 1;
-                this->unk_154 |= 4;
+                this->result = MALONRACE_SUCCESS;
+                this->finishTimer = 70;
+                gSaveContext.timer1State = 0xF;
+            } else if ((this->fenceCheck[7] == 1) && !(this->raceFlags & MALONRACE_SECOND_LAP)) {
+                this->lapCount = 1;
+                this->raceFlags |= MALONRACE_SECOND_LAP;
                 func_8010B680(globalCtx, 0x208D, NULL);
-            } else if (this->unk_158[7] == 0) {
-                this->unk_154 |= 8;
+            } else if (this->fenceCheck[7] == 0) {
+                this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
-                this->unk_19C = 4;
-                this->unk_198 = 30;
-            } else if (player->rideActor->pos4.x > 80.0f) {
-                this->unk_154 |= 8;
+                this->result = MALONRACE_FAILURE;
+                this->finishTimer = 30;
+            } else if (player2->rideActor->pos4.x > 80.0f) {
+                this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
-                this->unk_19C = 4;
-                this->unk_198 = 30;
+                this->result = MALONRACE_FAILURE;
+                this->finishTimer = 30;
             }
         }
-        if ((gSaveContext.timer1Value >= 180) && (this->unk_154 & 2)) {
+        if ((gSaveContext.timer1Value >= 180) && (this->raceFlags & MALONRACE_SET_TIMER)) {
             gSaveContext.timer1Value = 240;
-            this->unk_19C = 2;
-            this->unk_198 = 30;
+            this->result = MALONRACE_TIME_UP;
+            this->finishTimer = 30;
             gSaveContext.timer1State = 0;
         }
     } else {
-        if (this->unk_198 > 0) {
-            this->unk_198--;
+        if (this->finishTimer > 0) {
+            this->finishTimer--;
         } else {
-            EnHorseGameCheck_FinishType4(this, globalCtx);
+            EnHorseGameCheck_FinishMalonRace(this, globalCtx);
         }
     }
-    return 1;
+    return true;
 }
-#else
-s32 EnHorseGameCheck_UpdateType4(EnHorseGameCheckBase* thisx, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Game_Check/EnHorseGameCheck_UpdateType4.s")
-#endif
 
 static EnHorseGameCheckFunc sInitFuncs[] = {
-    NULL, EnHorseGameCheck_InitType1, EnHorseGameCheck_InitType2, EnHorseGameCheck_InitType3, EnHorseGameCheck_InitType4,
+    NULL,
+    EnHorseGameCheck_InitIngoRace,
+    EnHorseGameCheck_InitGerudoArchery,
+    EnHorseGameCheck_InitType3,
+    EnHorseGameCheck_InitMalonRace,
 };
 
 static EnHorseGameCheckFunc sDestroyFuncs[] = {
-    NULL, EnHorseGameCheck_DestroyType1, EnHorseGameCheck_DestroyType2, EnHorseGameCheck_DestroyType3, EnHorseGameCheck_DestroyType4,
+    NULL,
+    EnHorseGameCheck_DestroyIngoRace,
+    EnHorseGameCheck_DestroyGerudoArchery,
+    EnHorseGameCheck_DestroyType3,
+    EnHorseGameCheck_DestroyMalonRace,
 };
 
 static EnHorseGameCheckFunc sUpdateFuncs[] = {
-    NULL, EnHorseGameCheck_UpdateType1, EnHorseGameCheck_UpdateType2, EnHorseGameCheck_UpdateType3, EnHorseGameCheck_UpdateType4,
+    NULL,
+    EnHorseGameCheck_UpdateIngoRace,
+    EnHorseGameCheck_UpdateGerudoArchery,
+    EnHorseGameCheck_UpdateType3,
+    EnHorseGameCheck_UpdateMalonRace,
 };
 
 void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -402,7 +440,7 @@ void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGameCheckBase* this = THIS;
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (Flags_GetEventChkInf(0x18) || DREG(1))) {
-        this->actor.params = HORSEGAME_TYPE4;
+        this->actor.params = HORSEGAME_MALON_RACE;
     }
     if (sInitFuncs[this->actor.params] != NULL) {
         sInitFuncs[this->actor.params](this, globalCtx);
