@@ -32,28 +32,56 @@ const ActorInit En_Bom_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x29, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x0003F828, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x0003F828, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 6, 11, 14, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000008, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000008, 0x00, 0x08 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK0, 0x39, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_TYPE_ALL,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 61536, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
 
 extern Gfx D_04007A50[]; // gold fuse cap
@@ -77,7 +105,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->explosionCollider);
     Collider_SetCylinder(globalCtx, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(globalCtx, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].body.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].info.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -145,12 +173,12 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
 void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
+    if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
         func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
     }
 
-    this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
+    this->explosionCollider.elements[0].dim.worldSphere.radius += this->actor.shape.rot.z + 8;
 
     if (this->actor.params == BOMB_EXPLOSION) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
@@ -240,8 +268,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
-        if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) ||
+            ((this->bombCollider.base.ocFlags1 & OC1_HIT) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {
@@ -303,7 +331,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(thisx, 20.0f);
 
     if (thisx->params <= BOMB_BODY) {
-        Collider_CylinderUpdate(thisx, &this->bombCollider);
+        Collider_UpdateCylinder(thisx, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
         if (!Actor_HasParent(thisx, globalCtx) && this->bumpOn) {
@@ -350,7 +378,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
         gSPDisplayList(POLY_OPA_DISP++, D_04007860);
-        func_800628A4(0, &this->explosionCollider);
+        Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom.c", 951);

@@ -23,16 +23,30 @@ const ActorInit Bg_Jya_Bombiwa_InitVars = {
     (ActorFunc)BgJyaBombiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    &sJntSphItemsInit,
+    &sJntSphElementsInit,
 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -143,13 +157,13 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -157,5 +171,5 @@ void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
     Gfx_DrawDListOpa(globalCtx, D_0600E490);
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 }

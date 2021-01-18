@@ -300,7 +300,7 @@ glabel BossGanon_Update
 /* 0707C 808DD8EC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000001
 /* 07080 808DD8F0 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 07084 808DD8F4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 07088 808DD8F8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 /* 0708C 808DD8FC 86AA02D4 */  lh      $t2, 0x02D4($s5)           ## 000002D4
 /* 07090 808DD900 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000

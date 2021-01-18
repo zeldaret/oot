@@ -182,7 +182,7 @@ glabel EnFireRock_Update
 /* 00E5C 80A12A7C 1040000F */  beq     $v0, $zero, .L80A12ABC     
 /* 00E60 80A12A80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E64 80A12A84 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
-/* 00E68 80A12A88 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00E68 80A12A88 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00E6C 80A12A8C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00E70 80A12A90 8FA4004C */  lw      $a0, 0x004C($sp)           

@@ -34,22 +34,68 @@ const ActorInit En_Crow_InitVars = {
     (ActorFunc)EnCrow_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit = {
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
-    { 1, { { 0, 0, 0 }, 20 }, 100 },
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 0, 0 }, 20 }, 100 },
+    },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    &sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 0x000F, 0x001E, 30 };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 30, 30 };
 
 static DamageTable sDamageTable = {
-    0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x24, 0x32, 0x02, 0x04, 0x02,
-    0x02, 0x24, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(4, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static u32 sDeathCount = 0;
@@ -57,11 +103,11 @@ static u32 sDeathCount = 0;
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 88, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_STOP),
 };
 
-static Vec3f sHeadVec[] = { 2500.0f, 0.0f, 0.0f };
+static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCrow* this = THIS;
@@ -69,9 +115,9 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, this->jointTable, this->morphTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
-    this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     sDeathCount = 0;
     EnCrow_SetupWait(this);
@@ -85,7 +131,7 @@ void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnCrow_SetupWait(EnCrow* this) {
     this->timer = 100;
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnCrow_Wait;
     this->skelAnime.playSpeed = 1.0f;
 }
@@ -125,7 +171,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
 
         for (i = 0; i < 4; i++) {
-            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot, 50.0f * scale, 0, 0, i);
+            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot.pos, 50.0f * scale, 0, 0, i);
         }
     } else {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
@@ -135,7 +181,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
     }
 
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= 0x10;
 
     this->actionFunc = func_809E0E2C;
@@ -161,14 +207,15 @@ void func_809E0770(EnCrow* this) {
     if (sDeathCount == 10) {
         this->actor.params = 1;
         sDeathCount = 0;
-        this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius * 0.03f * 100.0f;
+        this->collider.elements[0].dim.worldSphere.radius =
+            sJntSphInit.elements[0].dim.modelSphere.radius * 0.03f * 100.0f;
     } else {
         this->actor.params = 0;
-        this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
+        this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     }
 
     Animation_PlayLoop(&this->skelAnime, &D_060000F0);
-    Math_Vec3f_Copy(&this->actor.posRot, &this->actor.initPosRot);
+    Math_Vec3f_Copy(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
     this->actor.shape.rot.x = 0;
     this->actor.shape.rot.z = 0;
     this->timer = 300;
@@ -189,13 +236,13 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallPolyRot;
-    } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot) > 300.0f) {
-        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
+    } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot.pos) > 300.0f) {
+        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     }
 
-    if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && skelanimeUpdated &&
         (Rand_ZeroOne() < 0.1f)) {
-        var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
+        var = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
         } else {
@@ -265,10 +312,11 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
-    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
-        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
-        if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= ~2;
+    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
+        (this->collider.base.atFlags & AT_HIT) || (this->actor.bgCheckFlags & 9) ||
+        (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
@@ -302,12 +350,12 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
         step = 0.002f;
     }
 
-    if (Math_StepToF(&this->actor.scale, 0.0f, step)) {
+    if (Math_StepToF(&this->actor.scale.x, 0.0f, step)) {
         if (this->actor.params == 0) {
             sDeathCount++;
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ITEM00_RUPEE_RED);
         }
         func_809E0770(this);
     }
@@ -350,7 +398,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
         } else {
             target = 0.01f;
         }
-        if (Math_StepToF(&this->actor.scale, target, target * 0.1f)) {
+        if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
             this->actor.flags |= 1;
             this->actor.flags &= ~0x10;
             this->actor.colChkInfo.health = 1;
@@ -361,9 +409,9 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.list[0].body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.elements[0].info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
                 func_809E06E8(this);
@@ -402,20 +450,20 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         height = 0.0f;
     }
 
-    this->collider.list[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + height;
-    this->collider.list[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + height;
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
 
     if (this->actionFunc == func_809E0C8C) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    if (this->collider.base.acFlags & 1) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    if (this->collider.base.acFlags & AC_ON) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
     if (this->actionFunc != func_809E10A8) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
     Actor_SetHeight(&this->actor, height);

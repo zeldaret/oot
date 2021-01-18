@@ -26,6 +26,26 @@ const ActorInit Obj_Tsubo_InitVars = {
     (ActorFunc)ObjTsubo_Update,
     NULL,
 };
+
+static ColliderCylinderInit D_80BA1B94 = {
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000002, 0x00, 0x01 },
+        { 0x4FC1FFFE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 9, 26, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA0D60.s")
 

@@ -42,22 +42,80 @@ extern AnimationHeader D_06003910;
 extern AnimationHeader D_06003C64;
 
 static ColliderCylinderInit sProjectileColliderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 13, 20, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sOctorockColliderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 40, -30, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 0xF, 0x3C, 0x64 };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 60, 100 };
 
 static DamageTable sDamageTable = {
-    0x00, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x02, 0x34, 0x02, 0x02, 0x02,
-    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -79,7 +137,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTable, this->morphTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
-        func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
@@ -192,7 +250,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06003910, -5.0f);
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
-    this->collider.base.acFlags &= ~2;
+    this->collider.base.acFlags &= ~AC_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD1);
     this->actionFunc = EnOkuta_WaitToDie;
@@ -433,14 +491,16 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ -= 0.1f;
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == BGCHECK_Y_MIN) {
+    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
+        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags1 & OC1_HIT ||
+        this->actor.groundY == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
-            this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
-            this->collider.base.atFlags &= ~0x16;
-            this->collider.base.atFlags |= 8;
-            this->collider.body.toucher.flags = 2;
+            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY &&
+            this->collider.base.atFlags & AT_BOUNCED) {
+            this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
+            this->collider.base.atFlags |= AT_TYPE_PLAYER;
+            this->collider.info.toucher.dmgFlags = 2;
             func_800D20CC(&player->shieldMf, &sp40, 0);
             this->actor.posRot.rot.y = sp40.y + 0x8000;
             this->timer = 30;
@@ -503,9 +563,9 @@ void EnOkuta_UpdateHeadScale(EnOkuta* this) {
 }
 
 void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             func_80032C7C(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
@@ -569,7 +629,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Math_Vec3f_Copy(&this->actor.posRot.pos, &sp38);
             }
         }
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
             this->collider.dim.pos.y = this->actor.posRot.pos.y + (this->skelAnime.jointTable->y * this->actor.scale.y);
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;

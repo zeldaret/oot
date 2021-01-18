@@ -26,7 +26,7 @@ typedef struct BgHakaTrap {
     /* 0x016C */ Vec3f unk_16C;
     /* 0x0178 */ ColliderCylinder colliderCylinder;
     /* 0x01C4 */ ColliderTris colliderSpikes;
-    /* 0x01E4 */ ColliderTrisItem colliderSpikesItem[2];
+    /* 0x01E4 */ ColliderTrisElement colliderSpikesItem[2];
 } BgHakaTrap; // size = 0x029C
 
 extern const ActorInit Bg_Haka_Trap_InitVars;
