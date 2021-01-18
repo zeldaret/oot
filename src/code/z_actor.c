@@ -5,7 +5,7 @@
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc* shadowDraw, f32 shadowScale) {
+void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
     shape->shadowDraw = shadowDraw;
     shape->shadowScale = shadowScale;
