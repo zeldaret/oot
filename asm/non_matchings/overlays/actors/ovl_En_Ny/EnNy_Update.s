@@ -170,7 +170,7 @@ glabel EnNy_Update
 /* 00B44 80ABD6F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000000C
 /* 00B48 80ABD6F8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000001
 /* 00B4C 80ABD6FC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00B50 80ABD700 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000150
 .L80ABD704:
 /* 00B54 80ABD704 8FBF003C */  lw      $ra, 0x003C($sp)           

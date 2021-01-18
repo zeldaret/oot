@@ -28,7 +28,7 @@ typedef struct EnTite {
     /* 0x02E3 */ u8 spawnIceTimer;
     /* 0x02E4 */ u8 damageEffect;
     /* 0x02E8 */ ColliderJntSph collider;
-    /* 0x0308 */ ColliderJntSphItem colliderItem;
+    /* 0x0308 */ ColliderJntSphElement colliderItem;
     /* 0x0348 */ Vec3f frontLeftFootPos;
     /* 0x0354 */ Vec3f frontRightFootPos;
     /* 0x0360 */ Vec3f backRightFootPos;

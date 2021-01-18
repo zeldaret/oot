@@ -4390,7 +4390,7 @@ void BgCheck_DrawDynaPolyList(GlobalContext* globalCtx, CollisionContext* colCtx
                 vC.y += AREG(26) * ny;
                 vC.z += AREG(26) * nz;
             }
-            func_8005B2AC(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
+            Collider_DrawPoly(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
             if (curNode->next == SS_NULL) {
                 break;
             }
@@ -4461,7 +4461,7 @@ void BgCheck_DrawStaticPoly(GlobalContext* globalCtx, CollisionContext* colCtx, 
         vC.y += AREG(26) * ny;
         vC.z += AREG(26) * nz;
     }
-    func_8005B2AC(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
+    Collider_DrawPoly(globalCtx->state.gfxCtx, &vA, &vB, &vC, r, g, b);
 }
 
 /**

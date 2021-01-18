@@ -11,7 +11,7 @@ typedef void (*EnHonotrapActionFunc)(struct EnHonotrap*, GlobalContext*);
 typedef union {
     struct {
         ColliderTris tris;
-        ColliderTrisItem elements[2];
+        ColliderTrisElement elements[2];
     };
     ColliderCylinder cyl;
 } EnHonotrapCollider; // size = 0xD8
