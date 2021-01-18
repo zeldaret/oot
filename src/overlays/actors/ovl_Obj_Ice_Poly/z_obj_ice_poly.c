@@ -22,7 +22,7 @@ extern Gfx* D_04033EE0[];
 
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),
@@ -87,7 +87,7 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_SetScale(thisx, sScale[thisx->params]);
-    thisx->posRot.pos.y = sOffsetY[thisx->params] + thisx->initPosRot.pos.y;
+    thisx->world.pos.y = sOffsetY[thisx->params] + thisx->home.pos.y;
     Collider_InitCylinder(globalCtx, &this->colliderIce);
     Collider_SetCylinder(globalCtx, &this->colliderIce, thisx, &sCylinderInitIce);
     Collider_InitCylinder(globalCtx, &this->colliderHard);
@@ -100,7 +100,7 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->colliderIce.dim.height *= thisx->scale.y;
     this->colliderHard.dim.radius *= thisx->scale.x;
     this->colliderHard.dim.height *= thisx->scale.y;
-    Actor_SetHeight(thisx, thisx->scale.y * 30.0f);
+    Actor_SetFocus(thisx, thisx->scale.y * 30.0f);
     this->actionFunc = ObjIcePoly_Idle;
 }
 
@@ -121,7 +121,7 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
 
     if (this->colliderIce.base.acFlags & AC_HIT) {
         this->meltTimer = -this->colliderIce.info.acHitInfo->toucher.damage;
-        this->actor.posRot2.rot.y = this->actor.yawTowardsLink;
+        this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         func_800800F8(globalCtx, 0x1400, 40, &this->actor, 0);
         this->actionFunc = ObjIcePoly_Melt;
     } else if (this->actor.parent != NULL) {
@@ -133,11 +133,9 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
     }
-    pos.x =
-        this->actor.posRot.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
-    pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
-    pos.z =
-        this->actor.posRot.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.x = this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
+    pos.z = this->actor.world.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 2000, 5);
     }
@@ -157,11 +155,11 @@ void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx) {
     vel.z = 0.0f;
 
     for (i = 0; i < 2; i++) {
-        pos.x = this->actor.posRot.pos.x +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
-        pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
-        pos.z = this->actor.posRot.pos.z +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.x =
+            this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
+        pos.z =
+            this->actor.world.pos.z + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
         func_8002829C(globalCtx, &pos, &vel, &accel, &sColorWhite, &sColorGray,
                       Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
     }

@@ -27,7 +27,7 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MA2,
     sizeof(EnMa3),
@@ -200,7 +200,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = 0.0f;
     func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
 }
@@ -254,7 +254,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -274,7 +274,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_1E0.unk_00 = (u16)0;
 }
@@ -349,7 +349,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
@@ -367,7 +367,7 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 

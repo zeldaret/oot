@@ -13,7 +13,7 @@ extern UNK_TYPE D_06001BC8;
 /*
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_DOOR_KILLER,
     sizeof(DoorKiller),

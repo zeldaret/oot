@@ -61,7 +61,7 @@ glabel BossGoma_Update
 /* 04A54 8091A464 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 04A58 8091A468 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04A5C 8091A46C AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 04A60 8091A470 0C00B92D */  jal     func_8002E4B4              
+/* 04A60 8091A470 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 04A64 8091A474 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 04A68 8091A478 10000009 */  beq     $zero, $zero, .L8091A4A0   
 /* 04A6C 8091A47C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -71,7 +71,7 @@ glabel BossGoma_Update
 /* 04A78 8091A488 44815000 */  mtc1    $at, $f10                  ## $f10 = 80.00
 /* 04A7C 8091A48C 44070000 */  mfc1    $a3, $f0                   
 /* 04A80 8091A490 AFAD0014 */  sw      $t5, 0x0014($sp)           
-/* 04A84 8091A494 0C00B92D */  jal     func_8002E4B4              
+/* 04A84 8091A494 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 04A88 8091A498 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 04A8C 8091A49C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L8091A4A0:

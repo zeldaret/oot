@@ -165,7 +165,7 @@ int ZDisplayList::OptimizationCheck_LoadTextureBlock(int startIndex, string& out
 
 			Declaration* texDecl = nullptr;
 
-			if (parent != nullptr)
+			if (parent != nullptr && segmentNumber != 2) // HACK: Until we have declarations use segment addresses, we'll exclude scene references...
 			{
 				texDecl = parent->GetDeclaration(texAddr);
 
@@ -345,22 +345,20 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 				if (parent != nullptr)
 					dListDecl = parent->GetDeclaration(SEG2FILESPACE(data));
 
-				// TEST
-				if (segNum != 8 && scene != nullptr && scene->parent->GetDeclarationName(data & 0x00FFFFFF) != "ERROR_COULD_NOT_FIND_DECLARATION")
-				{
-					int bp = 0;
-				}
-
 				if (pp != 0)
 				{
-					if (dListDecl != nullptr)
+					if (!Globals::Instance->HasSegment(segNum))
+						sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
+					else if (dListDecl != nullptr)
 						sprintf(line, "gsSPBranchList(%s),", dListDecl->varName.c_str());
 					else
 						sprintf(line, "gsSPBranchList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
 				}
 				else
 				{
-					if (dListDecl != nullptr)
+					if (!Globals::Instance->HasSegment(segNum))
+						sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
+					else if (dListDecl != nullptr)
 						sprintf(line, "gsSPDisplayList(%s),", dListDecl->varName.c_str());
 					else
 						sprintf(line, "gsSPDisplayList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
@@ -379,6 +377,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 				{
 					ZDisplayList* nList = new ZDisplayList(fileData, data & 0x00FFFFFF, GetDListLength(fileData, data & 0x00FFFFFF));
 					nList->scene = scene;
+					nList->parent = parent;
 					otherDLists.push_back(nList);
 				}
 			}
@@ -446,27 +445,55 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 				if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
 					vtxAddr -= SEG2FILESPACE(parent->baseAddress);
 
-				sprintf(line, "gsSPVertex(%sVtx_%06X, %i, %i),", prefix.c_str(), vtxAddr, nn, ((aa >> 1) - nn));
+				//sprintf(line, "gsSPVertex(%sVtx_%06X, %i, %i),", prefix.c_str(), vtxAddr, nn, ((aa >> 1) - nn));
+				sprintf(line, "gsSPVertex(@r, %i, %i),", nn, ((aa >> 1) - nn));
+				references.push_back(vtxAddr);
 
 				{
-					uint32_t currentPtr = data & 0x00FFFFFF;
+					uint32_t currentPtr = SEG2FILESPACE(data);
 
 					if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
 						currentPtr -= SEG2FILESPACE(parent->baseAddress);
 
-					vector<Vertex> vtxList = vector<Vertex>();
-
-					vtxList.reserve(nn);
-
-					for (int i = 0; i < nn; i++)
+					// Check for vertex intersections from other display lists
+					// TODO: These two could probably be condenced to one...
+					if (parent->GetDeclarationRanged(vtxAddr + (nn * 16)) != nullptr)
 					{
-						Vertex vtx = Vertex(fileData, currentPtr);
-						vtxList.push_back(vtx);
-
-						currentPtr += 16;
+						Declaration* decl = parent->GetDeclarationRanged(vtxAddr + (nn * 16));
+						uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr + (nn * 16));
+						int diff = addr - vtxAddr;
+						if (diff > 0)
+							nn = diff / 16;
+						else
+							nn = 0;
 					}
 
-					vertices[vtxAddr] = vtxList;
+					if (parent->GetDeclarationRanged(vtxAddr) != nullptr)
+					{
+						Declaration* decl = parent->GetDeclarationRanged(vtxAddr);
+						uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr);
+						int diff = addr - vtxAddr;
+						if (diff > 0)
+							nn = diff / 16;
+						else
+							nn = 0;
+					}
+
+					if (nn > 0)
+					{
+						vector<Vertex> vtxList = vector<Vertex>();
+						vtxList.reserve(nn);
+
+						for (int i = 0; i < nn; i++)
+						{
+							Vertex vtx = Vertex(fileData, currentPtr);
+							vtxList.push_back(vtx);
+
+							currentPtr += 16;
+						}
+
+						vertices[vtxAddr] = vtxList;
+					}
 				}
 
 			}
@@ -502,6 +529,9 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					int32_t texAddress = SEG2FILESPACE(data);
 					Declaration* texDecl = nullptr;
 
+					if (segmentNumber == 0x80) // Is this texture defined in code?
+						texAddress -= SEG2FILESPACE(parent->baseAddress);
+
 					if (parent != nullptr)
 					{
 						if (Globals::Instance->HasSegment(segmentNumber))
@@ -523,11 +553,13 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 						//}
 						//else
 						{
-							sprintf(texStr, "0x%08lX", data);
+							sprintf(texStr, "0x%08lX", data & 0xFFFFFFFF);
 						}
 					}
 
 					sprintf(line, "gsDPSetTextureImage(%s, %s, %i, %s),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, texStr);
+					//sprintf(line, "gsDPSetTextureImage(%s, %s, %i, @r),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1);
+					//references.push_back(data & 0x00FFFFFF);
 				}
 				else
 				{
@@ -1002,6 +1034,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 
 					ZDisplayList* nList = new ZDisplayList(fileData, h & 0x00FFFFFF, GetDListLength(fileData, h & 0x00FFFFFF));
 					nList->scene = scene;
+					nList->parent = parent;
 					otherDLists.push_back(nList);
 
 					i++;
@@ -1056,9 +1089,9 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 		vector<pair<int32_t, vector<Vertex>>> verticesSorted(vertices.begin(), vertices.end());
 
 		sort(verticesSorted.begin(), verticesSorted.end(), [](const auto& lhs, const auto& rhs)
-		{
-			return lhs.first < rhs.first;
-		});
+			{
+				return lhs.first < rhs.first;
+			});
 
 		for (int i = 0; i < verticesSorted.size() - 1; i++)
 		{
@@ -1075,7 +1108,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					vertices[verticesSorted[i].first].push_back(verticesSorted[i + 1].second[j]);
 				}
 
-				defines += StringHelper::Sprintf("#define %sVtx_%06X ((u32)%sVtx_%06X + 0x%06X)\n", prefix.c_str(), verticesSorted[i + 1].first, prefix.c_str(), verticesSorted[i].first, verticesSorted[i + 1].first - verticesSorted[i].first);
+				//defines += StringHelper::Sprintf("#define %sVtx_%06X ((u32)%sVtx_%06X + 0x%06X)\n", prefix.c_str(), verticesSorted[i + 1].first, prefix.c_str(), verticesSorted[i].first, verticesSorted[i + 1].first - verticesSorted[i].first);
 
 				int nSize = (int)vertices[verticesSorted[i].first].size();
 
@@ -1111,10 +1144,11 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 
 			if (parent != nullptr)
 			{
-				parent->AddDeclarationArray(item.first, DeclarationAlignment::None, item.second.size() * 16, "static Vtx", 
+				parent->AddDeclarationArray(item.first, DeclarationAlignment::None, item.second.size() * 16, "static Vtx",
 					StringHelper::Sprintf("%sVtx_%06X", prefix.c_str(), item.first, item.second.size()), item.second.size(), declaration);
 			}
 		}
+	}
 
 		// Check for texture intersections
 		{
@@ -1153,9 +1187,9 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 				vector<pair<uint32_t, ZTexture*>> texturesSorted(textures.begin(), textures.end());
 
 				sort(texturesSorted.begin(), texturesSorted.end(), [](const auto& lhs, const auto& rhs)
-				{
-					return lhs.first < rhs.first;
-				});
+					{
+						return lhs.first < rhs.first;
+					});
 
 				for (int i = 0; i < texturesSorted.size() - 1; i++)
 				{
@@ -1163,15 +1197,15 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 						break;
 
 					int texSize = textures[texturesSorted[i].first]->GetRawDataSize();
-					
+
 					if ((texturesSorted[i].first + texSize) > texturesSorted[i + 1].first)
 					{
 						int intersectAmt = (texturesSorted[i].first + texSize) - texturesSorted[i + 1].first;
-						
+
 						// If we're working with a palette, resize it to its "real" dimensions
 						if (texturesSorted[i].second->isPalette)
 						{
-							texturesSorted[i].second->SetWidth(intersectAmt / 2);
+							texturesSorted[i].second->SetWidth((texturesSorted[i + 1].first - texturesSorted[i].first) / 2);
 							texturesSorted[i].second->SetHeight(1);
 						}
 						else
@@ -1187,7 +1221,6 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					}
 				}
 			}
-		}
 
 		// Generate Texture Declarations
 		for (pair<int32_t, ZTexture*> item : textures)
@@ -1218,7 +1251,8 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 	 
 	if (parent != nullptr)
 	{
-		parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(), "Gfx", StringHelper::Sprintf("%s", name.c_str()), 0, sourceOutput);
+		Declaration* decl = parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(), "Gfx", StringHelper::Sprintf("%s", name.c_str()), 0, sourceOutput);
+		decl->references = references;
 		return "";
 	}
 
@@ -1244,7 +1278,7 @@ bool ZDisplayList::TextureGenCheck(vector<uint8_t> fileData, map<uint32_t, ZText
 	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
 		printf("TextureGenCheck seg=%i width=%i height=%i ispal=%i addr=0x%06X\n", segmentNumber, texWidth, texHeight, texIsPalette, texAddr);
 
-	if (texAddr != 0 && texWidth != 0 && texHeight != 0 && texLoaded && Globals::Instance->HasSegment(segmentNumber))
+	if ((texSeg != 0 || texAddr != 0) && texWidth != 0 && texHeight != 0 && texLoaded && Globals::Instance->HasSegment(segmentNumber))
 	{
 		if (segmentNumber != 2) // Not from a scene file
 		{

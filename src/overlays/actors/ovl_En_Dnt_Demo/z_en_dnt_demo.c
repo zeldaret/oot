@@ -30,7 +30,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntDemo),
