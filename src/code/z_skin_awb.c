@@ -177,8 +177,8 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
 
     SkinMatrix_SetScaleRotateYRPTranslate(
         &skin->mtx, actor->scale.x, actor->scale.y, actor->scale.z, actor->shape.rot.x, actor->shape.rot.y,
-        actor->shape.rot.z, actor->posRot.pos.x, actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y),
-        actor->posRot.pos.z);
+        actor->shape.rot.z, actor->world.pos.x, actor->world.pos.y + (actor->shape.yOffset * actor->scale.y),
+        actor->world.pos.z);
 
     temp_ret = func_800A698C(skin, SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment), arg1, 0xFF, 0);
     if (!temp_ret) { // func_800A698C only returns false
