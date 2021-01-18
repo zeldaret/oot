@@ -73,7 +73,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
-            OC2_TYPE2,
+            OC2_TYPE_2,
             COLSHAPE_CYLINDER,
         },
         {
@@ -92,7 +92,7 @@ static ColliderCylinderInit sCylinderInits[] = {
             AT_NONE,
             AC_ON | AC_HARD | AC_TYPE_PLAYER,
             OC1_ON | OC1_TYPE_ALL,
-            OC2_TYPE2,
+            OC2_TYPE_2,
             COLSHAPE_CYLINDER,
         },
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },

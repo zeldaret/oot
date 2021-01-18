@@ -61,7 +61,7 @@ static ColliderTrisInit D_80889898 = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
     2,

@@ -34,7 +34,7 @@ static ColliderCylinderInit D_8098E0B0 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {

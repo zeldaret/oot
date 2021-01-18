@@ -49,7 +49,7 @@ static ColliderJntSphInit D_809BF3F8 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -62,7 +62,7 @@ static ColliderCylinderInit D_809BF408 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {

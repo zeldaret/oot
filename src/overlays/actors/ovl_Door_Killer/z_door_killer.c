@@ -29,7 +29,7 @@ static ColliderCylinderInit D_80995FB0 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {

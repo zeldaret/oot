@@ -34,7 +34,7 @@ static ColliderCylinderInit D_80AD2740 = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -88,7 +88,7 @@ static ColliderJntSphInit D_80AD2790 = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
     1,

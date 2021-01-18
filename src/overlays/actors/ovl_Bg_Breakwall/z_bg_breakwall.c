@@ -40,7 +40,7 @@ static ColliderQuadInit D_80870760 = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_QUAD,
     },
     {

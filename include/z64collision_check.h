@@ -306,9 +306,9 @@ typedef enum ElementType {
 #define OC2_HIT_PLAYER (1 << 0) // Had an OC collision with OC type player
 #define OC2_UNK1 (1 << 1) // Prevents OC collisions with OC2_UNK2. Some horses and toki_sword have it.
 #define OC2_UNK2 (1 << 2) // Prevents OC collisions with OC2_UNK1. Nothing has it.
-#define OC2_PLAYER (1 << 3) // Has OC type player
-#define OC2_TYPE1 (1 << 4) // Has OC type 1
-#define OC2_TYPE2 (1 << 5) // Has OC type 2
+#define OC2_TYPE_PLAYER (1 << 3) // Has OC type player
+#define OC2_TYPE_1 (1 << 4) // Has OC type 1
+#define OC2_TYPE_2 (1 << 5) // Has OC type 2
 #define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
 #define TOUCH_NONE 0 // No flags set. Cannot have AT collisions

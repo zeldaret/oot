@@ -52,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {

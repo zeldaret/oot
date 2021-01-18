@@ -71,9 +71,9 @@ OCTYPE_ENUM = [
     "OC2_HIT_PLAYER",
     "OC2_UNK1",
     "OC2_UNK2",
-    "OC2_PLAYER",
-    "OC2_TYPE1",
-    "OC2_TYPE2",
+    "OC2_TYPE_PLAYER",
+    "OC2_TYPE_1",
+    "OC2_TYPE_2",
     "OC2_FIRST_ONLY"]
 
 TOUCHERFLAGS_ENUM = [

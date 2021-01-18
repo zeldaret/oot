@@ -43,7 +43,7 @@ static ColliderQuadInit D_80B288A0 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_QUAD,
     },
     {
@@ -63,7 +63,7 @@ static ColliderCylinderInit D_80B288F0 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {

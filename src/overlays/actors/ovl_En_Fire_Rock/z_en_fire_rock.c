@@ -30,7 +30,7 @@ static ColliderCylinderInit D_80A12CCC = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -50,7 +50,7 @@ static ColliderCylinderInit D_80A12CA0 = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {

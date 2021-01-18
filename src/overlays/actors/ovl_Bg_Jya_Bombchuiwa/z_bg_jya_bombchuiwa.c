@@ -48,7 +48,7 @@ static ColliderJntSphInit sJntSphInit = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_2,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
     1,

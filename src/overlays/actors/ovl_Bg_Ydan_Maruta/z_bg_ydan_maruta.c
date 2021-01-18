@@ -64,7 +64,7 @@ static ColliderTrisInit sTrisInit = {
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
     2,

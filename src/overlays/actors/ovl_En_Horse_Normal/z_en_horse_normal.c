@@ -73,7 +73,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -93,7 +93,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -127,7 +127,7 @@ static ColliderJntSphInit sJntSphInit = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
     ARRAY_COUNT(sJntSphElementsInit),

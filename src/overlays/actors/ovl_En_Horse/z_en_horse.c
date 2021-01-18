@@ -32,7 +32,7 @@ static ColliderCylinderInit D_80A65EAC = {
         AT_TYPE_PLAYER,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1 | OC2_UNK1,
+        OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -52,7 +52,7 @@ static ColliderCylinderInit D_80A65ED8 = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1 | OC2_UNK1,
+        OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -86,7 +86,7 @@ static ColliderJntSphInit D_80A65F28 = {
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1 | OC2_UNK1,
+        OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_JNTSPH,
     },
     1,

@@ -34,7 +34,7 @@ static ColliderCylinderInit D_80AA0420 = {
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
     {
