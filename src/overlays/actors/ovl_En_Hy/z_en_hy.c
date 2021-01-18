@@ -20,7 +20,7 @@ extern UNK_TYPE D_06005BC8;
 /*
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHy),

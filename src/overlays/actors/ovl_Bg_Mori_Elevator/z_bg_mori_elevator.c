@@ -22,7 +22,7 @@ static s16 sIsSpawned = false;
 
 const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriElevator),
@@ -129,7 +129,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, GlobalContext* globalCtx) {
     return ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2) &&
-            ((PLAYER->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y) < 80.0f));
+            ((PLAYER->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));
 }
 
 void BgMoriElevator_SetupWaitAfterInit(BgMoriElevator* this) {
@@ -140,7 +140,7 @@ void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, GlobalContext* globalCtx
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             if (globalCtx->roomCtx.curRoom.num == 2) {
-                this->dyna.actor.posRot.pos.y = 73.0f;
+                this->dyna.actor.world.pos.y = 73.0f;
                 BgMoriElevator_SetupSetPosition(this);
             } else {
                 // Error: Forest Temple obj elevator Room setting is dangerous
@@ -161,7 +161,7 @@ void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCt
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
-    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
+    distToTarget = func_808A1800(&this->dyna.actor.world.pos.y, 73.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
@@ -180,7 +180,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalC
     f32 distToTarget;
 
     func_808A1800(&this->dyna.actor.velocity.y, 2.0f, 0.05f, 1.0f, 0.0f);
-    distToTarget = func_808A1800(&this->dyna.actor.posRot.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
+    distToTarget = func_808A1800(&this->dyna.actor.world.pos.y, 233.0f, 0.08f, this->dyna.actor.velocity.y, 1.5f);
     if (fabsf(distToTarget) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
@@ -207,10 +207,10 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, GlobalContext* globalCtx) 
             // Error:Forest Temple obj elevator Room setting is dangerous(% s % d)
             osSyncPrintf("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 479);
         }
-    } else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.posRot.pos.y < -275.0f)) {
+    } else if ((globalCtx->roomCtx.curRoom.num == 2) && (this->dyna.actor.world.pos.y < -275.0f)) {
         this->targetY = 233.0f;
         BgMoriElevator_StopMovement(this);
-    } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.posRot.pos.y)) {
+    } else if ((globalCtx->roomCtx.curRoom.num == 17) && (-275.0f < this->dyna.actor.world.pos.y)) {
         this->targetY = -779.0f;
         BgMoriElevator_StopMovement(this);
     } else if ((globalCtx->roomCtx.curRoom.num == 2) && Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) &&
@@ -233,7 +233,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
     f32 distTo;
 
     func_808A1800(&this->dyna.actor.velocity.y, 12.0f, 0.1f, 1.0f, 0.0f);
-    distTo = func_808A1800(&this->dyna.actor.posRot.pos.y, this->targetY, 0.1f, this->dyna.actor.velocity.y, 0.3f);
+    distTo = func_808A1800(&this->dyna.actor.world.pos.y, this->targetY, 0.1f, this->dyna.actor.velocity.y, 0.3f);
     if (fabsf(distTo) < 0.001f) {
         BgMoriElevator_SetupSetPosition(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);

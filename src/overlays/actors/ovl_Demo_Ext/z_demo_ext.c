@@ -69,10 +69,10 @@ void DemoExt_SetupMaintainVortex(DemoExt* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = DemoExt_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
-        this->actor.posRot.pos.x = npcAction->startPos.x;
-        this->actor.posRot.pos.y = npcAction->startPos.y;
-        this->actor.posRot.pos.z = npcAction->startPos.z;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.pos.x = npcAction->startPos.x;
+        this->actor.world.pos.y = npcAction->startPos.y;
+        this->actor.world.pos.z = npcAction->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
     }
     this->action = EXT_MAINTAIN;
     this->drawMode = EXT_DRAW_VORTEX;
@@ -238,7 +238,7 @@ void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FHG,
     sizeof(DemoExt),

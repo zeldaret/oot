@@ -17,7 +17,7 @@ void BgMenkuriKaiten_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriKaiten),
