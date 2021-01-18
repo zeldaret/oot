@@ -130,7 +130,7 @@ EnViewerAnimFunc sAnimFuncs[] = {
 static void* sActorShadowDrawFunc[] = {
     NULL,
     ActorShadow_DrawCircle,
-    ActorShadow_DrawSquiggly,
+    ActorShadow_DrawHorse,
 };
 
 // timer

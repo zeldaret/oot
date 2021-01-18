@@ -350,7 +350,7 @@ void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc* shadowDraw, f32 shadowScale);
 void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void ActorShadow_DrawSquiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);

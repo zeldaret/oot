@@ -67,7 +67,7 @@ void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* gl
     ActorShadow_Draw(actor, lights, globalCtx, D_04049210, &white);
 }
 
-void ActorShadow_DrawSquiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
+void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     ActorShadow_Draw(actor, lights, globalCtx, D_04049AD0, NULL);
 }
 
