@@ -313,7 +313,7 @@ void func_80ADE28C(EnPoh* this) {
     if (this->colliderCyl.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
         this->actor.world.rot.y = this->colliderCyl.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = func_8002DA78(&this->actor, this->colliderCyl.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;
     }
     this->colliderCyl.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = 5.0f;
@@ -487,8 +487,8 @@ void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADEA5C(EnPoh* this) {
-    if (func_8002DBB0(&this->actor, &this->actor.home.pos) > 400.0f) {
-        this->unk_19C = func_8002DAC0(&this->actor, &this->actor.home.pos);
+    if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 400.0f) {
+        this->unk_19C = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
     Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_19C, 0x71C);
 }

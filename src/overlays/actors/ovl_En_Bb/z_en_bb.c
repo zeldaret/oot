@@ -256,7 +256,7 @@ Actor* EnBb_FindExplosive(GlobalContext* globalCtx, EnBb* this, f32 range) {
             explosive = explosive->next;
             continue;
         }
-        dist = func_8002DB48(&this->actor, explosive);
+        dist = Actor_WorldDistToActorXYZ(&this->actor, explosive);
         if ((explosive->params == 0) && (dist <= range)) {
             return explosive;
         }
@@ -607,7 +607,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             explosive = NULL;
         }
         if (explosive != NULL) {
-            this->vMoveAngleY = func_8002DA78(&this->actor, explosive);
+            this->vMoveAngleY = Actor_WorldYawTowardActor(&this->actor, explosive);
             if ((this->vBombHopPhase == 0) && (explosive != this->targetActor)) {
                 this->vBombHopPhase = -0x8000;
                 this->targetActor = explosive;
@@ -783,7 +783,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     switch (this->actionState) {
         case BBRED_WAIT:
-            if ((func_8002DB48(&this->actor, &player->actor) <= 250.0f) && (ABS(yawDiff) <= 0x4000) &&
+            if ((Actor_WorldDistToActorXYZ(&this->actor, &player->actor) <= 250.0f) && (ABS(yawDiff) <= 0x4000) &&
                 (this->timer == 0)) {
                 this->actor.speedXZ = 5.0f;
                 this->actor.gravity = -1.0f;

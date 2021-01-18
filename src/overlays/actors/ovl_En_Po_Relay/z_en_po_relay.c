@@ -145,7 +145,7 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
     this->actionTimer = ((s16)(this->actor.shape.rot.y - this->actor.world.rot.y - 0x8000) >> 0xB) % 32U;
     func_80088B34(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
-    this->unk_19A = func_8002DAC0(&this->actor, &vec);
+    this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
     this->actor.flags |= 0x8000000;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
@@ -241,7 +241,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->actor.speedXZ, 3.5f, 0.5f, 1.5f);
     }
     EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
-    if (func_8002DBB0(&this->actor, &vec) < 40.0f) {
+    if (Actor_WorldDistToPointXZ(&this->actor, &vec) < 40.0f) {
         this->pathIndex++;
         EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
         if (this->pathIndex == 28) {
@@ -254,7 +254,7 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
             Flags_SetSwitch(globalCtx, 0x37);
         }
     }
-    this->unk_19A = func_8002DAC0(&this->actor, &vec);
+    this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
     func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
 

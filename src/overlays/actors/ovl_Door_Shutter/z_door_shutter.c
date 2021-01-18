@@ -650,7 +650,7 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
     if (Player_InCsMode(globalCtx)) {
         return true;
     }
-    phi_a0 = (s16)(func_8002DAC0(&this->dyna.actor, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y);
+    phi_a0 = (s16)(Actor_WorldYawTowardPoint(&this->dyna.actor, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y);
     phi_a1 = (s16)(this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y);
     phi_a0 = ABS(phi_a0);
     phi_a1 = ABS(phi_a1);

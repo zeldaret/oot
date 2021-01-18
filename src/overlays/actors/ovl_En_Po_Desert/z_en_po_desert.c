@@ -103,7 +103,7 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     this->actor.home.pos.x = pathPoint->x;
     this->actor.home.pos.y = pathPoint->y;
     this->actor.home.pos.z = pathPoint->z;
-    this->initDistToNextPoint = func_8002DBB0(&this->actor, &this->actor.home.pos);
+    this->initDistToNextPoint = Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos);
     this->initDistToNextPoint = CLAMP_MIN(this->initDistToNextPoint, 1.0f);
     this->currentPathPoint++;
     this->yDiff = this->actor.home.pos.y - this->actor.world.pos.y;
@@ -165,8 +165,8 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }
-    temp_f20 = func_8002DBB0(&this->actor, &this->actor.home.pos);
-    this->actor.world.rot.y = func_8002DAC0(&this->actor, &this->actor.home.pos);
+    temp_f20 = Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);

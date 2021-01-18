@@ -406,7 +406,7 @@ void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x14);
     this->actionFunc = EnFloormas_TakeDamage;
@@ -731,8 +731,8 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_ScaledStepToS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, primaryFloormas), 0x38E);
-        if (func_8002DB8C(&this->actor, primaryFloormas) < 80.0f) {
+        Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primaryFloormas), 0x38E);
+        if (Actor_WorldDistToActorXZ(&this->actor, primaryFloormas) < 80.0f) {
             EnFloormas_SetupSlaveJumpAtMaster(this);
         }
     } else {
@@ -855,7 +855,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;
     } else if (this->skelAnime.curFrame < 20.0f) {
-        Math_ApproachS(&this->actor.shape.rot.y, func_8002DA78(&this->actor, primFloormas), 2, 0xE38);
+        Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, primFloormas), 2, 0xE38);
     } else if ((((primFloormas->world.pos.y - this->actor.world.pos.y) < -10.0f) &&
                 (fabsf(this->actor.world.pos.x - primFloormas->world.pos.x) < 10.0f)) &&
                (fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 10.0f)) {

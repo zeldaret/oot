@@ -364,11 +364,11 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
         if (this->actor.bgCheckFlags & 0x20) {
-            this->unk_196 = func_8002DAC0(&this->actor, &this->actor.home.pos);
+            this->unk_196 = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
         } else if (this->actor.bgCheckFlags & 8) {
             this->unk_196 = this->actor.wallYaw;
         } else if (this->animFlagAndTimer == 0) {
-            diffRotInit = func_8002DAC0(&this->actor, &this->actor.home.pos);
+            diffRotInit = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
             diffRot = diffRotInit - this->actor.yawTowardsPlayer;
             if (ABS(diffRot) >= 0x2001) {
                 this->unk_196 = diffRotInit;
@@ -384,7 +384,7 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         EnHintnuts_SetupTalk(this);
-    } else if (this->animFlagAndTimer == 0 && func_8002DBB0(&this->actor, &this->actor.home.pos) < 20.0f &&
+    } else if (this->animFlagAndTimer == 0 && Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.speedXZ = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {

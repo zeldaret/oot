@@ -281,7 +281,7 @@ void EnPoField_SetupDamage(EnPoField* this) {
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 5.0f;
@@ -441,7 +441,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
                                                                       &this->actor, &this->actor.world.pos);
                 if (this->actor.world.pos.y != BGCHECK_Y_MIN) {
-                    this->actor.shape.rot.y = func_8002DA78(&this->actor, &player->actor);
+                    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);
                 } else {
                     return;
@@ -519,8 +519,8 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (func_8002DBB0(&this->actor, &sFieldMiddle) > 3000.0f) {
-        phi_t0 = (s16)(this->actor.yawTowardsPlayer - func_8002DAC0(&this->actor, &sFieldMiddle) - 0x8000) * 0.2f;
+    if (Actor_WorldDistToPointXZ(&this->actor, &sFieldMiddle) > 3000.0f) {
+        phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000) * 0.2f;
     } else {
         phi_t0 = 0;
     }

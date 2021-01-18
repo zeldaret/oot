@@ -528,7 +528,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->actor.world.pos.y = sSpawnPoint.y + 40.0f;
                 this->actor.world.pos.x = (Math_SinS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.x;
                 this->actor.world.pos.z = (Math_CosS(player->actor.shape.rot.y) * -120.0f) + player->actor.world.pos.z;
-                if (func_8002DB6C(&this->actor, &sSpawnPoint) > 800.0f) {
+                if (Actor_WorldDistToPointXYZ(&this->actor, &sSpawnPoint) > 800.0f) {
                     sp50 = Rand_ZeroOne() * 20.0f;
                     sp4E = Rand_CenteredFloat(4000.0f);
                     this->actor.shape.rot.y = this->actor.world.rot.y =

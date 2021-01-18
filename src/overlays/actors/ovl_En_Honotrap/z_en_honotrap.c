@@ -347,7 +347,7 @@ void EnHonotrap_SetupFlameMove(EnHonotrap* this) {
 
     this->actionFunc = EnHonotrap_FlameMove;
 
-    distFrac = 1.0f / (func_8002DB6C(&this->actor, &this->targetPos) + 1.0f);
+    distFrac = 1.0f / (Actor_WorldDistToPointXYZ(&this->actor, &this->targetPos) + 1.0f);
     this->actor.velocity.x = (this->targetPos.x - this->actor.world.pos.x) * distFrac;
     this->actor.velocity.y = (this->targetPos.y - this->actor.world.pos.y) * distFrac;
     this->actor.velocity.z = (this->targetPos.z - this->actor.world.pos.z) * distFrac;

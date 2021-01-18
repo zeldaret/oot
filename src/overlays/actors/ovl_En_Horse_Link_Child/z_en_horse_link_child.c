@@ -224,7 +224,7 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distFromLink;
     s32 newAnimationIdx;
 
-    distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+    distFromLink = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if ((distFromLink < 1000.0f) && (distFromLink > 70.0f)) {
@@ -257,7 +257,7 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     s32 newAnimationIdx;
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
 
         if (yawDiff > 0x12C) {
             this->actor.world.rot.y += 0x12C;
@@ -271,7 +271,7 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+        distFromLink = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
 
         if (distFromLink > 1000.0f) {
             func_80A6993C(this, 0);
@@ -321,7 +321,7 @@ void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
         if (Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos) < 250.0f) {
             yawDiff = player->actor.shape.rot.y;
-            yawSign = func_8002DA78(&this->actor, &player->actor) > 0 ? 1 : -1;
+            yawSign = Actor_WorldYawTowardActor(&this->actor, &player->actor) > 0 ? 1 : -1;
             yawOffset = yawSign << 0xE;
             yawDiff += yawOffset;
         } else {
@@ -350,7 +350,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     func_80A69F5C(this, globalCtx);
     player = PLAYER;
-    distFromLink = func_8002DB8C(&this->actor, &player->actor);
+    distFromLink = Actor_WorldDistToActorXZ(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -450,7 +450,7 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
             func_8006DD9C(&this->actor, &PLAYER->actor.world.pos, 300);
@@ -498,7 +498,7 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (!this->unk_1E8) {
-            dist = func_8002DB8C(&this->actor, &PLAYER->actor);
+            dist = Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor);
         } else {
             dist = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         }

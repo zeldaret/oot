@@ -236,13 +236,13 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallYaw;
-    } else if (func_8002DBB0(&this->actor, &this->actor.home.pos) > 300.0f) {
-        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.home.pos);
+    } else if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 300.0f) {
+        this->aimRotY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     }
 
     if ((Math_SmoothStepToS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && skelanimeUpdated &&
         (Rand_ZeroOne() < 0.1f)) {
-        var = func_8002DAC0(&this->actor, &this->actor.home.pos) - this->actor.shape.rot.y;
+        var = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Rand_ZeroOne());
         } else {
@@ -299,7 +299,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 20.0f;
         pos.z = player->actor.world.pos.z;
-        target = func_8002DB28(&this->actor, &pos);
+        target = Actor_WorldPitchTowardPoint(&this->actor, &pos);
         if (target > 0x3000) {
             target = 0x3000;
         }

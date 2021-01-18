@@ -235,7 +235,7 @@ void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
 
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x14);

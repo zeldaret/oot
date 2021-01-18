@@ -306,7 +306,7 @@ void func_80AD95D8(EnPoSisters* this) {
     if (this->collider.base.ac != NULL) {
         this->actor.world.rot.y = (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824)
                                        ? this->collider.base.ac->world.rot.y
-                                       : func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     if (this->unk_194 != 0) {
         this->actor.speedXZ = 10.0f;
@@ -621,9 +621,9 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & 8) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, func_8002DAC0(&this->actor, &this->actor.home.pos), 0x71C);
-    } else if (func_8002DBB0(&this->actor, &this->actor.home.pos) > 300.0f) {
-        Math_ScaledStepToS(&this->actor.world.rot.y, func_8002DAC0(&this->actor, &this->actor.home.pos), 0x71C);
+        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x71C);
+    } else if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) > 300.0f) {
+        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x71C);
     }
 }
 
@@ -847,7 +847,7 @@ void func_80ADB338(EnPoSisters* this, GlobalContext* globalCtx) {
     EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
     if (this->unk_195 == 0) {
-        if (func_8002DBB0(&player->actor, &this->actor.home.pos) < 600.0f) {
+        if (Actor_WorldDistToPointXZ(&player->actor, &this->actor.home.pos) < 600.0f) {
             if (this->unk_19C != 0) {
                 this->unk_19C--;
             }
@@ -965,7 +965,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_199 &= ~0x40;
         }
     }
-    if (func_8002DBB0(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
+    if (Actor_WorldDistToPointXZ(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
         this->unk_199 &= ~0x40;
         func_80AD9C24(this, globalCtx);
     } else if (this->unk_19A == 0) {
@@ -1016,10 +1016,10 @@ void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void func_80ADBB6C(EnPoSisters* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (func_8002DBB0(&this->actor, &this->actor.home.pos) < 10.0f) {
+    if (Actor_WorldDistToPointXZ(&this->actor, &this->actor.home.pos) < 10.0f) {
         func_80ADA028(this);
     } else {
-        Math_ScaledStepToS(&this->actor.world.rot.y, func_8002DAC0(&this->actor, &this->actor.home.pos), 1820);
+        Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 1820);
     }
 }
 

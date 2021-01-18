@@ -894,44 +894,44 @@ void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     actor->world.pos.z += sp1C.z * actor->scale.z;
 }
 
-s16 func_8002DA78(Actor* actorA, Actor* actorB) {
+s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_Yaw(&actorA->world.pos, &actorB->world.pos);
 }
 
-s16 func_8002DA9C(Actor* actorA, Actor* actorB) {
+s16 Actor_FocusYawTowardActor(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_Yaw(&actorA->focus.pos, &actorB->focus.pos);
 }
 
-s16 func_8002DAC0(Actor* actor, Vec3f* arg1) {
-    return Math_Vec3f_Yaw(&actor->world.pos, arg1);
+s16 Actor_WorldYawTowardPoint(Actor* actor, Vec3f* refPoint) {
+    return Math_Vec3f_Yaw(&actor->world.pos, refPoint);
 }
 
-s16 func_8002DAE0(Actor* actorA, Actor* actorB) {
+s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_Pitch(&actorA->world.pos, &actorB->world.pos);
 }
 
-s16 func_8002DB04(Actor* actorA, Actor* actorB) {
+s16 Actor_FocusPitchTowardActor(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_Pitch(&actorA->focus.pos, &actorB->focus.pos);
 }
 
-s16 func_8002DB28(Actor* actor, Vec3f* arg1) {
-    return Math_Vec3f_Pitch(&actor->world.pos, arg1);
+s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint) {
+    return Math_Vec3f_Pitch(&actor->world.pos, refPoint);
 }
 
-f32 func_8002DB48(Actor* actorA, Actor* actorB) {
+f32 Actor_WorldDistToActorXYZ(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_DistXYZ(&actorA->world.pos, &actorB->world.pos);
 }
 
-f32 func_8002DB6C(Actor* actor, Vec3f* arg1) {
-    return Math_Vec3f_DistXYZ(&actor->world.pos, arg1);
+f32 Actor_WorldDistToPointXYZ(Actor* actor, Vec3f* refPoint) {
+    return Math_Vec3f_DistXYZ(&actor->world.pos, refPoint);
 }
 
-f32 func_8002DB8C(Actor* actorA, Actor* actorB) {
+f32 Actor_WorldDistToActorXZ(Actor* actorA, Actor* actorB) {
     return Math_Vec3f_DistXZ(&actorA->world.pos, &actorB->world.pos);
 }
 
-f32 func_8002DBB0(Actor* actor, Vec3f* arg1) {
-    return Math_Vec3f_DistXZ(&actor->world.pos, arg1);
+f32 Actor_WorldDistToPointXZ(Actor* actor, Vec3f* refPoint) {
+    return Math_Vec3f_DistXZ(&actor->world.pos, refPoint);
 }
 
 void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
@@ -1073,7 +1073,7 @@ s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
 }
 
 s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = (s16)(func_8002DA78(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+    s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
     if (ABS(var) < arg2) {
         return 1;
@@ -1093,7 +1093,7 @@ s32 func_8002E084(Actor* actor, s16 arg1) {
 }
 
 s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = func_8002DA78(actorA, actorB) - actorA->shape.rot.y;
+    s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
     if (ABS(var) < arg2) {
         return 1;
@@ -1117,8 +1117,8 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
 }
 
 s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
-    if (func_8002DB48(actorA, actorB) < arg2) {
-        s16 var = func_8002DA78(actorA, actorB) - actorA->shape.rot.y;
+    if (Actor_WorldDistToActorXYZ(actorA, actorB) < arg2) {
+        s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
         if (ABS(var) < arg3) {
             return 1;
@@ -2081,11 +2081,11 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 }
             } else {
                 Math_Vec3f_Copy(&actor->prevPos, &actor->world.pos);
-                actor->xzDistToPlayer = func_8002DB8C(actor, &player->actor);
+                actor->xzDistToPlayer = Actor_WorldDistToActorXZ(actor, &player->actor);
                 actor->yDistToPlayer = Actor_HeightDiff(actor, &player->actor);
                 actor->xyzDistToPlayerSq = SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer);
 
-                actor->yawTowardsPlayer = func_8002DA78(actor, &player->actor);
+                actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
                 actor->flags &= ~0x1000000;
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & 0x50)) {
@@ -3220,7 +3220,7 @@ Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
         if ((actor == explosiveActor) || (actor->params != 1)) {
             actor = actor->next;
         } else {
-            if (func_8002DB48(explosiveActor, actor) <= (actor->shape.rot.z * 10) + 80.0f) {
+            if (Actor_WorldDistToActorXYZ(explosiveActor, actor) <= (actor->shape.rot.z * 10) + 80.0f) {
                 return actor;
             } else {
                 actor = actor->next;
@@ -3937,7 +3937,7 @@ Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, 
         if (actor == refActor || ((actorId != -1) && (actorId != actor->id))) {
             actor = actor->next;
         } else {
-            if (func_8002DB48(refActor, actor) <= range) {
+            if (Actor_WorldDistToActorXYZ(refActor, actor) <= range) {
                 return actor;
             } else {
                 actor = actor->next;

@@ -128,10 +128,10 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 
     // If the boomerang is moving toward a targeted actor, handle setting the proper x and y angle to fly toward it.
     if (target != NULL) {
-        yawTarget = func_8002DAC0(&this->actor, &target->focus.pos);
+        yawTarget = Actor_WorldYawTowardPoint(&this->actor, &target->focus.pos);
         yawDiff = this->actor.world.rot.y - yawTarget;
 
-        pitchTarget = func_8002DB28(&this->actor, &target->focus.pos);
+        pitchTarget = Actor_WorldPitchTowardPoint(&this->actor, &target->focus.pos);
         pitchDiff = this->actor.world.rot.x - pitchTarget;
 
         distXYZScale = (200.0f - Math_Vec3f_DistXYZ(&this->actor.world.pos, &target->focus.pos)) * 0.005f;

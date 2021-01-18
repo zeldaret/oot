@@ -3787,7 +3787,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                     sp4C = 0;
                 }
 
-                func_80837C0C(globalCtx, this, sp4C, 4.0f, 5.0f, func_8002DA78(ac, &this->actor), 20);
+                func_80837C0C(globalCtx, this, sp4C, 4.0f, 5.0f, Actor_WorldYawTowardActor(ac, &this->actor), 20);
             } else if (this->invincibilityTimer != 0) {
                 return 0;
             } else {

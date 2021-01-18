@@ -159,7 +159,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (func_8002DB8C(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
+            if (Actor_WorldDistToActorXZ(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
                 this->actionFunc = EnDoor_AjarWait;
                 this->actor.world.rot.y = -0x1800;
             }
