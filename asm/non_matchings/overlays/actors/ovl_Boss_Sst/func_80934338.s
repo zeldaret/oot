@@ -109,7 +109,7 @@ glabel func_80934338
 /* 07EEC 809344BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07EF0 809344C0 02212821 */  addu    $a1, $s1, $at              
 /* 07EF4 809344C4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 07EF8 809344C8 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809344CC:
 /* 07EFC 809344CC 0C24CE7E */  jal     func_809339F8              

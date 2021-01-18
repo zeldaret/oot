@@ -82,7 +82,7 @@ glabel EnKo_Update
 /* 02A74 80A99824 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 02A78 80A99828 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000198
 /* 02A7C 80A9982C AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 02A80 80A99830 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02A80 80A99830 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02A84 80A99834 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A88 80A99838 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -90,7 +90,7 @@ glabel EnKo_Update
 /* 02A90 80A99840 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02A94 80A99844 02212821 */  addu    $a1, $s1, $at              
 /* 02A98 80A99848 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02A9C 80A9984C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02AA0 80A99850 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02AA4 80A99854 8FB0001C */  lw      $s0, 0x001C($sp)           

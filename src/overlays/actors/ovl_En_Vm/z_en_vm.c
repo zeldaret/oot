@@ -36,20 +36,62 @@ const ActorInit En_Vm_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 25, 70, 0, { 0, 0, 0 } },
 };
 
 static ColliderQuadInit sQuadInit1 = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0x00000000, 0x00, 0x00 }, 0x81, 0x00, 0x00 },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x10 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 static ColliderQuadInit sQuadInit2 = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x09, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -114,7 +156,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
     }
 
-    EnVm_SetupWait(thisx);
+    EnVm_SetupWait(this);
 }
 
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -154,7 +196,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
             if (this->actor.xzDistToLink <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
                 this->actor.yDistToLink <= 80.0f && this->actor.yDistToLink >= -160.0f) {
-                Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xFA0, 0);
+                Math_SmoothStepToS(&this->beamRot.x, pitch, 10, 0xFA0, 0);
                 if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
                                        (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
                     this->timer--;
@@ -187,7 +229,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
     if (this->unk_260 == 2) {
         this->beamRot.y = this->actor.yawTowardsLink;
-        this->beamRot.x = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos.x);
+        this->beamRot.x = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
 
         if (this->beamRot.x > 0x1B91) {
             this->beamRot.x = 0x1B91;
@@ -213,7 +255,7 @@ void EnVm_SetupAttack(EnVm* this) {
     this->beamScale.x = 0.6f;
     this->beamSpeed = 40.0f;
     this->unk_21C = 1;
-    this->colliderQuad1.base.atFlags &= ~2;
+    this->colliderQuad1.base.atFlags &= ~AT_HIT;
     EnVm_SetupAction(this, EnVm_Attack);
 }
 
@@ -227,8 +269,8 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         pitch = 0x1B91;
     }
 
-    if (this->colliderQuad1.base.atFlags & 2) {
-        this->colliderQuad1.base.atFlags &= ~0x2;
+    if (this->colliderQuad1.base.atFlags & AT_HIT) {
+        this->colliderQuad1.base.atFlags &= ~AT_HIT;
         this->timer = 0;
 
         if (this->beamScale.x > 0.1f) {
@@ -237,12 +279,11 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
     }
 
     if (this->beamRot.x < 0xAAA || this->timer == 0) {
-        Math_SmoothStepToF(&this->beamScale, 0.0f, 1.0f, 0.03f, 0.0f);
+        Math_SmoothStepToF(&this->beamScale.x, 0.0f, 1.0f, 0.03f, 0.0f);
         this->unk_260 = 0;
 
         if (this->beamScale.x == 0.0f) {
-            this->beamScale.z = 0.0f;
-            this->beamScale.y = 0.0f;
+            this->beamScale.y = this->beamScale.z = 0.0f;
             EnVm_SetupWait(this);
         }
     } else {
@@ -252,7 +293,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
 
         Math_SmoothStepToS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsLink, 10, 0xDAC, 0);
         Math_SmoothStepToS(&this->beamRot.y, this->actor.yawTowardsLink, 10, 0xDAC, 0);
-        Math_SmoothStepToS(&this->beamRot, pitch, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->beamRot.x, pitch, 10, 0xDAC, 0);
         playerPos = player->actor.posRot.pos;
 
         if (player->actor.groundY > BGCHECK_Y_MIN) {
@@ -265,7 +306,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
 
         if (this->unk_260 > 2) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderQuad1);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderQuad1.base);
         }
 
         this->unk_260 = 3;
@@ -305,7 +346,7 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        Math_SmoothStepToS(&this->beamRot, 0, 10, 0x5DC, 0);
+        Math_SmoothStepToS(&this->beamRot.x, 0, 10, 0x5DC, 0);
         this->timer--;
         SkelAnime_Update(&this->skelAnime);
     }
@@ -343,7 +384,7 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
             bomb->timer = 0;
         }
 
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0xA0);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xA0);
         Actor_Kill(&this->actor);
     }
 }
@@ -351,14 +392,14 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
 void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
-    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder) != NULL) {
+    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder.base) != NULL) {
         this->actor.colChkInfo.health--;
         osSyncPrintf("hp down %d\n", this->actor.colChkInfo.health);
     } else {
-        if (!(this->colliderQuad2.base.acFlags & 2) || this->unk_21C == 2) {
+        if (!(this->colliderQuad2.base.acFlags & AC_HIT) || this->unk_21C == 2) {
             return;
         }
-        this->colliderQuad2.base.acFlags &= ~2;
+        this->colliderQuad2.base.acFlags &= ~AC_HIT;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -397,14 +438,14 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
-    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->colliderCylinder);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
+    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->colliderCylinder.base);
 
     if (this->actor.dmgEffectTimer == 0 && this->actor.colChkInfo.health != 0) {
-        CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderCylinder);
+        CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderCylinder.base);
     }
 
-    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2.base);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += (6500.0f + this->actor.shape.unk_08) * this->actor.scale.y;
 }
@@ -460,16 +501,18 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
                 Matrix_MultVec3f(&D_80B2EB70, &this->colliderQuad1.dim.quad[2]);
                 Matrix_MultVec3f(&sp74, &this->colliderQuad1.dim.quad[1]);
                 Matrix_MultVec3f(&sp68, &this->colliderQuad1.dim.quad[0]);
-                func_80062734(&this->colliderQuad1, &this->colliderQuad1.dim.quad[0], &this->colliderQuad1.dim.quad[1],
-                              &this->colliderQuad1.dim.quad[2], &this->colliderQuad1.dim.quad[3]);
+                Collider_SetQuadVertices(&this->colliderQuad1, &this->colliderQuad1.dim.quad[0],
+                                         &this->colliderQuad1.dim.quad[1], &this->colliderQuad1.dim.quad[2],
+                                         &this->colliderQuad1.dim.quad[3]);
             }
         }
         Matrix_MultVec3f(&D_80B2EB34, &this->colliderQuad2.dim.quad[1]);
         Matrix_MultVec3f(&D_80B2EB40, &this->colliderQuad2.dim.quad[0]);
         Matrix_MultVec3f(&D_80B2EB4C, &this->colliderQuad2.dim.quad[3]);
         Matrix_MultVec3f(&D_80B2EB58, &this->colliderQuad2.dim.quad[2]);
-        func_80062734(&this->colliderQuad2, &this->colliderQuad2.dim.quad[0], &this->colliderQuad2.dim.quad[1],
-                      &this->colliderQuad2.dim.quad[2], &this->colliderQuad2.dim.quad[3]);
+        Collider_SetQuadVertices(&this->colliderQuad2, &this->colliderQuad2.dim.quad[0],
+                                 &this->colliderQuad2.dim.quad[1], &this->colliderQuad2.dim.quad[2],
+                                 &this->colliderQuad2.dim.quad[3]);
     }
 }
 
