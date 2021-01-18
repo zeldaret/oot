@@ -257,7 +257,7 @@ void func_80AEAECC(EnRu1* this, GlobalContext* globalCtx) {
     f32 velocityYHeld = *velocityY;
 
     *velocityY = -4.0f;
-    func_8002E4B4(globalCtx, &this->actor, 19.0f, 25.0f, 30.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 25.0f, 30.0f, 7);
     *velocityY = velocityYHeld;
 }
 

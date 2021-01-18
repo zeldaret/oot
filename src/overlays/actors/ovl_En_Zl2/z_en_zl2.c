@@ -236,7 +236,7 @@ void func_80B4ED18(EnZl2* this, s16 arg1) {
 }
 
 void func_80B4ED2C(EnZl2* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {

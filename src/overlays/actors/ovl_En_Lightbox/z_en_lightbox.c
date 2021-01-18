@@ -106,8 +106,8 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
-                  thisx->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
+                            thisx->colChkInfo.cylRadius, 0x1D);
     thisx->focus.pos = thisx->world.pos;
 }
 

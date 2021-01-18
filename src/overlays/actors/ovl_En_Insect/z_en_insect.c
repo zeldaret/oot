@@ -759,7 +759,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (phi_v0 != 0) {
             phi_v0 |= 0x40;
-            func_8002E4B4(globalCtx, &this->actor, 8.0f, 5.0f, 0.0f, phi_v0);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 8.0f, 5.0f, 0.0f, phi_v0);
         }
 
         if (Actor_HasParent(&this->actor, globalCtx)) {

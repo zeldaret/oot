@@ -316,9 +316,9 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_KNOB) {
-            func_8002E4B4(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
         } else {
-            func_8002E4B4(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
         }
     }
 

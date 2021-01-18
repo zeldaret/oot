@@ -248,7 +248,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    func_8002E4B4(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {
@@ -267,8 +267,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) ||
-            ((this->bombCollider.base.ocFlags1 & OC1_HIT) && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
+                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {

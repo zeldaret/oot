@@ -215,7 +215,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->bounceX = 1;
         this->partFlags = 0xFFFF;
-        func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
         EnKanban_SetFloorRot(this);
         if (gSaveContext.linkAge == 1) {
             this->actor.world.pos.y -= 15.0f;
@@ -430,7 +430,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             u8 onGround;
 
             Actor_MoveForward(&this->actor);
-            func_8002E4B4(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
 
             tempX = this->actor.world.pos.x;
             tempY = this->actor.world.pos.y;
@@ -439,7 +439,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             tempYDistToWater = this->actor.yDistToWater;
 
             this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
-            func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
             EnKanban_SetFloorRot(this);
 
             this->actor.world.pos.x = tempX;
@@ -603,7 +603,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
                 Actor_MoveForward(&this->actor);
                 if (this->actor.speedXZ != 0.0f) {
-                    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 5);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 5);
                     if (this->actor.bgCheckFlags & 8) {
                         this->actor.speedXZ *= -0.5f;
                         if (this->spinVel.y > 0) {

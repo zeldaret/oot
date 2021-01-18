@@ -611,7 +611,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             sp34 = false;
             Actor_MoveForward(&this->actor);
             Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
-            func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
                 SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;

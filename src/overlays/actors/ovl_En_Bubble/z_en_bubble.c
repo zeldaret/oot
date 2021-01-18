@@ -403,7 +403,7 @@ void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBubble* this = THIS;
 
     func_8002D7EC(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
     this->actionFunc(this, globalCtx);
     Actor_SetFocusToWorld(&this->actor, this->actor.shape.yOffset);
 }

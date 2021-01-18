@@ -118,7 +118,7 @@ void func_8097C9DC(DemoGo* this) {
 }
 
 void func_8097CA30(DemoGo* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 void func_8097CA78(DemoGo* this, GlobalContext* globalCtx) {

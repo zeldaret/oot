@@ -148,7 +148,7 @@ void func_8098E554(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {

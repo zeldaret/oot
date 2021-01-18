@@ -311,7 +311,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx) {} // necessary to match
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);

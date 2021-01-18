@@ -174,7 +174,7 @@ void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2744(EnRu2* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
 s32 EnRu2_FrameUpdateMatrix(EnRu2* this) {

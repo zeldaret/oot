@@ -1109,7 +1109,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
     this->unk_410(this);
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);

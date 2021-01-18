@@ -271,7 +271,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;

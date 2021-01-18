@@ -383,11 +383,11 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupDisappear(this);
         return;
     }
-    Math_ApproachF(&this->actor.home.pos.y,
-                   ((player->actor.world.pos.y > this->actor.floorHeight) ? player->actor.world.pos.y
-                                                                           : this->actor.floorHeight) +
-                       13.0f,
-                   0.2f, 5.0f);
+    Math_ApproachF(
+        &this->actor.home.pos.y,
+        ((player->actor.world.pos.y > this->actor.floorHeight) ? player->actor.world.pos.y : this->actor.floorHeight) +
+            13.0f,
+        0.2f, 5.0f);
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;
 }
 
@@ -520,7 +520,8 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (Actor_WorldDistToPointXZ(&this->actor, &sFieldMiddle) > 3000.0f) {
-        phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000) * 0.2f;
+        phi_t0 = (s16)(this->actor.yawTowardsPlayer - Actor_WorldYawTowardPoint(&this->actor, &sFieldMiddle) - 0x8000) *
+                 0.2f;
     } else {
         phi_t0 = 0;
     }
@@ -621,7 +622,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
 }
 
 void EnPoField_SoulUpdateProperties(EnPoField* this, s32 arg1) {
@@ -873,7 +874,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         Actor_SetFocusToWorld(&this->actor, 42.0f);
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
         func_80AD619C(this);
         func_80AD6330(this);
         Collider_UpdateCylinder(&this->actor, &this->collider);

@@ -90,7 +90,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
     }
 }
 

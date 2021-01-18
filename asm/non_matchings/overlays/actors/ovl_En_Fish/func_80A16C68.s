@@ -51,7 +51,7 @@ glabel func_80A16C68
 /* 01A84 80A16D04 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 01A88 80A16D08 3C074080 */  lui     $a3, 0x4080                ## $a3 = 40800000
 /* 01A8C 80A16D0C AFA20014 */  sw      $v0, 0x0014($sp)           
-/* 01A90 80A16D10 0C00B92D */  jal     func_8002E4B4              
+/* 01A90 80A16D10 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01A94 80A16D14 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80A16D18:
 /* 01A98 80A16D18 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000

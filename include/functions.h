@@ -415,7 +415,7 @@ s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx);
 s32 func_8002E084(Actor* actor, s16 arg1);
 s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2);
 s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3);
-void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
 Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag);

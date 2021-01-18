@@ -129,7 +129,7 @@ glabel EnSkj_Update
 /* 0268C 80B0093C 44070000 */  mfc1    $a3, $f0                   
 /* 02690 80B00940 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02694 80B00944 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02698 80B00948 0C00B92D */  jal     func_8002E4B4              
+/* 02698 80B00948 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 0269C 80B0094C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 026A0 80B00950 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B00954:

@@ -1209,7 +1209,7 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     this->actor.floorHeight = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId,
-                                                           &this->actor, &this->actor.world.pos);
+                                                          &this->actor, &this->actor.world.pos);
     this->actor.shape.shadowAlpha = 0x32;
 }
 

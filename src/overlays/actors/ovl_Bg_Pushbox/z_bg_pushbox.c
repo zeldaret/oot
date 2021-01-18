@@ -68,7 +68,7 @@ void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
     Math_StepToF(&thisx->speedXZ, 0.0f, 0.2f);
     thisx->world.rot.y = this->dyna.unk_158;
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
 }
 
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {

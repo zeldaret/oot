@@ -45,7 +45,7 @@ glabel func_80ABDBF8
 /* 010EC 80ABDC9C E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
 /* 010F0 80ABDCA0 E7A00034 */  swc1    $f0, 0x0034($sp)           
 /* 010F4 80ABDCA4 AFB80014 */  sw      $t8, 0x0014($sp)           
-/* 010F8 80ABDCA8 0C00B92D */  jal     func_8002E4B4              
+/* 010F8 80ABDCA8 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 010FC 80ABDCAC E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01100 80ABDCB0 C7A00034 */  lwc1    $f0, 0x0034($sp)           
 /* 01104 80ABDCB4 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028

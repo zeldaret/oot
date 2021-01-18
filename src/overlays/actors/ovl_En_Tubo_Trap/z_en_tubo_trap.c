@@ -281,7 +281,7 @@ void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
     Actor_SetFocusToWorld(&this->actor, 0.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

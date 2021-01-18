@@ -80,7 +80,7 @@ glabel EnZf_Init
 /* 003C8 80B44418 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003CC 80B4441C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 003D0 80B44420 3C064296 */  lui     $a2, 0x4296                ## $a2 = 42960000
-/* 003D4 80B44424 0C00B92D */  jal     func_8002E4B4              
+/* 003D4 80B44424 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 003D8 80B44428 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 003DC 80B4442C 240B00FF */  addiu   $t3, $zero, 0x00FF         ## $t3 = 000000FF
 /* 003E0 80B44430 240C0028 */  addiu   $t4, $zero, 0x0028         ## $t4 = 00000028

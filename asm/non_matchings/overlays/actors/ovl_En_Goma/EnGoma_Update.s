@@ -106,7 +106,7 @@ glabel EnGoma_Update
 /* 01D08 80A4ABC8 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 01D0C 80A4ABCC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01D10 80A4ABD0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01D14 80A4ABD4 0C00B92D */  jal     func_8002E4B4              
+/* 01D14 80A4ABD4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01D18 80A4ABD8 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 01D1C 80A4ABDC 0C292A59 */  jal     func_80A4A964              
 /* 01D20 80A4ABE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

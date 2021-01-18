@@ -344,7 +344,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->gravity != 0.0f) {
         DREG(6) = 1;
-        func_8002E4B4(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
         DREG(6) = 0;
     }
 
@@ -364,14 +364,14 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_BOUND);
             Actor_MoveForward(thisx);
             DREG(6) = 1;
-            func_8002E4B4(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
             DREG(6) = 0;
             thisx->speedXZ *= 0.7f;
             thisx->bgCheckFlags &= ~8;
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) ||
-            ((this->bombCollider.base.ocFlags1 & OC1_HIT) && (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
+                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->unk_200 = 1;
             this->timer = 0;
         } else {

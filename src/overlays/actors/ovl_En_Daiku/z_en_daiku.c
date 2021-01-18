@@ -195,7 +195,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[0].anim),
                      sAnimations[0].mode, sAnimations[0].transitionRate);
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     this->actor.targetMode = 6;
     this->currentAnimIndex = -1;
@@ -567,7 +567,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->subCamActive) {
         EnDaiku_UpdateSubCamera(this, globalCtx);

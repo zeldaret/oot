@@ -267,8 +267,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         // Snap to floor, or remove if over void
         this->actor.world.pos.y += 200.0f;
-        floorY =
-            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &outPoly, &bgId, &this->actor, &this->actor.world.pos);
+        floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &outPoly, &bgId, &this->actor, &this->actor.world.pos);
 
         if (floorY > BGCHECK_Y_MIN) {
             this->actor.world.pos.y = floorY;

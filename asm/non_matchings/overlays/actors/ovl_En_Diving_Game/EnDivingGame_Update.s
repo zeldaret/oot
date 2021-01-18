@@ -129,7 +129,7 @@ glabel EnDivingGame_Update
 /* 014F4 809EED64 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 014F8 809EED68 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 014FC 809EED6C 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 01500 809EED70 0C00B92D */  jal     func_8002E4B4              
+/* 01500 809EED70 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01504 809EED74 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01508 809EED78 2606034C */  addiu   $a2, $s0, 0x034C           ## $a2 = 0000034C
 /* 0150C 809EED7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000034C

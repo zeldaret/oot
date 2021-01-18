@@ -79,7 +79,7 @@ glabel BossSst_Update
 /* 07B68 80934138 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 07B6C 8093413C 3C064248 */  lui     $a2, 0x4248                ## $a2 = 42480000
 /* 07B70 80934140 3C074302 */  lui     $a3, 0x4302                ## $a3 = 43020000
-/* 07B74 80934144 0C00B92D */  jal     func_8002E4B4              
+/* 07B74 80934144 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 07B78 80934148 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 07B7C 8093414C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 07B80 80934150 0C00B56E */  jal     Actor_SetFocusToWorld

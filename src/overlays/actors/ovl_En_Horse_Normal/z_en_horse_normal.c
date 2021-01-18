@@ -580,7 +580,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.world.pos.z < -2400.0f) {
         this->actor.world.pos.z = -2400.0f;
     }

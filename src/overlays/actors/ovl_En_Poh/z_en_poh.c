@@ -741,7 +741,7 @@ void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
         return;
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
 }
 
 void func_80ADFA90(EnPoh* this, s32 arg1) {

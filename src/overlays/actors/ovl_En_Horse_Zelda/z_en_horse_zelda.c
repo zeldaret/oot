@@ -237,7 +237,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
     this->actor.speedXZ = 0.0f;
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);

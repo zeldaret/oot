@@ -210,7 +210,7 @@ void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {

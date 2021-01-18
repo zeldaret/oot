@@ -355,7 +355,7 @@ void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.flags & 0x2000) != 0x2000) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f, 5);
         this->actionFunc(this, globalCtx);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

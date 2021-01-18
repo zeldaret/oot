@@ -162,7 +162,7 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     if (!(this->actor.bgCheckFlags & 1)) {
         ItemEtcetera_SpawnSparkles(this, globalCtx);

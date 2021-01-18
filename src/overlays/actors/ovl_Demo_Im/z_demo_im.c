@@ -219,7 +219,7 @@ void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985018(DemoIm* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 s32 func_80985060(DemoIm* this) {

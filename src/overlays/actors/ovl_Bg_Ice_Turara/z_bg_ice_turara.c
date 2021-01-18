@@ -180,7 +180,7 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
-        func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
         this->dyna.actor.world.pos.y -= 40.0f;
         Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

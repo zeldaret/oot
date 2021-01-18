@@ -378,8 +378,8 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
     Matrix_RotateY(BREG(51) / 100.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, (BREG(63) / 10.0f) + 1.0f, MTXMODE_APPLY);
     tempx = (BREG(62) / 10.0f) + 2.0f;
-    tempz =
-        ((player->actor.world.pos.y - player->actor.floorHeight + BREG(54)) * (BREG(55) - 5) / 10.0f) + BREG(58) - 20.0f;
+    tempz = ((player->actor.world.pos.y - player->actor.floorHeight + BREG(54)) * (BREG(55) - 5) / 10.0f) + BREG(58) -
+            20.0f;
     Matrix_Translate(tempx, 0.0f, tempz, MTXMODE_APPLY);
     Matrix_Scale(((BREG(56) - 250) / 1000.0f) + 0.6f, 1.0f, ((BREG(59) - 250) / 1000.0f) + 0.6f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_sda.c", 860),

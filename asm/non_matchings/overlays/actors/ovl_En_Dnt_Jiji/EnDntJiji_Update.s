@@ -130,7 +130,7 @@ glabel EnDntJiji_Update
 /* 012C4 809F2DA4 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 012C8 809F2DA8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 012CC 809F2DAC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 012D0 809F2DB0 0C00B92D */  jal     func_8002E4B4              
+/* 012D0 809F2DB0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 012D4 809F2DB4 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 012D8 809F2DB8 2606025C */  addiu   $a2, $s0, 0x025C           ## $a2 = 0000025C
 /* 012DC 809F2DBC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000025C

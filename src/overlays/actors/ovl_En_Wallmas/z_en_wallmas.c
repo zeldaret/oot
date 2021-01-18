@@ -560,7 +560,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnWallmas_Drop) {
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
     } else if (this->actor.world.pos.y <= this->yTarget) {
         this->actor.world.pos.y = this->yTarget;
         this->actor.velocity.y = 0.0f;

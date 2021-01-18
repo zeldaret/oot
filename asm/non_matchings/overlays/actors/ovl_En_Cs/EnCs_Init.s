@@ -58,7 +58,7 @@ glabel EnCs_Init
 /* 001EC 809E1A9C 44070000 */  mfc1    $a3, $f0
 /* 001F0 809E1AA0 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001F4 809E1AA4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 001F8 809E1AA8 0C00B92D */  jal     func_8002E4B4
+/* 001F8 809E1AA8 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 001FC 809E1AAC E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00200 809E1AB0 3C03809E */  lui     $v1, %hi(D_809E2918)       ## $v1 = 809E0000
 /* 00204 809E1AB4 24632918 */  addiu   $v1, $v1, %lo(D_809E2918)  ## $v1 = 809E2918

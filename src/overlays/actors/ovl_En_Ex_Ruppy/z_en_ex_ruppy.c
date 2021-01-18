@@ -373,7 +373,7 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
 UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0 };

@@ -806,7 +806,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
         case 9:
             break;
         default:
-            func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             break;

@@ -71,7 +71,7 @@ static ColliderJntSphInit sJntSphInit = {
 static InitChainEntry sInitChainClasp[] = {
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE), ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 40, ICHAIN_CONTINUE),          ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 40, ICHAIN_CONTINUE),    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChainLadder[] = {
@@ -254,12 +254,12 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx) {
         if (this->bounceCounter >= ARRAY_COUNT(bounceSpeed)) {
             BgMoriHashigo_SetupLadderRest(this);
         } else {
-            func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
             thisx->velocity.y = bounceSpeed[this->bounceCounter];
             this->bounceCounter++;
         }
     } else {
-        func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
     }
 }
 

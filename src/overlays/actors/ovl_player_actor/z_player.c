@@ -9456,7 +9456,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 
     Math_Vec3f_Copy(&spB4, &this->actor.world.pos);
-    func_8002E4B4(globalCtx, &this->actor, spAC, spB0, spA8, spA4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, spAC, spB0, spA8, spA4);
 
     if (this->actor.bgCheckFlags & 0x10) {
         this->actor.velocity.y = 0.0f;
@@ -11051,7 +11051,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
             }
         }
 
-        func_8002E4B4(globalCtx, &this->actor, 26.0f, 6.0f, this->ageProperties->unk_00, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 6.0f, this->ageProperties->unk_00, 7);
         func_8083F360(globalCtx, this, 26.0f, this->ageProperties->unk_3C, 50.0f, -20.0f);
     }
 

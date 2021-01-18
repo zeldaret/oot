@@ -293,7 +293,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
     if (this->actor.bgCheckFlags & 8) {
         Actor_Kill(&this->actor);
     }

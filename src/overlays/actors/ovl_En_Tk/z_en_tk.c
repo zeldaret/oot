@@ -679,7 +679,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->actor);
 
-    func_8002E4B4(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
 
     this->actionFunc(this, globalCtx);
 

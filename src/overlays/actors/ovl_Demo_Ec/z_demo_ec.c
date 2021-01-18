@@ -177,7 +177,7 @@ s32 DemoEc_UpdateSkelAnime(DemoEc* this) {
 }
 
 void DemoEc_UpdateBgFlags(DemoEc* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 30.0f, 25.0f, 30.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 25.0f, 30.0f, 7);
 }
 
 void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {

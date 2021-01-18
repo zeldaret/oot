@@ -137,7 +137,7 @@ glabel EnDaikuKakariko_Init
 /* 00294 809E45B4 44070000 */  mfc1    $a3, $f0
 /* 00298 809E45B8 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 0029C 809E45BC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 002A0 809E45C0 0C00B92D */  jal     func_8002E4B4
+/* 002A0 809E45C0 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 002A4 809E45C4 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 002A8 809E45C8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 002AC 809E45CC 44818000 */  mtc1    $at, $f16                  ## $f16 = 3.00

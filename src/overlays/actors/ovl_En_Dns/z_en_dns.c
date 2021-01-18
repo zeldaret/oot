@@ -487,7 +487,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     if (this->standOnGround) {
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
     }
     if (this->maintainCollider) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

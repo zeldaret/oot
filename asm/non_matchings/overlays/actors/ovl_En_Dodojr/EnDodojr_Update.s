@@ -32,7 +32,7 @@ glabel EnDodojr_Update
 /* 01940 809F7D00 468031A0 */  cvt.s.w $f6, $f6                   
 /* 01944 809F7D04 44062000 */  mfc1    $a2, $f4                   
 /* 01948 809F7D08 44073000 */  mfc1    $a3, $f6                   
-/* 0194C 809F7D0C 0C00B92D */  jal     func_8002E4B4              
+/* 0194C 809F7D0C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01950 809F7D10 00000000 */  nop
 /* 01954 809F7D14 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
 /* 01958 809F7D18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

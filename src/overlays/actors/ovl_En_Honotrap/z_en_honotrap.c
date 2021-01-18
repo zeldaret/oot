@@ -265,8 +265,8 @@ void EnHonotrap_EyeOpen(EnHonotrap* this, GlobalContext* globalCtx) {
         cos = Math_CosS(this->actor.shape.rot.y);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_HONOTRAP,
                            (sin * 12.0f) + this->actor.home.pos.x, this->actor.home.pos.y - 10.0f,
-                           (cos * 12.0f) + this->actor.home.pos.z, this->actor.home.rot.x,
-                           this->actor.home.rot.y, this->actor.home.rot.z, HONOTRAP_FLAME_MOVE);
+                           (cos * 12.0f) + this->actor.home.pos.z, this->actor.home.rot.x, this->actor.home.rot.y,
+                           this->actor.home.rot.z, HONOTRAP_FLAME_MOVE);
     }
 }
 
@@ -331,7 +331,7 @@ void EnHonotrap_FlameDrop(EnHonotrap* this, GlobalContext* globalCtx) {
         if (this->actor.velocity.y > 0.0f) {
             this->actor.world.pos.x += this->actor.velocity.x;
             this->actor.world.pos.z += this->actor.velocity.z;
-            func_8002E4B4(globalCtx, &this->actor, 7.0f, 12.0f, 0.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 12.0f, 0.0f, 5);
         }
         if (!Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight + 1.0f, this->actor.velocity.y)) {
             this->actor.velocity.y += 1.0f;
@@ -368,7 +368,7 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     ready = Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x) & 1;
     ready &= Math_StepToF(&this->actor.world.pos.y, this->targetPos.y, speed.y);
     ready &= Math_StepToF(&this->actor.world.pos.z, this->targetPos.z, speed.z);
-    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
 
     if (this->collider.tris.base.atFlags & AT_BOUNCED) {
         Player* player = PLAYER;
@@ -420,7 +420,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
     }
     this->actor.velocity.y *= 0.95f;
     func_8002D7EC(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
     if (this->collider.cyl.base.atFlags & AT_BOUNCED) {
         Player* player = PLAYER;
         Vec3s shieldRot;
@@ -449,7 +449,7 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx) {
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
     if (ready) {
         Actor_Kill(&this->actor);
     }

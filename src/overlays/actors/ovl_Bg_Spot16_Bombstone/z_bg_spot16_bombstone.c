@@ -522,7 +522,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002E4B4(globalCtx, actor, 17.5f, 35.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 17.5f, 35.0f, 0.0f, 5);
 }
 
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -100,7 +100,7 @@ glabel EnTrap_Init
 /* 00168 80B247C8 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 0016C 80B247CC AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00170 80B247D0 44070000 */  mfc1    $a3, $f0                   
-/* 00174 80B247D4 0C00B92D */  jal     func_8002E4B4              
+/* 00174 80B247D4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00178 80B247D8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 0017C 80B247DC 26020024 */  addiu   $v0, $s0, 0x0024           ## $v0 = 00000024
 /* 00180 80B247E0 8C4D0000 */  lw      $t5, 0x0000($v0)           ## 00000024

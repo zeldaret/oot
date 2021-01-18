@@ -161,7 +161,8 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
             EnShopnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed && ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f)) &&
+    if (hasSlowPlaybackSpeed &&
+        ((this->actor.xzDistToPlayer > 160.0f) && (fabsf(this->actor.yDistToPlayer) < 120.0f)) &&
         ((this->animFlagAndTimer == 0) || (this->actor.xzDistToPlayer < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
@@ -248,7 +249,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
     if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -257,7 +258,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetFocusToWorld(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
         Actor_SetFocusToWorld(&this->actor,
-                        20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
+                              20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
     } else {
         Actor_SetFocusToWorld(&this->actor, 20.0f);
     }

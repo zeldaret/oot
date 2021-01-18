@@ -1402,7 +1402,7 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A392D8(this, globalCtx);
     if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
         this->actionFunc(this, globalCtx);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.focus.pos.y += 40.0f;

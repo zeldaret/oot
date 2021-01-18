@@ -1024,7 +1024,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002D7EC(&this->actor);
         }
 
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
         if ((this->stunTimer == 0) && (this->swayTimer == 0)) {
             // run the current action if the skulltulla isn't stunned

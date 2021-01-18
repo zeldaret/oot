@@ -495,7 +495,8 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
             Actor_MoveForward(&this->actor);
-            func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius,
+                                    this->collider.dim.height, 0x1D);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {
@@ -506,7 +507,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetFocusToWorld(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetFocusToWorld(&this->actor,
-                            20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_060024CC)));
+                                  20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_060024CC)));
         } else {
             Actor_SetFocusToWorld(&this->actor, 20.0f);
         }

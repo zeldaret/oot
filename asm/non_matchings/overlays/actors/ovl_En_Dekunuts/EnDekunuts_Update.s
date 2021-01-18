@@ -30,7 +30,7 @@ glabel EnDekunuts_Update
 /* 01338 809EA898 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 0133C 809EA89C 46803220 */  cvt.s.w $f8, $f6                   
 /* 01340 809EA8A0 44072000 */  mfc1    $a3, $f4                   
-/* 01344 809EA8A4 0C00B92D */  jal     func_8002E4B4              
+/* 01344 809EA8A4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01348 809EA8A8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0134C 809EA8AC 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 01350 809EA8B0 AFA50028 */  sw      $a1, 0x0028($sp)           

@@ -53,7 +53,7 @@ glabel EnMm_Init
 /* 001DC 80AAD94C 44070000 */  mfc1    $a3, $f0
 /* 001E0 80AAD950 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001E4 80AAD954 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 001E8 80AAD958 0C00B92D */  jal     func_8002E4B4
+/* 001E8 80AAD958 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 001EC 80AAD95C E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 001F0 80AAD960 3C0380AB */  lui     $v1, %hi(D_80AAEB38)       ## $v1 = 80AB0000
 /* 001F4 80AAD964 2463EB38 */  addiu   $v1, $v1, %lo(D_80AAEB38)  ## $v1 = 80AAEB38

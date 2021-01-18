@@ -1061,7 +1061,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
 
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
             this->actor.flags |= 0x1000000;

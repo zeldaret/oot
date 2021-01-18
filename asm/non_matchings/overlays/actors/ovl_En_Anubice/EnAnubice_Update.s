@@ -223,7 +223,7 @@ glabel EnAnubice_Update
 /* 00F08 809B2028 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00F0C 809B202C 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00F10 809B2030 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00F14 809B2034 0C00B92D */  jal     func_8002E4B4              
+/* 00F14 809B2034 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00F18 809B2038 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 00F1C 809B203C 1000000B */  beq     $zero, $zero, .L809B206C   
 /* 00F20 809B2040 8E020250 */  lw      $v0, 0x0250($s0)           ## 00000250
@@ -235,7 +235,7 @@ glabel EnAnubice_Update
 /* 00F34 809B2054 44060000 */  mfc1    $a2, $f0                   
 /* 00F38 809B2058 44070000 */  mfc1    $a3, $f0                   
 /* 00F3C 809B205C AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 00F40 809B2060 0C00B92D */  jal     func_8002E4B4              
+/* 00F40 809B2060 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00F44 809B2064 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 00F48 809B2068 8E020250 */  lw      $v0, 0x0250($s0)           ## 00000250
 .L809B206C:

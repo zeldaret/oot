@@ -433,7 +433,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocusToWorld(&this->actor, 60.0f);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

@@ -793,7 +793,7 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
             (this->unk_234 != 0)) {
             Actor_MoveForward(thisx);
         }
-        func_8002E4B4(globalCtx, thisx, 20.0f, 30.0f, 21.0f, 0x1F);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 30.0f, 21.0f, 0x1F);
     }
     Collider_UpdateCylinder(thisx, &this->collider2);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);

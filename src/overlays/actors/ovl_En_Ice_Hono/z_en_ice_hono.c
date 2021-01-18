@@ -243,7 +243,7 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
         EnIceHono_SetupActionSpreadFlames(this);
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = this->actor.scale.x * 4000.0f;
@@ -271,7 +271,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     }
     this->actor.scale.z = this->actor.scale.x;
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 4);
     if (this->timer < 25) {
         this->alpha -= 10;
         this->alpha = CLAMP(this->alpha, 0, 255);
@@ -322,7 +322,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
     this->actor.scale.z = this->actor.scale.x;
     Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
 
     if (this->timer < 25) {
         this->alpha -= 10;

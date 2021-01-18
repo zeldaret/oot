@@ -200,7 +200,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
     Actor_SetFocusToWorld(&this->actor, 42.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

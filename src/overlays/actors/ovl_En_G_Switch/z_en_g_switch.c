@@ -434,7 +434,7 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
         (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
     }
     if (this->actor.draw != NULL) {
         if (this->type == ENGSWITCH_TARGET_RUPEE) {

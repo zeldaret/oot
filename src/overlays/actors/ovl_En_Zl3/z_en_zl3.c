@@ -179,7 +179,7 @@ void func_80B53614(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B5366C(EnZl3* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 void func_80B536B4(EnZl3* this) {

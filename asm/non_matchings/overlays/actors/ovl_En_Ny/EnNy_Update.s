@@ -97,7 +97,7 @@ glabel EnNy_Update
 /* 00A40 80ABD5F0 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 00A44 80ABD5F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A48 80ABD5F8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
-/* 00A4C 80ABD5FC 0C00B92D */  jal     func_8002E4B4              
+/* 00A4C 80ABD5FC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A50 80ABD600 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 00A54 80ABD604 C6480028 */  lwc1    $f8, 0x0028($s2)           ## 00000028
 /* 00A58 80ABD608 E65601F0 */  swc1    $f22, 0x01F0($s2)          ## 000001F0

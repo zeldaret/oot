@@ -1202,7 +1202,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     return 1;
 }
 
-void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     f32 sp74;
     s32 pad;
     Vec3f sp64;
@@ -3381,7 +3381,7 @@ s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
     sp3C = Math_CosS(arg3) * arg2;
     actor->world.pos.x += sp40;
     actor->world.pos.z += sp3C;
-    func_8002E4B4(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
     Math_Vec3f_Copy(&actor->world.pos, &sp30);
 
     ret = actor->bgCheckFlags & 1;
@@ -3911,8 +3911,8 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002E4B4(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
-                  actor->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
+                            actor->colChkInfo.cylRadius, 0x1D);
 
     return ret;
 }

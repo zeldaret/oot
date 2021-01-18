@@ -530,7 +530,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->movementFlags & ENBOX_MOVE_IMMOBILE)) {
         Actor_MoveForward(&this->dyna.actor);
-        func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 0x1C);
     }
 
     switch (this->type) {

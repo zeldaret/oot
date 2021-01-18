@@ -912,7 +912,7 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->colChkInfo.damageEffect != 0xE) {
         this->actionFunc(this, globalCtx);
         Actor_MoveForward(thisx);
-        func_8002E4B4(globalCtx, thisx, 25.0f, 40.0f, 20.0f, this->unk_2DC);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 40.0f, 20.0f, this->unk_2DC);
         // If on water, snap feet to surface and spawn ripples
         if ((this->actor.params == TEKTITE_BLUE) && (thisx->bgCheckFlags & 0x20)) {
             floorPoly = thisx->floorPoly;

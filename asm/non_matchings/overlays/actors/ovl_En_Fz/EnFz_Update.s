@@ -94,7 +94,7 @@ glabel EnFz_Update
 /* 01438 80A211F8 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 0143C 80A211FC 44060000 */  mfc1    $a2, $f0                   
 /* 01440 80A21200 44070000 */  mfc1    $a3, $f0                   
-/* 01444 80A21204 0C00B92D */  jal     func_8002E4B4              
+/* 01444 80A21204 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01448 80A21208 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L80A2120C:
 /* 0144C 80A2120C 920E0260 */  lbu     $t6, 0x0260($s0)           ## 00000260
