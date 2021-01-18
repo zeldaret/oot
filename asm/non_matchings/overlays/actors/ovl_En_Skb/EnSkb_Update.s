@@ -76,7 +76,7 @@ glabel EnSkb_Update
 /* 01370 80AFDD10 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80AFDD14:
 /* 01374 80AFDD14 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01378 80AFDD18 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0137C 80AFDD1C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01380 80AFDD20 8FB0001C */  lw      $s0, 0x001C($sp)           

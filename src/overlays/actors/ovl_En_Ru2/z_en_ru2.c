@@ -43,8 +43,14 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 30, 100, 0, { 0 } },
 };
@@ -96,17 +102,14 @@ void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
-    s32 pad;
-    ColliderCylinder* collider = &this->collider;
-    Actor* thisx = &this->actor;
-    s32 pad2[2];
+    s32 pad[5];
 
-    Collider_CylinderUpdate(thisx, collider);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void EnRu2_Destroy(Actor* thisx, GlobalContext* globalCtx) {

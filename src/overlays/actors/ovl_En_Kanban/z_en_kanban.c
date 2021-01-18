@@ -92,8 +92,22 @@ const ActorInit En_Kanban_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 50, 5, { 0, 0, 0 } },
 };
 
@@ -263,19 +277,19 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->partFlags == 0xFFFF) {
                 EnKanban_Message(this, globalCtx);
             }
-            if ((this->invincibilityTimer == 0) && (this->collider.base.acFlags & 2)) {
-                this->collider.base.acFlags &= ~2;
+            if ((this->invincibilityTimer == 0) && (this->collider.base.acFlags & AC_HIT)) {
+                this->collider.base.acFlags &= ~AC_HIT;
                 this->invincibilityTimer = 6;
                 piece = (EnKanban*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN,
                                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                                       this->actor.posRot.pos.z, this->actor.shape.rot.x,
                                                       this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
-                    ColliderBody* hitItem = this->collider.body.acHitItem;
+                    ColliderInfo* hitItem = this->collider.info.acHitInfo;
                     s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (hitItem->toucher.flags & 0x700) {
+                    if (hitItem->toucher.dmgFlags & 0x700) {
                         this->cutType = sCutTypes[player->swordAnimation];
                     } else {
                         this->cutType = CUT_POST;
@@ -384,7 +398,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
             this->actor.posRot2.pos = this->actor.posRot.pos;
             this->actor.posRot2.pos.y += 44.0f;
-            Collider_CylinderUpdate(&this->actor, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToLink > 500.0f) {

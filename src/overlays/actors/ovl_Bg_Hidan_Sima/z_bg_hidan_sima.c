@@ -27,6 +27,44 @@ const ActorInit Bg_Hidan_Sima_InitVars = {
     (ActorFunc)BgHidanSima_Update,
     (ActorFunc)BgHidanSima_Draw,
 };
+
+static ColliderJntSphElementInit D_8088F1A0[2] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 1, { { 0, 40, 100 }, 22 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 1, { { 0, 40, 145 }, 30 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_8088F1E8 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
+    2,
+    D_8088F1A0,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Init.s")
 

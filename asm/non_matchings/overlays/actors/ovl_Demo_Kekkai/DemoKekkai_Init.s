@@ -54,11 +54,11 @@ glabel DemoKekkai_Init
               
 /* 000C8 8098D098 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 8098D09C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000D0 8098D0A0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000D0 8098D0A0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000D4 8098D0A4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 000D8 8098D0A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000DC 8098D0AC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000DC 8098D0AC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000E0 8098D0B0 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000E4 8098D0B4 8604001C */  lh      $a0, 0x001C($s0)           ## 0000001C

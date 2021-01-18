@@ -71,49 +71,105 @@ const ActorInit Obj_Switch_InitVars = {
 
 static f32 sHeights[] = { 10, 10, 0, 30, 30 };
 
-static ColliderTrisItemInit D_80B9EC34[2] = {
+static ColliderTrisElementInit D_80B9EC34[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { -20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, 20.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, -20.0f } } },
     },
 };
 
 static ColliderTrisInit sRustyFloorTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     D_80B9EC34,
 };
 
-static ColliderTrisItemInit D_80B9ECBC[2] = {
+static ColliderTrisElementInit D_80B9ECBC[2] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F824, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F824, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 0.0f, 23.0f, 8.5f }, { 0.0f, -23.0f, 8.5f }, { 23.0f, 0.0f, 8.5f } } },
     },
 };
 
 static ColliderTrisInit trisColliderEye = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     D_80B9ECBC,
 };
 
-static ColliderJntSphItemInit D_80B9ED44[1] = {
+static ColliderJntSphElementInit D_80B9ED44[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xEFC1FFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { 0, 300, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sCyrstalJntSphereInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
     D_80B9ED44,
 };
@@ -160,7 +216,7 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, Col
                   this->dyna.actor.posRot.pos.y + this->dyna.actor.shape.unk_08 * this->dyna.actor.scale.y,
                   this->dyna.actor.posRot.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
-    func_800628A4(0, colliderJntSph);
+    Collider_UpdateSpheres(0, colliderJntSph);
 }
 
 void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, ColliderTrisInit* colliderTrisInit) {
@@ -174,11 +230,11 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, Colli
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
-            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->list[i].dim.vtx[j], this->dyna.actor.initPosRot.rot.y);
+            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->elements[i].dim.vtx[j], this->dyna.actor.initPosRot.rot.y);
             Math_Vec3f_Sum(&pos[j], &this->dyna.actor.posRot.pos, &pos[j]);
         }
 
-        func_800627A0(colliderTris, i, &pos[0], &pos[1], &pos[2]);
+        Collider_SetTrisVertices(colliderTris, i, &pos[0], &pos[1], &pos[2]);
     }
 }
 
@@ -263,7 +319,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.unk_1F = 4;
     }
 
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->dyna.actor.params >> 7 & 1) && (ObjSwitch_SpawnIce(this, globalCtx) == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
@@ -326,10 +382,10 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params & 7) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        if (this->tris.col.base.acFlags & 2) {
+        if (this->tris.col.base.acFlags & AC_HIT) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, globalCtx);
-            this->tris.col.base.acFlags &= ~2;
+            this->tris.col.base.acFlags &= ~AC_HIT;
         } else {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->tris.col.base);
         }
@@ -442,7 +498,7 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
-    if ((this->tris.col.base.acFlags & 2) && !(this->unk_17F & 2)) {
+    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2)) {
         collidingActor = this->tris.col.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->posRot.rot.y - this->dyna.actor.shape.rot.y;
@@ -544,14 +600,14 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 void ObjSwitch_CrystalOff(ObjSwitch* this, GlobalContext* globalCtx) {
     switch ((this->dyna.actor.params >> 4 & 7)) {
         case OBJSWITCH_SUBTYPE_CRYSTAL_0:
-            if ((this->jntSph.col.base.acFlags & 2) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, globalCtx);
                 ObjSwitch_CrystalTurnOnInit(this);
             }
             break;
         case OBJSWITCH_SUBTYPE_CRYSTAL_4:
-            if (((this->jntSph.col.base.acFlags & 2) && this->disableAcTimer <= 0) ||
+            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
                 Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F))) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, globalCtx);
@@ -559,7 +615,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case OBJSWITCH_SUBTYPE_CRYSTAL_1:
-            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, globalCtx);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -601,7 +657,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case OBJSWITCH_SUBTYPE_CRYSTAL_1:
-            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 globalCtx = globalCtx;
                 ObjSwitch_CrystalTurnOffInit(this);
@@ -645,7 +701,7 @@ void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case OBJSWITCH_TYPE_EYE:
             this->unk_17F = this->tris.col.base.acFlags;
-            this->tris.col.base.acFlags &= ~2;
+            this->tris.col.base.acFlags &= ~AC_HIT;
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->tris.col.base);
             break;
         case OBJSWITCH_TYPE_CRYSTAL:
@@ -654,7 +710,7 @@ void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->disableAcTimer--;
             }
             this->unk_17F = this->jntSph.col.base.acFlags;
-            this->jntSph.col.base.acFlags &= ~2;
+            this->jntSph.col.base.acFlags &= ~AC_HIT;
             if (this->disableAcTimer <= 0) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.col.base);
             }
