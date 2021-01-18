@@ -98,8 +98,8 @@ typedef struct BossMo {
     /* 0x0D6C */ f32 tentPulse;
     /* 0x0D70 */ Vec3f tentPos[41];
     /* 0x0F5C */ f32 cameraZoom;
-    /* 0x0F60 */ s16 cutsceneState;
-    /* 0x0F62 */ s16 cutsceneCamera;
+    /* 0x0F60 */ s16 csState;
+    /* 0x0F62 */ s16 csCamera;
     /* 0x0F64 */ s16 targetIndex;
     /* 0x0F68 */ Vec3f cameraEye;
     /* 0x0F74 */ Vec3f cameraAt;
@@ -120,9 +120,9 @@ typedef struct BossMo {
     /* 0x1008 */ f32 cameraYawRate;
     /* 0x100C */ f32 cameraYawShake;
     /* 0x1010 */ Vec3f tentTipPos;
-    /* 0x101C */ ColliderJntSph colliderTent;
-    /* 0x103C */ ColliderJntSphItem colliderItems[19];
-    /* 0x14FC */ ColliderCylinder colliderCore;
+    /* 0x101C */ ColliderJntSph tentCollider;
+    /* 0x103C */ ColliderJntSphElement tentElements[19];
+    /* 0x14FC */ ColliderCylinder coreCollider;
     /* 0x1548 */ char unk_1548[0x44];
 } BossMo; // size = 0x158C
 

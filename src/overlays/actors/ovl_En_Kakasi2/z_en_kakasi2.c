@@ -12,8 +12,22 @@
 #define THIS ((EnKakasi2*)thisx)
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
@@ -76,7 +90,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     osSyncPrintf("\n\n");
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->height = 60.0f;
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.flags |= 0x400;
@@ -199,7 +213,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->actor.shape.unk_08 == 0.0f) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }

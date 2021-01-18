@@ -54,12 +54,26 @@ const ActorInit En_Kusa_InitVars = {
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x29, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x4FC00758, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 44, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, MASS_IMMOVABLE };
 
 static Vec3f D_80A9C23C[] = {
     { 0.0f, 0.7071f, 0.7071f },
@@ -212,7 +226,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -225,7 +239,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     EnKusa_InitCollider(thisx, globalCtx);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (this->actor.shape.rot.y == 0) {
         s16 rand = Rand_ZeroFloat(0x10000);
@@ -288,8 +302,8 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnKusa_SetupLiftedUp(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_PL_PULL_UP_PLANT);
-    } else if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    } else if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
@@ -306,12 +320,12 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistToLink > 12.0f)) {
-            this->collider.base.maskA |= 8;
+        if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
+            this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
 
         if (this->actor.xzDistToLink < 600.0f) {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
             if (this->actor.xzDistToLink < 400.0f) {
@@ -399,7 +413,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9B174(&this->actor.velocity, 0.05f);
         func_8002D7EC(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
@@ -458,7 +472,7 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     if (sp24) {
         Actor_SetScale(&this->actor, 0.4f);
         func_80A9B89C(this);
-        this->collider.base.maskA &= ~8;
+        this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
     }
 }
 

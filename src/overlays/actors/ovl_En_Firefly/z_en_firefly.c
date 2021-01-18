@@ -41,22 +41,68 @@ const ActorInit En_Firefly_InitVars = {
     (ActorFunc)EnFirefly_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = { {
-    { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
-    { 1, { { 0, 1000, 0 }, 15 }, 100 },
-} };
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 1000, 0 }, 15 }, 100 },
+    },
+};
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    &sJntSphItemsInit[0],
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
 
 static DamageTable sDamageTable = {
-    0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0xF2, 0x34, 0x02, 0x02, 0x02,
-    0x02, 0x20, 0x34, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xF),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x2),
+    /* Ice magic     */ DMG_ENTRY(4, 0x3),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -71,7 +117,7 @@ extern Gfx D_06001678[];
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.list->body.toucher.effect = 0; // None
+    this->collider.elements[0].info.toucher.effect = 0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = 0x12; // Keese
@@ -83,7 +129,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.list->body.toucher.effect = 1; // Fire
+    this->collider.elements[0].info.toucher.effect = 1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = 0x11; // Fire Keese
@@ -97,7 +143,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->jointTable, this->morphTable, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if ((this->actor.params & 0x8000) != 0) {
         this->actor.flags |= 0x80;
@@ -127,11 +173,11 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.list->body.toucher.effect = 2; // Ice
-            this->actor.naviEnemyId = 0x56;               // Ice Keese
+            this->collider.elements[0].info.toucher.effect = 2; // Ice
+            this->actor.naviEnemyId = 0x56;                     // Ice Keese
         } else {
-            this->collider.list->body.toucher.effect = 0; // Nothing
-            this->actor.naviEnemyId = 0x12;               // Keese
+            this->collider.elements[0].info.toucher.effect = 0; // Nothing
+            this->actor.naviEnemyId = 0x12;                     // Keese
         }
 
         this->maxAltitude = this->actor.initPosRot.pos.y + 100.0f;
@@ -143,7 +189,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->collider.list->dim.worldSphere.radius = sJntSphInit.list[0].dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
 }
 
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -564,9 +610,9 @@ void EnFirefly_Combust(EnFirefly* this, GlobalContext* globalCtx) {
 void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
     u8 damageEffect;
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.list->body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.elements[0].info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -612,8 +658,8 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnFirefly* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_ATTACK);
         if (this->onFire) {
             EnFirefly_Extinguish(this);
@@ -639,9 +685,9 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f, 7);
-    this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 10.0f;
-    this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + 10.0f;
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
 
     if ((this->actionFunc == EnFirefly_DiveAttack) || (this->actionFunc == EnFirefly_DisturbDiveAttack)) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

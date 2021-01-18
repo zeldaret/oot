@@ -30,20 +30,34 @@ const ActorInit En_Fw_InitVars = {
     (ActorFunc)EnFw_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x04 }, { 0xFFCFFFFE, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x04 },
+            { 0xFFCFFFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 2, { { 1200, 0, 0 }, 16 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry D_80A1FBA0[] = {
     { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
@@ -116,17 +130,17 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 }
 
 s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
-    ColliderBody* body;
+    ColliderInfo* info;
     s32 phi_return;
 
-    if (this->collider.base.acFlags & 2) {
-        body = &this->collider.list[0].body;
-        if (body->acHitItem->toucher.flags & 0x80) {
+    if (this->collider.base.acFlags & AC_HIT) {
+        info = &this->collider.elements[0].info;
+        if (info->acHitInfo->toucher.dmgFlags & 0x80) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;
         }
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_ApplyDamage(&this->actor) <= 0) {
             if (this->actor.parent->colChkInfo.health <= 8) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -174,7 +188,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x10), &D_80A1FB94);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x10), &D_80A1FB94);
     Actor_SetScale(&this->actor, 0.01f);
     this->runDirection = -this->actor.params;
     this->actionFunc = EnFw_Bounce;
@@ -369,7 +383,7 @@ void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_MultVec3f(&zeroVec, &this->actor.posRot2.pos);
     }
 
-    func_800628A4(limbIndex, &this->collider);
+    Collider_UpdateSpheres(limbIndex, &this->collider);
 }
 
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {

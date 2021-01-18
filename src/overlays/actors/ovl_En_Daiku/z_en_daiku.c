@@ -72,14 +72,61 @@ const ActorInit En_Daiku_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 66, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable sDamageTable = { 0 };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(0, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(0, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(0, 0x0),
+    /* Master spin   */ DMG_ENTRY(0, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(0, 0x0),
+    /* Master jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 static EnDaikuAnimation sAnimations[] = {
     { 0x06001AB0, 1.0f, 0, 0 }, { 0x06007DE0, 1.0f, 0, 0 }, { 0x0600885C, 1.0f, 0, 0 },
@@ -143,7 +190,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
 
     Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[0].anim),
                      sAnimations[0].mode, sAnimations[0].transitionRate);
@@ -544,7 +591,7 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     this->actionFunc(this, globalCtx);

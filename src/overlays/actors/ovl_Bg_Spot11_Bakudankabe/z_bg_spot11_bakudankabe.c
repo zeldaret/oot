@@ -30,8 +30,22 @@ const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 40, 80, 0, { 2259, 108, -1580 } },
 };
 
@@ -123,7 +137,7 @@ void BgSpot11Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_808B2218(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &D_808B2738, 40, NA_SE_EV_WALL_BROKEN);

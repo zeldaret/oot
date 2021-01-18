@@ -32,8 +32,22 @@ const ActorInit En_Nutsball_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x11, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_WOOD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 13, 13, 0, { 0 } },
 };
 
@@ -87,18 +101,18 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 
     this->actor.initPosRot.rot.z += 0x2AA8;
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
+    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
+        (this->collider.base.acFlags & AC_HIT) || (this->collider.base.ocFlags1 & OC1_HIT)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
         if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
             ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
-            if ((this->collider.base.atFlags & 2) && (this->collider.base.atFlags & 0x10) &&
-                (this->collider.base.atFlags & 4)) {
-                this->collider.base.atFlags &= ~0x16;
-                this->collider.base.atFlags |= 0x08;
+            if ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.atFlags & AT_TYPE_ENEMY) &&
+                (this->collider.base.atFlags & AT_BOUNCED)) {
+                this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
+                this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
-                this->collider.body.toucher.flags = 2;
+                this->collider.info.toucher.dmgFlags = 2;
                 func_800D20CC(&player->shieldMf, &sp4C, 0);
                 this->actor.posRot.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
@@ -130,13 +144,13 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= 0x1000000;
 
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

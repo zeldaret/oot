@@ -45,8 +45,22 @@ const ActorInit En_Ta_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000004, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -116,7 +130,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_2E0 = 0;
     this->unk_2CE = 0;
     this->unk_2E2 = 0;
@@ -1140,7 +1154,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTa* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

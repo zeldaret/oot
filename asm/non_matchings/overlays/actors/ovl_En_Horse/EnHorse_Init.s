@@ -265,7 +265,7 @@ glabel EnHorse_Init
 /* 01148 80A5C438 3C0680A6 */  lui     $a2, %hi(D_80A65F38)       ## $a2 = 80A60000
 /* 0114C 80A5C43C 24C65F38 */  addiu   $a2, $a2, %lo(D_80A65F38)  ## $a2 = 80A65F38
 /* 01150 80A5C440 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 01154 80A5C444 0C0187B5 */  jal     func_80061ED4
+/* 01154 80A5C444 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 01158 80A5C448 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 0115C 80A5C44C 8FA8003C */  lw      $t0, 0x003C($sp)
 /* 01160 80A5C450 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000

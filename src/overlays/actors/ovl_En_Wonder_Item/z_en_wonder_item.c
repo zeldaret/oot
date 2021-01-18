@@ -24,8 +24,22 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx);
 void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
@@ -142,7 +156,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             colTypeIndex = this->actor.posRot.rot.z & 0xFF;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.body.bumper.flags = collisionTypes[colTypeIndex];
+            this->collider.info.bumper.dmgFlags = collisionTypes[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
             this->updateFunc = EnWonderItem_InteractSwitch;
@@ -171,7 +185,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.body.bumper.flags = 0x00000004; // slingshot
+            this->collider.info.bumper.dmgFlags = 0x00000004; // slingshot
             this->unkPos = this->actor.posRot.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;
@@ -233,8 +247,8 @@ void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         EnWonderItem_DropCollectible(this, globalCtx, false);
     }
 }
@@ -292,8 +306,8 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) 
 }
 
 void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HEISHI2, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.yawTowardsLink, 0,
                         9) != NULL) {
@@ -334,7 +348,7 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetHeight(&this->actor, this->unkHeight);
     }
     if ((this->wonderMode == WONDERITEM_INTERACT_SWITCH) || (this->wonderMode == WONDERITEM_BOMB_SOLDIER)) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
