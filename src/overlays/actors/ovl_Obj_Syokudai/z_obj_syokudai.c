@@ -31,14 +31,42 @@ const ActorInit Obj_Syokudai_InitVars = {
 };
 
 static ColliderCylinderInit sCylInitStand = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00100000, 0x00, 0x00 }, { 0xEE01FFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00100000, 0x00, 0x00 },
+        { 0xEE01FFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 12, 45, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylInitFlame = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00020820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00020820, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 15, 45, 45, { 0, 0, 0 } },
 };
 
@@ -62,12 +90,12 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->colliderStand);
     Collider_SetCylinder(globalCtx, &this->colliderStand, &this->actor, &sCylInitStand);
-    this->colliderStand.base.type = sColTypesStand[this->actor.params >> 0xC];
+    this->colliderStand.base.colType = sColTypesStand[this->actor.params >> 0xC];
 
     Collider_InitCylinder(globalCtx, &this->colliderFlame);
     Collider_SetCylinder(globalCtx, &this->colliderFlame, &this->actor, &sCylInitFlame);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f,
                             this->actor.posRot.pos.z, 255, 255, 180, -1);
@@ -105,10 +133,10 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Player* player;
     EnArrow* arrow;
     s32 interactionType;
-    u32 toucherFlags;
+    u32 dmgFlags;
     Vec3f tipToFlame;
-    ColliderCylinder* colliderStand;
-    ColliderCylinder* colliderFlame;
+    s32 pad;
+    s32 pad2;
 
     litTimeScale = torchCount;
     if (torchCount == 10) {
@@ -144,9 +172,9 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->litTimer = 20;
             }
         }
-        if (this->colliderFlame.base.acFlags & 2) {
-            toucherFlags = this->colliderFlame.body.acHitItem->toucher.flags;
-            if (toucherFlags & 0x20820) {
+        if (this->colliderFlame.base.acFlags & AC_HIT) {
+            dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
+            if (dmgFlags & 0x20820) {
                 interactionType = 1;
             }
         } else if (player->heldItemActionParam == 6) {
@@ -166,7 +194,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
-                } else if (toucherFlags & 0x20) {
+                } else if (dmgFlags & 0x20) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
@@ -176,7 +204,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
                     this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((interactionType > 0) && (toucherFlags & 0x20800)) ||
+            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & 0x20800)) ||
                                             ((interactionType < 0) && (player->unk_860 != 0)))) {
 
                 if ((interactionType < 0) && (player->unk_860 < 200)) {
@@ -203,14 +231,13 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
     }
-    colliderStand = &this->colliderStand;
-    Collider_CylinderUpdate(&this->actor, colliderStand);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
 
-    colliderFlame = &this->colliderFlame;
-    Collider_CylinderUpdate(&this->actor, colliderFlame);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderFlame->base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderStand);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderStand.base);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderStand.base);
+
+    Collider_UpdateCylinder(&this->actor, &this->colliderFlame);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderFlame.base);
 
     if (this->litTimer > 0) {
         this->litTimer--;

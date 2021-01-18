@@ -42,18 +42,46 @@ const ActorInit En_Karebaba_InitVars = {
 };
 
 static ColliderCylinderInit sBodyColliderInit = {
-    { 0xC, 0, 9, 0, 0x10, COLSHAPE_CYLINDER },
-    { 0, { 0x00000000, 0, 0 }, { ~0x00300000, 0, 0 }, 0, 1, 0 },
+    {
+        COLTYPE_HARD,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 7, 25, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sHeadColliderInit = {
-    { 0x0C, 0x11, 0, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0, { ~0x00300000, 0, 8 }, { 0x00000000, 0, 0 }, 9, 0, 1 },
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 4, 25, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, 0xFE };
+static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 2500, ICHAIN_CONTINUE),
@@ -77,11 +105,11 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTable, this->morphTable, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     Collider_InitCylinder(globalCtx, &this->headCollider);
     Collider_SetCylinder(globalCtx, &this->headCollider, &this->actor, &sHeadColliderInit);
-    Collider_CylinderUpdate(&this->actor, &this->headCollider);
-    func_80061ED4(&this->actor.colChkInfo, DamageTable_Get(1), &sColCheckInfoInit);
+    Collider_UpdateCylinder(&this->actor, &this->headCollider);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(1), &sColCheckInfoInit);
 
     this->boundFloor = NULL;
 
@@ -102,9 +130,9 @@ void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.radius = 7;
     this->bodyCollider.dim.height = 25;
-    this->bodyCollider.base.type = COLTYPE_UNK12;
-    this->bodyCollider.base.acFlags |= 4;
-    this->bodyCollider.body.bumper.flags = ~0x00300000;
+    this->bodyCollider.base.colType = COLTYPE_HARD;
+    this->bodyCollider.base.acFlags |= AC_HARD;
+    this->bodyCollider.info.bumper.dmgFlags = ~0x00300000;
     this->headCollider.dim.height = 25;
 }
 
@@ -132,9 +160,9 @@ void EnKarebaba_SetupAwaken(EnKarebaba* this) {
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
-        this->bodyCollider.base.type = COLTYPE_UNK6;
-        this->bodyCollider.base.acFlags &= ~0x0004;
-        this->bodyCollider.body.bumper.flags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.base.colType = COLTYPE_HIT6;
+        this->bodyCollider.base.acFlags &= ~AC_HARD;
+        this->bodyCollider.info.bumper.dmgFlags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
         this->headCollider.dim.height = 80;
@@ -241,7 +269,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
-    if (this->bodyCollider.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
     } else if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) > 240.0f) {
@@ -284,7 +312,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = (Math_CosS(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
 
-    if (this->bodyCollider.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
     } else if (this->actor.params == 0) {

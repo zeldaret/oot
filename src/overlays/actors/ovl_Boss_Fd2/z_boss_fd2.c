@@ -7,6 +7,7 @@
 #include "z_boss_fd2.h"
 #include "objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+#include "vt.h"
 
 #define FLAGS 0x00000035
 
@@ -54,54 +55,126 @@ const ActorInit Boss_Fd2_InitVars = {
     (ActorFunc)BossFd2_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[9] = {
+static ColliderJntSphElementInit sJntSphElementsInit[9] = {
     {
-        { 0x03, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK3,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 35, { { 6000, 0, 0 }, 21 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 18, { { 4000, 0, 0 }, 13 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 19, { { 3000, 0, 0 }, 13 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 20, { { 4000, 0, 0 }, 15 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 24, { { 4000, 0, 0 }, 13 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 25, { { 3000, 0, 0 }, 13 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 26, { { 3500, 1500, 0 }, 15 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 17, { { 0, 0, 0 }, 26 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x20 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 30, { { 0, 0, 0 }, 17 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     9,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                                  { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                                  { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+static Vec3f sHoleLocations[] = {
+    { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
+    { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+    { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f },
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
@@ -220,7 +293,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = BossFd2_Wait;
     }
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->elements);
 }
 
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -841,30 +914,30 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     u8 damage;
     Player* player;
     BossFd* bossFd = BOSSFD;
-    ColliderBody* hurtbox;
+    ColliderInfo* hurtbox;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         player = PLAYER;
-        for (i = 0; i < 9; i++) {
-            if (this->collider.list[i].body.toucherFlags & 2) {
-                this->collider.list[i].body.toucherFlags &= ~2;
+        for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+            if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
+                this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.list[0].body.flags = 2;
-        this->collider.base.type = 9;
+        this->collider.elements[0].info.elemType = ELEMTYPE_UNK2;
+        this->collider.base.colType = COLTYPE_METAL;
     } else {
-        this->collider.list[0].body.flags = 3;
-        this->collider.base.type = 3;
+        this->collider.elements[0].info.elemType = ELEMTYPE_UNK3;
+        this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.list[0].body.bumperFlags & 2) {
-        this->collider.list[0].body.bumperFlags &= ~2;
-        hurtbox = this->collider.list[0].body.acHitItem;
+    if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
+        this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+        hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.flags & 0x40000040) {
+            if (hurtbox->toucher.dmgFlags & 0x40000040) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -892,24 +965,25 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            u32 toucherFlags;
+            u32 dealtDamage;
+
             canKill = 0;
-            damage = toucherFlags = func_800635D0(hurtbox->toucher.flags);
-            if (toucherFlags == 0) {
-                damage = (hurtbox->toucher.flags & 0x1000) ? 4 : 2;
+            damage = dealtDamage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags);
+            if (!dealtDamage) {
+                damage = (hurtbox->toucher.dmgFlags & 0x1000) ? 4 : 2;
             } else {
                 canKill = 1;
             }
-            if (hurtbox->toucher.flags & 0x80) {
+            if (hurtbox->toucher.dmgFlags & 0x80) {
                 damage = 0;
             }
-            toucherFlags = damage;
+            dealtDamage = damage;
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
-                osSyncPrintf("\x1b[32m");
+                osSyncPrintf(VT_FGCOL(GREEN));
                 osSyncPrintf("damage   %d\n", damage);
             }
-            osSyncPrintf("\x1b[m");
+            osSyncPrintf(VT_RST);
             osSyncPrintf("hp %d\n", bossFd->actor.colChkInfo.health);
 
             if ((s8)bossFd->actor.colChkInfo.health <= 0) {
@@ -920,13 +994,13 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
-            } else if (toucherFlags != 0) {
+            } else if (dealtDamage) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->damageFlashTimer = 10;
                 this->invincibilityTimer = 100;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE1);
             }
-            if (toucherFlags != 0) {
+            if (dealtDamage) {
                 for (i = 0; i < 30; i++) {
                     Vec3f pieceVel = { 0.0f, 0.0f, 0.0f };
                     Vec3f pieceAccel = { 0.0f, -1.0f, 0.0f };
@@ -992,7 +1066,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx2);
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         DECR(this->timers[i]);
     }
     DECR(this->damageFlashTimer);
@@ -1075,7 +1149,7 @@ void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_MultVec3f(&rightManeMod, &this->rightMane.head);
         Matrix_MultVec3f(&leftManeMod, &this->leftMane.head);
     }
-    func_800628A4(limbIndex, &this->collider);
+    Collider_UpdateSpheres(limbIndex, &this->collider);
 }
 
 void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Vec3f* pos, Vec3f* rot, Vec3f* pull,

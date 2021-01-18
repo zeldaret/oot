@@ -70,7 +70,7 @@ typedef struct BossFd2 {
     /* 0x1414 */ f32 cameraYMod;
     /* 0x1418 */ char unk_1418[4];
     /* 0x141C */ ColliderJntSph collider;
-    /* 0x143C */ ColliderJntSphItem colliderItems[9];
+    /* 0x143C */ ColliderJntSphElement elements[9];
 } BossFd2; // size = 0x167C
 
 extern const ActorInit Boss_Fd2_InitVars;

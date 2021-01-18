@@ -35,8 +35,22 @@ const ActorInit Obj_Kibako2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x40000040, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 31, 48, 0, { 0, 0, 0 } },
 };
 
@@ -52,7 +66,7 @@ void ObjKibako2_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
 }
 
 void ObjKibako2_Break(ObjKibako2* this, GlobalContext* globalCtx) {
@@ -134,17 +148,15 @@ void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) || this->dyna.actor.initPosRot.rot.z != 0 ||
-        func_80033684(globalCtx, &this->dyna.actor) != 0) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.initPosRot.rot.z != 0) ||
+        func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags |= 0x10;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;
         this->actionFunc = ObjKibako2_Kill;
-        return;
-    }
-    if (this->dyna.actor.xzDistToLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

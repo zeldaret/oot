@@ -144,7 +144,7 @@ typedef struct BossFd {
     /* 0x1488 */ f32 cameraYMod;
     /* 0x148C */ f32 cameraShake;
     /* 0x1490 */ ColliderJntSph collider;
-    /* 0x14B0 */ ColliderJntSphItem colliderItems[19];
+    /* 0x14B0 */ ColliderJntSphElement elements[19];
     /* 0x1970 */ BossFdParticle particles[180];
 } BossFd; // size = 0x43A0
 

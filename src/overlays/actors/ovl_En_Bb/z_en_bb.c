@@ -96,18 +96,108 @@ extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06001A30;
 
 static DamageTable sDamageTableBlueGreen = {
-    0xF0, 0x02, 0x01, 0xA2, 0xF0, 0xE2, 0xA2, 0xF0, 0x01, 0x02, 0x04, 0xE2, 0xC4, 0xB4, 0x00, 0x00,
-    0x00, 0x60, 0x93, 0x83, 0xA0, 0xA0, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0xF),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0xA),
+    /* Boomerang     */ DMG_ENTRY(0, 0xF),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xA),
+    /* Hookshot      */ DMG_ENTRY(0, 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
+    /* Ice arrow     */ DMG_ENTRY(4, 0xC),
+    /* Light arrow   */ DMG_ENTRY(4, 0xB),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(3, 0x9),
+    /* Light magic   */ DMG_ENTRY(3, 0x8),
+    /* Shield        */ DMG_ENTRY(0, 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x6),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static DamageTable sDamageTableRed = {
-    0xD0, 0xD0, 0xD0, 0xA2, 0xD0, 0xE2, 0xA2, 0xD0, 0xD0, 0xE2, 0xE4, 0xE2, 0x94, 0xE2, 0xE4, 0xE2,
-    0xE2, 0x60, 0x93, 0x60, 0xA0, 0xA0, 0x01, 0xE4, 0xE2, 0x02, 0xE8, 0xE4, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0xD),
+    /* Deku stick    */ DMG_ENTRY(0, 0xD),
+    /* Slingshot     */ DMG_ENTRY(0, 0xD),
+    /* Explosive     */ DMG_ENTRY(2, 0xA),
+    /* Boomerang     */ DMG_ENTRY(0, 0xD),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xA),
+    /* Hookshot      */ DMG_ENTRY(0, 0xD),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0xD),
+    /* Master sword  */ DMG_ENTRY(2, 0xE),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xE),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x9),
+    /* Light arrow   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 1   */ DMG_ENTRY(4, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xE),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(3, 0x9),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0xE),
+    /* Master spin   */ DMG_ENTRY(2, 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0xE),
+    /* Master jump   */ DMG_ENTRY(4, 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x6),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static DamageTable sDamageTableWhite = {
-    0xF0, 0xE2, 0xE1, 0xA2, 0xF0, 0xE2, 0xA2, 0xF0, 0xE1, 0xE2, 0xE4, 0x54, 0xE2, 0xE2, 0xE4, 0xE2,
-    0xE2, 0x74, 0x60, 0x60, 0xA0, 0xA0, 0xE1, 0xE4, 0xE2, 0xE2, 0xE8, 0xE4, 0x60, 0x00, 0xA4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0xF),
+    /* Deku stick    */ DMG_ENTRY(2, 0xE),
+    /* Slingshot     */ DMG_ENTRY(1, 0xE),
+    /* Explosive     */ DMG_ENTRY(2, 0xA),
+    /* Boomerang     */ DMG_ENTRY(0, 0xF),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xA),
+    /* Hookshot      */ DMG_ENTRY(0, 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
+    /* Master sword  */ DMG_ENTRY(2, 0xE),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xE),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x5),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xE),
+    /* Light arrow   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 1   */ DMG_ENTRY(4, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xE),
+    /* Fire magic    */ DMG_ENTRY(4, 0x7),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0xA),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0xA),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xE),
+    /* Giant spin    */ DMG_ENTRY(4, 0xE),
+    /* Master spin   */ DMG_ENTRY(2, 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
+    /* Giant jump    */ DMG_ENTRY(8, 0xE),
+    /* Master jump   */ DMG_ENTRY(4, 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x6),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xA),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 const ActorInit En_Bb_InitVars = {
@@ -122,16 +212,30 @@ const ActorInit En_Bb_InitVars = {
     (ActorFunc)EnBb_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { 0, -120, 0 }, 4 }, 300 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK3, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphElementInit),
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
     sJntSphElementInit,
 };
 
@@ -230,9 +334,9 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
-        this->collider.list[0].body.toucherFlags = 9;
-        this->collider.list[0].body.toucher.flags = 0xFFCFFFFF;
-        this->collider.list[0].body.toucher.damage = 8;
+        this->collider.elements[0].info.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
+        this->collider.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
+        this->collider.elements[0].info.toucher.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
         this->moveMode = BBMOVE_NORMAL;
@@ -250,7 +354,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->naviEnemyId = 0x24;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.list[0].body.toucher.effect = 1;
+                this->collider.elements[0].info.toucher.effect = 1;
                 EnBb_SetupRed(globalCtx, this);
                 break;
             case ENBB_WHITE:
@@ -277,7 +381,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 break;
             case ENBB_GREEN_BIG:
                 this->path = this->actionState >> 4;
-                this->collider.list[0].dim.modelSphere.radius = 0x16;
+                this->collider.elements[0].dim.modelSphere.radius = 0x16;
                 Actor_SetScale(thisx, 0.03f);
             case ENBB_GREEN:
                 thisx->naviEnemyId = 0x1E;
@@ -293,8 +397,8 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         EnBb_SetupFlameTrail(this);
     }
-    this->collider.list[0].dim.worldSphere.radius =
-        this->collider.list[0].dim.modelSphere.radius * this->collider.list[0].dim.scale;
+    this->collider.elements[0].dim.worldSphere.radius =
+        this->collider.elements[0].dim.modelSphere.radius * this->collider.elements[0].dim.scale;
 }
 
 void EnBb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -530,9 +634,9 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
         }
     }
     Math_SmoothStepToS(&this->actor.posRot.rot.y, this->vMoveAngleY, 1, 0x3E8, 0);
-    if ((this->collider.base.acFlags & 2) || (this->collider.base.atFlags & 2)) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->collider.base.atFlags & AT_HIT)) {
         this->vMoveAngleY = this->actor.yawTowardsLink + 0x8000;
-        if (this->collider.base.acFlags & 2) {
+        if (this->collider.base.acFlags & AC_HIT) {
             afterHitAngle = -0x8000;
         } else {
             afterHitAngle = 0x4000;
@@ -542,8 +646,8 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
             }
         }
         this->actor.posRot.rot.y = this->actor.yawTowardsLink + afterHitAngle;
-        this->collider.base.acFlags &= ~2;
-        this->collider.base.atFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
+        this->collider.base.atFlags &= ~AT_HIT;
     }
 
     if (this->maxSpeed >= 6.0f) {
@@ -815,9 +919,9 @@ void EnBb_White(EnBb* this, GlobalContext* globalCtx) {
             this->moveMode = BBMOVE_NOCLIP;
             this->maxSpeed = 10.0f;
         }
-        if (this->collider.base.atFlags & 2) {
+        if (this->collider.base.atFlags & AT_HIT) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_BITE);
-            this->collider.base.atFlags &= ~2;
+            this->collider.base.atFlags &= ~AT_HIT;
         }
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f) == 0.0f) {
@@ -902,9 +1006,9 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
             }
             this->moveMode = BBMOVE_NOCLIP;
             this->maxSpeed = 10.0f;
-            if (this->collider.base.atFlags & 2) {
+            if (this->collider.base.atFlags & AT_HIT) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_BITE);
-                this->collider.base.atFlags &= ~2;
+                this->collider.base.atFlags &= ~AT_HIT;
             }
             if (Math_CosF(this->bobPhase) == 0.0f) {
                 if (this->charge) {
@@ -940,7 +1044,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
         this->actionState++;
         this->timer = (Rand_ZeroOne() * 30.0f) + 60.0f;
         if (this->vFlameTimer != 0) {
-            this->collider.base.acFlags &= ~2;
+            this->collider.base.acFlags &= ~AC_HIT;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
@@ -1033,8 +1137,8 @@ void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
         if (this->action != BB_DOWN) {
             if (this->actor.params >= ENBB_RED) {
                 this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink + 0x8000;
@@ -1047,13 +1151,13 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
             this->actionVar2 = 1;
         }
     }
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
-        func_80035650(&this->actor, &this->collider.list[0].body, 0);
+        func_80035650(&this->actor, &this->collider.elements[0].info, 0);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.list[0].body.acHitItem->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
@@ -1062,7 +1166,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.list[0].body.acHitItem->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
                 break;
             case 8:
             case 9:
@@ -1087,7 +1191,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                         ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                         Actor_ApplyDamage(&this->actor);
                     } else {
-                        this->collider.base.acFlags |= 2;
+                        this->collider.base.acFlags |= AC_HIT;
                     }
                 }
                 if (this->actor.colChkInfo.health == 0) {
@@ -1143,10 +1247,10 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_8002E4B4(globalCtx, &this->actor, sp34, 25.0f, 20.0f, 5);
         }
         this->actor.posRot2.pos = this->actor.posRot.pos;
-        this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-        this->collider.list->dim.worldSphere.center.y =
+        this->collider.elements->dim.worldSphere.center.x = this->actor.posRot.pos.x;
+        this->collider.elements->dim.worldSphere.center.y =
             this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y);
-        this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+        this->collider.elements->dim.worldSphere.center.z = this->actor.posRot.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speedXZ != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

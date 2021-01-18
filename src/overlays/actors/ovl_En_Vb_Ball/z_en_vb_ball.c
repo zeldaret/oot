@@ -35,9 +35,23 @@ const ActorInit En_Vb_Ball_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { 0x0A, 0x11, 0x09, 0x39, 0x10, 0x01 },
-    { 0x06, { 0x00100700, 0x00, 0x20 }, { 0x00100700, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-    { 0x0014, 0x0001E, 0x000A, 0x0000, 0x0000, 0x0000 }
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK6,
+        { 0x00100700, 0x00, 0x20 },
+        { 0x00100700, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 30, 10, { 0, 0, 0 } },
 };
 
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -275,12 +289,12 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             }
         }
-        if (this->collider.base.atFlags & 2) {
+        if (this->collider.base.atFlags & AT_HIT) {
             Player* player = PLAYER;
-            this->collider.base.atFlags &= ~2;
+            this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }
 }

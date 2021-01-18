@@ -83,87 +83,227 @@ const ActorInit Boss_Fd_InitVars = {
     (ActorFunc)BossFd_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[19] = {
+static ColliderJntSphElementInit sJntSphItemsInit[19] = {
     {
-        { 0x03, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK3,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 2, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 3, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 4, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 5, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 6, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 7, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 8, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 9, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 10, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 11, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 12, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 14, { { 0, 0, 0 }, 18 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 15, { { 0, 0, 0 }, 16 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 16, { { 0, 0, 0 }, 14 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 17, { { 0, 0, 0 }, 12 }, 100 },
     },
     {
-        { 0x02, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK2,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCDFFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 18, { { 0, 0, 0 }, 10 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     19,
     sJntSphItemsInit,
 };
@@ -303,7 +443,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = 0.0f;
     this->actor.posRot.pos.y = -200.0f;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->elements);
 
     for (i = 0; i < 100; i++) {
         this->bodySegsPos[i].x = this->actor.posRot.pos.x;
@@ -362,13 +502,15 @@ void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
 // literal in case 6 of the boss intro switch statement but before the next switch statement.
 // All instructions match.
 
-static Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                                  { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                                  { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+static Vec3f sHoleLocations[] = {
+    { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
+    { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+    { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f },
+};
 
 static Vec3f sCeilingTargets[] = {
     { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
-    { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f }
+    { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
 };
 
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
@@ -1396,14 +1538,14 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_CollisionCheck(BossFd* this, GlobalContext* globalCtx) {
-    ColliderJntSphItem* colliderItem1 = this->collider.list;
-    ColliderTouch* cTouch;
+    ColliderJntSphElement* headCollider = &this->collider.elements[0];
+    ColliderInfo* hurtbox;
 
-    if (colliderItem1->body.bumperFlags & 2) {
-        colliderItem1->body.bumperFlags &= ~2;
-        cTouch = &colliderItem1->body.acHitItem->toucher;
+    if (headCollider->info.bumperFlags & BUMP_HIT) {
+        headCollider->info.bumperFlags &= ~BUMP_HIT;
+        hurtbox = headCollider->info.acHitInfo;
         this->actor.colChkInfo.health -= 2;
-        if (cTouch->flags & 0x1000) {
+        if (hurtbox->toucher.dmgFlags & 0x1000) {
             this->actor.colChkInfo.health -= 2;
         }
         if ((s8)this->actor.colChkInfo.health <= 2) {
@@ -1429,7 +1571,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->movementTimer++;
     this->actionFunc(this, globalCtx);
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         DECR(this->timers[i]);
     }
     DECR(this->fireBreathTimer);
@@ -1587,7 +1729,7 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, particle->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == 0) {
-                        for (i2 = 0; i2 < 18; i2++) {
+                        for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = 1;
@@ -2025,7 +2167,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
             }
         }
         if (i > 0) {
-            func_800628A4(i + 1, &this->collider);
+            Collider_UpdateSpheres(i + 1, &this->collider);
         }
     }
     Matrix_Pull();
@@ -2045,7 +2187,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);
     osSyncPrintf("BHC\n");
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     Matrix_Pull();
     osSyncPrintf("BHCE\n");
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
