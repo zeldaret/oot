@@ -31,8 +31,14 @@ const ActorInit En_Skjneedle_InitVars = {
     (ActorFunc)EnSkjneedle_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK1, 0x11, 0x09, 0x00, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 10, 4, -2, { 0, 0, 0 } },
 };
@@ -47,7 +53,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
     thisx->flags &= ~0x1;
     Actor_SetScale(&this->actor, 0.01f);
@@ -60,8 +66,8 @@ void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80B01F6C(EnSkjneedle* this) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         return 1;
     }
     return 0;
@@ -80,7 +86,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         globalCtx = preserve; // workaround
         Actor_SetScale(&this->actor, 0.01f);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         Actor_MoveForward(&this->actor);

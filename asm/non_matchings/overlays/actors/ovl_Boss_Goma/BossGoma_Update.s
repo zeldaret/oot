@@ -101,7 +101,7 @@ glabel BossGoma_Update
 /* 04AE8 8091A4F8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 04AEC 8091A4FC 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 04AF0 8091A500 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 04AF4 8091A504 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 04AF8 8091A508 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
 /* 04AFC 8091A50C 3C0F8092 */  lui     $t7, %hi(func_80919150)    ## $t7 = 80920000

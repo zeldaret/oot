@@ -25,7 +25,7 @@ typedef struct EnDha {
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
     /* 0x0200 */ ColliderJntSph collider;
-    /* 0x0220 */ ColliderJntSphItem colliderItem[5];
+    /* 0x0220 */ ColliderJntSphElement colliderItem[5];
 } EnDha; // size = 0x0360
 
 extern const ActorInit En_Dha_InitVars;

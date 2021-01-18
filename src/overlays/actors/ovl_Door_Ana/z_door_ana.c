@@ -32,8 +32,22 @@ const ActorInit Door_Ana_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000048, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 50, 10, 0, { 0 } },
 };
 
@@ -83,7 +97,7 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 // update routine for grottos that are currently "hidden"/unopened
 void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
-    if ((this->actor.params & 0x200) == 0) {
+    if (!(this->actor.params & 0x200)) {
         // opening with song of storms
         if (this->actor.xyzDistToLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
@@ -91,12 +105,12 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
         }
     } else {
         // bombing/hammering open a grotto
-        if ((this->collider.base.acFlags & 2) != 0) {
+        if (this->collider.base.acFlags & AC_HIT) {
             openGrotto = true;
             Collider_DestroyCylinder(globalCtx, &this->collider);
         } else {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
     // open the grotto
@@ -114,7 +128,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
     s32 destinationIdx;
 
     player = PLAYER;
-    if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
+    if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;

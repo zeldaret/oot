@@ -67,7 +67,7 @@ glabel EnWeiyer_Update
 .L80B33854:
 /* 015C4 80B33854 26050284 */  addiu   $a1, $s0, 0x0284           ## $a1 = 00000284
 /* 015C8 80B33858 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 015CC 80B3385C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 015CC 80B3385C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 015D0 80B33860 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 015D4 80B33864 92190294 */  lbu     $t9, 0x0294($s0)           ## 00000294
@@ -96,7 +96,7 @@ glabel EnWeiyer_Update
 .L80B338B4:
 /* 01624 80B338B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01628 80B338B8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0162C 80B338BC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01630 80B338C0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01634 80B338C4 8FB0001C */  lw      $s0, 0x001C($sp)           
