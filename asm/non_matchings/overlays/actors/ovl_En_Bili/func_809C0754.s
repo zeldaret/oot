@@ -86,12 +86,12 @@ glabel func_809C0754
               ## Rand.Next() float
 /* 00FD4 809C0874 E7B20080 */  swc1    $f18, 0x0080($sp)          
 /* 00FD8 809C0878 461A0100 */  add.s   $f4, $f0, $f26             
-/* 00FDC 809C087C 3C01809C */  lui     $at, %hi(D_809C16AC)       ## $at = 809C0000
+/* 00FDC 809C087C 3C01809C */  lui     $at, %hi(D_809C16A8+4)       ## $at = 809C0000
 /* 00FE0 809C0880 24040028 */  addiu   $a0, $zero, 0x0028         ## $a0 = 00000028
 /* 00FE4 809C0884 24050028 */  addiu   $a1, $zero, 0x0028         ## $a1 = 00000028
 /* 00FE8 809C0888 0C01DF64 */  jal     Rand_S16Offset
               
-/* 00FEC 809C088C E42416AC */  swc1    $f4, %lo(D_809C16AC)($at)  
+/* 00FEC 809C088C E42416AC */  swc1    $f4, %lo(D_809C16A8+4)($at)  
 /* 00FF0 809C0890 00028400 */  sll     $s0, $v0, 16               
 /* 00FF4 809C0894 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
