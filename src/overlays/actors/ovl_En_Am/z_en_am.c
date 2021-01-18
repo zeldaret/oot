@@ -5,6 +5,7 @@
  */
 
 #include "z_en_am.h"
+#include "objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #define FLAGS 0x04000015
@@ -165,12 +166,6 @@ InitChainEntry D_809B0048[] = {
     ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000118;
-extern AnimationHeader D_06000238;
-extern AnimationHeader D_0600033C;
-extern SkeletonHeader D_06005948;
-extern AnimationHeader D_06005B3C;
-
 void EnAm_SetupAction(EnAm* this, EnAmActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -225,7 +220,8 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, D_809B0048);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 48.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005948, &D_0600033C, this->jointTable, this->morphTable, 14);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable,
+                   14);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Collider_InitCylinder(globalCtx, &this->cylinder1);
@@ -237,7 +233,7 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->cylinder2, &this->dyna.actor, &D_809AFF80);
         this->cylinder1.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2);
         this->cylinder2.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER);
-        CollisionHeader_GetVirtual(&D_06000118, &colHeader);
+        CollisionHeader_GetVirtual(&gArmosCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->dyna.actor, ACTORTYPE_BG);
         EnAm_SetupStatue(this);
@@ -286,9 +282,9 @@ void EnAm_SpawnEffects(EnAm* this, GlobalContext* globalCtx) {
 }
 
 void EnAm_SetupSleep(EnAm* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_0600033C);
+    f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
-    Animation_Change(&this->skelAnime, &D_0600033C, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
 
@@ -302,9 +298,9 @@ void EnAm_SetupSleep(EnAm* this) {
 }
 
 void EnAm_SetupStatue(EnAm* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_0600033C);
+    f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
-    Animation_Change(&this->skelAnime, &D_0600033C, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->dyna.actor.flags &= ~1;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
@@ -312,7 +308,7 @@ void EnAm_SetupStatue(EnAm* this) {
 }
 
 void EnAm_SetupLunge(EnAm* this) {
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->behavior = AM_BEHAVIOR_AGRO;
     this->dyna.actor.speedXZ = 0.0f;
@@ -321,7 +317,7 @@ void EnAm_SetupLunge(EnAm* this) {
 }
 
 void EnAm_SetupCooldown(EnAm* this) {
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->cooldownTimer = 40;
     this->behavior = AM_BEHAVIOR_AGRO;
@@ -331,7 +327,7 @@ void EnAm_SetupCooldown(EnAm* this) {
 }
 
 void EnAm_SetupMoveToHome(EnAm* this) {
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speedXZ = 0.0f;
@@ -339,7 +335,7 @@ void EnAm_SetupMoveToHome(EnAm* this) {
 }
 
 void EnAm_SetupRotateToInit(EnAm* this) {
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speedXZ = 0.0f;
@@ -347,7 +343,7 @@ void EnAm_SetupRotateToInit(EnAm* this) {
 }
 
 void EnAm_SetupRotateToHome(EnAm* this) {
-    Animation_PlayLoopSetSpeed(&this->skelAnime, &D_06000238, 4.0f);
+    Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y;
@@ -355,8 +351,8 @@ void EnAm_SetupRotateToHome(EnAm* this) {
 }
 
 void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06005B3C, 1.0f, 4.0f, Animation_GetLastFrame(&D_06005B3C) - 6.0f,
-                     ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gArmosDamagedAnim, 1.0f, 4.0f,
+                     Animation_GetLastFrame(&gArmosDamagedAnim) - 6.0f, ANIMMODE_ONCE, 0.0f);
     this->behavior = AM_BEHAVIOR_DAMAGED;
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
@@ -371,7 +367,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
 }
 
 void EnAm_SetupRicochet(EnAm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600033C, 1.0f, 0.0f, 8.0f, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 1.0f, 0.0f, 8.0f, ANIMMODE_ONCE, 0.0f);
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
 
     if (EnAm_CanMove(this, globalCtx, -6.0f, this->dyna.actor.posRot.rot.y)) {
@@ -729,8 +725,10 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
 }
 
 void EnAm_SetupStunned(EnAm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06005B3C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06005B3C), ANIMMODE_ONCE,
-                     0.0f);
+    // animation is set but SkelAnime_Update is not called in the action
+    // likely copy pasted from EnAm_SetupRecoilFromDamage
+    Animation_Change(&this->skelAnime, &gArmosDamagedAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gArmosDamagedAnim),
+                     ANIMMODE_ONCE, 0.0f);
 
     this->dyna.actor.posRot.rot.y = this->dyna.actor.yawTowardsLink;
 
@@ -806,16 +804,16 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
     Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
-        if (this->cylinder2.base.acFlags & 0x80) {
-            this->cylinder2.base.acFlags &= ~0x82;
-            this->cylinder1.base.acFlags &= ~2;
+        if (this->cylinder2.base.acFlags & AC_BOUNCED) {
+            this->cylinder2.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+            this->cylinder1.base.acFlags &= ~AC_HIT;
 
             if (this->behavior >= 5) {
                 EnAm_SetupRicochet(this, globalCtx);
             }
         } else {
-            if ((this->cylinder1.base.acFlags & 2) && (this->behavior >= 5)) {
-                this->cylinder1.base.acFlags &= ~2;
+            if ((this->cylinder1.base.acFlags & AC_HIT) && (this->behavior >= 5)) {
+                this->cylinder1.base.acFlags &= ~AC_HIT;
 
                 if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                     this->unk_264 = 0;

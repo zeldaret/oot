@@ -3838,7 +3838,8 @@ endseg
 beginseg
     name "object_am"
     romalign 0x1000
-    include "build/baserom/object_am.o"
+    include "build/assets/objects/object_am/object_am.o"
+    number 6
 endseg
 
 beginseg
