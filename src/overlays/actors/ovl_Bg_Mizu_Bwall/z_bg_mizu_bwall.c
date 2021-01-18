@@ -21,7 +21,7 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuBwall),
@@ -173,7 +173,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089D854);
-    this->yRot = this->dyna.actor.posRot.pos.y;
+    this->yRot = this->dyna.actor.world.pos.y;
     this->dList = sDLists[(u16)this->dyna.actor.params & 0xF];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(sColHeaders[(u16)this->dyna.actor.params & 0xF], &colHeader);
@@ -205,9 +205,9 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
-                            vtx[j].x += this->dyna.actor.posRot.pos.x;
-                            vtx[j].y += this->dyna.actor.posRot.pos.y;
-                            vtx[j].z += this->dyna.actor.posRot.pos.z;
+                            vtx[j].x += this->dyna.actor.world.pos.x;
+                            vtx[j].y += this->dyna.actor.world.pos.y;
+                            vtx[j].z += this->dyna.actor.world.pos.z;
                         }
                         Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
@@ -241,9 +241,9 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                             offset.y = sTrisInitRutoWall.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitRutoWall.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
-                            vtx[j].x += this->dyna.actor.posRot.pos.x;
-                            vtx[j].y += this->dyna.actor.posRot.pos.y;
-                            vtx[j].z += this->dyna.actor.posRot.pos.z;
+                            vtx[j].x += this->dyna.actor.world.pos.x;
+                            vtx[j].y += this->dyna.actor.world.pos.y;
+                            vtx[j].z += this->dyna.actor.world.pos.z;
                         }
                         Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
@@ -279,9 +279,9 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
-                            vtx[j].x += this->dyna.actor.posRot.pos.x;
-                            vtx[j].y += this->dyna.actor.posRot.pos.y;
-                            vtx[j].z += this->dyna.actor.posRot.pos.z;
+                            vtx[j].x += this->dyna.actor.world.pos.x;
+                            vtx[j].y += this->dyna.actor.world.pos.y;
+                            vtx[j].z += this->dyna.actor.world.pos.z;
                         }
                         Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
@@ -317,9 +317,9 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
-                            vtx[j].x += this->dyna.actor.posRot.pos.x;
-                            vtx[j].y += this->dyna.actor.posRot.pos.y;
-                            vtx[j].z += this->dyna.actor.posRot.pos.z;
+                            vtx[j].x += this->dyna.actor.world.pos.x;
+                            vtx[j].y += this->dyna.actor.world.pos.y;
+                            vtx[j].z += this->dyna.actor.world.pos.z;
                         }
                         Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
@@ -355,9 +355,9 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
-                            vtx[j].x += this->dyna.actor.posRot.pos.x;
-                            vtx[j].y += this->dyna.actor.posRot.pos.y;
-                            vtx[j].z += this->dyna.actor.posRot.pos.z;
+                            vtx[j].x += this->dyna.actor.world.pos.x;
+                            vtx[j].y += this->dyna.actor.world.pos.y;
+                            vtx[j].z += this->dyna.actor.world.pos.z;
                         }
                         Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
@@ -414,7 +414,7 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 rand1;
     s16 rand2;
-    Vec3f* thisPos = &this->dyna.actor.posRot.pos;
+    Vec3f* thisPos = &this->dyna.actor.world.pos;
     Vec3f debrisPos;
     f32 tempx;
     f32 tempz;
@@ -472,7 +472,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actionFunc = BgMizuBwall_Break;
-    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

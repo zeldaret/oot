@@ -21,7 +21,7 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
-    ACTORTYPE_EXPLOSIVES,
+    ACTORCAT_EXPLOSIVE,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBom),
@@ -80,7 +80,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
 
@@ -95,10 +95,10 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawFunc_Circle, 16.0f);
+    ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
     thisx->colChkInfo.mass = 200;
-    thisx->colChkInfo.unk_10 = 5;
-    thisx->colChkInfo.unk_12 = 0xA;
+    thisx->colChkInfo.cylRadius = 5;
+    thisx->colChkInfo.cylHeight = 10;
     this->timer = 70;
     this->flashSpeedScale = 7;
     Collider_InitCylinder(globalCtx, &this->bombCollider);
@@ -136,9 +136,8 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
 
     // rebound bomb off the wall it hits
     if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
-        if (ABS((s16)(this->actor.wallPolyRot - this->actor.posRot.rot.y)) > 0x4000) {
-            this->actor.posRot.rot.y =
-                ((this->actor.wallPolyRot - this->actor.posRot.rot.y) + this->actor.wallPolyRot) - 0x8000;
+        if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
+            this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_BOUND);
         Actor_MoveForward(&this->actor);
@@ -175,7 +174,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
     this->explosionCollider.elements[0].dim.worldSphere.radius += this->actor.shape.rot.z + 8;
@@ -243,20 +242,20 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
     }
 
-    if ((thisx->xzDistToLink >= 20.0f) || (ABS(thisx->yDistToLink) >= 80.0f)) {
+    if ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f)) {
         this->bumpOn = true;
     }
 
     this->actionFunc(this, globalCtx);
 
-    func_8002E4B4(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {
             dustAccel.y = 0.2f;
 
             // spawn spark effect on even frames
-            effPos = thisx->posRot.pos;
+            effPos = thisx->world.pos;
             effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
                 EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
@@ -268,20 +267,20 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
-        if ((this->bombCollider.base.acFlags & AC_HIT) ||
-            ((this->bombCollider.base.ocFlags1 & OC1_HIT) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
+                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // these bombs never have a timer over 70, so this isnt used
-            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->world.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
 
         dustAccel.y = 0.2f;
-        effPos = thisx->posRot.pos;
+        effPos = thisx->world.pos;
         effPos.y += 10.0f;
 
         // double bomb flash speed and adjust red color at certain times during the countdown
@@ -301,7 +300,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->timer == 0) {
-            effPos = thisx->posRot.pos;
+            effPos = thisx->world.pos;
 
             effPos.y += 10.0f;
             if (Actor_HasParent(thisx, globalCtx)) {
@@ -311,8 +310,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100,
                                        (thisx->shape.rot.z * 6) + 19);
 
-            effPos.y = thisx->groundY;
-            if (thisx->groundY > BGCHECK_Y_MIN) {
+            effPos.y = thisx->floorHeight;
+            if (thisx->floorHeight > BGCHECK_Y_MIN) {
                 EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
@@ -328,7 +327,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetHeight(thisx, 20.0f);
+    Actor_SetFocus(thisx, 20.0f);
 
     if (thisx->params <= BOMB_BODY) {
         Collider_UpdateCylinder(thisx, &this->bombCollider);

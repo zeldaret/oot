@@ -17,7 +17,7 @@ void ObjHana_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Hana_InitVars = {
     ACTOR_OBJ_HANA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHana),
@@ -77,7 +77,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, params->scale);
-    this->actor.shape.unk_08 = params->yOffset;
+    this->actor.shape.yOffset = params->yOffset;
     if (params->radius >= 0) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -103,7 +103,7 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjHana* this = THIS;
 
-    if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistToLink < 400.0f) {
+    if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistToPlayer < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

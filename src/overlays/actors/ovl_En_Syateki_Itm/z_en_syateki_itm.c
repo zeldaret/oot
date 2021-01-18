@@ -31,7 +31,7 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx);
 
 const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSyatekiItm),
@@ -105,12 +105,12 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->signal == ENSYATEKI_START) {
-        player->actor.posRot.pos.x = -12.0f;
-        player->actor.posRot.pos.y = 20.0f;
-        player->actor.posRot.pos.z = 182.0f;
-        player->currentYaw = player->actor.posRot.rot.y = player->actor.shape.rot.y = 0x7F03;
-        player->actor.posRot.rot.x = player->actor.shape.rot.x = player->actor.posRot.rot.z =
-            player->actor.shape.rot.z = 0;
+        player->actor.world.pos.x = -12.0f;
+        player->actor.world.pos.y = 20.0f;
+        player->actor.world.pos.z = 182.0f;
+        player->currentYaw = player->actor.world.rot.y = player->actor.shape.rot.y = 0x7F03;
+        player->actor.world.rot.x = player->actor.shape.rot.x = player->actor.world.rot.z = player->actor.shape.rot.z =
+            0;
         func_8008EF44(globalCtx, 15);
         this->roundNum = this->hitCount = 0;
         for (i = 0; i < 6; i++) {
@@ -346,8 +346,8 @@ void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unkTimer--;
     }
     if (BREG(0)) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }
 }

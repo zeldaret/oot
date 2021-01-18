@@ -28,7 +28,7 @@ void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx);
 
 const ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SB,
     sizeof(EnSb),
@@ -87,8 +87,8 @@ static DamageTable sDamageTable[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 39, ICHAIN_CONTINUE),
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 static Vec3f sFlamePosOffsets[] = {
@@ -145,7 +145,7 @@ void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
 
     if (this->actor.yDistToWater > 0) {
         for (i = 0; i < 10; i++) {
-            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
     }
 }
@@ -211,9 +211,9 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
 
 void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistToLink <= 160.0f) && (this->actor.xzDistToLink > 40.0f)) {
+    if ((this->actor.xzDistToPlayer <= 160.0f) && (this->actor.xzDistToPlayer > 40.0f)) {
         EnSb_SetupOpen(this);
     }
 }
@@ -225,8 +225,8 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
     } else {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
-        if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, 0x7D0, 0x0);
+        if ((this->actor.xzDistToPlayer > 160.0f) || (this->actor.xzDistToPlayer <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
     }
@@ -235,9 +235,9 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x7D0, 0x0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, 0x7D0, 0x0);
 
-    if ((this->actor.xzDistToLink > 160.0f) || (this->actor.xzDistToLink <= 40.0f)) {
+    if ((this->actor.xzDistToPlayer > 160.0f) || (this->actor.xzDistToPlayer <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
     }
 
@@ -245,7 +245,7 @@ void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
         this->timer = timer - 1;
     } else {
         this->timer = 0;
-        this->attackYaw = this->actor.yawTowardsLink;
+        this->attackYaw = this->actor.yawTowardsPlayer;
         this->actionFunc = EnSb_TurnAround;
     }
 }
@@ -257,7 +257,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, invertedYaw, 0x1, 0x1F40, 0xA);
 
     if (this->actor.shape.rot.y == invertedYaw) {
-        this->actor.posRot.rot.y = this->attackYaw;
+        this->actor.world.rot.y = this->attackYaw;
         if (this->actor.yDistToWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
             this->actor.speedXZ = 5.0f;
@@ -392,8 +392,8 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                 hitByWindArrow = true;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -410,8 +410,8 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
-                    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
@@ -428,7 +428,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             func_80032E24(&this->unk_1E0, 8, globalCtx);
             this->isDead = true;
             func_80032C7C(globalCtx, &this->actor);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EN_SHELL_DEAD);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }
 
@@ -456,18 +456,18 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (func_8003305C(this, &this->unk_1E0, globalCtx, this->actor.params) != 0) {
             if (!this->hitByWindArrow) {
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x80);
+                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x80);
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 8);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
             }
             Actor_Kill(&this->actor);
         }
     } else {
-        Actor_SetHeight(&this->actor, 20.0f);
+        Actor_SetFocus(&this->actor, 20.0f);
         Actor_SetScale(&this->actor, 0.006f);
         Actor_MoveForward(&this->actor);
         this->actionFunc(this, globalCtx);
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
         EnSb_UpdateDamage(this, globalCtx);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -493,15 +493,15 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnSb_PostLimbDraw, this);
     if (this->fire != 0) {
-        this->actor.dmgEffectTimer++;
+        this->actor.colorFilterTimer++;
         fireDecr = this->fire - 1;
         // this is intended to draw flames after being burned, but the condition is never met to run this code
         // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement
         if ((fireDecr & 1) == 0) {
             offset = &sFlamePosOffsets[(fireDecr & 3)];
-            flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
-            flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
-            flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
+            flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + offset->x);
+            flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + offset->y);
+            flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + offset->z);
             EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 100, 0, 0, -1);
         }
     }

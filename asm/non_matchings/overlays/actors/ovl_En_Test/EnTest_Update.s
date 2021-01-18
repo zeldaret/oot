@@ -29,7 +29,7 @@ glabel EnTest_Update
 /* 04088 808636D8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0408C 808636DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04090 808636E0 3C064296 */  lui     $a2, 0x4296                ## $a2 = 42960000
-/* 04094 808636E4 0C00B92D */  jal     func_8002E4B4
+/* 04094 808636E4 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 04098 808636E8 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 0409C 808636EC 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 040A0 808636F0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -288,11 +288,11 @@ glabel L808638F4
 /* 04410 80863A60 55600011 */  bnel    $t3, $zero, .L80863AA8
 /* 04414 80863A64 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 04418 80863A68 918D1C27 */  lbu     $t5, 0x1C27($t4)           ## 00001C27
-/* 0441C 80863A6C 3C188003 */  lui     $t8, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 0441C 80863A6C 3C188003 */  lui     $t8, %hi(ActorShadow_DrawFeet)
 /* 04420 80863A70 51A00008 */  beql    $t5, $zero, .L80863A94
 /* 04424 80863A74 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
 /* 04428 80863A78 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
-/* 0442C 80863A7C 2718B8C4 */  addiu   $t8, %lo(ActorShadow_DrawFunc_Teardrop)
+/* 0442C 80863A7C 2718B8C4 */  addiu   $t8, %lo(ActorShadow_DrawFeet)
 /* 04430 80863A80 AE1800C0 */  sw      $t8, 0x00C0($s0)           ## 000000C0
 /* 04434 80863A84 35CF0081 */  ori     $t7, $t6, 0x0081           ## $t7 = 00000081
 /* 04438 80863A88 10000006 */  beq     $zero, $zero, .L80863AA4

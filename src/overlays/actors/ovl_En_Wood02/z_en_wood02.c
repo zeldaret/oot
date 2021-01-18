@@ -36,7 +36,7 @@ typedef enum {
 
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_WOOD02,
     sizeof(EnWood02),
@@ -71,7 +71,7 @@ static f32 sSpawnDistance[] = { 707.0f, 525.0f, 510.0f, 500.0f, 566.0f, 141.0f }
 static s16 sSpawnAngle[] = { 0x1FFF, 0x4C9E, 0x77F5, 0xA5C9, 0xD6C3, 0xA000 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 
 static Gfx* D_80B3BF54[] = {
@@ -123,11 +123,11 @@ void EnWood02_SpawnOffspring(EnWood02* this, GlobalContext* globalCtx) {
                 extraRot = 0x4000;
             }
             childSpawnAngle = &sSpawnAngle[i];
-            sSpawnCos = Math_CosS(*childSpawnAngle + this->actor.posRot.rot.y + extraRot);
-            sSpawnSin = Math_SinS(*childSpawnAngle + this->actor.posRot.rot.y + extraRot);
-            childPos.x = (sSpawnDistance[i] * sSpawnSin) + this->actor.initPosRot.pos.x;
-            childPos.y = this->actor.initPosRot.pos.y;
-            childPos.z = (sSpawnDistance[i] * sSpawnCos) + this->actor.initPosRot.pos.z;
+            sSpawnCos = Math_CosS(*childSpawnAngle + this->actor.world.rot.y + extraRot);
+            sSpawnSin = Math_SinS(*childSpawnAngle + this->actor.world.rot.y + extraRot);
+            childPos.x = (sSpawnDistance[i] * sSpawnSin) + this->actor.home.pos.x;
+            childPos.y = this->actor.home.pos.y;
+            childPos.z = (sSpawnDistance[i] * sSpawnCos) + this->actor.home.pos.z;
             if (EnWood02_SpawnZoneCheck(this, globalCtx, &childPos)) {
                 if ((this->unk_14E[i] & 0x80) != 0) {
                     childParams = (0xFF00 | (this->actor.params + 1));
@@ -136,7 +136,7 @@ void EnWood02_SpawnOffspring(EnWood02* this, GlobalContext* globalCtx) {
                 }
                 childWood = (EnWood02*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                           ACTOR_EN_WOOD02, childPos.x, childPos.y, childPos.z,
-                                                          this->actor.posRot.rot.x, *childSpawnAngle, 0, childParams);
+                                                          this->actor.world.rot.x, *childSpawnAngle, 0, childParams);
                 if (childWood != NULL) {
                     childWood->unk_14E[0] = i;
                     this->unk_14E[i] |= 1;
@@ -163,10 +163,10 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     actorScale = 1.0f;
     this->unk_14C = (this->actor.params >> 8) & 0xFF;
 
-    if (this->actor.initPosRot.rot.z != 0) {
-        this->actor.initPosRot.rot.z = (this->actor.initPosRot.rot.z << 8) | this->unk_14C;
+    if (this->actor.home.rot.z != 0) {
+        this->actor.home.rot.z = (this->actor.home.rot.z << 8) | this->unk_14C;
         this->unk_14C = -1;
-        this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
+        this->actor.world.rot.z = this->actor.shape.rot.z = 0;
     } else if (this->unk_14C & 0x80) {
         this->unk_14C = -1;
     }
@@ -257,28 +257,27 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (spawnType == WOOD_SPAWN_SPAWNER) {
             this->drawType |= this->unk_14C << 4;
             EnWood02_SpawnOffspring(this, globalCtx);
-            sSpawnCos = Math_CosS(sSpawnAngle[5] + this->actor.posRot.rot.y + extraRot);
-            sSpawnSin = Math_SinS(sSpawnAngle[5] + this->actor.posRot.rot.y + extraRot);
-            this->actor.posRot.pos.x += (sSpawnSin * sSpawnDistance[5]);
-            this->actor.posRot.pos.z += (sSpawnCos * sSpawnDistance[5]);
+            sSpawnCos = Math_CosS(sSpawnAngle[5] + this->actor.world.rot.y + extraRot);
+            sSpawnSin = Math_SinS(sSpawnAngle[5] + this->actor.world.rot.y + extraRot);
+            this->actor.world.pos.x += (sSpawnSin * sSpawnDistance[5]);
+            this->actor.world.pos.z += (sSpawnCos * sSpawnDistance[5]);
         } else {
             this->actor.flags |= 0x10;
         }
 
         // Snap to floor, or remove if over void
-        this->actor.posRot.pos.y += 200.0f;
-        floorY =
-            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &outPoly, &bgId, &this->actor, &this->actor.posRot.pos);
+        this->actor.world.pos.y += 200.0f;
+        floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &outPoly, &bgId, &this->actor, &this->actor.world.pos);
 
         if (floorY > BGCHECK_Y_MIN) {
-            this->actor.posRot.pos.y = floorY;
+            this->actor.world.pos.y = floorY;
         } else {
             Actor_Kill(&this->actor);
             return;
         }
     }
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    this->actor.initPosRot.rot.y = 0;
+    this->actor.home.rot.y = 0;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -325,19 +324,19 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
-        if (this->actor.initPosRot.rot.y != 0) {
-            dropsSpawnPt = this->actor.posRot.pos;
+        if (this->actor.home.rot.y != 0) {
+            dropsSpawnPt = this->actor.world.pos;
             dropsSpawnPt.y += 200.0f;
 
             if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &dropsSpawnPt, this->unk_14C << 4);
             } else {
-                if (this->actor.initPosRot.rot.z != 0) {
-                    this->actor.initPosRot.rot.z &= 0x1FFF;
-                    this->actor.initPosRot.rot.z |= 0xE000;
+                if (this->actor.home.rot.z != 0) {
+                    this->actor.home.rot.z &= 0x1FFF;
+                    this->actor.home.rot.z |= 0xE000;
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, dropsSpawnPt.x, dropsSpawnPt.y,
-                                dropsSpawnPt.z, 0, this->actor.posRot.rot.y, 0, this->actor.initPosRot.rot.z);
-                    this->actor.initPosRot.rot.z = 0;
+                                dropsSpawnPt.z, 0, this->actor.world.rot.y, 0, this->actor.home.rot.z);
+                    this->actor.home.rot.z = 0;
                 }
             }
 
@@ -357,10 +356,10 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             }
             this->unk_14C = -0x15;
-            this->actor.initPosRot.rot.y = 0;
+            this->actor.home.rot.y = 0;
         }
 
-        if (this->actor.xzDistToLink < 600.0f) {
+        if (this->actor.xzDistToPlayer < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -369,12 +368,12 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Player* player = PLAYER;
 
         if (this->unk_14C >= -1) {
-            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToLinkSq) < 20.0) &&
+            if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
                  (player->linearVelocity != 0.0f)) ||
-                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToLinkSq) < 60.0) &&
+                ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
                  (player->rideActor->speedXZ != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
-                    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos,
+                    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos,
                                                ((this->unk_14C << 4) | 0x8000));
                 }
                 this->unk_14C = -0x15;
@@ -398,8 +397,8 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk_14C < -1) {
         this->unk_14C++;
         wobbleAmplitude = Math_SinS((this->unk_14C ^ 0xFFFF) * 0x3332) * 250.0f;
-        this->actor.shape.rot.x = (Math_CosS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * wobbleAmplitude);
-        this->actor.shape.rot.z = (Math_SinS(this->actor.yawTowardsLink - this->actor.shape.rot.y) * wobbleAmplitude);
+        this->actor.shape.rot.x = (Math_CosS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * wobbleAmplitude);
+        this->actor.shape.rot.z = (Math_SinS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) * wobbleAmplitude);
     }
 }
 

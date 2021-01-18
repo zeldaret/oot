@@ -24,7 +24,7 @@ glabel func_80A20CAC
 /* 00F44 80A20D04 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00F48 80A20D08 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00F4C 80A20D0C 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 00F50 80A20D10 0C00CDD2 */  jal     Actor_ChangeType
+/* 00F50 80A20D10 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00F54 80A20D14 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00F58 80A20D18 8FA40024 */  lw      $a0, 0x0024($sp)           

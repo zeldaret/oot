@@ -43,7 +43,7 @@ glabel EnOwl_Update
 /* 027D0 80ACC6F0 44070000 */  mfc1    $a3, $f0
 /* 027D4 80ACC6F4 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 027D8 80ACC6F8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 027DC 80ACC6FC 0C00B92D */  jal     func_8002E4B4
+/* 027DC 80ACC6FC 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 027E0 80ACC700 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 027E4 80ACC704 8E190410 */  lw      $t9, 0x0410($s0)           ## 00000410
 /* 027E8 80ACC708 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

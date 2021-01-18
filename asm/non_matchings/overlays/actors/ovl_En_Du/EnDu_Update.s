@@ -69,7 +69,7 @@ glabel EnDu_Update
 /* 011E0 809FEE10 44070000 */  mfc1    $a3, $f0                   
 /* 011E4 809FEE14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 011E8 809FEE18 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 011EC 809FEE1C 0C00B92D */  jal     func_8002E4B4              
+/* 011EC 809FEE1C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 011F0 809FEE20 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 011F4 809FEE24 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190
 /* 011F8 809FEE28 3C0980A0 */  lui     $t1, %hi(func_809FE4A4)    ## $t1 = 80A00000
