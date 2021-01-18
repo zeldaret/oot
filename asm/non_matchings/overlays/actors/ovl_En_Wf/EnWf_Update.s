@@ -69,7 +69,7 @@ glabel EnWf_Update
 /* 03638 80B372E8 AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 0363C 80B372EC AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 03640 80B372F0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 03644 80B372F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03648 80B372F8 8E0202D4 */  lw      $v0, 0x02D4($s0)           ## 000002D4
 /* 0364C 80B372FC 28410006 */  slti    $at, $v0, 0x0006           
@@ -85,7 +85,7 @@ glabel EnWf_Update
 /* 03674 80B37324 5560000D */  bnel    $t3, $zero, .L80B3735C     
 /* 03678 80B37328 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 .L80B3732C:
-/* 0367C 80B3732C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0367C 80B3732C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 03680 80B37330 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 03684 80B37334 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

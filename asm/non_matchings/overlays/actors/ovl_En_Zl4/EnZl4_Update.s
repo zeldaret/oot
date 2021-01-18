@@ -31,7 +31,7 @@ glabel EnZl4_Update
 /* 02B74 80B5E324 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 02B78 80B5E328 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 02B7C 80B5E32C AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 02B80 80B5E330 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02B80 80B5E330 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02B84 80B5E334 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02B88 80B5E338 8FA4003C */  lw      $a0, 0x003C($sp)           
@@ -39,7 +39,7 @@ glabel EnZl4_Update
 /* 02B90 80B5E340 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02B94 80B5E344 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02B98 80B5E348 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02B9C 80B5E34C 00812821 */  addu    $a1, $a0, $at              
 /* 02BA0 80B5E350 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02BA4 80B5E354 8FB00020 */  lw      $s0, 0x0020($sp)           

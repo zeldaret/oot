@@ -1,7 +1,14 @@
+/*
+ * File: z_en_g_switch.c
+ * Overlay: ovl_En_G_Switch
+ * Description: Silver rupees, shooting gallery targets, and horseback archery pots
+ */
+
 #include "z_en_g_switch.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 
 #define FLAGS 0x00000030
 
@@ -36,8 +43,22 @@ extern Gfx D_06001960[];
 static s16 sCollectedCount = 0;
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 13, 40, 0, { 0, 0, 0 } },
 };
 
@@ -117,7 +138,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.body.bumper.flags = 0x1F820;
+            this->collider.info.bumper.dmgFlags = 0x1F820;
             this->objId = OBJECT_TSUBO;
             this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
             if (this->objIndex < 0) {
@@ -163,10 +184,10 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     randPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(40.0f);
     randPos.y = this->actor.posRot.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
     randPos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(40.0f);
-    hitPos.x = this->collider.body.bumper.unk_06.x;
-    hitPos.y = this->collider.body.bumper.unk_06.y;
-    hitPos.z = this->collider.body.bumper.unk_06.z;
-    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 700, &hitPos);
+    hitPos.x = this->collider.info.bumper.hitPos.x;
+    hitPos.y = this->collider.info.bumper.hitPos.y;
+    hitPos.z = this->collider.info.bumper.hitPos.z;
+    EffectSsHitMark_SpawnCustomScale(globalCtx, EFFECT_HITMARK_WHITE, 700, &hitPos);
     if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
         EffectSsExtra_Spawn(globalCtx, &hitPos, &velocity, &accel, 5, 2);
@@ -319,9 +340,9 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 }
                 break;
         }
-        if ((this->collider.base.acFlags & 2) || BREG(8)) {
+        if ((this->collider.base.acFlags & AC_HIT) || BREG(8)) {
             gallery = ((EnSyatekiItm*)this->actor.parent);
-            this->collider.base.acFlags &= ~2;
+            this->collider.base.acFlags &= ~AC_HIT;
             if (gallery->actor.update != NULL) {
                 gallery->hitCount++;
                 gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
@@ -344,8 +365,8 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.posRot.pos;
 
     this->actor.shape.rot.y += 0x3C0;
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         for (i = 0, angle = 0; i < 30; i++, angle += 0x4E20) {
             Vec3f pos;
             Vec3f vel;
@@ -421,7 +442,7 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
             EnGSwitch_UpdateEffects(this, globalCtx);
         }
         if ((this->actionFunc != EnGSwitch_Kill) && (this->actionFunc != EnGSwitch_SilverRupeeIdle)) {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }

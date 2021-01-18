@@ -41,38 +41,87 @@ const ActorInit Bg_Haka_Sgami_InitVars = {
     NULL,
 };
 
-static ColliderTrisItemInit sTriItemsInit[] = {
+static ColliderTrisElementInit sTrisElementsInit[4] = {
     {
-        { 0x02, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { { { 365.0f, 45.0f, 27.0f }, { 130.0f, 45.0f, 150.0f }, { 290.0f, 45.0f, 145.0f } } },
     },
     {
-        { 0x02, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { { { 250.0f, 45.0f, 90.0f }, { 50.0f, 45.0f, 80.0f }, { 160.0f, 45.0f, 160.0f } } },
     },
     {
-        { 0x02, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { { { -305.0f, 33.0f, -7.0f }, { -220.0f, 33.0f, 40.0f }, { -130.0f, 33.0f, -5.0f } } },
     },
     {
-        { 0x02, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { { { -190.0f, 33.0f, 40.0f }, { -30.0f, 33.0f, 15.0f }, { -70.0f, 33.0f, -30.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x20, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_TRIS,
+    },
     4,
-    sTriItemsInit,
+    sTrisElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 80, 130, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 130, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
@@ -108,7 +157,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->colliderScytheCenter.dim.pos.y = thisx->posRot.pos.y;
     this->colliderScytheCenter.dim.pos.z = thisx->posRot.pos.z;
 
-    func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 
     for (i = 0; i < 4; i++) {
         blureInit.p1StartColor[i] = sP1StartColor[i];
@@ -174,7 +223,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
     f32 actorRotYSin;
     f32 actorRotYCos;
     s32 iterateCount;
-    ColliderTrisItemInit* colliderList;
+    ColliderTrisElementInit* elementInit;
 
     if (this->timer != 0) {
         this->timer--;
@@ -192,24 +241,25 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
     iterateCount = (this->actor.params != 0) ? 4 : 2;
 
     for (i = iterateCount - 2; i < iterateCount; i++) {
-        colliderList = &sTrisInit.list[i];
+        elementInit = &sTrisInit.elements[i];
 
         for (j = 0; j < 3; j++) {
-            scytheVertices[j].x = this->actor.posRot.pos.x + colliderList->dim.vtx[j].z * actorRotYSin +
-                                  colliderList->dim.vtx[j].x * actorRotYCos;
-            scytheVertices[j].y = this->actor.posRot.pos.y + colliderList->dim.vtx[j].y;
-            scytheVertices[j].z = this->actor.posRot.pos.z + colliderList->dim.vtx[j].z * actorRotYCos -
-                                  colliderList->dim.vtx[j].x * actorRotYSin;
+            scytheVertices[j].x = this->actor.posRot.pos.x + elementInit->dim.vtx[j].z * actorRotYSin +
+                                  elementInit->dim.vtx[j].x * actorRotYCos;
+            scytheVertices[j].y = this->actor.posRot.pos.y + elementInit->dim.vtx[j].y;
+            scytheVertices[j].z = this->actor.posRot.pos.z + elementInit->dim.vtx[j].z * actorRotYCos -
+                                  elementInit->dim.vtx[j].x * actorRotYSin;
         }
 
-        func_800627A0(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
+        Collider_SetTrisVertices(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
 
         for (j = 0; j < 3; j++) {
             scytheVertices[j].x = (2 * this->actor.posRot.pos.x) - scytheVertices[j].x;
             scytheVertices[j].z = (2 * this->actor.posRot.pos.z) - scytheVertices[j].z;
         }
 
-        func_800627A0(&this->colliderScythe, (i + 2) % 4, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
+        Collider_SetTrisVertices(&this->colliderScythe, (i + 2) % 4, &scytheVertices[0], &scytheVertices[1],
+                                 &scytheVertices[2]);
     }
 
     if ((this->unk_151 == 0) || (globalCtx->actorCtx.unk_03 != 0)) {

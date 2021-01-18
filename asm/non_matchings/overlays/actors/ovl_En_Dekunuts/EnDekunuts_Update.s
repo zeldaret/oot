@@ -34,7 +34,7 @@ glabel EnDekunuts_Update
 /* 01348 809EA8A8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0134C 809EA8AC 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 01350 809EA8B0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01354 809EA8B4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01354 809EA8B4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01358 809EA8B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0135C 809EA8BC 920902D9 */  lbu     $t1, 0x02D9($s0)           ## 000002D9
@@ -53,7 +53,7 @@ glabel EnDekunuts_Update
 /* 01388 809EA8E8 02212821 */  addu    $a1, $s1, $at              
 /* 0138C 809EA8EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01390 809EA8F0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01394 809EA8F4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01398 809EA8F8 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190
 /* 0139C 809EA8FC 3C0B809F */  lui     $t3, %hi(func_809E9B98)    ## $t3 = 809F0000

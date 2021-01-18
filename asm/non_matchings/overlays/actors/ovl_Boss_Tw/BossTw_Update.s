@@ -207,7 +207,7 @@ glabel BossTw_Update
 /* 07CC4 80940994 3048FFFD */  andi    $t0, $v0, 0xFFFD           ## $t0 = 00000000
 /* 07CC8 80940998 A22805BD */  sb      $t0, 0x05BD($s1)           ## 000005BD
 .L8094099C:
-/* 07CCC 8094099C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 07CCC 8094099C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 07CD0 809409A0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000005AC
 /* 07CD4 809409A4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

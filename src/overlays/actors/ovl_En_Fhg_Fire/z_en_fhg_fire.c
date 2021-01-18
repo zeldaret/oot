@@ -276,8 +276,8 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags = this->collider.base.atFlags & ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 
@@ -288,7 +288,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(&this->actor);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     if (player->invincibilityTimer == 0) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -337,9 +337,9 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, this->scale);
     if (3.0f < this->unk_18C) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if (player->invincibilityTimer == 0) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, (Collider*)&this->collider);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 

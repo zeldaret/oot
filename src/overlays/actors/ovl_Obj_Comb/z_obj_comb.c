@@ -33,17 +33,31 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x4001FFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    &sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -60,7 +74,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx** dlist = D_05009940;
+    Gfx* dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -131,7 +145,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             params = -1;
         }
         if (params >= 0) {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, params);
+            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, params);
         }
     }
 }
@@ -141,7 +155,7 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     ObjComb_SetupWait(this);
 }
 
@@ -157,17 +171,17 @@ void ObjComb_SetupWait(ObjComb* this) {
 }
 
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
-    s32 toucherFlags;
+    s32 dmgFlags;
 
     this->unk_1B0 -= 50;
     if (this->unk_1B0 < 0) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.base.acFlags & 0x2) != 0) {
-        this->collider.base.acFlags &= ~0x2;
-        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
-        if (toucherFlags & 0x4001F866) {
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        dmgFlags = this->collider.elements[0].info.acHitInfo->toucher.dmgFlags;
+        if (dmgFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);
@@ -175,11 +189,11 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
     if (this->actor.update != NULL) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -211,7 +225,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
 
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

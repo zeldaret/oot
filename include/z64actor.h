@@ -9,6 +9,8 @@
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
+#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC collisions
+#define MASS_HEAVY 0xFE // Can only be pushed by OC collisions with IMMOVABLE and HEAVY objects.
 
 struct Actor;
 // From z64.h

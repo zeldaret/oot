@@ -49,13 +49,26 @@ const ActorInit En_Nwc_InitVars = {
     (ActorFunc)EnNwc_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphElementInit = {
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+static ColliderJntSphElementInit sJntSphElementInit = {
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 0, { { 0, 0, 0 }, 10 }, 100 },
 };
 
-static ColliderJntSphInit_Set3 sJntSphInit = {
-    { COLTYPE_UNK3, 0x00, 0x09, 0x39, COLSHAPE_JNTSPH },
+static ColliderJntSphInitType1 sJntSphInit = {
+    {
+        COLTYPE_HIT3,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_JNTSPH,
+    },
     16,
     NULL,
 };
@@ -105,7 +118,7 @@ void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, GlobalContext* globalCtx) {
 void EnNwc_UpdateChicks(EnNwc* this, GlobalContext* globalCtx) {
     static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
-    ColliderJntSphItem* element = this->collider.list;
+    ColliderJntSphElement* element = this->collider.elements;
     Vec3f prevChickPos;
     s32 i;
     f32 test;
@@ -198,18 +211,18 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
 void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNwc* this = THIS;
-    ColliderJntSphItemInit elementInits[16];
-    ColliderJntSphItemInit* element;
+    ColliderJntSphElementInit elementInits[16];
+    ColliderJntSphElementInit* element;
     EnNwcChick* chick;
     s32 i;
 
-    element = sJntSphInit.list = elementInits;
+    element = sJntSphInit.elements = elementInits;
     for (i = 0; i < 16; i++, element++) {
         *element = sJntSphElementInit;
     }
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph_Set3(globalCtx, &this->collider, &this->actor, &sJntSphInit);
+    Collider_SetJntSphAllocType1(globalCtx, &this->collider, &this->actor, &sJntSphInit);
     this->count = 16;
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {
