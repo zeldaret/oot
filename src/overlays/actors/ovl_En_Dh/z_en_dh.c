@@ -334,7 +334,8 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
+                    AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
                 this->actionState++;
             } else if (this->collider2.base.atFlags & AT_HIT) {
@@ -351,7 +352,8 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
                 Animation_Change(&this->skelAnime, &D_06004658, -1.0f, Animation_GetLastFrame(&D_06004658), 0.0f,
                                  ANIMMODE_ONCE, -4.0f);
                 this->actionState++;
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
+                    AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
             }
             break;

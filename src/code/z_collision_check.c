@@ -212,7 +212,7 @@ s32 Collider_InitInfo(GlobalContext* globalCtx, ColliderInfo* info) {
     static ColliderInfo init = {
         { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
         ELEMTYPE_UNK0, TOUCH_NONE,
-        BUMP_NONE,      OCELEM_NONE,
+        BUMP_NONE,     OCELEM_NONE,
         NULL,          NULL,
         NULL,          NULL,
     };
@@ -551,8 +551,8 @@ s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collide
 }
 
 /**
- * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OC2_TYPE_1
- * and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
+ * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default
+ * OC2_TYPE_1 and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
  */
 s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider,
                                 ColliderCylinderInitToActor* src) {

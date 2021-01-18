@@ -47,7 +47,7 @@ void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
-    
+
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
