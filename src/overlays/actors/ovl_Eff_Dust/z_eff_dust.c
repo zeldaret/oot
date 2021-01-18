@@ -11,11 +11,11 @@ void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8099D8E0(EffDust* this);
 
-f32 func_8099DB28(EffDust* this, GlobalContext* globalCtx);
-f32 func_8099DD74(EffDust* this, GlobalContext* globalCtx);
-f32 func_8099DFC0(EffDust* this, GlobalContext* globalCtx);
-f32 func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
-f32 func_8099E784(EffDust* this, GlobalContext* globalCtx);
+void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx);
+void func_8099DD74(EffDust* this, GlobalContext* globalCtx);
+void func_8099DFC0(EffDust* this, GlobalContext* globalCtx);
+void func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
+void func_8099E784(EffDust* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_04037880;
 
@@ -47,7 +47,7 @@ void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
 
 void func_8099D8E0(EffDust *this) {
     s32 i;
-    for (i = 0; i != 0x40; i++) {
+    for (i = 0; i < 0x40; i++) {
         this->unk_024C[i].z = 0.0f;
         this->unk_024C[i].y = 0.0f;
         this->unk_024C[i].x = 0.0f;
@@ -70,7 +70,7 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     switch(sp20){
     case 0:
-        EffDust_setUpdateFunc(this, func_8099DB28);
+        EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DB28);
         EffDust_setDrawFunc(this, func_8099E4F4);
         this->unk_0554 = 0.8f;
         this->unk_0558 = 0.8f;
@@ -123,7 +123,37 @@ void EffDust_Destroy(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DB28.s")
+void EffDust_UpdateFunc_8099DB28(EffDust *this, GlobalContext *globalCtx) {
+    s16 theta;
+    s16 fi;
+
+    f32 *unk_014C;
+
+    s32 i;
+    s32 j;
+
+    unk_014C = this->unk_014C;
+    for (i = 0; i < 0x40; i++) {
+        if ((*unk_014C) < 1.0f) {
+            *unk_014C += 0.05f;
+        }
+        unk_014C++;
+    }
+
+    for (j = 0; j < 3; j++){
+        i = this->unk_054C & 0x3F;
+        if (this->unk_014C[i] >= 1.0f) {
+            fi = Rand_CenteredFloat(8192.0f); 
+            theta = Rand_CenteredFloat(4096.0f); 
+            this->unk_024C[i].x = -800.0f * Math_CosS(fi) * Math_CosS(theta); 
+            this->unk_024C[i].y = -800.0f * Math_SinS(theta);
+            this->unk_024C[i].z = -800.0f * Math_SinS(fi) * Math_CosS(theta);
+            this->unk_014C[i] = 0.0f;
+            this->unk_054C += 1;
+        }
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DD74.s")
 
