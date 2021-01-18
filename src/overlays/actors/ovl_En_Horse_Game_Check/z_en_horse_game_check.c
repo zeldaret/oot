@@ -11,11 +11,11 @@
 
 #define THIS ((EnHorseGameCheckBase*)thisx)
 #define AT_FINISH_LINE(actor)                                                                                      \
-    (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->posRot.pos.x, \
-                            (actor)->posRot.pos.z))
+    (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->world.pos.x, \
+                            (actor)->world.pos.z))
 #define AT_RANCH_EXIT(actor)                                                                                   \
-    (Math3D_PointInSquare2D(sRanchExit[0], sRanchExit[1], sRanchExit[2], sRanchExit[3], (actor)->posRot.pos.x, \
-                            (actor)->posRot.pos.z))
+    (Math3D_PointInSquare2D(sRanchExit[0], sRanchExit[1], sRanchExit[2], sRanchExit[3], (actor)->world.pos.x, \
+                            (actor)->world.pos.z))
 
 #define INGORACE_PLAYER_MOVE (1 << 0)
 #define INGORACE_SET_TIMER (1 << 1)
@@ -159,14 +159,14 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
 
     for (i = 0; i < 3; i++) {
         if ((player->rideActor != NULL) &&
-            (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->posRot.pos) < 400.0f)) {
+            (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->world.pos) < 400.0f)) {
             if ((i > 0) && (this->playerCheck[i - 1] == 1)) {
                 this->playerCheck[i] = 1;
             } else if (i == 0) {
                 this->playerCheck[i] = 1;
             }
         }
-        if (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &this->ingoHorse->posRot.pos) < 400.0f) {
+        if (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &this->ingoHorse->world.pos) < 400.0f) {
             if ((i > 0) && (this->ingoCheck[i - 1] == 1)) {
                 this->ingoCheck[i] = 1;
             } else if (i == 0) {
@@ -346,7 +346,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             if ((this->lapCount == 0) && (i >= 8)) {
                 break;
             }
-            dist = Math_Vec3f_DistXZ(&sFencePos[i % 8], &player2->rideActor->posRot.pos);
+            dist = Math_Vec3f_DistXZ(&sFencePos[i % 8], &player2->rideActor->world.pos);
             if ((player->rideActor != NULL) && (dist < 250.0f)) {
                 horse = (EnHorse*)player2->rideActor;
 
@@ -367,7 +367,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             }
         }
         if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START) && AT_FINISH_LINE(player2->rideActor)) {
-            if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->pos4.x < -200.0f)) {
+            if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->prevPos.x < -200.0f)) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
@@ -388,7 +388,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
                 func_8010B680(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
                 this->finishTimer = 30;
-            } else if (player2->rideActor->pos4.x > 80.0f) {
+            } else if (player2->rideActor->prevPos.x > 80.0f) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
                 this->result = MALONRACE_FAILURE;
