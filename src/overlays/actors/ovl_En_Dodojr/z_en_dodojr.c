@@ -28,6 +28,26 @@ const ActorInit En_Dodojr_InitVars = {
     (ActorFunc)EnDodojr_Update,
     (ActorFunc)EnDodojr_Draw,
 };
+
+static ColliderCylinderInit D_809F7EB0 = {
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFC5FFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 18, 20, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodojr/EnDodojr_Init.s")
 

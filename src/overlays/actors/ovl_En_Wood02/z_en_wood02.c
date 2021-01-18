@@ -47,8 +47,22 @@ const ActorInit En_Wood02_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK13, 0x00, 0x0D, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x05, { 0x00000000, 0x00, 0x00 }, { 0x0FC0074A, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_TREE,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK5,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x0FC0074A, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 18, 60, 0, { 0, 0, 0 } },
 };
 
@@ -265,7 +279,7 @@ void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     this->actor.initPosRot.rot.y = 0;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -306,8 +320,8 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
-        if (this->collider.base.acFlags & 2) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
@@ -347,7 +361,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         if (this->actor.xzDistToLink < 600.0f) {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }

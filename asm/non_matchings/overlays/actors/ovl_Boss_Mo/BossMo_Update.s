@@ -560,7 +560,7 @@ glabel BossMo_Update
 /* 07C14 80923714 2651101C */  addiu   $s1, $s2, 0x101C           ## $s1 = 0000101C
 /* 07C18 80923718 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000101C
 /* 07C1C 8092371C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 07C20 80923720 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
 /* 07C24 80923724 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 07C28 80923728 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024

@@ -64,7 +64,7 @@ glabel func_80ABDBF8
 /* 01134 80ABDCE4 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01138 80ABDCE8 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0113C 80ABDCEC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01140 80ABDCF0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01144 80ABDCF4 0C00B638 */  jal     Actor_MoveForward
               

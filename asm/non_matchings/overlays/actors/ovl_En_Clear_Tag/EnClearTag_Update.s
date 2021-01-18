@@ -584,7 +584,7 @@ glabel EnClearTag_Update
 /* 00E34 809D43E4 A63801D6 */  sh      $t8, 0x01D6($s1)           ## 000001D6
 /* 00E38 809D43E8 A63901D8 */  sh      $t9, 0x01D8($s1)           ## 000001D8
 /* 00E3C 809D43EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
-/* 00E40 809D43F0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00E40 809D43F0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00E44 809D43F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E48 809D43F8 8FA400CC */  lw      $a0, 0x00CC($sp)           
@@ -680,7 +680,7 @@ glabel EnClearTag_Update
 /* 00F8C 809D453C A63801D6 */  sh      $t8, 0x01D6($s1)           ## 000001D6
 /* 00F90 809D4540 A63901D8 */  sh      $t9, 0x01D8($s1)           ## 000001D8
 /* 00F94 809D4544 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
-/* 00F98 809D4548 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00F98 809D4548 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00F9C 809D454C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00FA0 809D4550 8FA400CC */  lw      $a0, 0x00CC($sp)           

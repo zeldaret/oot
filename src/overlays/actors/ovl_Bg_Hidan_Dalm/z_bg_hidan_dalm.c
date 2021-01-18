@@ -30,34 +30,69 @@ const ActorInit Bg_Hidan_Dalm_InitVars = {
     (ActorFunc)BgHidanDalm_Draw,
 };
 
-static ColliderTrisItemInit sTrisItemInit[4] = {
+static ColliderTrisElementInit sTrisElementInit[4] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            OCELEM_NONE,
+        },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, -300.0f }, { 305.0f, 600.0f, 300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            OCELEM_NONE,
+        },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, 300.0f }, { 305.0f, 0.0f, 300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            OCELEM_NONE,
+        },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 600.0f, 300.0f }, { -305.0f, 600.0f, -300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000040, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
+            OCELEM_NONE,
+        },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 0.0f, 300.0f }, { -305.0f, 600.0f, 300.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_TRIS,
+    },
     4,
-    sTrisItemInit,
+    sTrisElementInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_STOP),
 };
 
 extern Gfx D_0600BBF0[];
@@ -95,10 +130,11 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->collider.base.acFlags & 2) && !Player_InCsMode(globalCtx) &&
+    if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
-        this->collider.base.acFlags &= ~2;
-        if (this->collider.list[0].body.bumperFlags & 2 || this->collider.list[1].body.bumperFlags & 2) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
+            (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;
@@ -161,19 +197,19 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
     Vec3f pos1;
     Vec3f pos0;
 
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[0], &pos0);
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[1], &pos1);
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[2], &pos2);
-    func_800627A0(&this->collider, 0, &pos0, &pos1, &pos2);
-    Matrix_MultVec3f(&sTrisItemInit[1].dim.vtx[2], &pos1);
-    func_800627A0(&this->collider, 1, &pos0, &pos2, &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[0], &pos0);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[1], &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[2], &pos2);
+    Collider_SetTrisVertices(&this->collider, 0, &pos0, &pos1, &pos2);
+    Matrix_MultVec3f(&sTrisElementInit[1].dim.vtx[2], &pos1);
+    Collider_SetTrisVertices(&this->collider, 1, &pos0, &pos2, &pos1);
 
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[0], &pos0);
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[1], &pos1);
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[2], &pos2);
-    func_800627A0(&this->collider, 2, &pos0, &pos1, &pos2);
-    Matrix_MultVec3f(&sTrisItemInit[3].dim.vtx[1], &pos2);
-    func_800627A0(&this->collider, 3, &pos0, &pos2, &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[0], &pos0);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[1], &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[2], &pos2);
+    Collider_SetTrisVertices(&this->collider, 2, &pos0, &pos1, &pos2);
+    Matrix_MultVec3f(&sTrisElementInit[3].dim.vtx[1], &pos2);
+    Collider_SetTrisVertices(&this->collider, 3, &pos0, &pos2, &pos1);
 }
 
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {

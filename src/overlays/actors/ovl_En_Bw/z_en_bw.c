@@ -52,20 +52,78 @@ const ActorInit En_Bw_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x01, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { 30, 65, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 35, 0, { 0, 0, 0 } },
 };
 
 static DamageTable sDamageTable = {
-    0x10, 0x00, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x10, 0x00, 0xF2, 0xF4, 0xF2, 0xE4, 0xF2, 0xF2, 0xF2,
-    0xF2, 0x60, 0xE3, 0x60, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xF),
+    /* Ice arrow     */ DMG_ENTRY(4, 0xE),
+    /* Light arrow   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xF),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(3, 0xE),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static s32 sSlugGroup = 0;
@@ -84,7 +142,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.posRot2.pos = this->actor.posRot.pos;
     func_809CE9A8(this);
     this->color1.a = this->color1.r = 255;
@@ -387,11 +445,11 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
     this->actor.scale.x = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
     this->actor.scale.y = 0.013f + Math_SinF(this->unk_222 * 0.001f) * 0.0245f;
     this->actor.scale.z = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
-    if (this->collider1.base.atFlags & 2) {
-        this->collider1.base.atFlags &= ~2;
+    if (this->collider1.base.atFlags & AT_HIT) {
+        this->collider1.base.atFlags &= ~AT_HIT;
         this->actor.speedXZ = -6.0f;
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-        if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & 4)) {
+        if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
@@ -626,13 +684,13 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         func_809D00F4(this);
     } else {
-        if (this->collider2.base.acFlags & 2) {
-            this->collider2.base.acFlags &= ~2;
+        if (this->collider2.base.acFlags & AC_HIT) {
+            this->collider2.base.acFlags &= ~AC_HIT;
             if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            func_80035650(&this->actor, &this->collider2.body, 0);
+            func_80035650(&this->actor, &this->collider2.info, 0);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
@@ -707,7 +765,7 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_8002836C(globalCtx, &thisx->posRot.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.body.toucher.effect = 0;
+            this->collider1.info.toucher.effect = 0;
             if (((globalCtx->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -727,7 +785,7 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.body.toucher.effect = 1;
+            this->collider1.info.toucher.effect = 1;
         }
 
         this->unk_234 = func_800339B8(thisx, globalCtx, 50.0f, thisx->posRot.rot.y);
@@ -737,13 +795,13 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
         func_8002E4B4(globalCtx, thisx, 20.0f, 30.0f, 21.0f, 0x1F);
     }
-    Collider_CylinderUpdate(thisx, &this->collider2);
+    Collider_UpdateCylinder(thisx, &this->collider2);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     if ((this->unk_220 != 0) && ((thisx->dmgEffectTimer == 0) || !(thisx->dmgEffectParams & 0x4000))) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     }
     if ((this->unk_221 != 1) && (this->unk_220 < 5) && (this->unk_248 > 0.4f)) {
-        Collider_CylinderUpdate(thisx, &this->collider1);
+        Collider_UpdateCylinder(thisx, &this->collider1);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     }
     thisx->posRot2.pos = thisx->posRot.pos;
