@@ -1594,9 +1594,9 @@ s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = at->x - player->actor.posRot.pos.x;
-        camera->posOffset.y = at->y - player->actor.posRot.pos.y;
-        camera->posOffset.z = at->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = at->x - player->actor.world.pos.x;
+        camera->posOffset.y = at->y - player->actor.world.pos.y;
+        camera->posOffset.z = at->z - player->actor.world.pos.z;
     } else {
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
@@ -1622,9 +1622,9 @@ s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Ve
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = at->x - player->actor.posRot.pos.x;
-        camera->posOffset.y = at->y - player->actor.posRot.pos.y;
-        camera->posOffset.z = at->z - player->actor.posRot.pos.z;
+        camera->posOffset.x = at->x - player->actor.world.pos.x;
+        camera->posOffset.y = at->y - player->actor.world.pos.y;
+        camera->posOffset.z = at->z - player->actor.world.pos.z;
     } else {
         camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
     }
@@ -1748,7 +1748,7 @@ void Gameplay_SetupRespawnPoint(GlobalContext* globalCtx, s32 respawnMode, s32 p
         roomIndex = globalCtx->roomCtx.curRoom.num;
         entranceIndex = gSaveContext.entranceIndex;
         Gameplay_SetRespawnData(globalCtx, respawnMode, entranceIndex, roomIndex, playerParams,
-                                &player->actor.posRot.pos, player->actor.shape.rot.y);
+                                &player->actor.world.pos, player->actor.shape.rot.y);
     }
 }
 
@@ -1797,7 +1797,7 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
     s32 frontRoom;
 
-    if (actor->type != ACTORTYPE_DOOR) {
+    if (actor->category != ACTORCAT_DOOR) {
         return 0;
     }
 

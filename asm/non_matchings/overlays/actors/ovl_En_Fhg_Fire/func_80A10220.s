@@ -771,7 +771,7 @@ glabel func_80A10220
 /* 01A2C 80A10C8C 44060000 */  mfc1    $a2, $f0                   
 /* 01A30 80A10C90 44070000 */  mfc1    $a3, $f0                   
 /* 01A34 80A10C94 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 01A38 80A10C98 0C00B92D */  jal     func_8002E4B4              
+/* 01A38 80A10C98 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01A3C 80A10C9C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01A40 80A10CA0 960C0088 */  lhu     $t4, 0x0088($s0)           ## 00000088
 /* 01A44 80A10CA4 3C1880A1 */  lui     $t8, %hi(D_80A11810)       ## $t8 = 80A10000

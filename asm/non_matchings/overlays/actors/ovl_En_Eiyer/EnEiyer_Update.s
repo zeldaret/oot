@@ -60,7 +60,7 @@ glabel EnEiyer_Update
 /* 016A4 80A01644 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 016A8 80A01648 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 016AC 80A0164C 3C0741D8 */  lui     $a3, 0x41D8                ## $a3 = 41D80000
-/* 016B0 80A01650 0C00B92D */  jal     func_8002E4B4              
+/* 016B0 80A01650 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 016B4 80A01654 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80A01658:
 /* 016B8 80A01658 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C

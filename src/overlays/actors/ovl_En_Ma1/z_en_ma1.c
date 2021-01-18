@@ -29,7 +29,7 @@ void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MA1,
     sizeof(EnMa1),
@@ -234,7 +234,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->unk_1E8.unk_18 = player->actor.posRot.pos;
+    this->unk_1E8.unk_18 = player->actor.world.pos;
     this->unk_1E8.unk_18.y -= -10.0f;
 
     func_80034A14(&this->actor, &this->unk_1E8, 0, phi_a3);
@@ -260,7 +260,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMa1* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -271,9 +271,9 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
     if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
@@ -354,7 +354,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
-        } else if (this->actor.xzDistToLink < 30.0f + (f32)this->collider.dim.radius) {
+        } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -436,7 +436,7 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Vec3f vec = D_80AA16B8;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 
@@ -449,7 +449,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
 
     camera = ACTIVE_CAM;
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 

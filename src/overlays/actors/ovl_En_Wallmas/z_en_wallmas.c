@@ -42,7 +42,7 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_WALLMASTER,
     sizeof(EnWallmas),
@@ -111,7 +111,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
-    ICHAIN_F32(unk_4C, 0x157C, 1),
+    ICHAIN_F32(targetArrowOffset, 0x157C, 1),
     ICHAIN_F32_DIV1000(gravity, -1500, 0),
 };
 
@@ -167,8 +167,8 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x20;
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
-    this->actor.posRot.pos.y = player->actor.posRot.pos.y;
-    this->actor.groundY = player->actor.groundY;
+    this->actor.world.pos.y = player->actor.world.pos.y;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.draw = EnWallmas_Draw;
     this->actionFunc = EnWallmas_WaitToDrop;
 }
@@ -180,10 +180,10 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), ANIMMODE_ONCE,
                      0.0f);
 
-    this->yTarget = player->actor.posRot.pos.y;
-    this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
-    this->actor.posRot.rot.y = player->actor.shape.rot.y + 0x8000;
-    this->actor.groundY = player->actor.groundY;
+    this->yTarget = player->actor.world.pos.y;
+    this->actor.world.pos.y = player->actor.world.pos.y + 300.0f;
+    this->actor.world.rot.y = player->actor.shape.rot.y + 0x8000;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.flags |= 1;
     this->actor.flags &= ~0x20;
     this->actionFunc = EnWallmas_Drop;
@@ -196,7 +196,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
 
-    func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
+    func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
@@ -233,9 +233,9 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000590, -3.0f);
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
-        this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
+        this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
-        this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
 
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x14);
@@ -248,7 +248,7 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06000EA4);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnWallmas_Cooldown;
 }
 
@@ -257,10 +257,10 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0,
-                         255, 1, 9, true);
+    EffectSsDeadDb_Spawn(globalCtx, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255,
+                         1, 9, true);
 
-    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
+    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;
 }
 
@@ -271,7 +271,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    this->yTarget = this->actor.yDistToLink;
+    this->yTarget = this->actor.yDistToPlayer;
     func_8002DF38(globalCtx, &this->actor, 0x25);
     func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
 }
@@ -304,10 +304,10 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 
 void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f* playerPos = &player->actor.posRot.pos;
+    Vec3f* playerPos = &player->actor.world.pos;
 
-    this->actor.posRot.pos = *playerPos;
-    this->actor.groundY = player->actor.groundY;
+    this->actor.world.pos = *playerPos;
+    this->actor.floorHeight = player->actor.floorHeight;
     this->actor.floorPoly = player->actor.floorPoly;
 
     if (this->timer != 0) {
@@ -315,7 +315,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     }
 
     if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
-        ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, playerPos)))) {
+        ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
         func_800F8D04(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
@@ -333,8 +333,8 @@ void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
-        (this->actor.xzDistToLink < 30.0f) && (this->actor.yDistToLink < -5.0f) &&
-        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToLink)) {
+        (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f) &&
+        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -350,7 +350,7 @@ void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupWalk(this);
     }
 
-    Math_ScaledStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink + 0x8000, 0xB6);
+    Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xB6);
 }
 
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
@@ -358,7 +358,7 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
-    Math_ScaledStepToS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
+    Math_ScaledStepToS(&this->actor.world.rot.y, (s16)((s32)this->actor.yawTowardsPlayer + 0x8000), 0xB6);
 
     if ((Animation_OnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 12.0f) != 0) ||
         (Animation_OnFrame(&this->skelAnime, 24.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
@@ -377,21 +377,21 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
-        this->actor.posRot.pos.y = this->actor.posRot.pos.y + 30.0f;
+        this->actor.world.pos.y = this->actor.world.pos.y + 30.0f;
     }
 
     if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
-    if (this->actor.yDistToLink < -900.0f) {
+    if (this->actor.yDistToPlayer < -900.0f) {
         if (this->actor.params == WMT_FLAG) {
             Actor_Kill(&this->actor);
             return;
         }
 
         if (this->actor.params == WMT_TIMER ||
-            Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 200.0f) {
+            Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 200.0f) {
             EnWallmas_TimerInit(this, globalCtx);
         } else {
             EnWallmas_ProximityOrSwitchInit(this);
@@ -423,7 +423,7 @@ void EnWallmas_Cooldown(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0015) != 0) {
         Actor_SetScale(&this->actor, 0.01f);
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
         Actor_Kill(&this->actor);
     }
     this->actor.scale.z = this->actor.scale.x;
@@ -443,19 +443,19 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_CATCH);
     }
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        player->actor.posRot.pos.x = this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = this->actor.posRot.pos.z;
+        player->actor.world.pos.x = this->actor.world.pos.x;
+        player->actor.world.pos.z = this->actor.world.pos.z;
 
         if (this->timer < 0) {
-            this->actor.posRot.pos.y = this->actor.posRot.pos.y + 2.0f;
+            this->actor.world.pos.y = this->actor.world.pos.y + 2.0f;
         } else {
-            this->actor.posRot.pos.y = this->actor.posRot.pos.y + 10.0f;
+            this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
         }
 
         if (LINK_IS_CHILD) {
-            player->actor.posRot.pos.y = this->actor.posRot.pos.y - 30.0f;
+            player->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
         } else {
-            player->actor.posRot.pos.y = this->actor.posRot.pos.y - 50.0f;
+            player->actor.world.pos.y = this->actor.world.pos.y - 50.0f;
         }
 
         if (this->timer == -0x1E) {
@@ -471,11 +471,11 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         this->timer = this->timer + 2;
     } else {
-        Math_StepToF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y + (LINK_IS_CHILD ? 30.0f : 50.0f), 5.0f);
+        Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (LINK_IS_CHILD ? 30.0f : 50.0f), 5.0f);
     }
 
-    Math_StepToF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 3.0f);
-    Math_StepToF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 3.0f);
+    Math_StepToF(&this->actor.world.pos.x, player->actor.world.pos.x, 3.0f);
+    Math_StepToF(&this->actor.world.pos.z, player->actor.world.pos.z, 3.0f);
 
     if (this->timer == 0x1E) {
         func_80078884(NA_SE_OC_ABYSS);
@@ -485,7 +485,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_WaitForProximity(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 200.0f) {
+    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 200.0f) {
         EnWallmas_TimerInit(this, globalCtx);
     }
 }
@@ -534,7 +534,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
-                    EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 40);
+                    EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.world.pos, 40, 40);
                 }
 
                 EnWallmas_SetupTakeDamage(this);
@@ -560,9 +560,9 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnWallmas_Drop) {
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
-    } else if (this->actor.posRot.pos.y <= this->yTarget) {
-        this->actor.posRot.pos.y = this->yTarget;
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
+    } else if (this->actor.world.pos.y <= this->yTarget) {
+        this->actor.world.pos.y = this->yTarget;
         this->actor.velocity.y = 0.0f;
         EnWallmas_SetupLand(this, globalCtx);
     }
@@ -577,13 +577,13 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetHeight(&this->actor, 25.0f);
+    Actor_SetFocus(&this->actor, 25.0f);
 
     if (this->actionFunc == EnWallmas_TakeDamage) {
         return;
     }
 
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
@@ -600,7 +600,8 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
-    func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
+    func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z,
+                  &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
     if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&

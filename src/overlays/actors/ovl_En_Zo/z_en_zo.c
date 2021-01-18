@@ -73,7 +73,7 @@ void EnZo_Bubble(EnZo* this, Vec3f* pos) {
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (1) {}
         if (effect->type == ENZO_EFFECT_NONE) {
-            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
             if (!(waterSurface <= pos->y)) {
                 effect->type = ENZO_EFFECT_BUBBLE;
                 effect->pos = *pos;
@@ -142,7 +142,7 @@ void EnZo_UpdateBubbles(EnZo* this) {
             effect->pos.y += effect->vel.y;
 
             // Bubbles turn into ripples when they reach the surface
-            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
             if (waterSurface <= effect->pos.y) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -173,7 +173,7 @@ void EnZo_UpdateSplashes(EnZo* this) {
             }
 
             // Splash particles turn into ripples when they hit the surface
-            waterSurface = this->actor.posRot.pos.y + this->actor.yDistToWater;
+            waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
             if (effect->pos.y < waterSurface) {
                 effect->type = ENZO_EFFECT_NONE;
                 effect->pos.y = waterSurface;
@@ -285,9 +285,9 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
 void EnZo_TreadWaterRipples(EnZo* this, f32 scale, f32 targetScale, u8 alpha) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    pos.z = this->actor.world.pos.z;
     EnZo_Ripple(this, &pos, scale, targetScale, alpha);
 }
 
@@ -315,7 +315,7 @@ static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnZo),
@@ -347,7 +347,7 @@ void EnZo_SpawnSplashes(EnZo* this) {
         vel.x = sinf(angle) * speed;
         vel.z = cosf(angle) * speed;
 
-        pos = this->actor.posRot.pos;
+        pos = this->actor.world.pos;
         pos.x += vel.x * 6.0f;
         pos.z += vel.z * 6.0f;
         pos.y += this->actor.yDistToWater;
@@ -505,12 +505,12 @@ void EnZo_Blink(EnZo* this) {
 void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_194.unk_18 = player->actor.posRot.pos;
+    this->unk_194.unk_18 = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if young, look up if old
         this->unk_194.unk_14 = LINK_IS_CHILD ? 10.0f : -10.0f;
     } else {
-        this->unk_194.unk_18.y = this->actor.posRot.pos.y;
+        this->unk_194.unk_18.y = this->actor.world.pos.y;
     }
     func_80034A14(&this->actor, &this->unk_194, 11, this->unk_64C);
     if (this->canSpeak == true) {
@@ -524,12 +524,12 @@ s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
     f32 yDist;
     f32 hDist;
 
-    surfacePos.x = this->actor.posRot.pos.x;
-    surfacePos.y = this->actor.posRot.pos.y + this->actor.yDistToWater;
-    surfacePos.z = this->actor.posRot.pos.z;
+    surfacePos.x = this->actor.world.pos.x;
+    surfacePos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+    surfacePos.z = this->actor.world.pos.z;
 
-    hDist = Math_Vec3f_DistXZ(&surfacePos, &player->actor.posRot.pos);
-    yDist = fabsf(player->actor.posRot.pos.y - surfacePos.y);
+    hDist = Math_Vec3f_DistXZ(&surfacePos, &player->actor.world.pos);
+    yDist = fabsf(player->actor.world.pos.y - surfacePos.y);
 
     if (hDist < 240.0f && yDist < 80.0f) {
         return 1;
@@ -583,16 +583,17 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80034EC0(&this->skelAnime, sAnimations, 2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
     this->unk_64C = 1;
     this->canSpeak = false;
     this->unk_194.unk_00 = 0;
-    func_8002E4B4(globalCtx, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
+                            5);
 
     if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
-        this->actor.shape.unk_10 = 24.0f;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
+        this->actor.shape.shadowScale = 24.0f;
         func_80034EC0(&this->skelAnime, sAnimations, 1);
         this->canSpeak = true;
         this->alpha = 255.0f;
@@ -616,7 +617,7 @@ void EnZo_Standing(EnZo* this, GlobalContext* globalCtx) {
         return;
     }
 
-    angle = ABS((s16)((f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y));
+    angle = ABS((s16)((f32)this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y));
     if (angle < 0x4718) {
         if (EnZo_PlayerInProximity(this, globalCtx)) {
             this->unk_64C = 2;
@@ -706,7 +707,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
 
     if ((s16)this->alpha == 0) {
         func_80034EC0(&this->skelAnime, sAnimations, 2);
-        this->actor.posRot.pos = this->actor.initPosRot.pos;
+        this->actor.world.pos = this->actor.home.pos;
         this->alpha = 0.0f;
         this->actionFunc = EnZo_Submerged;
     }
@@ -723,13 +724,13 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
     EnZo_Dialog(this, globalCtx);
 
     // Spawn air bubbles
     if (globalCtx->state.frames & 8) {
-        pos = this->actor.posRot.pos;
+        pos = this->actor.world.pos;
 
         pos.y += (Rand_ZeroOne() - 0.5f) * 10.0f + 18.0f;
         pos.x += (Rand_ZeroOne() - 0.5f) * 28.0f;
@@ -779,7 +780,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f vec = { 0.0f, 600.0f, 0.0f };
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 

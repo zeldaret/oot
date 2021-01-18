@@ -13,7 +13,7 @@ glabel func_80ABDBF8
 /* 01074 80ABDC24 E7A8003C */  swc1    $f8, 0x003C($sp)           
 /* 01078 80ABDC28 848E01C8 */  lh      $t6, 0x01C8($a0)           ## 000001C8
 /* 0107C 80ABDC2C 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
-/* 01080 80ABDC30 0C00B56E */  jal     Actor_SetHeight
+/* 01080 80ABDC30 0C00B56E */  jal     Actor_SetFocus
               
 /* 01084 80ABDC34 A48F01C8 */  sh      $t7, 0x01C8($a0)           ## 000001C8
 /* 01088 80ABDC38 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -45,7 +45,7 @@ glabel func_80ABDBF8
 /* 010EC 80ABDC9C E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
 /* 010F0 80ABDCA0 E7A00034 */  swc1    $f0, 0x0034($sp)           
 /* 010F4 80ABDCA4 AFB80014 */  sw      $t8, 0x0014($sp)           
-/* 010F8 80ABDCA8 0C00B92D */  jal     func_8002E4B4              
+/* 010F8 80ABDCA8 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 010FC 80ABDCAC E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01100 80ABDCB0 C7A00034 */  lwc1    $f0, 0x0034($sp)           
 /* 01104 80ABDCB4 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028

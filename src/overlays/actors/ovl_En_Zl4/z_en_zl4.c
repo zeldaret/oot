@@ -62,7 +62,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx);
 
 const ActorInit En_Zl4_InitVars = {
     ACTOR_EN_ZL4,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ZL4,
     sizeof(EnZl4),
@@ -297,7 +297,7 @@ void EnZl4_SetMove(EnZl4* this, GlobalContext* globalCtx) {
 void func_80B5BB78(EnZl4* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     func_80034A14(&this->actor, &this->unk_1E0, 2, 2);
 }
 
@@ -313,10 +313,10 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, GlobalContext* globalCtx) {
     s16 rotY;
 
     func_8002DF54(globalCtx, &this->actor, 8);
-    playerx->posRot.pos = this->actor.posRot.pos;
+    playerx->world.pos = this->actor.world.pos;
     rotY = this->actor.shape.rot.y;
-    playerx->posRot.pos.x += 56.0f * Math_SinS(rotY);
-    playerx->posRot.pos.z += 56.0f * Math_CosS(rotY);
+    playerx->world.pos.x += 56.0f * Math_SinS(rotY);
+    playerx->world.pos.z += 56.0f * Math_CosS(rotY);
 
     player->linearVelocity = playerx->speedXZ = 0.0f;
 
@@ -354,13 +354,13 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable,
                        18);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_21);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actor.textId = -1;
     this->eyeExpression = this->mouthExpression = ZL4_MOUTH_NEUTRAL;
 
@@ -417,19 +417,19 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
     s16 absYawDiff;
 
     if (!func_8002F194(&this->actor, globalCtx)) {
-        yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
-        if ((playerx->posRot.pos.y != this->actor.posRot.pos.y) || (absYawDiff >= 0x3FFC)) {
+        if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
             return false;
         } else {
             func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 60.0f);
             return false;
         }
     }
-    playerx->posRot.pos = this->actor.posRot.pos;
+    playerx->world.pos = this->actor.world.pos;
     rotY = this->actor.shape.rot.y;
-    playerx->posRot.pos.x += 56.0f * Math_SinS(rotY);
-    playerx->posRot.pos.z += 56.0f * Math_CosS(rotY);
+    playerx->world.pos.x += 56.0f * Math_SinS(rotY);
+    playerx->world.pos.z += 56.0f * Math_CosS(rotY);
     playerx->speedXZ = 0.0f;
     player->linearVelocity = 0.0f;
     return true;
@@ -928,10 +928,10 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
 
     switch (this->talkState) {
         case 0:
-            player->actor.posRot.pos = this->actor.posRot.pos;
+            player->actor.world.pos = this->actor.world.pos;
             rotY = this->actor.shape.rot.y - 0x3FFC;
-            player->actor.posRot.pos.x += 34.0f * Math_SinS(rotY);
-            player->actor.posRot.pos.z += 34.0f * Math_CosS(rotY);
+            player->actor.world.pos.x += 34.0f * Math_SinS(rotY);
+            player->actor.world.pos.z += 34.0f * Math_CosS(rotY);
             EnZl4_SetCsCameraMove(globalCtx, 8);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_WIDE;
@@ -1092,8 +1092,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
-                              fabsf(this->actor.yDistToLink) + 1.0f);
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                              fabsf(this->actor.yDistToPlayer) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
             }
@@ -1103,8 +1103,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
                 this->talkState++;
             } else {
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToLink) + 1.0f,
-                              fabsf(this->actor.yDistToLink) + 1.0f);
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                              fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
     }
@@ -1178,7 +1178,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     func_80034A14(&this->actor, &this->unk_1E0, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, globalCtx);
@@ -1215,7 +1215,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx) {
     if (npcAction != NULL) {
         EnZl4_GetActionStartPos(npcAction, &pos);
         if (this->lastAction == 0) {
-            this->actor.posRot.pos = this->actor.initPosRot.pos = pos;
+            this->actor.world.pos = this->actor.home.pos = pos;
         }
         if (this->lastAction != npcAction->action) {
             func_80034EC0(&this->skelAnime, sAnimationEntries, animIndex[npcAction->action]);
@@ -1235,7 +1235,7 @@ void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
     }
     EnZl4_UpdateFace(this);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1268,7 +1268,7 @@ void EnZl4_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnZl4* this = THIS;
 
     if (limbIndex == 17) {
-        Matrix_MultVec3f(&zeroVec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
     }
 }
 

@@ -23,7 +23,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),
@@ -92,7 +92,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         pos1.y = (i - 15) * 0.7f;
         pos1.z = Math_CosS(angle) * rand1;
 
-        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
+        Math_Vec3f_Sum(&pos1, &this->actor.world.pos, &pos);
 
         velocity.x = (Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
         velocity.y = (Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
@@ -125,9 +125,9 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
     }
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y - 10.0f;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y - 10.0f;
+    pos.z = this->actor.world.pos.z;
     func_80033480(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
 }
 
@@ -145,7 +145,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             params = -1;
         }
         if (params >= 0) {
-            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, params);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, params);
         }
     }
 }
@@ -202,7 +202,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.home.rot.x;
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -212,8 +212,8 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
-                     this->actor.posRot.pos.z, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + (118.0f * this->actor.scale.y),
+                     this->actor.world.pos.z, 0);
     Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, 1);
     Matrix_RotateX(this->actor.shape.rot.x * 0.0000958738f, 1);
     Matrix_RotateZ(this->actor.shape.rot.z * 0.0000958738f, 1);
