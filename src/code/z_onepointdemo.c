@@ -77,7 +77,7 @@ s32 func_80080024(GlobalContext *globalCtx, s16 arg1) {
     return phi_v1;
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 s16 func_800800F8(GlobalContext *globalCtx, s16 csID, s16 timer, Actor *actor, s16 camIdx) {
     Camera *temp_v1;
     s16 sp42;
@@ -86,6 +86,7 @@ s16 func_800800F8(GlobalContext *globalCtx, s16 csID, s16 timer, Actor *actor, s
     s16 phi_s0_2;
     s16 phi_s0;
     s16 phi_s2;
+    s16 temp;
     Camera* tempC;
 
     if (camIdx == -1) {
@@ -96,6 +97,7 @@ s16 func_800800F8(GlobalContext *globalCtx, s16 csID, s16 timer, Actor *actor, s
         osSyncPrintf("\x1b[41;37monepoint demo: error: too many cameras ... give up! type=%d\n\x1b[m", csID);
         return -1;
     }
+
     phi_s0 = 7;
     phi_s2 = globalCtx->cameraPtrs[camIdx]->childCamIdx;
     if (phi_s2 > 0) {
@@ -125,6 +127,7 @@ s16 func_800800F8(GlobalContext *globalCtx, s16 csID, s16 timer, Actor *actor, s
     Gameplay_ChangeCameraStatus(globalCtx, sp42, phi_s0);
 
     phi_s0_2 = globalCtx->cameraPtrs[sp42]->childCamIdx;
+    // if(phi_s0_2){}
     phi_s2 = sp42;
     while (phi_s0_2 > 0) {
         temp_a2 = globalCtx->cameraPtrs[phi_s0_2]->unk_168;
@@ -132,8 +135,7 @@ s16 func_800800F8(GlobalContext *globalCtx, s16 csID, s16 timer, Actor *actor, s
         if ((temp_a2 / 0x64) < (temp_a3 / 0x64)) {
             osSyncPrintf("\x1b[43;30monepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n\x1b[m", phi_s0_2, temp_a2, temp_a3);
             if (globalCtx->cameraPtrs[phi_s0_2]->unk_168 != 0x1392) {
-                phi_s0_2 = func_80080024(globalCtx, phi_s0_2);
-                if (phi_s0_2 != -1) {
+                if ((phi_s0_2 = func_80080024(globalCtx, phi_s0_2)) != -1) {
                     Gameplay_ChangeCameraStatus(globalCtx, phi_s0_2, 7);
                 }
             } else {
