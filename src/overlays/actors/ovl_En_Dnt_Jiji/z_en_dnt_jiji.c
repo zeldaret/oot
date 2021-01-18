@@ -76,7 +76,7 @@ static ColliderCylinderInit sCylinderInit = {
 void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDntJiji* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable,
                    13);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -87,7 +87,7 @@ void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~1;
     this->actor.colChkInfo.mass = 0xFF;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actionFunc = EnDntJiji_SetFlower;
     this->actor.gravity = -2.0f;
 }
@@ -101,7 +101,7 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntJiji_SetFlower(EnDntJiji* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
-        this->flowerPos = this->actor.posRot.pos;
+        this->flowerPos = this->actor.world.pos;
         this->actionFunc = EnDntJiji_SetupWait;
     }
 }
@@ -118,7 +118,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->timer == 1) && (this->actor.xzDistToLink < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
+    if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & 0x800)) {
         func_800800F8(globalCtx, 0x8B6, -0x63, &this->actor, 0);
         this->timer = 0;
@@ -130,15 +130,15 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupUp(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUpAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUpAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Up;
 }
 
 void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
-    if (this->actor.xzDistToLink < 150.0f) {
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
+    if (this->actor.xzDistToPlayer < 150.0f) {
         this->actionFunc = EnDntJiji_SetupCower;
     }
 }
@@ -146,7 +146,7 @@ void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupUnburrow(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUnburrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Unburrow;
 }
@@ -175,8 +175,8 @@ void EnDntJiji_SetupWalk(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x3E8, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0x3E8, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
     if (this->sfxTimer == 0) {
         this->sfxTimer = 5;
@@ -186,7 +186,7 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
-    if (this->actor.xzDistToLink < 100.0f) {
+    if (this->actor.xzDistToPlayer < 100.0f) {
         if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
             this->getItemId = GI_STICK_UPGRADE_20;
         } else {
@@ -203,7 +203,7 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupBurrow(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiBurrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiBurrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnDntJiji_Burrow;
@@ -216,7 +216,7 @@ void EnDntJiji_Burrow(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupCower(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiCowerAnim);
     Animation_Change(&this->skelAnime, &gDntJijiCowerAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
 
     if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
@@ -234,7 +234,7 @@ void EnDntJiji_Cower(EnDntJiji* this, GlobalContext* globalCtx) {
     f32 frame = this->skelAnime.curFrame;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
         if (func_8002F194(&this->actor, globalCtx)) {
             this->actionFunc = EnDntJiji_SetupTalk;
@@ -252,7 +252,7 @@ void EnDntJiji_SetupTalk(EnDntJiji* this, GlobalContext* globalCtx) {
 
 void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x1388, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8005B1A4(ACTIVE_CAM);
         func_80106CCC(globalCtx);
@@ -342,10 +342,10 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     f32 dz;
 
     SkelAnime_Update(&this->skelAnime);
-    dx = this->flowerPos.x - this->actor.posRot.pos.x;
-    dz = this->flowerPos.z - this->actor.posRot.pos.z;
+    dx = this->flowerPos.x - this->actor.world.pos.x;
+    dz = this->flowerPos.z - this->actor.world.pos.z;
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * 10430.378f, 1, 0xBB8, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
@@ -355,8 +355,8 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((fabsf(dx) < 5.0f) && (fabsf(dz) < 5.0f)) {
-        this->actor.posRot.pos.x = this->flowerPos.x;
-        this->actor.posRot.pos.z = this->flowerPos.z;
+        this->actor.world.pos.x = this->flowerPos.x;
+        this->actor.world.pos.z = this->flowerPos.z;
         if (this->attackFlag) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
@@ -407,7 +407,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
     if (this->actor.textId != 0) {
-        Actor_SetHeight(&this->actor, 30.0f);
+        Actor_SetFocus(&this->actor, 30.0f);
     }
     if (this->stageSignal != DNT_LEADER_SIGNAL_NONE) {
         this->stageSignal = DNT_LEADER_SIGNAL_NONE;
@@ -421,7 +421,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     if (this->isSolid != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

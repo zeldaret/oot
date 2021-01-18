@@ -124,7 +124,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
         this->leaderSignal = DNT_SIGNAL_NONE;
         this->actionFunc = EnDntDemo_Results;
-    } else if ((this->actor.xzDistToLink > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
+    } else if ((this->actor.xzDistToPlayer > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
         if (this->subCamera != 0) {
             this->subCamera = 0;
@@ -248,7 +248,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     if (this->prize != DNT_PRIZE_NONE) {
                         this->scrubs[i]->timer1 = 300;
                         this->scrubs[i]->stagePrize = this->prize;
-                        this->scrubs[i]->targetPos = this->leader->actor.posRot.pos;
+                        this->scrubs[i]->targetPos = this->leader->actor.world.pos;
                         if (this->prize == DNT_PRIZE_NUTS) {
                             this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         }
@@ -285,7 +285,7 @@ void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
     } else if (this->prize == DNT_PRIZE_STICK) {
         for (i = 0; i < 9; i++) {
             s16 offsetAngle = -this->leader->actor.shape.rot.y;
-            Vec3f leaderPos = this->leader->actor.posRot.pos;
+            Vec3f leaderPos = this->leader->actor.world.pos;
             f32 offsetDist;
 
             if (!(i & 1)) {
@@ -327,13 +327,13 @@ void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0)) {
         if (this->debugArrowTimer != 0) {
             if (!(this->debugArrowTimer & 1)) {
-                DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                       this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
+                DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
                                        1.0f, 1.0f, 1.0f, 120, 120, 0, 255, 4, globalCtx->state.gfxCtx);
             }
         } else {
-            DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                   this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f,
+            DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                   this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                    1.0f, 1.0f, 255, 255, 255, 255, 4, globalCtx->state.gfxCtx);
         }
     }
