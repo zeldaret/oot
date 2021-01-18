@@ -3091,7 +3091,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= 0x40000000;
                 } else if (this->unk_664 != NULL) {
-                    this->unk_664->unk_10D = 40;
+                    this->unk_664->targetPriority = 40;
                 }
             } else if (this->unk_684 != NULL) {
                 this->unk_664 = this->unk_684;

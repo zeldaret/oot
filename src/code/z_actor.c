@@ -2095,8 +2095,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                         actor->isTargeted = false;
                     }
 
-                    if ((actor->unk_10D != 0) && (player->unk_664 == NULL)) {
-                        actor->unk_10D = 0;
+                    if ((actor->targetPriority != 0) && (player->unk_664 == NULL)) {
+                        actor->targetPriority = 0;
                     }
 
                     Actor_SetObjectDependency(globalCtx, actor);
@@ -2940,10 +2940,10 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
                     (!BgCheck_CameraLineTest1(&globalCtx->colCtx, &player->actor.focus.pos, &actor->focus.pos, &sp70,
                                               &sp80, 1, 1, 1, 1, &sp7C) ||
                      SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp80, sp7C))) {
-                    if (actor->unk_10D != 0) {
-                        if (actor->unk_10D < D_8015BBF8) {
+                    if (actor->targetPriority != 0) {
+                        if (actor->targetPriority < D_8015BBF8) {
                             D_8015BBEC = actor;
-                            D_8015BBF8 = actor->unk_10D;
+                            D_8015BBF8 = actor->targetPriority;
                         }
                     } else {
                         D_8015BBE8 = actor;
