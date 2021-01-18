@@ -21,7 +21,7 @@ void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TORYO,
     sizeof(EnToryo),
@@ -127,17 +127,17 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
                      Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
                      sEnToryoAnimation.transitionRate);
     this->stateFlags |= 8;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actionFunc = func_80B20914;
 }
 
@@ -367,16 +367,16 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if ((this->stateFlags & 8)) {
-        this->unk_1EC.unk_18.x = player->actor.posRot2.pos.x;
-        this->unk_1EC.unk_18.y = player->actor.posRot2.pos.y;
-        this->unk_1EC.unk_18.z = player->actor.posRot2.pos.z;
+        this->unk_1EC.unk_18.x = player->actor.focus.pos.x;
+        this->unk_1EC.unk_18.y = player->actor.focus.pos.y;
+        this->unk_1EC.unk_18.z = player->actor.focus.pos.z;
 
         if ((this->stateFlags & 0x10)) {
             func_80034A14(thisx, &this->unk_1EC, 0, 4);
             return;
         }
 
-        rot = thisx->yawTowardsLink - thisx->shape.rot.y;
+        rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
         if ((rot < 14563.0f) && (rot > -14563.0f)) {
             func_80034A14(thisx, &this->unk_1EC, 0, 2);
         } else {
@@ -417,7 +417,7 @@ void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     switch (limbIndex) {
         case 15:
-            Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
             break;
     }
 }

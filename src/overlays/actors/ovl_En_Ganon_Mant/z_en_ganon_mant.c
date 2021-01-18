@@ -12,7 +12,7 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGanonMant),

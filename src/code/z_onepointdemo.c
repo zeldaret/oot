@@ -195,8 +195,8 @@ s32 func_80080480(GlobalContext* globalCtx, Actor* actor) {
                 break;
             }
         } else {
-            camIdx = sp3C->target->type;
-            if (camIdx < actor->type) {
+            camIdx = sp3C->target->category;
+            if (camIdx < actor->category) {
                 break;
             }
             phi_a3_2 = camIdx;
@@ -205,32 +205,32 @@ s32 func_80080480(GlobalContext* globalCtx, Actor* actor) {
 
     camIdx = (phi_a3_2 == -1) ? 0 : sp3C->thisIdx;
 
-    switch (actor->type) {
-        case ACTORTYPE_SWITCH:
-        case ACTORTYPE_BG:
-        case ACTORTYPE_PLAYER:
-        case ACTORTYPE_PROP:
-        case ACTORTYPE_DOOR:
+    switch (actor->category) {
+        case ACTORCAT_SWITCH:
+        case ACTORCAT_BG:
+        case ACTORCAT_PLAYER:
+        case ACTORCAT_PROP:
+        case ACTORCAT_DOOR:
             timer = 30;
             break;
-        case ACTORTYPE_NPC:
-        case ACTORTYPE_ITEMACTION:
-        case ACTORTYPE_CHEST:
+        case ACTORCAT_NPC:
+        case ACTORCAT_ITEMACTION:
+        case ACTORCAT_CHEST:
             timer = 100;
             break;
         default:
-        case ACTORTYPE_EXPLOSIVES:
-        case ACTORTYPE_ENEMY:
-        case ACTORTYPE_MISC:
-        case ACTORTYPE_BOSS:
+        case ACTORCAT_EXPLOSIVE:
+        case ACTORCAT_ENEMY:
+        case ACTORCAT_MISC:
+        case ACTORCAT_BOSS:
             osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: %d: unkown part of actor %d\n" VT_RST,
-                         globalCtx->state.frames, actor->type);
+                         globalCtx->state.frames, actor->category);
             timer = 30;
             break;
     }
     osSyncPrintf(VT_FGCOL(CYAN) "%06u:" VT_RST " actor attention demo camera: request %d ", globalCtx->state.frames,
-                 actor->type);
-    if (phi_a3_2 == actor->type) {
+                 actor->category);
+    if (phi_a3_2 == actor->category) {
         osSyncPrintf("→ " VT_FGCOL(PURPLE) "×" VT_RST " (%d)\n", actor->id);
         return -1;
     }
@@ -266,14 +266,14 @@ void func_80080718() {
     D_80120130 = 1;
 }
 
-s32 func_80080728(GlobalContext* globalCtx, s32 actorType) {
+s32 func_80080728(GlobalContext* globalCtx, s32 actorCategory) {
     Camera* sp3C = globalCtx->cameraPtrs[0];
 
     while (sp3C->childCamIdx != 0) {
         sp3C = globalCtx->cameraPtrs[sp3C->childCamIdx];
         if ((sp3C == NULL) || (sp3C->setting != 0x2B)) {
             break;
-        } else if (actorType == sp3C->target->type) {
+        } else if (actorCategory == sp3C->target->category) {
             return 1;
         }
     }

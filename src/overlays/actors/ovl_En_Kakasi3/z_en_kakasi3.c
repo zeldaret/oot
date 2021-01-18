@@ -52,7 +52,7 @@ extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi3_InitVars = {
     ACTOR_EN_KAKASI3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_KA,
     sizeof(EnKakasi3),
@@ -75,13 +75,13 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // Translates to: Obonur -- Related to the name of the scarecrow (Bonooru)
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
     this->actor.flags |= 0x400;
-    this->rot = this->actor.posRot.rot;
+    this->rot = this->actor.world.rot;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     this->actionFunc = func_80A911F0;
@@ -232,8 +232,8 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
         return;
     }
 
-    angleTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!(this->actor.xzDistToLink > 120.0f)) {
+    angleTowardsLink = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if (!(this->actor.xzDistToPlayer > 120.0f)) {
         absAngleTowardsLink = ABS(angleTowardsLink);
 
         if (absAngleTowardsLink < 0x4300) {
@@ -249,7 +249,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A915B8;
                     return;
                 }
-                if (this->actor.xzDistToLink < 80.0f) {
+                if (this->actor.xzDistToPlayer < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
@@ -264,7 +264,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80A9187C;
                     return;
                 }
-                if (this->actor.xzDistToLink < 80.0f) {
+                if (this->actor.xzDistToPlayer < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             }
@@ -423,17 +423,17 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_198++;
-    this->actor.posRot.rot = this->actor.shape.rot;
+    this->actor.world.rot = this->actor.shape.rot;
     for (i = 0; i < ARRAY_COUNT(this->unk_19C); i++) {
         if (this->unk_19C[i] != 0) {
             this->unk_19C[i]--;
         }
     }
 
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetFocus(&this->actor, 60.0f);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

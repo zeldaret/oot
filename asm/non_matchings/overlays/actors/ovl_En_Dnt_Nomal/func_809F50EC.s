@@ -42,7 +42,7 @@ glabel func_809F50EC
 /* 01EC4 809F5184 A600025A */  sh      $zero, 0x025A($s0)         ## 0000025A
 /* 01EC8 809F5188 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 01ECC 809F518C 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
-/* 01ED0 809F5190 0C00CDD2 */  jal     Actor_ChangeType
+/* 01ED0 809F5190 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 01ED4 809F5194 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 01ED8 809F5198 3C0B809F */  lui     $t3, %hi(func_809F51B8)    ## $t3 = 809F0000

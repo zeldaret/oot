@@ -58,7 +58,7 @@ glabel EnZf_Update
 /* 052CC 80B4931C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 052D0 80B49320 3C0641C8 */  lui     $a2, 0x41C8                ## $a2 = 41C80000
 /* 052D4 80B49324 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 052D8 80B49328 0C00B92D */  jal     func_8002E4B4              
+/* 052D8 80B49328 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 052DC 80B4932C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 052E0 80B49330 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088
 /* 052E4 80B49334 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001

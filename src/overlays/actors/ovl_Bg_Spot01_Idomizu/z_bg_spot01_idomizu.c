@@ -19,7 +19,7 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idomizu),
@@ -45,7 +45,7 @@ void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->waterHeight = 52.0f;
     }
     this->actionFunc = func_808ABB84;
-    this->actor.posRot.pos.y = this->waterHeight;
+    this->actor.world.pos.y = this->waterHeight;
 }
 
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -55,12 +55,12 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[6] & 0x80) {
         this->waterHeight = -550.0f;
     }
-    globalCtx->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.posRot.pos.y;
-    if (this->waterHeight < this->actor.posRot.pos.y) {
+    globalCtx->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.world.pos.y;
+    if (this->waterHeight < this->actor.world.pos.y) {
         Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
-    Math_ApproachF(&this->actor.posRot.pos.y, this->waterHeight, 1.0f, 2.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->waterHeight, 1.0f, 2.0f);
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {

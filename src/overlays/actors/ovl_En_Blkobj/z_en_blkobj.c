@@ -22,7 +22,7 @@ void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BLKOBJ,
     sizeof(EnBlkobj),
@@ -85,7 +85,7 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->dyna.actor.xzDistToLink < 120.0f) {
+    if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
     player->stateFlags2 |= 0x04000000;
@@ -93,8 +93,8 @@ void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {
     if (!(this->dyna.actor.flags & 0x40)) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.posRot.pos.x,
-                    this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.yawTowardsLink, 0,
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x,
+                    this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0,
                     0);
         EnBlkobj_SetupAction(this, EnBlkobj_DarkLinkFight);
     }
@@ -104,7 +104,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
     s32 alphaMod;
 
     if (this->timer == 0) {
-        if (Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TORCH2, ACTORTYPE_BOSS) == NULL) {
+        if (Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TORCH2, ACTORCAT_BOSS) == NULL) {
             Flags_SetClear(globalCtx, this->dyna.actor.room);
             this->timer++;
         }

@@ -87,7 +87,7 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     s16 yaw;
     Player* player = PLAYER;
 
-    if (this->pos.y <= player->actor.groundY) {
+    if (this->pos.y <= player->actor.floorHeight) {
         this->life = 0;
     }
 

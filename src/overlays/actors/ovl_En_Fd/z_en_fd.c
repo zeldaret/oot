@@ -32,7 +32,7 @@ extern FlexSkeletonHeader D_06005810;
 
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_FW,
     sizeof(EnFd),
@@ -227,9 +227,9 @@ void EnFd_SpawnChildFire(EnFd* this, GlobalContext* globalCtx, s16 fireCnt, s16 
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
-        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsLink;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FD_FIRE, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, angle, 0, (color << 0xF) | i);
+        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsPlayer;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FD_FIRE, this->actor.world.pos.x,
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (color << 0xF) | i);
     }
 }
 
@@ -239,9 +239,9 @@ void EnFd_SpawnDot(EnFd* this, GlobalContext* globalCtx) {
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
     if (this->actionFunc == EnFd_Run || this->actionFunc == EnFd_SpinAndSpawnFire) {
-        pos.x = this->actor.posRot.pos.x;
-        pos.y = this->actor.groundY + 4.0f;
-        pos.z = this->actor.posRot.pos.z;
+        pos.x = this->actor.world.pos.x;
+        pos.y = this->actor.floorHeight + 4.0f;
+        pos.z = this->actor.world.pos.z;
         accel.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
         accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
         accel.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
@@ -256,8 +256,8 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistToLink < 300.0f &&
-               this->actor.yDistToLink < 60.0f) {
+    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistToPlayer < 300.0f &&
+               this->actor.yDistToPlayer < 60.0f) {
         return true;
     } else {
         return false;
@@ -297,7 +297,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         }
         this->attackTimer = 30;
         Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-        func_8002F71C(globalCtx, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsLink, 6.0f);
+        func_8002F71C(globalCtx, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
 }
@@ -315,18 +315,18 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     s32 pad;
 
     // Check to see if `actor` is within 400 units of `this`
-    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &actor->posRot.pos) > 400.0f) {
+    if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &actor->world.pos) > 400.0f) {
         return false;
     }
 
     // Check to see if the angle between this facing angle and `actor` is withing ~40 degrees
-    angle = (f32)Math_Vec3f_Yaw(&this->actor.posRot.pos, &actor->posRot.pos) - this->actor.shape.rot.y;
+    angle = (f32)Math_Vec3f_Yaw(&this->actor.world.pos, &actor->world.pos) - this->actor.shape.rot.y;
     if (ABS(angle) > 0x1C70) {
         return false;
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &actor->posRot.pos, &colPoint, &colPoly, 1,
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly, 1,
                                 0, 0, 1, &bgId)) {
         return false;
     }
@@ -335,7 +335,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
 }
 
 Actor* EnFd_FindBomb(EnFd* this, GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
     while (actor != NULL) {
         if (actor->params != 0 || actor->parent != NULL) {
@@ -386,11 +386,11 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
     s16 angle;
     Vec3f newPos;
 
-    angle = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554); // ~30 degrees
-    newPos.x = (Math_SinS(angle) * radius) + this->actor.initPosRot.pos.x;
-    newPos.z = (Math_CosS(angle) * radius) + this->actor.initPosRot.pos.z;
-    newPos.x -= this->actor.posRot.pos.x;
-    newPos.z -= this->actor.posRot.pos.z;
+    angle = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos) + (dir * 0x1554); // ~30 degrees
+    newPos.x = (Math_SinS(angle) * radius) + this->actor.home.pos.x;
+    newPos.z = (Math_CosS(angle) * radius) + this->actor.home.pos.z;
+    newPos.x -= this->actor.world.pos.x;
+    newPos.z -= this->actor.world.pos.z;
     *dst = newPos;
     return dst;
 }
@@ -405,11 +405,11 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     // will result in a background collision
     EnFd_GetPosAdjAroundCircle(&pos, this, radius, *runDir);
 
-    pos.x += this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y;
-    pos.z += this->actor.posRot.pos.z;
+    pos.x += this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y;
+    pos.z += this->actor.world.pos.z;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
                                 &bgId)) {
         *runDir = -*runDir;
         return true;
@@ -428,7 +428,7 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
 void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
     if (this->invincibilityTimer != 0) {
         Math_SmoothStepToF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
-        this->actor.shape.unk_14 = this->fadeAlpha;
+        this->actor.shape.shadowAlpha = this->fadeAlpha;
         if (!(this->fadeAlpha >= 0.9f)) {
             this->invincibilityTimer = 0;
             this->spinTimer = 0;
@@ -442,7 +442,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->jointTable, this->morphTable, 27);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 32.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
@@ -463,9 +463,9 @@ void EnFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
-    this->actor.posRot.pos = this->actor.initPosRot.pos;
+    this->actor.world.pos = this->actor.home.pos;
     this->actor.params = 0;
-    this->actor.shape.unk_14 = 0xFF;
+    this->actor.shape.shadowAlpha = 0xFF;
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
@@ -478,7 +478,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
-        this->actor.posRot.rot.y ^= 0x8000;
+        this->actor.world.rot.y ^= 0x8000;
         this->actor.flags |= 1;
         this->actor.speedXZ = 8.0f;
         func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -486,7 +486,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
     } else {
         this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
         this->actor.shape.rot.y += 0x2000;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
@@ -494,7 +494,7 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 1) && !(this->actor.velocity.y > 0.0f)) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
         func_80034EC0(&this->skelAnime, sAnimations, 2);
         this->actionFunc = EnFd_Land;
     }
@@ -506,9 +506,9 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->spinTimer = Rand_S16Offset(60, 90);
-        this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
+        this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.world.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -528,7 +528,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.shape.rot.y += (this->runDir * 0x2000);
         if (this->spinTimer == 30 && this->invincibilityTimer == 0) {
-            if (this->actor.xzDistToLink > 160.0f) {
+            if (this->actor.xzDistToPlayer > 160.0f) {
                 // orange flames
                 EnFd_SpawnChildFire(this, globalCtx, 8, 0);
             } else {
@@ -538,7 +538,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         }
     } else {
         // slow shape rotation down to meet `this` rotation within ~1.66 degrees
-        deceleration = this->actor.posRot.rot.y;
+        deceleration = this->actor.world.rot.y;
         deceleration -= this->actor.shape.rot.y;
         rotSpeed = 0.0f;
         tgtSpeed = fabsf(deceleration);
@@ -549,11 +549,11 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         rotSpeed = fabsf(rotSpeed);
         if ((s32)rotSpeed <= 300) {
             // ~1.6 degrees
-            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+            this->actor.shape.rot.y = this->actor.world.rot.y;
         }
 
-        if (this->actor.shape.rot.y == this->actor.posRot.rot.y) {
-            this->initYawToInitPos = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+        if (this->actor.shape.rot.y == this->actor.world.rot.y) {
+            this->initYawToInitPos = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos);
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
             this->spinTimer = Rand_S16Offset(30, 120);
@@ -576,7 +576,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
 
     if (EnFd_ShouldStopRunning(this, globalCtx, this->runRadius, &this->runDir)) {
         if (this->invincibilityTimer == 0) {
-            this->actor.posRot.rot.y ^= 0x8000;
+            this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
             this->actor.speedXZ = 0.0f;
             func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -585,7 +585,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
         }
     }
 
-    yawToYawTarget = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) - this->initYawToInitPos;
+    yawToYawTarget = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos) - this->initYawToInitPos;
     if (this->runDir > 0) {
         if ((u16)this->curYawToInitPos > (u16)(yawToYawTarget)) {
             this->circlesToComplete--;
@@ -603,14 +603,14 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     // the distance to that threat, otherwise default to 200.
     potentialThreat = EnFd_FindPotentialTheat(this, globalCtx);
     if ((potentialThreat != NULL) && (this->invincibilityTimer == 0)) {
-        runRadiusTarget = Math_Vec3f_DistXYZ(&this->actor.initPosRot.pos, &potentialThreat->posRot.pos);
+        runRadiusTarget = Math_Vec3f_DistXYZ(&this->actor.home.pos, &potentialThreat->world.pos);
     } else {
         runRadiusTarget = 200.0f;
     }
     Math_SmoothStepToF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
-    this->actor.posRot.rot = this->actor.shape.rot;
+    this->actor.world.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
@@ -665,7 +665,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_ColliderCheck(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);
     EnFd_UpdateDots(this);
@@ -714,7 +714,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 
     if (limbIndex == 13) {
-        Matrix_MultVec3f(&initialPos, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&initialPos, &this->actor.focus.pos);
     }
 
     if (limbIndex == 3 || limbIndex == 6 || limbIndex == 7 || limbIndex == 10 || limbIndex == 14 || limbIndex == 15 ||
