@@ -73,7 +73,7 @@ typedef enum {
 
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_FD,
     sizeof(BossFd),

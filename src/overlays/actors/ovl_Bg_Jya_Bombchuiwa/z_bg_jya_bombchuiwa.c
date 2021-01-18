@@ -18,7 +18,7 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
 
 const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombchuiwa),
@@ -56,7 +56,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 3, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
@@ -91,7 +91,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, globalCtx);
     }
-    Actor_SetHeight(thisx, 0.0f);
+    Actor_SetFocus(thisx, 0.0f);
 }
 
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
@@ -111,9 +111,9 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        pos.x = Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
-        pos.y = Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
-        pos.z = Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
+        pos.x = Rand_ZeroOne() * 10.0f + this->actor.world.pos.x - 10.0f;
+        pos.y = Rand_ZeroOne() * 40.0f + this->actor.world.pos.y - 20.0f;
+        pos.z = Rand_ZeroOne() * 50.0f + this->actor.world.pos.z - 25.0f;
         velocity.x = Rand_ZeroOne() * 3.0f - 0.3f;
         velocity.y = Rand_ZeroOne() * 18.0f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
@@ -139,7 +139,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
                              KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
     }
-    func_80033480(globalCtx, &this->actor.posRot.pos, 100.0f, 8, 100, 160, 0);
+    func_80033480(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
 }
 
 void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -157,7 +157,7 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
         if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, globalCtx);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -176,7 +176,7 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext*
 void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->timer++;
     if (this->timer & 4) {
-        func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 3, 100, 100, 0);
+        func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 3, 100, 100, 0);
     }
     if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
@@ -187,8 +187,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
     this->actionFunc = NULL;
     this->lightRayIntensity = 153.0f;
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
-    if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                    this->actor.posRot.pos.z, 0, 0, 0, 0) == NULL) {
+    if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
+                    this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
         // Occurrence failure
         osSyncPrintf("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombchuiwa.c", 410,
                      this->actor.params);

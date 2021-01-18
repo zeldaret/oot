@@ -21,7 +21,7 @@ extern UNK_TYPE D_0600AE40;
 /*
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MU,
     sizeof(EnTg),

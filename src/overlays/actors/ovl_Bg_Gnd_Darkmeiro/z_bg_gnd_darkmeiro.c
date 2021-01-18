@@ -24,7 +24,7 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globa
 
 const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndDarkmeiro),

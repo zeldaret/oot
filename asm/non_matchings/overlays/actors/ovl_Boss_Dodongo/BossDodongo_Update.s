@@ -155,7 +155,7 @@ glabel BossDodongo_Update
 /* 02AD8 808C3C68 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 02ADC 808C3C6C 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 02AE0 808C3C70 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 02AE4 808C3C74 0C00B92D */  jal     func_8002E4B4              
+/* 02AE4 808C3C74 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02AE8 808C3C78 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 02AEC 808C3C7C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 02AF0 808C3C80 3C073A83 */  lui     $a3, 0x3A83                ## $a3 = 3A830000

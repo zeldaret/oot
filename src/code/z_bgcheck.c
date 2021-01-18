@@ -2507,10 +2507,10 @@ void BgActor_SetActor(BgActor* bgActor, Actor* actor, CollisionHeader* colHeader
     bgActor->prevTransform.scale = actor->scale;
     bgActor->prevTransform.rot = actor->shape.rot;
     bgActor->prevTransform.rot.x--;
-    bgActor->prevTransform.pos = actor->posRot.pos;
+    bgActor->prevTransform.pos = actor->world.pos;
     bgActor->curTransform.scale = actor->scale;
     bgActor->curTransform.rot = actor->shape.rot;
-    bgActor->curTransform.pos = actor->posRot.pos;
+    bgActor->curTransform.pos = actor->world.pos;
 }
 
 /**
@@ -2742,8 +2742,8 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
     actor = dyna->bgActors[bgId].actor;
     dyna->bgActors[bgId].dynaLookup.polyStartIndex = *polyStartIndex;
     dyna->bgActors[bgId].vtxStartIndex = *vtxStartIndex;
-    pos = actor->posRot.pos;
-    pos.y += actor->shape.unk_08 * actor->scale.y;
+    pos = actor->world.pos;
+    pos.y += actor->shape.yOffset * actor->scale.y;
 
     ScaleRotPos_SetValue(&dyna->bgActors[bgId].curTransform, &actor->scale, &actor->shape.rot, &pos);
 
@@ -4494,7 +4494,7 @@ void BgCheck_DrawStaticCollision(GlobalContext* globalCtx, CollisionContext* col
     StaticLookup* lookup;
 
     player = PLAYER;
-    lookup = BgCheck_GetNearestStaticLookup(colCtx, colCtx->lookupTbl, &player->actor.posRot.pos);
+    lookup = BgCheck_GetNearestStaticLookup(colCtx, colCtx->lookupTbl, &player->actor.world.pos);
     if (AREG(23) != 0) {
         BgCheck_DrawStaticPolyList(globalCtx, colCtx, &lookup->floor, 0, 0, 255);
     }

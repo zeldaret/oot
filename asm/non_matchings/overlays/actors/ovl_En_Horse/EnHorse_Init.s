@@ -211,8 +211,8 @@ glabel EnHorse_Init
 /* 01088 80A5C378 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0108C 80A5C37C 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 01090 80A5C380 44815000 */  mtc1    $at, $f10                  ## $f10 = -3.50
-/* 01094 80A5C384 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
-/* 01098 80A5C388 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
+/* 01094 80A5C384 3C068003 */  lui     $a2, %hi(ActorShadow_DrawHorse)
+/* 01098 80A5C388 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawHorse)
 /* 0109C 80A5C38C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 010A0 80A5C390 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 010A4 80A5C394 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000

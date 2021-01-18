@@ -24,7 +24,7 @@ extern UNK_TYPE D_0600BA8C;
 /*
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnJj),

@@ -205,7 +205,7 @@ typedef struct {
     /* 0x40 */ f32      unk_40;
     /* 0x44 */ f32      unk_44;
     /* 0x48 */ s16      unk_48;
-    /* 0x4A */ u8       activeType;
+    /* 0x4A */ u8       activeCategory;
     /* 0x4B */ u8       unk_4B;
     /* 0x4C */ s8       unk_4C;
     /* 0x4D */ char     unk_4D[0x03];
@@ -228,8 +228,8 @@ typedef struct {
 } TitleCardContext; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ s32    length; // number of actors loaded of this type
-    /* 0x04 */ Actor* first;  // pointer to first actor of this type
+    /* 0x00 */ s32    length; // number of actors loaded of this category
+    /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
 } ActorListEntry; // size = 0x08
 
 typedef struct {
@@ -240,7 +240,7 @@ typedef struct {
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
     /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorList[12];
+    /* 0x000C */ ActorListEntry actorLists[12];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;

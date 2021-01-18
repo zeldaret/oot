@@ -59,7 +59,7 @@ extern UNK_TYPE D_05014CB0[]; // blue plasma/cloud
 
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
-    ACTORTYPE_SWITCH,
+    ACTORCAT_SWITCH,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjSwitch),
@@ -212,9 +212,9 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, Col
 
     Collider_InitJntSph(globalCtx, colliderJntSph);
     Collider_SetJntSph(globalCtx, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
-    func_800D1694(this->dyna.actor.posRot.pos.x,
-                  this->dyna.actor.posRot.pos.y + this->dyna.actor.shape.unk_08 * this->dyna.actor.scale.y,
-                  this->dyna.actor.posRot.pos.z, &this->dyna.actor.shape.rot);
+    func_800D1694(this->dyna.actor.world.pos.x,
+                  this->dyna.actor.world.pos.y + this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
+                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
     Collider_UpdateSpheres(0, colliderJntSph);
 }
@@ -230,8 +230,8 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, Colli
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
-            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->elements[i].dim.vtx[j], this->dyna.actor.initPosRot.rot.y);
-            Math_Vec3f_Sum(&pos[j], &this->dyna.actor.posRot.pos, &pos[j]);
+            ObjSwitch_RotateY(&pos[j], &colliderTrisInit->elements[i].dim.vtx[j], this->dyna.actor.home.rot.y);
+            Math_Vec3f_Sum(&pos[j], &this->dyna.actor.world.pos, &pos[j]);
         }
 
         Collider_SetTrisVertices(colliderTris, i, &pos[0], &pos[1], &pos[2]);
@@ -241,9 +241,9 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, GlobalContext* globalCtx, Colli
 Actor* ObjSwitch_SpawnIce(ObjSwitch* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    return Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_ICE_POLY, thisx->posRot.pos.x,
-                              thisx->posRot.pos.y, thisx->posRot.pos.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
-                              thisx->posRot.rot.z, (this->dyna.actor.params >> 8 & 0x3F) << 8);
+    return Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_ICE_POLY, thisx->world.pos.x,
+                              thisx->world.pos.y, thisx->world.pos.z, thisx->world.rot.x, thisx->world.rot.y,
+                              thisx->world.rot.z, (this->dyna.actor.params >> 8 & 0x3F) << 8);
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
@@ -301,10 +301,10 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 1.0f;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 1.0f;
     }
 
-    Actor_SetHeight(&this->dyna.actor, sHeights[type]);
+    Actor_SetFocus(&this->dyna.actor, sHeights[type]);
 
     if (type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitTrisCollider(this, globalCtx, &sRustyFloorTrisInit);
@@ -316,7 +316,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
         this->dyna.actor.flags |= 1;
-        this->dyna.actor.unk_1F = 4;
+        this->dyna.actor.targetMode = 4;
     }
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -426,12 +426,12 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorPress(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_FLOOR_3 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 120, 20, 10);
+            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
 }
@@ -482,13 +482,13 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     s16 subType = (this->dyna.actor.params >> 4 & 7);
 
     if (((subType != OBJSWITCH_SUBTYPE_FLOOR_1) && (subType != OBJSWITCH_SUBTYPE_FLOOR_3)) || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
             ObjSwitch_FloorUpInit(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             if (subType == OBJSWITCH_SUBTYPE_FLOOR_1) {
-                func_800AA000(this->dyna.actor.xyzDistToLinkSq, 120, 20, 10);
+                func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             }
         }
     }
@@ -501,7 +501,7 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     if ((this->tris.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2)) {
         collidingActor = this->tris.col.base.ac;
         if (collidingActor != NULL) {
-            yawDiff = collidingActor->posRot.rot.y - this->dyna.actor.shape.rot.y;
+            yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {
                 return 1;
             }
@@ -541,7 +541,7 @@ void ObjSwitch_EyeClosingInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeClosing(ObjSwitch* this, GlobalContext* globalCtx) {
-    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->eyeTexIndex++;
         if (this->eyeTexIndex >= 3) {
             ObjSwitch_EyeClosedInit(this);
@@ -580,7 +580,7 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
 
 void ObjSwitch_EyeOpening(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_EYE_1 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
             ObjSwitch_EyeOpenInit(this);
@@ -631,7 +631,7 @@ void ObjSwitch_CrystalTurnOnInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalTurnOn(ObjSwitch* this, GlobalContext* globalCtx) {
-    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+    if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOnInit(this);
         if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_CRYSTAL_1) {
             ObjSwitch_UpdateTwoTexScrollXY(this);
@@ -675,7 +675,7 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
 
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_CRYSTAL_1 || !this->cooldownOn ||
-        func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
+        func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);

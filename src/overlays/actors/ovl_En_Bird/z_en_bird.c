@@ -22,7 +22,7 @@ void func_809C1CAC(EnBird* this, s16 params);
 
 const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BIRD,
     sizeof(EnBird),
@@ -33,7 +33,7 @@ const ActorInit En_Bird_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 
 extern AnimationHeader D_0600006C;
@@ -49,7 +49,7 @@ void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, NULL, NULL, 0);
-    ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawFunc_Circle, 4);
+    ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawCircle, 4);
     this->unk_194 = 0;
     this->unk_198 = 0;
     this->unk_1C0 = 0x9C4;
@@ -80,7 +80,7 @@ void func_809C1CAC(EnBird* this, s16 params) {
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
     f32 fVar2 = sinf(this->unk_1B4);
 
-    this->actor.shape.unk_08 = this->actor.shape.unk_08 + fVar2 * this->unk_1A0;
+    this->actor.shape.yOffset = this->actor.shape.yOffset + fVar2 * this->unk_1A0;
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
 
     if (this->unk_19C != 0) {
@@ -102,18 +102,18 @@ void func_809C1E00(EnBird* this, s16 params) {
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     f32 fVar4 = sinf(this->unk_1B4);
-    this->actor.shape.unk_08 += fVar4 * this->unk_1A0;
+    this->actor.shape.yOffset += fVar4 * this->unk_1A0;
     Math_SmoothStepToF(&this->actor.speedXZ, this->unk_1A8, 0.1f, this->unk_1AC, 0.0f);
 
-    if (this->unk_1B0 < Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) || this->unk_198 < 4) {
-        Math_StepToAngleS(&this->actor.posRot.rot.y,
-                          Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos), this->unk_1C0);
+    if (this->unk_1B0 < Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) || this->unk_198 < 4) {
+        Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
+                          this->unk_1C0);
     } else {
         fVar4 = sinf(this->unk_1B4);
-        this->actor.posRot.rot.y += (s16)(fVar4 * this->unk_1A4);
+        this->actor.world.rot.y += (s16)(fVar4 * this->unk_1A4);
     }
 
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
     SkelAnime_Update(&this->skelAnime);
     this->unk_198 -= 1;
     if (this->unk_198 < 0) {

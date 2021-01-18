@@ -18,7 +18,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Oceff_Wipe4_InitVars = {
     ACTOR_OCEFF_WIPE4,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe4),
@@ -35,7 +35,7 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
@@ -48,7 +48,7 @@ void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
 
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
     } else {

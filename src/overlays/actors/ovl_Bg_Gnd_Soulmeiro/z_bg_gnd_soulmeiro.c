@@ -22,7 +22,7 @@ void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndSoulmeiro),
@@ -77,8 +77,8 @@ void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8087B284;
             if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
 
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 9);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.world.pos.x,
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 9);
                 this->actor.draw = NULL;
                 Actor_Kill(&this->actor);
                 return;
@@ -130,8 +130,8 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     if (!this->unk_198) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         Actor_Kill(&this->actor);
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                    this->actor.posRot.pos.z, 0, 0, 0, 9);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
+                    this->actor.world.pos.z, 0, 0, 0, 9);
         return;
     }
 
@@ -140,29 +140,29 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     if ((this->unk_198 % 6) == 0) {
         temp_2 = Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
         vecA.y = 0.0f;
-        vecB.y = this->actor.posRot.pos.y;
+        vecB.y = this->actor.world.pos.y;
 
         this2 = this;
         for (i = 0; i < 6; i++) {
             temp_1 = Rand_CenteredFloat(0x2800) + temp_2;
             temp_3 = Math_SinS(temp_1);
             temp_4 = Math_CosS(temp_1);
-            vecB.x = this2->actor.posRot.pos.x + (120.0f * temp_3);
-            vecB.z = this2->actor.posRot.pos.z + (120.0f * temp_4);
-            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.0f);
+            vecB.x = this2->actor.world.pos.x + (120.0f * temp_3);
+            vecB.z = this2->actor.world.pos.z + (120.0f * temp_4);
+            distXZ = Math_Vec3f_DistXZ(&this2->actor.home.pos, &vecB) * (1.0f / 120.0f);
             if (distXZ < 0.7f) {
                 temp_3 = Math_SinS(temp_1 + 0x8000);
                 temp_4 = Math_CosS(temp_1 + 0x8000);
-                vecB.x = this->actor.posRot.pos.x + (120.0f * temp_3);
-                vecB.z = this->actor.posRot.pos.z + (120.0f * temp_4);
-                distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &vecB) * (1.0f / 120.0f);
+                vecB.x = this->actor.world.pos.x + (120.0f * temp_3);
+                vecB.z = this->actor.world.pos.z + (120.0f * temp_4);
+                distXZ = Math_Vec3f_DistXZ(&this->actor.home.pos, &vecB) * (1.0f / 120.0f);
             }
 
             vecA.x = 4.0f * temp_3 * distXZ;
             vecA.y = 0.0f;
             vecA.z = 4.0f * temp_4 * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &sZeroVec, 60, 6, 255, 255, 150, 170,
-                                 255, 0, 0, 1, 14, true);
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.home.pos, &vecA, &sZeroVec, 60, 6, 255, 255, 150, 170, 255, 0,
+                                 0, 1, 14, true);
             temp_2 += 0x2AAA;
         }
     }

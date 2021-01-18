@@ -146,7 +146,7 @@ glabel BgSstFloor_Update
 /* 00290 808B9BA0 00000000 */  nop
 /* 00294 808B9BA4 4502001A */  bc1fl   .L808B9C10
 /* 00298 808B9BA8 8E100124 */  lw      $s0, 0x0124($s0)           ## 00000124
-/* 0029C 808B9BAC 0C00B6E3 */  jal     func_8002DB8C
+/* 0029C 808B9BAC 0C00B6E3 */  jal     Actor_WorldDistXZToActor
 /* 002A0 808B9BB0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 002A4 808B9BB4 3C0143AF */  lui     $at, 0x43AF                ## $at = 43AF0000
 /* 002A8 808B9BB8 44817000 */  mtc1    $at, $f14                  ## $f14 = 350.00
