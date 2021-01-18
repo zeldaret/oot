@@ -2087,7 +2087,7 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                         (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
                                              &hitPos);
-                    if ((ac->base.ocFlags2 & OC2_FIRST_ONLY) == 0) {
+                    if (!(ac->base.ocFlags2 & OC2_FIRST_ONLY)) {
                         return;
                     }
                 }

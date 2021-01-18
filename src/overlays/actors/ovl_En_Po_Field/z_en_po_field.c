@@ -283,7 +283,7 @@ void EnPoField_SetupDamage(EnPoField* this) {
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
     }
-    this->collider.base.acFlags &= ~3;
+    this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 5.0f;
     func_8003426C(&this->actor, 0x4000, 255, 0, 16);
     this->actionFunc = EnPoField_Damage;
@@ -304,7 +304,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
 void EnPoField_SetupDisappear(EnPoField* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     this->actionTimer = 16;
-    this->collider.base.acFlags &= ~3;
+    this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
