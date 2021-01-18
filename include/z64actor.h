@@ -77,27 +77,27 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ DamageTable* damageTable;
-    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body.
-    /* 0x10 */ s16 cylRadius; // Used for various purposes.
-    /* 0x12 */ s16 cylHeight; // Used for various purposes.
-    /* 0x14 */ s16 cylYShift; // Unused. Intended purpose inferred from the Cylinder16 structure and func_80062ECC.
-    /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions.
-    /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one.
-    /* 0x18 */ u8 damage; // Amount to decrement health by.
-    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon.
-    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC.
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT.
+    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
+    /* 0x10 */ s16 cylRadius; // Used for various purposes
+    /* 0x12 */ s16 cylHeight; // Used for various purposes
+    /* 0x14 */ s16 cylYShift; // Unused. Purpose inferred from Cylinder16 and CollisionCheck_CylSideVsLineSeg
+    /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions
+    /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
+    /* 0x18 */ u8 damage; // Amount to decrement health by
+    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
+    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ Vec3s rot; // Current actor shape rotation.
-    /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player.
-    /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units.
-    /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function.
+    /* 0x00 */ Vec3s rot; // Current actor shape rotation
+    /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player
+    /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
+    /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale;
-    /* 0x14 */ u8 shadowAlpha; // Default is 255.
+    /* 0x14 */ u8 shadowAlpha; // Default is 255
     /* 0x15 */ u8 unk_15; // related to teardrop shadows
-    /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw.
+    /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x18
 
 typedef struct Actor {
@@ -112,7 +112,7 @@ typedef struct Actor {
     /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
     /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
-    /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `head` position
+    /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
     /* 0x050 */ Vec3f scale; // Scale of the actor in each axis
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
     /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane
