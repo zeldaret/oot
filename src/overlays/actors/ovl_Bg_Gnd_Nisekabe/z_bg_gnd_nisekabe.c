@@ -17,7 +17,7 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndNisekabe),

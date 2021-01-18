@@ -48,7 +48,7 @@ void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIk_BgCheck(DemoIk* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
@@ -156,9 +156,9 @@ void DemoIk_SpawnDeadDb(DemoIk* this, GlobalContext* globalCtx) {
             endIndex = 11;
         }
         for (i = startIndex; i < endIndex; i++) {
-            pos.x = deadDbOffsets[i].x + this->actor.posRot.pos.x;
-            pos.y = deadDbOffsets[i].y + this->actor.posRot.pos.y;
-            pos.z = deadDbOffsets[i].z + this->actor.posRot.pos.z;
+            pos.x = deadDbOffsets[i].x + this->actor.world.pos.x;
+            pos.y = deadDbOffsets[i].y + this->actor.world.pos.y;
+            pos.z = deadDbOffsets[i].z + this->actor.world.pos.z;
             EffectSsDeadDb_Spawn(globalCtx, &pos, &zeroVec, &zeroVec, 10, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         }
     }
@@ -168,10 +168,10 @@ void DemoIk_MoveToStartPos(DemoIk* this, GlobalContext* globalCtx, s32 index) {
     CsCmdActorAction* cue = DemoIk_GetCue(globalCtx, index);
 
     if (cue != NULL) {
-        this->actor.posRot.pos.x = cue->startPos.x;
-        this->actor.posRot.pos.y = cue->startPos.y;
-        this->actor.posRot.pos.z = cue->startPos.z;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = cue->rot.y;
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -198,7 +198,7 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
             phi_f0 = 20.0f;
             // No break is required for matching
     }
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, phi_f0);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
     SkelAnime_Init(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
 }
@@ -206,7 +206,7 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
 void func_8098393C(DemoIk* this) {
     this->actionMode = 0;
     this->drawMode = 0;
-    this->actor.shape.unk_14 = 0;
+    this->actor.shape.shadowAlpha = 0;
 }
 
 void func_8098394C(DemoIk* this, GlobalContext* globalCtx) {
@@ -214,14 +214,14 @@ void func_8098394C(DemoIk* this, GlobalContext* globalCtx) {
     DemoIk_MoveToStartPos(this, globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
     this->actionMode = 1;
     this->drawMode = 1;
-    this->actor.shape.unk_14 = 0xFF;
+    this->actor.shape.shadowAlpha = 0xFF;
     this->skelAnime.curFrame = 0.0f;
 }
 
 void func_809839AC(DemoIk* this) {
     this->actionMode = 2;
     this->drawMode = 1;
-    this->actor.shape.unk_14 = 0xFF;
+    this->actor.shape.shadowAlpha = 0xFF;
     this->skelAnime.curFrame = 0.0f;
 }
 
@@ -512,7 +512,7 @@ void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_IK,
     sizeof(DemoIk),

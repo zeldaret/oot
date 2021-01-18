@@ -23,7 +23,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_SPOT01_MATOYAB,
     sizeof(BgGateShutter),
@@ -44,13 +44,13 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06001DA8, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    this->somePos.x = thisx->posRot.pos.x;
-    this->somePos.y = thisx->posRot.pos.y;
-    this->somePos.z = thisx->posRot.pos.z;
+    this->somePos.x = thisx->world.pos.x;
+    this->somePos.y = thisx->world.pos.y;
+    this->somePos.z = thisx->world.pos.z;
     if (((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) &&
         (globalCtx->sceneNum == SCENE_SPOT01)) {
-        thisx->posRot.pos.x = -89.0f;
-        thisx->posRot.pos.z = -1375.0f;
+        thisx->world.pos.x = -89.0f;
+        thisx->world.pos.z = -1375.0f;
     }
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
@@ -84,9 +84,9 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
 
     if (this->unk_178 == 0) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
-        thisx->posRot.pos.x -= 2.0f;
-        Math_ApproachF(&thisx->posRot.pos.z, -1375.0f, 0.8f, 0.3f);
-        if (thisx->posRot.pos.x < -89.0f) {
+        thisx->world.pos.x -= 2.0f;
+        Math_ApproachF(&thisx->world.pos.z, -1375.0f, 0.8f, 0.3f);
+        if (thisx->world.pos.x < -89.0f) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 0x1E;
             this->actionFunc = func_808783AC;
@@ -106,10 +106,10 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
 
     if (this->unk_178 == 0) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
-        thisx->posRot.pos.x += 2.0f;
-        Math_ApproachF(&thisx->posRot.pos.z, -1350.0f, 0.8f, 0.3f);
-        if (thisx->posRot.pos.x > 90.0f) {
-            thisx->posRot.pos.x = 91.0f;
+        thisx->world.pos.x += 2.0f;
+        Math_ApproachF(&thisx->world.pos.z, -1350.0f, 0.8f, 0.3f);
+        if (thisx->world.pos.x > 90.0f) {
+            thisx->world.pos.x = 91.0f;
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 30;
             this->actionFunc = func_808783AC;

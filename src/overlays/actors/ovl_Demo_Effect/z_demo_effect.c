@@ -78,7 +78,7 @@ extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
 
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoEffect),
@@ -417,16 +417,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.020f);
 
             crystalLight = (DemoEffect*)Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
+                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
 
             if (crystalLight != NULL) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
             }
 
             lightRing = (DemoEffect*)Actor_SpawnAsChild(
-                &globalCtx2->actorCtx, &crystalLight->actor, globalCtx2, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
+                &globalCtx2->actorCtx, &crystalLight->actor, globalCtx2, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
 
             if (lightRing != NULL) {
                 Actor_SetScale(&lightRing->actor, 0.4f);
@@ -503,7 +503,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->jewel.type = DEMO_EFFECT_JEWEL_ZORA;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
             if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
                 Actor_Kill(&this->actor);
                 return;
@@ -561,9 +561,9 @@ void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent != NULL) {
         // Struct copy affects regalloc
-        this->actor.posRot.pos.x = this->actor.parent->posRot.pos.x;
-        this->actor.posRot.pos.y = this->actor.parent->posRot.pos.y;
-        this->actor.posRot.pos.z = this->actor.parent->posRot.pos.z;
+        this->actor.world.pos.x = this->actor.parent->world.pos.x;
+        this->actor.world.pos.y = this->actor.parent->world.pos.y;
+        this->actor.world.pos.z = this->actor.parent->world.pos.z;
     }
 }
 
@@ -575,7 +575,7 @@ void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCt
  */
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect_UpdatePositionToParent(this, globalCtx);
-    this->actor.posRot.pos.y += 14.0f;
+    this->actor.world.pos.y += 14.0f;
 }
 
 /**
@@ -611,9 +611,9 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
             velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
 
-        pos.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-        pos.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-        pos.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+        pos.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+        pos.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
+        pos.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 1000, 16);
     }
@@ -929,8 +929,8 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
         if (globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
             globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
-                                               this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                               this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
+                                               this->actor.world.pos.x, this->actor.world.pos.y,
+                                               this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
 
             if (blueOrb != NULL) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
@@ -959,22 +959,21 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
         return;
     }
 
-    effect =
-        (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
     if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.0f);
     }
 
-    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                       DEMO_EFFECT_LIGHTRING_EXPANDING);
     if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
-    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                       DEMO_EFFECT_LIGHTRING_SHRINKING);
     if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.2f);
@@ -992,7 +991,7 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
 void DemoEffect_InitCreationFireball(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* parent = this->actor.parent;
 
-    this->actor.posRot.rot.y = parent->shape.rot.y;
+    this->actor.world.rot.y = parent->shape.rot.y;
     this->fireBall.timer = 50;
     this->actor.speedXZ = 1.5f;
     this->actor.minVelocityY = -1.5f;
@@ -1158,8 +1157,8 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             fireBall = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
-                                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                                       this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_FIRE_BALL);
+                                                       this->actor.world.pos.x, this->actor.world.pos.y,
+                                                       this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_FIRE_BALL);
 
             if (fireBall != NULL) {
                 fireBall->initUpdateFunc = DemoEffect_InitCreationFireball;
@@ -1212,9 +1211,9 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             } else {
                 this->godLgt.lightRingSpawnTimer = this->godLgt.lightRingSpawnDelay;
                 lightRing = (DemoEffect*)Actor_Spawn(
-                    &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.posRot.rot.x + 0x4000,
-                    this->actor.posRot.rot.y, this->actor.posRot.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
+                    &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                    this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x + 0x4000,
+                    this->actor.world.rot.y, this->actor.world.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
 
                 if (lightRing != NULL) {
                     Actor_SetScale(&lightRing->actor, 1.0f);
@@ -1269,8 +1268,8 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             lgtShower = (DemoEffect*)Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
+                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                this->actor.world.pos.y - 150.0f, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
 
             if (lgtShower != NULL) {
                 lgtShower->actor.scale.x = 0.23f;
@@ -1310,9 +1309,9 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
  * Moves this actor towards the target position with a given speed.
  */
 void DemoEffect_MoveTowardTarget(Vec3f targetPos, DemoEffect* this, f32 speed) {
-    this->actor.posRot.pos.x += (targetPos.x - this->actor.posRot.pos.x) * speed;
-    this->actor.posRot.pos.y += (targetPos.y - this->actor.posRot.pos.y) * speed;
-    this->actor.posRot.pos.z += (targetPos.z - this->actor.posRot.pos.z) * speed;
+    this->actor.world.pos.x += (targetPos.x - this->actor.world.pos.x) * speed;
+    this->actor.world.pos.y += (targetPos.y - this->actor.world.pos.y) * speed;
+    this->actor.world.pos.z += (targetPos.z - this->actor.world.pos.z) * speed;
 }
 
 /**
@@ -1395,15 +1394,15 @@ void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
  * Moves the Jewel Actor during the activation of the Door of Time cutscene.
  * This is used once the Jewel Actor is done orbiting Link and split up to move into the pedastal slots.
  */
-void DemoEffect_MoveJewelSplit(PosRot* posRot, DemoEffect* this) {
+void DemoEffect_MoveJewelSplit(PosRot* world, DemoEffect* this) {
     switch (this->jewel.type) {
         case DEMO_EFFECT_JEWEL_KOKIRI:
-            posRot->pos.x -= 40.0f;
+            world->pos.x -= 40.0f;
             break;
         case DEMO_EFFECT_JEWEL_GORON:
             break;
         case DEMO_EFFECT_JEWEL_ZORA:
-            posRot->pos.x += 40.0f;
+            world->pos.x += 40.0f;
             break;
     }
 }
@@ -1424,25 +1423,25 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
 
     distance = frameDivisor * sqrtf(SQ(endPos.x - startPos.x) + SQ(endPos.y - startPos.y) + SQ(endPos.z - startPos.z));
 
-    this->actor.posRot.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
-    this->actor.posRot.pos.y = distance;
-    this->actor.posRot.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.y = distance;
+    this->actor.world.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
 
-    xPos = this->actor.posRot.pos.x;
-    ySpherical = (this->actor.posRot.pos.y * cosf(rotation.x * (M_PI / 0x8000))) -
-                 (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.posRot.pos.z);
-    xzSpherical = (this->actor.posRot.pos.z * cosf(rotation.x * (M_PI / 0x8000))) +
-                  (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.posRot.pos.y);
+    xPos = this->actor.world.pos.x;
+    ySpherical = (this->actor.world.pos.y * cosf(rotation.x * (M_PI / 0x8000))) -
+                 (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.z);
+    xzSpherical = (this->actor.world.pos.z * cosf(rotation.x * (M_PI / 0x8000))) +
+                  (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.y);
 
-    this->actor.posRot.pos.x =
+    this->actor.world.pos.x =
         (xPos * cosf(rotation.y * (M_PI / 0x8000))) - (sinf(rotation.y * (M_PI / 0x8000)) * xzSpherical);
-    this->actor.posRot.pos.y = ySpherical;
-    this->actor.posRot.pos.z =
+    this->actor.world.pos.y = ySpherical;
+    this->actor.world.pos.z =
         (xzSpherical * cosf(rotation.y * (M_PI / 0x8000))) + (sinf(rotation.y * (M_PI / 0x8000)) * xPos);
 
-    this->actor.posRot.pos.x += startPos.x;
-    this->actor.posRot.pos.y += startPos.y;
-    this->actor.posRot.pos.z += startPos.z;
+    this->actor.world.pos.x += startPos.x;
+    this->actor.world.pos.y += startPos.y;
+    this->actor.world.pos.z += startPos.z;
 }
 
 /**
@@ -1527,7 +1526,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
         velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
 
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.world.pos, &velocity, &accel, &primColor, &envColor,
                                         3000, 16);
     }
 }
@@ -1586,13 +1585,13 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
             case 4:
                 if (this->jewel.isPositionInit) {
                     DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
-                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->world, this);
                     if ((globalCtx->gameplayFrames & 1) == 0) {
                         DemoEffect_JewelSparkle(this, globalCtx, 1);
                     }
                 } else {
                     DemoEffect_InitPositionFromCsAction(this, globalCtx, this->csActionId);
-                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->world, this);
                     this->jewel.isPositionInit = 1;
                 }
                 break;
@@ -1602,7 +1601,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
             default:
                 DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
                 if (gSaveContext.entranceIndex == 0x0053) {
-                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
                 break;
         }
@@ -1635,7 +1634,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != NULL &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
-        pos = this->actor.posRot.pos;
+        pos = this->actor.world.pos;
 
         pos.y += 600.0f;
         pos.x += Rand_CenteredFloat(300.0f);
@@ -2131,9 +2130,9 @@ void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32
 
     speed = DemoEffect_InterpolateCsFrames(globalCtx, csActionId);
 
-    this->actor.posRot.pos.x = ((endPos.x - startPos.x) * speed) + startPos.x;
-    this->actor.posRot.pos.y = ((endPos.y - startPos.y) * speed) + startPos.y;
-    this->actor.posRot.pos.z = ((endPos.z - startPos.z) * speed) + startPos.z;
+    this->actor.world.pos.x = ((endPos.x - startPos.x) * speed) + startPos.x;
+    this->actor.world.pos.y = ((endPos.y - startPos.y) * speed) + startPos.y;
+    this->actor.world.pos.z = ((endPos.z - startPos.z) * speed) + startPos.z;
 
     if (shouldUpdateFacing) {
         DemoEffect_FaceToCsEndpoint(this, startPos, endPos);
@@ -2159,7 +2158,7 @@ void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* global
     f32 y = globalCtx->csCtx.npcActions[csActionIndex]->startPos.y;
     f32 z = globalCtx->csCtx.npcActions[csActionIndex]->startPos.z;
 
-    this->actor.posRot.pos.x = x;
-    this->actor.posRot.pos.y = y;
-    this->actor.posRot.pos.z = z;
+    this->actor.world.pos.x = x;
+    this->actor.world.pos.y = y;
+    this->actor.world.pos.z = z;
 }

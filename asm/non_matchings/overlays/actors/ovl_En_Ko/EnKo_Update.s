@@ -60,7 +60,7 @@ glabel EnKo_Update
 /* 02A24 80A997D4 44060000 */  mfc1    $a2, $f0                   
 /* 02A28 80A997D8 44070000 */  mfc1    $a3, $f0                   
 /* 02A2C 80A997DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02A30 80A997E0 0C00B92D */  jal     func_8002E4B4              
+/* 02A30 80A997E0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02A34 80A997E4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02A38 80A997E8 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
 /* 02A3C 80A997EC 44814000 */  mtc1    $at, $f8                   ## $f8 = -1.00

@@ -23,7 +23,7 @@ void func_80872288(BgDodoago* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDodoago),
@@ -151,8 +151,8 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
 
     if (explosive != NULL) {
         this->unk_164 =
-            (Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &explosive->posRot.pos) >= this->dyna.actor.shape.rot.y) ? 1
-                                                                                                                   : 0;
+            (Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &explosive->world.pos) >= this->dyna.actor.shape.rot.y) ? 1
+                                                                                                                 : 0;
 
         if (((globalCtx->unk_11D30[0] == 0xFF) && (this->unk_164 == 1)) ||
             ((globalCtx->unk_11D30[1] == 0xFF) && (this->unk_164 == 0))) {
@@ -220,22 +220,22 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
 
     if (D_80872824 == 0x6C) {
         for (i = 10; i >= 0; i--) {
-            currentPos.x = D_808725CC[i].x + this->dyna.actor.posRot.pos.x;
-            currentPos.y = D_808725CC[i].y + this->dyna.actor.posRot.pos.y;
-            currentPos.z = D_808725CC[i].z + this->dyna.actor.posRot.pos.z;
+            currentPos.x = D_808725CC[i].x + this->dyna.actor.world.pos.x;
+            currentPos.y = D_808725CC[i].y + this->dyna.actor.world.pos.y;
+            currentPos.z = D_808725CC[i].z + this->dyna.actor.world.pos.z;
             func_80033480(globalCtx, &currentPos, 2.0f, 3, 0xC8, 0x4B, 1);
         }
     }
 
-    currentPos.x = this->dyna.actor.posRot.pos.x + 200.0f;
-    currentPos.y = this->dyna.actor.posRot.pos.y - 20.0f;
-    currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
+    currentPos.x = this->dyna.actor.world.pos.x + 200.0f;
+    currentPos.y = this->dyna.actor.world.pos.y - 20.0f;
+    currentPos.z = this->dyna.actor.world.pos.z + 100.0f;
 
     BgDodoago_SpawnSparkles(&currentPos, globalCtx);
 
-    currentPos.x = this->dyna.actor.posRot.pos.x - 200.0f;
-    currentPos.y = this->dyna.actor.posRot.pos.y - 20.0f;
-    currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
+    currentPos.x = this->dyna.actor.world.pos.x - 200.0f;
+    currentPos.y = this->dyna.actor.world.pos.y - 20.0f;
+    currentPos.z = this->dyna.actor.world.pos.z + 100.0f;
 
     BgDodoago_SpawnSparkles(&currentPos, globalCtx);
     Math_StepToS(&this->unk_164, 0x64, 3);
@@ -276,7 +276,8 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->colliders[1].base.ocFlags1 &= ~OC1_HIT;
             this->colliders[2].base.ocFlags1 &= ~OC1_HIT;
-            if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
+            if (bomb->actor.category == ACTORCAT_EXPLOSIVE && bomb->actor.id == ACTOR_EN_BOM &&
+                bomb->actor.params == 0) {
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
                 bomb->actor.speedXZ = 0.0f;

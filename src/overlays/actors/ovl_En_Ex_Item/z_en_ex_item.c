@@ -35,7 +35,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnExItem),
@@ -60,7 +60,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // What will come out?
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
-    this->initPos = this->actor.posRot.pos;
+    this->initPos = this->actor.world.pos;
     this->getItemObjId = -1;
     switch (this->type) {
         case EXITEM_BOMB_BAG_BOWLING:
@@ -145,7 +145,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.unk_08 = -18.0f;
+                    this->actor.shape.yOffset = -18.0f;
                 }
                 break;
             case EXITEM_HEART_PIECE_COUNTER:
@@ -160,7 +160,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.unk_08 = -10.0f;
+                    this->actor.shape.yOffset = -10.0f;
                 }
                 break;
             case EXITEM_BOMBCHUS_COUNTER:
@@ -189,7 +189,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.unk_08 = 10.0f;
+                    this->actor.shape.yOffset = 10.0f;
                 }
                 break;
             case EXITEM_PURPLE_RUPEE_BOWLING:
@@ -205,7 +205,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.unk_08 = 40.0f;
+                    this->actor.shape.yOffset = 40.0f;
                 }
                 break;
             case EXITEM_GREEN_RUPEE_CHEST:
@@ -289,13 +289,13 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
             tmpf6 = (tmpf2 / tmpf4) * 5.0f;
             tmpf7 = (tmpf3 / tmpf4) * 5.0f;
 
-            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.posRot.pos.x;
-            tmpf2 = globalCtx->view.eye.y + tmpf6 - this->actor.posRot.pos.y;
-            tmpf3 = globalCtx->view.eye.z + tmpf7 - this->actor.posRot.pos.z;
+            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.world.pos.x;
+            tmpf2 = globalCtx->view.eye.y + tmpf6 - this->actor.world.pos.y;
+            tmpf3 = globalCtx->view.eye.z + tmpf7 - this->actor.world.pos.z;
 
-            this->actor.posRot.pos.x += (tmpf1 / tmpf4) * 5.0f;
-            this->actor.posRot.pos.y += (tmpf2 / tmpf4) * 5.0f;
-            this->actor.posRot.pos.z += (tmpf3 / tmpf4) * 5.0f;
+            this->actor.world.pos.x += (tmpf1 / tmpf4) * 5.0f;
+            this->actor.world.pos.y += (tmpf2 / tmpf4) * 5.0f;
+            this->actor.world.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
         // parent
@@ -312,7 +312,7 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_SetupBowlCounter(EnExItem* this, GlobalContext* globalCtx) {
-    this->actor.posRot.rot.y = this->actor.shape.rot.y = 0x4268;
+    this->actor.world.rot.y = this->actor.shape.rot.y = 0x4268;
     this->actionFunc = EnExItem_BowlCounter;
 }
 
@@ -372,13 +372,13 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
             tmpf6 = (tmpf2 / tmpf4) * 5.0f;
             tmpf7 = (tmpf3 / tmpf4) * 5.0f;
 
-            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.posRot.pos.x;
-            tmpf2 = globalCtx->view.eye.y - 10.0f + tmpf6 - this->actor.posRot.pos.y;
-            tmpf3 = globalCtx->view.eye.z + 10.0f + tmpf7 - this->actor.posRot.pos.z;
+            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.world.pos.x;
+            tmpf2 = globalCtx->view.eye.y - 10.0f + tmpf6 - this->actor.world.pos.y;
+            tmpf3 = globalCtx->view.eye.z + 10.0f + tmpf7 - this->actor.world.pos.z;
 
-            this->actor.posRot.pos.x += (tmpf1 / tmpf4) * 5.0f;
-            this->actor.posRot.pos.y += (tmpf2 / tmpf4) * 5.0f;
-            this->actor.posRot.pos.z += (tmpf3 / tmpf4) * 5.0f;
+            this->actor.world.pos.x += (tmpf1 / tmpf4) * 5.0f;
+            this->actor.world.pos.y += (tmpf2 / tmpf4) * 5.0f;
+            this->actor.world.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
         s32 itemId;

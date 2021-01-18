@@ -45,7 +45,7 @@ void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
-    ACTORTYPE_SWITCH,
+    ACTORCAT_SWITCH,
     FLAGS,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanSwitch),
@@ -135,7 +135,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
             this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
     }
-    this->dyna.actor.shape.unk_08 = 1.2f / this->unk_1D0;
+    this->dyna.actor.shape.yOffset = 1.2f / this->unk_1D0;
 }
 
 void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -154,7 +154,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.scale.x = 0.1f;
     }
     this->dyna.actor.scale.y = 0.0f;
-    Actor_SetHeight(&this->dyna.actor, 10.0f);
+    Actor_SetFocus(&this->dyna.actor, 10.0f);
 
     switch (type) {
         case BLUE:
@@ -166,7 +166,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_2:
             func_8086D098(this, globalCtx);
             this->dyna.actor.flags |= 1;
-            this->dyna.actor.unk_1F = 4;
+            this->dyna.actor.targetMode = 4;
     }
 
     flag = Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
@@ -270,12 +270,12 @@ void func_8086D67C(BgBdanSwitch* this) {
 }
 
 void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->dyna.actor.type) || (this->unk_1DA <= 0)) {
+    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
         }
     }
 }
@@ -337,7 +337,7 @@ void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
+        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
     }
 }
 
@@ -347,12 +347,12 @@ void func_8086D944(BgBdanSwitch* this) {
 }
 
 void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->dyna.actor.type) || (this->unk_1DA <= 0)) {
+    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
+            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
         }
     }
 }
@@ -433,7 +433,7 @@ void func_8086DC30(BgBdanSwitch* this) {
 }
 
 void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->dyna.actor.type) || (this->unk_1DA <= 0)) {
+    if ((func_8005B198() == this->dyna.actor.category) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.3f;
         if (this->unk_1C8 <= 1.0f) {
             func_8086DCCC(this);
@@ -469,7 +469,7 @@ void func_8086DDA8(BgBdanSwitch* this) {
 }
 
 void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    if ((((this->dyna.actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->dyna.actor.type)) ||
+    if ((((this->dyna.actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->dyna.actor.category)) ||
         (this->unk_1DA <= 0)) {
         this->unk_1C8 += 0.3f;
         if (this->unk_1C8 >= 2.0f) {
@@ -505,9 +505,9 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {
-    func_800D1694(this->dyna.actor.posRot.pos.x,
-                  this->dyna.actor.posRot.pos.y + (this->dyna.actor.shape.unk_08 * this->unk_1D0),
-                  this->dyna.actor.posRot.pos.z, &this->dyna.actor.shape.rot);
+    func_800D1694(this->dyna.actor.world.pos.x,
+                  this->dyna.actor.world.pos.y + (this->dyna.actor.shape.yOffset * this->unk_1D0),
+                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, dlist);
 }
@@ -524,7 +524,7 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_2:
             func_8086DF58(this, globalCtx, D_060061A0);
             Collider_UpdateSpheres(0, &this->collider);
-            Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.posRot2.pos);
+            Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
             func_8086DF58(this, globalCtx, D_06005A20);

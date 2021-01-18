@@ -27,7 +27,7 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx);
 
 const ActorInit En_In_InitVars = {
     ACTOR_EN_IN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_IN,
     sizeof(EnIn),
@@ -310,7 +310,7 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
         this->unk_308.unk_18 = globalCtx->view.eye;
         this->unk_308.unk_14 = 60.0f;
     } else {
-        this->unk_308.unk_18 = player->actor.posRot.pos;
+        this->unk_308.unk_18 = player->actor.world.pos;
         this->unk_308.unk_14 = 16.0f;
     }
     func_80034A14(&this->actor, &this->unk_308, 1, phi_a3);
@@ -435,23 +435,23 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     this->camId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->camId, 7);
-    sp48.x = this->actor.posRot.pos.x;
-    sp48.y = this->actor.posRot.pos.y + 60.0f;
-    sp48.z = this->actor.posRot.pos.z;
+    sp48.x = this->actor.world.pos.x;
+    sp48.y = this->actor.world.pos.y + 60.0f;
+    sp48.z = this->actor.world.pos.z;
     sp3C.x = sp48.x;
     sp3C.y = sp48.y - 22.0f;
     sp3C.z = sp48.z + 40.0f;
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp48, &sp3C);
-    this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp3C);
+    this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
     this->unk_308.unk_08 = zeroVec;
     this->unk_308.unk_0E = zeroVec;
     func_8010B680(globalCtx, 0x2025, NULL);
     this->unk_308.unk_00 = 1;
-    player->actor.posRot.pos = this->actor.posRot.pos;
-    player->actor.posRot.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
-    player->actor.posRot.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
+    player->actor.world.pos = this->actor.world.pos;
+    player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
+    player->actor.world.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
     if (player->rideActor != NULL) {
-        player->rideActor->posRot.pos = player->actor.posRot.pos;
+        player->rideActor->world.pos = player->actor.world.pos;
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
@@ -494,7 +494,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
     s32 sp3C = 0;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -504,7 +504,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
         this->unk_308.unk_00 = 0;
         this->actionFunc = func_80A7A4BC;
 
@@ -563,7 +563,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                         gSaveContext.eventInf[0] = 0;
                         break;
                     case 1:
-                        this->actor.unk_1F = 3;
+                        this->actor.targetMode = 3;
                         func_80A796EC(this, 2);
                         this->actionFunc = func_80A7A568;
                         func_80088B34(0x3C);
@@ -579,7 +579,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                         break;
                     case 5:
                     case 6:
-                        this->actor.unk_1F = 3;
+                        this->actor.targetMode = 3;
                         func_80A796EC(this, 6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
@@ -755,8 +755,8 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     this->unk_300 = 50.0f;
     this->unk_304 = 50.0f;
 
-    sp30 = this->actor.posRot.pos;
-    sp24 = this->actor.posRot.pos;
+    sp30 = this->actor.world.pos;
+    sp24 = this->actor.world.pos;
 
     sp30.x += this->unk_2F0;
     sp30.y += this->unk_2F4;
@@ -821,8 +821,8 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->unk_300, 150.0f, 0.06f, 10000.0f, 0.0f);
         Math_SmoothStepToF(&this->unk_304, 300.0f, 0.06f, 10000.0f, 0.0f);
 
-        sp48 = this->actor.posRot.pos;
-        sp3C = this->actor.posRot.pos;
+        sp48 = this->actor.world.pos;
+        sp3C = this->actor.world.pos;
 
         sp48.x += this->unk_2F0;
         sp48.y += this->unk_2F4;
@@ -845,11 +845,11 @@ void func_80A7AE84(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 yaw;
-    Vec3f pos = this->actor.posRot.pos;
+    Vec3f pos = this->actor.world.pos;
 
     pos.x += 90.0f * Math_SinS(this->actor.shape.rot.y);
     pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
-    yaw = Math_Vec3f_Yaw(&pos, &player->actor.posRot.pos);
+    yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
         globalCtx->nextEntranceIndex = 0x0476;
         globalCtx->sceneLoadFlag = 0x14;
@@ -903,7 +903,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->skelAnime.animation == &D_06001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
     func_80A79A2C(this);
     this->actionFunc(this, globalCtx);
@@ -913,7 +913,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (func_8002F194(&this->actor, globalCtx)) {}
         } else {
             func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
-                          ((this->actor.unk_1F == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
+                          ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
                           func_80A79500);
             if (this->unk_308.unk_00 != 0) {
                 this->unk_1FA = this->unk_1F8;
@@ -958,8 +958,8 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&D_80A7B9A8, &this->actor.posRot2.pos);
-        this->actor.posRot2.rot = this->actor.posRot.rot;
+        Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
+        this->actor.focus.rot = this->actor.world.rot;
     }
     if (limbIndex == 12 && this->skelAnime.animation == &D_06014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, D_06007A20);

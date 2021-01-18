@@ -22,7 +22,7 @@ glabel EnSkb_Update
 /* 012A8 80AFDC48 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 012AC 80AFDC4C 3C064170 */  lui     $a2, 0x4170                ## $a2 = 41700000
 /* 012B0 80AFDC50 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 012B4 80AFDC54 0C00B92D */  jal     func_8002E4B4              
+/* 012B4 80AFDC54 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 012B8 80AFDC58 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 012BC 80AFDC5C 8E190284 */  lw      $t9, 0x0284($s0)           ## 00000284
 /* 012C0 80AFDC60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -17,7 +17,7 @@ extern Gfx D_06001000[];
 
 const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BUBBLE,
     sizeof(EnBubble),
@@ -83,7 +83,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
 
     this->actor.flags |= 1;
     Actor_SetScale(&this->actor, 1.0f);
-    this->actor.shape.unk_08 = 16.0f;
+    this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
     this->graphicEccentricity = 0.08f;
     this->expansionWidth = dim;
@@ -120,7 +120,7 @@ void EnBubble_DamagePlayer(EnBubble* this, GlobalContext* globalCtx) {
     s32 damage = -this->colliderSphere.elements[0].info.toucher.damage;
 
     globalCtx->damagePlayer(globalCtx, damage);
-    func_8002F7A0(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f);
+    func_8002F7A0(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
 }
 
 s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
@@ -134,14 +134,14 @@ s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->expansionHeight, 4.0f, 0.1f, 1000.0f, 0.0f);
     Math_SmoothStepToF(&this->graphicRotSpeed, 54.0f, 0.1f, 1000.0f, 0.0f);
     Math_SmoothStepToF(&this->graphicEccentricity, 0.2f, 0.1f, 1000.0f, 0.0f);
-    this->actor.shape.unk_08 = ((this->expansionHeight + 1.0f) * 16.0f);
+    this->actor.shape.yOffset = ((this->expansionHeight + 1.0f) * 16.0f);
 
     if (DECR(this->explosionCountdown) != 0) {
         return -1;
     }
-    effectPos.x = this->actor.posRot.pos.x;
-    effectPos.y = this->actor.posRot.pos.y + this->actor.shape.unk_08;
-    effectPos.z = this->actor.posRot.pos.z;
+    effectPos.x = this->actor.world.pos.x;
+    effectPos.y = this->actor.world.pos.y + this->actor.shape.yOffset;
+    effectPos.z = this->actor.world.pos.z;
     for (i = 0; i < 20; i++) {
         effectVel.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
         effectVel.y = Rand_ZeroOne() * 7.0f;
@@ -149,7 +149,7 @@ s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
         EffectSsDtBubble_SpawnCustomColor(globalCtx, &effectPos, &effectVel, &effectAccel, &sEffectPrimColor,
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
-    Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x50);
+    Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x50);
     this->actor.flags &= ~0x1;
     return Rand_S16Offset(90, 60);
 }
@@ -229,9 +229,9 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     sp54.z = this->velocityFromBounce.z + this->velocityFromBump.z;
     EnBubble_Vec3fNormalize(&sp54);
 
-    sp78.x = this->actor.posRot.pos.x;
-    sp78.y = this->actor.posRot.pos.y + this->actor.shape.unk_08;
-    sp78.z = this->actor.posRot.pos.z;
+    sp78.x = this->actor.world.pos.x;
+    sp78.y = this->actor.world.pos.y + this->actor.shape.yOffset;
+    sp78.z = this->actor.world.pos.z;
     sp6C = sp78;
 
     sp6C.x += (sp54.x * 24.0f);
@@ -337,7 +337,7 @@ void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBubble* this = THIS;
     u32 pad;
 
-    ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawFunc_Circle, 0.2f);
+    ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, this->colliderSphereItems);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(9), &sColChkInfoInit2);
@@ -365,7 +365,7 @@ void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx) {
         this->actionFunc = EnBubble_Pop;
     } else {
         EnBubble_Fly(this, globalCtx);
-        this->actor.shape.unk_08 = ((this->expansionHeight + 1.0f) * 16.0f);
+        this->actor.shape.yOffset = ((this->expansionHeight + 1.0f) * 16.0f);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
     }
@@ -373,7 +373,7 @@ void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx) {
 
 void EnBubble_Pop(EnBubble* this, GlobalContext* globalCtx) {
     if (EnBubble_Explosion(this, globalCtx) >= 0) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 60, NA_SE_EN_AWA_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
         Actor_Kill(&this->actor);
     }
 }
@@ -384,7 +384,7 @@ void EnBubble_Disappear(EnBubble* this, GlobalContext* globalCtx) {
 
     temp_v0 = func_809CBFD4(this);
     if (temp_v0 >= 0) {
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->explosionCountdown = temp_v0;
         this->actionFunc = EnBubble_Regrow;
     }
@@ -403,9 +403,9 @@ void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBubble* this = THIS;
 
     func_8002D7EC(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, this->actor.shape.unk_08);
+    Actor_SetFocus(&this->actor, this->actor.shape.yOffset);
 }
 
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -433,7 +433,7 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1226);
 
     if (this->actionFunc != EnBubble_Disappear) {
-        this->actor.shape.unk_10 = (f32)((this->expansionWidth + 1.0f) * 0.2f);
+        this->actor.shape.shadowScale = (f32)((this->expansionWidth + 1.0f) * 0.2f);
         func_809CC774(this);
     }
 }

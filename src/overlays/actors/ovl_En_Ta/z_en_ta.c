@@ -34,7 +34,7 @@ void func_80B16938(EnTa* this);
 
 const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TA,
     sizeof(EnTa),
@@ -125,7 +125,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTa* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
@@ -137,7 +137,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_2B6 = 20;
     this->unk_2B0 = func_80B166CC;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actor.velocity.y = -4.0f;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
@@ -159,7 +159,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_2B4 = 2;
                 Animation_PlayOnce(&this->skelAnime, &D_0600CD50);
                 this->unk_2E4 = &D_0600CD50;
-                this->actor.shape.unk_10 = 54.0f;
+                this->actor.shape.shadowScale = 54.0f;
             }
             break;
         case 2:
@@ -193,7 +193,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->unk_2B4 = 2;
                     Animation_PlayOnce(&this->skelAnime, &D_0600CD50);
                     this->unk_2E4 = &D_0600CD50;
-                    this->actor.shape.unk_10 = 54.0f;
+                    this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (globalCtx2->sceneNum == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
@@ -206,14 +206,14 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->unk_2B8[0] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 5.0f,
-                            this->actor.posRot.pos.y + 3.0f, this->actor.posRot.pos.z + 26.0f, 0, 0, 0, 0xD);
+                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
+                            this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0, 0, 0xD);
                         this->unk_2B8[1] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x - 20.0f,
-                            this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
+                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
+                            this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         this->unk_2B8[2] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 20.0f,
-                            this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
+                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
+                            this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx2);
 
                         if (gSaveContext.eventInf[0] & 0x400) {
@@ -233,7 +233,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                         this->unk_2B4 = 2;
                         Animation_PlayOnce(&this->skelAnime, &D_0600CD50);
                         this->unk_2E4 = &D_0600CD50;
-                        this->actor.shape.unk_10 = 54.0f;
+                        this->actor.shape.shadowScale = 54.0f;
                     }
                 }
             } else {
@@ -241,15 +241,15 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_2B4 = 2;
                 Animation_PlayOnce(&this->skelAnime, &D_0600CD50);
                 this->unk_2E4 = &D_0600CD50;
-                this->actor.shape.unk_10 = 54.0f;
+                this->actor.shape.shadowScale = 54.0f;
             }
             break;
     }
 }
 
 void func_80B14248(EnTa* this) {
-    if (this->actor.shape.unk_10 > 36.0f) {
-        this->actor.shape.unk_10 -= 0.8f;
+    if (this->actor.shape.shadowScale > 36.0f) {
+        this->actor.shape.shadowScale -= 0.8f;
     }
 }
 
@@ -274,8 +274,8 @@ s32 func_80B142F4(EnTa* this, GlobalContext* globalCtx, u16 textId) {
 
     this->actor.textId = textId;
 
-    if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) &&
-        (this->actor.xzDistToLink < 100.0f)) {
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
+        (this->actor.xzDistToPlayer < 100.0f)) {
         this->unk_2E0 |= 1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -416,7 +416,7 @@ void func_80B14818(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14898(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 0) {
@@ -425,7 +425,7 @@ void func_80B14898(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B1490C(EnTa* this, GlobalContext* globalCtx) {
-    this->actor.posRot.rot.y += 0xC00;
+    this->actor.world.rot.y += 0xC00;
     this->actor.shape.rot.y += 0xC00;
 
     if (this->unk_2CC == 0) {
@@ -435,7 +435,7 @@ void func_80B1490C(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B1496C(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 0) {
@@ -445,7 +445,7 @@ void func_80B1496C(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B149F4(EnTa* this, GlobalContext* globalCtx) {
-    this->actor.posRot.rot.y -= 0xD00;
+    this->actor.world.rot.y -= 0xD00;
     this->actor.shape.rot.y -= 0xD00;
 
     if (this->unk_2CC == 0) {
@@ -455,7 +455,7 @@ void func_80B149F4(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14A54(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 20) {
@@ -468,7 +468,7 @@ void func_80B14A54(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
-    this->actor.posRot.rot.y -= 0xC00;
+    this->actor.world.rot.y -= 0xC00;
     this->actor.shape.rot.y -= 0xC00;
 
     if (this->unk_2CC == 0) {
@@ -781,8 +781,8 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC > 35) {
         for (i = 1; i < ARRAY_COUNT(this->unk_2B8); i++) {
             if (this->unk_2B8[i] != NULL) {
-                Math_SmoothStepToS(&this->unk_2B8[i]->actor.posRot.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
-                this->unk_2B8[i]->actor.shape.rot.y = this->unk_2B8[i]->actor.posRot.rot.y;
+                Math_SmoothStepToS(&this->unk_2B8[i]->actor.world.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
+                this->unk_2B8[i]->actor.shape.rot.y = this->unk_2B8[i]->actor.world.rot.y;
             }
         }
     } else if (this->unk_2CC == 35) {
@@ -1157,7 +1157,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->unk_260(this);
     this->unk_25C(this, globalCtx);
 
@@ -1166,7 +1166,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_2E0 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);
@@ -1210,7 +1210,7 @@ void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnTa* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_80B16E7C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80B16E7C, &this->actor.focus.pos);
     }
 }
 

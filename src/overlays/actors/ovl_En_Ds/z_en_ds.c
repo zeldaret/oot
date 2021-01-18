@@ -19,7 +19,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DS,
     sizeof(EnDs),
@@ -35,7 +35,7 @@ extern AnimationHeader D_0600039C;
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
     Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
@@ -44,7 +44,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->unk_1E8 = 0;
     this->actor.flags &= ~0x1;
     this->unk_1E4 = 0.0f;
@@ -225,10 +225,10 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             this->actionFunc = EnDs_Talk;
         }
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
-        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToLink < 200.0f)) {
+        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToPlayer < 200.0f)) {
             func_8002F298(this, globalCtx, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
@@ -245,7 +245,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->unk_1E8 & 1) {
-        func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
+        func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
         Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
@@ -269,7 +269,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnDs* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
     }
 }
 

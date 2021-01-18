@@ -19,7 +19,7 @@ void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx);
 
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnSceneChange),
