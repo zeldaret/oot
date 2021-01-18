@@ -189,7 +189,7 @@ glabel EnTp_Draw
 /* 01C64 80B22A44 54410004 */  bnel    $v0, $at, .L80B22A58       
 /* 01C68 80B22A48 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B22A4C:
-/* 01C6C 80B22A4C 0C018A29 */  jal     func_800628A4              
+/* 01C6C 80B22A4C 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 01C70 80B22A50 24650174 */  addiu   $a1, $v1, 0x0174           ## $a1 = 00000174
 /* 01C74 80B22A54 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B22A58:

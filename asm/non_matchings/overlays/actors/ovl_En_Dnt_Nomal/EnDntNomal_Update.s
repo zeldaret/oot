@@ -184,7 +184,7 @@ glabel L809F57B0
 /* 025B4 809F5874 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 025B8 809F5878 26050228 */  addiu   $a1, $s0, 0x0228           ## $a1 = 00000228
 /* 025BC 809F587C 26060234 */  addiu   $a2, $s0, 0x0234           ## $a2 = 00000234
-/* 025C0 809F5880 0C0189CD */  jal     func_80062734              
+/* 025C0 809F5880 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 025C4 809F5884 26070240 */  addiu   $a3, $s0, 0x0240           ## $a3 = 00000240
 /* 025C8 809F5888 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 025CC 809F588C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -196,7 +196,7 @@ glabel L809F57B0
 /* 025E0 809F58A0 1000000C */  beq     $zero, $zero, .L809F58D4   
 /* 025E4 809F58A4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809F58A8:
-/* 025E8 809F58A8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 025E8 809F58A8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 025EC 809F58AC AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 025F0 809F58B0 920B0218 */  lbu     $t3, 0x0218($s0)           ## 00000218
@@ -206,7 +206,7 @@ glabel L809F57B0
 /* 02600 809F58C0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02604 809F58C4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02608 809F58C8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0260C 809F58CC 00812821 */  addu    $a1, $a0, $at              
 .L809F58D0:
 /* 02610 809F58D0 8FBF0024 */  lw      $ra, 0x0024($sp)           

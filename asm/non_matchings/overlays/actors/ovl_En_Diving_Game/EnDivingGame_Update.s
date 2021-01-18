@@ -134,7 +134,7 @@ glabel EnDivingGame_Update
 /* 01508 809EED78 2606034C */  addiu   $a2, $s0, 0x034C           ## $a2 = 0000034C
 /* 0150C 809EED7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000034C
 /* 01510 809EED80 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 01514 809EED84 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01514 809EED84 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01518 809EED88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0151C 809EED8C 8FA4004C */  lw      $a0, 0x004C($sp)           
@@ -142,7 +142,7 @@ glabel EnDivingGame_Update
 /* 01524 809EED94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01528 809EED98 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0152C 809EED9C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01530 809EEDA0 00812821 */  addu    $a1, $a0, $at              
 /* 01534 809EEDA4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01538 809EEDA8 8FB00020 */  lw      $s0, 0x0020($sp)           

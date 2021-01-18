@@ -11,7 +11,7 @@ glabel EnMk_Update
 /* 009E0 80AAD2E0 AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 009E4 80AAD2E4 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 009E8 80AAD2E8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 009F0 80AAD2F0 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 009F4 80AAD2F4 8FA40054 */  lw      $a0, 0x0054($sp)           
@@ -19,7 +19,7 @@ glabel EnMk_Update
 /* 009FC 80AAD2FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A00 80AAD300 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00A04 80AAD304 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A08 80AAD308 00812821 */  addu    $a1, $a0, $at              
 /* 00A0C 80AAD30C 0C00B638 */  jal     Actor_MoveForward
               

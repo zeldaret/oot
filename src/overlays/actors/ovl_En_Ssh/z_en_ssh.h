@@ -16,7 +16,7 @@ typedef struct EnSsh {
     /* 0x02F8 */ EnSshActionFunc actionFunc;
     /* 0x02FC */ ColliderCylinder colCylinder[6];
     /* 0x04C4 */ ColliderJntSph colSph;
-    /* 0x04E4 */ ColliderJntSphItem colSphElements[1];
+    /* 0x04E4 */ ColliderJntSphElement colSphElements[1];
     /* 0x0524 */ s16 initialYaw;
     /* 0x0526 */ s16 maxTurnRate;
     /* 0x0528 */ s16 unkTimer;

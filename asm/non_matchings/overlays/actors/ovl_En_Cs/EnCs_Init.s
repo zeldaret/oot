@@ -49,7 +49,7 @@ glabel EnCs_Init
 /* 001C8 809E1A78 3C06809E */  lui     $a2, %hi(D_809E28EC)       ## $a2 = 809E0000
 /* 001CC 809E1A7C 24C628EC */  addiu   $a2, $a2, %lo(D_809E28EC)  ## $a2 = 809E28EC
 /* 001D0 809E1A80 24A528F8 */  addiu   $a1, $a1, %lo(D_809E28F8)  ## $a1 = 809E28F8
-/* 001D4 809E1A84 0C0187BF */  jal     func_80061EFC
+/* 001D4 809E1A84 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 001D8 809E1A88 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 001DC 809E1A8C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 001E0 809E1A90 24080004 */  addiu   $t0, $zero, 0x0004         ## $t0 = 00000004

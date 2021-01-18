@@ -68,25 +68,46 @@ static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi
 
 static ColliderCylinderInit sCylinderInits[] = {
     {
-        { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            COLTYPE_HARD,
+            AT_NONE,
+            AC_ON | AC_HARD | AC_TYPE_PLAYER,
+            OC1_ON | OC1_TYPE_ALL,
+            OC2_TYPE_2,
+            COLSHAPE_CYLINDER,
+        },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x4FC1FFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 10, 18, -2, { 0, 0, 0 } },
     },
     {
-        { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
+        {
+            COLTYPE_HARD,
+            AT_NONE,
+            AC_ON | AC_HARD | AC_TYPE_PLAYER,
+            OC1_ON | OC1_TYPE_ALL,
+            OC2_TYPE_2,
+            COLSHAPE_CYLINDER,
+        },
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 55, 70, 0, { 0, 0, 0 } },
     }
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
@@ -302,7 +323,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.shape.unk_08 = D_80A7FA20[type];
     if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
         Actor_Kill(&this->actor);
@@ -333,16 +354,16 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
-    } else if (this->collider.base.acFlags & 2 && (type == ROCK_SMALL) &&
-               this->collider.body.acHitItem->toucher.flags & 0x40000048) {
+    } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
+               this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, sBreakSoundDurations[type], sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->actor.xzDistToLink < 600.0f) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
-        this->collider.base.acFlags &= ~2;
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        this->collider.base.acFlags &= ~AC_HIT;
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (this->actor.xzDistToLink < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -443,7 +464,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

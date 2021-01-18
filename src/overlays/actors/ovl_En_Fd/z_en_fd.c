@@ -42,64 +42,155 @@ const ActorInit En_Fd_InitVars = {
     (ActorFunc)EnFd_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040088, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040088, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 21, { { 1600, 0, 0 }, 5 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 12, { { 1600, 0, 0 }, 5 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 14, { { 800, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 15, { { 1600, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 16, { { 2000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 17, { { 800, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 18, { { 1600, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 19, { { 2000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 4, { { 2200, 0, 0 }, 4 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 4, { { 5000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 8, { { 2200, 0, 0 }, 4 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 8, { { 5000, 0, 0 }, 4 }, 300 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     12,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x060010B4, 1.0f, 0.0f, -1.0f, 0x03, 0.0f },   { 0x06005C64, 1.0f, 0.0f, -1.0f, 0x03, -10.0f },
@@ -175,15 +266,15 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
 
 s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    ColliderBody* body;
+    ColliderInfo* info;
 
-    if (this->collider.base.acFlags & 2 || EnFd_CheckHammer(this, globalCtx)) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, globalCtx)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        body = &this->collider.list[0].body;
-        if (body->acHitItem != NULL && (body->acHitItem->toucher.flags & 0x80)) {
+        info = &this->collider.elements[0].info;
+        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & 0x80)) {
             return false;
         }
 
@@ -195,13 +286,13 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         func_80032C7C(globalCtx, &this->actor);
         return true;
-    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
 
-        if (this->collider.base.atFlags & 4) {
+        if (this->collider.base.atFlags & AT_BOUNCED) {
             return false;
         }
         this->attackTimer = 30;
@@ -230,7 +321,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
 
     // Check to see if the angle between this facing angle and `actor` is withing ~40 degrees
     angle = (f32)Math_Vec3f_Yaw(&this->actor.posRot.pos, &actor->posRot.pos) - this->actor.shape.rot.y;
-    if (ABS(angle) >= 0x1C71) {
+    if (ABS(angle) > 0x1C70) {
         return false;
     }
 
@@ -354,7 +445,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~1;
     this->actor.flags |= 0x1000000;
     Actor_SetScale(&this->actor, 0.01f);
@@ -643,7 +734,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         }
     }
 
-    func_800628A4(limbIndex, &this->collider);
+    Collider_UpdateSpheres(limbIndex, &this->collider);
 }
 
 void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {

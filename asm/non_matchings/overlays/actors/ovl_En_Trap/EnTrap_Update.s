@@ -956,7 +956,7 @@ glabel EnTrap_Update
 /* 01114 80B25774 260501A0 */  addiu   $a1, $s0, 0x01A0           ## $a1 = 000001A0
 .L80B25778:
 /* 01118 80B25778 AFA50048 */  sw      $a1, 0x0048($sp)           
-/* 0111C 80B2577C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0111C 80B2577C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01120 80B25780 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01124 80B25784 8FA400AC */  lw      $a0, 0x00AC($sp)           
@@ -965,7 +965,7 @@ glabel EnTrap_Update
 /* 01130 80B25790 00812821 */  addu    $a1, $a0, $at              
 /* 01134 80B25794 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 01138 80B25798 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0113C 80B2579C 8FA60048 */  lw      $a2, 0x0048($sp)           
 /* 01140 80B257A0 920D0114 */  lbu     $t5, 0x0114($s0)           ## 00000114
 /* 01144 80B257A4 8FA5004C */  lw      $a1, 0x004C($sp)           

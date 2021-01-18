@@ -39,9 +39,23 @@ const ActorInit En_Shopnuts_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-    { 0x0014, 0x0028, 0x0000, { 0x0000, 0x0000, 0x0000 } }
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 40, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, 0xFE };
@@ -60,8 +74,8 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_06004574, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if (((this->actor.params == 0x0002) && (gSaveContext.itemGetInf[0] & 0x800)) ||
         ((this->actor.params == 0x0009) && (gSaveContext.infTable[25] & 4)) ||
@@ -82,7 +96,7 @@ void EnShopnuts_SetupWait(EnShopnuts* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600139C, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnShopnuts_Wait;
 }
 
@@ -116,7 +130,7 @@ void EnShopnuts_SetupBurrow(EnShopnuts* this) {
 void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000764, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnShopnuts_SpawnSalesman;
 }
 
@@ -130,7 +144,7 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
         this->animFlagAndTimer--;
     }
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        this->collider.base.acFlags |= 1;
+        this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     }
@@ -147,8 +161,7 @@ void EnShopnuts_Wait(EnShopnuts* this, GlobalContext* globalCtx) {
             EnShopnuts_SetupStand(this);
         }
     }
-    if (hasSlowPlaybackSpeed &&
-        ((this->actor.xzDistToLink > 160.0f) && (fabsf(this->actor.yDistToLink) < 120.0f)) &&
+    if (hasSlowPlaybackSpeed && ((this->actor.xzDistToLink > 160.0f) && (fabsf(this->actor.yDistToLink) < 120.0f)) &&
         ((this->animFlagAndTimer == 0) || (this->actor.xzDistToLink < 480.0f))) {
         this->skelAnime.playSpeed = 1.0f;
     }
@@ -205,7 +218,7 @@ void EnShopnuts_Burrow(EnShopnuts* this, GlobalContext* globalCtx) {
         this->collider.dim.height = ((4.0f - CLAMP_MAX(this->skelAnime.curFrame, 4.0f)) * 10.0f) + 5.0f;
     }
     if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
-        this->collider.base.acFlags &= ~1;
+        this->collider.base.acFlags &= ~AC_ON;
     }
 }
 
@@ -221,9 +234,9 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.info, 1);
         EnShopnuts_SetupSpawnSalesman(this);
     } else if (globalCtx->actorCtx.unk_02 != 0) {
         EnShopnuts_SetupSpawnSalesman(this);
@@ -236,7 +249,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
-    if (this->collider.base.acFlags & 1) {
+    if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
