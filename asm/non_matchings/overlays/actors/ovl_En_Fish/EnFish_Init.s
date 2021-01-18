@@ -60,14 +60,14 @@ glabel EnFish_Init
 /* 002A8 80A15528 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 002AC 80A1552C 460A0402 */  mul.s   $f16, $f0, $f10
 /* 002B0 80A15530 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 002B4 80A15534 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 002B4 80A15534 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 002B8 80A15538 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 002BC 80A1553C 4600848D */  trunc.w.s $f18, $f16
 /* 002C0 80A15540 440D9000 */  mfc1    $t5, $f18
 /* 002C4 80A15544 1440000B */  bne     $v0, $zero, .L80A15574
 /* 002C8 80A15548 A60D024E */  sh      $t5, 0x024E($s0)           ## 0000024E
 /* 002CC 80A1554C 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
-/* 002D0 80A15550 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 002D0 80A15550 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 002D4 80A15554 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 002D8 80A15558 35CF0010 */  ori     $t7, $t6, 0x0010           ## $t7 = 00000010
 /* 002DC 80A1555C 0C00AC78 */  jal     ActorShape_Init

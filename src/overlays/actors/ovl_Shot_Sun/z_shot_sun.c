@@ -25,7 +25,7 @@ extern CutsceneData D_02007020[];
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ShotSun),
@@ -104,19 +104,19 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     }
 
     //! @bug fairyType may be uninitialized
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
-                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyType);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x, this->actor.home.pos.y,
+                this->actor.home.pos.z, 0, 0, 0, fairyType);
 
     Actor_Kill(&this->actor);
 }
 
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
+    if ((func_8005B198() == this->actor.category) || (this->timer != 0)) {
         this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.initPosRot.pos.x,
-                    this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, 0x11);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.home.pos.x, this->actor.home.pos.y,
+                    this->actor.home.pos.z, 0, 0, 0, 0x11);
 
         func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }
@@ -127,7 +127,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
-    if (Math3D_Vec3fDistSq(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > 22500.0f) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {
@@ -186,7 +186,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(120.0f < this->actor.xzDistToLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+        if (!(120.0f < this->actor.xzDistToPlayer) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
             cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * 0.16666667f;
             cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
             cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * 0.16666667f;

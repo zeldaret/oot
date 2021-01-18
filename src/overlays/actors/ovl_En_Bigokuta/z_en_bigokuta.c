@@ -19,7 +19,7 @@ extern UNK_TYPE D_06006BC0;
 /*
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BIGOKUTA,
     sizeof(EnBigokuta),

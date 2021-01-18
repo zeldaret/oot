@@ -41,7 +41,7 @@ void func_80A6C6B0(EnHorseNormal* this);
 
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE_NORMAL,
     sizeof(EnHorseNormal),
@@ -198,10 +198,10 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.gravity = -3.5f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     this->action = HORSE_CYCLE_ANIMATIONS;
     this->animationIdx = 0;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -212,36 +212,36 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (this->actor.posRot.rot.z == 0 || gSaveContext.nightFlag) {
+        if (this->actor.world.rot.z == 0 || gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
             return;
         }
         if (LINK_IS_CHILD) {
             if (Flags_GetEventChkInf(0x14)) {
-                if (this->actor.posRot.rot.z != 3) {
+                if (this->actor.world.rot.z != 3) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-            } else if (this->actor.posRot.rot.z != 1) {
+            } else if (this->actor.world.rot.z != 1) {
                 Actor_Kill(&this->actor);
                 return;
             }
         } else if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
-            if (this->actor.posRot.rot.z != 7) {
+            if (this->actor.world.rot.z != 7) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (this->actor.posRot.rot.z != 5) {
+        } else if (this->actor.world.rot.z != 5) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
+        this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
         func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
-        if ((this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
-             this->actor.posRot.pos.z == -1100.0f) ||
-            (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
-             this->actor.posRot.pos.z == -1170.0f)) {
+        if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
+             this->actor.world.pos.z == -1100.0f) ||
+            (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f &&
+             this->actor.world.pos.z == -1170.0f)) {
             func_80A6C6B0(this);
             return;
         }
@@ -256,8 +256,8 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
-        if (this->actor.posRot.pos.x == 3707.0f && this->actor.posRot.pos.y == 1413.0f &&
-            this->actor.posRot.pos.z == -665.0f) {
+        if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f &&
+            this->actor.world.pos.z == -665.0f) {
             func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C4CC(this);
@@ -303,10 +303,10 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     s32 pad;
 
     pointPos += this->waypoint;
-    dx = pointPos->x - this->actor.posRot.pos.x;
-    dz = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    dx = pointPos->x - this->actor.world.pos.x;
+    dz = pointPos->z - this->actor.world.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
         this->waypoint++;
         if (this->waypoint >= path->count) {
@@ -424,8 +424,8 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->unk_21C = 0;
                 this->unk_21E = 0;
             }
-            this->actor.posRot.rot.y += this->unk_21C;
-            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+            this->actor.world.rot.y += this->unk_21C;
+            this->actor.shape.rot.y = this->actor.world.rot.y;
             break;
         case 2:
         case 3:
@@ -562,11 +562,11 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     Vec3f sp28;
     s32 sp24;
 
-    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 60.0f;
-    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+    sp28.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    sp28.y = this->actor.world.pos.y + 60.0f;
+    sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
     this->unk_220 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = Math_FAtan2F(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = Math_FAtan2F(this->actor.world.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
 static EnHorseNormalActionFunc sActionFuncs[] = {
@@ -580,12 +580,12 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
-    if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.posRot.pos.z < -2400.0f) {
-        this->actor.posRot.pos.z = -2400.0f;
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
+    if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.world.pos.z < -2400.0f) {
+        this->actor.world.pos.z = -2400.0f;
     }
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
@@ -658,32 +658,32 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Mtx* mtx1;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
         s16 cloneRotY;
-        f32 distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
+        f32 distFromGround = this->actor.world.pos.y - this->actor.floorHeight;
         f32 temp_f0_4;
 
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-            if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f &&
-                this->actor.posRot.pos.z == -245.0f) {
+            if (this->actor.world.pos.x == 355.0f && this->actor.world.pos.y == 0.0f &&
+                this->actor.world.pos.z == -245.0f) {
                 clonePos.x = 235.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
                 cloneRotY = 0x7FFF;
-            } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f &&
-                       this->actor.posRot.pos.z == -245.0f) {
+            } else if (this->actor.world.pos.x == 238.0f && this->actor.world.pos.y == 0.0f &&
+                       this->actor.world.pos.z == -245.0f) {
                 clonePos.x = 478.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
                 cloneRotY = 0x7FFF;
             }
         } else if (globalCtx->sceneNum == SCENE_SPOT20) {
-            if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
-                this->actor.posRot.pos.z == -1100.0f) {
+            if (this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
+                this->actor.world.pos.z == -1100.0f) {
                 clonePos.x = 780.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -80.0f;
                 cloneRotY = 0;
-            } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
-                       this->actor.posRot.pos.z == -1170.0f) {
+            } else if (this->actor.world.pos.x == 880.0f && this->actor.world.pos.y == 0.0f &&
+                       this->actor.world.pos.z == -1170.0f) {
                 clonePos.x = -1000.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -70.0f;
@@ -693,7 +693,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6CC88(globalCtx, this, &clonePos);
         SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
                                               this->actor.shape.rot.x, cloneRotY, this->actor.shape.rot.z, clonePos.x,
-                                              (this->actor.shape.unk_08 * this->actor.scale.y) + clonePos.y,
+                                              (this->actor.shape.yOffset * this->actor.scale.y) + clonePos.y,
                                               clonePos.z);
         mtx1 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &skinMtx);
         if (mtx1 == NULL) {
@@ -709,7 +709,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80094044(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
         Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
-        temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
+        temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
         mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);

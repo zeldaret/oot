@@ -110,7 +110,7 @@ glabel EnBomChu_Update
 /* 00F3C 809C676C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809C6770:
 /* 00F40 809C6770 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F44 809C6774 0C00B56E */  jal     Actor_SetHeight
+/* 00F44 809C6774 0C00B56E */  jal     Actor_SetFocus
               
 /* 00F48 809C6778 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F4C 809C677C 8E09014C */  lw      $t1, 0x014C($s0)           ## 0000014C

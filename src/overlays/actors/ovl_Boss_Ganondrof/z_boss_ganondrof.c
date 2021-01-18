@@ -12,7 +12,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GND,
     sizeof(BossGanondrof),

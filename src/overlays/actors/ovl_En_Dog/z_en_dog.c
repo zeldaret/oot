@@ -24,7 +24,7 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DOG,
     sizeof(EnDog),
@@ -219,7 +219,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     f32 waypointDistSq;
 
     waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, targetYaw, 10, 1000, 1);
 
     if ((waypointDistSq > 0.0f) && (waypointDistSq < 1000.0f)) {
         return EnDog_UpdateWaypoint(this, globalCtx);
@@ -233,7 +233,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 followingDog;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, this->jointTable, this->morphTable, 13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
@@ -308,7 +308,7 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         }
         Math_SmoothStepToF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
         EnDog_Orient(this, globalCtx);
-        this->actor.shape.rot = this->actor.posRot.rot;
+        this->actor.shape.rot = this->actor.world.rot;
 
         // Used to change between two text boxes for Richard's owner in the Market Day scene
         // depending on where he is on his path. En_Hy checks these event flags.
@@ -359,16 +359,16 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistToLink > 400.0f) {
+    if (this->actor.xzDistToPlayer > 400.0f) {
         if (this->nextBehavior != DOG_SIT && this->nextBehavior != DOG_SIT_2) {
             this->nextBehavior = DOG_BOW;
         }
         gSaveContext.dogParams = 0;
         speed = 0.0f;
-    } else if (this->actor.xzDistToLink > 100.0f) {
+    } else if (this->actor.xzDistToPlayer > 100.0f) {
         this->nextBehavior = DOG_RUN;
         speed = 4.0f;
-    } else if (this->actor.xzDistToLink < 40.0f) {
+    } else if (this->actor.xzDistToPlayer < 40.0f) {
         if (this->nextBehavior != DOG_BOW && this->nextBehavior != DOG_BOW_2) {
             this->nextBehavior = DOG_BOW;
         }
@@ -380,20 +380,20 @@ void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
 
     Math_ApproachF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
 
-    if (!(this->actor.xzDistToLink > 400.0f)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 10, 1000, 1);
-        this->actor.shape.rot = this->actor.posRot.rot;
+    if (!(this->actor.xzDistToPlayer > 400.0f)) {
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 10, 1000, 1);
+        this->actor.shape.rot = this->actor.world.rot;
     }
 }
 
 void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistToLink < 200.0f) {
+    if (this->actor.xzDistToPlayer < 200.0f) {
         Math_ApproachF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, (this->actor.yawTowardsLink ^ 0x8000), 10, 1000, 1);
+        Math_SmoothStepToS(&this->actor.world.rot.y, (this->actor.yawTowardsPlayer ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
     }
-    this->actor.shape.rot = this->actor.posRot.rot;
+    this->actor.shape.rot = this->actor.world.rot;
 }
 
 void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
@@ -402,16 +402,16 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     f32 absAngleDiff;
 
     // if the dog is more than 200 units away from Link, turn to face him then wait
-    if (200.0f <= this->actor.xzDistToLink) {
+    if (200.0f <= this->actor.xzDistToPlayer) {
         this->nextBehavior = DOG_WALK;
 
         Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
 
-        rotTowardLink = this->actor.yawTowardsLink;
-        prevRotY = this->actor.posRot.rot.y;
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, rotTowardLink, 10, 1000, 1);
+        rotTowardLink = this->actor.yawTowardsPlayer;
+        prevRotY = this->actor.world.rot.y;
+        Math_SmoothStepToS(&this->actor.world.rot.y, rotTowardLink, 10, 1000, 1);
 
-        absAngleDiff = this->actor.posRot.rot.y;
+        absAngleDiff = this->actor.world.rot.y;
         absAngleDiff -= prevRotY;
         absAngleDiff = fabsf(absAngleDiff);
         if (absAngleDiff < 200.0f) {
@@ -423,14 +423,14 @@ void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
         this->nextBehavior = DOG_RUN;
         this->actionFunc = EnDog_RunAway;
     }
-    this->actor.shape.rot = this->actor.posRot.rot;
+    this->actor.shape.rot = this->actor.world.rot;
 }
 
 void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
-    this->unusedAngle = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
+    this->unusedAngle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
 
     // If another dog is following Link and he gets within 200 units of waiting dog, run away
-    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistToLink < 200.0f)) {
+    if ((gSaveContext.dogParams != 0) && (this->actor.xzDistToPlayer < 200.0f)) {
         this->nextBehavior = DOG_RUN;
         this->actionFunc = EnDog_RunAway;
     }
@@ -442,7 +442,8 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_Update(&this->skelAnime);
-    func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f,
+                            5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->collider);

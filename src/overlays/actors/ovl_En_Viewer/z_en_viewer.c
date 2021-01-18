@@ -93,7 +93,7 @@ u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnViewer),
@@ -129,8 +129,8 @@ EnViewerAnimFunc sAnimFuncs[] = {
 
 static void* sActorShadowDrawFunc[] = {
     NULL,
-    ActorShadow_DrawFunc_Circle,
-    ActorShadow_DrawFunc_Squiggly,
+    ActorShadow_DrawCircle,
+    ActorShadow_DrawHorse,
 };
 
 // timer
@@ -762,9 +762,9 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
             interpolated = func_8006F93C(globalCtx->csCtx.npcActions[0]->endFrame,
                                          globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
-            this->actor.posRot.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
-            this->actor.posRot.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
-            this->actor.posRot.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
+            this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
+            this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
+            this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
         }
     } else {
         if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL &&
@@ -777,19 +777,19 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
             interpolated = func_8006F93C(globalCtx->csCtx.npcActions[1]->endFrame,
                                          globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
-            this->actor.posRot.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
-            this->actor.posRot.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
-            this->actor.posRot.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
+            this->actor.world.pos.x = ((endPos.x - startPos.x) * interpolated) + startPos.x;
+            this->actor.world.pos.y = ((endPos.y - startPos.y) * interpolated) + startPos.y;
+            this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
             if (globalCtx->csCtx.npcActions[1]->action == 12) {
                 yaw = Math_Vec3f_Yaw(&startPos, &endPos);
-                Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
+                Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 10, 1000, 1);
                 Math_SmoothStepToS(&this->actor.shape.rot.y, yaw, 10, 1000, 1);
             }
 
             if (params == 9) {
-                this->actor.posRot.rot.x = globalCtx->csCtx.npcActions[1]->urot.x;
-                this->actor.posRot.rot.y = globalCtx->csCtx.npcActions[1]->urot.y;
-                this->actor.posRot.rot.z = globalCtx->csCtx.npcActions[1]->urot.z;
+                this->actor.world.rot.x = globalCtx->csCtx.npcActions[1]->urot.x;
+                this->actor.world.rot.y = globalCtx->csCtx.npcActions[1]->urot.y;
+                this->actor.world.rot.z = globalCtx->csCtx.npcActions[1]->urot.z;
                 this->actor.shape.rot.x = globalCtx->csCtx.npcActions[1]->urot.x;
                 this->actor.shape.rot.y = globalCtx->csCtx.npcActions[1]->urot.y;
                 this->actor.shape.rot.z = globalCtx->csCtx.npcActions[1]->urot.z;

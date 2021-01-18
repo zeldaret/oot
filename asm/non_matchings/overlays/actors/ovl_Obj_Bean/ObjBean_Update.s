@@ -73,8 +73,8 @@ glabel ObjBean_Update
 /* 0211C 80B90B9C 3C0142B0 */  lui     $at, 0x42B0                ## $at = 42B00000
 /* 02120 80B90BA0 44815000 */  mtc1    $at, $f10                  ## $f10 = 88.00
 /* 02124 80B90BA4 C6080050 */  lwc1    $f8, 0x0050($s0)           ## 00000050
-/* 02128 80B90BA8 3C0A8003 */  lui     $t2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0212C 80B90BAC 254AB5EC */  addiu   $t2, %lo(ActorShadow_DrawFunc_Circle)
+/* 02128 80B90BA8 3C0A8003 */  lui     $t2, %hi(ActorShadow_DrawCircle)
+/* 0212C 80B90BAC 254AB5EC */  addiu   $t2, %lo(ActorShadow_DrawCircle)
 /* 02130 80B90BB0 460A4402 */  mul.s   $f16, $f8, $f10            
 /* 02134 80B90BB4 AE0A00C0 */  sw      $t2, 0x00C0($s0)           ## 000000C0
 /* 02138 80B90BB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -109,7 +109,7 @@ glabel ObjBean_Update
 .L80B90C20:
 /* 021A0 80B90C20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B90C24:
-/* 021A4 80B90C24 0C00B56E */  jal     Actor_SetHeight
+/* 021A4 80B90C24 0C00B56E */  jal     Actor_SetFocus
               
 /* 021A8 80B90C28 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 021AC 80B90C2C 920B01F7 */  lbu     $t3, 0x01F7($s0)           ## 000001F7

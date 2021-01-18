@@ -24,7 +24,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowFire),
@@ -74,14 +74,14 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
         this->radius += 1;
     }
     // copy position and rotation from arrow
-    this->actor.posRot.pos = arrow->actor.posRot.pos;
+    this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
-        this->unkPos = this->actor.posRot.pos;
+        this->unkPos = this->actor.world.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
         this->alpha = 255;
@@ -157,14 +157,14 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         return;
     }
     // copy position and rotation from arrow
-    this->actor.posRot.pos = arrow->actor.posRot.pos;
+    this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);
+    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.world.pos) * (1.0f / 24.0f);
     this->unk_158 = distanceScaled;
     if (distanceScaled < 1.0f) {
         this->unk_158 = 1.0f;
     }
-    func_80865ECC(&this->unkPos, &this->actor.posRot.pos, 0.05f);
+    func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitWall & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
@@ -207,7 +207,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 
-        Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
+        Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateZ(tranform->shape.rot.z * (M_PI / 32768), MTXMODE_APPLY);

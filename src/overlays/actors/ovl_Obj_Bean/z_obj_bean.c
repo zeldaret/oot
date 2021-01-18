@@ -24,7 +24,7 @@ extern UNK_TYPE D_06000650;
 /*
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MAMENOKI,
     sizeof(ObjBean),
