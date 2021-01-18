@@ -12,7 +12,7 @@ void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_8099D8E0(EffDust* this);
 
 void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx);
-void func_8099DD74(EffDust* this, GlobalContext* globalCtx);
+void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx);
 void func_8099DFC0(EffDust* this, GlobalContext* globalCtx);
 void func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
 void func_8099E784(EffDust* this, GlobalContext* globalCtx);
@@ -79,7 +79,7 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         break;
 
     case 1:
-        EffDust_setUpdateFunc(this, func_8099DD74);
+        EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DD74);
         EffDust_setDrawFunc(this, func_8099E4F4);
         this->unk_0550 = 0.8f;
         this->unk_0558 = 0.8f;
@@ -155,7 +155,36 @@ void EffDust_UpdateFunc_8099DB28(EffDust *this, GlobalContext *globalCtx) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DD74.s")
+void EffDust_UpdateFunc_8099DD74(EffDust *this, GlobalContext *globalCtx) {
+    s16 theta;
+    s16 fi;
+
+    f32 *unk_014C;
+
+    s32 i;
+    s32 j;
+
+    unk_014C = this->unk_014C;
+    for (i = 0; i < 0x40; i++) {
+        if ((*unk_014C) < 1.0f) {
+            *unk_014C += 0.03f;
+        }
+        unk_014C++;
+    }
+
+    for (j = 0; j < 2; j++){
+        i = this->unk_054C & 0x3F;
+        if (this->unk_014C[i] >= 1.0f) {
+            fi = Rand_CenteredFloat(65536.0f); 
+            theta = Rand_ZeroFloat(8192.0f); 
+            this->unk_024C[i].x = 400.0f * Math_CosS(fi) * Math_CosS(theta); 
+            this->unk_024C[i].y = 400.0f * Math_SinS(theta);
+            this->unk_024C[i].z = 400.0f * Math_SinS(fi) * Math_CosS(theta);
+            this->unk_014C[i] = 0.0f;
+            this->unk_054C += 1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DFC0.s")
 
