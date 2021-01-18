@@ -1100,8 +1100,6 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Minor regalloc surrounding the unk_3EE at the end of the function.
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnOwl* this = THIS;
@@ -1279,7 +1277,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         if (phi_a1) {}
-        this->unk_3F0 = (s16)(this->unk_3EE * 1024) + phi_a1;
+        this->unk_3F0 = (u16)((this->unk_3EE << 2) << 8) + phi_a1;
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     } else {
         this->unk_3F2 = 0;
@@ -1292,9 +1290,6 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Update.s")
-#endif
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOwl* this = THIS;
