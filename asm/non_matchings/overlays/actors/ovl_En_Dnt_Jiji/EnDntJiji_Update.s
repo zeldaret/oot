@@ -102,7 +102,7 @@ glabel EnDntJiji_Update
 /* 01264 809F2D44 14200009 */  bne     $at, $zero, .L809F2D6C     
 /* 01268 809F2D48 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 0126C 809F2D4C 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 01270 809F2D50 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01270 809F2D50 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01274 809F2D54 A600024C */  sh      $zero, 0x024C($s0)         ## 0000024C
 /* 01278 809F2D58 4600010D */  trunc.w.s $f4, $f0                   
@@ -135,7 +135,7 @@ glabel EnDntJiji_Update
 /* 012D8 809F2DB8 2606025C */  addiu   $a2, $s0, 0x025C           ## $a2 = 0000025C
 /* 012DC 809F2DBC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000025C
 /* 012E0 809F2DC0 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 012E4 809F2DC4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 012E4 809F2DC4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 012E8 809F2DC8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012EC 809F2DCC 9208023C */  lbu     $t0, 0x023C($s0)           ## 0000023C
@@ -145,7 +145,7 @@ glabel EnDntJiji_Update
 /* 012FC 809F2DDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01300 809F2DE0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01304 809F2DE4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01308 809F2DE8 00812821 */  addu    $a1, $a0, $at              
 .L809F2DEC:
 /* 0130C 809F2DEC 8FBF0024 */  lw      $ra, 0x0024($sp)           

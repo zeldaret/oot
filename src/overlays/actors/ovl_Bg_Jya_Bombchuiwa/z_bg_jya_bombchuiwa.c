@@ -28,17 +28,31 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     (ActorFunc)BgJyaBombchuiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { -300, 0, 0 }, 40 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x21, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -97,19 +111,19 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        pos.x = Math_Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
-        pos.y = Math_Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
-        pos.z = Math_Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
-        velocity.x = Math_Rand_ZeroOne() * 3.0f - 0.3f;
-        velocity.y = Math_Rand_ZeroOne() * 18.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
-        scale = (s32)(Math_Rand_ZeroOne() * 20.0f) + 1;
+        pos.x = Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
+        pos.y = Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
+        pos.z = Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
+        velocity.x = Rand_ZeroOne() * 3.0f - 0.3f;
+        velocity.y = Rand_ZeroOne() * 18.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
+        scale = (s32)(Rand_ZeroOne() * 20.0f) + 1;
         if (scale > 10) {
             arg5 = 5;
         } else {
             arg5 = 1;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             arg5 |= 0x40;
             arg6 = 0xC;
             arg7 = 8;
@@ -135,7 +149,7 @@ void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext*
 }
 
 void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) || (this->timer > 0)) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->timer > 0)) {
         if (this->timer == 0) {
             func_800800F8(globalCtx, 3410, -99, &this->actor, 0);
         }
@@ -146,8 +160,8 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -164,7 +178,7 @@ void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     if (this->timer & 4) {
         func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 3, 100, 100, 0);
     }
-    if (Math_ApproxF(&this->lightRayIntensity, 1.0f, 0.028)) {
+    if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     }
 }
@@ -220,7 +234,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawFlags & 1) {
         Gfx_DrawDListOpa(globalCtx, &D_0600E8D0);
-        func_800628A4(0, &this->collider);
+        Collider_UpdateSpheres(0, &this->collider);
     }
 
     if (this->drawFlags & 2) {

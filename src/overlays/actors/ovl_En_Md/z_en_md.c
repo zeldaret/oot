@@ -35,14 +35,26 @@ const ActorInit En_Md_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 36, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -10.0f },
@@ -58,13 +70,13 @@ extern AnimationHeader D_060002C8;
 extern FlexSkeletonHeader D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
-    f32 initialFrame;
+    f32 startFrame;
 
-    initialFrame = this->skelAnime.initialFrame;
-    this->skelAnime.initialFrame = this->skelAnime.animFrameCount;
-    this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
-    this->skelAnime.animFrameCount = initialFrame;
-    this->skelAnime.animPlaybackSpeed = -1.0f;
+    startFrame = this->skelAnime.startFrame;
+    this->skelAnime.startFrame = this->skelAnime.endFrame;
+    this->skelAnime.curFrame = this->skelAnime.endFrame;
+    this->skelAnime.endFrame = startFrame;
+    this->skelAnime.playSpeed = -1.0f;
 }
 
 void func_80AAA274(EnMd* this) {
@@ -73,7 +85,7 @@ void func_80AAA274(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 2);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 3);
                 this->unk_20A++;
             }
@@ -86,7 +98,7 @@ void func_80AAA308(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 4);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->unk_20A++;
             }
@@ -100,14 +112,14 @@ void func_80AAA39C(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->unk_20A++;
             } else {
                 break;
             }
         case 2:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 8);
                 this->unk_20A++;
             }
@@ -120,7 +132,7 @@ void func_80AAA474(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 7);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -134,7 +146,7 @@ void func_80AAA508(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -147,7 +159,7 @@ void func_80AAA5A4(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 9);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -161,7 +173,7 @@ void func_80AAA638(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -174,7 +186,7 @@ void func_80AAA6D4(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 11);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -187,7 +199,7 @@ void func_80AAA768(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 12);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 3);
                 this->unk_20A++;
             }
@@ -200,7 +212,7 @@ void func_80AAA7FC(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 13);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -214,7 +226,7 @@ void func_80AAA890(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+            if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -469,7 +481,7 @@ void EnMd_UpdateEyes(EnMd* this) {
     if (DECR(this->blinkTimer) == 0) {
         this->eyeIdx++;
         if (this->eyeIdx > 2) {
-            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
         }
     }
@@ -482,7 +494,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     s16 temp2;
     s16 yawDiff;
 
-    if (this->actor.xzDistFromLink < 170.0f) {
+    if (this->actor.xzDistToLink < 170.0f) {
         yawDiff = (f32)this->actor.yawTowardsLink - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
@@ -540,8 +552,8 @@ u8 EnMd_FollowPath(EnMd* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.posRot.pos.x;
     pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4,
-                            4000, 1);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(pathDiffX, pathDiffZ) * (65536.0f / (2 * M_PI)), 4, 4000,
+                       1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 100.0f) {
         this->waypoint++;
@@ -593,12 +605,11 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->jointTable, this->morphTable, 17);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (!EnMd_ShouldSpawn(&this->actor, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
@@ -664,13 +675,13 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         yaw = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &actorToBlock->posRot.pos);
 
         this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-        this->actor.posRot.pos.x += 60.0f * Math_Sins(yaw);
+        this->actor.posRot.pos.x += 60.0f * Math_SinS(yaw);
 
         this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-        this->actor.posRot.pos.z += 60.0f * Math_Coss(yaw);
+        this->actor.posRot.pos.z += 60.0f * Math_CosS(yaw);
 
         temp = fabsf((f32)this->actor.yawTowardsLink - yaw) * 0.001f * 3.0f;
-        this->skelAnime.animPlaybackSpeed = CLAMP(temp, 1.0f, 3.0f);
+        this->skelAnime.playSpeed = CLAMP(temp, 1.0f, 3.0f);
     }
 
     if (this->unk_1E0.unk_00 == 2) {
@@ -708,7 +719,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (this->actor.xzDistFromLink < (30.0f + this->collider.dim.radius)) {
+        if (this->actor.xzDistToLink < (30.0f + this->collider.dim.radius)) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -751,7 +762,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
 
     func_80AAA92C(this, 11);
 
-    this->skelAnime.animPlaybackSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.initPosRot.pos = this->actor.posRot.pos;
     this->actionFunc = func_80AAB8F8;
@@ -761,9 +772,9 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMd* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    SkelAnime_Update(&this->skelAnime);
     EnMd_UpdateEyes(this);
     func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -791,11 +802,11 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (((limbIndex == 9) || (limbIndex == 10)) || (limbIndex == 13)) {
-        rot->y += Math_Sins(this->unk_214[limbIndex]) * 200.0f;
-        rot->z += Math_Coss(this->unk_236[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->unk_214[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_236[limbIndex]) * 200.0f;
     }
 
-    return 0;
+    return false;
 }
 
 void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {

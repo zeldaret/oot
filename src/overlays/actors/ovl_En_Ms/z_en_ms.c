@@ -33,8 +33,14 @@ const ActorInit En_Ms_InitVars = {
     (ActorFunc)EnMs_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 22, 37, 0, { 0 } },
 };
@@ -75,14 +81,13 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
-                       9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, this->jointTable, this->morphTable, 9);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, this, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, this, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
@@ -108,7 +113,7 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((this->actor.xzDistFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if ((this->actor.xzDistToLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }
@@ -167,7 +172,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 20.0f);
     this->actor.unk_4C = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
 
     if (gSaveContext.entranceIndex == 0x157 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
@@ -175,14 +180,14 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMs* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

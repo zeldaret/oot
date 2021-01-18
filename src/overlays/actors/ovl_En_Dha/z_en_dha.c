@@ -36,38 +36,110 @@ const ActorInit En_Dha_InitVars = {
     (ActorFunc)EnDha_Draw,
 };
 
-static DamageTable sDamageTable = { {
-    0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
-} };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0xF),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(2, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(2, 0xF),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(4, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 2, { { 3200, 0, 0 }, 10 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 3, { { 1200, 0, 0 }, 10 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 4, { { 2700, 0, 0 }, 10 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 5, { { 1200, 0, 0 }, 10 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     5,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -88,12 +160,11 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
-                       this->transitionDrawTable, 4);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->jointTable, this->morphTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 50.0f;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->unk_1CE = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -110,9 +181,9 @@ void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809EC9C8(EnDha* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060015B0);
+    Animation_PlayLoop(&this->skelAnime, &D_060015B0);
     this->unk_1C0 = 0;
-    this->unk_1C8 = ((Math_Rand_ZeroOne() * 10.0f) + 5.0f);
+    this->unk_1C8 = ((Rand_ZeroOne() * 10.0f) + 5.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->actor.initPosRot.rot.z = 1;
@@ -131,14 +202,14 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     s16 result;
     s32 resultAbs;
 
-    playerPos.x += Math_Sins(player->actor.shape.rot.y) * -5.0f;
-    playerPos.z += Math_Coss(player->actor.shape.rot.y) * -5.0f;
+    playerPos.x += Math_SinS(player->actor.shape.rot.y) * -5.0f;
+    playerPos.z += Math_CosS(player->actor.shape.rot.y) * -5.0f;
     if (LINK_IS_CHILD) {
         playerPos.y += 38.0f;
     } else {
         playerPos.y += 56.0f;
     }
-    if (this->actor.xzDistFromLink <= 100.0f) {
+    if (this->actor.xzDistToLink <= 100.0f) {
         this->unk_1D6.x = this->unk_1D0.z = this->unk_1D0.y = 0;
         if (Math_Vec3f_DistXYZ(&playerPos, &this->unk_1DC) <= 12.0f) {
             if (this->unk_1CC == 0) {
@@ -152,7 +223,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                 }
             } else {
                 this->unk_1CA += 0x1194;
-                this->unk_1D0.y = Math_Sins(this->unk_1CA) * 1820.0f;
+                this->unk_1D0.y = Math_SinS(this->unk_1CA) * 1820.0f;
                 if (!(player->stateFlags2 & 0x80)) {
                     this->unk_1CC = 0;
                     func_809ECF60(this);
@@ -177,9 +248,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             }
         }
         this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, &playerPos);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
         func_80035844(&this->unk_1F4, &this->unk_1DC, &test, 0);
         Matrix_Translate(this->unk_1DC.x, this->unk_1DC.y, this->unk_1DC.z, MTXMODE_NEW);
         Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
@@ -206,9 +277,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             player->unk_850 = 200;
         }
         this->actor.initPosRot.rot.z = 1;
-        Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
-        Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
+        SkelAnime_Update(&this->skelAnime);
     }
 }
 
@@ -225,10 +296,10 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 2000, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.y, 0, 1, 600, 0);
-    Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 2000, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 2000, 0);
+    Math_SmoothStepToS(&this->unk_1D0.y, 0, 1, 600, 0);
+    Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 2000, 0);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_1C8--;
     if (this->unk_1C8 == 0) {
         func_809EC9C8(this);
@@ -260,9 +331,9 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
-    result = Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
+    result = Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
+    SkelAnime_Update(&this->skelAnime);
     if (result == 0) {
         vector = this->actor.posRot.pos;
 
@@ -288,8 +359,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
 }
 
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
-    if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & 2))) {
-        this->collider.base.acFlags &= ~2;
+    if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & AC_HIT))) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
         } else {
@@ -336,7 +407,7 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->y = -this->unk_1D6.x;
         rot->z = -this->unk_1D0.z;
     }
-    return 0;
+    return false;
 }
 
 void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -347,18 +418,18 @@ void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 1:
-            func_800628A4(2, &this->collider);
-            func_800628A4(3, &this->collider);
+            Collider_UpdateSpheres(2, &this->collider);
+            Collider_UpdateSpheres(3, &this->collider);
             break;
 
         case 2:
-            func_800628A4(4, &this->collider);
-            func_800628A4(5, &this->collider);
+            Collider_UpdateSpheres(4, &this->collider);
+            Collider_UpdateSpheres(5, &this->collider);
             Matrix_MultVec3f(&D_809ED770, &this->unk_1F4);
             break;
 
         case 3:
-            func_800628A4(1, &this->collider);
+            Collider_UpdateSpheres(1, &this->collider);
             Matrix_MultVec3f(&D_809ED764, &this->unk_1DC);
             Matrix_MultVec3f(&D_809ED770, &this->unk_1E8);
             break;
@@ -370,6 +441,6 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, this);
 }

@@ -32,8 +32,22 @@ const ActorInit Door_Ana_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000048, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 50, 10, 0, { 0 } },
 };
 
@@ -83,20 +97,20 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 // update routine for grottos that are currently "hidden"/unopened
 void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     u32 openGrotto = false;
-    if ((this->actor.params & 0x200) == 0) {
+    if (!(this->actor.params & 0x200)) {
         // opening with song of storms
-        if (this->actor.xyzDistFromLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
+        if (this->actor.xyzDistToLinkSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~0x10;
         }
     } else {
         // bombing/hammering open a grotto
-        if ((this->collider.base.acFlags & 2) != 0) {
+        if (this->collider.base.acFlags & AC_HIT) {
             openGrotto = true;
             Collider_DestroyCylinder(globalCtx, &this->collider);
         } else {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
     // open the grotto
@@ -114,7 +128,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
     s32 destinationIdx;
 
     player = PLAYER;
-    if (Math_ApproxF(&this->actor.scale.x, 0.01f, 0.001f) != 0) {
+    if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
@@ -129,8 +143,8 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             DoorAna_SetupAction(this, DoorAna_GrabLink);
         } else {
             if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
-                this->actor.xzDistFromLink <= 15.0f && -50.0f <= this->actor.yDistFromLink &&
-                this->actor.yDistFromLink <= 15.0f) {
+                this->actor.xzDistToLink <= 15.0f && -50.0f <= this->actor.yDistToLink &&
+                this->actor.yDistToLink <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;
                 this->actor.unk_1F = 1;
             } else {
@@ -145,10 +159,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->actor.yDistFromLink <= 0.0f && 15.0f < this->actor.xzDistFromLink) {
+    if (this->actor.yDistToLink <= 0.0f && 15.0f < this->actor.xzDistToLink) {
         player = PLAYER;
-        player->actor.posRot.pos.x = Math_Sins(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
-        player->actor.posRot.pos.z = Math_Coss(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
+        player->actor.posRot.pos.x = Math_SinS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.x;
+        player->actor.posRot.pos.z = Math_CosS(this->actor.yawTowardsLink) * 15.0f + this->actor.posRot.pos.z;
     }
 }
 

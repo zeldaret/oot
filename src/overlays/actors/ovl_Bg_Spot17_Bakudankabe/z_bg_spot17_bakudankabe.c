@@ -35,7 +35,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000A38;
+extern CollisionHeader D_06000A38;
 extern Gfx D_060008A0[];
 extern Gfx D_06000960[];
 extern Gfx D_0500A880[];
@@ -48,8 +48,8 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
     f32 sinY;
     f32 cosY;
 
-    sinY = Math_Sins(this->dyna.actor.shape.rot.y);
-    cosY = Math_Coss(this->dyna.actor.shape.rot.y);
+    sinY = Math_SinS(this->dyna.actor.shape.rot.y);
+    cosY = Math_CosS(this->dyna.actor.shape.rot.y);
 
     burstDepthX.z = 0.0f;
     burstDepthX.x = 0.0f;
@@ -61,15 +61,15 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
         f32 temp2;
         s32 rotationSpeed;
 
-        temp1 = (Math_Rand_ZeroOne() - 0.5f) * 140.0f;
-        temp2 = (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
+        temp1 = (Rand_ZeroOne() - 0.5f) * 140.0f;
+        temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
 
         burstDepthY.x = this->dyna.actor.posRot.pos.x + temp2 * sinY + (temp1 * cosY);
         burstDepthY.y = this->dyna.actor.posRot.pos.y + 30.0f + (i * 6.5f);
         burstDepthY.z = this->dyna.actor.posRot.pos.z + temp2 * cosY - (temp1 * sinY);
 
-        burstDepthX.y = (Math_Rand_ZeroOne() - 0.2f) * 12.0f;
-        scale = Math_Rand_ZeroOne() * 55.0f + 8.0f;
+        burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
+        scale = Rand_ZeroOne() * 55.0f + 8.0f;
 
         if (scale < 20) {
             gravityInfluence = -300;
@@ -79,7 +79,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
             gravityInfluence = -420;
         }
 
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             rotationSpeed = 65;
         } else {
             rotationSpeed = 33;
@@ -98,26 +98,26 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
     s32 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    DynaPolyInfo_Alloc(&D_06000A38, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    CollisionHeader_GetVirtual(&D_06000A38, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistFromLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
+    if (this->dyna.actor.xzDistToLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);

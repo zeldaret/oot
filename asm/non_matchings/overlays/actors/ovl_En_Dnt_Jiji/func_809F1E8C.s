@@ -4,14 +4,14 @@ glabel func_809F1E8C
 /* 003B4 809F1E94 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 003B8 809F1E98 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 003BC 809F1E9C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 003C0 809F1EA0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 003C0 809F1EA0 0C02927F */  jal     SkelAnime_Update
               
 /* 003C4 809F1EA4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 003C8 809F1EA8 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 003CC 809F1EAC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 003D0 809F1EB0 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 003D4 809F1EB4 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 003D8 809F1EB8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 003D8 809F1EB8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 003DC 809F1EBC 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 /* 003E0 809F1EC0 3C014316 */  lui     $at, 0x4316                ## $at = 43160000

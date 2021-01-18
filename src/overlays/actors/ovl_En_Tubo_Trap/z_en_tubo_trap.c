@@ -22,8 +22,22 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 9, 23, 0, { 0 } },
 };
 
@@ -81,21 +95,21 @@ void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
     Vec3f* actorPos = &this->actor.posRot.pos;
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
-        sin = Math_Sins(var);
-        cos = Math_Coss(var);
+        sin = Math_SinS(var);
+        cos = Math_CosS(var);
         pos.x = sin * 8.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cos * 8.0f;
 
         velocity.x = pos.x * 0.23f;
-        velocity.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        velocity.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         velocity.z = pos.z * 0.23f;
 
         pos.x += actorPos->x;
         pos.y += actorPos->y;
         pos.z += actorPos->z;
 
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         if (rand < 0.2f) {
             arg5 = 96;
         } else if (rand < 0.6f) {
@@ -105,7 +119,7 @@ void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -240, arg5, 10, 10, 0,
-                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
+                             (Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05017A60);
     }
 
@@ -124,26 +138,26 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) 
     Vec3f* actorPos = &this->actor.posRot.pos;
 
     pos = *actorPos;
-    pos.y += this->actor.waterY;
+    pos.y += this->actor.yDistToWater;
 
     EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
-        sin = Math_Sins(var);
-        cos = Math_Coss(var);
+        sin = Math_SinS(var);
+        cos = Math_CosS(var);
         pos.x = sin * 8.0f;
-        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cos * 8.0f;
 
         velocity.x = pos.x * 0.20f;
-        velocity.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
+        velocity.y = (Rand_ZeroOne() * 4.0f) + 2.0f;
         velocity.z = pos.z * 0.20f;
 
         pos.x += actorPos->x;
         pos.y += actorPos->y;
         pos.z += actorPos->z;
 
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         if (rand < 0.2f) {
             arg5 = 64;
         } else {
@@ -151,7 +165,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) 
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -180, arg5, 30, 30, 0,
-                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
+                             (Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05017A60);
     }
 }
@@ -160,7 +174,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Player* player2 = PLAYER;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
         EnTuboTrap_SpawnEffectsInWater(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -168,8 +182,8 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
         EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_IT_SHIELD_REFLECT_SW);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
@@ -178,8 +192,8 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_EXPLOSION);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
@@ -188,8 +202,8 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (this->collider.base.at == &player->actor) {
             EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
@@ -219,7 +233,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
     }
 
-    if (this->actor.xzDistFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
+    if (this->actor.xzDistToLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
         targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
@@ -237,7 +251,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
 
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 5000;
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetY, 0.8f, 3.0f);
+    Math_ApproachF(&this->actor.posRot.pos.y, this->targetY, 0.8f, 3.0f);
 
     if (fabsf(this->actor.posRot.pos.y - this->targetY) < 10.0f) {
         this->actor.speedXZ = 10.0f;
@@ -254,7 +268,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
-        Math_SmoothScaleMaxF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
+        Math_ApproachF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
     }
 
     this->actor.shape.rot.y += 5000;
@@ -269,7 +283,7 @@ void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
     Actor_SetHeight(&this->actor, 0.0f);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

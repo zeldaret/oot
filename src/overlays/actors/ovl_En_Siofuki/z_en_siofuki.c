@@ -41,7 +41,7 @@ extern UNK_TYPE D_06000D78;
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
     s32 type;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad;
 
     if ((thisx->room == 10) && Flags_GetSwitch(globalCtx, 0x1E)) {
@@ -50,9 +50,9 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
-    DynaPolyInfo_Alloc(&D_06000D78, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_06000D78, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->sfxFlags |= 1;
 
     type = ((u16)thisx->params >> 0xC) & 0xF;
@@ -105,7 +105,7 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80AFBDC8(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -146,11 +146,11 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             dist2d = sqrtf(SQ(dX) + SQ(dZ));
             this->applySpeed = true;
             this->splashTimer = 0;
-            angle = Math_atan2f(dX, dZ) * (0x8000 / M_PI);
+            angle = Math_FAtan2F(dX, dZ) * (0x8000 / M_PI);
             dAngle = (player->actor.posRot.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.y, this->dyna.actor.posRot.pos.y, 0.5f, 4.0f, 1.0f);
+            Math_SmoothStepToF(&player->actor.posRot.pos.y, this->dyna.actor.posRot.pos.y, 0.5f, 4.0f, 1.0f);
 
             if ((dAngle < 0x4000) && (dAngle > -0x4000)) {
                 this->appliedYaw = player->actor.posRot.rot.y ^ 0x8000;
@@ -158,13 +158,13 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
                 speedScale = CLAMP_MIN(speedScale, 0.0f);
                 speedScale = CLAMP_MAX(speedScale, 1.0f);
                 player->linearVelocity *= speedScale;
-                Math_SmoothScaleMaxF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
-                Math_SmoothScaleMaxF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
+                Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
+                Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
             } else {
                 this->appliedYaw = player->actor.posRot.rot.y;
                 player->linearVelocity /= 2.0f;
-                Math_SmoothScaleMaxF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
-                Math_SmoothScaleMaxF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
+                Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
+                Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
             }
 
             player->windDirection = this->appliedYaw;
@@ -183,7 +183,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFC1D0(EnSiofuki* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->currentHeight, this->targetHeight, 0.8f, 3.0f, 0.01f);
+    Math_SmoothStepToF(&this->currentHeight, this->targetHeight, 0.8f, 3.0f, 0.01f);
 }
 
 void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {

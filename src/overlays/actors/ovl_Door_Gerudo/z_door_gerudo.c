@@ -37,17 +37,17 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_06000040[];
-extern UNK_TYPE D_06000170;
+extern CollisionHeader D_06000170;
 extern UNK_TYPE D_80994B70;
 
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DoorGerudo* this = THIS;
-    s32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_Alloc(&D_06000170, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    CollisionHeader_GetVirtual(&D_06000170, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         this->actionFunc = func_8099485C;
@@ -61,7 +61,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorGerudo* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {
@@ -135,8 +135,8 @@ void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx) {
 }
 
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
-    Math_ApproxF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
+    Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
+    Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
                  this->dyna.actor.velocity.y);
 }
 

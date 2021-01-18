@@ -69,24 +69,22 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 static CamData sCameraDataList[] = { { 0, 0, 0 } };
 
-static UNK_TYPE sSurfaceTypeList[] = {
-    0x00000000,
-    0x000007C0,
-    0x00000000,
-    0x000007C2,
+static SurfaceType sSurfaceTypeList[] = {
+    { 0x00000000, 0x000007C0 },
+    { 0x00000000, 0x000007C2 },
 };
 
 static CollisionPoly sPolyList[] = {
-    { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02 }, { 32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03 }, { 32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x02, 0x00, 0x04 }, { 0, 0, -32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x04, 0x00, 0x05 }, { 0, 0, -32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x05, 0x00, 0x04, 0x00, 0x06 }, { -32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x05, 0x00, 0x06, 0x00, 0x07 }, { -32767, 0, 0 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x07, 0x00, 0x06, 0x00, 0x01 }, { 0, 0, 32767 }, -60 },
-    { { 0x00, 0x00, 0x00, 0x07, 0x00, 0x01, 0x00, 0x00 }, { 0, 0, 32767 }, -60 },
-    { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x05 }, { 0, 32767, 0 }, 0 },
-    { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x05, 0x00, 0x07 }, { 0, 32767, 0 }, 0 },
+    { 0x0000, 0x0000, 0x0001, 0x0002, { 32767, 0, 0 }, -60 },
+    { 0x0000, 0x0000, 0x0002, 0x0003, { 32767, 0, 0 }, -60 },
+    { 0x0000, 0x0003, 0x0002, 0x0004, { 0, 0, -32767 }, -60 },
+    { 0x0000, 0x0003, 0x0004, 0x0005, { 0, 0, -32767 }, -60 },
+    { 0x0000, 0x0005, 0x0004, 0x0006, { -32767, 0, 0 }, -60 },
+    { 0x0000, 0x0005, 0x0006, 0x0007, { -32767, 0, 0 }, -60 },
+    { 0x0000, 0x0007, 0x0006, 0x0001, { 0, 0, 32767 }, -60 },
+    { 0x0000, 0x0007, 0x0001, 0x0000, { 0, 0, 32767 }, -60 },
+    { 0x0001, 0x0000, 0x0003, 0x0005, { 0, 32767, 0 }, 0 },
+    { 0x0001, 0x0000, 0x0005, 0x0007, { 0, 32767, 0 }, 0 },
 };
 
 static Vec3s sVtxList[] = {
@@ -105,9 +103,9 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&sColHeader, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&sColHeader, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
@@ -120,7 +118,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
@@ -137,7 +135,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f center;
     s16 i;
 
-    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f))) {
+    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToLinkSq < 4900.0f))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -169,7 +167,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             center.x = this->dyna.actor.posRot.pos.x + D_80876A68[i].x;
             center.y = this->dyna.actor.posRot.pos.y;
             center.z = this->dyna.actor.posRot.pos.z + D_80876A68[i].z;
-            if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
+            if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &center, 50.0f)) {
                 this->unwalledSides |= sSides[i];
             }
         }
@@ -199,25 +197,25 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("MODE DOWN\n");
     if (this->flashState == FLASH_GROW) {
-        Math_SmoothScaleMaxF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
-        Math_SmoothScaleMaxF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
+        Math_ApproachF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
+        Math_ApproachF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
+        Math_ApproachF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
         if (this->flashYScale == 2.5f) {
             this->flashState = FLASH_SHRINK;
         }
     } else if (this->flashState == FLASH_SHRINK) {
-        Math_SmoothScaleMaxF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
-        Math_SmoothScaleMaxF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothDownscaleMaxF(&this->flashYScale, 1.0f, 0.25f);
+        Math_ApproachF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
+        Math_ApproachF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
+        Math_ApproachF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
+        Math_ApproachZeroF(&this->flashYScale, 1.0f, 0.25f);
         if (this->flashYScale == 0.0f) {
             this->flashState = FLASH_NONE;
         }
     }
     if (this->dropTimer == 0) {
         this->flashYScale = 0.0f;
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
         if (!(this->unwalledSides & OTYUKA_SIDE_EAST)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
@@ -237,11 +235,11 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 velocity.x = velocity.y = velocity.z = 0.0f;
 
                 for (i = 0; i < 30; i++) {
-                    pos.x = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
-                    pos.y = Math_Rand_ZeroFloat(60.0f) + -750.0f;
-                    pos.z = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
+                    pos.x = Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
+                    pos.y = Rand_ZeroFloat(60.0f) + -750.0f;
+                    pos.z = Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
                     func_8002836C(globalCtx, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
-                                  (s16)Math_Rand_ZeroFloat(100.0f) + 250, 5, (s16)Math_Rand_ZeroFloat(5.0f) + 15);
+                                  (s16)Rand_ZeroFloat(100.0f) + 250, 5, (s16)Rand_ZeroFloat(5.0f) + 15);
                 }
 
                 func_80033DB8(globalCtx, 10, 15);
@@ -257,8 +255,8 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
                                    &D_801333E0, &D_801333E8);
         }
-        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
+        Math_ApproachF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
     }
     osSyncPrintf("MODE DOWN END\n");
 }

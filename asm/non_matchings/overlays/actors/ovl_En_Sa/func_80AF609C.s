@@ -28,7 +28,7 @@ glabel func_80AF609C
 /* 00B9C 80AF60FC 10000008 */  beq     $zero, $zero, .L80AF6120   
 /* 00BA0 80AF6100 A4C20214 */  sh      $v0, 0x0214($a2)           ## 00000214
 .L80AF6104:
-/* 00BA4 80AF6104 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00BA4 80AF6104 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00BA8 80AF6108 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00BAC 80AF610C 8FA60018 */  lw      $a2, 0x0018($sp)           

@@ -14,7 +14,7 @@ typedef struct BgHidanHrock {
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ u8 unk_16A;
     /* 0x016C */ ColliderTris collider;
-    /* 0x018C */ ColliderTrisItem colliderItems[2];
+    /* 0x018C */ ColliderTrisElement colliderItems[2];
 } BgHidanHrock; // size = 0x0244
 
 extern const ActorInit Bg_Hidan_Hrock_InitVars;

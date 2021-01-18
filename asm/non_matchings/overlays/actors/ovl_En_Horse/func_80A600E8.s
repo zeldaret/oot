@@ -79,7 +79,7 @@ glabel func_80A600E8
 /* 04EFC 80A601EC 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
 /* 04F00 80A601F0 00000000 */  nop
 .L80A601F4:
-/* 04F04 80A601F4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04F04 80A601F4 0C02927F */  jal     SkelAnime_Update
               
 /* 04F08 80A601F8 E60001C8 */  swc1    $f0, 0x01C8($s0)           ## 000001C8
 /* 04F0C 80A601FC 1440000A */  bne     $v0, $zero, .L80A60228     

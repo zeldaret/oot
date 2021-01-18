@@ -93,7 +93,7 @@ glabel func_80A99048
 /* 023E0 80A99190 3C0680AA */  lui     $a2, %hi(D_80A9A12C)       ## $a2 = 80AA0000
 /* 023E4 80A99194 24C6A12C */  addiu   $a2, $a2, %lo(D_80A9A12C)  ## $a2 = 80A9A12C
 /* 023E8 80A99198 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 023EC 80A9919C 0C0187BF */  jal     func_80061EFC
+/* 023EC 80A9919C 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 023F0 80A991A0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 023F4 80A991A4 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 023F8 80A991A8 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007

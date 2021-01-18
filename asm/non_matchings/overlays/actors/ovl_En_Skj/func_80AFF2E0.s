@@ -4,7 +4,7 @@ glabel func_80AFF2E0
 /* 01038 80AFF2E8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0103C 80AFF2EC 3C040600 */  lui     $a0, %hi(D_06007128)                ## $a0 = 06000000
 /* 01040 80AFF2F0 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 01044 80AFF2F4 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01044 80AFF2F4 0C028800 */  jal     Animation_GetLastFrame
               
 /* 01048 80AFF2F8 24847128 */  addiu   $a0, $a0, %lo(D_06007128)           ## $a0 = 06007128
 /* 0104C 80AFF2FC 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

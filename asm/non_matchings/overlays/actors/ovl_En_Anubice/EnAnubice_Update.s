@@ -163,14 +163,14 @@ glabel EnAnubice_Update
 /* 00E30 809B1F50 8E0502A4 */  lw      $a1, 0x02A4($s0)           ## 000002A4
 /* 00E34 809B1F54 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00E38 809B1F58 256C1964 */  addiu   $t4, $t3, 0x1964           ## $t4 = 00001964
-/* 00E3C 809B1F5C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00E3C 809B1F5C 0C01E107 */  jal     Math_ApproachF
               
 /* 00E40 809B1F60 A60C00B6 */  sh      $t4, 0x00B6($s0)           ## 000000B6
 /* 00E44 809B1F64 3C063E99 */  lui     $a2, 0x3E99                ## $a2 = 3E990000
 /* 00E48 809B1F68 34C6999A */  ori     $a2, $a2, 0x999A           ## $a2 = 3E99999A
 /* 00E4C 809B1F6C 26040064 */  addiu   $a0, $s0, 0x0064           ## $a0 = 00000064
 /* 00E50 809B1F70 8E0502AC */  lw      $a1, 0x02AC($s0)           ## 000002AC
-/* 00E54 809B1F74 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00E54 809B1F74 0C01E107 */  jal     Math_ApproachF
               
 /* 00E58 809B1F78 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00E5C 809B1F7C 860D025C */  lh      $t5, 0x025C($s0)           ## 0000025C
@@ -251,7 +251,7 @@ glabel EnAnubice_Update
 /* 00F6C 809B208C 8E05027C */  lw      $a1, 0x027C($s0)           ## 0000027C
 /* 00F70 809B2090 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 00F74 809B2094 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00F78 809B2098 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00F78 809B2098 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00F7C 809B209C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F80 809B20A0 8FA40064 */  lw      $a0, 0x0064($sp)           
@@ -260,7 +260,7 @@ glabel EnAnubice_Update
 /* 00F8C 809B20AC 00812821 */  addu    $a1, $a0, $at              
 /* 00F90 809B20B0 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00F94 809B20B4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00F98 809B20B8 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00F9C 809B20BC 860D0262 */  lh      $t5, 0x0262($s0)           ## 00000262
 /* 00FA0 809B20C0 8FA50034 */  lw      $a1, 0x0034($sp)           

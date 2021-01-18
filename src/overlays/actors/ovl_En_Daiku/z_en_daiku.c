@@ -72,14 +72,61 @@ const ActorInit En_Daiku_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 66, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable sDamageTable = { 0 };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(0, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(0, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(0, 0x0),
+    /* Master spin   */ DMG_ENTRY(0, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(0, 0x0),
+    /* Master jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 static EnDaikuAnimation sAnimations[] = {
     { 0x06001AB0, 1.0f, 0, 0 }, { 0x06007DE0, 1.0f, 0, 0 }, { 0x0600885C, 1.0f, 0, 0 },
@@ -93,7 +140,7 @@ static EnDaikuEscapeSubCamParam sEscapeSubCamParams[] = {
     { { -40, 60, 60 }, 120 },
 };
 
-void EnDaiku_ChangeAnim(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
+void EnDaiku_Change(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
     f32 transitionRate;
 
     if (*currentAnimIndex < 0 || *currentAnimIndex == animIndex) {
@@ -102,9 +149,8 @@ void EnDaiku_ChangeAnim(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
         transitionRate = sAnimations[animIndex].transitionRate;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, sAnimations[animIndex].anim, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[animIndex].anim), sAnimations[animIndex].mode,
-                         transitionRate);
+    Animation_Change(&this->skelAnime, sAnimations[animIndex].anim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimations[animIndex].anim), sAnimations[animIndex].mode, transitionRate);
 
     *currentAnimIndex = animIndex;
 }
@@ -135,8 +181,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
 
     if (!noKill) {
         Actor_Kill(&this->actor);
@@ -145,11 +190,10 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[0].anim), sAnimations[0].mode,
-                         sAnimations[0].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[0].anim),
+                     sAnimations[0].mode, sAnimations[0].transitionRate);
 
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
@@ -160,19 +204,19 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->initPos = this->actor.posRot.pos;
 
     if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
-        EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_STAND, &this->currentAnimIndex);
+        EnDaiku_Change(this, ENDAIKU_ANIM_STAND, &this->currentAnimIndex);
         this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         this->actionFunc = EnDaiku_Jailed;
     } else {
         if ((this->actor.params & 3) == 1 || (this->actor.params & 3) == 3) {
-            EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_SIT, &this->currentAnimIndex);
+            EnDaiku_Change(this, ENDAIKU_ANIM_SIT, &this->currentAnimIndex);
             this->stateFlags |= ENDAIKU_STATEFLAG_1;
         } else {
-            EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_SHOUT, &this->currentAnimIndex);
+            EnDaiku_Change(this, ENDAIKU_ANIM_SHOUT, &this->currentAnimIndex);
             this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         }
 
-        this->skelAnime.animCurrentFrame = (s32)(Math_Rand_ZeroOne() * this->skelAnime.animFrameCount);
+        this->skelAnime.curFrame = (s32)(Rand_ZeroOne() * this->skelAnime.endFrame);
         this->actionFunc = EnDaiku_TentIdle;
     }
 }
@@ -322,7 +366,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx);
  * The carpenter is idling in the tent.
  */
 void EnDaiku_TentIdle(EnDaiku* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     EnDaiku_UpdateText(this, globalCtx);
 }
 
@@ -337,13 +381,13 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING)) {
         EnDaiku_UpdateText(this, globalCtx);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, ACTORTYPE_ENEMY);
     if (gerudo == NULL) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDODEFEATED;
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
-        EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_CELEBRATE, &this->currentAnimIndex);
+        EnDaiku_Change(this, ENDAIKU_ANIM_CELEBRATE, &this->currentAnimIndex);
         this->actionFunc = EnDaiku_WaitFreedom;
     } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && !gerudo->invisible) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDOFIGHTING;
@@ -356,7 +400,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
  * to then talk to him
  */
 void EnDaiku_WaitFreedom(EnDaiku* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
         this->actor.flags |= 9;
@@ -376,7 +420,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     s32 exitLoop;
 
     func_800F5C64(0x51);
-    EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
+    EnDaiku_Change(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
     gSaveContext.eventChkInf[9] |= 1 << (this->actor.params & 3);
@@ -391,7 +435,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.posRot.pos.x;
         dz = pointPos->z - this->actor.posRot.pos.z;
-        this->rotYtowardsPath = Math_atan2f(dx, dz) * (0x8000 / M_PI);
+        this->rotYtowardsPath = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
         dxz = sqrtf(SQ(dx) + SQ(dz));
         if (dxz > 10.0f) {
             exitLoop = true;
@@ -409,8 +453,8 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_EscapeRotate(EnDaiku* this, GlobalContext* globalCtx) {
     s16 diff;
 
-    diff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rotYtowardsPath, 1, 0x1388, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    diff = Math_SmoothStepToS(&this->actor.shape.rot.y, this->rotYtowardsPath, 1, 0x1388, 0);
+    SkelAnime_Update(&this->skelAnime);
     if (diff == 0) {
         this->actionFunc = EnDaiku_EscapeRun;
         this->actionFunc(this, globalCtx);
@@ -458,9 +502,9 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamAtTarget.y = this->actor.posRot.pos.y + 60.0f;
     this->subCamAtTarget.z = this->actor.posRot.pos.z;
 
-    Math_SmoothScaleMaxMinF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
 
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
@@ -479,7 +523,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
-                        this->initPos.z + vec.z, 0, Math_atan2f(-vec.x, -vec.z) * (0x8000 / M_PI), 0, 2);
+                        this->initPos.z + vec.z, 0, Math_FAtan2F(-vec.x, -vec.z) * (0x8000 / M_PI), 0, 2);
 
         if (gerudoGuard == NULL) {
             Actor_Kill(&this->actor);
@@ -506,7 +550,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.posRot.pos.x;
     dz = pointPos->z - this->actor.posRot.pos.z;
-    ry = Math_atan2f(dx, dz) * (0x8000 / M_PI);
+    ry = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
     dxz = sqrtf(SQ(dx) + SQ(dz));
     if (dxz <= 20.88f) {
         this->waypoint++;
@@ -519,9 +563,9 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
@@ -532,7 +576,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -541,13 +585,13 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->currentAnimIndex == ENDAIKU_ANIM_RUN) {
-        curFrame = this->skelAnime.animCurrentFrame;
+        curFrame = this->skelAnime.curFrame;
         if (curFrame == 6 || curFrame == 15) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     this->actionFunc(this, globalCtx);
@@ -582,7 +626,7 @@ void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1255);
@@ -602,7 +646,7 @@ s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Ve
             break;
     }
 
-    return 0;
+    return false;
 }
 
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, void* thisx) {

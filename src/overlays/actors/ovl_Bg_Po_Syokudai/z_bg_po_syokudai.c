@@ -25,8 +25,22 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
@@ -72,7 +86,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flameColor = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0x3F;
 
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, (s16)thisx->posRot.pos.y + 65, thisx->posRot.pos.z,
@@ -105,7 +119,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->flameTextureScroll = (s16)(Math_Rand_ZeroOne() * 20.0f);
+    this->flameTextureScroll = (s16)(Rand_ZeroOne() * 20.0f);
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,7 +163,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Color_RGBA8* primColor = &sPrimColors[this->flameColor];
         Color_RGBA8* envColor = &sEnvColors[this->flameColor];
 
-        lightBrightness = (0.3f * Math_Rand_ZeroOne()) + 0.7f;
+        lightBrightness = (0.3f * Rand_ZeroOne()) + 0.7f;
 
         red = (u8)(primColor->r * lightBrightness);
         green = (u8)(primColor->g * lightBrightness);

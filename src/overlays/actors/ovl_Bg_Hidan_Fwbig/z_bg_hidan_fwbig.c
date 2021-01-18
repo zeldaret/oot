@@ -41,8 +41,22 @@ const ActorInit Bg_Hidan_Fwbig_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x20000000, 0x01, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x01, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 130, 0, { 0, 0, 0 } },
 };
 
@@ -58,7 +72,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->direction = (u16)(thisx->params >> 8);
     thisx->params &= 0xFF;
     if (this->direction != 0) {
@@ -97,8 +111,8 @@ void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
     s16 startAngle = this->actor.shape.rot.y + this->direction * -0x4000;
 
-    this->actor.posRot.pos.x = (Math_Sins(startAngle) * 885.4f) + this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.z = (Math_Coss(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
+    this->actor.posRot.pos.x = (Math_SinS(startAngle) * 885.4f) + this->actor.initPosRot.pos.x;
+    this->actor.posRot.pos.z = (Math_CosS(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
 }
 
 void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx) {
@@ -116,7 +130,7 @@ void BgHidanFwbig_WaitForCs(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_Rise(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 10.0f)) {
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 10.0f)) {
         if (this->direction == 0) {
             Flags_UnsetSwitch(globalCtx, this->actor.params);
             this->actionFunc = BgHidanFwbig_WaitForSwitch;
@@ -127,7 +141,7 @@ void BgHidanFwbig_Rise(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y),
+    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y),
                      10.0f)) {
         if (this->direction == 0) {
             this->actionFunc = BgHidanFwbig_WaitForTimer;
@@ -168,8 +182,8 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (!Player_InCsMode(globalCtx)) {
-        if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
-                                     this->actor.initPosRot.rot.y + (this->direction * 0x6390), 0x20)) {
+        if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y + (this->direction * 0x6390),
+                               0x20)) {
             this->moveState = FWBIG_RESET;
             this->actionFunc = BgHidanFwbig_Lower;
         } else {
@@ -192,8 +206,8 @@ void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
         projPos.x = CLAMP(projPos.x, -500.0f, 500.0f);
     }
 
-    sn = Math_Sins(this->actor.shape.rot.y);
-    cs = Math_Coss(this->actor.shape.rot.y);
+    sn = Math_SinS(this->actor.shape.rot.y);
+    cs = Math_CosS(this->actor.shape.rot.y);
     this->collider.dim.pos.x = this->actor.posRot.pos.x + (projPos.x * cs) + (projPos.z * sn);
     this->collider.dim.pos.z = this->actor.posRot.pos.z - (projPos.x * sn) + (projPos.z * cs);
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
@@ -205,8 +219,8 @@ void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHidanFwbig* this = THIS;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.posRot.rot.y, 1.0f);
         if (this->direction != 0) {
             this->actionFunc = BgHidanFwbig_Lower;

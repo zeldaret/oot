@@ -6,7 +6,7 @@ glabel func_80A3402C
 /* 0146C 80A3403C 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01470 80A34040 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01474 80A34044 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 01478 80A34048 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01478 80A34048 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0147C 80A3404C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01480 80A34050 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,7 +15,7 @@ glabel func_80A3402C
 /* 0148C 80A3405C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01490 80A34060 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01494 80A34064 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01498 80A34068 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0149C 80A3406C 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 014A0 80A34070 44810000 */  mtc1    $at, $f0                   ## $f0 = 40.00

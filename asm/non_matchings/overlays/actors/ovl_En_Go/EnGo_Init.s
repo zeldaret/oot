@@ -56,7 +56,7 @@ glabel EnGo_Init
 /* 01684 80A3FBF4 3C0680A4 */  lui     $a2, %hi(D_80A41B2C)       ## $a2 = 80A40000
 /* 01688 80A3FBF8 24C61B2C */  addiu   $a2, $a2, %lo(D_80A41B2C)  ## $a2 = 80A41B2C
 /* 0168C 80A3FBFC 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 01690 80A3FC00 0C0187BF */  jal     func_80061EFC
+/* 01690 80A3FC00 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 01694 80A3FC04 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 01698 80A3FC08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0169C 80A3FC0C 0C28FBA3 */  jal     func_80A3EE8C
@@ -149,7 +149,7 @@ glabel L80A3FCC8
 /* 017DC 80A3FD4C 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80A3FD50
 /* 017E0 80A3FD50 3C040600 */  lui     $a0, %hi(D_06004930)                ## $a0 = 06000000
-/* 017E4 80A3FD54 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 017E4 80A3FD54 0C028800 */  jal     Animation_GetLastFrame
 
 /* 017E8 80A3FD58 24844930 */  addiu   $a0, $a0, %lo(D_06004930)           ## $a0 = 06004930
 /* 017EC 80A3FD5C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

@@ -40,14 +40,26 @@ const ActorInit En_Ma1_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA1678[] = {
     { 0x06000820, 1.0f, 0x00, 0.0f },
@@ -199,17 +211,17 @@ void func_80AA0A0C(EnMa1* this) {
     if (DECR(this->unk_1E2) == 0) {
         this->unk_1E4 += 1;
         if (this->unk_1E4 >= 3) {
-            this->unk_1E2 = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_1E2 = Rand_S16Offset(0x1E, 0x1E);
             this->unk_1E4 = 0;
         }
     }
 }
 
 void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(D_80AA1678[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(D_80AA1678[idx].animation);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08,
-                         D_80AA1678[idx].transitionRate);
+    Animation_Change(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08,
+                     D_80AA1678[idx].transitionRate);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
@@ -252,7 +264,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
     if (!func_80AA08C4(this, globalCtx)) {
         Actor_Kill(&this->actor);
@@ -342,7 +354,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
-        } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
+        } else if (this->actor.xzDistToLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -384,9 +396,9 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMa1* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80AA11C8) {
@@ -416,7 +428,7 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_RotateX((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
-    return 0;
+    return false;
 }
 
 void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -444,7 +456,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);

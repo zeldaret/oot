@@ -28,17 +28,61 @@ const ActorInit En_Fd_Fire_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0x0D840008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x01, 0x08 },
+        { 0x0D840008, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable sDamageTable = { {
-    0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-} };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(0, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(0, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(4, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(0, 0x0),
+    /* Master spin   */ DMG_ENTRY(0, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(0, 0x0),
+    /* Master jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 void EnFdFire_UpdatePos(EnFdFire* this, Vec3f* targetPos) {
     f32 dist;
@@ -66,13 +110,13 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         return true;
     }
 
-    if (this->collider.base.maskB & 1) {
-        this->collider.base.maskB &= ~1;
+    if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+        this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
         return true;
     }
     return false;
@@ -86,14 +130,14 @@ void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
     this->actor.flags &= ~1;
     this->actor.gravity = -0.6f;
     this->actor.speedXZ = 5.0f;
     this->actor.velocity.y = 12.0f;
     this->spawnRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &player->actor.posRot.pos);
     this->scale = 3.0f;
-    this->tile2Y = (s16)Math_Rand_ZeroFloat(5.0f) - 25;
+    this->tile2Y = (s16)Rand_ZeroFloat(5.0f) - 25;
     this->actionFunc = func_80A0E70C;
 }
 
@@ -107,8 +151,8 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f targetPos = this->actor.parent->posRot.pos;
 
-    targetPos.x += this->spawnRadius * Math_Sins(this->actor.posRot.rot.y);
-    targetPos.z += this->spawnRadius * Math_Coss(this->actor.posRot.rot.y);
+    targetPos.x += this->spawnRadius * Math_SinS(this->actor.posRot.rot.y);
+    targetPos.z += this->spawnRadius * Math_CosS(this->actor.posRot.rot.y);
     EnFdFire_UpdatePos(this, &targetPos);
     if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
@@ -146,8 +190,8 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
     if (DECR(this->deathTimer) == 0) {
         this->actionFunc = EnFdFire_Disappear;
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 8, 0xFA0, 1);
-        Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 8, 0xFA0, 1);
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
         if (this->actor.speedXZ < 0.1f) {
             this->actor.speedXZ = 5.0f;
         }
@@ -156,9 +200,9 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Disappear(EnFdFire* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
     func_8002D868(&this->actor);
-    Math_SmoothScaleMaxMinF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.unk_10 = 20.0f;
     this->actor.shape.unk_10 *= (this->scale / 3.0f);
     if (!(this->scale > 0.01f)) {
@@ -181,7 +225,7 @@ void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, 5);
 
     if (this->actionFunc != EnFdFire_Disappear) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -209,8 +253,8 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
     sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - Camera_GetCamDirYaw(ACTIVE_CAM);
-    sp84 = fabsf(Math_Coss(sp8E));
-    sp88 = Math_Sins(sp8E);
+    sp84 = fabsf(Math_CosS(sp8E));
+    sp88 = Math_SinS(sp8E);
     sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
     if (1) {}
     if (1) {}

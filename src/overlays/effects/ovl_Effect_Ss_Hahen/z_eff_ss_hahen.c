@@ -61,8 +61,8 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->update = EffectSsHahen_Update;
     this->rUnused = initParams->unused;
     this->rScale = initParams->scale;
-    this->rPitch = Math_Rand_ZeroOne() * 314.0f;
-    this->rYaw = Math_Rand_ZeroOne() * 314.0f;
+    this->rPitch = Rand_ZeroOne() * 314.0f;
+    this->rYaw = Rand_ZeroOne() * 314.0f;
     this->rMinLife = 200 - initParams->life;
 
     return 1;

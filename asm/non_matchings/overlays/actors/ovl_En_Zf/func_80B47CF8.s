@@ -16,11 +16,11 @@ glabel func_80B47CF8
 /* 03CE0 80B47D30 24071770 */  addiu   $a3, $zero, 0x1770         ## $a3 = 00001770
 /* 03CE4 80B47D34 45000003 */  bc1f    .L80B47D44                 
 /* 03CE8 80B47D38 00000000 */  nop
-/* 03CEC 80B47D3C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03CEC 80B47D3C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 03CF0 80B47D40 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B47D44:
-/* 03CF4 80B47D44 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03CF4 80B47D44 0C02927F */  jal     SkelAnime_Update
               
 /* 03CF8 80B47D48 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03CFC 80B47D4C 10400009 */  beq     $v0, $zero, .L80B47D74     

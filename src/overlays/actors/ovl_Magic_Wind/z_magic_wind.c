@@ -245,7 +245,7 @@ s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCur
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
 
-    return 1;
+    return true;
 }
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {

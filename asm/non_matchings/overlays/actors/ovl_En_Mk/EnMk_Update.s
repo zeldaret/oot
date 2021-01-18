@@ -11,7 +11,7 @@ glabel EnMk_Update
 /* 009E0 80AAD2E0 AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 009E4 80AAD2E4 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 009E8 80AAD2E8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 009F0 80AAD2F0 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 009F4 80AAD2F4 8FA40054 */  lw      $a0, 0x0054($sp)           
@@ -19,7 +19,7 @@ glabel EnMk_Update
 /* 009FC 80AAD2FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A00 80AAD300 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00A04 80AAD304 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A08 80AAD308 00812821 */  addu    $a1, $a0, $at              
 /* 00A0C 80AAD30C 0C00B638 */  jal     Actor_MoveForward
               
@@ -37,7 +37,7 @@ glabel EnMk_Update
 /* 00A3C 80AAD33C 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 00A40 80AAD340 57000009 */  bnel    $t8, $zero, .L80AAD368     
 /* 00A44 80AAD344 8E190284 */  lw      $t9, 0x0284($s0)           ## 00000284
-/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_Update
               
 /* 00A4C 80AAD34C 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 00A50 80AAD350 50400005 */  beql    $v0, $zero, .L80AAD368     
@@ -73,7 +73,7 @@ glabel EnMk_Update
 .L80AAD3C4:
 /* 00AC4 80AAD3C4 240D0064 */  addiu   $t5, $zero, 0x0064         ## $t5 = 00000064
 /* 00AC8 80AAD3C8 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 00ACC 80AAD3CC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00ACC 80AAD3CC 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00AD0 80AAD3D0 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 00AD4 80AAD3D4 240E0064 */  addiu   $t6, $zero, 0x0064         ## $t6 = 00000064
@@ -81,7 +81,7 @@ glabel EnMk_Update
 /* 00ADC 80AAD3DC 2604027A */  addiu   $a0, $s0, 0x027A           ## $a0 = 0000027A
 /* 00AE0 80AAD3E0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00AE4 80AAD3E4 24060006 */  addiu   $a2, $zero, 0x0006         ## $a2 = 00000006
-/* 00AE8 80AAD3E8 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 00AE8 80AAD3E8 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 00AEC 80AAD3EC 24071838 */  addiu   $a3, $zero, 0x1838         ## $a3 = 00001838
 /* 00AF0 80AAD3F0 9605027E */  lhu     $a1, 0x027E($s0)           ## 0000027E

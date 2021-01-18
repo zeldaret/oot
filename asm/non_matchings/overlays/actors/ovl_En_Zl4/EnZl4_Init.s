@@ -45,7 +45,7 @@ glabel EnZl4_Init
 /* 0069C 80B5BE4C 3C0680B6 */  lui     $a2, %hi(D_80B5E7AC)       ## $a2 = 80B60000
 /* 006A0 80B5BE50 24C6E7AC */  addiu   $a2, $a2, %lo(D_80B5E7AC)  ## $a2 = 80B5E7AC
 /* 006A4 80B5BE54 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 006A8 80B5BE58 0C0187BF */  jal     func_80061EFC
+/* 006A8 80B5BE58 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 006AC 80B5BE5C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 006B0 80B5BE60 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
 /* 006B4 80B5BE64 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A

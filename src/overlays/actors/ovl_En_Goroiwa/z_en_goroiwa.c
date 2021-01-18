@@ -44,20 +44,34 @@ const ActorInit En_Goroiwa_InitVars = {
     (ActorFunc)EnGoroiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
@@ -67,7 +81,7 @@ extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
-    Sphere16* worldSphere = &this->collider.list[0].dim.worldSphere;
+    Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = this->actor.posRot.pos.y + colliderHeightOffset[(this->actor.params >> 10) & 1];
@@ -80,7 +94,7 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80A4BCA0(this);
-    this->collider.list[0].dim.worldSphere.radius = 58;
+    this->collider.elements[0].dim.worldSphere.radius = 58;
 }
 
 void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
@@ -246,11 +260,11 @@ void EnGoroiwa_SpawnDust(GlobalContext* globalCtx, Vec3f* pos) {
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        randPos.x = pos->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
-        randPos.y = pos->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
-        randPos.z = pos->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
-        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100, 80);
-        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80, 80);
+        randPos.x = pos->x + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_SinS(angle));
+        randPos.y = pos->y + ((Rand_ZeroOne() - 0.5f) * 40.0f);
+        randPos.z = pos->z + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_CosS(angle);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 30.0f) + 100, 80);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 20.0f) + 80, 80);
     }
 }
 
@@ -261,9 +275,9 @@ void EnGoroiwa_SpawnWaterEffects(GlobalContext* globalCtx, Vec3f* contactPos) {
 
     for (i = 0; i < 11; i++) {
         angle += 0x1746;
-        splashPos.x = contactPos->x + (Math_Sins(angle) * 55.0f);
+        splashPos.x = contactPos->x + (Math_SinS(angle) * 55.0f);
         splashPos.y = contactPos->y;
-        splashPos.z = contactPos->z + (Math_Coss(angle) * 55.0f);
+        splashPos.z = contactPos->z + (Math_CosS(angle) * 55.0f);
         EffectSsGSplash_Spawn(globalCtx, &splashPos, 0, 0, 0, 350);
     }
 
@@ -278,12 +292,12 @@ s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
     this->actor.posRot.pos.y += this->actor.velocity.y;
     return result;
 }
@@ -300,7 +314,7 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_ApproxF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
     if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.posRot.pos) < 25.0f) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.posRot.pos, &posDiff);
     } else {
@@ -312,9 +326,9 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
-    result = Math_ApproxF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_ApproxF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
-    result &= Math_ApproxF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
+    result = Math_StepToF(&this->actor.posRot.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
+    result &= Math_StepToF(&this->actor.posRot.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
+    result &= Math_StepToF(&this->actor.posRot.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
     return result;
 }
 
@@ -323,10 +337,10 @@ s32 func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_ApproxF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
-    return Math_ApproxF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
+    return Math_StepToF(&this->actor.posRot.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
 }
 
 s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -348,7 +362,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f sp30;
 
     nextPointY = nextPointPos->y;
-    Math_ApproxF(&this->actor.velocity.y, -14.0f, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, -14.0f, 1.0f);
     this->actor.posRot.pos.x = nextPointPos->x;
     this->actor.posRot.pos.z = nextPointPos->z;
     thisY = this->actor.posRot.pos.y;
@@ -356,7 +370,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += this->actor.velocity.y;
     if (this->actor.velocity.y < 0.0f && this->actor.posRot.pos.y <= nextPointY) {
         if (this->unk_1C6 == 0) {
-            if (this->actor.xzDistFromLink < 600.0f) {
+            if (this->actor.xzDistToLink < 600.0f) {
                 quakeIdx = Quake_Add(ACTIVE_CAM, 3);
                 Quake_SetSpeed(quakeIdx, -0x3CB0);
                 Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
@@ -367,7 +381,8 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
                 sp5C.x = this->actor.posRot.pos.x;
                 sp5C.y = this->actor.posRot.pos.y + 50.0f;
                 sp5C.z = this->actor.posRot.pos.z;
-                temp_f0_2 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
+                temp_f0_2 =
+                    BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
                 // temp needed to match
                 temp = temp_f0_2 - (this->actor.posRot.pos.y - 59.5f);
                 if (fabsf(temp) < 15.0f) {
@@ -386,8 +401,8 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y = nextPointY - ((this->actor.posRot.pos.y - nextPointY) * 0.3f);
     }
     if (this->unk_1C6 == 0 &&
-        func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &ySurface,
-                      &waterBox) &&
+        WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
+                                &ySurface, &waterBox) &&
         this->actor.posRot.pos.y <= ySurface) {
         this->unk_1D3 |= 0x10;
         if (ySurface < thisY) {
@@ -474,19 +489,19 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
-        temp_f22 = Math_Sins(angle1);
-        temp_f24 = Math_Coss(angle1);
-        angle2 = Math_Rand_ZeroOne() * 0xFFFF;
-        effectPos.x = ((Math_Rand_ZeroOne() * 50.0f) * temp_f22) * Math_Sins(angle2);
-        temp_f20_2 = Math_Sins(angle2);
-        effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
-        effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
+        temp_f22 = Math_SinS(angle1);
+        temp_f24 = Math_CosS(angle1);
+        angle2 = Rand_ZeroOne() * 0xFFFF;
+        effectPos.x = ((Rand_ZeroOne() * 50.0f) * temp_f22) * Math_SinS(angle2);
+        temp_f20_2 = Math_SinS(angle2);
+        effectPos.y = (((Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
+        effectPos.z = ((Rand_ZeroOne() * 50.0f) * temp_f24) * Math_SinS(angle2);
         fragmentVelocity.x = effectPos.x * 0.2f;
-        fragmentVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
+        fragmentVelocity.y = (Rand_ZeroOne() * 15.0f) + 2.0f;
         fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
         EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
-                             (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
+                             (Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
     }
 
     effectPos.x = thisPos->x;
@@ -523,7 +538,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, D_80A4DF10[(this->actor.params >> 10) & 1], ActorShadow_DrawFunc_Circle, 9.4f);
     this->actor.shape.unk_14 = 200;
     EnGoroiwa_SetSpeed(this, globalCtx);
@@ -559,8 +574,8 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 temp_v1_2;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         this->unk_1D3 &= ~4;
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         if (yawDiff > -0x4000 && yawDiff < 0x4000) {
@@ -642,7 +657,7 @@ void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->waitTimer > 0) {
         this->waitTimer--;
     } else {
-        this->collider.base.atFlags &= ~2;
+        this->collider.base.atFlags &= ~AT_HIT;
         func_80A4D5E0(this);
     }
 }
@@ -655,8 +670,8 @@ void func_80A4DA7C(EnGoroiwa* this) {
 }
 
 void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
@@ -680,8 +695,8 @@ void func_80A4DB90(EnGoroiwa* this) {
 }
 
 void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
@@ -711,12 +726,12 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
                 break;
             case 0:
-                this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30, &this->actor,
-                                                    &this->actor.posRot.pos);
+                this->actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,
+                                                                  &this->actor, &this->actor.posRot.pos);
                 break;
         }
         func_80A4CED8(this, globalCtx);
-        if (this->actor.xzDistFromLink < 300.0f) {
+        if (this->actor.xzDistToLink < 300.0f) {
             func_80A4BCA0(this);
             if (this->unk_1D3 & 1 && this->collisionTimer <= 0) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

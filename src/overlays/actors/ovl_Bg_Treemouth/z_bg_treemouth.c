@@ -53,7 +53,7 @@ static f32 D_808BD9C4[] = {
 };
 
 extern Gfx D_060009D0[];
-extern UNK_TYPE D_06000E94;
+extern CollisionHeader D_06000E94;
 
 void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -62,12 +62,12 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgTreemouth* this = THIS;
-    u32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000E94, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000E94, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetHeight(thisx, 50.0f);
 
@@ -87,7 +87,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgTreemouth* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
@@ -117,9 +117,9 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
 
     if ((gSaveContext.sceneSetupIndex == 6) && (globalCtx->csCtx.frames >= 0x2BD) &&
         (globalCtx->state.frames % 8 == 0)) {
-        sp34.x = (Math_Rand_ZeroOne() * 1158.0f) + 3407.0f;
+        sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
-        sp34.z = (Math_Rand_ZeroOne() * 2026.0f) + -2163.0f;
+        sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
         EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
     }
 }

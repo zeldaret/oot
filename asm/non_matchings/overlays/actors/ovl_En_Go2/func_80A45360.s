@@ -27,7 +27,7 @@ glabel func_80A45360
 .L80A453BC:
 /* 0268C 80A453BC 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02690 80A453C0 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3ECCCCCD
-/* 02694 80A453C4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02694 80A453C4 0C01E107 */  jal     Math_ApproachF
               
 /* 02698 80A453C8 3C0742C8 */  lui     $a3, 0x42C8                ## $a3 = 42C80000
 /* 0269C 80A453CC 8FB9001C */  lw      $t9, 0x001C($sp)           

@@ -15,8 +15,8 @@ glabel BgSpot06Objects_Destroy
 /* 00410 808AEB90 14410007 */  bne     $v0, $at, .L808AEBB0       
 .L808AEB94:
 /* 00414 808AEB94 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00418 808AEB98 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00418 808AEB98 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 0041C 808AEB9C 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 00420 808AEBA0 10000004 */  beq     $zero, $zero, .L808AEBB4   
 /* 00424 808AEBA4 8FBF0014 */  lw      $ra, 0x0014($sp)           

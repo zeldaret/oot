@@ -32,8 +32,38 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx);
 
 static DamageTable sDamageTable = {
-    0x00, 0xE2, 0xE1, 0xE2, 0xC1, 0xE2, 0xE2, 0xD2, 0xE1, 0xE4, 0xE6, 0xE2, 0x34, 0xE2, 0xE2, 0xE2,
-    0xE2, 0x00, 0x34, 0x00, 0x00, 0x00, 0xE2, 0xE8, 0xE4, 0xE2, 0xE8, 0xE4, 0x10, 0x00, 0x00, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0xE),
+    /* Slingshot     */ DMG_ENTRY(1, 0xE),
+    /* Explosive     */ DMG_ENTRY(2, 0xE),
+    /* Boomerang     */ DMG_ENTRY(1, 0xC),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xE),
+    /* Hookshot      */ DMG_ENTRY(2, 0xD),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
+    /* Master sword  */ DMG_ENTRY(4, 0xE),
+    /* Giant's Knife */ DMG_ENTRY(6, 0xE),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xE),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(4, 0x3),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(2, 0xE),
+    /* Giant spin    */ DMG_ENTRY(8, 0xE),
+    /* Master spin   */ DMG_ENTRY(4, 0xE),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
+    /* Giant jump    */ DMG_ENTRY(8, 0xE),
+    /* Master jump   */ DMG_ENTRY(4, 0xE),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x1),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 const ActorInit En_Reeba_InitVars = {
@@ -49,8 +79,22 @@ const ActorInit En_Reeba_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK5, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x08, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+    {
+        COLTYPE_HIT5,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x08, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
@@ -66,9 +110,8 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.unk_1F = 3;
     this->actor.gravity = -3.5f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->limbDrawTable,
-                   this->transitionDrawTable, 18);
-    this->actor.colChkInfo.mass = 0xFE;
+    SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTable, this->morphTable, 18);
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -81,8 +124,8 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->scale *= 1.5f;
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.body.toucher.effect = 4;
-        this->collider.body.toucher.damage = 16;
+        this->collider.info.toucher.effect = 4;
+        this->collider.info.toucher.damage = 16;
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     }
 
@@ -123,11 +166,11 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060001E4);
+    f32 frames = Animation_GetLastFrame(&D_060001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 
-    SkelAnime_ChangeAnim(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, 0, -10.0f);
+    Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
     playerSpeed = fabsf(player->linearVelocity);
     this->unk_278 = 20 - playerSpeed * 2;
@@ -154,17 +197,17 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 playerLinearVel;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.shape.unk_10, 1, 8.0f, 500, 10, 1);
     }
 
     if (this->unk_278 == 0) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 1.0f, 1.0f);
         if (this->actor.shape.unk_08 < 0.0f) {
-            Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
-            Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+            Math_ApproachZeroF(&this->actor.shape.unk_08, 1.0f, this->unk_288);
+            Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
         } else {
             this->unk_288 = 0.0f;
             this->actor.shape.unk_08 = 0.0f;
@@ -192,7 +235,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
                 this->actionfunc = func_80AE538C;
             } else {
                 this->unk_272 = 130;
-                this->actor.speedXZ = Math_Rand_ZeroFloat(4.0f) + 6.0f;
+                this->actor.speedXZ = Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = func_80AE5270;
             }
         }
@@ -202,10 +245,10 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     s32 surfaceType;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -213,7 +256,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     if ((surfaceType != 4) && (surfaceType != 7)) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = func_80AE5688;
-    } else if ((this->unk_272 == 0) || (this->actor.xzDistFromLink < 30.0f) || (this->actor.xzDistFromLink > 400.0f) ||
+    } else if ((this->unk_272 == 0) || (this->actor.xzDistToLink < 30.0f) || (this->actor.xzDistToLink > 400.0f) ||
                (this->actor.bgCheckFlags & 8)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
@@ -233,23 +276,23 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     s16 yaw;
     s32 surfaceType;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+        Math_ApproachF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
 
-    if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistFromLink > 400.0f) ||
+    if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToLink > 400.0f) ||
         (this->actor.bgCheckFlags & 8)) {
         this->actionfunc = func_80AE5688;
     } else {
-        if ((this->actor.xzDistFromLink < 70.0f) && (this->unk_270 == 0)) {
+        if ((this->actor.xzDistToLink < 70.0f) && (this->unk_270 == 0)) {
             this->unk_270 = 30;
         }
 
-        speed = (this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f);
+        speed = (this->actor.xzDistToLink - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
         this->actor.speedXZ += speed * 1.8f;
         if (this->actor.speedXZ >= 3.0f) {
             this->actor.speedXZ = 3.0f;
@@ -271,7 +314,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
     if (this->unk_272 == 0) {
         if (this->isBig) {
@@ -291,9 +334,9 @@ void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
-    Math_SmoothDownscaleMaxF(&this->actor.shape.unk_10, 1.0f, 0.3f);
-    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.1f, 0.3f);
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    Math_ApproachZeroF(&this->actor.shape.unk_10, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.1f, 0.3f);
+    SkelAnime_Update(&this->skelanime);
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.unk_08) {
         if ((globalCtx->gameplayFrames % 4) == 0) {
@@ -301,8 +344,8 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
                           1);
         }
 
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
-        Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
+        Math_ApproachF(&this->unk_288, 300.0f, 1.0f, 5.0f);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -317,7 +360,7 @@ void func_80AE57F0(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5854(EnReeba* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.speedXZ < 0.0f) {
         this->actor.speedXZ += 1.0f;
@@ -355,9 +398,9 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
 
         if ((this->unk_27E == 4) || (this->actor.colChkInfo.health != 0)) {
             if (this->unk_27E == 2) {
-                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-                pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+                pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+                pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+                pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
                 scale = 3.0f;
 
                 if (this->isBig) {
@@ -382,9 +425,9 @@ void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
 
     if (this->unk_278 != 0) {
         if ((this->unk_27E == 2) && ((this->unk_278 & 0xF) == 0)) {
-            pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(20.0f);
-            pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(20.0f);
-            pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(20.0f);
+            pos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(20.0f);
+            pos.y = this->actor.posRot.pos.y + Rand_CenteredFloat(20.0f);
+            pos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(20.0f);
 
             scale = 3.0f;
             if (this->isBig) {
@@ -420,7 +463,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.speedXZ = 0.0f;
-        Math_SmoothDownscaleMaxF(&this->scale, 0.1f, 0.01f);
+        Math_ApproachZeroF(&this->scale, 0.1f, 0.01f);
 
         if (this->scale < 0.01f) {
             pos.x = this->actor.posRot.pos.x;
@@ -458,8 +501,8 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 
 void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
     if (this->unk_278 < 37) {
-        this->actor.shape.rot.x = Math_Rand_CenteredFloat(3000.0f);
-        this->actor.shape.rot.z = Math_Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.x = Rand_CenteredFloat(3000.0f);
+        this->actor.shape.rot.z = Rand_CenteredFloat(3000.0f);
 
         if (this->unk_278 == 0) {
             if (this->isBig) {
@@ -472,8 +515,8 @@ void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actionfunc != func_80AE5C38) && (this->actionfunc != func_80AE5854)) {
             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
@@ -563,8 +606,8 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
 
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
 
         if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
             this->actor.speedXZ = 8.0f;
@@ -575,8 +618,8 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if ((this->collider.base.at == &player->actor) && !this->isBig && (this->actionfunc != func_80AE56E0)) {
             this->actionfunc = func_80AE5688;
         }
@@ -590,7 +633,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.posRot2.pos.y += 30.0f;
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0) &&
         (this->actionfunc != func_80AE56E0)) {
@@ -620,16 +663,16 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
-    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
 
     if (BREG(0)) {
         Vec3f debugPos;
 
-        debugPos.x = (Math_Sins(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
+        debugPos.x = (Math_SinS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.x;
         debugPos.y = this->actor.posRot.pos.y + 20.0f;
-        debugPos.z = (Math_Coss(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
+        debugPos.z = (Math_CosS(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
         DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.posRot.rot.x, this->actor.posRot.rot.y,
                                this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }

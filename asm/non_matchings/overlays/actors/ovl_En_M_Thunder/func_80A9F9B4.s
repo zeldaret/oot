@@ -16,7 +16,7 @@ glabel func_80A9F9B4
 /* 009EC 80A9F9CC 248401AC */  addiu   $a0, $a0, 0x01AC           ## $a0 = 000001AC
 /* 009F0 80A9F9D0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 009F4 80A9F9D4 3C063D80 */  lui     $a2, 0x3D80                ## $a2 = 3D800000
-/* 009F8 80A9F9D8 0C01DE80 */  jal     Math_ApproxF
+/* 009F8 80A9F9D8 0C01DE80 */  jal     Math_StepToF
               
 /* 009FC 80A9F9DC AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 00A00 80A9F9E0 50400006 */  beql    $v0, $zero, .L80A9F9FC     
@@ -38,7 +38,7 @@ glabel func_80A9F9B4
 /* 00A38 80A9FA18 26040050 */  addiu   $a0, $s0, 0x0050           ## $a0 = 00000050
 /* 00A3C 80A9FA1C E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 00A40 80A9FA20 44052000 */  mfc1    $a1, $f4                   
-/* 00A44 80A9FA24 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00A44 80A9FA24 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00A48 80A9FA28 00000000 */  nop
 /* 00A4C 80A9FA2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -56,7 +56,7 @@ glabel func_80A9F9B4
 /* 00A78 80A9FA58 44089000 */  mfc1    $t0, $f18                  
 /* 00A7C 80A9FA5C 00000000 */  nop
 /* 00A80 80A9FA60 A608018C */  sh      $t0, 0x018C($s0)           ## 0000018C
-/* 00A84 80A9FA64 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00A84 80A9FA64 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00A88 80A9FA68 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00A8C 80A9FA6C 8FA40034 */  lw      $a0, 0x0034($sp)           
