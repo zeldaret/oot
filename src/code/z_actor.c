@@ -139,14 +139,14 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
         POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
-        actor->shape.unk_15 = 0;
+        actor->shape.feetFloorFlags = 0;
 
         for (i = 0; i < 2; i++) {
             phi_s7->y += 50.0f;
             *spAC = func_800BFCB8(globalCtx, &spE8, phi_s7);
             phi_s7->y -= 50.0f;
 
-            actor->shape.unk_15 *= 2;
+            actor->shape.feetFloorFlags *= 2;
 
             phi_f2 = phi_s7->y - *spAC;
 
@@ -154,7 +154,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
                 phi_s0 = &lights->l.l[0];
 
                 if (phi_f2 <= 0.0f) {
-                    actor->shape.unk_15++;
+                    actor->shape.feetFloorFlags++;
                 }
 
                 if (30.0f < phi_f2) {
@@ -200,10 +200,10 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
         }
 
         if (!(actor->bgCheckFlags & 1)) {
-            actor->shape.unk_15 = 0;
-        } else if (actor->shape.unk_15 == 3) {
+            actor->shape.feetFloorFlags = 0;
+        } else if (actor->shape.feetFloorFlags == 3) {
             temp_f0 = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
-            actor->shape.unk_15 = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
+            actor->shape.feetFloorFlags = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1831);

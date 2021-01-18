@@ -258,7 +258,7 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
         Actor_SetFocus(&this->actor,
-                              20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
+                       20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_0600039C)));
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
     }

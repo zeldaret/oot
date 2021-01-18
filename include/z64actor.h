@@ -94,9 +94,9 @@ typedef struct {
     /* 0x06 */ s16 face; // Used to index eyebrow/eye/mouth textures. Only used by player
     /* 0x08 */ f32 yOffset; // Model y axis offset. Represents model space units
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
-    /* 0x10 */ f32 shadowScale;
+    /* 0x10 */ f32 shadowScale; // Changes the size of the shadow
     /* 0x14 */ u8 shadowAlpha; // Default is 255
-    /* 0x15 */ u8 unk_15; // related to teardrop shadows
+    /* 0x15 */ u8 feetFloorFlags; // Set if the actor's foot is clipped under the floor. & 1 is right foot, & 2 is left
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x18
 
