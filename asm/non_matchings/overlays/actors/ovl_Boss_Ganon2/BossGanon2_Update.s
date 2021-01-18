@@ -471,7 +471,7 @@ glabel BossGanon2_Update
 /* 05E64 80902DA4 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 05E68 80902DA8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 05E6C 80902DAC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 05E70 80902DB0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 05E74 80902DB4 8E380190 */  lw      $t8, 0x0190($s1)           ## 00000190
 /* 05E78 80902DB8 3C0B8090 */  lui     $t3, %hi(func_8090120C)    ## $t3 = 80900000
@@ -490,7 +490,7 @@ glabel BossGanon2_Update
 /* 05EA8 80902DE8 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 05EAC 80902DEC 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 05EB0 80902DF0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 05EB4 80902DF4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 05EB8 80902DF8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 05EBC 80902DFC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001

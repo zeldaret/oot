@@ -71,14 +71,42 @@ const ActorInit En_Dnt_Nomal_InitVars = {
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 16, 46, 0, { 0, 0, 0 } },
 };
 
 static ColliderQuadInit sTargetQuadInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_QUAD },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x0001F824, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -202,12 +230,12 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
     this->targetVtx[3].y = this->targetVtx[2].y = targetY + 24.0f;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->targetQuad.base.acFlags & 2) || BREG(0)) {
-        this->targetQuad.base.acFlags &= ~2;
+    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
+        this->targetQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.body.bumper.unk_06.x);
-        dy = fabsf(targetY - this->targetQuad.body.bumper.unk_06.y);
-        dz = fabsf(targetZ - this->targetQuad.body.bumper.unk_06.z);
+        dx = fabsf(targetX - this->targetQuad.info.bumper.hitPos.x);
+        dy = fabsf(targetY - this->targetQuad.info.bumper.hitPos.y);
+        dz = fabsf(targetZ - this->targetQuad.info.bumper.hitPos.z);
 
         scoreVel.y = 5.0f;
 
@@ -785,11 +813,11 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     if (this->type == ENDNTNOMAL_TARGET) {
-        func_80062734(&this->targetQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
+        Collider_SetQuadVertices(&this->targetQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
                       &this->targetVtx[3]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->targetQuad.base);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->bodyCyl);
+        Collider_UpdateCylinder(&this->actor, &this->bodyCyl);
         if (this->isSolid) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCyl.base);
         }

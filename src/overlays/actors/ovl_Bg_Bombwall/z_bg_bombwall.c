@@ -25,25 +25,53 @@ extern CollisionHeader D_050041B0;
 extern Gfx D_05003FC0[];
 extern Gfx D_05004088[];
 
-static ColliderTrisItemInit sTrimItemInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { -70.0f, 176.0f, 0.0f }, { -70.0f, -4.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 70.0f, 176.0f, 0.0f }, { -70.0f, 176.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 70.0f, -4.0f, 0.0f }, { 70.0f, 176.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     3,
-    sTrimItemInit,
+    sTrisElementsInit,
 };
 
 const ActorInit Bg_Bombwall_InitVars = {
@@ -109,9 +137,9 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
-                sp80.x = sTrisInit.list[i].dim.vtx[j].x;
-                sp80.y = sTrisInit.list[i].dim.vtx[j].y;
-                sp80.z = sTrisInit.list[i].dim.vtx[j].z + 2.0f;
+                sp80.x = sTrisInit.elements[i].dim.vtx[j].x;
+                sp80.y = sTrisInit.elements[i].dim.vtx[j].y;
+                sp80.z = sTrisInit.elements[i].dim.vtx[j].z + 2.0f;
 
                 BgBombwall_RotateVec(&vecs[j], &sp80, sin, cos);
 
@@ -119,7 +147,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                 vecs[j].y += this->dyna.actor.posRot.pos.y;
                 vecs[j].z += this->dyna.actor.posRot.pos.z;
             }
-            func_800627A0(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
+            Collider_SetTrisVertices(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
         }
 
         this->unk_2A2 |= 1;
@@ -187,8 +215,8 @@ void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
     } else if (this->dyna.actor.xzDistToLink < 600.0f) {

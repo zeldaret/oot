@@ -46,22 +46,80 @@ const ActorInit En_Po_Field_InitVars = {
 };
 
 static ColliderCylinderInit D_80AD7080 = {
-    { COLTYPE_UNK3, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 25, 50, 20, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_80AD70AC = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x01, 0x04 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { 10, 30, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80AD70D8 = { 0x04, 0x0019, 0x0032, 0x28 };
+static CollisionCheckInfoInit D_80AD70D8 = { 4, 25, 50, 40 };
 
 static DamageTable sDamageTable = {
-    0x00, 0x02, 0x01, 0x02, 0x11, 0x02, 0x02, 0x12, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02,
-    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static s32 sNumSpawned = 0;
@@ -124,7 +182,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD7080);
     Collider_InitCylinder(globalCtx, &this->flameCollider);
     Collider_SetCylinder(globalCtx, &this->flameCollider, &this->actor, &D_80AD70AC);
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                             this->actor.initPosRot.pos.z, 255, 255, 255, 0);
@@ -150,8 +208,8 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
-    this->collider.base.acFlags &= ~1;
-    this->collider.base.maskA = 0x39;
+    this->collider.base.acFlags &= ~AC_ON;
+    this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -193,7 +251,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Animation_PlayLoop(&this->skelAnime, &D_06000924);
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->scaleModifier = this->actor.xzDistToLink;
     Math_Vec3f_Copy(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -207,7 +265,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
 
 void EnPoField_SetupFlee(EnPoField* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06000608, -5.0f);
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnPoField_Flee;
     this->actor.speedXZ = 12.0f;
     if (this->actionFunc != EnPoField_Damage) {
@@ -220,12 +278,12 @@ void EnPoField_SetupFlee(EnPoField* this) {
 
 void EnPoField_SetupDamage(EnPoField* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000454, -6.0f);
-    if (this->collider.body.acHitItem->toucher.flags & 0x1F824) {
+    if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
     }
-    this->collider.base.acFlags &= ~3;
+    this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 5.0f;
     func_8003426C(&this->actor, 0x4000, 255, 0, 16);
     this->actionFunc = EnPoField_Damage;
@@ -246,7 +304,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
 void EnPoField_SetupDisappear(EnPoField* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06001360, -6.0f);
     this->actionTimer = 16;
-    this->collider.base.acFlags &= ~3;
+    this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
@@ -295,7 +353,7 @@ void func_80AD4384(EnPoField* this) {
     this->collider.dim.pos.x = this->actor.posRot.pos.x;
     this->collider.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->collider.dim.pos.z = this->actor.posRot.pos.z;
-    this->collider.base.maskA = 9;
+    this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
     this->actor.textId = 0x5005;
     this->actionTimer = 400;
     this->unk_194 = 32;
@@ -617,7 +675,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupSoulDisappear(this);
         return;
     }
-    if (this->collider.base.maskA & 2) {
+    if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
@@ -683,8 +741,8 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_TestForDamage(EnPoField* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -712,8 +770,8 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
         if (this->flameTimer != 0) {
             this->flameTimer--;
         }
-        if (this->flameCollider.base.atFlags & 2) {
-            this->flameCollider.base.atFlags &= ~2;
+        if (this->flameCollider.base.atFlags & AT_HIT) {
+            this->flameCollider.base.atFlags &= ~AT_HIT;
             this->flameTimer = 19;
         }
         if (this->flameTimer < 20) {
@@ -822,9 +880,9 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
         func_80AD619C(this);
         func_80AD6330(this);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if (this->collider.base.acFlags & 1) {
+        if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
